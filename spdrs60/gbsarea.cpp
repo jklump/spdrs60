@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.7
+                           version 0.4.7 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : 2005-01-18
+    last modified        : $Date: 2005-01-27 20:24:02 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -207,7 +207,11 @@ int GBSArea::slotNew(int iColumns)
         progress.setProgress(iNumOfElements);
         qApp->processEvents();
 
+#if QT_VERSION >= 0x030200
         if (progress.wasCanceled()) {
+#else
+        if (progress.wasCancelled()) {
+#endif
             deleteElements();
             delete newElementData;
             return 1;
@@ -269,7 +273,11 @@ int GBSArea::slotLoad()
             iNumOfElements += 1;
             iLoadIndex = 0;
 
+#if QT_VERSION >= 0x030200
             if (progress.wasCanceled()) {
+#else
+            if (progress.wasCancelled()) {
+#endif
                 deleteElements();
                 iNumOfElements = 0;
                 break;
