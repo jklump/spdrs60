@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.7
+                           version 0.4.7 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : 2005-01-05
+    last modified        : $Date: 2005-01-28 20:35:04 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -475,7 +475,8 @@ void MainWindow::initMainWindow()
     hBox->setSpacing(2);
 
     lblStack = new QWidgetStack(hBox, "cbstack");
-    lblStack->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed, false);
+    lblStack->setSizePolicy(QSizePolicy(QSizePolicy::Fixed,
+                QSizePolicy::Fixed, false));
 
     QLabel *HistLabel = new QLabel(lblStack, "Cmd");
     HistLabel->setText(tr("Commands"));
@@ -493,8 +494,8 @@ void MainWindow::initMainWindow()
     lblStack->addWidget(FeedBackLabel, 2);
 
     cbStack = new QWidgetStack(hBox, "cbstack");
-    cbStack->setSizePolicy(QSizePolicy::Expanding,
-                           QSizePolicy::Fixed, false);
+    cbStack->setSizePolicy(QSizePolicy(QSizePolicy::Expanding,
+                           QSizePolicy::Fixed, false));
 
     QFont f;
     f.setFamily("Courier");

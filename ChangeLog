@@ -1,3 +1,6 @@
+2005-01-28 Guido Scholz <guido.scholz@bayernline.de>
+	* mainwindow.cpp, element.cpp: fixed Qt 3.0 compile error
+        
 2005-01-27 Guido Scholz <guido.scholz@bayernline.de>
 	* gbsarea.cpp: fixed Qt 3.1 compile error
         

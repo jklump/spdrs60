@@ -52,7 +52,8 @@ element::element(QStrList * elementData_, QWidget * parent):QWidget(parent)
 {
     setMaximumSize(sizeHint());
     setMinimumSize(sizeHint());
-    setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed, false);
+    setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed,
+                false));
     copyData(elementData_);     // copy the parameter string list
     iSoldLEDstate = 2 * bFBport[iSoldFBport];   // LED_OFF=0 or LED_RED=2*1=2
     iSoldRoutingActive = 0;     // set global vars for this ...
