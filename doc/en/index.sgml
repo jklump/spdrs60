@@ -1,0 +1,371 @@
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.2//EN" [
+<!-- current version: --> <!ENTITY ver "0.4.6">
+]>
+
+<article lang="en">
+
+<articleinfo>
+	<title>The SpDrS60 Handbook</title>
+	<author>
+		<firstname>Stefan</firstname>
+		<surname>Preis</surname>
+		<affiliation>
+			<address>
+				<email>info@linux-modellbahn.de</email>
+			</address>
+		</affiliation>
+	</author>
+	<author>
+		<firstname>Guido</firstname>
+		<surname>Scholz</surname>
+		<affiliation>
+			<address>
+				<email>guido.scholz@bayernline.de</email>
+			</address>
+		</affiliation>
+	</author>
+	<author>
+		<firstname>Björn</firstname>
+		<surname>Schlie&szlig;mann</surname>
+		<affiliation>
+			<address>
+				<email>chr0n0ss@despammed.com</email>
+			</address>
+		</affiliation>
+	</author>
+
+	<revhistory>
+		<revision>
+			<revnumber>0.4</revnumber>
+			<date>Fri Dec 31 19:36:00 CET 2004</date>
+		</revision>
+		<revision>
+			<revnumber>0.5</revnumber>
+			<date><emphasis>noch nicht released</emphasis></date>
+		</revision>
+	</revhistory>
+<abstract>
+<para>This Handbook describes SpDrS60 version 0.4.6</para>
+</abstract>
+</articleinfo>
+
+<sect1 id="sect-introduction"><title>Introduction</title>
+<para>
+This is a short introduction into a program which
+makes it comfortable to control your digital model railroad under a
+linux OS. It has been designed for use with a SRCP server as provided by
+the DDL project. It is the first graphical program available for any
+unix system. This program is still being developed, but has already
+reached a very usable state. A lot of changes for an even better use
+will be made in the future, though. It gives the user the opportunity to
+control his model railroad as the big German Railway does in their
+switchboxes. This program works in many ways different from all other
+controlling software because it has been designed close to the German
+Railway&apos;s original switchbox.
+</para>
+<para>
+Here&apos;s a review of the features which are available right now:</para>
+<itemizedlist mark="bullet">
+<listitem><para>easy-to-create layout</para></listitem>
+<listitem><para>use of routes by serialclicking on start- and aimsignal</para></listitem>
+<listitem><para>automatically reset of routings by feedback contacts</para></listitem>
+<listitem><para>switch single turnouts etc. by use with a security button WGT</para></listitem>
+<listitem><para>control your digital turntable or shifting bridge</para></listitem>
+<listitem><para>review of all feedback contacts, easy-to-understand data structur</para></listitem>
+<listitem><para>in simple ASCII format - everyone can read or change it without</para></listitem>
+<listitem><para>any specialized editor.</para></listitem>
+</itemizedlist>
+<para>This program can not be used as a standalone. It needs communication to
+a SRCP server (such as "erddcd" or "m6051d"), which gives the link
+between your computer and the physical layout. My goal is a senseful
+combination of easy-to-use and well-ordered arrangement of dialogs, data
+entries etc. Please read these pages careful to learn more about all
+features. Look at some screenshots, or even download the online-help
+file for this program to see it&apos;s power before downloading and
+installing the program itself.</para>
+</sect1>
+
+<sect1 id="sect-changes"><title>Changes</title>
+
+<sect2 id="ver-0.4.6"><title>31.12.2004 New version 0.4.6 with following changes:</title>
+<itemizedlist mark="bullet">
+<listitem><para>Bug fix for wrong routing after loading an other layout
+file.</para></listitem>
+<listitem><para>Activation and deactivation of routings now is visualized
+by changing cursor shapes. Time for switching activities is rised from
+3&nbsp;s to 5&nbsp;s.</para></listitem>
+<listitem><para>Some internal reorganization in code and use of 
+icons.</para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2 id="ver-0.4.5"><title>11.12.2004 New version 0.4.5 with following changes:</title>
+<itemizedlist mark="bullet">
+<listitem><para>Bug fix for wrong routing calculation.</para></listitem>
+<listitem><para>Activation of routings now is possible by incomming feddback
+signals. </para></listitem>
+<listitem><para>Support for Redhat/Fedora rpm-packages.</para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2 id="ver-0.4.4"><title>18.11.2004 New version 0.4.4 with following changes:</title>
+<itemizedlist mark="bullet">
+<listitem><para>Bug fix for feedback visualisation.</para></listitem>
+<listitem><para>Package now is maintained by Guido Scholz.</para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2 id="ver-0.4.3-qt3"><title>Since Feb 2004 version 0.4.3-qt3
+subreleases</title>
+<para>
+<itemizedlist mark="bullet">
+<listitem><para>A lot of bugfixes and improvements, see german 
+documentation.</para></listitem>
+</itemizedlist>
+</para>
+</sect2>
+
+<sect2 id="ver-0.4.3"><title>03.03.2003 New version 0.4.3 with following changes:</title>
+<para>
+Thanks to the great help of Rüdiger Seidel a new version 0.4.3 could be
+published. The permanent work on my new home lasts longer than planned,
+so this offer came just to the right time.</para>
+
+<para>
+Changes in detail:</para>
+
+<itemizedlist mark="bullet">
+<listitem><para>Whole program has been ported to Qt libs v2.x; the old libs don&apos;t</para></listitem>
+<listitem><para>need to be installed any more.</para></listitem>
+<listitem><para>Cleaning of numerous of bugs.</para></listitem>
+<listitem><para>Converted into a kdevelop project.</para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2 id="ver-0.4.2"><title>26.05.2002 New version 0.4.2 with following
+changes:</title>
+<para>
+Some users send me reports about a non-working Maerklin digital
+turntable. So I created this new version with 2 bugs less in it:</para>
+<para>
+<itemizedlist mark="bullet">
+<listitem><para>The digital turntable can now be controled by this program</para></listitem>
+<listitem><para>(hopefully, again I could not test it myself)
+</para></listitem>
+<listitem><para>The main signals with Halt and Go states do not show - if
+used in conjunction with the WGT button - the Go Slowly light
+</para></listitem>
+</itemizedlist>
+</para>
+<para>
+ATTENTION:</para>
+
+<para>
+Please open the layout file *.dat.gbs, where an element for a turntable
+is integrated. Then search for the turntable element (with the editor
+built-in search command you search for "drehscheibe"). Please change the
+number of "address_2" to 225 (if you use the standard Maerklin
+turntable) or 209 (if you use a [secondary] specially ordered turntable
+with another address range. Save file and open it normally under
+SpDrS60.</para>
+
+<para>
+What&apos;s happening else:</para>
+
+<para>
+Work for a new version 0.5.0 is on the run, but slowly. The reason is
+simple: building of our new home has just begun.</para>
+</sect2>
+
+<sect2 id="ver-0.4.1"><title>21.02.2002 New version 0.4.1 with following
+changes:</title>
+<para>
+I had a lot of feedbacks concerning instabilities of the 0.4.0 version.
+I could not understand how that came &apos;cause I could not discover such
+problems. Fortunately Jörg Stolzenberg was able to locate the bug. This
+one is fixed in the new version. Just download it.</para>
+
+<para>
+ATTENTION:</para>
+
+<para>
+Alle users who created layouts with the 0.4.0 version and run into
+problems while loading those layouts (segmentation faults) must enter
+the layouts ANEW! I only changed the code to prevent FUTURE problems.
+Due to too much work I was not able to provide code that old layout can
+be translated into correct versions. I hope you&apos;ll understand that.</para>
+
+<para>
+Workaround:</para>
+
+<para>Open your layout file with a normal editor. Then change the following
+entries for all elements containing LEDs in the track segment as
+follows:</para>
+
+<para>
+change "hide LEDs" to 0 and "feedback port" to 0. Then it should work.</para>
+
+<para>
+What&apos;s happening:</para>
+
+<para>
+Work for a new version 0.5.0 have begun recently. First I&apos;ll develop the
+basic program functionality, afterwards the layout controling functions
+are inserted.</para>
+<para>25.01.2002
+
+What&apos;s up:</para>
+
+<para>
+Due to forced planning of building our new home I&apos;m unfortunately not
+able to answer any question without several days of delay. Work on a new
+version has not yet begun.</para>
+
+<para>
+28.11.2001
+DDL-Meeting in Ruedesheim:</para>
+
+<para>
+The meeting was a full success. A number of client and server
+programmers have been in Ruedesheim to discuss the features and benefits
+of a SRCP controlling system. Everything worked: linux client with
+windows server and vice versa. Those who want to see some pictures
+follow this link.</para>
+
+<para>
+There are some consequences to SpDrS60:</para>
+
+<itemizedlist mark="bullet">
+<listitem><para>a new SRCP protocol will be published (v 0.8.0) which is NOT</para></listitem>
+<listitem><para>compatible to the old one; so all clients and servers have to be</para></listitem>
+<listitem><para>reprogrammed</para></listitem>
+<listitem><para>unfortunately the code of this programm is sometimes disgusting,</para></listitem>
+<listitem><para>this has to be changed to provide a better code for more stability</para></listitem>
+<listitem><para>and usability</para></listitem>
+</itemizedlist>
+
+<para>
+This means: version 0.4.0 will not be continued in the future on the
+existing codebase. There will be a completly new developed code with
+help of an integrated development environment (IDE). The author will
+then switch to the new Qt-libraries 2.3.x. He will also use kdevelop so
+all the make- and configfiles will be available to all. From beginning
+on there will be a strong focus on internationalization.</para>
+
+<para>
+With the provided version 0.4.0 you will be able to work a couple of
+months into future. Please be sure that you only use SRCP 0.7.x servers.
+The author is building a house from beginning of 2002, this means that
+there won&apos;t be a release of the new version until summer 2002. A book is
+also under writing to provide more information about a complete SRCP
+environment. This book will be for sale in autumn 2002.</para>
+
+<para>25.11.2001
+
+Big news:</para>
+
+<para>
+A lot of changes have been done on these websides: use the links to
+"Contact" or "Download" to get hold of a questionnaire which will help
+the author to improve the program and/or to build in whishes from
+endusers. Those who have not filled out one yet please download, fill
+out and send back.</para>
+
+<para>
+Those websides are from now on also available in German, a Norwegian
+version is in preparation.</para>
+
+<para>
+Short report about the 1st DDL meeting this weekend in Ruedesheim
+concerning SpDrS60 for Linux is in preparation and will be published
+within the next week.</para>
+</sect2>
+
+<sect2><title>New version 0.4.0 with following changes:</title>
+<itemizedlist mark="bullet">
+<listitem><para>New added graphical user interface for maintaining of routes: adding, changing of switched elements or deleting of routes are only a few of the numerous features. Also a graphical check of a route&apos;s elements is now possible. That means: no more adding and changing of routes with an ASCII editor!</para></listitem>
+<listitem><para>Automatically created routing files if there are none for a chosen layout, even a converting from older routing file versions is now available</para></listitem>
+<listitem><para>Corrected use of scrollbar at bottom of main window; from now on the whole space can be used again for your biggggest layouts.</para></listitem>
+<listitem><para>Corrected saving code</para></listitem>
+<listitem><para>Improved options dialog: better usable, prepared config for use of this program with serial interfaces (such as original Maerklin IF); when the original program init file is lost, a default one will be automtically loaded</para></listitem>
+<listitem><para>New searchmode: find your query in textfields, main addresses or supplementary address fields.</para></listitem>
+<listitem><para>Corrected usage of feedback data in properties dialog to each layout element</para></listitem>
+<listitem><para>Improved usage while selecting the right feedback module and port in properties dialog to each layout element</para></listitem>
+<listitem><para>Switch off occupance feedback LEDs in certain elements</para></listitem>
+<listitem><para>New elements: semaphores (still without automatical controling by a main semaphore), shed elements for use with turntables</para></listitem>
+<listitem><para>Display of actual turntable track in turntable layout element;</para></listitem>
+<listitem><para>corrected display of special turntable decoder in turntable properties dialog</para></listitem>
+<listitem><para>Most of program code has now been revisited, corrected and documented</para></listitem>
+<listitem><para>New structured and improved online help</para></listitem>
+<listitem><para>Start a new SpDrS60 for Linux program instance right from your menubar</para></listitem>
+<listitem><para>New webpages, now also available in English</para></listitem>
+<listitem><para>Questionnaire about this program for a better user feedback</para></listitem>
+</itemizedlist>
+</sect2>
+</sect1>
+
+<sect1 id="sect-install"><title>Installation</title>
+<para></para>
+</sect1>
+
+<sect1 id="sect-obtain"><title>How to obtain SpDrS60</title> 
+<para></para>
+</sect1>
+
+<sect1 id="sect-require"><title>Requirements</title>
+<para></para>
+</sect1>
+
+<sect1 id="sect-compile"><title>Compilation and installation</title>
+<para>
+In order to compile and install SpDrS60 on your system, type the
+following in the base directory of the SpDrS60 distribution:</para>
+
+<screen>
+% ./configure
+% make
+% make install
+</screen>
+
+<para>
+Since SpDrS60 uses <filename class="directory">autoconf</filename> you
+should have not trouble compiling it.
+Should you run into problems please report them to the the author at 
+<ulink url="mailto:info@linux-modellbahn.de">Stefan Preis</ulink>
+</para>
+</sect1>
+
+<sect1 id="sect-usage"><title>Usage</title>
+<para></para>
+<sect2 id="sect-generalusage"><title>General Usage</title>
+<para></para>
+</sect2>
+</sect1>
+
+<sect1 id="sect-faq"><title>Questions and Answers</title>
+<para></para>
+</sect1>
+
+<sect1 id="sect-copyright"><title>Copyright</title>
+<para>
+SpDrs60 Copyright 2002 Stefan Preis, 
+</para>
+<para>
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+</para>
+<para>
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+</para>
+<para>
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+</para>
+</sect1>
+</article>
