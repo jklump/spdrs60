@@ -1,9 +1,12 @@
+2005-01-27 Guido Scholz <guido.scholz@bayernline.de>
+	* gbsarea.cpp: fixed Qt 3.1 compile error
+        
 2005-01-23 Guido Scholz <guido.scholz@bayernline.de>
 	* package: spdrs60-0.4.7 released
 	* layouts: new example layout "dedorf", new elements added to
         layout "alle_elemente" 
 	* *.cpp, *.h: all files renamed to lower case
-	* gbsaerea.cpp: fixed memory leak causes by QTimer handling,
+	* gbsarea.cpp: fixed memory leak causes by QTimer handling,
         fixed two memory leaks caused by QStrList handling
 	* pixmaps: design changes for some icons
 	* gbsarea.cpp, mainwindow.cpp: fixed process dialog usage
