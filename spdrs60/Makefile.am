@@ -1,0 +1,61 @@
+# Makefile.am for spdrs60
+# (c) Guido Scholz
+# last update: 2004-12-31
+
+SUBDIRS = pixmaps
+
+bin_PROGRAMS = spdrs60
+
+# list of all generated (and not distributed) sources
+nodist_spdrs60_SOURCES = \
+	elementcommander.moc.cpp \
+	elementdialog.moc.cpp \
+	element.moc.cpp \
+	fbmodule.moc.cpp \
+	feedback.moc.cpp \
+	finder.moc.cpp \
+	gbsarea.moc.cpp \
+	gbsscrollview.moc.cpp \
+	keyboard.moc.cpp \
+	mainwindow.moc.cpp \
+	newlayoutdialog.moc.cpp \
+	options.moc.cpp \
+	routedialog.moc.cpp \
+	turntablecommander.moc.cpp
+
+# list of all sources and headers
+spdrs60_SOURCES = main.cpp resources.h \
+	elementcommander.cpp elementcommander.h \
+	element.cpp element.h \
+	elementdialog.cpp elementdialog.h \
+	fbmodule.cpp fbmodule.h \
+	feedback.cpp feedback.h \
+	finder.cpp finder.h \
+	gbsarea.cpp gbsarea.h \
+	gbsscrollview.cpp gbsscrollview.h  \
+	keyboard.cpp keyboard.h \
+	mainwindow.cpp mainwindow.h \
+	newlayoutdialog.cpp newlayoutdialog.h \
+	options.cpp options.h \
+	routedialog.cpp routedialog.h \
+	turntablecommander.cpp turntablecommander.h
+	
+spdrs60_LDADD = @LIB_QT@
+
+# the library search path. 
+spdrs60_LDFLAGS = $(all_libraries) 
+
+# set the include path for X, qt and KDE
+INCLUDES= $(all_includes)
+
+EXTRA_DIST = spdrs60_de.ts spdrs60.pro
+
+dist_pkgdata_DATA = spdrs60_de.qm
+
+# remove generated files
+CLEANFILES = $(nodist_spdrs60_SOURCES)
+
+# rule for moc-file generation (moc_% conflicts with 'lupdate')
+%.moc.cpp: %.h
+	$(MOC) $< -o $@
+

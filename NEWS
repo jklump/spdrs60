@@ -1,0 +1,108 @@
+spdrs60-0.4.7 (2005-01-23)
+  o new example layouts "dedorf" and "Flandersbach", update of layout
+    "alle_elemente" 
+  o all files renamed to lower case
+  o some memory leaks fixed
+  o design changes for some icons
+  o process dialog usage fixed
+  o route edit bug fixed
+  o added support for five different route types
+  o port of HTML-documentation generation from Linuxdoc to Docbook/SGML,
+    screenshots and text updates
+  o added four new rail elements, UfGT button element, six colored panel
+    elements
+  o on activation rail buttons now show context sensitive cursors
+
+    
+spdrs60-0.4.6 (2005-01-01)
+o enabled user feedback by cursor change for route switching
+o fixed bug were routing was confused after loading an other layout
+o fixed bug blocking non active routes by FHS button
+o code cleanups
+o design changes for some icons
+o toolbar icons are included into binary
+
+spdrs60-0.4.5 (2004-12-11)
+o enabled routing activation by feedback signals
+o fixed crash bug by wrong routing calculation
+o added rpm-spec and desktop files for redhat/fedora systems
+o changed compiler check in configure.ac to only c++
+
+spdrs60-0.4.4 (2004-11-18)
+o optimised feedback network code, now reading all send lines
+o some speed optimization for element painting
+o Guido Scholz took over maintainment from Stefan Preis
+
+spdrs60-0.4.3-qt3-19 (2004-10-27)
+o now realy the feedback visualisation bug is fixed
+
+spdrs60-0.4.3-qt3-18 (2004-10-23)
+o small fixes in RouteDialog.cpp (strings without format parameters)
+o fixes in spdrs/ Makefile.am and clock/Makefile.am (moc + LDADD)
+o numbering schema changed due to debian dh_make errors
+o fixed bug in feedback visualisation (LEDs were not updated)
+
+spdrs60-0.4.3-qt3_17 (20041016)
+o file dialog now remembers last path
+o some cleanups using socket variables
+o networking code is completely rewritten (pooh!), now event driven
+  and hopefully much more stable
+o server connetion now can be (de)activated by menu
+o some nice greater icons added
+
+spdrs60-0.4.3-qt3_16 (20041002)
+o moved directory spdrs60/docs to doc
+o substituted more englisch snapshots in german html documentation
+o cleanups in some 'Makefile.am's
+o changed moc-file naming from moc_* to *.moc.cpp due to incompatibility
+  with qt translation tool 'lupdate'
+o fixed bug in feedback history, which came in using 'tr()' for feedback
+  messages
+o introduced english and german man pages for spdrs60, convertRTS and
+  CentralClock
+o fixed two bugs in CentralClock (second hand was too fast and painted
+  wrong, covering hour hand)
+o introduced debian menu file for spdrs60
+
+spdrs60-0.4.3-qt3_15 (20040928)
+o current 16x16-icon got lost, reintroduced; icons renamed
+o some cleanups for package building with sgmltools
+o substituted some english pictures in german handbook
+
+spdrs60-0.4.3-qt3_14 (20040923)
+o (re)integrated CentralClock and convertRTS
+o integrated and redesigned online documentation, for now based on old
+  but simple "sgmltools"
+o redesigned routing dialog
+o fixed bug in turntable commander
+o compressed package file format now is bz2
+o removed kdevelop files, because it is allways a mess together with
+  autotools
+
+spdrs60-0.4.3-qt3_13 (20040913)
+o new linewidths and positions for layout modes and element selections
+o layout now is movable by keys when it does not fit to visible window
+o three files for version 0.5 are removed
+
+spdrs60-0.4.3-qt3_12 (20040825)
+o new and clean mainwindow layout
+o toolbar now is movable to left, right and bottom dock positions
+
+spdrs60-0.4.3-qt3_9 (20040304)
+o finished german translation
+
+spdrs60-0.4.3-qt3_8 (20040304)
+o fixed close application crash bug
+o fixed layout switch/close application bug
+
+spdrs60-0.4.3-qt3_2 (20040217)
+o start with german translation
+
+spdrs60-0.4.3-qt3_1 (20040216)
+o port to qt3
+o fix a lot of little bugs
+o debug window now sticks to window bottom
+
+spdrs60-0.4.3 (20030316)
+o port to qt2
+

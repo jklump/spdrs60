@@ -1,0 +1,156 @@
+2005-01-23 Guido Scholz <guido.scholz@bayernline.de>
+	* package: spdrs60-0.4.7 released
+	* layouts: new example layout "dedorf", new elements added to
+        layout "alle_elemente" 
+	* *.cpp, *.h: all files renamed to lower case
+	* gbsaerea.cpp: fixed memory leak causes by QTimer handling,
+        fixed two memory leaks caused by QStrList handling
+	* pixmaps: design changes for some icons
+	* gbsarea.cpp, mainwindow.cpp: fixed process dialog usage
+	* routedialog.cpp, gbsarea.cpp: fixed route edit bug
+	* routedialog.cpp: fixed memory leak caused by QStrList
+        handling, small design changes
+	* gbsarea.cpp, routedialog.cpp: added support for five different
+        route types
+	* doc: port of HTML-documentation generation from Linuxdoc to
+        Docbook/SGML, screenshots update, text updates
+	* element.cpp: added four new rail elements, UfGT button
+        element, six colored panel elements
+	* element.cpp, gbsarea.cpp: on activation rail buttons now show
+        context sensitive cursors
+
+2005-01-23 Dietmar Toelg <dietmar.toelg@arcor.de>
+	* layouts: new (real-)example layout "Lintorf" 
+        
+2005-01-22 Dietmar Toelg <dietmar.toelg@arcor.de>
+	* layouts: new (real-)example layout "Flandersbach" 
+        
+2005-01-15 Björn Schließmann <b.schliessmann@web.de>
+	* doc: port of de/index.sgml from Linuxdoc to Docbook/SGML,
+        en/index.sgml bug fixing
+        
+2005-01-01 Guido Scholz <guido.scholz@bayernline.de>
+	* package: spdrs60-0.4.6 released
+	* ChangeLog: reformated
+	* MainWindow.cpp, GBSaerea.cpp, element.cpp: code cleanups,
+        toolbar icons are included into binary, enabled user feedback by
+        cursor change for route switching
+	* GBSaerea.cpp: fixed routing list handling when a new gbs is
+	loaded, fixed blocking of unactive routes by FHS button
+	* pixmaps: design changes for some icons
+        
+2004-12-12 Guido Scholz <guido.scholz@bayernline.de>
+	* package: spdrs60-0.4.5 released
+	* RoutingDialog.cpp, GBSArea.cpp: enabled routing activation
+	by feedback signals
+	* GBSArea.cpp: fixed crash bug by wrong routing calculation
+	* spdrs60.*.spec: added rpm-spec and desktop files for
+	redhat/fedora systems
+	* configure.ac: changed compiler check to only c++
+
+2004-11-18 Guido Scholz <guido.scholz@bayernline.de>
+	* package: spdrs60-0.4.4 released, Guido Scholz took over
+	maintainment from Stefan Preis
+	* MainWindow.cpp: optimised feedback network code, now reading
+	all send lines
+	* element.c: some speed optimization for element painting
+
+2004-11-03 Guido Scholz <guido.scholz@bayernline.de>
+	* package: spdrs60-0.4.3-qt3-20
+	* package: some translation and documentation corrections
+	* MainWindow.cpp: on startup power status (e.g. set by other SRCP
+	clients) is respected
+
+2004-10-27 Guido Scholz <guido.scholz@bayernline.de>
+	* package: spdrs60-0.4.3-qt3-19
+	* MainWindow.cpp: now realy the feedback visualisation bug is fixed
+
+2004-10-23 Guido Scholz <guido.scholz@bayernline.de>
+	* package: spdrs60-0.4.3-qt3-18
+	* RouteDialog.cpp: small fixes (strings without format parameters)
+	* spdrs/Makefile.am, clock/Makefile.am: fixes (moc + LDADD)
+	* package: numbering schema changed due to debian dh_make errors
+	* MainWindow.cpp: fixed bug in feedback visualisation (LEDs were
+	not updated)
+
+2004-10-16 Guido Scholz <guido.scholz@bayernline.de>
+	* package: spdrs60-0.4.3-qt3_17
+	* MainWindow.cpp: file dialog now remembers last path
+	* MainWindow.cpp: some cleanups using socket variables
+	* MainWindow.cpp: networking code is completely rewritten (pooh!),
+	now event driven and hopefully much more stable
+	* MainWindow.cpp: server connetion now can be (de)activated by menu
+	* icons: some nice greater icons added
+
+2004-10-02 Guido Scholz <guido.scholz@bayernline.de>
+	* package: spdrs60-0.4.3-qt3_16
+	* doc: moved directory spdrs60/docs to doc
+	* doc: substituted more englisch snapshots in german html documentation
+	* cleanups in some 'Makefile.am's
+	* spdrs60/Makefile.am: changed moc-file naming from
+	moc_* to *.moc.cpp due to incompatibility with qt translation
+	tool 'lupdate'
+	* MainWindow.cpp: fixed bug in feedback history, which came in
+	using 'tr()' for feedback messages
+	* man: introduced english and german man pages for spdrs60,
+	convertRTS and CentralClock
+	* CentralClock.cpp: fixed two bugs in CentralClock (second hand
+	was too fast and painted wrong, covering hour hand)
+	* introduced debian menu file for spdrs60
+
+2004-09-28 Guido Scholz <guido.scholz@bayernline.de>
+	* package: spdrs60-0.4.3-qt3_15
+	* current 16x16-icon got lost, reintroduced; icons renamed
+	* some cleanups for package building with sgmltools
+	* doc:  substituted some english pictures in german handbook
+
+2004-09-23 Guido Scholz <guido.scholz@bayernline.de>
+	* package: spdrs60-0.4.3-qt3_14
+	* clock, convertRTS: (re)integrated CentralClock and convertRTS
+	* doc: integrated and redesigned online documentation, for now
+	based on old but simple "sgmltools"
+	* redesigned routing dialog
+	* turntableCommander.cpp: fixed bug in turntable commander
+	* package: compressed package file format now is bz2
+	* package: removed kdevelop files, because it is allways a mess
+	together with autotools
+
+2004-09-13 Guido Scholz <guido.scholz@bayernline.de>
+	* package: spdrs60-0.4.3-qt3_13
+	* element.cpp: new linewidths and positions for layout modes and
+	element selections
+	* MainWindow.cpp, : layout now is movable by keys when it does
+	not fit to visible window
+	* three files for version 0.5 are removed
+
+2004-08-25 Guido Scholz <guido.scholz@bayernline.de>
+	* package: spdrs60-0.4.3-qt3_12
+	* MainWindow.cpp : new and clean mainwindow layout
+	* MainWindow.cpp: toolbar now is movable to left, right and
+	bottom dock positions
+
+2004-03-04 Guido Scholz <guido.scholz@bayernline.de>
+	* package: spdrs60-0.4.3-qt3_9
+	* package: finished german translation
+
+2004-03-04 Guido Scholz <guido.scholz@bayernline.de>
+	* package: spdrs60-0.4.3-qt3_8
+	* main.cpp, MainWindow.cpp: fixed close application crash bug
+
+2004-03-04 Dirk Armbrust <>
+	* MainWindow.cpp: fixed layout switch/close application bug
+
+2004-02-17 Guido Scholz <guido.scholz@bayernline.de>
+	* package: spdrs60-0.4.3-qt3_2
+	* package: start with german translation
+
+2004-02-16 Guido Scholz <guido.scholz@bayernline.de>
+	* package: spdrs60-0.4.3-qt3_1
+	* package: port to qt3
+	* package: fix a lot of little bugs
+	* MainWindow.cpp: debug window now sticks to window bottom
+
+2003-03-16 Stefan Preis <stefan.preis@wdr.de>, Rüdiger Seidel
+	* package: spdrs60-0.4.3
+	* package: port to qt2
+

@@ -1,0 +1,833 @@
+Routes total #: 55
+Last modified:  So Jan 23 20:44:07 2005
+version:        0.4.7
+-------------------------------------
+
+ROUTE --------> 1
+name:           F - 12
+to signal:      0074
+switch x to y:  0020 0
+switch x to y:  0021 1
+switch x to y:  0022 0
+switch x to y:  0023 0
+switch x to y:  0024 1
+switch x to y:  0027 0
+switch x to y:  0028 0
+switch x to y:  0080 1
+switch x to y:  0065 1
+from signal:    0062 2
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           0
+level:          -1
+-------------------------------------
+ROUTE --------> 2
+name:           F - 11
+to signal:      0075
+switch x to y:  0020 0
+switch x to y:  0022 1
+switch x to y:  0023 0
+switch x to y:  0024 1
+switch x to y:  0027 0
+switch x to y:  0028 0
+switch x to y:  0080 1
+switch x to y:  0065 1
+from signal:    0062 2
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           0
+level:          -1
+-------------------------------------
+ROUTE --------> 3
+name:           F - P10
+to signal:      0055
+switch x to y:  0020 0
+switch x to y:  0023 1
+switch x to y:  0024 1
+switch x to y:  0027 0
+switch x to y:  0028 0
+switch x to y:  0080 1
+switch x to y:  0065 1
+from signal:    0062 2
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           0
+level:          -1
+-------------------------------------
+ROUTE --------> 4
+name:           F - P1
+to signal:      0056
+switch x to y:  0020 0
+switch x to y:  0024 0
+switch x to y:  0027 0
+switch x to y:  0028 0
+switch x to y:  0080 1
+switch x to y:  0065 1
+from signal:    0062 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           0
+level:          -1
+-------------------------------------
+ROUTE --------> 5
+name:           F - P3
+to signal:      0057
+switch x to y:  0025 1
+switch x to y:  0026 1
+switch x to y:  0027 1
+switch x to y:  0028 1
+switch x to y:  0065 1
+from signal:    0062 2
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           0
+level:          -1
+-------------------------------------
+ROUTE --------> 6
+name:           A - N2
+to signal:      0058
+switch x to y:  0009 0
+switch x to y:  0010 0
+switch x to y:  0006 0
+switch x to y:  0007 0
+switch x to y:  0049 1
+from signal:    0053 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           0
+level:          -1
+-------------------------------------
+ROUTE --------> 7
+name:           A - N3
+to signal:      0059
+switch x to y:  0009 1
+switch x to y:  0010 1
+switch x to y:  0006 0
+switch x to y:  0007 0
+switch x to y:  0049 1
+from signal:    0053 2
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           0
+level:          -1
+-------------------------------------
+ROUTE --------> 8
+name:           N2 - n.T.
+to signal:      0061
+switch x to y:  0027 0
+switch x to y:  0028 0
+switch x to y:  0025 0
+switch x to y:  0026 0
+from signal:    0058 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           0
+level:          -1
+-------------------------------------
+ROUTE --------> 9
+name:           N3 - n.T.
+to signal:      0061
+switch x to y:  0027 0
+switch x to y:  0028 0
+switch x to y:  0025 1
+switch x to y:  0026 1
+from signal:    0059 2
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           0
+level:          -1
+-------------------------------------
+ROUTE --------> 10
+name:           P11/12 - n.W,
+to signal:      0050
+switch x to y:  0001 1
+switch x to y:  0002 1
+switch x to y:  0003 0
+switch x to y:  0004 0
+switch x to y:  0005 1
+from signal:    0054 2
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           0
+level:          -1
+-------------------------------------
+ROUTE --------> 11
+name:           P10 - n.W.
+to signal:      0050
+switch x to y:  0001 1
+switch x to y:  0002 1
+switch x to y:  0003 0
+switch x to y:  0004 0
+from signal:    0055 2
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           0
+level:          -1
+-------------------------------------
+ROUTE --------> 12
+name:           P1 - n.W.
+to signal:      0050
+switch x to y:  0006 0
+switch x to y:  0007 0
+switch x to y:  0003 0
+switch x to y:  0004 0
+switch x to y:  0001 0
+switch x to y:  0002 0
+switch x to y:  0072 1
+from signal:    0056 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           0
+level:          -1
+-------------------------------------
+ROUTE --------> 13
+name:           P3 - n.W.
+to signal:      0050
+switch x to y:  0001 0
+switch x to y:  0002 0
+switch x to y:  0003 0
+switch x to y:  0004 0
+switch x to y:  0006 1
+switch x to y:  0007 1
+switch x to y:  0009 1
+switch x to y:  0010 1
+switch x to y:  0072 1
+from signal:    0057 2
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           0
+level:          -1
+-------------------------------------
+ROUTE --------> 14
+name:           ZHS v.T. - P3
+to signal:      0057
+switch x to y:  0025 1
+switch x to y:  0026 1
+switch x to y:  0027 0
+switch x to y:  0028 0
+from signal:    0064 0
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           2
+level:          -1
+-------------------------------------
+ROUTE --------> 15
+name:           ZHS N2 - n.T.
+to signal:      0060
+switch x to y:  0028 1
+switch x to y:  0027 1
+switch x to y:  0026 0
+switch x to y:  0025 0
+from signal:    0058 0
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           2
+level:          -1
+-------------------------------------
+ROUTE --------> 16
+name:           ZHS N3 - n.T.
+to signal:      0060
+switch x to y:  0028 1
+switch x to y:  0027 1
+switch x to y:  0026 1
+switch x to y:  0025 1
+from signal:    0059 0
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           2
+level:          -1
+-------------------------------------
+ROUTE --------> 17
+name:           ZHS v.W. - N2
+to signal:      0058
+switch x to y:  0009 0
+switch x to y:  0010 0
+switch x to y:  0006 1
+switch x to y:  0007 1
+switch x to y:  0003 0
+switch x to y:  0004 0
+switch x to y:  0001 0
+switch x to y:  0002 0
+switch x to y:  0070 1
+from signal:    0051 0
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           2
+level:          -1
+-------------------------------------
+ROUTE --------> 18
+name:           ZHS v.W. - N3
+to signal:      0059
+switch x to y:  0009 1
+switch x to y:  0010 1
+switch x to y:  0006 1
+switch x to y:  0007 1
+switch x to y:  0003 0
+switch x to y:  0004 0
+switch x to y:  0001 0
+switch x to y:  0002 0
+switch x to y:  0070 1
+from signal:    0051 0
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           2
+level:          -1
+-------------------------------------
+ROUTE --------> 19
+name:           ZHS P3 - n.W.
+to signal:      0066
+switch x to y:  0006 0
+switch x to y:  0007 0
+switch x to y:  0009 1
+switch x to y:  0010 1
+from signal:    0057 0
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           2
+level:          -1
+-------------------------------------
+ROUTE --------> 20
+name:           LsW27 - 2I
+to signal:      0076
+switch x to y:  0025 0
+switch x to y:  0026 0
+switch x to y:  0027 0
+switch x to y:  0028 0
+from signal:    0082 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 21
+name:           LsW27 - P3
+to signal:      0057
+switch x to y:  0025 1
+switch x to y:  0026 1
+switch x to y:  0027 0
+switch x to y:  0028 0
+from signal:    0082 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 22
+name:           LsW24 - 12II
+to signal:      0074
+switch x to y:  0020 0
+switch x to y:  0021 1
+switch x to y:  0022 0
+switch x to y:  0023 0
+switch x to y:  0024 1
+from signal:    0080 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 23
+name:           LsW27 - 11II
+to signal:      0075
+switch x to y:  0020 0
+switch x to y:  0022 1
+switch x to y:  0023 0
+switch x to y:  0024 1
+from signal:    0080 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 24
+name:           LsW27 - P10
+to signal:      0055
+switch x to y:  0020 0
+switch x to y:  0023 1
+switch x to y:  0024 1
+from signal:    0080 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 25
+name:           LsW27 - P1
+to signal:      0056
+switch x to y:  0020 0
+switch x to y:  0024 0
+from signal:    0080 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 26
+name:           12I - 21I
+to signal:      0081
+switch x to y:  0024 1
+switch x to y:  0023 0
+switch x to y:  0022 0
+switch x to y:  0021 1
+switch x to y:  0020 0
+from signal:    0077 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 27
+name:           11I - 21I
+to signal:      0081
+switch x to y:  0024 1
+switch x to y:  0023 0
+switch x to y:  0022 1
+from signal:    0078 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 28
+name:           10I - 21I
+to signal:      0081
+switch x to y:  0020 0
+switch x to y:  0024 0
+from signal:    0079 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 29
+name:           1I -21I
+to signal:      0081
+switch x to y:  0024 0
+from signal:    0082 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 30
+name:           N2 - LsW27
+to signal:      0082
+switch x to y:  0027 0
+switch x to y:  0028 0
+switch x to y:  0025 0
+switch x to y:  0026 0
+from signal:    0058 3
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 31
+name:           N3 - LsW27
+to signal:      0082
+switch x to y:  0027 0
+switch x to y:  0028 0
+switch x to y:  0025 1
+switch x to y:  0026 1
+from signal:    0059 3
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 32
+name:           12II - P11/12
+to signal:      0054
+switch x to y:  0008 1
+from signal:    0074 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 33
+name:           11II - P11/12
+to signal:      0054
+switch x to y:  0008 0
+from signal:    0075 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 34
+name:           P11/12 - LsW2
+to signal:      0071
+switch x to y:  0001 0
+switch x to y:  0002 0
+switch x to y:  0003 0
+switch x to y:  0004 0
+switch x to y:  0005 1
+from signal:    0054 3
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 35
+name:           P11/12 - LsW1
+to signal:      0070
+switch x to y:  0001 1
+switch x to y:  0002 1
+switch x to y:  0003 0
+switch x to y:  0004 0
+switch x to y:  0005 1
+from signal:    0054 3
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 36
+name:           P10 - LsW2
+to signal:      0071
+switch x to y:  0001 0
+switch x to y:  0002 0
+switch x to y:  0003 0
+from signal:    0055 3
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 37
+name:           P10 - LsW1
+to signal:      0070
+switch x to y:  0001 1
+switch x to y:  0002 1
+switch x to y:  0003 0
+switch x to y:  0004 0
+from signal:    0055 3
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 38
+name:           P1 - LsW2
+to signal:      0071
+switch x to y:  0001 0
+switch x to y:  0002 0
+switch x to y:  0003 1
+switch x to y:  0004 1
+switch x to y:  0006 0
+switch x to y:  0007 0
+from signal:    0056 3
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 39
+name:           P1 - LsW1
+to signal:      0070
+switch x to y:  0001 0
+switch x to y:  0002 0
+switch x to y:  0003 0
+switch x to y:  0004 0
+switch x to y:  0006 0
+switch x to y:  0007 0
+from signal:    0056 3
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 40
+name:           2I  - LsW2
+to signal:      0071
+switch x to y:  0001 0
+switch x to y:  0002 0
+switch x to y:  0003 1
+switch x to y:  0004 1
+switch x to y:  0006 1
+switch x to y:  0007 1
+switch x to y:  0009 0
+switch x to y:  0010 0
+from signal:    0076 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 41
+name:           2I - LsW1
+to signal:      0070
+switch x to y:  0001 0
+switch x to y:  0002 0
+switch x to y:  0003 0
+switch x to y:  0004 0
+switch x to y:  0006 1
+switch x to y:  0007 1
+from signal:    0076 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 42
+name:           P3 - LsW2
+to signal:      0071
+switch x to y:  0002 0
+switch x to y:  0001 0
+switch x to y:  0003 1
+switch x to y:  0004 1
+switch x to y:  0006 1
+switch x to y:  0007 1
+switch x to y:  0009 1
+switch x to y:  0010 1
+from signal:    0057 3
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 43
+name:           P3 - LsW1
+to signal:      0070
+switch x to y:  0001 0
+switch x to y:  0002 0
+switch x to y:  0003 0
+switch x to y:  0004 0
+switch x to y:  0006 1
+switch x to y:  0007 1
+switch x to y:  0009 1
+switch x to y:  0010 1
+from signal:    0057 3
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 44
+name:           LsW2 - LsW8
+to signal:      0073
+switch x to y:  0005 1
+switch x to y:  0001 0
+switch x to y:  0002 0
+from signal:    0071 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           0
+level:          -1
+-------------------------------------
+ROUTE --------> 45
+name:           LsW2 - 10I
+to signal:      0079
+switch x to y:  0005 0
+switch x to y:  0003 0
+switch x to y:  0004 0
+switch x to y:  0001 0
+switch x to y:  0002 0
+from signal:    0071 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 46
+name:           LsW2 - 1I
+to signal:      0082
+switch x to y:  0006 0
+switch x to y:  0007 0
+switch x to y:  0003 1
+switch x to y:  0004 1
+switch x to y:  0001 0
+switch x to y:  0002 0
+from signal:    0071 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 47
+name:           LsW2 - N2
+to signal:      0058
+switch x to y:  0009 0
+switch x to y:  0010 0
+switch x to y:  0006 1
+switch x to y:  0007 1
+switch x to y:  0004 1
+switch x to y:  0003 1
+switch x to y:  0002 0
+switch x to y:  0001 0
+from signal:    0071 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 48
+name:           LsW2 - N3
+to signal:      0059
+switch x to y:  0010 1
+switch x to y:  0009 1
+switch x to y:  0006 1
+switch x to y:  0007 1
+switch x to y:  0003 1
+switch x to y:  0004 1
+switch x to y:  0001 0
+switch x to y:  0002 0
+from signal:    0071 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 49
+name:           LsW1 - LsW8
+to signal:      0073
+switch x to y:  0005 1
+switch x to y:  0003 0
+switch x to y:  0004 0
+switch x to y:  0001 1
+switch x to y:  0002 1
+from signal:    0070 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 50
+name:           LsW1 - 10I
+to signal:      0079
+switch x to y:  0005 0
+switch x to y:  0003 0
+switch x to y:  0004 0
+switch x to y:  0002 1
+switch x to y:  0001 1
+from signal:    0070 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 51
+name:           LsW1 - 1I
+to signal:      0082
+switch x to y:  0006 0
+switch x to y:  0007 0
+switch x to y:  0003 0
+switch x to y:  0004 0
+switch x to y:  0001 0
+switch x to y:  0002 0
+from signal:    0070 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           0
+level:          -1
+-------------------------------------
+ROUTE --------> 52
+name:           LsW1 - N2
+to signal:      0058
+switch x to y:  0009 0
+switch x to y:  0010 0
+switch x to y:  0006 1
+switch x to y:  0007 1
+switch x to y:  0003 0
+switch x to y:  0004 0
+switch x to y:  0001 0
+switch x to y:  0002 0
+from signal:    0070 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 53
+name:           LsW1 - N3
+to signal:      0059
+switch x to y:  0010 1
+switch x to y:  0009 1
+switch x to y:  0006 1
+switch x to y:  0007 1
+switch x to y:  0003 0
+switch x to y:  0004 0
+switch x to y:  0001 0
+switch x to y:  0002 0
+from signal:    0070 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 54
+name:           LsW8 - 12I
+to signal:      0077
+switch x to y:  0008 1
+from signal:    0073 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------
+ROUTE --------> 55
+name:           LsW8 - 11I
+to signal:      0078
+switch x to y:  0008 0
+from signal:    0073 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           3
+level:          -1
+-------------------------------------

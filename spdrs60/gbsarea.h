@@ -1,0 +1,147 @@
+/***************************************************************************
+                           gbsarea.h
+                           version 0.4.7
+                           -------------------------------
+    copyright            : (C) 1999-2003 by Stefan Preis
+                         : (C) 2004 by Guido Scholz
+    email                : stefan.preis@wdr.de
+    last modified        : 2004-12-31
+***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+/***************************************************************************
+   this file is the header file to gbsarea.cpp
+ ***************************************************************************/
+
+#ifndef GBSAREA_H
+#define GBSAREA_H
+
+#include <qapplication.h>
+#include <qdatetime.h>
+#include <qfile.h>
+#include <qmessagebox.h>
+#include <qtextstream.h>
+#include <qtimer.h>
+
+#include "resources.h"
+#include "element.h"
+#include "routedialog.h"
+
+#define  NOLOCK  0  // reads routing file without renewing the locked list
+#define  LOCK    1  // reads routing file and renews the list of locked routes
+
+
+class GBSArea: public QWidget
+{
+   Q_OBJECT
+   Q_PROPERTY(bool modified READ isModified WRITE setModified DESIGNABLE false)
+
+public:
+   GBSArea(QWidget *parent = 0, const char *name = 0);
+   virtual ~GBSArea();
+   QString FILENAME;  //serd
+   bool isModified() const;
+   virtual void setModified(bool m);
+   QSize sizeHint() const;
+    
+private:
+   void loadRoutes(bool);
+   void closeRouteWindow();
+   void deleteElements();
+   void setupElements();
+   //void startElementTimer();
+   void setRoute(int, QStrList*, QStrList*);
+   void showLEDs(int, int);
+   int  locateIndex(QString, int, int);
+   void externalButtonClicked(GbsButtonState);
+/*
+void savePixmaps(int ID)
+{
+ const QPixmap *saveIcon;
+ saveIcon=GBSElement[ID]->backgroundPixmap();
+ QString fn;
+ fn.sprintf("/home/stefan/.AA/spdrs60/resources/save/%s_D%d_R%d.bmp",GBSElement[ID]->sSoldIcon.data(),GBSElement[ID]->iSoldDirection,GBSElement[ID]->iSoldRotate);
+ //if(GBSElement[ID]->iSoldDirection != -1)
+ saveIcon->save(fn, "BMP");
+};
+*/
+public slots:
+   int  slotLoad();
+   int  slotSave();
+   int  slotNew(int);
+   void slotShowRoutings();
+   void slotElementClickedTimeout();
+   void slotFHTclicked();
+   void slotFRTclicked();
+   void slotWGTclicked();
+   void slotUfGTclicked();
+   void slotMGTclicked();
+   void slotUnlockRoutings();
+   void slotToggleAll();
+   void slotSendAll();
+   void slotStartRouting(int, int);
+   void slotElementClicked(int, GbsButtonState);
+   void slotElementClickedRecord(int, int);
+   void slotFBportChanged(unsigned int);
+   void slotNotrot();
+   void slotUpdateRouteLists();
+   void slotReadElemName(QString);
+   void slotFind(QString, int, bool);
+
+signals:
+   void cmdToDebug(const QString&);
+   void EditMode(int);
+   void FBportChanged(unsigned int);
+   void sendCommand(const QString&);
+   void setRepeatIcon(QString);
+   void sigRecordElement(int, QString, int, int);
+   void sigRecordMode(int);
+   void sigRepaintLayout();
+   void sigShowElement(int, int, int);
+   void sigShowFBmodules();
+   void sigUpdateEditmenu();
+   void updateRouteWindow();
+
+private:
+   QCursor     WGTCursor;
+   QCursor     FHTCursor;
+   QCursor     UfGTCursor;
+   QCursor     MGTCursor;
+   QCursor     RRSCursor;
+   QCursor     RZSCursor;
+   QCursor     URSCursor;
+   QCursor     UZSCursor;
+   QCursor     ZHSCursor;
+   QStrList    *listOfActivatePorts;
+   QStrList    *listOfFromSignals;
+   QStrList    *listOfLockedRoutes;
+   QStrList    *listOfReleasePorts;
+   QStrList    *listOfRouteTypes;
+   QStrList    *listOfToSignals;
+   QTimer      *delayTimer;
+   RouteDialog *routeWindow;
+
+   element     *GBSElement[MAX_ROWS*MAX_COLS];
+
+   int         iNumOfElements;
+   int         iFromSignalIndex;
+   int         iToSignalIndex;
+   RouteType   searchedRoute;
+
+   int         iLastFoundID;
+   GbsButtonState  gkbState;
+   bool        bRouteWindowActive;
+   bool        bRecord;
+   int         iConvertCheck;
+   bool        modified: 1;
+};
+
+#endif  //GBSAREA_H

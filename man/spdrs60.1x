@@ -1,0 +1,88 @@
+'\" t
+.\" ** The above line should force tbl to be a preprocessor **
+.\"
+.\" Manual page for spdrs60
+.\" process with:
+.\"   groff -man -Tlatin1 spdrs60.1x | less
+.\"
+.\" Copyright (C), 2004 Guido Scholz
+.\"
+.\" You may distribute under the terms of the GNU General Public
+.\" License as specified in the file COPYING that comes with the
+.\" spdrs60 distribution.
+.\"
+.\" Sat Oct 02 21:10:00 CEST 2004  Guido Scholz <guido.scholz@bayernline.de>
+.\"
+.TH SpDrS60 1x "02. Oct 2004" "Linux" "SRCP Clients"
+.SH NAME
+spdrs60 \- SRCP digital model railroad controller with a look of the
+German Railway SpDrS60 switch-boxes.
+.\"
+.\"
+.SH SYNOPSIS
+.B spdrs60
+[
+.I -options
+]
+.\"
+.\"
+.SH DESCRIPTION
+.B spdrs60
+is a graphical SRCP client to comfortably control a digital model
+railroad. His look has been adopted from the original German Railway
+SpDrS60 switch-boxes. It is designed for use with a SRCP server as
+provided by the DDL project.
+.PP
+.B spdrs60
+can be used to access a local SRCP server, or to connect over a host
+to host TCP/IP network. 
+.\"
+.\"
+.SH OPTIONS
+For now
+.B spdrs60
+does not implement special command-line options, but supports 
+generic options of the underlying qt-library.
+.TP
+.BI \-geometry \ WxH+X+Y
+Sets the size and location of the main window. This may be specially
+useful for displaying a full-size railroad layout.
+.\"
+.\"
+.SH EXAMPLES
+.TP
+.BI spdrs60
+Display the main window with an empty layout. Pre-loading of a
+preferred layout file is controlled by the preferences dialog.
+.TP
+.BI spdrs60\ \-geometry\ 800x600+0+0
+Display the man window in 800x600 pixel size and place it to the upper
+left corner.
+.\"
+.\"
+.SH FILES
+.TP 
+.I ~/.spdrs60rc
+Personal spdrs60 defaults (see
+.I Edit Preferences
+menu).
+.\"
+.\"
+.SH "SEE ALSO"
+.BR CentralClock (1),
+.BR convertRTS (1)
+.\"
+.\"
+.SH BUGS
+There are still some bugs were is hunted for. Please send bug reports
+or suggestions to Guido Scholz <guido.scholz@bayernline.de>.
+.\"
+.\"
+.SH AUTHORS
+.B spdrs60
+was written by Stefan Preis <info@linux-modellbahn.de> with
+contributions from Rüdiger Seidel, Guido Scholz
+<guido.scholz@bayernline.de> and Dirk Armbrust.
+.PP
+This manual page was written by Guido Scholz.
+

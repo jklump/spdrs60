@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=SpDrS60
+GenericName=Digital Model Railroad Controller
+Type=Application
+Icon=spdrs60_32.xpm
+TryExec=spdrs60
+Exec=spdrs60 %f
+Terminal=0
+X-Desktop-File-Install-Version=0.4
+Categories=Application;Game;X-Red-Hat-Extra;
+

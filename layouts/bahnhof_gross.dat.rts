@@ -1,0 +1,195 @@
+Routes total #: 12
+Last modified:  Mon Sep 3 23:34:34 2001
+version:        SpDrS60 for Linux v0.4.0
+-------------------------------------
+ROUTE --------> 1
+name:           Gleis 1 -> Koblenz
+to signal:      011
+switch x to y:  005 1
+switch x to y:  008 1
+switch x to y:  012 1
+from signal:    006 2
+release port:   0
+activate port:  -1
+active by loco: -1
+type:           0
+level:          -1
+data1:
+data2:
+data3:
+-------------------------------------
+ROUTE --------> 2
+name:           Gleis 1 -> Ahrtal
+to signal:      001
+switch x to y:  003 0
+switch x to y:  005 0
+from signal:    006 1
+release port:   0
+activate port:  -1
+active by loco: -1
+type:           0
+level:          -1
+data1:
+data2:
+data3:
+-------------------------------------
+ROUTE --------> 3
+name:           Gleis 2 -> Ahrtal
+to signal:      001
+switch x to y:  005 0
+switch x to y:  008 0
+switch x to y:  003 1
+from signal:    009 2
+release port:   0
+activate port:  -1
+active by loco: -1
+type:           0
+level:          -1
+data1:
+data2:
+data3:
+-------------------------------------
+ROUTE --------> 4
+name:           Koblenz -> Gleis 3
+to signal:      033
+switch x to y:  017 1
+switch x to y:  013 3
+from signal:    016 2
+release port:   0
+activate port:  -1
+active by loco: -1
+type:           0
+level:          -1
+data1:
+data2:
+data3:
+-------------------------------------
+ROUTE --------> 5
+name:           Gleis 3 -> Koblenz
+to signal:      011
+switch x to y:  012 0
+switch x to y:  013 0
+switch x to y:  017 0
+from signal:    014 1
+release port:   0
+activate port:  -1
+active by loco: -1
+type:           0
+level:          -1
+data1:
+data2:
+data3:
+-------------------------------------
+ROUTE --------> 6
+name:           Gleis 5 -> Abstell links
+to signal:      022
+switch x to y:  023 0
+switch x to y:  018 0
+from signal:    024 3
+release port:   0
+activate port:  -1
+active by loco: -1
+type:           0
+level:          -1
+data1:
+data2:
+data3:
+-------------------------------------
+ROUTE --------> 7
+name:           Gleis 2 -> Koblenz
+to signal:      011
+switch x to y:  008 1
+switch x to y:  013 1
+switch x to y:  012 0
+from signal:    009 2
+release port:   0
+activate port:  -1
+active by loco: -1
+type:           0
+level:          -1
+data1:
+data2:
+data3:
+-------------------------------------
+ROUTE --------> 8
+name:           Koblenz -> Gleis 5
+to signal:      035
+switch x to y:  017 0
+switch x to y:  018 1
+switch x to y:  023 1
+from signal:    016 2
+release port:   0
+activate port:  -1
+active by loco: -1
+type:           0
+level:          -1
+data1:
+data2:
+data3:
+-------------------------------------
+ROUTE --------> 9
+name:           Koblenz -> Gleis 2
+to signal:      032
+switch x to y:  017 1
+switch x to y:  013 2
+switch x to y:  008 1
+from signal:    016 2
+release port:   0
+activate port:  -1
+active by loco: -1
+type:           0
+level:          -1
+data1:
+data2:
+data3:
+-------------------------------------
+ROUTE --------> 10
+name:           Koeln -> Gleis 2
+to signal:      9
+switch x to y:  47 0
+switch x to y:  41 1
+switch x to y:  36 1
+from signal:    49 2
+release port:   0
+activate port:  -1
+active by loco: -1
+type:           0
+level:          -1
+data1:
+data2:
+data3:
+-------------------------------------
+ROUTE --------> 11
+name:           Euskirchen -> Gleis 3
+to signal:      014
+switch x to y:  043 1
+switch x to y:  040 2
+switch x to y:  037 1
+from signal:    045 2
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           0
+level:          -1
+data1:          
+data2:          
+data3:          
+-------------------------------------
+ROUTE --------> 12
+name:           Gleis 4-> Köln
+to signal:      048
+switch x to y:  039 0
+switch x to y:  042 0
+switch x to y:  044 0
+switch x to y:  047 0
+switch x to y:  038 0
+from signal:    034 1
+release port:   -1
+activate port:  -1
+active by loco: -1
+type:           0
+level:          -1
+data1:          
+data2:          
+data3:          
+-------------------------------------

@@ -1,0 +1,99 @@
+'\" t
+.\" ** The above line should force tbl to be a preprocessor **
+.\"
+.\" Manual page for spdrs60
+.\" process with:
+.\"   groff -man -Tlatin1 spdrs60.1x | less
+.\"
+.\" Copyright (C), 2004 Guido Scholz
+.\"
+.\" You may distribute under the terms of the GNU General Public
+.\" License as specified in the file COPYING that comes with the
+.\" spdrs60 distribution.
+.\"
+.\" Sat Oct 03 11:26:22 CEST 2004  Guido Scholz <guido.scholz@bayernline.de>
+.\"
+.TH SpDrS60 1x "03. Oct 2004" "Linux" "SRCP Clients"
+.SH NAME
+spdrs60 \- SRCP basierte Steuerung für digitale Modeleisenbahnen analog
+zum SpDrS60
+.\"
+.\"
+.SH SYNTAX
+.B spdrs60
+[
+.I -options
+]
+.\"
+.\"
+.SH BESCHREIBUNG
+.B spdrs60
+ist ein grafischer SRCP-Client zur komfortablen Steuerung digitaler
+Modelleisenbahnen. Sein Aussehen und seine Funktionsweise orientieren
+sich stark am Vorbild des
+SpDrS60 Spurplan-Drucktastenstellwerks der Deutschen Bahn AG. Das Prgramm
+ist dafür ausgelegt, mit einem SRCP-Server des DDL-Projektes
+(http://www.der-moba.de/digital/)
+zusammenzuarbeiten. Zur Zeit unterstützt
+.B spdrs60
+das SRCP-Protokoll in der Version 0.7.x.
+.PP
+.B spdrs60
+kann sowohl mit einem lokalen SRCP-Server, als auch mit einer Host zu
+Host Verbindung über ein TCP/IP Netzwerk betrieben werden. 
+.\"
+.\"
+.SH OPTIONEN
+Bisher implementiert
+.B spdrs60
+keine speziellen Kommandozeilenoptionen; es unterstütz jedoch die
+generischen Optionen der zugrundeliegenden Qt-Bibliothek.
+.TP
+.BI \-geometry \ WxH+X+Y
+Legt die Größe und die Position des Programmfensters fest. Diese Option
+ist sicher sinnvoll, wenn man regelmäßig mit einem größeren Gleisbild
+arbeitet.
+.\"
+.\"
+.SH BEISPIELE
+.TP
+.BI spdrs60
+Zeigt das Programmfenster mit einem leeren Gleisbild an. Das
+automatische Laden eines voreigestellten Gleisbildes, kann über den
+Dialog
+.I Einstellungen
+festgelegt werden.
+.TP
+.BI spdrs60\ \-geometry\ 800x600+0+0
+Zeigt das Programmfenster in einer Größe von 800x600 Pixeln und
+positioniert es in der linken oberen Ecke des Bildschirms.
+.\"
+.\"
+.SH DATEIEN
+.TP 
+.I ~/.spdrs60rc
+persönliche Einstellungen des Benutzers (siehe im Menü unter
+.I Bearbeiten Einstellungen
+).
+.\"
+.\"
+.SH "SIEHE AUCH"
+.BR CentralClock (1),
+.BR convertRTS (1)
+.\"
+.\"
+.SH FEHLER
+Es gibt immer noch einige Fehler, die u.a. zum Absturz des Programmes
+führen können. Bitte leiten Sie Fehlerberichte und Vorschläge für
+Verbesserungen an Guido Scholz <guido.scholz@bayernline.de>.
+.\"
+.\"
+.SH AUTOREN
+.B spdrs60
+wurde von Stefan Preis <info@linux-modellbahn.de> geschrieben. An der
+Weiterentwicklung u.a. zur Portierung auf neuere QT-Bibliotheken oder
+Beseitigung von Fehlern waren Rüdiger Seidel, Guido Scholz
+<guido.scholz@bayernline.de> und Dirk Armbrust beteiligt.
+.PP
+Diese Manualseite wurde von Guido Scholz erstellt.
+

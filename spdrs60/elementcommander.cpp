@@ -1,0 +1,190 @@
+/***************************************************************************
+                           elementcommander.cpp
+                           version 0.4.7
+                           -------------------------------
+    copyright            : (C) 1999-2003 by Stefan Preis
+                         : (C) 2004-2005 Guido Scholz
+    email                : stefan.preis@wdr.de
+    last modified        : 2005-01-06
+***************************************************************************/
+
+/******************************************************************************
+ *                                                                            *
+ *   This program is free software; you can redistribute it and/or modify     *
+ *   it under the terms of the GNU General Public License as published by     *
+ *   the Free Software Foundation; either version 2 of the License, or        *
+ *   (at your option) any later version.                                      *
+ *                                                                            *
+ ******************************************************************************/
+
+/******************************************************************************
+    this code provides a GUI to control analog turntables, shifting brigdes ...
+ ******************************************************************************/
+#include "elementcommander.h"
+
+/*button icons*/
+#include "pixmaps/tt_stop.xpm"
+#include "pixmaps/tt_left.xpm"
+#include "pixmaps/tt_left_step.xpm"
+#include "pixmaps/tt_right.xpm"
+#include "pixmaps/tt_right_step.xpm"
+
+extern bool SHOW_TOOLTIPS;
+
+
+elementCommander::elementCommander(QWidget * parent, QString sSoldIcon_)
+:  QDialog(0, "elementCommander", false)
+                                        // true, parent window not
+{                               // usable until this closed
+    if (parent);                // dummy command to avoid compiler warning
+    sSoldIcon = sSoldIcon_;
+
+    bgButton = new QButtonGroup(this, "");      // create a button group for
+    bgButton->move(0, 0);       // standard buttons ...
+    bgButton->resize(60, 30);
+    bgButton->setExclusive(true);
+    bgButton->setFrameStyle(QFrame::NoFrame);
+
+    pixButton = QPixmap(tt_stop_xpm);
+    buttStop = new QPushButton("o", this);      // ... and a stop button
+    buttStop->move(150, 5);
+    buttStop->resize(20, 20);
+    buttStop->setPixmap(pixButton);
+    buttStop->setEnabled(false);
+    connect(buttStop, SIGNAL(clicked()), this, SLOT(slotStop()));
+
+    if (sSoldIcon == SYM_SBN)   // setup the remaining buttons
+        setupBridge();
+    else
+        setupMotor();
+
+    this->setFixedWidth(285);   // fix the window's geometry
+    this->setFixedHeight(30);
+}
+
+
+void elementCommander::setupBridge()
+{
+    pixButton = QPixmap(tt_left_step_xpm);
+    buttMoveUp = new QPushButton("<", bgButton);
+    buttMoveUp->move(10, 5);
+    buttMoveUp->resize(20, 20);
+    buttMoveUp->setPixmap(pixButton);
+    buttMoveUp->setToggleButton(true);
+
+    pixButton = QPixmap(tt_right_step_xpm);
+    buttMoveDown = new QPushButton(">", bgButton);
+    buttMoveDown->move(40, 5);
+    buttMoveDown->resize(20, 20);
+    buttMoveDown->setPixmap(pixButton);
+    buttMoveDown->setToggleButton(true);
+
+    setCaption(tr("Shifting bridge commander"));
+    connect(buttMoveUp, SIGNAL(clicked()), this, SLOT(slotMoveUp()));
+    connect(buttMoveDown, SIGNAL(clicked()), this, SLOT(slotMoveDown()));
+
+    if (SHOW_TOOLTIPS == true) {
+        QToolTip::add(buttMoveUp, tr("Move bridge upwards"));
+        QToolTip::add(buttMoveDown, tr("Move bridge downwards"));
+        QToolTip::add(buttStop, tr("Stop moving bridge"));
+    }
+}
+
+
+void elementCommander::setupMotor()
+{
+    pixButton = QPixmap(tt_left_xpm);
+    buttRotateLeft = new QPushButton("<<", bgButton);
+    buttRotateLeft->move(10, 5);
+    buttRotateLeft->resize(20, 20);
+    buttRotateLeft->setToggleButton(true);
+    buttRotateLeft->setPixmap(pixButton);
+
+    pixButton = QPixmap(tt_right_xpm);
+    buttRotateRight = new QPushButton(">>", bgButton);
+    buttRotateRight->move(40, 5);
+    buttRotateRight->resize(20, 20);
+    buttRotateRight->setPixmap(pixButton);
+    buttRotateRight->setToggleButton(true);
+
+    this->setCaption(tr("DC-motor commander"));
+    connect(buttRotateLeft, SIGNAL(clicked()),
+            this, SLOT(slotRotateLeft()));
+    connect(buttRotateRight, SIGNAL(clicked()),
+            this, SLOT(slotRotateRight()));
+
+    if (SHOW_TOOLTIPS == true) {
+        QToolTip::add(buttRotateLeft, tr("Move motor clockwise"));
+        QToolTip::add(buttRotateRight, tr("Move motor anti-clockwise"));
+        QToolTip::add(buttStop, tr("Stop motor"));
+    }
+}
+
+
+void elementCommander::slotMoveUp()
+{
+    buttStop->setEnabled(true);
+    buttMoveUp->setEnabled(false);
+    buttMoveDown->setEnabled(false);
+    buildCommand(1, 0);         // select direction upwards
+    buildCommand(2, 0);         // start moving bridge
+}
+
+
+void elementCommander::slotMoveDown()
+{
+    buttStop->setEnabled(true);
+    buttMoveUp->setEnabled(false);
+    buttMoveDown->setEnabled(false);
+    buildCommand(1, 1);         // select direction downwards
+    buildCommand(2, 0);         // start moving bridge
+}
+
+
+void elementCommander::slotRotateLeft()
+{
+    buttStop->setEnabled(true);
+    buttRotateLeft->setEnabled(false);
+    buttRotateRight->setEnabled(false);
+    buildCommand(1, 0);         // select left rotating
+    buildCommand(2, 0);
+}
+
+
+void elementCommander::slotRotateRight()
+{
+    buttStop->setEnabled(true);
+    buttRotateLeft->setEnabled(false);
+    buttRotateRight->setEnabled(false);
+    buildCommand(1, 1);         // select right rotating
+    buildCommand(2, 1);
+}
+
+
+void elementCommander::slotStop()
+{
+    buttStop->setEnabled(false);
+
+    if (sSoldIcon == SYM_SBN) {
+        buttMoveUp->setEnabled(true);
+        buttMoveDown->setEnabled(true);
+        buttMoveUp->setOn(false);
+        buttMoveDown->setOn(false);
+        buildCommand(2, 1);     // stop moving
+    }
+    else if (sSoldIcon == SYM_MDC) {
+        buttRotateLeft->setEnabled(true);
+        buttRotateRight->setEnabled(true);
+        buttRotateLeft->setOn(false);
+        buttRotateRight->setOn(false);
+        buildCommand(1, 0);     // stop rotating with a red and a green button
+        buildCommand(2, 1);
+    }
+}
+
+
+void elementCommander::buildCommand(int iKeyNo_, int iKeyColor_)
+{
+    emit applyPressed(QPoint(iKeyNo_, iKeyColor_));
+    // 0 == red key, 1 == green key
+}

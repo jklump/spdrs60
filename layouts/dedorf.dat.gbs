@@ -1,0 +1,6502 @@
+Symbols total #:342
+Last modified:  Mi Jan 19 21:15:24 2005
+version:        0.4.7
+-------------------------------------
+SYMBOL -------> 0
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 1
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 2
+icon:           leer
+rotate:         -1
+invers turnout: 0
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           Linksd.
+active time:    -1
+feedback port:  -1
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 3
+icon:           leer
+rotate:         -1
+invers turnout: 0
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           nach
+active time:    -1
+feedback port:  -1
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 4
+icon:           leer
+rotate:         -1
+invers turnout: 0
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           von
+active time:    -1
+feedback port:  -1
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 5
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 6
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 7
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 8
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 9
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 10
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 11
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 12
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 13
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 14
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 15
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 16
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 17
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 18
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 19
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 20
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 21
+icon:           gerade
+rotate:         0
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  1
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 22
+icon:           signal_vs
+rotate:         0
+invers turnout: -1
+decoder:        Littf. S-DEC-4 WD (D)
+protocol:       N
+address_1:      20
+address_2:      -1
+change conn 1:  0
+change conn 2:  -1
+direction:      0
+subtype:        6
+text:           a
+active time:    50
+feedback port:  0
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 23
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 24
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 25
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 26
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 27
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 28
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 29
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 30
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 31
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 32
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 33
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 34
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 35
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 36
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 37
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 38
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 39
+icon:           signal_ssh
+rotate:         0
+invers turnout: -1
+decoder:        Littf. S-DEC-4 WD (D)
+protocol:       N
+address_1:      10
+address_2:      -1
+change conn 1:  0
+change conn 2:  -1
+direction:      0
+subtype:        -1
+text:           Lsf A
+active time:    50
+feedback port:  50
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 40
+icon:           signal_hs
+rotate:         0
+invers turnout: -1
+decoder:        Littf. S-DEC-4 WD (D)
+protocol:       N
+address_1:      21
+address_2:      221
+change conn 1:  0
+change conn 2:  0
+direction:      0
+subtype:        4
+text:           A/n
+active time:    50
+feedback port:  0
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 41
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 42
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 43
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 44
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 45
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 46
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 47
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 48
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 49
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 50
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 51
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 52
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 53
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 54
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 55
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 56
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 57
+icon:           signal_nrb
+rotate:         1
+invers turnout: -1
+decoder:        -1
+protocol:       M
+address_1:      300
+address_2:      -1
+change conn 1:  0
+change conn 2:  -1
+direction:      0
+subtype:        -1
+text:           n. Ld
+active time:    -1
+feedback port:  -1
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 58
+icon:           signal_nrb
+rotate:         1
+invers turnout: -1
+decoder:        -1
+protocol:       M
+address_1:      301
+address_2:      -1
+change conn 1:  0
+change conn 2:  -1
+direction:      0
+subtype:        -1
+text:           n. Ld
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 59
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 60
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 61
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 62
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 63
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 64
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 65
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 66
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 67
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 68
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 69
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 70
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 71
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 72
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 73
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 74
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 75
+icon:           signal_sss
+rotate:         0
+invers turnout: -1
+decoder:        Littf. S-DEC-4 WD (D)
+protocol:       N
+address_1:      11
+address_2:      -1
+change conn 1:  0
+change conn 2:  -1
+direction:      0
+subtype:        -1
+text:           Ls W 1
+active time:    50
+feedback port:  50
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 76
+icon:           gerade
+rotate:         0
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 77
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 78
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 79
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 80
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 81
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 82
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 83
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 84
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 85
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 86
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 87
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 88
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 89
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 90
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 91
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 92
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 93
+icon:           weiche_rechts
+rotate:         0
+invers turnout: 0
+decoder:        Littf. S-DEC-4 WD (D)
+protocol:       N
+address_1:      1
+address_2:      -1
+change conn 1:  0
+change conn 2:  -1
+direction:      0
+subtype:        -1
+text:           1
+active time:    50
+feedback port:  2
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 94
+icon:           signal_sss
+rotate:         0
+invers turnout: -1
+decoder:        Littf. S-DEC-4 WD (D)
+protocol:       N
+address_1:      22
+address_2:      -1
+change conn 1:  0
+change conn 2:  -1
+direction:      0
+subtype:        -1
+text:           Ls W 2
+active time:    50
+feedback port:  -1
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 95
+icon:           signal_srb
+rotate:         1
+invers turnout: -1
+decoder:        -1
+protocol:       M
+address_1:      305
+address_2:      -1
+change conn 1:  0
+change conn 2:  -1
+direction:      0
+subtype:        -1
+text:           
+active time:    -1
+feedback port:  -1
+hide LEDs:      1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 96
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 97
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 98
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 99
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 100
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 101
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 102
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 103
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 104
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 105
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 106
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 107
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 108
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 109
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 110
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 111
+icon:           signal_hss
+rotate:         1
+invers turnout: -1
+decoder:        Littf. S-DEC-4 WD (D)
+protocol:       N
+address_1:      12
+address_2:      112
+change conn 1:  0
+change conn 2:  0
+direction:      0
+subtype:        1
+text:           P 1
+active time:    50
+feedback port:  0
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 112
+icon:           dkw_rechts
+rotate:         -1
+invers turnout: -1
+decoder:        Littf. S-DEC-4 WD (D)
+protocol:       N
+address_1:      2
+address_2:      102
+change conn 1:  0
+change conn 2:  0
+direction:      2
+subtype:        1
+text:           2
+active time:    50
+feedback port:  0
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 113
+icon:           signal_ss
+rotate:         0
+invers turnout: -1
+decoder:        Littf. S-DEC-4 WD (D)
+protocol:       N
+address_1:      30
+address_2:      -1
+change conn 1:  0
+change conn 2:  -1
+direction:      0
+subtype:        -1
+text:           Ls 3 I
+active time:    50
+feedback port:  0
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 114
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 115
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 116
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 117
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 118
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 119
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 120
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 121
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 122
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 123
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 124
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 125
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 126
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 127
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 128
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 129
+icon:           gerade
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 130
+icon:           signal_ss
+rotate:         1
+invers turnout: -1
+decoder:        Littf. S-DEC-4 WD (D)
+protocol:       N
+address_1:      23
+address_2:      -1
+change conn 1:  0
+change conn 2:  -1
+direction:      0
+subtype:        -1
+text:           Ls 2 I
+active time:    50
+feedback port:  0
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 131
+icon:           weiche_rechts
+rotate:         1
+invers turnout: 0
+decoder:        Littf. S-DEC-4 WD (D)
+protocol:       N
+address_1:      3
+address_2:      -1
+change conn 1:  0
+change conn 2:  -1
+direction:      1
+subtype:        -1
+text:           3
+active time:    50
+feedback port:  0
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 132
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 133
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 134
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 135
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 136
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 137
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 138
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 139
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 140
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 141
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 142
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 143
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 144
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 145
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 146
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 147
+icon:           gerade
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 148
+icon:           gerade
+rotate:         0
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 149
+icon:           signal_hss
+rotate:         1
+invers turnout: -1
+decoder:        Littf. S-DEC-4 WD (D)
+protocol:       N
+address_1:      31
+address_2:      32
+change conn 1:  0
+change conn 2:  0
+direction:      0
+subtype:        7
+text:           P 3
+active time:    50
+feedback port:  0
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 150
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 151
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 152
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 153
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 154
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 155
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 156
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 157
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 158
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 159
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 160
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 161
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 162
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 163
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 164
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 165
+icon:           gerade
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 166
+icon:           gerade
+rotate:         0
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 167
+icon:           gerade
+rotate:         0
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 168
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 169
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 170
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 171
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 172
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 173
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 174
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 175
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 176
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 177
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 178
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 179
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 180
+icon:           taste_wgt
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  -1
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 181
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 182
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 183
+icon:           gerade
+rotate:         0
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 184
+icon:           gerade
+rotate:         0
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 185
+icon:           signal_hss
+rotate:         0
+invers turnout: -1
+decoder:        Littf. S-DEC-4 WD (D)
+protocol:       N
+address_1:      32
+address_2:      -1
+change conn 1:  0
+change conn 2:  0
+direction:      0
+subtype:        7
+text:           N 3
+active time:    50
+feedback port:  0
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 186
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 187
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 188
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 189
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 190
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 191
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 192
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 193
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 194
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 195
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 196
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 197
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 198
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 199
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 200
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 201
+icon:           gerade
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 202
+icon:           signal_hss
+rotate:         0
+invers turnout: -1
+decoder:        Littf. S-DEC-4 WD (D)
+protocol:       N
+address_1:      24
+address_2:      224
+change conn 1:  0
+change conn 2:  0
+direction:      0
+subtype:        1
+text:           N 2
+active time:    50
+feedback port:  0
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 203
+icon:           weiche_links
+rotate:         0
+invers turnout: 0
+decoder:        Littf. S-DEC-4 WD (D)
+protocol:       N
+address_1:      4
+address_2:      -1
+change conn 1:  0
+change conn 2:  -1
+direction:      1
+subtype:        -1
+text:           4
+active time:    50
+feedback port:  0
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 204
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 205
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 206
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 207
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 208
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 209
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 210
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 211
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 212
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 213
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 214
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 215
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 216
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 217
+icon:           panel_blue
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  -1
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 218
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 219
+icon:           signal_ss
+rotate:         0
+invers turnout: -1
+decoder:        Littf. S-DEC-4 WD (D)
+protocol:       N
+address_1:      13
+address_2:      -1
+change conn 1:  0
+change conn 2:  -1
+direction:      0
+subtype:        -1
+text:           Ls 1 I
+active time:    50
+feedback port:  0
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 220
+icon:           dkw_links
+rotate:         -1
+invers turnout: -1
+decoder:        Littf. S-DEC-4 WD (D)
+protocol:       N
+address_1:      5
+address_2:      1
+change conn 1:  0
+change conn 2:  0
+direction:      0
+subtype:        1
+text:           5
+active time:    50
+feedback port:  0
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 221
+icon:           signal_ss
+rotate:         1
+invers turnout: -1
+decoder:        Littf. S-DEC-4 WD (D)
+protocol:       N
+address_1:      33
+address_2:      -1
+change conn 1:  0
+change conn 2:  -1
+direction:      0
+subtype:        -1
+text:           Ls 3 II
+active time:    50
+feedback port:  0
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 222
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 223
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 224
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 225
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 226
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 227
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 228
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 229
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 230
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 231
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 232
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 233
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 234
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 235
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 236
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 237
+icon:           weiche_links
+rotate:         1
+invers turnout: 0
+decoder:        Littf. S-DEC-4 WD (D)
+protocol:       N
+address_1:      6
+address_2:      -1
+change conn 1:  0
+change conn 2:  -1
+direction:      0
+subtype:        -1
+text:           6
+active time:    50
+feedback port:  0
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 238
+icon:           signal_sss
+rotate:         1
+invers turnout: -1
+decoder:        Littf. S-DEC-4 WD (D)
+protocol:       N
+address_1:      25
+address_2:      -1
+change conn 1:  0
+change conn 2:  -1
+direction:      0
+subtype:        -1
+text:           Ls W 5
+active time:    50
+feedback port:  50
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 239
+icon:           gerade
+rotate:         0
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 240
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 241
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 242
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 243
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 244
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 245
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 246
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 247
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 248
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 249
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 250
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 251
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 252
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 253
+icon:           taste_fht
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  -1
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 254
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 255
+icon:           signal_sss
+rotate:         1
+invers turnout: -1
+decoder:        Littf. S-DEC-4 WD (D)
+protocol:       N
+address_1:      14
+address_2:      -1
+change conn 1:  0
+change conn 2:  -1
+direction:      0
+subtype:        -1
+text:           Ls W 6
+active time:    50
+feedback port:  50
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 256
+icon:           gerade
+rotate:         0
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 257
+icon:           signal_ss
+rotate:         0
+invers turnout: -1
+decoder:        Littf. S-DEC-4 WD (D)
+protocol:       N
+address_1:      34
+address_2:      -1
+change conn 1:  0
+change conn 2:  -1
+direction:      0
+subtype:        -1
+text:           Ls W 7
+active time:    50
+feedback port:  0
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 258
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 259
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 260
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 261
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 262
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 263
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 264
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 265
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 266
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 267
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 268
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 269
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 270
+icon:           taste_ufgt
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  -1
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 271
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 272
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 273
+icon:           signal_nrb
+rotate:         0
+invers turnout: -1
+decoder:        -1
+protocol:       M
+address_1:      302
+address_2:      -1
+change conn 1:  0
+change conn 2:  -1
+direction:      0
+subtype:        -1
+text:           n. Rh
+active time:    -1
+feedback port:  -1
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 274
+icon:           signal_nrb
+rotate:         0
+invers turnout: -1
+decoder:        -1
+protocol:       M
+address_1:      304
+address_2:      -1
+change conn 1:  0
+change conn 2:  -1
+direction:      0
+subtype:        -1
+text:           n. Rh
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 275
+icon:           weiche_rechts
+rotate:         0
+invers turnout: 0
+decoder:        Littf. S-DEC-4 WD (D)
+protocol:       N
+address_1:      7
+address_2:      -1
+change conn 1:  0
+change conn 2:  -1
+direction:      1
+subtype:        -1
+text:           7
+active time:    50
+feedback port:  0
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 276
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 277
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 278
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 279
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 280
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 281
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 282
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 283
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 284
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 285
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 286
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 287
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 288
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 289
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 290
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 291
+icon:           signal_hs
+rotate:         1
+invers turnout: -1
+decoder:        Littf. S-DEC-4 WD (D)
+protocol:       N
+address_1:      15
+address_2:      115
+change conn 1:  0
+change conn 2:  0
+direction:      0
+subtype:        4
+text:           F/p
+active time:    50
+feedback port:  0
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 292
+icon:           signal_hs
+rotate:         1
+invers turnout: -1
+decoder:        Littf. S-DEC-4 WD (D)
+protocol:       N
+address_1:      26
+address_2:      -1
+change conn 1:  0
+change conn 2:  -1
+direction:      0
+subtype:        6
+text:           Y
+active time:    50
+feedback port:  0
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 293
+icon:           signal_ss
+rotate:         1
+invers turnout: -1
+decoder:        Littf. S-DEC-4 WD (D)
+protocol:       N
+address_1:      35
+address_2:      -1
+change conn 1:  0
+change conn 2:  -1
+direction:      0
+subtype:        -1
+text:           Ls 3 III
+active time:    50
+feedback port:  0
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 294
+icon:           kurve_rechts
+rotate:         1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 295
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 296
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 297
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 298
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 299
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 300
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 301
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 302
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 303
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 304
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 305
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 306
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 307
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 308
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 309
+icon:           signal_vs
+rotate:         1
+invers turnout: -1
+decoder:        Littf. S-DEC-4 WD (D)
+protocol:       N
+address_1:      16
+address_2:      -1
+change conn 1:  0
+change conn 2:  -1
+direction:      0
+subtype:        6
+text:           f
+active time:    50
+feedback port:  0
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 310
+icon:           gerade
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 311
+icon:           signal_srb
+rotate:         0
+invers turnout: -1
+decoder:        -1
+protocol:       M
+address_1:      306
+address_2:      -1
+change conn 1:  0
+change conn 2:  -1
+direction:      0
+subtype:        -1
+text:           
+active time:    -1
+feedback port:  -1
+hide LEDs:      1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 312
+icon:           signal_sss
+rotate:         1
+invers turnout: -1
+decoder:        Littf. S-DEC-4 WD (D)
+protocol:       N
+address_1:      40
+address_2:      -1
+change conn 1:  0
+change conn 2:  -1
+direction:      0
+subtype:        -1
+text:           LS 4 I
+active time:    50
+feedback port:  50
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 313
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 314
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 315
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 316
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 317
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 318
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 319
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 320
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 321
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 322
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 323
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 324
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 325
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 326
+icon:           leer
+rotate:         -1
+invers turnout: 0
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           Rechtsh.
+active time:    -1
+feedback port:  -1
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 327
+icon:           leer
+rotate:         -1
+invers turnout: 0
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           von
+active time:    -1
+feedback port:  -1
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 328
+icon:           leer
+rotate:         -1
+invers turnout: 0
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           nach
+active time:    -1
+feedback port:  -1
+hide LEDs:      -1
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 329
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 330
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 331
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 332
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 333
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 334
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 335
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 336
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 337
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 338
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 339
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 340
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
+SYMBOL -------> 341
+icon:           leer
+rotate:         -1
+invers turnout: -1
+decoder:        -1
+protocol:       -1
+address_1:      -1
+address_2:      -1
+change conn 1:  -1
+change conn 2:  -1
+direction:      -1
+subtype:        -1
+text:           -1
+active time:    -1
+feedback port:  0
+hide LEDs:      0
+data 2:         -1
+data 3:         -1
+-------------------------------------
