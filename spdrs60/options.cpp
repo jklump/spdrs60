@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.cpp
-                           version 0.4.3
+                           version 0.4.8 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : 2005-01-23
+    last modified        : $Date: 2005-03-17 21:42:17 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -161,7 +161,7 @@ void optionsDialog::setupTabLayout()
         new QLabel(tr("Editor for layout, routing and init files:"), w);
     label->setGeometry(10, line->y() + 15, 300, 20);
 
-    coboEditor = new QComboBox(false, w);
+    coboEditor = new QComboBox(true, w);
     coboEditor->insertItem("kwrite");
     coboEditor->insertItem("kedit");
     coboEditor->insertItem("nedit");
@@ -171,7 +171,7 @@ void optionsDialog::setupTabLayout()
     label = new QLabel(tr("Browser for documentation:"), w);
     label->setGeometry(10, line->y() + 45, 300, 20);
 
-    coboBrowser = new QComboBox(false, w);
+    coboBrowser = new QComboBox(true, w);
     coboBrowser->insertItem("firefox");
     coboBrowser->insertItem("konqueror");
     coboBrowser->insertItem("mozilla");
@@ -631,17 +631,30 @@ void optionsDialog::fillWithData()
     else if (DEF_LAYOUT == "-1")
         slotAutoload(false);
 
+    bool editorfound = false;
     for (i = 0; i < coboEditor->count(); i++) {
         if (coboEditor->text(i) == EDITOR) {
             coboEditor->setCurrentItem(i);
+            editorfound = true;
             break;
         }
     }
+    if (!editorfound) {
+        coboEditor->insertItem(EDITOR);
+        coboEditor->setCurrentItem(coboEditor->count() - 1);
+    }
+    
+    bool browserfound = false;
     for (i = 0; i < coboBrowser->count(); i++) {
         if (coboBrowser->text(i) == BROWSER) {
             coboBrowser->setCurrentItem(i);
+            browserfound = true;
             break;
         }
+    }
+    if (!browserfound) {
+        coboBrowser->insertItem(BROWSER);
+        coboBrowser->setCurrentItem(coboBrowser->count() - 1);
     }
 
     // data section

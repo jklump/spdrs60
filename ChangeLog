@@ -1,3 +1,6 @@
+2005-03-17 Guido Scholz <guido.scholz@bayernline.de>
+	* options.cpp: prefered editor and browser are editable
+
 2005-01-31 Guido Scholz <guido.scholz@bayernline.de>
 	* element.cpp: fixed toggle bug for three and four state signals
 	* de/index.sgml: documentation update
