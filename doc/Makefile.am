@@ -1,6 +1,7 @@
 # Makefile.am for spdrs60 documentation
 # last changes by: Guido Scholz
-# last update: 2005-01-22
+# Version: $Release$
+# last update: $Date: 2005-01-31 20:09:17 $
 
 # HTML_DOC_DIR wird in configure.ac definiert
 htmldir = @HTML_DOC_DIR@
@@ -234,9 +235,9 @@ dist_commonimages_DATA = \
 	commonimages/weiche-links-0.png \
 	commonimages/weiche-links-1.png \
 	commonimages/weiche-rechts-0.png \
-	commonimages/weiche-rechts-1.png \
-        spdrs60.css 
-
+	commonimages/weiche-rechts-1.png
+        
+dist_html_DATA = spdrs60.css 
 
 # enHTMLFILES =
 enhtml_DATA = \
