@@ -1,3 +1,9 @@
+2005-01-31 Guido Scholz <guido.scholz@bayernline.de>
+	* element.cpp: fixed toggle bug for three and four state signals
+	* de/index.sgml: documentation update
+	* doc/Makefile.am: fixed install target for css file
+	* spdrs60.css: default font changed
+ 
 2005-01-28 Guido Scholz <guido.scholz@bayernline.de>
 	* mainwindow.cpp, element.cpp: fixed Qt 3.0 compile error
 	* configure.ac, Makefile.am: new configure option to disable
@@ -11,7 +17,7 @@
 	* layouts: new example layout "dedorf", new elements added to
         layout "alle_elemente" 
 	* *.cpp, *.h: all files renamed to lower case
-	* gbsarea.cpp: fixed memory leak causes by QTimer handling,
+	* gbsaerea.cpp: fixed memory leak causes by QTimer handling,
         fixed two memory leaks caused by QStrList handling
 	* pixmaps: design changes for some icons
 	* gbsarea.cpp, mainwindow.cpp: fixed process dialog usage

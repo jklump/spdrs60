@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.7
+                           version 0.4.7 $Release$
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : 2005-01-15
+    last modified        : $Date: 2005-01-31 20:38:15 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -185,23 +185,16 @@ void element::copyData(QStrList * copyData)
 void element::slotSwitchIt(int iNewDirection, int iLocked)
 {
     // quit if element contains no solenoid, otherwise
+    // "toggle all" would toggle them, too
     if (iSoldDirection == -1)
-        return;                 // "toggle all" would toggle them, too
+        return;
 
-    if (sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS || sSoldIcon == SYM_VS)
-        if ((iSoldSubType == 6 || iSoldSubType == 7) &&
-            iSoldDirection == 0 && iNewDirection == 1) {
-            // this code has only an effect if a solenoid shall be toggled via
-            // contextmenu or WGT button: direction toggles from 0 to 2
-            // if no Hp1/Vr1 available
-            iNewDirection = 2;
-        }
     // add another locked state cause a solenoid can belong to more than 1 route
     iSoldLocked += iLocked;
 
     // only save new direction and switch it if the new direction differs from
     // the old one;
-    // mmentary coupler are exceptional: they only use one connector e.g. one
+    // momentary couplers are exceptional: they only use one connector e.g. one
     // direction which is activated or deactivated, these are treated the same
     if (iNewDirection != iSoldDirection || sSoldIcon == SYM_ENK) {
         iSoldDirection = iNewDirection;
@@ -622,17 +615,59 @@ void element::slotRepeatIcon(QString sRepeat_)
 
 void element::slotToggle()
 {                               // toggles cyclic for 3-state-solenoids
-    if (sSoldIcon == SYM_DRW || sSoldIcon == SYM_HS ||
-        sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR ||
-        sSoldIcon == SYM_VS) {
+    if (sSoldIcon == SYM_DRW ||
+        sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR) {
         if (iSoldDirection < 2)
             slotSwitchIt(iSoldDirection + 1, UNLOCKED);
         else
             slotSwitchIt(0, UNLOCKED);
     }
 
-    else if (sSoldIcon == SYM_HSS ||    // toggles cyclic for 4-state-solenoids
-             (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR)
+    else if (sSoldIcon == SYM_HS || sSoldIcon == SYM_VS) {
+        switch (iSoldDirection) {
+            case 0:
+                if (iSoldSubType != 6)
+                    slotSwitchIt(1, UNLOCKED);
+                else 
+                    slotSwitchIt(2, UNLOCKED);
+                break;
+            case 1:
+                if (iSoldSubType == 0)
+                    slotSwitchIt(0, UNLOCKED);
+                else
+                    slotSwitchIt(2, UNLOCKED);
+                break;
+            case 2:
+                slotSwitchIt(0, UNLOCKED);
+                break;
+        } 
+    }
+
+    else if (sSoldIcon == SYM_HSS) {
+        switch (iSoldDirection) {
+            case 0:
+                if (iSoldSubType < 6)
+                    slotSwitchIt(1, UNLOCKED);
+                else 
+                    slotSwitchIt(2, UNLOCKED);
+                break;
+            case 1:
+                if (iSoldSubType == 1)
+                    slotSwitchIt(3, UNLOCKED);
+                else
+                    slotSwitchIt(2, UNLOCKED);
+                break;
+            case 2:
+                slotSwitchIt(3, UNLOCKED);
+                break;
+            case 3:
+                slotSwitchIt(0, UNLOCKED);
+                break;
+        } 
+    }
+
+    // toggles cyclic for 4-state-solenoids
+    else if ((sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR)
              && iSoldSubType == 1) {
         if (iSoldDirection < 3)
             slotSwitchIt(iSoldDirection + 1, UNLOCKED);
