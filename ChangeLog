@@ -1,5 +1,7 @@
 2005-01-28 Guido Scholz <guido.scholz@bayernline.de>
 	* mainwindow.cpp, element.cpp: fixed Qt 3.0 compile error
+	* configure.ac, Makefile.am: new configure option to disable
+          html documentation generation
         
 2005-01-27 Guido Scholz <guido.scholz@bayernline.de>
 	* gbsarea.cpp: fixed Qt 3.1 compile error

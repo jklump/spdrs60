@@ -1,9 +1,9 @@
 dnl configure.ac for spdrs60
 dnl Guido Scholz
-dnl last update: 2005-01-23
+dnl last update: $Date: 2005-01-28 22:52:10 $
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT([spdrs60],[0.4.7.1],[Guido Scholz <guido.scholz@bayernline.de>])
+AC_INIT([spdrs60],[0.4.8],[Guido Scholz <guido.scholz@bayernline.de>])
 AC_CONFIG_SRCDIR([spdrs60/main.cpp])
 AC_CANONICAL_TARGET([]) 
 AM_INIT_AUTOMAKE([dist-bzip2])
@@ -26,19 +26,25 @@ AC_PROG_CXX
 AC_ENABLE_SHARED(yes)
 AC_ENABLE_STATIC(no)
 
-dnl check for sgml2html (sgmltool)
-dnl AC_PATH_PROG(SGML2HTML, sgml2html, no)
-dnl if test "$SGML2HTML" = "no" ; then
-dnl   AC_MSG_ERROR(
-dnl     [cannot find 'sgml2html', please install package 'sgmltool'.])
-dnl fi
 
-dnl check for jade or openjade
-AC_PATH_PROGS(JADE, jade openjade, no)
-if test "$JADE" = "no" ; then
-  AC_MSG_ERROR(
-    [cannot find 'jade' or 'openjade', please install the adequate package.])
+dnl skip html doc generation 
+AC_ARG_ENABLE(html-doc, AC_HELP_STRING([--disable-html-doc],
+            [disable building and installation of html documentation]),, enable_html_doc=yes)
+
+HTML_DOC=doc
+if test x$enable_html_doc = xno; then
+  HTML_DOC=
+else
+
+  dnl check for jade or openjade
+  AC_PATH_PROGS(JADE, jade openjade, no)
+  if test "$JADE" = "no" ; then
+    AC_MSG_ERROR(
+      [cannot find 'jade' or 'openjade', please install the adequate package.])
+  fi
+
 fi
+AC_SUBST(HTML_DOC)
 
 dnl AC_REQUIRE([KDE_CHECK_EXTRA_LIBS])
 all_libraries="$all_libraries $USER_LDFLAGS"
@@ -46,9 +52,6 @@ all_includes="$all_includes $USER_INCLUDES"
 AC_SUBST(all_includes)
 AC_SUBST(all_libraries)
 
-dnl for NLS support. Call them in this order!
-dnl WITH_NLS is for the po files (only with gettext)
-dnl AM_KDE_WITH_NLS
 
 KDE_USE_QT(3.0)
 AC_PATH_QT
@@ -57,55 +60,58 @@ AC_CHECK_LIB(m, roundf,,AC_MSG_ERROR([required library missing]))
 
 AC_CHECK_HEADERS(signal.h math.h,,AC_MSG_ERROR([required header file missing]))
 
-dnl this dsssl check is (modified) from the bonsai project
-AC_MSG_CHECKING(for docbook.dsl)
-AC_ARG_WITH(dsssl,
-[  --with-dsssl=[DIR]        Look for DSSSL stylesheets in the specified directory],
- [
-   if test -d "$withval" ; then
- 	DOCBOOK_HTML=$withval/html/docbook.dsl
-        DOCBOOK_PRINT=$withval/print/docbook.dsl
-        AC_MSG_RESULT(in $withval)
-   fi
- ],[
-   for dir in \
-        /usr/share/sgml/docbook/dsssl-stylesheets \
-        /usr/share/sgml/docbook/stylesheet/dsssl/modular \
-        /usr/share/sgml/stylesheets/docbook \
-        /usr/share/sgml/docbk30/dsl \
-        /usr/share/sgml/docbkdsl \
-        /usr/lib/dsssl/stylesheets/docbook \
-        /usr/lib/dsssl/stylesheets/nwalsh-modular \
-        /usr/lib/dsssl/stylesheets/docbook \
-        /usr/lib/sgml/stylesheet/dsssl/docbook/nwalsh \
-        /usr/lib/sgml/stylesheets/nwalsh-modular \
-        /usr/lib/sgml/docbook\
-        /usr/lib/sgml/stylesheets/docbook \
-        /opt/sgml/lib/stylesheets/docbook \
-        /usr/local/lib/dsssl/stylesheets/docbook \
-        /usr/local/lib/dsssl/stylesheets/nwalsh-modular \
-        /usr/local/lib/sgml/stylesheets/docbook \
-        /usr/local/lib/sgml/stylesheets/nwalsh-modular \
-        /usr/local/lib/sgml/docbook \
-        /usr/local/share/sgml/docbook/stylesheet/dsssl/modular \
-        /usr/local/share/sgml/docbook/dsssl-stylesheets \
-        /usr/local/share/sgml/stylesheets/docbook \
-        /usr/local/share/sgml/docbook/dsssl/modular
-   do
-  	if test -f "$dir/html/docbook.dsl"; then
-            DOCBOOK_HTML="$dir/html/docbook.dsl"
-            DOCBOOK_PRINT="$dir/print/docbook.dsl"
-            AC_MSG_RESULT(detected: $dir)
-            break
-	fi
-   done
-])
-if test -z "$DOCBOOK_HTML"; then
-    AC_MSG_ERROR([DSSSL not found, please install your dsssl-stylesheet package])
-fi
-AC_SUBST(DOCBOOK_HTML)
-AC_SUBST(DOCBOOK_PRINT)
 
+if test x$enable_html_doc = xyes; then
+  dnl this dsssl check is (modified) from the bonsai project
+  AC_MSG_CHECKING(for docbook.dsl)
+  AC_ARG_WITH(dsssl, AC_HELP_STRING([--with-dsssl=[DIR]],
+              [Look for DSSSL stylesheets in the specified directory]),
+   [
+     if test -d "$withval" ; then
+   	DOCBOOK_HTML=$withval/html/docbook.dsl
+          DOCBOOK_PRINT=$withval/print/docbook.dsl
+          AC_MSG_RESULT(in $withval)
+     fi
+   ],[
+     for dir in \
+          /usr/share/sgml/docbook/dsssl-stylesheets \
+          /usr/share/sgml/docbook/stylesheet/dsssl/modular \
+          /usr/share/sgml/stylesheets/docbook \
+          /usr/share/sgml/docbk30/dsl \
+          /usr/share/sgml/docbkdsl \
+          /usr/lib/dsssl/stylesheets/docbook \
+          /usr/lib/dsssl/stylesheets/nwalsh-modular \
+          /usr/lib/dsssl/stylesheets/docbook \
+          /usr/lib/sgml/stylesheet/dsssl/docbook/nwalsh \
+          /usr/lib/sgml/stylesheets/nwalsh-modular \
+          /usr/lib/sgml/docbook\
+          /usr/lib/sgml/stylesheets/docbook \
+          /opt/sgml/lib/stylesheets/docbook \
+          /usr/local/lib/dsssl/stylesheets/docbook \
+          /usr/local/lib/dsssl/stylesheets/nwalsh-modular \
+          /usr/local/lib/sgml/stylesheets/docbook \
+          /usr/local/lib/sgml/stylesheets/nwalsh-modular \
+          /usr/local/lib/sgml/docbook \
+          /usr/local/share/sgml/docbook/stylesheet/dsssl/modular \
+          /usr/local/share/sgml/docbook/dsssl-stylesheets \
+          /usr/local/share/sgml/stylesheets/docbook \
+          /usr/local/share/sgml/docbook/dsssl/modular
+     do
+    	if test -f "$dir/html/docbook.dsl"; then
+              DOCBOOK_HTML="$dir/html/docbook.dsl"
+              DOCBOOK_PRINT="$dir/print/docbook.dsl"
+              AC_MSG_RESULT(detected: $dir)
+              break
+  	fi
+     done
+  ])
+  if test -z "$DOCBOOK_HTML"; then
+      AC_MSG_ERROR([DSSSL not found, please install your dsssl-stylesheet package])
+  fi
+  AC_SUBST(DOCBOOK_HTML)
+  AC_SUBST(DOCBOOK_PRINT)
+fi
+    
 AC_ARG_WITH(doc-dir,
   [AC_HELP_STRING([--with-doc-dir=DIR],
     [directory for documentation (e.g. html files)])],
