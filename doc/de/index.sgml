@@ -41,7 +41,7 @@
     </revision>
     <revision>
       <revnumber>0.5</revnumber>
-      <date><emphasis>noch nicht released</emphasis></date>
+      <date>Mon Jan 31 20:33:48 CET 2005</date>
     </revision>
   </revhistory>
   <abstract>
@@ -5742,9 +5742,6 @@ fallen.</para></listitem>
 Element-Eigenschaften kann alle Module auswählbar machen, auch die, die
 laut Optionen eigentlich an einem Bus nicht vorhanden
 sind.</para></listitem>
-  <listitem><para>NEU: Signale, die nur Hp 0 und Hp 2
-darstellen können sollten, zeigen bei direkter Betätigung im Gleisbild
-noch Hp 1.</para></listitem>
 </itemizedlist>
 </para>
 </sect2>
