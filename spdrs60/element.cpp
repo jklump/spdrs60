@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.7 $Release$
+                           version 0.4.8 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-01-31 20:38:15 $
+    last modified        : $Date: 2005-04-21 20:27:43 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -48,7 +48,7 @@ extern int FEEDBACK;
 
 
 /*constructor for element setup by QStrList*/
-element::element(QStrList * elementData_, QWidget * parent):QWidget(parent)
+element::element(QStrList* elementData_, QWidget* parent): QWidget(parent)
 {
     setMaximumSize(sizeHint());
     setMinimumSize(sizeHint());
@@ -295,6 +295,13 @@ void element::mousePressEvent(QMouseEvent * event)
                     ctrlButton = kUfgtClicked; 
                 else
                     ctrlButton = kMgtClicked;
+            }
+            
+            else if (sSoldIcon == SYM_TAS) {
+                if (CursorPos.x() < (EL_WIDTH >> 1))
+                    ctrlButton = kSgtClicked; 
+                else
+                    ctrlButton = kHagtClicked;
             }
             emit elementClicked(iSoldIndex, ctrlButton);
         }

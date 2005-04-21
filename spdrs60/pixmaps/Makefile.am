@@ -1,6 +1,6 @@
 # Makefile.am for spdrs60, pixmaps included by cpp-files
 # (c) Guido Scholz
-# last update: 2005-01-13
+# last update: 2005-02-05
 
 EXTRA_DIST = filenew.xpm filesave.xpm fileopen.xpm \
     editcut.xpm editcopy.xpm editpaste.xpm \
@@ -10,10 +10,13 @@ EXTRA_DIST = filenew.xpm filesave.xpm fileopen.xpm \
     route_clear.xpm route_copy.xpm route_edit.xpm \
     route_new.xpm route_record.xpm route_start.xpm \
     route_stop.xpm route_view.xpm route_editmode.xpm \
-    route_apply.xpm cursor_fht_b.xpm cursor_fht_m.xpm \
+    route_apply.xpm \
+    cursor_fht_b.xpm cursor_fht_m.xpm \
     cursor_wgt_b.xpm cursor_wgt_m.xpm \
     cursor_mgt_b.xpm cursor_mgt_m.xpm \
     cursor_ufgt_b.xpm cursor_ufgt_m.xpm \
+    cursor_sgt_b.xpm cursor_sgt_m.xpm \
+    cursor_hagt_b.xpm cursor_hagt_m.xpm \
     cursor_rzs_b.xpm cursor_rzs_m.xpm \
     cursor_uzs_b.xpm cursor_uzs_m.xpm \
     cursor_zhs_b.xpm cursor_zhs_m.xpm \

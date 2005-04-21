@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementDialog.cpp
-                           version 0.4.7
+                           version 0.4.8 $Release$
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : 2005-01-09
+    last modified        : $Date: 2005-04-21 20:27:43 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -55,8 +55,8 @@ extern bool SHOW_TOOLTIPS;
 extern QString DEF_DECODER;
 
 
-elementDialog::elementDialog(QWidget * parent, QStrList * listElementData_)
-:  QDialog(0, "elementDialog", true)   // true, parent window not
+elementDialog::elementDialog(QWidget* parent, QStrList* listElementData_)
+: QDialog(0, "elementDialog", true)   // true, parent window not
 {                               // usable until this closed
     if (parent);                // dummy command to avoid compiler warning
     bBlockMSignals = false;
@@ -67,13 +67,13 @@ elementDialog::elementDialog(QWidget * parent, QStrList * listElementData_)
     setupDataFrame();
     setupLogicFrame();
 
-    buttOK = new QPushButton(tr("&OK"), this);
+    buttOK = new QPushButton(tr("OK"), this);
     buttOK->setDefault(true);
     buttOK->move((2 * frLogic->width() + 30) / 3 - buttOK->width() / 2,
                  frLogic->y() + frLogic->height() + 10);
     connect(buttOK, SIGNAL(clicked()), this, SLOT(slotApplyPressed()));
 
-    QPushButton *CancelButton = new QPushButton(tr("&Cancel"), this);
+    QPushButton *CancelButton = new QPushButton(tr("Cancel"), this);
     CancelButton->move((2 * frLogic->width() + 30) * 2 / 3 -
                        CancelButton->width() / 2,
                        frLogic->y() + frLogic->height() + 10);
@@ -155,6 +155,7 @@ void elementDialog::setupDataFrame()
     setupElement(SYM_TAF);
     setupElement(SYM_TAU);
     setupElement(SYM_TAW);
+    setupElement(SYM_TAS);
     /*external empty color fields*/
     setupElement(SYM_FEG);
     setupElement(SYM_FEB);
@@ -414,7 +415,7 @@ void elementDialog::setupLogicFrame()
                         sbModule->y());
     connect(buttFBmodules, SIGNAL(clicked()), this,
             SLOT(slotShowFBmodules()));
-    if (SHOW_TOOLTIPS == true)
+    if (SHOW_TOOLTIPS)
         QToolTip::add(buttFBmodules, tr("Show feedback module window"));
 
     labelBus = new QLabel(tr("Bus:"), frLogic);
@@ -883,12 +884,12 @@ void elementDialog::showSubTypes(int iShow_)
             buttSubType[1]->setPixmap(QPixmap(signal_hs_st2_xpm));
             buttSubType[2]->setPixmap(QPixmap(signal_hs_st3_xpm));
         }
-        if (sSoldIcon == SYM_HSS){
+        else if (sSoldIcon == SYM_HSS){
             buttSubType[0]->setPixmap(QPixmap(signal_hss_st1_xpm));
             buttSubType[1]->setPixmap(QPixmap(signal_hss_st2_xpm));
             buttSubType[2]->setPixmap(QPixmap(signal_hss_st3_xpm));
         }
-        if (sSoldIcon == SYM_VS){
+        else if (sSoldIcon == SYM_VS){
             buttSubType[0]->setPixmap(QPixmap(signal_vs_st1_xpm));
             buttSubType[1]->setPixmap(QPixmap(signal_vs_st2_xpm));
             buttSubType[2]->setPixmap(QPixmap(signal_vs_st3_xpm));
@@ -903,7 +904,7 @@ void elementDialog::showSubTypes(int iShow_)
             buttSubType[1]->setPixmap(QPixmap(dkw_links_st2_xpm));
             buttSubType[2]->setPixmap(QPixmap(dkw_links_st3_xpm));
         }
-        if (sSoldIcon == SYM_DKR){
+        else if (sSoldIcon == SYM_DKR){
             buttSubType[1]->setPixmap(QPixmap(dkw_rechts_st2_xpm));
             buttSubType[2]->setPixmap(QPixmap(dkw_rechts_st3_xpm));
         }
@@ -954,7 +955,7 @@ void elementDialog::showSubTypes(int iShow_)
     QString sListText = listElementData->at(LIST_ID_SUBTYPE);
 
     if (sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS || sSoldIcon == SYM_VS) {
-        if (sSoldIcon == SYM_HS && SHOW_TOOLTIPS == true) {
+        if (sSoldIcon == SYM_HS && SHOW_TOOLTIPS) {
             QToolTip::add(buttSubType[0],
                           tr("Allows to switch this signal to:\n"
                              "Hp0, Hp1"));
@@ -965,7 +966,7 @@ void elementDialog::showSubTypes(int iShow_)
                           tr("Allows to switch this signal to:\n"
                              "Hp0, Hp1 and Hp2"));
         }
-        if (sSoldIcon == SYM_HSS && SHOW_TOOLTIPS == true) {
+        if (sSoldIcon == SYM_HSS && SHOW_TOOLTIPS) {
             QToolTip::add(buttSubType[0],
                           tr("Allows to switch this signal to:\n"
                              "Hp0, Hp1 and Sh1"));
@@ -976,7 +977,7 @@ void elementDialog::showSubTypes(int iShow_)
                           tr("Allows to switch this signal to:\n"
                              "Hp0, Hp1, Hp2 and Sh1"));
         }
-        if (sSoldIcon == SYM_VS && SHOW_TOOLTIPS == true) {
+        if (sSoldIcon == SYM_VS && SHOW_TOOLTIPS) {
             QToolTip::add(buttSubType[0],
                           tr("Allows to switch this signal to:\n"
                              "Vr0, Vr1"));
@@ -1009,7 +1010,7 @@ void elementDialog::showSubTypes(int iShow_)
     }
 
     if (sSoldIcon == SYM_ENK) {
-        if (SHOW_TOOLTIPS == true) {
+        if (SHOW_TOOLTIPS) {
             QToolTip::add(buttSubType[0],
                           tr("Allows to use a:\nbistable coupler"));
             QToolTip::add(buttSubType[1], tr("Allows to use a:\n"
@@ -1035,7 +1036,7 @@ void elementDialog::showSubTypes(int iShow_)
     }
 
     if (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) {
-        if (SHOW_TOOLTIPS == true) {
+        if (SHOW_TOOLTIPS) {
             QToolTip::add(buttSubType[1],
                           tr("Allows to use a:\n"
                              "2 state double turnout\n(f.e. Maerklin 2264)"
@@ -1059,7 +1060,7 @@ void elementDialog::showSubTypes(int iShow_)
     }
 
     if (sSoldIcon == SYM_DRE) {
-        if (SHOW_TOOLTIPS == true) {
+        if (SHOW_TOOLTIPS) {
             sListText = listElementData->at(LIST_ID_ADDRESS_2);
             QToolTip::add(buttSubType[1], tr("Default turntable:\n"
                                              "Controlled via keyboard #15"));

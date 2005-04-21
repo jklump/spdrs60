@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.7 $Revision: 1.2 $
+                           version 0.4.8 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-01-27 20:24:02 $
+    last modified        : $Date: 2005-04-21 20:27:43 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -39,6 +39,10 @@
 #include "pixmaps/cursor_ufgt_m.xpm"
 #include "pixmaps/cursor_mgt_b.xpm"
 #include "pixmaps/cursor_mgt_m.xpm"
+#include "pixmaps/cursor_sgt_b.xpm"
+#include "pixmaps/cursor_sgt_m.xpm"
+#include "pixmaps/cursor_hagt_b.xpm"
+#include "pixmaps/cursor_hagt_m.xpm"
 
 #include "pixmaps/cursor_rzs_b.xpm"
 #include "pixmaps/cursor_rzs_m.xpm"
@@ -51,14 +55,17 @@
 #include "pixmaps/cursor_urs_b.xpm"
 #include "pixmaps/cursor_urs_m.xpm"
 
+#define OLD_MAX_ROWS 18;
+
 extern int ROUTING_TIME;
 extern bool bFBport[MAX_FB];
 
 
 GBSArea::GBSArea(QWidget* parent, const char* name)
-:QWidget(parent, name)
+: QWidget(parent, name)
 {
-    bRouteWindowActive = false; // set all global layout variables
+    // set all global layout variables
+    bRouteWindowActive = false;
     gkbState = kNoneClicked;
     bRecord = false;
     modified = false;
@@ -100,6 +107,16 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
     cm = QPixmap(cursor_mgt_m_xpm);
     cb.setMask(*cm.mask());
     MGTCursor = QCursor(cb, 0, 0);
+
+    cb = QPixmap(cursor_sgt_b_xpm);
+    cm = QPixmap(cursor_sgt_m_xpm);
+    cb.setMask(*cm.mask());
+    SGTCursor = QCursor(cb, 0, 0);
+
+    cb = QPixmap(cursor_hagt_b_xpm);
+    cm = QPixmap(cursor_hagt_m_xpm);
+    cb.setMask(*cm.mask());
+    HaGTCursor = QCursor(cb, 0, 0);
 
     cb = QPixmap(cursor_rzs_b_xpm);
     cm = QPixmap(cursor_rzs_m_xpm);
@@ -496,6 +513,18 @@ void GBSArea::slotMGTclicked()
 {
     externalButtonClicked(kMgtClicked);
 }
+ 
+ 
+void GBSArea::slotSGTclicked()
+{
+    externalButtonClicked(kSgtClicked);
+}
+
+
+void GBSArea::slotHaGTclicked()
+{
+    externalButtonClicked(kHagtClicked);
+}
 
 
 void GBSArea::externalButtonClicked(GbsButtonState externalButton)
@@ -519,6 +548,14 @@ void GBSArea::externalButtonClicked(GbsButtonState externalButton)
             break;
         case kWgtClicked:
             setCursor(WGTCursor);
+            break;
+        case kSgtClicked:
+            setCursor(SGTCursor);
+            break;
+        case kHagtClicked:
+            setCursor(HaGTCursor);
+            break;
+        default:
             break;
     }
 }

@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.h
-                           version 0.4.7
+                           version 0.4.8 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-                         : (C) 2004 by Guido Scholz
+                         : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : 2004-12-31
+    last modified        : $Date: 2005-04-21 20:27:43 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -45,7 +45,7 @@ class GBSArea: public QWidget
    Q_PROPERTY(bool modified READ isModified WRITE setModified DESIGNABLE false)
 
 public:
-   GBSArea(QWidget *parent = 0, const char *name = 0);
+   GBSArea(QWidget* parent = 0, const char* name = 0);
    virtual ~GBSArea();
    QString FILENAME;  //serd
    bool isModified() const;
@@ -81,9 +81,11 @@ public slots:
    void slotElementClickedTimeout();
    void slotFHTclicked();
    void slotFRTclicked();
-   void slotWGTclicked();
-   void slotUfGTclicked();
+   void slotHaGTclicked();
    void slotMGTclicked();
+   void slotSGTclicked();
+   void slotUfGTclicked();
+   void slotWGTclicked();
    void slotUnlockRoutings();
    void slotToggleAll();
    void slotSendAll();
@@ -111,14 +113,16 @@ signals:
    void updateRouteWindow();
 
 private:
-   QCursor     WGTCursor;
    QCursor     FHTCursor;
-   QCursor     UfGTCursor;
+   QCursor     HaGTCursor;
    QCursor     MGTCursor;
    QCursor     RRSCursor;
    QCursor     RZSCursor;
+   QCursor     SGTCursor;
+   QCursor     UfGTCursor;
    QCursor     URSCursor;
    QCursor     UZSCursor;
+   QCursor     WGTCursor;
    QCursor     ZHSCursor;
    QStrList    *listOfActivatePorts;
    QStrList    *listOfFromSignals;

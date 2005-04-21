@@ -1,3 +1,8 @@
+/*
+ * File with gobal resources
+ */
+
+
 #ifndef RESOURCES_H
 #define RESOURCES_H
 
@@ -221,6 +226,7 @@
 #define   SYM_TAF          "taste_fht"
 #define   SYM_TAU          "taste_ufgt" // combination with MGT
 #define   SYM_TAW          "taste_wgt"
+#define   SYM_TAS          "taste_sgt"  // combination with HaGT
 
 #define   SYM_FEG          "panel_green"
 #define   SYM_FEB          "panel_blue"
