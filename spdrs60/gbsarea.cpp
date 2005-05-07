@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.4 $
+                           version 0.4.8 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-07 12:22:43 $
+    last modified        : $Date: 2005-05-07 13:50:41 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -245,7 +245,7 @@ void GBSArea::writeFileTextToStream(QTextStream& ts)
     ts << GF_CMDHOST << cmdHost << ":" << cmdHostPort << ":" << cmdLogin << endl;
     ts << GF_CMDPORT << fbHost << ":" << fbHostPort << ":" << fbLogin << endl;
     */
-    for (unsigned int i = 0; i < elements.count(); i++) {
+    for (unsigned int i = 0; i < elements.size(); i++) {
         element* e = elements[i];
         if (e != NULL && !e->isEmpty()) {
             ts << "%% # Element" << endl;
@@ -1147,7 +1147,7 @@ void GBSArea::showLEDs(int iRouteIndex_, int iSet_)
     for (int k = 0;
          k < abs(iFromIndex / rows - iToIndex / rows) + 1; k++) {
 
-        if ((iIndex < 0) || (iIndex >= (int) elements.count())) {
+        if ((iIndex < 0) || (iIndex >= (int) elements.size())) {
             cmdToDebug(tr
                        (">Try to route over a forbidden element (No %1). "
                         "Check your entries in routing-file!").
@@ -1181,7 +1181,7 @@ int GBSArea::locateIndex(QString sLocateString_, int iLocateType_,
 
     // locate element with certain address 1
     if (iLocateType_ == SRCH_A1) 
-        for (unsigned int iIndex = 0; iIndex < elements.count(); iIndex++) {
+        for (unsigned int iIndex = 0; iIndex < elements.size(); iIndex++) {
             if (sLocateString_.toInt() ==
                     elements[iIndex]->iSoldAddress_1) {
                 iFound += 1;
@@ -1194,7 +1194,7 @@ int GBSArea::locateIndex(QString sLocateString_, int iLocateType_,
 
     // locate element with certain address 2
     else if (iLocateType_ == SRCH_A2) 
-        for (unsigned int iIndex = 0; iIndex < elements.count(); iIndex++) {
+        for (unsigned int iIndex = 0; iIndex < elements.size(); iIndex++) {
             if (sLocateString_.toInt() ==
                     elements[iIndex]->iSoldAddress_2) {
                 iFound += 1;
@@ -1207,7 +1207,7 @@ int GBSArea::locateIndex(QString sLocateString_, int iLocateType_,
 
     // locate element with certain textfield
     else if (iLocateType_ == SRCH_TX) 
-        for (unsigned int iIndex = 0; iIndex < elements.count(); iIndex++) {
+        for (unsigned int iIndex = 0; iIndex < elements.size(); iIndex++) {
             s = elements[iIndex]->sSoldText;
             if (s.contains(sLocateString_, 0)) {
                 iFound += 1;
@@ -1240,7 +1240,7 @@ void GBSArea::slotToggleAll()
 {
     // toggles all elements but no couplers, motors no shifting bridges,
     // no turntables
-    for (unsigned int j = 0; j < elements.count(); j++)
+    for (unsigned int j = 0; j < elements.size(); j++)
         if (elements[j]->sSoldIcon != SYM_ENK &&
             elements[j]->sSoldIcon != SYM_MDC &&
             elements[j]->sSoldIcon != SYM_SBN &&
@@ -1252,7 +1252,7 @@ void GBSArea::slotToggleAll()
 
 void GBSArea::slotSendAll()
 {
-    for (unsigned int j = 0; j < elements.count(); j++) // toggles all elements
+    for (unsigned int j = 0; j < elements.size(); j++) // toggles all elements
         if (elements[j] != NULL)
             if (!(elements[j]->sSoldIcon == SYM_ENK
                         && elements[j]->iSoldSubType != -1) &&
@@ -1268,7 +1268,7 @@ void GBSArea::slotSendAll()
 void GBSArea::slotNotrot()
 {
     // sets all signals to red state
-    for (unsigned int j = 0; j < elements.count(); j++)
+    for (unsigned int j = 0; j < elements.size(); j++)
         if (elements[j]->sSoldIcon == SYM_HS ||
             elements[j]->sSoldIcon == SYM_HSS ||
             elements[j]->sSoldIcon == SYM_SS ||

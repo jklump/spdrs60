@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60 documentation
 # last changes by: Guido Scholz
-# Version: $Release$
-# last update: $Date: 2005-01-31 20:09:17 $
+# Version: $Revision: 1.3 $
+# last update: $Date: 2005-05-07 13:50:40 $
 
 # HTML_DOC_DIR wird in configure.ac definiert
 htmldir = @HTML_DOC_DIR@
