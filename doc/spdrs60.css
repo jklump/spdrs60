@@ -1,7 +1,7 @@
 html, body {
   background-color: white;
   color: black;
-  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-family: Verdana, 'bitstream vera sans', Helvetica, sans-serif;
 }
 
 a:link {
@@ -22,5 +22,10 @@ a:visited {
 a:active {
   color: #ff0000;
   background-color: transparent;
+}
+
+p {
+    line-height: 1.7em;
+    margin: 0 0 0.7em 0;
 }
 

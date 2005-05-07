@@ -1,26 +1,26 @@
 /***************************************************************************
                            main.cpp
-                           version 0.4.6
+                           version 0.4.8 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-                         : (C) 2004 Guido Scholz
+                         : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : 09.10.2004
+    last modified        : $Date: 2005-05-07 12:22:43 $
 ***************************************************************************/
 
-/******************************************************************************
- *                                                                            *
- *   This program is free software; you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by     *
- *   the Free Software Foundation; either version 2 of the License, or        *
- *   (at your option) any later version.                                      *
- *                                                                            *
- ******************************************************************************/
+/**************************************************************************
+ *                                                                        *
+ *  This program is free software; you can redistribute it and/or modify  *
+ *  it under the terms of the GNU General Public License as published by  *
+ *  the Free Software Foundation; either version 2 of the License, or     *
+ *  (at your option) any later version.                                   *
+ *                                                                        *
+ **************************************************************************/
 
-/******************************************************************************
+/**************************************************************************
    this file is the main file and handles all basic setting up of a Qt-
    application and stores the command line arguments
- ******************************************************************************/
+ **************************************************************************/
 #include <qapplication.h>
 
 #include <qfont.h>
@@ -48,7 +48,8 @@ bool AUTO_TT_DIR= false;         // autoselect rotating direction at digital tt?
 bool SERVERLOGIN= false;         // auto serverlogin on program start
 int  SERVER= SRCP;               // send data to which server?
 
-int  DEF_COLS= 5;                // number of default layout columns
+int  DEF_COLS= 12;               // number of default layout columns
+int  DEF_ROWS= 12;               // number of default layout rows
 int  DEF_PROTOCOL= 1;            // default protocol name
 int  ACTIVE_TIME= 50;            // solenoids' activation time
 int  ROUTING_TIME= 100;          // delay time while routing between elements
@@ -84,21 +85,25 @@ int main(int argc, char* argv[])
    // translation file for application strings
    QTranslator spdrs60Tr(0);
    spdrs60Tr.load(QString("spdrs60_") + QTextCodec::locale(), RES_DIR);
-   a.installTranslator( &spdrs60Tr );
+   a.installTranslator(&spdrs60Tr);
 
    MainWindow* spdrs60Window = new MainWindow();
    Q_CHECK_PTR(spdrs60Window);
    spdrs60Window->setCaption(QString(APP_NAME));
-   spdrs60Window->resize(640, 480);
+   spdrs60Window->resize(740, 480);
 
    //QPixmap* pixmap = new QPixmap();
-   //pixmap->load(RES_DIR_ICON "lo32-app-spdrs60.png","png");
+   //pixmap->load(RES_DIR_ICON "spdrs60_32.xpm","xpm");
    //spdrs60Window->setIcon(pixmap);
 
    //necessary for "-geometry" command-line option:
    a.setMainWidget(spdrs60Window);
    spdrs60Window->show();
 
+   /*only the first application window autoloads a layoutfile*/
+   if (LOAD_DEF_LAYOUT)
+       spdrs60Window->readAutoloadFile();
+   
    return a.exec();                                     
 }
 

@@ -1,24 +1,25 @@
 /***************************************************************************
                            keyboard.h
-                           version 0.4.3
+                           version 0.4.3 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     email                : stefan.preis@wdr.de
-    last modified        : 2004-12-31
+    last modified        : $Date: 2005-05-07 12:22:43 $
 ***************************************************************************/
 
-/*****************************************************************************
- *                                                                            *
- *   This program is free software; you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by     *
- *   the Free Software Foundation; either version 2 of the License, or        *
- *   (at your option) any later version.                                      *
- *                                                                            *
- ******************************************************************************/
+/**************************************************************************
+ *                                                                        *
+ *   This program is free software; you can redistribute it and/or modify *
+ *   it under the terms of the GNU General Public License as published by *
+ *   the Free Software Foundation; either version 2 of the License, or    *
+ *   (at your option) any later version.                                  *
+ *                                                                        *
+ **************************************************************************/
 
-/******************************************************************************
+/**************************************************************************
    this is the header file to keyboard.cpp
- ******************************************************************************/
+ **************************************************************************/
+
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 
@@ -37,15 +38,15 @@ class keyboard: public QDialog
    Q_OBJECT
 
 public:
-   keyboard( QWidget *parent=0 ); // creator of keyboard window
+   keyboard(QWidget* parent=0); // creator of keyboard window
 
 private:
-   void switchIt( int );
+   void switchIt(int);
 
 signals:
 /*   void cmdToDebug(const QString&); // send command to debug
  *   window*/
-   void sendCommand(const char *cSocketCommand_);
+   void sendCommand(const char* cSocketCommand_);
 
 private slots:
    void slotActivateRed();        // call switchIt with right direction

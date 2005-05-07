@@ -1,12 +1,14 @@
 /***************************************************************************
                            elementDialog.h
-                           version 0.4.3
+                           version 0.4.8 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
+                         : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : 2004-12-31
+    last modified        : $Date: 2005-05-07 12:22:43 $
 ***************************************************************************/
-/****************************************************
+
+/***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -45,24 +47,24 @@ class elementDialog : public QDialog
    Q_OBJECT
 
 public:
-   elementDialog( QWidget *parent=0, QStrList *elementData_=0 );
+   elementDialog(QWidget* parent=0, QStrList* elementData_=0);
 
 private:
-   void setupElement( const char* );
-   int  checkAddressLimits( QString );
-   void showSubTypes( int );
+   void setupElement(const char*);
+   int  checkAddressLimits(QString);
+   void showSubTypes(int);
    void setupDataFrame();
    void setupLogicFrame();
 
 private slots:
-   void slotSymbolChanged( int );
+   void slotSymbolChanged(int);
    void slotApplyPressed();
    void slotAddressChanged(const QString&);
-   void slotSubTypeClicked( int );
-   void slotDecoderChanged( int );
-   void slotProtChanged( int );
-   void slotBusChanged( int );
-   void slotModuleChanged( int );
+   void slotSubTypeClicked(int);
+   void slotDecoderChanged(int);
+   void slotProtChanged(int);
+   void slotBusChanged(int);
+   void slotModuleChanged(int);
    void slotShowFBmodules();
    void slotEnable_LED_FB();
 
@@ -88,30 +90,24 @@ private:
    QRadioButton *rbProtocol_MS;
    QRadioButton *rbProtocol_NA;
 
-   QComboBox    *coboIcon;
+   QComboBox    *IconComboBox;
    QComboBox    *coboDecoder;
 
-   QStrList     *listIcon;
+   QStrList     *IconNameList;
    QStrList     *listElementData;
 
    QLabel       *labelAddress_1;
    QLabel       *labelAddress_2;
    QLabel       *labelColour;
-   QLabel       *labelRotate;
-   QLabel       *labelInvert;
    QLabel       *labelSubTypeText;
    QLabel       *labelText;
    QLabel       *labelDecoder;
-   QLabel       *labelChangeConn1;
-   QLabel       *labelChangeConn2;
    QLabel       *labelTime;
    QLabel       *labelFB;
    QLabel       *labelFBmodule;
    QLabel       *labelFBport;
-   QLabel       *labelBus;
+   QLabel       *labelFBBus;
    QLabel       *labelBus2;
-   QLabel       *labelAdrMod;
-   QLabel       *labelLEDoff;
 
    QPushButton  *buttOK;
    QPushButton  *buttSubType[3];

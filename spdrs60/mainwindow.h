@@ -1,12 +1,14 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.4.6
+                           version 0.4.8 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
+    copyright            : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : 2004-12-31
+    last modified        : $Date: 2005-05-07 12:22:43 $
 ***************************************************************************/
-/********************************************************
+
+/***************************************************************************
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,6 +20,7 @@
 /***************************************************************************
    this file is the header file to mainwindow.cpp
  ***************************************************************************/
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -36,9 +39,11 @@
 #include <qtimer.h>
 #include <qtoolbar.h>
 #include <qtoolbutton.h>
-#include "qwidgetstack.h"
+#include <qwidgetstack.h>
 
 #include "gbsarea.h"
+//#include "routingviewer.h"
+//#include "routingtoolbar.h"
 #include "newlayoutdialog.h"
 #include "feedback.h"
 #include "options.h"
@@ -46,22 +51,26 @@
 #include "finder.h"
 
 
-class MainWindow : public QMainWindow
+class MainWindow: public QMainWindow
 {
    Q_OBJECT
 
 public:
    MainWindow();
    virtual ~MainWindow();
+   void readAutoloadFile();
+   QString getFilename();
 
 private:
    void initMainWindow();
    void updateDaemonMenu();
    void updateFeedbackMenu();
    void cmdToDebug(const QString&, int, int);
-   void LoadFile();
-   void setFilename();
+   void openFile(const QString&);
    void resetMenu();           //dirk
+   bool saveFile();
+   void newFile();
+   void chooseFile();
 
    /* New Networking code: */
    void initAllSockets();
@@ -73,38 +82,39 @@ private:
 
 
 private slots:
-   void slotReadConfigFile();
    void slotAbout();
-   void slotAboutQt();
    void slotAboutDaemon();
-   void slotLoad();
-   void slotUpdateEditmenu();
-   int  slotSave();
-   void slotSaveAs();
-   void slotNew();
-   void slotQuit();
-   void slotToggleLayoutPower();
-   void slotResetDaemon();
-   void slotKillDaemon();
-   void slotRoutesDialog();
-   void slotEditCut();
-   void slotEditCopy();
-   void slotEditPaste();
-   void slotEditGBSFiles();
-   void slotEditRTSFiles();
+   void slotAboutHelp();
+   void slotAboutQt();
+   void slotAboutWeb();
+   void slotCmdToDebugExtern(const QString&);
    void slotEditConfigFile();
-   void slotHelp();
-   void slotWeb();
+   void slotEditCopy();
+   void slotEditCut();
+   void slotEditFind();
+   void slotEditGBSFiles();
+   void slotEditLayout();
+   void slotEditPaste();
+   void slotEditRTSFiles();
+   void slotFileNew();
+   void slotFileNewWin();
+   void slotFileOpen();
+   void slotFileSave();
+   void slotFileSaveAs();
+   void slotKeyboard();
+   void slotKillDaemon();
+   void slotReadConfigFile();
+   void slotResetDaemon();
    void slotShowClock();
-   void slotLoadTimerTimeout();
    void slotShowModules();
    void slotShowOptions();
-   void slotKeyboard();
+   void slotShowRoutes();
+   void slotToggleLayoutPower();
+   void slotUpdateEditmenu();
    void slotViewDebug();
-   void slotCmdToDebugExtern(const QString&);
-   void slotEditLayout();
-   void slotNewWin();
-   void slotFind();
+   void layoutChangeSize();
+   void updateCaption();
+   void updateFileMenuItems();
    /* New Networking code: */
    void ConnectToSRCPServer();
    void CloseSRCPServerConnection();
@@ -127,25 +137,25 @@ private slots:
    void InfoSocketError(int);
 
 signals:
-   void load();
-   void save();
-   void newLayout(int);
-   void showRoutings();
+   void EditMode(int);
    void FHTclicked();
-   void WGTclicked();
-   void UfGTclicked();
-   void unlockRoutings();
-   void toggleAll();
-   void sendAll();
+   void load();
+   void newLayout(int, int);
+   void notrot();
    void progressCancelled();
+   void repaintLayout();
+   void save();
+   void sendAll();
    void sendFBChangeLayout(unsigned int);
    void sendFBChangeModule(unsigned int);
-   void repaintLayout();
-   void EditMode(int);
-   void notrot();
+   void showRoutings();
+   void toggleAll();
+   void UfGTclicked();
+   void unlockRoutings();
+   void WGTclicked();
 
 protected:
-   virtual void closeEvent (QCloseEvent* ce);
+   virtual void closeEvent(QCloseEvent* ce);
 
 private:
    bool            bRunLayout;
@@ -162,6 +172,7 @@ private:
    QPopupMenu      *helpmenu;
 
    QToolBar        *toolbar;
+//   RoutingToolBar  *routingtoolbar;
    QToolButton     *tbFileNew;
    QToolButton     *tbFileOpen;
    QToolButton     *tbFileSave;
@@ -176,7 +187,6 @@ private:
    QToolButton     *tbViewFeedb;
    QToolButton     *tbViewKeyb;
 
-   QTimer          *loadTimer;
    QScrollView     *scrollview;
    QSocketNotifier *snFBnotify;
    QSocketNotifier *snINnotify;
@@ -189,15 +199,16 @@ private:
    QComboBox       *FeedBackCB;
 
    GBSArea         *gbs;
+//   RoutingViewer   *rtViewer;
    feedback        *modulesWindow;
    optionsDialog   *optionsWindow;
    Finder          *findWindow;
    keyboard        *keybWindow;
 
    /*Networking*/
-   QSocket *CommandSocket;
-   QSocket *FeedbackSocket;
-   QSocket *InfoSocket;
+   QSocket* CommandSocket;
+   QSocket* FeedbackSocket;
+   QSocket* InfoSocket;
    bool CommandPortIsConnected;
    bool FeedbackPortIsConnected;
    bool InfoPortIsConnected;
@@ -205,7 +216,7 @@ private:
    int  isFBInitMode;
    int  iDebugNo;
    int  iEditMode;
-   QString  FILENAME;  //serd
+   QString  fileName;  //serd
    QString  lastDir;
 };
 

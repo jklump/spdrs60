@@ -1,7 +1,7 @@
 Summary: SpDrS60, Control center for digital model railroads 
 Summary(de): SpDrS60, Spurplan-Drucktastenstellwerk für digitale Modelleisenbahnen
 Name: spdrs60
-Version: 0.4.7
+Version: 0.4.8
 Release: SuSE9.0_1
 License: GPL
 Group: Amusements/Games
@@ -81,6 +81,9 @@ done
 %{_docdir}/%{name}
 
 %changelog
+* Sun Feb 06 2005 Guido Scholz <guido.scholz@bayernline.de>
+- Update to spdrs60-0.4.8
+
 * Fri Jan 07 2005 Guido Scholz <guido.scholz@bayernline.de>
 - Update to spdrs60-0.4.7
 

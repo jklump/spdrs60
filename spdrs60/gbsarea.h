@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.h
-                           version 0.4.8 $Revision: 1.2 $
+                           version 0.4.8 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-04-21 20:27:43 $
+    last modified        : $Date: 2005-05-07 12:22:43 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -28,6 +28,7 @@
 #include <qdatetime.h>
 #include <qfile.h>
 #include <qmessagebox.h>
+#include <qptrvector.h>
 #include <qtextstream.h>
 #include <qtimer.h>
 
@@ -35,9 +36,16 @@
 #include "element.h"
 #include "routedialog.h"
 
-#define  NOLOCK  0  // reads routing file without renewing the locked list
-#define  LOCK    1  // reads routing file and renews the list of locked routes
+#define NOLOCK  0  // reads routing file without renewing the locked list
+#define LOCK    1  // reads routing file and renews the list of locked routes
 
+#define MAXCONTACTS 496  // maximum contacts per bus for SRCP 0.8
+
+#define GF_OLDGBSEXT   ".dat.gbs"
+#define GF_GBSEXT      ".layout"
+#define GF_DIMENSIONS  "dimensions"
+#define GF_CMDHOST     "cmdHost"
+#define GF_FBHOST      "fbHost"
 
 class GBSArea: public QWidget
 {
@@ -47,71 +55,24 @@ class GBSArea: public QWidget
 public:
    GBSArea(QWidget* parent = 0, const char* name = 0);
    virtual ~GBSArea();
-   QString FILENAME;  //serd
+
+   QString routeFileName; //should be private, is used in routedialog
+   
    bool isModified() const;
    virtual void setModified(bool m);
    QSize sizeHint() const;
+   void writeFileTextToStream(QTextStream& ts);
+   void readFileTextFromStream(QTextStream& ts);
+   void readOldFileTextFromStream(QTextStream& ts);
+   void setLayoutSize(int, int);
+   int getColumns();
+   int getRows();
+   void removeRowElements(int row);
+   void removeColumnElements(int col);
+   element* item(int row, int col) const;
+   void setRouteFileName(const QString&);
+   QString getRouteFileName();
     
-private:
-   void loadRoutes(bool);
-   void closeRouteWindow();
-   void deleteElements();
-   void setupElements();
-   //void startElementTimer();
-   void setRoute(int, QStrList*, QStrList*);
-   void showLEDs(int, int);
-   int  locateIndex(QString, int, int);
-   void externalButtonClicked(GbsButtonState);
-/*
-void savePixmaps(int ID)
-{
- const QPixmap *saveIcon;
- saveIcon=GBSElement[ID]->backgroundPixmap();
- QString fn;
- fn.sprintf("/home/stefan/.AA/spdrs60/resources/save/%s_D%d_R%d.bmp",GBSElement[ID]->sSoldIcon.data(),GBSElement[ID]->iSoldDirection,GBSElement[ID]->iSoldRotate);
- //if(GBSElement[ID]->iSoldDirection != -1)
- saveIcon->save(fn, "BMP");
-};
-*/
-public slots:
-   int  slotLoad();
-   int  slotSave();
-   int  slotNew(int);
-   void slotShowRoutings();
-   void slotElementClickedTimeout();
-   void slotFHTclicked();
-   void slotFRTclicked();
-   void slotHaGTclicked();
-   void slotMGTclicked();
-   void slotSGTclicked();
-   void slotUfGTclicked();
-   void slotWGTclicked();
-   void slotUnlockRoutings();
-   void slotToggleAll();
-   void slotSendAll();
-   void slotStartRouting(int, int);
-   void slotElementClicked(int, GbsButtonState);
-   void slotElementClickedRecord(int, int);
-   void slotFBportChanged(unsigned int);
-   void slotNotrot();
-   void slotUpdateRouteLists();
-   void slotReadElemName(QString);
-   void slotFind(QString, int, bool);
-
-signals:
-   void cmdToDebug(const QString&);
-   void EditMode(int);
-   void FBportChanged(unsigned int);
-   void sendCommand(const QString&);
-   void setRepeatIcon(QString);
-   void sigRecordElement(int, QString, int, int);
-   void sigRecordMode(int);
-   void sigRepaintLayout();
-   void sigShowElement(int, int, int);
-   void sigShowFBmodules();
-   void sigUpdateEditmenu();
-   void updateRouteWindow();
-
 private:
    QCursor     FHTCursor;
    QCursor     HaGTCursor;
@@ -133,12 +94,20 @@ private:
    QTimer      *delayTimer;
    RouteDialog *routeWindow;
 
-   element     *GBSElement[MAX_ROWS*MAX_COLS];
+   QPtrVector<element> elements;
 
-   int         iNumOfElements;
+   int         cols;
+   int         rows;
    int         iFromSignalIndex;
    int         iToSignalIndex;
    RouteType   searchedRoute;
+
+   QString     cmdHost;
+   QString     fbHost;
+   int         cmdPort;
+   int         fbPort;
+   bool        cmdLogin;
+   bool        fbLogin;
 
    int         iLastFoundID;
    GbsButtonState  gkbState;
@@ -146,6 +115,68 @@ private:
    bool        bRecord;
    int         iConvertCheck;
    bool        modified: 1;
+
+   void loadRoutes(bool);
+   void closeRouteWindow();
+   void deleteElements();
+   void setupElements();
+   void setRoute(int, QStrList*, QStrList*);
+   void showLEDs(int, int);
+   int  locateIndex(QString, int, int);
+   void externalButtonClicked(GbsButtonState);
+   
+/*
+void savePixmaps(int ID)
+{
+ const QPixmap *saveIcon;
+ saveIcon=GBSElement[ID]->backgroundPixmap();
+ QString fn;
+ fn.sprintf("/home/stefan/.AA/spdrs60/resources/save/%s_D%d_R%d.bmp",GBSElement[ID]->sSoldIcon.data(),GBSElement[ID]->iSoldDirection,GBSElement[ID]->iSoldRotate);
+ //if(GBSElement[ID]->iSoldDirection != -1)
+ saveIcon->save(fn, "BMP");
+};
+*/
+public slots:
+   int  newFile(int, int);
+   void slotShowRoutings();
+   void slotElementClickedTimeout();
+   void slotFHTclicked();
+   void slotFRTclicked();
+   void slotHaGTclicked();
+   void slotMGTclicked();
+   void slotSGTclicked();
+   void slotUfGTclicked();
+   void slotWGTclicked();
+   void slotUnlockRoutings();
+   void slotToggleAll();
+   void slotSendAll();
+   void slotStartRouting(int, int);
+   void slotElementClicked(int, GbsButtonState);
+   void slotElementClickedRecord(int, int);
+   void slotFBportChanged(unsigned int);
+   void slotNotrot();
+   void slotUpdateRouteLists();
+   void slotReadElemName(QString);
+   void slotFind(QString, int, bool);
+
+protected:
+   int indexOf(int row, int col) const;
+
+signals:
+   void cmdToDebug(const QString&);
+   void EditMode(int);
+   void FBportChanged(unsigned int);
+   void sendCommand(const QString&);
+   void setRepeatIcon(const QString&);
+   void sigRecordElement(int, QString, int, int);
+   void sigRecordMode(int);
+   void switchToRouteViewMode();
+   void sigRepaintLayout();
+   void sigShowElement(int, int, int);
+   void sigShowFBmodules();
+   void sigUpdateEditmenu();
+   void updateRouteWindow();
+   void updateRoutingViewer(const QString&);
 };
 
 #endif  //GBSAREA_H

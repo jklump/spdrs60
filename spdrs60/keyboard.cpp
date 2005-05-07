@@ -1,11 +1,11 @@
 /***************************************************************************
                            keyboard.cpp
-                           version 0.4.7
+                           version 0.4.7 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : 2005-01-06
+    last modified        : $Date: 2005-05-07 12:22:43 $
 ***************************************************************************/
 
 /*****************************************************************************
@@ -23,6 +23,7 @@
 #include <ctype.h>              // for isdigit()
 #include <stdlib.h>             // for atoi()
 #include <unistd.h>             // for write()
+
 #include "keyboard.h"
 
 /*button icons*/
@@ -32,7 +33,7 @@
 extern int SHOW_TOOLTIPS;
 
 
-keyboard::keyboard(QWidget * parent):QDialog(parent, "keyboard", false)
+keyboard::keyboard(QWidget* parent): QDialog(parent, "keyboard", false)
 {                               // false == parent window is still usable
     //if (parent);                // dummy command to avoid compiler warning
 

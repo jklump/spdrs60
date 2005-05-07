@@ -1,10 +1,11 @@
 /***************************************************************************
                            fbmodule.h
-                           version 0.4.3
+                           version 0.4.8 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
+                           (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : 2004-12-31
+    last modified        : $Date: 2005-05-07 12:22:43 $
 ***************************************************************************/
 
 /******************************************************************************
@@ -35,10 +36,10 @@ class fbModule : public QWidget
    Q_OBJECT
 
 public:
-   fbModule( QWidget *parent=0, int iModNr_=0 ); // creator of a module
+   fbModule(QWidget* parent=0, int iModNr_=0); // creator of a module
 
 private slots:
-   void slotSetupModule( int );   // gets update event through feedback.cpp
+   void slotSetupModule(int);   // gets update event through feedback.cpp
 
 private:
    int iModNr;                    // number of module

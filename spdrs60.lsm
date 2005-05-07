@@ -1,14 +1,15 @@
 Begin3
 Title:          Spdrs60 
-Version:        0.4.7
+Version:        0.4.8
 Entered-date:   
-Description:    Model railroad controller based on Qt
-Keywords:       railroad model digital
+Description:    Digital model railroad controller based on Qt
+Keywords:       digital railroad model SRCP
 Author:         Stefan Preis <info@linux-modellbahn.de> 
 Maintained-by:  Guido Scholz <guido.scholz@bayernline.de> 
-Primary-site:   	        
-Home-page:      http://linux-modellbahn.de/
-Original-site:  
-Platforms:       Linux and other Unices
+Primary-site:   http://sourceforge.net/projects/spdrs60/ 
+Home-page:      http://spdrs60.sourceforge.net/
+Original-site:  http://www.linux-modellbahn.de/
+Platforms:      Linux and other Unices
 Copying-policy: GNU Public License
 End
+

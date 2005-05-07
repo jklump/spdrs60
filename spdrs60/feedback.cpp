@@ -1,10 +1,11 @@
 /***************************************************************************
                            feedback.cpp
-                           version 0.4.3
+                           version 0.4.8 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
+                           (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : 2005-01-05
+    last modified        : $Date: 2005-05-07 12:22:43 $
 ***************************************************************************/
 
 /******************************************************************************
@@ -30,8 +31,8 @@ extern int FEEDBACK;
 extern int SHOW_TOOLTIPS;
 
 
-feedback::feedback(QWidget * parent):QDialog(0, "feedback", false)
-{                               // false == parent window is still usable
+feedback::feedback(QWidget* parent): QDialog(0, "feedback", false)
+{
     if (parent);                // dummy command to avoid compiler warning
 
     iPage = 0;                  // == s88-busnumber 1 on window-startup
@@ -47,7 +48,7 @@ feedback::feedback(QWidget * parent):QDialog(0, "feedback", false)
     QPixmap pix = QPixmap(fb_nextpage_xpm);
     buttNextPage = new QPushButton(tr("Next Page"), this, "");
     buttNextPage->setPixmap(pix);
-    if (SHOW_TOOLTIPS == true)
+    if (SHOW_TOOLTIPS)
         QToolTip::add(buttNextPage, tr("Show next page"));
 
     connect(buttNextPage, SIGNAL(clicked()), this, SLOT(slotNextPage()));
@@ -56,15 +57,15 @@ feedback::feedback(QWidget * parent):QDialog(0, "feedback", false)
     pix = QPixmap(fb_prevpage_xpm);
     buttPrevPage = new QPushButton(tr("Prev Page"), this, "");
     buttPrevPage->setPixmap(pix);
-    if (SHOW_TOOLTIPS == true)
+    if (SHOW_TOOLTIPS)
         QToolTip::add(buttPrevPage, tr("Show next page"));
 
     connect(buttPrevPage, SIGNAL(clicked()), this, SLOT(slotPrevPage()));
 
     if (((FB_MODULES_[0] > 0) + (FB_MODULES_[1] > 0) +
          (FB_MODULES_[2] > 0) + (FB_MODULES_[3] > 0)) <= 1) {
-        buttNextPage->setEnabled(false);        // disable page buttons if only one
-        buttPrevPage->setEnabled(false);        // bus has feedback modules connected
+        buttNextPage->setEnabled(false);  // disable page buttons if only one
+        buttPrevPage->setEnabled(false);  // bus has feedback modules connected
         for (int i = 0; i < 4; i++) {
             if (FB_MODULES_[i] != 0)
                 iPage = i;

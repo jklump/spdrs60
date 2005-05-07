@@ -1,23 +1,25 @@
 /***************************************************************************
                            options.h
-                           version 0.4.3
+                           version 0.4.3 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     email                : stefan.preis@wdr.de
-    last modified        : 2004-12-31
+    last modified        : $Date: 2005-05-07 12:22:43 $
 ***************************************************************************/
-/****************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
 
-/***************************************************************************
+/**************************************************************************
+ *                                                                        *
+ *  This program is free software; you can redistribute it and/or modify  *
+ *  it under the terms of the GNU General Public License as published by  *
+ *  the Free Software Foundation; either version 2 of the License, or     *
+ *  (at your option) any later version.                                   *
+ *                                                                        *
+ **************************************************************************/
+
+/**************************************************************************
    this is the header file to options.cpp
- ***************************************************************************/
+ **************************************************************************/
+
 #ifndef OPTIONSDIALOG_H
 #define OPTIONSDIALOG_H
 
@@ -45,12 +47,12 @@
 
 
 
-class optionsDialog : public QTabDialog
+class optionsDialog: public QTabDialog
 {
    Q_OBJECT
 
 public:
-   optionsDialog(QWidget *parent=0);
+   optionsDialog(QWidget* parent=0);
 
 private:
    void setupTabLayout();              // creates the tab with layout specs
@@ -62,18 +64,18 @@ private:
 
 private slots:
    void slotGetAutofile();             // select a file to be auto-opened
-   void slotAutoload( bool );          // activate autoload filename lineentry
-   void slotDecoderChanged( int );     // selects new protocol if dec selected
-   void slotChangeServer( int );       // de/activate server dependant fields
-   void slotProtChanged( int );        // selects new dec if protocol changed
-   void slotLimitModules( int );       // limits no of fb moduls on each bus
+   void slotAutoload(bool);            // activate autoload filename lineentry
+   void slotDecoderChanged(int);       // selects new protocol if dec selected
+   void slotChangeServer(int);         // de/activate server dependant fields
+   void slotProtChanged(int);          // selects new dec if protocol changed
+   void slotLimitModules(int);         // limits no of fb moduls on each bus
    void slotPortChanged(const QString&);// check for valid port number entries
    void slotSetRepaint();              // saves a necessary layout repaint
 
 signals:
    void repaintLayout();               // send a repaint to all elements
    void refreshConfigData();           // send a re-read of init file to MainWin
-   void cmdToDebug(const QString&);         // send a command to debug window
+   void cmdToDebug(const QString&);    // send a command to debug window
 
 protected:
    virtual void done( int );           // what to do when window is closed

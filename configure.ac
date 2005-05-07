@@ -1,6 +1,6 @@
 dnl configure.ac for spdrs60
 dnl Guido Scholz
-dnl last update: $Date: 2005-01-28 22:52:10 $
+dnl last update: $Date: 2005-05-07 12:22:42 $
 dnl Process this file with autoconf to produce a configure script.
 
 AC_INIT([spdrs60],[0.4.8],[Guido Scholz <guido.scholz@bayernline.de>])
@@ -8,8 +8,6 @@ AC_CONFIG_SRCDIR([spdrs60/main.cpp])
 AC_CANONICAL_TARGET([]) 
 AM_INIT_AUTOMAKE([dist-bzip2])
 
-
-dnl KDE_SET_PREFIX
 
 AC_PREFIX_DEFAULT(/usr/local)
 if test "x$prefix" = "xNONE"; then
@@ -21,7 +19,6 @@ dnl generate the config header
 AC_CONFIG_HEADERS([spdrs60/config.h])
 
 dnl Checks for programs
-dnl AC_CHECK_COMPILERS
 AC_PROG_CXX
 AC_ENABLE_SHARED(yes)
 AC_ENABLE_STATIC(no)

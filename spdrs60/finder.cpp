@@ -1,12 +1,12 @@
 /***************************************************************************
                            finder.cpp
-                           version 0.4.3
+                           version 0.4.3 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     email                : stefan.preis@wdr.de
-    last modified        : 2004-12-31
+    last modified        : $Date: 2005-05-07 12:22:43 $
 ***************************************************************************/
- /**/
+
 /*****************************************************************************
  *                                                                            *
  *   This program is free software; you can redistribute it and/or modify     *
@@ -25,7 +25,7 @@
 extern int SHOW_TOOLTIPS;
 
 
-Finder::Finder(QWidget * parent):QDialog(0, "Finder", false)
+Finder::Finder(QWidget* parent): QDialog(0, "Finder", false)
 {
     if (parent);                // dummy command to avoid compiler warning
 
@@ -46,8 +46,8 @@ Finder::Finder(QWidget * parent):QDialog(0, "Finder", false)
     leSearch->setFocus();
 
     // if at least one char has been entered highlight search button
-    connect(leSearch, SIGNAL(textChanged(const QString &)),
-            this, SLOT(slotActivateSearchButt(const QString &)));
+    connect(leSearch, SIGNAL(textChanged(const QString&)),
+            this, SLOT(slotActivateSearchButt(const QString&)));
     // even return key starts searching
     connect(leSearch, SIGNAL(returnPressed()),
             this, SLOT(slotBeginSearch()));
@@ -140,7 +140,7 @@ void Finder::slotSaveMultiType(int iButtID_)
 }
 
 
-void Finder::slotActivateSearchButt(const QString &)
+void Finder::slotActivateSearchButt(const QString&)
 {
     // only enable search button if at least one char has been entered
     QString sSearch = leSearch->text();

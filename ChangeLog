@@ -1,61 +1,72 @@
+2005-05-07 Guido Scholz <guido.scholz@bayernline.de>
+	* mainwindow.cpp, gbsarea.cpp: new file format for layout files,
+        sizelimits for layoutfiles removed
+	* main.cpp, mainwindow.cpp: menu for new application windows
+        relaunched
+	* mainwindow.cpp: icon for application window
+        
 2005-03-17 Guido Scholz <guido.scholz@bayernline.de>
 	* options.cpp: prefered editor and browser are editable
+
+2005-02-12 Guido Scholz <guido.scholz@bayernline.de>
+	* newlayoutdialog.cpp, mainwindow.cpp, gbsarea.cpp: variable
+	column and row counts for new layouts
 
 2005-01-31 Guido Scholz <guido.scholz@bayernline.de>
 	* element.cpp: fixed toggle bug for three and four state signals
 	* de/index.sgml: documentation update
 	* doc/Makefile.am: fixed install target for css file
 	* spdrs60.css: default font changed
- 
+
 2005-01-28 Guido Scholz <guido.scholz@bayernline.de>
 	* mainwindow.cpp, element.cpp: fixed Qt 3.0 compile error
 	* configure.ac, Makefile.am: new configure option to disable
-          html documentation generation
-        
+	html documentation generation
+
 2005-01-27 Guido Scholz <guido.scholz@bayernline.de>
 	* gbsarea.cpp: fixed Qt 3.1 compile error
-        
+
 2005-01-23 Guido Scholz <guido.scholz@bayernline.de>
 	* package: spdrs60-0.4.7 released
 	* layouts: new example layout "dedorf", new elements added to
-        layout "alle_elemente" 
+	layout "alle_elemente" 
 	* *.cpp, *.h: all files renamed to lower case
 	* gbsaerea.cpp: fixed memory leak causes by QTimer handling,
-        fixed two memory leaks caused by QStrList handling
+	fixed two memory leaks caused by QStrList handling
 	* pixmaps: design changes for some icons
 	* gbsarea.cpp, mainwindow.cpp: fixed process dialog usage
 	* routedialog.cpp, gbsarea.cpp: fixed route edit bug
 	* routedialog.cpp: fixed memory leak caused by QStrList
-        handling, small design changes
+	handling, small design changes
 	* gbsarea.cpp, routedialog.cpp: added support for five different
-        route types
+	route types
 	* doc: port of HTML-documentation generation from Linuxdoc to
-        Docbook/SGML, screenshots update, text updates
+	Docbook/SGML, screenshots update, text updates
 	* element.cpp: added four new rail elements, UfGT button
-        element, six colored panel elements
+	element, six colored panel elements
 	* element.cpp, gbsarea.cpp: on activation rail buttons now show
-        context sensitive cursors
+	context sensitive cursors
 
 2005-01-23 Dietmar Toelg <dietmar.toelg@arcor.de>
 	* layouts: new (real-)example layout "Lintorf" 
-        
+
 2005-01-22 Dietmar Toelg <dietmar.toelg@arcor.de>
 	* layouts: new (real-)example layout "Flandersbach" 
-        
+
 2005-01-15 Björn Schließmann <b.schliessmann@web.de>
 	* doc: port of de/index.sgml from Linuxdoc to Docbook/SGML,
-        en/index.sgml bug fixing
-        
+	en/index.sgml bug fixing
+
 2005-01-01 Guido Scholz <guido.scholz@bayernline.de>
 	* package: spdrs60-0.4.6 released
 	* ChangeLog: reformated
 	* MainWindow.cpp, GBSaerea.cpp, element.cpp: code cleanups,
-        toolbar icons are included into binary, enabled user feedback by
-        cursor change for route switching
+	toolbar icons are included into binary, enabled user feedback by
+	cursor change for route switching
 	* GBSaerea.cpp: fixed routing list handling when a new gbs is
 	loaded, fixed blocking of unactive routes by FHS button
 	* pixmaps: design changes for some icons
-        
+
 2004-12-12 Guido Scholz <guido.scholz@bayernline.de>
 	* package: spdrs60-0.4.5 released
 	* RoutingDialog.cpp, GBSArea.cpp: enabled routing activation
@@ -136,8 +147,8 @@
 	* package: spdrs60-0.4.3-qt3_13
 	* element.cpp: new linewidths and positions for layout modes and
 	element selections
-	* MainWindow.cpp, : layout now is movable by keys when it does
-	not fit to visible window
+	* MainWindow.cpp, gbsscrollview.cpp: layout now is movable by
+	keys when it does not fit to visible window
 	* three files for version 0.5 are removed
 
 2004-08-25 Guido Scholz <guido.scholz@bayernline.de>

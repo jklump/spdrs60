@@ -1,24 +1,25 @@
 /***************************************************************************
                            elementcommander.h
-                           version 0.4.3
+                           version 0.4.3 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     email                : stefan.preis@wdr.de
-    last modified        : 2004-12-31
+    last modified        : $Date: 2005-05-07 12:22:43 $
 ***************************************************************************/
 
-/******************************************************************************
- *                                                                            *
- *   This program is free software; you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by     *
- *   the Free Software Foundation; either version 2 of the License, or        *
- *   (at your option) any later version.                                      *
- *                                                                            *
- ******************************************************************************/
+/**************************************************************************
+ *                                                                        *
+ *   This program is free software; you can redistribute it and/or modify *
+ *   it under the terms of the GNU General Public License as published by *
+ *   the Free Software Foundation; either version 2 of the License, or    *
+ *   (at your option) any later version.                                  *
+ *                                                                        *
+ **************************************************************************/
 
-/******************************************************************************
+/**************************************************************************
    this is the header file to elementcommander.cpp
- ******************************************************************************/
+ **************************************************************************/
+
 #ifndef ELEMENTCOMMANDER_H
 #define ELEMENTCOMMANDER_H
 
@@ -32,15 +33,15 @@
 #include "resources.h"
 
 
-class elementCommander : public QDialog
+class elementCommander: public QDialog
 {
    Q_OBJECT
 
 public:
-   elementCommander( QWidget *parent=0, QString sType_="" ); // creator of  gui
+   elementCommander(QWidget* parent=0, QString sType_="" ); // creator of  gui
 
 private:
-   void buildCommand( int, int );     // creates and sends the "keys"
+   void buildCommand(int, int);       // creates and sends the "keys"
    void setupBridge();                // sets up the bridge buttons
    void setupMotor();                 // sets up the motor buttons
 

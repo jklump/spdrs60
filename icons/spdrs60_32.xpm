@@ -1,5 +1,5 @@
 /* XPM */
-static char *spdrs60_32[] = {
+static const char *spdrs60_32[] = {
 /* width height num_colors chars_per_pixel */
 "    32    32        5            1",
 /* colors */

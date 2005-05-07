@@ -1,10 +1,11 @@
 /***************************************************************************
                            fbmodule.cpp
-                           version 0.4.7
+                           version 0.4.8 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
+                           (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : 2005-01-05
+    last modified        : $Date: 2005-05-07 12:22:43 $
 ***************************************************************************/
 
 /******************************************************************************
@@ -31,7 +32,7 @@ extern int FEEDBACK;
 
 
 
-fbModule::fbModule(QWidget * parent, int iModNr_):QWidget(parent)
+fbModule::fbModule(QWidget* parent, int iModNr_): QWidget(parent)
 {
     iModNr = iModNr_;
     slotSetupModule(iModNr);

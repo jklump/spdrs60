@@ -1,11 +1,11 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.4.7
+                           version 0.4.8 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : 2005-01-18
+    last modified        : $Date: 2005-05-07 12:22:43 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -49,7 +49,7 @@ extern int FEEDBACK;
 
 /* non modal window */
 RouteDialog::RouteDialog(QWidget* pParent, QStrList* listOfLockedRoutes_)
-:  QDialog(0, "RouteDialog", false)
+: QDialog(0, "RouteDialog", false)
 {
     if (pParent)
         parent = pParent;
@@ -192,9 +192,9 @@ void RouteDialog::readRoutingFile(bool bReadType_)
     if (bReadType_ == DATA) 
         fillProgAreaEmpty(NOTITLE); 
 
-    QFile file(((GBSArea *) parent)->FILENAME + RTS_FILE_SUFFIX);
+    QFile file(((GBSArea *) parent)->routeFileName);
     // open the routing file
-    if (file.open(IO_ReadOnly) == false) {
+    if (!file.open(IO_ReadOnly)) {
         // rts file does not exist or can't be opened
         QMessageBox::information(this, tr("Missing routing file"),
                                  tr
@@ -270,7 +270,7 @@ void RouteDialog::readRoutingFile(bool bReadType_)
 void RouteDialog::createRoutingFile()
 {
     QDateTime dt = QDateTime::currentDateTime();
-    QFile file(((GBSArea *) parent)->FILENAME + RTS_FILE_SUFFIX);
+    QFile file(((GBSArea *) parent)->routeFileName);
     file.open(IO_WriteOnly);
     QTextStream ts(&file);
 
@@ -323,36 +323,7 @@ void RouteDialog::slotEnableRouteButton(int iRouteTableID_)
     // don't do anything here if table is locked
     if (bLockTable)
         return;
-/*
-    // before showing a new route and the old
-    // one hasn't been saved yet, ask for saving
-    if (bHasChanged) {
-        bLockTable = true;
-        lbRouteTable->setCurrentItem(iRouteNumber);
 
-        int choice = QMessageBox::warning(this,
-                         tr("Warning"),
-                         tr("Changes not saved!\nSave route?"),
-                         tr("&Yes"), tr("&No"), 0, 1);
-        // enter button no = button 0 = "Yes"
-        // ecape button no = button 1 = "No"
-        // and save it if yes-button pressed
-        if (choice == 0)
-            slotSave();
-
-        else {
-            bHasChanged = false;
-            buttApply->setEnabled(false);
-            buttDel->setEnabled(true);
-            buttNew->setEnabled(true);
-            buttCopy->setEnabled(true);
-            buttShow->setEnabled(true);
-        }
-
-        lbRouteTable->setCurrentItem(iRouteTableID_);   // now show new selected
-        bLockTable = false;     // route at all
-    }
-*/
     // save number of selected route and reset counter
     iRouteNumber = iRouteTableID_;
     iRouteTotal = lbRouteTable->count(); 
@@ -423,8 +394,8 @@ void RouteDialog::setupProgArea()
 
     lRouteTitle->setBuddy(leRouteName);
 
-    connect(leRouteName, SIGNAL(textChanged(const QString &)),
-            this, SLOT(slotTextChanged(const QString &)));
+    connect(leRouteName, SIGNAL(textChanged(const QString&)),
+            this, SLOT(slotTextChanged(const QString&)));
 
 
     // elements to activate or deactivate a route
@@ -497,8 +468,8 @@ void RouteDialog::setupProgArea()
     leLocoAddr->resize(30, 20);
     leLocoAddr->move(lAdd->x() + lAdd->width() + 10, sbActPort->y());
     leLocoAddr->setMaxLength(4);
-    connect(leLocoAddr, SIGNAL(textChanged(const QString &)),
-            this, SLOT(slotTextChanged(const QString &)));
+    connect(leLocoAddr, SIGNAL(textChanged(const QString&)),
+            this, SLOT(slotTextChanged(const QString&)));
     leLocoAddr->setEnabled(false);
 
     groupActivate->setGeometry(lRouteTitle->x(),
@@ -677,19 +648,19 @@ void RouteDialog::setupProgArea()
         leElemAddr[j]->setGeometry(lAddr2->x(), lElem[j]->y() - 1, 45, 20);
         leElemAddr[j]->setMaxLength(4);
         leElemAddr[j]->setFocusPolicy(QWidget::StrongFocus);
-        connect(leElemAddr[j], SIGNAL(textChanged(const QString &)),
-                this, SLOT(slotTextChanged(const QString &)));
-        connect(leElemAddr[j], SIGNAL(textChanged(const QString &)),
-                this, SLOT(slotAddressChanged(const QString &)));
+        connect(leElemAddr[j], SIGNAL(textChanged(const QString&)),
+                this, SLOT(slotTextChanged(const QString&)));
+        connect(leElemAddr[j], SIGNAL(textChanged(const QString&)),
+                this, SLOT(slotAddressChanged(const QString&)));
 
         leElemStat[j] = new QLineEdit(groupElements, "elemState");
         leElemStat[j]->setGeometry(lStat2->x(), lElem[j]->y() - 1, 35, 20);
         leElemStat[j]->setMaxLength(1);
         leElemStat[j]->setFocusPolicy(QWidget::StrongFocus);
-        connect(leElemStat[j], SIGNAL(textChanged(const QString &)),
-                this, SLOT(slotTextChanged(const QString &)));
-        connect(leElemStat[j], SIGNAL(textChanged(const QString &)),
-                this, SLOT(slotStatusChanged(const QString &)));
+        connect(leElemStat[j], SIGNAL(textChanged(const QString&)),
+                this, SLOT(slotTextChanged(const QString&)));
+        connect(leElemStat[j], SIGNAL(textChanged(const QString&)),
+                this, SLOT(slotStatusChanged(const QString&)));
     }
 
 
@@ -701,7 +672,7 @@ void RouteDialog::setupProgArea()
     buttApply->move(groupActivate->x(),
                     groupRoutes->y() + groupRoutes->height() -
                     buttApply->height());
-    if (SHOW_TOOLTIPS == true)
+    if (SHOW_TOOLTIPS)
         QToolTip::add(buttApply, tr("Apply route changes (CTRL+S)"));
     connect(buttApply, SIGNAL(clicked()), this, SLOT(slotSave()));
 
@@ -929,11 +900,11 @@ void RouteDialog::slotSaveRoute(bool bMode_)
     // write routing file
     QDateTime dt = QDateTime::currentDateTime();
     // open old routing file for reading only
-    QFile file1(((GBSArea *) parent)->FILENAME + RTS_FILE_SUFFIX);
+    QFile file1(((GBSArea *) parent)->routeFileName);
     file1.open(IO_ReadOnly);
 
     // open temp file = new routing file for writing only
-    QFile file2(((GBSArea *) parent)->FILENAME + RTS_FILE_SUFFIX + ".tmp");
+    QFile file2(((GBSArea *) parent)->routeFileName + ".tmp");
     file2.open(IO_WriteOnly);
 
     QTextStream ts1(&file1);
@@ -1017,15 +988,14 @@ void RouteDialog::slotSaveRoute(bool bMode_)
     file1.close();
     file2.close();
 
-    QString s;
-    s.sprintf(tr(">Writing routes: %s%s"),
-              ((GBSArea *) parent)->FILENAME.data(), RTS_FILE_SUFFIX);
+    QString s = QString(tr(">Writing routes: %1"))
+            .arg(((GBSArea *) parent)->routeFileName);
     emit cmdToDebug(s);
 
     // copy temp-file to original file
-    s.sprintf("mv %s%s.tmp %s%s",
-              ((GBSArea *) parent)->FILENAME.data(), RTS_FILE_SUFFIX,
-              ((GBSArea *) parent)->FILENAME.data(), RTS_FILE_SUFFIX);
+    s.sprintf("mv %s.tmp %s",
+              ((GBSArea *) parent)->routeFileName.data(),
+              ((GBSArea *) parent)->routeFileName.data());
     system(s);
 
     if (bMode_ == ADDCHANGE) {
@@ -1325,7 +1295,7 @@ void RouteDialog::slotValueChanged(int iDummy_)
 }
 
 
-void RouteDialog::slotTextChanged(const QString & cDummy_)
+void RouteDialog::slotTextChanged(const QString& cDummy_)
 {
     if (cDummy_);               // a text field has changed
     if (bBlockSignals == false)
@@ -1409,7 +1379,7 @@ void RouteDialog::enableProgArea(int iLabelEnable_, int iFieldsEnable_)
 }
 
 
-void RouteDialog::slotAddressChanged(const QString & cNewAddress_)
+void RouteDialog::slotAddressChanged(const QString& cNewAddress_)
 {
     QString sCorrection = cNewAddress_;
 
@@ -1446,7 +1416,7 @@ void RouteDialog::slotAddressChanged(const QString & cNewAddress_)
 }
 
 
-void RouteDialog::slotStatusChanged(const QString & cNewStatus_)
+void RouteDialog::slotStatusChanged(const QString& cNewStatus_)
 {
     QString sCorrection = cNewStatus_;
 

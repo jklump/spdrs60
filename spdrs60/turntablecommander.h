@@ -1,24 +1,25 @@
 /***************************************************************************
                            turntablecommander.h
-                           version 0.4.3
+                           version 0.4.3 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     email                : stefan.preis@wdr.de
-    last modified        : 2004-12-31
+    last modified        : $Date: 2005-05-07 12:22:44 $
 ***************************************************************************/
 
-/******************************************************************************
- *                                                                            *
- *   This program is free software; you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by     *
- *   the Free Software Foundation; either version 2 of the License, or        *
- *   (at your option) any later version.                                      *
- *                                                                            *
- ******************************************************************************/
+/**************************************************************************
+ *                                                                        *
+ *  This program is free software; you can redistribute it and/or modify  *
+ *  it under the terms of the GNU General Public License as published by  *
+ *  the Free Software Foundation; either version 2 of the License, or     *
+ *  (at your option) any later version.                                   *
+ *                                                                        *
+ **************************************************************************/
 
-/******************************************************************************
+/**************************************************************************
    this is the header file to turntablecommander.cpp
- ******************************************************************************/
+ **************************************************************************/
+
 #ifndef TURNTABLECOMMANDER_H
 #define TURNTABLECOMMANDER_H
 
@@ -43,20 +44,20 @@
 #define KEY_TRN 2, 1
 
 
-class turntableCommander : public QDialog
+class turntableCommander: public QDialog
 {
    Q_OBJECT
 
 public:
-   turntableCommander( QWidget *parent=0, int iActiveTrack_=0,
-                       QString sTracks_="" ); // creator of commander gui
+   turntableCommander(QWidget* parent=0, int iActiveTrack_=0,
+                      QString sTracks_="" ); // creator of commander gui
 
 private:
-   void activateUsageButtons( bool );       // (de)activates normal buttons
+   void activateUsageButtons(bool);         // (de)activates normal buttons
                                             // while programming
    void setupProgArea();                    // sets up the programming area
    void startTrackTimer();                  // starts track displaying timer
-   void buildCommand( int, int );           // build command and sends it to
+   void buildCommand(int, int);             // build command and sends it to
                                             // element
    void sendTracks();                       // sends new programmed tracks to
                                             // element
@@ -66,17 +67,17 @@ private slots:
    void slotSaveNewTrack(const QString&);   // saves selected new track
    void slotGoToTrack();                    // goes to selected track
    void slotTurn180();                      // turns bridge 180 degrees
-   void slotChooseDir( int );               // changes rotating direction
+   void slotChooseDir(int);                 // changes rotating direction
    void slotLeftStep();                     //
    void slotRightStep();                    //
    void slotStopCont();                     // stop rotating
-   void slotResizeCommander( bool );        // resizes window
-   void slotProgrammer( int );              //
+   void slotResizeCommander(bool);          // resizes window
+   void slotProgrammer(int);                //
    void slotTrackReached();                 // called by timer if a new track is
                                             // reached
 signals:
-   void applyPressed( QPoint );             // send command to element
-   void sendAvailTracks( QString );         // send track string to element
+   void applyPressed(QPoint);               // send command to element
+   void sendAvailTracks(QString);           // send track string to element
 
 private:
    QButtonGroup* bgChooseDir;          // button group for prog buttons

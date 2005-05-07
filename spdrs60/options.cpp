@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.cpp
-                           version 0.4.8 $Revision: 1.2 $
+                           version 0.4.8 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-03-17 21:42:17 $
+    last modified        : $Date: 2005-05-07 12:22:43 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -23,6 +23,7 @@
 #include <ctype.h>              // for isdigit()
 
 #include "options.h"
+#include "gbsarea.h"
 
 #include "pixmaps/fileopen.xpm"
 
@@ -70,7 +71,7 @@ optionsDialog::optionsDialog(QWidget * parent)
     fillWithData();             // fill all with data from init file
     bRepaintNecessary = false;  // no repaint necessary yet
 
-    this->setCaption(tr("Preferences"));        // set a caption, resize window ...
+    this->setCaption(tr("Preferences"));        // set a caption, resize window
     this->setFixedWidth(500);
     this->setFixedHeight(TABHEIGHT);
     this->setOKButton();
@@ -148,7 +149,7 @@ void optionsDialog::setupTabLayout()
     label = new QLabel(tr("Default new columns for empty layout:"), w);
     label->setGeometry(10, line->y() + 15, 300, 20);
 
-    sbDefaultCols = new QSpinBox(5, MAX_COLS, 1, w, "");
+    sbDefaultCols = new QSpinBox(MIN_COLS, MAX_COLS, 1, w, "");
     sbDefaultCols->resize(50, 25);
     sbDefaultCols->move(290, label->y());
     sbDefaultCols->setWrapping(true);
@@ -430,15 +431,15 @@ void optionsDialog::setupTabInterface()
     rbEditsP = new QRadioButton("EDiTS Pro", grpBox);
     rbEditsP->setGeometry(0, label->y() + 30, 300, 20);
     rbEditsP->setEnabled(false);
-    
+
     rb6051 = new QRadioButton("Märklin Interface 6050/6051", grpBox);
     rb6051->setGeometry(0, rbEditsP->y() + 30, 300, 20);
     rb6051->setEnabled(false);
-    
+
     rbIntelli = new QRadioButton("Intellibox", grpBox);
     rbIntelli->setGeometry(0, rb6051->y() + 30, 300, 20);
     rbIntelli->setEnabled(false);
-    
+
 
     connect(grpBox, SIGNAL(clicked(int)),
             this, SLOT(slotChangeServer(int)));
@@ -500,8 +501,9 @@ void optionsDialog::setupTabInterface()
 void optionsDialog::slotGetAutofile()
 {
     QString filename = QFileDialog::getOpenFileName(QDir::homeDirPath(),
-                                                    QString("*") +
-                                                    GBS_FILE_SUFFIX, this);
+                           QString(tr("Layouts")) +
+                           " (*" + GF_GBSEXT +
+                            " *" + GF_OLDGBSEXT + ")", this);
 
     // get filename to be autoloaded after prog start (without .dat.gbs suffix)
     if (!filename.isEmpty())
@@ -760,82 +762,82 @@ void optionsDialog::done(int r)
         QDateTime dt = QDateTime::currentDateTime();
         QTextStream ts(&file);
 
-        ts << "# SpDrS60 for Linux config file" << "\n";
-        ts << "# Last modified: " << dt.toString() << "\n";
-        ts << "#" << "\n";
-        ts << "# LAYOUT SECTION" << "\n";
-        ts << "#" << "\n";
-        ts << "show hp2:       " << (int) cbShowHp2->isChecked() << "\n";
-        ts << "show gen bubb:  " << (int) cbGenBubble->isChecked() << "\n";
+        ts << "# SpDrS60 for Linux config file" << endl;
+        ts << "# Last modified: " << dt.toString(Qt::ISODate) << endl;
+        ts << "#" << endl;
+        ts << "# LAYOUT SECTION" << endl;
+        ts << "#" << endl;
+        ts << "show hp2:       " << (int) cbShowHp2->isChecked() << endl;
+        ts << "show gen bubb:  " << (int) cbGenBubble->isChecked() << endl;
         ts << "show data bubb: " << (int) cbDataBubble->
-            isChecked() << "\n";
+            isChecked() << endl;
         ts << "in text fields: " << ((rbShowAddr->isChecked() == 1) ?
-                                     "address" : "text") << "\n";
+                                     "address" : "text") << endl;
         ts << "init signals as:" << ((rbSignalRed->isChecked() == 1) ?
-                                     "red" : "saved") << "\n";
-        ts << "def new cols:   " << sbDefaultCols->value() << "\n";
-        ts << "autoloader:     " << (int) cbAutoload->isChecked() << "\n";
+                                     "red" : "saved") << endl;
+        ts << "def new cols:   " << sbDefaultCols->value() << endl;
+        ts << "autoloader:     " << (int) cbAutoload->isChecked() << endl;
         ts << "autoload file:  " << ((cbAutoload->isChecked() == 1) ?
                                      leAutoload->
-                                     text() : (QString) "-1") << "\n";
-        ts << "editor name:    " << coboEditor->currentText() << "\n";
-        ts << "browser name:   " << coboBrowser->currentText() << "\n";
-        ts << "#" << "\n";
-        ts << "# DATA SECTION" << "\n";
-        ts << "#" << "\n";
+                                     text() : (QString) "-1") << endl;
+        ts << "editor name:    " << coboEditor->currentText() << endl;
+        ts << "browser name:   " << coboBrowser->currentText() << endl;
+        ts << "#" << endl;
+        ts << "# DATA SECTION" << endl;
+        ts << "#" << endl;
         ts << "def protocol:   " << ((rbProtMS->isChecked() == 1) ?
-                                     "Motorola" : "DCC") << "\n";
-        ts << "def decoder:    " << coboDecoder->currentText() << "\n";
-        ts << "activation time:" << sbActiveTime->value() << "\n";
-        ts << "auto tt direct.:" << (int) cbAutoTTDir->isChecked() << "\n";
-        ts << "tt round time:  " << leTTRoundTime->text() << "\n";
-        ts << "auto ZP 9:      " << (int) cbAutoZP9->isChecked() << "\n";
-        ts << "routing delay:  " << sbRoutingTime->value() << "\n";
+                                     "Motorola" : "DCC") << endl;
+        ts << "def decoder:    " << coboDecoder->currentText() << endl;
+        ts << "activation time:" << sbActiveTime->value() << endl;
+        ts << "auto tt direct.:" << (int) cbAutoTTDir->isChecked() << endl;
+        ts << "tt round time:  " << leTTRoundTime->text() << endl;
+        ts << "auto ZP 9:      " << (int) cbAutoZP9->isChecked() << endl;
+        ts << "routing delay:  " << sbRoutingTime->value() << endl;
         if (rbS88_16->isChecked() == 1)
-            ts << "feedback type:  " << "S88_16" << "\n";
+            ts << "feedback type:  " << "S88_16" << endl;
         if (rbS88_8->isChecked() == 1)
-            ts << "feedback type:  " << "S88_8" << "\n";
-        ts << "modules bus #1: " << sbFBmod_1->value() << "\n";
-        ts << "modules bus #2: " << sbFBmod_2->value() << "\n";
-        ts << "modules bus #3: " << sbFBmod_3->value() << "\n";
-        ts << "modules bus #4: " << sbFBmod_4->value() << "\n";
-        ts << "#" << "\n";
-        ts << "# SERVER/INTERFACE SECTION" << "\n";
-        ts << "#" << "\n";
+            ts << "feedback type:  " << "S88_8" << endl;
+        ts << "modules bus #1: " << sbFBmod_1->value() << endl;
+        ts << "modules bus #2: " << sbFBmod_2->value() << endl;
+        ts << "modules bus #3: " << sbFBmod_3->value() << endl;
+        ts << "modules bus #4: " << sbFBmod_4->value() << endl;
+        ts << "#" << endl;
+        ts << "# SERVER/INTERFACE SECTION" << endl;
+        ts << "#" << endl;
         if (rbServer->isChecked())
-            ts << "server:         " << "SRCP" << "\n";
+            ts << "server:         " << "SRCP" << endl;
 
         else if (rbEditsP->isChecked())
-            ts << "interface:      " << "EditsPro" << "\n";
+            ts << "interface:      " << "EditsPro" << endl;
 
         else if (rb6051->isChecked())
-            ts << "interface:      " << "Märklin-6050/6051" << "\n";
+            ts << "interface:      " << "Märklin-6050/6051" << endl;
 
         else if (rbIntelli->isChecked())
-            ts << "interface:      " << "Intellibox" << "\n";
+            ts << "interface:      " << "Intellibox" << endl;
 
         ts << "hostname:       " << ((rbServer->isChecked() == 1) ?
                                      leHost->
-                                     text() : (QString) "-1") << "\n";
+                                     text() : (QString) "-1") << endl;
         ts << "port number:    " << ((rbServer->isChecked() == 1) ?
                                      lePort->
-                                     text() : (QString) "-1") << "\n";
+                                     text() : (QString) "-1") << endl;
         ts << "comport:        " << ((rbServer->isChecked() == 1)
                                      ? (QString) "-1" : coboCom->
-                                     currentText()) << "\n";
+                                     currentText()) << endl;
         ts << "baud:           " << ((rbServer->isChecked() == 1)
                                      ? (QString) "-1" : coboBaud->
-                                     currentText()) << "\n";
+                                     currentText()) << endl;
         ts << "databits:       " << ((rbServer->isChecked() == 1)
                                      ? (QString) "-1" : coboData->
-                                     currentText()) << "\n";
+                                     currentText()) << endl;
         ts << "stoppbits:      " << ((rbServer->isChecked() == 1)
                                      ? (QString) "-1" : coboStop->
-                                     currentText()) << "\n";
+                                     currentText()) << endl;
         ts << "parity:         " << ((rbServer->isChecked() == 1)
                                      ? (QString) "-1" : coboPari->
-                                     currentText()) << "\n";
-        ts << "autologin:      " << (int) cbAutologin->isChecked() << "\n";
+                                     currentText()) << endl;
+        ts << "autologin:      " << (int) cbAutologin->isChecked() << endl;
 
         file.close();
 

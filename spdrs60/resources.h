@@ -9,8 +9,11 @@
 /* include AC-Variables  */
 #include "config.h"
 
-#define   MAX_COLS         25  // max number of columns in a layout
+#define   MIN_COLS         4   // min number of columns in a layout
+#define   MAX_COLS         250 // max number of columns in a layout
                                // change value if you need bigger ones
+#define   MIN_ROWS         4   // min number of rows in layout
+#define   MAX_ROWS         250 // max number of rows in layout
 
 #define   cDelayTime       5000 // serd: Timer for WHT and Routing.
                                 // 2000 ms was too Short for
@@ -24,17 +27,16 @@
 #define   SMIN             7   // SRCP version, minor value
 #define   MAX_HISTORY      100 // max lines in debugging history
 
-// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-// DO  NOT  EDIT  ANYTHING  BEYOND  THIS  LINE   !!!
-// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+/**********************************************************************
+  DO  NOT  EDIT  ANYTHING  BEYOND  THIS  LINE!
+ **********************************************************************/
 
 //   Resource dependant, do NOT edit
-#define   MAX_ROWS         18  // number of rows in layout
 #define   EL_WIDTH         56  // width of an element in pixels
 #define   EL_HEIGHT        35  // height of an element in pixels
 #define   MAX_FB           1984// number of total s88 feedback ports
 
-#define   GBS_FILE_SUFFIX  ".dat.gbs"     // file appendix for layout files
+//#define   GBS_FILE_SUFFIX  ".dat.gbs"     // file appendix for layout files
 #define   RTS_FILE_SUFFIX  ".dat.rts"     // file appendix for routing files
 #define   S88_FILE_SUFFIX  ".dat.s88"     // file appendix for feedback files
 #define   XPM_SUFFIX       ".xpm"         // file appendix for bitmap files
@@ -85,9 +87,9 @@
 #define   LEFT             1   // turn modes for digital turntable
 #define   RIGHT            0
 
-#define   INFO             1   // different types for debugging window
-#define   CMD              0
 #define   HIST             0
+#define   CMD              0   // different types for debugging window
+#define   INFO             1
 #define   FEED             2
 
 #define   R_SHOW_STA       30  // R_EDIT_CLICKED + 0
@@ -101,7 +103,8 @@
 #define   NOEDIT           0   // also = REC_STOPP
 
 #define   REC_STASTO       0   // clicked element while recording is a signal
-#define   REC_NORMAL       1   // clicked element while recording is a normal element
+#define   REC_NORMAL       1   // clicked element while recording is a
+                               // normal element
 #define   REC_FINISH       2
 
 #define   REC_SHOW         4   // = R_SHOW
@@ -117,7 +120,8 @@
 #define   FILE_ID_SAVE     103
 #define   FILE_ID_SAVE_AS  104
 #define   FILE_ID_NEWWIN   105
-#define   FILE_ID_QUIT     106
+#define   FILE_ID_CLOSE    106
+#define   FILE_ID_QUIT     107
 
 #define   EDIT_ID_CUT      201
 #define   EDIT_ID_COPY     202
@@ -150,6 +154,7 @@
 #define   LAYOUT_ID_SEND    506
 #define   LAYOUT_ID_TOGGLE  507
 #define   LAYOUT_ID_UNLOCKR 508
+#define   LAYOUT_ID_CHSIZE  509
 
 #define   CTX_ID_REP       901
 #define   CTX_ID_TOGGLE    902

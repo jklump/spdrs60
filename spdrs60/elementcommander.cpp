@@ -1,25 +1,25 @@
 /***************************************************************************
                            elementcommander.cpp
-                           version 0.4.7
+                           version 0.4.7 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : 2005-01-06
+    last modified        : $Date: 2005-05-07 12:22:43 $ 
 ***************************************************************************/
 
-/******************************************************************************
- *                                                                            *
- *   This program is free software; you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by     *
- *   the Free Software Foundation; either version 2 of the License, or        *
- *   (at your option) any later version.                                      *
- *                                                                            *
- ******************************************************************************/
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
 
-/******************************************************************************
-    this code provides a GUI to control analog turntables, shifting brigdes ...
- ******************************************************************************/
+/***************************************************************************
+ this code provides a GUI to control analog turntables, shifting brigdes ...
+****************************************************************************/
 #include "elementcommander.h"
 
 /*button icons*/

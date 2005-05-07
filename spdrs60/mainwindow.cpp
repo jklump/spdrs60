@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.7 $Revision: 1.2 $
+                           version 0.4.7 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-01-28 20:35:04 $
+    last modified        : $Date: 2005-05-07 12:22:43 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -24,10 +24,8 @@
 
 #include <string.h>             // for bzero()
 #include <stdio.h>              // for perror(), sprintf()
-#include <unistd.h>             // for write(), exit()
 #include <stdlib.h>             // for system()
 #include <math.h>               // for fabs
-#include <signal.h>             // for signal()
 #include <qhbox.h>
 #include <qvbox.h>
 
@@ -48,6 +46,7 @@
 #include "pixmaps/layoutstart.xpm"
 #include "pixmaps/layoutstop.xpm"
 #include "pixmaps/layoutnotrot.xpm"
+#include "../icons/spdrs60_32.xpm"
 
 
 extern bool bFBport[MAX_FB];
@@ -87,14 +86,14 @@ extern QString PARI;
 
 
 MainWindow::MainWindow()
-:  QMainWindow(0, "SpDrS60", WDestructiveClose | WGroupLeader)
+: QMainWindow(0, "SpDrS60", WDestructiveClose | WGroupLeader)
 {
+    setIcon(QPixmap(spdrs60_32));
     /*Networking */
     CommandPortIsConnected = false;
     FeedbackPortIsConnected = false;
     InfoPortIsConnected = false;
 
-    loadTimer = NULL;
     iDebugNo = HIST;            // default debug window ist HISTORY
     isFBInitMode = true;        // var to avoid all startup feedback
     // changes to be shown in debug window
@@ -103,7 +102,6 @@ MainWindow::MainWindow()
     initMainWindow();           // setup main window with all menus
     slotReadConfigFile();       // read user dependend config file
 
-
     if (SERVER == SRCP) {
         initAllSockets();       // init connection to daemon ...
         if (SERVERLOGIN)
@@ -111,36 +109,11 @@ MainWindow::MainWindow()
     }
 
     /* autostart voltage on layout only when these conditions are true?
-       1) option set in preferences
-       2) connection to server established
-       3) layout is loaded
+     * 1) option set in preferences
+     * 2) connection to server established
+     * 3) layout is loaded
      */
-    //bRunLayout = (AUTO_ZP9 && CommandPortIsConnected && LOAD_DEF_LAYOUT);
     bRunLayout = false;
-
-    /* Hint: This time delay may not be sufficent on a host to host
-     * connection; idealy we have to wait here for a established
-     * connection (connected event) before we send layout data to the
-     * server. May be this code can simply be shifted to slot
-     * "FeedbackSocketConnected" */
-    /*
-       DefaultLayoutIsLoaded = false;
-       if (LOAD_DEF_LAYOUT && !AUTO_ZP9)
-       {
-       slotLoadTimerTimeout();
-       DefaultLayoutIsLoaded = true;
-       }
-     */
-/* Load last/default layout automatically if defined so in options menu.
- First let the prog start completly, else the MainWindow will show up
- _after_ loading dialog */
-    if (LOAD_DEF_LAYOUT) {
-        loadTimer = new QTimer(this);
-        connect(loadTimer, SIGNAL(timeout()),
-                this, SLOT(slotLoadTimerTimeout()));
-        // load the layout with 1000 ms delay
-        loadTimer->start(LOAD_TIMER_TIME, true);
-    }
 
     cmdToDebug(tr("Program succesfully started!"), INFO, HIST);
 }
@@ -148,12 +121,13 @@ MainWindow::MainWindow()
 /* Cleanup by destructor */
 MainWindow::~MainWindow()
 {
-    // send the LOGOUT command to daemon
+    // send LOGOUT command to daemon
     CloseSRCPServerConnection();
     delete CommandSocket;
     delete FeedbackSocket;
     delete InfoSocket;
 }
+
 
 void MainWindow::slotReadConfigFile()
 {
@@ -167,11 +141,23 @@ void MainWindow::slotReadConfigFile()
         return;
     }
     QTextStream ts(&file);
-    QString s;
+    QString s, key;
 
     // layout section
-    for (i = 0; i < 5; i++)     // omit five section description lines
+    // first omit four section description lines
+    for (i = 0; i < 4; i++)
         s = ts.readLine();
+
+    /*
+     * read "lastDir" value, was first defined in version 0.4.5, older
+     * versions show "#"
+     */
+    s = ts.readLine();
+    if (!s.startsWith("#")){
+        key = s.section("=", 0, 0);
+        if (key.compare("lastdir") == 0)
+            lastDir = s.section("=", 1, 1);
+    }
 
     SHOW_HP2 = (ts.readLine().remove(0, 16) == "1");
     SHOW_TOOLTIPS = (ts.readLine().remove(0, 16) == "1");
@@ -196,6 +182,7 @@ void MainWindow::slotReadConfigFile()
     AUTO_ZP9 = (ts.readLine().remove(0, 16) == "1");
     ROUTING_TIME = ts.readLine().remove(0, 16).toInt();
     FEEDBACK = ts.readLine().remove(0, 16) == "S88_16" ? FB_16 : FB_8;
+
     for (i = 0; i < 4; i++)
         FB_MODULES_[i] = ts.readLine().remove(0, 16).toInt();
 
@@ -237,39 +224,36 @@ void MainWindow::initMainWindow()
     // layout is loaded
     filemenu = new QPopupMenu;
     filemenu->insertItem(tr("&New..."),
-                         this, SLOT(slotNew()), CTRL + Key_N, FILE_ID_NEW);
+            this, SLOT(slotFileNew()), CTRL + Key_N, FILE_ID_NEW);
     filemenu->insertItem(tr("&Open..."),
-                         this, SLOT(slotLoad()), CTRL + Key_O,
-                         FILE_ID_OPEN);
-    filemenu->insertItem(tr("&Save"), this, SLOT(slotSave()), CTRL + Key_S,
-                         FILE_ID_SAVE);
-    filemenu->insertItem(tr("&Save As..."), this, SLOT(slotSaveAs()), 0,
-                         FILE_ID_SAVE_AS);
+            this, SLOT(slotFileOpen()), CTRL + Key_O, FILE_ID_OPEN);
+    filemenu->insertItem(tr("&Save"),
+            this, SLOT(slotFileSave()), CTRL + Key_S, FILE_ID_SAVE);
+    filemenu->insertItem(tr("&Save As..."),
+            this, SLOT(slotFileSaveAs()), 0, FILE_ID_SAVE_AS);
     filemenu->insertSeparator();
-    //filemenu->insertItem(tr("New &Window"),
-    //  this, SLOT(slotNewWin()), 0         , FILE_ID_NEWWIN);
-    //filemenu->insertSeparator();
+    filemenu->insertItem(tr("New &Window"),
+            this, SLOT(slotFileNewWin()), 0, FILE_ID_NEWWIN);
+    filemenu->insertItem(tr("&Close"),
+            this, SLOT(close()), CTRL + Key_W, FILE_ID_CLOSE);
     filemenu->insertItem(tr("&Quit"),
-                         this, SLOT(slotQuit()), CTRL + Key_Q,
-                         FILE_ID_QUIT);
+            qApp, SLOT(closeAllWindows()), CTRL + Key_Q, FILE_ID_QUIT);
 
     editfilemenu = new QPopupMenu;
     editfilemenu->insertItem(tr("Layout"),
-                             this, SLOT(slotEditGBSFiles()), 0,
-                             EDITFILE_ID_GBS);
+            this, SLOT(slotEditGBSFiles()), 0, EDITFILE_ID_GBS);
     editfilemenu->insertItem(tr("Routings"), this,
-                             SLOT(slotEditRTSFiles()), 0, EDITFILE_ID_RTS);
+            SLOT(slotEditRTSFiles()), 0, EDITFILE_ID_RTS);
     editfilemenu->insertItem(QDir::homeDirPath() + "/" + SPDRS60_INIT,
-                             this, SLOT(slotEditConfigFile()), 0,
-                             EDITFILE_ID_CON);
+            this, SLOT(slotEditConfigFile()), 0, EDITFILE_ID_CON);
 
     editmenu = new QPopupMenu;
     editmenu->insertItem(tr("&Cut"), this, SLOT(slotEditCut()),
-                         CTRL + Key_X, EDIT_ID_CUT);
+            CTRL + Key_X, EDIT_ID_CUT);
     editmenu->insertItem(tr("C&opy"), this, SLOT(slotEditCopy()),
-                         CTRL + Key_C, EDIT_ID_COPY);
+            CTRL + Key_C, EDIT_ID_COPY);
     editmenu->insertItem(tr("&Paste"), this, SLOT(slotEditPaste()),
-                         CTRL + Key_V, EDIT_ID_PASTE);
+            CTRL + Key_V, EDIT_ID_PASTE);
     /*disable this items until they are implemented */
     editmenu->setItemEnabled(EDIT_ID_CUT, false);
     editmenu->setItemEnabled(EDIT_ID_COPY, false);
@@ -278,78 +262,72 @@ void MainWindow::initMainWindow()
     editmenu->insertSeparator();
     editmenu->insertItem(tr("&Data files"), editfilemenu);
     editmenu->insertItem(tr("&Find..."),
-                         this, SLOT(slotFind()), CTRL + Key_F,
-                         EDIT_ID_FIND);
+            this, SLOT(slotEditFind()), CTRL + Key_F, EDIT_ID_FIND);
     editmenu->insertItem(tr("&Preferences..."), this,
-                         SLOT(slotShowOptions()), CTRL + Key_P,
-                         EDIT_ID_OPT);
+            SLOT(slotShowOptions()), CTRL + Key_P, EDIT_ID_OPT);
     editmenu->setCheckable(true);
 
     viewmenu = new QPopupMenu;
     viewmenu->insertItem(tr("&Routing table"),
-                         this, SLOT(slotRoutesDialog()), CTRL + Key_R,
-                         VIEW_ID_ROUTES);
+            this, SLOT(slotShowRoutes()), CTRL + Key_R, VIEW_ID_ROUTES);
     viewmenu->insertItem(tr("&Feedback modules"),
-                         this, SLOT(slotShowModules()), CTRL + Key_M,
-                         VIEW_ID_FBMOD);
+            this, SLOT(slotShowModules()), CTRL + Key_M, VIEW_ID_FBMOD);
     viewmenu->insertItem(tr("&Central clock"),
-                         this, SLOT(slotShowClock()), 0, VIEW_ID_CLOCK);
+            this, SLOT(slotShowClock()), 0, VIEW_ID_CLOCK);
     viewmenu->insertItem(tr("&Keyboard"),
-                         this, SLOT(slotKeyboard()), CTRL + Key_K,
-                         VIEW_ID_KEYB);
+            this, SLOT(slotKeyboard()), CTRL + Key_K, VIEW_ID_KEYB);
     viewmenu->insertSeparator();
-    viewmenu->insertItem(tr("Toggle &Debugging"), this,
-                         SLOT(slotViewDebug()), CTRL + Key_D,
-                         VIEW_ID_DEBG);
+    viewmenu->insertItem(tr("Toggle &Debugging"),
+            this, SLOT(slotViewDebug()), CTRL + Key_D, VIEW_ID_DEBG);
     viewmenu->insertItem(tr("&Editmode"),
-                           this, SLOT(slotEditLayout()), CTRL + Key_E,
-                           VIEW_ID_EDITMODE);
+            this, SLOT(slotEditLayout()), CTRL + Key_E, VIEW_ID_EDITMODE);
 
     daemonmenu = new QPopupMenu;
     daemonmenu->insertItem(tr("&Connect"),
-                           this, SLOT(ConnectToSRCPServer()), 0,
-                           DAEMON_ID_CONNECT);
-    daemonmenu->insertItem(tr("&Disconnect"), this,
-                           SLOT(CloseSRCPServerConnection()), 0,
-                           DAEMON_ID_DISCONNECT);
+            this, SLOT(ConnectToSRCPServer()), 0, DAEMON_ID_CONNECT);
+    daemonmenu->insertItem(tr("&Disconnect"),
+            this, SLOT(CloseSRCPServerConnection()), 0, DAEMON_ID_DISCONNECT);
     daemonmenu->insertSeparator();
-    daemonmenu->insertItem(tr("&Reset"), this, SLOT(slotResetDaemon()), 0,
-                           DAEMON_ID_RESET);
-    daemonmenu->insertItem(tr("&Kill"), this, SLOT(slotKillDaemon()), 0,
-                           DAEMON_ID_KILL);
-    daemonmenu->insertItem(tr("&Info..."), this, SLOT(slotAboutDaemon()),
-                           0, DAEMON_ID_INFO);
+    daemonmenu->insertItem(tr("&Reset"),
+            this, SLOT(slotResetDaemon()), 0, DAEMON_ID_RESET);
+    daemonmenu->insertItem(tr("&Kill"),
+            this, SLOT(slotKillDaemon()), 0, DAEMON_ID_KILL);
+    daemonmenu->insertItem(tr("&Info..."),
+            this, SLOT(slotAboutDaemon()), 0, DAEMON_ID_INFO);
 
     layoutmenu = new QPopupMenu;
     layoutmenu->insertItem(tr("&Start power"),
-                           this, SLOT(slotToggleLayoutPower()), Key_F4,
-                           LAYOUT_ID_START);
+            this, SLOT(slotToggleLayoutPower()), Key_F4,
+            LAYOUT_ID_START);
     layoutmenu->insertItem(tr("Use &FHT"),
-                           this, SIGNAL(FHTclicked()), Key_F5,
-                           LAYOUT_ID_FHT);
-    layoutmenu->insertItem(tr("Use &WGT"), this, SIGNAL(WGTclicked()),
-                           Key_F6, LAYOUT_ID_WGT);
-    layoutmenu->insertItem(tr("Use &UfGT"), this, SIGNAL(UfGTclicked()),
-                           Key_F7, LAYOUT_ID_UFGT);
+            this, SIGNAL(FHTclicked()), Key_F5,
+            LAYOUT_ID_FHT);
+    layoutmenu->insertItem(tr("Use &WGT"),
+            this, SIGNAL(WGTclicked()),
+            Key_F6, LAYOUT_ID_WGT);
+    layoutmenu->insertItem(tr("Use &UfGT"),
+            this, SIGNAL(UfGTclicked()),
+            Key_F7, LAYOUT_ID_UFGT);
     layoutmenu->insertSeparator();
-    layoutmenu->insertItem(tr("&Halt signals"), this, SIGNAL(notrot()),
-                           Key_F12, LAYOUT_ID_NOTROT);
+    layoutmenu->insertItem(tr("&Halt signals"),
+            this, SIGNAL(notrot()), Key_F12, LAYOUT_ID_NOTROT);
     layoutmenu->insertItem(tr("&Toggle all"),
-                           this, SIGNAL(toggleAll()), Key_F10,
-                           LAYOUT_ID_TOGGLE);
-    layoutmenu->insertItem(tr("&Send all"), this, SIGNAL(sendAll()),
-                           Key_F11, LAYOUT_ID_SEND);
-    layoutmenu->insertItem(tr("&Unlock routings"), this,
-                           SIGNAL(unlockRoutings()), CTRL + Key_U,
-                           LAYOUT_ID_UNLOCKR);
+            this, SIGNAL(toggleAll()), Key_F10, LAYOUT_ID_TOGGLE);
+    layoutmenu->insertItem(tr("&Send all"),
+            this, SIGNAL(sendAll()), Key_F11, LAYOUT_ID_SEND);
+    layoutmenu->insertItem(tr("&Unlock routings"),
+            this, SIGNAL(unlockRoutings()), CTRL + Key_U, LAYOUT_ID_UNLOCKR);
+    layoutmenu->insertSeparator();
+    layoutmenu->insertItem(tr("&Change size..."),
+            this, SLOT(layoutChangeSize()), 0, LAYOUT_ID_CHSIZE);
 
     helpmenu = new QPopupMenu;
-    helpmenu->insertItem(tr("&Help"), this, SLOT(slotHelp()), Key_F1);
+    helpmenu->insertItem(tr("&Help"), this, SLOT(slotAboutHelp()), Key_F1);
     helpmenu->insertItem(tr("&SpDrS60 for Linux on the web"),
-                         this, SLOT(slotWeb()));
+            this, SLOT(slotAboutWeb()));
     helpmenu->insertSeparator();
     helpmenu->insertItem(QString(tr("&About")) + " \"" + APP_NAME + "\"",
-                         this, SLOT(slotAbout()));
+            this, SLOT(slotAbout()));
     helpmenu->insertItem(tr("About &Qt"), this, SLOT(slotAboutQt()));
 
     menubar = new QMenuBar(this);
@@ -361,20 +339,20 @@ void MainWindow::initMainWindow()
     menubar->insertItem(tr("&Help"), helpmenu);
 
 
-    // setup the toolbar
+    // setup the gbs toolbar
     toolbar = new QToolBar(this, "toolbar");
     Q_CHECK_PTR(toolbar);
     toolbar->setLabel(tr("File operations"));
 
     tbFileNew =
         new QToolButton(QPixmap(filenew_xpm), tr("Create empty layout"), 0,
-                        this, SLOT(slotNew()), toolbar);
+                        this, SLOT(slotFileNew()), toolbar);
     tbFileOpen =
         new QToolButton(QPixmap(fileopen_xpm), tr("Open layout file"), 0,
-                        this, SLOT(slotLoad()), toolbar);
+                        this, SLOT(slotFileOpen()), toolbar);
     tbFileSave =
         new QToolButton(QPixmap(filesave_xpm), tr("Save layout file"), 0,
-                        this, SLOT(slotSave()), toolbar);
+                        this, SLOT(slotFileSave()), toolbar);
     toolbar->addSeparator();
 
     tbEditCut =
@@ -398,7 +376,7 @@ void MainWindow::initMainWindow()
 
     tbViewRoute =
         new QToolButton(QPixmap(viewroute_xpm), tr("Show routing table"),
-                        0, this, SLOT(slotRoutesDialog()), toolbar);
+                        0, this, SLOT(slotShowRoutes()), toolbar);
     tbViewFeedb =
         new QToolButton(QPixmap(viewfeedback_xpm),
                         tr("Show feedback window"), 0, this,
@@ -427,40 +405,41 @@ void MainWindow::initMainWindow()
     resetMenu();
     // statusBar();  // create a StatusBar; no need for that up to now
 
-    /* This is the window layout in detail:  (guido)
-       +---------------------------------------------------------+
-       |       QMainWindow                                       |
-       | +-----------------------------------------------------+ |
-       | |     QVBox                                           | |
-       | | +-------------------------------------------------+ | |
-       | | |   QScrollView                                   | | |
-       | | | +---------------------------------------------+ | | |
-       | | | | GBSArea                                     | | | |
-       | | | |                                             | | | |
-       | | | |                                             | | | |
-       | | | |                                             | | | |
-       | | | |                                             | | | |
-       | | | |                                             | | | |
-       | | | |                                             | | | |
-       | | | |                                             | | | |
-       | | | |                                             | | | |
-       | | | |                                             | | | |
-       | | | |                                             | | | |
-       | | | +---------------------------------------------+ | | |
-       | | +-------------------------------------------------+ | |
-       | +-----------------------------------------------------+ |
-       | | +---------------+---------------------------------+ | |
-       | | |  QHBox        |                                 | | |
-       | | + +-------------+ + +---------------------------+ + | |
-       | | | |QWidgetStack | | |QWidgetStack+----------+   | | | |
-       | | | |   +-------+ | | |            |+----------+  | | | |
-       | | | |   |+-------+| | |            +|+----------+ | | | |
-       | | | |   +|QLabel || | |             +|QListView | | | | |
-       | | | |    +-------+| | |              +----------+ | | | |
-       | | + +-----------+ + +-----------------------------+ + | |
-       | | +---------------+---------------------------------+ | |
-       | +-----------------------------------------------------+ |
-       +---------------------------------------------------------+
+    /* 
+     * This is the window layout in detail:  (guido)
+     +---------------------------------------------------------+
+     |       QMainWindow                                       |
+     | +-----------------------------------------------------+ |
+     | |     QVBox                                           | |
+     | | +-------------------------------------------------+ | |
+     | | |   QScrollView                                   | | |
+     | | | +---------------------------------------------+ | | |
+     | | | | GBSArea                                     | | | |
+     | | | |                                             | | | |
+     | | | |                                             | | | |
+     | | | |                                             | | | |
+     | | | |                                             | | | |
+     | | | |                                             | | | |
+     | | | |                                             | | | |
+     | | | |                                             | | | |
+     | | | |                                             | | | |
+     | | | |                                             | | | |
+     | | | |                                             | | | |
+     | | | +---------------------------------------------+ | | |
+     | | +-------------------------------------------------+ | |
+     | +-----------------------------------------------------+ |
+     | | +---------------+---------------------------------+ | |
+     | | |  QHBox        |                                 | | |
+     | | + +-------------+ + +---------------------------+ + | |
+     | | | |QWidgetStack | | |QWidgetStack+----------+   | | | |
+     | | | |   +-------+ | | |            |+----------+  | | | |
+     | | | |   |+-------+| | |            +|+----------+ | | | |
+     | | | |   +|QLabel || | |             +|QListView | | | | |
+     | | | |    +-------+| | |              +----------+ | | | |
+     | | + +-----------+ + +-----------------------------+ + | |
+     | | +---------------+---------------------------------+ | |
+     | +-----------------------------------------------------+ |
+     +---------------------------------------------------------+
      */
 
     QVBox *vBox = new QVBox(this, "vbox", 0);
@@ -516,13 +495,27 @@ void MainWindow::initMainWindow()
     cbStack->addWidget(FeedBackCB, 2);
 
     setCentralWidget(vBox);
+/*
+    rtViewer = new RoutingViewer(this, "Routings");
+    Q_CHECK_PTR(rtViewer);
+    moveDockWindow(rtViewer, Right);
+    rtViewer->hide();
 
+    // setup the routing toolbar
+    routingtoolbar = new RoutingToolBar(this, rtViewer);
+    Q_CHECK_PTR(routingtoolbar);
+*/
+                    
     // now connect the different signals and slots
     // between "gbsArea" and "MainWindow"
-    connect(this, SIGNAL(save()), gbs, SLOT(slotSave()));
-    connect(this, SIGNAL(load()), gbs, SLOT(slotLoad()));
+/*
+    connect(gbs, SIGNAL(updateRoutingViewer(const QString&)), rtViewer,
+            SLOT(updateRoutesFromFile(const QString&)));
+    connect(rtViewer, SIGNAL(switchToRouteViewMode()), gbs,
+            SIGNAL(switchToRouteViewMode()));
+*/
     connect(this, SIGNAL(showRoutings()), gbs, SLOT(slotShowRoutings()));
-    connect(this, SIGNAL(newLayout(int)), gbs, SLOT(slotNew(int)));
+    //connect(this, SIGNAL(newLayout(int, int)), gbs, SLOT(newFile(int, int)));
     connect(this, SIGNAL(FHTclicked()), gbs, SLOT(slotFHTclicked()));
     connect(this, SIGNAL(WGTclicked()), gbs, SLOT(slotWGTclicked()));
     connect(this, SIGNAL(UfGTclicked()), gbs, SLOT(slotUfGTclicked()));
@@ -534,10 +527,10 @@ void MainWindow::initMainWindow()
     connect(this, SIGNAL(sendFBChangeLayout(unsigned int)),
             gbs, SLOT(slotFBportChanged(unsigned int)));
     connect(this, SIGNAL(EditMode(int)), gbs, SIGNAL(EditMode(int)));
-    connect(gbs, SIGNAL(cmdToDebug(const QString &)),
-            this, SLOT(slotCmdToDebugExtern(const QString &)));
-    connect(gbs, SIGNAL(sendCommand(const QString &)),
-            this, SLOT(SendCommandToSRCPServer(const QString &)));
+    connect(gbs, SIGNAL(cmdToDebug(const QString&)),
+            this, SLOT(slotCmdToDebugExtern(const QString&)));
+    connect(gbs, SIGNAL(sendCommand(const QString&)),
+            this, SLOT(SendCommandToSRCPServer(const QString&)));
     connect(gbs, SIGNAL(sigUpdateEditmenu()),
             this, SLOT(slotUpdateEditmenu()));
     connect(gbs, SIGNAL(sigShowFBmodules()),
@@ -561,16 +554,13 @@ void MainWindow::resetMenu()
     editmenu->setItemEnabled(EDIT_ID_FIND, false);
     // must be loaded first
     viewmenu->setItemEnabled(VIEW_ID_ROUTES, false);
-    // always false on setup, a layout
-    viewmenu->setItemEnabled(VIEW_ID_ROUTES, false);
-    layoutmenu->setItemEnabled(VIEW_ID_EDITMODE, false);
+    viewmenu->setItemEnabled(VIEW_ID_EDITMODE, false);
     // setup depends on daemonstartup
     updateDaemonMenu();
     // must be loaded first
     layoutmenu->setItemEnabled(LAYOUT_ID_WGT, false);
     layoutmenu->setItemEnabled(LAYOUT_ID_FHT, false);
     layoutmenu->setItemEnabled(LAYOUT_ID_UFGT, false);
-    // must be loaded first
     layoutmenu->setItemEnabled(LAYOUT_ID_UNLOCKR, false);
     // always false on setup, a layout
     tbLayoutNotRot->setEnabled(false);  // disabled if no layout loaded
@@ -619,288 +609,317 @@ void MainWindow::slotViewDebug()
 }
 
 
-
-void MainWindow::slotLoadTimerTimeout()
+void MainWindow::readAutoloadFile()
 {
-    /* QTimer object is destroyed automatically when its parent object
-       is  destroyed
-
-       if (loadTimer != NULL) {
-       delete loadTimer;     // waiting period is over, so now autoload
-       loadTimer = NULL;
-       }
-     */
-
     // if autoload file from config data does
-    // not exist ask user to changes options     
-    QFile f(DEF_LAYOUT + GBS_FILE_SUFFIX);
+    // not exist ask user to change options
+
+    /* check for file extension, compatible to version <= 0.4.7*/
+    if (DEF_LAYOUT.findRev(GF_GBSEXT) == -1)
+        DEF_LAYOUT.append(GF_GBSEXT); 
+    
+    QFile f(DEF_LAYOUT);
     if (!f.exists()) {                           
         qApp->beep();
         int choice = QMessageBox::warning(this, tr("Autoloader failed"),
-                         tr("The selected autoload file does not,\n"
-                             "exist, please adjust your options.\n"),
+                         tr("The selected autoload file '%1'\n"
+                            "does not exist. Please adjust your"
+                            " options.").arg(DEF_LAYOUT),
                          tr("&Now"), tr("&Later"), 0, 0, 0);
         if (choice == 0)
             slotShowOptions();
     }
-    else {
-        FILENAME = DEF_LAYOUT;  // save autoload filename and open it
-        setFilename();          //serd
-        LoadFile();
-    }
+    else
+        openFile(DEF_LAYOUT);
 }
 
 
-
-void MainWindow::closeEvent(QCloseEvent *)
+void MainWindow::closeEvent(QCloseEvent* e)
 {
-    // when the whole application is to be closed by double-clicking on window
-    // click-marks, the usual result is to close the application at once. thus an
-    // open layout can't be saved. now get the window's closing event and turn it
-    // into a well-defined saving action
-    slotQuit();
+
+    if (!gbs->isModified()) {
+	e->accept();
+	return;
+    }
+
+        /*TODO: unnamed file*/
+    int choice = QMessageBox::warning(this, tr("Save changes"),
+            tr("File '%1' was changed.\n"
+                "Save changes?").arg(fileName),
+            tr("&Yes"), tr("&No"), tr("Cancel"), 0, 1);
+    
+    switch (choice) {
+        case 0:
+            if (saveFile())
+                e->accept();
+            else 
+                e->ignore();
+            break;
+        case 1:
+            e->accept();
+            break;
+        case 2:
+        default:
+            e->ignore();
+            break;
+    }
+    
+    /*TODO: check why this may be necessary:*/
+    //emit EditMode(NOEDIT);
 }
 
 
-
-void MainWindow::slotNew()
+void MainWindow::slotFileNew()
 {
-    int iNewCols = 0;
-
-    iEditMode = NOEDIT;
-    //if (!FILENAME.isEmpty())  // if a layout is already shown, save it first
-    if (gbs->isModified())      // if a layout is already shown, save it first
-        if (slotSave() == 2)
-            return;             // in case save was cancelled  //dirk
-
-    // show a dialog where the user inputs number of columns for an empty layout
-    newLayoutDialog *enterNewCols = new newLayoutDialog(this);
-    enterNewCols->setCaption(tr("New layout"));
-
-    if (enterNewCols->exec() != QDialog::Accepted) {
-        delete enterNewCols;
-        return;
-    }
-    iNewCols = enterNewCols->iNumberOfColumns;
-    delete enterNewCols;
-
-
-    FILENAME = QString("./default");    // use temp filename "default"
-    setFilename();              //serd
-    setCaption(QString(APP_NAME) + " - [" + FILENAME + GBS_FILE_SUFFIX +
-               "]");
-
-    if (!gbs->slotNew(iNewCols)) {      // create empty layout from gbs
-
-        tbFileSave->setEnabled(true);   // now enable all
-        tbLayoutNotRot->setEnabled(true);       // senseful menu items
-        tbViewRoute->setEnabled(true);  // or toolbuttons
-
-        filemenu->setItemEnabled(FILE_ID_SAVE, false);  // only saveAs is corr
-        filemenu->setItemEnabled(FILE_ID_SAVE_AS, true);
-
-        layoutmenu->setItemEnabled(LAYOUT_ID_WGT, true);
-        layoutmenu->setItemEnabled(LAYOUT_ID_FHT, true);
-        layoutmenu->setItemEnabled(LAYOUT_ID_UFGT, true);
-
-        layoutmenu->setItemEnabled(VIEW_ID_EDITMODE, true);
-        viewmenu->setItemEnabled(VIEW_ID_ROUTES, false);
-        //serd: war false, neues muß aber editierbar sein
-        //editmenu->setItemEnabled(LAYOUT_ID_GBS, true);
-        viewmenu->setItemEnabled(VIEW_ID_ROUTES, false);
-        editmenu->setItemEnabled(EDIT_ID_FIND, true);
-
-        editfilemenu->changeItem(tr("Layout file not saved yet"),
-                                 EDITFILE_ID_GBS);
-        editfilemenu->changeItem(tr("Route file not yet available"),
-                                 EDITFILE_ID_RTS);
-        // temporarily assign saveAs slot to save toolbutton
-        disconnect(tbFileSave, SIGNAL(clicked()), this, 0);
-        connect(tbFileSave, SIGNAL(clicked()), this, SLOT(slotSaveAs()));
-
-        if (CommandPortIsConnected) {
-            layoutmenu->setItemEnabled(LAYOUT_ID_TOGGLE, true);
-            layoutmenu->setItemEnabled(LAYOUT_ID_SEND, true);
-            layoutmenu->setItemEnabled(LAYOUT_ID_NOTROT, true);
-        }
-    }
-    else                        //dirk
-    {
-        FILENAME = "";
-        setCaption(QString(APP_NAME));
-        resetMenu();
-    }
-}
-
-
-
-void MainWindow::slotLoad()
-{
-    if (!FILENAME.isEmpty())    // if a layout is shown, save it first
-        if (slotSave() == 2)    // in save-as-dialog cancel clicked by user
-            return;
-
-    // Open a file dialog for loading. The default directory is the
-    // home directory, filter is GBS_FILE_SUFFIX (value: see Resources.h)
-    QString sLoadFilename = QFileDialog::getOpenFileName(lastDir,
-                                             QString(tr("Layouts"))
-                                             + "(*" +
-                                             GBS_FILE_SUFFIX + ")", this);
-
-    if (!sLoadFilename.isEmpty()) {
-        lastDir = sLoadFilename.left(sLoadFilename.findRev('/'));
-        FILENAME = sLoadFilename.left(sLoadFilename.length() - 8);
-        setFilename();          //serd
-        LoadFile();
-    }                           // the load()-slot has been divided into two pieces so the autoloader
-}                               // can use it too
-
-
-void MainWindow::LoadFile()
-{
-    // show filename in caption only after successful load. //dirk.
-    setCaption(QString(APP_NAME));
-
-    //emit load();   // start the actual loading code in "gbs"
-    // I need a return code to see if load was successful. //dirk
-    if (!gbs->slotLoad()) {
-        setCaption(QString(APP_NAME) + " - [" + FILENAME +
-                   GBS_FILE_SUFFIX + "]");
-
-        tbFileSave->setEnabled(true);   // now enable all
-        tbLayoutNotRot->setEnabled(true);       // senseful menu items
-        tbViewRoute->setEnabled(true);  // or toolbuttons
-        filemenu->setItemEnabled(FILE_ID_SAVE, true);
-        filemenu->setItemEnabled(FILE_ID_SAVE_AS, true);
-
-        layoutmenu->setItemEnabled(LAYOUT_ID_WGT, true);
-        layoutmenu->setItemEnabled(LAYOUT_ID_FHT, true);
-        layoutmenu->setItemEnabled(LAYOUT_ID_UFGT, true);
-        layoutmenu->setItemEnabled(VIEW_ID_EDITMODE, true);
-
-        editmenu->setItemEnabled(EDIT_ID_FIND, true);
-
-        editfilemenu->setItemEnabled(EDITFILE_ID_GBS, true);
-        editfilemenu->changeItem(FILENAME + GBS_FILE_SUFFIX,
-                                 EDITFILE_ID_GBS);
-        QFile file(FILENAME + RTS_FILE_SUFFIX);
-        if (file.exists()) {
-            editfilemenu->changeItem(FILENAME + RTS_FILE_SUFFIX,
-                                     EDITFILE_ID_RTS);
-            editfilemenu->setItemEnabled(EDITFILE_ID_RTS, true);
-        }
-        else {
-            editfilemenu->changeItem(tr("Route file not yet available"),
-                                     EDITFILE_ID_RTS);
-            editfilemenu->setItemEnabled(EDITFILE_ID_RTS, false);
-        }
-
-        viewmenu->setItemEnabled(VIEW_ID_ROUTES, true);
-        layoutmenu->setItemEnabled(LAYOUT_ID_UNLOCKR, true);
-        // reassign the right slot to save toolbutton
-        disconnect(tbFileSave, SIGNAL(clicked()), this, 0);
-        connect(tbFileSave, SIGNAL(clicked()), this, SLOT(slotSave()));
-
-        if (CommandPortIsConnected) {
-            layoutmenu->setItemEnabled(LAYOUT_ID_SEND, true);
-            layoutmenu->setItemEnabled(LAYOUT_ID_TOGGLE, true);
-            layoutmenu->setItemEnabled(LAYOUT_ID_NOTROT, true);
-        }
-    }
-    else {
-        FILENAME = "";
-        setCaption(QString(APP_NAME));
-        resetMenu();
-    }
-}
-
-
-void MainWindow::slotSaveAs()
-{
-    // Open a file dialog for saving. The default directory is the
-    // current directory, the filter is GBS_FILE_SUFFIX (value: see Resources.h)
-    QString sSaveFilename = QFileDialog::getSaveFileName(lastDir,
-                                                         QString("*") +
-                                                         GBS_FILE_SUFFIX,
-                                                         this);
-
-    if (!sSaveFilename.isEmpty()) {
-        if (sSaveFilename.contains(GBS_FILE_SUFFIX, 1))
-            sSaveFilename = sSaveFilename.left(sSaveFilename.length() - 8);
-
-        QFile qf(sSaveFilename + GBS_FILE_SUFFIX);
-
-        if (qf.exists() &&
-            (1 == QMessageBox::warning(this, tr("Warning"),
-                                       tr
-                                       ("File exists!\nDo you want to overwrite it?"),
-                                       tr("&Yes"), tr("&No"), 0, 0, 1)))
-            return;
-
-        gbs->FILENAME = sSaveFilename;
-        if (!gbs->slotSave()) { // start the actual saving code in "gbs"
-            // only at success:
-            FILENAME = sSaveFilename;
-            setCaption(QString(APP_NAME) + " - [" + FILENAME +
-                       GBS_FILE_SUFFIX + " ]");
-
-            filemenu->setItemEnabled(FILE_ID_SAVE, true);
-
-            // now enable all
-            // senseful menu items
-            // or toolbuttons
-            layoutmenu->setItemEnabled(VIEW_ID_EDITMODE, true);
-            viewmenu->setItemEnabled(VIEW_ID_ROUTES, true);
-            editmenu->setItemEnabled(EDITFILE_ID_GBS, true);
-            editmenu->setItemEnabled(EDIT_ID_FIND, true);
-
-            editfilemenu->changeItem(FILENAME + GBS_FILE_SUFFIX,
-                                     EDITFILE_ID_GBS);
-            editfilemenu->changeItem(tr("Route file not yet available"),
-                                     EDITFILE_ID_RTS);
-            // reassign the right slot to save toolbutton
-            disconnect(tbFileSave, SIGNAL(clicked()), this, 0);
-            connect(tbFileSave, SIGNAL(clicked()), this, SLOT(slotSave()));
-            tbFileSave->setEnabled(true);       // serd: must be enabled also
-        }
-        else
-            gbs->FILENAME = FILENAME;
-    }
-}
-
-
-int MainWindow::slotSave()
-{
-    int choice = 0;
-    // if the shown layout has been created just before, call saveAs() to save it
-    // under a wonderful new name
-    if (FILENAME.contains("default", 0) == true) {
-        // a "default" layout must be saved as
-        // if the user wants it to
-        qApp->beep();
-        choice = QMessageBox::warning(this, tr("Warning"),
-                                      tr("New layout not saved yet!\n"
-                                         "Do you want to save it?"),
-                                      tr("&Yes"), tr("&No"), tr("Cancel"),
-                                      0, 1);
-        // enter button no = button 0 = "Yes"
-        // ecape button no = button 1 = "No"
+    if (gbs->isModified()) {
+        /*TODO: unnamed file*/
+        int choice = QMessageBox::warning(this, tr("Save changes"),
+                         tr("File '%1' was changed.\n"
+                            "Save changes?").arg(fileName),
+                         tr("&Yes"), tr("&No"), tr("Cancel"));
         switch (choice) {
         case 0:
-            slotSaveAs();       // now save the "default" layout
+            if (saveFile())
+                newFile();
             break;
-
-        case 1:                //qApp->quit();        // quit everything and immediately
+        case 1:
+            newFile();
             break;
-
-        case 2:                //return 2;            // return to programm
+        case 2:
+        default:
             break;
         }
     }
-    else
-        return gbs->slotSave(); // start the actual saving code in "gbs"
+    else {
+        newFile();
+    }
+}
 
-    return choice;
+
+void MainWindow::newFile()
+{
+    // show a dialog where the user can put in layout dimensions
+    newLayoutDialog* nlDlg = new newLayoutDialog(this);
+
+    if (nlDlg->exec() != QDialog::Accepted) {
+        delete nlDlg;
+        return;
+    }
+    int iNewCols = nlDlg->getColumns();
+    int iNewRows = nlDlg->getRows();
+    delete nlDlg;
+    
+    fileName = "";
+    gbs->newFile(iNewCols, iNewRows);
+
+    updateCaption();
+    updateFileMenuItems();
+    cmdToDebug(tr("New layout file created"), INFO, HIST);
+}
+
+
+void MainWindow::updateFileMenuItems()
+{
+    tbFileSave->setEnabled(gbs->isModified());
+    tbLayoutNotRot->setEnabled(true);
+    tbViewRoute->setEnabled(true);
+
+    filemenu->setItemEnabled(FILE_ID_SAVE, gbs->isModified());
+    filemenu->setItemEnabled(FILE_ID_SAVE_AS, true);
+
+    if (fileName.isEmpty()){
+        editfilemenu->changeItem(tr("Layout file not saved yet"),
+                EDITFILE_ID_GBS);
+        editfilemenu->setItemEnabled(EDITFILE_ID_GBS, false);
+    }
+    else {
+        editfilemenu->changeItem(fileName,
+                EDITFILE_ID_GBS);
+        editfilemenu->setItemEnabled(EDITFILE_ID_GBS, true);
+    }
+
+    QString rfn = gbs->getRouteFileName();
+    QFile file(rfn);
+    if (file.exists()){
+        editfilemenu->changeItem(rfn, EDITFILE_ID_RTS);
+        editfilemenu->setItemEnabled(EDITFILE_ID_RTS, true);
+    }
+    else {
+        editfilemenu->changeItem(tr("Route file not yet available"),
+                EDITFILE_ID_RTS);
+        editfilemenu->setItemEnabled(EDITFILE_ID_RTS, false);
+    }
+    editmenu->setItemEnabled(EDIT_ID_FIND, true);
+    
+    layoutmenu->setItemEnabled(LAYOUT_ID_WGT, true);
+    layoutmenu->setItemEnabled(LAYOUT_ID_FHT, true);
+    layoutmenu->setItemEnabled(LAYOUT_ID_UFGT, true);
+    layoutmenu->setItemEnabled(LAYOUT_ID_UNLOCKR, true);
+
+    if (CommandPortIsConnected) {
+        layoutmenu->setItemEnabled(LAYOUT_ID_TOGGLE, true);
+        layoutmenu->setItemEnabled(LAYOUT_ID_SEND, true);
+        layoutmenu->setItemEnabled(LAYOUT_ID_NOTROT, true);
+    }
+
+    viewmenu->setItemEnabled(VIEW_ID_ROUTES, !fileName.isEmpty());
+    viewmenu->setItemEnabled(VIEW_ID_EDITMODE, true);
+}
+
+
+bool MainWindow::saveFile()
+{
+    if (fileName.isEmpty()){
+        slotFileSaveAs();
+        /*TODO: check this*/
+        return true;
+    }
+
+    QFile f(fileName);
+    if (!f.open(IO_WriteOnly)) {
+        cmdToDebug(tr("Could not write to file '%1'").arg(fileName),
+                INFO, HIST);
+        return false;
+    }
+
+    QTextStream ts(&f);
+    gbs->writeFileTextToStream(ts);
+    f.close();
+
+    //setCaption(fn);
+    updateCaption();
+
+    cmdToDebug(tr("Layout file '%1' saved").arg(fileName), INFO, HIST);
+    return true;
+}
+
+
+void MainWindow::slotFileSave()
+{
+    this->saveFile();
+}
+
+
+void MainWindow::slotFileSaveAs()
+{
+    QString fn = QFileDialog::getSaveFileName(lastDir,
+            QString(tr("Layouts")) + " (*" + GF_GBSEXT + ")", this);
+
+    if (!fn.isEmpty()) {
+        /*check for file extension*/
+        if (!fn.endsWith(GF_GBSEXT))
+            fn.append(GF_GBSEXT);
+
+        lastDir = fn.left(fn.findRev('/'));
+
+        QFile f(fn);
+        /*check for existend file*/
+        if (f.exists()){
+            int choice = QMessageBox::warning(this, tr("Warning"),
+                    tr("File '%1' exists!\n"
+                        "Do you want to overwrite it?").arg(fn),
+                    tr("&Yes"), tr("&No"), 0, 0, 1);
+            if (choice == 1)
+                return;
+        }
+
+        fileName = fn;
+        if (gbs != NULL)
+            gbs->setRouteFileName(fn);
+        saveFile();
+    }
+    else
+        cmdToDebug(tr("Saving aborted"), INFO, HIST);
+}
+
+
+void MainWindow::slotFileOpen()
+{
+    if (gbs->isModified()) {
+        /*TODO: unnamed file*/
+        int choice = QMessageBox::warning(this, tr("Save changes"),
+                         tr("File '%1' was changed.\n"
+                            "Save changes?").arg(fileName),
+                         tr("&Yes"), tr("&No"), tr("Cancel"));
+        switch (choice) {
+        case 0:
+            if (saveFile())
+                chooseFile();
+            break;
+        case 1:
+            chooseFile();
+            break;
+        case 2:
+        default:
+            break;
+        }
+    }
+    else {
+        chooseFile();
+    }
+}
+
+
+void MainWindow::chooseFile()
+{
+    QString fn = QFileDialog::getOpenFileName(lastDir,
+        QString(tr("Layouts")) + " (*" + GF_GBSEXT +
+                                  " *" + GF_OLDGBSEXT + ")", this);
+    if (fn.isEmpty())
+        return;
+    openFile(fn);
+}
+
+
+void MainWindow::openFile(const QString& fn)
+{
+    bool newFileFormat = false;
+
+    /*remember last directory we used*/
+    lastDir = fn.left(fn.findRev('/'));
+    /*check for file format*/
+    if (fn.findRev(GF_GBSEXT) != -1)
+        newFileFormat = true;
+
+    QFile f(fn);
+    if (!f.open(IO_ReadOnly)){
+        cmdToDebug(tr("Could not read file '%1'").arg(fn), INFO, HIST);
+        return;
+    }
+    /*TODO: set filename only for new fileformat, for old format change
+     * filename extension*/
+    if (newFileFormat)
+        fileName = fn;
+    else {
+        int pos = fn.findRev(GF_OLDGBSEXT);
+        if (pos != -1){
+            fileName = fn.left(pos);
+            fileName.append(GF_GBSEXT);
+        }
+    }
+
+    if (gbs != NULL)
+        gbs->setRouteFileName(fn);
+
+    QTextStream ts(&f);
+    if (newFileFormat)
+        gbs->readFileTextFromStream(ts);
+    else
+        gbs->readOldFileTextFromStream(ts);
+    f.close();
+    
+    cmdToDebug(tr("Layout file '%1' opened").arg(fn), INFO, HIST);
+    updateCaption();
+    updateFileMenuItems();
+}
+
+
+void MainWindow::updateCaption()
+{
+    if (fileName.isEmpty())
+        setCaption(QString(APP_NAME) + " - [" + tr("noname") + "]");
+    else
+        setCaption(QString(APP_NAME) + " - [" + fileName + "]");
 }
 
 
@@ -908,23 +927,8 @@ void MainWindow::slotUpdateEditmenu()
 {
     // called by gbsArea if a non-existing routing file has been autocreated
     editmenu->setItemEnabled(EDITFILE_ID_RTS, true);
-    editfilemenu->changeItem(FILENAME + RTS_FILE_SUFFIX, EDITFILE_ID_RTS);
+    editfilemenu->changeItem(fileName + RTS_FILE_SUFFIX, EDITFILE_ID_RTS);
 }
-
-
-void MainWindow::slotQuit()
-{
-    //if (!FILENAME.isEmpty())   // only if a layout is shown we must save it
-    if (gbs->isModified())      // only if a layout is shown we must save it
-        if (slotSave() == 2)    // in dialog cancel clicked
-            return;
-
-    emit EditMode(NOEDIT);
-    //delete gbs;
-    // now really quit everything
-    qApp->quit();
-}
-
 
 /* New event driven networking code starts here: (guido)*/
 void MainWindow::initAllSockets()
@@ -993,7 +997,7 @@ void MainWindow::CommandSocketReadyRead()
             }
         }
         else {
-            cmdToDebug(tr("Cannot read welcome message!"), INFO, HIST);
+            cmdToDebug(tr("Cannot read server welcome message!"), INFO, HIST);
             /*close command port */
             if (CommandSocket->isOpen()) {
                 CommandSocket->close();
@@ -1066,7 +1070,8 @@ void MainWindow::FeedbackSocketReadyRead()
         /*INFO FB <module_type> <portnr> <state> */
         /* 0   1       2           3        4   : Qstring sections */
 
-        if (sInfo.contains("-", 0)) {   // error-code
+        // error-code
+        if (sInfo.contains("-", 0)) {
             cmdToDebug(sInfo, INFO, FEED);
             return;
         }
@@ -1138,13 +1143,6 @@ void MainWindow::FeedbackSocketConnected()
 
     /* load defaultlayout, but only with "auto power on" is enabled and
      * the layout is not yet loaded; else see "MainWindow" constructor */
-    /*
-       if (LOAD_DEF_LAYOUT && AUTO_ZP9 && !DefaultLayoutIsLoaded)
-       {
-       slotLoadTimerTimeout();
-       DefaultLayoutIsLoaded = true;
-       }
-     */
 }
 
 
@@ -1264,13 +1262,13 @@ void MainWindow::ConnectCommandPort()
 
 void MainWindow::ConnectFeedbackPort()
 {
-    FeedbackSocket->connectToHost(HOST, PORT + 1);      /*e.g.: 12366 */
+    FeedbackSocket->connectToHost(HOST, PORT + 1);      /*e.g.: 12346 */
 }
 
 
 void MainWindow::ConnectInfoPort()
 {
-    InfoSocket->connectToHost(HOST, PORT + 2);  /*e.g.: 12367 */
+    InfoSocket->connectToHost(HOST, PORT + 2);  /*e.g.: 12347 */
 }
 
 
@@ -1287,10 +1285,9 @@ void MainWindow::CloseSRCPServerConnection()
             connect(FeedbackSocket, SIGNAL(delayedCloseFinished()),
                     SLOT(FeedbackSocketConnectionClosed()));
         }
-        else {
+        else
             // The socket is closed.
             FeedbackSocketConnectionClosed();
-        }
     }
 
     /* Info port is closed by "active close" */
@@ -1391,7 +1388,6 @@ void MainWindow::updateDaemonMenu()
     tbLayoutStart->setEnabled(CommandPortIsConnected);
     tbLayoutStop->setEnabled(bRunLayout);
 
-    layoutmenu->setItemEnabled(LAYOUT_ID_START, CommandPortIsConnected);
     daemonmenu->setItemEnabled(DAEMON_ID_RESET, CommandPortIsConnected);
     daemonmenu->setItemEnabled(DAEMON_ID_KILL, CommandPortIsConnected);
     daemonmenu->setItemEnabled(DAEMON_ID_INFO, CommandPortIsConnected);
@@ -1399,6 +1395,7 @@ void MainWindow::updateDaemonMenu()
     daemonmenu->setItemEnabled(DAEMON_ID_DISCONNECT,
                                CommandPortIsConnected);
     viewmenu->setItemEnabled(VIEW_ID_KEYB, CommandPortIsConnected);
+    layoutmenu->setItemEnabled(LAYOUT_ID_START, CommandPortIsConnected);
     layoutmenu->setItemEnabled(LAYOUT_ID_TOGGLE, CommandPortIsConnected);
     layoutmenu->setItemEnabled(LAYOUT_ID_SEND, CommandPortIsConnected);
     layoutmenu->setItemEnabled(LAYOUT_ID_NOTROT, CommandPortIsConnected);
@@ -1432,39 +1429,45 @@ void MainWindow::slotAbout()
 
 void MainWindow::slotAboutQt()
 {
-    QMessageBox::aboutQt(this, tr("About Qt")); // self-explaining
+    QMessageBox::aboutQt(this, tr("About Qt"));
 }
 
 
-void MainWindow::slotRoutesDialog()
+void MainWindow::slotShowRoutes()
 {
+    /*FIXME: remove old route dialog*/
     emit showRoutings();        // notifies "gbs" to show the routing table
+/*
+    if (rtViewer!= NULL)
+        rtViewer->show();
+*/
 }
 
 
 void MainWindow::slotEditGBSFiles()
 {
-    // edits the layout file with editor prog
+    // edit layout file with editor program
     QString sCommand = EDITOR;
-    sCommand.append(" " + FILENAME + GBS_FILE_SUFFIX + (" &"));
+    //sCommand.append(" " + fileName + GF_OLDGBSEXT + (" &"));
+    sCommand.append(" " + fileName + (" &"));
     system(sCommand.data());
     tbFileSave->setEnabled(true);
-    //serd: after editing layout must be saveable ist hier wirkungslos?!
 }
 
 
 void MainWindow::slotEditRTSFiles()
 {
-    // edits the routing file with editor prog
+    // edit routing file with editor program
     QString sCommand = EDITOR;
-    sCommand.append(" " + FILENAME + RTS_FILE_SUFFIX + (" &"));
+    QString rf = gbs->getRouteFileName();
+    sCommand.append(" " + rf + (" &"));
     system(sCommand.data());
 }
 
 
 void MainWindow::slotEditConfigFile()
 {
-    // edits the program´s config file with editor prog
+    // edit program´s config file with editor program
     QString sCommand = EDITOR + " " + QDir::homeDirPath() + "/" +
         SPDRS60_INIT + (" &");
     system(sCommand.data());
@@ -1475,14 +1478,14 @@ void MainWindow::slotEditLayout()
 {
     if (iEditMode == NOEDIT) {
         cmdToDebug(tr("Entering edit mode"), INFO, HIST);
-        // wenn das Layout einmel im Editiermodus war, gilt es als modifiziert
+        // wenn das Layout einmal im Editiermodus war, gilt es als modifiziert
         gbs->setModified(true);
     }
     else
         cmdToDebug(tr("Leaving edit mode"), INFO, HIST);
 
     iEditMode = !iEditMode;
-    layoutmenu->setItemChecked(VIEW_ID_EDITMODE, iEditMode);
+    viewmenu->setItemChecked(VIEW_ID_EDITMODE, iEditMode);
 
     tbFileOpen->setEnabled(!iEditMode); // change edit related menus
     tbFileNew->setEnabled(!iEditMode);
@@ -1493,7 +1496,7 @@ void MainWindow::slotEditLayout()
 }
 
 
-void MainWindow::slotHelp()
+void MainWindow::slotAboutHelp()
 {
     QString langenv, sURL;
 
@@ -1522,9 +1525,9 @@ void MainWindow::slotHelp()
 
 
 // opens SpDrS60 web resources
-void MainWindow::slotWeb()
+void MainWindow::slotAboutWeb()
 {    
-    QString sURL = QString("http://www.linux-modellbahn.de/");
+    QString sURL = QString("http://spdrs60.sourceforge.net/");
 
     if (BROWSER == "mozilla" || BROWSER == "firefox") {
         if (system(BROWSER + " -remote 'ping()'") == 0)
@@ -1536,8 +1539,7 @@ void MainWindow::slotWeb()
         system(BROWSER + " " + sURL + " &");
 }
 
-// shows an original DB clock
-// with minute delay
+// shows an original DB clock with minute delay
 void MainWindow::slotShowClock()
 {
     QString sCommand = "centralclock &";
@@ -1560,8 +1562,8 @@ void MainWindow::slotKeyboard()
     connect(keybWindow, SIGNAL(sendCommand(const QString&)),
             this, SLOT(SendCommandToSRCPServer(const QString&)));
 
-    keybWindow->show();
     keybWindow->move(QCursor::pos());
+    keybWindow->show();
 }
 
 
@@ -1632,33 +1634,50 @@ void MainWindow::slotShowOptions()
 }
 
 
-void MainWindow::slotNewWin()
+void MainWindow::slotFileNewWin()
 {
-    // creates a new instance of this program
-    /*
-       QString sCommand = "spdrs60 &";
-       system(sCommand);
-     */
-    // gleicher Adressraum, also labiler (aber schneller):
-    /* problematisch ist die "autoload"-Funktion */
+    /*create new application window*/
     MainWindow *sw = new MainWindow;
-    sw->resize(640, 480);
+    sw->resize(740, 480);
     sw->show();
 
 }
 
 
-void MainWindow::slotFind()
+void MainWindow::slotEditFind()
 {
-    findWindow = new Finder();  // create a new locator window
-    // connect its signals directly to gbs
+    /*
+     * create a new locator window and
+     * connect its signals directly to gbs
+     */
+    findWindow = new Finder();
     connect(findWindow, SIGNAL(sigFind(QString, int, bool)),
-            gbs, SLOT(slotFind(QString, int, bool)));
+            gbs, SLOT(slotEditFind(QString, int, bool)));
     findWindow->exec();
 }
 
 
-void MainWindow::setFilename()  //serd
+QString MainWindow::getFilename()
 {
-    gbs->FILENAME = FILENAME;
+    return fileName;
+}
+
+
+void MainWindow::layoutChangeSize()
+{
+    newLayoutDialog* nlDlg = new newLayoutDialog(this);
+
+    nlDlg->setColumns(gbs->getColumns());
+    nlDlg->setRows(gbs->getRows());
+    
+    if (nlDlg->exec() == QDialog::Accepted) {
+        int iNewCols = nlDlg->getColumns();
+        int iNewRows = nlDlg->getRows();
+        gbs->setLayoutSize(iNewCols, iNewRows);
+    }
+    delete nlDlg;
+
+    bool im = gbs->isModified();
+    filemenu->setItemEnabled(FILE_ID_SAVE, im);
+    tbFileSave->setEnabled(im);
 }

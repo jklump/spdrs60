@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.4 $
+                           version 0.4.8 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-04-21 20:27:43 $
+    last modified        : $Date: 2005-05-07 12:22:43 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -47,15 +47,70 @@ extern int ACTIVE_TIME;
 extern int FEEDBACK;
 
 
+element::element(QWidget* parent): QWidget(parent)
+{
+    signal = false;
+    turnout = false;
+    routable = false;
+    switchable = false;
+    iGA1BusNo = iGA2BusNo = iFBBusNo = 1;
+
+    setMaximumSize(sizeHint());
+    setMinimumSize(sizeHint());
+    setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed,
+                false));
+
+    // init variables from copyData(elementData_)
+    iSoldIndex = 0;
+    sSoldIcon = SYM_LEE;
+    iSoldRotate = -1;
+    iSoldInvert = -1;
+    sSoldDecoder = "-1";
+    sSoldProtocol = "-1";
+    iSoldAddress_1 = -1;
+    iSoldAddress_2 = -1;
+    iSoldChangeConn[0] = -1;
+    iSoldChangeConn[1] = -1;
+    iSoldDirection = -1;
+    iSoldSubType = -1;
+    sSoldText = "-1"; // for test cases : "test"
+    iSoldActiveTime = -1;
+    iFBContact = 0;
+    iSoldLEDoff = 0;
+    iSoldLEDstate = LED_OFF;
+    iSoldRoutingActive = 0;     // set global vars for this ...
+    iEditMode = NOEDIT;         // ... element
+
+    bRecStaStoTimeout = false;
+    sSaveReplaceIcon = "";
+    sRepeatIcon = SYM_LEE;
+    iSoldLocked = UNLOCKED;
+
+    elementPropertyDlg = NULL;
+    turntableProperties = NULL;
+    ttComm = NULL;
+
+    createPopupMenus();
+    updateProperties();
+
+    setupElementIcon(iSoldLEDstate, sSaveReplaceIcon);  // paint element
+}
+    
 /*constructor for element setup by QStrList*/
 element::element(QStrList* elementData_, QWidget* parent): QWidget(parent)
 {
+    signal = false;
+    turnout = false;
+    routable = false;
+    switchable = false;
+    iGA1BusNo = iGA2BusNo = iFBBusNo = 1;
+
     setMaximumSize(sizeHint());
     setMinimumSize(sizeHint());
     setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed,
                 false));
     copyData(elementData_);     // copy the parameter string list
-    iSoldLEDstate = 2 * bFBport[iSoldFBport];   // LED_OFF=0 or LED_RED=2*1=2
+    iSoldLEDstate = 2 * bFBport[iFBContact];   // LED_OFF=0 or LED_RED=2*1=2
     iSoldRoutingActive = 0;     // set global vars for this ...
     iEditMode = NOEDIT;         // ... element
     bRecStaStoTimeout = false;
@@ -69,15 +124,18 @@ element::element(QStrList* elementData_, QWidget* parent): QWidget(parent)
 
     createPopupMenus();
     // init signals as they were saved in layout
-    if ((sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS || sSoldIcon == SYM_SS ||
-         sSoldIcon == SYM_SSH || sSoldIcon == SYM_SSS ||
-         sSoldIcon == SYM_REL || sSoldIcon == SYM_WS
-         || sSoldIcon == SYM_ZP || sSoldIcon == SYM_BLD
-         || sSoldIcon == SYM_VS) && (INIT_SIGNALS == RED))
+    if ((sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
+         sSoldIcon == SYM_SS || sSoldIcon == SYM_SSH ||
+         sSoldIcon == SYM_SSS || sSoldIcon == SYM_REL ||
+         sSoldIcon == SYM_WS || sSoldIcon == SYM_ZP ||
+         sSoldIcon == SYM_BLD || sSoldIcon == SYM_VS) &&
+         (INIT_SIGNALS == RED))
         iSoldDirection = 0;     // file or with red state
 
     if (sSoldIcon == SYM_ENK)   // couplers get the non-active direction
         iSoldDirection = 0;     // on setup
+
+    updateProperties();
 
     setupElementIcon(iSoldLEDstate, sSaveReplaceIcon);  // paint element
 
@@ -88,6 +146,242 @@ element::element(QStrList* elementData_, QWidget* parent): QWidget(parent)
         // switch everything but momentary couplers
         // get the saved state
         makeCommand();
+}
+
+
+element::element(QTextStream& ats, QWidget* parent, bool isNewFormat)
+: QWidget(parent)
+{
+    /*set all variables which are not read from file*/
+    signal = false;
+    turnout = false;
+    routable = false;
+    switchable = false;
+    iGA1BusNo = iGA2BusNo = iFBBusNo = 1;
+
+    setMaximumSize(sizeHint());
+    setMinimumSize(sizeHint());
+    setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed,
+                false));
+    iSoldRoutingActive = 0;
+    iEditMode = NOEDIT;
+
+    bRecStaStoTimeout = false;
+    sSaveReplaceIcon = "";
+    sRepeatIcon = SYM_LEE;
+    iSoldLocked = UNLOCKED;
+    iSoldLEDstate = LED_OFF;
+
+    elementPropertyDlg = NULL;
+    turntableProperties = NULL;
+    ttComm = NULL;
+
+    if (isNewFormat)
+        readFileTextFromStream(ats);
+    else
+        readOldFileTextFromStream(ats);
+    /*setup some flags*/
+    createPopupMenus();
+    updateProperties();
+    // paint element
+    setupElementIcon(iSoldLEDstate, sSaveReplaceIcon);
+}
+
+
+void element::readFileTextFromStream(QTextStream& ats)
+{
+    QString s, key, value;
+
+    while (!ats.eof()) {
+        s = ats.readLine();
+        if (!s.startsWith("#")) {
+            key = s.section(":", 0, 0);
+            value = s.section(":", 1, 1).stripWhiteSpace();
+            /* key/value pairs are read sequence independent */
+            if (key.compare(GF_INDEX) == 0){
+                  iSoldIndex = value.stripWhiteSpace().toUInt();
+                  //fprintf(stderr, "New idx: %d  ", iSoldIndex);
+            }
+            else if (key.compare(GF_NAME) == 0){
+                  sSoldIcon = value.stripWhiteSpace();
+                  //fprintf(stderr, "New-Icon: %s\n", sSoldIcon.data());
+            }
+            else if (key.compare(GF_ROTATE) == 0){
+                iSoldRotate = value.toInt();
+            }
+            else if (key.compare(GF_INVERSTO) == 0){
+                iSoldInvert = value.toInt();
+            }
+            else if (key.compare(GF_DECODER) == 0){
+                sSoldDecoder = value;
+            }
+            else if (key.compare(GF_PROTOCOL) == 0){
+                sSoldProtocol = value;
+            }
+            else if (key.compare(GF_ADDRESS1) == 0){
+                iSoldAddress_1 = value.toInt();
+                value = s.section(":", 2, 2).stripWhiteSpace();
+                iGA1BusNo = value.toInt();
+            }
+            else if (key.compare(GF_ADDRESS2) == 0){
+                iSoldAddress_2 = value.toInt();
+                value = s.section(":", 2, 2).stripWhiteSpace();
+                iGA2BusNo = value.toInt();
+            }
+            else if (key.compare(GF_XCHCONN1) == 0){
+                iSoldChangeConn[0] = value.toInt();
+            }
+            else if (key.compare(GF_XCHCONN2) == 0){
+                iSoldChangeConn[1] = value.toInt();
+            }
+            else if (key.compare(GF_DIRECTION) == 0){
+                iSoldDirection = value.toInt();
+            }
+            else if (key.compare(GF_SUBTYPE) == 0){
+                iSoldSubType = value.toInt();
+            }
+            else if (key.compare(GF_TEXT) == 0){
+                sSoldText = value;
+            }
+            else if (key.compare(GF_ACTTIME) == 0){
+                iSoldActiveTime = value.toInt();
+            }
+            else if (key.compare(GF_FBPORT) == 0){
+                iFBContact = value.toInt();
+                value = s.section(":", 2, 2).stripWhiteSpace();
+                iFBBusNo = value.toInt();
+            }
+            else if (key.compare(GF_HIDELEDS) == 0){
+                iSoldLEDoff = value.toInt();
+                /*this is the last parameter, now exit while loop*/
+                break;
+            }
+        }
+    }
+}
+
+/* code for old file format up to spdrs60 0.4.7 */
+void element::readOldFileTextFromStream(QTextStream& ats)
+{
+    QString s, key, value;
+
+    while (!ats.eof()) {
+        s = ats.readLine();
+        if (!s.startsWith("#")) {
+            key = s.section(":", 0, 0);
+            value = s.section(":", 1, 1).stripWhiteSpace();
+            /* key/value pairs are read sequence independent */
+            if (key.compare(GF_NAME) == 0){
+                  sSoldIcon = value.stripWhiteSpace();
+                  //fprintf(stderr, "Old-Icon: %s\n", sSoldIcon.data());
+            }
+            else if (key.compare(GF_ROTATE) == 0){
+                iSoldRotate = value.toInt();
+            }
+            else if (key.compare(GF_INVERSTO) == 0){
+                iSoldInvert = value.toInt();
+            }
+            else if (key.compare(GF_DECODER) == 0){
+                sSoldDecoder = value;
+            }
+            else if (key.compare(GF_PROTOCOL) == 0){
+                sSoldProtocol = value;
+            }
+            else if (key.compare(GF_ADDRESS1) == 0){
+                iSoldAddress_1 = value.toInt();
+                iGA1BusNo = 1;
+            }
+            else if (key.compare(GF_ADDRESS2) == 0){
+                iSoldAddress_2 = value.toInt();
+                iGA2BusNo = 1;
+            }
+            else if (key.compare(GF_XCHCONN1) == 0){
+                iSoldChangeConn[0] = value.toInt();
+            }
+            else if (key.compare(GF_XCHCONN2) == 0){
+                iSoldChangeConn[1] = value.toInt();
+            }
+            else if (key.compare(GF_DIRECTION) == 0){
+                iSoldDirection = value.toInt();
+            }
+            else if (key.compare(GF_SUBTYPE) == 0){
+                iSoldSubType = value.toInt();
+            }
+            else if (key.compare(GF_TEXT) == 0){
+                sSoldText = value;
+            }
+            else if (key.compare(GF_ACTTIME) == 0){
+                iSoldActiveTime = value.toInt();
+            }
+            else if (key.compare(GF_FBPORT) == 0){
+                iFBContact = value.toInt();
+                iFBBusNo = 1;
+            }
+            else if (key.compare(GF_HIDELEDS) == 0){
+                iSoldLEDoff = value.toInt();
+                /*this is the last parameter, now exit while loop*/
+                break;
+            }
+        }
+    }
+}
+
+
+
+void element::updateProperties()
+{
+    /* initialize standard properties of this special symbol to avoid
+     * recalculation in several procedures by expensive string
+     * comparations*/
+    signal = sSoldIcon.startsWith("signal");
+    if (!signal)
+        turnout = (sSoldIcon.startsWith("weiche") ||
+                sSoldIcon.startsWith("ekw") ||
+                sSoldIcon == SYM_DRW);
+
+    /*element can be a part of a route*/
+    routable = signal || turnout ||
+        sSoldIcon.startsWith("diagonale") ||
+        sSoldIcon.startsWith("kreuzung") ||
+        sSoldIcon.startsWith("kurve") ||
+        sSoldIcon.startsWith("richtung") ||
+        sSoldIcon.startsWith("gerade") || sSoldIcon == SYM_BUE ||
+        sSoldIcon == SYM_ADR|| sSoldIcon == SYM_BLD;
+    
+    /*element has solenoid connected*/
+    switchable = signal || turnout;
+}
+
+/* check if this element contains information to save*/
+bool element::isEmpty()
+{
+    return (sSoldIcon == SYM_LEE) && (iSoldInvert != 1) &&
+        (sSoldText== "-1" || sSoldText== "");
+}
+
+
+
+bool element::isSignal()
+{
+    return signal;
+}
+
+
+bool element::isRoutable()
+{
+    return routable;
+}
+
+
+bool element::isSwitchable()
+{
+    return switchable;
+}
+
+
+bool element::isTurnout()
+{
+    return turnout;
 }
 
 
@@ -131,13 +425,13 @@ void element::createPopupMenus()
 }
 
 
-void element::copyData(QStrList * copyData)
+void element::copyData(QStrList* copyData)
 {
-    QString data; 
+    QString data;
 
     // copy a QStrList into different member variables
     data = copyData->at(LIST_ID_INDEX);
-    iSoldIndex = data.toInt();
+    iSoldIndex = data.toUInt();
 
     sSoldIcon = copyData->at(LIST_ID_ICON);
 
@@ -172,13 +466,10 @@ void element::copyData(QStrList * copyData)
     iSoldActiveTime = data.toInt();
 
     data = copyData->at(LIST_ID_FBPORT);
-    iSoldFBport = data.toInt();
+    iFBContact = data.toInt();
 
     data = copyData->at(LIST_ID_LEDOFF);
     iSoldLEDoff = data.toInt();
-
-    //sSoldData_2    = copyData->at(LIST_ID_DATA_2);
-    //sSoldData_3    = copyData->at(LIST_ID_DATA_3);
 }
 
 
@@ -210,7 +501,7 @@ void element::slotSwitchIt(int iNewDirection, int iLocked)
 }
 
 
-void element::mousePressEvent(QMouseEvent * event)
+void element::mousePressEvent(QMouseEvent* event)
 {
     // normal modus -> context menu
     if ((event->button() == RightButton) &&
@@ -222,7 +513,7 @@ void element::mousePressEvent(QMouseEvent * event)
     if ((event->button() == RightButton) && (iEditMode == L_EDIT))
         ctxEdit->exec(QCursor::pos());
     if ((event->button() == LeftButton) && (iEditMode == L_EDIT))
-        openProperties();
+        showPropertyDlg();
 
 
     // normal modus, action dependant of element type
@@ -254,7 +545,7 @@ void element::mousePressEvent(QMouseEvent * event)
 
         /* determine what type of button was pressed an send the
          * correspondig value to GBSArea to change cursor shape etc.*/
-        // if element contains a solenoi
+        // if element contains a solenoid or is a external button
         else if (iSoldAddress_1 != -1){
 
             if (sSoldIcon == SYM_HS || sSoldIcon == SYM_NRB)
@@ -365,7 +656,8 @@ void element::slotRecStaStoTimeout()
 {
     bRecStaStoTimeout = false;
 
-    iEditMode = R_EDIT_CLICKED; // element has been clicked and a yellow frame
+    // element has been clicked and a yellow frame
+    iEditMode = R_EDIT_CLICKED;
     emit sigElementClickedRecord(iSoldIndex, REC_NORMAL);
     setupElementIcon(iSoldLEDstate, "");
 }
@@ -383,10 +675,21 @@ void element::slotShowElement(int iShowElemAddr_, int iShowElemStat_,
 }
 
 
+void element::showElementState(int iShowElemStat_, int iShowType_)
+{
+    iEditMode = iShowType_; //R_EDIT_CLICKED;
+    if (iShowElemStat_ != -1)
+        iSoldDirection = iShowElemStat_;
+    setupElementIcon(iSoldLEDstate, "");
+}
+
+
 void element::locateMe()
 {
-    iEditMode = L_EDIT;         // activate edit mode for LOCATE_TIMER secs
-    setupElementIcon(iSoldLEDstate, "");        // if this is the searched element
+    // activate edit mode for LOCATE_TIMER secs
+    // if this is the searched element
+    iEditMode = L_EDIT;
+    setupElementIcon(iSoldLEDstate, "");
 
     locateTimer = new QTimer();
     locateTimer->start(LOCATE_TIMER, true);
@@ -410,10 +713,18 @@ void element::slotEditMode(int iEditMode_)
 }
 
 
+void element::switchToRouteViewMode()
+{
+    iEditMode = REC_SHOW;
+    setupElementIcon(iSoldLEDstate, "");
+}
+
+
 void element::slotRecordMode(int iRecMode_)
-{                               // or R_SHOW = 4
-    iEditMode = iRecMode_;
+{
+    // or R_SHOW = 4
     // routing record = 2 = R_EDIT, no routing record = 0 = NOEDIT
+    iEditMode = iRecMode_;
     setupElementIcon(iSoldLEDstate, "");
 }
 
@@ -423,12 +734,14 @@ void element::makeCommand()
     /* do not send anything for rail buttons without signals */
     if (sSoldIcon == SYM_SRB || sSoldIcon == SYM_NRB)
         return;
-        
-    int iRealDirection = iSoldDirection;
-    // default copy of direction + address
-    int iRealAddress = iSoldAddress_1;
 
     bool bSwitchSecondAddress = false;
+        
+    // default copy of direction + address
+    int iRealDirection = iSoldDirection;
+    int iRealAddress = iSoldAddress_1;
+
+
   DO_AGAIN:;
     int sendRepeatCounter = 1;
 
@@ -437,8 +750,9 @@ void element::makeCommand()
         iRealDirection = iSoldSubType;  // copy subtype as realDirection
 
     // element contains a main signal with direction >= 2
-    else if ((sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS
-              || sSoldIcon == SYM_VS) && iSoldDirection >= 2) {
+    else if ((sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
+              sSoldIcon == SYM_VS) && iSoldDirection >= 2) {
+
         sendRepeatCounter = cNumRepeatCommands;
 
         // Hp0+Hp1 not considered, is done by default copy
@@ -468,7 +782,7 @@ void element::makeCommand()
             iRealDirection = iSoldDirection % 2;
             break;
         case true:             // send second address data
-            iRealDirection = iSoldDirection > 1;
+            iRealDirection = (iSoldDirection > 1);
             iRealAddress = iSoldAddress_2;
             break;
         }
@@ -476,11 +790,11 @@ void element::makeCommand()
 
     // element contains a 4-state-DKW or EKW
     else if ((sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR) ||
-             ((sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR)
-              && iSoldSubType == 1)) {
+             ((sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) &&
+              iSoldSubType == 1)) {
         switch (bSwitchSecondAddress) {
         case false:            // send first address data
-            iRealDirection = iSoldDirection >= 2;
+            iRealDirection = (iSoldDirection >= 2);
             break;
         case true:             // send second address data
             iRealDirection = (iSoldDirection == 1 || iSoldDirection == 2);
@@ -513,22 +827,22 @@ void element::makeCommand()
             emit sendCommand(sSocketCommand);   // switch solenoid
             sendRepeatCounter--;
             if (sendRepeatCounter)
-                //serd: wait 500ms only if repeating command for signal
+                //serd: wait 500 ms only if repeating command for signal
                 usleep(500 * 1000);
         }
 
         // return to copy direction and address for second switch
-        if ((sSoldIcon == SYM_DRW || sSoldIcon == SYM_EKL
-             || sSoldIcon == SYM_EKR
-             || ((sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR)
-                 && iSoldSubType == 1)) && !bSwitchSecondAddress) {
+        if ((sSoldIcon == SYM_DRW || sSoldIcon == SYM_EKL ||
+             sSoldIcon == SYM_EKR || ((sSoldIcon == SYM_DKL ||
+             sSoldIcon == SYM_DKR) && iSoldSubType == 1)) &&
+             !bSwitchSecondAddress) {
             bSwitchSecondAddress = true;
             goto DO_AGAIN;
         }
         else if (sSoldIcon == SYM_ENK && iSoldSubType != -1) {
             // if momentary coupler: activate it,
             // wait for a short time and deactivate it graphically
-            setupElementIcon(iSoldLEDstate, ""); 
+            setupElementIcon(iSoldLEDstate, "");
             usleep(1000 * iSoldActiveTime);
             iSoldDirection = !iSoldDirection;
             setupElementIcon(iSoldLEDstate, "");
@@ -537,15 +851,14 @@ void element::makeCommand()
 }
 
 
-void element::openProperties()
+void element::showPropertyDlg()
 {
+    /* when dialog is allready open just bring it to front*/
     if (elementPropertyDlg != NULL) {
-        // Wenn der Dialog schon geöffnet ist, das Fenster nach vorne
-        // bringen
         elementPropertyDlg->setActiveWindow();
         elementPropertyDlg->raise();
     }
-    // neuen Dialog erzeugen
+    // else create new dialog
     else {
 
         QString title;
@@ -576,7 +889,7 @@ void element::openProperties()
         elementData->insert(LIST_ID_TEXT, sSoldText);
         elementData->insert(LIST_ID_ACTTIME,
                             insert.setNum(iSoldActiveTime));
-        elementData->insert(LIST_ID_FBPORT, insert.setNum(iSoldFBport));
+        elementData->insert(LIST_ID_FBPORT, insert.setNum(iFBContact));
         elementData->insert(LIST_ID_LEDOFF, insert.setNum(iSoldLEDoff));
         //elementData->insert(LIST_ID_DATA_2,    sSoldData_2);
         //elementData->insert(LIST_ID_DATA_3,    sSoldData_3);
@@ -603,14 +916,15 @@ void element::slotUpdateData()
     elementPropertyDlg->close(true);
     // copy data from properties window,
     // either LED_OFF = 0 or LED_RED = 2*1=2
-    iSoldLEDstate = 2 * bFBport[iSoldFBport];
+    iSoldLEDstate = 2 * bFBport[iFBContact];
     sRepeatIcon = sSoldIcon;
     emit setRepeatIcon(sRepeatIcon);
     setupElementIcon(iSoldLEDstate, "");
+    updateProperties();
 }
 
 
-void element::slotRepeatIcon(QString sRepeat_)
+void element::slotRepeatIcon(const QString& sRepeat_)
 {
     QString s;
 
@@ -621,7 +935,8 @@ void element::slotRepeatIcon(QString sRepeat_)
 
 
 void element::slotToggle()
-{                               // toggles cyclic for 3-state-solenoids
+{
+    // toggles cyclic for 3-state-solenoids
     if (sSoldIcon == SYM_DRW ||
         sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR) {
         if (iSoldDirection < 2)
@@ -690,55 +1005,55 @@ void element::slotToggle()
 void element::slotCtxEdit(int iID_)
 {
     switch (iID_) {
-    case CTX_ID_REP:
-        clear();
-        sSoldIcon = sRepeatIcon;
-        break;
-        //case 1: Trennlinie
-    case CTX_ID_ROTATE:
-        rotate();
-        break;
-    case CTX_ID_CLEAR:
-        clear();
-        break;
-        //case 4: Trennlinie
-    case 5:
-        clear();
-        sSoldIcon = SYM_GER;    // straight
-        iSoldRotate = 0;        // all symbols are rotatable
-        break;
-    case 6:
-        clear();
-        sSoldIcon = SYM_KUL;    // left curve
-        iSoldRotate = 0;        // all symbols are rotatable
-        break;
-    case 7:
-        clear();
-        sSoldIcon = SYM_KUR;    // right "
-        iSoldRotate = 0;        // all symbols are rotatable
-        break;
-    case 8:
-        clear();
-        sSoldIcon = SYM_DIL;    // left diagonal
-        break;
-    case 9:
-        clear();
-        sSoldIcon = SYM_DIR;    // right "
-        break;
-    case 10:
-        clear();
-        sSoldIcon = SYM_WEL;    // left turnout
-        iSoldRotate = 0;        // all symbols are rotatable
-        break;
-    case 11:
-        clear();
-        sSoldIcon = SYM_WER;    // right "
-        iSoldRotate = 0;        // all symbols are rotatable
-        break;
+        case CTX_ID_REP:
+            clear();
+            sSoldIcon = sRepeatIcon;
+            break;
+            //case 1: separation line
+        case CTX_ID_ROTATE:
+            rotate();
+            break;
+        case CTX_ID_CLEAR:
+            clear();
+            break;
+            //case 4: separation line
+        case 5:
+            clear();
+            sSoldIcon = SYM_GER;    // straight
+            iSoldRotate = 0;        // all symbols are rotatable
+            break;
+        case 6:
+            clear();
+            sSoldIcon = SYM_KUL;    // left curve
+            iSoldRotate = 0;        // all symbols are rotatable
+            break;
+        case 7:
+            clear();
+            sSoldIcon = SYM_KUR;    // right "
+            iSoldRotate = 0;        // all symbols are rotatable
+            break;
+        case 8:
+            clear();
+            sSoldIcon = SYM_DIL;    // left diagonal
+            break;
+        case 9:
+            clear();
+            sSoldIcon = SYM_DIR;    // right "
+            break;
+        case 10:
+            clear();
+            sSoldIcon = SYM_WEL;    // left turnout
+            iSoldRotate = 0;        // all symbols are rotatable
+            break;
+        case 11:
+            clear();
+            sSoldIcon = SYM_WER;    // right "
+            iSoldRotate = 0;        // all symbols are rotatable
+            break;
     }
-    iSoldFBport = 0;
+    iFBContact = 0;
     iSoldLEDoff = 0;
-    iSoldLEDstate = 2 * bFBport[iSoldFBport];
+    iSoldLEDstate = 2 * bFBport[iFBContact];
     setupElementIcon(iSoldLEDstate, "");
     sRepeatIcon = sSoldIcon;
     emit setRepeatIcon(sRepeatIcon);
@@ -757,7 +1072,7 @@ void element::clear()
     iSoldChangeConn[0] = -1;
     iSoldChangeConn[1] = -1;
     iSoldDirection = -1;
-    iSoldFBport = -1;
+    iFBContact = -1;
     iSoldInvert = -1;
     iSoldLEDoff = -1;
     iSoldLEDstate = LED_OFF;
@@ -772,6 +1087,7 @@ void element::clear()
     sSoldText = "-1";
     //sSoldData_2        = "-1";
     //sSoldData_3        = "-1";
+    updateProperties();
 }
 
 
@@ -789,9 +1105,9 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                             iSoldRotate != -1 && iEditMode == L_EDIT);
     ctxNorm->setItemEnabled(CTX_ID_TOGGLE,
                             (iSoldAddress_1 != -1) &&
-                            (iSoldLocked == false) &&
                             (sSoldIcon != SYM_DRE) &&
                             (sSoldIcon != SYM_MDC) &&
+                            (!iSoldLocked) &&
                             (iLEDstate_ != LED_RED) &&
                             (iEditMode == NOEDIT || iEditMode == R_EDIT));
 
@@ -1039,9 +1355,11 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                     bitBlt(&pixBasicIcon, 28 * (1 - k), 0, &pixLED, 0, 0,
                            28, 35, OrROP, false);
 
-                if (k == 0)     // this "if" equals "break" in left icon half of
-                {               // solenoid elements (see above)
-                    k = 1;      // second half = left half
+                // this "if" equals "break" in left icon half of
+                // solenoid elements (see above)
+                // second half = left half
+                if (k == 0) {
+                    k = 1;
                     i = 8;
                     j = 3;
                 }               // do the other track in crossings or DKW/EKW
@@ -1195,7 +1513,8 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
     // setup adress/text and locked symbol
     // no text if we have a "-1"-entry
     if (sSoldText != "-1" && !sSoldText.isEmpty()) {
-        // now setup the right font
+        // now setup the right font, TODO make configurable by user
+        /* FIXME: each QWidget has allready a QFont, use it! */
         QFont f("Helvetica");
         QRect br;               // for frame around text
         QString s;              // empty and straight elements
@@ -1209,17 +1528,17 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         else if (sSoldIcon == SYM_ADR) {
             f.setPointSize(12);
             f.setWeight(QFont::DemiBold);
-            int iAdr =
-                bFBport[iSoldFBport] + 2 * (bFBport[iSoldFBport + 1]) +
-                4 * (bFBport[iSoldFBport + 2]) +
-                8 * (bFBport[iSoldFBport + 3]) +
-                16 * (bFBport[iSoldFBport + 4]) +
-                32 * (bFBport[iSoldFBport + 5]) +
-                64 * (bFBport[iSoldFBport + 6]) +
-                128 * (bFBport[iSoldFBport + 7]);
+            int iAdr = bFBport[iFBContact] +
+                  2 * (bFBport[iFBContact + 1]) +
+                  4 * (bFBport[iFBContact + 2]) +
+                  8 * (bFBport[iFBContact + 3]) +
+                 16 * (bFBport[iFBContact + 4]) +
+                 32 * (bFBport[iFBContact + 5]) +
+                 64 * (bFBport[iFBContact + 6]) +
+                128 * (bFBport[iFBContact + 7]);
 
             // only show if loco address is different from "0"
-            //if (iAdr > 0) 
+            //if (iAdr > 0)
             s.sprintf("%05d", iAdr);
         }
         
@@ -1316,49 +1635,49 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         p.setPen(blue);
         p.drawText(br.bottomLeft() + QPoint(2, -1), s.data());
         p.setPen(black);
-    }
 
-    // locked circle for solenoids
-    QPoint xyLocked;
+        // locked circle for solenoids
+        QPoint xyLocked;
 
-    if ((sSoldIcon == SYM_WEL && iSoldRotate == 0) ||
-            (sSoldIcon == SYM_DWR && iSoldRotate == 0) ||
-            (sSoldIcon == SYM_DRW && iSoldRotate == 1) ||
-            (sSoldIcon == SYM_WEY && iSoldRotate == 1) ||
-            (sSoldIcon == SYM_EKL && iSoldRotate == 1))
-        xyLocked = QPoint(42, 23);
+        if ((sSoldIcon == SYM_WEL && iSoldRotate == 0) ||
+                (sSoldIcon == SYM_DWR && iSoldRotate == 0) ||
+                (sSoldIcon == SYM_DRW && iSoldRotate == 1) ||
+                (sSoldIcon == SYM_WEY && iSoldRotate == 1) ||
+                (sSoldIcon == SYM_EKL && iSoldRotate == 1))
+            xyLocked = QPoint(42, 23);
 
-    else if ((sSoldIcon == SYM_WER && iSoldRotate == 0) ||
-            (sSoldIcon == SYM_DWL && iSoldRotate == 0) ||
-            (sSoldIcon == SYM_EKR && iSoldRotate == 0) ||
-            (sSoldIcon == SYM_DKR))
-        xyLocked = QPoint(42, 7);
+        else if ((sSoldIcon == SYM_WER && iSoldRotate == 0) ||
+                (sSoldIcon == SYM_DWL && iSoldRotate == 0) ||
+                (sSoldIcon == SYM_EKR && iSoldRotate == 0) ||
+                (sSoldIcon == SYM_DKR))
+            xyLocked = QPoint(42, 7);
 
-    else if ((sSoldIcon == SYM_WEL && iSoldRotate == 1) ||
-            (sSoldIcon == SYM_DWR && iSoldRotate == 1) ||
-            (sSoldIcon == SYM_DRW && iSoldRotate == 0) ||
-            (sSoldIcon == SYM_WEY && iSoldRotate == 0) ||
-            (sSoldIcon == SYM_EKL && iSoldRotate == 0) ||
-            (sSoldIcon == SYM_DKL))
-        xyLocked = QPoint(10, 7);
+        else if ((sSoldIcon == SYM_WEL && iSoldRotate == 1) ||
+                (sSoldIcon == SYM_DWR && iSoldRotate == 1) ||
+                (sSoldIcon == SYM_DRW && iSoldRotate == 0) ||
+                (sSoldIcon == SYM_WEY && iSoldRotate == 0) ||
+                (sSoldIcon == SYM_EKL && iSoldRotate == 0) ||
+                (sSoldIcon == SYM_DKL))
+            xyLocked = QPoint(10, 7);
 
-    else if ((sSoldIcon == SYM_WER && iSoldRotate == 1) ||
-            (sSoldIcon == SYM_DWL && iSoldRotate == 1) ||
-            (sSoldIcon == SYM_EKR && iSoldRotate == 1))
-        xyLocked = QPoint(10, 23);
+        else if ((sSoldIcon == SYM_WER && iSoldRotate == 1) ||
+                (sSoldIcon == SYM_DWL && iSoldRotate == 1) ||
+                (sSoldIcon == SYM_EKR && iSoldRotate == 1))
+            xyLocked = QPoint(10, 23);
 
-    else if (sSoldIcon.left(6) == "signal")
-        // 5 or 46, 25 or 5
-        xyLocked = QPoint(5 + iSoldRotate * 41, 25 - iSoldRotate * 20);
+        else if (sSoldIcon.left(6) == "signal")
+            // 5 or 46, 25 or 5
+            xyLocked = QPoint(5 + iSoldRotate * 41, 25 - iSoldRotate * 20);
 
-    if (iSoldAddress_1 != -1 && sSoldIcon != SYM_ENK
-            && sSoldIcon != SYM_REL && sSoldIcon != SYM_SBN
-            && sSoldIcon != SYM_MDC && sSoldIcon != SYM_DRE
-            && sSoldIcon != SYM_ADR && sSoldIcon != SYM_BLD
-            && sSoldIcon != SYM_VS) {
-        p.setPen(black);
-        p.setBrush(iSoldLocked > 0 ? yellow : lightGray);
-        p.drawEllipse(xyLocked.x(), xyLocked.y(), 5, 5);
+        if (iSoldAddress_1 != -1 && sSoldIcon != SYM_ENK
+                && sSoldIcon != SYM_REL && sSoldIcon != SYM_SBN
+                && sSoldIcon != SYM_MDC && sSoldIcon != SYM_DRE
+                && sSoldIcon != SYM_ADR && sSoldIcon != SYM_BLD
+                && sSoldIcon != SYM_VS) {
+            p.setPen(black);
+            p.setBrush(iSoldLocked > 0 ? yellow : lightGray);
+            p.drawEllipse(xyLocked.x(), xyLocked.y(), 5, 5);
+        }
     }
 
     // draw frame around every element
@@ -1385,7 +1704,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         p.setPen(QPen(QColor(0, 255, 0), 2, SolidLine));
 
     else if (iEditMode == R_EDIT_CLICKED || iEditMode == R_SHOW_ELM)
-      // yellow if clicked element in record route mode
+        // yellow if clicked element in record route mode
         p.setPen(QPen(QColor(251, 251, 0), 2, SolidLine));
 
     else if (iEditMode == R_SHOW)
@@ -1409,16 +1728,16 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
 
 void element::addTooltip()
 {
-    QToolTip::remove(this);     // remove every tooltip
-    // and if wished add new one
+    QToolTip::remove(this);
+    // remove every tooltip and if wished add new one
     // setup element's tooltip
     // with all information of the member variables
     QString a1, a2;
     a1 = QString::number(iSoldAddress_1);
     a2 = QString::number(iSoldAddress_2);
     
-    if (SHOW_DATA_TOOLTIPS) {                               
-        QString tip1, tip2;         
+    if (SHOW_DATA_TOOLTIPS) {
+        QString tip1, tip2;
 
         tip1.sprintf("ELEMENT  # %03d\n"
                      "icon     : %s\n"
@@ -1466,8 +1785,8 @@ void element::addTooltip()
                      iSoldLocked == -1 ? "N/A" : (iSoldLocked ==
                                                   0 ? "No" : "Yes"),
                      iSoldLocked, iSoldActiveTime,
-                     iSoldFBport / (16 - FEEDBACK * 8) + 1,
-                     iSoldFBport % (16 - FEEDBACK * 8) + 1);
+                     iFBContact / (16 - FEEDBACK * 8) + 1,
+                     iFBContact % (16 - FEEDBACK * 8) + 1);
 
         tip1.append(tip2);
 
@@ -1518,8 +1837,8 @@ int element::routeElement(int S, int iNewLEDstate_, int iLastC)
             return +1;
     }
 
-    else if (sSoldIcon == SYM_DIL || sSoldIcon == SYM_DIR)      // NEW ICON
-    {
+    // NEW ICON
+    else if (sSoldIcon == SYM_DIL || sSoldIcon == SYM_DIR) {
         setupElementIcon(iSoldLEDstate, "");
         if (S ^ I)
             return -1;
@@ -1527,8 +1846,8 @@ int element::routeElement(int S, int iNewLEDstate_, int iLastC)
             return +1;
     }
 
-    else if (sSoldIcon == SYM_KUL || sSoldIcon == SYM_KUR)      // NEW ICON
-    {
+    // NEW ICON
+    else if (sSoldIcon == SYM_KUL || sSoldIcon == SYM_KUR) {
         setupElementIcon(iSoldLEDstate, "");
         if (!(R ^ S))
             return 0;
@@ -1538,8 +1857,8 @@ int element::routeElement(int S, int iNewLEDstate_, int iLastC)
             return +1;
     }
 
-    else if (sSoldIcon == SYM_DRW)      // NEW ICON
-    {
+    // NEW ICON
+    else if (sSoldIcon == SYM_DRW) {
         setupElementIcon(iSoldLEDstate, "");
         if (!(R ^ S) || D == 0)
             return 0;
@@ -1549,8 +1868,8 @@ int element::routeElement(int S, int iNewLEDstate_, int iLastC)
             return +1;
     }
 
-    else if (sSoldIcon == SYM_WEY)      // NEW ICON
-    {
+    // NEW ICON
+    else if (sSoldIcon == SYM_WEY) {
         setupElementIcon(iSoldLEDstate, "");
         if (!(R ^ S))
             return 0;
@@ -1560,8 +1879,8 @@ int element::routeElement(int S, int iNewLEDstate_, int iLastC)
             return +1;
     }
 
-    else if (sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR)      // NEW ICON
-    {
+    // NEW ICON
+    else if (sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR) {
         setupElementIcon(iSoldLEDstate, "");
         if ((R ^ S) && D == 1)
             return 0;
@@ -1586,8 +1905,9 @@ int element::routeElement(int S, int iNewLEDstate_, int iLastC)
             return +1;
     }
 
-    else if ((sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) && iSoldSubType == 1)       // 4-state-DKWs
-    {
+    // 4-state-DKWs
+    else if ((sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) &&
+             iSoldSubType == 1) {
         setupElementIcon(iSoldLEDstate, "");
         if (D == 0 || S == 0 && (D == 1 && I == 0 || D == 3 && I == 1) ||
             S == 1 && (D == 3 && I == 0 || D == 1 && I == 1))
@@ -1598,8 +1918,9 @@ int element::routeElement(int S, int iNewLEDstate_, int iLastC)
             return +1;
     }
 
-    else if ((sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) && iSoldSubType == 0)       // 2-state-DKWs
-    {
+    // 2-state-DKWs
+    else if ((sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) &&
+             iSoldSubType == 0) {
         QString sReplaceIcon;
         int C = 5;              // dummy value, not used !
 
@@ -1607,18 +1928,20 @@ int element::routeElement(int S, int iNewLEDstate_, int iLastC)
             sReplaceIcon = SYM_GER;
             C = iLastC;         // == 0
         }
-        if (D == 0 && I == 0
+        
+        else if (D == 0 && I == 0
             && (iLastC == +1 && S == 0 || iLastC == -1 && S == 1)) {
             sReplaceIcon = SYM_DIL;
             C = iLastC;         // == +-1
         }
-        if (D == 0 && I == 1
+        
+        else if (D == 0 && I == 1
             && (iLastC == -1 && S == 0 || iLastC == +1 && S == 1)) {
             sReplaceIcon = SYM_DIR;
             C = iLastC;         // == +-1
         }
 
-        if (D == 1 && I == 0
+        else if (D == 1 && I == 0
             && (iLastC == +1 && S == 0 || iLastC == 0 && S == 1)) {
             sReplaceIcon = SYM_KUL;
             if (iLastC != 0)
@@ -1626,7 +1949,8 @@ int element::routeElement(int S, int iNewLEDstate_, int iLastC)
             if (iLastC == 0)
                 C = -1;
         }
-        if (D == 1 && I == 1
+
+        else if (D == 1 && I == 1
             && (iLastC == -1 && S == 0 || iLastC == 0 && S == 1)) {
             sReplaceIcon = SYM_KUR;
             if (iLastC != 0)
@@ -1635,7 +1959,7 @@ int element::routeElement(int S, int iNewLEDstate_, int iLastC)
                 C = +1;
         }
 
-        if (D == 1 && I == 0
+        else if (D == 1 && I == 0
             && (iLastC == -1 && S == 1 || iLastC == 0 && S == 0)) {
             sReplaceIcon = SYM_KULR;
             if (iLastC != 0)
@@ -1643,7 +1967,7 @@ int element::routeElement(int S, int iNewLEDstate_, int iLastC)
             if (iLastC == 0)
                 C = +1;
         }
-        if (D == 1 && I == 1
+        else if (D == 1 && I == 1
             && (iLastC == +1 && S == 1 || iLastC == 0 && S == 0)) {
             sReplaceIcon = SYM_KURR;
             if (iLastC != 0)
@@ -1651,6 +1975,7 @@ int element::routeElement(int S, int iNewLEDstate_, int iLastC)
             if (iLastC == 0)
                 C = -1;
         }
+
         setupElementIcon((iSoldLEDstate > 1) + 1, sReplaceIcon);
         return C;
     }
@@ -1661,9 +1986,9 @@ int element::routeElement(int S, int iNewLEDstate_, int iLastC)
 
         if (iLastC == 0)
             sReplaceIcon = SYM_GER;
-        if (S == 0 && iLastC == +1 || S == 1 && iLastC == -1)
+        else if (S == 0 && iLastC == +1 || S == 1 && iLastC == -1)
             sReplaceIcon = SYM_DIL;
-        if (S == 0 && iLastC == -1 || S == 1 && iLastC == +1)
+        else if (S == 0 && iLastC == -1 || S == 1 && iLastC == +1)
             sReplaceIcon = SYM_DIR;
 
         /*if (iSoldLEDstate == LED_OFF)
@@ -1677,7 +2002,7 @@ int element::routeElement(int S, int iNewLEDstate_, int iLastC)
         // return the same correctional value as obtained before
         return iLastC;
     }
-    return iLastC;              // this line should never be reached !!!
+    return iLastC;              // this line should never be reached!
 }
 
 
@@ -1685,15 +2010,17 @@ void element::slotOccupyElement(unsigned int iPortNr_)
 {
     QString sReplaceIcon = "";
 
-    // this slot is always called if a feedback port toggles and does NOT reset
-    // a route (done by GBSArea); but "setupElementIcon" is only called either
-    // with LED_OFF or LED_RED (never with LED_YEL) from this slot !
-    if ((sSoldIcon == SYM_ADR) &&
-        ((iPortNr_ >> 3) * 8 == (unsigned int) iSoldFBport))
+    /*
+     * this slot is always called if a feedback port toggles and does NOT reset
+     * a route (done by GBSArea); but "setupElementIcon" is only called either
+     * with LED_OFF or LED_RED (never with LED_YEL) from this slot!
+     */
+    if ((sSoldIcon == SYM_ADR) && ((iPortNr_ >> 3) << 3 ==
+                                   (unsigned int) iFBContact))
         setupElementIcon(iSoldLEDstate, "");
     // evtl. Dauer der Anzeige einstellbar ????
 
-    else if (iPortNr_ == (unsigned int) iSoldFBport) {
+    else if (iPortNr_ == (unsigned int) iFBContact) {
         if (iSoldRoutingActive == 0)
             iSoldLEDstate = 2 * bFBport[iPortNr_];
         // either LED_OFF = 0 or LED_RED = 2*1=2
@@ -1715,8 +2042,8 @@ void element::slotUpdateTurntableData(QPoint newCmd_)
     iSoldDirection = newCmd_.y();
 
     // save track# in subtype if a track key was pressed
-    if (sSoldIcon == SYM_DRE && newCmd_.x() >= 4) 
-        iSoldSubType = newCmd_.x() * 2 - 9 + newCmd_.y();       
+    if (sSoldIcon == SYM_DRE && newCmd_.x() >= 4)
+        iSoldSubType = newCmd_.x() * 2 - 9 + newCmd_.y();
 
     setupElementIcon(iSoldLEDstate, "");
     makeCommand();
@@ -1732,8 +2059,8 @@ void element::slotCopyAvailTracks(QString sAvailTracks_)
 
 void element::slotRepaintLayout()
 {
-    setupElementIcon(iSoldLEDstate, "");        // show element now with opposite
-    // of text/address labels
+    // show element now with opposite of text/address labels
+    setupElementIcon(iSoldLEDstate, "");
 }
 
 
@@ -1743,25 +2070,24 @@ QSize element::sizeHint() const
 }
 
 
-void element::writeFileTextToStream(QTextStream & tstream)
+void element::writeFileTextToStream(QTextStream& ts)
 {
-    tstream << "icon:           " << sSoldIcon << endl;
-    tstream << "rotate:         " << iSoldRotate << endl;
-    tstream << "invers turnout: " << iSoldInvert << endl;
-    tstream << "decoder:        " << sSoldDecoder << endl;
-    tstream << "protocol:       " << sSoldProtocol << endl;
-    tstream << "address_1:      " << iSoldAddress_1 << endl;
-    tstream << "address_2:      " << iSoldAddress_2 << endl;
-    tstream << "change conn 1:  " << iSoldChangeConn[0] << endl;
-    tstream << "change conn 2:  " << iSoldChangeConn[1] << endl;
-    tstream << "direction:      " << iSoldDirection << endl;
-    tstream << "subtype:        " << iSoldSubType << endl;
-    tstream << "text:           " << sSoldText << endl;
-    tstream << "active time:    " << iSoldActiveTime << endl;
-    tstream << "feedback port:  " << iSoldFBport << endl;
-    tstream << "hide LEDs:      " << iSoldLEDoff << endl;
-    tstream << "data 2:         -1\n";
-    tstream << "data 3:         -1\n";
+    ts << GF_INDEX     << ":" << iSoldIndex<< endl;
+    ts << GF_NAME      << ":" << sSoldIcon << endl;
+    ts << GF_ROTATE    << ":" << iSoldRotate << endl;
+    ts << GF_INVERSTO  << ":" << iSoldInvert << endl;
+    ts << GF_DECODER   << ":" << sSoldDecoder << endl;
+    ts << GF_PROTOCOL  << ":" << sSoldProtocol << endl;
+    ts << GF_ADDRESS1  << ":" << iSoldAddress_1 << ":" << iGA1BusNo << endl;
+    ts << GF_ADDRESS2  << ":" << iSoldAddress_2 << ":" << iGA2BusNo << endl;
+    ts << GF_XCHCONN1  << ":" << iSoldChangeConn[0] << endl;
+    ts << GF_XCHCONN2  << ":" << iSoldChangeConn[1] << endl;
+    ts << GF_DIRECTION << ":" << iSoldDirection << endl;
+    ts << GF_SUBTYPE   << ":" << iSoldSubType << endl;
+    ts << GF_TEXT      << ":" << sSoldText << endl;
+    ts << GF_ACTTIME   << ":" << iSoldActiveTime << endl;
+    ts << GF_FBPORT    << ":" << iFBContact << ":" << iFBBusNo << endl;
+    ts << GF_HIDELEDS  << ":" << iSoldLEDoff << endl;
 }
 
 
@@ -1780,5 +2106,22 @@ bool element::hasSameAddress(int compAddress)
 bool element::isLocked()
 {
     return (LOCKED == iSoldLocked);
+}
+
+
+bool element::isOccupied()
+{
+    return (LED_RED == iSoldLEDstate);
+}
+
+
+void element::setIndexNo(unsigned int idx)
+{
+    iSoldIndex = idx;
+}
+
+unsigned int element::getIndexNo()
+{
+    return iSoldIndex;
 }
 

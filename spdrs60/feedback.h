@@ -1,12 +1,12 @@
 /***************************************************************************
                            feedback.h
-                           version 0.4.3
+                           version 0.4.8 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
+                         : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : 2004-12-31
+    last modified        : $Date: 2005-05-07 12:22:43 $
 ***************************************************************************/
-/***/
 
 /******************************************************************************
  *                                                                            *
@@ -38,7 +38,7 @@ class feedback: public QDialog
    Q_OBJECT
 
 public:
-   feedback( QWidget *parent=0 ); // creator of this window
+   feedback(QWidget* parent=0); // creator of this window
 
 private:
    void showModules();            // shows all modules on a bus
@@ -52,7 +52,7 @@ private slots:
    void slotPrevPage();           // shows previous page/bus
 
 signals:
-   void updateModule( int );      // sends update to fbModule.cpp
+   void updateModule(int);      // sends update to fbModule.cpp
 
 private:
    fbModule    *module[62];       // a series of s88 modules

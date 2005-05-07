@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.3 $
+                           version 0.4.8 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-04-21 20:27:43 $
+    last modified        : $Date: 2005-05-07 12:22:43 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -29,6 +29,7 @@
 
 #include "resources.h"
 #include "gbsarea.h"
+#include "element.h"
 
 /*cursor pixmaps*/
 #include "pixmaps/cursor_wgt_b.xpm"
@@ -65,19 +66,27 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
 : QWidget(parent, name)
 {
     // set all global layout variables
+    cmdHost = "localhost";
+    fbHost = "localhost";
+    cmdPort = 12345;
+    fbPort = 12346;
+    cmdLogin = false;
+    fbLogin = false;
+    
     bRouteWindowActive = false;
     gkbState = kNoneClicked;
     bRecord = false;
     modified = false;
+    cols = 0;
+    rows = 0;
 
     iFromSignalIndex = -1;
     iToSignalIndex = -1;
     searchedRoute = kNormal;
     iLastFoundID = 0;
     iConvertCheck = 0;          // variable for check of old route files
-    iNumOfElements = 0;
-    /*GBSElement[MAX_ROWS*MAX_COLS];  should be filled with "0" */
-
+    elements.setAutoDelete(true);
+    
     listOfActivatePorts = new QStrList(true);
     listOfFromSignals = new QStrList(true);     // create a QStrList for: start
     listOfLockedRoutes = new QStrList(true);    // list of locked routes
@@ -151,6 +160,7 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
 
 GBSArea::~GBSArea()
 {
+    elements.clear();
     delete listOfFromSignals;
     delete listOfToSignals;
     delete listOfReleasePorts;
@@ -163,65 +173,45 @@ GBSArea::~GBSArea()
 // *INDENT-OFF*
 QSize GBSArea::sizeHint() const
 {
-    // Size of GBSArea: Spalten * Elementbreite, Zeilen * Elementhöhe
-    // return QSize(iNumOfElements/MAX_ROWS * EL_WIDTH,
-    //              iNumOfElements%MAX_ROWS * EL_HEIGHT);
+    // Size of GBSArea: columns * element width, rows * element height
 
-    if (iNumOfElements == 0)
+    if (elements.count() == 0)
         return QSize(0, 0);
     else
-        return QSize(((iNumOfElements + 1) / MAX_ROWS) * (EL_WIDTH - 1) +
-                     1, (MAX_ROWS * (EL_HEIGHT - 1)) + 1);
+/*        return QSize(((elements.count() + 1) / rows) * (EL_WIDTH - 1) +
+                     1, (rows * (EL_HEIGHT - 1)) + 1);*/
+        return QSize(cols * (EL_WIDTH - 1), rows * (EL_HEIGHT - 1));
 }
 // *INDENT-ON*
 
 
-int GBSArea::slotNew(int iColumns)
+int GBSArea::newFile(int iColumns, int iRows)
 {
+    cols = iColumns;
+    rows = iRows;
+    routeFileName = "";
+
+    deleteElements();
+    elements.resize(iRows * iColumns);
+
     QProgressDialog progress(tr("Creating empty layout file"),
-                             tr("Abort"), MAX_ROWS * iColumns,
+                             tr("Abort"), iRows * iColumns,
                              this, "progress", true);
     progress.show();
     
-    
-    QStrList* newElementData = new QStrList(true);
+    // deletes a possibly shown old layout
 
-    // the data for a new element stays the same for a whole layout
-    newElementData->insert(LIST_ID_INDEX, 0);
-    newElementData->insert(LIST_ID_ICON, "leer");
-    newElementData->insert(LIST_ID_ROTATE, "-1");
-    newElementData->insert(LIST_ID_INVERT, "-1");
-    newElementData->insert(LIST_ID_DECODER, "-1");
-    newElementData->insert(LIST_ID_PROTOCOL, "-1");
-    newElementData->insert(LIST_ID_ADDRESS_1, "-1");
-    newElementData->insert(LIST_ID_ADDRESS_2, "-1");
-    newElementData->insert(LIST_ID_CHACONN_1, "-1");
-    newElementData->insert(LIST_ID_CHACONN_2, "-1");
-    newElementData->insert(LIST_ID_DIRECTION, "-1");
-    newElementData->insert(LIST_ID_SUBTYPE, "-1");
-    newElementData->insert(LIST_ID_TEXT, "-1");
-    newElementData->insert(LIST_ID_ACTTIME, "-1");
-    newElementData->insert(LIST_ID_FBPORT, "0");        //serd
-    newElementData->insert(LIST_ID_LEDOFF, "0");        //serd
-    newElementData->insert(LIST_ID_DATA_2, "-1");
-    newElementData->insert(LIST_ID_DATA_3, "-1");
-
-    deleteElements();           // deletes a possibly shown old layout
     QString sData;
 
-    for (iNumOfElements = 0; iNumOfElements < MAX_ROWS * iColumns;
-         iNumOfElements++) {
+    for (int i = 0; i < (iRows * iColumns); i++) {
         // now create the new elements (but do not show them yet)
-        newElementData->remove((uint) LIST_ID_INDEX);
-        newElementData->insert(LIST_ID_INDEX,
-                               sData.setNum(iNumOfElements));
-        GBSElement[iNumOfElements] = new element(newElementData, this);
-        GBSElement[iNumOfElements]->move((iNumOfElements / MAX_ROWS) *
-                                         (EL_WIDTH - 1),
-                                         (iNumOfElements % MAX_ROWS) *
-                                         (EL_HEIGHT - 1));
+        element* anElement = new element(this);
+        anElement->setIndexNo(i);
+        elements.insert(i, anElement);
+        anElement->move((i / iRows) * (EL_WIDTH - 1),
+                        (i % iRows) * (EL_HEIGHT - 1));
 
-        progress.setProgress(iNumOfElements);
+        progress.setProgress(i);
         qApp->processEvents();
 
 #if QT_VERSION >= 0x030200
@@ -230,65 +220,128 @@ int GBSArea::slotNew(int iColumns)
         if (progress.wasCancelled()) {
 #endif
             deleteElements();
-            delete newElementData;
             return 1;
         }
     }
-    progress.setProgress(MAX_ROWS * iColumns);
-    setupElements();            // now setup and show elements
-    delete newElementData;
+    progress.setProgress(iRows * iColumns);
+    // now setup and show elements
+    setupElements();
+    emit updateRoutingViewer("");
     return 0;
+}
+        
+
+void GBSArea::writeFileTextToStream(QTextStream& ts)
+{
+    QDateTime dt = QDateTime::currentDateTime();
+    
+    // write the header
+    ts << "# spdrs60 layout file" << endl;
+    ts << "# version=" << VERSION << endl;
+    ts << "# last modified=" << dt.toString(Qt::ISODate) << endl;
+    ts << "# layout dimensions=columns:rows" << endl;
+    ts << GF_DIMENSIONS << ":" << cols << ":" << rows << endl;
+    /* optional for later multi host connections:
+    ts << GF_CMDHOST << cmdHost << ":" << cmdHostPort << ":" << cmdLogin << endl;
+    ts << GF_CMDPORT << fbHost << ":" << fbHostPort << ":" << fbLogin << endl;
+    */
+    for (unsigned int i = 0; i < elements.count(); i++) {
+        element* e = elements[i];
+        if (e != NULL && !e->isEmpty()) {
+            ts << "%% # Element" << endl;
+            e->writeFileTextToStream(ts);
+        }
+    }
+    setModified(false);
 }
 
 
-int GBSArea::slotLoad()
+void GBSArea::readFileTextFromStream(QTextStream& ts)
 {
-    QFile file(FILENAME + GBS_FILE_SUFFIX);
-    if (!file.open(IO_ReadOnly))
-        return 1;
-    deleteElements();           // deletes a possibly shown old layout
-
-    // now the gbs layout is loaded from the GBS_FILE_SUFFIX file
-    QTextStream ts(&file);
-    QStrList* ElementDataList = new QStrList(true);
-    QString sListText;
-    QString s = ts.readLine();  // number of total routes
-    int totalRoutes = s.remove(0, 16).toInt();
-
-    QProgressDialog progress(tr("Loading layout file:") + " " +
-                             FILENAME + GBS_FILE_SUFFIX,
-                             tr("Abort"), totalRoutes,
-                             this, "progress", TRUE);
+    /*clear old element list*/
+    if (!elements.isEmpty())
+        deleteElements();
+    
+    QProgressDialog progress(tr("Loading layout file"),
+                             tr("Abort"), 0, this, "progress", true);
     progress.show();
-
-    s = ts.readLine();          // == last modified line
-    s = ts.readLine();          // version line ---> TODO
-    s = ts.readLine();          // ---------- line
-
-    int iLoadIndex = 0;         // counter for LIST_IDs
+    
+    QString s, key, value;
+    unsigned int ecount = 0;
 
     while (!ts.eof()) {
-        s = ts.readLine();      // read a line
-        // check for separator line
-        if (!s.startsWith("-")) {
-            ElementDataList->insert(iLoadIndex, s.remove(0, 16));
-            iLoadIndex += 1;    // store data in QStrList at LIST_ID
-        }
-         // whole data for one element collected
-        // now create the new elements (but do not show them yet)
-        else { 
-            GBSElement[iNumOfElements] =
-                new element(ElementDataList, this);
-            GBSElement[iNumOfElements]->move((iNumOfElements / MAX_ROWS) *
-                                             (EL_WIDTH - 1),
-                                             (iNumOfElements % MAX_ROWS) *
-                                             (EL_HEIGHT - 1));
+        s = ts.readLine();
+        
+        /* ignore comment lines */
+        if (!s.startsWith("#")) {
+            /*TODO: read layout dimensions */ 
+            key = s.section(":", 0, 0);
+            value = s.section(":", 1, 1).stripWhiteSpace();
+            /* key/value pairs are read sequence independent */
+            if (key.compare(GF_DIMENSIONS) == 0){
+                cols = value.toInt();
+                value = s.section(":", 2, 2).stripWhiteSpace();
+                rows = value.toInt();
+                ecount = cols * rows;
+                elements.resize(ecount);
 
-            progress.setProgress(iNumOfElements);
+                /* setup progress dialog */
+                progress.setTotalSteps(ecount);
+
+            }
+            else if (key.compare(GF_CMDHOST) == 0){
+                cmdHost = value;
+                value = s.section(":", 2, 2).stripWhiteSpace();
+                cmdPort = value.toInt();
+            }
+            else if (key.compare(GF_FBHOST) == 0){
+                fbHost = value;
+                value = s.section(":", 2, 2).stripWhiteSpace();
+                fbPort = value.toInt();
+            }
+
+            /*here we read allways up to start marker of a new route*/
+            else if (s.startsWith("%%")) {
+                
+                element* fe = new element(ts, this, true);
+                if (fe != NULL) {
+                    unsigned int idx = fe->getIndexNo();
+                    progress.setProgress(idx);
+                    qApp->processEvents();
+
+                    if (idx < ecount) {
+                        fe->move((idx / rows) * (EL_WIDTH - 1),
+                                 (idx % rows) * (EL_HEIGHT - 1));
+                        elements.insert(idx, fe);
+                    }
+                }
+#if QT_VERSION >= 0x030200
+                if (progress.wasCanceled()) {
+#else
+                if (progress.wasCancelled()) {
+#endif
+                    deleteElements();
+                    break;
+                }
+            }
+        }
+    }
+    /*
+     * may be this some time can be removed when empty elements are
+     * handled in an other way by gbsarea
+     */
+    progress.setLabelText(tr("Adding empty elements"));
+    progress.setTotalSteps(ecount);
+    /*add mising empty elements*/
+    for (unsigned int i = 0; i < ecount; i++) {
+        if (elements[i] == NULL){
+            element* ee = new element(this);
+            ee->setIndexNo(i);
+            elements.insert(i, ee);
+            ee->move((i / rows) * (EL_WIDTH - 1),
+                    (i % rows) * (EL_HEIGHT - 1));
+            progress.setProgress(i);
             qApp->processEvents();
-            ElementDataList->clear();       // clear QStrList for new data
-            iNumOfElements += 1;
-            iLoadIndex = 0;
 
 #if QT_VERSION >= 0x030200
             if (progress.wasCanceled()) {
@@ -296,21 +349,87 @@ int GBSArea::slotLoad()
             if (progress.wasCancelled()) {
 #endif
                 deleteElements();
-                iNumOfElements = 0;
                 break;
             }
         }
     }
-    file.close();
-    delete ElementDataList;
+    progress.setProgress(ecount);
+    adjustSize();
     setModified(false);
-    progress.setProgress(totalRoutes);
-
-    setupElements();            // now setup and show elements
+    
+    // now setup and show elements, send element states to SRCP-server
+    // and load routes
+    setupElements();
     slotSendAll();
-    if (iNumOfElements != 0)    // if layout successfully loaded ...
-        loadRoutes(LOCK);       // ... try to load routings
-    return (iNumOfElements) ? 0 : 1;    // 0 = o.k., 1 = error. //dirk
+    if (elements.count() != 0)
+        loadRoutes(LOCK);
+}
+
+
+void GBSArea::readOldFileTextFromStream(QTextStream& ts)
+{
+    /*clear old element list*/
+    if (!elements.isEmpty())
+        deleteElements();
+    
+    QString s, key, value;
+    unsigned int ecount = 0;
+
+    s = ts.readLine();
+    key = s.section(":", 0, 0);
+    value = s.section(":", 1, 1).stripWhiteSpace();
+
+    if (key.compare("Symbols total #") == 0){
+        ecount = value.toUInt();
+        elements.resize(ecount);
+        cols = ecount/OLD_MAX_ROWS;
+        rows = OLD_MAX_ROWS;
+    }
+    QProgressDialog progress(tr("Loading layout file"),
+                             tr("Abort"), ecount,
+                             this, "progress", TRUE);
+    progress.show();
+
+    s = ts.readLine(); // modify date
+    s = ts.readLine(); // version
+    s = ts.readLine(); // empty line
+    /*here we read allways up to start marker of a new route*/
+    while (!ts.eof()) {
+        s = ts.readLine(); // SYMBOL
+        if (s.startsWith("SYMBOL")) {
+            value = s.section(" ", 2, 2).stripWhiteSpace();
+            unsigned int idx = value.toUInt();
+            /* contructor with old file format*/
+            element* fe = new element(ts, this, false);
+            if (fe != NULL) {
+                fe->move((idx / rows) * (EL_WIDTH - 1),
+                        (idx % rows) * (EL_HEIGHT - 1));
+                fe->setIndexNo(idx);
+                elements.insert(idx, fe);
+                progress.setProgress(idx);
+                qApp->processEvents();
+            }
+#if QT_VERSION >= 0x030200
+            if (progress.wasCanceled()) {
+#else
+            if (progress.wasCancelled()) {
+#endif
+                deleteElements();
+                break;
+            }
+        }
+    }
+    /* files of old format must be saved later*/
+    progress.setProgress(ecount);
+    adjustSize();
+    setModified(true);
+
+    // now setup and show elements, send element states to SRCP-server
+    // and load routes
+    setupElements();
+    slotSendAll();
+    if (elements.count() != 0)
+        loadRoutes(LOCK);
 }
 
 
@@ -327,7 +446,7 @@ void GBSArea::loadRoutes(bool bRenewLockList_)
     }
 
     // try to open routing file
-    QFile file(FILENAME + RTS_FILE_SUFFIX);
+    QFile file(routeFileName);
     if (!file.open(IO_ReadOnly))        // open the routing file
         return;
 
@@ -348,8 +467,8 @@ void GBSArea::loadRoutes(bool bRenewLockList_)
         }
 
         // and a list of signals to go to
+        // "while" is converter from 0.2.x files
         if (s.left(10) == "to signal:") {
-            // "while" is converter from 0.2.x files
             s = s.remove(0, 16);
             while (s.left(1) == "0")
                 s = s.remove(0, 1);
@@ -357,10 +476,11 @@ void GBSArea::loadRoutes(bool bRenewLockList_)
             if (bRenewLockList_)
                 listOfLockedRoutes->append("0");        // "0" = UNLOCKED
         }
-        // a list of signal to start from, add start signal address
+        // list of signal to start from
+        // "while" is converter from 0.2.x files
         else if (s.left(12) == "from signal:") {
             s = s.remove(0, 16);        
-            while (s.left(1) == "0")    // "while" is converter from 0.2.x files
+            while (s.left(1) == "0")
                 s = s.remove(0, 1);
             listOfFromSignals->append(s.left(s.find(" ", 0, 0)));
         }
@@ -382,45 +502,11 @@ void GBSArea::loadRoutes(bool bRenewLockList_)
     file.close();               // no dis- or enable route buttons
 
     if (iConvertCheck) {
-        QString sConvert = "convertrts " + FILENAME + RTS_FILE_SUFFIX;
+        QString sConvert = "convertrts " + routeFileName;
         system(sConvert);
     }
-}
-
-
-int GBSArea::slotSave()
-{
-    QFile file(FILENAME + GBS_FILE_SUFFIX);
-    if (!file.open(IO_WriteOnly)) {     //supply return code. //dirk
-        return (QMessageBox::information(this, tr("Error"),
-                                         tr("Cannot save file\n") +
-                                         FILENAME + GBS_FILE_SUFFIX +
-                                         tr("\nContinue anyway?"),
-                                         tr("&Yes"), tr("&No"), 0, 0,
-                                         1)) ? 2 : 1;
-    }
-
-    QString s;
-    s.sprintf(tr(">Writing layout: %s%s"), FILENAME.data(),
-              GBS_FILE_SUFFIX);
-    emit cmdToDebug(s);
-    QDateTime dt = QDateTime::currentDateTime();
-    QTextStream ts(&file);
-
-    ts << "Symbols total #:" << iNumOfElements << endl; // write the header
-    ts << "Last modified:  " << dt.toString() << endl;
-    ts << "version:        " << VERSION << endl;
-    ts << "-------------------------------------" << endl;
-
-    for (int i = 0; i < iNumOfElements; i++) {
-        ts << "SYMBOL -------> " << i << endl;
-        GBSElement[i]->writeFileTextToStream(ts);
-        ts << "-------------------------------------" << endl;
-    }
-
-    file.close();
-    setModified(false);
-    return 0;
+    /*FIXME: send update signal to rtViewer (temporary solution)*/
+    emit updateRoutingViewer(routeFileName);
 }
 
 
@@ -432,10 +518,8 @@ void GBSArea::slotShowRoutings()
         routeWindow = new RouteDialog(this, listOfLockedRoutes);
         Q_CHECK_PTR(routeWindow);
         bRouteWindowActive = true;
-        routeWindow->
-            setCaption(QString
-                       (tr("Routings for layout") + " [" + FILENAME +
-                        GBS_FILE_SUFFIX + "]"));
+        routeWindow->setCaption(
+                QString(tr("Routings for layout") + " [" + routeFileName + "]"));
         // show the routing file name in the editfilemenu
         emit sigUpdateEditmenu();
 
@@ -473,7 +557,7 @@ void GBSArea::slotReadElemName(QString sReadElemAddr_)
     iReadElemID = locateIndex(sReadElemAddr_, SRCH_A1, SINGLE);
 
     if (iReadElemID > 0)
-        routeWindow->sReadElemName = GBSElement[iReadElemID]->sSoldText;
+        routeWindow->sReadElemName = elements[iReadElemID]->sSoldText;
     else
         routeWindow->sReadElemName = tr("unknown");
 }
@@ -513,8 +597,8 @@ void GBSArea::slotMGTclicked()
 {
     externalButtonClicked(kMgtClicked);
 }
- 
- 
+
+
 void GBSArea::slotSGTclicked()
 {
     externalButtonClicked(kSgtClicked);
@@ -563,9 +647,9 @@ void GBSArea::externalButtonClicked(GbsButtonState externalButton)
 
 void GBSArea::slotElementClickedRecord(int iIndex_, int iType_)
 {
-    emit sigRecordElement(GBSElement[iIndex_]->iSoldAddress_1,
-                          GBSElement[iIndex_]->sSoldText,
-                          GBSElement[iIndex_]->iSoldDirection, iType_);
+    emit sigRecordElement(elements[iIndex_]->iSoldAddress_1,
+                          elements[iIndex_]->sSoldText,
+                          elements[iIndex_]->iSoldDirection, iType_);
     if (iIndex_ == 0 && iType_ == REC_FINISH)
         slotSendAll();
 }
@@ -586,21 +670,21 @@ void GBSArea::slotElementClicked(int iIndex, GbsButtonState gbsButton)
     if (kWgtClicked == gkbState) {
         // only toggle a solenoid by means of WGT if it is UNLOCKED
         /*TODO: check if signals may be switched also */
-        if (!GBSElement[iIndex]->isLocked())
+        if (!elements[iIndex]->isLocked())
             // element is occupied
-            if (GBSElement[iIndex]->iSoldLEDstate == LED_RED) {
+            if (elements[iIndex]->isOccupied()) {
                 QApplication::beep();
                 emit cmdToDebug(tr
                               (">No switching possible, element is occupied"));
             }
             else
-                GBSElement[iIndex]->slotToggle();
+                elements[iIndex]->slotToggle();
 
         else {
             QApplication::beep();
             emit cmdToDebug(tr(">No switching possible, solenoid '%1' "
                         "is locked by an active route.")
-                    .arg(GBSElement[iIndex]->getName()));
+                    .arg(elements[iIndex]->getName()));
         }
 
         slotElementClickedTimeout();    // reset vars and timer
@@ -622,11 +706,11 @@ void GBSArea::slotElementClicked(int iIndex, GbsButtonState gbsButton)
             */
 
             if (gkbState != kFhtClicked &&
-                    GBSElement[iIndex]->isLocked()){
+                    elements[iIndex]->isLocked()){
                 QApplication::beep();
                 emit cmdToDebug(tr(">No routing possible, signal '%1' "
                             "is allready locked by an active route.")
-                        .arg(GBSElement[iIndex]->getName()));
+                        .arg(elements[iIndex]->getName()));
                 slotElementClickedTimeout();
                 return; 
             }
@@ -655,13 +739,11 @@ void GBSArea::slotElementClicked(int iIndex, GbsButtonState gbsButton)
                 int FromSigAddr = 
                     QString(listOfFromSignals->at(iRoutingNo)).toInt();
                 
-                if (GBSElement[iIndex]->hasSameAddress(FromSigAddr)) {
+                if (elements[iIndex]->hasSameAddress(FromSigAddr)) {
                     
                     RouteType routeType = (RouteType)QString(
                         listOfRouteTypes->at(iRoutingNo)).toInt();
                     
-    //fprintf(stderr, "2 gkbState: %d, gbsBtn: %d, iIndex: %d, RouteT: %d\n", gkbState, gbsButton, iIndex, routeType);
-
                     if (routeType == searchedRoute){
                         switch (routeType) {
                             case kNormal:
@@ -704,7 +786,7 @@ void GBSArea::slotElementClicked(int iIndex, GbsButtonState gbsButton)
 
             else {
                 QApplication::beep();
-                s = GBSElement[iIndex]->getName();
+                s = elements[iIndex]->getName();
                 switch (searchedRoute) {
                     case kNormal:
                         emit cmdToDebug(tr(
@@ -764,8 +846,8 @@ void GBSArea::slotElementClicked(int iIndex, GbsButtonState gbsButton)
                 int FoundRoute = (RouteType)QString(
                         listOfRouteTypes->at(iRoutingNo)).toInt();
 
-                if (GBSElement[iFromSignalIndex]->hasSameAddress(FromSigAddr) &&
-                    GBSElement[iToSignalIndex]->hasSameAddress(ToSigAddr) &&
+                if (elements[iFromSignalIndex]->hasSameAddress(FromSigAddr) &&
+                    elements[iToSignalIndex]->hasSameAddress(ToSigAddr) &&
                     ((searchedRoute == FoundRoute) ||
                      ((kNormal == searchedRoute) && (kHelp == FoundRoute)))
                     ){
@@ -773,10 +855,6 @@ void GBSArea::slotElementClicked(int iIndex, GbsButtonState gbsButton)
                     /*is this route locked?*/
                     QString sListText = listOfLockedRoutes->at(iRoutingNo);
                     bool isLocked = (bool) sListText.toInt();
-
-                    /*fprintf(stderr, "fAddr: %d, tAddr: %d, Lock: %d, "
-                            "RouteT: %d\n", iFromSignalIndex,
-                            iToSignalIndex, isLocked, routeType);*/
 
                     if (isLocked) {
                         if (kFhtClicked == gkbState)
@@ -819,8 +897,8 @@ void GBSArea::slotElementClicked(int iIndex, GbsButtonState gbsButton)
             
             if (!routefound) {
                 QApplication::beep();
-                s = GBSElement[iFromSignalIndex]->getName();
-                QString tS = GBSElement[iToSignalIndex]->getName();
+                s = elements[iFromSignalIndex]->getName();
+                QString tS = elements[iToSignalIndex]->getName();
                 QString RtName;
                 
                 switch (searchedRoute){
@@ -871,7 +949,7 @@ void GBSArea::slotStartRouting(int iRouteIndex_, int iSet_)
     // iSet == 1 -> FHT clicked -> RESET
     // iSet == 0 -> no FHT      -> SET
     // read the routing data for desired route only out of routing file
-    QFile file(FILENAME + RTS_FILE_SUFFIX);
+    QFile file(routeFileName);
     if (!file.open(IO_ReadOnly))
         return;
     
@@ -887,8 +965,10 @@ void GBSArea::slotStartRouting(int iRouteIndex_, int iSet_)
         // finds beginning of a route section
         if (s.contains("ROUTE -------->", 0)) { 
             iRouteNo += 1;
-            s = ts.readLine();  // dummy-read "name:" entry not rele-
-        }                       // vant here, only for route window
+            // dummy-read "name:" entry not rele-
+            // vant here, only for route window
+            s = ts.readLine();
+        }
         if (iRouteNo == iRouteIndex_) {
             if ((s.startsWith("switch x to y:")) ||
                 (s.startsWith("from signal:"))) {
@@ -913,7 +993,7 @@ void GBSArea::slotStartRouting(int iRouteIndex_, int iSet_)
         listOfLockedRoutes->remove(iRouteIndex_);
         listOfLockedRoutes->insert(iRouteIndex_, "0");  // UNLOCKED
 
-        for (uint i = 0; i < listOfSolenoids_Number->count(); i++) {
+        for (unsigned int i = 0; i < listOfSolenoids_Number->count(); i++) {
             // UNLOCK all addresses from the routing list, only the last item
             // == start signal must be UNLOCKED and set to Hp0!
             // that is wrong because it ignores shunting signals as part
@@ -922,10 +1002,10 @@ void GBSArea::slotStartRouting(int iRouteIndex_, int iSet_)
                              SINGLE);
             
             /*only switch signals in the route back to the old state*/
-            bool doSwitch = GBSElement[ID]->sSoldIcon.startsWith("signal");
+            bool doSwitch = elements[ID]->sSoldIcon.startsWith("signal");
 
-            GBSElement[ID]->
-                slotSwitchIt(doSwitch ? 0 : GBSElement[ID]->iSoldDirection, -1);
+            elements[ID]->
+                slotSwitchIt(doSwitch ? 0 : elements[ID]->iSoldDirection, -1);
         }
         showLEDs(iRouteIndex_, RESET);
     }
@@ -958,14 +1038,11 @@ void GBSArea::setRoute(int iRouteIndex_,
         ID = locateIndex(listOfSolenoids_Number_->at(i), SRCH_A1, SINGLE);
         int newDir = QString(listOfSolenoids_Action_->at(i)).toInt();
 
-        /*fprintf(stderr, "i: %d, ID: %d, oDir: %d, nDir: %d\n", i, ID,
-                GBSElement[ID]->iSoldDirection, newDir);*/
-
-        if ((GBSElement[ID]->iSoldDirection != newDir ||
-             ((GBSElement[ID]->sSoldIcon == SYM_DKL
-               || GBSElement[ID]->sSoldIcon == SYM_DKR)
-              && GBSElement[ID]->iSoldSubType == 0))
-            && GBSElement[ID]->iSoldLocked) {
+        if ((elements[ID]->iSoldDirection != newDir ||
+             ((elements[ID]->sSoldIcon == SYM_DKL
+               || elements[ID]->sSoldIcon == SYM_DKR)
+              && elements[ID]->iSoldSubType == 0))
+            && elements[ID]->iSoldLocked) {
             s.sprintf(tr
                       (">No routing possible, route # %d is locked by "
                        "another route."), iRouteIndex_ + 1);
@@ -981,7 +1058,7 @@ void GBSArea::setRoute(int iRouteIndex_,
     s.sprintf(tr(">Start routing of route # %d."), iRouteIndex_ + 1);
     emit cmdToDebug(s);
 
-    for (uint i = 0; i < listOfSolenoids_Number_->count(); i++) {
+    for (unsigned int i = 0; i < listOfSolenoids_Number_->count(); i++) {
         ID = locateIndex(listOfSolenoids_Number_->at(i), SRCH_A1, SINGLE);
 
         QString sAction;
@@ -989,11 +1066,11 @@ void GBSArea::setRoute(int iRouteIndex_,
 
         // correct a wrong signal direction entry in the routing file
         // correct value is NOT written back to the file
-        if (GBSElement[ID]->sSoldIcon == SYM_HS
-            || GBSElement[ID]->sSoldIcon == SYM_HSS
-            || GBSElement[ID]->sSoldIcon == SYM_VS) {
-            if ((GBSElement[ID]->iSoldSubType == 0
-                 || GBSElement[ID]->iSoldSubType == 1)
+        if (elements[ID]->sSoldIcon == SYM_HS
+            || elements[ID]->sSoldIcon == SYM_HSS
+            || elements[ID]->sSoldIcon == SYM_VS) {
+            if ((elements[ID]->iSoldSubType == 0
+                 || elements[ID]->iSoldSubType == 1)
                 && sAction == DIR_HP2) {
                 s.sprintf(tr
                           (">Directional value of signal # %s in route # %d is"
@@ -1005,8 +1082,8 @@ void GBSArea::setRoute(int iRouteIndex_,
                 listOfSolenoids_Action_->remove(i);
                 listOfSolenoids_Action_->insert(i, "1");
             }
-            else if ((GBSElement[ID]->iSoldSubType == 6
-                      || GBSElement[ID]->iSoldSubType == 7)
+            else if ((elements[ID]->iSoldSubType == 6
+                      || elements[ID]->iSoldSubType == 7)
                      && sAction == DIR_HP1) {
                 s.sprintf(tr
                           (">Directional value of signal # %s in route "
@@ -1023,8 +1100,8 @@ void GBSArea::setRoute(int iRouteIndex_,
         // correct a wrong ekw direction entry in the routing file
         // correct value is NOT written back to the file
         // 3 means a turnout at the no-possible branches
-        if ((GBSElement[ID]->sSoldIcon == SYM_EKL || 
-             GBSElement[ID]->sSoldIcon == SYM_EKR) && sAction.toInt() == 3) {
+        if ((elements[ID]->sSoldIcon == SYM_EKL ||
+             elements[ID]->sSoldIcon == SYM_EKR) && sAction.toInt() == 3) {
             // DIR_SKU not allowed, use DIR_SKO instead
             s.sprintf(tr(">Directional value of single-cross turnout # %s "
                          "in route # %d is not allowed with EKL/EKR. Correct value \"3\""
@@ -1039,7 +1116,7 @@ void GBSArea::setRoute(int iRouteIndex_,
         // wait a little bit (= 200 ms) that the user can enjoy the "GBS feeling"
         // no break here 'cause layout can contain two element with the
         // same address (e.g. if one element is repeated)
-        GBSElement[ID]->slotSwitchIt(atoi(listOfSolenoids_Action_->at(i)),
+        elements[ID]->slotSwitchIt(atoi(listOfSolenoids_Action_->at(i)),
                                      LOCKED);
         usleep(1000 * ROUTING_TIME);    // here timer activated switching
     }
@@ -1063,23 +1140,22 @@ void GBSArea::showLEDs(int iRouteIndex_, int iSet_)
                                  SRCH_A1, SINGLE);
     int iToIndex = locateIndex(listOfToSignals->at(iRouteIndex_),
                                SRCH_A1, SINGLE);
-    bool bRouteDir = !(GBSElement[iFromIndex]->iSoldRotate);
+    bool bRouteDir = !(elements[iFromIndex]->iSoldRotate);
     int iCorr = 0;
     int iIndex = iFromIndex;
 
     for (int k = 0;
-         k < abs(iFromIndex / MAX_ROWS - iToIndex / MAX_ROWS) + 1; k++) {
+         k < abs(iFromIndex / rows - iToIndex / rows) + 1; k++) {
 
-        if ((iIndex < 0) || (iIndex >= iNumOfElements)) {
+        if ((iIndex < 0) || (iIndex >= (int) elements.count())) {
             cmdToDebug(tr
                        (">Try to route over a forbidden element (No %1). "
                         "Check your entries in routing-file!").
                        arg(iIndex));
             break;
         }
-        //fprintf(stderr, "k: %d, iCorr: %d, iIndex: %d\n", k, iCorr, iIndex);
 
-        if (GBSElement[iIndex]->sSoldIcon == SYM_LEE) {
+        if (elements[iIndex]->sSoldIcon == SYM_LEE) {
             QApplication::beep();
             cmdToDebug(tr(">Try to route over an empty element (No %1). "
                           "Check your entries in routing-file!").
@@ -1087,9 +1163,9 @@ void GBSArea::showLEDs(int iRouteIndex_, int iSet_)
             break;
         }
 
-        iCorr = GBSElement[iIndex]->routeElement(bRouteDir, !iSet_, iCorr);
+        iCorr = elements[iIndex]->routeElement(bRouteDir, !iSet_, iCorr);
         iIndex +=
-            (MAX_ROWS * ((bRouteDir == 1) - (bRouteDir == 0)) + iCorr);
+            (rows * ((bRouteDir == 1) - (bRouteDir == 0)) + iCorr);
 
     }
 }
@@ -1103,11 +1179,11 @@ int GBSArea::locateIndex(QString sLocateString_, int iLocateType_,
     QString s = "";
     int iFound = 0;
 
+    // locate element with certain address 1
     if (iLocateType_ == SRCH_A1) 
-        for (int iIndex = 0; iIndex < iNumOfElements; iIndex++) {
-            // locate element with certain address 1
+        for (unsigned int iIndex = 0; iIndex < elements.count(); iIndex++) {
             if (sLocateString_.toInt() ==
-                    GBSElement[iIndex]->iSoldAddress_1) {
+                    elements[iIndex]->iSoldAddress_1) {
                 iFound += 1;
                 if (iFound != iMultiple_ + 1)
                     continue;
@@ -1118,9 +1194,9 @@ int GBSArea::locateIndex(QString sLocateString_, int iLocateType_,
 
     // locate element with certain address 2
     else if (iLocateType_ == SRCH_A2) 
-        for (int iIndex = 0; iIndex < iNumOfElements; iIndex++) {
+        for (unsigned int iIndex = 0; iIndex < elements.count(); iIndex++) {
             if (sLocateString_.toInt() ==
-                    GBSElement[iIndex]->iSoldAddress_2) {
+                    elements[iIndex]->iSoldAddress_2) {
                 iFound += 1;
                 if (iFound != iMultiple_ + 1)
                     continue;
@@ -1131,8 +1207,8 @@ int GBSArea::locateIndex(QString sLocateString_, int iLocateType_,
 
     // locate element with certain textfield
     else if (iLocateType_ == SRCH_TX) 
-        for (int iIndex = 0; iIndex < iNumOfElements; iIndex++) {
-            s = GBSElement[iIndex]->sSoldText;
+        for (unsigned int iIndex = 0; iIndex < elements.count(); iIndex++) {
+            s = elements[iIndex]->sSoldText;
             if (s.contains(sLocateString_, 0)) {
                 iFound += 1;
                 if (iFound != iMultiple_ + 1)
@@ -1151,7 +1227,8 @@ void GBSArea::slotUnlockRoutings()
 {
     QString sListText;
     // reset all routes which are active
-    for (int i = 0; i < (int) listOfLockedRoutes->count(); i++) {                       sListText = listOfLockedRoutes->at(i);
+    for (int i = 0; i < (int) listOfLockedRoutes->count(); i++) {
+        sListText = listOfLockedRoutes->at(i);
         if (sListText.toInt() == LOCKED)
             slotStartRouting(i, RESET);
     }
@@ -1161,62 +1238,55 @@ void GBSArea::slotUnlockRoutings()
 
 void GBSArea::slotToggleAll()
 {
-    for (int j = 0; j < iNumOfElements; j++)    // toggles all elements
-        if (GBSElement[j]->sSoldIcon != SYM_ENK &&      // but no couplers, motors
-            GBSElement[j]->sSoldIcon != SYM_MDC &&      // no shifting bridges
-            GBSElement[j]->sSoldIcon != SYM_SBN &&      // no turntables
-            GBSElement[j]->sSoldIcon != SYM_DRE)
-            GBSElement[j]->slotToggle();
+    // toggles all elements but no couplers, motors no shifting bridges,
+    // no turntables
+    for (unsigned int j = 0; j < elements.count(); j++)
+        if (elements[j]->sSoldIcon != SYM_ENK &&
+            elements[j]->sSoldIcon != SYM_MDC &&
+            elements[j]->sSoldIcon != SYM_SBN &&
+            elements[j]->sSoldIcon != SYM_DRE)
+            elements[j]->slotToggle();
     QApplication::beep();
 }
 
 
 void GBSArea::slotSendAll()
 {
-    for (int j = 0; j < iNumOfElements; j++)    // toggles all elements
-        if (!
-            (GBSElement[j]->sSoldIcon == SYM_ENK
-             && GBSElement[j]->iSoldSubType != -1) &&
-//GBSElement[j]->sSoldIcon != SYM_ENK &&
-GBSElement[j]->sSoldIcon != SYM_MDC &&
-GBSElement[j]->sSoldIcon != SYM_SBN && GBSElement[j]->sSoldIcon != SYM_DRE)
-            GBSElement[j]->sendState();
+    for (unsigned int j = 0; j < elements.count(); j++) // toggles all elements
+        if (elements[j] != NULL)
+            if (!(elements[j]->sSoldIcon == SYM_ENK
+                        && elements[j]->iSoldSubType != -1) &&
+                    //GBSElement[j]->sSoldIcon != SYM_ENK &&
+                    elements[j]->sSoldIcon != SYM_MDC &&
+                    elements[j]->sSoldIcon != SYM_SBN &&
+                    elements[j]->sSoldIcon != SYM_DRE)
+                elements[j]->sendState();
     QApplication::beep();
 }
 
 
 void GBSArea::slotNotrot()
 {
-    for (int j = 0; j < iNumOfElements; j++)    // sets all signals
-        if (GBSElement[j]->sSoldIcon == SYM_HS ||       // to red state
-            GBSElement[j]->sSoldIcon == SYM_HSS ||
-            GBSElement[j]->sSoldIcon == SYM_SS ||
-            GBSElement[j]->sSoldIcon == SYM_SSH ||
-            GBSElement[j]->sSoldIcon == SYM_SSS ||
-            GBSElement[j]->sSoldIcon == SYM_WS ||
-            GBSElement[j]->sSoldIcon == SYM_VS ||
-            GBSElement[j]->sSoldIcon == SYM_ZP)
-            GBSElement[j]->slotSwitchIt(0, 0);  // sec.  "0" = NONE (RouteStatus)
+    // sets all signals to red state
+    for (unsigned int j = 0; j < elements.count(); j++)
+        if (elements[j]->sSoldIcon == SYM_HS ||
+            elements[j]->sSoldIcon == SYM_HSS ||
+            elements[j]->sSoldIcon == SYM_SS ||
+            elements[j]->sSoldIcon == SYM_SSH ||
+            elements[j]->sSoldIcon == SYM_SSS ||
+            elements[j]->sSoldIcon == SYM_WS ||
+            elements[j]->sSoldIcon == SYM_VS ||
+            elements[j]->sSoldIcon == SYM_ZP)
+            elements[j]->slotSwitchIt(0, 0);  // sec. "0" = NONE (RouteStatus)
     emit cmdToDebug(tr(">Switched all signals to halt/stop"));
 }
 
 
 void GBSArea::deleteElements()
 {
-    // delete previously shown elements if there are any
-    if (iNumOfElements != 0) {                           
-        closeRouteWindow();
-        for (int i = 0; i < iNumOfElements; i++) {
-            if (GBSElement[i] != NULL) {
-                delete GBSElement[i];
-                GBSElement[i] = NULL;
-            }
-        }
-    }
-    iNumOfElements = 0;
+    elements.clear();
     move(0, 0);
     updateGeometry();
-
     iConvertCheck = false;
 }
 
@@ -1224,47 +1294,53 @@ void GBSArea::deleteElements()
 void GBSArea::closeRouteWindow()
 {
     if ((bRouteWindowActive) && (routeWindow != NULL)) {
-        routeWindow->close(true);       // Force kill to routing table window
+        // force kill to routing table window deletes all route information,
+        // e.g. if a new layout is created or loaded
+        // NOT called if user closes the window
+        routeWindow->close(true);
         routeWindow = NULL;
-        bRouteWindowActive = false;     // deletes all route information, f.e.
-        // if a new layout is created or loaded
+        bRouteWindowActive = false;
         listOfActivatePorts->clear();
         listOfFromSignals->clear();
         listOfLockedRoutes->clear();
         listOfReleasePorts->clear();
         listOfRouteTypes->clear();
-        listOfToSignals->clear();       // is NOT called if user closes the
+        listOfToSignals->clear();
     }
 }
 
 
 void GBSArea::setupElements()
 {
-    for (int j = 0; j < iNumOfElements; j++) {
-        GBSElement[j]->show();  // now show the elements
-        connect(GBSElement[j], SIGNAL(elementClicked(int, GbsButtonState)),
-                this, SLOT(slotElementClicked(int, GbsButtonState)));
-        connect(GBSElement[j], SIGNAL(sigElementClickedRecord(int, int)),
-                this, SLOT(slotElementClickedRecord(int, int)));
-        connect(GBSElement[j], SIGNAL(sendCommand(const QString &)),
-                this, SIGNAL(sendCommand(const QString &)));
-        connect(GBSElement[j], SIGNAL(setRepeatIcon(QString)),
-                this, SIGNAL(setRepeatIcon(QString)));
-        connect(GBSElement[j], SIGNAL(sigShowFBmodules()),
-                this, SIGNAL(sigShowFBmodules()));
+    for (unsigned int j = 0; j < elements.size(); j++) {
+        if (elements[j] != 0) {
+            elements[j]->show();  // now show the elements
+            connect(elements[j], SIGNAL(elementClicked(int, GbsButtonState)),
+                    this, SLOT(slotElementClicked(int, GbsButtonState)));
+            connect(elements[j], SIGNAL(sigElementClickedRecord(int, int)),
+                    this, SLOT(slotElementClickedRecord(int, int)));
+            connect(elements[j], SIGNAL(sendCommand(const QString&)),
+                    this, SIGNAL(sendCommand(const QString&)));
+            connect(elements[j], SIGNAL(setRepeatIcon(const QString&)),
+                    this, SIGNAL(setRepeatIcon(const QString&)));
+            connect(elements[j], SIGNAL(sigShowFBmodules()),
+                    this, SIGNAL(sigShowFBmodules()));
 
-        connect(this, SIGNAL(EditMode(int)),
-                GBSElement[j], SLOT(slotEditMode(int)));
-        connect(this, SIGNAL(sigRecordMode(int)),
-                GBSElement[j], SLOT(slotRecordMode(int)));
-        connect(this, SIGNAL(sigShowElement(int, int, int)),
-                GBSElement[j], SLOT(slotShowElement(int, int, int)));
-        connect(this, SIGNAL(FBportChanged(unsigned int)),
-                GBSElement[j], SLOT(slotOccupyElement(unsigned int)));
-        connect(this, SIGNAL(setRepeatIcon(QString)),
-                GBSElement[j], SLOT(slotRepeatIcon(QString)));
-        connect(this, SIGNAL(sigRepaintLayout()),
-                GBSElement[j], SLOT(slotRepaintLayout()));
+            connect(this, SIGNAL(EditMode(int)),
+                    elements[j], SLOT(slotEditMode(int)));
+            connect(this, SIGNAL(sigRecordMode(int)),
+                    elements[j], SLOT(slotRecordMode(int)));
+            connect(this, SIGNAL(switchToRouteViewMode()),
+                    elements[j], SLOT(switchToRouteViewMode()));
+            connect(this, SIGNAL(sigShowElement(int, int, int)),
+                    elements[j], SLOT(slotShowElement(int, int, int)));
+            connect(this, SIGNAL(FBportChanged(unsigned int)),
+                    elements[j], SLOT(slotOccupyElement(unsigned int)));
+            connect(this, SIGNAL(setRepeatIcon(const QString&)),
+                    elements[j], SLOT(slotRepeatIcon(const QString&)));
+            connect(this, SIGNAL(sigRepaintLayout()),
+                    elements[j], SLOT(slotRepaintLayout()));
+        }
     }
     move(0, 0);
     updateGeometry();
@@ -1274,17 +1350,17 @@ void GBSArea::setupElements()
 void GBSArea::slotFBportChanged(unsigned int iPortNr_)
 {
     /*do nothing if there's no layout loaded */
-    if (iNumOfElements == 0)
+    if (elements.count() == 0)
         return;
 
     // first check if a changed port can reset a route
     // if there are any routes available at all
     // check if routing file exists
-    if (FILENAME != "") {
+    if (!routeFileName.isEmpty()) {
 
         QString s;
 
-        /*1) check for routes to release */
+        /* 1) check for routes to release */
         if (!listOfReleasePorts->isEmpty())
             if (listOfReleasePorts->find(s.setNum(iPortNr_)) != -1) {
                 QString sRP, sLR;
@@ -1292,7 +1368,7 @@ void GBSArea::slotFBportChanged(unsigned int iPortNr_)
                      i++) {
                     /*
                      * now reset a route if:
-                     *  - the port number equals the release value in routing file
+                     *  - port number equals release value in routing file
                      *  - if port changed from 0 to 1
                      *  - if this route is in SET state (= is active)
                      * there may be more than one route to be released with same
@@ -1307,7 +1383,7 @@ void GBSArea::slotFBportChanged(unsigned int iPortNr_)
                 }
             }
 
-        /*2) check for routes to activate */
+        /* 2) check for routes to activate */
         if (!listOfActivatePorts->isEmpty())
             if (listOfActivatePorts->find(s.setNum(iPortNr_)) != -1) {
                 QString sRP, sLR;
@@ -1315,11 +1391,11 @@ void GBSArea::slotFBportChanged(unsigned int iPortNr_)
                      i++) {
                     /*
                      * now activate a route if:
-                     *  - the port number equals the activate value in routing file
+                     *  - port number equals activate value in routing file
                      *  - if port changed from 0 to 1
                      *  - if this route is in UNLOCKED state (= is not active)
-                     * there may be more than one route to be activated with same
-                     * FB port, so do NOT break the for() loop!
+                     * there may be more than one route to be activated with
+                     * same FB port, so do NOT break the for() loop!
                      */
                     sRP = listOfActivatePorts->at(i);
                     sLR = listOfLockedRoutes->at(i);
@@ -1330,9 +1406,9 @@ void GBSArea::slotFBportChanged(unsigned int iPortNr_)
                 }
             }
     }
-    /*FILENAME*/
-   /*at last inform all elements to switch the track-LEDs to correct colour */
-        emit FBportChanged(iPortNr_);
+    /*routeFileName*/
+    /*at last inform all elements to switch the track-LEDs to correct colour */
+    emit FBportChanged(iPortNr_);
 }
 
 
@@ -1342,10 +1418,10 @@ void GBSArea::slotFind(QString sSearch_, int iType_, bool bMultiple_)
     do {
         iElemID = locateIndex(sSearch_, iType_, i++);
         // search for first or all occurence (es)
-        if (iElemID != 0)       // of desired element data
-        {
+        // of desired element data
+        if (iElemID != 0) {
             bFound = 1;
-            GBSElement[iElemID]->locateMe();
+            elements[iElemID]->locateMe();
         }
     }
     while (iElemID != 0 && bMultiple_ == MULTI);
@@ -1359,13 +1435,168 @@ void GBSArea::slotFind(QString sSearch_, int iType_, bool bMultiple_)
 
 // *INDENT-OFF*
 bool GBSArea::isModified() const
+// *INDENT-ON*
 {
     return modified;
 }
-// *INDENT-ON*
 
 void GBSArea::setModified(bool m)
 {
     if (modified != m)
         modified = m;
 }
+
+
+int GBSArea::getColumns()
+{
+    return cols;
+}
+
+
+int GBSArea::getRows()
+{
+    return rows;
+}
+
+
+void GBSArea::setLayoutSize(int newcols, int newrows)
+{
+
+    QPtrVector<element> tmpelements;
+
+    tmpelements.resize(newcols * newrows);
+    
+    if (newcols < 1 || newrows < 1)
+        return;
+
+    /* delete elements outside new gbs area */
+    if (newcols < cols) {
+        for (int i = 0; i < (cols - newcols); i++) {
+            removeColumnElements(cols - i);
+        }
+    }
+
+    if (newrows < rows) {
+        for (int i = 0; i < (rows - newrows); i++) {
+            removeRowElements(rows - i);
+        }
+    }
+
+    /* rearrange elements in altered gbs */
+    for (int c = 1; c <= newcols; c++) {
+        for (int r = 1; r <= newrows; r++) {
+            element* e = item(r, c);
+            unsigned int idx = newrows * (c - 1) + r - 1;
+            if (e == NULL) {
+                /* insert empty element to unoccupied position */
+                e = new element(this);
+                e->move((c - 1) * (EL_WIDTH - 1), (r - 1) * (EL_HEIGHT - 1));
+                e->show();
+                connect(e, SIGNAL(elementClicked(int, GbsButtonState)),
+                        this, SLOT(slotElementClicked(int, GbsButtonState)));
+                connect(e, SIGNAL(sigElementClickedRecord(int, int)),
+                        this, SLOT(slotElementClickedRecord(int, int)));
+                connect(e, SIGNAL(sendCommand(const QString&)),
+                        this, SIGNAL(sendCommand(const QString&)));
+                connect(e, SIGNAL(setRepeatIcon(const QString&)),
+                        this, SIGNAL(setRepeatIcon(const QString&)));
+                connect(e, SIGNAL(sigShowFBmodules()),
+                        this, SIGNAL(sigShowFBmodules()));
+                connect(this, SIGNAL(EditMode(int)),
+                        e, SLOT(slotEditMode(int)));
+                connect(this, SIGNAL(sigRecordMode(int)),
+                        e, SLOT(slotRecordMode(int)));
+                connect(this, SIGNAL(switchToRouteViewMode()),
+                        e, SLOT(switchToRouteViewMode()));
+                connect(this, SIGNAL(sigShowElement(int, int, int)),
+                        e, SLOT(slotShowElement(int, int, int)));
+                connect(this, SIGNAL(FBportChanged(unsigned int)),
+                        e, SLOT(slotOccupyElement(unsigned int)));
+                connect(this, SIGNAL(setRepeatIcon(const QString&)),
+                        e, SLOT(slotRepeatIcon(const QString&)));
+                connect(this, SIGNAL(sigRepaintLayout()),
+                        e, SLOT(slotRepaintLayout()));
+            }
+            e->setIndexNo(idx);
+            /*TODO: set current edit mode */
+            tmpelements.insert(idx, e);
+        }
+    }
+
+    elements.setAutoDelete(false);
+    elements = tmpelements;
+    elements.setAutoDelete(true);
+    
+    cols = newcols;
+    rows = newrows;
+
+    adjustSize();
+    setModified(true);
+}
+
+
+/*remove all elements of a single column*/
+void GBSArea::removeColumnElements(int col)
+{
+    for (int r = 1; r <= rows; r++) {
+        elements.remove(indexOf(r, col));
+    }
+}
+
+/*remove all elements of a single row*/
+void GBSArea::removeRowElements(int row)
+{
+    for (int c = 1; c <= cols; c++) {
+        elements.remove(indexOf(row, c));
+    }
+}
+
+/* 
+ *  row is defined from 1 to rows
+ *  col is defined from 1 to cols
+ */
+// *INDENT-OFF*
+int GBSArea::indexOf(int row, int col) const
+{
+    return (rows * (col - 1) + row - 1); 
+}
+// *INDENT-ON*
+
+
+// *INDENT-OFF*
+element* GBSArea::item(int row, int col) const
+// *INDENT-ON*
+{
+    if (row < 0 || col < 0 || row > this->rows ||
+            col > this->cols || row * col >= (int)elements.size())
+        return 0;
+
+    return elements[indexOf(row, col)];
+}
+
+
+void GBSArea::setRouteFileName(const QString& fn)
+{
+    if (fn.isEmpty()) {
+        routeFileName = "";
+        return;
+    }
+
+    int pos = fn.findRev(GF_GBSEXT);
+    if (pos == -1)
+        pos = fn.findRev(GF_OLDGBSEXT);
+
+    if (pos != -1){
+        routeFileName = fn.left(pos);
+        routeFileName.append(RTS_FILE_SUFFIX);
+    }
+    else 
+        routeFileName = "";
+}
+
+
+QString GBSArea::getRouteFileName()
+{
+    return routeFileName;
+}
+
