@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.5 $
+                           version 0.4.8 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-07 13:50:41 $
+    last modified        : $Date: 2005-05-07 16:23:37 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1284,6 +1284,7 @@ void GBSArea::slotNotrot()
 
 void GBSArea::deleteElements()
 {
+    closeRouteWindow();
     elements.clear();
     move(0, 0);
     updateGeometry();
