@@ -1,9 +1,10 @@
 2005-05-07 Guido Scholz <guido.scholz@bayernline.de>
 	* mainwindow.cpp, gbsarea.cpp: new file format for layout files,
-        sizelimits for layoutfiles removed
+        size limits for layout files removed
 	* main.cpp, mainwindow.cpp: menu for new application windows
         relaunched
 	* mainwindow.cpp: icon for application window
+	* element.cpp: removed layout element overlapping
         
 2005-03-17 Guido Scholz <guido.scholz@bayernline.de>
 	* options.cpp: prefered editor and browser are editable

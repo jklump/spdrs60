@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.6 $
+                           version 0.4.8 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-07 16:23:37 $
+    last modified        : $Date: 2005-05-07 20:08:26 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -174,13 +174,10 @@ GBSArea::~GBSArea()
 QSize GBSArea::sizeHint() const
 {
     // Size of GBSArea: columns * element width, rows * element height
-
     if (elements.count() == 0)
         return QSize(0, 0);
     else
-/*        return QSize(((elements.count() + 1) / rows) * (EL_WIDTH - 1) +
-                     1, (rows * (EL_HEIGHT - 1)) + 1);*/
-        return QSize(cols * (EL_WIDTH - 1), rows * (EL_HEIGHT - 1));
+        return QSize(cols * EL_WIDTH, rows * EL_HEIGHT);
 }
 // *INDENT-ON*
 
@@ -208,8 +205,8 @@ int GBSArea::newFile(int iColumns, int iRows)
         element* anElement = new element(this);
         anElement->setIndexNo(i);
         elements.insert(i, anElement);
-        anElement->move((i / iRows) * (EL_WIDTH - 1),
-                        (i % iRows) * (EL_HEIGHT - 1));
+        anElement->move((i / iRows) * EL_WIDTH,
+                        (i % iRows) * EL_HEIGHT);
 
         progress.setProgress(i);
         qApp->processEvents();
@@ -310,8 +307,8 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
                     qApp->processEvents();
 
                     if (idx < ecount) {
-                        fe->move((idx / rows) * (EL_WIDTH - 1),
-                                 (idx % rows) * (EL_HEIGHT - 1));
+                        fe->move((idx / rows) * EL_WIDTH,
+                                 (idx % rows) * EL_HEIGHT);
                         elements.insert(idx, fe);
                     }
                 }
@@ -338,8 +335,8 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
             element* ee = new element(this);
             ee->setIndexNo(i);
             elements.insert(i, ee);
-            ee->move((i / rows) * (EL_WIDTH - 1),
-                    (i % rows) * (EL_HEIGHT - 1));
+            ee->move((i / rows) * EL_WIDTH,
+                    (i % rows) * EL_HEIGHT);
             progress.setProgress(i);
             qApp->processEvents();
 
@@ -402,8 +399,8 @@ void GBSArea::readOldFileTextFromStream(QTextStream& ts)
             /* contructor with old file format*/
             element* fe = new element(ts, this, false);
             if (fe != NULL) {
-                fe->move((idx / rows) * (EL_WIDTH - 1),
-                        (idx % rows) * (EL_HEIGHT - 1));
+                fe->move((idx / rows) * EL_WIDTH,
+                        (idx % rows) * EL_HEIGHT);
                 fe->setIndexNo(idx);
                 elements.insert(idx, fe);
                 progress.setProgress(idx);
@@ -1491,7 +1488,7 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
             if (e == NULL) {
                 /* insert empty element to unoccupied position */
                 e = new element(this);
-                e->move((c - 1) * (EL_WIDTH - 1), (r - 1) * (EL_HEIGHT - 1));
+                e->move((c - 1) * EL_WIDTH, (r - 1) * EL_HEIGHT);
                 e->show();
                 connect(e, SIGNAL(elementClicked(int, GbsButtonState)),
                         this, SLOT(slotElementClicked(int, GbsButtonState)));
@@ -1593,6 +1590,7 @@ void GBSArea::setRouteFileName(const QString& fn)
     }
     else 
         routeFileName = "";
+    //fprintf(stderr, "routefn: %s\n", routeFileName.data());
 }
 
 

@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.5 $
+                           version 0.4.8 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-07 12:22:43 $
+    last modified        : $Date: 2005-05-07 20:08:25 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -76,7 +76,7 @@ element::element(QWidget* parent): QWidget(parent)
     sSoldText = "-1"; // for test cases : "test"
     iSoldActiveTime = -1;
     iFBContact = 0;
-    iSoldLEDoff = 0;
+    iSoldLEDoff = 1;
     iSoldLEDstate = LED_OFF;
     iSoldRoutingActive = 0;     // set global vars for this ...
     iEditMode = NOEDIT;         // ... element
@@ -1052,7 +1052,7 @@ void element::slotCtxEdit(int iID_)
             break;
     }
     iFBContact = 0;
-    iSoldLEDoff = 0;
+    iSoldLEDoff = 1;
     iSoldLEDstate = 2 * bFBport[iFBContact];
     setupElementIcon(iSoldLEDstate, "");
     sRepeatIcon = sSoldIcon;
@@ -1074,7 +1074,7 @@ void element::clear()
     iSoldDirection = -1;
     iFBContact = -1;
     iSoldInvert = -1;
-    iSoldLEDoff = -1;
+    iSoldLEDoff = 1;
     iSoldLEDstate = LED_OFF;
     iSoldLocked = 0;
     iSoldRotate = -1;
@@ -1219,12 +1219,16 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
     int j;
     int i;
     int bHaveJumped = 0;
-    // load basic icon
-    sPixMapName = RES_DIR_ELEM;
-    sPixMapName += sSoldIcon;
-    sPixMapName += XPM_SUFFIX;
-    QPixmap pixBasicIcon = QPixmap(sPixMapName);
 
+    QPixmap pixBasicIcon;
+    if (sSoldIcon == SYM_LEE){
+        pixBasicIcon = QPixmap(leer_xpm);
+    }
+    else {
+        // load basic icon
+        sPixMapName = QString(RES_DIR_ELEM + sSoldIcon + XPM_SUFFIX);
+        pixBasicIcon = QPixmap(sPixMapName);
+    }
     /*TODO: what about symbols with "taste"-name?*/
     if (iSoldLEDoff == true || sSoldIcon == SYM_LEE)
         goto LEDOFF;
@@ -1486,19 +1490,22 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         }
 
     // copy the additional LED pixmaps to basic icon
-    sPixMapName = RES_DIR_ELEM;
-    sPixMapName += sStateIcon;
-    sPixMapName += XPM_SUFFIX;
-    QPixmap pixStateIcon = QPixmap(sPixMapName);
-    bitBlt(&pixBasicIcon, 0, 0, &pixStateIcon, 0, 0,
-           EL_WIDTH, EL_HEIGHT, OrROP, false);
-
+    if (sSoldIcon != SYM_LEE) {
+        sPixMapName = QString(RES_DIR_ELEM) + sStateIcon + XPM_SUFFIX;
+        QPixmap pixStateIcon = QPixmap(sPixMapName);
+        bitBlt(&pixBasicIcon, 0, 0, &pixStateIcon, 0, 0,
+                EL_WIDTH, EL_HEIGHT, OrROP, false);
+    }
     // rotate the icon if necessary, but without text 
     // (it would be rotated, too!)
-    QWMatrix matrix;
-    matrix.rotate(180 * (iSoldRotate == 1));    // use a matrix to rotate
-    QPixmap pixRotatedIcon = pixBasicIcon.xForm(matrix);
-
+    QPixmap pixRotatedIcon;
+    if (iSoldRotate == 1) {
+        QWMatrix matrix;
+        matrix.rotate(180);    // use a matrix to rotate
+        pixRotatedIcon = pixBasicIcon.xForm(matrix);
+    }
+    else
+        pixRotatedIcon = pixBasicIcon;
 
     // now add everything else like text, locked circles
     QPainter p;
@@ -1506,7 +1513,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
 
     // paint darkgray background if empty element in inverted use
     if (sSoldIcon == SYM_LEE && iSoldInvert == 1)
-        p.fillRect(0, 0, EL_WIDTH - 1, EL_HEIGHT - 1,
+        p.fillRect(0, 0, width() - 1, height() - 1,
                                                  /*-1*/
                    QBrush(QColor(darkGray), SolidPattern));
 
@@ -1683,41 +1690,53 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
     // draw frame around every element
     // grid with thin lines (1 pixel) for mode (edit, show route, record route)
     // thicker lines (2 pixels) for selected elements - guido
+    
+    /* 1) working modes */
     if (iEditMode == NOEDIT)
         // darkgrey if in normal mode
         p.setPen(QPen(QColor(160, 160, 164), 0, SolidLine));
 
     else if (iEditMode == L_EDIT)
-        // thin red if in layout edit mode
+        // red if in layout edit mode
         p.setPen(QPen(QColor(255, 0, 0), 0, SolidLine));
 
-    else if (iEditMode == R_SHOW_STO)
-        // thick red if in show route mode
-        p.setPen(QPen(QColor(255, 0, 0), 2, SolidLine));
+    else if (iEditMode == R_SHOW)
+        // blue if in show route mode
+        p.setPen(QPen(QColor(0, 0, 255), 0, SolidLine));
 
     else if (iEditMode == R_EDIT)
-        // thin green if in record route mode
+        // green if in record route mode
         p.setPen(QPen(QColor(0, 196, 0), 0, SolidLine));
 
+    /* 2) element highlight modes */
+    else if (iEditMode == R_SHOW_STO)
+        // thick red if in show route mode, stop signal
+        p.setPen(QPen(QColor(255, 0, 0), 2, SolidLine));
+
     else if (iEditMode == R_SHOW_STA)
-        // green if in show route mode
+        // thick green if in show route mode, start signal
         p.setPen(QPen(QColor(0, 255, 0), 2, SolidLine));
 
     else if (iEditMode == R_EDIT_CLICKED || iEditMode == R_SHOW_ELM)
-        // yellow if clicked element in record route mode
+        // thick yellow if clicked element in record route mode
         p.setPen(QPen(QColor(251, 251, 0), 2, SolidLine));
 
-    else if (iEditMode == R_SHOW)
-        // blue if element in show route mode
-        p.setPen(QPen(QColor(0, 0, 255), 0, SolidLine));
-
+    /*TODO: differentiate between edit mode and highlight mode
+     * editmode: outer border, two lines at bottom and right edge
+     * highlight: inner rectangle
+     */
     p.setBrush(NoBrush);
+    /* 2) element highlight modes */
     if (iEditMode == R_SHOW_STO || iEditMode == R_SHOW_STA ||
-        iEditMode == R_SHOW_ELM || iEditMode == R_EDIT_CLICKED)
+        iEditMode == R_SHOW_ELM || iEditMode == R_EDIT_CLICKED) {
         // selection color within outer rectangle
-        p.drawRect(1, 1, EL_WIDTH - 2, EL_HEIGHT - 2);
-    else
-        p.drawRect(0, 0, EL_WIDTH, EL_HEIGHT);
+        p.drawRect(1, 1, width() - 1, height() - 1);
+    }
+    /* 1) working modes */
+    else {
+        p.drawLine(0, height() - 1, width() - 1, height() - 1);
+        p.drawLine(width() - 1, height() - 1, width() - 1, 0);
+    }
     p.end();
 
     // at least show previously painted element in layout and add data tooltip
