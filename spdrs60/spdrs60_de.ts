@@ -57,10 +57,6 @@
         <translation>Information</translation>
     </message>
     <message>
-        <source>&gt;Writing layout: %s%s</source>
-        <translation>&gt;Speichere Gleisbild: %s%s</translation>
-    </message>
-    <message>
         <source>unknown</source>
         <translation>unbekannt</translation>
     </message>
@@ -113,30 +109,6 @@ Bitte lesen Sie dieses Gleisbild neu ein.</translation>
         <translation>Fahrstraßen für Gleisbild</translation>
     </message>
     <message>
-        <source>Error</source>
-        <translation>Fehler</translation>
-    </message>
-    <message>
-        <source>Cannot save file
-</source>
-        <translation>Datei kann nicht gespeichert werden
-</translation>
-    </message>
-    <message>
-        <source>
-Continue anyway?</source>
-        <translation>
-Dennoch fortfahren?</translation>
-    </message>
-    <message>
-        <source>&amp;Yes</source>
-        <translation>&amp;Ja</translation>
-    </message>
-    <message>
-        <source>&amp;No</source>
-        <translation>&amp;Nein</translation>
-    </message>
-    <message>
         <source>&gt;Try to route over an empty element (No %1). Check your entries in routing-file!</source>
         <translation>&gt; Versuch, eine Fahrstraße über ein leeres Element (Nr. %1) einzurichten. Kontrollieren Sie die Daten der Fahrstraßendatei!</translation>
     </message>
@@ -159,10 +131,6 @@ Dennoch fortfahren?</translation>
     <message>
         <source>Abort</source>
         <translation>Abbrechen</translation>
-    </message>
-    <message>
-        <source>Loading layout file:</source>
-        <translation>Lade Gleisbilddatei:</translation>
     </message>
     <message>
         <source>&gt;Resetting route # %d.</source>
@@ -227,6 +195,14 @@ Dennoch fortfahren?</translation>
     <message>
         <source>&gt;No routing possible, signal &apos;%1&apos; is allready locked by an active route.</source>
         <translation>&gt;Fahrstraße nicht aktivierbar; Signal &apos;%1&apos; ist bereits durch eine aktive Fahrstraße blockiert.</translation>
+    </message>
+    <message>
+        <source>Loading layout file</source>
+        <translation>Lesen der Gleisbilddatei</translation>
+    </message>
+    <message>
+        <source>Adding empty elements</source>
+        <translation>Hinzufügen der leeren Elemente</translation>
     </message>
 </context>
 <context>
@@ -384,23 +360,12 @@ Dennoch fortfahren?</translation>
         <translation>Fehler beim automatischen Laden</translation>
     </message>
     <message>
-        <source>The selected autoload file does not,
-exist, please adjust your options.
-</source>
-        <translation>Die zum automatischen Laden gewählte Datei
-existiert nicht. Bitte korrigieren Sie die Einstellungen.</translation>
-    </message>
-    <message>
         <source>&amp;Now</source>
         <translation>&amp;Jetzt</translation>
     </message>
     <message>
         <source>&amp;Later</source>
         <translation>&amp;Später</translation>
-    </message>
-    <message>
-        <source>New layout</source>
-        <translation>Neues Gleisbild</translation>
     </message>
     <message>
         <source>Layout file not saved yet</source>
@@ -413,12 +378,6 @@ existiert nicht. Bitte korrigieren Sie die Einstellungen.</translation>
     <message>
         <source>Warning</source>
         <translation>Warnung</translation>
-    </message>
-    <message>
-        <source>New layout not saved yet!
-Do you want to save it?</source>
-        <translation>Das neue Gleisbild wurde noch nicht gespeichert!
-Wollen Sie es jetzt speichern?</translation>
     </message>
     <message>
         <source>&amp;Yes</source>
@@ -495,12 +454,6 @@ verwenden, starten sie erst den Daemon, dann dieses Programm).</translation>
         <translation>&amp;Über</translation>
     </message>
     <message>
-        <source>File exists!
-Do you want to overwrite it?</source>
-        <translation>Die Datei existiert bereits!
-Wollen Sie sie überschreiben?</translation>
-    </message>
-    <message>
         <source>Feedback port changes are omitted while initialization</source>
         <translation>Änderungen am Rückmelde-Port sind bei der Initialisierung nicht erlaubt</translation>
     </message>
@@ -527,10 +480,6 @@ Wollen Sie sie überschreiben?</translation>
     <message>
         <source>SRCP: %1 ===&gt; PASS</source>
         <translation>SRCP: %1 ===&gt; PASSIERT</translation>
-    </message>
-    <message>
-        <source>Cannot read welcome message!</source>
-        <translation>Kann Begrüßungsmeldung nicht lesen!</translation>
     </message>
     <message>
         <source>Command port connected!</source>
@@ -706,6 +655,101 @@ und sonstige Kommentare an:
     <message>
         <source>Use &amp;UfGT</source>
         <translation>&amp;UfGT benutzen</translation>
+    </message>
+    <message>
+        <source>New &amp;Window</source>
+        <translation>Neues &amp;Fenster</translation>
+    </message>
+    <message>
+        <source>&amp;Close</source>
+        <translation>&amp;Schließen</translation>
+    </message>
+    <message>
+        <source>&amp;Change size...</source>
+        <translation>&amp;Größe ändern...</translation>
+    </message>
+    <message>
+        <source>The selected autoload file &apos;%1&apos;
+does not exist. Please adjust your options.</source>
+        <translation>Die zum automatischen Laden gewählte Datei &apos;%1&apos;
+existiert nicht. Bitte korrigieren Sie die Einstellungen.</translation>
+    </message>
+    <message>
+        <source>Unnamed file was changed.
+Save Changes?</source>
+        <translation>Die unbenannte Datei wurde geändert.
+Änderungen speichern?</translation>
+    </message>
+    <message>
+        <source>File &apos;%1&apos; was changed.
+Save changes?</source>
+        <translation>Datei &apos;%1&apos; wurde geändert.
+Änderungen speichern?</translation>
+    </message>
+    <message>
+        <source>Save changes</source>
+        <translation>Änderungen speichern</translation>
+    </message>
+    <message>
+        <source>New layout file created</source>
+        <translation>Neues Gleisbild wurde erzeugt</translation>
+    </message>
+    <message>
+        <source>Could not write to file &apos;%1&apos;</source>
+        <translation>Fehler beim Schreiben auf Datei &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>Layout file &apos;%1&apos; saved</source>
+        <translation>Gleisbilddatei &apos;%1&apos; gespeichert</translation>
+    </message>
+    <message>
+        <source>File &apos;%1&apos; exists!
+Do you want to overwrite it?</source>
+        <translation>Datei &apos;%1&apos; existiert bereits!
+Wollen Sie sie überschreiben?</translation>
+    </message>
+    <message>
+        <source>Saving aborted</source>
+        <translation>Speichern abgebrochen</translation>
+    </message>
+    <message>
+        <source>Could not read file &apos;%1&apos;</source>
+        <translation>Fehler beim Lesen von Datei &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>Layout file &apos;%1&apos; opened</source>
+        <translation>Gleisbilddatei &apos;%1&apos; geöffnet</translation>
+    </message>
+    <message>
+        <source>noname</source>
+        <translation>unbenannt</translation>
+    </message>
+    <message>
+        <source>Cannot read server welcome message!</source>
+        <translation>Kann Begrüßungsmeldung des Servers nicht lesen!</translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>NR</source>
+        <translation>RZS</translation>
+    </message>
+    <message>
+        <source>DR%1</source>
+        <translation>UZS%1</translation>
+    </message>
+    <message>
+        <source>HR</source>
+        <translation>ZHS</translation>
+    </message>
+    <message>
+        <source>NS</source>
+        <translation>RRS</translation>
+    </message>
+    <message>
+        <source>DS%1</source>
+        <translation>URS%1</translation>
     </message>
 </context>
 <context>
@@ -913,10 +957,6 @@ Fahrstraße speichern?</translation>
         <translation>Fahrstraßenbezeichnung (max. 40 Zeichen)</translation>
     </message>
     <message>
-        <source>&gt;Writing routes: %s%s</source>
-        <translation>&gt;Schreibe Fahrstraßen: %s%s</translation>
-    </message>
-    <message>
         <source>Copy of </source>
         <translation>Kopie von </translation>
     </message>
@@ -973,6 +1013,40 @@ Bitte vor dem Speichern korrigieren!</translation>
     <message>
         <source>&amp;Route #%d:</source>
         <translation>&amp;Fahrstraße Nr. %d:</translation>
+    </message>
+    <message>
+        <source>&gt;Writing routes: %1</source>
+        <translation>&gt;Schreibe Fahrstraßen: %1</translation>
+    </message>
+</context>
+<context>
+    <name>RoutingTable</name>
+    <message>
+        <source>S</source>
+        <translation>S</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <source>From</source>
+        <translation>Von</translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation>Nach</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Typ</translation>
+    </message>
+</context>
+<context>
+    <name>RoutingViewer</name>
+    <message>
+        <source>Routings</source>
+        <translation>Fahrstraßen</translation>
     </message>
 </context>
 <context>
@@ -1044,24 +1118,8 @@ Bitte vor dem Speichern korrigieren!</translation>
         <translation>&amp;OK</translation>
     </message>
     <message>
-        <source>&amp;Cancel</source>
-        <translation>&amp;Abbrechen</translation>
-    </message>
-    <message>
         <source>&amp;Decoder:</source>
         <translation>&amp;Dekoder:</translation>
-    </message>
-    <message>
-        <source>&amp;Rotation:</source>
-        <translation>&amp;Rotieren:</translation>
-    </message>
-    <message>
-        <source>&amp;LEDs off:</source>
-        <translation>&amp;LEDs aus:</translation>
-    </message>
-    <message>
-        <source>&amp;Inverted use:</source>
-        <translation>&amp;Invertieren:</translation>
     </message>
     <message>
         <source>&amp;Text:</source>
@@ -1076,10 +1134,6 @@ Bitte vor dem Speichern korrigieren!</translation>
         <translation>Adresse &amp;2:</translation>
     </message>
     <message>
-        <source>xch conn.:</source>
-        <translation>Tauschen:</translation>
-    </message>
-    <message>
         <source>Feedback (track LEDs only):</source>
         <translation>Rückmeldung (Strecken-LEDs):</translation>
     </message>
@@ -1092,10 +1146,6 @@ Bitte vor dem Speichern korrigieren!</translation>
         <translation>Bus:</translation>
     </message>
     <message>
-        <source> not available)</source>
-        <translation> nicht verfügbar)</translation>
-    </message>
-    <message>
         <source>Module:</source>
         <translation>Modul:</translation>
     </message>
@@ -1106,10 +1156,6 @@ Bitte vor dem Speichern korrigieren!</translation>
     <message>
         <source>Show feedback module window</source>
         <translation>Rückmeldemodule anzeigen</translation>
-    </message>
-    <message>
-        <source>Addr. module:</source>
-        <translation>Adressmodul:</translation>
     </message>
     <message>
         <source>Please choose the button which represents the available signal states:</source>
@@ -1264,8 +1310,36 @@ NMRA/DCC: 1 - 4096</translation>
         <translation>Zurücksetzen nach (ms):</translation>
     </message>
     <message>
-        <source>(# </source>
-        <translation type="unfinished">(Nr. </translation>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Abbrechen</translation>
+    </message>
+    <message>
+        <source>&amp;Rotation</source>
+        <translation>&amp;Rotiert</translation>
+    </message>
+    <message>
+        <source>&amp;LEDs off</source>
+        <translation>&amp;LEDs aus</translation>
+    </message>
+    <message>
+        <source>&amp;Inverted use</source>
+        <translation>&amp;Invertieren</translation>
+    </message>
+    <message>
+        <source>&amp;Exch. conn.</source>
+        <translation type="unfinished">&amp;Vertauschen</translation>
+    </message>
+    <message>
+        <source>E&amp;xch. conn.</source>
+        <translation type="unfinished">Ver&amp;tauschen</translation>
+    </message>
+    <message>
+        <source>Address module</source>
+        <translation>Adressmodul</translation>
     </message>
 </context>
 <context>
@@ -1321,24 +1395,44 @@ NMRA/DCC: 1 - 4096</translation>
 <context>
     <name>newLayoutDialog</name>
     <message>
-        <source>Number of columns
-for a new layout:</source>
-        <translation>Anzahl der Spalten
-im neuen Gleisbild:</translation>
-    </message>
-    <message>
         <source>Choose or enter the number of
 columns for an empty layout</source>
         <translation>Anzahl der Spalten für das neue
 Gleisbild wählen oder eingeben</translation>
     </message>
     <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
+        <source>Create new layout</source>
+        <translation>Neues Gleisbild erzeugen</translation>
     </message>
     <message>
-        <source>&amp;Cancel</source>
-        <translation>&amp;Abbrechen</translation>
+        <source>Layout dimensions</source>
+        <translation>Gleisbildabmessungen</translation>
+    </message>
+    <message>
+        <source>&amp;Columns:</source>
+        <translation>&amp;Spalten:</translation>
+    </message>
+    <message>
+        <source>&amp;Rows:</source>
+        <translation>&amp;Zeilen:</translation>
+    </message>
+    <message>
+        <source>Choose or enter the number of
+rows for an empty layout</source>
+        <translation>Anzahl der Zeilen für
+das neue Gleisbild eingeben</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Abbrechen</translation>
+    </message>
+    <message>
+        <source>Change layout size</source>
+        <translation>Gleisbildgröße ändern</translation>
     </message>
 </context>
 <context>
@@ -1611,6 +1705,10 @@ müssen Sie auch dessen Hostnamen
     <message>
         <source>OK</source>
         <translation>OK</translation>
+    </message>
+    <message>
+        <source>Layouts</source>
+        <translation>Gleisbilder</translation>
     </message>
 </context>
 <context>
