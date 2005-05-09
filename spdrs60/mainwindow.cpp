@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.7 $Revision: 1.3 $
+                           version 0.4.7 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-07 12:22:43 $
+    last modified        : $Date: 2005-05-09 15:56:57 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -642,12 +642,7 @@ void MainWindow::closeEvent(QCloseEvent* e)
 	return;
     }
 
-        /*TODO: unnamed file*/
-    int choice = QMessageBox::warning(this, tr("Save changes"),
-            tr("File '%1' was changed.\n"
-                "Save changes?").arg(fileName),
-            tr("&Yes"), tr("&No"), tr("Cancel"), 0, 1);
-    
+    int choice = querySaveChanges();
     switch (choice) {
         case 0:
             if (saveFile())
@@ -669,25 +664,36 @@ void MainWindow::closeEvent(QCloseEvent* e)
 }
 
 
+int MainWindow::querySaveChanges()
+{
+    QString queryStr;
+    
+    if (fileName.isEmpty())
+        queryStr = tr("Unnamed file was changed.\nSave Changes?");
+    else
+        queryStr = tr("File '%1' was changed.\n"
+                "Save changes?").arg(fileName);
+    
+    return QMessageBox::warning(this, tr("Save changes"),
+            queryStr, tr("&Yes"), tr("&No"), tr("Cancel"));
+}
+
+
 void MainWindow::slotFileNew()
 {
     if (gbs->isModified()) {
-        /*TODO: unnamed file*/
-        int choice = QMessageBox::warning(this, tr("Save changes"),
-                         tr("File '%1' was changed.\n"
-                            "Save changes?").arg(fileName),
-                         tr("&Yes"), tr("&No"), tr("Cancel"));
+        int choice = querySaveChanges();
         switch (choice) {
-        case 0:
-            if (saveFile())
+            case 0:
+                if (saveFile())
+                    newFile();
+                break;
+            case 1:
                 newFile();
-            break;
-        case 1:
-            newFile();
-            break;
-        case 2:
-        default:
-            break;
+                break;
+            case 2:
+            default:
+                break;
         }
     }
     else {
@@ -836,22 +842,18 @@ void MainWindow::slotFileSaveAs()
 void MainWindow::slotFileOpen()
 {
     if (gbs->isModified()) {
-        /*TODO: unnamed file*/
-        int choice = QMessageBox::warning(this, tr("Save changes"),
-                         tr("File '%1' was changed.\n"
-                            "Save changes?").arg(fileName),
-                         tr("&Yes"), tr("&No"), tr("Cancel"));
+        int choice = querySaveChanges();
         switch (choice) {
-        case 0:
-            if (saveFile())
+            case 0:
+                if (saveFile())
+                    chooseFile();
+                break;
+            case 1:
                 chooseFile();
-            break;
-        case 1:
-            chooseFile();
-            break;
-        case 2:
-        default:
-            break;
+                break;
+            case 2:
+            default:
+                break;
         }
     }
     else {
