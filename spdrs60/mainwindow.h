@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.4.8 $Revision: 1.3 $
+                           version 0.4.8 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-10 19:12:56 $
+    last modified        : $Date: 2005-05-10 19:53:04 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -67,11 +67,14 @@ private:
    void updateFeedbackMenu();
    void cmdToDebug(const QString&, int, int);
    void openFile(const QString&);
+   void importFile(const QString&);
    void resetMenu();           //dirk
    bool saveFile();
    void newFile();
    void chooseFile();
+   void chooseImportFile();
    int querySaveChanges();
+   bool isModified();
 
    /* New Networking code: */
    void initAllSockets();
@@ -102,6 +105,7 @@ private slots:
    void slotFileOpen();
    void slotFileSave();
    void slotFileSaveAs();
+   void slotFileImport();
    void slotKeyboard();
    void slotKillDaemon();
    void slotReadConfigFile();

@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.7 $Revision: 1.5 $
+                           version 0.4.8 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-10 19:12:55 $
+    last modified        : $Date: 2005-05-10 19:53:04 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -231,6 +231,8 @@ void MainWindow::initMainWindow()
             this, SLOT(slotFileSave()), CTRL + Key_S, FILE_ID_SAVE);
     filemenu->insertItem(tr("&Save As..."),
             this, SLOT(slotFileSaveAs()), 0, FILE_ID_SAVE_AS);
+    filemenu->insertItem(tr("&Import..."),
+            this, SLOT(slotFileImport()), 0, FILE_ID_IMPORT);
     filemenu->insertSeparator();
     filemenu->insertItem(tr("New &Window"),
             this, SLOT(slotFileNewWin()), 0, FILE_ID_NEWWIN);
@@ -613,12 +615,14 @@ void MainWindow::readAutoloadFile()
     // if autoload file from config data does
     // not exist ask user to change options
 
+    bool oldFileFormat = false;
     /* check for file extension, compatible to version <= 0.4.7*/
-    if (DEF_LAYOUT.findRev(GF_GBSEXT) == -1)
-        DEF_LAYOUT.append(GF_GBSEXT); 
+    if (DEF_LAYOUT.findRev(GF_GBSEXT) == -1) {
+        oldFileFormat = true;
+        DEF_LAYOUT.append(GF_OLDGBSEXT);
+    }
     
-    QFile f(DEF_LAYOUT);
-    if (!f.exists()) {                           
+    if (!QFile::exists(DEF_LAYOUT)) {                           
         qApp->beep();
         int choice = QMessageBox::warning(this, tr("Autoloader failed"),
                          tr("The selected autoload file '%1'\n"
@@ -629,14 +633,17 @@ void MainWindow::readAutoloadFile()
             slotShowOptions();
     }
     else
-        openFile(DEF_LAYOUT);
+        if (oldFileFormat)
+            importFile(DEF_LAYOUT);
+        else
+            openFile(DEF_LAYOUT);
 }
 
 
 void MainWindow::closeEvent(QCloseEvent* e)
 {
 
-    if (!gbs->isModified()) {
+    if (!isModified()) {
 	e->accept();
 	return;
     }
@@ -680,7 +687,7 @@ int MainWindow::querySaveChanges()
 
 void MainWindow::slotFileNew()
 {
-    if (gbs->isModified()) {
+    if (isModified()) {
         int choice = querySaveChanges();
         switch (choice) {
             case 0:
@@ -725,11 +732,11 @@ void MainWindow::newFile()
 
 void MainWindow::updateFileMenuItems()
 {
-    tbFileSave->setEnabled(gbs->isModified());
+    tbFileSave->setEnabled(isModified());
     tbLayoutNotRot->setEnabled(true);
     tbViewRoute->setEnabled(true);
 
-    filemenu->setItemEnabled(FILE_ID_SAVE, gbs->isModified());
+    filemenu->setItemEnabled(FILE_ID_SAVE, isModified());
     filemenu->setItemEnabled(FILE_ID_SAVE_AS, true);
 
     if (fileName.isEmpty()){
@@ -839,7 +846,7 @@ void MainWindow::slotFileSaveAs()
 
 void MainWindow::slotFileOpen()
 {
-    if (gbs->isModified()) {
+    if (isModified()) {
         int choice = querySaveChanges();
         switch (choice) {
             case 0:
@@ -860,55 +867,103 @@ void MainWindow::slotFileOpen()
 }
 
 
+void MainWindow::slotFileImport()
+{
+    if (isModified()) {
+        int choice = querySaveChanges();
+        switch (choice) {
+            case 0:
+                if (saveFile())
+                    chooseImportFile();
+                break;
+            case 1:
+                chooseImportFile();
+                break;
+            case 2:
+            default:
+                break;
+        }
+    }
+    else {
+        chooseImportFile();
+    }
+}
+
+
 void MainWindow::chooseFile()
 {
     QString fn = QFileDialog::getOpenFileName(lastDir,
-        QString(tr("Layouts")) + " (*" + GF_GBSEXT +
-                                  " *" + GF_OLDGBSEXT + ")", this);
+        QString(tr("Layouts")) + " (*" + GF_GBSEXT + ")", this);
     if (fn.isEmpty())
         return;
     openFile(fn);
 }
 
 
+void MainWindow::chooseImportFile()
+{
+    QString fn = QFileDialog::getOpenFileName(lastDir,
+        QString(tr("Layouts")) + " (*" GF_OLDGBSEXT + ")", this);
+    if (fn.isEmpty())
+        return;
+    importFile(fn);
+}
+
+
 void MainWindow::openFile(const QString& fn)
 {
-    bool newFileFormat = false;
-
     /*remember last directory we used*/
     lastDir = fn.left(fn.findRev('/'));
-    /*check for file format*/
-    if (fn.findRev(GF_GBSEXT) != -1)
-        newFileFormat = true;
 
     QFile f(fn);
     if (!f.open(IO_ReadOnly)){
         cmdToDebug(tr("Could not read file '%1'").arg(fn), INFO, HIST);
         return;
     }
-    /*TODO: set filename only for new fileformat, for old format change
-     * filename extension*/
-    if (newFileFormat)
-        fileName = fn;
-    else {
-        int pos = fn.findRev(GF_OLDGBSEXT);
-        if (pos != -1){
-            fileName = fn.left(pos);
-            fileName.append(GF_GBSEXT);
-        }
-    }
+    fileName = fn;
 
     if (gbs != NULL)
         gbs->setRouteFileName(fn);
 
     QTextStream ts(&f);
-    if (newFileFormat)
-        gbs->readFileTextFromStream(ts);
-    else
-        gbs->readOldFileTextFromStream(ts);
+    gbs->readFileTextFromStream(ts);
+    //rtController->readFileTextFromStream(ts);
     f.close();
     
     cmdToDebug(tr("Layout file '%1' opened").arg(fn), INFO, HIST);
+    updateCaption();
+    updateFileMenuItems();
+}
+
+
+void MainWindow::importFile(const QString& fn)
+{
+    if (gbs == NULL/* || rtController == NULL*/)
+        return;
+
+    /*remember last directory we used*/
+    lastDir = fn.left(fn.findRev('/'));
+
+    QFile f(fn);
+    if (!f.open(IO_ReadOnly)){
+        cmdToDebug(tr("Could not read file '%1'").arg(fn), INFO, HIST);
+        return;
+    }
+    fileName = "";
+
+    gbs->setRouteFileName(fn);
+
+    QTextStream ts(&f);
+    gbs->readOldFileTextFromStream(ts);
+    f.close();
+
+    /*now read old routes file*/
+    int pos = fn.findRev(GF_OLDGBSEXT);
+    QString rfn = fn.left(pos);
+    rfn.append(RTS_FILE_SUFFIX);
+    //rtController->importFile(rfn);
+
+    cmdToDebug(tr("Layout file '%1' imported").arg(fn), INFO, HIST);
     updateCaption();
     updateFileMenuItems();
 }
@@ -1676,7 +1731,14 @@ void MainWindow::layoutChangeSize()
     }
     delete nlDlg;
 
-    bool im = gbs->isModified();
+    bool im = isModified();
     filemenu->setItemEnabled(FILE_ID_SAVE, im);
     tbFileSave->setEnabled(im);
 }
+
+
+bool MainWindow::isModified()
+{
+    return (gbs->isModified() /*|| rtController->isModified()*/);
+}
+
