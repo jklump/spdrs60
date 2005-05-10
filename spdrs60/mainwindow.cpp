@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.7 $Revision: 1.4 $
+                           version 0.4.7 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-09 15:56:57 $
+    last modified        : $Date: 2005-05-10 19:12:55 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -428,16 +428,16 @@ void MainWindow::initMainWindow()
      | | | +---------------------------------------------+ | | |
      | | +-------------------------------------------------+ | |
      | +-----------------------------------------------------+ |
-     | | +---------------+---------------------------------+ | |
-     | | |  QHBox        |                                 | | |
-     | | + +-------------+ + +---------------------------+ + | |
+     | | +-----------------+-------------------------------+ | |
+     | | |  QHBox          |                               | | |
+     | | | +-------------+ | +---------------------------+ | | |
      | | | |QWidgetStack | | |QWidgetStack+----------+   | | | |
      | | | |   +-------+ | | |            |+----------+  | | | |
      | | | |   |+-------+| | |            +|+----------+ | | | |
      | | | |   +|QLabel || | |             +|QListView | | | | |
      | | | |    +-------+| | |              +----------+ | | | |
-     | | + +-----------+ + +-----------------------------+ + | |
-     | | +---------------+---------------------------------+ | |
+     | | | +-------------+ | +---------------------------+ | | |
+     | | +-----------------+-------------------------------+ | |
      | +-----------------------------------------------------+ |
      +---------------------------------------------------------+
      */
@@ -515,7 +515,6 @@ void MainWindow::initMainWindow()
             SIGNAL(switchToRouteViewMode()));
 */
     connect(this, SIGNAL(showRoutings()), gbs, SLOT(slotShowRoutings()));
-    //connect(this, SIGNAL(newLayout(int, int)), gbs, SLOT(newFile(int, int)));
     connect(this, SIGNAL(FHTclicked()), gbs, SLOT(slotFHTclicked()));
     connect(this, SIGNAL(WGTclicked()), gbs, SLOT(slotWGTclicked()));
     connect(this, SIGNAL(UfGTclicked()), gbs, SLOT(slotUfGTclicked()));
@@ -745,8 +744,7 @@ void MainWindow::updateFileMenuItems()
     }
 
     QString rfn = gbs->getRouteFileName();
-    QFile file(rfn);
-    if (file.exists()){
+    if (QFile::exists(rfn)){
         editfilemenu->changeItem(rfn, EDITFILE_ID_RTS);
         editfilemenu->setItemEnabled(EDITFILE_ID_RTS, true);
     }
@@ -768,7 +766,8 @@ void MainWindow::updateFileMenuItems()
         layoutmenu->setItemEnabled(LAYOUT_ID_NOTROT, true);
     }
 
-    viewmenu->setItemEnabled(VIEW_ID_ROUTES, !fileName.isEmpty());
+    //viewmenu->setItemEnabled(VIEW_ID_ROUTES, !fileName.isEmpty());
+    viewmenu->setItemEnabled(VIEW_ID_ROUTES, true);
     viewmenu->setItemEnabled(VIEW_ID_EDITMODE, true);
 }
 
@@ -818,9 +817,8 @@ void MainWindow::slotFileSaveAs()
 
         lastDir = fn.left(fn.findRev('/'));
 
-        QFile f(fn);
         /*check for existend file*/
-        if (f.exists()){
+        if (QFile::exists(fn)){
             int choice = QMessageBox::warning(this, tr("Warning"),
                     tr("File '%1' exists!\n"
                         "Do you want to overwrite it?").arg(fn),
@@ -1450,7 +1448,6 @@ void MainWindow::slotEditGBSFiles()
 {
     // edit layout file with editor program
     QString sCommand = EDITOR;
-    //sCommand.append(" " + fileName + GF_OLDGBSEXT + (" &"));
     sCommand.append(" " + fileName + (" &"));
     system(sCommand.data());
     tbFileSave->setEnabled(true);

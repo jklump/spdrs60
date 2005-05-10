@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.6 $
+                           version 0.4.8 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-07 20:08:25 $
+    last modified        : $Date: 2005-05-10 19:12:53 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -219,14 +219,14 @@ void element::readFileTextFromStream(QTextStream& ats)
                 sSoldProtocol = value;
             }
             else if (key.compare(GF_ADDRESS1) == 0){
-                iSoldAddress_1 = value.toInt();
-                value = s.section(":", 2, 2).stripWhiteSpace();
                 iGA1BusNo = value.toInt();
+                value = s.section(":", 2, 2).stripWhiteSpace();
+                iSoldAddress_1 = value.toInt();
             }
             else if (key.compare(GF_ADDRESS2) == 0){
-                iSoldAddress_2 = value.toInt();
-                value = s.section(":", 2, 2).stripWhiteSpace();
                 iGA2BusNo = value.toInt();
+                value = s.section(":", 2, 2).stripWhiteSpace();
+                iSoldAddress_2 = value.toInt();
             }
             else if (key.compare(GF_XCHCONN1) == 0){
                 iSoldChangeConn[0] = value.toInt();
@@ -247,9 +247,9 @@ void element::readFileTextFromStream(QTextStream& ats)
                 iSoldActiveTime = value.toInt();
             }
             else if (key.compare(GF_FBPORT) == 0){
-                iFBContact = value.toInt();
-                value = s.section(":", 2, 2).stripWhiteSpace();
                 iFBBusNo = value.toInt();
+                value = s.section(":", 2, 2).stripWhiteSpace();
+                iFBContact = value.toInt();
             }
             else if (key.compare(GF_HIDELEDS) == 0){
                 iSoldLEDoff = value.toInt();
@@ -501,154 +501,161 @@ void element::slotSwitchIt(int iNewDirection, int iLocked)
 }
 
 
-void element::mousePressEvent(QMouseEvent* event)
+void element::mousePressEvent(QMouseEvent* e)
 {
-    // normal modus -> context menu
-    if ((event->button() == RightButton) &&
-        (iEditMode == NOEDIT || iEditMode == R_EDIT))
-        ctxNorm->exec(QCursor::pos());
-
-
-    // layout edit modus -> context menu or element properties window
-    if ((event->button() == RightButton) && (iEditMode == L_EDIT))
-        ctxEdit->exec(QCursor::pos());
-    if ((event->button() == LeftButton) && (iEditMode == L_EDIT))
-        showPropertyDlg();
-
-
-    // normal modus, action dependant of element type
-    if ((event->button() == LeftButton) && (iEditMode == NOEDIT)) {
-
-        GbsButtonState ctrlButton = kNoneClicked;
-        QPoint CursorPos = mapFromGlobal(QCursor::pos());
-
-        if (sSoldIcon == SYM_DRE) {
-            ttComm = new turntableCommander(this, iSoldSubType, sSoldText);
-            connect(ttComm, SIGNAL(applyPressed(QPoint)),
-                    this, SLOT(slotUpdateTurntableData(QPoint)));
-            connect(ttComm, SIGNAL(sendAvailTracks(QString)),
-                    this, SLOT(slotCopyAvailTracks(QString)));
-
-            ttComm->exec();     // parent window NOT usable
-            ttComm->move(QCursor::pos());
+    /*normal mode*/
+    if (iEditMode == NOEDIT) {
+        if (e->button() == RightButton){
+            ctxNorm->exec(QCursor::pos());
+            e->accept();
         }
+        else if (e->button() == LeftButton) {
+            GbsButtonState ctrlButton = kNoneClicked;
+            QPoint CursorPos = mapFromGlobal(QCursor::pos());
 
-        else if (sSoldIcon == SYM_SBN || sSoldIcon == SYM_MDC) {
-            turntableProperties = new elementCommander(this, sSoldIcon);
-            connect(turntableProperties, SIGNAL(applyPressed(QPoint)),
-                    this, SLOT(slotUpdateTurntableData(QPoint)));
+            if (sSoldIcon == SYM_DRE) {
+                ttComm = new turntableCommander(this, iSoldSubType, sSoldText);
+                connect(ttComm, SIGNAL(applyPressed(QPoint)),
+                        this, SLOT(slotUpdateTurntableData(QPoint)));
+                connect(ttComm, SIGNAL(sendAvailTracks(QString)),
+                        this, SLOT(slotCopyAvailTracks(QString)));
 
-            turntableProperties->exec();        // parent window NOT usable
-            turntableProperties->move(QCursor::pos());
-        }
+                ttComm->exec();     // parent window NOT usable
+                ttComm->move(QCursor::pos());
+            }
 
+            else if (sSoldIcon == SYM_SBN || sSoldIcon == SYM_MDC) {
+                turntableProperties = new elementCommander(this, sSoldIcon);
+                connect(turntableProperties, SIGNAL(applyPressed(QPoint)),
+                        this, SLOT(slotUpdateTurntableData(QPoint)));
 
-        /* determine what type of button was pressed an send the
-         * correspondig value to GBSArea to change cursor shape etc.*/
-        // if element contains a solenoid or is a external button
-        else if (iSoldAddress_1 != -1){
+                turntableProperties->exec();        // parent window NOT usable
+                turntableProperties->move(QCursor::pos());
+            }
 
-            if (sSoldIcon == SYM_HS || sSoldIcon == SYM_NRB)
-                ctrlButton = kZfsClicked;
-            
-            else if (sSoldIcon == SYM_SS || sSoldIcon == SYM_SSS ||
-                     sSoldIcon == SYM_WS || sSoldIcon == SYM_SRB)
-                ctrlButton = kRfsClicked;
+            /* determine what type of button was pressed an send the
+             * correspondig value to GBSArea to change cursor shape etc.*/
+            // if element contains a solenoid or is a external button
+            else if (iSoldAddress_1 != -1){
 
-            else if (sSoldIcon == SYM_HSS){
-                /* two different buttons on this panel */
-                if (CursorPos.x() > (EL_WIDTH >> 1) ^ (bool)iSoldRotate)
-                    ctrlButton = kZfsClicked; 
-                else
+                if (sSoldIcon == SYM_HS || sSoldIcon == SYM_NRB)
+                    ctrlButton = kZfsClicked;
+
+                else if (sSoldIcon == SYM_SS || sSoldIcon == SYM_SSS ||
+                        sSoldIcon == SYM_WS || sSoldIcon == SYM_SRB)
                     ctrlButton = kRfsClicked;
-            }
 
-            else if (sSoldIcon == SYM_SSH)
+                else if (sSoldIcon == SYM_HSS){
+                    /* two different buttons on this panel */
+                    if (CursorPos.x() > (EL_WIDTH >> 1) ^ (bool)iSoldRotate)
+                        ctrlButton = kZfsClicked; 
+                    else
+                        ctrlButton = kRfsClicked;
+                }
+
+                else if (sSoldIcon == SYM_SSH)
                     ctrlButton = kZhsClicked;
-            
-            else
-                ctrlButton = kTurnoutClicked;
-            
-            emit elementClicked(iSoldIndex, ctrlButton);
-        }
 
-        /*add here new external button functions*/
-        /*TODO: change to switch SYM_ID_ */
-        else if (sSoldIcon.startsWith("taste")){
-            if (sSoldIcon == SYM_TAW)
-                ctrlButton = kWgtClicked;
-            
-            else if (sSoldIcon == SYM_TAF)
-                ctrlButton = kFhtClicked;
-            
-            else if (sSoldIcon == SYM_TAU) {
-                if (CursorPos.x() < (EL_WIDTH >> 1))
-                    ctrlButton = kUfgtClicked; 
                 else
-                    ctrlButton = kMgtClicked;
+                    ctrlButton = kTurnoutClicked;
+
+                emit elementClicked(iSoldIndex, ctrlButton);
             }
-            
-            else if (sSoldIcon == SYM_TAS) {
-                if (CursorPos.x() < (EL_WIDTH >> 1))
-                    ctrlButton = kSgtClicked; 
-                else
-                    ctrlButton = kHagtClicked;
+
+            /*add here new external button functions*/
+            /*TODO: change to switch SYM_ID_ */
+            else if (sSoldIcon.startsWith("taste")){
+                if (sSoldIcon == SYM_TAW)
+                    ctrlButton = kWgtClicked;
+
+                else if (sSoldIcon == SYM_TAF)
+                    ctrlButton = kFhtClicked;
+
+                else if (sSoldIcon == SYM_TAU) {
+                    if (CursorPos.x() < (EL_WIDTH >> 1))
+                        ctrlButton = kUfgtClicked; 
+                    else
+                        ctrlButton = kMgtClicked;
+                }
+
+                else if (sSoldIcon == SYM_TAS) {
+                    if (CursorPos.x() < (EL_WIDTH >> 1))
+                        ctrlButton = kSgtClicked; 
+                    else
+                        ctrlButton = kHagtClicked;
+                }
+                emit elementClicked(iSoldIndex, ctrlButton);
             }
-            emit elementClicked(iSoldIndex, ctrlButton);
+            e->accept();
         }
     }
+    /*edit mode*/
+    else if (iEditMode == L_EDIT) {
+        if (e->button() == RightButton){
+            ctxEdit->exec(QCursor::pos());
+            e->accept();
+        }
+        else if (e->button() == LeftButton) {
+            showPropertyDlg();
+            e->accept();
+        }
+    }
+    /*route record mode*/
+    else if (iEditMode == R_EDIT) {
+        if (e->button() == RightButton){
+            ctxNorm->exec(QCursor::pos());
+            e->accept();
+        }
+        else if (e->button() == LeftButton) {
+            if ((sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
+                        sSoldIcon == SYM_SS || sSoldIcon == SYM_NRB ||
+                        sSoldIcon == SYM_SSH || sSoldIcon == SYM_SSS ||
+                        sSoldIcon == SYM_SRB)){
 
+                if (bRecStaStoTimeout) {
+                    delete tRecStaSto;
+                    iEditMode = R_EDIT_CLICKED;
+                    emit sigElementClickedRecord(iSoldIndex, REC_STASTO);
+                    setupElementIcon(iSoldLEDstate, "");
+                    bRecStaStoTimeout = false;
+                }
+                else {
+                    bRecStaStoTimeout = true;
+                    // timer is for a double-click on a signal
+                    // only saves this as start signal
+                    tRecStaSto = new QTimer();
+                    tRecStaSto->start(500, true);
+                    connect(tRecStaSto, SIGNAL(timeout()),
+                            this, SLOT(slotRecStaStoTimeout()));
+                }
+            }
 
-    // routing record modus
-    // left mouse-click in R_EDIT mode sends normal element index
-    if ((event->button() == LeftButton) && (iEditMode == R_EDIT)) {
-        
-        if ((sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
-             sSoldIcon == SYM_SS || sSoldIcon == SYM_NRB ||
-             sSoldIcon == SYM_SSH || sSoldIcon == SYM_SSS ||
-             sSoldIcon == SYM_SRB)){
-                
-            if (bRecStaStoTimeout) {
-                delete tRecStaSto;
+            else if (sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER
+                    || sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR
+                    || sSoldIcon == SYM_WEY || sSoldIcon == SYM_EKR
+                    || sSoldIcon == SYM_EKL || sSoldIcon == SYM_DKR
+                    || sSoldIcon == SYM_DKL || sSoldIcon == SYM_DRW
+                    || sSoldIcon == SYM_REL || sSoldIcon == SYM_ZP
+                    || sSoldIcon == SYM_BLD) {
                 iEditMode = R_EDIT_CLICKED;
-                emit sigElementClickedRecord(iSoldIndex, REC_STASTO);
+                emit sigElementClickedRecord(iSoldIndex, REC_NORMAL);
                 setupElementIcon(iSoldLEDstate, "");
-                bRecStaStoTimeout = false;
             }
-            else {
-                bRecStaStoTimeout = true;
-                // timer is for a double-click on a signal
-                // only saves this as start signal
-                tRecStaSto = new QTimer();
-                tRecStaSto->start(500, true);
-                connect(tRecStaSto, SIGNAL(timeout()),
-                        this, SLOT(slotRecStaStoTimeout()));
+
+            else if (sSoldIcon == SYM_LEE) {
+                emit sigElementClickedRecord(0, REC_FINISH);
             }
-        }
-
-        else if (sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER
-                 || sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR
-                 || sSoldIcon == SYM_WEY || sSoldIcon == SYM_EKR
-                 || sSoldIcon == SYM_EKL || sSoldIcon == SYM_DKR
-                 || sSoldIcon == SYM_DKL || sSoldIcon == SYM_DRW
-                 || sSoldIcon == SYM_REL || sSoldIcon == SYM_ZP
-                 || sSoldIcon == SYM_BLD) {
-            iEditMode = R_EDIT_CLICKED;
-            emit sigElementClickedRecord(iSoldIndex, REC_NORMAL);
-            setupElementIcon(iSoldLEDstate, "");
-        }
-
-        else if (sSoldIcon == SYM_LEE) {
-            emit sigElementClickedRecord(0, REC_FINISH);
+            e->accept();
         }
     }
-
-    // routing show modus
-    // left button click if element is in Routing Show modus and
-    // clicked element is an empty element
-    if ((event->button() == LeftButton) && (iEditMode == R_SHOW)
-        && (sSoldIcon == SYM_LEE))
-        emit sigElementClickedRecord(0, REC_FINISH);
+    /*route show mode*/
+    else if (iEditMode == R_SHOW) {
+        if (sSoldIcon == SYM_LEE) {
+            /*TODO: pressing ESC should also send this signal*/
+            emit sigElementClickedRecord(0, REC_FINISH);
+            e->accept();
+        }
+    }
 }
 
 
@@ -1691,7 +1698,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
     // grid with thin lines (1 pixel) for mode (edit, show route, record route)
     // thicker lines (2 pixels) for selected elements - guido
     
-    /* 1) working modes */
+    /* 1) working modes; kvmNormal, kvmEdit, kvmShowR, kvmRecordR */
     if (iEditMode == NOEDIT)
         // darkgrey if in normal mode
         p.setPen(QPen(QColor(160, 160, 164), 0, SolidLine));
@@ -1708,7 +1715,8 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         // green if in record route mode
         p.setPen(QPen(QColor(0, 196, 0), 0, SolidLine));
 
-    /* 2) element highlight modes */
+    /* 2) element highlight modes, khmNormal, khmStopS, khmStartS,
+     * khmSwitchE, khmFoundE, ... */
     else if (iEditMode == R_SHOW_STO)
         // thick red if in show route mode, stop signal
         p.setPen(QPen(QColor(255, 0, 0), 2, SolidLine));
@@ -1751,11 +1759,11 @@ void element::addTooltip()
     // remove every tooltip and if wished add new one
     // setup element's tooltip
     // with all information of the member variables
-    QString a1, a2;
-    a1 = QString::number(iSoldAddress_1);
-    a2 = QString::number(iSoldAddress_2);
-    
     if (SHOW_DATA_TOOLTIPS) {
+        QString a1, a2;
+        a1 = QString::number(iSoldAddress_1);
+        a2 = QString::number(iSoldAddress_2);
+    
         QString tip1, tip2;
 
         tip1.sprintf("ELEMENT  # %03d\n"
@@ -2097,15 +2105,15 @@ void element::writeFileTextToStream(QTextStream& ts)
     ts << GF_INVERSTO  << ":" << iSoldInvert << endl;
     ts << GF_DECODER   << ":" << sSoldDecoder << endl;
     ts << GF_PROTOCOL  << ":" << sSoldProtocol << endl;
-    ts << GF_ADDRESS1  << ":" << iSoldAddress_1 << ":" << iGA1BusNo << endl;
-    ts << GF_ADDRESS2  << ":" << iSoldAddress_2 << ":" << iGA2BusNo << endl;
+    ts << GF_ADDRESS1  << ":" << iGA1BusNo << ":" << iSoldAddress_1 << endl;
+    ts << GF_ADDRESS2  << ":" << iGA2BusNo << ":" << iSoldAddress_2 << endl;
     ts << GF_XCHCONN1  << ":" << iSoldChangeConn[0] << endl;
     ts << GF_XCHCONN2  << ":" << iSoldChangeConn[1] << endl;
     ts << GF_DIRECTION << ":" << iSoldDirection << endl;
     ts << GF_SUBTYPE   << ":" << iSoldSubType << endl;
     ts << GF_TEXT      << ":" << sSoldText << endl;
     ts << GF_ACTTIME   << ":" << iSoldActiveTime << endl;
-    ts << GF_FBPORT    << ":" << iFBContact << ":" << iFBBusNo << endl;
+    ts << GF_FBPORT    << ":" << iFBBusNo << ":" << iFBContact << endl;
     ts << GF_HIDELEDS  << ":" << iSoldLEDoff << endl;
 }
 

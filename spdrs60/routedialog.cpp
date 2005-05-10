@@ -1,11 +1,11 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.4.8 $Revision: 1.2 $
+                           version 0.4.8 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-07 12:22:43 $
+    last modified        : $Date: 2005-05-10 19:12:56 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -83,7 +83,7 @@ RouteDialog::~RouteDialog()
 }
 
 
-void RouteDialog::closeEvent(QCloseEvent * e)
+void RouteDialog::closeEvent(QCloseEvent* e)
 {
     // if something has been changed without saving ask for doing so
     if (bHasChanged) {

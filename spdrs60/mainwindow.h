@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.4.8 $Revision: 1.2 $
+                           version 0.4.8 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-07 12:22:43 $
+    last modified        : $Date: 2005-05-10 19:12:56 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -71,6 +71,7 @@ private:
    bool saveFile();
    void newFile();
    void chooseFile();
+   int querySaveChanges();
 
    /* New Networking code: */
    void initAllSockets();
@@ -139,12 +140,9 @@ private slots:
 signals:
    void EditMode(int);
    void FHTclicked();
-   void load();
-   void newLayout(int, int);
    void notrot();
    void progressCancelled();
    void repaintLayout();
-   void save();
    void sendAll();
    void sendFBChangeLayout(unsigned int);
    void sendFBChangeModule(unsigned int);

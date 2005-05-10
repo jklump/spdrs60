@@ -1,6 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# last update: 2004-12-31
+# version: $Revision: 1.2 $
+# last update: $Date: 2005-05-10 19:12:52 $
 
 SUBDIRS = pixmaps
 

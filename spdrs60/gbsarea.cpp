@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.7 $
+                           version 0.4.8 $Revision: 1.8 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-07 20:08:26 $
+    last modified        : $Date: 2005-05-10 19:12:54 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -208,7 +208,8 @@ int GBSArea::newFile(int iColumns, int iRows)
         anElement->move((i / iRows) * EL_WIDTH,
                         (i % iRows) * EL_HEIGHT);
 
-        progress.setProgress(i);
+        if ((i % 10) == 0)
+            progress.setProgress(i);
         qApp->processEvents();
 
 #if QT_VERSION >= 0x030200
@@ -233,19 +234,21 @@ void GBSArea::writeFileTextToStream(QTextStream& ts)
     QDateTime dt = QDateTime::currentDateTime();
     
     // write the header
-    ts << "# spdrs60 layout file" << endl;
-    ts << "# version=" << VERSION << endl;
-    ts << "# last modified=" << dt.toString(Qt::ISODate) << endl;
-    ts << "# layout dimensions=columns:rows" << endl;
-    ts << GF_DIMENSIONS << ":" << cols << ":" << rows << endl;
-    /* optional for later multi host connections:
-    ts << GF_CMDHOST << cmdHost << ":" << cmdHostPort << ":" << cmdLogin << endl;
-    ts << GF_CMDPORT << fbHost << ":" << fbHostPort << ":" << fbLogin << endl;
-    */
+    ts << "# spdrs60 data file" << endl
+       << "# version=" << VERSION << endl
+       << "# last modified=" << dt.toString(Qt::ISODate) << endl
+       << "# layout dimensions=columns:rows" << endl
+       << GF_DIMENSIONS << ":" << cols << ":" << rows << endl
+       << GF_CMDHOST << ":" << cmdHost << ":" << cmdPort <<
+                        ":" << cmdLogin << endl
+       << GF_FBHOST << ":" << fbHost << ":" << fbPort << ":" << fbLogin << endl
+       << "# start of element section" << endl;
+       //<< "# elements=" << elements.count() << endl;
+    
     for (unsigned int i = 0; i < elements.size(); i++) {
         element* e = elements[i];
         if (e != NULL && !e->isEmpty()) {
-            ts << "%% # Element" << endl;
+            ts << "%% Element " << i << endl;
             e->writeFileTextToStream(ts);
         }
     }
@@ -303,7 +306,8 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
                 element* fe = new element(ts, this, true);
                 if (fe != NULL) {
                     unsigned int idx = fe->getIndexNo();
-                    progress.setProgress(idx);
+                    if ((idx % 10) == 0)
+                        progress.setProgress(idx);
                     qApp->processEvents();
 
                     if (idx < ecount) {
@@ -337,7 +341,8 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
             elements.insert(i, ee);
             ee->move((i / rows) * EL_WIDTH,
                     (i % rows) * EL_HEIGHT);
-            progress.setProgress(i);
+            if ((i % 10) == 0)
+                progress.setProgress(i);
             qApp->processEvents();
 
 #if QT_VERSION >= 0x030200
@@ -403,7 +408,8 @@ void GBSArea::readOldFileTextFromStream(QTextStream& ts)
                         (idx % rows) * EL_HEIGHT);
                 fe->setIndexNo(idx);
                 elements.insert(idx, fe);
-                progress.setProgress(idx);
+                if ((idx % 10) == 0)
+                    progress.setProgress(idx);
                 qApp->processEvents();
             }
 #if QT_VERSION >= 0x030200

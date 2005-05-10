@@ -119,9 +119,10 @@
 #define   FILE_ID_OPEN     102
 #define   FILE_ID_SAVE     103
 #define   FILE_ID_SAVE_AS  104
-#define   FILE_ID_NEWWIN   105
-#define   FILE_ID_CLOSE    106
-#define   FILE_ID_QUIT     107
+#define   FILE_ID_IMPORT   105
+#define   FILE_ID_NEWWIN   106
+#define   FILE_ID_CLOSE    107
+#define   FILE_ID_QUIT     108
 
 #define   EDIT_ID_CUT      201
 #define   EDIT_ID_COPY     202
