@@ -1,3 +1,7 @@
+2005-05-12 Guido Scholz <guido.scholz@bayernline.de>
+	* element.cpp, element.h: improved mouse event handling, changed
+	mouse button actions
+        
 2005-05-07 Guido Scholz <guido.scholz@bayernline.de>
 	* mainwindow.cpp, gbsarea.cpp: new file format for layout files,
         size limits for layout files removed

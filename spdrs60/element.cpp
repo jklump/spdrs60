@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.7 $
+                           version 0.4.8 $Revision: 1.8 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-10 19:12:53 $
+    last modified        : $Date: 2005-05-12 20:40:25 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -37,6 +37,46 @@
 #include "pixmaps/ctx_r_curve.xpm"
 #include "pixmaps/ctx_r_diag.xpm"
 #include "pixmaps/ctx_r_turn.xpm"
+
+static const char* leer_xpm[]={
+"56 35 1 1",
+". c None",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................",
+"........................................................"};
+
 
 extern bool SHOW_HP2;
 extern bool SHOW_DATA_TOOLTIPS;
@@ -81,7 +121,6 @@ element::element(QWidget* parent): QWidget(parent)
     iSoldRoutingActive = 0;     // set global vars for this ...
     iEditMode = NOEDIT;         // ... element
 
-    bRecStaStoTimeout = false;
     sSaveReplaceIcon = "";
     sRepeatIcon = SYM_LEE;
     iSoldLocked = UNLOCKED;
@@ -113,7 +152,6 @@ element::element(QStrList* elementData_, QWidget* parent): QWidget(parent)
     iSoldLEDstate = 2 * bFBport[iFBContact];   // LED_OFF=0 or LED_RED=2*1=2
     iSoldRoutingActive = 0;     // set global vars for this ...
     iEditMode = NOEDIT;         // ... element
-    bRecStaStoTimeout = false;
     sSaveReplaceIcon = "";
     sRepeatIcon = SYM_LEE;
     iSoldLocked = UNLOCKED;
@@ -166,7 +204,6 @@ element::element(QTextStream& ats, QWidget* parent, bool isNewFormat)
     iSoldRoutingActive = 0;
     iEditMode = NOEDIT;
 
-    bRecStaStoTimeout = false;
     sSaveReplaceIcon = "";
     sRepeatIcon = SYM_LEE;
     iSoldLocked = UNLOCKED;
@@ -501,15 +538,31 @@ void element::slotSwitchIt(int iNewDirection, int iLocked)
 }
 
 
+void element::mouseDoubleClickEvent(QMouseEvent* e)
+{
+    /*route record mode*/
+    if (iEditMode == R_EDIT) {
+        if (e->button() == LeftButton) {
+            if ((sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
+                        sSoldIcon == SYM_SS || sSoldIcon == SYM_NRB ||
+                        sSoldIcon == SYM_SSH || sSoldIcon == SYM_SSS ||
+                        sSoldIcon == SYM_SRB)){
+                /*record start or stop signal*/
+                iEditMode = R_EDIT_CLICKED;
+                emit sigElementClickedRecord(iSoldIndex, REC_STASTO);
+                setupElementIcon(iSoldLEDstate, "");
+                e->accept();
+            }
+        }
+    }
+}
+
+
 void element::mousePressEvent(QMouseEvent* e)
 {
     /*normal mode*/
     if (iEditMode == NOEDIT) {
-        if (e->button() == RightButton){
-            ctxNorm->exec(QCursor::pos());
-            e->accept();
-        }
-        else if (e->button() == LeftButton) {
+        if (e->button() == LeftButton) {
             GbsButtonState ctrlButton = kNoneClicked;
             QPoint CursorPos = mapFromGlobal(QCursor::pos());
 
@@ -591,46 +644,15 @@ void element::mousePressEvent(QMouseEvent* e)
     }
     /*edit mode*/
     else if (iEditMode == L_EDIT) {
-        if (e->button() == RightButton){
-            ctxEdit->exec(QCursor::pos());
-            e->accept();
-        }
-        else if (e->button() == LeftButton) {
-            showPropertyDlg();
+        if (e->button() == LeftButton) {
+            /*TODO: select element*/
             e->accept();
         }
     }
     /*route record mode*/
     else if (iEditMode == R_EDIT) {
-        if (e->button() == RightButton){
-            ctxNorm->exec(QCursor::pos());
-            e->accept();
-        }
-        else if (e->button() == LeftButton) {
-            if ((sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
-                        sSoldIcon == SYM_SS || sSoldIcon == SYM_NRB ||
-                        sSoldIcon == SYM_SSH || sSoldIcon == SYM_SSS ||
-                        sSoldIcon == SYM_SRB)){
-
-                if (bRecStaStoTimeout) {
-                    delete tRecStaSto;
-                    iEditMode = R_EDIT_CLICKED;
-                    emit sigElementClickedRecord(iSoldIndex, REC_STASTO);
-                    setupElementIcon(iSoldLEDstate, "");
-                    bRecStaStoTimeout = false;
-                }
-                else {
-                    bRecStaStoTimeout = true;
-                    // timer is for a double-click on a signal
-                    // only saves this as start signal
-                    tRecStaSto = new QTimer();
-                    tRecStaSto->start(500, true);
-                    connect(tRecStaSto, SIGNAL(timeout()),
-                            this, SLOT(slotRecStaStoTimeout()));
-                }
-            }
-
-            else if (sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER
+        if (e->button() == LeftButton) {
+            if (sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER
                     || sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR
                     || sSoldIcon == SYM_WEY || sSoldIcon == SYM_EKR
                     || sSoldIcon == SYM_EKL || sSoldIcon == SYM_DKR
@@ -640,12 +662,13 @@ void element::mousePressEvent(QMouseEvent* e)
                 iEditMode = R_EDIT_CLICKED;
                 emit sigElementClickedRecord(iSoldIndex, REC_NORMAL);
                 setupElementIcon(iSoldLEDstate, "");
+                e->accept();
             }
 
             else if (sSoldIcon == SYM_LEE) {
                 emit sigElementClickedRecord(0, REC_FINISH);
+                e->accept();
             }
-            e->accept();
         }
     }
     /*route show mode*/
@@ -659,14 +682,37 @@ void element::mousePressEvent(QMouseEvent* e)
 }
 
 
-void element::slotRecStaStoTimeout()
+void element::mouseReleaseEvent(QMouseEvent* e)
 {
-    bRecStaStoTimeout = false;
-
-    // element has been clicked and a yellow frame
-    iEditMode = R_EDIT_CLICKED;
-    emit sigElementClickedRecord(iSoldIndex, REC_NORMAL);
-    setupElementIcon(iSoldLEDstate, "");
+    /*normal mode*/
+    if (iEditMode == NOEDIT) {
+        if (e->button() == RightButton){
+            ctxNorm->exec(QCursor::pos());
+            e->accept();
+        }
+    }
+    /*edit mode*/
+    else if (iEditMode == L_EDIT) {
+        if (e->button() == LeftButton) {
+            /*TODO: handle drop action*/
+            e->accept();
+        }
+        else if (e->button() == MidButton) {
+            ctxEdit->exec(QCursor::pos());
+            e->accept();
+        }
+        else if (e->button() == RightButton){
+            showPropertyDlg();
+            e->accept();
+        }
+    }
+    /*route record mode*/
+    else if (iEditMode == R_EDIT) {
+        if (e->button() == RightButton){
+            ctxNorm->exec(QCursor::pos());
+            e->accept();
+        }
+    }
 }
 
 
@@ -1698,7 +1744,10 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
     // grid with thin lines (1 pixel) for mode (edit, show route, record route)
     // thicker lines (2 pixels) for selected elements - guido
     
-    /* 1) working modes; kvmNormal, kvmEdit, kvmShowR, kvmRecordR */
+    /*
+     * 1) working modes:
+     * kvmNormal, kvmEdit, kvmShowRoute, kvmRecordRoute
+     */
     if (iEditMode == NOEDIT)
         // darkgrey if in normal mode
         p.setPen(QPen(QColor(160, 160, 164), 0, SolidLine));
@@ -1715,8 +1764,11 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         // green if in record route mode
         p.setPen(QPen(QColor(0, 196, 0), 0, SolidLine));
 
-    /* 2) element highlight modes, khmNormal, khmStopS, khmStartS,
-     * khmSwitchE, khmFoundE, ... */
+    /*
+     * 2) element selection modes:
+     * ksmNormal, ksmSelected, ksmStopSig, ksmStartSig, ksmSwitchEl,
+     * ksmFoundEl, ...
+     */
     else if (iEditMode == R_SHOW_STO)
         // thick red if in show route mode, stop signal
         p.setPen(QPen(QColor(255, 0, 0), 2, SolidLine));
@@ -1727,11 +1779,12 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
 
     else if (iEditMode == R_EDIT_CLICKED || iEditMode == R_SHOW_ELM)
         // thick yellow if clicked element in record route mode
+        /*TODO: double clicked elements should get an other color*/
         p.setPen(QPen(QColor(251, 251, 0), 2, SolidLine));
 
-    /*TODO: differentiate between edit mode and highlight mode
+    /*TODO: differentiate between edit mode and selection mode
      * editmode: outer border, two lines at bottom and right edge
-     * highlight: inner rectangle
+     * selection: inner rectangle
      */
     p.setBrush(NoBrush);
     /* 2) element highlight modes */
@@ -1742,8 +1795,10 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
     }
     /* 1) working modes */
     else {
-        p.drawLine(0, height() - 1, width() - 1, height() - 1);
-        p.drawLine(width() - 1, height() - 1, width() - 1, 0);
+        int h = height();
+        int w = width();
+        p.drawLine(0, h - 1, w - 1, h - 1);
+        p.drawLine(w - 1, h - 1, w - 1, 0);
     }
     p.end();
 
