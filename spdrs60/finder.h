@@ -1,10 +1,11 @@
 /***************************************************************************
                            finder.h
-                           version 0.4.3 $Revision: 1.2 $
+                           version 0.4.8 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
+                         : (C) 2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-07 12:22:43 $
+    last modified        : $Date: 2005-05-14 20:13:43 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -45,7 +46,7 @@ private:
 
 
 signals:
-   void sigFind(QString, int, bool);     // send search string to gbs
+   void sigFind(const QString&, int, bool);    // send search string to gbs
 
 private slots:
    void slotActivateSearchButt(const QString&);// activates search butt if a

@@ -1,10 +1,10 @@
 /***************************************************************************
                            finder.cpp
-                           version 0.4.3 $Revision: 1.2 $
+                           version 0.4.3 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-07 12:22:43 $
+    last modified        : $Date: 2005-05-14 20:13:43 $
 ***************************************************************************/
 
 /*****************************************************************************
@@ -25,9 +25,9 @@
 extern int SHOW_TOOLTIPS;
 
 
-Finder::Finder(QWidget* parent): QDialog(0, "Finder", false)
+Finder::Finder(QWidget* parent): QDialog(parent, "Finder", false)
 {
-    if (parent);                // dummy command to avoid compiler warning
+//    if (parent);                // dummy command to avoid compiler warning
 
     this->setCaption(tr("Element locator"));
     this->setFixedWidth(270);

@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.6 $
+                           version 0.4.8 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-10 19:53:04 $
+    last modified        : $Date: 2005-05-14 20:13:43 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -97,7 +97,7 @@ MainWindow::MainWindow()
     iDebugNo = HIST;            // default debug window ist HISTORY
     isFBInitMode = true;        // var to avoid all startup feedback
     // changes to be shown in debug window
-    iEditMode = NOEDIT;         // normal layout mode
+    visualMode = kvmNormal;         // normal layout mode
     lastDir = QDir::homeDirPath();      // remembers path for FileOpen
     initMainWindow();           // setup main window with all menus
     slotReadConfigFile();       // read user dependend config file
@@ -527,7 +527,8 @@ void MainWindow::initMainWindow()
     connect(this, SIGNAL(notrot()), gbs, SLOT(slotNotrot()));
     connect(this, SIGNAL(sendFBChangeLayout(unsigned int)),
             gbs, SLOT(slotFBportChanged(unsigned int)));
-    connect(this, SIGNAL(EditMode(int)), gbs, SIGNAL(EditMode(int)));
+    connect(this, SIGNAL(switchEditMode(elemVisualMode)), gbs,
+            SIGNAL(EditMode(elemVisualMode)));
     connect(gbs, SIGNAL(cmdToDebug(const QString&)),
             this, SLOT(slotCmdToDebugExtern(const QString&)));
     connect(gbs, SIGNAL(sendCommand(const QString&)),
@@ -666,7 +667,7 @@ void MainWindow::closeEvent(QCloseEvent* e)
     }
     
     /*TODO: check why this may be necessary:*/
-    //emit EditMode(NOEDIT);
+    //emit switchEditMode(kvmNormal);
 }
 
 
@@ -1530,23 +1531,26 @@ void MainWindow::slotEditConfigFile()
 
 void MainWindow::slotEditLayout()
 {
-    if (iEditMode == NOEDIT) {
+    if (visualMode == kvmNormal) {
         cmdToDebug(tr("Entering edit mode"), INFO, HIST);
         // wenn das Layout einmal im Editiermodus war, gilt es als modifiziert
         gbs->setModified(true);
+        visualMode = kvmEdit;
     }
-    else
+    else {
         cmdToDebug(tr("Leaving edit mode"), INFO, HIST);
+        visualMode = kvmNormal;
+    }
 
-    iEditMode = !iEditMode;
-    viewmenu->setItemChecked(VIEW_ID_EDITMODE, iEditMode);
+    viewmenu->setItemChecked(VIEW_ID_EDITMODE, visualMode != kvmNormal);
 
-    tbFileOpen->setEnabled(!iEditMode); // change edit related menus
-    tbFileNew->setEnabled(!iEditMode);
-    filemenu->setItemEnabled(FILE_ID_NEW, !iEditMode);
-    filemenu->setItemEnabled(FILE_ID_OPEN, !iEditMode);
+    // change edit related menus
+    tbFileOpen->setEnabled(visualMode == kvmNormal);
+    tbFileNew->setEnabled(visualMode == kvmNormal);
+    filemenu->setItemEnabled(FILE_ID_NEW, visualMode == kvmNormal);
+    filemenu->setItemEnabled(FILE_ID_OPEN, visualMode == kvmNormal);
 
-    emit EditMode(iEditMode);   // send emit mode to all elements
+    emit switchEditMode(visualMode);   // send edit mode to all elements
 }
 
 
@@ -1704,9 +1708,9 @@ void MainWindow::slotEditFind()
      * create a new locator window and
      * connect its signals directly to gbs
      */
-    findWindow = new Finder();
-    connect(findWindow, SIGNAL(sigFind(QString, int, bool)),
-            gbs, SLOT(slotEditFind(QString, int, bool)));
+    findWindow = new Finder(this);
+    connect(findWindow, SIGNAL(sigFind(const QString&, int, bool)),
+            gbs, SLOT(slotEditFind(const QString&, int, bool)));
     findWindow->exec();
 }
 

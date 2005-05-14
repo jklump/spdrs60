@@ -1,3 +1,9 @@
+2005-05-14 Guido Scholz <guido.scholz@bayernline.de>
+	* element.cpp, element.h, mainwindow.cpp, mainwindow.h,
+	routedialog.cpp, gbsarea.cpp, gbsarea.h: strongly improved
+        element painting, changed element selection handling,
+        finder is working again
+        
 2005-05-12 Guido Scholz <guido.scholz@bayernline.de>
 	* element.cpp, element.h: improved mouse event handling, changed
 	mouse button actions

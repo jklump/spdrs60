@@ -1,11 +1,11 @@
 /***************************************************************************
                            RouteDialog.h
-                           version 0.4.7 $Revision: 1.2 $
+                           version 0.4.7 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-07 12:22:44 $
+    last modified        : $Date: 2005-05-14 20:13:43 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -44,6 +44,7 @@
 #include <qtooltip.h>
 
 #include "resources.h"
+#include "element.h"
 
 #define MAX_SW_ELEM 15   // max no of switched solenoids in a route
 
@@ -68,7 +69,7 @@ class RouteDialog: public QDialog
    Q_OBJECT
 
 public:
-   RouteDialog(QWidget* pParent = NULL, QStrList* listOfLockedRoutes_ = NULL);
+   RouteDialog(QWidget* pParent = 0, QStrList* listOfLockedRoutes_ = 0);
    virtual ~RouteDialog();
   
 private:
@@ -82,12 +83,12 @@ private:
    int  readProgFields(bool);
    void stopRecord();
    void createRoutingFile();
-   QString addZeros(QString);
+   QString addZeros(const QString&);
    QWidget *parent;
 
 public slots:
    void slotUpdateRouteWindow();
-   void slotRecordElement(int, QString, int, int);
+   void slotRecordElement(int, const QString&, int, int);
 
 private slots:
    void slotSendRouteIndex();
@@ -113,9 +114,11 @@ signals:
    void sendRouteIndex(int, int);
    void sendReloadRoutes();
    void cmdToDebug(const QString&);
-   void sigRecord(int);
-   void sigShowElement(int, int, int);
-   void sigReadElemName(QString);
+   //void sigRecord(int);
+   void sigRecord(elemVisualMode);
+   //void sigShowElement(int, int, int);
+   void sigShowElement(int, int, elemSelectionMode);
+   void sigReadElemName(const QString&);
 
 protected:
    virtual void closeEvent(QCloseEvent*);

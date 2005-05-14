@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.4.8 $Revision: 1.4 $
+                           version 0.4.8 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-10 19:53:04 $
+    last modified        : $Date: 2005-05-14 20:13:43 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -142,7 +142,7 @@ private slots:
    void InfoSocketError(int);
 
 signals:
-   void EditMode(int);
+   void switchEditMode(elemVisualMode);
    void FHTclicked();
    void notrot();
    void progressCancelled();
@@ -217,7 +217,7 @@ private:
    
    int  isFBInitMode;
    int  iDebugNo;
-   int  iEditMode;
+   elemVisualMode visualMode;
    QString  fileName;  //serd
    QString  lastDir;
 };

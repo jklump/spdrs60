@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.4.8 $Revision: 1.4 $
+                           version 0.4.8 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-12 20:40:25 $
+    last modified        : $Date: 2005-05-14 20:13:43 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -56,6 +56,23 @@ enum GbsButtonState {
     kSgtClicked,
     kHagtClicked,
     kFrtClicked};
+
+/*element selection modes, shown as an inner rectangle*/
+enum elemSelectionMode {
+    ksmNormal = 0,
+    ksmSelected,
+    ksmStopSig,
+    ksmStartSig,
+    ksmStaStoSignal,
+    ksmSwitchEl,
+    ksmFoundEl};
+
+/*element visual modes, shown as colored right and bottom line*/
+enum elemVisualMode {
+     kvmNormal = 0,
+     kvmEdit,
+     kvmShowRoute,
+     kvmRecordRoute};
 
 /*some magic strings for reading and writing layout files*/
 #define GF_INDEX        "index"
@@ -123,7 +140,8 @@ public:
     bool isTurnout();
     bool isRoutable();
     bool isSwitchable();
-    void showElementState(int, int);
+    //void showElementState(int, int);
+    void showElementState(int, elemSelectionMode);
     void setIndexNo(unsigned int);
     unsigned int getIndexNo();
 
@@ -134,8 +152,9 @@ private:
 
     QPopupMenu* ctxNorm;
     QPopupMenu* ctxEdit;
+    elemSelectionMode selectionMode;
+    elemVisualMode visualMode;
     int         iSoldRoutingActive;
-    int         iEditMode;
     int         iGA1BusNo;
     int         iGA2BusNo;
     int         iFBBusNo;
@@ -156,36 +175,38 @@ private:
     void setupElementIcon(int, QString);
     void updateProperties();
 
+
 public slots:
     void slotSwitchIt(int, int);
     void slotToggle();
     void slotOccupyElement(unsigned int);
-    void slotEditMode(int);
-    void slotRecordMode(int);
+    void slotEditMode(elemVisualMode);
+    void slotRecordMode(elemVisualMode);
     void slotRepeatIcon(const QString&);
-    void slotShowElement(int, int, int);
+    void slotShowElement(int, int, elemSelectionMode);
     void slotRepaintLayout();
     void switchToRouteViewMode();
 
 private slots:
-   void slotLocateTimerTimeout();
-   void slotUpdateData();
-   void slotUpdateTurntableData(QPoint);
-   void slotCopyAvailTracks(QString);
-   void slotCtxEdit(int);
+    void slotLocateTimerTimeout();
+    void slotUpdateData();
+    void slotUpdateTurntableData(QPoint);
+    void slotCopyAvailTracks(const QString&);
+    void slotCtxEdit(int);
 
 signals:
-   void cmdToDebug(const QString&);
-   void elementClicked(int, GbsButtonState);
-   void sendCommand(const QString&);
-   void setRepeatIcon(const QString&);
-   void sigElementClickedRecord(int, int);
-   void sigShowFBmodules();
+    void cmdToDebug(const QString&);
+    void elementClicked(int, GbsButtonState);
+    void sendCommand(const QString&);
+    void setRepeatIcon(const QString&);
+    void sigElementClickedRecord(int, int);
+    void sigShowFBmodules();
 
 protected:
-   virtual void mouseDoubleClickEvent(QMouseEvent*);
-   virtual void mousePressEvent(QMouseEvent*);
-   virtual void mouseReleaseEvent(QMouseEvent*);
+    virtual void mouseDoubleClickEvent(QMouseEvent*);
+    virtual void mousePressEvent(QMouseEvent*);
+    virtual void mouseReleaseEvent(QMouseEvent*);
+    virtual void paintEvent(QPaintEvent*);
 };
 
 #endif  //ELEMENT_H

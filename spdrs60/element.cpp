@@ -1,11 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.8 $
+                           version 0.4.8 $Revision: 1.9 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-12 20:40:25 $
+                         : guido.scholz@bayernline.de
+    last modified        : $Date: 2005-05-14 20:13:43 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -119,7 +120,8 @@ element::element(QWidget* parent): QWidget(parent)
     iSoldLEDoff = 1;
     iSoldLEDstate = LED_OFF;
     iSoldRoutingActive = 0;     // set global vars for this ...
-    iEditMode = NOEDIT;         // ... element
+    selectionMode = ksmNormal;
+    visualMode = kvmNormal;
 
     sSaveReplaceIcon = "";
     sRepeatIcon = SYM_LEE;
@@ -132,7 +134,7 @@ element::element(QWidget* parent): QWidget(parent)
     createPopupMenus();
     updateProperties();
 
-    setupElementIcon(iSoldLEDstate, sSaveReplaceIcon);  // paint element
+    setupElementIcon(iSoldLEDstate, sSaveReplaceIcon);
 }
     
 /*constructor for element setup by QStrList*/
@@ -149,9 +151,10 @@ element::element(QStrList* elementData_, QWidget* parent): QWidget(parent)
     setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed,
                 false));
     copyData(elementData_);     // copy the parameter string list
-    iSoldLEDstate = 2 * bFBport[iFBContact];   // LED_OFF=0 or LED_RED=2*1=2
+    iSoldLEDstate = bFBport[iFBContact] << 1;   // LED_OFF=0 or LED_RED=2*1=2
     iSoldRoutingActive = 0;     // set global vars for this ...
-    iEditMode = NOEDIT;         // ... element
+    selectionMode = ksmNormal;
+    visualMode = kvmNormal;
     sSaveReplaceIcon = "";
     sRepeatIcon = SYM_LEE;
     iSoldLocked = UNLOCKED;
@@ -161,29 +164,29 @@ element::element(QStrList* elementData_, QWidget* parent): QWidget(parent)
     ttComm = NULL;
 
     createPopupMenus();
-    // init signals as they were saved in layout
+    // init signals as they were saved in layout file or with red state
     if ((sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
          sSoldIcon == SYM_SS || sSoldIcon == SYM_SSH ||
          sSoldIcon == SYM_SSS || sSoldIcon == SYM_REL ||
          sSoldIcon == SYM_WS || sSoldIcon == SYM_ZP ||
          sSoldIcon == SYM_BLD || sSoldIcon == SYM_VS) &&
          (INIT_SIGNALS == RED))
-        iSoldDirection = 0;     // file or with red state
+        iSoldDirection = 0;
 
     if (sSoldIcon == SYM_ENK)   // couplers get the non-active direction
         iSoldDirection = 0;     // on setup
 
     updateProperties();
 
-    setupElementIcon(iSoldLEDstate, sSaveReplaceIcon);  // paint element
+    setupElementIcon(iSoldLEDstate, sSaveReplaceIcon);
 
     if (!(sSoldIcon == SYM_ENK && iSoldSubType != -1)
         && sSoldIcon != SYM_DRE && sSoldIcon != SYM_SBN
         && sSoldIcon != SYM_MDC)
-        // write to socket to ensure that the solenoid
-        // switch everything but momentary couplers
-        // get the saved state
         makeCommand();
+    // switch everything but momentary couplers
+    // write to socket to ensure that the solenoid
+    // get the saved state
 }
 
 
@@ -202,7 +205,8 @@ element::element(QTextStream& ats, QWidget* parent, bool isNewFormat)
     setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed,
                 false));
     iSoldRoutingActive = 0;
-    iEditMode = NOEDIT;
+    selectionMode = ksmNormal;
+    visualMode = kvmNormal;
 
     sSaveReplaceIcon = "";
     sRepeatIcon = SYM_LEE;
@@ -220,7 +224,6 @@ element::element(QTextStream& ats, QWidget* parent, bool isNewFormat)
     /*setup some flags*/
     createPopupMenus();
     updateProperties();
-    // paint element
     setupElementIcon(iSoldLEDstate, sSaveReplaceIcon);
 }
 
@@ -397,7 +400,6 @@ bool element::isEmpty()
 }
 
 
-
 bool element::isSignal()
 {
     return signal;
@@ -541,16 +543,17 @@ void element::slotSwitchIt(int iNewDirection, int iLocked)
 void element::mouseDoubleClickEvent(QMouseEvent* e)
 {
     /*route record mode*/
-    if (iEditMode == R_EDIT) {
+    if (visualMode == kvmRecordRoute) {
         if (e->button() == LeftButton) {
             if ((sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
                         sSoldIcon == SYM_SS || sSoldIcon == SYM_NRB ||
                         sSoldIcon == SYM_SSH || sSoldIcon == SYM_SSS ||
                         sSoldIcon == SYM_SRB)){
                 /*record start or stop signal*/
-                iEditMode = R_EDIT_CLICKED;
+                selectionMode = ksmStaStoSignal;
                 emit sigElementClickedRecord(iSoldIndex, REC_STASTO);
-                setupElementIcon(iSoldLEDstate, "");
+                //setupElementIcon(iSoldLEDstate, "");
+                update();
                 e->accept();
             }
         }
@@ -561,7 +564,7 @@ void element::mouseDoubleClickEvent(QMouseEvent* e)
 void element::mousePressEvent(QMouseEvent* e)
 {
     /*normal mode*/
-    if (iEditMode == NOEDIT) {
+    if (visualMode == kvmNormal) {
         if (e->button() == LeftButton) {
             GbsButtonState ctrlButton = kNoneClicked;
             QPoint CursorPos = mapFromGlobal(QCursor::pos());
@@ -643,14 +646,14 @@ void element::mousePressEvent(QMouseEvent* e)
         }
     }
     /*edit mode*/
-    else if (iEditMode == L_EDIT) {
+    else if (visualMode == kvmEdit) {
         if (e->button() == LeftButton) {
             /*TODO: select element*/
             e->accept();
         }
     }
     /*route record mode*/
-    else if (iEditMode == R_EDIT) {
+    else if (visualMode == kvmRecordRoute) {
         if (e->button() == LeftButton) {
             if (sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER
                     || sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR
@@ -659,9 +662,10 @@ void element::mousePressEvent(QMouseEvent* e)
                     || sSoldIcon == SYM_DKL || sSoldIcon == SYM_DRW
                     || sSoldIcon == SYM_REL || sSoldIcon == SYM_ZP
                     || sSoldIcon == SYM_BLD) {
-                iEditMode = R_EDIT_CLICKED;
+                selectionMode = ksmSwitchEl;
                 emit sigElementClickedRecord(iSoldIndex, REC_NORMAL);
-                setupElementIcon(iSoldLEDstate, "");
+                //setupElementIcon(iSoldLEDstate, "");
+                update();
                 e->accept();
             }
 
@@ -672,7 +676,7 @@ void element::mousePressEvent(QMouseEvent* e)
         }
     }
     /*route show mode*/
-    else if (iEditMode == R_SHOW) {
+    else if (visualMode == kvmShowRoute) {
         if (sSoldIcon == SYM_LEE) {
             /*TODO: pressing ESC should also send this signal*/
             emit sigElementClickedRecord(0, REC_FINISH);
@@ -685,14 +689,14 @@ void element::mousePressEvent(QMouseEvent* e)
 void element::mouseReleaseEvent(QMouseEvent* e)
 {
     /*normal mode*/
-    if (iEditMode == NOEDIT) {
+    if (visualMode == kvmNormal) {
         if (e->button() == RightButton){
             ctxNorm->exec(QCursor::pos());
             e->accept();
         }
     }
     /*edit mode*/
-    else if (iEditMode == L_EDIT) {
+    else if (visualMode == kvmEdit) {
         if (e->button() == LeftButton) {
             /*TODO: handle drop action*/
             e->accept();
@@ -707,7 +711,7 @@ void element::mouseReleaseEvent(QMouseEvent* e)
         }
     }
     /*route record mode*/
-    else if (iEditMode == R_EDIT) {
+    else if (visualMode == kvmRecordRoute) {
         if (e->button() == RightButton){
             ctxNorm->exec(QCursor::pos());
             e->accept();
@@ -717,10 +721,10 @@ void element::mouseReleaseEvent(QMouseEvent* e)
 
 
 void element::slotShowElement(int iShowElemAddr_, int iShowElemStat_,
-                              int iShowType_)
+                              elemSelectionMode sm)
 {
     if (iShowElemAddr_ == iSoldAddress_1) {
-        iEditMode = iShowType_; //R_EDIT_CLICKED;
+        selectionMode = sm;
         if (iShowElemStat_ != -1)
             iSoldDirection = iShowElemStat_;
         setupElementIcon(iSoldLEDstate, "");
@@ -728,9 +732,9 @@ void element::slotShowElement(int iShowElemAddr_, int iShowElemStat_,
 }
 
 
-void element::showElementState(int iShowElemStat_, int iShowType_)
+void element::showElementState(int iShowElemStat_, elemSelectionMode sm)
 {
-    iEditMode = iShowType_; //R_EDIT_CLICKED;
+    selectionMode = sm;
     if (iShowElemStat_ != -1)
         iSoldDirection = iShowElemStat_;
     setupElementIcon(iSoldLEDstate, "");
@@ -741,8 +745,9 @@ void element::locateMe()
 {
     // activate edit mode for LOCATE_TIMER secs
     // if this is the searched element
-    iEditMode = L_EDIT;
-    setupElementIcon(iSoldLEDstate, "");
+    // show element in found mode
+    selectionMode = ksmFoundEl;
+    update();
 
     locateTimer = new QTimer();
     locateTimer->start(LOCATE_TIMER, true);
@@ -754,31 +759,40 @@ void element::locateMe()
 void element::slotLocateTimerTimeout()
 {
     delete locateTimer;
-    iEditMode = NOEDIT;         // show element in normal mode
-    setupElementIcon(iSoldLEDstate, "");
+    // show element in normal mode
+    selectionMode = ksmNormal;
+    update();
 }
 
 
-void element::slotEditMode(int iEditMode_)
+void element::slotEditMode(elemVisualMode vm)
 {
-    iEditMode = iEditMode_;     // either EDIT = 1 or NOEDIT = 0
-    setupElementIcon(iSoldLEDstate, "");
+    visualMode = vm;
+    /* sent element state when selection mode is not normal;
+       e.g. after view route mode
+     */
+    if (selectionMode != ksmNormal) {
+        selectionMode = ksmNormal;
+        ctxNorm->setItemEnabled(CTX_ID_TOGGLE, !iSoldLocked &&
+                iSoldLEDstate != LED_RED);
+        /*TODO: check if this is realy necessary:*/
+        makeCommand();
+    }
+    update();
 }
 
 
 void element::switchToRouteViewMode()
 {
-    iEditMode = REC_SHOW;
-    setupElementIcon(iSoldLEDstate, "");
+    visualMode = kvmShowRoute;
+    update();
 }
 
 
-void element::slotRecordMode(int iRecMode_)
+void element::slotRecordMode(elemVisualMode vm)
 {
-    // or R_SHOW = 4
-    // routing record = 2 = R_EDIT, no routing record = 0 = NOEDIT
-    iEditMode = iRecMode_;
-    setupElementIcon(iSoldLEDstate, "");
+    visualMode = vm;
+    update();
 }
 
 
@@ -969,7 +983,7 @@ void element::slotUpdateData()
     elementPropertyDlg->close(true);
     // copy data from properties window,
     // either LED_OFF = 0 or LED_RED = 2*1=2
-    iSoldLEDstate = 2 * bFBport[iFBContact];
+    iSoldLEDstate = bFBport[iFBContact] << 1;
     sRepeatIcon = sSoldIcon;
     emit setRepeatIcon(sRepeatIcon);
     setupElementIcon(iSoldLEDstate, "");
@@ -1106,7 +1120,7 @@ void element::slotCtxEdit(int iID_)
     }
     iFBContact = 0;
     iSoldLEDoff = 1;
-    iSoldLEDstate = 2 * bFBport[iFBContact];
+    iSoldLEDstate = bFBport[iFBContact] << 1;
     setupElementIcon(iSoldLEDstate, "");
     sRepeatIcon = sSoldIcon;
     emit setRepeatIcon(sRepeatIcon);
@@ -1138,8 +1152,6 @@ void element::clear()
     sSoldIcon = SYM_LEE;        // reset all solenoid data to empty
     sSoldProtocol = "-1";
     sSoldText = "-1";
-    //sSoldData_2        = "-1";
-    //sSoldData_3        = "-1";
     updateProperties();
 }
 
@@ -1153,16 +1165,17 @@ void element::sendState()
 void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
 {
     // update the contextmenu
-    ctxEdit->setItemEnabled(CTX_ID_CLEAR, iEditMode == L_EDIT);
+    ctxEdit->setItemEnabled(CTX_ID_CLEAR, visualMode == kvmEdit);
     ctxEdit->setItemEnabled(CTX_ID_ROTATE,
-                            iSoldRotate != -1 && iEditMode == L_EDIT);
+                            iSoldRotate != -1 && visualMode == kvmEdit);
     ctxNorm->setItemEnabled(CTX_ID_TOGGLE,
                             (iSoldAddress_1 != -1) &&
                             (sSoldIcon != SYM_DRE) &&
                             (sSoldIcon != SYM_MDC) &&
                             (!iSoldLocked) &&
                             (iLEDstate_ != LED_RED) &&
-                            (iEditMode == NOEDIT || iEditMode == R_EDIT));
+                            (visualMode == kvmNormal || visualMode ==
+                             kvmRecordRoute));
 
     // translate icon name and direction into a binary-coded integers
     int iIconByte = 0;
@@ -1229,18 +1242,18 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
               && sReplaceIcon == "") || sSoldIcon == SYM_EKL) {
         iIconByte = 54;
         switch (iSoldDirection) {
-        case 0:
-            iDirByte = 18;
-            break;
-        case 1:
-            iDirByte = 20;
-            break;
-        case 2:
-            iDirByte = 36;
-            break;
-        case 3:
-            iDirByte = 34;
-            break;              // only DKL
+            case 0:
+                iDirByte = 18;
+                break;
+            case 1:
+                iDirByte = 20;
+                break;
+            case 2:
+                iDirByte = 36;
+                break;
+            case 3:
+                iDirByte = 34;
+                break;              // only DKL
         }
     }
 
@@ -1249,18 +1262,18 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
               && sReplaceIcon == "") || sSoldIcon == SYM_EKR) {
         iIconByte = 27;
         switch (iSoldDirection) {
-        case 0:
-            iDirByte = 18;
-            break;
-        case 1:
-            iDirByte = 10;
-            break;
-        case 2:
-            iDirByte = 9;
-            break;
-        case 3:
-            iDirByte = 17;
-            break;              // only DKR
+            case 0:
+                iDirByte = 18;
+                break;
+            case 1:
+                iDirByte = 10;
+                break;
+            case 2:
+                iDirByte = 9;
+                break;
+            case 3:
+                iDirByte = 17;
+                break;              // only DKR
         }
     }
 
@@ -1567,8 +1580,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
     // paint darkgray background if empty element in inverted use
     if (sSoldIcon == SYM_LEE && iSoldInvert == 1)
         p.fillRect(0, 0, width() - 1, height() - 1,
-                                                 /*-1*/
-                   QBrush(QColor(darkGray), SolidPattern));
+                QBrush(QColor(darkGray), SolidPattern));
 
     // setup adress/text and locked symbol
     // no text if we have a "-1"-entry
@@ -1679,7 +1691,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
 
         // paint text and frame around text
         if (sSoldIcon == SYM_SBN) {
-            p.fillRect(br, QBrush(QColor(220, 220, 220)));
+            p.fillRect(br, QBrush(QColor("grey86")));
             p.drawRect(br);
         }
         
@@ -1740,71 +1752,85 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         }
     }
 
-    // draw frame around every element
-    // grid with thin lines (1 pixel) for mode (edit, show route, record route)
-    // thicker lines (2 pixels) for selected elements - guido
-    
-    /*
-     * 1) working modes:
-     * kvmNormal, kvmEdit, kvmShowRoute, kvmRecordRoute
-     */
-    if (iEditMode == NOEDIT)
-        // darkgrey if in normal mode
-        p.setPen(QPen(QColor(160, 160, 164), 0, SolidLine));
-
-    else if (iEditMode == L_EDIT)
-        // red if in layout edit mode
-        p.setPen(QPen(QColor(255, 0, 0), 0, SolidLine));
-
-    else if (iEditMode == R_SHOW)
-        // blue if in show route mode
-        p.setPen(QPen(QColor(0, 0, 255), 0, SolidLine));
-
-    else if (iEditMode == R_EDIT)
-        // green if in record route mode
-        p.setPen(QPen(QColor(0, 196, 0), 0, SolidLine));
-
-    /*
-     * 2) element selection modes:
-     * ksmNormal, ksmSelected, ksmStopSig, ksmStartSig, ksmSwitchEl,
-     * ksmFoundEl, ...
-     */
-    else if (iEditMode == R_SHOW_STO)
-        // thick red if in show route mode, stop signal
-        p.setPen(QPen(QColor(255, 0, 0), 2, SolidLine));
-
-    else if (iEditMode == R_SHOW_STA)
-        // thick green if in show route mode, start signal
-        p.setPen(QPen(QColor(0, 255, 0), 2, SolidLine));
-
-    else if (iEditMode == R_EDIT_CLICKED || iEditMode == R_SHOW_ELM)
-        // thick yellow if clicked element in record route mode
-        /*TODO: double clicked elements should get an other color*/
-        p.setPen(QPen(QColor(251, 251, 0), 2, SolidLine));
-
-    /*TODO: differentiate between edit mode and selection mode
-     * editmode: outer border, two lines at bottom and right edge
-     * selection: inner rectangle
-     */
-    p.setBrush(NoBrush);
-    /* 2) element highlight modes */
-    if (iEditMode == R_SHOW_STO || iEditMode == R_SHOW_STA ||
-        iEditMode == R_SHOW_ELM || iEditMode == R_EDIT_CLICKED) {
-        // selection color within outer rectangle
-        p.drawRect(1, 1, width() - 1, height() - 1);
-    }
-    /* 1) working modes */
-    else {
-        int h = height();
-        int w = width();
-        p.drawLine(0, h - 1, w - 1, h - 1);
-        p.drawLine(w - 1, h - 1, w - 1, 0);
-    }
     p.end();
 
     // at least show previously painted element in layout and add data tooltip
-    this->setBackgroundPixmap(pixRotatedIcon);
+    setPaletteBackgroundPixmap(pixRotatedIcon);
     addTooltip();
+}
+
+/*this draws only foreground lines on background pixmap*/
+void element::paintEvent(QPaintEvent*)
+{
+    QPainter p(this);
+    QColor c;
+
+    /* 1) paint visual mode lines*/
+    switch (visualMode) {
+        case kvmNormal:
+            // normal mode: grey
+            c = QColor(gray);
+            break;
+        case kvmEdit:
+            // edit mode: red
+            c = QColor(red);
+            break;
+        case kvmShowRoute:
+            // show route mode: blue
+            c = QColor(blue);
+            break;
+
+        case kvmRecordRoute:
+            // record route mode: green
+            c = QColor("green3");
+            break;
+        default:
+            // normal mode: grey
+            c = QColor(gray);
+            break;
+    }
+    
+    p.setPen(c);
+    int h = height();
+    int w = width();
+    p.drawLine(0, h - 1, w - 1, h - 1);
+    p.drawLine(w - 1, h - 1, w - 1, 0);
+
+    /* 2) paint optional selection rectangle*/
+    if (selectionMode != ksmNormal) {
+        switch (selectionMode) {
+            case ksmStopSig:
+                // red if in show route mode, stop signal
+                c = QColor(red);
+                break;
+            case ksmStartSig:
+                // green if in show route mode, start signal
+                c = QColor(green);
+                break;
+            case ksmSwitchEl:
+                // yellow if clicked element in record route mode
+                c = QColor(251, 251, 0);
+                break;
+
+            case ksmStaStoSignal:
+                // orange if clicked element in record route mode
+                c = QColor("orange");
+                break;
+            case ksmFoundEl:
+                // found: orange
+                c = QColor("DarkOrange");
+                break;
+            default:
+                c = QColor(black);
+                break;
+        }
+
+        p.setPen(QPen(c, 2, SolidLine));
+        p.drawLine(0, h - 2, w - 1, h - 2);
+        p.drawLine(w - 2, h - 2, w - 2, 0);
+        p.drawLine(w - 2, 1, 0, 0);
+        p.drawLine(1, 1, 1, h - 2);
+    }
 }
 
 
@@ -2104,7 +2130,7 @@ void element::slotOccupyElement(unsigned int iPortNr_)
 
     else if (iPortNr_ == (unsigned int) iFBContact) {
         if (iSoldRoutingActive == 0)
-            iSoldLEDstate = 2 * bFBport[iPortNr_];
+            iSoldLEDstate = bFBport[iPortNr_] << 1;
         // either LED_OFF = 0 or LED_RED = 2*1=2
         else
             iSoldLEDstate = bFBport[iPortNr_] + 1;
@@ -2132,7 +2158,7 @@ void element::slotUpdateTurntableData(QPoint newCmd_)
 }
 
 
-void element::slotCopyAvailTracks(QString sAvailTracks_)
+void element::slotCopyAvailTracks(const QString& sAvailTracks_)
 {
     sSoldText = sAvailTracks_;  // copy all available tracks at turntable
     addTooltip();               // into element's text field, update tooltip

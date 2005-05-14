@@ -1,11 +1,11 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.4.8 $Revision: 1.3 $
+                           version 0.4.8 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-10 19:12:56 $
+    last modified        : $Date: 2005-05-14 20:13:43 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -49,7 +49,7 @@ extern int FEEDBACK;
 
 /* non modal window */
 RouteDialog::RouteDialog(QWidget* pParent, QStrList* listOfLockedRoutes_)
-: QDialog(0, "RouteDialog", false)
+: QDialog(0, "RouteDialog")
 {
     if (pParent)
         parent = pParent;
@@ -67,7 +67,7 @@ RouteDialog::RouteDialog(QWidget* pParent, QStrList* listOfLockedRoutes_)
     setupRoutingTable();        // create left half = routing table
     setupProgArea();            // create right half = prog area
 
-    this->move(this->x(), 0);   // move window in upper left corner
+    //this->move(this->x(), 0);   // move window in upper left corner
     enableProgArea(false, false);       // no route selected, disable all
     // unnecessary widgets in prog area
     slotResizeCommander(0);     // show only left half
@@ -90,11 +90,10 @@ void RouteDialog::closeEvent(QCloseEvent* e)
         int choice = QMessageBox::warning(this,
                          tr("Warning"),
                          tr("Changes not saved!\nSave route?"),
-                         tr("&Yes"), tr("&No"), 0, 1);
-        // enter button no = button 0 = "Yes"
-        // ecape button no = button 1 = "No"
-        // do saving before closing window
-        if (choice == 0)
+                         QMessageBox::Yes | QMessageBox::Default,
+                         QMessageBox::No  | QMessageBox::Escape);
+        if (choice == QMessageBox::Yes)
+            // save before closing window
             slotSave();
     }
     this->reject();
@@ -1025,7 +1024,7 @@ void RouteDialog::slotSaveRoute(bool bMode_)
 }
 
 
-QString RouteDialog::addZeros(QString sNZString_)       // N on  Z ero  String
+QString RouteDialog::addZeros(const QString& sNZString_) // N on  Z ero  String
 {
     QString s = sNZString_;     // string maybe without leading zeros
     while (s.length() < 4)
@@ -1184,13 +1183,14 @@ void RouteDialog::slotRecordRoute()
     // serd: after changing must be able to save route
     buttApply->setEnabled(true);
     cmdToDebug(tr(">Recording new route ..."));
-    emit sigRecord(REC_START);  // and activate recording of elems
+    //emit sigRecord(REC_START);  // and activate recording of elems
+    emit sigRecord(kvmRecordRoute);
     this->hide();               // while hiding route window
 }
 
 
 void RouteDialog::slotRecordElement(int iRecordAddress_,
-                                    QString sRecordName_,
+                                    const QString& sRecordName_,
                                     int iRecordStatus_, int iRecordType_)
 {
     QString sA, sS, s;
@@ -1242,7 +1242,8 @@ void RouteDialog::slotRecordElement(int iRecordAddress_,
 
 void RouteDialog::stopRecord()
 {
-    emit sigRecord(REC_STOPP);  // send "stop record" mode to all
+    //emit sigRecord(REC_STOPP);  // send "stop record" mode to all
+    emit sigRecord(kvmNormal);  // send "stop record" mode to all
     this->show();               // and show routing window again
 }
 
@@ -1250,20 +1251,25 @@ void RouteDialog::stopRecord()
 void RouteDialog::slotShowRoute()
 {
     QString sA, sS;
-    emit sigRecord(REC_SHOW);
+    /*switch to show route mode*/
+    //emit sigRecord(REC_SHOW);
+    emit sigRecord(kvmShowRoute);
 
     sA = leStartAddr->text();   // show start signal with correct direction
     sS = leStartStat->text();
-    emit sigShowElement(sA.toInt(), sS.toInt(), R_SHOW_STA);
+    //emit sigShowElement(sA.toInt(), sS.toInt(), R_SHOW_STA);
+    emit sigShowElement(sA.toInt(), sS.toInt(), ksmStartSig);
 
     sA = leStoppAddr->text();   // same for stop signal
-    emit sigShowElement(sA.toInt(), -1, R_SHOW_STO);
+    //emit sigShowElement(sA.toInt(), -1, R_SHOW_STO);
+    emit sigShowElement(sA.toInt(), -1, ksmStopSig);
     // same for all elements to be switched
     for (int i = 0; i < MAX_SW_ELEM; i++) {
         sA = leElemAddr[i]->text();
         sS = leElemStat[i]->text();
         if (sA.length() != 0 && sS.length() != 0)
-            emit sigShowElement(sA.toInt(), sS.toInt(), R_SHOW_ELM);
+            //emit sigShowElement(sA.toInt(), sS.toInt(), R_SHOW_ELM);
+            emit sigShowElement(sA.toInt(), sS.toInt(), ksmSwitchEl);
     }
     this->hide();               // hide routing window
 }

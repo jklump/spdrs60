@@ -92,24 +92,9 @@
 #define   INFO             1
 #define   FEED             2
 
-#define   R_SHOW_STA       30  // R_EDIT_CLICKED + 0
-#define   R_SHOW_STO       31  // R_EDIT_CLICKED + 1
-#define   R_SHOW_ELM       32  // R_EDIT_CLICKED + 2
-
-#define   R_SHOW           4   // = REC_SHOW
-#define   R_EDIT_CLICKED   3   // edit mode for routings
-#define   R_EDIT           2   // = REC_START  edit mode for routings
-#define   L_EDIT           1   // edit mode for a layout
-#define   NOEDIT           0   // also = REC_STOPP
-
 #define   REC_STASTO       0   // clicked element while recording is a signal
-#define   REC_NORMAL       1   // clicked element while recording is a
-                               // normal element
+#define   REC_NORMAL       1   // clicked element while recording is normal
 #define   REC_FINISH       2
-
-#define   REC_SHOW         4   // = R_SHOW
-#define   REC_START        2   // = R_EDIT
-#define   REC_STOPP        0   // = NOEDIT
 
 #define   SINGLE           0   // search only one element
 #define   MULTI            1   // search all elements

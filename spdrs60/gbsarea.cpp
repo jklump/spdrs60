@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.8 $
+                           version 0.4.8 $Revision: 1.9 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-10 19:12:54 $
+    last modified        : $Date: 2005-05-14 20:13:43 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -248,7 +248,7 @@ void GBSArea::writeFileTextToStream(QTextStream& ts)
     for (unsigned int i = 0; i < elements.size(); i++) {
         element* e = elements[i];
         if (e != NULL && !e->isEmpty()) {
-            ts << "%% Element " << i << endl;
+            ts << "%% element " << i << endl;
             e->writeFileTextToStream(ts);
         }
     }
@@ -301,7 +301,7 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
             }
 
             /*here we read allways up to start marker of a new route*/
-            else if (s.startsWith("%%")) {
+            else if (s.startsWith("%% element")) {
                 
                 element* fe = new element(ts, this, true);
                 if (fe != NULL) {
@@ -325,6 +325,8 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
                     break;
                 }
             }
+            else if (s.startsWith("%% route"))
+                break;
         }
     }
     /*
@@ -370,7 +372,7 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
 
 void GBSArea::readOldFileTextFromStream(QTextStream& ts)
 {
-    /*clear old element list*/
+    /*clear old element list and old routes*/
     if (!elements.isEmpty())
         deleteElements();
     
@@ -528,31 +530,32 @@ void GBSArea::slotShowRoutings()
 
         connect(routeWindow, SIGNAL(sendRouteIndex(int, int)),
                 this, SLOT(slotStartRouting(int, int)));
-        connect(routeWindow, SIGNAL(cmdToDebug(const QString &)),
-                this, SIGNAL(cmdToDebug(const QString &)));
+        connect(routeWindow, SIGNAL(cmdToDebug(const QString&)),
+                this, SIGNAL(cmdToDebug(const QString&)));
         connect(routeWindow, SIGNAL(sendReloadRoutes()),
                 this, SLOT(slotUpdateRouteLists()));
-        connect(routeWindow, SIGNAL(sigRecord(int)),
-                this, SIGNAL(sigRecordMode(int)));
-        connect(routeWindow, SIGNAL(sigShowElement(int, int, int)),
-                this, SIGNAL(sigShowElement(int, int, int)));
-        connect(routeWindow, SIGNAL(sigReadElemName(QString)),
-                this, SLOT(slotReadElemName(QString)));
+        connect(routeWindow, SIGNAL(sigRecord(elemVisualMode)),
+                this, SIGNAL(sigRecordMode(elemVisualMode)));
+        connect(routeWindow, SIGNAL(sigShowElement(int, int, elemSelectionMode)),
+                this, SIGNAL(sigShowElement(int, int, elemSelectionMode)));
+        connect(routeWindow, SIGNAL(sigReadElemName(const QString&)),
+                this, SLOT(slotReadElemName(const QString&)));
         connect(this, SIGNAL(updateRouteWindow()),
                 routeWindow, SLOT(slotUpdateRouteWindow()));
-        connect(this, SIGNAL(sigRecordElement(int, QString, int, int)),
+        connect(this, SIGNAL(sigRecordElement(int, const QString&, int, int)),
                 routeWindow,
-                SLOT(slotRecordElement(int, QString, int, int)));
+                SLOT(slotRecordElement(int, const QString&, int, int)));
+
+        routeWindow->exec();
     }
     // modeless, you can still use the main prog
-    routeWindow->show();
     // serd: Nice to get the Routing Window in Front
     routeWindow->setActiveWindow();
     routeWindow->raise();
 }
 
 
-void GBSArea::slotReadElemName(QString sReadElemAddr_)
+void GBSArea::slotReadElemName(const QString& sReadElemAddr_)
 {
     int iReadElemID = -1;
     // get element's name for a certain address
@@ -648,13 +651,16 @@ void GBSArea::externalButtonClicked(GbsButtonState externalButton)
 }
 
 
-void GBSArea::slotElementClickedRecord(int iIndex_, int iType_)
+void GBSArea::slotElementClickedRecord(int idx, int recAction)
 {
-    emit sigRecordElement(elements[iIndex_]->iSoldAddress_1,
-                          elements[iIndex_]->sSoldText,
-                          elements[iIndex_]->iSoldDirection, iType_);
-    if (iIndex_ == 0 && iType_ == REC_FINISH)
-        slotSendAll();
+    emit sigRecordElement(elements[idx]->iSoldAddress_1,
+                          elements[idx]->sSoldText,
+                          elements[idx]->iSoldDirection, recAction);
+    if (idx == 0 && recAction == REC_FINISH) {
+        /*switch to normal view mode and clear selections*/
+        emit EditMode(kvmNormal);
+        emit cmdToDebug(tr(">Route record mode finished"));
+    }
 }
 
 
@@ -1174,7 +1180,7 @@ void GBSArea::showLEDs(int iRouteIndex_, int iSet_)
 }
 
 
-int GBSArea::locateIndex(QString sLocateString_, int iLocateType_,
+int GBSArea::locateIndex(const QString& sLocateString_, int iLocateType_,
                          int iMultiple_)
 {
     // search all elements for the desired addresses or text and
@@ -1330,14 +1336,16 @@ void GBSArea::setupElements()
             connect(elements[j], SIGNAL(sigShowFBmodules()),
                     this, SIGNAL(sigShowFBmodules()));
 
-            connect(this, SIGNAL(EditMode(int)),
-                    elements[j], SLOT(slotEditMode(int)));
-            connect(this, SIGNAL(sigRecordMode(int)),
-                    elements[j], SLOT(slotRecordMode(int)));
+            connect(this, SIGNAL(EditMode(elemVisualMode)),
+                    elements[j], SLOT(slotEditMode(elemVisualMode)));
+            connect(this, SIGNAL(sigRecordMode(elemVisualMode)),
+                    elements[j], SLOT(slotRecordMode(elemVisualMode)));
             connect(this, SIGNAL(switchToRouteViewMode()),
                     elements[j], SLOT(switchToRouteViewMode()));
-            connect(this, SIGNAL(sigShowElement(int, int, int)),
-                    elements[j], SLOT(slotShowElement(int, int, int)));
+            connect(this, SIGNAL(sigShowElement(int, int,
+                            elemSelectionMode)),
+                    elements[j], SLOT(slotShowElement(int, int,
+                            elemSelectionMode)));
             connect(this, SIGNAL(FBportChanged(unsigned int)),
                     elements[j], SLOT(slotOccupyElement(unsigned int)));
             connect(this, SIGNAL(setRepeatIcon(const QString&)),
@@ -1416,7 +1424,7 @@ void GBSArea::slotFBportChanged(unsigned int iPortNr_)
 }
 
 
-void GBSArea::slotFind(QString sSearch_, int iType_, bool bMultiple_)
+void GBSArea::slotEditFind(const QString& sSearch_, int iType_, bool bMultiple_)
 {
     int iElemID = -1, i = 0, bFound = 0;
     do {
@@ -1506,14 +1514,16 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
                         this, SIGNAL(setRepeatIcon(const QString&)));
                 connect(e, SIGNAL(sigShowFBmodules()),
                         this, SIGNAL(sigShowFBmodules()));
-                connect(this, SIGNAL(EditMode(int)),
-                        e, SLOT(slotEditMode(int)));
+                connect(this, SIGNAL(EditMode(elemVisualMode)),
+                        e, SLOT(slotEditMode(elemVisualMode)));
                 connect(this, SIGNAL(sigRecordMode(int)),
                         e, SLOT(slotRecordMode(int)));
                 connect(this, SIGNAL(switchToRouteViewMode()),
                         e, SLOT(switchToRouteViewMode()));
-                connect(this, SIGNAL(sigShowElement(int, int, int)),
-                        e, SLOT(slotShowElement(int, int, int)));
+                connect(this, SIGNAL(sigShowElement(int, int,
+                                elemSelectionMode)),
+                        e, SLOT(slotShowElement(int, int,
+                                elemSelectionMode)));
                 connect(this, SIGNAL(FBportChanged(unsigned int)),
                         e, SLOT(slotOccupyElement(unsigned int)));
                 connect(this, SIGNAL(setRepeatIcon(const QString&)),

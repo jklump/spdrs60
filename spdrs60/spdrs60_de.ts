@@ -204,6 +204,10 @@ Bitte lesen Sie dieses Gleisbild neu ein.</translation>
         <source>Adding empty elements</source>
         <translation>Hinzufügen der leeren Elemente</translation>
     </message>
+    <message>
+        <source>&gt;Route record mode finished</source>
+        <translation>&gt;Fahrstraßenaufzeichnen beendet</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -727,6 +731,14 @@ Wollen Sie sie überschreiben?</translation>
     <message>
         <source>Cannot read server welcome message!</source>
         <translation>Kann Begrüßungsmeldung des Servers nicht lesen!</translation>
+    </message>
+    <message>
+        <source>&amp;Import...</source>
+        <translation>&amp;Importieren...</translation>
+    </message>
+    <message>
+        <source>Layout file &apos;%1&apos; imported</source>
+        <translation>Gleisbilddatei &apos;%1&apos; importiert</translation>
     </message>
 </context>
 <context>

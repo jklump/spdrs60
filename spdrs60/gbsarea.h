@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.4.8 $Revision: 1.5 $
+                           version 0.4.8 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-10 19:12:55 $
+    last modified        : $Date: 2005-05-14 20:13:43 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -122,7 +122,7 @@ private:
    void setupElements();
    void setRoute(int, QStrList*, QStrList*);
    void showLEDs(int, int);
-   int  locateIndex(QString, int, int);
+   int  locateIndex(const QString&, int, int);
    void externalButtonClicked(GbsButtonState);
    
 /*
@@ -156,23 +156,23 @@ public slots:
    void slotFBportChanged(unsigned int);
    void slotNotrot();
    void slotUpdateRouteLists();
-   void slotReadElemName(QString);
-   void slotFind(QString, int, bool);
+   void slotReadElemName(const QString&);
+   void slotEditFind(const QString&, int, bool);
 
 protected:
    int indexOf(int row, int col) const;
 
 signals:
    void cmdToDebug(const QString&);
-   void EditMode(int);
+   void EditMode(elemVisualMode);
    void FBportChanged(unsigned int);
    void sendCommand(const QString&);
    void setRepeatIcon(const QString&);
-   void sigRecordElement(int, QString, int, int);
-   void sigRecordMode(int);
+   void sigRecordElement(int, const QString&, int, int);
+   void sigRecordMode(elemVisualMode);
    void switchToRouteViewMode();
    void sigRepaintLayout();
-   void sigShowElement(int, int, int);
+   void sigShowElement(int, int, elemSelectionMode);
    void sigShowFBmodules();
    void sigUpdateEditmenu();
    void updateRouteWindow();
