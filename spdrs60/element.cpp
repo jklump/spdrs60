@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.9 $
+                           version 0.4.8 $Revision: 1.10 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-05-14 20:13:43 $
+    last modified        : $Date: 2005-05-18 21:29:52 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -235,8 +235,8 @@ void element::readFileTextFromStream(QTextStream& ats)
     while (!ats.eof()) {
         s = ats.readLine();
         if (!s.startsWith("#")) {
-            key = s.section(":", 0, 0);
-            value = s.section(":", 1, 1).stripWhiteSpace();
+            key = s.section(DS, 0, 0);
+            value = s.section(DS, 1, 1).stripWhiteSpace();
             /* key/value pairs are read sequence independent */
             if (key.compare(GF_INDEX) == 0){
                   iSoldIndex = value.stripWhiteSpace().toUInt();
@@ -260,12 +260,12 @@ void element::readFileTextFromStream(QTextStream& ats)
             }
             else if (key.compare(GF_ADDRESS1) == 0){
                 iGA1BusNo = value.toInt();
-                value = s.section(":", 2, 2).stripWhiteSpace();
+                value = s.section(DS, 2, 2).stripWhiteSpace();
                 iSoldAddress_1 = value.toInt();
             }
             else if (key.compare(GF_ADDRESS2) == 0){
                 iGA2BusNo = value.toInt();
-                value = s.section(":", 2, 2).stripWhiteSpace();
+                value = s.section(DS, 2, 2).stripWhiteSpace();
                 iSoldAddress_2 = value.toInt();
             }
             else if (key.compare(GF_XCHCONN1) == 0){
@@ -288,7 +288,7 @@ void element::readFileTextFromStream(QTextStream& ats)
             }
             else if (key.compare(GF_FBPORT) == 0){
                 iFBBusNo = value.toInt();
-                value = s.section(":", 2, 2).stripWhiteSpace();
+                value = s.section(DS, 2, 2).stripWhiteSpace();
                 iFBContact = value.toInt();
             }
             else if (key.compare(GF_HIDELEDS) == 0){
@@ -308,8 +308,8 @@ void element::readOldFileTextFromStream(QTextStream& ats)
     while (!ats.eof()) {
         s = ats.readLine();
         if (!s.startsWith("#")) {
-            key = s.section(":", 0, 0);
-            value = s.section(":", 1, 1).stripWhiteSpace();
+            key = s.section(DS, 0, 0);
+            value = s.section(DS, 1, 1).stripWhiteSpace();
             /* key/value pairs are read sequence independent */
             if (key.compare(GF_NAME) == 0){
                   sSoldIcon = value.stripWhiteSpace();
@@ -2180,22 +2180,22 @@ QSize element::sizeHint() const
 
 void element::writeFileTextToStream(QTextStream& ts)
 {
-    ts << GF_INDEX     << ":" << iSoldIndex<< endl;
-    ts << GF_NAME      << ":" << sSoldIcon << endl;
-    ts << GF_ROTATE    << ":" << iSoldRotate << endl;
-    ts << GF_INVERSTO  << ":" << iSoldInvert << endl;
-    ts << GF_DECODER   << ":" << sSoldDecoder << endl;
-    ts << GF_PROTOCOL  << ":" << sSoldProtocol << endl;
-    ts << GF_ADDRESS1  << ":" << iGA1BusNo << ":" << iSoldAddress_1 << endl;
-    ts << GF_ADDRESS2  << ":" << iGA2BusNo << ":" << iSoldAddress_2 << endl;
-    ts << GF_XCHCONN1  << ":" << iSoldChangeConn[0] << endl;
-    ts << GF_XCHCONN2  << ":" << iSoldChangeConn[1] << endl;
-    ts << GF_DIRECTION << ":" << iSoldDirection << endl;
-    ts << GF_SUBTYPE   << ":" << iSoldSubType << endl;
-    ts << GF_TEXT      << ":" << sSoldText << endl;
-    ts << GF_ACTTIME   << ":" << iSoldActiveTime << endl;
-    ts << GF_FBPORT    << ":" << iFBBusNo << ":" << iFBContact << endl;
-    ts << GF_HIDELEDS  << ":" << iSoldLEDoff << endl;
+    ts << GF_INDEX     << DS << iSoldIndex<< endl;
+    ts << GF_NAME      << DS << sSoldIcon << endl;
+    ts << GF_ROTATE    << DS << iSoldRotate << endl;
+    ts << GF_INVERSTO  << DS << iSoldInvert << endl;
+    ts << GF_DECODER   << DS << sSoldDecoder << endl;
+    ts << GF_PROTOCOL  << DS << sSoldProtocol << endl;
+    ts << GF_ADDRESS1  << DS << iGA1BusNo << DS << iSoldAddress_1 << endl;
+    ts << GF_ADDRESS2  << DS << iGA2BusNo << DS << iSoldAddress_2 << endl;
+    ts << GF_XCHCONN1  << DS << iSoldChangeConn[0] << endl;
+    ts << GF_XCHCONN2  << DS << iSoldChangeConn[1] << endl;
+    ts << GF_DIRECTION << DS << iSoldDirection << endl;
+    ts << GF_SUBTYPE   << DS << iSoldSubType << endl;
+    ts << GF_TEXT      << DS << sSoldText << endl;
+    ts << GF_ACTTIME   << DS << iSoldActiveTime << endl;
+    ts << GF_FBPORT    << DS << iFBBusNo << DS << iFBContact << endl;
+    ts << GF_HIDELEDS  << DS << iSoldLEDoff << endl;
 }
 
 

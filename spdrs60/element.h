@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.h
-                           version 0.4.8 $Revision: 1.5 $
+                           version 0.4.8 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-14 20:13:43 $
-***************************************************************************/
+    last modified        : $Date: 2005-05-18 21:29:52 $
+****************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -55,7 +55,8 @@ enum GbsButtonState {
     kMgtClicked,
     kSgtClicked,
     kHagtClicked,
-    kFrtClicked};
+    kFrtClicked
+};
 
 /*element selection modes, shown as an inner rectangle*/
 enum elemSelectionMode {
@@ -65,33 +66,58 @@ enum elemSelectionMode {
     ksmStartSig,
     ksmStaStoSignal,
     ksmSwitchEl,
-    ksmFoundEl};
+    ksmFoundEl
+};
 
 /*element visual modes, shown as colored right and bottom line*/
 enum elemVisualMode {
-     kvmNormal = 0,
-     kvmEdit,
-     kvmShowRoute,
-     kvmRecordRoute};
+    kvmNormal = 0,
+    kvmEdit,
+    kvmShowRoute,
+    kvmRecordRoute
+};
+
+/*elemet recording types for start/stop signals and normal elements*/
+enum elemRecordType {
+    krecNormal,
+    krecStartStop,
+    krecClear
+};
 
 /*some magic strings for reading and writing layout files*/
-#define GF_INDEX        "index"
-#define GF_NAME         "icon"
-#define GF_ROTATE       "rotate"
-#define GF_INVERSTO     "invers turnout"
-#define GF_DECODER      "decoder"
-#define GF_PROTOCOL     "protocol"
-#define GF_ADDRESS1     "address_1"
-#define GF_ADDRESS2     "address_2"
-#define GF_XCHCONN1     "change conn 1"
-#define GF_XCHCONN2     "change conn 2"
-#define GF_DIRECTION    "direction"
-#define GF_SUBTYPE      "subtype"
-#define GF_TEXT         "text"
-#define GF_ACTTIME      "active time"
-#define GF_FBPORT       "feedback port"
-#define GF_HIDELEDS     "hide LEDs"
+#define GF_INDEX      "index"
+#define GF_NAME       "icon"
+#define GF_ROTATE     "rotate"
+#define GF_INVERSTO   "invers turnout"
+#define GF_DECODER    "decoder"
+#define GF_PROTOCOL   "protocol"
+#define GF_ADDRESS1   "address_1"
+#define GF_ADDRESS2   "address_2"
+#define GF_XCHCONN1   "change conn 1"
+#define GF_XCHCONN2   "change conn 2"
+#define GF_DIRECTION  "direction"
+#define GF_SUBTYPE    "subtype"
+#define GF_TEXT       "text"
+#define GF_ACTTIME    "active time"
+#define GF_FBPORT     "feedback port"
+#define GF_HIDELEDS   "hide LEDs"
 
+#define DS            ":"     // data separator in spdrs60 files
+#define EL_WIDTH      56      // width of an element in pixels
+#define EL_HEIGHT     35      // height of an element in pixels
+
+// forward declaration
+class element;
+
+
+struct stateElement {
+    unsigned int bus, address, state;
+    element* elemPtr;
+    element* elemPtr2;
+    /* may be there should be an element list if gbs contains more than
+     * one element with same address*/
+    QString name;
+};
 
 
 class element: public QWidget

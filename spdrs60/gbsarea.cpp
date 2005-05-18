@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.9 $
+                           version 0.4.8 $Revision: 1.10 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-14 20:13:43 $
+    last modified        : $Date: 2005-05-18 21:29:52 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -275,12 +275,12 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
         /* ignore comment lines */
         if (!s.startsWith("#")) {
             /*TODO: read layout dimensions */ 
-            key = s.section(":", 0, 0);
-            value = s.section(":", 1, 1).stripWhiteSpace();
+            key = s.section(DS, 0, 0);
+            value = s.section(DS, 1, 1).stripWhiteSpace();
             /* key/value pairs are read sequence independent */
             if (key.compare(GF_DIMENSIONS) == 0){
                 cols = value.toInt();
-                value = s.section(":", 2, 2).stripWhiteSpace();
+                value = s.section(DS, 2, 2).stripWhiteSpace();
                 rows = value.toInt();
                 ecount = cols * rows;
                 elements.resize(ecount);
@@ -291,12 +291,12 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
             }
             else if (key.compare(GF_CMDHOST) == 0){
                 cmdHost = value;
-                value = s.section(":", 2, 2).stripWhiteSpace();
+                value = s.section(DS, 2, 2).stripWhiteSpace();
                 cmdPort = value.toInt();
             }
             else if (key.compare(GF_FBHOST) == 0){
                 fbHost = value;
-                value = s.section(":", 2, 2).stripWhiteSpace();
+                value = s.section(DS, 2, 2).stripWhiteSpace();
                 fbPort = value.toInt();
             }
 
