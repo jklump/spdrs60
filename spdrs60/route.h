@@ -1,0 +1,130 @@
+/***************************************************************************
+                           route.h
+                           version 0.4.8 $Revision: 1.1 $
+                           -------------------------------
+    copyright            : (C) 2004-2005 by Guido Scholz
+    email                : guido.scholz@bayernline.de
+    last modified        : $Date: 2005-05-18 21:14:12 $
+***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+/******************************************************************************
+   This is the header file for route.cpp.
+ ******************************************************************************/
+
+#ifndef ROUTE_H
+#define ROUTE_H
+
+#include <qptrlist.h>
+#include <qtextstream.h>
+#include <qptrvector.h>
+
+#include "element.h"
+
+/*some magic strings for reading and writing routing files*/
+#define RF_NAME         "name"
+#define RF_FROMSIGNAL   "from signal"
+#define RF_TOSIGNAL     "to signal"
+#define RF_SWITCHXTOY   "switch x to y"
+#define RF_ACTIVATEPORT "activate port"
+#define RF_RELEASEPORT  "release port"
+#define RF_ACTIVATEPORT "activate port"
+#define RF_ACTIVATELOCO "active by loco"
+#define RF_TYPE         "type"
+#define RF_DETOURLEVEL  "level"
+
+
+struct Port {
+    unsigned int bus, address;
+};
+
+struct Loco {
+    unsigned int bus, address;
+};
+
+/* we have to differentiate between following route types:
+ *
+ * - Zugstrassen
+ *   + Regelzugstrasse      -> RZS (0)  normal route
+ *   + Umfahrzugstrasse     -> UZS (1)  detour route
+ *   + Zughilfsstrasse      -> ZHS (2)  help route
+ *
+ * - Rangierstrassen
+ *   + Regelrangierstrasse  -> RRS (3)  normal shunting route
+ *   + Umfahrrangierstrasse -> URS (4)  detour shunting route
+ *
+ */
+
+enum TypeOfRoute {RZS, UZS, ZHS, RRS, URS};
+
+
+class Route: public QObject
+{
+    Q_OBJECT
+        
+public:
+    Route(TypeOfRoute arouteType,
+          const QString& aName,
+          const stateElement& atoSignal,
+          const stateElement& afromSignal,
+          const Port& arePort,
+          const Port& aacPort,
+          const Loco& aacLoco,
+          unsigned int adetourLevel,
+          const QPtrList<stateElement>& swis);
+    
+    Route(element* = 0);
+    Route(QTextStream&, bool isNewFormat = false);
+    Route(const QString& aName);
+    ~Route();
+    
+    void readFileTextFromStream(QTextStream&);
+    void readOldFileTextFromStream(QTextStream&);
+    void writeFileTextToStream(QTextStream&);
+    Route* getClone();
+    bool isLocked();
+    QString getName() const;
+    QString getFromSignalName() const;
+    QString getToSignalName() const;
+    unsigned int getType();
+    QString getTypeStr() const;
+    bool startRouting();
+    bool stopRouting();
+    void hideRoute();
+    void showRoute();
+    void viewRoute();
+    void setupElementLists(QPtrVector<element>*);
+    bool hasStartSignal();
+    bool hasStopSignal();
+    void setStartSignal(element*);
+    void setStopSignal(element*);
+    void addSwitchElement(element*);
+    void removeElement(element*);
+    
+signals:
+   void showElement(int, int, int);
+
+private:
+    QString Name;
+    stateElement toSignal, fromSignal;
+    TypeOfRoute routeType;
+    Port rePort, acPort;
+    Loco acLoco;
+    unsigned int detourLevel;
+    bool locked;
+
+    /*list with raw item data*/
+    QPtrList<stateElement> switchItems;
+    /*list with pointers to all gbs-elements of this route*/
+    QPtrList<element> allGBSItemsList;
+};
+#endif // ROUTE_H
+
