@@ -1,12 +1,17 @@
 # Makefile.am for spdrs60, pixmaps included by cpp-files
 # (c) Guido Scholz
-# last update: 2005-02-05
+# last update: 2005-05-28
 
 EXTRA_DIST = filenew.xpm filesave.xpm fileopen.xpm \
+    fileclose.xpm fileimport.xpm filenewwindow.xpm \
+    filequit.xpm filesaveas.xpm \
     editcut.xpm editcopy.xpm editpaste.xpm \
-    layoutstart.xpm layoutstop.xpm layoutnotrot.xpm \
+    editfind.xpm editoptions.xpm \
     viewroute.xpm viewfeedback.xpm viewkeyboard.xpm \
     viewclock.xpm route_locked.xpm route_unlocked.xpm\
+    daemonconnect.xpm daemondisconnect.xpm \
+    daemoninfo.xpm daemonkill.xpm daemonreset.xpm \
+    layoutstart.xpm layoutstop.xpm layoutnotrot.xpm \
     route_clear.xpm route_copy.xpm route_edit.xpm \
     route_new.xpm route_record.xpm route_start.xpm \
     route_stop.xpm route_view.xpm route_editmode.xpm \
