@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.4.8 $Revision: 1.1 $
+                           version 0.4.8 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-05-18 21:15:02 $
+    last modified        : $Date: 2005-05-29 19:27:27 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -35,8 +35,7 @@ Router::Router(QObject* parent, const char* name):
     recRoute == NULL;
     routeList.setAutoDelete(true);
     modified = false;
-    routeviewmode = false;
-    recording = false;
+    visualmode = kvmNormal;
 }
 
 
@@ -47,8 +46,7 @@ Router::Router(QObject* parent, QPtrVector<element>* elPtr, const char* name):
     gbsElements = elPtr;
     routeList.setAutoDelete(true);
     modified = false;
-    routeviewmode = false;
-    recording = false;
+    visualmode = kvmNormal;
 }
 
 
@@ -204,7 +202,7 @@ void Router::setElementListPtr(QPtrVector<element>* elp)
 
 void Router::selectedRouteChanged(int last, int current)
 {
-    if (routeviewmode || recording) {
+    if (visualmode == kvmEditRoute) {
         Route* cr = getRouteAt(last);
         if (cr != NULL)
             cr->hideRoute();
@@ -220,7 +218,7 @@ void Router::selectedRouteChanged(int last, int current)
 
 void Router::showRouteAt(int idx)
 {
-    if (routeviewmode || recording) {
+    if (visualmode == kvmEditRoute) {
         Route* cr = getRouteAt(idx);
         if (cr != NULL)
             cr->showRoute();
@@ -228,15 +226,18 @@ void Router::showRouteAt(int idx)
 }
 
 
-void Router::setViewRouteMode(bool rvm)
+void Router::switchVisualMode(elemVisualMode vm)
 {
-    routeviewmode = rvm;
+    visualmode = vm;
+    if (vm != kvmEditRoute)
+        recRoute = NULL;
+    //TODO: get selected route from routingviewer
 }
 
 
 void Router::recordElement(element* el, elemRecordType rtype)
 {
-    if (recording && recRoute != NULL) {
+    if (visualmode == kvmEditRoute && recRoute != NULL) {
         switch (rtype) {
             case (krecStartStop):
                 if (!recRoute->hasStartSignal())
@@ -272,14 +273,7 @@ unsigned int Router::addNewRoute()
 void Router::startRecordModeAt(unsigned int index)
 {
     recRoute = getRouteAt(index);
-    recording = true;
+    //recording = true;
     showRouteAt(index);
-}
-
-
-void Router::stopRecordMode()
-{
-    recording = false;
-    recRoute = NULL;
 }
 

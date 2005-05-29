@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.10 $
+                           version 0.4.8 $Revision: 1.11 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-05-18 21:29:52 $
+    last modified        : $Date: 2005-05-29 19:27:26 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -543,17 +543,20 @@ void element::slotSwitchIt(int iNewDirection, int iLocked)
 void element::mouseDoubleClickEvent(QMouseEvent* e)
 {
     /*route record mode*/
-    if (visualMode == kvmRecordRoute) {
+    if (visualMode == kvmEditRoute) {
         if (e->button() == LeftButton) {
             if ((sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
-                        sSoldIcon == SYM_SS || sSoldIcon == SYM_NRB ||
-                        sSoldIcon == SYM_SSH || sSoldIcon == SYM_SSS ||
-                        sSoldIcon == SYM_SRB)){
+                 sSoldIcon == SYM_SS || 
+                 sSoldIcon == SYM_SSH || sSoldIcon == SYM_SSS ||
+                 sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB)){
                 /*record start or stop signal*/
-                selectionMode = ksmStaStoSignal;
-                emit sigElementClickedRecord(iSoldIndex, REC_STASTO);
-                //setupElementIcon(iSoldLEDstate, "");
-                update();
+                //selectionMode = ksmStaStoSignal;
+                //emit sigElementClickedRecord(iSoldIndex, REC_STASTO);
+                /*send record signal to router*/
+                if (ksmNormal == selectionMode)
+                    emit recordElement(this, krecStartStop);
+                else
+                    emit recordElement(this, krecClear);
                 e->accept();
             }
         }
@@ -645,42 +648,41 @@ void element::mousePressEvent(QMouseEvent* e)
             e->accept();
         }
     }
-    /*edit mode*/
-    else if (visualMode == kvmEdit) {
+    /*layout edit mode*/
+    else if (visualMode == kvmEditLayout) {
         if (e->button() == LeftButton) {
             /*TODO: select element*/
             e->accept();
         }
     }
-    /*route record mode*/
-    else if (visualMode == kvmRecordRoute) {
+    /*route edit mode*/
+    else if (visualMode == kvmEditRoute) {
         if (e->button() == LeftButton) {
-            if (sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER
-                    || sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR
-                    || sSoldIcon == SYM_WEY || sSoldIcon == SYM_EKR
-                    || sSoldIcon == SYM_EKL || sSoldIcon == SYM_DKR
-                    || sSoldIcon == SYM_DKL || sSoldIcon == SYM_DRW
-                    || sSoldIcon == SYM_REL || sSoldIcon == SYM_ZP
-                    || sSoldIcon == SYM_BLD) {
-                selectionMode = ksmSwitchEl;
-                emit sigElementClickedRecord(iSoldIndex, REC_NORMAL);
-                //setupElementIcon(iSoldLEDstate, "");
-                update();
+            if (sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER ||
+                sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR || 
+                sSoldIcon == SYM_WEY || sSoldIcon == SYM_EKR || 
+                sSoldIcon == SYM_EKL || sSoldIcon == SYM_DKR || 
+                sSoldIcon == SYM_DKL || sSoldIcon == SYM_DRW || 
+                sSoldIcon == SYM_REL || sSoldIcon == SYM_ZP  || 
+                /*sSoldIcon == SYM_HS  || sSoldIcon == SYM_HSS ||
+                sSoldIcon == SYM_SS  || sSoldIcon == SYM_SSS ||
+                sSoldIcon == SYM_SSH || */sSoldIcon == SYM_BLD) {
+                //selectionMode = ksmSwitchEl;
+                //emit sigElementClickedRecord(iSoldIndex, REC_NORMAL);
+                // update();
+                /*send record signal to router*/
+                if (ksmNormal == selectionMode)
+                    emit recordElement(this, krecNormal);
+                else
+                    emit recordElement(this, krecClear);
                 e->accept();
             }
 
             else if (sSoldIcon == SYM_LEE) {
-                emit sigElementClickedRecord(0, REC_FINISH);
+                /*remove this, only needed by old route dialog*/
+                //emit sigElementClickedRecord(0, REC_FINISH);
                 e->accept();
             }
-        }
-    }
-    /*route show mode*/
-    else if (visualMode == kvmShowRoute) {
-        if (sSoldIcon == SYM_LEE) {
-            /*TODO: pressing ESC should also send this signal*/
-            emit sigElementClickedRecord(0, REC_FINISH);
-            e->accept();
         }
     }
 }
@@ -695,8 +697,8 @@ void element::mouseReleaseEvent(QMouseEvent* e)
             e->accept();
         }
     }
-    /*edit mode*/
-    else if (visualMode == kvmEdit) {
+    /*layout edit mode*/
+    else if (visualMode == kvmEditLayout) {
         if (e->button() == LeftButton) {
             /*TODO: handle drop action*/
             e->accept();
@@ -710,8 +712,8 @@ void element::mouseReleaseEvent(QMouseEvent* e)
             e->accept();
         }
     }
-    /*route record mode*/
-    else if (visualMode == kvmRecordRoute) {
+    /*route edit mode*/
+    else if (visualMode == kvmEditRoute) {
         if (e->button() == RightButton){
             ctxNorm->exec(QCursor::pos());
             e->accept();
@@ -765,34 +767,38 @@ void element::slotLocateTimerTimeout()
 }
 
 
-void element::slotEditMode(elemVisualMode vm)
+void element::switchSelectionMode(elemSelectionMode sm)
+{
+    if (selectionMode != sm) {
+        selectionMode = sm;
+        ctxNorm->setItemEnabled(CTX_ID_TOGGLE, !iSoldLocked &&
+                iSoldLEDstate != LED_RED);
+        update();
+    }
+}
+
+
+void element::switchVisualMode(elemVisualMode vm)
 {
     visualMode = vm;
-    /* sent element state when selection mode is not normal;
-       e.g. after view route mode
+    /* send element state when visual mode is switched to normal mode
+     * and selection mode is not normal; typicaly after view route mode
      */
     if (selectionMode != ksmNormal) {
         selectionMode = ksmNormal;
         ctxNorm->setItemEnabled(CTX_ID_TOGGLE, !iSoldLocked &&
                 iSoldLEDstate != LED_RED);
         /*TODO: check if this is realy necessary:*/
-        makeCommand();
+        //makeCommand();
     }
     update();
 }
 
 
-void element::switchToRouteViewMode()
-{
-    visualMode = kvmShowRoute;
-    update();
-}
-
-
+/*TODO: remove this*/
 void element::slotRecordMode(elemVisualMode vm)
 {
-    visualMode = vm;
-    update();
+    switchVisualMode(vm);
 }
 
 
@@ -1165,9 +1171,10 @@ void element::sendState()
 void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
 {
     // update the contextmenu
-    ctxEdit->setItemEnabled(CTX_ID_CLEAR, visualMode == kvmEdit);
+    ctxEdit->setItemEnabled(CTX_ID_CLEAR, visualMode == kvmEditLayout);
     ctxEdit->setItemEnabled(CTX_ID_ROTATE,
-                            iSoldRotate != -1 && visualMode == kvmEdit);
+                            iSoldRotate != -1 && visualMode ==
+                            kvmEditLayout);
     ctxNorm->setItemEnabled(CTX_ID_TOGGLE,
                             (iSoldAddress_1 != -1) &&
                             (sSoldIcon != SYM_DRE) &&
@@ -1175,7 +1182,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                             (!iSoldLocked) &&
                             (iLEDstate_ != LED_RED) &&
                             (visualMode == kvmNormal || visualMode ==
-                             kvmRecordRoute));
+                             kvmEditRoute));
 
     // translate icon name and direction into a binary-coded integers
     int iIconByte = 0;
@@ -1771,18 +1778,13 @@ void element::paintEvent(QPaintEvent*)
             // normal mode: grey
             c = QColor(gray);
             break;
-        case kvmEdit:
+        case kvmEditLayout:
             // edit mode: red
             c = QColor(red);
             break;
-        case kvmShowRoute:
+        case kvmEditRoute:
             // show route mode: blue
             c = QColor(blue);
-            break;
-
-        case kvmRecordRoute:
-            // record route mode: green
-            c = QColor("green3");
             break;
         default:
             // normal mode: grey
@@ -1811,7 +1813,6 @@ void element::paintEvent(QPaintEvent*)
                 // yellow if clicked element in record route mode
                 c = QColor(251, 251, 0);
                 break;
-
             case ksmStaStoSignal:
                 // orange if clicked element in record route mode
                 c = QColor("orange");
@@ -2228,8 +2229,25 @@ void element::setIndexNo(unsigned int idx)
     iSoldIndex = idx;
 }
 
+
 unsigned int element::getIndexNo()
 {
     return iSoldIndex;
 }
 
+
+void element::getStateData(stateElement& se)
+{
+    se.name = sSoldText;
+    se.bus = iGA1BusNo;
+    se.address = iSoldAddress_1;
+    se.state = iSoldDirection;
+    se.elemPtr = this;
+    se.elemPtr2 = NULL;
+}
+
+
+elemSelectionMode element::getSelectionMode()
+{
+    return selectionMode;
+}

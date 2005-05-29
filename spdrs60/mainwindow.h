@@ -1,12 +1,12 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.4.8 $Revision: 1.5 $
+                           version 0.4.8 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-14 20:13:43 $
-***************************************************************************/
+    last modified        : $Date: 2005-05-29 19:27:27 $
+****************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -24,26 +24,22 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <qaction.h>
 #include <qapplication.h>
 #include <qmainwindow.h>
 #include <qfiledialog.h>
 #include <qkeycode.h>
-#include <qmenubar.h>
 #include <qmessagebox.h>
 #include <qpixmap.h>
-#include <qpopupmenu.h>
 #include <qscrollview.h>
 #include <qsocket.h>
-#include <qsocketnotifier.h>
 /*#include <qstatusbar.h>*/
 #include <qtimer.h>
 #include <qtoolbar.h>
-#include <qtoolbutton.h>
 #include <qwidgetstack.h>
 
 #include "gbsarea.h"
-//#include "routingviewer.h"
-//#include "routingtoolbar.h"
+#include "routingviewer.h"
 #include "newlayoutdialog.h"
 #include "feedback.h"
 #include "options.h"
@@ -59,6 +55,7 @@ public:
    MainWindow();
    virtual ~MainWindow();
    void readAutoloadFile();
+   void openFile(const QString&);
    QString getFilename();
 
 private:
@@ -66,7 +63,6 @@ private:
    void updateDaemonMenu();
    void updateFeedbackMenu();
    void cmdToDebug(const QString&, int, int);
-   void openFile(const QString&);
    void importFile(const QString&);
    void resetMenu();           //dirk
    bool saveFile();
@@ -84,10 +80,12 @@ private:
    bool isValidSRCPVersion(const QString&);
    QString GetSocketErrorString(int e);
 
+public slots:
+   void updateRouteMenu(bool);
+   void updateRouteMenuActivateItems(bool);
 
 private slots:
    void slotAbout();
-   void slotAboutDaemon();
    void slotAboutHelp();
    void slotAboutQt();
    void slotAboutWeb();
@@ -97,26 +95,26 @@ private slots:
    void slotEditCut();
    void slotEditFind();
    void slotEditGBSFiles();
-   void slotEditLayout();
    void slotEditPaste();
-   void slotEditRTSFiles();
+   void slotEditOptions();
    void slotFileNew();
    void slotFileNewWin();
    void slotFileOpen();
    void slotFileSave();
    void slotFileSaveAs();
    void slotFileImport();
-   void slotKeyboard();
-   void slotKillDaemon();
    void slotReadConfigFile();
-   void slotResetDaemon();
+   void slotDaemonReset();
+   void slotDaemonKill();
+   void slotDaemonInfo();
    void slotShowClock();
    void slotShowModules();
-   void slotShowOptions();
    void slotShowRoutes();
    void slotToggleLayoutPower();
    void slotUpdateEditmenu();
    void slotViewDebug();
+   void slotViewKeyboard();
+   void slotViewSwitchMode(QAction*);
    void layoutChangeSize();
    void updateCaption();
    void updateFileMenuItems();
@@ -142,19 +140,11 @@ private slots:
    void InfoSocketError(int);
 
 signals:
-   void switchEditMode(elemVisualMode);
-   void FHTclicked();
-   void notrot();
+   void switchedVisualMode(elemVisualMode);
    void progressCancelled();
    void repaintLayout();
-   void sendAll();
    void sendFBChangeLayout(unsigned int);
    void sendFBChangeModule(unsigned int);
-   void showRoutings();
-   void toggleAll();
-   void UfGTclicked();
-   void unlockRoutings();
-   void WGTclicked();
 
 protected:
    virtual void closeEvent(QCloseEvent* ce);
@@ -164,34 +154,55 @@ private:
    bool            LoginIsRunning;
    bool            DefaultLayoutIsLoaded;
 
-   QMenuBar        *menubar;
-   QPopupMenu      *filemenu;
-   QPopupMenu      *editmenu;
-   QPopupMenu      *editfilemenu;
-   QPopupMenu      *viewmenu;
-   QPopupMenu      *daemonmenu;
-   QPopupMenu      *layoutmenu;
-   QPopupMenu      *helpmenu;
+   QAction         *actionFileNew;
+   QAction         *actionFileOpen;
+   QAction         *actionFileSave;
+   QAction         *actionFileSaveAs;
+   QAction         *actionFileImport;
+   QAction         *actionFileNewWindow;
+   QAction         *actionFileClose;
+   QAction         *actionFileQuit;
+   
+   QAction         *actionEditCut;
+   QAction         *actionEditCopy;
+   QAction         *actionEditPaste;
+   QAction         *actionEditFind;
+   QAction         *actionEditOptions;
+   QAction         *actionEditFileLayout;
+   QAction         *actionEditFileOptions;
+   
+   QAction         *actionViewRoutes;
+   QAction         *actionViewFBModules;
+   QAction         *actionViewClock;
+   QAction         *actionViewKeyboard;
+   QAction         *actionViewToggleHistory;
+   QAction         *actionViewNormalMode;
+   QAction         *actionViewLayoutEditMode;
+   QAction         *actionViewRouteEditMode;
+   
+   QAction         *actionDaemonConnect;
+   QAction         *actionDaemonDisconnect;
+   QAction         *actionDaemonReset;
+   QAction         *actionDaemonKill;
+   QAction         *actionDaemonInfo;
+   
+   QAction         *actionLayoutPower;
+   QAction         *actionLayoutFht;
+   QAction         *actionLayoutWgt;
+   QAction         *actionLayoutUfgt;
+   QAction         *actionLayoutNotRot;
+   QAction         *actionLayoutToggleAll;
+   QAction         *actionLayoutSendAll;
+   QAction         *actionLayoutUnlockRoutes;
+   QAction         *actionLayoutChangeSize;
 
-   QToolBar        *toolbar;
-//   RoutingToolBar  *routingtoolbar;
-   QToolButton     *tbFileNew;
-   QToolButton     *tbFileOpen;
-   QToolButton     *tbFileSave;
-   QToolButton     *tbEditCut;
-   QToolButton     *tbEditCopy;
-   QToolButton     *tbEditPaste;
-   QToolButton     *tbLayoutStart;
-   QToolButton     *tbLayoutStop;
-   QToolButton     *tbLayoutNotRot;
-   QToolButton     *tbViewRoute;
-   QToolButton     *tbViewClock;
-   QToolButton     *tbViewFeedb;
-   QToolButton     *tbViewKeyb;
-
-   QScrollView     *scrollview;
-   QSocketNotifier *snFBnotify;
-   QSocketNotifier *snINnotify;
+   QAction         *actionRouteStart;
+   QAction         *actionRouteStop;
+   QAction         *actionRouteAdd;
+   QAction         *actionRouteEdit;
+   QAction         *actionRouteCopy;
+   QAction         *actionRouteClear;
+   
    QString         sWelcome;
 
    QWidgetStack    *cbStack;
@@ -201,7 +212,8 @@ private:
    QComboBox       *FeedBackCB;
 
    GBSArea         *gbs;
-//   RoutingViewer   *rtViewer;
+   RoutingViewer   *rtViewer;
+   Router          *rtController;
    feedback        *modulesWindow;
    optionsDialog   *optionsWindow;
    Finder          *findWindow;

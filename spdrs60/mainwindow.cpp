@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.7 $
+                           version 0.4.8 $Revision: 1.8 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-14 20:13:43 $
+    last modified        : $Date: 2005-05-29 19:27:27 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -22,31 +22,60 @@
    elements and sets up the connection to the SRCP server
  ***************************************************************************/
 
-#include <string.h>             // for bzero()
 #include <stdio.h>              // for perror(), sprintf()
 #include <stdlib.h>             // for system()
-#include <math.h>               // for fabs
 #include <qhbox.h>
+#include <qmenubar.h>
 #include <qvbox.h>
 
 #include "gbsscrollview.h"
 #include "mainwindow.h"
 
+#include "../icons/spdrs60_32.xpm"
 /*toolbar icons*/
 #include "pixmaps/filenew.xpm"
 #include "pixmaps/fileopen.xpm"
 #include "pixmaps/filesave.xpm"
+#include "pixmaps/filesaveas.xpm"
+#include "pixmaps/fileimport.xpm"
+#include "pixmaps/filenewwindow.xpm"
+#include "pixmaps/fileclose.xpm"
+#include "pixmaps/filequit.xpm"
+
 #include "pixmaps/editcut.xpm"
 #include "pixmaps/editcopy.xpm"
 #include "pixmaps/editpaste.xpm"
+#include "pixmaps/editfind.xpm"
+#include "pixmaps/editoptions.xpm"
+
+#include "pixmaps/daemonconnect.xpm"
+#include "pixmaps/daemondisconnect.xpm"
+#include "pixmaps/daemonkill.xpm"
+#include "pixmaps/daemonreset.xpm"
+#include "pixmaps/daemoninfo.xpm"
+
 #include "pixmaps/viewroute.xpm"
 #include "pixmaps/viewfeedback.xpm"
 #include "pixmaps/viewkeyboard.xpm"
 #include "pixmaps/viewclock.xpm"
+#include "pixmaps/viewnormalmode.xpm"
+#include "pixmaps/viewlayouteditmode.xpm"
+#include "pixmaps/viewrouteeditmode.xpm"
+
 #include "pixmaps/layoutstart.xpm"
 #include "pixmaps/layoutstop.xpm"
 #include "pixmaps/layoutnotrot.xpm"
-#include "../icons/spdrs60_32.xpm"
+
+#include "pixmaps/route_start.xpm"
+#include "pixmaps/route_stop.xpm"
+#include "pixmaps/route_edit.xpm"
+#include "pixmaps/route_new.xpm"
+#include "pixmaps/route_copy.xpm"
+#include "pixmaps/route_clear.xpm"
+
+// IDs for menu items
+//#define   EDITFILE_ID_GBS  210
+#define   EDITFILE_ID_CON  211
 
 
 extern bool bFBport[MAX_FB];
@@ -115,7 +144,7 @@ MainWindow::MainWindow()
      */
     bRunLayout = false;
 
-    cmdToDebug(tr("Program succesfully started!"), INFO, HIST);
+    cmdToDebug(tr("Program succesfully started!"), M_INFO, HIST);
 }
 
 /* Cleanup by destructor */
@@ -137,7 +166,7 @@ void MainWindow::slotReadConfigFile()
     if (!file.open(IO_ReadOnly)) {
         /* if no configuration file is found, just keep defaults */
         cmdToDebug(tr("Personal config file not found") + ": ~/" +
-                   SPDRS60_INIT, INFO, HIST);
+                   SPDRS60_INIT, M_INFO, HIST);
         return;
     }
     QTextStream ts(&file);
@@ -216,197 +245,6 @@ void MainWindow::slotReadConfigFile()
 
 void MainWindow::initMainWindow()
 {
-    // setup the menubar with all pulldown menus
-    // all *->setItemEnabled  and ->setFocusPolicy moved to new function
-    // resetMenu() //dirk.
-    // Thus we can call resetMenu each time we close a layout, before we
-    // open a new one. The menubar will be in the initial state when no
-    // layout is loaded
-    filemenu = new QPopupMenu;
-    filemenu->insertItem(tr("&New..."),
-            this, SLOT(slotFileNew()), CTRL + Key_N, FILE_ID_NEW);
-    filemenu->insertItem(tr("&Open..."),
-            this, SLOT(slotFileOpen()), CTRL + Key_O, FILE_ID_OPEN);
-    filemenu->insertItem(tr("&Save"),
-            this, SLOT(slotFileSave()), CTRL + Key_S, FILE_ID_SAVE);
-    filemenu->insertItem(tr("&Save As..."),
-            this, SLOT(slotFileSaveAs()), 0, FILE_ID_SAVE_AS);
-    filemenu->insertItem(tr("&Import..."),
-            this, SLOT(slotFileImport()), 0, FILE_ID_IMPORT);
-    filemenu->insertSeparator();
-    filemenu->insertItem(tr("New &Window"),
-            this, SLOT(slotFileNewWin()), 0, FILE_ID_NEWWIN);
-    filemenu->insertItem(tr("&Close"),
-            this, SLOT(close()), CTRL + Key_W, FILE_ID_CLOSE);
-    filemenu->insertItem(tr("&Quit"),
-            qApp, SLOT(closeAllWindows()), CTRL + Key_Q, FILE_ID_QUIT);
-
-    editfilemenu = new QPopupMenu;
-    editfilemenu->insertItem(tr("Layout"),
-            this, SLOT(slotEditGBSFiles()), 0, EDITFILE_ID_GBS);
-    editfilemenu->insertItem(tr("Routings"), this,
-            SLOT(slotEditRTSFiles()), 0, EDITFILE_ID_RTS);
-    editfilemenu->insertItem(QDir::homeDirPath() + "/" + SPDRS60_INIT,
-            this, SLOT(slotEditConfigFile()), 0, EDITFILE_ID_CON);
-
-    editmenu = new QPopupMenu;
-    editmenu->insertItem(tr("&Cut"), this, SLOT(slotEditCut()),
-            CTRL + Key_X, EDIT_ID_CUT);
-    editmenu->insertItem(tr("C&opy"), this, SLOT(slotEditCopy()),
-            CTRL + Key_C, EDIT_ID_COPY);
-    editmenu->insertItem(tr("&Paste"), this, SLOT(slotEditPaste()),
-            CTRL + Key_V, EDIT_ID_PASTE);
-    /*disable this items until they are implemented */
-    editmenu->setItemEnabled(EDIT_ID_CUT, false);
-    editmenu->setItemEnabled(EDIT_ID_COPY, false);
-    editmenu->setItemEnabled(EDIT_ID_PASTE, false);
-
-    editmenu->insertSeparator();
-    editmenu->insertItem(tr("&Data files"), editfilemenu);
-    editmenu->insertItem(tr("&Find..."),
-            this, SLOT(slotEditFind()), CTRL + Key_F, EDIT_ID_FIND);
-    editmenu->insertItem(tr("&Preferences..."), this,
-            SLOT(slotShowOptions()), CTRL + Key_P, EDIT_ID_OPT);
-    editmenu->setCheckable(true);
-
-    viewmenu = new QPopupMenu;
-    viewmenu->insertItem(tr("&Routing table"),
-            this, SLOT(slotShowRoutes()), CTRL + Key_R, VIEW_ID_ROUTES);
-    viewmenu->insertItem(tr("&Feedback modules"),
-            this, SLOT(slotShowModules()), CTRL + Key_M, VIEW_ID_FBMOD);
-    viewmenu->insertItem(tr("&Central clock"),
-            this, SLOT(slotShowClock()), 0, VIEW_ID_CLOCK);
-    viewmenu->insertItem(tr("&Keyboard"),
-            this, SLOT(slotKeyboard()), CTRL + Key_K, VIEW_ID_KEYB);
-    viewmenu->insertSeparator();
-    viewmenu->insertItem(tr("Toggle &Debugging"),
-            this, SLOT(slotViewDebug()), CTRL + Key_D, VIEW_ID_DEBG);
-    viewmenu->insertItem(tr("&Editmode"),
-            this, SLOT(slotEditLayout()), CTRL + Key_E, VIEW_ID_EDITMODE);
-
-    daemonmenu = new QPopupMenu;
-    daemonmenu->insertItem(tr("&Connect"),
-            this, SLOT(ConnectToSRCPServer()), 0, DAEMON_ID_CONNECT);
-    daemonmenu->insertItem(tr("&Disconnect"),
-            this, SLOT(CloseSRCPServerConnection()), 0, DAEMON_ID_DISCONNECT);
-    daemonmenu->insertSeparator();
-    daemonmenu->insertItem(tr("&Reset"),
-            this, SLOT(slotResetDaemon()), 0, DAEMON_ID_RESET);
-    daemonmenu->insertItem(tr("&Kill"),
-            this, SLOT(slotKillDaemon()), 0, DAEMON_ID_KILL);
-    daemonmenu->insertItem(tr("&Info..."),
-            this, SLOT(slotAboutDaemon()), 0, DAEMON_ID_INFO);
-
-    layoutmenu = new QPopupMenu;
-    layoutmenu->insertItem(tr("&Start power"),
-            this, SLOT(slotToggleLayoutPower()), Key_F4,
-            LAYOUT_ID_START);
-    layoutmenu->insertItem(tr("Use &FHT"),
-            this, SIGNAL(FHTclicked()), Key_F5,
-            LAYOUT_ID_FHT);
-    layoutmenu->insertItem(tr("Use &WGT"),
-            this, SIGNAL(WGTclicked()),
-            Key_F6, LAYOUT_ID_WGT);
-    layoutmenu->insertItem(tr("Use &UfGT"),
-            this, SIGNAL(UfGTclicked()),
-            Key_F7, LAYOUT_ID_UFGT);
-    layoutmenu->insertSeparator();
-    layoutmenu->insertItem(tr("&Halt signals"),
-            this, SIGNAL(notrot()), Key_F12, LAYOUT_ID_NOTROT);
-    layoutmenu->insertItem(tr("&Toggle all"),
-            this, SIGNAL(toggleAll()), Key_F10, LAYOUT_ID_TOGGLE);
-    layoutmenu->insertItem(tr("&Send all"),
-            this, SIGNAL(sendAll()), Key_F11, LAYOUT_ID_SEND);
-    layoutmenu->insertItem(tr("&Unlock routings"),
-            this, SIGNAL(unlockRoutings()), CTRL + Key_U, LAYOUT_ID_UNLOCKR);
-    layoutmenu->insertSeparator();
-    layoutmenu->insertItem(tr("&Change size..."),
-            this, SLOT(layoutChangeSize()), 0, LAYOUT_ID_CHSIZE);
-
-    helpmenu = new QPopupMenu;
-    helpmenu->insertItem(tr("&Help"), this, SLOT(slotAboutHelp()), Key_F1);
-    helpmenu->insertItem(tr("&SpDrS60 for Linux on the web"),
-            this, SLOT(slotAboutWeb()));
-    helpmenu->insertSeparator();
-    helpmenu->insertItem(QString(tr("&About")) + " \"" + APP_NAME + "\"",
-            this, SLOT(slotAbout()));
-    helpmenu->insertItem(tr("About &Qt"), this, SLOT(slotAboutQt()));
-
-    menubar = new QMenuBar(this);
-    menubar->insertItem(tr("&File"), filemenu);
-    menubar->insertItem(tr("&Edit"), editmenu);
-    menubar->insertItem(tr("&View"), viewmenu);
-    menubar->insertItem(tr("&Daemon"), daemonmenu);
-    menubar->insertItem(tr("&Layout"), layoutmenu);
-    menubar->insertItem(tr("&Help"), helpmenu);
-
-
-    // setup the gbs toolbar
-    toolbar = new QToolBar(this, "toolbar");
-    Q_CHECK_PTR(toolbar);
-    toolbar->setLabel(tr("File operations"));
-
-    tbFileNew =
-        new QToolButton(QPixmap(filenew_xpm), tr("Create empty layout"), 0,
-                        this, SLOT(slotFileNew()), toolbar);
-    tbFileOpen =
-        new QToolButton(QPixmap(fileopen_xpm), tr("Open layout file"), 0,
-                        this, SLOT(slotFileOpen()), toolbar);
-    tbFileSave =
-        new QToolButton(QPixmap(filesave_xpm), tr("Save layout file"), 0,
-                        this, SLOT(slotFileSave()), toolbar);
-    toolbar->addSeparator();
-
-    tbEditCut =
-        new QToolButton(QPixmap(editcut_xpm),
-                        tr("Cut selection to clipboard"), 0,
-                        this, SLOT(slotEditCut()), toolbar);
-    tbEditCopy =
-        new QToolButton(QPixmap(editcopy_xpm),
-                        tr("Copy selection to clipboard"), 0,
-                        this, SLOT(slotEditCopy()), toolbar);
-    tbEditPaste =
-        new QToolButton(QPixmap(editpaste_xpm),
-                        tr("Paste from clipboard"), 0,
-                        this, SLOT(slotEditPaste()), toolbar);
-    /*disable this items until the functions are implemented */
-    tbEditCut->setEnabled(false);
-    tbEditCopy->setEnabled(false);
-    tbEditPaste->setEnabled(false);
-
-    toolbar->addSeparator();
-
-    tbViewRoute =
-        new QToolButton(QPixmap(viewroute_xpm), tr("Show routing table"),
-                        0, this, SLOT(slotShowRoutes()), toolbar);
-    tbViewFeedb =
-        new QToolButton(QPixmap(viewfeedback_xpm),
-                        tr("Show feedback window"), 0, this,
-                        SLOT(slotShowModules()), toolbar);
-    tbViewKeyb =
-        new QToolButton(QPixmap(viewkeyboard_xpm),
-                        tr("Show basic keyboard"), 0, this,
-                        SLOT(slotKeyboard()), toolbar);
-
-    tbViewClock =
-        new QToolButton(QPixmap(viewclock_xpm), tr("Show central clock"),
-                        0, this, SLOT(slotShowClock()), toolbar);
-
-    toolbar->addSeparator();
-
-    tbLayoutStart =
-        new QToolButton(QPixmap(layoutstart_xpm), tr("Start layout"), 0,
-                        this, SLOT(slotToggleLayoutPower()), toolbar);
-    tbLayoutStop =
-        new QToolButton(QPixmap(layoutstop_xpm), tr("Stop layout"), 0,
-                        this, SLOT(slotToggleLayoutPower()), toolbar);
-    tbLayoutNotRot =
-        new QToolButton(QPixmap(layoutnotrot_xpm), tr("Halt signals"), 0,
-                        this, SIGNAL(notrot()), toolbar);
-    // all *->setItemEnabled  and ->setFocusPolicy  moved to resetMenu(), dirk.
-    resetMenu();
-    // statusBar();  // create a StatusBar; no need for that up to now
-
     /* 
      * This is the window layout in detail:  (guido)
      +---------------------------------------------------------+
@@ -446,11 +284,28 @@ void MainWindow::initMainWindow()
 
     QVBox *vBox = new QVBox(this, "vbox", 0);
 
-    scrollview = new GBSScrollView(vBox);
-    gbs = new GBSArea(scrollview->viewport(), "gbsarea");
+    GBSScrollView* scrollview = new GBSScrollView(vBox);
+    /*gbs*/
+    gbs = new GBSArea(scrollview->viewport(), "gbsArea");
     Q_CHECK_PTR(gbs);
     scrollview->addChild(gbs);
+    // connect gbsArea and MainWindow
+    //connect(this, SIGNAL(showRoutings()), gbs, SLOT(slotShowRoutings()));
+    connect(this, SIGNAL(sendFBChangeLayout(unsigned int)),
+            gbs, SLOT(slotFBportChanged(unsigned int)));
+    connect(this, SIGNAL(switchedVisualMode(elemVisualMode)), gbs,
+            SIGNAL(switchVisualMode(elemVisualMode)));
+    connect(gbs, SIGNAL(cmdToDebug(const QString&)),
+            this, SLOT(slotCmdToDebugExtern(const QString&)));
+    connect(gbs, SIGNAL(sendCommand(const QString&)),
+            this, SLOT(SendCommandToSRCPServer(const QString&)));
+    connect(gbs, SIGNAL(sigUpdateEditmenu()),
+            this, SLOT(slotUpdateEditmenu()));
+    connect(gbs, SIGNAL(sigShowFBmodules()),
+            this, SLOT(slotShowModules()));
 
+
+    /*history line*/
     // this container should be a separate class:
     QHBox *hBox = new QHBox(vBox, "hbox", 0);
     hBox->setSpacing(2);
@@ -497,46 +352,479 @@ void MainWindow::initMainWindow()
     cbStack->addWidget(FeedBackCB, 2);
 
     setCentralWidget(vBox);
-/*
-    rtViewer = new RoutingViewer(this, "Routings");
+
+    /*route controller*/
+    rtController = new Router(this, gbs->getGbsElementListPtr(),
+            "rtController");
+    Q_CHECK_PTR(rtController);
+    connect(this, SIGNAL(switchedVisualMode(elemVisualMode)),
+            rtController, SLOT(switchVisualMode(elemVisualMode)));
+    connect(gbs, SIGNAL(clearRoutes()),
+            rtController, SLOT(clearRoutes()));
+    connect(gbs, SIGNAL(recordElement(element*, elemRecordType)),
+            rtController, SLOT(recordElement(element*, elemRecordType)));
+    
+    /*route viewer*/
+    rtViewer = new RoutingViewer(this, "Routings", rtController);
+    //rtViewer = new RoutingViewer(this, "Routings");
     Q_CHECK_PTR(rtViewer);
     moveDockWindow(rtViewer, Right);
     rtViewer->hide();
+    connect(rtViewer, SIGNAL(visibilityChanged(bool)),
+            this, SLOT(updateRouteMenu(bool)));
+    connect(rtViewer, SIGNAL(selectedRouteIsLocked(bool)),
+            this, SLOT(updateRouteMenuActivateItems(bool)));
+    connect(rtController, SIGNAL(updateRoutingViewer()),
+            rtViewer, SLOT(updateRoutes()));
+    connect(rtController, SIGNAL(updateRoutingViewerAt(int)),
+            rtViewer, SLOT(updateRouteAt(int)));
 
-    // setup the routing toolbar
-    routingtoolbar = new RoutingToolBar(this, rtViewer);
-    Q_CHECK_PTR(routingtoolbar);
-*/
-                    
-    // now connect the different signals and slots
-    // between "gbsArea" and "MainWindow"
-/*
-    connect(gbs, SIGNAL(updateRoutingViewer(const QString&)), rtViewer,
-            SLOT(updateRoutesFromFile(const QString&)));
-    connect(rtViewer, SIGNAL(switchToRouteViewMode()), gbs,
-            SIGNAL(switchToRouteViewMode()));
-*/
-    connect(this, SIGNAL(showRoutings()), gbs, SLOT(slotShowRoutings()));
-    connect(this, SIGNAL(FHTclicked()), gbs, SLOT(slotFHTclicked()));
-    connect(this, SIGNAL(WGTclicked()), gbs, SLOT(slotWGTclicked()));
-    connect(this, SIGNAL(UfGTclicked()), gbs, SLOT(slotUfGTclicked()));
-    connect(this, SIGNAL(unlockRoutings()), gbs,
+
+    /*file toolbar*/
+    QToolBar* filetb = new QToolBar(this, "filetb");
+    Q_CHECK_PTR(filetb);
+    filetb->setLabel(tr("File operations"));
+
+    /*file menu*/
+    QPopupMenu* filemenu = new QPopupMenu(this);
+    menuBar()->insertItem(tr("&File"), filemenu);
+
+    /*file actions*/
+    actionFileNew = new QAction(QPixmap(filenew_xpm), tr("&New..."),
+            CTRL+Key_N, this, "fileNew" );
+    actionFileNew->setToolTip(tr("Create empty layout"));
+    connect(actionFileNew, SIGNAL(activated()), this,
+            SLOT(slotFileNew()));
+    actionFileNew->addTo(filemenu);
+    actionFileNew->addTo(filetb);
+
+    actionFileOpen = new QAction(QPixmap(fileopen_xpm), tr("&Open..."),
+            CTRL+Key_O, this, "fileOpen" );
+    actionFileOpen->setToolTip(tr("Open layout file"));
+    connect(actionFileOpen, SIGNAL(activated()), this,
+            SLOT(slotFileOpen()));
+    actionFileOpen->addTo(filemenu);
+    actionFileOpen->addTo(filetb);
+
+    actionFileSave = new QAction(QPixmap(filesave_xpm), tr("&Save"),
+            CTRL+Key_S, this, "fileSave" );
+    connect(actionFileSave, SIGNAL(activated()), this,
+            SLOT(slotFileSave()));
+    actionFileSave->addTo(filemenu);
+    actionFileSave->addTo(filetb);
+
+    actionFileSaveAs = new QAction(QPixmap(filesaveas_xpm), tr("Save &as..."),
+            CTRL+Key_A, this, "fileSaveAs" );
+    connect(actionFileSaveAs, SIGNAL(activated()), this,
+            SLOT(slotFileSaveAs()));
+    actionFileSaveAs->addTo(filemenu);
+    //actionFileSaveAs->addTo(filetb);
+
+    actionFileImport = new QAction(QPixmap(fileimport_xpm), tr("&Import..."),
+            CTRL+Key_I, this, "fileImport" );
+    connect(actionFileImport, SIGNAL(activated()), this,
+            SLOT(slotFileImport()));
+    actionFileImport->addTo(filemenu);
+    //actionFileImport->addTo(filetb);
+
+    filemenu->insertSeparator();
+    //filetb->addSeparator();
+
+    actionFileNewWindow = new QAction(QPixmap(filenewwindow_xpm),
+            tr("New &window"), 0, this, "fileNewWindow" );
+    connect(actionFileNewWindow, SIGNAL(activated()), this,
+            SLOT(slotFileNewWin()));
+    actionFileNewWindow->addTo(filemenu);
+    //actionFileNewWindow->addTo(filetb);
+
+    actionFileClose = new QAction(QPixmap(fileclose_xpm), tr("&Close"),
+            CTRL+Key_W, this, "fileClose" );
+    connect(actionFileClose, SIGNAL(activated()), this,
+            SLOT(close()));
+    actionFileClose->addTo(filemenu);
+    //actionFileClose->addTo(filetb);
+
+    actionFileQuit = new QAction(QPixmap(filequit_xpm), tr("&Quit"),
+            CTRL+Key_Q, this, "fileQuit" );
+    connect(actionFileQuit, SIGNAL(activated()), qApp,
+            SLOT(closeAllWindows()));
+    actionFileQuit->addTo(filemenu);
+    //actionFileQuit->addTo(filetb);
+
+    /*edit toolbar*/
+    QToolBar* edittb = new QToolBar(this, "edittb");
+    Q_CHECK_PTR(edittb);
+    edittb->setLabel(tr("Edit operations"));
+
+    QPopupMenu* editfilemenu = new QPopupMenu(this);
+    //editfilemenu = new QPopupMenu;
+    
+    actionEditFileLayout = new QAction(NULL, tr("&Layout"), 0, this,
+            "editFileLayout" );
+    actionEditFileLayout->setToolTip(tr(
+                "Edit layout file with external editor"));
+    connect(actionEditFileLayout, SIGNAL(activated()), this,
+            SLOT(slotEditGBSFiles()));
+    actionEditFileLayout->addTo(editfilemenu);
+    //actionEditFileLayout->addTo(edittb);
+
+    actionEditFileOptions = new QAction(NULL,
+            QDir::homeDirPath() + "/" + SPDRS60_INIT, 0, this,
+            "editFileOptions" );
+    actionEditFileOptions->setToolTip(tr(
+                "Edit config file with external editor"));
+    connect(actionEditFileOptions, SIGNAL(activated()), this,
+            SLOT(slotEditConfigFile()));
+    actionEditFileOptions->addTo(editfilemenu);
+    //actionEditFileOptions->addTo(edittb);
+
+
+    /*edit menu*/
+    QPopupMenu* editmenu = new QPopupMenu(this);
+    //editmenu = new QPopupMenu(this);
+    menuBar()->insertItem(tr("&Edit"), editmenu);
+
+    actionEditCut = new QAction(QPixmap(editcut_xpm), tr("&Cut"),
+            CTRL+Key_X, this, "editCut" );
+    actionEditCut->setToolTip(tr("Cut selection to clipboard"));
+    connect(actionEditCut, SIGNAL(activated()), this,
+            SLOT(slotEditCut()));
+    actionEditCut->addTo(editmenu);
+    actionEditCut->addTo(edittb);
+    actionEditCut->setEnabled(false);
+
+    actionEditCopy = new QAction(QPixmap(editcopy_xpm), tr("C&opy"),
+            CTRL+Key_C, this, "editCopy" );
+    actionEditCopy->setToolTip(tr("Copy selection to clipboard"));
+    connect(actionEditCopy, SIGNAL(activated()), this,
+            SLOT(slotEditCopy()));
+    actionEditCopy->addTo(editmenu);
+    actionEditCopy->addTo(edittb);
+    actionEditCopy->setEnabled(false);
+
+    actionEditPaste = new QAction(QPixmap(editpaste_xpm), tr("&Paste"),
+            CTRL+Key_V, this, "editPaste" );
+    actionEditPaste->setToolTip(tr("Paste from clipboard"));
+    connect(actionEditPaste, SIGNAL(activated()), this,
+            SLOT(slotEditPaste()));
+    actionEditPaste->addTo(editmenu);
+    actionEditPaste->addTo(edittb);
+    actionEditPaste->setEnabled(false);
+
+    editmenu->insertSeparator();
+    editmenu->insertItem(tr("&Data files"), editfilemenu);
+
+    editmenu->insertSeparator();
+    edittb->addSeparator();
+
+    actionEditFind = new QAction(QPixmap(editfind_xpm), tr("&Find..."),
+            CTRL+Key_F, this, "editFind" );
+    actionEditFind->setToolTip(tr("Find information in layout element"));
+    connect(actionEditFind, SIGNAL(activated()), this,
+            SLOT(slotEditFind()));
+    actionEditFind->addTo(editmenu);
+    actionEditFind->addTo(edittb);
+    //actionEditFind->setEnabled(false);
+
+    actionEditOptions = new QAction(QPixmap(editoptions_xpm),
+            tr("&Preferences..."), CTRL+Key_P, this, "editPreferences" );
+    actionEditOptions->setToolTip(tr("Edit application preferences"));
+    connect(actionEditOptions, SIGNAL(activated()), this,
+            SLOT(slotEditOptions()));
+    actionEditOptions->addTo(editmenu);
+    //actionEditOptions->addTo(edittb);
+
+
+    /*view toolbar*/
+    QToolBar* viewtb = new QToolBar(this, "viewtb");
+    Q_CHECK_PTR(viewtb);
+    viewtb->setLabel(tr("View operations"));
+
+    QPopupMenu* viewmenu = new QPopupMenu(this);
+    //viewmenu = new QPopupMenu(this);
+    menuBar()->insertItem(tr("&View"), viewmenu);
+
+    actionViewRoutes = new QAction(QPixmap(viewroute_xpm),
+            tr("&Routing table"), CTRL + Key_R, this, "viewRoutes" );
+    actionViewRoutes->setToolTip(tr("Show routing table"));
+    connect(actionViewRoutes, SIGNAL(activated()), this,
+            SLOT(slotShowRoutes()));
+    actionViewRoutes->addTo(viewmenu);
+    actionViewRoutes->addTo(viewtb);
+
+    actionViewFBModules = new QAction(QPixmap(viewfeedback_xpm),
+            tr("&Feedback modules"), CTRL + Key_M, this, "viewFBModules" );
+    actionViewFBModules->setToolTip(tr("Show feedback module window"));
+    connect(actionViewFBModules, SIGNAL(activated()), this,
+            SLOT(slotShowModules()));
+    actionViewFBModules->addTo(viewmenu);
+    actionViewFBModules->addTo(viewtb);
+    actionViewFBModules->setEnabled(false);
+
+    actionViewClock = new QAction(QPixmap(viewclock_xpm),
+            tr("&Central clock"), 0, this, "viewClock" );
+    actionViewClock->setToolTip(tr("Show central clock"));
+    connect(actionViewClock, SIGNAL(activated()), this,
+            SLOT(slotShowClock()));
+    actionViewClock->addTo(viewmenu);
+    actionViewClock->addTo(viewtb);
+
+    actionViewKeyboard = new QAction(QPixmap(viewkeyboard_xpm),
+            tr("&Keyboard"), CTRL + Key_K, this, "viewKeyboard" );
+    actionViewKeyboard->setToolTip(tr("Show basic keyboard"));
+    connect(actionViewKeyboard, SIGNAL(activated()), this,
+            SLOT(slotViewKeyboard()));
+    actionViewKeyboard->addTo(viewmenu);
+    actionViewKeyboard->addTo(viewtb);
+    
+    viewmenu->insertSeparator();
+    viewtb->addSeparator();
+
+    QActionGroup *ViewGrp = new QActionGroup(this);
+    connect(ViewGrp, SIGNAL(selected(QAction*)), this,
+            SLOT(slotViewSwitchMode(QAction*)));
+    
+    actionViewNormalMode = new QAction(QPixmap(viewnormalmode_xpm),
+            tr("&Normal mode"), CTRL + Key_L, ViewGrp, "normalmode");
+    actionViewNormalMode->setToggleAction(true);
+    
+    actionViewLayoutEditMode = new QAction(QPixmap(viewlayouteditmode_xpm),
+            tr("&Layout edit mode"), CTRL + Key_E, ViewGrp, "layouteditmode");
+    actionViewLayoutEditMode->setToggleAction(true);
+    
+    actionViewRouteEditMode = new QAction(QPixmap(viewrouteeditmode_xpm),
+            tr("&Route edit mode"), CTRL + Key_B, ViewGrp, "routeeditmode");
+    actionViewRouteEditMode->setToggleAction(true);
+    
+    ViewGrp->addTo(viewmenu);
+    ViewGrp->addTo(viewtb);
+
+    viewmenu->insertSeparator();
+
+    actionViewToggleHistory = new QAction(NULL,
+            tr("&Toggle history line"), CTRL + Key_D, // Ctrl H/T
+            this, "viewToggleHistory" );
+    actionViewToggleHistory->setToolTip(tr("Show basic keyboard"));
+    connect(actionViewToggleHistory, SIGNAL(activated()), this,
+            SLOT(slotViewDebug()));
+    actionViewToggleHistory->addTo(viewmenu);
+    //actionViewToggleHistory->addTo(viewtb);
+
+
+    /*daemon toolbar*/
+    QToolBar* daemontb = new QToolBar(this, "daemontb");
+    Q_CHECK_PTR(daemontb);
+    daemontb->setLabel(tr("Daemon operations"));
+
+    QPopupMenu* daemonmenu = new QPopupMenu(this);
+    //daemonmenu = new QPopupMenu(this);
+    menuBar()->insertItem(tr("&Daemon"), daemonmenu);
+
+    actionDaemonConnect = new QAction(QPixmap(daemonconnect_xpm),
+            tr("&Connect"), 0, this, "daemonConnect" ); // Ctrl D
+    actionDaemonConnect->setToolTip(tr("Connect to SRCP daemon"));
+    connect(actionDaemonConnect, SIGNAL(activated()), this,
+            SLOT(ConnectToSRCPServer()));
+    actionDaemonConnect->addTo(daemonmenu);
+    actionDaemonConnect->addTo(daemontb);
+
+    actionDaemonDisconnect = new QAction(QPixmap(daemondisconnect_xpm),
+            tr("&Disconnect"), 0, this, "daemonDisconnect" );
+    actionDaemonDisconnect->setToolTip(tr("Disconnect from SRCP daemon"));
+    connect(actionDaemonDisconnect, SIGNAL(activated()), this,
+            SLOT(CloseSRCPServerConnection()));
+    actionDaemonDisconnect->addTo(daemonmenu);
+    actionDaemonDisconnect->addTo(daemontb);
+
+    daemonmenu->insertSeparator();
+    
+    actionDaemonReset = new QAction(QPixmap(daemonreset_xpm),
+            tr("&Reset"), 0, this, "daemonReset" );
+    actionDaemonReset->setToolTip(tr("Reset SRCP daemon"));
+    connect(actionDaemonReset, SIGNAL(activated()), this,
+            SLOT(slotDaemonReset()));
+    actionDaemonReset->addTo(daemonmenu);
+    //actionDaemonReset->addTo(daemontb);
+
+    actionDaemonKill = new QAction(QPixmap(daemonkill_xpm),
+            tr("&Kill"), 0, this, "daemonKill" );
+    actionDaemonKill->setToolTip(tr("Kill SRCP daemon"));
+    connect(actionDaemonKill, SIGNAL(activated()), this,
+            SLOT(slotDaemonKill()));
+    actionDaemonKill->addTo(daemonmenu);
+    //actionDaemonKill->addTo(daemontb);
+
+    actionDaemonInfo = new QAction(QPixmap(daemoninfo_xpm),
+            tr("&Info..."), 0, this, "daemonInfo" );
+    actionDaemonInfo->setToolTip(tr("Info about SRCP daemon"));
+    connect(actionDaemonInfo, SIGNAL(activated()), this,
+            SLOT(slotDaemonInfo()));
+    actionDaemonInfo->addTo(daemonmenu);
+    actionDaemonInfo->addTo(daemontb);
+
+
+    /*layout toolbar*/
+    QToolBar* layouttb = new QToolBar(this, "layouttb");
+    Q_CHECK_PTR(layouttb);
+    layouttb->setLabel(tr("Layout operations"));
+
+    QPopupMenu* layoutmenu = new QPopupMenu(this);
+    menuBar()->insertItem(tr("&Layout"), layoutmenu);
+
+    actionLayoutPower = new QAction(QPixmap(layoutstart_xpm),
+            tr("&Start power"), Key_F4, this, "layoutPower" );
+    actionLayoutPower->setToolTip(tr("Switch layout power on"));
+    connect(actionLayoutPower, SIGNAL(activated()), this,
+            SLOT(slotToggleLayoutPower()));
+    actionLayoutPower->addTo(layoutmenu);
+    actionLayoutPower->addTo(layouttb);
+
+    actionLayoutFht = new QAction(NULL,
+            tr("Use &FHT"), Key_F5, this, "layoutFht" );
+    actionLayoutFht->setToolTip(tr("Use route help button"));
+    connect(actionLayoutFht, SIGNAL(activated()), gbs,
+            SLOT(slotFHTclicked()));
+    actionLayoutFht->addTo(layoutmenu);
+    //actionLayoutFht->addTo(layouttb);
+
+    actionLayoutWgt = new QAction(NULL,
+            tr("Use &WGT"), Key_F6, this, "layoutWgt" );
+    actionLayoutWgt->setToolTip(tr("Use turnout group button"));
+    connect(actionLayoutWgt, SIGNAL(activated()), gbs,
+            SLOT(slotWGTclicked()));
+    actionLayoutWgt->addTo(layoutmenu);
+    //actionLayoutWgt->addTo(layouttb);
+
+    actionLayoutUfgt = new QAction(NULL,
+            tr("Use &UfGT"), Key_F7, this, "layoutUfgt" );
+    actionLayoutUfgt->setToolTip(tr("Use detour group button"));
+    connect(actionLayoutUfgt, SIGNAL(activated()), gbs,
+            SLOT(slotUfGTclicked()));
+    actionLayoutUfgt->addTo(layoutmenu);
+    //actionLayoutUfgt->addTo(layouttb);
+
+    layoutmenu->insertSeparator();
+
+    actionLayoutNotRot = new QAction(QPixmap(layoutnotrot_xpm),
+            tr("&Halt signals"), Key_F12, this, "layoutNotRot" );
+    actionLayoutNotRot->setToolTip(tr("Switch all signals to halt"));
+    connect(actionLayoutNotRot, SIGNAL(activated()), gbs,
+            SLOT(slotNotrot()));
+    actionLayoutNotRot->addTo(layoutmenu);
+    actionLayoutNotRot->addTo(layouttb);
+
+    actionLayoutToggleAll = new QAction(NULL,
+            tr("&Toggle all"), Key_F10, this, "layoutToggleAll" );
+    actionLayoutToggleAll->setToolTip(tr("Toggle all switchable elements"));
+    connect(actionLayoutToggleAll, SIGNAL(activated()), gbs,
+            SLOT(slotToggleAll()));
+    actionLayoutToggleAll->addTo(layoutmenu);
+    //actionLayoutToggleAll->addTo(layouttb);
+
+    actionLayoutSendAll = new QAction(NULL,
+            tr("&Send all"), Key_F11, this, "layoutSendAll" );
+    actionLayoutSendAll->setToolTip(tr("Send current state of all "
+                "switchable elements to SRCP server"));
+    connect(actionLayoutSendAll, SIGNAL(activated()), gbs,
+            SLOT(slotSendAll()));
+    actionLayoutSendAll->addTo(layoutmenu);
+    //actionLayoutSendAll->addTo(layouttb);
+
+    actionLayoutUnlockRoutes = new QAction(NULL,
+            tr("&Unlock routings"), CTRL + Key_U, this, "layoutUnlockRoutes" );
+    actionLayoutUnlockRoutes->setToolTip(tr("Unlock all routes"));
+    connect(actionLayoutUnlockRoutes, SIGNAL(activated()), gbs,
             SLOT(slotUnlockRoutings()));
-    connect(this, SIGNAL(toggleAll()), gbs, SLOT(slotToggleAll()));
-    connect(this, SIGNAL(sendAll()), gbs, SLOT(slotSendAll()));
-    connect(this, SIGNAL(notrot()), gbs, SLOT(slotNotrot()));
-    connect(this, SIGNAL(sendFBChangeLayout(unsigned int)),
-            gbs, SLOT(slotFBportChanged(unsigned int)));
-    connect(this, SIGNAL(switchEditMode(elemVisualMode)), gbs,
-            SIGNAL(EditMode(elemVisualMode)));
-    connect(gbs, SIGNAL(cmdToDebug(const QString&)),
-            this, SLOT(slotCmdToDebugExtern(const QString&)));
-    connect(gbs, SIGNAL(sendCommand(const QString&)),
-            this, SLOT(SendCommandToSRCPServer(const QString&)));
-    connect(gbs, SIGNAL(sigUpdateEditmenu()),
-            this, SLOT(slotUpdateEditmenu()));
-    connect(gbs, SIGNAL(sigShowFBmodules()),
-            this, SLOT(slotShowModules()));
+    actionLayoutUnlockRoutes->addTo(layoutmenu);
+    //actionLayoutUnlockRoutes->addTo(layouttb);
+
+    layoutmenu->insertSeparator();
+
+    actionLayoutChangeSize = new QAction(NULL,
+            tr("&Change size..."), 0, this, "layoutChangeSize" );
+    actionLayoutChangeSize->setToolTip(tr("Change layout size"));
+    connect(actionLayoutChangeSize, SIGNAL(activated()), this,
+            SLOT(layoutChangeSize()));
+    actionLayoutChangeSize->addTo(layoutmenu);
+    //actionLayoutChangeSize->addTo(layouttb);
+
+
+    /*route toolbar*/
+    QToolBar* routetb = new QToolBar(this, "routetb");
+    Q_CHECK_PTR(routetb);
+    routetb->setLabel(tr("Route operations"));
+
+    /*Route menu*/
+    QPopupMenu* routemenu = new QPopupMenu(this);
+    menuBar()->insertItem(tr("&Route"), routemenu);
+
+    actionRouteStart = new QAction(QPixmap(route_start_xpm), "&Start",
+            0, this, "routestart" );
+    connect(actionRouteStart, SIGNAL(activated()), rtViewer,
+            SLOT(slotRouteStart()));
+    actionRouteStart->addTo(routemenu);
+    actionRouteStart->addTo(routetb);
+
+    actionRouteStop = new QAction(QPixmap(route_stop_xpm), "Sto&p",
+            0, this, "routestop" );
+    connect(actionRouteStop, SIGNAL(activated()), rtViewer,
+            SLOT(slotRouteStop()));
+    actionRouteStop->addTo(routemenu);
+    actionRouteStop->addTo(routetb);
+
+    routemenu->insertSeparator();
+    routetb->addSeparator();
+
+    actionRouteAdd = new QAction(QPixmap(route_new_xpm), "&Add",
+            0, this, "routeadd" );
+    connect(actionRouteAdd, SIGNAL(activated()), rtViewer,
+            SLOT(slotRouteAdd()));
+    actionRouteAdd->addTo(routemenu);
+    actionRouteAdd->addTo(routetb);
+
+    actionRouteEdit = new QAction(QPixmap(route_edit_xpm), "&Edit...",
+            0, this, "routeedit" );
+    connect(actionRouteEdit, SIGNAL(activated()), rtViewer,
+            SLOT(slotRouteEdit()));
+    actionRouteEdit->addTo(routemenu);
+    actionRouteEdit->addTo(routetb);
+
+    actionRouteCopy = new QAction(QPixmap(route_copy_xpm), "&Copy",
+            0, this, "routecopy" );
+    connect(actionRouteCopy, SIGNAL(activated()), rtViewer,
+            SLOT(slotRouteCopy()));
+    actionRouteCopy->addTo(routemenu);
+    actionRouteCopy->addTo(routetb);
+
+    actionRouteClear = new QAction(QPixmap(route_clear_xpm), "C&lear",
+            0, this, "routeclear" );
+    connect(actionRouteClear, SIGNAL(activated()), rtViewer,
+            SLOT(slotRouteClear()));
+    actionRouteClear->addTo(routemenu);
+    actionRouteClear->addTo(routetb);
+
+
+    /*help toolbar*/
+    //QToolBar* helptb = new QToolBar(this, "helptb");
+    //Q_CHECK_PTR(helptb);
+    //helptb->setLabel(tr("Help operations"));
+
+    QPopupMenu* helpmenu = new QPopupMenu(this);
+    menuBar()->insertItem(tr("&Help"), helpmenu);
+
+    helpmenu->insertItem(tr("&Help"), this, SLOT(slotAboutHelp()), Key_F1);
+    helpmenu->insertItem(tr("&SpDrS60 for Linux on the web"),
+            this, SLOT(slotAboutWeb()));
+    helpmenu->insertSeparator();
+    helpmenu->insertItem(QString(tr("&About")) + " \"" + APP_NAME + "\"",
+            this, SLOT(slotAbout()));
+    helpmenu->insertItem(tr("About &Qt"), this, SLOT(slotAboutQt()));
+
+
+    resetMenu(); //may be is obsolete
+
+    // method causes segfault if called too early (?)
+    actionViewNormalMode->setOn(true);
 }
 
 
@@ -545,30 +833,23 @@ void MainWindow::initMainWindow()
 
 void MainWindow::resetMenu()
 {
-    // always false on setup, a layout
-    filemenu->setItemEnabled(FILE_ID_SAVE, false);
-    // must be loaded first
-    filemenu->setItemEnabled(FILE_ID_SAVE_AS, false);
-    // always false on setup, a layout
-    editfilemenu->setItemEnabled(EDITFILE_ID_GBS, false);
-    // must be loaded first
-    editfilemenu->setItemEnabled(EDITFILE_ID_RTS, false);
-    editmenu->setItemEnabled(EDIT_ID_FIND, false);
-    // must be loaded first
-    viewmenu->setItemEnabled(VIEW_ID_ROUTES, false);
-    viewmenu->setItemEnabled(VIEW_ID_EDITMODE, false);
+    // always false on setup, a layout must be loaded first
+    actionFileSave->setEnabled(false);
+    actionFileSaveAs->setEnabled(false);
+    actionEditFileLayout->setEnabled(false);
+    actionEditFind->setEnabled(false);
+    actionViewRoutes->setEnabled(false);
+    actionViewLayoutEditMode->setEnabled(false);
+    actionViewRouteEditMode->setEnabled(false);
     // setup depends on daemonstartup
     updateDaemonMenu();
-    // must be loaded first
-    layoutmenu->setItemEnabled(LAYOUT_ID_WGT, false);
-    layoutmenu->setItemEnabled(LAYOUT_ID_FHT, false);
-    layoutmenu->setItemEnabled(LAYOUT_ID_UFGT, false);
-    layoutmenu->setItemEnabled(LAYOUT_ID_UNLOCKR, false);
-    // always false on setup, a layout
-    tbLayoutNotRot->setEnabled(false);  // disabled if no layout loaded
-    tbFileSave->setEnabled(false);      // same
-    tbViewRoute->setEnabled(false);     // same
-    tbViewFeedb->setEnabled(false);
+    // always false on setup, a layout must be loaded first
+    actionLayoutFht->setEnabled(false);
+    actionLayoutWgt->setEnabled(false);
+    actionLayoutUfgt->setEnabled(false);
+    actionLayoutNotRot->setEnabled(false);
+    actionLayoutUnlockRoutes->setEnabled(false);
+    //tbViewFeedb->setEnabled(false);
 }
 
 
@@ -631,7 +912,7 @@ void MainWindow::readAutoloadFile()
                             " options.").arg(DEF_LAYOUT),
                          tr("&Now"), tr("&Later"), 0, 0, 0);
         if (choice == 0)
-            slotShowOptions();
+            slotEditOptions();
     }
     else
         if (oldFileFormat)
@@ -727,56 +1008,40 @@ void MainWindow::newFile()
 
     updateCaption();
     updateFileMenuItems();
-    cmdToDebug(tr("New layout file created"), INFO, HIST);
+    cmdToDebug(tr("New layout file created"), M_INFO, HIST);
 }
 
 
 void MainWindow::updateFileMenuItems()
 {
-    tbFileSave->setEnabled(isModified());
-    tbLayoutNotRot->setEnabled(true);
-    tbViewRoute->setEnabled(true);
-
-    filemenu->setItemEnabled(FILE_ID_SAVE, isModified());
-    filemenu->setItemEnabled(FILE_ID_SAVE_AS, true);
+    actionFileSave->setEnabled(isModified());
+    actionFileSaveAs->setEnabled(true);
 
     if (fileName.isEmpty()){
-        editfilemenu->changeItem(tr("Layout file not saved yet"),
-                EDITFILE_ID_GBS);
-        editfilemenu->setItemEnabled(EDITFILE_ID_GBS, false);
+        actionEditFileLayout->setMenuText(tr("Layout file not saved yet"));
+        actionEditFileLayout->setEnabled(false);
     }
     else {
-        editfilemenu->changeItem(fileName,
-                EDITFILE_ID_GBS);
-        editfilemenu->setItemEnabled(EDITFILE_ID_GBS, true);
+        actionEditFileLayout->setMenuText(fileName);
+        actionEditFileLayout->setEnabled(true);
     }
-
-    QString rfn = gbs->getRouteFileName();
-    if (QFile::exists(rfn)){
-        editfilemenu->changeItem(rfn, EDITFILE_ID_RTS);
-        editfilemenu->setItemEnabled(EDITFILE_ID_RTS, true);
-    }
-    else {
-        editfilemenu->changeItem(tr("Route file not yet available"),
-                EDITFILE_ID_RTS);
-        editfilemenu->setItemEnabled(EDITFILE_ID_RTS, false);
-    }
-    editmenu->setItemEnabled(EDIT_ID_FIND, true);
+    actionEditFind->setEnabled(true);
     
-    layoutmenu->setItemEnabled(LAYOUT_ID_WGT, true);
-    layoutmenu->setItemEnabled(LAYOUT_ID_FHT, true);
-    layoutmenu->setItemEnabled(LAYOUT_ID_UFGT, true);
-    layoutmenu->setItemEnabled(LAYOUT_ID_UNLOCKR, true);
+    actionLayoutFht->setEnabled(true);
+    actionLayoutWgt->setEnabled(true);
+    actionLayoutUfgt->setEnabled(true);
+    actionLayoutUnlockRoutes->setEnabled(true);
 
     if (CommandPortIsConnected) {
-        layoutmenu->setItemEnabled(LAYOUT_ID_TOGGLE, true);
-        layoutmenu->setItemEnabled(LAYOUT_ID_SEND, true);
-        layoutmenu->setItemEnabled(LAYOUT_ID_NOTROT, true);
+        actionLayoutNotRot->setEnabled(true);
+        actionLayoutToggleAll->setEnabled(true);
+        actionLayoutSendAll->setEnabled(true);
     }
 
     //viewmenu->setItemEnabled(VIEW_ID_ROUTES, !fileName.isEmpty());
-    viewmenu->setItemEnabled(VIEW_ID_ROUTES, true);
-    viewmenu->setItemEnabled(VIEW_ID_EDITMODE, true);
+    actionViewRoutes->setEnabled(true);
+    actionViewLayoutEditMode->setEnabled(true);
+    actionViewRouteEditMode->setEnabled(true);
 }
 
 
@@ -791,18 +1056,19 @@ bool MainWindow::saveFile()
     QFile f(fileName);
     if (!f.open(IO_WriteOnly)) {
         cmdToDebug(tr("Could not write to file '%1'").arg(fileName),
-                INFO, HIST);
+                M_INFO, HIST);
         return false;
     }
 
     QTextStream ts(&f);
     gbs->writeFileTextToStream(ts);
+    rtController->writeFileTextToStream(ts);
     f.close();
 
     //setCaption(fn);
     updateCaption();
 
-    cmdToDebug(tr("Layout file '%1' saved").arg(fileName), INFO, HIST);
+    cmdToDebug(tr("Layout file '%1' saved").arg(fileName), M_INFO, HIST);
     return true;
 }
 
@@ -841,7 +1107,7 @@ void MainWindow::slotFileSaveAs()
         saveFile();
     }
     else
-        cmdToDebug(tr("Saving aborted"), INFO, HIST);
+        cmdToDebug(tr("Saving aborted"), M_INFO, HIST);
 }
 
 
@@ -918,20 +1184,21 @@ void MainWindow::openFile(const QString& fn)
 
     QFile f(fn);
     if (!f.open(IO_ReadOnly)){
-        cmdToDebug(tr("Could not read file '%1'").arg(fn), INFO, HIST);
+        cmdToDebug(tr("Could not read file '%1'").arg(fn), M_INFO, HIST);
         return;
     }
     fileName = fn;
 
+    /*FIXME: this is only for old route edit dialog*/
     if (gbs != NULL)
         gbs->setRouteFileName(fn);
 
     QTextStream ts(&f);
     gbs->readFileTextFromStream(ts);
-    //rtController->readFileTextFromStream(ts);
+    rtController->readFileTextFromStream(ts);
     f.close();
     
-    cmdToDebug(tr("Layout file '%1' opened").arg(fn), INFO, HIST);
+    cmdToDebug(tr("Layout file '%1' opened").arg(fn), M_INFO, HIST);
     updateCaption();
     updateFileMenuItems();
 }
@@ -939,7 +1206,7 @@ void MainWindow::openFile(const QString& fn)
 
 void MainWindow::importFile(const QString& fn)
 {
-    if (gbs == NULL/* || rtController == NULL*/)
+    if (gbs == NULL || rtController == NULL)
         return;
 
     /*remember last directory we used*/
@@ -947,7 +1214,7 @@ void MainWindow::importFile(const QString& fn)
 
     QFile f(fn);
     if (!f.open(IO_ReadOnly)){
-        cmdToDebug(tr("Could not read file '%1'").arg(fn), INFO, HIST);
+        cmdToDebug(tr("Could not read file '%1'").arg(fn), M_INFO, HIST);
         return;
     }
     fileName = "";
@@ -962,9 +1229,9 @@ void MainWindow::importFile(const QString& fn)
     int pos = fn.findRev(GF_OLDGBSEXT);
     QString rfn = fn.left(pos);
     rfn.append(RTS_FILE_SUFFIX);
-    //rtController->importFile(rfn);
+    rtController->importFile(rfn);
 
-    cmdToDebug(tr("Layout file '%1' imported").arg(fn), INFO, HIST);
+    cmdToDebug(tr("Layout file '%1' imported").arg(fn), M_INFO, HIST);
     updateCaption();
     updateFileMenuItems();
 }
@@ -981,9 +1248,10 @@ void MainWindow::updateCaption()
 
 void MainWindow::slotUpdateEditmenu()
 {
+    /*FIXME: remove this*/
     // called by gbsArea if a non-existing routing file has been autocreated
-    editmenu->setItemEnabled(EDITFILE_ID_RTS, true);
-    editfilemenu->changeItem(fileName + RTS_FILE_SUFFIX, EDITFILE_ID_RTS);
+    //editmenu->setItemEnabled(EDITFILE_ID_RTS, true);
+    //editfilemenu->changeItem(fileName + RTS_FILE_SUFFIX, EDITFILE_ID_RTS);
 }
 
 /* New event driven networking code starts here: (guido)*/
@@ -1023,7 +1291,7 @@ void MainWindow::initAllSockets()
 
 void MainWindow::CommandSocketHostFound()
 {
-    cmdToDebug(tr("Command port: Host '%1' found.").arg(HOST), INFO, HIST);
+    cmdToDebug(tr("Command port: Host '%1' found.").arg(HOST), M_INFO, HIST);
 }
 
 
@@ -1037,7 +1305,7 @@ void MainWindow::CommandSocketReadyRead()
             sSRCPVer = sWelcome.mid(sWelcome.find("SRCP ", 0, 0) + 5, 5);
 
             if (isValidSRCPVersion(sSRCPVer)) {
-                cmdToDebug(tr("SRCP: %1 ===> PASS").arg(sSRCPVer), INFO,
+                cmdToDebug(tr("SRCP: %1 ===> PASS").arg(sSRCPVer), M_INFO,
                            HIST);
                 /* first is OK, next two readonly ports follow */
                 ConnectFeedbackPort();
@@ -1047,13 +1315,13 @@ void MainWindow::CommandSocketReadyRead()
             else {
                 cmdToDebug(tr
                            ("SRCP: %1 ===> FAILED; spdrs60 requires SRCP >= 0.7.0 and < 0.8.0")
-                           .arg(sSRCPVer), INFO, HIST);
+                           .arg(sSRCPVer), M_INFO, HIST);
                 /* close connection */
                 SendCommandToSRCPServer("LOGOUT");
             }
         }
         else {
-            cmdToDebug(tr("Cannot read server welcome message!"), INFO, HIST);
+            cmdToDebug(tr("Cannot read server welcome message!"), M_INFO, HIST);
             /*close command port */
             if (CommandSocket->isOpen()) {
                 CommandSocket->close();
@@ -1081,7 +1349,7 @@ void MainWindow::CommandSocketReadyRead()
 
 void MainWindow::CommandSocketConnected()
 {
-    cmdToDebug(tr("Command port connected!"), INFO, HIST);
+    cmdToDebug(tr("Command port connected!"), M_INFO, HIST);
     CommandPortIsConnected = true;
     updateDaemonMenu();
 }
@@ -1092,7 +1360,7 @@ void MainWindow::CommandSocketConnectionClosedByServer()
     if (CommandSocket->isOpen()) {
         CommandSocket->close();
     }
-    cmdToDebug(tr("Command port closed by foreign host!"), INFO, HIST);
+    cmdToDebug(tr("Command port closed by foreign host!"), M_INFO, HIST);
     CommandPortIsConnected = false;
     updateDaemonMenu();
 }
@@ -1100,7 +1368,7 @@ void MainWindow::CommandSocketConnectionClosedByServer()
 
 void MainWindow::CommandSocketConnectionClosed()
 {
-    cmdToDebug(tr("Command port closed!"), INFO, HIST);
+    cmdToDebug(tr("Command port closed!"), M_INFO, HIST);
     CommandPortIsConnected = false;
     updateDaemonMenu();
 }
@@ -1110,7 +1378,7 @@ void MainWindow::CommandSocketError(int e)
 {
     QString ErrMessage = GetSocketErrorString(e);
     cmdToDebug(tr("Command port: Error number %1 occurred (%2)")
-               .arg(e).arg(ErrMessage), INFO, HIST);
+               .arg(e).arg(ErrMessage), M_INFO, HIST);
 }
 
 
@@ -1128,7 +1396,7 @@ void MainWindow::FeedbackSocketReadyRead()
 
         // error-code
         if (sInfo.contains("-", 0)) {
-            cmdToDebug(sInfo, INFO, FEED);
+            cmdToDebug(sInfo, M_INFO, FEED);
             return;
         }
 
@@ -1162,7 +1430,7 @@ void MainWindow::FeedbackSocketReadyRead()
                 .arg(uiModule, 3, 10)
                 .arg(uiPort, 2, 10)
                 .arg(iState);
-            cmdToDebug(sDebug, CMD, FEED);
+            cmdToDebug(sDebug, M_CMD, FEED);
         }
 
         /* should'nt we only send modules which are realy connected? */
@@ -1174,7 +1442,7 @@ void MainWindow::FeedbackSocketReadyRead()
 
 void MainWindow::FeedbackSocketConnected()
 {
-    cmdToDebug(tr("Feedback port connected!"), INFO, HIST);
+    cmdToDebug(tr("Feedback port connected!"), M_INFO, HIST);
     FeedbackPortIsConnected = true;
     isFBInitMode = true;        // flag to avoid all startup feedback
     updateFeedbackMenu();
@@ -1188,7 +1456,7 @@ void MainWindow::FeedbackSocketConnected()
                              1) ? "INIT FB S88" : "INIT FB I8255");
     cmdToDebug(tr
                ("Feedback port changes are omitted while initialization"),
-               INFO, FEED);
+               M_INFO, FEED);
 
     /* now hopefully all ports are connected an we can start sending
      * layout depending commands; hint: layout may not be loaded at this
@@ -1207,7 +1475,7 @@ void MainWindow::FeedbackSocketConnectionClosedByServer()
     if (FeedbackSocket->isOpen()) {
         FeedbackSocket->close();
     }
-    cmdToDebug(tr("Feedback port closed by foreign host!"), INFO, HIST);
+    cmdToDebug(tr("Feedback port closed by foreign host!"), M_INFO, HIST);
     FeedbackPortIsConnected = false;
     updateFeedbackMenu();
 }
@@ -1215,7 +1483,7 @@ void MainWindow::FeedbackSocketConnectionClosedByServer()
 
 void MainWindow::FeedbackSocketConnectionClosed()
 {
-    cmdToDebug(tr("Feedback port closed!"), INFO, HIST);
+    cmdToDebug(tr("Feedback port closed!"), M_INFO, HIST);
     FeedbackPortIsConnected = false;
     updateFeedbackMenu();
 }
@@ -1225,7 +1493,7 @@ void MainWindow::FeedbackSocketError(int e)
 {
     QString ErrMessage = GetSocketErrorString(e);
     cmdToDebug(tr("Feedback port: Error number %1 occurred (%2)")
-               .arg(e).arg(ErrMessage), INFO, HIST);
+               .arg(e).arg(ErrMessage), M_INFO, HIST);
 }
 
 
@@ -1235,14 +1503,14 @@ void MainWindow::InfoSocketReadyRead()
 
     if (InfoSocket->canReadLine()) {
         sInfo = InfoSocket->readLine();
-        cmdToDebug(sInfo, CMD, INFO);
+        cmdToDebug(sInfo, M_CMD, INFO);
     }
 }
 
 
 void MainWindow::InfoSocketConnected()
 {
-    cmdToDebug(tr("Info port connected!"), INFO, HIST);
+    cmdToDebug(tr("Info port connected!"), M_INFO, HIST);
     InfoPortIsConnected = true;
 }
 
@@ -1252,14 +1520,14 @@ void MainWindow::InfoSocketConnectionClosedByServer()
     if (InfoSocket->isOpen()) {
         InfoSocket->close();
     }
-    cmdToDebug(tr("Info port closed by foreign host!"), INFO, HIST);
+    cmdToDebug(tr("Info port closed by foreign host!"), M_INFO, HIST);
     InfoPortIsConnected = false;
 }
 
 
 void MainWindow::InfoSocketConnectionClosed()
 {
-    cmdToDebug(tr("Info port closed!"), INFO, HIST);
+    cmdToDebug(tr("Info port closed!"), M_INFO, HIST);
     InfoPortIsConnected = false;
 }
 
@@ -1268,7 +1536,7 @@ void MainWindow::InfoSocketError(int e)
 {
     QString ErrMessage = GetSocketErrorString(e);
     cmdToDebug(tr("Info port: Error number %1 occurred (%2)")
-               .arg(e).arg(ErrMessage), INFO, HIST);
+               .arg(e).arg(ErrMessage), M_INFO, HIST);
 }
 
 
@@ -1370,7 +1638,7 @@ void MainWindow::SendCommandToSRCPServer(const QString& CommandStr)
         if (Command.find("\n", Command.length() - 1, true) == -1)
             Command.append("\n");
         CommandSocket->writeBlock(Command, (ulong) Command.length());
-        cmdToDebug(CommandStr, CMD, HIST);
+        cmdToDebug(CommandStr, M_CMD, HIST);
     }
 }
 /* End of new Networking code */
@@ -1378,50 +1646,54 @@ void MainWindow::SendCommandToSRCPServer(const QString& CommandStr)
 
 void MainWindow::slotToggleLayoutPower()
 {
-    bRunLayout = !bRunLayout;   // toggle var and setup toolbuttons
-    tbLayoutStart->setEnabled(!bRunLayout);     // related to daemon state
-    tbLayoutStop->setEnabled(bRunLayout);
+    bRunLayout = !bRunLayout;
 
     SendCommandToSRCPServer(bRunLayout ==
                             true ? "SET POWER ON" : "SET POWER OFF");
-    // if daemon started set menuitem to "stop" cause this's the only
-    // next thing you can choose
-    layoutmenu->changeItem(bRunLayout ==
-                           true ? tr("&Stop power") : tr("&Start power"),
-                           LAYOUT_ID_START);
+
+    if (bRunLayout) {
+        actionLayoutPower->setMenuText(tr("&Stop power"));
+        actionLayoutPower->setToolTip(tr("Switch layout power off"));
+        actionLayoutPower->setIconSet(QPixmap(layoutstop_xpm));
+    }
+    else {
+        actionLayoutPower->setMenuText(tr("&Start power"));
+        actionLayoutPower->setToolTip(tr("Switch layout power on"));
+        actionLayoutPower->setIconSet(QPixmap(layoutstart_xpm));
+    }
+
 }
 
 
-void MainWindow::slotResetDaemon()
+void MainWindow::slotDaemonReset()
 {
-    SendCommandToSRCPServer("RESET");   // resets the daemon
+    // reset the daemon
+    SendCommandToSRCPServer("RESET");
 }
 
 
-void MainWindow::slotKillDaemon()
+void MainWindow::slotDaemonKill()
 {
     int choice = QMessageBox::warning(this, tr("Kill SRCP daemon"),
                      tr("You are about to kill the daemon forever.\n\n"
                         "If you really want to do it, click \"Kill\".\n\n"
                         "(Note: if you plan to use this program again\n"
                         "please restart daemon first, then this program)."),
-                        tr("&Kill"), tr("&Go back"), 0, 1, 1);
-    // ??, defaultButt, EscapeButt
+                        tr("&Kill"), tr("Cancel"), 0, 1, 1);
     if (choice == 1)            // do not kill daemon -> return
         return;
 
-    // user decided to kill daemon, so kill it immediately
-    SendCommandToSRCPServer("SHUTDOWN");        // kills the daemon
+    SendCommandToSRCPServer("SHUTDOWN");
     cmdToDebug(tr
                ("Daemon has been killed. Restart server, "
                 "then reconnect \"SpDrS60 for Linux\""),
-               INFO, HIST);
+               M_INFO, HIST);
 
     CloseSRCPServerConnection();
 }
 
 
-void MainWindow::slotAboutDaemon()
+void MainWindow::slotDaemonInfo()
 {
     int iSep = sWelcome.find(';', 0, 0);
     QString sServer = sWelcome.left(iSep);
@@ -1441,30 +1713,30 @@ void MainWindow::updateDaemonMenu()
 
     // disable all daemon related menus and toolbuttons if the daemon is
     // not running or has been killed
-    tbLayoutStart->setEnabled(CommandPortIsConnected);
-    tbLayoutStop->setEnabled(bRunLayout);
+    actionViewKeyboard->setEnabled(CommandPortIsConnected);
 
-    daemonmenu->setItemEnabled(DAEMON_ID_RESET, CommandPortIsConnected);
-    daemonmenu->setItemEnabled(DAEMON_ID_KILL, CommandPortIsConnected);
-    daemonmenu->setItemEnabled(DAEMON_ID_INFO, CommandPortIsConnected);
-    daemonmenu->setItemEnabled(DAEMON_ID_CONNECT, !CommandPortIsConnected);
-    daemonmenu->setItemEnabled(DAEMON_ID_DISCONNECT,
-                               CommandPortIsConnected);
-    viewmenu->setItemEnabled(VIEW_ID_KEYB, CommandPortIsConnected);
-    layoutmenu->setItemEnabled(LAYOUT_ID_START, CommandPortIsConnected);
-    layoutmenu->setItemEnabled(LAYOUT_ID_TOGGLE, CommandPortIsConnected);
-    layoutmenu->setItemEnabled(LAYOUT_ID_SEND, CommandPortIsConnected);
-    layoutmenu->setItemEnabled(LAYOUT_ID_NOTROT, CommandPortIsConnected);
+    actionDaemonConnect->setEnabled(!CommandPortIsConnected);
+    actionDaemonDisconnect->setEnabled(CommandPortIsConnected);
+    actionDaemonReset->setEnabled(CommandPortIsConnected);
+    actionDaemonKill->setEnabled(CommandPortIsConnected);
+    actionDaemonInfo->setEnabled(CommandPortIsConnected);
+    
+    actionLayoutPower->setEnabled(CommandPortIsConnected);
+    //tbLayoutStop->setEnabled(bRunLayout);
+
+    actionLayoutNotRot->setEnabled(CommandPortIsConnected);
+    actionLayoutToggleAll->setEnabled(CommandPortIsConnected);
+    actionLayoutSendAll->setEnabled(CommandPortIsConnected);
 }
 
 
 void MainWindow::updateFeedbackMenu()
 {
-    tbViewFeedb->setEnabled(FeedbackPortIsConnected);
-    viewmenu->setItemEnabled(VIEW_ID_FBMOD, FeedbackPortIsConnected);
+    actionViewFBModules->setEnabled(FeedbackPortIsConnected);
 }
 
 
+/*Help menu slots*/
 void MainWindow::slotAbout()
 {
     QMessageBox::information(this, QString(tr("About ")) + APP_NAME,
@@ -1491,12 +1763,10 @@ void MainWindow::slotAboutQt()
 
 void MainWindow::slotShowRoutes()
 {
-    /*FIXME: remove old route dialog*/
-    emit showRoutings();        // notifies "gbs" to show the routing table
-/*
     if (rtViewer!= NULL)
         rtViewer->show();
-*/
+    /*FIXME: remove old route dialog*/
+    //emit showRoutings();        // notifies "gbs" to show the routing table
 }
 
 
@@ -1506,10 +1776,10 @@ void MainWindow::slotEditGBSFiles()
     QString sCommand = EDITOR;
     sCommand.append(" " + fileName + (" &"));
     system(sCommand.data());
-    tbFileSave->setEnabled(true);
+    // TODO: check this: tbFileSave->setEnabled(true);
 }
 
-
+/*
 void MainWindow::slotEditRTSFiles()
 {
     // edit routing file with editor program
@@ -1518,7 +1788,7 @@ void MainWindow::slotEditRTSFiles()
     sCommand.append(" " + rf + (" &"));
     system(sCommand.data());
 }
-
+*/
 
 void MainWindow::slotEditConfigFile()
 {
@@ -1529,28 +1799,92 @@ void MainWindow::slotEditConfigFile()
 }
 
 
-void MainWindow::slotEditLayout()
+//void MainWindow::slotEditLayout()
+void MainWindow::slotViewSwitchMode(QAction* ac)
 {
+    bool rtvIsVisible = rtViewer->isVisible();
+
+    if (ac == actionViewNormalMode) {
+            visualMode = kvmNormal;
+            updateRouteMenu(rtvIsVisible);
+            cmdToDebug(tr("Layout in normal view mode"), M_INFO, HIST);
+    }
+    else if (ac == actionViewLayoutEditMode) {
+            visualMode = kvmEditLayout;
+            updateRouteMenu(rtvIsVisible);
+            cmdToDebug(tr("Entering layout edit mode"), M_INFO, HIST);
+    }
+    else if (ac == actionViewRouteEditMode) {
+            visualMode = kvmEditRoute;
+            updateRouteMenu(rtvIsVisible);
+            cmdToDebug(tr("Entering route edit mode"), M_INFO, HIST);
+        }
+    // send new visual mode
+    emit switchedVisualMode(visualMode);
+
+/*
     if (visualMode == kvmNormal) {
-        cmdToDebug(tr("Entering edit mode"), INFO, HIST);
+        cmdToDebug(tr("Entering edit mode"), M_INFO, HIST);
         // wenn das Layout einmal im Editiermodus war, gilt es als modifiziert
         gbs->setModified(true);
         visualMode = kvmEdit;
     }
     else {
-        cmdToDebug(tr("Leaving edit mode"), INFO, HIST);
+        cmdToDebug(tr("Leaving edit mode"), M_INFO, HIST);
         visualMode = kvmNormal;
     }
 
     viewmenu->setItemChecked(VIEW_ID_EDITMODE, visualMode != kvmNormal);
-
+*/
     // change edit related menus
-    tbFileOpen->setEnabled(visualMode == kvmNormal);
-    tbFileNew->setEnabled(visualMode == kvmNormal);
-    filemenu->setItemEnabled(FILE_ID_NEW, visualMode == kvmNormal);
-    filemenu->setItemEnabled(FILE_ID_OPEN, visualMode == kvmNormal);
+    //tbFileOpen->setEnabled(visualMode == kvmNormal);
+    //tbFileNew->setEnabled(visualMode == kvmNormal);
+    actionFileNew->setEnabled(visualMode == kvmNormal);
+    actionFileOpen->setEnabled(visualMode == kvmNormal);
 
-    emit switchEditMode(visualMode);   // send edit mode to all elements
+ //   emit switchEditMode(visualMode);   // send edit mode to all elements
+}
+
+/* called when layout viewmode is changed, visibility of routingviewer
+   changes and activity state of a selected route changes
+ */
+void MainWindow::updateRouteMenu(bool rtvIsVisible)
+{
+     bool selectedRouteIsActive = false;
+     /*
+     bool routeIsSelected =  rtViewer->hasSelectedRoute();
+     if (routeIsSelected)
+         selectedRouteIsActive = rtViewer->selectedRouteIsActive();
+     */
+     if (!rtvIsVisible) {
+         actionRouteStart->setEnabled(false);
+         actionRouteStop->setEnabled(false);
+     }
+     else if (visualMode != kvmNormal) {
+         actionRouteStart->setEnabled(false);
+         actionRouteStop->setEnabled(false);
+     }
+     actionRouteAdd->setEnabled(rtvIsVisible &&
+             visualMode == kvmEditRoute);
+     actionRouteEdit->setEnabled(rtvIsVisible &&
+             visualMode == kvmEditRoute);
+     actionRouteCopy->setEnabled(rtvIsVisible &&
+             visualMode == kvmEditRoute);
+     actionRouteClear->setEnabled(rtvIsVisible &&
+             visualMode == kvmEditRoute);
+}
+
+
+void MainWindow::updateRouteMenuActivateItems(bool isLocked)
+{
+    if (rtViewer->isVisible() && visualMode == kvmNormal) {
+        actionRouteStart->setEnabled(!isLocked);
+        actionRouteStop->setEnabled(isLocked);
+    }
+    else {
+        actionRouteStart->setEnabled(false);
+        actionRouteStop->setEnabled(false);
+    }
 }
 
 
@@ -1614,7 +1948,7 @@ void MainWindow::slotShowModules()
 }
 
 
-void MainWindow::slotKeyboard()
+void MainWindow::slotViewKeyboard()
 {
     keybWindow = new keyboard(this);    // show a simple keyboard
     connect(keybWindow, SIGNAL(sendCommand(const QString&)),
@@ -1633,31 +1967,31 @@ void MainWindow::cmdToDebug(const QString& debugCommand_, int mode_,
     QTime cmdTime = QTime::currentTime();
     t.sprintf("%02d:%02d:%02d ", cmdTime.hour(), cmdTime.minute(),
               cmdTime.second());
-    if (mode_ == INFO)
+    if (mode_ == M_INFO)
         t.append("> ");         // == an info line
     else
         t.append("# ");         // == a command
 
     t.append(debugCommand_);
     switch (type_) {            // delete oldest entries and add newer ones
-    case HIST:
-        if (HistCB->count() == MAX_HISTORY)
-            HistCB->removeItem(0);
-        HistCB->insertItem(t);
-        HistCB->setCurrentItem(HistCB->count() - 1);
-        break;
-    case INFO:
-        if (InfoCB->count() == MAX_HISTORY)
-            InfoCB->removeItem(0);
-        InfoCB->insertItem(t);
-        InfoCB->setCurrentItem(InfoCB->count() - 1);
-        break;
-    case FEED:
-        if (FeedBackCB->count() == MAX_HISTORY)
-            FeedBackCB->removeItem(0);
-        FeedBackCB->insertItem(t);
-        FeedBackCB->setCurrentItem(FeedBackCB->count() - 1);
-        break;
+        case HIST:
+            if (HistCB->count() == MAX_HISTORY)
+                HistCB->removeItem(0);
+            HistCB->insertItem(t);
+            HistCB->setCurrentItem(HistCB->count() - 1);
+            break;
+        case INFO:
+            if (InfoCB->count() == MAX_HISTORY)
+                InfoCB->removeItem(0);
+            InfoCB->insertItem(t);
+            InfoCB->setCurrentItem(InfoCB->count() - 1);
+            break;
+        case FEED:
+            if (FeedBackCB->count() == MAX_HISTORY)
+                FeedBackCB->removeItem(0);
+            FeedBackCB->insertItem(t);
+            FeedBackCB->setCurrentItem(FeedBackCB->count() - 1);
+            break;
     }
 }
 
@@ -1672,13 +2006,13 @@ void MainWindow::slotCmdToDebugExtern(const QString& sDebugCommand_)
     QString s = sDebugCommand_.right(sDebugCommand_.length() - 1);
 
     if (sPrefix == ">")         // info line
-        cmdToDebug(s, INFO, HIST);
+        cmdToDebug(s, M_INFO, HIST);
     else if (sPrefix == "#")    // command line
-        cmdToDebug(s, CMD, HIST);
+        cmdToDebug(s, M_CMD, HIST);
 }
 
 
-void MainWindow::slotShowOptions()
+void MainWindow::slotEditOptions()
 {
     // open dialog window with program options
     optionsWindow = new optionsDialog(this);
@@ -1705,8 +2039,7 @@ void MainWindow::slotFileNewWin()
 void MainWindow::slotEditFind()
 {
     /*
-     * create a new locator window and
-     * connect its signals directly to gbs
+     * create a new locator window and connect its signals directly to gbs
      */
     findWindow = new Finder(this);
     connect(findWindow, SIGNAL(sigFind(const QString&, int, bool)),
@@ -1736,13 +2069,12 @@ void MainWindow::layoutChangeSize()
     delete nlDlg;
 
     bool im = isModified();
-    filemenu->setItemEnabled(FILE_ID_SAVE, im);
-    tbFileSave->setEnabled(im);
+    actionFileSave->setEnabled(im);
 }
 
 
 bool MainWindow::isModified()
 {
-    return (gbs->isModified() /*|| rtController->isModified()*/);
+    return (gbs->isModified() || rtController->isModified());
 }
 

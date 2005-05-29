@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.10 $
+                           version 0.4.8 $Revision: 1.11 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-18 21:29:52 $
+    last modified        : $Date: 2005-05-29 19:27:26 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -650,19 +650,19 @@ void GBSArea::externalButtonClicked(GbsButtonState externalButton)
     }
 }
 
-
+/*
 void GBSArea::slotElementClickedRecord(int idx, int recAction)
 {
     emit sigRecordElement(elements[idx]->iSoldAddress_1,
                           elements[idx]->sSoldText,
                           elements[idx]->iSoldDirection, recAction);
     if (idx == 0 && recAction == REC_FINISH) {
-        /*switch to normal view mode and clear selections*/
-        emit EditMode(kvmNormal);
+        //switch to normal view mode and clear selections
+        emit switchVisualMode(kvmNormal);
         emit cmdToDebug(tr(">Route record mode finished"));
     }
 }
-
+*/
 
 void GBSArea::slotElementClicked(int iIndex, GbsButtonState gbsButton)
 {
@@ -1294,6 +1294,7 @@ void GBSArea::slotNotrot()
 void GBSArea::deleteElements()
 {
     closeRouteWindow();
+    emit clearRoutes();
     elements.clear();
     move(0, 0);
     updateGeometry();
@@ -1327,8 +1328,8 @@ void GBSArea::setupElements()
             elements[j]->show();  // now show the elements
             connect(elements[j], SIGNAL(elementClicked(int, GbsButtonState)),
                     this, SLOT(slotElementClicked(int, GbsButtonState)));
-            connect(elements[j], SIGNAL(sigElementClickedRecord(int, int)),
-                    this, SLOT(slotElementClickedRecord(int, int)));
+            //connect(elements[j], SIGNAL(sigElementClickedRecord(int, int)),
+            //        this, SLOT(slotElementClickedRecord(int, int)));
             connect(elements[j], SIGNAL(sendCommand(const QString&)),
                     this, SIGNAL(sendCommand(const QString&)));
             connect(elements[j], SIGNAL(setRepeatIcon(const QString&)),
@@ -1336,12 +1337,10 @@ void GBSArea::setupElements()
             connect(elements[j], SIGNAL(sigShowFBmodules()),
                     this, SIGNAL(sigShowFBmodules()));
 
-            connect(this, SIGNAL(EditMode(elemVisualMode)),
-                    elements[j], SLOT(slotEditMode(elemVisualMode)));
+            connect(this, SIGNAL(switchVisualMode(elemVisualMode)),
+                    elements[j], SLOT(switchVisualMode(elemVisualMode)));
             connect(this, SIGNAL(sigRecordMode(elemVisualMode)),
                     elements[j], SLOT(slotRecordMode(elemVisualMode)));
-            connect(this, SIGNAL(switchToRouteViewMode()),
-                    elements[j], SLOT(switchToRouteViewMode()));
             connect(this, SIGNAL(sigShowElement(int, int,
                             elemSelectionMode)),
                     elements[j], SLOT(slotShowElement(int, int,
@@ -1352,6 +1351,9 @@ void GBSArea::setupElements()
                     elements[j], SLOT(slotRepeatIcon(const QString&)));
             connect(this, SIGNAL(sigRepaintLayout()),
                     elements[j], SLOT(slotRepaintLayout()));
+            connect(elements[j], SIGNAL(recordElement(element*,
+                            elemRecordType)),
+                    this, SIGNAL(recordElement(element*, elemRecordType)));
         }
     }
     move(0, 0);
@@ -1506,20 +1508,18 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
                 e->show();
                 connect(e, SIGNAL(elementClicked(int, GbsButtonState)),
                         this, SLOT(slotElementClicked(int, GbsButtonState)));
-                connect(e, SIGNAL(sigElementClickedRecord(int, int)),
-                        this, SLOT(slotElementClickedRecord(int, int)));
+                //connect(e, SIGNAL(sigElementClickedRecord(int, int)),
+                //        this, SLOT(slotElementClickedRecord(int, int)));
                 connect(e, SIGNAL(sendCommand(const QString&)),
                         this, SIGNAL(sendCommand(const QString&)));
                 connect(e, SIGNAL(setRepeatIcon(const QString&)),
                         this, SIGNAL(setRepeatIcon(const QString&)));
                 connect(e, SIGNAL(sigShowFBmodules()),
                         this, SIGNAL(sigShowFBmodules()));
-                connect(this, SIGNAL(EditMode(elemVisualMode)),
-                        e, SLOT(slotEditMode(elemVisualMode)));
+                connect(this, SIGNAL(switchVisualMode(elemVisualMode)),
+                        e, SLOT(switchVisualMode(elemVisualMode)));
                 connect(this, SIGNAL(sigRecordMode(int)),
                         e, SLOT(slotRecordMode(int)));
-                connect(this, SIGNAL(switchToRouteViewMode()),
-                        e, SLOT(switchToRouteViewMode()));
                 connect(this, SIGNAL(sigShowElement(int, int,
                                 elemSelectionMode)),
                         e, SLOT(slotShowElement(int, int,
@@ -1530,6 +1530,8 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
                         e, SLOT(slotRepeatIcon(const QString&)));
                 connect(this, SIGNAL(sigRepaintLayout()),
                         e, SLOT(slotRepaintLayout()));
+                connect(e, SIGNAL(recordElement(element*, elemRecordType)),
+                        this, SIGNAL(recordElement(element*, elemRecordType)));
             }
             e->setIndexNo(idx);
             /*TODO: set current edit mode */
@@ -1613,5 +1615,11 @@ void GBSArea::setRouteFileName(const QString& fn)
 QString GBSArea::getRouteFileName()
 {
     return routeFileName;
+}
+
+
+QPtrVector<element>* GBSArea::getGbsElementListPtr()
+{
+    return &elements;
 }
 

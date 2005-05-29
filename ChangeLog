@@ -1,3 +1,24 @@
+2005-05-28 Guido Scholz <guido.scholz@bayernline.de>
+	* mainwindow.cpp, mainwindow.h: toolbar and menu usage converted
+	to QAction
+	* mainwindow.cpp, spdrs60/pixmaps/*: some new icons for menus
+	and toolbars
+
+2005-05-23 Guido Scholz <guido.scholz@bayernline.de>
+	* mainwindow.cpp, mainwindow.h: toolbar now is divided up into
+	different function oriented toolbars
+
+2005-05-22 Guido Scholz <guido.scholz@bayernline.de>
+	* route.cpp, route.h, router.cpp, router.h, routingtable.cpp,
+	routingtable.h, routingviewer.cpp. routingviewer.h: new code for
+	route management activated
+	* element.cpp, gbsarea.cpp, mainwindow.cpp: new file format,
+	old format can be read by a new import function
+
+2005-05-19 Guido Scholz <guido.scholz@bayernline.de>
+	* main.cpp: first commandline argument is interpreted as
+        filename to load
+
 2005-05-14 Guido Scholz <guido.scholz@bayernline.de>
 	* element.cpp, element.h, mainwindow.cpp, mainwindow.h,
 	routedialog.cpp, gbsarea.cpp, gbsarea.h: strongly improved

@@ -13,6 +13,10 @@ SOURCES = elementcommander.cpp \
           newlayoutdialog.cpp \
           options.cpp \
           routedialog.cpp \
+          route.cpp \
+          router.cpp \
+          routingtable.cpp \
+          routingviewer.cpp \
           turntablecommander.cpp
 
 TRANSLATIONS = spdrs60_de.ts

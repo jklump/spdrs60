@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.4.8 $Revision: 1.6 $
+                           version 0.4.8 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-18 21:29:52 $
+    last modified        : $Date: 2005-05-29 19:27:26 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -72,9 +72,8 @@ enum elemSelectionMode {
 /*element visual modes, shown as colored right and bottom line*/
 enum elemVisualMode {
     kvmNormal = 0,
-    kvmEdit,
-    kvmShowRoute,
-    kvmRecordRoute
+    kvmEditLayout,
+    kvmEditRoute
 };
 
 /*elemet recording types for start/stop signals and normal elements*/
@@ -102,7 +101,7 @@ enum elemRecordType {
 #define GF_FBPORT     "feedback port"
 #define GF_HIDELEDS   "hide LEDs"
 
-#define DS            ":"     // data separator in spdrs60 files
+#define DS            ";"     // data separator in spdrs60 files
 #define EL_WIDTH      56      // width of an element in pixels
 #define EL_HEIGHT     35      // height of an element in pixels
 
@@ -166,10 +165,11 @@ public:
     bool isTurnout();
     bool isRoutable();
     bool isSwitchable();
-    //void showElementState(int, int);
     void showElementState(int, elemSelectionMode);
     void setIndexNo(unsigned int);
     unsigned int getIndexNo();
+    void getStateData(stateElement& se);
+    elemSelectionMode getSelectionMode();
 
 private:
     elementDialog*      elementPropertyDlg;
@@ -201,17 +201,16 @@ private:
     void setupElementIcon(int, QString);
     void updateProperties();
 
-
 public slots:
     void slotSwitchIt(int, int);
     void slotToggle();
     void slotOccupyElement(unsigned int);
-    void slotEditMode(elemVisualMode);
+    void switchSelectionMode(elemSelectionMode);
+    void switchVisualMode(elemVisualMode);
     void slotRecordMode(elemVisualMode);
     void slotRepeatIcon(const QString&);
     void slotShowElement(int, int, elemSelectionMode);
     void slotRepaintLayout();
-    void switchToRouteViewMode();
 
 private slots:
     void slotLocateTimerTimeout();
@@ -227,6 +226,7 @@ signals:
     void setRepeatIcon(const QString&);
     void sigElementClickedRecord(int, int);
     void sigShowFBmodules();
+    void recordElement(element*, elemRecordType);
 
 protected:
     virtual void mouseDoubleClickEvent(QMouseEvent*);
@@ -234,5 +234,6 @@ protected:
     virtual void mouseReleaseEvent(QMouseEvent*);
     virtual void paintEvent(QPaintEvent*);
 };
+
 
 #endif  //ELEMENT_H

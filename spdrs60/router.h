@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.h
-                           version 0.4.8 $Revision: 1.1 $
+                           version 0.4.8 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@ bayernline.de
-    last modified        : $Date: 2005-05-18 21:15:02 $
+    last modified        : $Date: 2005-05-29 19:27:27 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -31,7 +31,6 @@
 #include "element.h"
 
 #define RF_OLDROUTEEXT ".dat.rts"
-#define RF_ROUTEEXT ".routes"
 
 
 class Router: public QObject
@@ -55,21 +54,19 @@ public:
     void setElementListPtr(QPtrVector<element>*);
     void selectedRouteChanged(int, int);
     void showRouteAt(int);
-    void setViewRouteMode(bool);
     void startRecordModeAt(unsigned int);
-    void stopRecordMode();
 
 public slots:
     void clearRoutes();
     void recordElement(element*, elemRecordType);
+    void switchVisualMode(elemVisualMode);
     
 private:
     QPtrVector<element>* gbsElements;
     QPtrList<Route> routeList;
     Route* recRoute;
     bool modified;
-    bool routeviewmode;
-    bool recording;
+    elemVisualMode visualmode;
     void setupRouteElements();
     
 signals:

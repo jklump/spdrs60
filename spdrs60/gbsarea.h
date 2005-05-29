@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.4.8 $Revision: 1.6 $
+                           version 0.4.8 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-14 20:13:43 $
+    last modified        : $Date: 2005-05-29 19:27:27 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -72,6 +72,7 @@ public:
    element* item(int row, int col) const;
    void setRouteFileName(const QString&);
    QString getRouteFileName();
+   QPtrVector<element>* getGbsElementListPtr();
     
 private:
    QCursor     FHTCursor;
@@ -137,46 +138,47 @@ void savePixmaps(int ID)
 };
 */
 public slots:
-   int  newFile(int, int);
-   void slotShowRoutings();
-   void slotElementClickedTimeout();
-   void slotFHTclicked();
-   void slotFRTclicked();
-   void slotHaGTclicked();
-   void slotMGTclicked();
-   void slotSGTclicked();
-   void slotUfGTclicked();
-   void slotWGTclicked();
-   void slotUnlockRoutings();
-   void slotToggleAll();
-   void slotSendAll();
-   void slotStartRouting(int, int);
-   void slotElementClicked(int, GbsButtonState);
-   void slotElementClickedRecord(int, int);
-   void slotFBportChanged(unsigned int);
-   void slotNotrot();
-   void slotUpdateRouteLists();
-   void slotReadElemName(const QString&);
-   void slotEditFind(const QString&, int, bool);
+    int  newFile(int, int);
+    void slotShowRoutings();
+    void slotElementClickedTimeout();
+    void slotFHTclicked();
+    void slotFRTclicked();
+    void slotHaGTclicked();
+    void slotMGTclicked();
+    void slotSGTclicked();
+    void slotUfGTclicked();
+    void slotWGTclicked();
+    void slotUnlockRoutings();
+    void slotToggleAll();
+    void slotSendAll();
+    void slotStartRouting(int, int);
+    void slotElementClicked(int, GbsButtonState);
+    //void slotElementClickedRecord(int, int);
+    void slotFBportChanged(unsigned int);
+    void slotNotrot();
+    void slotUpdateRouteLists();
+    void slotReadElemName(const QString&);
+    void slotEditFind(const QString&, int, bool);
 
 protected:
-   int indexOf(int row, int col) const;
+    int indexOf(int row, int col) const;
 
 signals:
-   void cmdToDebug(const QString&);
-   void EditMode(elemVisualMode);
-   void FBportChanged(unsigned int);
-   void sendCommand(const QString&);
-   void setRepeatIcon(const QString&);
-   void sigRecordElement(int, const QString&, int, int);
-   void sigRecordMode(elemVisualMode);
-   void switchToRouteViewMode();
-   void sigRepaintLayout();
-   void sigShowElement(int, int, elemSelectionMode);
-   void sigShowFBmodules();
-   void sigUpdateEditmenu();
-   void updateRouteWindow();
-   void updateRoutingViewer(const QString&);
+    void cmdToDebug(const QString&);
+    void switchVisualMode(elemVisualMode);
+    void FBportChanged(unsigned int);
+    void sendCommand(const QString&);
+    void setRepeatIcon(const QString&);
+    void sigRecordElement(int, const QString&, int, int);
+    void sigRecordMode(elemVisualMode);
+    void sigRepaintLayout();
+    void sigShowElement(int, int, elemSelectionMode);
+    void sigShowFBmodules();
+    void sigUpdateEditmenu();
+    void updateRouteWindow();
+    void updateRoutingViewer(const QString&);
+    void clearRoutes();
+    void recordElement(element*, elemRecordType);
 };
 
 #endif  //GBSAREA_H

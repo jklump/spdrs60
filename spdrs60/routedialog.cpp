@@ -1,11 +1,11 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.4.8 $Revision: 1.4 $
+                           version 0.4.8 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-14 20:13:43 $
+    last modified        : $Date: 2005-05-29 19:27:27 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1184,7 +1184,7 @@ void RouteDialog::slotRecordRoute()
     buttApply->setEnabled(true);
     cmdToDebug(tr(">Recording new route ..."));
     //emit sigRecord(REC_START);  // and activate recording of elems
-    emit sigRecord(kvmRecordRoute);
+    emit sigRecord(kvmEditRoute);
     this->hide();               // while hiding route window
 }
 
@@ -1253,7 +1253,7 @@ void RouteDialog::slotShowRoute()
     QString sA, sS;
     /*switch to show route mode*/
     //emit sigRecord(REC_SHOW);
-    emit sigRecord(kvmShowRoute);
+    emit sigRecord(kvmEditRoute);
 
     sA = leStartAddr->text();   // show start signal with correct direction
     sS = leStartStat->text();

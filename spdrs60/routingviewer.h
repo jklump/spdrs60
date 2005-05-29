@@ -1,10 +1,10 @@
 /***************************************************************************
                            routingviewer.h
-                           version 0.4.8 $Revision: 1.1 $
+                           version 0.4.8 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@ bayernline.de
-    last modified        : $Date: 2005-05-18 21:16:58 $
+    last modified        : $Date: 2005-05-29 19:27:27 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -46,11 +46,9 @@ public slots:
     void slotRouteClear();
     void slotRouteCopy();
     void slotRouteEdit();
-    void slotRouteNew();
-    void slotRouteRecord(bool);
+    void slotRouteAdd();
     void slotRouteStart();
     void slotRouteStop();
-    void slotRouteView(bool);
     void slotStartRouteNo(int);
     void slotStopRouteNo(int);
     void slotToggleRouteState(int);

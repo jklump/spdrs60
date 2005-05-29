@@ -1,11 +1,11 @@
 /***************************************************************************
-                           elementDialog.h
-                           version 0.4.8 $Revision: 1.2 $
+                           elementdialog.h
+                           version 0.4.8 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-07 12:22:43 $
+    last modified        : $Date: 2005-05-29 19:27:26 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -39,8 +39,6 @@
 #include <qstrlist.h>
 #include <qtooltip.h>
   	
-#include "resources.h"
-
 
 class elementDialog : public QDialog
 {

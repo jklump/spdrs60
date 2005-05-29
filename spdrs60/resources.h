@@ -32,8 +32,6 @@
  **********************************************************************/
 
 //   Resource dependant, do NOT edit
-#define   EL_WIDTH         56  // width of an element in pixels
-#define   EL_HEIGHT        35  // height of an element in pixels
 #define   MAX_FB           1984// number of total s88 feedback ports
 
 //#define   GBS_FILE_SUFFIX  ".dat.gbs"     // file appendix for layout files
@@ -87,10 +85,14 @@
 #define   LEFT             1   // turn modes for digital turntable
 #define   RIGHT            0
 
-#define   HIST             0
-#define   CMD              0   // different types for debugging window
-#define   INFO             1
-#define   FEED             2
+// TODO: change to enum type kmtCmd, kmtInfo
+#define   M_CMD            0   // command message type
+#define   M_INFO           1   // info message type
+
+// TODO: change to enum type khlHist, khlInfo, khlFeed
+#define   HIST             0   // command history line
+#define   INFO             1   // info history line
+#define   FEED             2   // feedback history line
 
 #define   REC_STASTO       0   // clicked element while recording is a signal
 #define   REC_NORMAL       1   // clicked element while recording is normal
@@ -98,49 +100,6 @@
 
 #define   SINGLE           0   // search only one element
 #define   MULTI            1   // search all elements
-
-//   IDs for menu items in MainWindow.cpp, do NOT edit
-#define   FILE_ID_NEW      101
-#define   FILE_ID_OPEN     102
-#define   FILE_ID_SAVE     103
-#define   FILE_ID_SAVE_AS  104
-#define   FILE_ID_IMPORT   105
-#define   FILE_ID_NEWWIN   106
-#define   FILE_ID_CLOSE    107
-#define   FILE_ID_QUIT     108
-
-#define   EDIT_ID_CUT      201
-#define   EDIT_ID_COPY     202
-#define   EDIT_ID_PASTE    203
-#define   EDIT_ID_FIND     204
-#define   EDIT_ID_OPT      205
-
-#define   EDITFILE_ID_GBS  210
-#define   EDITFILE_ID_RTS  211
-#define   EDITFILE_ID_CON  212
-
-#define   VIEW_ID_ROUTES   401
-#define   VIEW_ID_FBMOD    402
-#define   VIEW_ID_CLOCK    403
-#define   VIEW_ID_KEYB     404
-#define   VIEW_ID_DEBG     405
-#define   VIEW_ID_EDITMODE 406
-
-#define   DAEMON_ID_CONNECT      301
-#define   DAEMON_ID_DISCONNECT   302
-#define   DAEMON_ID_RESET  303
-#define   DAEMON_ID_KILL   304
-#define   DAEMON_ID_INFO   305
-
-#define   LAYOUT_ID_START   501
-#define   LAYOUT_ID_FHT     502
-#define   LAYOUT_ID_WGT     503
-#define   LAYOUT_ID_UFGT    504
-#define   LAYOUT_ID_NOTROT  505
-#define   LAYOUT_ID_SEND    506
-#define   LAYOUT_ID_TOGGLE  507
-#define   LAYOUT_ID_UNLOCKR 508
-#define   LAYOUT_ID_CHSIZE  509
 
 #define   CTX_ID_REP       901
 #define   CTX_ID_TOGGLE    902

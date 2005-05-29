@@ -1,10 +1,10 @@
 /***************************************************************************
                            routingviewer.cpp
-                           version 0.4.8 $Revision: 1.1 $
+                           version 0.4.8 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-05-18 21:16:58 $
+    last modified        : $Date: 2005-05-29 19:27:27 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -132,6 +132,7 @@ void RoutingViewer::slotRouteStart()
     if (selectedRoute->startRouting()){
         /*update toolbar buttons and table lock icon*/
         rTable->updateCurrentRowLockStateIcon(true);
+        /*update menuitems/toolbar in mainwindow*/
         emit selectedRouteIsLocked(true);
     }
 }
@@ -197,7 +198,7 @@ void RoutingViewer::slotStopRouteNo(int routeidx)
 }
 
 
-void RoutingViewer::slotRouteNew()
+void RoutingViewer::slotRouteAdd()
 {
     unsigned int idx = gbsRouter->addNewRoute();
     rTable->setNumRows(idx);
@@ -248,41 +249,6 @@ void RoutingViewer::slotRouteClear()
     /*update rootingtoolbar buttons*/
     if (rTable->numRows() == 0)
         emit noRoutesAvailable();
-}
-
-
-void RoutingViewer::slotRouteRecord(bool record)
-{
-    if (record) {
-        /*send signal to gbs*/
-        emit switchVisualMode(kvmRecordRoute);
-        gbsRouter->startRecordModeAt(rTable->currentRow());
-    }
-    else {
-        /*send signal to gbs*/
-        emit switchVisualMode(kvmNormal);
-        gbsRouter->stopRecordMode();
-    }
-}
-
-
-void RoutingViewer::slotRouteView(bool view)
-{
-    if (view) {
-        /*switch gbs global to show route mode*/
-        emit switchVisualMode(kvmShowRoute);
-        gbsRouter->setViewRouteMode(true);
-
-        int row = rTable->currentRow();
-        if (row >= 0){
-            gbsRouter->showRouteAt(row);
-        }
-    }
-    else {
-        /*TODO: gbs interaction*/
-        gbsRouter->setViewRouteMode(false);
-        emit switchVisualMode(kvmNormal);
-    }
 }
 
 

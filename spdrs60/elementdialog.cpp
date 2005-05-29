@@ -5,7 +5,7 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-07 12:22:43 $
+    last modified        : $Date: 2005-05-29 19:27:26 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -24,6 +24,7 @@
 #include <ctype.h>              // for isdigit()
 
 #include "elementdialog.h"
+#include "element.h"
 
 /*button icons*/
 #include "pixmaps/viewfeedback.xpm"

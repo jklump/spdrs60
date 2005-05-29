@@ -1,11 +1,11 @@
 /***************************************************************************
                            main.cpp
-                           version 0.4.8 $Revision: 1.2 $
+                           version 0.4.8 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-07 12:22:43 $
+    last modified        : $Date: 2005-05-29 19:27:27 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -90,19 +90,19 @@ int main(int argc, char* argv[])
    MainWindow* spdrs60Window = new MainWindow();
    Q_CHECK_PTR(spdrs60Window);
    spdrs60Window->setCaption(QString(APP_NAME));
-   spdrs60Window->resize(740, 480);
-
-   //QPixmap* pixmap = new QPixmap();
-   //pixmap->load(RES_DIR_ICON "spdrs60_32.xpm","xpm");
-   //spdrs60Window->setIcon(pixmap);
+   spdrs60Window->resize(720, 480);
 
    //necessary for "-geometry" command-line option:
    a.setMainWidget(spdrs60Window);
    spdrs60Window->show();
 
-   /*only the first application window autoloads a layoutfile*/
-   if (LOAD_DEF_LAYOUT)
-       spdrs60Window->readAutoloadFile();
+   if (qApp->argc() == 1) {
+       /*only the first application window autoloads a layoutfile*/
+       if (LOAD_DEF_LAYOUT)
+           spdrs60Window->readAutoloadFile();
+   }
+   else
+       spdrs60Window->openFile(qApp->argv()[1]);
    
    return a.exec();                                     
 }
