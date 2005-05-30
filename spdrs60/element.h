@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.4.8 $Revision: 1.7 $
+                           version 0.4.8 $Revision: 1.8 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-29 19:27:26 $
+    last modified        : $Date: 2005-05-30 15:12:51 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -102,6 +102,7 @@ enum elemRecordType {
 #define GF_HIDELEDS   "hide LEDs"
 
 #define DS            ";"     // data separator in spdrs60 files
+#define IDS           ":"     // data separator in imported files
 #define EL_WIDTH      56      // width of an element in pixels
 #define EL_HEIGHT     35      // height of an element in pixels
 

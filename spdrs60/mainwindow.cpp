@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.8 $
+                           version 0.4.8 $Revision: 1.9 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-29 19:27:27 $
+    last modified        : $Date: 2005-05-30 15:12:52 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -72,10 +72,6 @@
 #include "pixmaps/route_new.xpm"
 #include "pixmaps/route_copy.xpm"
 #include "pixmaps/route_clear.xpm"
-
-// IDs for menu items
-//#define   EDITFILE_ID_GBS  210
-#define   EDITFILE_ID_CON  211
 
 
 extern bool bFBport[MAX_FB];
@@ -457,7 +453,6 @@ void MainWindow::initMainWindow()
     edittb->setLabel(tr("Edit operations"));
 
     QPopupMenu* editfilemenu = new QPopupMenu(this);
-    //editfilemenu = new QPopupMenu;
     
     actionEditFileLayout = new QAction(NULL, tr("&Layout"), 0, this,
             "editFileLayout" );
@@ -723,7 +718,7 @@ void MainWindow::initMainWindow()
 
     actionLayoutSendAll = new QAction(NULL,
             tr("&Send all"), Key_F11, this, "layoutSendAll" );
-    actionLayoutSendAll->setToolTip(tr("Send current state of all "
+    actionLayoutSendAll->setToolTip(tr("Send current states of all "
                 "switchable elements to SRCP server"));
     connect(actionLayoutSendAll, SIGNAL(activated()), gbs,
             SLOT(slotSendAll()));
@@ -1065,8 +1060,8 @@ bool MainWindow::saveFile()
     rtController->writeFileTextToStream(ts);
     f.close();
 
-    //setCaption(fn);
     updateCaption();
+    updateFileMenuItems();
 
     cmdToDebug(tr("Layout file '%1' saved").arg(fileName), M_INFO, HIST);
     return true;

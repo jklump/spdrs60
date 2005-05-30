@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.1 $
+                           version 0.4.8 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-05-18 21:14:12 $
+    last modified        : $Date: 2005-05-30 15:12:52 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -287,8 +287,8 @@ void Route::readOldFileTextFromStream(QTextStream& ts)
     while (!ts.eof()) {
         s = ts.readLine();
         if (!s.startsWith("#")) {
-            key = s.section(DS, 0, 0);
-            value = s.section(DS, 1, 1).stripWhiteSpace();
+            key = s.section(IDS, 0, 0);
+            value = s.section(IDS, 1, 1).stripWhiteSpace();
             /* key/value pairs are read sequence independent */
             if (key.compare(RF_NAME) == 0){
                   Name = value.stripWhiteSpace();

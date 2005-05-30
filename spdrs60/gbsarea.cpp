@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.11 $
+                           version 0.4.8 $Revision: 1.12 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-29 19:27:26 $
+    last modified        : $Date: 2005-05-30 15:12:51 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -237,11 +237,11 @@ void GBSArea::writeFileTextToStream(QTextStream& ts)
     ts << "# spdrs60 data file" << endl
        << "# version=" << VERSION << endl
        << "# last modified=" << dt.toString(Qt::ISODate) << endl
-       << "# layout dimensions=columns:rows" << endl
-       << GF_DIMENSIONS << ":" << cols << ":" << rows << endl
-       << GF_CMDHOST << ":" << cmdHost << ":" << cmdPort <<
-                        ":" << cmdLogin << endl
-       << GF_FBHOST << ":" << fbHost << ":" << fbPort << ":" << fbLogin << endl
+       << "# layout dimensions=columns" << DS "rows" << endl
+       << GF_DIMENSIONS << DS << cols << DS << rows << endl
+       << GF_CMDHOST << DS << cmdHost << DS << cmdPort <<
+                        DS << cmdLogin << endl
+       << GF_FBHOST << DS << fbHost << DS << fbPort << DS << fbLogin << endl
        << "# start of element section" << endl;
        //<< "# elements=" << elements.count() << endl;
     

@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.11 $
+                           version 0.4.8 $Revision: 1.12 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-05-29 19:27:26 $
+    last modified        : $Date: 2005-05-30 15:12:50 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -308,8 +308,8 @@ void element::readOldFileTextFromStream(QTextStream& ats)
     while (!ats.eof()) {
         s = ats.readLine();
         if (!s.startsWith("#")) {
-            key = s.section(DS, 0, 0);
-            value = s.section(DS, 1, 1).stripWhiteSpace();
+            key = s.section(IDS, 0, 0);
+            value = s.section(IDS, 1, 1).stripWhiteSpace();
             /* key/value pairs are read sequence independent */
             if (key.compare(GF_NAME) == 0){
                   sSoldIcon = value.stripWhiteSpace();
@@ -365,7 +365,6 @@ void element::readOldFileTextFromStream(QTextStream& ats)
         }
     }
 }
-
 
 
 void element::updateProperties()
