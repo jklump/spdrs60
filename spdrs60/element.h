@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.4.8 $Revision: 1.8 $
+                           version 0.4.8 $Revision: 1.9 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-30 15:12:51 $
+    last modified        : $Date: 2005-05-30 16:58:56 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -230,7 +230,6 @@ signals:
     void recordElement(element*, elemRecordType);
 
 protected:
-    virtual void mouseDoubleClickEvent(QMouseEvent*);
     virtual void mousePressEvent(QMouseEvent*);
     virtual void mouseReleaseEvent(QMouseEvent*);
     virtual void paintEvent(QPaintEvent*);

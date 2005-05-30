@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.9 $
+                           version 0.4.8 $Revision: 1.10 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-30 15:12:52 $
+    last modified        : $Date: 2005-05-30 16:58:56 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -285,8 +285,7 @@ void MainWindow::initMainWindow()
     gbs = new GBSArea(scrollview->viewport(), "gbsArea");
     Q_CHECK_PTR(gbs);
     scrollview->addChild(gbs);
-    // connect gbsArea and MainWindow
-    //connect(this, SIGNAL(showRoutings()), gbs, SLOT(slotShowRoutings()));
+
     connect(this, SIGNAL(sendFBChangeLayout(unsigned int)),
             gbs, SLOT(slotFBportChanged(unsigned int)));
     connect(this, SIGNAL(switchedVisualMode(elemVisualMode)), gbs,
@@ -842,7 +841,6 @@ void MainWindow::resetMenu()
     actionLayoutFht->setEnabled(false);
     actionLayoutWgt->setEnabled(false);
     actionLayoutUfgt->setEnabled(false);
-    actionLayoutNotRot->setEnabled(false);
     actionLayoutUnlockRoutes->setEnabled(false);
     //tbViewFeedb->setEnabled(false);
 }
@@ -1028,7 +1026,6 @@ void MainWindow::updateFileMenuItems()
     actionLayoutUnlockRoutes->setEnabled(true);
 
     if (CommandPortIsConnected) {
-        actionLayoutNotRot->setEnabled(true);
         actionLayoutToggleAll->setEnabled(true);
         actionLayoutSendAll->setEnabled(true);
     }
@@ -1719,7 +1716,6 @@ void MainWindow::updateDaemonMenu()
     actionLayoutPower->setEnabled(CommandPortIsConnected);
     //tbLayoutStop->setEnabled(bRunLayout);
 
-    actionLayoutNotRot->setEnabled(CommandPortIsConnected);
     actionLayoutToggleAll->setEnabled(CommandPortIsConnected);
     actionLayoutSendAll->setEnabled(CommandPortIsConnected);
 }
@@ -1760,8 +1756,6 @@ void MainWindow::slotShowRoutes()
 {
     if (rtViewer!= NULL)
         rtViewer->show();
-    /*FIXME: remove old route dialog*/
-    //emit showRoutings();        // notifies "gbs" to show the routing table
 }
 
 
@@ -1774,16 +1768,6 @@ void MainWindow::slotEditGBSFiles()
     // TODO: check this: tbFileSave->setEnabled(true);
 }
 
-/*
-void MainWindow::slotEditRTSFiles()
-{
-    // edit routing file with editor program
-    QString sCommand = EDITOR;
-    QString rf = gbs->getRouteFileName();
-    sCommand.append(" " + rf + (" &"));
-    system(sCommand.data());
-}
-*/
 
 void MainWindow::slotEditConfigFile()
 {
@@ -1794,7 +1778,6 @@ void MainWindow::slotEditConfigFile()
 }
 
 
-//void MainWindow::slotEditLayout()
 void MainWindow::slotViewSwitchMode(QAction* ac)
 {
     bool rtvIsVisible = rtViewer->isVisible();
@@ -1806,6 +1789,9 @@ void MainWindow::slotViewSwitchMode(QAction* ac)
     }
     else if (ac == actionViewLayoutEditMode) {
             visualMode = kvmEditLayout;
+            // when layout was in edit mode, it is
+            // assumed to be modified
+            gbs->setModified(true);
             updateRouteMenu(rtvIsVisible);
             cmdToDebug(tr("Entering layout edit mode"), M_INFO, HIST);
     }
@@ -1817,31 +1803,15 @@ void MainWindow::slotViewSwitchMode(QAction* ac)
     // send new visual mode
     emit switchedVisualMode(visualMode);
 
-/*
-    if (visualMode == kvmNormal) {
-        cmdToDebug(tr("Entering edit mode"), M_INFO, HIST);
-        // wenn das Layout einmal im Editiermodus war, gilt es als modifiziert
-        gbs->setModified(true);
-        visualMode = kvmEdit;
-    }
-    else {
-        cmdToDebug(tr("Leaving edit mode"), M_INFO, HIST);
-        visualMode = kvmNormal;
-    }
-
-    viewmenu->setItemChecked(VIEW_ID_EDITMODE, visualMode != kvmNormal);
-*/
     // change edit related menus
-    //tbFileOpen->setEnabled(visualMode == kvmNormal);
-    //tbFileNew->setEnabled(visualMode == kvmNormal);
     actionFileNew->setEnabled(visualMode == kvmNormal);
     actionFileOpen->setEnabled(visualMode == kvmNormal);
-
- //   emit switchEditMode(visualMode);   // send edit mode to all elements
+    actionFileSave->setEnabled(visualMode == kvmNormal);
+    actionFileSaveAs->setEnabled(visualMode == kvmNormal);
 }
 
 /* called when layout viewmode is changed, visibility of routingviewer
-   changes and activity state of a selected route changes
+ * changes and activity state of a selected route changes
  */
 void MainWindow::updateRouteMenu(bool rtvIsVisible)
 {

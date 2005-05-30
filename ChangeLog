@@ -1,3 +1,8 @@
+2005-05-30 Guido Scholz <guido.scholz@bayernline.de>
+	* element.cpp, element.h: mouse action for selection/deselection
+	of route elements changed, now left and middle buttons are used,
+	no double click necessary
+
 2005-05-28 Guido Scholz <guido.scholz@bayernline.de>
 	* mainwindow.cpp, mainwindow.h: toolbar and menu usage converted
 	to QAction

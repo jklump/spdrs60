@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.12 $
+                           version 0.4.8 $Revision: 1.13 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-05-30 15:12:50 $
+    last modified        : $Date: 2005-05-30 16:58:55 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -539,30 +539,6 @@ void element::slotSwitchIt(int iNewDirection, int iLocked)
 }
 
 
-void element::mouseDoubleClickEvent(QMouseEvent* e)
-{
-    /*route record mode*/
-    if (visualMode == kvmEditRoute) {
-        if (e->button() == LeftButton) {
-            if ((sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
-                 sSoldIcon == SYM_SS || 
-                 sSoldIcon == SYM_SSH || sSoldIcon == SYM_SSS ||
-                 sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB)){
-                /*record start or stop signal*/
-                //selectionMode = ksmStaStoSignal;
-                //emit sigElementClickedRecord(iSoldIndex, REC_STASTO);
-                /*send record signal to router*/
-                if (ksmNormal == selectionMode)
-                    emit recordElement(this, krecStartStop);
-                else
-                    emit recordElement(this, krecClear);
-                e->accept();
-            }
-        }
-    }
-}
-
-
 void element::mousePressEvent(QMouseEvent* e)
 {
     /*normal mode*/
@@ -656,33 +632,7 @@ void element::mousePressEvent(QMouseEvent* e)
     }
     /*route edit mode*/
     else if (visualMode == kvmEditRoute) {
-        if (e->button() == LeftButton) {
-            if (sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER ||
-                sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR || 
-                sSoldIcon == SYM_WEY || sSoldIcon == SYM_EKR || 
-                sSoldIcon == SYM_EKL || sSoldIcon == SYM_DKR || 
-                sSoldIcon == SYM_DKL || sSoldIcon == SYM_DRW || 
-                sSoldIcon == SYM_REL || sSoldIcon == SYM_ZP  || 
-                /*sSoldIcon == SYM_HS  || sSoldIcon == SYM_HSS ||
-                sSoldIcon == SYM_SS  || sSoldIcon == SYM_SSS ||
-                sSoldIcon == SYM_SSH || */sSoldIcon == SYM_BLD) {
-                //selectionMode = ksmSwitchEl;
-                //emit sigElementClickedRecord(iSoldIndex, REC_NORMAL);
-                // update();
-                /*send record signal to router*/
-                if (ksmNormal == selectionMode)
-                    emit recordElement(this, krecNormal);
-                else
-                    emit recordElement(this, krecClear);
-                e->accept();
-            }
-
-            else if (sSoldIcon == SYM_LEE) {
-                /*remove this, only needed by old route dialog*/
-                //emit sigElementClickedRecord(0, REC_FINISH);
-                e->accept();
-            }
-        }
+        // do nothing
     }
 }
 
@@ -713,7 +663,41 @@ void element::mouseReleaseEvent(QMouseEvent* e)
     }
     /*route edit mode*/
     else if (visualMode == kvmEditRoute) {
-        if (e->button() == RightButton){
+        if (e->button() == LeftButton) {
+            /*select/unselect start or stop signal*/
+            if ((sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
+                 sSoldIcon == SYM_SS || 
+                 sSoldIcon == SYM_SSH || sSoldIcon == SYM_SSS ||
+                 sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB)){
+                /*send record signal to router*/
+                if (ksmNormal == selectionMode)
+                    emit recordElement(this, krecStartStop);
+                else
+                    emit recordElement(this, krecClear);
+                e->accept();
+            }
+        }
+        else if (e->button() == MidButton) {
+            /*select/unselect switchable element*/
+            if (sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER ||
+                sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR || 
+                sSoldIcon == SYM_WEY || sSoldIcon == SYM_EKR || 
+                sSoldIcon == SYM_EKL || sSoldIcon == SYM_DKR || 
+                sSoldIcon == SYM_DKL || sSoldIcon == SYM_DRW || 
+                sSoldIcon == SYM_REL || sSoldIcon == SYM_ZP  || 
+                sSoldIcon == SYM_HS  || sSoldIcon == SYM_HSS ||
+                sSoldIcon == SYM_SS  || sSoldIcon == SYM_SSS ||
+                sSoldIcon == SYM_SSH || sSoldIcon == SYM_BLD) {
+                /*send record signal to router*/
+                if (ksmNormal == selectionMode)
+                    emit recordElement(this, krecNormal);
+                else
+                    emit recordElement(this, krecClear);
+                e->accept();
+            }
+        }
+        else if (e->button() == RightButton){
+            /*show context menu to switch element*/
             ctxNorm->exec(QCursor::pos());
             e->accept();
         }
@@ -745,8 +729,7 @@ void element::showElementState(int iShowElemStat_, elemSelectionMode sm)
 void element::locateMe()
 {
     // activate edit mode for LOCATE_TIMER secs
-    // if this is the searched element
-    // show element in found mode
+    // if this is the searched element show element in found mode
     selectionMode = ksmFoundEl;
     update();
 
@@ -1069,7 +1052,8 @@ void element::slotToggle()
             slotSwitchIt(0, UNLOCKED);
     }
 
-    else                        // toggles cyclic for 2-state-solenoids
+    // toggles cyclic for 2-state-solenoids
+    else
         slotSwitchIt(!iSoldDirection, UNLOCKED);
 }
 
