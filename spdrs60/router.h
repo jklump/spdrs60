@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.h
-                           version 0.4.8 $Revision: 1.2 $
+                           version 0.4.8 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@ bayernline.de
-    last modified        : $Date: 2005-05-29 19:27:27 $
+    last modified        : $Date: 2005-05-31 19:54:49 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -59,6 +59,8 @@ public:
 public slots:
     void clearRoutes();
     void recordElement(element*, elemRecordType);
+    void resetRoute(element*, GbsButtonState);
+    void setRoute(element*, GbsButtonState, GbsButtonState);
     void switchVisualMode(elemVisualMode);
     
 private:
@@ -68,11 +70,13 @@ private:
     bool modified;
     elemVisualMode visualmode;
     void setupRouteElements();
+    Route* getLockedRouteWithStartSignal(element*, GbsButtonState);
     
 signals:
     void updateRoutingViewer();
     void updateRoutingViewerAt(int);
-
+    void routeFunctionFinished();
+    void showLogMessage(const QString&, int, int);
 };
 #endif // ROUTER_H
 

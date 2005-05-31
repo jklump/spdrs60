@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.4.8 $Revision: 1.2 $
+                           version 0.4.8 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-05-29 19:27:27 $
+    last modified        : $Date: 2005-05-31 19:54:49 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -273,7 +273,43 @@ unsigned int Router::addNewRoute()
 void Router::startRecordModeAt(unsigned int index)
 {
     recRoute = getRouteAt(index);
-    //recording = true;
     showRouteAt(index);
+}
+
+
+void Router::setRoute(element* el, GbsButtonState cb, GbsButtonState sb)
+{
+    //TODO: implement function
+        //activeStartSignal = el;
+        //activeRoute = sr;
+        // emit showCursor();
+}
+
+
+void Router::resetRoute(element* el, GbsButtonState cb)
+{
+    Route* sr = getLockedRouteWithStartSignal(el, cb);
+    if (sr == NULL) {
+        emit showLogMessage(tr("No matching route found for start "
+                    "signal '%1'").arg(el->getName()), M_INFO, HIST);
+        emit routeFunctionFinished();
+    }
+    else {
+        sr->stopRouting();
+        emit routeFunctionFinished();
+    }
+}
+
+
+Route* Router::getLockedRouteWithStartSignal(element* el, GbsButtonState cb)
+{
+    QPtrListIterator<Route> routeit(routeList);
+    Route* rt;
+    while ((rt = routeit.current()) != 0 ) {
+        ++routeit;
+        if (rt->hasMatchingStartSignal(el, cb) && rt->isLocked())
+            break;
+    }
+    return rt;
 }
 

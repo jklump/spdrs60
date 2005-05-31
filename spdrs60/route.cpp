@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.2 $
+                           version 0.4.8 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-05-30 15:12:52 $
+    last modified        : $Date: 2005-05-31 19:54:49 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -606,5 +606,15 @@ bool Route::hasStartSignal()
 bool Route::hasStopSignal()
 {
     return toSignal.elemPtr != NULL;
+}
+
+
+bool Route::hasMatchingStartSignal(element* el, GbsButtonState cb)
+{
+    /* 
+     * "cb" may be: kRfsClicked, kZfsClicked, kZhsClicked
+     */
+    //TODO: check also pressed button
+    return (fromSignal.elemPtr == el || fromSignal.elemPtr2 == el);
 }
 

@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.13 $
+                           version 0.4.8 $Revision: 1.14 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-05-30 16:58:55 $
+    last modified        : $Date: 2005-05-31 19:54:46 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -593,7 +593,9 @@ void element::mousePressEvent(QMouseEvent* e)
                 else
                     ctrlButton = kTurnoutClicked;
 
-                emit elementClicked(iSoldIndex, ctrlButton);
+                // TODO: remove this
+                //emit elementClicked(iSoldIndex, ctrlButton);
+                emit elementClicked(this, ctrlButton);
             }
 
             /*add here new external button functions*/
@@ -618,7 +620,9 @@ void element::mousePressEvent(QMouseEvent* e)
                     else
                         ctrlButton = kHagtClicked;
                 }
-                emit elementClicked(iSoldIndex, ctrlButton);
+                // TODO: remove this
+                //emit elementClicked(iSoldIndex, ctrlButton);
+                emit elementClicked(this, ctrlButton);
             }
             e->accept();
         }
@@ -697,8 +701,9 @@ void element::mouseReleaseEvent(QMouseEvent* e)
             }
         }
         else if (e->button() == RightButton){
-            /*show context menu to switch element*/
-            ctxNorm->exec(QCursor::pos());
+            /*show context menu to switch element only without selection*/
+            if (ksmNormal == selectionMode)
+                ctxNorm->exec(QCursor::pos());
             e->accept();
         }
     }

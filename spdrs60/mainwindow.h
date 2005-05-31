@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.4.8 $Revision: 1.6 $
+                           version 0.4.8 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-29 19:27:27 $
+    last modified        : $Date: 2005-05-31 19:54:48 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -62,7 +62,6 @@ private:
    void initMainWindow();
    void updateDaemonMenu();
    void updateFeedbackMenu();
-   void cmdToDebug(const QString&, int, int);
    void importFile(const QString&);
    void resetMenu();           //dirk
    bool saveFile();
@@ -81,6 +80,7 @@ private:
    QString GetSocketErrorString(int e);
 
 public slots:
+   void cmdToDebug(const QString&, int, int);
    void updateRouteMenu(bool);
    void updateRouteMenuActivateItems(bool);
 

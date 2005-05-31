@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.cpp
-                           version 0.4.8 $Revision: 1.3 $
+                           version 0.4.8 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-07 12:22:43 $
+    last modified        : $Date: 2005-05-31 19:54:49 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -502,12 +502,10 @@ void optionsDialog::slotGetAutofile()
 {
     QString filename = QFileDialog::getOpenFileName(QDir::homeDirPath(),
                            QString(tr("Layouts")) +
-                           " (*" + GF_GBSEXT +
-                            " *" + GF_OLDGBSEXT + ")", this);
+                           " (*" + GF_GBSEXT + ")", this);
 
-    // get filename to be autoloaded after prog start (without .dat.gbs suffix)
     if (!filename.isEmpty())
-        leAutoload->setText(filename.left(filename.length() - 8));
+        leAutoload->setText(filename);
 }
 
 

@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.10 $
+                           version 0.4.8 $Revision: 1.11 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-30 16:58:56 $
+    last modified        : $Date: 2005-05-31 19:54:48 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -354,10 +354,21 @@ void MainWindow::initMainWindow()
     Q_CHECK_PTR(rtController);
     connect(this, SIGNAL(switchedVisualMode(elemVisualMode)),
             rtController, SLOT(switchVisualMode(elemVisualMode)));
+    connect(rtController, SIGNAL(showLogMessage(const QString&, int,
+                    int)),
+            this, SLOT(cmdToDebug(const QString&, int, int)));
     connect(gbs, SIGNAL(clearRoutes()),
             rtController, SLOT(clearRoutes()));
     connect(gbs, SIGNAL(recordElement(element*, elemRecordType)),
             rtController, SLOT(recordElement(element*, elemRecordType)));
+    connect(gbs, SIGNAL(setRoute(element*, GbsButtonState,
+                    GbsButtonState)),
+            rtController, SLOT(setRoute(element*, GbsButtonState,
+                    GbsButtonState)));
+    connect(gbs, SIGNAL(resetRoute(element*, GbsButtonState)),
+            rtController, SLOT(resetRoute(element*, GbsButtonState)));
+    connect(rtController, SIGNAL(routeFunctionFinished()),
+            gbs, SLOT(slotElementClickedTimeout()));
     
     /*route viewer*/
     rtViewer = new RoutingViewer(this, "Routings", rtController);

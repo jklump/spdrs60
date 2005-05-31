@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.4.8 $Revision: 1.1 $
+                           version 0.4.8 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-05-18 21:14:12 $
+    last modified        : $Date: 2005-05-31 19:54:49 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -103,6 +103,7 @@ public:
     void viewRoute();
     void setupElementLists(QPtrVector<element>*);
     bool hasStartSignal();
+    bool hasMatchingStartSignal(element*, GbsButtonState);
     bool hasStopSignal();
     void setStartSignal(element*);
     void setStopSignal(element*);

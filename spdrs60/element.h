@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.4.8 $Revision: 1.9 $
+                           version 0.4.8 $Revision: 1.10 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-30 16:58:56 $
+    last modified        : $Date: 2005-05-31 19:54:47 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -223,6 +223,7 @@ private slots:
 signals:
     void cmdToDebug(const QString&);
     void elementClicked(int, GbsButtonState);
+    void elementClicked(element*, GbsButtonState);
     void sendCommand(const QString&);
     void setRepeatIcon(const QString&);
     void sigElementClickedRecord(int, int);

@@ -138,7 +138,7 @@ Bitte lesen Sie dieses Gleisbild neu ein.</translation>
     </message>
     <message>
         <source>&gt;MGT-Function not supported.</source>
-        <translation>&gt;Die MGT-Fuktion wird noch nicht unterstützt.</translation>
+        <translation>&gt;Die MGT-Funktion wird noch nicht unterstützt.</translation>
     </message>
     <message>
         <source>&gt;No normal route found for start signal &apos;%1&apos;!</source>

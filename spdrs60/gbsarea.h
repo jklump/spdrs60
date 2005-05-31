@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.4.8 $Revision: 1.7 $
+                           version 0.4.8 $Revision: 1.8 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-29 19:27:27 $
+    last modified        : $Date: 2005-05-31 19:54:48 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -153,7 +153,7 @@ public slots:
     void slotSendAll();
     void slotStartRouting(int, int);
     void slotElementClicked(int, GbsButtonState);
-    //void slotElementClickedRecord(int, int);
+    void slotElementClicked(element*, GbsButtonState);
     void slotFBportChanged(unsigned int);
     void slotNotrot();
     void slotUpdateRouteLists();
@@ -169,6 +169,8 @@ signals:
     void FBportChanged(unsigned int);
     void sendCommand(const QString&);
     void setRepeatIcon(const QString&);
+    void setRoute(element*, GbsButtonState, GbsButtonState);
+    void resetRoute(element*, GbsButtonState);
     void sigRecordElement(int, const QString&, int, int);
     void sigRecordMode(elemVisualMode);
     void sigRepaintLayout();

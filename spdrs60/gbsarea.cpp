@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.12 $
+                           version 0.4.8 $Revision: 1.13 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-30 15:12:51 $
+    last modified        : $Date: 2005-05-31 19:54:48 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -237,11 +237,11 @@ void GBSArea::writeFileTextToStream(QTextStream& ts)
     ts << "# spdrs60 data file" << endl
        << "# version=" << VERSION << endl
        << "# last modified=" << dt.toString(Qt::ISODate) << endl
-       << "# layout dimensions=columns" << DS "rows" << endl
-       << GF_DIMENSIONS << DS << cols << DS << rows << endl
        << GF_CMDHOST << DS << cmdHost << DS << cmdPort <<
                         DS << cmdLogin << endl
        << GF_FBHOST << DS << fbHost << DS << fbPort << DS << fbLogin << endl
+       << "# layout dimensions=columns" << DS "rows" << endl
+       << GF_DIMENSIONS << DS << cols << DS << rows << endl
        << "# start of element section" << endl;
        //<< "# elements=" << elements.count() << endl;
     
@@ -619,6 +619,9 @@ void GBSArea::slotHaGTclicked()
 
 void GBSArea::externalButtonClicked(GbsButtonState externalButton)
 {
+    /*
+     * store pressed control button, aktivate cursor and start timer
+     */
     delayTimer->start(cDelayTime);
     gkbState = externalButton;
     
@@ -644,25 +647,108 @@ void GBSArea::externalButtonClicked(GbsButtonState externalButton)
             break;
         case kHagtClicked:
             setCursor(HaGTCursor);
+            /*TODO: implement HaGT-function*/
+            QApplication::beep();
+            emit cmdToDebug(tr(">HaGT-Function not supported."));
+            delayTimer->start(500);
             break;
         default:
             break;
     }
 }
 
-/*
-void GBSArea::slotElementClickedRecord(int idx, int recAction)
+
+void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
 {
-    emit sigRecordElement(elements[idx]->iSoldAddress_1,
-                          elements[idx]->sSoldText,
-                          elements[idx]->iSoldDirection, recAction);
-    if (idx == 0 && recAction == REC_FINISH) {
-        //switch to normal view mode and clear selections
-        emit switchVisualMode(kvmNormal);
-        emit cmdToDebug(tr(">Route record mode finished"));
+    switch (gbsButton) {
+        
+        /*external control buttons*/
+        case kFhtClicked:
+        case kFrtClicked:
+        case kHagtClicked:
+        case kMgtClicked:
+        case kUfgtClicked:
+        case kWgtClicked:
+        case kSgtClicked:
+            externalButtonClicked(gbsButton);
+            break;
+            
+        /*signal buttons*/
+        case kRfsClicked:
+        case kZfsClicked:
+        case kZhsClicked:
+            if (kSgtClicked == gkbState) {
+                if (el->isLocked()) {
+                    QApplication::beep();
+                    emit cmdToDebug(tr(">No switching possible, "
+                                "signal '%1' is locked by an active route.")
+                            .arg(el->getName()));
+                }
+                /*TODO: check this*/
+                //else if (el->isOccupied()) {
+                //    QApplication::beep();
+                //    emit cmdToDebug(tr(">No switching possible, "
+                //                "signal is occupied"));
+                //}
+                else
+                    el->slotToggle();
+            }
+            else if (kFhtClicked == gkbState) {
+                if (!el->isLocked()) {
+                    QApplication::beep();
+                    emit cmdToDebug(tr(">No derouting possible; signal '%1' "
+                                "is no start signal of an active route.")
+                            .arg(el->getName()));
+                }
+                else {
+                    /*send signal to route controller*/
+                    emit resetRoute(el, gbsButton);
+                }
+            }
+            else {
+                if (el->isLocked()){
+                    QApplication::beep();
+                    emit cmdToDebug(tr(">No routing possible, signal '%1' "
+                                "is allready locked by an active route.")
+                            .arg(el->getName()));
+                }
+                else {
+                    /*send signal to route controller*/
+                    emit setRoute(el, gbsButton, gkbState);
+                }
+            }
+            slotElementClickedTimeout();
+            break;
+            
+        /*turnout button*/
+        case kTurnoutClicked:
+            if (kWgtClicked == gkbState) {
+                if (el->isLocked()) {
+                    QApplication::beep();
+                    emit cmdToDebug(tr(">No switching possible, "
+                                "solenoid '%1' is locked by an active route.")
+                            .arg(el->getName()));
+                }
+                else if (el->isOccupied()) {
+                    QApplication::beep();
+                    emit cmdToDebug(tr(">No switching possible, "
+                                "turnout is occupied"));
+                }
+                else
+                    el->slotToggle();
+            }
+            else {
+                QApplication::beep();
+                emit cmdToDebug(tr(">Operation not allowed"));
+            }
+            slotElementClickedTimeout();
+            break;
+
+        default:
+            break;
     }
 }
-*/
+
 
 void GBSArea::slotElementClicked(int iIndex, GbsButtonState gbsButton)
 {
@@ -1173,8 +1259,7 @@ void GBSArea::showLEDs(int iRouteIndex_, int iSet_)
         }
 
         iCorr = elements[iIndex]->routeElement(bRouteDir, !iSet_, iCorr);
-        iIndex +=
-            (rows * ((bRouteDir == 1) - (bRouteDir == 0)) + iCorr);
+        iIndex += (rows * ((bRouteDir == 1) - (bRouteDir == 0)) + iCorr);
 
     }
 }
@@ -1326,10 +1411,10 @@ void GBSArea::setupElements()
     for (unsigned int j = 0; j < elements.size(); j++) {
         if (elements[j] != 0) {
             elements[j]->show();  // now show the elements
-            connect(elements[j], SIGNAL(elementClicked(int, GbsButtonState)),
-                    this, SLOT(slotElementClicked(int, GbsButtonState)));
-            //connect(elements[j], SIGNAL(sigElementClickedRecord(int, int)),
-            //        this, SLOT(slotElementClickedRecord(int, int)));
+            connect(elements[j], SIGNAL(elementClicked(element*, GbsButtonState)),
+                    this, SLOT(slotElementClicked(element*, GbsButtonState)));
+            //connect(elements[j], SIGNAL(elementClicked(int, GbsButtonState)),
+            //        this, SLOT(slotElementClicked(int, GbsButtonState)));
             connect(elements[j], SIGNAL(sendCommand(const QString&)),
                     this, SIGNAL(sendCommand(const QString&)));
             connect(elements[j], SIGNAL(setRepeatIcon(const QString&)),
@@ -1506,10 +1591,10 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
                 e = new element(this);
                 e->move((c - 1) * EL_WIDTH, (r - 1) * EL_HEIGHT);
                 e->show();
-                connect(e, SIGNAL(elementClicked(int, GbsButtonState)),
-                        this, SLOT(slotElementClicked(int, GbsButtonState)));
-                //connect(e, SIGNAL(sigElementClickedRecord(int, int)),
-                //        this, SLOT(slotElementClickedRecord(int, int)));
+                connect(e, SIGNAL(elementClicked(element*, GbsButtonState)),
+                        this, SLOT(slotElementClicked(element*, GbsButtonState)));
+                //connect(e, SIGNAL(elementClicked(int, GbsButtonState)),
+                //        this, SLOT(slotElementClicked(int, GbsButtonState)));
                 connect(e, SIGNAL(sendCommand(const QString&)),
                         this, SIGNAL(sendCommand(const QString&)));
                 connect(e, SIGNAL(setRepeatIcon(const QString&)),
