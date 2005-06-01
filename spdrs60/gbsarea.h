@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.4.8 $Revision: 1.8 $
+                           version 0.4.8 $Revision: 1.9 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-31 19:54:48 $
+    last modified        : $Date: 2005-06-01 20:25:34 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -34,6 +34,7 @@
 
 #include "resources.h"
 #include "element.h"
+#include "route.h"
 #include "routedialog.h"
 
 #define NOLOCK  0  // reads routing file without renewing the locked list
@@ -159,6 +160,7 @@ public slots:
     void slotUpdateRouteLists();
     void slotReadElemName(const QString&);
     void slotEditFind(const QString&, int, bool);
+    void startRouteTimer(TypeOfRoute);
 
 protected:
     int indexOf(int row, int col) const;
@@ -170,7 +172,8 @@ signals:
     void sendCommand(const QString&);
     void setRepeatIcon(const QString&);
     void setRoute(element*, GbsButtonState, GbsButtonState);
-    void resetRoute(element*, GbsButtonState);
+    void resetRoute(element*);
+    void resetSelectedSignal();
     void sigRecordElement(int, const QString&, int, int);
     void sigRecordMode(elemVisualMode);
     void sigRepaintLayout();

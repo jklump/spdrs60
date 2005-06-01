@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.13 $
+                           version 0.4.8 $Revision: 1.14 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-31 19:54:48 $
+    last modified        : $Date: 2005-06-01 20:25:34 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -29,7 +29,6 @@
 
 #include "resources.h"
 #include "gbsarea.h"
-#include "element.h"
 
 /*cursor pixmaps*/
 #include "pixmaps/cursor_wgt_b.xpm"
@@ -620,7 +619,7 @@ void GBSArea::slotHaGTclicked()
 void GBSArea::externalButtonClicked(GbsButtonState externalButton)
 {
     /*
-     * store pressed control button, aktivate cursor and start timer
+     * store pressed control button, activate cursor and start timer
      */
     delayTimer->start(cDelayTime);
     gkbState = externalButton;
@@ -692,18 +691,21 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
                 //}
                 else
                     el->slotToggle();
+                slotElementClickedTimeout();
             }
             else if (kFhtClicked == gkbState) {
                 if (!el->isLocked()) {
                     QApplication::beep();
                     emit cmdToDebug(tr(">No derouting possible; signal '%1' "
-                                "is no start signal of an active route.")
+                                "is not a start signal of an active route.")
                             .arg(el->getName()));
                 }
                 else {
-                    /*send signal to route controller*/
-                    emit resetRoute(el, gbsButton);
+                    /* send signal to route controller, button type is
+                     * ignored so far*/
+                    emit resetRoute(el);
                 }
+                slotElementClickedTimeout();
             }
             else {
                 if (el->isLocked()){
@@ -711,13 +713,13 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
                     emit cmdToDebug(tr(">No routing possible, signal '%1' "
                                 "is allready locked by an active route.")
                             .arg(el->getName()));
+                    slotElementClickedTimeout();
                 }
                 else {
                     /*send signal to route controller*/
                     emit setRoute(el, gbsButton, gkbState);
                 }
             }
-            slotElementClickedTimeout();
             break;
             
         /*turnout button*/
@@ -1029,8 +1031,32 @@ void GBSArea::slotElementClicked(int iIndex, GbsButtonState gbsButton)
 }
 
 
+void GBSArea::startRouteTimer(TypeOfRoute tor)
+{
+    switch (tor) {
+        case RZS:
+            setCursor(RZSCursor);
+            break;
+        case UZS:
+            setCursor(UZSCursor);
+            break;
+        case ZHS:
+            setCursor(ZHSCursor);
+            break;
+        case RRS:
+            setCursor(RRSCursor);
+            break;
+        case URS:
+            setCursor(URSCursor);
+            break;
+    }
+    delayTimer->start(cDelayTime);
+}
+
+
 void GBSArea::slotElementClickedTimeout()
 {
+    emit resetSelectedSignal();
     iFromSignalIndex = -1;      // set back all click-related variables
     iToSignalIndex = -1;
     searchedRoute = kNormal;

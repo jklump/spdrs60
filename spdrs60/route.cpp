@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.3 $
+                           version 0.4.8 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-05-31 19:54:49 $
+    last modified        : $Date: 2005-06-01 20:25:34 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -417,7 +417,7 @@ QString Route::getToSignalName() const
 }
 
 
-unsigned int Route::getType()
+TypeOfRoute Route::getType()
 {
     return routeType;
 }
@@ -451,16 +451,105 @@ QString Route::getTypeStr() const
 
 bool Route::startRouting()
 {
+    /* 1) check for occupied elements if not shunting route*/
+    if (routeType != RRS && routeType != URS) {
+        //TODO
+    }
+
+    /* 2) check for locked elements*/
+    if (fromSignal.elemPtr != NULL && fromSignal.elemPtr->isLocked())
+               return false;
+
+    if (fromSignal.elemPtr2 != NULL && fromSignal.elemPtr2->isLocked())
+               return false;
+
+    if (toSignal.elemPtr != NULL && toSignal.elemPtr->isLocked())
+               return false;
+
+    if (toSignal.elemPtr2 != NULL && toSignal.elemPtr2->isLocked())
+               return false;
+
+    QPtrListIterator<stateElement> it(switchItems);
+    stateElement* se;
+    while ((se = it.current()) != 0) {
+        ++it;
+        element* el = se->elemPtr;
+        if (el != NULL && el->isLocked())
+               return false;
+
+        el = se->elemPtr2;
+        if (el != NULL && el->isLocked())
+               return false;
+    }
+
+    /* 3) switch route elements*/
+    if (toSignal.elemPtr != NULL)
+           toSignal.elemPtr->slotSwitchIt(toSignal.state, 1);
+
+    if (toSignal.elemPtr2 != NULL)
+           toSignal.elemPtr2->slotSwitchIt(toSignal.state, 1);
+    
+    it.toFirst();
+    while ((se = it.current()) != 0) {
+        ++it;
+        element* el = se->elemPtr;
+        if (el != NULL)
+            el->slotSwitchIt(se->state, 1);
+        el = se->elemPtr2;
+        if (el != NULL)
+            el->slotSwitchIt(se->state, 1);
+    }
+    /* 4) switch element LEDs to yellow*/
+    //TODO
+
+    /* 5) at last switch start signal to Hp1/Sh1 etc.*/
+    if (fromSignal.elemPtr != NULL)
+           fromSignal.elemPtr->slotSwitchIt(fromSignal.state, 1);
+
+    if (fromSignal.elemPtr2 != NULL)
+           fromSignal.elemPtr2->slotSwitchIt(fromSignal.state, 1);
+    
     locked = true;
-    /*TODO: routing code*/
     return locked;
 }
 
 
 bool Route::stopRouting()
 {
+    /* all signals are switched to red light,
+     turnouts keep current direction */
+    if (fromSignal.elemPtr != NULL)
+           fromSignal.elemPtr->slotSwitchIt(0, -1);
+
+    if (fromSignal.elemPtr2 != NULL)
+           fromSignal.elemPtr2->slotSwitchIt(0, -1);
+
+    if (toSignal.elemPtr != NULL)
+           toSignal.elemPtr->slotSwitchIt(0, -1);
+
+    if (toSignal.elemPtr2 != NULL)
+           toSignal.elemPtr2->slotSwitchIt(0, -1);
+
+    QPtrListIterator<stateElement> it(switchItems);
+    stateElement* se;
+    while ((se = it.current()) != 0) {
+        ++it;
+        element* el = se->elemPtr;
+        if (el != NULL)
+            if (el->isSignal())
+                el->slotSwitchIt(0, -1);
+            else
+                el->slotSwitchIt(se->state, -1);
+
+        el = se->elemPtr2;
+        if (el != NULL)
+            if (el->isSignal())
+                el->slotSwitchIt(0, -1);
+            else
+                el->slotSwitchIt(se->state, -1);
+    }
+
     locked = false;
-    /*TODO: routing code*/
     return !locked;
 }
 
@@ -609,12 +698,102 @@ bool Route::hasStopSignal()
 }
 
 
-bool Route::hasMatchingStartSignal(element* el, GbsButtonState cb)
+bool Route::isLockedWithStartSignal(element* el)
 {
-    /* 
-     * "cb" may be: kRfsClicked, kZfsClicked, kZhsClicked
-     */
-    //TODO: check also pressed button
-    return (fromSignal.elemPtr == el || fromSignal.elemPtr2 == el);
+    return locked && (fromSignal.elemPtr == el || fromSignal.elemPtr2 == el);
 }
+
+
+bool Route::isUnlockedWithStartSignalType(element* el, GbsButtonState cb,
+        GbsButtonState sb)
+{
+    /* Function matrix
+
+       route type    c-button       s-button
+       ----------------------------------------
+          RZS       kZfsClicked   kNoneClicked 
+          UZS       kZfsClicked   kUfgtClicked
+          ZHS       kZhsClicked   kNoneClicked
+                    kZfsClicked   kNoneClicked
+          RRS       kRfsClicked   kNoneClicked
+          URS       kRfsClicked   kUfgtClicked
+       ----------------------------------------
+    */
+    if (!locked && (fromSignal.elemPtr == el || 
+                fromSignal.elemPtr2 == el)) {
+        
+        bool returnvalue = false;
+        switch (routeType){
+            case RZS:
+                returnvalue = (kZfsClicked == cb && kNoneClicked == sb);
+                break;
+            case UZS:
+                returnvalue = (kZfsClicked == cb && kUfgtClicked == sb);
+                break;
+            case ZHS:
+                returnvalue = (kZhsClicked == cb || kZfsClicked == cb )
+                    && kNoneClicked == sb;
+                break;
+            case RRS:
+                returnvalue = (kRfsClicked == cb && kNoneClicked == sb);
+                break;
+            case URS:
+                returnvalue = (kRfsClicked == cb && kUfgtClicked == sb);
+                break;
+            default:
+                break;
+        }
+        return returnvalue;
+    }
+    else
+        return false;
+}
+
+
+bool Route::isUnlockedType(element* fel, element* tel, GbsButtonState cb,
+        GbsButtonState sb)
+{
+    /* Function matrix
+
+       route type    c-button       s-button
+       ----------------------------------------
+          RZS       kZfsClicked   kNoneClicked 
+          UZS       kZfsClicked   kUfgtClicked
+          ZHS       kZhsClicked   kNoneClicked
+                    kZfsClicked   kNoneClicked
+          RRS       kRfsClicked   kNoneClicked
+          URS       kRfsClicked   kUfgtClicked
+       ----------------------------------------
+    */
+    if (!locked && (fromSignal.elemPtr == fel || 
+                fromSignal.elemPtr2 == fel) && (toSignal.elemPtr == tel || 
+                    toSignal.elemPtr2 == tel)) {
+        
+        bool returnvalue = false;
+        switch (routeType){
+            case RZS:
+                returnvalue = (kZfsClicked == cb && kNoneClicked == sb);
+                break;
+            case UZS:
+                returnvalue = (kZfsClicked == cb && kUfgtClicked == sb);
+                break;
+            case ZHS:
+                returnvalue = (kZhsClicked == cb || kZfsClicked == cb )
+                    && kNoneClicked == sb;
+                break;
+            case RRS:
+                returnvalue = (kRfsClicked == cb && kNoneClicked == sb);
+                break;
+            case URS:
+                returnvalue = (kRfsClicked == cb && kUfgtClicked == sb);
+                break;
+            default:
+                break;
+        }
+        return returnvalue;
+    }
+    else
+        return false;
+}
+
 

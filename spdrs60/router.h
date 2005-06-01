@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.h
-                           version 0.4.8 $Revision: 1.3 $
+                           version 0.4.8 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@ bayernline.de
-    last modified        : $Date: 2005-05-31 19:54:49 $
+    last modified        : $Date: 2005-06-01 20:25:34 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -59,7 +59,8 @@ public:
 public slots:
     void clearRoutes();
     void recordElement(element*, elemRecordType);
-    void resetRoute(element*, GbsButtonState);
+    void resetRoute(element*);
+    void resetSelectedSignal();
     void setRoute(element*, GbsButtonState, GbsButtonState);
     void switchVisualMode(elemVisualMode);
     
@@ -67,16 +68,22 @@ private:
     QPtrVector<element>* gbsElements;
     QPtrList<Route> routeList;
     Route* recRoute;
+    element* selectedStartSig;
     bool modified;
     elemVisualMode visualmode;
     void setupRouteElements();
-    Route* getLockedRouteWithStartSignal(element*, GbsButtonState);
+    Route* getLockedRouteWithStartSignal(element*);
+    Route* getUnlockedRouteWithStartSignal(element*, GbsButtonState,
+            GbsButtonState);
+    Route* getUnlockedRouteWithStopSignal(element*, GbsButtonState,
+            GbsButtonState);
     
 signals:
     void updateRoutingViewer();
     void updateRoutingViewerAt(int);
     void routeFunctionFinished();
     void showLogMessage(const QString&, int, int);
+    void startRouteTimer(TypeOfRoute);
 };
 #endif // ROUTER_H
 

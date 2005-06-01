@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.4.8 $Revision: 1.3 $
+                           version 0.4.8 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-05-31 19:54:49 $
+    last modified        : $Date: 2005-06-01 20:25:34 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -33,6 +33,7 @@ Router::Router(QObject* parent, const char* name):
 {
     gbsElements = NULL;
     recRoute == NULL;
+    selectedStartSig = NULL;
     routeList.setAutoDelete(true);
     modified = false;
     visualmode = kvmNormal;
@@ -43,6 +44,7 @@ Router::Router(QObject* parent, QPtrVector<element>* elPtr, const char* name):
     QObject(parent, name)
 {
     recRoute == NULL;
+    selectedStartSig = NULL;
     gbsElements = elPtr;
     routeList.setAutoDelete(true);
     modified = false;
@@ -279,37 +281,113 @@ void Router::startRecordModeAt(unsigned int index)
 
 void Router::setRoute(element* el, GbsButtonState cb, GbsButtonState sb)
 {
-    //TODO: implement function
-        //activeStartSignal = el;
-        //activeRoute = sr;
-        // emit showCursor();
+    /*check if start signal is allready choosen*/
+    if (selectedStartSig == NULL) {
+        Route* sr = getUnlockedRouteWithStartSignal(el, cb, sb);
+        if (sr != NULL) {
+            selectedStartSig = el;
+            // TODO: check for selected route: activeRoute = sr;
+            emit startRouteTimer(sr->getType());
+        }
+        else {
+            /*TODO: more detailed error message*/
+            QApplication::beep();
+            emit showLogMessage(tr("No matching route found for start "
+                        "signal '%1'").arg(el->getName()), M_INFO, HIST);
+            /*send cursor time out to gbs*/
+            emit routeFunctionFinished();
+        }
+    }
+    /*stop signal button is pressed*/
+    else {
+        Route* sr = getUnlockedRouteWithStopSignal(el, cb, sb);
+        /*send cursor time out to gbs*/
+        emit routeFunctionFinished();
+        if (sr != NULL) {
+            // activate route
+            if (sr->startRouting()) {
+                emit showLogMessage(tr("Activating route '%1'")
+                        .arg(sr->getName()), M_INFO, HIST);
+                // TODO: send state to routingviewer
+            }
+            else {
+                QApplication::beep();
+                emit showLogMessage(tr("No routing possible; "
+                            "route '%1' is locked by another route.")
+                        .arg(sr->getName()), M_INFO, HIST);
+            }
+        }
+        else {
+            QApplication::beep();
+            emit showLogMessage(tr("No matching route found from '%1'"
+                        "to '%2'").arg(selectedStartSig->getName(),
+                            el->getName()), M_INFO, HIST);
+        }
+        selectedStartSig = NULL;
+    }
 }
 
 
-void Router::resetRoute(element* el, GbsButtonState cb)
+void Router::resetRoute(element* el)
 {
-    Route* sr = getLockedRouteWithStartSignal(el, cb);
+    Route* sr = getLockedRouteWithStartSignal(el);
     if (sr == NULL) {
-        emit showLogMessage(tr("No matching route found for start "
+        QApplication::beep();
+        emit showLogMessage(tr("No active route found for start "
                     "signal '%1'").arg(el->getName()), M_INFO, HIST);
-        emit routeFunctionFinished();
     }
     else {
+        emit showLogMessage(tr("Resetting route '%1'")
+                .arg(sr->getName()), M_INFO, HIST);
         sr->stopRouting();
-        emit routeFunctionFinished();
     }
+    // TODO: send state to routingviewer
 }
 
 
-Route* Router::getLockedRouteWithStartSignal(element* el, GbsButtonState cb)
+Route* Router::getLockedRouteWithStartSignal(element* el)
 {
     QPtrListIterator<Route> routeit(routeList);
     Route* rt;
     while ((rt = routeit.current()) != 0 ) {
         ++routeit;
-        if (rt->hasMatchingStartSignal(el, cb) && rt->isLocked())
+        if (rt->isLockedWithStartSignal(el))
             break;
     }
     return rt;
+}
+
+
+Route* Router::getUnlockedRouteWithStartSignal(element* el, GbsButtonState cb,
+        GbsButtonState sb)
+{
+    QPtrListIterator<Route> routeit(routeList);
+    Route* rt;
+    while ((rt = routeit.current()) != 0 ) {
+        ++routeit;
+        if (rt->isUnlockedWithStartSignalType(el, cb, sb))
+            break;
+    }
+    return rt;
+}
+
+
+Route* Router::getUnlockedRouteWithStopSignal(element* el, GbsButtonState cb,
+        GbsButtonState sb)
+{
+    QPtrListIterator<Route> routeit(routeList);
+    Route* rt;
+    while ((rt = routeit.current()) != 0 ) {
+        ++routeit;
+        if (rt->isUnlockedType(selectedStartSig, el, cb, sb))
+            break;
+    }
+    return rt;
+}
+
+
+void Router::resetSelectedSignal()
+{
+    selectedStartSig = NULL;
 }
 

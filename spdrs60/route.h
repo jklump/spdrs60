@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.4.8 $Revision: 1.2 $
+                           version 0.4.8 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-05-31 19:54:49 $
+    last modified        : $Date: 2005-06-01 20:25:34 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -63,7 +63,7 @@ struct Loco {
  *
  */
 
-enum TypeOfRoute {RZS, UZS, ZHS, RRS, URS};
+enum TypeOfRoute {RZS = 0, UZS, ZHS, RRS, URS};
 
 
 class Route: public QObject
@@ -94,7 +94,7 @@ public:
     QString getName() const;
     QString getFromSignalName() const;
     QString getToSignalName() const;
-    unsigned int getType();
+    TypeOfRoute getType();
     QString getTypeStr() const;
     bool startRouting();
     bool stopRouting();
@@ -103,7 +103,11 @@ public:
     void viewRoute();
     void setupElementLists(QPtrVector<element>*);
     bool hasStartSignal();
-    bool hasMatchingStartSignal(element*, GbsButtonState);
+    bool isLockedWithStartSignal(element*);
+    bool isUnlockedWithStartSignalType(element*, GbsButtonState,
+            GbsButtonState);
+    bool isUnlockedType(element*, element*, GbsButtonState,
+            GbsButtonState);
     bool hasStopSignal();
     void setStartSignal(element*);
     void setStopSignal(element*);

@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.4.8 $Revision: 1.10 $
+                           version 0.4.8 $Revision: 1.11 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-31 19:54:47 $
+    last modified        : $Date: 2005-06-01 20:25:34 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -76,7 +76,7 @@ enum elemVisualMode {
     kvmEditRoute
 };
 
-/*elemet recording types for start/stop signals and normal elements*/
+/*element recording types for start/stop signals and normal elements*/
 enum elemRecordType {
     krecNormal,
     krecStartStop,
