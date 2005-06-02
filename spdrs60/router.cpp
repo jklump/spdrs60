@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.4.8 $Revision: 1.4 $
+                           version 0.4.8 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-01 20:25:34 $
+    last modified        : $Date: 2005-06-02 20:07:44 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -308,7 +308,9 @@ void Router::setRoute(element* el, GbsButtonState cb, GbsButtonState sb)
             if (sr->startRouting()) {
                 emit showLogMessage(tr("Activating route '%1'")
                         .arg(sr->getName()), M_INFO, HIST);
-                // TODO: send state to routingviewer
+                // send state to routingviewer
+                //TODO: optimize to change only lock state icon
+                emit updateRoutingViewerAt(routeList.find(sr));
             }
             else {
                 QApplication::beep();
@@ -339,9 +341,11 @@ void Router::resetRoute(element* el)
     else {
         emit showLogMessage(tr("Resetting route '%1'")
                 .arg(sr->getName()), M_INFO, HIST);
-        sr->stopRouting();
+        if (sr->stopRouting())
+            // send state to routingviewer
+            //TODO: optimize to change only lock state icon
+            emit updateRoutingViewerAt(routeList.find(sr));
     }
-    // TODO: send state to routingviewer
 }
 
 

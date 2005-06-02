@@ -1,10 +1,10 @@
 /***************************************************************************
                            routingviewer.cpp
-                           version 0.4.8 $Revision: 1.2 $
+                           version 0.4.8 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-05-29 19:27:27 $
+    last modified        : $Date: 2005-06-02 20:07:45 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -158,13 +158,21 @@ void RoutingViewer::slotStartRouteNo(int routeidx)
 
     /*TODO: optimize, may be it is better, the route sends a "lock state
      * changed" signal*/
-    Route* selectedRoute = gbsRouter->getRouteAt(routeidx);
-    if (selectedRoute->startRouting()){
+    Route* sr = gbsRouter->getRouteAt(routeidx);
+    if (sr->startRouting()){
         /*update toolbar buttons and table lock icon*/
         rTable->updateLockStateIcon(routeidx, true);
+        emit showLogMessage(tr("Activating route '%1'")
+                .arg(sr->getName()), M_INFO, HIST);
 
         if (rTable->isRowSelected(routeidx))
             emit selectedRouteIsLocked(true);
+    }
+    else {
+        QApplication::beep();
+        emit showLogMessage(tr("No routing possible; "
+                    "route '%1' is locked by another route.")
+                .arg(sr->getName()), M_INFO, HIST);
     }
 }
 
@@ -174,10 +182,12 @@ void RoutingViewer::slotRouteStop()
     if (gbsRouter == NULL)
         return;
 
-    Route* selectedRoute = gbsRouter->getRouteAt(rTable->currentRow());
-    if (selectedRoute->stopRouting()){
+    Route* sr = gbsRouter->getRouteAt(rTable->currentRow());
+    if (sr->stopRouting()){
         /*update toolbar buttons and table lock icon*/
         rTable->updateCurrentRowLockStateIcon(false);
+        emit showLogMessage(tr("Resetting route '%1'")
+                .arg(sr->getName()), M_INFO, HIST);
         emit selectedRouteIsLocked(false);
     }
 }
@@ -187,10 +197,12 @@ void RoutingViewer::slotStopRouteNo(int routeidx)
 {
     /*TODO: optimize, may be it is better, the route sends a "lock state
      * changed" signal*/
-    Route* selectedRoute = gbsRouter->getRouteAt(routeidx);
-    if (selectedRoute->stopRouting()){
+    Route* sr = gbsRouter->getRouteAt(routeidx);
+    if (sr->stopRouting()){
         /*update toolbar buttons and table lock icon*/
         rTable->updateLockStateIcon(routeidx, false);
+        emit showLogMessage(tr("Resetting route '%1'")
+                .arg(sr->getName()), M_INFO, HIST);
 
         if (rTable->isRowSelected(routeidx))
             emit selectedRouteIsLocked(false);

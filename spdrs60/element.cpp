@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.14 $
+                           version 0.4.8 $Revision: 1.15 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-05-31 19:54:46 $
+    last modified        : $Date: 2005-06-02 20:07:32 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2238,4 +2238,10 @@ void element::getStateData(stateElement& se)
 elemSelectionMode element::getSelectionMode()
 {
     return selectionMode;
+}
+
+
+bool element::hasDifferentDirection(int dir)
+{
+    return iSoldDirection != dir;
 }

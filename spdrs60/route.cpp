@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.4 $
+                           version 0.4.8 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-01 20:25:34 $
+    last modified        : $Date: 2005-06-02 20:07:44 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -35,7 +35,7 @@ Route::Route(TypeOfRoute arouteType,
 {
     locked = false;
     switchItems.setAutoDelete(true);
-    allGBSItemsList.setAutoDelete(false);
+    routePathItems.setAutoDelete(false);
 
     routeType = arouteType;
     Name = aName;
@@ -79,7 +79,7 @@ Route::Route(element* startEl)
 {
     locked = false;
     switchItems.setAutoDelete(true);
-    allGBSItemsList.setAutoDelete(false);
+    routePathItems.setAutoDelete(false);
 
     toSignal.state = 0;
     toSignal.address = 0;
@@ -113,7 +113,7 @@ Route::Route(QTextStream& ts, bool isNewFormat)
 {
     locked = false;
     switchItems.setAutoDelete(true);
-    allGBSItemsList.setAutoDelete(false);
+    routePathItems.setAutoDelete(false);
 
     /*stop signals are red by default*/
     toSignal.state = 0;
@@ -135,7 +135,7 @@ Route::Route(const QString& aName)
 {
     locked = false;
     switchItems.setAutoDelete(true);
-    allGBSItemsList.setAutoDelete(false);
+    routePathItems.setAutoDelete(false);
 
     routeType = RZS;
     Name = aName;
@@ -163,7 +163,7 @@ Route::Route(const QString& aName)
 Route::~Route()
 {
     switchItems.clear();
-    allGBSItemsList.clear();
+    routePathItems.clear();
 }
 
 
@@ -182,8 +182,6 @@ void Route::setupElementLists(QPtrVector<element>* elements)
             ++it;
         
             if ((gbse != 0) && gbse->hasSameAddress(swElement->address)) {
-                /*TODO: find elements between switchable elements*/
-                allGBSItemsList.append(gbse);
                 if (swElement->elemPtr == NULL)
                     swElement->elemPtr = gbse;
                 else {
@@ -196,7 +194,7 @@ void Route::setupElementLists(QPtrVector<element>* elements)
 
         /*add stop signal*/
         if ((gbse != 0) && gbse->hasSameAddress(toSignal.address)) {
-            allGBSItemsList.append(gbse);
+            routePathItems.append(gbse);
             toSignal.name = gbse->getName();
             if (toSignal.elemPtr == NULL)
                 toSignal.elemPtr = gbse;
@@ -208,7 +206,7 @@ void Route::setupElementLists(QPtrVector<element>* elements)
 
         /*add start signal*/
         if ((gbse != 0) && gbse->hasSameAddress(fromSignal.address)) {
-            allGBSItemsList.append(gbse);
+            routePathItems.append(gbse);
             fromSignal.name = gbse->getName();
             if (fromSignal.elemPtr == NULL)
                 fromSignal.elemPtr = gbse;
@@ -218,8 +216,7 @@ void Route::setupElementLists(QPtrVector<element>* elements)
             }
         }
     }
-    //fprintf(stderr, "Route: %s  allEl: %d\n", Name.data(),
-    //        allGBSItemsList.count());
+    /*TODO: find route path elements between start and stop signal*/
 }
 
 
@@ -451,9 +448,16 @@ QString Route::getTypeStr() const
 
 bool Route::startRouting()
 {
+    QPtrListIterator<element> rit(routePathItems);
+    element* re;
+
     /* 1) check for occupied elements if not shunting route*/
     if (routeType != RRS && routeType != URS) {
-        //TODO
+        while ((re = rit.current()) != 0) {
+            ++rit;
+            if (re->isOccupied())
+                return false;
+        }
     }
 
     /* 2) check for locked elements*/
@@ -474,11 +478,13 @@ bool Route::startRouting()
     while ((se = it.current()) != 0) {
         ++it;
         element* el = se->elemPtr;
-        if (el != NULL && el->isLocked())
+        if (el != NULL && el->isLocked() &&
+                el->hasDifferentDirection(se->state))
                return false;
 
         el = se->elemPtr2;
-        if (el != NULL && el->isLocked())
+        if (el != NULL && el->isLocked() &&
+                el->hasDifferentDirection(se->state))
                return false;
     }
 
@@ -499,8 +505,13 @@ bool Route::startRouting()
         if (el != NULL)
             el->slotSwitchIt(se->state, 1);
     }
-    /* 4) switch element LEDs to yellow*/
-    //TODO
+
+    /* 4) switch route path element LEDs to yellow*/
+    rit.toFirst();
+    while ((re = rit.current()) != 0) {
+        ++rit;
+        re->routeElement(0, LED_YEL, 0);
+    }
 
     /* 5) at last switch start signal to Hp1/Sh1 etc.*/
     if (fromSignal.elemPtr != NULL)
@@ -547,6 +558,13 @@ bool Route::stopRouting()
                 el->slotSwitchIt(0, -1);
             else
                 el->slotSwitchIt(se->state, -1);
+    }
+    // update route path element LEDs
+    QPtrListIterator<element> rit(routePathItems);
+    element* re;
+    while ((re = rit.current()) != 0) {
+        ++rit;
+        re->routeElement(0, LED_OFF, 0);
     }
 
     locked = false;

@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.14 $
+                           version 0.4.8 $Revision: 1.15 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-01 20:25:34 $
+    last modified        : $Date: 2005-06-02 20:07:44 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1261,9 +1261,12 @@ void GBSArea::showLEDs(int iRouteIndex_, int iSet_)
                                  SRCH_A1, SINGLE);
     int iToIndex = locateIndex(listOfToSignals->at(iRouteIndex_),
                                SRCH_A1, SINGLE);
+    // true ist right, false is left
     bool bRouteDir = !(elements[iFromIndex]->iSoldRotate);
     int iCorr = 0;
     int iIndex = iFromIndex;
+    //int colSpread = abs(iFromIndex / rows - iToIndex / rows) + 1;
+    //int maxIdx = (int) elements.size();
 
     for (int k = 0;
          k < abs(iFromIndex / rows - iToIndex / rows) + 1; k++) {

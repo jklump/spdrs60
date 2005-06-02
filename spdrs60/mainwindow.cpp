@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.12 $
+                           version 0.4.8 $Revision: 1.13 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-01 20:25:34 $
+    last modified        : $Date: 2005-06-02 20:07:44 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -384,6 +384,8 @@ void MainWindow::initMainWindow()
             this, SLOT(updateRouteMenu(bool)));
     connect(rtViewer, SIGNAL(selectedRouteIsLocked(bool)),
             this, SLOT(updateRouteMenuActivateItems(bool)));
+    connect(rtViewer, SIGNAL(showLogMessage(const QString&, int, int)),
+            this, SLOT(cmdToDebug(const QString&, int, int)));
     connect(rtController, SIGNAL(updateRoutingViewer()),
             rtViewer, SLOT(updateRoutes()));
     connect(rtController, SIGNAL(updateRoutingViewerAt(int)),

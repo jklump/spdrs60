@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.4.8 $Revision: 1.3 $
+                           version 0.4.8 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-01 20:25:34 $
+    last modified        : $Date: 2005-06-02 20:07:44 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -128,8 +128,8 @@ private:
 
     /*list with raw item data*/
     QPtrList<stateElement> switchItems;
-    /*list with pointers to all gbs-elements of this route*/
-    QPtrList<element> allGBSItemsList;
+    /*list with pointers to all gbs-elements on route path*/
+    QPtrList<element> routePathItems;
 };
 #endif // ROUTE_H
 
