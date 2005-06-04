@@ -1,11 +1,11 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.4.8 $Revision: 1.5 $
+                           version 0.4.8 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-29 19:27:27 $
+    last modified        : $Date: 2005-06-04 19:08:39 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -183,6 +183,7 @@ void RouteDialog::setupRoutingTable()
 
 void RouteDialog::readRoutingFile(bool bReadType_)
 {
+    /*
     QString s;
     int iRouteNoRead = 0;
     int iSwitchedElem = 0;
@@ -263,11 +264,13 @@ void RouteDialog::readRoutingFile(bool bReadType_)
         }
     }
     file.close();
+    */
 }
 
 
 void RouteDialog::createRoutingFile()
 {
+    /*
     QDateTime dt = QDateTime::currentDateTime();
     QFile file(((GBSArea *) parent)->routeFileName);
     file.open(IO_WriteOnly);
@@ -279,6 +282,7 @@ void RouteDialog::createRoutingFile()
     ts << "version:        " << VERSION << endl;
     ts << "-------------------------------------" << endl;
     file.close();
+    */
 }
 
 
@@ -893,6 +897,7 @@ void RouteDialog::slotSave()
 
 void RouteDialog::slotSaveRoute(bool bMode_)
 {
+/*
     if (readProgFields(bMode_) == INVALID)
         return;
 
@@ -963,12 +968,12 @@ void RouteDialog::slotSaveRoute(bool bMode_)
                     << sRouteStartStat << endl;
                 ts2 << "release port:   " << iRouteRelPort << endl;
                 ts2 << "activate port:  " << iRouteActPort << endl;
-                ts2 << "active by loco: " << "-1" /*sRouteLoco */  << endl;
+                ts2 << "active by loco: " << "-1" << endl;
                 ts2 << "type:           " << tRouteType << endl;
                 ts2 << "level:          " << iRouteLevel << endl;
-                /*ts2 << "data1:          " << "" << endl;
-                ts2 << "data2:          " << "" << endl;
-                ts2 << "data3:          " << "" << endl;*/
+                //ts2 << "data1:          " << "" << endl;
+                //ts2 << "data2:          " << "" << endl;
+                //ts2 << "data3:          " << "" << endl;
                 ts2 << "-------------------------------------" << endl;
             }
             else if (bMode_ == DELETE) {
@@ -1019,8 +1024,9 @@ void RouteDialog::slotSaveRoute(bool bMode_)
     buttStartRouting->setFocus();
     bHasChanged = false;
 
-    /* send update signal to gbsarea */
+    // send update signal to gbsarea
     emit sendReloadRoutes();
+    */
 }
 
 

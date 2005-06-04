@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.15 $
+                           version 0.4.8 $Revision: 1.16 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-02 20:07:32 $
+    last modified        : $Date: 2005-06-04 19:08:38 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -94,6 +94,7 @@ element::element(QWidget* parent): QWidget(parent)
     turnout = false;
     routable = false;
     switchable = false;
+    state2dkw = false;
     iGA1BusNo = iGA2BusNo = iFBBusNo = 1;
 
     setMaximumSize(sizeHint());
@@ -144,6 +145,7 @@ element::element(QStrList* elementData_, QWidget* parent): QWidget(parent)
     turnout = false;
     routable = false;
     switchable = false;
+    state2dkw = false;
     iGA1BusNo = iGA2BusNo = iFBBusNo = 1;
 
     setMaximumSize(sizeHint());
@@ -198,6 +200,7 @@ element::element(QTextStream& ats, QWidget* parent, bool isNewFormat)
     turnout = false;
     routable = false;
     switchable = false;
+    state2dkw = false;
     iGA1BusNo = iGA2BusNo = iFBBusNo = 1;
 
     setMaximumSize(sizeHint());
@@ -373,9 +376,12 @@ void element::updateProperties()
      * recalculation in several procedures by expensive string
      * comparations*/
     signal = sSoldIcon.startsWith("signal");
+
     if (!signal)
         turnout = (sSoldIcon.startsWith("weiche") ||
+                sSoldIcon.startsWith("dreier") ||
                 sSoldIcon.startsWith("ekw") ||
+                sSoldIcon.startsWith("dkw") ||
                 sSoldIcon == SYM_DRW);
 
     /*element can be a part of a route*/
@@ -389,6 +395,15 @@ void element::updateProperties()
     
     /*element has solenoid connected*/
     switchable = signal || turnout;
+
+    state2dkw = (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR)
+        && iSoldSubType == 0;
+}
+
+
+bool element::is2StateDKW()
+{
+    return state2dkw;
 }
 
 /* check if this element contains information to save*/
@@ -434,7 +449,7 @@ void element::createPopupMenus()
     QPixmap p;
     /* every single element gets his own edit popupmenu (!?) */
     // context menu with entries for edit mode
-    ctxEdit = new QPopupMenu(this, "");
+    ctxEdit = new QPopupMenu(this, "editctx");
     ctxEdit->insertItem(tr("&Repeat"), CTX_ID_REP);
     ctxEdit->insertSeparator();
 
@@ -445,19 +460,19 @@ void element::createPopupMenus()
     ctxEdit->insertSeparator();
 
     p = QPixmap(ctx_straight_xpm);
-    ctxEdit->insertItem(p, SYM_GER);
+    ctxEdit->insertItem(p, SYM_GER, 5);
     p = QPixmap(ctx_l_curve_xpm);
-    ctxEdit->insertItem(p, SYM_KUL);
+    ctxEdit->insertItem(p, SYM_KUL, 6);
     p = QPixmap(ctx_r_curve_xpm);
-    ctxEdit->insertItem(p, SYM_KUR);
+    ctxEdit->insertItem(p, SYM_KUR, 7);
     p = QPixmap(ctx_l_diag_xpm);
-    ctxEdit->insertItem(p, SYM_DIL);
+    ctxEdit->insertItem(p, SYM_DIL, 8);
     p = QPixmap(ctx_r_diag_xpm);
-    ctxEdit->insertItem(p, SYM_DIR);
+    ctxEdit->insertItem(p, SYM_DIR, 9);
     p = QPixmap(ctx_l_turn_xpm);
-    ctxEdit->insertItem(p, SYM_WEL);
+    ctxEdit->insertItem(p, SYM_WEL, 10);
     p = QPixmap(ctx_r_turn_xpm);
-    ctxEdit->insertItem(p, SYM_WER);
+    ctxEdit->insertItem(p, SYM_WER, 11);
 
     connect(ctxEdit, SIGNAL(activated(int)), this, SLOT(slotCtxEdit(int)));
 }
@@ -533,8 +548,10 @@ void element::slotSwitchIt(int iNewDirection, int iLocked)
     // if the new direction equals the old one just setup the element to ensure
     // that the contextmenu and the lock variable are correct set
     // exception: 2-state-DKW, they would show a momentary false LED state
-    else if (!((sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR)
-               && iSoldSubType == 0))
+
+    //else if (!((sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR)
+    //           && iSoldSubType == 0))
+    else if (!is2StateDKW())
         setupElementIcon(iSoldLEDstate, "");
 }
 
@@ -551,8 +568,8 @@ void element::mousePressEvent(QMouseEvent* e)
                 ttComm = new turntableCommander(this, iSoldSubType, sSoldText);
                 connect(ttComm, SIGNAL(applyPressed(QPoint)),
                         this, SLOT(slotUpdateTurntableData(QPoint)));
-                connect(ttComm, SIGNAL(sendAvailTracks(QString)),
-                        this, SLOT(slotCopyAvailTracks(QString)));
+                connect(ttComm, SIGNAL(sendAvailTracks(const QString&)),
+                        this, SLOT(slotCopyAvailTracks(const QString&)));
 
                 ttComm->exec();     // parent window NOT usable
                 ttComm->move(QCursor::pos());
@@ -593,8 +610,6 @@ void element::mousePressEvent(QMouseEvent* e)
                 else
                     ctrlButton = kTurnoutClicked;
 
-                // TODO: remove this
-                //emit elementClicked(iSoldIndex, ctrlButton);
                 emit elementClicked(this, ctrlButton);
             }
 
@@ -620,8 +635,6 @@ void element::mousePressEvent(QMouseEvent* e)
                     else
                         ctrlButton = kHagtClicked;
                 }
-                // TODO: remove this
-                //emit elementClicked(iSoldIndex, ctrlButton);
                 emit elementClicked(this, ctrlButton);
             }
             e->accept();

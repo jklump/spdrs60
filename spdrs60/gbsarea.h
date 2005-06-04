@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.4.8 $Revision: 1.9 $
+                           version 0.4.8 $Revision: 1.10 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-01 20:25:34 $
+    last modified        : $Date: 2005-06-04 19:08:39 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -35,10 +35,7 @@
 #include "resources.h"
 #include "element.h"
 #include "route.h"
-#include "routedialog.h"
 
-#define NOLOCK  0  // reads routing file without renewing the locked list
-#define LOCK    1  // reads routing file and renews the list of locked routes
 
 #define MAXCONTACTS 496  // maximum contacts per bus for SRCP 0.8
 
@@ -57,8 +54,6 @@ public:
    GBSArea(QWidget* parent = 0, const char* name = 0);
    virtual ~GBSArea();
 
-   QString routeFileName; //should be private, is used in routedialog
-   
    bool isModified() const;
    virtual void setModified(bool m);
    QSize sizeHint() const;
@@ -71,8 +66,6 @@ public:
    void removeRowElements(int row);
    void removeColumnElements(int col);
    element* item(int row, int col) const;
-   void setRouteFileName(const QString&);
-   QString getRouteFileName();
    QPtrVector<element>* getGbsElementListPtr();
     
 private:
@@ -94,15 +87,11 @@ private:
    QStrList    *listOfRouteTypes;
    QStrList    *listOfToSignals;
    QTimer      *delayTimer;
-   RouteDialog *routeWindow;
 
    QPtrVector<element> elements;
 
    int         cols;
    int         rows;
-   int         iFromSignalIndex;
-   int         iToSignalIndex;
-   RouteType   searchedRoute;
 
    QString     cmdHost;
    QString     fbHost;
@@ -111,19 +100,11 @@ private:
    bool        cmdLogin;
    bool        fbLogin;
 
-   int         iLastFoundID;
    GbsButtonState  gkbState;
-   bool        bRouteWindowActive;
-   bool        bRecord;
-   int         iConvertCheck;
    bool        modified: 1;
 
-   void loadRoutes(bool);
-   void closeRouteWindow();
    void deleteElements();
    void setupElements();
-   void setRoute(int, QStrList*, QStrList*);
-   void showLEDs(int, int);
    int  locateIndex(const QString&, int, int);
    void externalButtonClicked(GbsButtonState);
    
@@ -140,7 +121,6 @@ void savePixmaps(int ID)
 */
 public slots:
     int  newFile(int, int);
-    void slotShowRoutings();
     void slotElementClickedTimeout();
     void slotFHTclicked();
     void slotFRTclicked();
@@ -149,18 +129,13 @@ public slots:
     void slotSGTclicked();
     void slotUfGTclicked();
     void slotWGTclicked();
-    void slotUnlockRoutings();
     void slotToggleAll();
     void slotSendAll();
-    void slotStartRouting(int, int);
-    void slotElementClicked(int, GbsButtonState);
     void slotElementClicked(element*, GbsButtonState);
-    void slotFBportChanged(unsigned int);
     void slotNotrot();
-    void slotUpdateRouteLists();
-    void slotReadElemName(const QString&);
     void slotEditFind(const QString&, int, bool);
     void startRouteTimer(TypeOfRoute);
+    void updateRoutePathLEDs(const stateElement&, const stateElement&, bool);
 
 protected:
     int indexOf(int row, int col) const;
@@ -168,7 +143,7 @@ protected:
 signals:
     void cmdToDebug(const QString&);
     void switchVisualMode(elemVisualMode);
-    void FBportChanged(unsigned int);
+    void feedbackPortChanged(unsigned int);
     void sendCommand(const QString&);
     void setRepeatIcon(const QString&);
     void setRoute(element*, GbsButtonState, GbsButtonState);
@@ -180,7 +155,6 @@ signals:
     void sigShowElement(int, int, elemSelectionMode);
     void sigShowFBmodules();
     void sigUpdateEditmenu();
-    void updateRouteWindow();
     void updateRoutingViewer(const QString&);
     void clearRoutes();
     void recordElement(element*, elemRecordType);

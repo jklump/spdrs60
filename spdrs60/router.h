@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.h
-                           version 0.4.8 $Revision: 1.4 $
+                           version 0.4.8 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@ bayernline.de
-    last modified        : $Date: 2005-06-01 20:25:34 $
+    last modified        : $Date: 2005-06-04 19:08:39 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -63,6 +63,8 @@ public slots:
     void resetSelectedSignal();
     void setRoute(element*, GbsButtonState, GbsButtonState);
     void switchVisualMode(elemVisualMode);
+    void unlockAllLockedRoutes();
+    void feedbackPortChanged(unsigned int);
     
 private:
     QPtrVector<element>* gbsElements;
@@ -84,6 +86,7 @@ signals:
     void routeFunctionFinished();
     void showLogMessage(const QString&, int, int);
     void startRouteTimer(TypeOfRoute);
+    void updateRoutePathLEDs(const stateElement&, const stateElement&, bool);
 };
 #endif // ROUTER_H
 

@@ -1,10 +1,10 @@
 /***************************************************************************
                            turntablecommander.h
-                           version 0.4.3 $Revision: 1.2 $
+                           version 0.4.3 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-07 12:22:44 $
+    last modified        : $Date: 2005-06-04 19:08:39 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -77,7 +77,7 @@ private slots:
                                             // reached
 signals:
    void applyPressed(QPoint);               // send command to element
-   void sendAvailTracks(QString);           // send track string to element
+   void sendAvailTracks(const QString&);    // send track string to element
 
 private:
    QButtonGroup* bgChooseDir;          // button group for prog buttons

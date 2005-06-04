@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.4.8 $Revision: 1.7 $
+                           version 0.4.8 $Revision: 1.8 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-31 19:54:48 $
+    last modified        : $Date: 2005-06-04 19:08:39 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -145,6 +145,7 @@ signals:
    void repaintLayout();
    void sendFBChangeLayout(unsigned int);
    void sendFBChangeModule(unsigned int);
+   void sendFBChangeRoute(unsigned int);
 
 protected:
    virtual void closeEvent(QCloseEvent* ce);

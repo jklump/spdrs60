@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.4.8 $Revision: 1.12 $
+                           version 0.4.8 $Revision: 1.13 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-02 20:07:44 $
+    last modified        : $Date: 2005-06-04 19:08:39 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -167,6 +167,7 @@ public:
     bool isTurnout();
     bool isRoutable();
     bool isSwitchable();
+    bool is2StateDKW();
     void showElementState(int, elemSelectionMode);
     void setIndexNo(unsigned int);
     unsigned int getIndexNo();
@@ -190,6 +191,7 @@ private:
     bool        turnout;
     bool        routable;
     bool        switchable;
+    bool        state2dkw;
     QString     sSaveReplaceIcon;
     QTimer*     locateTimer;
 

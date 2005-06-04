@@ -4,7 +4,7 @@
 
 SUBDIRS = icons elements layouts \
         $(HTML_DOC) \
-        man clock convertrts spdrs60
+        man clock spdrs60
 
 
 EXTRA_DIST = AUTHORS COPYING ChangeLog INSTALL README TODO NEWS \

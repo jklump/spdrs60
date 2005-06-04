@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.15 $
+                           version 0.4.8 $Revision: 1.16 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-02 20:07:44 $
+    last modified        : $Date: 2005-06-04 19:08:39 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -72,29 +72,13 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
     cmdLogin = false;
     fbLogin = false;
     
-    bRouteWindowActive = false;
     gkbState = kNoneClicked;
-    bRecord = false;
     modified = false;
     cols = 0;
     rows = 0;
 
-    iFromSignalIndex = -1;
-    iToSignalIndex = -1;
-    searchedRoute = kNormal;
-    iLastFoundID = 0;
-    iConvertCheck = 0;          // variable for check of old route files
     elements.setAutoDelete(true);
     
-    listOfActivatePorts = new QStrList(true);
-    listOfFromSignals = new QStrList(true);     // create a QStrList for: start
-    listOfLockedRoutes = new QStrList(true);    // list of locked routes
-    listOfReleasePorts = new QStrList(true);
-    listOfRouteTypes = new QStrList(true);
-    listOfToSignals = new QStrList(true);       // signals, stop signals and
-
-    routeWindow = NULL;
-
     /*cursor setup */
     QPixmap cb = QPixmap(cursor_wgt_b_xpm);
     QPixmap cm = QPixmap(cursor_wgt_m_xpm);
@@ -160,12 +144,6 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
 GBSArea::~GBSArea()
 {
     elements.clear();
-    delete listOfFromSignals;
-    delete listOfToSignals;
-    delete listOfReleasePorts;
-    delete listOfActivatePorts;
-    delete listOfLockedRoutes;
-    delete listOfRouteTypes;
 }
 
 
@@ -185,7 +163,6 @@ int GBSArea::newFile(int iColumns, int iRows)
 {
     cols = iColumns;
     rows = iRows;
-    routeFileName = "";
 
     deleteElements();
     elements.resize(iRows * iColumns);
@@ -364,8 +341,6 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
     // and load routes
     setupElements();
     slotSendAll();
-    if (elements.count() != 0)
-        loadRoutes(LOCK);
 }
 
 
@@ -432,145 +407,6 @@ void GBSArea::readOldFileTextFromStream(QTextStream& ts)
     // and load routes
     setupElements();
     slotSendAll();
-    if (elements.count() != 0)
-        loadRoutes(LOCK);
-}
-
-
-void GBSArea::loadRoutes(bool bRenewLockList_)
-{
-    listOfActivatePorts->clear();
-    listOfFromSignals->clear();
-    listOfReleasePorts->clear();
-    listOfRouteTypes->clear();
-    listOfToSignals->clear();
-    
-    if (bRenewLockList_) {
-        listOfLockedRoutes->clear();
-    }
-
-    // try to open routing file
-    QFile file(routeFileName);
-    if (!file.open(IO_ReadOnly))        // open the routing file
-        return;
-
-    QTextStream ts(&file);
-    QString s;
-    iConvertCheck = 0;
-
-    // read routing file
-    while (!ts.eof()) {
-        s = ts.readLine();
-        if (!iConvertCheck && s.contains("Route   # -------> 1", 0)) {
-            iConvertCheck = true;
-            QMessageBox::information(this, tr("Information"),
-                tr("Routing file contains old data format.\n"
-                   "File has been converted into new format!\n\n"
-                   "Please reload this layout."));
-            break;
-        }
-
-        // and a list of signals to go to
-        // "while" is converter from 0.2.x files
-        if (s.left(10) == "to signal:") {
-            s = s.remove(0, 16);
-            while (s.left(1) == "0")
-                s = s.remove(0, 1);
-            listOfToSignals->append(s);
-            if (bRenewLockList_)
-                listOfLockedRoutes->append("0");        // "0" = UNLOCKED
-        }
-        // list of signal to start from
-        // "while" is converter from 0.2.x files
-        else if (s.left(12) == "from signal:") {
-            s = s.remove(0, 16);        
-            while (s.left(1) == "0")
-                s = s.remove(0, 1);
-            listOfFromSignals->append(s.left(s.find(" ", 0, 0)));
-        }
-        /*setup list with routes released by FB signals */
-        else if (s.startsWith("release")) {
-            listOfReleasePorts->append(s.section(
-                        ":", 1, 1).stripWhiteSpace());
-        }
-        /*setup list with routes activated by FB signals */
-        else if (s.startsWith("activate")) {
-            listOfActivatePorts->append(s.section(
-                        ":", 1, 1).stripWhiteSpace());
-        }
-        else if (s.startsWith("type")) {
-            listOfRouteTypes->append(s.section(
-                        ":", 1, 1).stripWhiteSpace());
-        }
-    }
-    file.close();               // no dis- or enable route buttons
-
-    if (iConvertCheck) {
-        QString sConvert = "convertrts " + routeFileName;
-        system(sConvert);
-    }
-    /*FIXME: send update signal to rtViewer (temporary solution)*/
-    emit updateRoutingViewer(routeFileName);
-}
-
-
-void GBSArea::slotShowRoutings()
-{
-    //serd: only create new routing window, if it does not exist
-    if (!bRouteWindowActive) {
-        // create a new routing window
-        routeWindow = new RouteDialog(this, listOfLockedRoutes);
-        Q_CHECK_PTR(routeWindow);
-        bRouteWindowActive = true;
-        routeWindow->setCaption(
-                QString(tr("Routings for layout") + " [" + routeFileName + "]"));
-        // show the routing file name in the editfilemenu
-        emit sigUpdateEditmenu();
-
-        connect(routeWindow, SIGNAL(sendRouteIndex(int, int)),
-                this, SLOT(slotStartRouting(int, int)));
-        connect(routeWindow, SIGNAL(cmdToDebug(const QString&)),
-                this, SIGNAL(cmdToDebug(const QString&)));
-        connect(routeWindow, SIGNAL(sendReloadRoutes()),
-                this, SLOT(slotUpdateRouteLists()));
-        connect(routeWindow, SIGNAL(sigRecord(elemVisualMode)),
-                this, SIGNAL(sigRecordMode(elemVisualMode)));
-        connect(routeWindow, SIGNAL(sigShowElement(int, int, elemSelectionMode)),
-                this, SIGNAL(sigShowElement(int, int, elemSelectionMode)));
-        connect(routeWindow, SIGNAL(sigReadElemName(const QString&)),
-                this, SLOT(slotReadElemName(const QString&)));
-        connect(this, SIGNAL(updateRouteWindow()),
-                routeWindow, SLOT(slotUpdateRouteWindow()));
-        connect(this, SIGNAL(sigRecordElement(int, const QString&, int, int)),
-                routeWindow,
-                SLOT(slotRecordElement(int, const QString&, int, int)));
-
-        routeWindow->exec();
-    }
-    // modeless, you can still use the main prog
-    // serd: Nice to get the Routing Window in Front
-    routeWindow->setActiveWindow();
-    routeWindow->raise();
-}
-
-
-void GBSArea::slotReadElemName(const QString& sReadElemAddr_)
-{
-    int iReadElemID = -1;
-    // get element's name for a certain address
-    // to be displayed in routing window
-    iReadElemID = locateIndex(sReadElemAddr_, SRCH_A1, SINGLE);
-
-    if (iReadElemID > 0)
-        routeWindow->sReadElemName = elements[iReadElemID]->sSoldText;
-    else
-        routeWindow->sReadElemName = tr("unknown");
-}
-
-
-void GBSArea::slotUpdateRouteLists()
-{
-    loadRoutes(NOLOCK);
 }
 
 
@@ -659,6 +495,12 @@ void GBSArea::externalButtonClicked(GbsButtonState externalButton)
 
 void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
 {
+    /* stop running timer but do not change cursor shape until we know
+     * what exactly happens next */
+
+    if (delayTimer->isActive())
+        delayTimer->stop();
+
     switch (gbsButton) {
         
         /*external control buttons*/
@@ -707,7 +549,8 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
                 }
                 slotElementClickedTimeout();
             }
-            else {
+            else if (kUfgtClicked == gkbState || kNoneClicked ==
+                    gkbState) {
                 if (el->isLocked()){
                     QApplication::beep();
                     emit cmdToDebug(tr(">No routing possible, signal '%1' "
@@ -716,9 +559,18 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
                     slotElementClickedTimeout();
                 }
                 else {
-                    /*send signal to route controller*/
+                    /*
+                     * send signal to route controller
+                     * delaytimer is restarted when a start signal
+                     * button was pressed
+                     */
                     emit setRoute(el, gbsButton, gkbState);
                 }
+            }
+            else {
+                QApplication::beep();
+                emit cmdToDebug(tr(">Operation not allowed"));
+                slotElementClickedTimeout();
             }
             break;
             
@@ -751,285 +603,19 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
     }
 }
 
-
-void GBSArea::slotElementClicked(int iIndex, GbsButtonState gbsButton)
-{
-    QString s;
-    bool routefound = false;
-
-    // Checking for activities of external buttons
-    /* this comparison is slightly dangerous:*/
-    if (gbsButton >= kFhtClicked) {
-        externalButtonClicked(gbsButton);
-        return;
-    }
-
-    if (kWgtClicked == gkbState) {
-        // only toggle a solenoid by means of WGT if it is UNLOCKED
-        /*TODO: check if signals may be switched also */
-        if (!elements[iIndex]->isLocked())
-            // element is occupied
-            if (elements[iIndex]->isOccupied()) {
-                QApplication::beep();
-                emit cmdToDebug(tr
-                              (">No switching possible, element is occupied"));
-            }
-            else
-                elements[iIndex]->slotToggle();
-
-        else {
-            QApplication::beep();
-            emit cmdToDebug(tr(">No switching possible, solenoid '%1' "
-                        "is locked by an active route.")
-                    .arg(elements[iIndex]->getName()));
-        }
-
-        slotElementClickedTimeout();    // reset vars and timer
-        return;
-    }
-
-    // Check for activated normal route when a signal is clicked
-    if (kZfsClicked == gbsButton || kRfsClicked == gbsButton ||
-            kZhsClicked == gbsButton) {
-        
-        if (iFromSignalIndex == -1) {
-            /*
-               the first signal (route start) is clicked; fist check
-               what type of route has to be seached for; each type of
-               route has its own cursor what shows up when a
-               preconfigured route is found
-               normal route and help route are only difficult to
-               differentiate
-            */
-
-            if (gkbState != kFhtClicked &&
-                    elements[iIndex]->isLocked()){
-                QApplication::beep();
-                emit cmdToDebug(tr(">No routing possible, signal '%1' "
-                            "is allready locked by an active route.")
-                        .arg(elements[iIndex]->getName()));
-                slotElementClickedTimeout();
-                return; 
-            }
-
-            if (kUfgtClicked == gkbState) {
-                if (kZfsClicked == gbsButton)
-                    searchedRoute = kDetour;
-                else /*if (RfsClicked == gbsButton)*/
-                    searchedRoute = kShuntingD;
-            }
-            else {
-                if (kZhsClicked == gbsButton)
-                    searchedRoute = kHelp; 
-                else if (kZfsClicked == gbsButton)
-                    searchedRoute = kNormal;    // or kHelp
-                else /*if (RfsClicked == gbsButton)*/
-                    searchedRoute = kShunting;
-            }
-
-            bool isRouteStart = false;
-
-            /*check if this signal is a start signal of an available route */
-            for (unsigned int iRoutingNo = 0;
-                 iRoutingNo < listOfFromSignals->count(); iRoutingNo++) {
-                
-                int FromSigAddr = 
-                    QString(listOfFromSignals->at(iRoutingNo)).toInt();
-                
-                if (elements[iIndex]->hasSameAddress(FromSigAddr)) {
-                    
-                    RouteType routeType = (RouteType)QString(
-                        listOfRouteTypes->at(iRoutingNo)).toInt();
-                    
-                    if (routeType == searchedRoute){
-                        switch (routeType) {
-                            case kNormal:
-                                setCursor(RZSCursor);
-                                break;
-                            case kDetour:
-                                setCursor(UZSCursor);
-                                break;
-                            case kHelp:
-                                setCursor(ZHSCursor);
-                                break;
-                            case kShunting:
-                                setCursor(RRSCursor);
-                                break;
-                            case kShuntingD:
-                                setCursor(URSCursor);
-                                break;
-                        }
-                        isRouteStart = true;
-                        break;
-                    }
-                    /*TODO: route sequence */
-                    else if ((kZfsClicked == gbsButton) &&
-                             (routeType == kHelp)){
-                        setCursor(ZHSCursor);
-                        isRouteStart = true;
-                        break;
-                    }
-                        
-                }
-            }
-
-            if (isRouteStart) {
-                if (gkbState != kFhtClicked)
-                    delayTimer->start(cDelayTime);
-
-                // save index value of start signal (== clicked element)
-                iFromSignalIndex = iIndex;
-            }
-
-            else {
-                QApplication::beep();
-                s = elements[iIndex]->getName();
-                switch (searchedRoute) {
-                    case kNormal:
-                        emit cmdToDebug(tr(
-                                ">No normal route found for start signal '%1'!")
-                                .arg(s.data()));
-                        break;
-                    case kDetour:
-                        emit cmdToDebug(tr(
-                                ">No detour route found for start signal '%1'!")
-                                .arg(s.data()));
-                        break;
-                    case kHelp:
-                        emit cmdToDebug(tr(
-                                ">No help route found for start signal '%1'!")
-                                .arg(s.data()));
-                        break;
-                    case kShunting:
-                        emit cmdToDebug(tr(
-                              ">No shunting route found for start signal '%1'!")
-                                .arg(s.data()));
-                        break;
-                    case kShuntingD:
-                        emit cmdToDebug(tr(
-                                ">No detour shunting route found for start"
-                                " signal '%1'!")
-                                .arg(s.data()));
-                        break;
-                }
-                slotElementClickedTimeout();        // reset vars and timer
-            }
-            return;
-        }
-
-        else {
-            /* 
-             * the second signal (route target) is clicked
-             * stop timer, so it can not timeout when routing lasts
-             * longer than 2 seconds then save stop signal element index
-             * then check whether there is a route with the choosen start-
-             * and stop-signals
-             */
-            /*TODO: check fpr same route type*/
-
-            delayTimer->stop();
-            iToSignalIndex = iIndex;
-            setCursor(ArrowCursor);
-
-            for (unsigned int iRoutingNo = 0; iRoutingNo <
-                 listOfFromSignals->count(); iRoutingNo++) {
-
-                int FromSigAddr = 
-                    QString(listOfFromSignals->at(iRoutingNo)).toInt();
-
-                int ToSigAddr = 
-                    QString(listOfToSignals->at(iRoutingNo)).toInt();
-
-                int FoundRoute = (RouteType)QString(
-                        listOfRouteTypes->at(iRoutingNo)).toInt();
-
-                if (elements[iFromSignalIndex]->hasSameAddress(FromSigAddr) &&
-                    elements[iToSignalIndex]->hasSameAddress(ToSigAddr) &&
-                    ((searchedRoute == FoundRoute) ||
-                     ((kNormal == searchedRoute) && (kHelp == FoundRoute)))
-                    ){
-
-                    /*is this route locked?*/
-                    QString sListText = listOfLockedRoutes->at(iRoutingNo);
-                    bool isLocked = (bool) sListText.toInt();
-
-                    if (isLocked) {
-                        if (kFhtClicked == gkbState)
-                            /*release locked route */
-                            slotStartRouting((int) iRoutingNo,
-                                            kFhtClicked == gkbState);
-                        else {
-                            /*misapplyed operation */
-                            QApplication::beep();
-                            emit cmdToDebug(tr
-                                            (">Route %1 is allready active!")
-                                            .arg(iRoutingNo));
-                        }
-                        routefound = true;
-                        break;
-                    }
-                    /*not locked */
-                    else {
-                        if (kFhtClicked == gkbState) {
-                            /* check each route type if there is more
-                             * than one route for this signal; this
-                             * typecast is not a very clean solution */
-                            if (searchedRoute < kShuntingD){
-                                ++(int)searchedRoute;
-                                continue;
-                            }
-                            /*misapplyed operation */
-                            QApplication::beep();
-                            emit cmdToDebug(tr(">Route %1 is not active!")
-                                            .arg(iRoutingNo));
-                        }
-                        else
-                            slotStartRouting((int) iRoutingNo,
-                                             kFhtClicked == gkbState);
-                        routefound = true;
-                        break;
-                    }
-                }
-            } /* end of for loop */
-            
-            if (!routefound) {
-                QApplication::beep();
-                s = elements[iFromSignalIndex]->getName();
-                QString tS = elements[iToSignalIndex]->getName();
-                QString RtName;
-                
-                switch (searchedRoute){
-                    case kNormal:
-                        RtName = tr("normal route");
-                        break;
-                    case kDetour:
-                        RtName = tr("detour route");
-                        break;
-                    case kHelp:
-                        RtName = tr("help route");
-                        break;
-                    case kShunting:
-                        RtName = tr("shunting route");
-                        break;
-                    case kShuntingD:
-                        RtName = tr("detour shunting route");
-                        break;
-                }
-
-                emit cmdToDebug(tr
-                        (">No %1 found from %2 to %3!")
-                        .arg(RtName)
-                        .arg(s)
-                        .arg(tS));
-            }
-            
-
-            slotElementClickedTimeout();        // reset vars and timer
-            return;
-        }
-    }
-}
-
+/*
+   preserve old error messages
+   case kNormal:
+   (tr("No normal route found for start signal '%1'!").arg(s.data()));
+   case kDetour:
+   (tr("No detour route found for start signal '%1'!").arg(s.data()));
+   case kHelp:
+   (tr("No help route found for start signal '%1'!").arg(s.data()));
+   case kShunting:
+   (tr("No shunting route found for start signal '%1'!").arg(s.data()));
+   case kShuntingD:
+   (tr("No detour shunting route found for start signal '%1'!").arg(s.data()));
+*/
 
 void GBSArea::startRouteTimer(TypeOfRoute tor)
 {
@@ -1057,241 +643,225 @@ void GBSArea::startRouteTimer(TypeOfRoute tor)
 void GBSArea::slotElementClickedTimeout()
 {
     emit resetSelectedSignal();
-    iFromSignalIndex = -1;      // set back all click-related variables
-    iToSignalIndex = -1;
-    searchedRoute = kNormal;
     gkbState = kNoneClicked;
     setCursor(ArrowCursor);
 }
 
 
-void GBSArea::slotStartRouting(int iRouteIndex_, int iSet_)
+void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
+        const stateElement& tSig, bool setRoute)
 {
-    // iSet == 1 -> FHT clicked -> RESET
-    // iSet == 0 -> no FHT      -> SET
-    // read the routing data for desired route only out of routing file
-    QFile file(routeFileName);
-    if (!file.open(IO_ReadOnly))
+    if (fSig.elemPtr == NULL || tSig.elemPtr == NULL)
         return;
-    
-    QStrList* listOfSolenoids_Number = new QStrList(true);
-    QStrList* listOfSolenoids_Action = new QStrList(true);
-    int iRouteNo = -1;
 
-    // store all addresses and new direction into the two QStrList's
-    QTextStream ts(&file);
-    while (!ts.eof()) {
+    if (rows <= 1)
+        return;
 
-        QString s = ts.readLine();
-        // finds beginning of a route section
-        if (s.contains("ROUTE -------->", 0)) { 
-            iRouteNo += 1;
-            // dummy-read "name:" entry not rele-
-            // vant here, only for route window
-            s = ts.readLine();
-        }
-        if (iRouteNo == iRouteIndex_) {
-            if ((s.startsWith("switch x to y:")) ||
-                (s.startsWith("from signal:"))) {
-                // if these are the "switch ..."-lines, also append start signal
-                s = s.remove(0, 16);    // "while" is converter from 0.2.x files
-                while (s.left(1) == "0")
-                    s = s.remove(0, 1);
-                // separate the address and direction
-                listOfSolenoids_Number->append(s.left(s.find(" ", 0, 0)));
-                listOfSolenoids_Action->append(s.right(1));
-            }
-        }
-    }
-    file.close();
-
-    int ID;
-    // RESET a route
-    if (iSet_ == RESET) {
-        QString s;
-        s.sprintf(tr(">Resetting route # %d."), iRouteIndex_ + 1);
-        emit cmdToDebug(s);
-        listOfLockedRoutes->remove(iRouteIndex_);
-        listOfLockedRoutes->insert(iRouteIndex_, "0");  // UNLOCKED
-
-        for (unsigned int i = 0; i < listOfSolenoids_Number->count(); i++) {
-            // UNLOCK all addresses from the routing list, only the last item
-            // == start signal must be UNLOCKED and set to Hp0!
-            // that is wrong because it ignores shunting signals as part
-            // of the route; was corrected in 0.4.7
-            ID = locateIndex(listOfSolenoids_Number->at(i), SRCH_A1,
-                             SINGLE);
-            
-            /*only switch signals in the route back to the old state*/
-            bool doSwitch = elements[ID]->sSoldIcon.startsWith("signal");
-
-            elements[ID]->
-                slotSwitchIt(doSwitch ? 0 : elements[ID]->iSoldDirection, -1);
-        }
-        showLEDs(iRouteIndex_, RESET);
-    }
-    else if (iSet_ == SET)      // SET a route
-        setRoute(iRouteIndex_, listOfSolenoids_Number,
-                 listOfSolenoids_Action);
-
-    if (bRouteWindowActive)     // update an open route window
-        emit updateRouteWindow();
-
-    QApplication::beep();
-    /*remove stringlists, new in 0.4.7*/
-    delete listOfSolenoids_Number;
-    delete listOfSolenoids_Action;
-}
-
-
-void GBSArea::setRoute(int iRouteIndex_,
-                       QStrList* listOfSolenoids_Number_,
-                       QStrList* listOfSolenoids_Action_)
-{
-    int ID;
-    QString s;
-    // now check if at least one of the routing solenoids is locked by another
-    // route and the actual direction is different from the new direction, or
-    // if we have a 2-state-DKW which is locked,
-    // then exit immediately; only do that if you want to SET a route
-    // RESETting a route does not require this!
-    for (unsigned int i = 0; i < listOfSolenoids_Number_->count(); i++) {
-        ID = locateIndex(listOfSolenoids_Number_->at(i), SRCH_A1, SINGLE);
-        int newDir = QString(listOfSolenoids_Action_->at(i)).toInt();
-
-        if ((elements[ID]->iSoldDirection != newDir ||
-             ((elements[ID]->sSoldIcon == SYM_DKL
-               || elements[ID]->sSoldIcon == SYM_DKR)
-              && elements[ID]->iSoldSubType == 0))
-            && elements[ID]->iSoldLocked) {
-            s.sprintf(tr
-                      (">No routing possible, route # %d is locked by "
-                       "another route."), iRouteIndex_ + 1);
-            QApplication::beep();
-            emit cmdToDebug(s);
-            return;
-        }
-    }
-
-    listOfLockedRoutes->remove(iRouteIndex_);
-    listOfLockedRoutes->insert(iRouteIndex_, "1");      // LOCKED
-
-    s.sprintf(tr(">Start routing of route # %d."), iRouteIndex_ + 1);
-    emit cmdToDebug(s);
-
-    for (unsigned int i = 0; i < listOfSolenoids_Number_->count(); i++) {
-        ID = locateIndex(listOfSolenoids_Number_->at(i), SRCH_A1, SINGLE);
-
-        QString sAction;
-        sAction = listOfSolenoids_Action_->at(i);
-
-        // correct a wrong signal direction entry in the routing file
-        // correct value is NOT written back to the file
-        if (elements[ID]->sSoldIcon == SYM_HS
-            || elements[ID]->sSoldIcon == SYM_HSS
-            || elements[ID]->sSoldIcon == SYM_VS) {
-            if ((elements[ID]->iSoldSubType == 0
-                 || elements[ID]->iSoldSubType == 1)
-                && sAction == DIR_HP2) {
-                s.sprintf(tr
-                          (">Directional value of signal # %s in route # %d is"
-                           " wrong. Correct value \"2\" to value \"1\"."),
-                          listOfSolenoids_Number_->at(i),
-                          iRouteIndex_ + 1);
-                QApplication::beep();
-                emit cmdToDebug(s);
-                listOfSolenoids_Action_->remove(i);
-                listOfSolenoids_Action_->insert(i, "1");
-            }
-            else if ((elements[ID]->iSoldSubType == 6
-                      || elements[ID]->iSoldSubType == 7)
-                     && sAction == DIR_HP1) {
-                s.sprintf(tr
-                          (">Directional value of signal # %s in route "
-                           "# %d is wrong. Correct value \"1\" to "
-                           "value \"2\"."), listOfSolenoids_Number_->at(i),
-                          iRouteIndex_ + 1);
-                QApplication::beep();
-                emit cmdToDebug(s);
-                listOfSolenoids_Action_->remove(i);
-                listOfSolenoids_Action_->insert(i, "2");
-            }
-        }
-
-        // correct a wrong ekw direction entry in the routing file
-        // correct value is NOT written back to the file
-        // 3 means a turnout at the no-possible branches
-        if ((elements[ID]->sSoldIcon == SYM_EKL ||
-             elements[ID]->sSoldIcon == SYM_EKR) && sAction.toInt() == 3) {
-            // DIR_SKU not allowed, use DIR_SKO instead
-            s.sprintf(tr(">Directional value of single-cross turnout # %s "
-                         "in route # %d is not allowed with EKL/EKR. Correct value \"3\""
-                         "to value \"1\"."),
-                      listOfSolenoids_Number_->at(i), iRouteIndex_ + 1);
-            QApplication::beep();
-            emit cmdToDebug(s);
-            listOfSolenoids_Action_->remove(i);
-            listOfSolenoids_Action_->insert(i, "1");
-        }
-
-        // wait a little bit (= 200 ms) that the user can enjoy the "GBS feeling"
-        // no break here 'cause layout can contain two element with the
-        // same address (e.g. if one element is repeated)
-        elements[ID]->slotSwitchIt(atoi(listOfSolenoids_Action_->at(i)),
-                                     LOCKED);
-        usleep(1000 * ROUTING_TIME);    // here timer activated switching
-    }
-    showLEDs(iRouteIndex_, SET);
-}
-
-
-void GBSArea::showLEDs(int iRouteIndex_, int iSet_)
-{
-    // we exactly have to activate so much elements as we have columns between
-    // start and stopsignal (including signal elements itself)
-    // this means: we cannot route in circles or over the layout edges!
-    // now we call the function in element to determine the next element in
-    // layout, this function also calls the setup of the activated icon;
-    // there's no solenoid in the 3 different rail crossings, so we just
-    // do the function to setup the icon and keep the correction factor
-    // from the calculations one element before
-    // SET=0, RESET=1, but we need either ROUTE_NONE=0 or ROUTE_SHOW=1;
-    // so we use the negation of iSet
-    int iFromIndex = locateIndex(listOfFromSignals->at(iRouteIndex_),
-                                 SRCH_A1, SINGLE);
-    int iToIndex = locateIndex(listOfToSignals->at(iRouteIndex_),
-                               SRCH_A1, SINGLE);
-    // true ist right, false is left
-    bool bRouteDir = !(elements[iFromIndex]->iSoldRotate);
     int iCorr = 0;
-    int iIndex = iFromIndex;
-    //int colSpread = abs(iFromIndex / rows - iToIndex / rows) + 1;
-    //int maxIdx = (int) elements.size();
+    int idx = fSig.elemPtr->getIndexNo();
+    int maxIdx = (int) elements.size();
+    element* endPtr = tSig.elemPtr;
+    bool layoutEdge = false;
+    bool finished = false;
+    bool toRight = !fSig.elemPtr->iSoldRotate;
 
-    for (int k = 0;
-         k < abs(iFromIndex / rows - iToIndex / rows) + 1; k++) {
+    int LEDcolor;
+    if (setRoute)
+        LEDcolor = LED_YEL;
+    else
+        LEDcolor = LED_OFF;
 
-        if ((iIndex < 0) || (iIndex >= (int) elements.size())) {
-            cmdToDebug(tr
-                       (">Try to route over a forbidden element (No %1). "
-                        "Check your entries in routing-file!").
-                       arg(iIndex));
+
+    while (!finished) {
+        if ((idx < 0) || (idx >= maxIdx)) {
+            layoutEdge = true;
+            break;
+        }
+        
+        element* rel = elements[idx];
+        if (rel == NULL) {
+            layoutEdge = true;
             break;
         }
 
-        if (elements[iIndex]->sSoldIcon == SYM_LEE) {
-            QApplication::beep();
-            cmdToDebug(tr(">Try to route over an empty element (No %1). "
-                          "Check your entries in routing-file!").
-                       arg(iIndex));
+        if (!rel->isRoutable()) {
+            layoutEdge = true;
             break;
         }
 
-        iCorr = elements[iIndex]->routeElement(bRouteDir, !iSet_, iCorr);
-        iIndex += (rows * ((bRouteDir == 1) - (bRouteDir == 0)) + iCorr);
+        finished = (rel == endPtr);
 
+        // TODO: what about occupied elements
+        // get back vertical correction
+        iCorr = rel->routeElement(toRight, LEDcolor, iCorr);
+
+        // calculate column of next element
+        if (toRight)
+            idx += rows + iCorr;
+        else
+            idx += -rows + iCorr;
+    }
+
+    // Routing over layout edges:
+    // 1) start1 -> stop1 (normal)
+    // 2) start2 -> stop1
+    // 3) start1 -> stop2
+    // 4) start2 -> stop2
+    if (layoutEdge) {
+        bool secondRun = false;
+        if (fSig.elemPtr2 != NULL) {
+            idx = fSig.elemPtr2->getIndexNo();
+            secondRun = true;
+        }
+        else if (tSig.elemPtr2 != NULL) {
+            endPtr = tSig.elemPtr2;
+            secondRun = true;
+        }
+        else if (fSig.elemPtr2 != NULL && tSig.elemPtr2 != NULL) {
+            idx = fSig.elemPtr2->getIndexNo();
+            endPtr = tSig.elemPtr2;
+            secondRun = true;
+        }
+
+        if (!secondRun)
+            return;
+
+        iCorr = 0;
+        finished = false;
+        /*second run*/
+        while (!finished) {
+            if ((idx < 0) || (idx >= maxIdx)) {
+                break;
+            }
+
+            element* rel = elements[idx];
+            if (rel == NULL) {
+                break;
+            }
+
+            if (!rel->isRoutable()) {
+                break;
+            }
+            finished = (rel == endPtr);
+
+            iCorr = rel->routeElement(toRight, LEDcolor, iCorr);
+
+            if (toRight)
+                idx += rows + iCorr;
+            else
+                idx += -rows + iCorr;
+        }
     }
 }
+
+/*
+void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
+        const stateElement& tSig, bool setRoute)
+{
+    if (fSig.elemPtr == NULL || tSig.elemPtr == NULL)
+        return;
+
+    if (rows <= 1)
+        return;
+
+    int fromIdx = fSig.elemPtr->getIndexNo();
+    int toIdx = tSig.elemPtr->getIndexNo();
+    bool toRight = !fSig.elemPtr->iSoldRotate;
+    int iCorr = 0;
+    int idx = fromIdx;
+    int colSpread = abs(fromIdx / rows - toIdx / rows) + 1;
+    int maxIdx = (int) elements.size();
+    bool layoutEdge = false;
+
+    int LEDcolor;
+    if (setRoute)
+        LEDcolor = LED_YEL;
+    else
+        LEDcolor = LED_OFF;
+
+    //while (!finished) {
+    for (int k = 0; k < colSpread; k++) {
+        if ((idx < 0) || (idx >= maxIdx)) {
+            layoutEdge = true;
+            break;
+        }
+        
+        element* rel = elements[idx];
+        if (rel == NULL) {
+            layoutEdge = true;
+            break;
+        }
+
+        if (!rel->isRoutable()) {
+            layoutEdge = true;
+            break;
+        }
+
+        //finished = (rel == tSig.elemPtr);
+
+        // TODO: what about occupied elements
+        // get back vertical correction
+        iCorr = rel->routeElement(toRight, LEDcolor, iCorr);
+
+        // calculate column of next element
+        if (toRight)
+            idx += rows + iCorr;
+        else
+            idx += -rows + iCorr;
+    }
+
+    // Routing over layout edges:
+    // 1) start1 -> stop1 (normal)
+    // 2) start2 -> stop1
+    // 3) start1 -> stop2
+    // 4) start2 -> stop2
+    if (layoutEdge) {
+        bool secondRun = false;
+        if (fSig.elemPtr2 != NULL) {
+            fromIdx = fSig.elemPtr2->getIndexNo();
+            secondRun = true;
+        }
+        else if (tSig.elemPtr2 != NULL) {
+            toIdx = tSig.elemPtr2->getIndexNo();
+            secondRun = true;
+        }
+        else if (fSig.elemPtr2 != NULL && tSig.elemPtr2 != NULL) {
+            fromIdx = fSig.elemPtr2->getIndexNo();
+            toIdx = tSig.elemPtr2->getIndexNo();
+            secondRun = true;
+        }
+
+        if (!secondRun)
+            return;
+
+        iCorr = 0;
+        idx = fromIdx;
+        colSpread = abs(fromIdx / rows - toIdx / rows) + 1;
+        //second run
+        for (int k = 0; k < colSpread; k++) {
+            if ((idx < 0) || (idx >= maxIdx)) {
+                break;
+            }
+
+            element* rel = elements[idx];
+            if (rel == NULL) {
+                break;
+            }
+
+            if (!rel->isRoutable()) {
+                break;
+            }
+
+            iCorr = rel->routeElement(toRight, LEDcolor, iCorr);
+
+            if (toRight)
+                idx += rows + iCorr;
+            else
+                idx += -rows + iCorr;
+        }
+    }
+}
+*/
 
 
 int GBSArea::locateIndex(const QString& sLocateString_, int iLocateType_,
@@ -1346,19 +916,6 @@ int GBSArea::locateIndex(const QString& sLocateString_, int iLocateType_,
 }
 
 
-void GBSArea::slotUnlockRoutings()
-{
-    QString sListText;
-    // reset all routes which are active
-    for (int i = 0; i < (int) listOfLockedRoutes->count(); i++) {
-        sListText = listOfLockedRoutes->at(i);
-        if (sListText.toInt() == LOCKED)
-            slotStartRouting(i, RESET);
-    }
-    QApplication::beep();
-}
-
-
 void GBSArea::slotToggleAll()
 {
     // toggles all elements but no couplers, motors no shifting bridges,
@@ -1375,7 +932,8 @@ void GBSArea::slotToggleAll()
 
 void GBSArea::slotSendAll()
 {
-    for (unsigned int j = 0; j < elements.size(); j++) // toggles all elements
+    // send current element states to SRCP server
+    for (unsigned int j = 0; j < elements.size(); j++)
         if (elements[j] != NULL)
             if (!(elements[j]->sSoldIcon == SYM_ENK
                         && elements[j]->iSoldSubType != -1) &&
@@ -1392,14 +950,7 @@ void GBSArea::slotNotrot()
 {
     // sets all signals to red state
     for (unsigned int j = 0; j < elements.size(); j++)
-        if (elements[j]->sSoldIcon == SYM_HS ||
-            elements[j]->sSoldIcon == SYM_HSS ||
-            elements[j]->sSoldIcon == SYM_SS ||
-            elements[j]->sSoldIcon == SYM_SSH ||
-            elements[j]->sSoldIcon == SYM_SSS ||
-            elements[j]->sSoldIcon == SYM_WS ||
-            elements[j]->sSoldIcon == SYM_VS ||
-            elements[j]->sSoldIcon == SYM_ZP)
+        if (elements[j]->isSignal())
             elements[j]->slotSwitchIt(0, 0);  // sec. "0" = NONE (RouteStatus)
     emit cmdToDebug(tr(">Switched all signals to halt/stop"));
 }
@@ -1407,31 +958,11 @@ void GBSArea::slotNotrot()
 
 void GBSArea::deleteElements()
 {
-    closeRouteWindow();
+    /* send signal to router */
     emit clearRoutes();
     elements.clear();
     move(0, 0);
     updateGeometry();
-    iConvertCheck = false;
-}
-
-
-void GBSArea::closeRouteWindow()
-{
-    if ((bRouteWindowActive) && (routeWindow != NULL)) {
-        // force kill to routing table window deletes all route information,
-        // e.g. if a new layout is created or loaded
-        // NOT called if user closes the window
-        routeWindow->close(true);
-        routeWindow = NULL;
-        bRouteWindowActive = false;
-        listOfActivatePorts->clear();
-        listOfFromSignals->clear();
-        listOfLockedRoutes->clear();
-        listOfReleasePorts->clear();
-        listOfRouteTypes->clear();
-        listOfToSignals->clear();
-    }
 }
 
 
@@ -1459,7 +990,7 @@ void GBSArea::setupElements()
                             elemSelectionMode)),
                     elements[j], SLOT(slotShowElement(int, int,
                             elemSelectionMode)));
-            connect(this, SIGNAL(FBportChanged(unsigned int)),
+            connect(this, SIGNAL(feedbackPortChanged(unsigned int)),
                     elements[j], SLOT(slotOccupyElement(unsigned int)));
             connect(this, SIGNAL(setRepeatIcon(const QString&)),
                     elements[j], SLOT(slotRepeatIcon(const QString&)));
@@ -1475,87 +1006,23 @@ void GBSArea::setupElements()
 }
 
 
-void GBSArea::slotFBportChanged(unsigned int iPortNr_)
+void GBSArea::slotEditFind(const QString& sSearch_, int type, bool multiple)
 {
-    /*do nothing if there's no layout loaded */
-    if (elements.count() == 0)
-        return;
+    int iElemID = -1, i = 0;
+    bool found = false;
 
-    // first check if a changed port can reset a route
-    // if there are any routes available at all
-    // check if routing file exists
-    if (!routeFileName.isEmpty()) {
-
-        QString s;
-
-        /* 1) check for routes to release */
-        if (!listOfReleasePorts->isEmpty())
-            if (listOfReleasePorts->find(s.setNum(iPortNr_)) != -1) {
-                QString sRP, sLR;
-                for (unsigned int i = 0; i < listOfReleasePorts->count();
-                     i++) {
-                    /*
-                     * now reset a route if:
-                     *  - port number equals release value in routing file
-                     *  - if port changed from 0 to 1
-                     *  - if this route is in SET state (= is active)
-                     * there may be more than one route to be released with same
-                     * FB port, so do NOT break the for() loop!
-                     */
-                    sRP = listOfReleasePorts->at(i);
-                    sLR = listOfLockedRoutes->at(i);
-
-                    if (iPortNr_ == sRP.toUInt() && bFBport[iPortNr_] == 1
-                        && sLR == "1")
-                        slotStartRouting(i, RESET);
-                }
-            }
-
-        /* 2) check for routes to activate */
-        if (!listOfActivatePorts->isEmpty())
-            if (listOfActivatePorts->find(s.setNum(iPortNr_)) != -1) {
-                QString sRP, sLR;
-                for (unsigned int i = 0; i < listOfActivatePorts->count();
-                     i++) {
-                    /*
-                     * now activate a route if:
-                     *  - port number equals activate value in routing file
-                     *  - if port changed from 0 to 1
-                     *  - if this route is in UNLOCKED state (= is not active)
-                     * there may be more than one route to be activated with
-                     * same FB port, so do NOT break the for() loop!
-                     */
-                    sRP = listOfActivatePorts->at(i);
-                    sLR = listOfLockedRoutes->at(i);
-
-                    if (iPortNr_ == sRP.toUInt() && bFBport[iPortNr_] == 1
-                        && sLR == "0")
-                        slotStartRouting(i, SET);
-                }
-            }
-    }
-    /*routeFileName*/
-    /*at last inform all elements to switch the track-LEDs to correct colour */
-    emit FBportChanged(iPortNr_);
-}
-
-
-void GBSArea::slotEditFind(const QString& sSearch_, int iType_, bool bMultiple_)
-{
-    int iElemID = -1, i = 0, bFound = 0;
     do {
-        iElemID = locateIndex(sSearch_, iType_, i++);
-        // search for first or all occurence (es)
-        // of desired element data
+        iElemID = locateIndex(sSearch_, type, i++);
+        // search for first or all occurence (es) of desired element data
         if (iElemID != 0) {
-            bFound = 1;
+            found = true;
             elements[iElemID]->locateMe();
         }
     }
-    while (iElemID != 0 && bMultiple_ == MULTI);
+    while (iElemID != 0 && multiple);
 
     // no element could be located -> show this information
-    if (!bFound)
+    if (!found)
         QMessageBox::information(this, tr("Locate error"),
                                  tr("There's no element which\n"
                                     "matches your search criteria."));
@@ -1621,9 +1088,8 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
                 e->move((c - 1) * EL_WIDTH, (r - 1) * EL_HEIGHT);
                 e->show();
                 connect(e, SIGNAL(elementClicked(element*, GbsButtonState)),
-                        this, SLOT(slotElementClicked(element*, GbsButtonState)));
-                //connect(e, SIGNAL(elementClicked(int, GbsButtonState)),
-                //        this, SLOT(slotElementClicked(int, GbsButtonState)));
+                        this, SLOT(slotElementClicked(element*,
+                                GbsButtonState)));
                 connect(e, SIGNAL(sendCommand(const QString&)),
                         this, SIGNAL(sendCommand(const QString&)));
                 connect(e, SIGNAL(setRepeatIcon(const QString&)),
@@ -1638,7 +1104,7 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
                                 elemSelectionMode)),
                         e, SLOT(slotShowElement(int, int,
                                 elemSelectionMode)));
-                connect(this, SIGNAL(FBportChanged(unsigned int)),
+                connect(this, SIGNAL(feedbackPortChanged(unsigned int)),
                         e, SLOT(slotOccupyElement(unsigned int)));
                 connect(this, SIGNAL(setRepeatIcon(const QString&)),
                         e, SLOT(slotRepeatIcon(const QString&)));
@@ -1648,7 +1114,7 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
                         this, SIGNAL(recordElement(element*, elemRecordType)));
             }
             e->setIndexNo(idx);
-            /*TODO: set current edit mode */
+            /*TODO: set current visual mode */
             tmpelements.insert(idx, e);
         }
     }
@@ -1702,33 +1168,6 @@ element* GBSArea::item(int row, int col) const
         return 0;
 
     return elements[indexOf(row, col)];
-}
-
-
-void GBSArea::setRouteFileName(const QString& fn)
-{
-    if (fn.isEmpty()) {
-        routeFileName = "";
-        return;
-    }
-
-    int pos = fn.findRev(GF_GBSEXT);
-    if (pos == -1)
-        pos = fn.findRev(GF_OLDGBSEXT);
-
-    if (pos != -1){
-        routeFileName = fn.left(pos);
-        routeFileName.append(RTS_FILE_SUFFIX);
-    }
-    else 
-        routeFileName = "";
-    //fprintf(stderr, "routefn: %s\n", routeFileName.data());
-}
-
-
-QString GBSArea::getRouteFileName()
-{
-    return routeFileName;
 }
 
 

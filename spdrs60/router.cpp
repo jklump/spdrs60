@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.4.8 $Revision: 1.5 $
+                           version 0.4.8 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-02 20:07:44 $
+    last modified        : $Date: 2005-06-04 19:08:39 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -118,10 +118,14 @@ void Router::setupRouteElements()
         return;
 
     QPtrListIterator<Route> routeit(routeList);
-    Route* setuproute;
-    while ((setuproute = routeit.current()) != 0 ) {
+    Route* sr;
+    while ((sr = routeit.current()) != 0 ) {
         ++routeit;
-        setuproute->setupElementLists(gbsElements);
+        sr->setupElementLists(gbsElements);
+        connect(sr, SIGNAL(updateRoutePathLEDs(const stateElement&,
+                        const stateElement&, bool)),
+                this, SIGNAL(updateRoutePathLEDs(const stateElement&,
+                        const stateElement&, bool)));
     }
 }
 
@@ -137,6 +141,7 @@ void Router::copyRouteAt(unsigned int index)
     Route* selectedRoute = getRouteAt(index);
     if (selectedRoute != NULL) {
         routeList.insert(index, selectedRoute->getClone());
+        // TODO: connect
         modified = true;
     }
 }
@@ -247,9 +252,8 @@ void Router::recordElement(element* el, elemRecordType rtype)
                 else if (!recRoute->hasStopSignal())
                     recRoute->setStopSignal(el);
                
-                /*send update signal to routingviewer to show altered
+                /*send update signal to routingviewer to show changed
                   route name*/
-                //TODO: update only last route entry to prevent flicker
                 emit updateRoutingViewerAt(routeList.find(recRoute));
                 break;
             case (krecNormal):
@@ -268,6 +272,7 @@ void Router::recordElement(element* el, elemRecordType rtype)
 unsigned int Router::addNewRoute()
 {
     routeList.append(new Route(tr("New Route")));
+    //TODO: connect
     return routeList.count();
 }
 
@@ -281,12 +286,15 @@ void Router::startRecordModeAt(unsigned int index)
 
 void Router::setRoute(element* el, GbsButtonState cb, GbsButtonState sb)
 {
+    if (el == NULL)
+        return;
+
     /*check if start signal is allready choosen*/
     if (selectedStartSig == NULL) {
         Route* sr = getUnlockedRouteWithStartSignal(el, cb, sb);
         if (sr != NULL) {
             selectedStartSig = el;
-            // TODO: check for selected route: activeRoute = sr;
+            // send signal to gbs to change mouse cursor
             emit startRouteTimer(sr->getType());
         }
         else {
@@ -300,9 +308,8 @@ void Router::setRoute(element* el, GbsButtonState cb, GbsButtonState sb)
     }
     /*stop signal button is pressed*/
     else {
-        Route* sr = getUnlockedRouteWithStopSignal(el, cb, sb);
         /*send cursor time out to gbs*/
-        emit routeFunctionFinished();
+        Route* sr = getUnlockedRouteWithStopSignal(el, cb, sb);
         if (sr != NULL) {
             // activate route
             if (sr->startRouting()) {
@@ -322,9 +329,10 @@ void Router::setRoute(element* el, GbsButtonState cb, GbsButtonState sb)
         else {
             QApplication::beep();
             emit showLogMessage(tr("No matching route found from '%1'"
-                        "to '%2'").arg(selectedStartSig->getName(),
+                        " to '%2'").arg(selectedStartSig->getName(),
                             el->getName()), M_INFO, HIST);
         }
+        emit routeFunctionFinished();
         selectedStartSig = NULL;
     }
 }
@@ -356,9 +364,9 @@ Route* Router::getLockedRouteWithStartSignal(element* el)
     while ((rt = routeit.current()) != 0 ) {
         ++routeit;
         if (rt->isLockedWithStartSignal(el))
-            break;
+            return rt;
     }
-    return rt;
+    return NULL;
 }
 
 
@@ -370,9 +378,9 @@ Route* Router::getUnlockedRouteWithStartSignal(element* el, GbsButtonState cb,
     while ((rt = routeit.current()) != 0 ) {
         ++routeit;
         if (rt->isUnlockedWithStartSignalType(el, cb, sb))
-            break;
+            return rt;
     }
-    return rt;
+    return NULL;
 }
 
 
@@ -384,14 +392,46 @@ Route* Router::getUnlockedRouteWithStopSignal(element* el, GbsButtonState cb,
     while ((rt = routeit.current()) != 0 ) {
         ++routeit;
         if (rt->isUnlockedType(selectedStartSig, el, cb, sb))
-            break;
+            return rt;
     }
-    return rt;
+    return NULL;
 }
 
 
 void Router::resetSelectedSignal()
 {
     selectedStartSig = NULL;
+}
+
+void Router::unlockAllLockedRoutes()
+{
+    QPtrListIterator<Route> routeit(routeList);
+    Route* rt;
+    while ((rt = routeit.current()) != 0 ) {
+        ++routeit;
+        if (rt->isLocked())
+            rt->stopRouting();
+    }
+    emit showLogMessage(tr("All active routes unlocked"), M_INFO, HIST);
+}
+
+
+void Router::feedbackPortChanged(unsigned int port)
+{
+    QPtrListIterator<Route> routeit(routeList);
+    Route* rt;
+    
+    /*first release locked routes*/
+    while ((rt = routeit.current()) != 0 ) {
+        ++routeit;
+        rt->unlockByFeedbackPort(port);
+    }
+    
+    /*second activate unlocked routes*/
+    routeit.toFirst();
+    while ((rt = routeit.current()) != 0 ) {
+        ++routeit;
+        rt->lockByFeedbackPort(port);
+    }
 }
 

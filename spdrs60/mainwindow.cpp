@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.13 $
+                           version 0.4.8 $Revision: 1.14 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-02 20:07:44 $
+    last modified        : $Date: 2005-06-04 19:08:39 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -287,7 +287,7 @@ void MainWindow::initMainWindow()
     scrollview->addChild(gbs);
 
     connect(this, SIGNAL(sendFBChangeLayout(unsigned int)),
-            gbs, SLOT(slotFBportChanged(unsigned int)));
+            gbs, SIGNAL(feedbackPortChanged(unsigned int)));
     connect(this, SIGNAL(switchedVisualMode(elemVisualMode)), gbs,
             SIGNAL(switchVisualMode(elemVisualMode)));
     connect(gbs, SIGNAL(cmdToDebug(const QString&)),
@@ -354,6 +354,8 @@ void MainWindow::initMainWindow()
     Q_CHECK_PTR(rtController);
     connect(this, SIGNAL(switchedVisualMode(elemVisualMode)),
             rtController, SLOT(switchVisualMode(elemVisualMode)));
+    connect(this, SIGNAL(sendFBChangeRoute(unsigned int)),
+            rtController, SLOT(feedbackPortChanged(unsigned int)));
     connect(rtController, SIGNAL(showLogMessage(const QString&, int,
                     int)),
             this, SLOT(cmdToDebug(const QString&, int, int)));
@@ -373,6 +375,10 @@ void MainWindow::initMainWindow()
             gbs, SLOT(startRouteTimer(TypeOfRoute)));
     connect(gbs, SIGNAL(resetSelectedSignal()),
             rtController, SLOT(resetSelectedSignal()));
+    connect(rtController, SIGNAL(updateRoutePathLEDs(const stateElement&,
+                    const stateElement&, bool)),
+            gbs, SLOT(updateRoutePathLEDs(const stateElement&,
+                    const stateElement&, bool)));
     
     /*route viewer*/
     rtViewer = new RoutingViewer(this, "Routings", rtController);
@@ -744,8 +750,8 @@ void MainWindow::initMainWindow()
     actionLayoutUnlockRoutes = new QAction(NULL,
             tr("&Unlock routings"), CTRL + Key_U, this, "layoutUnlockRoutes" );
     actionLayoutUnlockRoutes->setToolTip(tr("Unlock all routes"));
-    connect(actionLayoutUnlockRoutes, SIGNAL(activated()), gbs,
-            SLOT(slotUnlockRoutings()));
+    connect(actionLayoutUnlockRoutes, SIGNAL(activated()), rtController,
+            SLOT(unlockAllLockedRoutes()));
     actionLayoutUnlockRoutes->addTo(layoutmenu);
     //actionLayoutUnlockRoutes->addTo(layouttb);
 
@@ -1111,8 +1117,6 @@ void MainWindow::slotFileSaveAs()
         }
 
         fileName = fn;
-        if (gbs != NULL)
-            gbs->setRouteFileName(fn);
         saveFile();
     }
     else
@@ -1198,10 +1202,6 @@ void MainWindow::openFile(const QString& fn)
     }
     fileName = fn;
 
-    /*FIXME: this is only for old route edit dialog*/
-    if (gbs != NULL)
-        gbs->setRouteFileName(fn);
-
     QTextStream ts(&f);
     gbs->readFileTextFromStream(ts);
     rtController->readFileTextFromStream(ts);
@@ -1227,8 +1227,6 @@ void MainWindow::importFile(const QString& fn)
         return;
     }
     fileName = "";
-
-    gbs->setRouteFileName(fn);
 
     QTextStream ts(&f);
     gbs->readOldFileTextFromStream(ts);
@@ -1443,8 +1441,13 @@ void MainWindow::FeedbackSocketReadyRead()
         }
 
         /* should'nt we only send modules which are realy connected? */
-        emit sendFBChangeModule(iPortNr);       // send updates to module window
-        emit sendFBChangeLayout(iPortNr);       // send updates to all elements via gbs
+        // send updates to module window
+        emit sendFBChangeModule(iPortNr);
+        // send updates to all elements via gbs
+        emit sendFBChangeLayout(iPortNr);
+        // send updates to all routes
+        if (iState == 1)
+            emit sendFBChangeRoute(iPortNr);
     }
 }
 
