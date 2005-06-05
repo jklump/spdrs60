@@ -1,7 +1,7 @@
 dnl configure.ac for spdrs60
 dnl Guido Scholz
-dnl last update: $Date: 2005-05-07 20:08:25 $
-dnl version: $Revision: 1.4 $
+dnl last update: $Date: 2005-06-05 13:26:24 $
+dnl version: $Revision: 1.5 $
 dnl Process this file with autoconf to produce a configure script.
 
 AC_INIT([spdrs60],[0.4.8],[Guido Scholz <guido.scholz@bayernline.de>])
@@ -155,7 +155,6 @@ AC_DEFINE_UNQUOTED([RES_DIR_LAYT], ["$RES_DIR_LAYT"], \
 dnl add here all your Makefiles. This are created by configure
 AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([clock/Makefile])
-AC_CONFIG_FILES([convertrts/Makefile])
 AC_CONFIG_FILES([doc/Makefile])
 AC_CONFIG_FILES([elements/Makefile])
 AC_CONFIG_FILES([icons/Makefile])
