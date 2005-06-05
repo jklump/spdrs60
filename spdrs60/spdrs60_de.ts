@@ -54,35 +54,35 @@
     <name>GBSArea</name>
     <message>
         <source>Information</source>
-        <translation>Information</translation>
+        <translation type="obsolete">Information</translation>
     </message>
     <message>
         <source>unknown</source>
-        <translation>unbekannt</translation>
+        <translation type="obsolete">unbekannt</translation>
     </message>
     <message>
-        <source>&gt;No switching possible, element is occupied</source>
-        <translation>&gt;Kein Schalten möglich, Element ist besetzt</translation>
+        <source>No switching possible, element is occupied</source>
+        <translation type="obsolete">Kein Schalten möglich, Element ist besetzt</translation>
     </message>
     <message>
-        <source>&gt;No routing possible, route # %d is locked by another route.</source>
-        <translation>&gt;Fahrstraße %d kann nicht freigegeben werden, sie ist durch eine andere Fahrstraße blockiert.</translation>
+        <source>No routing possible, route # %d is locked by another route.</source>
+        <translation type="obsolete">Fahrstraße %d kann nicht freigegeben werden, sie ist durch eine andere Fahrstraße blockiert.</translation>
     </message>
     <message>
-        <source>&gt;Directional value of signal # %s in route # %d is wrong. Correct value &quot;2&quot; to value &quot;1&quot;.</source>
-        <translation>&gt;Richtungswert von Signal Nr. %s in Fahrstraße Nr. %d ist falsch. Korrigiere Wert &quot;2&quot; auf Wert &quot;1&quot;.</translation>
+        <source>Directional value of signal # %s in route # %d is wrong. Correct value &quot;2&quot; to value &quot;1&quot;.</source>
+        <translation type="obsolete">Richtungswert von Signal Nr. %s in Fahrstraße Nr. %d ist falsch. Korrigiere Wert &quot;2&quot; auf Wert &quot;1&quot;.</translation>
     </message>
     <message>
-        <source>&gt;Directional value of signal # %s in route # %d is wrong. Correct value &quot;1&quot; to value &quot;2&quot;.</source>
-        <translation>&gt;Richtungswert von Signal Nr. %s in Fahrstraße Nr. %d ist falsch. Korrigiere Wert &quot;1&quot; auf Wert &quot;2&quot;.</translation>
+        <source>Directional value of signal # %s in route # %d is wrong. Correct value &quot;1&quot; to value &quot;2&quot;.</source>
+        <translation type="obsolete">Richtungswert von Signal Nr. %s in Fahrstraße Nr. %d ist falsch. Korrigiere Wert &quot;1&quot; auf Wert &quot;2&quot;.</translation>
     </message>
     <message>
-        <source>&gt;Directional value of single-cross turnout # %s in route # %d is not allowed with EKL/EKR. Correct value &quot;3&quot;to value &quot;1&quot;.</source>
-        <translation>&gt;Richtungswert der Kreuzungsweiche Nr. %s in Fahrstraße Nr. %d ist bei EKL/EKR nicht erlaubt. Korrigiere Wert &quot;3&quot; auf Wert &quot;1&quot;.</translation>
+        <source>Directional value of single-cross turnout # %s in route # %d is not allowed with EKL/EKR. Correct value &quot;3&quot;to value &quot;1&quot;.</source>
+        <translation type="obsolete">Richtungswert der Kreuzungsweiche Nr. %s in Fahrstraße Nr. %d ist bei EKL/EKR nicht erlaubt. Korrigiere Wert &quot;3&quot; auf Wert &quot;1&quot;.</translation>
     </message>
     <message>
-        <source>&gt;Switched all signals to halt/stop</source>
-        <translation>&gt; Alle Signale auf Halt/Stop gestellt</translation>
+        <source>Switched all signals to halt/stop</source>
+        <translation>Alle Signale auf Halt/Stop gestellt</translation>
     </message>
     <message>
         <source>Locate error</source>
@@ -99,30 +99,30 @@ den Suchkriterien entspricht.</translation>
 File has been converted into new format!
 
 Please reload this layout.</source>
-        <translation>Die Fahrstraßendatei enthält ein altes Datenformat.
+        <translation type="obsolete">Die Fahrstraßendatei enthält ein altes Datenformat.
 Die Datei wurde in das neue Format umgewandelt.
 
 Bitte lesen Sie dieses Gleisbild neu ein.</translation>
     </message>
     <message>
         <source>Routings for layout</source>
-        <translation>Fahrstraßen für Gleisbild</translation>
+        <translation type="obsolete">Fahrstraßen für Gleisbild</translation>
     </message>
     <message>
-        <source>&gt;Try to route over an empty element (No %1). Check your entries in routing-file!</source>
-        <translation>&gt; Versuch, eine Fahrstraße über ein leeres Element (Nr. %1) einzurichten. Kontrollieren Sie die Daten der Fahrstraßendatei!</translation>
+        <source>Try to route over an empty element (No %1). Check your entries in routing-file!</source>
+        <translation type="obsolete">Versuch, eine Fahrstraße über ein leeres Element (Nr. %1) einzurichten. Kontrollieren Sie die Daten der Fahrstraßendatei!</translation>
     </message>
     <message>
-        <source>&gt;Try to route over a forbidden element (No %1). Check your entries in routing-file!</source>
-        <translation>&gt; Versuch, eine Fahrstraße über ein verbotenes Element (Nr. %1) einzurichten. Kontrollieren Sie die Daten der Fahrstraßendatei!</translation>
+        <source>Try to route over a forbidden element (No %1). Check your entries in routing-file!</source>
+        <translation type="obsolete">Versuch, eine Fahrstraße über ein verbotenes Element (Nr. %1) einzurichten. Kontrollieren Sie die Daten der Fahrstraßendatei!</translation>
     </message>
     <message>
-        <source>&gt;Route %1 is allready active!</source>
-        <translation>&gt;Fahrstraße %1 ist bereits aktiv!</translation>
+        <source>Route %1 is allready active!</source>
+        <translation type="obsolete">Fahrstraße %1 ist bereits aktiv!</translation>
     </message>
     <message>
-        <source>&gt;Route %1 is not active!</source>
-        <translation>&gt;Fahrstraße %1 ist nicht aktiv!</translation>
+        <source>Route %1 is not active!</source>
+        <translation type="obsolete">Fahrstraße %1 ist nicht aktiv!</translation>
     </message>
     <message>
         <source>Creating empty layout file</source>
@@ -133,68 +133,68 @@ Bitte lesen Sie dieses Gleisbild neu ein.</translation>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <source>&gt;Resetting route # %d.</source>
-        <translation>&gt;Fahrstraße Nr. %d wird zurückgesetzt.</translation>
+        <source>Resetting route # %d.</source>
+        <translation type="obsolete">Fahrstraße Nr. %d wird zurückgesetzt.</translation>
     </message>
     <message>
-        <source>&gt;MGT-Function not supported.</source>
-        <translation>&gt;Die MGT-Funktion wird noch nicht unterstützt.</translation>
+        <source>MGT-Function not supported.</source>
+        <translation>Die MGT-Funktion wird noch nicht unterstützt.</translation>
     </message>
     <message>
-        <source>&gt;No normal route found for start signal &apos;%1&apos;!</source>
-        <translation>&gt;Keine Regelzugstraße für Startsignal &apos;%1&apos; gefunden!</translation>
+        <source>No normal route found for start signal &apos;%1&apos;!</source>
+        <translation type="obsolete">Keine Regelzugstraße für Startsignal &apos;%1&apos; gefunden!</translation>
     </message>
     <message>
-        <source>&gt;No detour route found for start signal &apos;%1&apos;!</source>
-        <translation>&gt;Keine Umfahrzugstraße für Startsignal &apos;%1&apos; gefunden!</translation>
+        <source>No detour route found for start signal &apos;%1&apos;!</source>
+        <translation type="obsolete">Keine Umfahrzugstraße für Startsignal &apos;%1&apos; gefunden!</translation>
     </message>
     <message>
-        <source>&gt;No shunting route found for start signal &apos;%1&apos;!</source>
-        <translation>&gt;Keine Regelrangierstraße für Startsignal &apos;%1&apos; gefunden!</translation>
+        <source>No shunting route found for start signal &apos;%1&apos;!</source>
+        <translation type="obsolete">Keine Regelrangierstraße für Startsignal &apos;%1&apos; gefunden!</translation>
     </message>
     <message>
-        <source>&gt;No detour shunting route found for start signal &apos;%1&apos;!</source>
-        <translation>&gt;Keine Umfahrrangierstraße für Startsignal &apos;%1&apos; gefunden!</translation>
+        <source>No detour shunting route found for start signal &apos;%1&apos;!</source>
+        <translation type="obsolete">Keine Umfahrrangierstraße für Startsignal &apos;%1&apos; gefunden!</translation>
     </message>
     <message>
-        <source>&gt;Start routing of route # %d.</source>
-        <translation>&gt;Fahrstraße Nr. %d wird aktiviert.</translation>
+        <source>Start routing of route # %d.</source>
+        <translation type="obsolete">Fahrstraße Nr. %d wird aktiviert.</translation>
     </message>
     <message>
-        <source>&gt;No help route found for start signal &apos;%1&apos;!</source>
-        <translation>&gt;Keine Zughilfsstraße für Startsignal &apos;%1&apos; gefunden!</translation>
+        <source>No help route found for start signal &apos;%1&apos;!</source>
+        <translation type="obsolete">Keine Zughilfsstraße für Startsignal &apos;%1&apos; gefunden!</translation>
     </message>
     <message>
         <source>normal route</source>
-        <translation>Regelzugstraße</translation>
+        <translation type="obsolete">Regelzugstraße</translation>
     </message>
     <message>
         <source>detour route</source>
-        <translation>Umfahrzugstraße</translation>
+        <translation type="obsolete">Umfahrzugstraße</translation>
     </message>
     <message>
         <source>help route</source>
-        <translation>Zughilfsstraße</translation>
+        <translation type="obsolete">Zughilfsstraße</translation>
     </message>
     <message>
         <source>shunting route</source>
-        <translation>Regelrangierstraße</translation>
+        <translation type="obsolete">Regelrangierstraße</translation>
     </message>
     <message>
         <source>detour shunting route</source>
-        <translation>Umfahrrangierstraße</translation>
+        <translation type="obsolete">Umfahrrangierstraße</translation>
     </message>
     <message>
-        <source>&gt;No %1 found from %2 to %3!</source>
-        <translation>&gt;Keine %1 von %2 nach %3 gefunden!</translation>
+        <source>No %1 found from %2 to %3!</source>
+        <translation type="obsolete">Keine %1 von %2 nach %3 gefunden!</translation>
     </message>
     <message>
-        <source>&gt;No switching possible, solenoid &apos;%1&apos; is locked by an active route.</source>
-        <translation>&gt;Kein Schalten möglich, Magnetartikel &apos;%1&apos; ist durch eine aktive Fahrstraße gesperrt.</translation>
+        <source>No switching possible, solenoid &apos;%1&apos; is locked by an active route.</source>
+        <translation>Kein Schalten möglich, Magnetartikel &apos;%1&apos; ist durch eine aktive Fahrstraße gesperrt.</translation>
     </message>
     <message>
-        <source>&gt;No routing possible, signal &apos;%1&apos; is allready locked by an active route.</source>
-        <translation>&gt;Fahrstraße nicht aktivierbar; Signal &apos;%1&apos; ist bereits durch eine aktive Fahrstraße blockiert.</translation>
+        <source>No routing possible, signal &apos;%1&apos; is allready locked by an active route.</source>
+        <translation type="obsolete">Fahrstraße nicht aktivierbar; Signal &apos;%1&apos; ist bereits durch eine aktive Fahrstraße blockiert.</translation>
     </message>
     <message>
         <source>Loading layout file</source>
@@ -205,8 +205,28 @@ Bitte lesen Sie dieses Gleisbild neu ein.</translation>
         <translation>Hinzufügen der leeren Elemente</translation>
     </message>
     <message>
-        <source>&gt;Route record mode finished</source>
-        <translation>&gt;Fahrstraßenaufzeichnen beendet</translation>
+        <source>Route record mode finished</source>
+        <translation type="obsolete">Fahrstraßenaufzeichnen beendet</translation>
+    </message>
+    <message>
+        <source>HaGT-Function not supported.</source>
+        <translation>HaGT-Funktion wird noch nicht unterstützt.</translation>
+    </message>
+    <message>
+        <source>No switching possible, signal &apos;%1&apos; is locked by an active route.</source>
+        <translation>Kein Umschalten möglich; Signal &apos;%1&apos; ist durch eine aktive Fahstraße gesperrt.</translation>
+    </message>
+    <message>
+        <source>No derouting possible; signal &apos;%1&apos; is not a start signal of an active route.</source>
+        <translation>Keine Fahrstraßenauflösung möglich; Signal &apos;%1&apos; ist kein Startsignal einer aktiven Fahrstraße.</translation>
+    </message>
+    <message>
+        <source>Operation not allowed</source>
+        <translation>Diese Bedienhandlung ist nicht erlaubt</translation>
+    </message>
+    <message>
+        <source>No switching possible, turnout is occupied</source>
+        <translation>Kein Umschalten möglich; Weiche ist belegt</translation>
     </message>
 </context>
 <context>
@@ -225,7 +245,7 @@ Bitte lesen Sie dieses Gleisbild neu ein.</translation>
     </message>
     <message>
         <source>&amp;Save As...</source>
-        <translation>Speichern &amp;unter...</translation>
+        <translation type="obsolete">Speichern &amp;unter...</translation>
     </message>
     <message>
         <source>&amp;Quit</source>
@@ -233,11 +253,11 @@ Bitte lesen Sie dieses Gleisbild neu ein.</translation>
     </message>
     <message>
         <source>Layout</source>
-        <translation>Gleisbild</translation>
+        <translation type="obsolete">Gleisbild</translation>
     </message>
     <message>
         <source>Routings</source>
-        <translation>Fahrstraßen</translation>
+        <translation type="obsolete">Fahrstraßen</translation>
     </message>
     <message>
         <source>&amp;Layout</source>
@@ -269,7 +289,7 @@ Bitte lesen Sie dieses Gleisbild neu ein.</translation>
     </message>
     <message>
         <source>&amp;Unlock routings</source>
-        <translation>Fahrstraßen &amp;entsperren</translation>
+        <translation type="obsolete">Fahrstraßen &amp;entsperren</translation>
     </message>
     <message>
         <source>Use &amp;FHT</source>
@@ -297,7 +317,7 @@ Bitte lesen Sie dieses Gleisbild neu ein.</translation>
     </message>
     <message>
         <source>Toggle &amp;Debugging</source>
-        <translation>Statuszeile &amp;umschalten</translation>
+        <translation type="obsolete">Statuszeile &amp;umschalten</translation>
     </message>
     <message>
         <source>&amp;Help</source>
@@ -333,19 +353,19 @@ Bitte lesen Sie dieses Gleisbild neu ein.</translation>
     </message>
     <message>
         <source>Save layout file</source>
-        <translation>Gleisbilddatei speichern</translation>
+        <translation type="obsolete">Gleisbilddatei speichern</translation>
     </message>
     <message>
         <source>Start layout</source>
-        <translation>Gleisbild starten</translation>
+        <translation type="obsolete">Gleisbild starten</translation>
     </message>
     <message>
         <source>Stop layout</source>
-        <translation>Gleisbild anhalten</translation>
+        <translation type="obsolete">Gleisbild anhalten</translation>
     </message>
     <message>
         <source>Halt signals</source>
-        <translation>Signale auf Halt</translation>
+        <translation type="obsolete">Signale auf Halt</translation>
     </message>
     <message>
         <source>Show routing table</source>
@@ -353,7 +373,7 @@ Bitte lesen Sie dieses Gleisbild neu ein.</translation>
     </message>
     <message>
         <source>Show feedback window</source>
-        <translation>Rückmeldefenster anzeigen</translation>
+        <translation type="obsolete">Rückmeldefenster anzeigen</translation>
     </message>
     <message>
         <source>Show basic keyboard</source>
@@ -377,7 +397,7 @@ Bitte lesen Sie dieses Gleisbild neu ein.</translation>
     </message>
     <message>
         <source>Route file not yet available</source>
-        <translation>Fahrstraßendatei noch nicht verfügbar</translation>
+        <translation type="obsolete">Fahrstraßendatei noch nicht verfügbar</translation>
     </message>
     <message>
         <source>Warning</source>
@@ -411,7 +431,7 @@ verwenden, starten sie erst den Daemon, dann dieses Programm).</translation>
     </message>
     <message>
         <source>&amp;Go back</source>
-        <translation>&amp;Zurück</translation>
+        <translation type="obsolete">&amp;Zurück</translation>
     </message>
     <message>
         <source>Daemon info</source>
@@ -439,11 +459,11 @@ verwenden, starten sie erst den Daemon, dann dieses Programm).</translation>
     </message>
     <message>
         <source>Entering edit mode</source>
-        <translation>Starte Bearbeitungsmodus</translation>
+        <translation type="obsolete">Starte Bearbeitungsmodus</translation>
     </message>
     <message>
         <source>Leaving edit mode</source>
-        <translation>Beende Bearbeitungsmodus</translation>
+        <translation type="obsolete">Beende Bearbeitungsmodus</translation>
     </message>
     <message>
         <source>Program succesfully started!</source>
@@ -607,7 +627,7 @@ SRCP-Versionsnummer:
     </message>
     <message>
         <source>&amp;Editmode</source>
-        <translation>Bearbeitungs&amp;modus</translation>
+        <translation type="obsolete">Bearbeitungs&amp;modus</translation>
     </message>
     <message>
         <source>&amp;View</source>
@@ -662,7 +682,7 @@ und sonstige Kommentare an:
     </message>
     <message>
         <source>New &amp;Window</source>
-        <translation>Neues &amp;Fenster</translation>
+        <translation type="obsolete">Neues &amp;Fenster</translation>
     </message>
     <message>
         <source>&amp;Close</source>
@@ -740,6 +760,154 @@ Wollen Sie sie überschreiben?</translation>
         <source>Layout file &apos;%1&apos; imported</source>
         <translation>Gleisbilddatei &apos;%1&apos; importiert</translation>
     </message>
+    <message>
+        <source>Save &amp;as...</source>
+        <translation>Speichern &amp;unter...</translation>
+    </message>
+    <message>
+        <source>New &amp;window</source>
+        <translation>Neues &amp;Fenster</translation>
+    </message>
+    <message>
+        <source>Edit operations</source>
+        <translation>Bearbeiten von Daten</translation>
+    </message>
+    <message>
+        <source>Edit layout file with external editor</source>
+        <translation>Gleisbilddatei mit externem Editor bearbeiten</translation>
+    </message>
+    <message>
+        <source>Edit config file with external editor</source>
+        <translation>Konfigurationsdatei mit externem Editor bearbeiten</translation>
+    </message>
+    <message>
+        <source>Find information in layout element</source>
+        <translation>Information in Gleisbildelement suchen</translation>
+    </message>
+    <message>
+        <source>Edit application preferences</source>
+        <translation>Anwendungseinstellungen bearbeiten</translation>
+    </message>
+    <message>
+        <source>View operations</source>
+        <translation>Ansicht-Bedienung</translation>
+    </message>
+    <message>
+        <source>Show feedback module window</source>
+        <translation>Rückmeldemodulfenster anzeigen</translation>
+    </message>
+    <message>
+        <source>&amp;Normal mode</source>
+        <translation>&amp;Betriebsmodus</translation>
+    </message>
+    <message>
+        <source>&amp;Layout edit mode</source>
+        <translation>&amp;Gleisbildbearbeitungsmodus</translation>
+    </message>
+    <message>
+        <source>&amp;Route edit mode</source>
+        <translation>&amp;Fahrstraßenbearbeitungsmodus</translation>
+    </message>
+    <message>
+        <source>&amp;Toggle history line</source>
+        <translation>&amp;Statuszeile umschalten</translation>
+    </message>
+    <message>
+        <source>Daemon operations</source>
+        <translation>SRCP-Server-Bedienung</translation>
+    </message>
+    <message>
+        <source>Connect to SRCP daemon</source>
+        <translation>Mit SRCP-Server verbinden</translation>
+    </message>
+    <message>
+        <source>Disconnect from SRCP daemon</source>
+        <translation>Verbindung zum SRCP-Server trennen</translation>
+    </message>
+    <message>
+        <source>Reset SRCP daemon</source>
+        <translation>SRCP-Server zurücksetzen</translation>
+    </message>
+    <message>
+        <source>Info about SRCP daemon</source>
+        <translation>Informationen zum SRCP-Server anzeigen</translation>
+    </message>
+    <message>
+        <source>Layout operations</source>
+        <translation>Gleisbild-Bedienung</translation>
+    </message>
+    <message>
+        <source>Switch layout power on</source>
+        <translation>Digitalstrom einschalten</translation>
+    </message>
+    <message>
+        <source>Use route help button</source>
+        <translation>Fahrstraßenhilfstaste benutzen</translation>
+    </message>
+    <message>
+        <source>Use turnout group button</source>
+        <translation>Weichengruppentaste benutzen</translation>
+    </message>
+    <message>
+        <source>Use &amp;SGT</source>
+        <translation>&amp;SGT benutzen</translation>
+    </message>
+    <message>
+        <source>Use signal group button</source>
+        <translation>Signalgruppentaste benutzen</translation>
+    </message>
+    <message>
+        <source>Use detour group button</source>
+        <translation>Umfahrgruppentaste benutzen</translation>
+    </message>
+    <message>
+        <source>Switch all signals to halt</source>
+        <translation>Alle Signale auf Halt stellen</translation>
+    </message>
+    <message>
+        <source>Toggle all switchable elements</source>
+        <translation>Alle Magnetartikel umschalten</translation>
+    </message>
+    <message>
+        <source>Send current states of all switchable elements to SRCP server</source>
+        <translation>Aktuellen Status aller Magnetartikel an SRCP-Server senden</translation>
+    </message>
+    <message>
+        <source>Change layout size</source>
+        <translation>Gleisbildgröße ändern</translation>
+    </message>
+    <message>
+        <source>Route operations</source>
+        <translation>Fahrstraßen-Bedienung</translation>
+    </message>
+    <message>
+        <source>&amp;Route</source>
+        <translation>&amp;Fahrstraße</translation>
+    </message>
+    <message>
+        <source>&amp;Unlock all</source>
+        <translation>&amp;Alle entsperren</translation>
+    </message>
+    <message>
+        <source>Unlock all routes</source>
+        <translation>Alle Fahrstraßen entsperren</translation>
+    </message>
+    <message>
+        <source>Switch layout power off</source>
+        <translation>Digitalstrom ausschalten</translation>
+    </message>
+    <message>
+        <source>Layout in normal view mode</source>
+        <translation>Gleisbild in Betriebsmodusansicht</translation>
+    </message>
+    <message>
+        <source>Entering layout edit mode</source>
+        <translation>In Gleisbildbearbeitungsmodus wechseln</translation>
+    </message>
+    <message>
+        <source>Entering route edit mode</source>
+        <translation>In Fahrstraßenbearbeitungsmodus wechseln</translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -762,6 +930,25 @@ Wollen Sie sie überschreiben?</translation>
     <message>
         <source>DS%1</source>
         <translation>URS%1</translation>
+    </message>
+</context>
+<context>
+    <name>Route</name>
+    <message>
+        <source>New route from </source>
+        <translation>Neue Fahrstraße von</translation>
+    </message>
+    <message>
+        <source>New route</source>
+        <translation>Neue Fahrstraße</translation>
+    </message>
+    <message>
+        <source> from %1</source>
+        <translation>von %1</translation>
+    </message>
+    <message>
+        <source> to %1</source>
+        <translation>nach %1</translation>
     </message>
 </context>
 <context>
@@ -808,12 +995,12 @@ Wollen Sie sie überschreiben?</translation>
     </message>
     <message>
         <source>Missing routing file</source>
-        <translation>Fahrstraßendatei fehlt</translation>
+        <translation type="obsolete">Fahrstraßendatei fehlt</translation>
     </message>
     <message>
         <source>There&apos;s no routing file for this layout.
 An empty routing file has been created.</source>
-        <translation>Es gab bisher keine Fahrstraßendatei für dieses Gleisbild.
+        <translation type="obsolete">Es gab bisher keine Fahrstraßendatei für dieses Gleisbild.
 Eine leere Fahrstraßendatei wurde soeben angelegt.</translation>
     </message>
     <message>
@@ -973,8 +1160,8 @@ Fahrstraße speichern?</translation>
         <translation>Kopie von </translation>
     </message>
     <message>
-        <source>&gt;Recording new route ...</source>
-        <translation>&gt;Zeichne neue Fahrstraße auf ...</translation>
+        <source>Recording new route ...</source>
+        <translation type="obsolete">Zeichne neue Fahrstraße auf ...</translation>
     </message>
     <message>
         <source>No</source>
@@ -1027,8 +1214,47 @@ Bitte vor dem Speichern korrigieren!</translation>
         <translation>&amp;Fahrstraße Nr. %d:</translation>
     </message>
     <message>
-        <source>&gt;Writing routes: %1</source>
-        <translation>&gt;Schreibe Fahrstraßen: %1</translation>
+        <source>Writing routes: %1</source>
+        <translation type="obsolete">Schreibe Fahrstraßen: %1</translation>
+    </message>
+    <message>
+        <source>&gt;Recording new route ...</source>
+        <translation>&gt;Aufnehmen einer neuen Fahrstraße ...</translation>
+    </message>
+</context>
+<context>
+    <name>Router</name>
+    <message>
+        <source>New route</source>
+        <translation>Neue Fahrstraße</translation>
+    </message>
+    <message>
+        <source>No matching route found for start signal &apos;%1&apos;</source>
+        <translation>Keine passende Fahrstraße für Startsignal &apos;%1&apos; gefunden</translation>
+    </message>
+    <message>
+        <source>Activating route &apos;%1&apos;</source>
+        <translation>Fahrstraße &apos;%1&apos; aktiviert </translation>
+    </message>
+    <message>
+        <source>No routing possible; route &apos;%1&apos; is locked by another route.</source>
+        <translation>Fahrstraße nicht aktivierbar; sie ist durch eine andere Fahrstraße blockiert.</translation>
+    </message>
+    <message>
+        <source>No matching route found from &apos;%1&apos; to &apos;%2&apos;</source>
+        <translation>Keine passende Fahrstraße von &apos;%1&apos; nach &apos;%2&apos; gefunden</translation>
+    </message>
+    <message>
+        <source>No active route found for start signal &apos;%1&apos;</source>
+        <translation>Keine aktive Fahrstraße für Startsignal &apos;%1&apos; gefunden</translation>
+    </message>
+    <message>
+        <source>Resetting route &apos;%1&apos;</source>
+        <translation>Zurücksetzen von Fahrstraße &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>All active routes unlocked</source>
+        <translation>Alle aktiven Fahrstraßen entsperrt</translation>
     </message>
 </context>
 <context>
@@ -1059,6 +1285,18 @@ Bitte vor dem Speichern korrigieren!</translation>
     <message>
         <source>Routings</source>
         <translation>Fahrstraßen</translation>
+    </message>
+    <message>
+        <source>Activating route &apos;%1&apos;</source>
+        <translation>Fahrstraße &apos;%1&apos; aktiviert</translation>
+    </message>
+    <message>
+        <source>No routing possible; route &apos;%1&apos; is locked by another route.</source>
+        <translation>Fahrstraße &apos;%1&apos; nicht aktivierbar; sie ist durch eine andere Fahrstraße blockiert.</translation>
+    </message>
+    <message>
+        <source>Resetting route &apos;%1&apos;</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1666,8 +1904,8 @@ müssen Sie auch eine gültige Port-Adresse
         <translation>&amp;Digitale Daten</translation>
     </message>
     <message>
-        <source>&gt;Writing SpDrS60 configuration file: ~/%s</source>
-        <translation>&gt;Schreibe SpDrS60 Konfigurationsdatei: ~/%s</translation>
+        <source>Writing SpDrS60 configuration file: ~/%s</source>
+        <translation type="obsolete">Schreibe SpDrS60 Konfigurationsdatei: ~/%s</translation>
     </message>
     <message>
         <source>On every feedback bus there seem to be
@@ -1691,8 +1929,8 @@ müssen Sie auch dessen Hostnamen
 (DNS-Name oder IP-Adresse) eingeben.</translation>
     </message>
     <message>
-        <source>&gt;Error: Could not save configuration file: ~/%s</source>
-        <translation>&gt;Fehler: Die Konfigurationsdatei ~/%s konnte nicht gespeichert werden</translation>
+        <source>Error: Could not save configuration file: ~/%s</source>
+        <translation type="obsolete">Fehler: Die Konfigurationsdatei ~/%s konnte nicht gespeichert werden</translation>
     </message>
     <message>
         <source>#1</source>
@@ -1721,6 +1959,14 @@ müssen Sie auch dessen Hostnamen
     <message>
         <source>Layouts</source>
         <translation>Gleisbilder</translation>
+    </message>
+    <message>
+        <source>Error: Could not save configuration file: ~/%1</source>
+        <translation>Fehler: Konfigurationsdatei &apos;~/%!&apos; konnte nicht gespeichert werden</translation>
+    </message>
+    <message>
+        <source>Writing SpDrS60 configuration file: ~/%1</source>
+        <translation>Schreibe SpDrS60-Konfigurationsdatei: ~/%1</translation>
     </message>
 </context>
 <context>
