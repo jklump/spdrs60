@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.4.8 $Revision: 1.8 $
+                           version 0.4.8 $Revision: 1.9 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-04 19:08:39 $
+    last modified        : $Date: 2005-06-05 13:04:19 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -33,9 +33,6 @@
 #include <qpixmap.h>
 #include <qscrollview.h>
 #include <qsocket.h>
-/*#include <qstatusbar.h>*/
-#include <qtimer.h>
-#include <qtoolbar.h>
 #include <qwidgetstack.h>
 
 #include "gbsarea.h"
@@ -56,9 +53,90 @@ public:
    virtual ~MainWindow();
    void readAutoloadFile();
    void openFile(const QString&);
-   QString getFilename();
 
 private:
+   bool            bRunLayout;
+   bool            LoginIsRunning;
+   bool            isFBInitMode;
+   int             iDebugNo;
+   QString         fileName;  //serd
+   QString         lastDir;
+   elemVisualMode  visualMode;
+
+   QAction         *actionFileNew;
+   QAction         *actionFileOpen;
+   QAction         *actionFileSave;
+   QAction         *actionFileSaveAs;
+   QAction         *actionFileImport;
+   QAction         *actionFileNewWindow;
+   QAction         *actionFileClose;
+   QAction         *actionFileQuit;
+   
+   QAction         *actionEditCut;
+   QAction         *actionEditCopy;
+   QAction         *actionEditPaste;
+   QAction         *actionEditFind;
+   QAction         *actionEditOptions;
+   QAction         *actionEditFileLayout;
+   QAction         *actionEditFileOptions;
+   
+   QAction         *actionViewRoutes;
+   QAction         *actionViewFBModules;
+   QAction         *actionViewClock;
+   QAction         *actionViewKeyboard;
+   QAction         *actionViewToggleHistory;
+   QAction         *actionViewNormalMode;
+   QAction         *actionViewLayoutEditMode;
+   QAction         *actionViewRouteEditMode;
+   
+   QAction         *actionDaemonConnect;
+   QAction         *actionDaemonDisconnect;
+   QAction         *actionDaemonReset;
+   QAction         *actionDaemonKill;
+   QAction         *actionDaemonInfo;
+   
+   QAction         *actionLayoutPower;
+   QAction         *actionLayoutFht;
+   QAction         *actionLayoutWgt;
+   QAction         *actionLayoutSgt;
+   QAction         *actionLayoutUfgt;
+   QAction         *actionLayoutNotRot;
+   QAction         *actionLayoutToggleAll;
+   QAction         *actionLayoutSendAll;
+   QAction         *actionLayoutChangeSize;
+
+   QAction         *actionRouteStart;
+   QAction         *actionRouteStop;
+   QAction         *actionRouteAdd;
+   QAction         *actionRouteEdit;
+   QAction         *actionRouteCopy;
+   QAction         *actionRouteClear;
+   QAction         *actionRouteUnlockAll;
+   
+   QString         sWelcome;
+
+   QWidgetStack    *cbStack;
+   QWidgetStack    *lblStack;
+   QComboBox       *HistCB;
+   QComboBox       *InfoCB;
+   QComboBox       *FeedBackCB;
+
+   GBSArea         *gbs;
+   RoutingViewer   *rtViewer;
+   Router          *rtController;
+   feedback        *modulesWindow;
+   optionsDialog   *optionsWindow;
+   Finder          *findWindow;
+   keyboard        *keybWindow;
+
+   /*Networking*/
+   QSocket* CommandSocket;
+   QSocket* FeedbackSocket;
+   QSocket* InfoSocket;
+   bool CommandPortIsConnected;
+   bool FeedbackPortIsConnected;
+   bool InfoPortIsConnected;
+
    void initMainWindow();
    void updateDaemonMenu();
    void updateFeedbackMenu();
@@ -89,7 +167,6 @@ private slots:
    void slotAboutHelp();
    void slotAboutQt();
    void slotAboutWeb();
-   void slotCmdToDebugExtern(const QString&);
    void slotEditConfigFile();
    void slotEditCopy();
    void slotEditCut();
@@ -141,98 +218,12 @@ private slots:
 
 signals:
    void switchedVisualMode(elemVisualMode);
-   void progressCancelled();
-   void repaintLayout();
    void sendFBChangeLayout(unsigned int);
    void sendFBChangeModule(unsigned int);
    void sendFBChangeRoute(unsigned int);
 
 protected:
    virtual void closeEvent(QCloseEvent* ce);
-
-private:
-   bool            bRunLayout;
-   bool            LoginIsRunning;
-   bool            DefaultLayoutIsLoaded;
-
-   QAction         *actionFileNew;
-   QAction         *actionFileOpen;
-   QAction         *actionFileSave;
-   QAction         *actionFileSaveAs;
-   QAction         *actionFileImport;
-   QAction         *actionFileNewWindow;
-   QAction         *actionFileClose;
-   QAction         *actionFileQuit;
-   
-   QAction         *actionEditCut;
-   QAction         *actionEditCopy;
-   QAction         *actionEditPaste;
-   QAction         *actionEditFind;
-   QAction         *actionEditOptions;
-   QAction         *actionEditFileLayout;
-   QAction         *actionEditFileOptions;
-   
-   QAction         *actionViewRoutes;
-   QAction         *actionViewFBModules;
-   QAction         *actionViewClock;
-   QAction         *actionViewKeyboard;
-   QAction         *actionViewToggleHistory;
-   QAction         *actionViewNormalMode;
-   QAction         *actionViewLayoutEditMode;
-   QAction         *actionViewRouteEditMode;
-   
-   QAction         *actionDaemonConnect;
-   QAction         *actionDaemonDisconnect;
-   QAction         *actionDaemonReset;
-   QAction         *actionDaemonKill;
-   QAction         *actionDaemonInfo;
-   
-   QAction         *actionLayoutPower;
-   QAction         *actionLayoutFht;
-   QAction         *actionLayoutWgt;
-   QAction         *actionLayoutUfgt;
-   QAction         *actionLayoutNotRot;
-   QAction         *actionLayoutToggleAll;
-   QAction         *actionLayoutSendAll;
-   QAction         *actionLayoutUnlockRoutes;
-   QAction         *actionLayoutChangeSize;
-
-   QAction         *actionRouteStart;
-   QAction         *actionRouteStop;
-   QAction         *actionRouteAdd;
-   QAction         *actionRouteEdit;
-   QAction         *actionRouteCopy;
-   QAction         *actionRouteClear;
-   
-   QString         sWelcome;
-
-   QWidgetStack    *cbStack;
-   QWidgetStack    *lblStack;
-   QComboBox       *HistCB;
-   QComboBox       *InfoCB;
-   QComboBox       *FeedBackCB;
-
-   GBSArea         *gbs;
-   RoutingViewer   *rtViewer;
-   Router          *rtController;
-   feedback        *modulesWindow;
-   optionsDialog   *optionsWindow;
-   Finder          *findWindow;
-   keyboard        *keybWindow;
-
-   /*Networking*/
-   QSocket* CommandSocket;
-   QSocket* FeedbackSocket;
-   QSocket* InfoSocket;
-   bool CommandPortIsConnected;
-   bool FeedbackPortIsConnected;
-   bool InfoPortIsConnected;
-   
-   int  isFBInitMode;
-   int  iDebugNo;
-   elemVisualMode visualMode;
-   QString  fileName;  //serd
-   QString  lastDir;
 };
 
 #endif  //MAINWINDOW_H

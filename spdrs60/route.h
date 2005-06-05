@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.4.8 $Revision: 1.5 $
+                           version 0.4.8 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-04 19:08:39 $
+    last modified        : $Date: 2005-06-05 13:04:19 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -65,6 +65,8 @@ struct Loco {
 
 enum TypeOfRoute {RZS = 0, UZS, ZHS, RRS, URS};
 
+/* Type of routing action for route path highlighting */
+enum RouteSetAction {krouteReset = 0, krouteZfs, krouteRfs};
 
 class Route: public QObject
 {
@@ -118,7 +120,8 @@ public:
     
 signals:
     void showElement(int, int, int);
-    void updateRoutePathLEDs(const stateElement&, const stateElement&, bool);
+    void updateRoutePathLEDs(const stateElement&, const stateElement&,
+            RouteSetAction&);
 
 private:
     QString Name;

@@ -1,10 +1,10 @@
 /***************************************************************************
                            options.h
-                           version 0.4.3 $Revision: 1.2 $
+                           version 0.4.3 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-07 12:22:43 $
+    last modified        : $Date: 2005-06-05 13:04:19 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -73,9 +73,9 @@ private slots:
    void slotSetRepaint();              // saves a necessary layout repaint
 
 signals:
-   void repaintLayout();               // send a repaint to all elements
-   void refreshConfigData();           // send a re-read of init file to MainWin
-   void cmdToDebug(const QString&);    // send a command to debug window
+    void repaintLayout();              // send a repaint to all elements
+    void refreshConfigData();          // send a re-read of init file to MainWin
+    void showLogMessage(const QString&, int, int);
 
 protected:
    virtual void done( int );           // what to do when window is closed

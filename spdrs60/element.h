@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.4.8 $Revision: 1.13 $
+                           version 0.4.8 $Revision: 1.14 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-04 19:08:39 $
+    last modified        : $Date: 2005-06-05 13:04:19 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -129,26 +129,12 @@ public:
     element(QStrList* elementData_=0, QWidget* parent=0);
     element(QTextStream&, QWidget* parent=0, bool isNewFormat = false);
 
-    int  iSoldAddress_1;
-    int  iSoldAddress_2;
-    QString  sSoldText;
-    QString  sSoldDecoder;
+    /*this variables should also be private*/
     QString  sSoldIcon;
-    QString  sRepeatIcon;
-    QString  sSoldProtocol;
-    QString  sSoldData_2;
-    QString  sSoldData_3;
-    int      iSoldDirection;
-    int      iSoldSubType;
+    QString  sSoldText;
+    int      iSoldAddress_2;
     int      iSoldRotate;
-    int      iSoldLocked;
-    int      iSoldInvert;
-    unsigned int iSoldIndex;
-    int      iSoldChangeConn[2];
-    int      iFBContact;
-    int      iSoldActiveTime;
-    int      iSoldLEDstate;
-    int      iSoldLEDoff;
+    int      iSoldSubType;
 
     void readFileTextFromStream(QTextStream&);
     void readOldFileTextFromStream(QTextStream&);
@@ -183,17 +169,30 @@ private:
     QPopupMenu* ctxEdit;
     elemSelectionMode selectionMode;
     elemVisualMode visualMode;
-    int         iSoldRoutingActive;
-    int         iGA1BusNo;
-    int         iGA2BusNo;
-    int         iFBBusNo;
-    bool        signal;
-    bool        turnout;
-    bool        routable;
-    bool        switchable;
-    bool        state2dkw;
-    QString     sSaveReplaceIcon;
-    QTimer*     locateTimer;
+    unsigned int iSoldIndex;
+    int      iFBBusNo;
+    int      iFBContact;
+    int      iGA1BusNo;
+    int      iGA2BusNo;
+    int      iSoldActiveTime;
+    int      iSoldAddress_1;
+    int      iSoldChangeConn[2];
+    int      iSoldDirection;
+    int      iSoldInvert;
+    int      iSoldLEDoff;
+    int      iSoldLEDstate;
+    int      iSoldLocked;
+    int      iSoldRoutingActive;
+    bool     routable;
+    bool     signal;
+    bool     state2dkw;
+    bool     switchable;
+    bool     turnout;
+    QString  sRepeatIcon;
+    QString  sSoldDecoder;
+    QString  sSoldProtocol;
+    QString  sSaveReplaceIcon;
+    QTimer*  locateTimer;
 
     void addTooltip();
     void clear();

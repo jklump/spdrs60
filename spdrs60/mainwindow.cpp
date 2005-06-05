@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.14 $
+                           version 0.4.8 $Revision: 1.15 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-04 19:08:39 $
+    last modified        : $Date: 2005-06-05 13:04:19 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -288,10 +288,10 @@ void MainWindow::initMainWindow()
 
     connect(this, SIGNAL(sendFBChangeLayout(unsigned int)),
             gbs, SIGNAL(feedbackPortChanged(unsigned int)));
-    connect(this, SIGNAL(switchedVisualMode(elemVisualMode)), gbs,
-            SIGNAL(switchVisualMode(elemVisualMode)));
-    connect(gbs, SIGNAL(cmdToDebug(const QString&)),
-            this, SLOT(slotCmdToDebugExtern(const QString&)));
+    connect(this, SIGNAL(switchedVisualMode(elemVisualMode)),
+            gbs, SIGNAL(switchVisualMode(elemVisualMode)));
+    connect(gbs, SIGNAL(showLogMessage(const QString&, int, int)),
+            this, SLOT(cmdToDebug(const QString&, int, int)));
     connect(gbs, SIGNAL(sendCommand(const QString&)),
             this, SLOT(SendCommandToSRCPServer(const QString&)));
     connect(gbs, SIGNAL(sigUpdateEditmenu()),
@@ -376,9 +376,9 @@ void MainWindow::initMainWindow()
     connect(gbs, SIGNAL(resetSelectedSignal()),
             rtController, SLOT(resetSelectedSignal()));
     connect(rtController, SIGNAL(updateRoutePathLEDs(const stateElement&,
-                    const stateElement&, bool)),
+                    const stateElement&, RouteSetAction&)),
             gbs, SLOT(updateRoutePathLEDs(const stateElement&,
-                    const stateElement&, bool)));
+                    const stateElement&, RouteSetAction&)));
     
     /*route viewer*/
     rtViewer = new RoutingViewer(this, "Routings", rtController);
@@ -712,8 +712,16 @@ void MainWindow::initMainWindow()
     actionLayoutWgt->addTo(layoutmenu);
     //actionLayoutWgt->addTo(layouttb);
 
+    actionLayoutSgt = new QAction(NULL,
+            tr("Use &SGT"), Key_F7, this, "layoutSgt" );
+    actionLayoutSgt->setToolTip(tr("Use signal group button"));
+    connect(actionLayoutSgt, SIGNAL(activated()), gbs,
+            SLOT(slotSGTclicked()));
+    actionLayoutSgt->addTo(layoutmenu);
+    //actionLayoutSgt->addTo(layouttb);
+
     actionLayoutUfgt = new QAction(NULL,
-            tr("Use &UfGT"), Key_F7, this, "layoutUfgt" );
+            tr("Use &UfGT"), Key_F8, this, "layoutUfgt" );
     actionLayoutUfgt->setToolTip(tr("Use detour group button"));
     connect(actionLayoutUfgt, SIGNAL(activated()), gbs,
             SLOT(slotUfGTclicked()));
@@ -746,14 +754,6 @@ void MainWindow::initMainWindow()
             SLOT(slotSendAll()));
     actionLayoutSendAll->addTo(layoutmenu);
     //actionLayoutSendAll->addTo(layouttb);
-
-    actionLayoutUnlockRoutes = new QAction(NULL,
-            tr("&Unlock routings"), CTRL + Key_U, this, "layoutUnlockRoutes" );
-    actionLayoutUnlockRoutes->setToolTip(tr("Unlock all routes"));
-    connect(actionLayoutUnlockRoutes, SIGNAL(activated()), rtController,
-            SLOT(unlockAllLockedRoutes()));
-    actionLayoutUnlockRoutes->addTo(layoutmenu);
-    //actionLayoutUnlockRoutes->addTo(layouttb);
 
     layoutmenu->insertSeparator();
 
@@ -820,6 +820,16 @@ void MainWindow::initMainWindow()
     actionRouteClear->addTo(routemenu);
     actionRouteClear->addTo(routetb);
 
+    routemenu->insertSeparator();
+
+    actionRouteUnlockAll = new QAction(NULL,
+            tr("&Unlock all"), CTRL + Key_U, this, "layoutUnlockRoutes" );
+    actionRouteUnlockAll->setToolTip(tr("Unlock all routes"));
+    connect(actionRouteUnlockAll, SIGNAL(activated()), rtController,
+            SLOT(unlockAllLockedRoutes()));
+    actionRouteUnlockAll->addTo(routemenu);
+    //actionRouteUnlockAll->addTo(routetb);
+
 
     /*help toolbar*/
     //QToolBar* helptb = new QToolBar(this, "helptb");
@@ -864,8 +874,7 @@ void MainWindow::resetMenu()
     actionLayoutFht->setEnabled(false);
     actionLayoutWgt->setEnabled(false);
     actionLayoutUfgt->setEnabled(false);
-    actionLayoutUnlockRoutes->setEnabled(false);
-    //tbViewFeedb->setEnabled(false);
+    actionRouteUnlockAll->setEnabled(false);
 }
 
 
@@ -1046,7 +1055,6 @@ void MainWindow::updateFileMenuItems()
     actionLayoutFht->setEnabled(true);
     actionLayoutWgt->setEnabled(true);
     actionLayoutUfgt->setEnabled(true);
-    actionLayoutUnlockRoutes->setEnabled(true);
 
     if (CommandPortIsConnected) {
         actionLayoutToggleAll->setEnabled(true);
@@ -1057,6 +1065,7 @@ void MainWindow::updateFileMenuItems()
     actionViewRoutes->setEnabled(true);
     actionViewLayoutEditMode->setEnabled(true);
     actionViewRouteEditMode->setEnabled(true);
+    actionRouteUnlockAll->setEnabled(true);
 }
 
 
@@ -1981,22 +1990,6 @@ void MainWindow::cmdToDebug(const QString& debugCommand_, int mode_,
 }
 
 
-void MainWindow::slotCmdToDebugExtern(const QString& sDebugCommand_)
-{
-    QString sPrefix = sDebugCommand_.left(1);
-    // erst Prefix entfernen, dann wieder hinzufuegen, scheint erstmal
-    // unnütz zu sein aber da cmdToDebug() nur mit Argumenten aufzurufen
-    // ist, muss das so passieren
-    // ansonsten könnte man den übergebenen String einfach ausgeben
-    QString s = sDebugCommand_.right(sDebugCommand_.length() - 1);
-
-    if (sPrefix == ">")         // info line
-        cmdToDebug(s, M_INFO, HIST);
-    else if (sPrefix == "#")    // command line
-        cmdToDebug(s, M_CMD, HIST);
-}
-
-
 void MainWindow::slotEditOptions()
 {
     // open dialog window with program options
@@ -2005,8 +1998,8 @@ void MainWindow::slotEditOptions()
             gbs, SIGNAL(sigRepaintLayout()));
     connect(optionsWindow, SIGNAL(refreshConfigData()),
             this, SLOT(slotReadConfigFile()));
-    connect(optionsWindow, SIGNAL(cmdToDebug(const QString&)),
-            this, SLOT(slotCmdToDebugExtern(const QString&)));
+    connect(optionsWindow, SIGNAL(showLogMessage(const QString&, int, int)),
+            this, SLOT(cmdToDebug(const QString&, int, int)));
     optionsWindow->show();
 }
 
@@ -2030,12 +2023,6 @@ void MainWindow::slotEditFind()
     connect(findWindow, SIGNAL(sigFind(const QString&, int, bool)),
             gbs, SLOT(slotEditFind(const QString&, int, bool)));
     findWindow->exec();
-}
-
-
-QString MainWindow::getFilename()
-{
-    return fileName;
 }
 
 

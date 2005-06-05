@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.16 $
+                           version 0.4.8 $Revision: 1.17 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-04 19:08:39 $
+    last modified        : $Date: 2005-06-05 13:04:19 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -159,11 +159,12 @@ QSize GBSArea::sizeHint() const
 // *INDENT-ON*
 
 
-int GBSArea::newFile(int iColumns, int iRows)
+void GBSArea::newFile(int iColumns, int iRows)
 {
     cols = iColumns;
     rows = iRows;
 
+    // delete a possibly shown old layout
     deleteElements();
     elements.resize(iRows * iColumns);
 
@@ -171,8 +172,6 @@ int GBSArea::newFile(int iColumns, int iRows)
                              tr("Abort"), iRows * iColumns,
                              this, "progress", true);
     progress.show();
-    
-    // deletes a possibly shown old layout
 
     QString sData;
 
@@ -194,14 +193,13 @@ int GBSArea::newFile(int iColumns, int iRows)
         if (progress.wasCancelled()) {
 #endif
             deleteElements();
-            return 1;
+            return;
         }
     }
     progress.setProgress(iRows * iColumns);
     // now setup and show elements
     setupElements();
     emit updateRoutingViewer("");
-    return 0;
 }
         
 
@@ -468,7 +466,8 @@ void GBSArea::externalButtonClicked(GbsButtonState externalButton)
             setCursor(MGTCursor);
             /*TODO: implement MGT-function*/
             QApplication::beep();
-            emit cmdToDebug(tr(">MGT-Function not supported."));
+            emit showLogMessage(tr("MGT-Function not supported."),
+                    M_INFO, HIST);
             delayTimer->start(500);
             break;
         case kUfgtClicked:
@@ -484,7 +483,8 @@ void GBSArea::externalButtonClicked(GbsButtonState externalButton)
             setCursor(HaGTCursor);
             /*TODO: implement HaGT-function*/
             QApplication::beep();
-            emit cmdToDebug(tr(">HaGT-Function not supported."));
+            emit showLogMessage(tr("HaGT-Function not supported."),
+                    M_INFO, HIST);
             delayTimer->start(500);
             break;
         default:
@@ -521,15 +521,15 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
             if (kSgtClicked == gkbState) {
                 if (el->isLocked()) {
                     QApplication::beep();
-                    emit cmdToDebug(tr(">No switching possible, "
+                    emit showLogMessage(tr("No switching possible, "
                                 "signal '%1' is locked by an active route.")
-                            .arg(el->getName()));
+                            .arg(el->getName()), M_INFO, HIST);
                 }
                 /*TODO: check this*/
                 //else if (el->isOccupied()) {
                 //    QApplication::beep();
-                //    emit cmdToDebug(tr(">No switching possible, "
-                //                "signal is occupied"));
+                //    emit showLogMessage(tr("No switching possible, "
+                //                "signal is occupied"), M_INFO, HIST);
                 //}
                 else
                     el->slotToggle();
@@ -538,9 +538,9 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
             else if (kFhtClicked == gkbState) {
                 if (!el->isLocked()) {
                     QApplication::beep();
-                    emit cmdToDebug(tr(">No derouting possible; signal '%1' "
-                                "is not a start signal of an active route.")
-                            .arg(el->getName()));
+                    emit showLogMessage(tr("No derouting possible; signal '%1'"
+                                " is not a start signal of an active route.")
+                            .arg(el->getName()), M_INFO, HIST);
                 }
                 else {
                     /* send signal to route controller, button type is
@@ -551,25 +551,12 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
             }
             else if (kUfgtClicked == gkbState || kNoneClicked ==
                     gkbState) {
-                if (el->isLocked()){
-                    QApplication::beep();
-                    emit cmdToDebug(tr(">No routing possible, signal '%1' "
-                                "is allready locked by an active route.")
-                            .arg(el->getName()));
-                    slotElementClickedTimeout();
-                }
-                else {
-                    /*
-                     * send signal to route controller
-                     * delaytimer is restarted when a start signal
-                     * button was pressed
-                     */
+                    /* send signal to route controller*/
                     emit setRoute(el, gbsButton, gkbState);
-                }
             }
             else {
                 QApplication::beep();
-                emit cmdToDebug(tr(">Operation not allowed"));
+                emit showLogMessage(tr("Operation not allowed"), M_INFO, HIST);
                 slotElementClickedTimeout();
             }
             break;
@@ -579,21 +566,21 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
             if (kWgtClicked == gkbState) {
                 if (el->isLocked()) {
                     QApplication::beep();
-                    emit cmdToDebug(tr(">No switching possible, "
+                    emit showLogMessage(tr("No switching possible, "
                                 "solenoid '%1' is locked by an active route.")
-                            .arg(el->getName()));
+                            .arg(el->getName()), M_INFO, HIST);
                 }
                 else if (el->isOccupied()) {
                     QApplication::beep();
-                    emit cmdToDebug(tr(">No switching possible, "
-                                "turnout is occupied"));
+                    emit showLogMessage(tr("No switching possible, "
+                                "turnout is occupied"), M_INFO, HIST);
                 }
                 else
                     el->slotToggle();
             }
             else {
                 QApplication::beep();
-                emit cmdToDebug(tr(">Operation not allowed"));
+                emit showLogMessage(tr("Operation not allowed"), M_INFO, HIST);
             }
             slotElementClickedTimeout();
             break;
@@ -649,7 +636,7 @@ void GBSArea::slotElementClickedTimeout()
 
 
 void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
-        const stateElement& tSig, bool setRoute)
+        const stateElement& tSig, RouteSetAction& setRoute)
 {
     if (fSig.elemPtr == NULL || tSig.elemPtr == NULL)
         return;
@@ -666,10 +653,10 @@ void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
     bool toRight = !fSig.elemPtr->iSoldRotate;
 
     int LEDcolor;
-    if (setRoute)
-        LEDcolor = LED_YEL;
-    else
+    if (krouteReset == setRoute)
         LEDcolor = LED_OFF;
+    else
+        LEDcolor = LED_YEL;
 
 
     while (!finished) {
@@ -689,10 +676,17 @@ void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
             break;
         }
 
+        // interrupt operation when normal route meets occupied element
+        if ((krouteZfs == setRoute) && rel->isOccupied()) {
+            // feedback for caller
+            setRoute = krouteReset;
+            //TODO: error message
+            return;
+        }
+
         finished = (rel == endPtr);
 
-        // TODO: what about occupied elements
-        // get back vertical correction
+        // get back vertical correction value
         iCorr = rel->routeElement(toRight, LEDcolor, iCorr);
 
         // calculate column of next element
@@ -754,115 +748,6 @@ void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
     }
 }
 
-/*
-void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
-        const stateElement& tSig, bool setRoute)
-{
-    if (fSig.elemPtr == NULL || tSig.elemPtr == NULL)
-        return;
-
-    if (rows <= 1)
-        return;
-
-    int fromIdx = fSig.elemPtr->getIndexNo();
-    int toIdx = tSig.elemPtr->getIndexNo();
-    bool toRight = !fSig.elemPtr->iSoldRotate;
-    int iCorr = 0;
-    int idx = fromIdx;
-    int colSpread = abs(fromIdx / rows - toIdx / rows) + 1;
-    int maxIdx = (int) elements.size();
-    bool layoutEdge = false;
-
-    int LEDcolor;
-    if (setRoute)
-        LEDcolor = LED_YEL;
-    else
-        LEDcolor = LED_OFF;
-
-    //while (!finished) {
-    for (int k = 0; k < colSpread; k++) {
-        if ((idx < 0) || (idx >= maxIdx)) {
-            layoutEdge = true;
-            break;
-        }
-        
-        element* rel = elements[idx];
-        if (rel == NULL) {
-            layoutEdge = true;
-            break;
-        }
-
-        if (!rel->isRoutable()) {
-            layoutEdge = true;
-            break;
-        }
-
-        //finished = (rel == tSig.elemPtr);
-
-        // TODO: what about occupied elements
-        // get back vertical correction
-        iCorr = rel->routeElement(toRight, LEDcolor, iCorr);
-
-        // calculate column of next element
-        if (toRight)
-            idx += rows + iCorr;
-        else
-            idx += -rows + iCorr;
-    }
-
-    // Routing over layout edges:
-    // 1) start1 -> stop1 (normal)
-    // 2) start2 -> stop1
-    // 3) start1 -> stop2
-    // 4) start2 -> stop2
-    if (layoutEdge) {
-        bool secondRun = false;
-        if (fSig.elemPtr2 != NULL) {
-            fromIdx = fSig.elemPtr2->getIndexNo();
-            secondRun = true;
-        }
-        else if (tSig.elemPtr2 != NULL) {
-            toIdx = tSig.elemPtr2->getIndexNo();
-            secondRun = true;
-        }
-        else if (fSig.elemPtr2 != NULL && tSig.elemPtr2 != NULL) {
-            fromIdx = fSig.elemPtr2->getIndexNo();
-            toIdx = tSig.elemPtr2->getIndexNo();
-            secondRun = true;
-        }
-
-        if (!secondRun)
-            return;
-
-        iCorr = 0;
-        idx = fromIdx;
-        colSpread = abs(fromIdx / rows - toIdx / rows) + 1;
-        //second run
-        for (int k = 0; k < colSpread; k++) {
-            if ((idx < 0) || (idx >= maxIdx)) {
-                break;
-            }
-
-            element* rel = elements[idx];
-            if (rel == NULL) {
-                break;
-            }
-
-            if (!rel->isRoutable()) {
-                break;
-            }
-
-            iCorr = rel->routeElement(toRight, LEDcolor, iCorr);
-
-            if (toRight)
-                idx += rows + iCorr;
-            else
-                idx += -rows + iCorr;
-        }
-    }
-}
-*/
-
 
 int GBSArea::locateIndex(const QString& sLocateString_, int iLocateType_,
                          int iMultiple_)
@@ -875,8 +760,7 @@ int GBSArea::locateIndex(const QString& sLocateString_, int iLocateType_,
     // locate element with certain address 1
     if (iLocateType_ == SRCH_A1) 
         for (unsigned int iIndex = 0; iIndex < elements.size(); iIndex++) {
-            if (sLocateString_.toInt() ==
-                    elements[iIndex]->iSoldAddress_1) {
+            if (elements[iIndex]->hasSameAddress(sLocateString_.toInt())) {
                 iFound += 1;
                 if (iFound != iMultiple_ + 1)
                     continue;
@@ -952,7 +836,7 @@ void GBSArea::slotNotrot()
     for (unsigned int j = 0; j < elements.size(); j++)
         if (elements[j]->isSignal())
             elements[j]->slotSwitchIt(0, 0);  // sec. "0" = NONE (RouteStatus)
-    emit cmdToDebug(tr(">Switched all signals to halt/stop"));
+    emit showLogMessage(tr("Switched all signals to halt/stop"), M_INFO, HIST);
 }
 
 

@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.6 $
+                           version 0.4.8 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-04 19:08:39 $
+    last modified        : $Date: 2005-06-05 13:04:19 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -93,7 +93,7 @@ Route::Route(element* startEl)
     acLoco.address = 0;
     detourLevel = 0;
 
-    Name = tr("New Route from ");
+    Name = tr("New route from ");
     if (startEl != NULL) {
         Name.append(startEl->getName());
         startEl->getStateData(fromSignal);
@@ -445,27 +445,19 @@ QString Route::getTypeStr() const
 
 bool Route::startRouting()
 {
-    /* 1) check for occupied elements if not shunting route*/
-    /*
-    if (routeType != RRS && routeType != URS) {
-        while ((re = rit.current()) != 0) {
-            ++rit;
-            if (re->isOccupied())
-                return false;
-        }
-    } */
-
-    /* 2) check for locked elements*/
+    /* 1) check for locked elements*/
     if (fromSignal.elemPtr != NULL && fromSignal.elemPtr->isLocked())
                return false;
 
     if (fromSignal.elemPtr2 != NULL && fromSignal.elemPtr2->isLocked())
                return false;
 
-    if (toSignal.elemPtr != NULL && toSignal.elemPtr->isLocked())
+    if (toSignal.elemPtr != NULL && toSignal.elemPtr->isLocked() &&
+                toSignal.elemPtr->hasDifferentDirection(toSignal.state))
                return false;
 
-    if (toSignal.elemPtr2 != NULL && toSignal.elemPtr2->isLocked())
+    if (toSignal.elemPtr2 != NULL && toSignal.elemPtr2->isLocked() &&
+                toSignal.elemPtr2->hasDifferentDirection(toSignal.state))
                return false;
 
     QPtrListIterator<stateElement> it(switchItems);
@@ -485,7 +477,7 @@ bool Route::startRouting()
                return false;
     }
 
-    /* 3) switch route elements*/
+    /* 2) switch route elements*/
     if (toSignal.elemPtr != NULL)
            toSignal.elemPtr->slotSwitchIt(toSignal.state, 1);
 
@@ -503,18 +495,30 @@ bool Route::startRouting()
             el->slotSwitchIt(se->state, 1);
     }
 
-    /* 4) switch route path element LEDs to yellow*/
+    /*
+     * 3) switch route path element LEDs to yellow,
+     *    check for occupied elements if not shunting route
+     */
+    RouteSetAction rsa = krouteZfs;
+    if (routeType == RRS && routeType == URS) {
+        rsa = krouteRfs;
+    }
     // send signal to gbs to change route path LEDs
-    emit updateRoutePathLEDs(fromSignal, toSignal, true);
-
-    /* 5) at last switch start signal to Hp1/Sh1 etc.*/
-    if (fromSignal.elemPtr != NULL)
-           fromSignal.elemPtr->slotSwitchIt(fromSignal.state, 1);
-
-    if (fromSignal.elemPtr2 != NULL)
-           fromSignal.elemPtr2->slotSwitchIt(fromSignal.state, 1);
+    emit updateRoutePathLEDs(fromSignal, toSignal, rsa);
     
-    locked = true;
+    // interrupt routing if normal route meets occupied element
+    if (krouteReset == rsa)
+        locked = false;
+    else {
+        /* 4) at last switch start signal to Hp1/Sh1 etc.*/
+        if (fromSignal.elemPtr != NULL)
+            fromSignal.elemPtr->slotSwitchIt(fromSignal.state, 1);
+
+        if (fromSignal.elemPtr2 != NULL)
+            fromSignal.elemPtr2->slotSwitchIt(fromSignal.state, 1);
+
+        locked = true;
+    }
     return locked;
 }
 
@@ -555,7 +559,9 @@ bool Route::stopRouting()
     }
     // update route path element LEDs
     // send signal to gbs to change route path LEDs
-    emit updateRoutePathLEDs(fromSignal, toSignal, false);
+
+    RouteSetAction rsa = krouteReset;
+    emit updateRoutePathLEDs(fromSignal, toSignal, rsa);
 
     locked = false;
     return !locked;
@@ -619,7 +625,7 @@ void Route::showRoute()
 void Route::setStartSignal(element* el)
 {
     el->getStateData(fromSignal);
-    Name = tr("New Route");
+    Name = tr("New route");
     
     if (hasStartSignal())
         Name.append(tr(" from %1").arg(fromSignal.name));
@@ -634,7 +640,7 @@ void Route::setStartSignal(element* el)
 void Route::setStopSignal(element* el)
 {
     el->getStateData(toSignal);
-    Name = tr("New Route");
+    Name = tr("New route");
 
     if (hasStartSignal())
         Name.append(tr(" from %1").arg(fromSignal.name));

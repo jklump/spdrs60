@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.16 $
+                           version 0.4.8 $Revision: 1.17 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-04 19:08:38 $
+    last modified        : $Date: 2005-06-05 13:04:19 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -964,8 +964,6 @@ void element::showPropertyDlg()
                             insert.setNum(iSoldActiveTime));
         elementData->insert(LIST_ID_FBPORT, insert.setNum(iFBContact));
         elementData->insert(LIST_ID_LEDOFF, insert.setNum(iSoldLEDoff));
-        //elementData->insert(LIST_ID_DATA_2,    sSoldData_2);
-        //elementData->insert(LIST_ID_DATA_3,    sSoldData_3);
 
         elementPropertyDlg = new elementDialog(this, elementData);
         title.sprintf(tr("Properties of Element #%d"), iSoldIndex);

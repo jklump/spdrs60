@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.4.8 $Revision: 1.10 $
+                           version 0.4.8 $Revision: 1.11 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-04 19:08:39 $
+    last modified        : $Date: 2005-06-05 13:04:19 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -100,13 +100,13 @@ private:
    bool        cmdLogin;
    bool        fbLogin;
 
-   GbsButtonState  gkbState;
    bool        modified: 1;
+   GbsButtonState  gkbState;
 
    void deleteElements();
-   void setupElements();
-   int  locateIndex(const QString&, int, int);
    void externalButtonClicked(GbsButtonState);
+   int  locateIndex(const QString&, int, int);
+   void setupElements();
    
 /*
 void savePixmaps(int ID)
@@ -120,7 +120,7 @@ void savePixmaps(int ID)
 };
 */
 public slots:
-    int  newFile(int, int);
+    void newFile(int, int);
     void slotElementClickedTimeout();
     void slotFHTclicked();
     void slotFRTclicked();
@@ -135,13 +135,14 @@ public slots:
     void slotNotrot();
     void slotEditFind(const QString&, int, bool);
     void startRouteTimer(TypeOfRoute);
-    void updateRoutePathLEDs(const stateElement&, const stateElement&, bool);
+    void updateRoutePathLEDs(const stateElement&, const stateElement&,
+            RouteSetAction&);
 
 protected:
     int indexOf(int row, int col) const;
 
 signals:
-    void cmdToDebug(const QString&);
+    void showLogMessage(const QString&, int, int);
     void switchVisualMode(elemVisualMode);
     void feedbackPortChanged(unsigned int);
     void sendCommand(const QString&);

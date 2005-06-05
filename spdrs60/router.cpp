@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.4.8 $Revision: 1.6 $
+                           version 0.4.8 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-04 19:08:39 $
+    last modified        : $Date: 2005-06-05 13:04:19 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -123,9 +123,9 @@ void Router::setupRouteElements()
         ++routeit;
         sr->setupElementLists(gbsElements);
         connect(sr, SIGNAL(updateRoutePathLEDs(const stateElement&,
-                        const stateElement&, bool)),
+                        const stateElement&, RouteSetAction&)),
                 this, SIGNAL(updateRoutePathLEDs(const stateElement&,
-                        const stateElement&, bool)));
+                        const stateElement&, RouteSetAction&)));
     }
 }
 
@@ -271,7 +271,7 @@ void Router::recordElement(element* el, elemRecordType rtype)
 
 unsigned int Router::addNewRoute()
 {
-    routeList.append(new Route(tr("New Route")));
+    routeList.append(new Route(tr("New route")));
     //TODO: connect
     return routeList.count();
 }
