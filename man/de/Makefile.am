@@ -10,4 +10,4 @@
 
 deman1datadir=@mandir@/de/man1
 
-dist_deman1data_DATA = centralclock.1x convertrts.1 spdrs60.1x
+dist_deman1data_DATA = centralclock.1x spdrs60.1x
