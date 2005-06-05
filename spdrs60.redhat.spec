@@ -71,7 +71,6 @@ done
 %defattr(-,root,root)
 %{_bindir}/%{name}
 %{_bindir}/centralclock
-%{_bindir}/convertrts
 %{_datadir}/%{name}
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/pixmaps/%{name}*

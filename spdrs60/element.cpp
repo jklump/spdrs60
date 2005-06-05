@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.17 $
+                           version 0.4.8 $Revision: 1.18 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-05 13:04:19 $
+    last modified        : $Date: 2005-06-05 20:57:10 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -533,7 +533,8 @@ void element::slotSwitchIt(int iNewDirection, int iLocked)
     if (iSoldDirection == -1)
         return;
 
-    // add another locked state cause a solenoid can belong to more than 1 route
+    // add an other locked state cause a solenoid can belong to more
+    // than one route
     iSoldLocked += iLocked;
 
     // only save new direction and switch it if the new direction differs from
@@ -2213,7 +2214,7 @@ bool element::hasSameAddress(int compAddress)
 
 bool element::isLocked()
 {
-    return (LOCKED == iSoldLocked);
+    return (LOCKED <= iSoldLocked);
 }
 
 

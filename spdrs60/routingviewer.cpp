@@ -1,10 +1,10 @@
 /***************************************************************************
                            routingviewer.cpp
-                           version 0.4.8 $Revision: 1.3 $
+                           version 0.4.8 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-02 20:07:45 $
+    last modified        : $Date: 2005-06-05 20:57:11 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -171,7 +171,7 @@ void RoutingViewer::slotStartRouteNo(int routeidx)
     else {
         QApplication::beep();
         emit showLogMessage(tr("No routing possible; "
-                    "route '%1' is locked by another route.")
+                    "route '%1' is locked by an other route.")
                 .arg(sr->getName()), M_INFO, HIST);
     }
 }
@@ -253,7 +253,7 @@ void RoutingViewer::slotRouteCopy()
 }
 
 
-void RoutingViewer::slotRouteClear()
+void RoutingViewer::slotRouteDelete()
 {
     /*TODO: ask for "Do you realy want to delete this route?*/
     rTable->removeRow(rTable->currentRow());

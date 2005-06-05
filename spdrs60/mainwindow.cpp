@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.15 $
+                           version 0.4.8 $Revision: 1.16 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-05 13:04:19 $
+    last modified        : $Date: 2005-06-05 20:57:11 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -775,15 +775,17 @@ void MainWindow::initMainWindow()
     QPopupMenu* routemenu = new QPopupMenu(this);
     menuBar()->insertItem(tr("&Route"), routemenu);
 
-    actionRouteStart = new QAction(QPixmap(route_start_xpm), "&Start",
-            0, this, "routestart" );
+    actionRouteStart = new QAction(QPixmap(route_start_xpm),
+            tr("&Start"), 0, this, "routestart" );
+    actionRouteStart->setToolTip(tr("Activate route"));
     connect(actionRouteStart, SIGNAL(activated()), rtViewer,
             SLOT(slotRouteStart()));
     actionRouteStart->addTo(routemenu);
     actionRouteStart->addTo(routetb);
 
-    actionRouteStop = new QAction(QPixmap(route_stop_xpm), "Sto&p",
+    actionRouteStop = new QAction(QPixmap(route_stop_xpm), tr("Sto&p"),
             0, this, "routestop" );
+    actionRouteStop->setToolTip(tr("Reset active route"));
     connect(actionRouteStop, SIGNAL(activated()), rtViewer,
             SLOT(slotRouteStop()));
     actionRouteStop->addTo(routemenu);
@@ -792,33 +794,37 @@ void MainWindow::initMainWindow()
     routemenu->insertSeparator();
     routetb->addSeparator();
 
-    actionRouteAdd = new QAction(QPixmap(route_new_xpm), "&Add",
+    actionRouteAdd = new QAction(QPixmap(route_new_xpm), tr("&Add"),
             0, this, "routeadd" );
+    actionRouteAdd->setToolTip(tr("Add new route"));
     connect(actionRouteAdd, SIGNAL(activated()), rtViewer,
             SLOT(slotRouteAdd()));
     actionRouteAdd->addTo(routemenu);
     actionRouteAdd->addTo(routetb);
 
-    actionRouteEdit = new QAction(QPixmap(route_edit_xpm), "&Edit...",
-            0, this, "routeedit" );
+    actionRouteEdit = new QAction(QPixmap(route_edit_xpm),
+            tr("&Edit..."), 0, this, "routeedit" );
+    actionRouteEdit->setToolTip(tr("Edit selected route"));
     connect(actionRouteEdit, SIGNAL(activated()), rtViewer,
             SLOT(slotRouteEdit()));
     actionRouteEdit->addTo(routemenu);
     actionRouteEdit->addTo(routetb);
 
-    actionRouteCopy = new QAction(QPixmap(route_copy_xpm), "&Copy",
+    actionRouteCopy = new QAction(QPixmap(route_copy_xpm), tr("&Copy"),
             0, this, "routecopy" );
+    actionRouteCopy->setToolTip(tr("Copy selected route"));
     connect(actionRouteCopy, SIGNAL(activated()), rtViewer,
             SLOT(slotRouteCopy()));
     actionRouteCopy->addTo(routemenu);
     actionRouteCopy->addTo(routetb);
 
-    actionRouteClear = new QAction(QPixmap(route_clear_xpm), "C&lear",
-            0, this, "routeclear" );
-    connect(actionRouteClear, SIGNAL(activated()), rtViewer,
-            SLOT(slotRouteClear()));
-    actionRouteClear->addTo(routemenu);
-    actionRouteClear->addTo(routetb);
+    actionRouteDelete = new QAction(QPixmap(route_clear_xpm),
+            tr("&Delete"), 0, this, "routedelete" );
+    actionRouteDelete->setToolTip(tr("Delete selected route"));
+    connect(actionRouteDelete, SIGNAL(activated()), rtViewer,
+            SLOT(slotRouteDelete()));
+    actionRouteDelete->addTo(routemenu);
+    actionRouteDelete->addTo(routetb);
 
     routemenu->insertSeparator();
 
@@ -1455,8 +1461,9 @@ void MainWindow::FeedbackSocketReadyRead()
         // send updates to all elements via gbs
         emit sendFBChangeLayout(iPortNr);
         // send updates to all routes
-        if (iState == 1)
-            emit sendFBChangeRoute(iPortNr);
+        if (!isFBInitMode)
+            if (iState == 1)
+                emit sendFBChangeRoute(iPortNr);
     }
 }
 
@@ -1465,7 +1472,8 @@ void MainWindow::FeedbackSocketConnected()
 {
     cmdToDebug(tr("Feedback port connected!"), M_INFO, HIST);
     FeedbackPortIsConnected = true;
-    isFBInitMode = true;        // flag to avoid all startup feedback
+    // flag to avoid history line flooding by startup feedback
+    isFBInitMode = true;
     updateFeedbackMenu();
 
     // on startup init ports
@@ -1479,7 +1487,7 @@ void MainWindow::FeedbackSocketConnected()
                ("Feedback port changes are omitted while initialization"),
                M_INFO, FEED);
 
-    /* now hopefully all ports are connected an we can start sending
+    /* now hopefully all ports are connected and we can start sending
      * layout depending commands; hint: layout may not be loaded at this
      * time */
     /*bRunLayout is inverted in this procedure: */
@@ -1522,8 +1530,9 @@ void MainWindow::InfoSocketReadyRead()
 {
     QString sInfo = "";
 
-    if (InfoSocket->canReadLine()) {
+    while (InfoSocket->canReadLine()) {
         sInfo = InfoSocket->readLine();
+        /*TODO: check for incomming GA actions and send them to gbs*/
         cmdToDebug(sInfo, M_CMD, INFO);
     }
 }
@@ -1864,7 +1873,7 @@ void MainWindow::updateRouteMenu(bool rtvIsVisible)
              visualMode == kvmEditRoute);
      actionRouteCopy->setEnabled(rtvIsVisible &&
              visualMode == kvmEditRoute);
-     actionRouteClear->setEnabled(rtvIsVisible &&
+     actionRouteDelete->setEnabled(rtvIsVisible &&
              visualMode == kvmEditRoute);
 }
 
@@ -1896,8 +1905,8 @@ void MainWindow::slotAboutHelp()
         .arg(HTML_DOC_DIR)
         .arg(langenv);
 
-    /* bei mozilla und firefox auf schon laufende instanz prüfen, */
-    /* dann mit "-remote" Option starten */
+    /* if browser is mozilla or firefox first check for running program
+     * instance; run with "-remote" option to get a new tab */
 
     if (BROWSER == "mozilla" || BROWSER == "firefox") {
         if (system(BROWSER + " -remote 'ping()'") == 0)
@@ -1910,7 +1919,7 @@ void MainWindow::slotAboutHelp()
 }
 
 
-// opens SpDrS60 web resources
+// open SpDrS60 web resources
 void MainWindow::slotAboutWeb()
 {    
     QString sURL = QString("http://spdrs60.sourceforge.net/");
@@ -1925,7 +1934,7 @@ void MainWindow::slotAboutWeb()
         system(BROWSER + " " + sURL + " &");
 }
 
-// shows an original DB clock with minute delay
+// show an original DB clock with minute delay
 void MainWindow::slotShowClock()
 {
     QString sCommand = "centralclock &";
@@ -1933,18 +1942,20 @@ void MainWindow::slotShowClock()
 }                               
 
 
+// show feedback module window
 void MainWindow::slotShowModules()
 {
-    modulesWindow = new feedback(this); // show feedback module window
+    modulesWindow = new feedback(this);
     connect(this, SIGNAL(sendFBChangeModule(unsigned int)),
             modulesWindow, SLOT(slotUpdateModules(unsigned int)));
     modulesWindow->show();
 }
 
 
+// show a simple keyboard
 void MainWindow::slotViewKeyboard()
 {
-    keybWindow = new keyboard(this);    // show a simple keyboard
+    keybWindow = new keyboard(this);
     connect(keybWindow, SIGNAL(sendCommand(const QString&)),
             this, SLOT(SendCommandToSRCPServer(const QString&)));
 

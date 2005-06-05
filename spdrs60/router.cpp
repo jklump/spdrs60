@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.4.8 $Revision: 1.7 $
+                           version 0.4.8 $Revision: 1.8 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-05 13:04:19 $
+    last modified        : $Date: 2005-06-05 20:57:11 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -322,7 +322,7 @@ void Router::setRoute(element* el, GbsButtonState cb, GbsButtonState sb)
             else {
                 QApplication::beep();
                 emit showLogMessage(tr("No routing possible; "
-                            "route '%1' is locked by another route.")
+                            "route '%1' is locked by an other route.")
                         .arg(sr->getName()), M_INFO, HIST);
             }
         }

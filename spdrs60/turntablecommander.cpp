@@ -1,10 +1,10 @@
 /***************************************************************************
                            turntablecommander.cpp
-                           version 0.4.7 $Revision: 1.2 $
+                           version 0.4.7 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-07 12:22:44 $
+    last modified        : $Date: 2005-06-05 20:57:11 $
 ***************************************************************************/
 
 /******************************************************************************
@@ -244,7 +244,7 @@ void turntableCommander::setupProgArea()
                          "bridge position as position #1."));
         QToolTip::add(buttAddPos,
                       tr
-                      ("Press this button to add another position\nfor a track."));
+                      ("Press this button to add an other position\nfor a track."));
         QToolTip::add(buttEnd,
                       tr("Press this button to end programming mode."));
     }

@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.7 $
+                           version 0.4.8 $Revision: 1.8 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-05 13:04:19 $
+    last modified        : $Date: 2005-06-05 20:57:11 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -97,6 +97,8 @@ Route::Route(element* startEl)
     if (startEl != NULL) {
         Name.append(startEl->getName());
         startEl->getStateData(fromSignal);
+        // if (startEl->hasShuntingRouteButton())
+        //     routeType = RRS;
     }
     else {
         fromSignal.state = 0;

@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.4.8 $Revision: 1.9 $
+                           version 0.4.8 $Revision: 1.10 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-05 13:04:19 $
+    last modified        : $Date: 2005-06-05 20:57:11 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -110,7 +110,7 @@ private:
    QAction         *actionRouteAdd;
    QAction         *actionRouteEdit;
    QAction         *actionRouteCopy;
-   QAction         *actionRouteClear;
+   QAction         *actionRouteDelete;
    QAction         *actionRouteUnlockAll;
    
    QString         sWelcome;
