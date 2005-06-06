@@ -802,7 +802,7 @@ Wollen Sie sie überschreiben?</translation>
     <name>Route</name>
     <message>
         <source>New route from </source>
-        <translation>Neue Fahrstraße von</translation>
+        <translation>Neue Fahrstraße von </translation>
     </message>
     <message>
         <source>New route</source>
@@ -810,11 +810,11 @@ Wollen Sie sie überschreiben?</translation>
     </message>
     <message>
         <source> from %1</source>
-        <translation>von %1</translation>
+        <translation> von %1</translation>
     </message>
     <message>
         <source> to %1</source>
-        <translation>nach %1</translation>
+        <translation> nach %1</translation>
     </message>
 </context>
 <context>

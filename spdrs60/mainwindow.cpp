@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.16 $
+                           version 0.4.8 $Revision: 1.17 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-05 20:57:11 $
+    last modified        : $Date: 2005-06-06 20:12:14 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -118,6 +118,8 @@ MainWindow::MainWindow()
     CommandPortIsConnected = false;
     FeedbackPortIsConnected = false;
     InfoPortIsConnected = false;
+    SRCPCommandStatus = srcpUndefined;
+    LayoutPowerIsOn = false;
 
     iDebugNo = HIST;            // default debug window ist HISTORY
     isFBInitMode = true;        // var to avoid all startup feedback
@@ -138,8 +140,6 @@ MainWindow::MainWindow()
      * 2) connection to server established
      * 3) layout is loaded
      */
-    bRunLayout = false;
-
     cmdToDebug(tr("Program succesfully started!"), M_INFO, HIST);
 }
 
@@ -1319,11 +1319,14 @@ void MainWindow::CommandSocketHostFound()
 
 void MainWindow::CommandSocketReadyRead()
 {
-    QString sSRCPVer;
+    QString sSRCPVer, ServerInfo;
 
-    if (LoginIsRunning) {
-        if (CommandSocket->canReadLine()) {
-            sWelcome = CommandSocket->readLine();
+    while (CommandSocket->canReadLine()) {
+        ServerInfo = CommandSocket->readLine();
+        cmdToDebug(ServerInfo, INFO, HIST);
+        
+        if (SRCPCommandStatus == srcpLogin) {
+            sWelcome = ServerInfo;
             sSRCPVer = sWelcome.mid(sWelcome.find("SRCP ", 0, 0) + 5, 5);
 
             if (isValidSRCPVersion(sSRCPVer)) {
@@ -1332,40 +1335,52 @@ void MainWindow::CommandSocketReadyRead()
                 /* first is OK, next two readonly ports follow */
                 ConnectFeedbackPort();
                 ConnectInfoPort();
-                LoginIsRunning = false;
+
+                /*
+                 * ask server about power state, may be an other client
+                 * allready switched power on
+                 */
+                SRCPCommandStatus = srcp07GetPower;
+                SendCommandToSRCPServer("GET POWER");
             }
             else {
-                cmdToDebug(tr
-                           ("SRCP: %1 ===> FAILED; spdrs60 requires SRCP >= 0.7.0 and < 0.8.0")
+                cmdToDebug(tr("SRCP: %1 ===> FAILED; "
+                            "spdrs60 requires SRCP >= 0.7.0 and < 0.8.0")
                            .arg(sSRCPVer), M_INFO, HIST);
                 /* close connection */
                 SendCommandToSRCPServer("LOGOUT");
             }
         }
+        else if (SRCPCommandStatus == srcp07GetPower) {
+            /* INFO POWER ON */
+            if (ServerInfo.contains("POWER ON")) {
+                LayoutPowerIsOn = true;
+                updateLayoutPowerAction();
+            }
+            else {
+                if (AUTO_ZP9) {
+                    LayoutPowerIsOn = !AUTO_ZP9;
+                    slotToggleLayoutPower();
+                }
+            }
+
+            SRCPCommandStatus = srcp07Connected;
+            updateDaemonMenu();
+            return;
+        }
+        
         else {
+            /* else: no login but connection close */
             cmdToDebug(tr("Cannot read server welcome message!"), M_INFO, HIST);
             /*close command port */
-            if (CommandSocket->isOpen()) {
-                CommandSocket->close();
-                CommandSocketConnectionClosed();
-            }
-        }
-        LoginIsRunning = false;
-        return;
-    }
-
-    /* else: no login but connection close */
-    if (CommandSocket->canReadLine()) {
-        sWelcome = CommandSocket->readLine();
-        /* this seems to be a connection shutdown "passive close" */
-        if (sWelcome.length() == 0) {
-            if (CommandSocket->isOpen()) {
-                CommandSocket->close();
-                CommandSocketConnectionClosed();
+            if (ServerInfo.length() == 0) {
+                if (CommandSocket->isOpen()) {
+                    CommandSocket->close();
+                    CommandSocketConnectionClosed();
+                }
             }
         }
     }
-
 }
 
 
@@ -1486,16 +1501,6 @@ void MainWindow::FeedbackSocketConnected()
     cmdToDebug(tr
                ("Feedback port changes are omitted while initialization"),
                M_INFO, FEED);
-
-    /* now hopefully all ports are connected and we can start sending
-     * layout depending commands; hint: layout may not be loaded at this
-     * time */
-    /*bRunLayout is inverted in this procedure: */
-    bRunLayout = !AUTO_ZP9;
-    slotToggleLayoutPower();
-
-    /* load defaultlayout, but only with "auto power on" is enabled and
-     * the layout is not yet loaded; else see "MainWindow" constructor */
 }
 
 
@@ -1528,11 +1533,23 @@ void MainWindow::FeedbackSocketError(int e)
 
 void MainWindow::InfoSocketReadyRead()
 {
+    if (gbs == NULL)
+        return;
+
     QString sInfo = "";
 
     while (InfoSocket->canReadLine()) {
         sInfo = InfoSocket->readLine();
-        /*TODO: check for incomming GA actions and send them to gbs*/
+        /*check for incomming GA actions and send them to gbs*/
+        // INFO GA <protocol> <addr> <port> <state>
+        //   0   1     2        3      4       5
+        if ("GA" == sInfo.section(" ", 1, 1)) {
+            gbs->sendInfoPortMessage(
+                    sInfo.section(" ", 2, 2),
+                    sInfo.section(" ", 3, 3).toInt(),
+                    sInfo.section(" ", 4, 4).toInt(),
+                    sInfo.section(" ", 5, 5).toInt());
+        }
         cmdToDebug(sInfo, M_CMD, INFO);
     }
 }
@@ -1591,7 +1608,7 @@ QString MainWindow::GetSocketErrorString(int e)
 
 void MainWindow::ConnectToSRCPServer()
 {
-    LoginIsRunning = true;
+    //LoginIsRunning = true;
     ConnectCommandPort();
 }
 
@@ -1610,6 +1627,7 @@ bool MainWindow::isValidSRCPVersion(const QString& SRCPVerStr)
 
 void MainWindow::ConnectCommandPort()
 {
+    SRCPCommandStatus = srcpLogin;
     CommandSocket->connectToHost(HOST, PORT);   /*e.g.: 12345 */
 }
 
@@ -1676,12 +1694,16 @@ void MainWindow::SendCommandToSRCPServer(const QString& CommandStr)
 
 void MainWindow::slotToggleLayoutPower()
 {
-    bRunLayout = !bRunLayout;
+    LayoutPowerIsOn = !LayoutPowerIsOn;
 
-    SendCommandToSRCPServer(bRunLayout ==
-                            true ? "SET POWER ON" : "SET POWER OFF");
+    SendCommandToSRCPServer(LayoutPowerIsOn ? "SET POWER ON" : "SET POWER OFF");
+    updateLayoutPowerAction();
+}
 
-    if (bRunLayout) {
+
+void MainWindow::updateLayoutPowerAction()
+{
+    if (LayoutPowerIsOn) {
         actionLayoutPower->setMenuText(tr("&Stop power"));
         actionLayoutPower->setToolTip(tr("Switch layout power off"));
         actionLayoutPower->setIconSet(QPixmap(layoutstop_xpm));
@@ -1691,7 +1713,6 @@ void MainWindow::slotToggleLayoutPower()
         actionLayoutPower->setToolTip(tr("Switch layout power on"));
         actionLayoutPower->setIconSet(QPixmap(layoutstart_xpm));
     }
-
 }
 
 
@@ -1739,7 +1760,8 @@ void MainWindow::slotDaemonInfo()
 void MainWindow::updateDaemonMenu()
 {
     if (!CommandPortIsConnected)
-        bRunLayout = false;
+        LayoutPowerIsOn = false;
+    updateLayoutPowerAction();
 
     // disable all daemon related menus and toolbuttons if the daemon is
     // not running or has been killed
@@ -1752,7 +1774,6 @@ void MainWindow::updateDaemonMenu()
     actionDaemonInfo->setEnabled(CommandPortIsConnected);
     
     actionLayoutPower->setEnabled(CommandPortIsConnected);
-    //tbLayoutStop->setEnabled(bRunLayout);
 
     actionLayoutToggleAll->setEnabled(CommandPortIsConnected);
     actionLayoutSendAll->setEnabled(CommandPortIsConnected);

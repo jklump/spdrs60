@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.17 $
+                           version 0.4.8 $Revision: 1.18 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-05 13:04:19 $
+    last modified        : $Date: 2005-06-06 20:12:14 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -853,36 +853,41 @@ void GBSArea::deleteElements()
 void GBSArea::setupElements()
 {
     for (unsigned int j = 0; j < elements.size(); j++) {
-        if (elements[j] != 0) {
-            elements[j]->show();  // now show the elements
-            connect(elements[j], SIGNAL(elementClicked(element*, GbsButtonState)),
+        element* el = elements[j];
+        if (el != NULL) {
+            el->show();  // now show the element
+            connect(el, SIGNAL(elementClicked(element*, GbsButtonState)),
                     this, SLOT(slotElementClicked(element*, GbsButtonState)));
-            //connect(elements[j], SIGNAL(elementClicked(int, GbsButtonState)),
-            //        this, SLOT(slotElementClicked(int, GbsButtonState)));
-            connect(elements[j], SIGNAL(sendCommand(const QString&)),
+            connect(el, SIGNAL(sendCommand(const QString&)),
                     this, SIGNAL(sendCommand(const QString&)));
-            connect(elements[j], SIGNAL(setRepeatIcon(const QString&)),
+            connect(el, SIGNAL(setRepeatIcon(const QString&)),
                     this, SIGNAL(setRepeatIcon(const QString&)));
-            connect(elements[j], SIGNAL(sigShowFBmodules()),
+            connect(el, SIGNAL(sigShowFBmodules()),
                     this, SIGNAL(sigShowFBmodules()));
 
             connect(this, SIGNAL(switchVisualMode(elemVisualMode)),
-                    elements[j], SLOT(switchVisualMode(elemVisualMode)));
+                    el, SLOT(switchVisualMode(elemVisualMode)));
             connect(this, SIGNAL(sigRecordMode(elemVisualMode)),
-                    elements[j], SLOT(slotRecordMode(elemVisualMode)));
+                    el, SLOT(slotRecordMode(elemVisualMode)));
             connect(this, SIGNAL(sigShowElement(int, int,
                             elemSelectionMode)),
-                    elements[j], SLOT(slotShowElement(int, int,
+                    el, SLOT(slotShowElement(int, int,
                             elemSelectionMode)));
             connect(this, SIGNAL(feedbackPortChanged(unsigned int)),
-                    elements[j], SLOT(slotOccupyElement(unsigned int)));
+                    el, SLOT(slotOccupyElement(unsigned int)));
             connect(this, SIGNAL(setRepeatIcon(const QString&)),
-                    elements[j], SLOT(slotRepeatIcon(const QString&)));
+                    el, SLOT(slotRepeatIcon(const QString&)));
             connect(this, SIGNAL(sigRepaintLayout()),
-                    elements[j], SLOT(slotRepaintLayout()));
-            connect(elements[j], SIGNAL(recordElement(element*,
+                    el, SLOT(slotRepaintLayout()));
+            connect(el, SIGNAL(recordElement(element*,
                             elemRecordType)),
                     this, SIGNAL(recordElement(element*, elemRecordType)));
+            if (el->isSwitchable()) {
+                connect(this, SIGNAL(processInfoPortMessage(QString,
+                                int, int, int)),
+                        el, SLOT(processInfoPortMessage(QString,
+                                int, int, int)));
+            }
         }
     }
     move(0, 0);
@@ -964,42 +969,48 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
     /* rearrange elements in altered gbs */
     for (int c = 1; c <= newcols; c++) {
         for (int r = 1; r <= newrows; r++) {
-            element* e = item(r, c);
+            element* el = item(r, c);
             unsigned int idx = newrows * (c - 1) + r - 1;
-            if (e == NULL) {
+            if (el == NULL) {
                 /* insert empty element to unoccupied position */
-                e = new element(this);
-                e->move((c - 1) * EL_WIDTH, (r - 1) * EL_HEIGHT);
-                e->show();
-                connect(e, SIGNAL(elementClicked(element*, GbsButtonState)),
+                el = new element(this);
+                el->move((c - 1) * EL_WIDTH, (r - 1) * EL_HEIGHT);
+                el->show();
+                connect(el, SIGNAL(elementClicked(element*, GbsButtonState)),
                         this, SLOT(slotElementClicked(element*,
                                 GbsButtonState)));
-                connect(e, SIGNAL(sendCommand(const QString&)),
+                connect(el, SIGNAL(sendCommand(const QString&)),
                         this, SIGNAL(sendCommand(const QString&)));
-                connect(e, SIGNAL(setRepeatIcon(const QString&)),
+                connect(el, SIGNAL(setRepeatIcon(const QString&)),
                         this, SIGNAL(setRepeatIcon(const QString&)));
-                connect(e, SIGNAL(sigShowFBmodules()),
+                connect(el, SIGNAL(sigShowFBmodules()),
                         this, SIGNAL(sigShowFBmodules()));
                 connect(this, SIGNAL(switchVisualMode(elemVisualMode)),
-                        e, SLOT(switchVisualMode(elemVisualMode)));
+                        el, SLOT(switchVisualMode(elemVisualMode)));
                 connect(this, SIGNAL(sigRecordMode(int)),
-                        e, SLOT(slotRecordMode(int)));
+                        el, SLOT(slotRecordMode(int)));
                 connect(this, SIGNAL(sigShowElement(int, int,
                                 elemSelectionMode)),
-                        e, SLOT(slotShowElement(int, int,
+                        el, SLOT(slotShowElement(int, int,
                                 elemSelectionMode)));
                 connect(this, SIGNAL(feedbackPortChanged(unsigned int)),
-                        e, SLOT(slotOccupyElement(unsigned int)));
+                        el, SLOT(slotOccupyElement(unsigned int)));
                 connect(this, SIGNAL(setRepeatIcon(const QString&)),
-                        e, SLOT(slotRepeatIcon(const QString&)));
+                        el, SLOT(slotRepeatIcon(const QString&)));
                 connect(this, SIGNAL(sigRepaintLayout()),
-                        e, SLOT(slotRepaintLayout()));
-                connect(e, SIGNAL(recordElement(element*, elemRecordType)),
+                        el, SLOT(slotRepaintLayout()));
+                connect(el, SIGNAL(recordElement(element*, elemRecordType)),
                         this, SIGNAL(recordElement(element*, elemRecordType)));
+                if (el->isSwitchable()) {
+                    connect(this, SIGNAL(processInfoPortMessage(QString,
+                                    int, int, int)),
+                            el, SLOT(processInfoPortMessage(QString,
+                                    int, int, int)));
+                }
             }
-            e->setIndexNo(idx);
+            el->setIndexNo(idx);
             /*TODO: set current visual mode */
-            tmpelements.insert(idx, e);
+            tmpelements.insert(idx, el);
         }
     }
 
@@ -1058,5 +1069,13 @@ element* GBSArea::item(int row, int col) const
 QPtrVector<element>* GBSArea::getGbsElementListPtr()
 {
     return &elements;
+}
+
+
+void GBSArea::sendInfoPortMessage(QString prot, int addr, int port,
+        int state)
+{
+    /*TODO: send incomming GA actions to elements*/
+    emit processInfoPortMessage(prot, addr, port, state);
 }
 

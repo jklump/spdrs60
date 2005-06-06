@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.4.8 $Revision: 1.11 $
+                           version 0.4.8 $Revision: 1.12 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-05 13:04:19 $
+    last modified        : $Date: 2005-06-06 20:12:14 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -67,6 +67,8 @@ public:
    void removeColumnElements(int col);
    element* item(int row, int col) const;
    QPtrVector<element>* getGbsElementListPtr();
+   void sendInfoPortMessage(QString prot, int addr, int port, int
+           state);
     
 private:
    QCursor     FHTCursor;
@@ -159,6 +161,8 @@ signals:
     void updateRoutingViewer(const QString&);
     void clearRoutes();
     void recordElement(element*, elemRecordType);
+    void processInfoPortMessage(QString prot, int addr, int port,
+                    int state);
 };
 
 #endif  //GBSAREA_H

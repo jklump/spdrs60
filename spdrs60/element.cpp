@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.18 $
+                           version 0.4.8 $Revision: 1.19 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-05 20:57:10 $
+    last modified        : $Date: 2005-06-06 20:12:14 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -394,6 +394,7 @@ void element::updateProperties()
         sSoldIcon == SYM_ADR|| sSoldIcon == SYM_BLD;
     
     /*element has solenoid connected*/
+    /*TODO: add other switchable elements (direction != -1)*/
     switchable = signal || turnout;
 
     state2dkw = (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR)
@@ -890,11 +891,13 @@ void element::makeCommand()
                 iRealDirection = iRealDirection ^ iSoldChangeConn[1];
         }
 
+        // SET GA <protocol> <addr> <port> <action> <delay>
         sSocketCommand.sprintf("SET GA %s %04d %1d 1 %d\n",
-                               sSoldProtocol.data(), iRealAddress,
-                               (sSoldProtocol ==
-                                "M") ? iRealDirection : !iRealDirection,
-                               iSoldActiveTime);
+        /*protocol*/ sSoldProtocol.data(),
+        /*addr    */ iRealAddress,
+        /*port    */ (sSoldProtocol == "M") ? iRealDirection : !iRealDirection,
+        /*action  */ /* = 1*/
+        /*delay   */ iSoldActiveTime);
 
         //serd: Viessman Formsignale often need several attempts
         while (sendRepeatCounter) {
@@ -2257,3 +2260,33 @@ bool element::hasDifferentDirection(int dir)
 {
     return iSoldDirection != dir;
 }
+
+
+void element::processInfoPortMessage(QString prot, int addr, int port,
+                    int state)
+{
+    /*TODO: add elements with two addresses*/
+    if (iSoldDirection >= 2)
+        return;
+
+    int realDir = iSoldDirection;
+    bool isDCC = (sSoldProtocol == "N");
+    if (isDCC)
+        realDir = !realDir;
+
+    if (addr == iSoldAddress_1 && port != realDir && state == 0) {
+        realDir = port;
+
+        /*invert direction if connectors are exchanged*/
+        realDir = realDir ^ iSoldChangeConn[0];
+        
+        if (isDCC)
+            iSoldDirection = !realDir;
+        else
+            iSoldDirection = realDir;
+
+        setupElementIcon(iSoldLEDstate, "");
+        // TODO: warning message when element is locked
+    }
+}
+

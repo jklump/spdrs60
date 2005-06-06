@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.4.8 $Revision: 1.10 $
+                           version 0.4.8 $Revision: 1.11 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-05 20:57:11 $
+    last modified        : $Date: 2005-06-06 20:12:14 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -44,6 +44,25 @@
 #include "finder.h"
 
 
+enum SRCPMode {    
+    srcpLogin,
+    srcpUndefined,
+    srcp07Connected,
+    srcp07GetPower,
+    srcp08GetBusPower,
+    srcp08GoCommandMode,
+    srcp08GoInfoMode,
+    srcp08InitFBBusses,
+    srcp08InitGADevices,
+    srcp08RunInfoMode,
+    srcp08ServerError,
+    srcp08SetBusPower,
+    srcp08SetConnectionModeCommand,
+    srcp08SetConnectionModeInfo,
+    srcp08TermServer
+};
+
+
 class MainWindow: public QMainWindow
 {
    Q_OBJECT
@@ -55,10 +74,10 @@ public:
    void openFile(const QString&);
 
 private:
-   bool            bRunLayout;
-   bool            LoginIsRunning;
+   bool            LayoutPowerIsOn;
    bool            isFBInitMode;
    int             iDebugNo;
+   SRCPMode        SRCPCommandStatus;
    QString         fileName;  //serd
    QString         lastDir;
    elemVisualMode  visualMode;
@@ -140,6 +159,7 @@ private:
    void initMainWindow();
    void updateDaemonMenu();
    void updateFeedbackMenu();
+   void updateLayoutPowerAction();
    void importFile(const QString&);
    void resetMenu();           //dirk
    bool saveFile();
