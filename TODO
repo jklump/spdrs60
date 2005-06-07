@@ -1,7 +1,3 @@
-* Routing windows closes with memory leaks (user close).
-* File save/save as/close logic does not work perfectly.
-* routing editing leads to double list entries.
-* Some tables are missing in online documentation.
 * Translation of online documentation to english.
 * Rewrite all dialogs to use layout management
 * Rewrite dialog code to use OO-methods for variable access

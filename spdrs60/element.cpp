@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.19 $
+                           version 0.4.8 $Revision: 1.20 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-06 20:12:14 $
+    last modified        : $Date: 2005-06-07 21:19:35 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -95,6 +95,8 @@ element::element(QWidget* parent): QWidget(parent)
     routable = false;
     switchable = false;
     state2dkw = false;
+    ffmactive = false;
+    ffm = false;
     iGA1BusNo = iGA2BusNo = iFBBusNo = 1;
 
     setMaximumSize(sizeHint());
@@ -146,6 +148,8 @@ element::element(QStrList* elementData_, QWidget* parent): QWidget(parent)
     routable = false;
     switchable = false;
     state2dkw = false;
+    ffmactive = false;
+    ffm = false;
     iGA1BusNo = iGA2BusNo = iFBBusNo = 1;
 
     setMaximumSize(sizeHint());
@@ -201,6 +205,8 @@ element::element(QTextStream& ats, QWidget* parent, bool isNewFormat)
     routable = false;
     switchable = false;
     state2dkw = false;
+    ffmactive = false;
+    ffm = false;
     iGA1BusNo = iGA2BusNo = iFBBusNo = 1;
 
     setMaximumSize(sizeHint());
@@ -377,7 +383,11 @@ void element::updateProperties()
      * comparations*/
     signal = sSoldIcon.startsWith("signal");
 
-    if (!signal)
+    if (signal)
+        ffm = (sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
+                sSoldIcon == SYM_SSH);
+
+    else
         turnout = (sSoldIcon.startsWith("weiche") ||
                 sSoldIcon.startsWith("dreier") ||
                 sSoldIcon.startsWith("ekw") ||
@@ -749,7 +759,7 @@ void element::showElementState(int iShowElemStat_, elemSelectionMode sm)
 void element::locateMe()
 {
     // activate edit mode for LOCATE_TIMER secs
-    // if this is the searched element show element in found mode
+    // if this is the searched element, show element in found mode
     selectionMode = ksmFoundEl;
     update();
 
@@ -1152,7 +1162,7 @@ void element::clear()
     iSoldInvert = -1;
     iSoldLEDoff = 1;
     iSoldLEDstate = LED_OFF;
-    iSoldLocked = 0;
+    iSoldLocked = UNLOCKED;
     iSoldRotate = -1;
     iSoldSubType = -1;
     iSoldAddress_1 = -1;
@@ -1182,7 +1192,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                             (iSoldAddress_1 != -1) &&
                             (sSoldIcon != SYM_DRE) &&
                             (sSoldIcon != SYM_MDC) &&
-                            (!iSoldLocked) &&
+                            (iSoldLocked == UNLOCKED) &&
                             (iLEDstate_ != LED_RED) &&
                             (visualMode == kvmNormal || visualMode ==
                              kvmEditRoute));
@@ -1747,9 +1757,22 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                 (sSoldIcon == SYM_EKR && iSoldRotate == 1))
             xyLocked = QPoint(10, 23);
 
-        else if (sSoldIcon.left(6) == "signal")
+        else if (signal && sSoldIcon != SYM_VS) {
             // 5 or 46, 25 or 5
             xyLocked = QPoint(5 + iSoldRotate * 41, 25 - iSoldRotate * 20);
+
+            if (ffm) {
+                // paint FfM
+                br.setWidth(6);
+                br.setHeight(6);
+                if (iSoldRotate == 0)
+                    br.moveTopLeft(QPoint(EL_WIDTH - 11, 4));
+                else
+                    br.moveTopLeft(QPoint(4, EL_HEIGHT - 10));
+                p.setBrush(ffmactive ? yellow : darkGray);
+                p.drawRect(br);
+            }
+        }
 
         if (iSoldAddress_1 != -1 && sSoldIcon != SYM_ENK
                 && sSoldIcon != SYM_REL && sSoldIcon != SYM_SBN
@@ -1757,7 +1780,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                 && sSoldIcon != SYM_ADR && sSoldIcon != SYM_BLD
                 && sSoldIcon != SYM_VS) {
             p.setPen(black);
-            p.setBrush(iSoldLocked > 0 ? yellow : lightGray);
+            p.setBrush(iSoldLocked > 0 ? yellow : darkGray);
             p.drawEllipse(xyLocked.x(), xyLocked.y(), 5, 5);
         }
     }
@@ -2226,6 +2249,39 @@ bool element::isOccupied()
     return (LED_RED == iSoldLEDstate);
 }
 
+/*increase or decrease lock state and repaint element if necessary*/
+void element::setLocked(bool lock)
+{
+    if (lock) {
+        ++iSoldLocked;
+        if (iSoldLocked == 1)
+            setupElementIcon(iSoldLEDstate, "");
+    }
+    else {
+        --iSoldLocked;
+        if (iSoldLocked == 0)
+            setupElementIcon(iSoldLEDstate, "");
+    }
+}
+
+
+/*
+ * switch "Fahrstraﬂenfestlegemelder"; if switched off, signal is also
+ * switched to red light
+ */
+void element::activateFfM(bool active)
+{
+    if (ffm) {
+        if (ffmactive != active) {
+            ffmactive = active;
+            if (!ffmactive)
+                slotSwitchIt(0, -1);
+            else
+                setupElementIcon(iSoldLEDstate, "");
+        }
+    }
+}
+
 
 void element::setIndexNo(unsigned int idx)
 {
@@ -2274,10 +2330,13 @@ void element::processInfoPortMessage(QString prot, int addr, int port,
     if (isDCC)
         realDir = !realDir;
 
+    /*invert direction if connectors are exchanged*/
+    realDir = realDir ^ iSoldChangeConn[0];
+        
     if (addr == iSoldAddress_1 && port != realDir && state == 0) {
         realDir = port;
 
-        /*invert direction if connectors are exchanged*/
+        /*again invert direction if connectors are exchanged*/
         realDir = realDir ^ iSoldChangeConn[0];
         
         if (isDCC)
@@ -2288,5 +2347,12 @@ void element::processInfoPortMessage(QString prot, int addr, int port,
         setupElementIcon(iSoldLEDstate, "");
         // TODO: warning message when element is locked
     }
+}
+
+
+bool element::hasShuntingRouteButtonOnly()
+{
+    return (sSoldIcon == SYM_SS || sSoldIcon == SYM_SSS || sSoldIcon ==
+            SYM_SRB || sSoldIcon == SYM_WS);
 }
 

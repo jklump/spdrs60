@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.4.8 $Revision: 1.15 $
+                           version 0.4.8 $Revision: 1.16 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-06 20:12:14 $
+    last modified        : $Date: 2005-06-07 21:19:35 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -136,6 +136,7 @@ public:
     int      iSoldRotate;
     int      iSoldSubType;
 
+    void activateFfM(bool);
     void readFileTextFromStream(QTextStream&);
     void readOldFileTextFromStream(QTextStream&);
     void writeFileTextToStream(QTextStream&);
@@ -145,6 +146,7 @@ public:
     void locateMe();
     QString getName() const;
     bool hasSameAddress(int);
+    bool hasShuntingRouteButtonOnly();
     bool hasDifferentDirection(int);
     bool isEmpty();
     bool isLocked();
@@ -156,6 +158,7 @@ public:
     bool is2StateDKW();
     void showElementState(int, elemSelectionMode);
     void setIndexNo(unsigned int);
+    void setLocked(bool);
     unsigned int getIndexNo();
     void getStateData(stateElement& se);
     elemSelectionMode getSelectionMode();
@@ -188,6 +191,8 @@ private:
     bool     state2dkw;
     bool     switchable;
     bool     turnout;
+    bool     ffmactive;
+    bool     ffm;
     QString  sRepeatIcon;
     QString  sSoldDecoder;
     QString  sSoldProtocol;

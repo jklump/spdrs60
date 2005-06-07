@@ -1,3 +1,7 @@
+2005-06-07 Guido Scholz <guido.scholz@bayernline.de>
+	* route.cpp, element.cpp: new "Fahrstrassenfestlegemelder"
+	for start signals of "Zugfahrstrassen"; optimized route switching
+
 2005-06-05 Guido Scholz <guido.scholz@bayernline.de>
 	* route.cpp, router.cpp, gbsarea.cpp: routing over occupied
 	route elements now is controlled

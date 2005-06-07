@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.18 $
+                           version 0.4.8 $Revision: 1.19 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-06 20:12:14 $
+    last modified        : $Date: 2005-06-07 21:19:35 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -543,6 +543,8 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
                             .arg(el->getName()), M_INFO, HIST);
                 }
                 else {
+                    // give button pressed feedback to user
+                    setCursor(ArrowCursor);
                     /* send signal to route controller, button type is
                      * ignored so far*/
                     emit resetRoute(el);
@@ -551,8 +553,19 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
             }
             else if (kUfgtClicked == gkbState || kNoneClicked ==
                     gkbState) {
+                if (el->isLocked()) {
+                    QApplication::beep();
+                    emit showLogMessage(tr("No routing possible; signal '%1'"
+                                " is allready locked by an active route.")
+                            .arg(el->getName()), M_INFO, HIST);
+                    slotElementClickedTimeout();
+                }
+                else {
+                    // give button pressed feedback to user
+                    setCursor(ArrowCursor);
                     /* send signal to route controller*/
                     emit setRoute(el, gbsButton, gkbState);
+                }
             }
             else {
                 QApplication::beep();
@@ -677,7 +690,9 @@ void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
         }
 
         // interrupt operation when normal route meets occupied element
-        if ((krouteZfs == setRoute) && rel->isOccupied()) {
+        // start signal is allowed to be occupied
+        if ((krouteZfs == setRoute) && rel->isOccupied() &&
+                rel != fSig.elemPtr) {
             // feedback for caller
             setRoute = krouteReset;
             //TODO: error message
@@ -1075,7 +1090,7 @@ QPtrVector<element>* GBSArea::getGbsElementListPtr()
 void GBSArea::sendInfoPortMessage(QString prot, int addr, int port,
         int state)
 {
-    /*TODO: send incomming GA actions to elements*/
+    /* send incomming GA actions to elements*/
     emit processInfoPortMessage(prot, addr, port, state);
 }
 

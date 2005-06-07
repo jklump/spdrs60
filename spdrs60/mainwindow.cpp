@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.17 $
+                           version 0.4.8 $Revision: 1.18 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-06 20:12:14 $
+    last modified        : $Date: 2005-06-07 21:19:35 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1399,6 +1399,7 @@ void MainWindow::CommandSocketConnectionClosedByServer()
     }
     cmdToDebug(tr("Command port closed by foreign host!"), M_INFO, HIST);
     CommandPortIsConnected = false;
+    SRCPCommandStatus = srcpUndefined;
     updateDaemonMenu();
 }
 
