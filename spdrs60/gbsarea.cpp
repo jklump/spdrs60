@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.19 $
+                           version 0.4.8 $Revision: 1.20 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-07 21:19:35 $
+    last modified        : $Date: 2005-06-08 20:27:43 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -882,8 +882,6 @@ void GBSArea::setupElements()
 
             connect(this, SIGNAL(switchVisualMode(elemVisualMode)),
                     el, SLOT(switchVisualMode(elemVisualMode)));
-            connect(this, SIGNAL(sigRecordMode(elemVisualMode)),
-                    el, SLOT(slotRecordMode(elemVisualMode)));
             connect(this, SIGNAL(sigShowElement(int, int,
                             elemSelectionMode)),
                     el, SLOT(slotShowElement(int, int,
@@ -1002,8 +1000,6 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
                         this, SIGNAL(sigShowFBmodules()));
                 connect(this, SIGNAL(switchVisualMode(elemVisualMode)),
                         el, SLOT(switchVisualMode(elemVisualMode)));
-                connect(this, SIGNAL(sigRecordMode(int)),
-                        el, SLOT(slotRecordMode(int)));
                 connect(this, SIGNAL(sigShowElement(int, int,
                                 elemSelectionMode)),
                         el, SLOT(slotShowElement(int, int,

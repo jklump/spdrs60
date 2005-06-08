@@ -96,7 +96,7 @@ den Suchkriterien entspricht.</translation>
     </message>
     <message>
         <source>No switching possible, signal &apos;%1&apos; is locked by an active route.</source>
-        <translation>Kein Umschalten möglich; Signal &apos;%1&apos; ist durch eine aktive Fahstraße gesperrt.</translation>
+        <translation>Kein Umschalten möglich; Signal &apos;%1&apos; ist durch eine aktive Fahrstraße gesperrt.</translation>
     </message>
     <message>
         <source>No derouting possible; signal &apos;%1&apos; is not a start signal of an active route.</source>
@@ -109,6 +109,10 @@ den Suchkriterien entspricht.</translation>
     <message>
         <source>No switching possible, turnout is occupied</source>
         <translation>Kein Umschalten möglich; Weiche ist belegt</translation>
+    </message>
+    <message>
+        <source>No routing possible; signal &apos;%1&apos; is allready locked by an active route.</source>
+        <translation>Kein Umschalten möglich; Signal &apos;%1&apos; ist durch eine aktive Fahrstraße gesperrt.</translation>
     </message>
 </context>
 <context>
@@ -1104,6 +1108,18 @@ Bitte vor dem Speichern korrigieren!</translation>
         <source>No routing possible; route &apos;%1&apos; is locked by an other route.</source>
         <translation>Fahrstraße &apos;%1&apos; nicht aktivierbar; sie ist durch eine andere Fahrstraße blockiert.</translation>
     </message>
+    <message>
+        <source>No routing possible; route &apos;%1&apos; is blocked by occupied element.</source>
+        <translation>Fahrstraße &apos;%1&apos; nicht aktivierbar; sie ist durch einen belegten Gleisabschnitt blockiert.</translation>
+    </message>
+    <message>
+        <source>No routing possible; route &apos;%1&apos; is blocked by occupied turnout.</source>
+        <translation>Fahrstraße &apos;%1&apos; nicht aktivierbar; sie ist durch eine belegte Weiche blockiert.</translation>
+    </message>
+    <message>
+        <source>Mixing signal buttons of different type is not allowed.</source>
+        <translation>Gleichzeitiges Bedienen von Fahrstraßentasten verschiedenen Typs ist nicht erlaubt.</translation>
+    </message>
 </context>
 <context>
     <name>RoutingTable</name>
@@ -1136,7 +1152,7 @@ Bitte vor dem Speichern korrigieren!</translation>
     </message>
     <message>
         <source>Activating route &apos;%1&apos;</source>
-        <translation>Fahrstraße &apos;%1&apos; aktiviert</translation>
+        <translation type="obsolete">Fahrstraße &apos;%1&apos; aktiviert</translation>
     </message>
     <message>
         <source>Resetting route &apos;%1&apos;</source>
@@ -1144,7 +1160,7 @@ Bitte vor dem Speichern korrigieren!</translation>
     </message>
     <message>
         <source>No routing possible; route &apos;%1&apos; is locked by an other route.</source>
-        <translation>Fahrstraße &apos;%1&apos; nicht aktivierbar; sie ist durch eine andere Fahrstraße blockiert.</translation>
+        <translation type="obsolete">Fahrstraße &apos;%1&apos; nicht aktivierbar; sie ist durch eine andere Fahrstraße blockiert.</translation>
     </message>
 </context>
 <context>

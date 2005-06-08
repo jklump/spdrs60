@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.9 $
+                           version 0.4.8 $Revision: 1.10 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-07 21:19:35 $
+    last modified        : $Date: 2005-06-08 20:27:43 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -425,7 +425,7 @@ QString Route::getTypeStr() const
 {
     QString typeStr;
 
-    /*returns decoded type */
+    /*returns decoded route type */
     switch (routeType){
         case RZS:
             typeStr = QString(QObject::tr("NR")); // normal route
@@ -446,23 +446,33 @@ QString Route::getTypeStr() const
     return typeStr;
 }
 
-
-bool Route::startRouting()
+/**
+ * Start an unlocked route. This function returns tree differend values,
+ * depending on processing results.
+ *   -2: routing is interrupted because a turnout to switch is occupied
+ *   -1: routing is interrupted because nonshunting route leads over
+         occupied elements
+ *    0: routing is interrupted due to a locked turnout/signal
+ *    1: routing is OK
+ */
+int Route::startRouting()
 {
-    /* 1) check for locked elements*/
+    /*
+     * 1) check for locked elements
+     */
     if (fromSignal.elemPtr != NULL && fromSignal.elemPtr->isLocked())
-               return false;
+               return 0;
 
     if (fromSignal.elemPtr2 != NULL && fromSignal.elemPtr2->isLocked())
-               return false;
+               return 0;
 
     if (toSignal.elemPtr != NULL && toSignal.elemPtr->isLocked() &&
                 toSignal.elemPtr->hasDifferentDirection(toSignal.state))
-               return false;
+               return 0;
 
     if (toSignal.elemPtr2 != NULL && toSignal.elemPtr2->isLocked() &&
                 toSignal.elemPtr2->hasDifferentDirection(toSignal.state))
-               return false;
+               return 0;
 
     QPtrListIterator<stateElement> it(switchItems);
     stateElement* se;
@@ -472,21 +482,23 @@ bool Route::startRouting()
         if (el != NULL && el->isLocked() &&
                 (el->hasDifferentDirection(se->state) ||
                  el->is2StateDKW()))
-               return false;
+               return 0;
 
         el = se->elemPtr2;
         if (el != NULL && el->isLocked() &&
                 (el->hasDifferentDirection(se->state) ||
                  el->is2StateDKW()))
-               return false;
+               return 0;
     }
 
-    /* 2) switch route elements*/
+    /*
+     * 2) switch route elements but without locking
+     */
     if (toSignal.elemPtr != NULL)
-           toSignal.elemPtr->slotSwitchIt(toSignal.state, 1);
+           toSignal.elemPtr->slotSwitchIt(toSignal.state, 0);
 
     if (toSignal.elemPtr2 != NULL)
-           toSignal.elemPtr2->slotSwitchIt(toSignal.state, 1);
+           toSignal.elemPtr2->slotSwitchIt(toSignal.state, 0);
     
     it.toFirst();
     while ((se = it.current()) != 0) {
@@ -496,14 +508,19 @@ bool Route::startRouting()
             /* The original SpDr waits 250 ms until next turnout is
              * switched to avoid high power consumption. Signals on
              * route path are switched after "Fahrstraßenfestlegemelder"*/
-            if (el->isTurnout()) {
+            if (el->isTurnout() && el->hasDifferentDirection(se->state)) {
+
+                // turnout can not be switched if is occupied
+                if (el->isOccupied())
+                    return -2;
+                
                 /*TODO: use a nonblocking timer event*/
                 usleep(2500);
-                el->slotSwitchIt(se->state, 1);
+                el->slotSwitchIt(se->state, 0);
 
                 el = se->elemPtr2;
                 if (el != NULL)
-                    el->slotSwitchIt(se->state, 1);
+                    el->slotSwitchIt(se->state, 0);
             }
     }
 
@@ -518,41 +535,54 @@ bool Route::startRouting()
     // send signal to gbs to change route path LEDs
     emit updateRoutePathLEDs(fromSignal, toSignal, rsa);
     
-    // interrupt routing if normal route meets occupied element
+    // interrupt routing if "Zugfahrstraße" meets occupied element
     if (krouteReset == rsa) {
-        /* TODO: Unlock elements which have allready been locked by
-           this route. But where did route path highlighting stop?*/
-        /*
-        if (toSignal.elemPtr != NULL)
-            toSignal.elemPtr->setLocked(false);
-
-        if (toSignal.elemPtr2 != NULL)
-            toSignal.elemPtr2->setLocked(false);
-
-        it.toFirst();
-        while ((se = it.current()) != 0) {
-            ++it;
-            element* el = se->elemPtr;
-            if (el != NULL)
-                el->setLocked(false);
-            el = se->elemPtr2;
-            if (el != NULL)
-                el->setLocked(false);
-        }*/
-        locked = true; // should be "false"
-        return locked;
+        return -1;
     }
-    /*
-     * 4) activate "Fahrstraßenfestlegemelder" (FfM) at start signal
+
+    /* 
+     * 4) lock all switchable elements; in original SpDr this is done
+     * with step 3) but is too complicated to implement respecting
+     * interruption by occupied elements for "Zugfahrstraßen" and the
+     * necessary unlocking of allready locked elements
      */
     if (fromSignal.elemPtr != NULL)
-           fromSignal.elemPtr->activateFfM(true);
+        fromSignal.elemPtr->setLocked(true);
 
     if (fromSignal.elemPtr2 != NULL)
-           fromSignal.elemPtr2->activateFfM(true);
+        fromSignal.elemPtr2->setLocked(true);
+
+    if (toSignal.elemPtr != NULL)
+        toSignal.elemPtr->setLocked(true);
+
+    if (toSignal.elemPtr2 != NULL)
+        toSignal.elemPtr2->setLocked(true);
+
+    it.toFirst();
+    while ((se = it.current()) != 0) {
+        ++it;
+        element* el = se->elemPtr;
+        if (el != NULL)
+            el->setLocked(true);
+        el = se->elemPtr2;
+        if (el != NULL)
+            el->setLocked(true);
+    }
 
     /*
-     * 5) switch signals on route path to Sh1 (Siemens Type)
+     * 5) activate "Fahrstraßenfestlegemelder" (FfM) at start signal
+     */ //TODO: shunting routes do not have an active FfM
+    if (fromSignal.elemPtr != NULL)
+           fromSignal.elemPtr->activateFfM((routeType != RRS &&
+                       routeType != URS));
+
+    if (fromSignal.elemPtr2 != NULL)
+           fromSignal.elemPtr2->activateFfM(routeType != RRS &&
+                       routeType != URS);
+
+    /*
+     * 6) switch signals on route path to Sh1 (Siemens Type)
+     * without changing lock state
      */
     it.toFirst();
     while ((se = it.current()) != 0) {
@@ -560,36 +590,40 @@ bool Route::startRouting()
         element* el = se->elemPtr;
         if (el != NULL)
             if (el->isSignal()) {
-                el->slotSwitchIt(se->state, 1);
+                el->slotSwitchIt(se->state, 0);
 
                 el = se->elemPtr2;
                 if (el != NULL)
-                    el->slotSwitchIt(se->state, 1);
+                    el->slotSwitchIt(se->state, 0);
             }
     }
 
-    /* 6) at last switch start signal to Hp1/Sh1 etc.*/
+    /* 7) at last switch start signal to Hp1/Sh1 etc.*/
     if (fromSignal.elemPtr != NULL)
-        fromSignal.elemPtr->slotSwitchIt(fromSignal.state, 1);
+        fromSignal.elemPtr->slotSwitchIt(fromSignal.state, 0);
 
     if (fromSignal.elemPtr2 != NULL)
-        fromSignal.elemPtr2->slotSwitchIt(fromSignal.state, 1);
+        fromSignal.elemPtr2->slotSwitchIt(fromSignal.state, 0);
 
     locked = true;
-    return locked;
+    return 1;
 }
 
 
-bool Route::stopRouting()
+/**
+ * Stop an active route. All signals are switched to red light,
+ * turnouts keep current direction, a FfM is deactivated.
+ */
+void Route::stopRouting()
 {
-    /* all signals are switched to red light,
-     turnouts keep current direction, FfM is deactivated */
     if (fromSignal.elemPtr != NULL) {
            fromSignal.elemPtr->activateFfM(false);
+           fromSignal.elemPtr->slotSwitchIt(0, -1);
     }
 
     if (fromSignal.elemPtr2 != NULL) {
            fromSignal.elemPtr2->activateFfM(false);
+           fromSignal.elemPtr2->slotSwitchIt(0, -1);
     }
 
     if (toSignal.elemPtr != NULL)
@@ -623,7 +657,6 @@ bool Route::stopRouting()
     emit updateRoutePathLEDs(fromSignal, toSignal, rsa);
 
     locked = false;
-    return !locked;
 }
 
 

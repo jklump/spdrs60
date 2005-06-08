@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.20 $
+                           version 0.4.8 $Revision: 1.21 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-07 21:19:35 $
+    last modified        : $Date: 2005-06-08 20:27:42 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2265,21 +2265,17 @@ void element::setLocked(bool lock)
 }
 
 
-/*
+/**
  * switch "Fahrstraﬂenfestlegemelder"; if switched off, signal is also
- * switched to red light
+ * switched to red light and lock state is decreased
  */
 void element::activateFfM(bool active)
 {
-    if (ffm) {
+    if (ffm)
         if (ffmactive != active) {
             ffmactive = active;
-            if (!ffmactive)
-                slotSwitchIt(0, -1);
-            else
-                setupElementIcon(iSoldLEDstate, "");
+            setupElementIcon(iSoldLEDstate, "");
         }
-    }
 }
 
 

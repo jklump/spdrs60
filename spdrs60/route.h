@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.4.8 $Revision: 1.6 $
+                           version 0.4.8 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-05 13:04:19 $
+    last modified        : $Date: 2005-06-08 20:27:43 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -98,8 +98,8 @@ public:
     QString getToSignalName() const;
     TypeOfRoute getType();
     QString getTypeStr() const;
-    bool startRouting();
-    bool stopRouting();
+    int startRouting();
+    void stopRouting();
     void hideRoute();
     void showRoute();
     void viewRoute();

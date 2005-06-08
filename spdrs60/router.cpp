@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.4.8 $Revision: 1.8 $
+                           version 0.4.8 $Revision: 1.9 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-05 20:57:11 $
+    last modified        : $Date: 2005-06-08 20:27:43 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -284,6 +284,53 @@ void Router::startRecordModeAt(unsigned int index)
 }
 
 
+bool Router::activateRouteAt(unsigned int index)
+{
+    Route* rt = getRouteAt(index);
+    return activateRoute(rt);
+}
+
+
+bool Router::activateRoute(Route* rt)
+{
+    if (rt == NULL)
+        return false;
+
+    bool returnvalue = false;
+
+    int result = rt->startRouting();
+    switch (result) {
+        case 1:
+            emit showLogMessage(tr("Activating route '%1'")
+                    .arg(rt->getName()), M_INFO, HIST);
+            // send state to routingviewer
+            //TODO: optimize to change only lock state icon
+            emit updateRoutingViewerAt(routeList.find(rt));
+            returnvalue = true;
+            break;
+        case 0: 
+            QApplication::beep();
+            emit showLogMessage(tr("No routing possible; "
+                        "route '%1' is locked by an other route.")
+                    .arg(rt->getName()), M_INFO, HIST);
+            break;
+        case -1: 
+            QApplication::beep();
+            emit showLogMessage(tr("No routing possible; "
+                        "route '%1' is blocked by occupied element.")
+                    .arg(rt->getName()), M_INFO, HIST);
+            break;
+        case -2: 
+            QApplication::beep();
+            emit showLogMessage(tr("No routing possible; "
+                        "route '%1' is blocked by occupied turnout.")
+                    .arg(rt->getName()), M_INFO, HIST);
+            break;
+    }
+    return returnvalue;
+}
+
+
 void Router::setRoute(element* el, GbsButtonState cb, GbsButtonState sb)
 {
     if (el == NULL)
@@ -294,6 +341,7 @@ void Router::setRoute(element* el, GbsButtonState cb, GbsButtonState sb)
         Route* sr = getUnlockedRouteWithStartSignal(el, cb, sb);
         if (sr != NULL) {
             selectedStartSig = el;
+            lastcb = cb;
             // send signal to gbs to change mouse cursor
             emit startRouteTimer(sr->getType());
         }
@@ -308,30 +356,23 @@ void Router::setRoute(element* el, GbsButtonState cb, GbsButtonState sb)
     }
     /*stop signal button is pressed*/
     else {
-        /*send cursor time out to gbs*/
-        Route* sr = getUnlockedRouteWithStopSignal(el, cb, sb);
-        if (sr != NULL) {
-            // activate route
-            if (sr->startRouting()) {
-                emit showLogMessage(tr("Activating route '%1'")
-                        .arg(sr->getName()), M_INFO, HIST);
-                // send state to routingviewer
-                //TODO: optimize to change only lock state icon
-                emit updateRoutingViewerAt(routeList.find(sr));
-            }
-            else {
-                QApplication::beep();
-                emit showLogMessage(tr("No routing possible; "
-                            "route '%1' is locked by an other route.")
-                        .arg(sr->getName()), M_INFO, HIST);
-            }
+        if (lastcb != cb) {
+            QApplication::beep();
+            emit showLogMessage(tr("Mixing signal buttons of different"
+                        " type is not allowed."), M_INFO, HIST);
         }
         else {
-            QApplication::beep();
-            emit showLogMessage(tr("No matching route found from '%1'"
-                        " to '%2'").arg(selectedStartSig->getName(),
-                            el->getName()), M_INFO, HIST);
+            Route* sr = getUnlockedRouteWithStopSignal(el, cb, sb);
+            if (sr != NULL)
+                activateRoute(sr);
+            else {
+                QApplication::beep();
+                emit showLogMessage(tr("No matching route found from '%1'"
+                            " to '%2'").arg(selectedStartSig->getName(),
+                                el->getName()), M_INFO, HIST);
+            }
         }
+        /*send cursor time out to gbs*/
         emit routeFunctionFinished();
         selectedStartSig = NULL;
     }
@@ -349,10 +390,10 @@ void Router::resetRoute(element* el)
     else {
         emit showLogMessage(tr("Resetting route '%1'")
                 .arg(sr->getName()), M_INFO, HIST);
-        if (sr->stopRouting())
-            // send state to routingviewer
-            //TODO: optimize to change only lock state icon
-            emit updateRoutingViewerAt(routeList.find(sr));
+        sr->stopRouting();
+        // send state to routingviewer
+        //TODO: optimize viewer update to change only lock state icon
+        emit updateRoutingViewerAt(routeList.find(sr));
     }
 }
 
@@ -403,14 +444,17 @@ void Router::resetSelectedSignal()
     selectedStartSig = NULL;
 }
 
+
 void Router::unlockAllLockedRoutes()
 {
     QPtrListIterator<Route> routeit(routeList);
     Route* rt;
     while ((rt = routeit.current()) != 0 ) {
         ++routeit;
-        if (rt->isLocked())
+        if (rt->isLocked()) {
             rt->stopRouting();
+            emit updateRoutingViewerAt(routeList.find(rt));
+        }
     }
     emit showLogMessage(tr("All active routes unlocked"), M_INFO, HIST);
 }

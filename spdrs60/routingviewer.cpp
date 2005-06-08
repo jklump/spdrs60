@@ -1,10 +1,10 @@
 /***************************************************************************
                            routingviewer.cpp
-                           version 0.4.8 $Revision: 1.4 $
+                           version 0.4.8 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-05 20:57:11 $
+    last modified        : $Date: 2005-06-08 20:27:43 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -81,13 +81,13 @@ void RoutingViewer::updateRoutes()
         }
 
         /*adjust column width to new text length*/
+        /*
         rTable->adjustColumn(1);
         rTable->adjustColumn(2);
         rTable->adjustColumn(3);
         rTable->adjustColumn(4);
+        */
     }
-    //if (!isVisible())
-    //    adjustSize();
 }
 
 
@@ -128,8 +128,7 @@ void RoutingViewer::slotRouteStart()
 
     /*TODO: optimize, may be it is better, the route sends a "lock state
      * changed" signal*/
-    Route* selectedRoute = gbsRouter->getRouteAt(rTable->currentRow());
-    if (selectedRoute->startRouting()){
+    if (gbsRouter->activateRouteAt(rTable->currentRow())) {
         /*update toolbar buttons and table lock icon*/
         rTable->updateCurrentRowLockStateIcon(true);
         /*update menuitems/toolbar in mainwindow*/
@@ -158,21 +157,12 @@ void RoutingViewer::slotStartRouteNo(int routeidx)
 
     /*TODO: optimize, may be it is better, the route sends a "lock state
      * changed" signal*/
-    Route* sr = gbsRouter->getRouteAt(routeidx);
-    if (sr->startRouting()){
+    if (gbsRouter->activateRouteAt(routeidx)) {
         /*update toolbar buttons and table lock icon*/
         rTable->updateLockStateIcon(routeidx, true);
-        emit showLogMessage(tr("Activating route '%1'")
-                .arg(sr->getName()), M_INFO, HIST);
 
         if (rTable->isRowSelected(routeidx))
             emit selectedRouteIsLocked(true);
-    }
-    else {
-        QApplication::beep();
-        emit showLogMessage(tr("No routing possible; "
-                    "route '%1' is locked by an other route.")
-                .arg(sr->getName()), M_INFO, HIST);
     }
 }
 
@@ -183,7 +173,8 @@ void RoutingViewer::slotRouteStop()
         return;
 
     Route* sr = gbsRouter->getRouteAt(rTable->currentRow());
-    if (sr->stopRouting()){
+    if (sr != NULL) {
+        sr->stopRouting();
         /*update toolbar buttons and table lock icon*/
         rTable->updateCurrentRowLockStateIcon(false);
         emit showLogMessage(tr("Resetting route '%1'")
@@ -198,12 +189,13 @@ void RoutingViewer::slotStopRouteNo(int routeidx)
     /*TODO: optimize, may be it is better, the route sends a "lock state
      * changed" signal*/
     Route* sr = gbsRouter->getRouteAt(routeidx);
-    if (sr->stopRouting()){
-        /*update toolbar buttons and table lock icon*/
-        rTable->updateLockStateIcon(routeidx, false);
+    if (sr != NULL) {
+        sr->stopRouting();
         emit showLogMessage(tr("Resetting route '%1'")
                 .arg(sr->getName()), M_INFO, HIST);
 
+        /*update toolbar buttons and table lock icon*/
+        rTable->updateLockStateIcon(routeidx, false);
         if (rTable->isRowSelected(routeidx))
             emit selectedRouteIsLocked(false);
     }
@@ -226,13 +218,13 @@ void RoutingViewer::slotRouteEdit()
 
 void RoutingViewer::slotEditRouteNo(int routeidx)
 {
-    //Route* selectedRoute = gbsRouter->getRouteAt(routeidx);
+    //Route* sr = gbsRouter->getRouteAt(routeidx);
    
-    /*
-    Route->showRouteDialog(this, true);
+    /* 1:
+    sr->showRouteDialog(this, true);
     */
     
-    /* 
+    /* or 2:
     routeDialog* rtDlg = new routeDialog(this);
 
     if (rtDlg->exec() = QDialog::Accepted) {
@@ -256,8 +248,9 @@ void RoutingViewer::slotRouteCopy()
 void RoutingViewer::slotRouteDelete()
 {
     /*TODO: ask for "Do you realy want to delete this route?*/
-    rTable->removeRow(rTable->currentRow());
-    gbsRouter->deleteRouteAt(rTable->currentRow());
+    int row = rTable->currentRow();
+    rTable->removeRow(row);
+    gbsRouter->deleteRouteAt(row);
     /*update rootingtoolbar buttons*/
     if (rTable->numRows() == 0)
         emit noRoutesAvailable();

@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.h
-                           version 0.4.8 $Revision: 1.6 $
+                           version 0.4.8 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@ bayernline.de
-    last modified        : $Date: 2005-06-05 13:04:19 $
+    last modified        : $Date: 2005-06-08 20:27:43 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -55,6 +55,8 @@ public:
     void selectedRouteChanged(int, int);
     void showRouteAt(int);
     void startRecordModeAt(unsigned int);
+    bool activateRoute(Route*);
+    bool activateRouteAt(unsigned int);
 
 public slots:
     void clearRoutes();
@@ -73,6 +75,8 @@ private:
     element* selectedStartSig;
     bool modified;
     elemVisualMode visualmode;
+    GbsButtonState lastcb;
+
     void setupRouteElements();
     Route* getLockedRouteWithStartSignal(element*);
     Route* getUnlockedRouteWithStartSignal(element*, GbsButtonState,
