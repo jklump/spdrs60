@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.10 $
+                           version 0.4.8 $Revision: 1.11 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-08 20:27:43 $
+    last modified        : $Date: 2005-06-08 21:06:14 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -529,7 +529,7 @@ int Route::startRouting()
      *    check for occupied elements if not shunting route
      */
     RouteSetAction rsa = krouteZfs;
-    if (routeType == RRS && routeType == URS) {
+    if (routeType == RRS || routeType == URS) {
         rsa = krouteRfs;
     }
     // send signal to gbs to change route path LEDs
