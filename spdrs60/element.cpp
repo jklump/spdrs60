@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.21 $
+                           version 0.4.8 $Revision: 1.22 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-08 20:27:42 $
+    last modified        : $Date: 2005-06-09 17:59:17 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1088,57 +1088,67 @@ void element::slotToggle()
 }
 
 
-void element::slotCtxEdit(int iID_)
+void element::slotCtxEdit(int ctxID)
 {
-    switch (iID_) {
+    switch (ctxID) {
         case CTX_ID_REP:
             clear();
             sSoldIcon = sRepeatIcon;
             break;
-            //case 1: separation line
         case CTX_ID_ROTATE:
             rotate();
             break;
         case CTX_ID_CLEAR:
             clear();
             break;
-            //case 4: separation line
         case 5:
             clear();
             sSoldIcon = SYM_GER;    // straight
             iSoldRotate = 0;        // all symbols are rotatable
+            iSoldLEDoff = 1;
+            iFBContact = 0;
             break;
         case 6:
             clear();
             sSoldIcon = SYM_KUL;    // left curve
             iSoldRotate = 0;        // all symbols are rotatable
+            iSoldLEDoff = 1;
+            iFBContact = 0;
             break;
         case 7:
             clear();
             sSoldIcon = SYM_KUR;    // right "
             iSoldRotate = 0;        // all symbols are rotatable
+            iSoldLEDoff = 1;
+            iFBContact = 0;
             break;
         case 8:
             clear();
             sSoldIcon = SYM_DIL;    // left diagonal
+            iSoldLEDoff = 1;
+            iFBContact = 0;
             break;
         case 9:
             clear();
             sSoldIcon = SYM_DIR;    // right "
+            iSoldLEDoff = 1;
+            iFBContact = 0;
             break;
         case 10:
             clear();
             sSoldIcon = SYM_WEL;    // left turnout
             iSoldRotate = 0;        // all symbols are rotatable
+            iSoldLEDoff = 1;
+            iFBContact = 0;
             break;
         case 11:
             clear();
             sSoldIcon = SYM_WER;    // right "
             iSoldRotate = 0;        // all symbols are rotatable
+            iSoldLEDoff = 1;
+            iFBContact = 0;
             break;
     }
-    iFBContact = 0;
-    iSoldLEDoff = 1;
     iSoldLEDstate = bFBport[iFBContact] << 1;
     setupElementIcon(iSoldLEDstate, "");
     sRepeatIcon = sSoldIcon;
@@ -1184,10 +1194,8 @@ void element::sendState()
 void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
 {
     // update the contextmenu
-    ctxEdit->setItemEnabled(CTX_ID_CLEAR, visualMode == kvmEditLayout);
-    ctxEdit->setItemEnabled(CTX_ID_ROTATE,
-                            iSoldRotate != -1 && visualMode ==
-                            kvmEditLayout);
+    ctxEdit->setItemEnabled(CTX_ID_CLEAR, true);
+    ctxEdit->setItemEnabled(CTX_ID_ROTATE, iSoldRotate != -1);
     ctxNorm->setItemEnabled(CTX_ID_TOGGLE,
                             (iSoldAddress_1 != -1) &&
                             (sSoldIcon != SYM_DRE) &&
