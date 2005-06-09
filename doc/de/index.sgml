@@ -1,5 +1,5 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.2//EN" [
-<!-- Aktuelle Version: --> <!ENTITY ver "0.4.7">
+<!-- Aktuelle Version: --> <!ENTITY ver "0.4.8">
 ]>
 
 <article lang="de">
@@ -43,6 +43,10 @@
       <revnumber>0.5</revnumber>
       <date>Mon Jan 31 20:33:48 CET 2005</date>
     </revision>
+    <revision>
+      <revnumber>0.6</revnumber>
+      <date>Thu Jun 09 20:00:00 CEST 2005</date>
+    </revision>
   </revhistory>
   <abstract>
 <para>Dieses Handbuch beschreibt den SRCP-Client SpDrS60 Version
@@ -67,13 +71,13 @@ gewohnten Eigenschaften eines Steuerprogramms verabschieden, da diese
 meistens zu sehr auf die Belange der Modellbahn abgestimmt sind.
 </para>
 <para>
-Ich selber stufe mich zwar nicht bei den &quot;Nietenzählern&quot; ein,
+Ich selber stufe mich zwar nicht bei den &raquo;Nietenzählern&laquo; ein,
 habe aber in diesem Programm ein möglichst vorbildnahes Aussehen einer
-Gleissteuerung verwirklicht. Natürlich hei&szlig;t &quot;möglichst
-vorbildnah&quot; nur, dass alle für eine Modellbahn sinnvollen Anzeigen,
+Gleissteuerung verwirklicht. Natürlich hei&szlig;t &raquo;möglichst
+vorbildnah&laquo; nur, dass alle für eine Modellbahn sinnvollen Anzeigen,
 Schalthandlungen etc. übernommen worden sind. Aber gerade bei letzterem
-ist als Beispiel anzumerken, dass Weichen halt nicht &quot;einfach
-so&quot; umgestellt werden, sondern dass dazu ein gewisser - der
+ist als Beispiel anzumerken, dass Weichen halt nicht &raquo;einfach
+so&laquo; umgestellt werden, sondern dass dazu ein gewisser - der
 Sicherheit dienender - Ablauf einzuhalten ist, indem bestimmte andere
 Tasten vorher betätigt werden. In Zukunft werden noch einige weitere
 Features realisiert werden, so dass die Authentizität noch gesteigert
@@ -96,8 +100,8 @@ und die Inhalte daher änderbar</para></listitem>
 </itemizedlist>
 </para>
 <para>
-&quot;SpDrS60 for Linux&quot; kann nicht eigenständig benutzt werden. Es
-benötigt z.B. den signalerzeugenden Daemon &quot;erddcd&quot; aus dem
+&raquo;SpDrS60 for Linux&laquo; kann nicht eigenständig benutzt werden. Es
+benötigt z.B. den signalerzeugenden Daemon &raquo;erddcd&laquo; aus dem
 DDL-Projekt (mehr dazu im <xref linkend="sect-installation">) oder jeden
 anderen SRCP Server, der die Verbindung zwischen PC und der Anlage
 herstellt. Meine Zielsetzung ist, eine sinnvolle Kombination aus
@@ -112,6 +116,90 @@ vorher empfohlen, um die Mächtigkeit dieses Programms zu erfahren.
 
 <sect1 id="sect-aenderungen">
   <title>Änderungen</title>
+
+<sect2 id="ver-0.4.8">
+  <title>Version 0.4.8</title>
+<para>
+Veröffentlicht am **.**.2005
+<itemizedlist mark="bullet">
+  <listitem><para>Die Datei Öffen/Speichern/Schließen-Logik wurde
+  komplett neu geschrieben, so dass nun kein Zwangsspeichern der
+  Gleisbilddatei beim Verlassen des Programms mehr erfolgt.</para></listitem>
+  <listitem><para>Die Handhabung der Fahrstraßen wurde ebenfalls
+  komplett neu geschrieben. Davon ist sowohl der für den
+  Benutzer sichtbare Anteil, wie z.B. die Fahrstraßentabelle, als auch der
+  unsichtbare Anteil, der u.a. für das Aktivieren der Fahrstraßen
+  verantwortlich ist, betroffen.</para></listitem>
+  <listitem><para>Das Dateiformat, mit dem das Programm seine Daten
+  (Gleisbilder, Fahrstraßen) speichert, wurde weitgehend geändert. Es
+  wird jetzt nur noch eine Datei mit der Dateiendung &raquo;spdrs60&laquo;
+  benutzt, die sowohl die Informationen
+  für das Gleisbild als auch für die dazugehörenden Fahrstraßen enthält.
+  Leere Gleisbildelemente werden nun nicht mehr abgespeichert, so
+  dass die Dateigröße deutlich verringert und die Bearbeitbarkeit mit
+  einem externen Texteditor vereinfacht ist. Die alten Gleisbilder und
+  Fahrstraßen lassen sich durch eine Importfunktion (Datei/Importieren)
+  einfach einlesen.</para></listitem>
+  <listitem><para>Zugfahrstraßen lassen sich, wie es aus
+  Sicherheitsgründen auch im Original der Fall ist, nun nicht mehr in
+  belegte Gleisabschnitte hinein einrichten.</para></listitem>
+  <listitem><para>Startsignale von Zugfahrstraßen besitzen nun einen
+  Fahrstraßenfestlegemelder (FfM), der das Aktivsein einer Zugfahrstraße
+  für dieses Signal anzeigt.
+  </para></listitem>
+  <listitem><para>Als neues Gleisbildsymbol wurde die Signalgruppentaste
+  (SGT) aufgenommen. Mit dieser lassen sich vorbildgetreu Signale umschalten.
+  Die Weichengruppentaste (WGT) kann nun, dem Vorbild entsprechend, nur
+  noch zum Umschalten von Weichen genutzt werden.</para></listitem>
+  <listitem><para>Das Kontextmenü, welches im Gleisbildbearbeitungsmodus
+  (rote Umrandungen) zum schnellen Zeichnen von Gleisverläufen dient,
+  funktioniert nun wieder.</para></listitem>
+  <listitem><para>Die Belegung der Maustasten im
+  Gleisbildbearbeitungsmodus wurde geändert, um später eine
+  Implementierung von "Drag-and-Drop" für Gleisbildsymbole zu
+  ermöglichen. Der Eigenschaftsdialog der Gleisbildsymbole erscheint nun
+  nach Aktivierung der rechten Maustaste, was als allgemein üblicher
+  Standard bei grafischen Programmen angesehen werden kann. Das Kontextmenü
+  zum Zeichen von Gleissymbolen liegt auf der mittleren
+  Maustaste.</para></listitem>
+  <listitem><para>Die Fahrstraßen können nun über einen neu geschaffenen
+  Fahrstraßenbearbeitungsmodus (blaue Hervorhebung) weitestgehend grafisch
+  zusammengestellt werden. Start- und Zielsignale einer in der
+  Fahrstraßenliste ausgewählten Fahrstraße lassen sich mit der
+  linken Maustaste, die übrigen Fahrstraßenelemente mit der mittleren
+  Maustaste auswählen. Durch erneutes Anklicken lassen sich allgemein
+  Fahrstraßenelemente auch wieder abwählen.</para></listitem>
+  <listitem><para>Die bisher vorhandene Größenbegrenzung von
+  Gleisbildern ist nun aufgehoben.</para></listitem>
+  <listitem><para>Zur Bearbeitung von Fahrstraßen wurde das Hauptmenü um
+  entsprechende Einträge ergänzt, die nur bei Sichtbarkeit der
+  Fahrstraßentabelle nutzbar sind.</para></listitem>
+  <listitem><para>Die Symbolleiste wurde (intern) komplett überarbeitet
+  und um eine Reihe an Symbolen ergänzt, die nun einen schnelleren
+  Zugang zu diesen Funktionen bieten. Gleichzeitig wurde sie der
+  Einteilung des Hauptmenüs entsprechend in Funktionsgruppen unterteilt,
+  die bedarfsweise einzeln verschiebbar oder ausblendbar sind.</para></listitem>
+  <listitem><para>Das erste Argument, das dem Programm beim Aufrufen
+  übergeben wird, wird nun als zu ladende Datei
+  ausgewertet.</para></listitem>
+  <listitem><para>Die in älteren Versionen schon mal vorhandene
+  Möglichkeit, über den Menüpunkt &raquo;Datei/Neues Fenster&laquo; ein
+  neues Anwendungsfenster zu öffen, wurde reaktiviert. Der früher hier
+  bestehende Fehler mit dem Nachladen der automatisch zu öffnenden Datei
+  wurde beseitigt.</para></listitem>
+  <listitem><para>Das Zeichnen der Gleisbildsymbole wurde
+  geschwindigkeitsoptimiert, so dass das Programm insbesondere beim
+  Wechseln zwischen den verschiedenen Bearbeitungsmodi um Größenordungen
+  agiler wirkt.</para></listitem>
+  <listitem><para>Ein Einrichten von Fahrstraßen nach rechts oder links über
+  die Gleisbildgrenzen hinweg ist nun dann möglich, wenn das Start- und/oder
+  Zielsignal zweimal auf dem Gleisbild dargestellt ist, und zwar so,
+  dass sich zwischen Start- und Zielsignal mindestens einmal ein
+  durchgehender Streckenverlauf ergibt. Ein Beispiel hierfür bietet das
+  Beispielgleisbild &raquo;bahnhofklein&laquo;.</para></listitem>
+</itemizedlist>
+</para>
+</sect2>
 
 <sect2 id="ver-0.4.7">
   <title>Version 0.4.7</title>
@@ -128,10 +216,10 @@ Veröffentlicht am 23.01.2005
   <listitem><para>Verschiedene organisatorische Änderungen im
   Quellcode.</para></listitem>
   <listitem><para>Zu den Beispielgleisbildern gesellen sich das
-  Schulungsbeispiel &quot;dedorf&quot; aus dem Buch
-  &quot;Sp Dr S60-Stellwerke bedienen&quot; von F. Hein, der im
+  Schulungsbeispiel &raquo;dedorf&laquo; aus dem Buch
+  &raquo;Sp Dr S60-Stellwerke bedienen&laquo; von F. Hein, der im
   Original als DrS2-Stellwerk existierende Bahnhof
-  &quot;Flandersbach&quot; und der Bahnhof &quot;Lintorf&quot;.
+  &raquo;Flandersbach&laquo; und der Bahnhof &raquo;Lintorf&laquo;.
   </para></listitem>
   <listitem><para>Angeregt durch das Buch von F. Hein, wurden elf neue
   Gleisbildsymbole aufgenommen.</para></listitem>
@@ -517,9 +605,9 @@ kann</para></listitem>
   <listitem><para>Anpassung des Hauptfensters auch für andere
 Bildschirmauflösungen</para></listitem>
   <listitem><para>Alternative zum Schalten von Antrieben durch Kontextmenü
-(&quot;Umschalten&quot;)</para></listitem>
-  <listitem><para>Schnelles &quot;leeren&quot; eines Elements durch
-Kontextmenü (&quot;Clear&quot;)</para></listitem>
+(&raquo;Umschalten&laquo;)</para></listitem>
+  <listitem><para>Schnelles &raquo;leeren&laquo; eines Elements durch
+Kontextmenü (&raquo;Clear&laquo;)</para></listitem>
   <listitem><para>Sicherstellung einer richtigen Adresseneingabe im
 Properties-Menü inkl. automatischem Einfügen führender
 Nullen</para></listitem>
@@ -530,7 +618,7 @@ oder Relaisantrieb)</para></listitem>
   <listitem><para>Zuordnung von möglichen Zuständen zu jedem Signal und
 DKW (dient nur zum Senden des richtigen Befehls)</para></listitem>
   <listitem><para>Antriebe mit mehr als 2 Zuständen können jetzt mittels
-WGT oder Kontextmenü &quot;im Kreis&quot; ihre Richtung ändern; d.h.
+WGT oder Kontextmenü &raquo;im Kreis&laquo; ihre Richtung ändern; d.h.
 alle verfügbaren Richtungen können so erreicht werden, ohne das
 Fahrstra&szlig;en dafür benutzt werden müssten</para></listitem>
 </itemizedlist>
@@ -579,7 +667,7 @@ auch, aber man bekommt nicht alle Reihen gleichzeitig zu sehen, also
 auch entsprechend weniger Elemente auf einmal).</para></listitem>
   <listitem><para>Für die aktuelle QT3-Version mu&szlig; die
 Qt-Laufzeit-Bibliothek (qt3) installiert sein (unter SuSE oder Fedora
-Paket &quot;qt3&quot;). Überprüfen kann man das bei bei rpm-basierten
+Paket &raquo;qt3&laquo;). Überprüfen kann man das bei bei rpm-basierten
 Distributionen z.B. durch die Eingabe des Kommandos: <userinput>rpm -qi
 qt3</userinput></para></listitem>
   <listitem><para>Zum Kompilieren benötigt man einen C++-Compiler (ich
@@ -587,12 +675,12 @@ habe den g++ benutzt).</para></listitem>
   <listitem><para>Einen Browser zum Anzeigen der Hilfedateien aus dem
 Programm heraus (z.b. Firefox, Netscape, Mozilla, Konqueror,
 Opera)</para></listitem>
-  <listitem><para>Einen Editor (z.B. &quot;kwrite&quot;); dieser ist mit
+  <listitem><para>Einen Editor (z.B. &raquo;kwrite&laquo;); dieser ist mit
 beschränkter Auswahl über die Einstellungen
 konfigurierbar.</para></listitem>
   <listitem><para>Ganz wichtig: Damit die Befehle überhaupt auf der Anlage
-ankommen, braucht man den Daemon &quot;erddcd&quot; aus dem DDL-Paket
-von Torsten Vogt (siehe auch das Kapitel &quot;Download&quot; auf den
+ankommen, braucht man den Daemon &raquo;erddcd&laquo; aus dem DDL-Paket
+von Torsten Vogt (siehe auch das Kapitel &raquo;Download&laquo; auf den
 SpDrS60-Webseiten). Der Daemon sollte den neuen Rückmeldebus
 unterstützen, weshalb eine Version &gt; 1.2.x (z.B. die aktuelle
 xmas2001) empfohlen wird. Aktuelle RPM-Pakete hierzu gibt es auch von
@@ -617,7 +705,7 @@ Funktionsfähigkeit machen. Es wurden bisher ja einige Probleme bei der
 Lokansteuerung mit dem neuen Kernel 2.2.16 gemeldet. Sollte das Anwenden
 dieses Programmes zu unschönen Schaltvorgängen führen, so bitte ich
 damit, sich in der DDL-Mailingsliste oder in der Newsgroup
-&quot;de.rec.modelle.bahn&quot; zu melden, da dieses Programm nur eine
+&raquo;de.rec.modelle.bahn&laquo; zu melden, da dieses Programm nur eine
 Bedienoberfläche bietet und nicht für die korrekte Darstellung der
 digitalen Signale auf der Anlage verantwortlich ist.
 </para>
@@ -701,8 +789,8 @@ Bei Problemen können Sie den Autor kontaktieren:
 <sect2 id="sect-dateien">
   <title>Dateien im Paket</title>
 <para>
-Das Programm &quot;spdrs60&quot; wird, je nach configure-Option (hier
-sei &quot;--prefix=/usr&quot; angenommen), bei der Installation im
+Das Programm &raquo;spdrs60&laquo; wird, je nach configure-Option (hier
+sei &raquo;--prefix=/usr&laquo; angenommen), bei der Installation im
 Verzeichnis <filename class="directory">/usr/bin</filename> bzw.
 <filename class="directory">/usr/local/bin</filename> abgelegt. Die
 Dokumentation zum Programm liegt entsprechend unter <filename
@@ -867,8 +955,8 @@ Die Menüpunkte haben folgende Funktionen:
 <para>
 Je nach Programmzustand kann der eine oder andere Menüeintrag nicht
 aktiviert werden. Bei nicht laufendem Server ist dies z.B. mit allen
-Einträgen des Punktes &quot;Daemon&quot; der Fall. Ist kein Gleisbild
-geladen, dann sind die meisten Einträge des Menüs &quot;Gleisbild&quot;
+Einträgen des Punktes &raquo;Daemon&laquo; der Fall. Ist kein Gleisbild
+geladen, dann sind die meisten Einträge des Menüs &raquo;Gleisbild&laquo;
 ausgegraut.
 </para>
 
@@ -924,10 +1012,10 @@ Rückmeldeunterstützung, dann erscheint das Rückmeldesymbol ausgegraut.
   <title>Debugging-Anzeige</title>
 <para>
 Am unteren Rand findet man das Debugging-Fenster. Es ist umschaltbar in
-den Anzeigenarten &quot;Kommandos&quot;, &quot;Infoport&quot; und
-&quot;Rückmeldung&quot; (dies kann durch Drücken von
+den Anzeigenarten &raquo;Kommandos&laquo;, &raquo;Infoport&laquo; und
+&raquo;Rückmeldung&laquo; (dies kann durch Drücken von
 <keycap>Strg-D</keycap> bzw. durch Wählen des Menüeintrages
-&quot;Ansicht -&gt; Statuszeile umschalten&quot; geschehen).
+&raquo;Ansicht -&gt; Statuszeile umschalten&laquo; geschehen).
 </para>
 
 <sect4>
@@ -1207,8 +1295,8 @@ GUI-Toolkit</para></listitem>
 <sect3>
   <title>Starten einer neuen Programminstanz</title>
 <para>
-Über diesen Punkt kann ganz einfach eine neue Instanz von &quot;SpDrS60
-für Linux&quot; gestartet werden. Auch dort gelten die Einstellungen,
+Über diesen Punkt kann ganz einfach eine neue Instanz von &raquo;SpDrS60
+für Linux&laquo; gestartet werden. Auch dort gelten die Einstellungen,
 die über das Optionenmenü gemacht wurden, d.h. z.B., dass wiederum
 dieselbe Autostart-Datei geladen wird.
 </para>
@@ -1251,7 +1339,7 @@ Eine genaue Beschreibung zum Editiervorgang findet man im
 Auch dieses Thema wird in einem eigenen Kapitel (<xref
 linkend="sect-fahrstrassen">) beschrieben. Erreichbar ist der
 Fahrstra&szlig;eneditor über das Tastaturkürzel <keycap>Strg-R</keycap>
-oder den Menüpunkt &quot;Ansicht -&gt; Fahrstra&szlig;entabele&quot;.
+oder den Menüpunkt &raquo;Ansicht -&gt; Fahrstra&szlig;entabele&laquo;.
 </para>
 </sect3>
 
@@ -1260,7 +1348,7 @@ oder den Menüpunkt &quot;Ansicht -&gt; Fahrstra&szlig;entabele&quot;.
 <para>
 Sollte man mal in die Notwendigkeit kommen, die dem Gleisbild
 zugrundeliegende Datei editieren zu wollen, so kann man das über den
-Punkt &quot;Bearbeiten -&gt; Datendateien -&gt; &lt;Dateiname&gt;
+Punkt &raquo;Bearbeiten -&gt; Datendateien -&gt; &lt;Dateiname&gt;&laquo;
 erreichen. Das Programm öffnet einen normalen Editor, wie er über die
 Optionen einstellbar ist und zeigt die ASCII-Dateien an. Zur Auswahl
 stehen hierbei die Gleisbilddatei, die Fahrstra&szlig;endatei (wenn
@@ -1288,7 +1376,7 @@ aufrufen muss.
 <para>
 Nach einiger Zeit wei&szlig; man gar nicht mehr, wo welche Elemente mit
 bestimmten Adressen liegen. Da kommt einem der Elementefinder gerade
-recht. Durch Auswahl des Punktes &quot;Bearbeiten -&gt; Suchen&quot;
+recht. Durch Auswahl des Punktes &raquo;Bearbeiten -&gt; Suchen&laquo;
 oder den Tastaturkürzel <keycap>Strg-F</keycap> öffnet sich der in <xref
 linkend="abb-find"> gezeigte Suchdialog.
 </para>
@@ -1311,7 +1399,7 @@ Mehrfachantrieben. Desweiteren ist auswählbar, ob nur der erste Treffer
 zählt oder ob alle Vorkommen angezeigt werden.
 </para>
 <para>
-Nach dem Klick auf &quot;Suchen&quot; erscheint entweder eine Meldung,
+Nach dem Klick auf &raquo;Suchen&laquo; erscheint entweder eine Meldung,
 dass nichts gefunden werden konnte (<xref linkend="abb-findnone">),
 </para>
 <para>
@@ -1364,12 +1452,12 @@ speziell diesem Thema widmet.
   <title>Daemon</title>
 <para>
 Durch einige Menübefehle kann man auch den Daemon beeinflussen. Dazu
-gehört der Menüpunkt &quot;Daemon-&gt;Start/Stop&quot; (alternativ das
-Icon &quot;Zp 9&quot; oder die Notbremse bzw. <keycap>F4</keycap> auf
-der Tastatur), die &quot;Saft&quot; auf die Anlage schaltet oder
+gehört der Menüpunkt &raquo;Daemon-&gt;Start/Stop&laquo; (alternativ das
+Icon &raquo;Zp 9&laquo; oder die Notbremse bzw. <keycap>F4</keycap> auf
+der Tastatur), die &raquo;Saft&laquo; auf die Anlage schaltet oder
 abschaltet. Au&szlig;erdem kann man den Daemon zurücksetzen
 (Daemon-&gt;Reset). Möchte man den Daemon komplett abschalten, dann kann
-man das direkt über den Menüpunkt &quot;Daemon-&gt;Beenden&quot;. Danach
+man das direkt über den Menüpunkt &raquo;Daemon-&gt;Beenden&laquo;. Danach
 ist das Versenden von Befehlen an den Daemon selbstverständlich nicht
 mehr möglich,
 gleichwohl kann man die grafische Oberfläche weiterhin wie gewohnt
@@ -1428,12 +1516,12 @@ linkend="sect-fahrstrassen-allg">.
   <title>Einzelne Antriebe schalten</title>
 <para>
 Einzelne Antriebe kann man jetzt z.B. über das Kontextmenü
-&quot;Umschalten&quot; eines schaltbaren Elements schalten (dieser
+&raquo;Umschalten&laquo; eines schaltbaren Elements schalten (dieser
 Eintrag ist nur aktiv bei nicht durch Fahrstra&szlig;en benutzen
 Antrieben und wenn die Weichen o.ä.  nicht durch ein Fahrzeug besetzt
-sind und die Element-LED rot leuchtet).  Dabei wird &quot;im Kreis&quot;
+sind und die Element-LED rot leuchtet).  Dabei wird &raquo;im Kreis&laquo;
 getoggled, d.h. bei mehr als zwei möglichen Elementstellungen bei
-jeder Benutzung von &quot;Umschalten&quot; die nächste Stellung
+jeder Benutzung von &raquo;Umschalten&laquo; die nächste Stellung
 angezeigt. Alternativ - und vorbildgetreuer - benutzt man zum Schalten
 von einzelnen Weichen oder Signalen die Weichengruppentaste (WGT),
 die man in obigem Bild als blaues Element erkennt:
@@ -1451,7 +1539,7 @@ Zunächst klickt man auf die WGT und dann innerhalb eines
 5-Sekunden-Zeitraums auf das entsprechende Element, welches man gestellt
 haben möchte. Auch das vorherige Drücken der Taste <keycap>F6</keycap>
 auf der Tastatur aktiviert im Hintergrund die WGT, das erspart eventuell
-einiges an Wegstrecke mit der Maus. Auch hier wird &quot;im Kreis&quot;
+einiges an Wegstrecke mit der Maus. Auch hier wird &raquo;im Kreis&laquo;
 getoggled (sorry, nicht ganz vorbildgetreu).
 </para>
 </sect3>
@@ -1472,7 +1560,7 @@ wird.
   <title>Alle Antriebe schalten</title>
 <para>
 Möchte man aus Testgründen einmal ALLE Elemente schalten, benutzt man
-den Menüpunkt &quot;Gleisbild-&gt;Alles umschalten&quot; (oder
+den Menüpunkt &raquo;Gleisbild-&gt;Alles umschalten&laquo; (oder
 <keycap>F10</keycap>). Dies sieht besonders gut bei Gleisbildern mit
 vielen Elementen aus. Einfach mal ausprobieren.
 </para>
@@ -1482,7 +1570,7 @@ vielen Elementen aus. Einfach mal ausprobieren.
   <title>Den aktuellen Zustand übermitteln</title>
 <para>
 Möchte man den aktuell angezeigten Zustand an die Anlage übermitteln,
-benutzt man den Menüpunkt &quot;Gleisbild-&gt;Alles senden&quot; (oder
+benutzt man den Menüpunkt &raquo;Gleisbild-&gt;Alles senden&laquo; (oder
 <keycap>F11</keycap>). Dabei geschieht grafisch nichts, der Abschluss
 wird durch einen Pieps mitgeteilt.
 </para>
@@ -1492,7 +1580,7 @@ wird durch einen Pieps mitgeteilt.
   <title>Bahnhofsuhr starten</title>
 <para>
 Durch Klick auf das Uhr-Symbol der Werkzeugleiste (oder
-&quot;Ansicht-&gt;Bahnhofsuhr&quot;) erhält man eine Uhr im Stil der
+&raquo;Ansicht-&gt;Bahnhofsuhr&laquo;) erhält man eine Uhr im Stil der
 DBAG. Sie weist
 originalgetreu den Minutensprung auf (dieser kann beim ersten Sprung
 nach dem Fensteröffnen eventuell nicht sichtbar sein). Die Uhr kann
@@ -1512,8 +1600,8 @@ z.Zt. noch nicht langsamer oder schneller geschaltet werden.
   <title>Einfaches Schaltpult</title>
 <para>
 Will man mal außer der Reihe etwas schalten, benutzt man einfach das
-Schaltpult (<keycap>Strg-K</keycap> oder &quot;Ansicht -&gt;
-Schaltpult&quot;). Auf
+Schaltpult (<keycap>Strg-K</keycap> oder &raquo;Ansicht -&gt;
+Schaltpult&laquo;). Auf
 die Bedienung wird im <xref linkend="sect-keyboard"> hingewiesen.
 </para>
 </sect3>
@@ -1522,12 +1610,12 @@ die Bedienung wird im <xref linkend="sect-keyboard"> hingewiesen.
   <title>Hilfe</title>
 <para>
 Durch die Taste <keycap>F1</keycap> oder den Menüpunkt
-&quot;Hilfe-&gt;Hilfe&quot; öffnet der Browser, der über die Optionen
+&raquo;Hilfe-&gt;Hilfe&laquo; öffnet der Browser, der über die Optionen
 zum Programm eingestellt wurde, diese Hilfedokumentation. Bei Mozilla
 und Firebird wird, wenn schon eine Programminstanz läuft, ein neues
 Tab-Fenster geöffnet. Beim Netscape Browser, gibt es eine Fehlermeldung,
 wenn bereits eine Instanz von Netscape geöffnet ist. Wann wählt dann
-einfach &quot;Abbrechen&quot; im erscheinenden Warnmeldungsfenster; dann
+einfach &raquo;Abbrechen&laquo; im erscheinenden Warnmeldungsfenster; dann
 öffnet sich ein neues Fenster mit dem Hilfetext.
 </para>
 </sect3>
@@ -1728,10 +1816,10 @@ Ein neues, leeres Gleisbild kann auf drei Arten angelegt werden:
 <itemizedlist mark="bullet">
   <listitem><para>Über den Tastaturkürzel
 <keycap>Strg-N</keycap></para></listitem>
-  <listitem><para>Über die Menüleiste &quot;Datei -&gt;
-Neu&quot;</para></listitem>
-  <listitem><para>Über den Toolbutton &quot;Neues
-Gleisbild&quot;</para></listitem>
+  <listitem><para>Über die Menüleiste &raquo;Datei -&gt;
+Neu&laquo;</para></listitem>
+  <listitem><para>Über den Toolbutton &raquo;Neues
+Gleisbild&laquo;</para></listitem>
 </itemizedlist>
 </para>
 
@@ -1812,10 +1900,10 @@ beginnen, in dem man in den Editiermodus umschaltet.
 <itemizedlist mark="bullet">
   <listitem><para>Über das Tastaturkürzel
 <keycap>Strg-O</keycap></para></listitem>
-  <listitem><para>Über die Menüleiste &quot;Datei -&gt;
-Öffnen&quot;</para></listitem>
+  <listitem><para>Über die Menüleiste &raquo;Datei -&gt;
+Öffnen&laquo;</para></listitem>
   <listitem><para>Über den Toolbutton
-&quot;Gleisbilddatei öffnen&quot;</para></listitem>
+&raquo;Gleisbilddatei öffnen&laquo;</para></listitem>
 </itemizedlist>
 </para>
 
@@ -1841,7 +1929,7 @@ vorher schon geöffnetes Gleisbild wird automatisch auf der Platte
 gespeichert. Handelte es sich dabei um ein leeres, noch nicht
 gesichertes Gleisbild, wird hierzu zunächst abgefragt, ob eine Sicherung
 des neuen Gleisbilds gewünscht ist (siehe mehr dazu im Abschnitt
-&quot;Speichern&quot;).
+&raquo;Speichern&laquo;).
 </para>
 
 <para>
@@ -1877,7 +1965,7 @@ basiert.
 <para>
 <figure id="abb-bahnhofklein">
   <title>SpDrS60 mit dem Beispiellayout
-&quot;<filename>bahnhof_klein.dat.gbs</filename>&quot;</title>
+&raquo;<filename>bahnhof_klein.dat.gbs</filename>&laquo;</title>
   <mediaobject><imageobject>
     <imagedata fileref="schnapp-bhf-klein.de.png">
   </imageobject></mediaobject>
@@ -1928,8 +2016,8 @@ Fahrstra&szlig;enverwaltung.
 Das Speichern eines Gleisbilds geschieht im Allgemeinen
 automatisch. Sowohl beim Schlie&szlig;en des Programms (durch
 <keycap>Strg-Q</keycap>, <keycap>Alt-F4</keycap> oder die
-Fensteranfasser) als auch vor dem Anzeigen eines &quot;Öffne ein neues
-Gleisbild&quot;-Dialogs wird das aktuelle Gleisbild automatisch gespeichert.
+Fensteranfasser) als auch vor dem Anzeigen eines &raquo;Öffne ein neues
+Gleisbild&laquo;-Dialogs wird das aktuelle Gleisbild automatisch gespeichert.
 Es gibt daher in den meisten Fällen keinerlei Notwendigkeit, das
 benutzte Gleisbild aktiv zu speichern. Ein kleiner Hinweis sei aber hier
 fairerweise genannt: beende ich aus dem Terminal oder über den
@@ -1939,7 +2027,7 @@ gespeichert werden.
 
 <para>
 Möchte man allerdings ein Gleisbild unter einem anderen Namen
-speichern, so wähle man den Menüpunkt &quot;Datei -&gt; Speichern unter&quot;.
+speichern, so wähle man den Menüpunkt &raquo;Datei -&gt; Speichern unter&laquo;.
 Ist das aktuelle Gleisbild ein kürzlich erstelltes, welches noch nicht
 unter einem anderen Namen als dem Standard-Namen
 <filename>default.dat.gbs</filename> gespeichert wurde, erscheint
@@ -2063,22 +2151,22 @@ ist; Ausnahme: Leer-Element).</para></listitem>
   <listitem><para>Es folgt der Dekoder-Typ.
 </para></listitem>
   <listitem><para>Weiter geht es mit dem Protokoll, hier
-steht entweder der Wert &quot;M&quot; für Märklin-Dekoder oder
-&quot;N&quot; für DCC-Dekoder zur Verfügung. Eine -1 hei&szlig;t wieder,
+steht entweder der Wert &raquo;M&laquo; für Märklin-Dekoder oder
+&raquo;N&laquo; für DCC-Dekoder zur Verfügung. Eine -1 hei&szlig;t wieder,
 dass dieser Wert für das zugehörige Icon irrelevant
 ist.</para></listitem>
   <listitem><para>Die Adresse, die zum Symbol gehört,
-belegt die nächste Zeile. Zugelassen sind Werte von &quot;1&quot; bis
-&quot;324&quot; bei M-Dekodern bzw. &quot;1&quot; bis &quot;4096&quot;
+belegt die nächste Zeile. Zugelassen sind Werte von &raquo;1&laquo; bis
+&raquo;324&laquo; bei M-Dekodern bzw. &raquo;1&laquo; bis &raquo;4096&laquo;
 bei N-Dekodern. Die Richtung des Antriebs wird auch gespeichert, damit
 man nach dem Ausschalten der Anlage wieder den in der Datei
 gespeicherten Zustand herstellen kann. Für Weichen oder Signale mit mehr
 als 1 Antrieb folgt noch die Adresse des zweiten Antriebs. Diese kann,
 muss aber nicht auf die Adresse 1 unmittelbar folgend sein.
 </para></listitem>
-  <listitem><para> Mit den Schlüsselwörtern &quot;change
-conn&quot; können die zwei Anschlüsse eines Dekoderausganges
-elektronisch getauscht werden, wenn hier eine &quot;1&quot; steht.
+  <listitem><para> Mit den Schlüsselwörtern &raquo;change
+conn&laquo; können die zwei Anschlüsse eines Dekoderausganges
+elektronisch getauscht werden, wenn hier eine &raquo;1&laquo; steht.
 </para></listitem>
   <listitem><para>Der Subtype gibt eine Unterkklassierung
 einiger Elemente wie Signale an.</para></listitem>
@@ -2129,7 +2217,7 @@ ebenfalls ein eigenes Kapitel (<xref linkend="sect-drehscheibe">).
       <entry>Adressen</entry>
       <entry>Bemerkung</entry>
       <entry>Richtungswerte <footnote id="fntabsym1"><para>Diese Werte
-      kann man z.B. durch das Tooltip-Hilfe zu jedem Element überprüfen
+      kann man z.B. durch die Tooltip-Hilfe zu jedem Element überprüfen
       (wenn diese Hilfe über das Optionen-Menü eingeschaltet wurde,
       Zeile: direction).</para></footnote></entry>
     </row>
@@ -2805,7 +2893,7 @@ wie vorhanden):</para>
       haben nur zwei verschiedene Richtungsmöglichkeiten. Die
       Anzeige bei diesen Symbolen richtet sich daher auch nach einer
       eingestellten Fahrstra&szlig;e, die über ein solches Elemente
-      verläuft (siehe auch Kapitel &quot;Fahrstra&szlig;en&quot;).
+      verläuft (siehe auch Kapitel &raquo;Fahrstra&szlig;en&laquo;).
       </para></footnote></entry>
     </row>
     <row>
@@ -2876,7 +2964,7 @@ wie vorhanden):</para>
       Die möglichen Anzeigen der Signale hängen stark vom Untertyp
       des jeweiligen Signals ab. Dies betrifft die Anzeigen Hp 1
       und/oder Hp 2 (bzw. Vr 1 und Vr 2), die nicht bei jedem Signal
-      vorhanden sind. Dazu mehr im Unterpunkt &quot;Signale&quot;
+      vorhanden sind. Dazu mehr im Unterpunkt &raquo;Signale&laquo;
       in diesem Kapitel.
       </para></footnote></entry>
     </row>
@@ -3016,7 +3104,7 @@ wie vorhanden):</para>
 
 <para>
 Durch Drücken von <keycap>Strg-E</keycap> bzw. Auswahl des
-Menüpunktes &quot;Edit -&gt; Gleisbild&quot; wird das Programm in den
+Menüpunktes &raquo;Edit -&gt; Gleisbild&laquo; wird das Programm in den
 Editiermodus geschaltet. Ab sofort schalten einzelne Mausklicks nicht
 mehr die Antriebe, sondern werden als Editierkommandos interpretiert.
 Damit man auch wei&szlig;, dass sich das Programm im Editiermodus
@@ -3143,7 +3231,7 @@ Art des gewählten Symbols kann das eine oder andere Eigenschaftsfeld
 deaktiviert sein.
 </para>
 <para>
-Bei Leerelementen ist z.B. das Feld &quot;Inverted use&quot; aktiviert:
+Bei Leerelementen ist z.B. das Feld &raquo;Inverted use&laquo; aktiviert:
 hier kann man durch ein Häkchen wählen, ob der Hintergrund eines
 Leerelements in dunkler Farbe dargestellt wird. Der eigentliche Nutzen
 dieses Feldes kommt eigentlich erst bei Weichenelementen zum Tragen,
@@ -3154,7 +3242,7 @@ davon abweichende Verwendung die einzige ist.
 Um eine Gleisbesetztmeldung zu bekommen, muss man im rechten unteren
 Bereich noch das Modul und den Port einstellen, an dem die
 Gleisbesetztmeldung für dieses Gleisstück angeschlossen ist. Beim
-&quot;Durchscrollen&quot; der Busnummern oder der Modulnummern springt
+&raquo;Durchscrollen&laquo; der Busnummern oder der Modulnummern springt
 die Anzeige automatisch auf die nächsten gültigen Werte. Braucht man mal
 mehr Übersicht, kann man sich über den Rückmeldebutton rechts neben dem
 Modulselektor die grafische Übersicht über alle Rückmeldemodule öffnen
@@ -3214,10 +3302,10 @@ es nun den Richtungswert 0, ansonsten übernimmt es den Richtungswert,
 der vor dem Öffnen des Eigenschaftenfensters aktuell war.
 </para>
 <para>
-Das Feld &quot;Inverted use&quot; ist zwar aktiviert, hat aber bei
+Das Feld &raquo;Inverted use&laquo; ist zwar aktiviert, hat aber bei
 Weichenantrieben noch keinerlei Konsequenzen. Interessant zum Einstellen
-sind die Felder &quot;xch conn&quot;, &quot;Reset after&quot; und
-&quot;Feedback&quot;. Das erste ermöglicht es durch einen einfachen
+sind die Felder &raquo;xch conn&laquo;, &raquo;Reset after&laquo; und
+&raquo;Feedback&laquo;. Das erste ermöglicht es durch einen einfachen
 Klick, die Ausgänge zu einer Dekoderadresse elektronisch zu vertauschen.
 Wenn also die Weiche nicht so schaltet wie es die Grafik anzeigt, dann
 kann dies durch einen einfachen Haken korrigiert werden, ohne dass man
@@ -3225,13 +3313,13 @@ unter die Anlage muss, um Kabel umzustecken oder sogar zu löten. Für
 ältere Weichen (wie häufig älter Märklin-M-Weichen) kann es nötig sein,
 dass der Stellbefehl etwas länger ausgeführt wird, damit die Spule genug
 Zeit hat, um sich in die andere Stellung zu bewegen. Die im Feld
-&quot;Reset after&quot; angegebene Zeit in Millisekunden kann dafür
+&raquo;Reset after&laquo; angegebene Zeit in Millisekunden kann dafür
 entsprechend erhöht werden, um eine ausreichende Funktion zu
 gewährleisten.
 </para>
 <para>
 Für eine korrekte Funktion eines GBS sind die Einträge in den Feldern zu
-&quot;Feedback&quot; wichtig: hier kann man die Nummer des
+&raquo;Feedback&laquo; wichtig: hier kann man die Nummer des
 Rückmeldemoduls und  des in Frage kommenden Eingangs einstellen, der die
 rote LED im Element (= Gleis besetzt) aktiviert.
 </para>
@@ -3376,13 +3464,13 @@ normal die Adresse. Aber es gibt auch Entkoppler, die einen
 Momentkontakt aufweisen, dementsprechend auch nur einen Ausgang einer
 Adresse belegen (z.B. Märklin K-2297, M-5112 oder C-24997). Man kann
 daher an eine Adresse gleich zwei Entkoppler anschlie&szlig;en. Hierbei
-ist also auf jeden Fall auch ein eventuell Häkchen im Feld &quot;xcg
-conn&quot; zu beachten. Für momentan betätigte Entkoppler sind
+ist also auf jeden Fall auch ein eventuell Häkchen im Feld &raquo;xcg
+conn&laquo; zu beachten. Für momentan betätigte Entkoppler sind
 grundsätzlich die beiden unteren Buttons zuständig. Davon nehme man den
 mittleren, wenn der Entkoppler am roten/linken Ausgang einer Adresse
 angeschlossen wurde bzw. den unteren, wenn man den grünen/rechten
-Ausgang benutzt. Notfalls kann der Ausgang jedoch durch &quot;xch
-conn&quot; getauscht werden. Bei beiden Möglichkeiten ist ebenfalls nur
+Ausgang benutzt. Notfalls kann der Ausgang jedoch durch &raquo;xch
+conn&laquo; getauscht werden. Bei beiden Möglichkeiten ist ebenfalls nur
 eine Adresse einzugeben.
 </para>
 </sect3>
@@ -3435,7 +3523,7 @@ normal als S88-Module in den Rückmeldebus eingereiht werden (EDiTS
 bietet nur 8-polige Rückmeldemodule an, was aber in manchen Fällen nicht
 falsch ist, denn wann hat man schonmal 16 RM-Kontakte auf kleiner
 Fläche, um ein Modul komplett zu beschalten? Rutger Friberg nennt diese
-&quot;halben S88-Module&quot; ganz einfach S44 :-). Die EDiTS-CU liest
+&raquo;halben S88-Module&laquo; ganz einfach S44 :-). Die EDiTS-CU liest
 dann diese Module ganz normal beim Lesen des S88-Strangs aus und wertet
 die 8-Bit-Informationen an diesem Modul nicht als 8 voneinander
 unabhängige Kontakte aus, sondern als eine Information.
@@ -3454,7 +3542,7 @@ erscheint jetzt im Bereich Feedback ein Tickmark bei Address module. Da
 alle 8 Kontakte dieses Moduls benötigt werden, macht es keinen Sinn,
 hier vom Anwender einen einzelnen Port wählen zu lassen, er braucht
 lediglich die Nummer des Moduls einzugeben. Befährt eine Lok mit diesem
-neuen &quot;Superlokdekoder&quot; einen solchen Empfänger, dann wird die
+neuen &raquo;Superlokdekoder&laquo; einen solchen Empfänger, dann wird die
 eingestellte Adresse in dezimaler Form im Gleisbild dargestellt.
 </para>
 <para>
@@ -3464,7 +3552,7 @@ eingestellte Adresse in dezimaler Form im Gleisbild dargestellt.
 Die Funktionalität habe ich mit einem normalen S88-Baustein getestet.
 Mal wieder liegt mir nicht die entsprechende Hardware vor. Ich habe
 daher die Berechnung der dezimalen Adressanzeige in der vorliegenden
-Form angenommen (d.h. &quot;Kontakt 1&quot; entspricht dem LSB, least
+Form angenommen (d.h. &raquo;Kontakt 1&laquo; entspricht dem LSB, least
 significant bit, minderwertigstes Bit). Das kann genau falsch herum
 sein. Ich bitte diesbezüglich um Rückmeldung, wenn die Anzeige der
 eingestellten Adresse nicht entspricht.
@@ -3497,7 +3585,7 @@ selber eine mögliche Strecke durch den Weichendschungel aus und stellt
 alle Weichen einzeln, es werden vielmehr durch bestimmte
 Relaisverschaltung vorprogrammierte Fahrstra&szlig;en aktiviert
 (sämtliche Fahrstra&szlig;en sind vorbestimmt, d.h. es gibt keine
-&quot;Intelligenz&quot; im System, die aus Start- und Zielsignal denn
+&raquo;Intelligenz&laquo; im System, die aus Start- und Zielsignal denn
 besten/schnellsten Weg durch ein Weichenfeld findet). Dies geschieht
 durch das gleichzeitige Drücken von zwei Tasten, die sich im allgemeinen
 an den Signalen befinden: dem Startsignal, wo der Zug wartet (oder
@@ -3550,7 +3638,7 @@ blockiert aber mit seiner Fahrstra&szlig;e einen anderen.
 <para>
 Nehmen wir hier der Einfachheit einmal an, dass
 sämtliche Fahrstra&szlig;en-Daten zu einem Gleisbild schon vorliegen (Wie?
-Siehe Punkt &quot;Eingabe&quot;). Das ist z.B. bei den meisten
+Siehe Punkt &raquo;Eingabe&laquo;). Das ist z.B. bei den meisten
 mitgelieferten Gleisbild-Dateien wie
 <filename>spdrs60/layouts/bahnhof_klein.dat.gbs</filename> der Fall. Aus
 dieser Datei ist auch das folgende Beispiel in <xref linkend="abb-routing1"> entnommen.
@@ -3673,8 +3761,8 @@ In der normalen Gleisbild-Darstellung erkennt man nicht,
 welche Fahrstra&szlig;en schon existieren. Man kann solch eine Anzeige
 (<xref linkend="abb-routing6">) aber durch das
 Fahrstra&szlig;en-Symbol in der Werkzeugleiste, die Tasten
-<keycap>Strg-R</keycap> oder den Menüpunkt &quot;Ansicht -&gt;
-Fahrstraßentabelle&quot; aktivieren.
+<keycap>Strg-R</keycap> oder den Menüpunkt &raquo;Ansicht -&gt;
+Fahrstraßentabelle&laquo; aktivieren.
 </para>
 <para>
 <figure id="abb-routing6">
@@ -3700,7 +3788,7 @@ Ist eine Straße bereits aktiv, wird das Stopsignal aktiviert, durch
 einen Klick darauf wird die Fahrstra&szlig;e wieder zurückgenommen, als
 hätte man die Kombination FHT + Start- + Zielsignal benutzt. Die in
 obigem Beispiel genannte Fahrstra&szlig;e ist hier in der dritten Zeile
-&quot;Gleis 2 -&gt; links&quot; vertreten. In der Fahrstra&szlig;endatei
+&raquo;Gleis 2 -&gt; links&laquo; vertreten. In der Fahrstra&szlig;endatei
 kann man dazu aussagekräftige Namen vergeben, damit man hier in diesem
 Fenster die gewünschte Straße auch leicht wiederfindet.
 </para>
@@ -3714,7 +3802,7 @@ de-aktivieren. Bei 1 oder 2 aktiven Straßen ist dies noch bequem über
 die FHT zu schaffen, bei mehreren benutzt man folgende Möglichkeit:
 </para>
 <para>
-Der Menübefehl &quot;Gleisbild -&gt; Fahrstraßen entsperren&quot; setzt alle
+Der Menübefehl &raquo;Gleisbild -&gt; Fahrstraßen entsperren&laquo; setzt alle
 Fahrstra&szlig;en schnell zurück (Tastaturkürzel: <keycap>Strg-U</keycap>)
 </para>
 </sect3>
@@ -3786,7 +3874,7 @@ In der linken Hälfte erkennt man weiterhin die Übersicht
 der Tabelle die Fahrstra&szlig;e, die einen näher interessiert, durch
 einen einfachen Klick; sie wird dann blau unterlegt. Ist die
 Fahrstra&szlig;e nicht aktiv im Gleisbild geschaltet, dann ist das
-Formsignal &quot;Fahrt&quot; aktiv, das bedeutet, dass diese
+Formsignal &raquo;Fahrt&laquo; aktiv, das bedeutet, dass diese
 Fahrstra&szlig;e nun jederzeit über diesen Button aktiviert werden kann.
 </para>
 <para>
@@ -3802,8 +3890,8 @@ stehen ganz oben.
 <para>
 Links darunter schlie&szlig;t sich ein Feld an, in dem die Interaktion
 zwischen Rückmeldern und dieser Fahrstra&szlig;e eingestellt werden
-können. Zur Zeit ist dort das &quot;Lösen&quot;- und das
-&quot;Aktivieren&quot;-Feld aktiv. Die hier angezeigten Modul- und
+können. Zur Zeit ist dort das &raquo;Lösen&laquo;- und das
+&raquo;Aktivieren&laquo;-Feld aktiv. Die hier angezeigten Modul- und
 Portnummern geben an, durch
 welchen Kontakt diese Fahrstra&szlig;e automatisch zurückgenommen bzw.
 aktiviert wird (zukünftig ist noch geplant, dass Fahrstra&szlig;en
@@ -3826,12 +3914,12 @@ Im Bereich darunter stehen die Daten der Signale, an denen diese
 Fahrstra&szlig;e beginnt (Startsignal) und endet (Stopsignal). Nur am
 Startsignal gibt es ein Feld für die Signalstellung, das Zielsignal ist
 immer auf Halt (bis es eben selber bei einer anderen Fahrstra&szlig;e
-zum Startsignal wird). Angezeigt wird in der Spalte &quot;Adresse&quot;
+zum Startsignal wird). Angezeigt wird in der Spalte &raquo;Adresse&laquo;
 die Hauptadresse des Antriebes (bei Mehrfachantriebs-Elementen also
-Adresse 1), in der Spalte &quot;Status&quot; der Dezimalwert der
+Adresse 1), in der Spalte &raquo;Status&laquo; der Dezimalwert der
 Antriebsstellung (wie es auch in der <xref linkend="tabelle-positions">
 beschrieben wurde). Die Spalte
-&quot;Name&quot; gibt die Klartextanzeige des Elementes wieder, bei
+&raquo;Name&laquo; gibt die Klartextanzeige des Elementes wieder, bei
 Signalen also z.B. P 1 für ein Ausfahrsignal. Nur die Adresse und der
 Status sind editierbar, der Name wird automatisch aus der Datenbank
 ermittelt.
@@ -3843,7 +3931,7 @@ noch geschaltet werden müssen. Bis zu 15 dieser Elemente sind möglich
 (eine überschlägige Rechnung hat ergeben, dass dies reichen sollte. Wenn
 nicht, bitte melden, ich passe den Code dann entsprechend an). Hier
 können nicht nur Weichen oder andere Signale (Schutzsignale, die
-&quot;unterwegs&quot; am Rand stehen), sondern auch Blindelemente (wenn
+&raquo;unterwegs&laquo; am Rand stehen), sondern auch Blindelemente (wenn
 man ein Signal mit Zugbeeinflussung mal von der anderen Seite
 durchfahren möchte) oder sonstige anderen normalen schaltbaren Elemente
 eintragen (von mir aus auch Entkoppler ;-)). Auch hier entdeckt man
@@ -3963,7 +4051,7 @@ grafische Gleisbild geschehen. Letzteres wird hier beschrieben.
 Diese Eingabe benötigt das Wissen, welche
 Hauptadresse die entsprechenden Elemente haben. Eventuell ist es dabei
 empfehlenswert, über die Programmoptionen die Anzeige der Elemente auf
-&quot;Text&quot; zu stellen.
+&raquo;Text&laquo; zu stellen.
 </para>
 <para>
 In die Adressfelder gibt man die Adresse des zu schaltenden Elementes
@@ -4003,7 +4091,7 @@ sofort mit ihrem neuen Namen links in der Fahrstraßentabelle. Sie kann sofort
 Speichern liest das Programm auch die Textfelder der betroffenen
 Elemente aus, ab dann können also auch diese Felder gefüllt sein. Ist
 der Name eines Elementes nicht auffindbar, so wird das entsprechende
-Feld mit dem Hinweis &quot;unknown&quot; versehen.
+Feld mit dem Hinweis &raquo;unknown&laquo; versehen.
 </para>
 </sect4>
 </sect3>
@@ -4016,10 +4104,10 @@ existieren, in denen z.B. nur ein Element unterschiedlich geschaltet
 wird, sollte man sich der Kopierfunktion bedienen. Dazu klickt man auf
 den Copy-Button (oder drückt <keycap>Strg-C</keycap>). Alsdann erhält
 man ein neu vorbereitete Fahrstraße mit denselben zu schaltenden Elementen.
-Lediglich der Name der Fahrstraße lautet jetzt: &quot;Copy of ...&quot;,
-wobei &quot;...&quot; für den Namen der kopierten Originalroute steht.
+Lediglich der Name der Fahrstraße lautet jetzt: &raquo;Copy of ...&laquo;,
+wobei &raquo;...&laquo; für den Namen der kopierten Originalroute steht.
 Aufgrund der schon ausgelesenen Textfelder sind diesmal die Felder
-&quot;Name&quot; bereits gefüllt (<xref linkend="abb-routing13">).
+&raquo;Name&laquo; bereits gefüllt (<xref linkend="abb-routing13">).
 </para>
 <para>
 <figure id="abb-routing13">
@@ -4066,7 +4154,7 @@ immer abspeichern. Tut man das nicht, wird eine Warnung ausgegeben
 Bei grö&szlig;eren Anlagen werden einem nach einer Zeit
 die ganzen Zahlen nicht mehr viel sagen. Es wird auch schwer sein, seine
 Fahrstraßen nachher noch genau nachvollziehen zu können. Es gibt daher die
-Funktion &quot;Prüfen&quot;, mit der die in der Übersicht angezeigte
+Funktion &raquo;Prüfen&laquo;, mit der die in der Übersicht angezeigte
 Fahrstraße im Gleisbild grafisch markiert werden kann. Dies sieht beispielsweise
 wie in <xref linkend="abb-routing15">) gezeigt aus.
 </para>
@@ -4131,7 +4219,7 @@ Eingabefeldern des Fahrstraßenfensters vorgegeben wird. Grundregel: alle mit
 der linken Maustaste angeklickten Elemente mit Antrieb werden in die
 Fahrstraße übernommen. Klickt man mit der rechten Maustaste auf ein
 schaltbares Element, dann erscheint ein kleines Minikontextmenü mit dem
-Inhalt &quot;Umschalten&quot;. Damit muss man zuerst dem Element den
+Inhalt &raquo;Umschalten&laquo;. Damit muss man zuerst dem Element den
 richtigen Status geben, sprich die Weiche oder das Signal umschalten.
 Erst danach sollte das Element aufgenommen werden.
 </para>
@@ -4159,8 +4247,8 @@ Im Einzelnen sieht eine Aufnahmeprozedur wie folgt aus:
 
 Im Aufnahmemodus rechts-klickt man auf ein Element, welches den falschen
 Status hat. Es erscheint das Mini-Kontextmenü mit dem Eintrag
-&quot;Umschalten&quot;. <xref linkend="abb-routing17"> zeigt das am
-Signal-Element &quot;B&quot;).
+&raquo;Umschalten&laquo;. <xref linkend="abb-routing17"> zeigt das am
+Signal-Element &raquo;B&laquo;).
 </para>
 <para>
 <figure id="abb-routing17">
@@ -4171,7 +4259,7 @@ Signal-Element &quot;B&quot;).
 </figure>
 </para>
 <para>
-Nach der Auswahl von &quot;Umschalten&quot; bekommt das
+Nach der Auswahl von &raquo;Umschalten&laquo; bekommt das
 Element einen anderen Zustand. Ist dies nicht der richtige, dann
 wiederholt man den Umschalten-Befehl nochmals (hier nicht notwendig, siehe
 <xref linkend="abb-routing18">).
@@ -4202,7 +4290,7 @@ war, wird es das Startsignal).
 <para>
 Durch einen weiteren Doppelklick auf ein anderes Signal
 legt man das Zielsignal fest. In <xref linkend="abb-routing20"> handelt
-es sich dabei um das Signal-Element &quot;001&quot;.
+es sich dabei um das Signal-Element &raquo;001&laquo;.
 </para>
 <para>
 <figure id="abb-routing20">
@@ -4351,8 +4439,8 @@ Zielsignal jedoch nicht.
 </para>
 <para>
 Die letzte Zeile ist wichtig, sofern man Rückmeldekontakte einsetzt, die
-Fahrstra&szlig;en automatisch auflösen sollen. Der &quot;Release
-port&quot; gibt an, welcher Kontakt die aufgeführte Straße zurücknimmt.
+Fahrstra&szlig;en automatisch auflösen sollen. Der &raquo;Release
+port&laquo; gibt an, welcher Kontakt die aufgeführte Straße zurücknimmt.
 Die Portnummern sind fortlaufend nummeriert, also bei S88-Rückmeldern
 von 1 bis 1984. Damit erspart man sich eine weitere Variable zum
 Auswerten, und wenn später einmal die grafische Eingabe der
@@ -4433,7 +4521,7 @@ Programm-Optionen-Menü (siehe nächstes Kapitel <xref
 linkend="sect-sonstiges"> -&gt; Abschnitt Daten) pro Seite entweder max.
 31 Module a 16 Ports (z.B. Märklin-Module) oder max. 62 Module a 8 Ports
 (z.B. EDiTS-Module). Es erscheinen je Bus jedoch nur so viele Module,
-wie in dem Programm-Optionen-Menü unter dem Reiter &quot;Daten&quot; für
+wie in dem Programm-Optionen-Menü unter dem Reiter &raquo;Daten&laquo; für
 jeden Bus einzeln anzuzeigen sind. Damit soll die Übersichtlichkeit
 besser gewahrt bleiben. Alle aktiven, d.h. geschlossenen Kontakte an den
 Moduln sind in dieser Übersicht mit einem roten Quadrat gekennzeichnet.
@@ -4946,12 +5034,12 @@ Man sollte sich aber an ein bestimmtes Ende halten, z.B. das, auf dem
 das Wärterhäuschen näher ist. Wenn man dies beim Programmieren
 berücksichtigt, kann man später auch einwandfrei die Position zur
 Anzeige zuordnen. Idealerweise beginnt man z.B. bei einem
-Ringlokschuppen mit der &quot;1&quot; beim Lokstand &quot;1&quot;. Der
+Ringlokschuppen mit der &raquo;1&laquo; beim Lokstand &raquo;1&laquo;. Der
 Button zum Schwenken der Bühne um 180° führt eventuell dazu, dass das
 aktuelle Gleis kein programmiertes Gleis ist. Dies hängt dann einfach
 mit der Lage des Bühnenreferenzendes zusammen und hat keinerlei
-Auswirkungen, d.h. beim nächsten Klick auf den Button &quot;nächster
-Anschluss&quot; fährt die Bühne mit dem Referenzende an den nächsten
+Auswirkungen, d.h. beim nächsten Klick auf den Button &raquo;nächster
+Anschluss&laquo; fährt die Bühne mit dem Referenzende an den nächsten
 verfügbaren Stutzen.
 </para>
 <para>
@@ -5015,7 +5103,7 @@ Anlagen-Layout.</para></listitem>
   <listitem><para>Jetzt wird der Verstärker eingeschaltet
 (oder CentralUnit o.ä., was den Saft bereitstellt)</para></listitem>
   <listitem><para>Innerhalb von fünf Sekunden klicke man
-nun auf die Taste &quot;Start programming&quot;</para></listitem>
+nun auf die Taste &raquo;Start programming&laquo;</para></listitem>
 </itemizedlist>
 Der Drehscheibendekoder befindet sich nun im Zustand, in dem er
 Programmierbefehle aufnehmen kann. Alle vorher programmierten Gleise,
@@ -5026,21 +5114,21 @@ die Schwenkbühne zu dem Gleis, welches die Nummer 1 werden soll (sind an
 beiden Enden Anschlüsse, muss man sich natürlich genauer merken, welches
 von beiden die 1 ist; am besten orientiere man sich an der Stellung des
 Bedienerhäuschens auf der Schwenkbühne). Ist die Position erreicht,
-klicke man auf &quot;Save position #1&quot;.
+klicke man auf &raquo;Save position #1&laquo;.
 </para>
 <para>
 Jetzt hei&szlig;t es, alle anderen vorhandenen Gleise in der Reihenfolge
 ihres Auftretens zu speichern. Dazu fährt man nacheinander im oder gegen
 den Uhrzeigersinn mit dem Referenzende der Bühne die Gleise an. Jedesmal
 nach Erreichen eines Gleises wird dessen Position durch Klicken des
-Tasters &quot;Save pos. #x&quot; gespeichert. Wurde eine Position
-schonmal gespeichert, dann erscheint als Tastentext &quot;Pos. #x is
-saved!&quot;. Wurden alle Gleise eingegeben, klicke man nur noch auf
-&quot;Done&quot; (ist die Drehscheibe voll belegt und alle 24 Positionen
+Tasters &raquo;Save pos. #x&laquo; gespeichert. Wurde eine Position
+schonmal gespeichert, dann erscheint als Tastentext &raquo;Pos. #x is
+saved!&laquo;. Wurden alle Gleise eingegeben, klicke man nur noch auf
+&raquo;Done&laquo; (ist die Drehscheibe voll belegt und alle 24 Positionen
 programmiert, beendet sich der Programmiermodus von selbst). Fertig! Das
 Commander-Fenster verkleinert sich, und die Zahlenreihen enthalten jetzt
 neu die soeben programmierten Gleise. Automatisch fährt dann die Bühne
-zur Position &quot;1&quot;, was man am sich bewegenden gelben Cursor
+zur Position &raquo;1&laquo;, was man am sich bewegenden gelben Cursor
 erkennen kann. Die programmierten Gleise werden ebenfalls in der
 Gleisbild-Datei gespeichert und brauchen nicht jedesmal neu eingegeben zu
 werden (der Drehscheiben-Dekoder speichert die Positionen natürlich
@@ -5153,7 +5241,7 @@ Man wähle hier zwischen Links- und Rechtslauf oder Anhalten.
   <listitem><para>
 Ich benutze einen AMD K6 200&nbsp;MHz mit 64 MB RAM.
 Damit kann ich in zufriedenstellender Zeit die Quellcodes kompilieren.
-Au&szlig;erdem lädt sich ein Gleisbild &quot;Bahnhof gro&szlig;&quot; auch
+Au&szlig;erdem lädt sich ein Gleisbild &raquo;Bahnhof gro&szlig;&laquo; auch
 in aktzeptabler Zeit. Auch KDE läuft damit ausreichend. Da ich manchmal
 dennoch etwas mehr Power wünschte, komme ich daher zur Empfehlung, dass
 man unterhalb dieser genannten Daten wohl eher nicht zu diesem Programm
@@ -5207,7 +5295,7 @@ folgende Elemente geben:
       <varlistentry>
         <term><emphasis>
           Wie erfahre ich, ob es eine neue Version von
-&quot;SpDrS60 for Linux&quot; gibt?
+&raquo;SpDrS60 for Linux&laquo; gibt?
         </emphasis></term>
   <listitem><para>
 Am besten melde man sich über die
@@ -5219,20 +5307,6 @@ Mitteilung über die DDL-Mailingliste.
       </varlistentry>
       <varlistentry>
         <term><emphasis>
-          Warum bin ich in der Höhe auf 18 Reihen beschränkt?
-        </emphasis></term>
-  <listitem><para>
-Ich arbeite bei der Entwicklung mit einer Auflösung
-von 1024 x 768 Pixeln. Diese ergeben auf einem 17 Zoll-Monitor (ich
-hoffe, die meisten haben so ein Ding bereits) ein gutes Verhältnis
-zwischen Darstellbarkeit (z.B. der Adressenkästchen von Weichen) und der
-Anzahl von möglichen Elementen. Auch mit nur wenigen Bahnhofsgleisen hat
-man schnell ein paar Reihen voll, so dass mir 18 ein praktikabler Wert
-erschien.
-</para></listitem>
-      </varlistentry>
-      <varlistentry>
-        <term><emphasis>
           Warum zeigen Weichen auf der Anlage eine andere
 Stellung als im Programm?
         </emphasis></term>
@@ -5240,7 +5314,7 @@ Stellung als im Programm?
 Das lä&szlig;t sich konfigurieren. Man stecke dazu
 entweder die beiden Weichenanschlüsse am Dekoder um oder - wenn das
 nicht oder nur mühsam geht - benutze über die Elementeigenschaften die
-Option &quot;xch conn&quot;, damit werden die Anschlüsse elektronisch
+Option &raquo;xch conn&laquo;, damit werden die Anschlüsse elektronisch
 vertauscht.
 </para></listitem>
       </varlistentry>
@@ -5285,17 +5359,6 @@ Abhilfe: Bitte die LED-Anzeige für derartige Elemente ausschalten
       </varlistentry>
       <varlistentry>
         <term><emphasis>
-          Warum erscheinen im Optionen-Menü, Register
-Interface noch andere Steuereinheiten?
-        </emphasis></term>
-  <listitem><para>
-In weiter, weiter Zukunft ist es andenkbar, dass
-dieses Programm auch andere Zentraleinheiten wie EDiTS oder die
-Intellibox über die COM-Schnittstelle ansteuert.
-</para></listitem>
-      </varlistentry>
-      <varlistentry>
-        <term><emphasis>
           Wieso funktioniert die Ansteuerung der digitalen
 Märklin-Drehscheibe nicht?
         </emphasis></term>
@@ -5307,11 +5370,11 @@ programmiert, bitte diese Version besorgen.
       <varlistentry>
         <term><emphasis>
           Das Programm startet nicht, ich bekomme
-Fehlermeldung &quot;cannot find libstdc.2.so&quot;
+Fehlermeldung &raquo;cannot find libstdc.2.so&laquo;
         </emphasis></term>
   <listitem><para>
 Es fehlt die Laufzeitbibliothek
-&quot;libstdc.2.so&quot;, in der die elementaren C++-Funktionen abgelegt
+&raquo;libstdc.2.so&laquo;, in der die elementaren C++-Funktionen abgelegt
 sind. Bitte nachinstallieren (bei SuSE 7.x das Paket lipgpp aus der
 Serie d).
 </para></listitem>
@@ -5319,7 +5382,7 @@ Serie d).
       <varlistentry>
         <term><emphasis>
           Warum zeigen alle S88-Module in der Modulübersicht
-die &quot;Adresse&quot; der Loks an?
+die &raquo;Adresse&laquo; der Loks an?
         </emphasis></term>
   <listitem><para>
 Bisher gibt es noch keine S88-Resource-Datei. Erst
@@ -5328,20 +5391,6 @@ bei welchem Modul es sich um ein Adressmodul handelt; und dann zeigt
 auch nur dieses Modul die Adresse an, keine Portstati mehr. Bis dahin
 der umgerechnete Dezimalwert der Ports. Man muss sich z.Zt. daher auch
 selber merken, welche Nummer das Adressmodul hat.
-</para></listitem>
-      </varlistentry>
-      <varlistentry>
-        <term><emphasis>
-          Wann kann ich endlich Fahrstra&szlig;en komfortabel
-mit der Maus eingeben?
-        </emphasis></term>
-  <listitem><para>
-Dieses Feature ist doch elementar für ein GBS, fehlt
-aber bisher völlig! Dieses gro&szlig;e Manko ist mir bewusst und wird
-jetzt garantiert in der nächsten Version 0.4.0 behoben. Ich bin im
-August nochmal im Urlaub (mit Laptop!) und werde mich dieser Sache dann
-annehmen, so dass ca. Ende August dann die Maus zu neuen Ehren kommen
-wird.
 </para></listitem>
       </varlistentry>
       <varlistentry>
@@ -5355,20 +5404,6 @@ die alte Struktur der Hilfedatei überfällig geworden. Dies ist mir in
 letzter Zeit im klarer geworden, das werde ich ebenfalls mit der neuen
 Version verbessern, da aufgrund der Implementierung der
 Fahrstra&szlig;eneingabe sowieso ein gro&szlig;e Überarbeitung ansteht.
-</para></listitem>
-      </varlistentry>
-      <varlistentry>
-        <term><emphasis>
-          Warum ist die Programmsprache auf Englisch, diese
-Hilfe hingegen in Deutsch?
-        </emphasis></term>
-  <listitem><para>
-Eine weitere Diskrepanz, die ich am liebsten schon
-längst beseitigt hätte. Aber weder hatte ich die Zeit, die Codeausgaben
-auf Deutsch zu implementieren, noch hatte ich die Ausdauer (und das
-korrekte Englisch), um diese Masse an Hilfetext direkt auf Englisch zu
-verfassen. Wird auch irgendwann geschen, aber das kann leider noch
-dauern (ist mit der qt3-Version von 0.4.3 erledigt, Guido).
 </para></listitem>
       </varlistentry>
       <varlistentry>
@@ -5391,19 +5426,6 @@ kümmern. Wenn wirklich mal alles fertig ist, kann man darüber nachdenken
       </varlistentry>
       <varlistentry>
         <term><emphasis>
-          Bei grö&szlig;eren Anlagen kann ich die rechte Seite
-nicht erreichen, da der Rollbalken fehlt.
-        </emphasis></term>
-  <listitem><para>
-Ja, durch einen User wurde mir das mitgeteilt. Ich
-habe immer getestet und fand alles in Ordnung, aber immer nur mit
-kleineren Gleisbildern. So habe ich nach dem Programmieren des Debugging
-Fensters gar nicht gemerkt, dass dieser Rollbalken nicht mehr erreichbar
-ist. Ab der Version 0.4.0 ist das aber behoben.
-</para></listitem>
-      </varlistentry>
-      <varlistentry>
-        <term><emphasis>
           Wieso werden Vorsignal nur einzeln, statt zusammen
 mit ihren Hauptsignalen angesteuert?
         </emphasis></term>
@@ -5415,50 +5437,30 @@ programmieren braucht Zeit, andere wichtigen Features gingen vor. So ist
 es auch jetzt, aber da die meisten gro&szlig;en Sachen jetzt fertig
 programmiert sind, wird es zu einer derartigen Realisierung nicht mehr
 lange dauern.
-
 </para></listitem>
       </varlistentry>
       <varlistentry>
         <term><emphasis>
           Kann ich mit spdrs60 auch originale serielle
-Interfaces (Märklin, Intellibox ...) ansteuern?
+Interfaces (Märklin, Intellibox, Lenz ...) ansteuern?
         </emphasis></term>
   <listitem><para>
-Noch nicht, ist aber auf Dauer geplant. Bei allen
-drei genannten liegen die Befehlssätze offen. Die Umsetzung ist nicht
-allzu schwierig, aber aufwendig. Vorbereitet in den Optionen und im
-Optionenfile ist schon alles. Das weitere folgt demnächst.
-</para>
-<para>
-Von Matthias Trute ist ein neuer Daemon srcpd im Entstehen begriffen,
-der in Zukunft einen Umsetzer SRCP nach Märklin Interface ODER
-Intellibox bringen wird. Ob es dann noch notwendig ist, für diese beiden
-Interfaces eine eigene Programmierung zu machen, ist noch nicht klar.
-Für alle anderen ohne diesen Daemon bzw. Windows-User, die eine noch zu
-übersetzende SpDrS60 für Windows-Version in Zukunft bekommen werden, ist
-eine solche Direktansteuerung jedoch unabdingbar, wenn sie dieses
-Prorgramm benutzen wollen. Da ich aber z.B. das EDiTS-Pro System habe,
-werde ich dafür auf jeden Fall eine direkte Ansteuerung schreiben.
-
-</para></listitem>
+Nein, das ist auch nicht geplant. SpDrS60 soll ein reiner SRCP-Client
+bleiben. Mit der bald anstehenden Unterstützung der SRCP-Protokollversion
+0.8 wird die Anbindung an den von Matthias Trute und anderen
+entwickelten SRCP-Server &raquo;srcpd&laquo;
+(http://srcpd.sourceforge.net/) die Ansteuerung dieser Hardware
+weitestgehend möglich sein.</para></listitem>
       </varlistentry>
       <varlistentry>
         <term><emphasis>
-          Wann kommt SpDrS60 for Windows?
+          Wann kommt SpDrS60 für Windows?
         </emphasis></term>
   <listitem><para>
-Bis vor kurzem dachte ich noch, es wird bei Linux
-alleine bleiben, obwohl die zugrundeliegende Bibliothek qt es
-theoretisch erlaubte, den Code auch unter Windows zu compilieren. Dort
-waren aber die Bibliotheken bis vor wenigen Wochen nicht frei verfügbar,
-auch wenn man Non-Profit-Programme wie dieses entwickelt hätte. Der
-Erfinder von qt (Trolltech aus Norwegen, http://trolltech.com/) hat das
-aber angepasst. Jetzt gibt es qt auch frei für Windows (es gab einen
-Bericht darüber in der c&apos;t). Meine ersten Gehversuche waren aber
-erfolglos, und dann hat mich das Fieber zum Weiterprogrammieren unter
-Linux wieder gepackt. Auf Dauer jedoch denke ich daran, auch unter
-Windows tätig zu werden, um mehr Leute zu erreichen. Wird aber ebenfalls
-noch etwas dauern.
+Da SpDrS60 auf der Qt Bibliothek von Trolltech (http://www.trolltech.com/)
+basiert, ist eine Portierung auf dieses Betriebsystem prinzipiell möglich.
+Bisher hat sich allerdings kein Interessent gefunden, der diese Arbeit
+übernehmen will.
 </para></listitem>
       </varlistentry>
     </variablelist>
@@ -5474,7 +5476,7 @@ Viele Eigenschaften des Programms können mittels eines
 Optionenmenüs eingestellt oder verändert werden. Dadurch ist es in
 gewissen Grenzen möglich, das Aussehen oder Verhalten auf die
 Benutzerwünsche abzustimmen. Das Optionenmenü erreicht man durch den
-Menüpunkt &quot;Edit-&gt;Preferences&quot; (<keycap>Strg-P</keycap>).
+Menüpunkt &raquo;Bearbeiten/Einstellungen&laquo; (<keycap>Strg-P</keycap>).
 Man erkennt im dann erscheinenden Fenster, dass die Optionen in die
 folgenden drei Bereiche geteilt sind.
 </para>
@@ -5508,7 +5510,7 @@ angeschlossen ist.
 <para>
 Die Zustände der Signale werden beim Beenden des Programms wie vorhanden
 gespeichert. Möchte man diesen Zustand genau wieder nach einem erneuten
-Laden erhalten, so wähle man &quot;As saved in layout file&quot;. Ist
+Laden erhalten, so wähle man &raquo;As saved in layout file&laquo;. Ist
 man sich aber nicht sicher, wie alle Signale zu stehen haben und möchte
 man sicher sein, dass beim Anlagenstart kein Crash wg. grüner Signale
 passiert, wähle man den anderen Punkt: alle Signal werden beim Laden auf
@@ -5522,8 +5524,8 @@ selbstverständlich geändert werden.
 </para>
 <para>
 In den nächsten zwei Einträgen wähle man das Programm zum Lesen der
-Online-Hilfe (Möglich sind: Netscape, Opera und Konqueror) und zum
-hilfsweisen Editieren der Datenfiles (Möglich sind: kwrite, kedit und
+Online-Hilfe (Möglich sind: Firefox, Netscape, Opera und Konqueror) und zum
+hilfsweisen Editieren der Datendateien (möglich sind: kwrite, kedit und
 kword aus dem koffice-Paket) aus.
 </para>
 <para>
@@ -5668,7 +5670,7 @@ Eintragung einer IP-Adresse wurde hier verzichtet.
   <title>Einfaches Keyboard</title>
 <para>
 Durch Drücken der Tasten <keycap>Strg-K</keycap> bzw.
-Auswahl im Menü &quot;Ansicht-&gt;Stellpult&quot; erscheint ein einfaches
+Auswahl im Menü &raquo;Ansicht-&gt;Stellpult&laquo; erscheint ein einfaches
 Fenster zum Schalten von Antrieben:
 </para>
 <para>
@@ -5701,17 +5703,11 @@ wissen, wie er damit umzugehen hat (verwerfen).
 </sect2>
 
 <sect2 id="sect-bugs">
-  <title>Bekannte Bugs</title>
+  <title>Bekannte Programmfehler</title>
 <para>
 Bisher gibt es die folgenden mir bekannten Fehler, die ich
 noch nicht beheben konnte:
 <itemizedlist mark="bullet">
-  <listitem><para>Dateinamen dürfen keine Leerzeichen enthalten, da die
-  Fahrstraßenverwaltung derzeit damit nicht zurecht kommt.</para></listitem>
-  <listitem><para>Beim Aktivieren von Zugfahrstraßen wird derzeit nicht
-  kontrolliert, ob die Fahrstraße besetzte Gleisabschnitte
-  enthält. Zugfahrstraßen werden sicherheitstechnisch also zur Zeit wie
-  Rangierfahrstraßen gehandhabt.</para></listitem>
   <listitem><para>Liegt auf einer Fahrstraße eine Kreuzung,
 dann können über diese Kreuzung zwei Fahrstraßen aktiviert werden (von denen
 jedoch immer die zuletzt aktivierte die Kreuzung selbst grafisch
@@ -5724,12 +5720,6 @@ Flankenschutzweiche eine Weiche enthält, die zum Aktivierungszeitpunkt
 bereits in einer anderen aktiven Fahrstraße enthalten ist, dann wird diese
 Flankenschutzweiche grafisch de-routed, d.h. die LED in der
 Weichenwurzel wird dadurch deaktiviert.</para></listitem>
-  <listitem><para>Es kann nicht über die Grenzen des
-Gleisbilds grafisch geroutet werden. Es ist generell möglich und im
-allgemeinen auch sinnvoll, eine Strecke aus Platzmangel aufzuteilen
-(siehe auch das Beispiel <filename>bahnhof_klein.dat.gbs</filename> mit
-dem Bahnhof in der oberen und dem Streckengleis in der unteren Hälfte).
-In solchen Fällen gibt es zur Zeit eine Fehlermeldung.</para></listitem>
   <listitem><para>Wenn man mit dem Schnelleditor ein
 Element über den Repeat-Modus einfügt, welches drehbar sein sollte, dann
 ist es nicht über den Kontext drehbar. Man sollte dann einmal auf das
