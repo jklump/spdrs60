@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.4.8 $Revision: 1.13 $
+                           version 0.4.8 $Revision: 1.14 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-08 20:27:43 $
+    last modified        : $Date: 2005-06-10 15:52:47 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -150,7 +150,7 @@ signals:
     void sendCommand(const QString&);
     void setRepeatIcon(const QString&);
     void setRoute(element*, GbsButtonState, GbsButtonState);
-    void resetRoute(element*);
+    void resetRoute(element*, GbsButtonState);
     void resetSelectedSignal();
     void sigRecordElement(int, const QString&, int, int);
     void sigRepaintLayout();

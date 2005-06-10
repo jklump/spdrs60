@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.20 $
+                           version 0.4.8 $Revision: 1.21 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-08 20:27:43 $
+    last modified        : $Date: 2005-06-10 15:52:47 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -539,21 +539,19 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
                 if (!el->isLocked()) {
                     QApplication::beep();
                     emit showLogMessage(tr("No derouting possible; signal '%1'"
-                                " is not a start signal of an active route.")
+                                " is not a signal of an active route.")
                             .arg(el->getName()), M_INFO, HIST);
                 }
                 else {
                     // give button pressed feedback to user
                     setCursor(ArrowCursor);
-                    /* send signal to route controller, button type is
-                     * ignored so far*/
-                    emit resetRoute(el);
+                    /* send signal to route controller*/
+                    emit resetRoute(el, gbsButton);
                 }
-                slotElementClickedTimeout();
             }
             else if (kUfgtClicked == gkbState || kNoneClicked ==
                     gkbState) {
-                if (el->isLocked()) {
+                if (el->hasFfMLock()) {
                     QApplication::beep();
                     emit showLogMessage(tr("No routing possible; signal '%1'"
                                 " is allready locked by an active route.")

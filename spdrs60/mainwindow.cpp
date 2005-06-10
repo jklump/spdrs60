@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.18 $
+                           version 0.4.8 $Revision: 1.19 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-07 21:19:35 $
+    last modified        : $Date: 2005-06-10 15:52:47 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -367,8 +367,8 @@ void MainWindow::initMainWindow()
                     GbsButtonState)),
             rtController, SLOT(setRoute(element*, GbsButtonState,
                     GbsButtonState)));
-    connect(gbs, SIGNAL(resetRoute(element*)),
-            rtController, SLOT(resetRoute(element*)));
+    connect(gbs, SIGNAL(resetRoute(element*, GbsButtonState)),
+            rtController, SLOT(resetRoute(element*, GbsButtonState)));
     connect(rtController, SIGNAL(routeFunctionFinished()),
             gbs, SLOT(slotElementClickedTimeout()));
     connect(rtController, SIGNAL(startRouteTimer(TypeOfRoute)),
@@ -880,6 +880,8 @@ void MainWindow::resetMenu()
     actionLayoutFht->setEnabled(false);
     actionLayoutWgt->setEnabled(false);
     actionLayoutUfgt->setEnabled(false);
+    actionLayoutSgt->setEnabled(false);
+    actionLayoutNotRot->setEnabled(false);
     actionRouteUnlockAll->setEnabled(false);
 }
 
@@ -1061,6 +1063,8 @@ void MainWindow::updateFileMenuItems()
     actionLayoutFht->setEnabled(true);
     actionLayoutWgt->setEnabled(true);
     actionLayoutUfgt->setEnabled(true);
+    actionLayoutSgt->setEnabled(true);
+    actionLayoutNotRot->setEnabled(true);
 
     if (CommandPortIsConnected) {
         actionLayoutToggleAll->setEnabled(true);

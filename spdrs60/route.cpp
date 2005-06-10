@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.11 $
+                           version 0.4.8 $Revision: 1.12 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-08 21:06:14 $
+    last modified        : $Date: 2005-06-10 15:52:47 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -494,11 +494,15 @@ int Route::startRouting()
     /*
      * 2) switch route elements but without locking
      */
-    if (toSignal.elemPtr != NULL)
+    if (toSignal.elemPtr != NULL) {
            toSignal.elemPtr->slotSwitchIt(toSignal.state, 0);
+           toSignal.elemPtr->repaint();
+    }
 
-    if (toSignal.elemPtr2 != NULL)
+    if (toSignal.elemPtr2 != NULL) {
            toSignal.elemPtr2->slotSwitchIt(toSignal.state, 0);
+           toSignal.elemPtr2->repaint();
+    }
     
     it.toFirst();
     while ((se = it.current()) != 0) {
@@ -514,13 +518,17 @@ int Route::startRouting()
                 if (el->isOccupied())
                     return -2;
                 
-                /*TODO: use a nonblocking timer event*/
-                usleep(2500);
+                /*TODO: use a nonblocking timer event, force repainting
+                 * of element to get visual layout update*/
+                usleep(250 * 1000);
                 el->slotSwitchIt(se->state, 0);
+                el->repaint();
 
                 el = se->elemPtr2;
-                if (el != NULL)
+                if (el != NULL) {
                     el->slotSwitchIt(se->state, 0);
+                    el->repaint();
+                }
             }
     }
 
@@ -591,10 +599,13 @@ int Route::startRouting()
         if (el != NULL)
             if (el->isSignal()) {
                 el->slotSwitchIt(se->state, 0);
+                el->repaint();
 
                 el = se->elemPtr2;
-                if (el != NULL)
+                if (el != NULL) {
                     el->slotSwitchIt(se->state, 0);
+                    el->repaint();
+                }
             }
     }
 
@@ -801,6 +812,12 @@ bool Route::hasStartSignal()
 bool Route::hasStopSignal()
 {
     return toSignal.elemPtr != NULL;
+}
+
+
+bool Route::hasThisStopSignal(element* el)
+{
+    return (toSignal.elemPtr == el || toSignal.elemPtr2 == el);
 }
 
 

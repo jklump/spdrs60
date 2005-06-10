@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.4.8 $Revision: 1.16 $
+                           version 0.4.8 $Revision: 1.17 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-07 21:19:35 $
+    last modified        : $Date: 2005-06-10 15:52:47 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -148,6 +148,7 @@ public:
     bool hasSameAddress(int);
     bool hasShuntingRouteButtonOnly();
     bool hasDifferentDirection(int);
+    bool hasFfMLock();
     bool isEmpty();
     bool isLocked();
     bool isOccupied();

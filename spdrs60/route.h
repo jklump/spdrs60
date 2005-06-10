@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.4.8 $Revision: 1.7 $
+                           version 0.4.8 $Revision: 1.8 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-08 20:27:43 $
+    last modified        : $Date: 2005-06-10 15:52:47 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -104,13 +104,14 @@ public:
     void showRoute();
     void viewRoute();
     void setupElementLists(QPtrVector<element>*);
-    bool hasStartSignal();
     bool isLockedWithStartSignal(element*);
     bool isUnlockedWithStartSignalType(element*, GbsButtonState,
             GbsButtonState);
     bool isUnlockedType(element*, element*, GbsButtonState,
             GbsButtonState);
     bool hasStopSignal();
+    bool hasStartSignal();
+    bool hasThisStopSignal(element*);
     void setStartSignal(element*);
     void setStopSignal(element*);
     void addSwitchElement(element*);

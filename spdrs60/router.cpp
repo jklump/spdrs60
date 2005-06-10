@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.4.8 $Revision: 1.9 $
+                           version 0.4.8 $Revision: 1.10 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-08 20:27:43 $
+    last modified        : $Date: 2005-06-10 15:52:47 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -379,21 +379,52 @@ void Router::setRoute(element* el, GbsButtonState cb, GbsButtonState sb)
 }
 
 
-void Router::resetRoute(element* el)
+void Router::resetRoute(element* el, GbsButtonState cb)
 {
-    Route* sr = getLockedRouteWithStartSignal(el);
-    if (sr == NULL) {
-        QApplication::beep();
-        emit showLogMessage(tr("No active route found for start "
-                    "signal '%1'").arg(el->getName()), M_INFO, HIST);
+    if (el == NULL)
+        return;
+
+    /*check if is route to reset is allready choosen*/
+    if (resRoute == NULL) {
+        resRoute = getLockedRouteWithStartSignal(el);
+        if (resRoute != NULL) {
+            lastcb = cb;
+            // send signal to gbs to change mouse cursor
+            emit startRouteTimer(resRoute->getType());
+        }
+        else {
+            QApplication::beep();
+            emit showLogMessage(tr("No active route found for start "
+                        "signal '%1'").arg(el->getName()), M_INFO, HIST);
+        }
     }
     else {
-        emit showLogMessage(tr("Resetting route '%1'")
-                .arg(sr->getName()), M_INFO, HIST);
-        sr->stopRouting();
-        // send state to routingviewer
-        //TODO: optimize viewer update to change only lock state icon
-        emit updateRoutingViewerAt(routeList.find(sr));
+        if (lastcb != cb) {
+            QApplication::beep();
+            emit showLogMessage(tr("Mixing signal buttons of different"
+                        " type is not allowed."), M_INFO, HIST);
+        }
+        else {
+            //check if selected route has same stop signal
+            if (resRoute->hasThisStopSignal(el)) {
+                emit showLogMessage(tr("Resetting route '%1'")
+                        .arg(resRoute->getName()), M_INFO, HIST);
+                resRoute->stopRouting();
+                // send state to routingviewer
+                //TODO: optimize viewer update to change only lock state icon
+                emit updateRoutingViewerAt(routeList.find(resRoute));
+            }
+            else {
+                QApplication::beep();
+                emit showLogMessage(tr("No active route found from start "
+                            "signal '%1' to stop signal '%2'")
+                        .arg(selectedStartSig->getName(), el->getName()),
+                        M_INFO, HIST);
+            }
+        }
+        /*send cursor time out to gbs*/
+        emit routeFunctionFinished();
+        resRoute = NULL;
     }
 }
 

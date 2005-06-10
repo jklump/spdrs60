@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.22 $
+                           version 0.4.8 $Revision: 1.23 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-09 17:59:17 $
+    last modified        : $Date: 2005-06-10 15:52:47 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -462,6 +462,7 @@ void element::createPopupMenus()
     // context menu with entries for edit mode
     ctxEdit = new QPopupMenu(this, "editctx");
     ctxEdit->insertItem(tr("&Repeat"), CTX_ID_REP);
+    ctxEdit->setItemEnabled(CTX_ID_REP, false);
     ctxEdit->insertSeparator();
 
     p = QPixmap(ctx_rota_xpm);
@@ -662,6 +663,7 @@ void element::mousePressEvent(QMouseEvent* e)
     /*route edit mode*/
     else if (visualMode == kvmEditRoute) {
         // do nothing
+        e->accept();
     }
 }
 
@@ -937,6 +939,40 @@ void element::makeCommand()
     }
 }
 
+/**
+ * this is the reverse case of "makeCommand()"
+ */
+void element::processInfoPortMessage(QString prot, int addr, int port,
+                    int state)
+{
+    /*TODO: add elements with two addresses*/
+    if (iSoldDirection >= 2)
+        return;
+
+    int realDir = iSoldDirection;
+    bool isDCC = (sSoldProtocol == "N");
+    if (isDCC)
+        realDir = !realDir;
+
+    /*invert direction if connectors are exchanged*/
+    realDir = realDir ^ iSoldChangeConn[0];
+        
+    if (addr == iSoldAddress_1 && port != realDir && state == 0) {
+        realDir = port;
+
+        /*again invert direction if connectors are exchanged*/
+        realDir = realDir ^ iSoldChangeConn[0];
+        
+        if (isDCC)
+            iSoldDirection = !realDir;
+        else
+            iSoldDirection = realDir;
+
+        setupElementIcon(iSoldLEDstate, "");
+        // TODO: show warning message when element is locked
+    }
+}
+
 
 void element::showPropertyDlg()
 {
@@ -1003,6 +1039,7 @@ void element::slotUpdateData()
     // either LED_OFF = 0 or LED_RED = 2*1=2
     iSoldLEDstate = bFBport[iFBContact] << 1;
     sRepeatIcon = sSoldIcon;
+    //send new icon name to all other elements
     emit setRepeatIcon(sRepeatIcon);
     setupElementIcon(iSoldLEDstate, "");
     updateProperties();
@@ -1011,11 +1048,15 @@ void element::slotUpdateData()
 
 void element::slotRepeatIcon(const QString& sRepeat_)
 {
-    QString s;
-
-    sRepeatIcon = sRepeat_;
-    s.sprintf(tr("&Repeat: %s"), sRepeatIcon.data());
-    ctxEdit->changeItem(s, CTX_ID_REP);
+    if (sRepeatIcon != sRepeat_) {
+        sRepeatIcon = sRepeat_;
+        if (sRepeatIcon.isEmpty())
+            ctxEdit->setItemEnabled(CTX_ID_REP, false);
+        else
+            ctxEdit->setItemEnabled(CTX_ID_REP, true);
+        QString s = QString(tr("&Repeat: %1")).arg(sRepeatIcon);
+        ctxEdit->changeItem(s, CTX_ID_REP);
+    }
 }
 
 
@@ -1105,53 +1146,54 @@ void element::slotCtxEdit(int ctxID)
             clear();
             sSoldIcon = SYM_GER;    // straight
             iSoldRotate = 0;        // all symbols are rotatable
-            iSoldLEDoff = 1;
+            iSoldLEDoff = 0;
             iFBContact = 0;
             break;
         case 6:
             clear();
             sSoldIcon = SYM_KUL;    // left curve
             iSoldRotate = 0;        // all symbols are rotatable
-            iSoldLEDoff = 1;
+            iSoldLEDoff = 0;
             iFBContact = 0;
             break;
         case 7:
             clear();
             sSoldIcon = SYM_KUR;    // right "
             iSoldRotate = 0;        // all symbols are rotatable
-            iSoldLEDoff = 1;
+            iSoldLEDoff = 0;
             iFBContact = 0;
             break;
         case 8:
             clear();
             sSoldIcon = SYM_DIL;    // left diagonal
-            iSoldLEDoff = 1;
+            iSoldLEDoff = 0;
             iFBContact = 0;
             break;
         case 9:
             clear();
             sSoldIcon = SYM_DIR;    // right "
-            iSoldLEDoff = 1;
+            iSoldLEDoff = 0;
             iFBContact = 0;
             break;
         case 10:
             clear();
             sSoldIcon = SYM_WEL;    // left turnout
             iSoldRotate = 0;        // all symbols are rotatable
-            iSoldLEDoff = 1;
+            iSoldLEDoff = 0;
             iFBContact = 0;
             break;
         case 11:
             clear();
             sSoldIcon = SYM_WER;    // right "
             iSoldRotate = 0;        // all symbols are rotatable
-            iSoldLEDoff = 1;
+            iSoldLEDoff = 0;
             iFBContact = 0;
             break;
     }
     iSoldLEDstate = bFBport[iFBContact] << 1;
     setupElementIcon(iSoldLEDstate, "");
     sRepeatIcon = sSoldIcon;
+    //send new icon name to all other elements
     emit setRepeatIcon(sRepeatIcon);
 }
 
@@ -1194,7 +1236,7 @@ void element::sendState()
 void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
 {
     // update the contextmenu
-    ctxEdit->setItemEnabled(CTX_ID_CLEAR, true);
+    ctxEdit->setItemEnabled(CTX_ID_CLEAR, !isEmpty());
     ctxEdit->setItemEnabled(CTX_ID_ROTATE, iSoldRotate != -1);
     ctxNorm->setItemEnabled(CTX_ID_TOGGLE,
                             (iSoldAddress_1 != -1) &&
@@ -2274,8 +2316,7 @@ void element::setLocked(bool lock)
 
 
 /**
- * switch "Fahrstraßenfestlegemelder"; if switched off, signal is also
- * switched to red light and lock state is decreased
+ * switch "Fahrstraßenfestlegemelder" on or off;
  */
 void element::activateFfM(bool active)
 {
@@ -2284,6 +2325,15 @@ void element::activateFfM(bool active)
             ffmactive = active;
             setupElementIcon(iSoldLEDstate, "");
         }
+}
+
+
+/**
+ * test if "Fahrstraßenfestlegemelder" is switched on
+ */
+bool element::hasFfMLock()
+{
+    return ffmactive;
 }
 
 
@@ -2319,38 +2369,6 @@ elemSelectionMode element::getSelectionMode()
 bool element::hasDifferentDirection(int dir)
 {
     return iSoldDirection != dir;
-}
-
-
-void element::processInfoPortMessage(QString prot, int addr, int port,
-                    int state)
-{
-    /*TODO: add elements with two addresses*/
-    if (iSoldDirection >= 2)
-        return;
-
-    int realDir = iSoldDirection;
-    bool isDCC = (sSoldProtocol == "N");
-    if (isDCC)
-        realDir = !realDir;
-
-    /*invert direction if connectors are exchanged*/
-    realDir = realDir ^ iSoldChangeConn[0];
-        
-    if (addr == iSoldAddress_1 && port != realDir && state == 0) {
-        realDir = port;
-
-        /*again invert direction if connectors are exchanged*/
-        realDir = realDir ^ iSoldChangeConn[0];
-        
-        if (isDCC)
-            iSoldDirection = !realDir;
-        else
-            iSoldDirection = realDir;
-
-        setupElementIcon(iSoldLEDstate, "");
-        // TODO: warning message when element is locked
-    }
 }
 
 
