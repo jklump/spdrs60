@@ -3587,13 +3587,13 @@ Relaisverschaltung vorprogrammierte Fahrstra&szlig;en aktiviert
 (sämtliche Fahrstra&szlig;en sind vorbestimmt, d.h. es gibt keine
 &raquo;Intelligenz&laquo; im System, die aus Start- und Zielsignal denn
 besten/schnellsten Weg durch ein Weichenfeld findet). Dies geschieht
-durch das gleichzeitige Drücken von zwei Tasten, die sich im allgemeinen
+durch das gleichzeitige Drücken von zwei Fahrstraßentasten, die sich
 an den Signalen befinden: dem Startsignal, wo der Zug wartet (oder
 zuerst eintreffen wird) und das in seinem Fahrweg liegenden Zielsignal.
-Letzteres wäre dann wiederum das Startsignal für den nächsten Abschnitt
-(auf freier Strecke wird meistens im selbsttätigen Blockbetrieb
+Letzteres ist dann wiederum das Startsignal für den nächsten Abschnitt.
+Auf freier Strecke wird meistens im selbsttätigen Blockbetrieb
 gefahren, so dass hier im allgemeinen keine Stellvorgänge ausgelöst
-werden müssen, dennoch sind dafür Bedienmöglichkeiten vorhanden).
+werden müssen, dennoch sind dafür Bedienmöglichkeiten vorhanden.
 </para>
 <para>
 Wurden die Tasten gedrückt, dann laufen zunächst alle beteiligten
@@ -3601,7 +3601,7 @@ Weichen in die erforderliche neue Lage und werden dort verriegelt. Die
 Fahrstra&szlig;e wird im Bedienpult mit gelben Lampen ausgeleuchtet,
 damit man den gestellen Fahrweg direkt erkennen kann. Danach erst
 schaltet sich das Startsignal auf Fahrt (Hp 1 oder Hp 2), und der Zug
-kann losfahren, dabei meldet er über Gleismeldekontakte seine Position
+kann losfahren; dabei meldet er über Gleismeldekontakte seine Position
 an den Stelltisch, der diese durch Ausleuchten der Fahrstra&szlig;e mit
 roten Lampen anzeigt. Wenn der Zug das Zielsignal passiert hat, wird
 über Gleismeldekontakte automatisch die Fahrstra&szlig;e deaktiviert, so
@@ -3654,11 +3654,13 @@ dieser Datei ist auch das folgende Beispiel in <xref linkend="abb-routing1"> ent
 <para>
 Man erkennt hier einen Gleisbild-Ausschnitt, indem die
 Fahrstra&szlig;e von (Start-)Signal 5 nach (Ziel-)Signal 1 geschaltet
-werden soll. Dazu klickt man zuerst auf das Startsignal und innerhalb
-eines 5-Sekunden-Zeitraums auf das Zielsignal. Man erkennt dann, wie die
+werden soll. Dazu klickt man zuerst auf die Zugstraßentaste (rot) des
+Startsignals und innerhalb eines 5-Sekunden-Zeitraums auf die
+Zugstraßentaste des Zielsignals. Man erkennt dann, wie die
 für die Fahrstra&szlig;e benötigten Weichen in die richtige Stellung
 laufen, indem die Stellungsanzeige wechselt. Sind alle Weichen gestellt,
-wird die Fahrstra&szlig;e optisch angezeigt, was in <xref linkend="abb-routing2"> erkennbar ist.
+wird die Fahrstra&szlig;e optisch angezeigt, was in
+<xref linkend="abb-routing2"> dargestellt ist.
 </para>
 <para>
 <figure id="abb-routing2">
@@ -3669,22 +3671,22 @@ wird die Fahrstra&szlig;e optisch angezeigt, was in <xref linkend="abb-routing2"
 </figure>
 </para>
 <para>
-Man erkennt darauf weiterhin als Unterschied zum ersten
-Bild kleine gelb ausgefüllte Kreise. Diese zeigen an, das der
+Man erkennt darauf weiterhin als Unterschied zum ersten Bild kleine
+gelb ausgefüllte Kreise an den Weichen (Verschlußmelder) und an den
+Signalen (Sperrmelder). Diese zeigen an, das der
 entsprechende Antrieb in einer aktivierten Fahrstra&szlig;e benötigt
-wird und deshalb nicht durch die Weichengruppentaste WGT oder durch eine
+wird und deshalb nicht durch die Weichengruppentaste (WGT) oder durch eine
 andere Fahrstra&szlig;e, die diese Weiche enthält, gestellt werden kann.
-Wird dies doch versucht, gibt es eine kleine Fehlermeldung in der
-Kommando-Historie. Das Zielsignal ist nicht verschlossen, da es als
-eventuell Startsignal für eine Folgestra&szlig;e herhalten muss.
+Wird dieses dennoch versucht, gibt es eine Fehlermeldung in der
+Kommando-Historie.
 </para>
 <para>
-Hat eine Weiche schon die Stellung, wie sie für die Fahrstra&szlig;e
-benötigt wird, dann wird sie natürlich nicht nochmal gestellt, es wird
-daher auch kein Stellbefehl an den Daemon geschickt. Damit werden
-unnötige Kommandos vermieden. Selbstverständlich wird diese Weiche
-ebenfalls durch den gelben Kreis als zu einer Fahrstra&szlig;e zugehörig
-gekennzeichnet.
+Hat eine Weiche schon die für die Fahrstra&szlig;e benötigte Stellung,
+dann wird sie nicht noch einmal gestellt. Es wird
+daher auch kein Stellbefehl an den SRCP-Server geschickt, um unnötige
+Kommandos zu vermeiden. Selbstverständlich wird diese Weiche
+ebenfalls durch einen aktivierten Sperrmelder als einer
+Fahrstra&szlig;e zugehörig gekennzeichnet.
 </para>
 </sect3>
 
@@ -3721,14 +3723,15 @@ Fahrstra&szlig;en gleichzeitig deaktiviert werden.
 </para>
 <para>
 <emphasis>ACHTUNG:</emphasis> Der Rückmeldekontakt für das Auflösen wird
-über den Fahrstra&szlig;en-Editor eingetragen (release port), während
-die Rückmeldekontakte der Gleis-Lampen in den Elementen-Kontextmenüs
-eingetragen werden können.
+über den Fahrstra&szlig;endialog eingetragen (release port), während
+die Rückmeldekontakte der Gleisausleuchtung im Eigenschaftsdialog des
+entsprechenden Elements eingetragen wird.
 </para>
 <para>
-Möchte man eine Fahrstra&szlig;e wegen Irrens oder weil sie nicht mehr
-benötigt wird deaktivieren, so benutzt man die auch in Echt vorhandene
-Fahrstra&szlig;en-Hilfstaste FHT (<xref linkend="abb-routing5">), die
+Möchte man eine Fahrstra&szlig;e wegen irrtümlicher Einstellung oder weil
+sie nicht mehr benötigt wird zurücknehmen, so benutzt man die auch in
+Echt vorhandene
+Fahrstra&szlig;enhilfstaste (FHT) (<xref linkend="abb-routing5">), die
 auf keinem Gleisbild fehlen sollte.
 </para>
 <para>
@@ -3743,9 +3746,10 @@ auf keinem Gleisbild fehlen sollte.
 Man klickt zunächst auf das FHT-Element und hat dann
 maximal fünf Sekunden Zeit, um wie beim Aktivieren zuerst das
 Startsignal und dann wiederum innerhalb eines 5-Sekunden-Zeitraums das
-Zielsignal anzuklicken. Als Folge davon erlöschen die gelben
-Fahrstra&szlig;en-Lampen (nicht jedoch die Stellungsmelder der Weichen),
-die gelben Verriegelungsmelder verlöschen und das Startsignal springt
+Zielsignal anzuklicken. Als Folge davon erlöscht die gelbe
+Fahrstra&szlig;enausleuchtung (nicht jedoch die Stellungsmelder der Weichen),
+die gelben Verschlußmelder verlöschen und das Startsignal sowie eventuelle
+Rangiersignale auf dem Fahrweg springen
 auf Rot. Ab jetzt sind die Weichen wieder für andere Fahrstra&szlig;en
 benutzbar oder können einzeln geschaltet werden. Möchte man sich ein
 Stück Mausbewegung sparen, so drücke man zuerst die Taste
