@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.21 $
+                           version 0.4.8 $Revision: 1.22 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-10 15:52:47 $
+    last modified        : $Date: 2005-06-10 16:11:46 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -539,8 +539,9 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
                 if (!el->isLocked()) {
                     QApplication::beep();
                     emit showLogMessage(tr("No derouting possible; signal '%1'"
-                                " is not a signal of an active route.")
+                                " is not part of an active route.")
                             .arg(el->getName()), M_INFO, HIST);
+                    slotElementClickedTimeout();
                 }
                 else {
                     // give button pressed feedback to user
