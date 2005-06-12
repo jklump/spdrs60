@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.4.8 $Revision: 1.10 $
+                           version 0.4.8 $Revision: 1.11 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-10 15:52:47 $
+    last modified        : $Date: 2005-06-12 07:29:45 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -33,6 +33,7 @@ Router::Router(QObject* parent, const char* name):
 {
     gbsElements = NULL;
     recRoute == NULL;
+    resRoute == NULL;
     selectedStartSig = NULL;
     routeList.setAutoDelete(true);
     modified = false;
@@ -44,6 +45,7 @@ Router::Router(QObject* parent, QPtrVector<element>* elPtr, const char* name):
     QObject(parent, name)
 {
     recRoute == NULL;
+    resRoute == NULL;
     selectedStartSig = NULL;
     gbsElements = elPtr;
     routeList.setAutoDelete(true);
