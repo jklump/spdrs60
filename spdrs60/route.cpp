@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.12 $
+                           version 0.4.8 $Revision: 1.13 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-10 15:52:47 $
+    last modified        : $Date: 2005-06-12 05:28:02 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -922,14 +922,14 @@ bool Route::isUnlockedType(element* fel, element* tel, GbsButtonState cb,
 
 void Route::lockByFeedbackPort(unsigned int port)
 {
-    if (!locked && rePort.address == port)
+    if (!locked && acPort.address == port)
         startRouting();
 }
 
 
 void Route::unlockByFeedbackPort(unsigned int port)
 {
-    if (locked && acPort.address == port)
+    if (locked && rePort.address == port)
         stopRouting();
 }
 

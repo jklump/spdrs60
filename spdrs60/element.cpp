@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.23 $
+                           version 0.4.8 $Revision: 1.24 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-10 15:52:47 $
+    last modified        : $Date: 2005-06-12 05:28:02 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -945,11 +945,17 @@ void element::makeCommand()
 void element::processInfoPortMessage(QString prot, int addr, int port,
                     int state)
 {
+    if (addr != iSoldAddress_1)
+        return;
+    
     /*TODO: add elements with two addresses*/
-    if (iSoldDirection >= 2)
+    if (iSoldAddress_2 != -1 || iSoldDirection > 2)
         return;
 
     int realDir = iSoldDirection;
+    if (realDir == 2) //Hp0-Hp2-Type (iSoldSubType == 6)
+        realDir = 1;
+    
     bool isDCC = (sSoldProtocol == "N");
     if (isDCC)
         realDir = !realDir;
@@ -957,17 +963,20 @@ void element::processInfoPortMessage(QString prot, int addr, int port,
     /*invert direction if connectors are exchanged*/
     realDir = realDir ^ iSoldChangeConn[0];
         
-    if (addr == iSoldAddress_1 && port != realDir && state == 0) {
+    if (port != realDir && state == 0) {
         realDir = port;
 
         /*again invert direction if connectors are exchanged*/
         realDir = realDir ^ iSoldChangeConn[0];
         
         if (isDCC)
-            iSoldDirection = !realDir;
-        else
-            iSoldDirection = realDir;
+            realDir = !realDir;
 
+        //Hp0-Hp2-Type (iSoldSubType == 6)
+        if (iSoldSubType == 6 && realDir == 1)
+            realDir = 2;
+
+        iSoldDirection = realDir;
         setupElementIcon(iSoldLEDstate, "");
         // TODO: show warning message when element is locked
     }
