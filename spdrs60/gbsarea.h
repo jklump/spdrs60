@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.4.8 $Revision: 1.14 $
+                           version 0.4.8 $Revision: 1.15 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-10 15:52:47 $
+    last modified        : $Date: 2005-06-12 05:29:17 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -39,11 +39,9 @@
 
 #define MAXCONTACTS 496  // maximum contacts per bus for SRCP 0.8
 
-#define GF_OLDGBSEXT   ".dat.gbs"
 #define GF_GBSEXT      ".spdrs60"
 #define GF_DIMENSIONS  "dimensions"
-#define GF_CMDHOST     "cmdhost"
-#define GF_FBHOST      "fbhost"
+
 
 class GBSArea: public QWidget
 {
@@ -94,13 +92,6 @@ private:
 
    int         cols;
    int         rows;
-
-   QString     cmdHost;
-   QString     fbHost;
-   int         cmdPort;
-   int         fbPort;
-   bool        cmdLogin;
-   bool        fbLogin;
 
    bool        modified: 1;
    GbsButtonState  gkbState;

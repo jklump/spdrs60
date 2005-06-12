@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.19 $
+                           version 0.4.8 $Revision: 1.20 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-10 15:52:47 $
+    last modified        : $Date: 2005-06-12 05:29:17 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -73,6 +73,11 @@
 #include "pixmaps/route_copy.xpm"
 #include "pixmaps/route_clear.xpm"
 
+#define GF_OLDGBSEXT   ".dat.gbs"
+#define GF_OLDRTSEXT   ".dat.rts"
+/*for srcpCom*/
+#define GF_CMDHOST     "cmdhost"
+#define GF_FBHOST      "fbhost"
 
 extern bool bFBport[MAX_FB];
 
@@ -115,6 +120,12 @@ MainWindow::MainWindow()
 {
     setIcon(QPixmap(spdrs60_32));
     /*Networking */
+    cmdHost = "localhost";
+    fbHost = "localhost";
+    cmdPort = 12345;
+    fbPort = 12346;
+    cmdLogin = false;
+    fbLogin = false;
     CommandPortIsConnected = false;
     FeedbackPortIsConnected = false;
     InfoPortIsConnected = false;
@@ -123,9 +134,8 @@ MainWindow::MainWindow()
 
     iDebugNo = HIST;            // default debug window ist HISTORY
     isFBInitMode = true;        // var to avoid all startup feedback
-    // changes to be shown in debug window
     visualMode = kvmNormal;         // normal layout mode
-    lastDir = QDir::homeDirPath();      // remembers path for FileOpen
+    lastDir = QDir::homeDirPath();  // remembers path for FileOpen
     initMainWindow();           // setup main window with all menus
     slotReadConfigFile();       // read user dependend config file
 
@@ -153,11 +163,40 @@ MainWindow::~MainWindow()
     delete InfoSocket;
 }
 
+/**
+  * write application settings to personal config file, this is typicaly
+  * done if application window is closed
+  */
+void MainWindow::writeConfigFile()
+{
+    QFile file(QDir::homeDirPath() + "/" + SPDRS60_INIT);
+    
+    if (!file.open(IO_WriteOnly)) {
+        cmdToDebug(tr("Error: Could not save configuration"
+                    " file: ~/%1").arg(SPDRS60_INIT), M_INFO, HIST);
+        return;
+    }
+    cmdToDebug(tr("Writing SpDrS60 configuration"
+                " file: ~/%1").arg(SPDRS60_INIT), M_INFO, HIST);
 
+    QDateTime dt = QDateTime::currentDateTime();
+    QTextStream ts(&file);
+
+    ts  << "# SpDrS60 for Linux config file" << endl
+        << "# last modified: " << dt.toString(Qt::ISODate) << endl
+        << "#" << endl;
+
+    file.close();
+}
+
+/**
+  * read application settings from config file, this is typicaly
+  * done on application startup
+  */
 void MainWindow::slotReadConfigFile()
 {
     int i;
-    // open SpDrS60 config file and read all global parameters
+
     QFile file(QDir::homeDirPath() + "/" + SPDRS60_INIT);
     if (!file.open(IO_ReadOnly)) {
         /* if no configuration file is found, just keep defaults */
@@ -1095,8 +1134,22 @@ bool MainWindow::saveFile()
     }
 
     QTextStream ts(&f);
+    
+    QDateTime dt = QDateTime::currentDateTime();
+    
+    /*TODO: srcpCom->writeFileTextToStream(ts);*/
+    // write the header
+    ts << "# spdrs60 data file" << endl
+       << "# version=" << VERSION << endl
+       << "# last modified=" << dt.toString(Qt::ISODate) << endl
+       << GF_CMDHOST << DS << cmdHost << DS << cmdPort <<
+                        DS << cmdLogin << endl
+       << GF_FBHOST << DS << fbHost << DS << fbPort << DS << fbLogin <<
+       endl;
+
     gbs->writeFileTextToStream(ts);
     rtController->writeFileTextToStream(ts);
+
     f.close();
 
     updateCaption();
@@ -1222,8 +1275,34 @@ void MainWindow::openFile(const QString& fn)
     fileName = fn;
 
     QTextStream ts(&f);
+    
+    QString s, key, value;
+    /*TODO: srcpCom->readFileTextFromStream(ts);*/
+    while (!ts.eof()) {
+        s = ts.readLine();
+        
+        /* ignore comment lines */
+        if (!s.startsWith("#")) {
+            key = s.section(DS, 0, 0);
+            value = s.section(DS, 1, 1).stripWhiteSpace();
+            /* key/value pairs are read sequence independent */
+            if (key.compare(GF_CMDHOST) == 0){
+                cmdHost = value;
+                value = s.section(DS, 2, 2).stripWhiteSpace();
+                cmdPort = value.toInt();
+            }
+            else if (key.compare(GF_FBHOST) == 0){
+                fbHost = value;
+                value = s.section(DS, 2, 2).stripWhiteSpace();
+                fbPort = value.toInt();
+            }
+            else if (s.startsWith("%% layout"))
+                break;
+        }
+    }
     gbs->readFileTextFromStream(ts);
     rtController->readFileTextFromStream(ts);
+
     f.close();
     
     cmdToDebug(tr("Layout file '%1' opened").arg(fn), M_INFO, HIST);
@@ -1254,7 +1333,7 @@ void MainWindow::importFile(const QString& fn)
     /*now read old routes file*/
     int pos = fn.findRev(GF_OLDGBSEXT);
     QString rfn = fn.left(pos);
-    rfn.append(RTS_FILE_SUFFIX);
+    rfn.append(GF_OLDRTSEXT);
     rtController->importFile(rfn);
 
     cmdToDebug(tr("Layout file '%1' imported").arg(fn), M_INFO, HIST);
@@ -1480,10 +1559,9 @@ void MainWindow::FeedbackSocketReadyRead()
         emit sendFBChangeModule(iPortNr);
         // send updates to all elements via gbs
         emit sendFBChangeLayout(iPortNr);
-        // send updates to all routes
-        if (!isFBInitMode)
-            if (iState == 1)
-                emit sendFBChangeRoute(iPortNr);
+        // send updates to all routes if state changes to 1
+        if (!isFBInitMode && iState == 1)
+            emit sendFBChangeRoute(iPortNr);
     }
 }
 

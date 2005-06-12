@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.4.8 $Revision: 1.17 $
+                           version 0.4.8 $Revision: 1.18 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-10 15:52:47 $
+    last modified        : $Date: 2005-06-12 05:29:17 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -105,6 +105,7 @@ enum elemRecordType {
 #define IDS           ":"     // data separator in imported files
 #define EL_WIDTH      56      // width of an element in pixels
 #define EL_HEIGHT     35      // height of an element in pixels
+#define   XPM_SUFFIX  ".xpm"  // file appendix for bitmap files
 
 // forward declaration
 class element;

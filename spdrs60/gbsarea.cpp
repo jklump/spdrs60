@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.22 $
+                           version 0.4.8 $Revision: 1.23 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-10 16:11:46 $
+    last modified        : $Date: 2005-06-12 05:29:17 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -65,13 +65,6 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
 : QWidget(parent, name)
 {
     // set all global layout variables
-    cmdHost = "localhost";
-    fbHost = "localhost";
-    cmdPort = 12345;
-    fbPort = 12346;
-    cmdLogin = false;
-    fbLogin = false;
-    
     gkbState = kNoneClicked;
     modified = false;
     cols = 0;
@@ -205,15 +198,8 @@ void GBSArea::newFile(int iColumns, int iRows)
 
 void GBSArea::writeFileTextToStream(QTextStream& ts)
 {
-    QDateTime dt = QDateTime::currentDateTime();
-    
-    // write the header
-    ts << "# spdrs60 data file" << endl
-       << "# version=" << VERSION << endl
-       << "# last modified=" << dt.toString(Qt::ISODate) << endl
-       << GF_CMDHOST << DS << cmdHost << DS << cmdPort <<
-                        DS << cmdLogin << endl
-       << GF_FBHOST << DS << fbHost << DS << fbPort << DS << fbLogin << endl
+    ts << "# start of layout section" << endl
+       << "%% layout" << endl
        << "# layout dimensions=columns" << DS "rows" << endl
        << GF_DIMENSIONS << DS << cols << DS << rows << endl
        << "# start of element section" << endl;
@@ -261,19 +247,7 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
 
                 /* setup progress dialog */
                 progress.setTotalSteps(ecount);
-
             }
-            else if (key.compare(GF_CMDHOST) == 0){
-                cmdHost = value;
-                value = s.section(DS, 2, 2).stripWhiteSpace();
-                cmdPort = value.toInt();
-            }
-            else if (key.compare(GF_FBHOST) == 0){
-                fbHost = value;
-                value = s.section(DS, 2, 2).stripWhiteSpace();
-                fbPort = value.toInt();
-            }
-
             /*here we read allways up to start marker of a new route*/
             else if (s.startsWith("%% element")) {
                 

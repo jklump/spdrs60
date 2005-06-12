@@ -32,14 +32,10 @@
  **********************************************************************/
 
 //   Resource dependant, do NOT edit
-#define   MAX_FB           1984// number of total s88 feedback ports
+#define MAX_FB         1984    // number of total s88 feedback ports
 
-//#define   GBS_FILE_SUFFIX  ".dat.gbs"     // file appendix for layout files
-#define   RTS_FILE_SUFFIX  ".dat.rts"     // file appendix for routing files
-#define   S88_FILE_SUFFIX  ".dat.s88"     // file appendix for feedback files
-#define   XPM_SUFFIX       ".xpm"         // file appendix for bitmap files
-#define   SPDRS60_INIT     ".spdrs60rc"   // program init filename
-#define   APP_NAME         "SpDrS60"
+#define APP_NAME       "SpDrS60"
+#define SPDRS60_INIT   ".spdrs60rc"   // program init filename
 
 //   General, do NOT edit
 #define   SRCH_TX          0   // search string should be in text field

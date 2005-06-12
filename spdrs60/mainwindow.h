@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.4.8 $Revision: 1.11 $
+                           version 0.4.8 $Revision: 1.12 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-06 20:12:14 $
+    last modified        : $Date: 2005-06-12 05:29:17 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -77,7 +77,6 @@ private:
    bool            LayoutPowerIsOn;
    bool            isFBInitMode;
    int             iDebugNo;
-   SRCPMode        SRCPCommandStatus;
    QString         fileName;  //serd
    QString         lastDir;
    elemVisualMode  visualMode;
@@ -148,13 +147,20 @@ private:
    Finder          *findWindow;
    keyboard        *keybWindow;
 
-   /*Networking*/
+   /*SRCP Networking (srcpCom)*/
+   QString     cmdHost;
+   QString     fbHost;
+   int         cmdPort;
+   int         fbPort;
+   bool        cmdLogin;
+   bool        fbLogin;
    QSocket* CommandSocket;
    QSocket* FeedbackSocket;
    QSocket* InfoSocket;
    bool CommandPortIsConnected;
    bool FeedbackPortIsConnected;
    bool InfoPortIsConnected;
+   SRCPMode        SRCPCommandStatus;
 
    void initMainWindow();
    void updateDaemonMenu();
@@ -168,6 +174,7 @@ private:
    void chooseImportFile();
    int querySaveChanges();
    bool isModified();
+   void writeConfigFile();
 
    /* New Networking code: */
    void initAllSockets();
