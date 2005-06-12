@@ -1,7 +1,7 @@
 dnl configure.ac for spdrs60
 dnl Guido Scholz
-dnl last update: $Date: 2005-06-05 13:26:24 $
-dnl version: $Revision: 1.5 $
+dnl last update: $Date: 2005-06-12 12:02:39 $
+dnl version: $Revision: 1.6 $
 dnl Process this file with autoconf to produce a configure script.
 
 AC_INIT([spdrs60],[0.4.8],[Guido Scholz <guido.scholz@bayernline.de>])
@@ -53,6 +53,14 @@ AC_SUBST(all_libraries)
 
 KDE_USE_QT(3.0)
 AC_PATH_QT
+
+dnl check for lrelease
+AC_PATH_PROG(LRELEASE, lrelease, no, [$PATH:$QTDIR/bin])
+if test "$LRELEASE" = "no" ; then
+  AC_MSG_ERROR(
+    [cannot find 'lrelease', please install the Qt development tools package.])
+fi
+
 
 AC_CHECK_LIB(m, roundf,,AC_MSG_ERROR([required library missing]))
 
