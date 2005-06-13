@@ -11,7 +11,7 @@ URL: http://www.linux-modellbahn.de/
 Packager: Guido Scholz <guido.scholz@bayernline.de>
 Provides: spdrs60
 Requires: qt3
-BuildRequires: glibc-devel qt3-devel openjade docbook-dsssl-stylesheets
+BuildRequires: glibc-devel qt3-devel qt3-devel-tools openjade docbook-dsssl-stylesheets
 Prefix: /usr
 Source: %{name}-%{version}.tar.bz2
 Buildroot: %{_tmppath}/%{name}-%{version}-buildroot
