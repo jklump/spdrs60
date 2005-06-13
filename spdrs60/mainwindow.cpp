@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.20 $
+                           version 0.4.8 $Revision: 1.21 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-12 05:29:17 $
+    last modified        : $Date: 2005-06-13 20:46:55 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -333,8 +333,6 @@ void MainWindow::initMainWindow()
             this, SLOT(cmdToDebug(const QString&, int, int)));
     connect(gbs, SIGNAL(sendCommand(const QString&)),
             this, SLOT(SendCommandToSRCPServer(const QString&)));
-    connect(gbs, SIGNAL(sigUpdateEditmenu()),
-            this, SLOT(slotUpdateEditmenu()));
     connect(gbs, SIGNAL(sigShowFBmodules()),
             this, SLOT(slotShowModules()));
 
@@ -1351,14 +1349,6 @@ void MainWindow::updateCaption()
 }
 
 
-void MainWindow::slotUpdateEditmenu()
-{
-    /*FIXME: remove this*/
-    // called by gbsArea if a non-existing routing file has been autocreated
-    //editmenu->setItemEnabled(EDITFILE_ID_RTS, true);
-    //editfilemenu->changeItem(fileName + RTS_FILE_SUFFIX, EDITFILE_ID_RTS);
-}
-
 /* New event driven networking code starts here: (guido)*/
 void MainWindow::initAllSockets()
 {
@@ -1623,6 +1613,8 @@ void MainWindow::InfoSocketReadyRead()
 
     while (InfoSocket->canReadLine()) {
         sInfo = InfoSocket->readLine();
+        cmdToDebug(sInfo, M_CMD, INFO);
+
         /*check for incomming GA actions and send them to gbs*/
         // INFO GA <protocol> <addr> <port> <state>
         //   0   1     2        3      4       5
@@ -1633,7 +1625,6 @@ void MainWindow::InfoSocketReadyRead()
                     sInfo.section(" ", 4, 4).toInt(),
                     sInfo.section(" ", 5, 5).toInt());
         }
-        cmdToDebug(sInfo, M_CMD, INFO);
     }
 }
 

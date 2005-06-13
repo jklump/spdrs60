@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.4.8 $Revision: 1.15 $
+                           version 0.4.8 $Revision: 1.16 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-12 05:29:17 $
+    last modified        : $Date: 2005-06-13 20:46:55 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -147,7 +147,6 @@ signals:
     void sigRepaintLayout();
     void sigShowElement(int, int, elemSelectionMode);
     void sigShowFBmodules();
-    void sigUpdateEditmenu();
     void updateRoutingViewer(const QString&);
     void clearRoutes();
     void recordElement(element*, elemRecordType);

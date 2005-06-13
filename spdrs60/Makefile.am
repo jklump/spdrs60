@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.4 $
-# last update: $Date: 2005-06-12 12:02:39 $
+# version: $Revision: 1.5 $
+# last update: $Date: 2005-06-13 20:46:55 $
 
 SUBDIRS = pixmaps
 
@@ -68,7 +68,7 @@ CLEANFILES = $(nodist_spdrs60_SOURCES)
 %.moc.cpp: %.h
 	$(MOC) $< -o $@
 
-# rule for generated translation files
+# TODO: rule for translation file generation
 %.qm: %.ts
 	$(LRELEASE) -verbose $< -qm $@
 

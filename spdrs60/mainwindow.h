@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.4.8 $Revision: 1.12 $
+                           version 0.4.8 $Revision: 1.13 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-12 05:29:17 $
+    last modified        : $Date: 2005-06-13 20:46:55 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -215,7 +215,6 @@ private slots:
    void slotShowModules();
    void slotShowRoutes();
    void slotToggleLayoutPower();
-   void slotUpdateEditmenu();
    void slotViewDebug();
    void slotViewKeyboard();
    void slotViewSwitchMode(QAction*);
