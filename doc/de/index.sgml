@@ -45,7 +45,7 @@
     </revision>
     <revision>
       <revnumber>0.6</revnumber>
-      <date>Thu Jun 09 20:00:00 CEST 2005</date>
+      <date>Tue Jun 14 21:20:00 CEST 2005</date>
     </revision>
   </revhistory>
   <abstract>
@@ -71,9 +71,9 @@ gewohnten Eigenschaften eines Steuerprogramms verabschieden, da diese
 meistens zu sehr auf die Belange der Modellbahn abgestimmt sind.
 </para>
 <para>
-Ich selber stufe mich zwar nicht bei den &raquo;Nietenzählern&laquo; ein,
-habe aber in diesem Programm ein möglichst vorbildnahes Aussehen einer
-Gleissteuerung verwirklicht. Natürlich hei&szlig;t &raquo;möglichst
+Ein Ziel bei der Erstellung dieses Programms ist es, die Darstellung des
+Gleisbildstellwerks möglichst vorbildnah zu verwirklichen.
+Natürlich hei&szlig;t &raquo;möglichst
 vorbildnah&laquo; nur, dass alle für eine Modellbahn sinnvollen Anzeigen,
 Schalthandlungen etc. übernommen worden sind. Aber gerade bei letzterem
 ist als Beispiel anzumerken, dass Weichen halt nicht &raquo;einfach
@@ -84,7 +84,7 @@ Features realisiert werden, so dass die Authentizität noch gesteigert
 werden kann. Aber wir sind zunächst im Heute, und damit ein kleiner
 Überblick über die schon vorhandenen Features:
 <itemizedlist mark="bullet">
-  <listitem><para>einfaches Erstellen des Anlagenlayouts</para></listitem>
+  <listitem><para>Einfaches Erstellen des Anlagenlayouts</para></listitem>
   <listitem><para>Einstellen von Fahrstra&szlig;en durch Anklicken der
 Start- und Zielsignale</para></listitem>
   <listitem><para>Automatische Rücknahme von Fahrstra&szlig;en durch
@@ -92,11 +92,13 @@ Gleiskontakte oder durch Betätigen der</para></listitem>
   <listitem><para>Fahrstra&szlig;en-Hilfstaste FHT</para></listitem>
   <listitem><para>Stellen von einzelnen Weichen mit der
 Weichengruppentaste WGT</para></listitem>
+  <listitem><para>Stellen von einzelnen Signalen mit der
+Signalgruppentaste SGT</para></listitem>
   <listitem><para>Drehscheiben- und
 Schiebebühnen-Ansteuerung</para></listitem>
   <listitem><para>Übersicht über alle Rückmeldeports</para></listitem>
-  <listitem><para>einfache Datenstruktur, für jedermann im Klartext lesbar
-und die Inhalte daher änderbar</para></listitem>
+  <listitem><para>Einfache Datenstruktur in den Dateien, für jedermann
+  im Klartext lesbar und die Inhalte daher änderbar</para></listitem>
 </itemizedlist>
 </para>
 <para>
@@ -108,8 +110,8 @@ herstellt. Meine Zielsetzung ist, eine sinnvolle Kombination aus
 Anwenderfreundlichkeit (z.B. schnelles Lernen der Bedienung) und
 Übersichtlichkeit (z.B. klare Dialoge) zu bieten. Trotz der relativen
 Einfachkeit in der Bedienung empfehle ich die Durcharbeitung dieser
-Dokumentation. Auch die kurze Durchsicht der Onlinehilfe (HTML-Format),
-welche getrennt vor einer Komplettinstallation herunterladbar ist, sei
+Dokumentation. Auch die kurze Durchsicht der Online-Hilfe (HTML-Format),
+welche über das Hilfe-Menü aufrufbar ist, sei
 vorher empfohlen, um die Mächtigkeit dieses Programms zu erfahren.
 </para>
 </sect1>
@@ -133,13 +135,14 @@ Veröffentlicht am **.**.2005
   <listitem><para>Das Dateiformat, mit dem das Programm seine Daten
   (Gleisbilder, Fahrstraßen) speichert, wurde weitgehend geändert. Es
   wird jetzt nur noch eine Datei mit der Dateiendung &raquo;spdrs60&laquo;
-  benutzt, die sowohl die Informationen
-  für das Gleisbild als auch für die dazugehörenden Fahrstraßen enthält.
+  benutzt, die sowohl die Informationen für das Gleisbild (früher
+  &raquo;dat.gbs&laquo;) als auch für die dazugehörenden Fahrstraßen
+  (früher &raquo;dat.rts&laquo;) enthält.
   Leere Gleisbildelemente werden nun nicht mehr abgespeichert, so
   dass die Dateigröße deutlich verringert und die Bearbeitbarkeit mit
-  einem externen Texteditor vereinfacht ist. Die alten Gleisbilder und
-  Fahrstraßen lassen sich durch eine Importfunktion (Datei/Importieren)
-  einfach einlesen.</para></listitem>
+  einem externen Texteditor vereinfacht ist. Die alten Gleisbilder
+  lassen sich zusammen mit ihren Fahrstraßen durch eine Importfunktion
+  (Datei/Importieren) einfach einlesen.</para></listitem>
   <listitem><para>Zugfahrstraßen lassen sich, wie es aus
   Sicherheitsgründen auch im Original der Fall ist, nun nicht mehr in
   belegte Gleisabschnitte hinein einrichten.</para></listitem>
@@ -147,6 +150,22 @@ Veröffentlicht am **.**.2005
   Fahrstraßenfestlegemelder (FfM), der das Aktivsein einer Zugfahrstraße
   für dieses Signal anzeigt.
   </para></listitem>
+  <listitem><para>Die Fahrstraßen können nun über einen neu geschaffenen
+  Fahrstraßenbearbeitungsmodus (blaue Hervorhebung) weitestgehend grafisch
+  zusammengestellt werden. Start- und Zielsignale einer in der
+  Fahrstraßenliste ausgewählten Fahrstraße lassen sich mit der
+  linken Maustaste, die übrigen Fahrstraßenelemente mit der mittleren
+  Maustaste auswählen. Durch erneutes Anklicken lassen sich allgemein
+  Fahrstraßenelemente auch wieder abwählen.</para></listitem>
+  <listitem><para>Ein Einrichten von Fahrstraßen nach rechts oder links über
+  die Gleisbildgrenzen hinweg ist nun dann möglich, wenn das Start- und/oder
+  Zielsignal zweimal auf dem Gleisbild dargestellt ist, und zwar so,
+  dass sich zwischen Start- und Zielsignal mindestens einmal ein
+  durchgehender Streckenverlauf ergibt. Ein Beispiel hierfür bietet das
+  Beispielgleisbild &raquo;bahnhofklein&laquo;.</para></listitem>
+  <listitem><para>Zur Bearbeitung von Fahrstraßen wurde das Hauptmenü um
+  entsprechende Einträge ergänzt, die nur bei Sichtbarkeit der
+  Fahrstraßentabelle nutzbar sind.</para></listitem>
   <listitem><para>Als neues Gleisbildsymbol wurde die Signalgruppentaste
   (SGT) aufgenommen. Mit dieser lassen sich vorbildgetreu Signale umschalten.
   Die Weichengruppentaste (WGT) kann nun, dem Vorbild entsprechend, nur
@@ -162,26 +181,17 @@ Veröffentlicht am **.**.2005
   Standard bei grafischen Programmen angesehen werden kann. Das Kontextmenü
   zum Zeichen von Gleissymbolen liegt auf der mittleren
   Maustaste.</para></listitem>
-  <listitem><para>Die Fahrstraßen können nun über einen neu geschaffenen
-  Fahrstraßenbearbeitungsmodus (blaue Hervorhebung) weitestgehend grafisch
-  zusammengestellt werden. Start- und Zielsignale einer in der
-  Fahrstraßenliste ausgewählten Fahrstraße lassen sich mit der
-  linken Maustaste, die übrigen Fahrstraßenelemente mit der mittleren
-  Maustaste auswählen. Durch erneutes Anklicken lassen sich allgemein
-  Fahrstraßenelemente auch wieder abwählen.</para></listitem>
   <listitem><para>Die bisher vorhandene Größenbegrenzung von
   Gleisbildern ist nun aufgehoben.</para></listitem>
-  <listitem><para>Zur Bearbeitung von Fahrstraßen wurde das Hauptmenü um
-  entsprechende Einträge ergänzt, die nur bei Sichtbarkeit der
-  Fahrstraßentabelle nutzbar sind.</para></listitem>
   <listitem><para>Die Symbolleiste wurde (intern) komplett überarbeitet
   und um eine Reihe an Symbolen ergänzt, die nun einen schnelleren
   Zugang zu diesen Funktionen bieten. Gleichzeitig wurde sie der
   Einteilung des Hauptmenüs entsprechend in Funktionsgruppen unterteilt,
-  die bedarfsweise einzeln verschiebbar oder ausblendbar sind.</para></listitem>
+  die bedarfsweise einzeln verschiebbar oder ausblendbar sind.
+  </para></listitem>
   <listitem><para>Das erste Argument, das dem Programm beim Aufrufen
-  übergeben wird, wird nun als zu ladende Datei
-  ausgewertet.</para></listitem>
+  übergeben wird, wird nun als zu ladende Datei ausgewertet.
+  </para></listitem>
   <listitem><para>Die in älteren Versionen schon mal vorhandene
   Möglichkeit, über den Menüpunkt &raquo;Datei/Neues Fenster&laquo; ein
   neues Anwendungsfenster zu öffen, wurde reaktiviert. Der früher hier
@@ -189,14 +199,15 @@ Veröffentlicht am **.**.2005
   wurde beseitigt.</para></listitem>
   <listitem><para>Das Zeichnen der Gleisbildsymbole wurde
   geschwindigkeitsoptimiert, so dass das Programm insbesondere beim
-  Wechseln zwischen den verschiedenen Bearbeitungsmodi um Größenordungen
+  Wechseln zwischen den verschiedenen Bearbeitungsmodi um Größenordnungen
   agiler wirkt.</para></listitem>
-  <listitem><para>Ein Einrichten von Fahrstraßen nach rechts oder links über
-  die Gleisbildgrenzen hinweg ist nun dann möglich, wenn das Start- und/oder
-  Zielsignal zweimal auf dem Gleisbild dargestellt ist, und zwar so,
-  dass sich zwischen Start- und Zielsignal mindestens einmal ein
-  durchgehender Streckenverlauf ergibt. Ein Beispiel hierfür bietet das
-  Beispielgleisbild &raquo;bahnhofklein&laquo;.</para></listitem>
+  <listitem><para>Über den Info-Kanal eingehende Nachrichten, die z.B.
+  von anderen SRCP-Clients verursacht sein können, werden nun
+  ausgewertet und gegebenenfalls visualisiert. Damit kann das Programm
+  nun auch von anderen Programmen verursachte Statusänderungen z.B. an
+  Weichen oder Signalen anzeigen. Diese Funktionalität ist zur Zeit noch
+  auf Magnetartikel mit einer Adresse beschränkt.
+  </para></listitem>
 </itemizedlist>
 </para>
 </sect2>
