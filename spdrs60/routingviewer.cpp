@@ -1,10 +1,10 @@
 /***************************************************************************
                            routingviewer.cpp
-                           version 0.4.8 $Revision: 1.5 $
+                           version 0.4.8 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-08 20:27:43 $
+    last modified        : $Date: 2005-06-14 18:52:52 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -271,10 +271,31 @@ void RoutingViewer::selectedRouteChanged(int row, int col)
         if (row >= 0){
             Route* selectedRoute = gbsRouter->getRouteAt(row);
             if (selectedRoute != NULL)
+                // send message to mainwindow to update toolbar and menu
+                // items
                 emit selectedRouteIsLocked(selectedRoute->isLocked());
             gbsRouter->selectedRouteChanged(lastrow, row);
         }
         lastrow = row;
+    }
+}
+
+
+void RoutingViewer::switchVisualMode(elemVisualMode vm)
+{
+    if (isVisible()) {
+        int row = rTable->currentRow();
+
+        if (kvmEditRoute == vm) {
+            gbsRouter->selectedRouteChanged(-1, row);
+        }
+
+        else if (kvmNormal == vm) {
+            Route* sr = gbsRouter->getRouteAt(row);
+            // send message to mainwindow to update toolbar and menu items
+            if (sr != NULL)
+                emit selectedRouteIsLocked(sr->isLocked());
+        }
     }
 }
 

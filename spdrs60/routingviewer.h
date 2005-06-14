@@ -1,10 +1,10 @@
 /***************************************************************************
                            routingviewer.h
-                           version 0.4.8 $Revision: 1.4 $
+                           version 0.4.8 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@ bayernline.de
-    last modified        : $Date: 2005-06-05 20:57:11 $
+    last modified        : $Date: 2005-06-14 18:52:52 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -52,12 +52,12 @@ public slots:
     void slotStartRouteNo(int);
     void slotStopRouteNo(int);
     void slotToggleRouteState(int);
+    void switchVisualMode(elemVisualMode);
 
 signals:
     void noRoutesAvailable();
     void selectedRouteIsLocked(bool);
     void showLogMessage(const QString&, int, int);
-    void switchVisualMode(elemVisualMode);
     
 private:
     int lastrow;

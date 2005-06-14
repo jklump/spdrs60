@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.6 $
-# last update: $Date: 2005-06-14 15:36:43 $
+# version: $Revision: 1.7 $
+# last update: $Date: 2005-06-14 18:52:52 $
 
 SUBDIRS = pixmaps
 
@@ -62,7 +62,7 @@ EXTRA_DIST = spdrs60_de.ts spdrs60.pro
 pkgdata_DATA = spdrs60_de.qm
 
 # remove generated files
-CLEANFILES = $(nodist_spdrs60_SOURCES)
+CLEANFILES = $(nodist_spdrs60_SOURCES) $(pkgdata_DATA)
 
 # rule for moc-file generation (moc_% conflicts with 'lupdate')
 %.moc.cpp: %.h

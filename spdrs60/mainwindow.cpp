@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.21 $
+                           version 0.4.8 $Revision: 1.22 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-13 20:46:55 $
+    last modified        : $Date: 2005-06-14 18:52:52 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -423,6 +423,8 @@ void MainWindow::initMainWindow()
     Q_CHECK_PTR(rtViewer);
     moveDockWindow(rtViewer, Right);
     rtViewer->hide();
+    connect(this, SIGNAL(switchedVisualMode(elemVisualMode)),
+            rtViewer, SLOT(switchVisualMode(elemVisualMode)));
     connect(rtViewer, SIGNAL(visibilityChanged(bool)),
             this, SLOT(updateRouteMenu(bool)));
     connect(rtViewer, SIGNAL(selectedRouteIsLocked(bool)),
@@ -1933,7 +1935,7 @@ void MainWindow::slotViewSwitchMode(QAction* ac)
             updateRouteMenu(rtvIsVisible);
             cmdToDebug(tr("Entering route edit mode"), M_INFO, HIST);
         }
-    // send new visual mode
+    // send new visual mode to router and gbs
     emit switchedVisualMode(visualMode);
 
     // change edit related menus
@@ -1949,11 +1951,11 @@ void MainWindow::slotViewSwitchMode(QAction* ac)
 void MainWindow::updateRouteMenu(bool rtvIsVisible)
 {
      bool selectedRouteIsActive = false;
-     /*
-     bool routeIsSelected =  rtViewer->hasSelectedRoute();
-     if (routeIsSelected)
-         selectedRouteIsActive = rtViewer->selectedRouteIsActive();
-     */
+
+     //activate rtviewer to update route visibility
+     if (rtvIsVisible)
+         rtViewer->switchVisualMode(visualMode);
+
      if (!rtvIsVisible) {
          actionRouteStart->setEnabled(false);
          actionRouteStop->setEnabled(false);
