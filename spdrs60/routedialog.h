@@ -1,11 +1,11 @@
 /***************************************************************************
                            RouteDialog.h
-                           version 0.4.7 $Revision: 1.3 $
+                           version 0.4.7 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-14 20:13:43 $
+    last modified        : $Date: 2005-06-15 20:13:04 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -23,12 +23,10 @@
 #ifndef ROUTEDIALOG_H
 #define ROUTEDIALOG_H
 
-#include <qaccel.h>
 #include <qbuttongroup.h>
 #include <qdatetime.h>
 #include <qdialog.h>
 #include <qframe.h>
-#include <qfile.h>
 #include <qgroupbox.h>
 #include <qlabel.h>
 #include <qlineedit.h>
@@ -40,7 +38,6 @@
 #include <qstring.h>
 #include <qstrlist.h>
 #include <qspinbox.h>
-#include <qtextstream.h>
 #include <qtooltip.h>
 
 #include "resources.h"
@@ -66,88 +63,33 @@ enum RouteType {
 
 class RouteDialog: public QDialog
 {
-   Q_OBJECT
+    Q_OBJECT
 
 public:
-   RouteDialog(QWidget* pParent = 0, QStrList* listOfLockedRoutes_ = 0);
-   virtual ~RouteDialog();
+    RouteDialog(QWidget* parent = 0);
+    void setRouteName(const QString&);
+    QString getRouteName();
+    void setRouteType(int);
+    int getRouteType();
   
 private:
-   void setupRoutingTable();
-   void setupProgArea();
-   void setRouteTableTitle();
-   void readRoutingFile(bool);
-   void fillProgArea(int);
-   void fillProgAreaEmpty(bool);
-   void enableProgArea(int, int);
-   int  readProgFields(bool);
-   void stopRecord();
-   void createRoutingFile();
-   QString addZeros(const QString&);
-   QWidget *parent;
+    QString addZeros(const QString&);
 
 public slots:
-   void slotUpdateRouteWindow();
-   void slotRecordElement(int, const QString&, int, int);
 
 private slots:
-   void slotSendRouteIndex();
-   void slotEnableRouteButton(int);
-   void slotResizeCommander(bool);
-   void slotSaveRouteType(int);
-   void slotSave();
-   void slotSaveRoute(bool);
-   void slotDelRoute();
-   void slotNewRoute();
-   void slotCopyRoute();
-   void slotSomethingChanged();
-   void slotValueChanged(int);
-   void slotTextChanged(const QString&);
-   void slotAddressChanged(const QString&);
-   void slotStatusChanged(const QString&);
-   void slotDisableRelPort(int);
-   void slotDisableActPort(int);
-   void slotRecordRoute();
-   void slotShowRoute();
 
 signals:
-   void sendRouteIndex(int, int);
-   void sendReloadRoutes();
-   void cmdToDebug(const QString&);
-   //void sigRecord(int);
-   void sigRecord(elemVisualMode);
-   //void sigShowElement(int, int, int);
-   void sigShowElement(int, int, elemSelectionMode);
-   void sigReadElemName(const QString&);
+    void showLogMessage(const QString&, int, int);
 
 protected:
-   virtual void closeEvent(QCloseEvent*);
-
-public:
-   QString      sReadElemName;
-
 
 private:
-   QPushButton  *buttStartRouting;
-   QPushButton  *buttStoppRouting;
-   QPushButton  *buttSetup;
-   QPushButton  *buttApply;
-   QPushButton  *buttDel;
-   QPushButton  *buttNew;
-   QPushButton  *buttCopy;
-   QPushButton  *buttRecord;
-   QPushButton  *buttShow;
-
-   QStrList     *listOfLockedRoutes;
-   QStrList     *listOfRoutes;
-   QListBox     *lbRouteTable;
-
    QGroupBox    *groupRoutes;
    QGroupBox    *groupActivate;
    QGroupBox    *groupStartStop;
    QGroupBox    *groupElements;
 
-   QLabel       *lRouteTitle;
    QLabel       *lElem[MAX_SW_ELEM];
    QLabel       *lStart;
    QLabel       *lStopp;
@@ -176,40 +118,14 @@ private:
    QRadioButton *rbRouteShuntg;
    QRadioButton *rbRouteDShuntg;
 
-   QLineEdit    *leRouteName;
-   QLineEdit    *leStartAddr;
-   QLineEdit    *leStoppAddr;
-   QLineEdit    *leStartStat;
-   QLineEdit    *leLocoAddr;
-   QLineEdit    *leElemAddr[MAX_SW_ELEM];
-   QLineEdit    *leElemStat[MAX_SW_ELEM];
-
-   QSpinBox     *sbRelMod;
-   QSpinBox     *sbRelPort;
-   QSpinBox     *sbActMod;
-   QSpinBox     *sbActPort;
-   QSpinBox     *sbDetourLevel;
-   QSpinBox     *sbShDetourLevel;
-
-   bool         bHasChanged;
-   bool         bBlockSignals;
-   bool         bLockTable;
-
-   // routing array variables
-   int          iRouteNumber;
-   int          iRouteTotal;
-   RouteType    tRouteType;
-   int          iRouteRelPort;
-   int          iRouteActPort;
-   int          iRouteLocoPort;
-   int          iRouteLevel;
-   QString      sRouteName;
-   QString      sRouteLoco;
-   QString      sRouteStart;
-   QString      sRouteStopp;
-   QString      sRouteStartStat;
-   QString      sRouteElem[MAX_SW_ELEM];
-   QString      sRouteElemStat[MAX_SW_ELEM];
+   QLineEdit*    routeNameLE;
+   QLineEdit*    startSignalNameLE;
+   QLineEdit*    startSignalAddressLE;
+   QLineEdit*    startSignalStateLE;
+   QLineEdit*    stopSignalNameLE;
+   QLineEdit*    stopSignalAddressLE;
+   QButtonGroup* typeGB;
+   
 };
 
 #endif    //ROUTEDIALOG_H

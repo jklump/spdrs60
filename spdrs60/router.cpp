@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.4.8 $Revision: 1.12 $
+                           version 0.4.8 $Revision: 1.13 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-14 19:54:01 $
+    last modified        : $Date: 2005-06-15 20:13:04 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -240,7 +240,6 @@ void Router::switchVisualMode(elemVisualMode vm)
     visualmode = vm;
     if (vm != kvmEditRoute)
         recRoute = NULL;
-    //TODO: get selected route from routingviewer
 }
 
 
@@ -274,7 +273,6 @@ void Router::recordElement(element* el, elemRecordType rtype)
 unsigned int Router::addNewRoute()
 {
     routeList.append(new Route(tr("New route")));
-    //TODO: connect
     return routeList.count();
 }
 
@@ -398,6 +396,7 @@ void Router::resetRoute(element* el, GbsButtonState cb)
             QApplication::beep();
             emit showLogMessage(tr("No active route found for start "
                         "signal '%1'").arg(el->getName()), M_INFO, HIST);
+            emit routeFunctionFinished();
         }
     }
     else {

@@ -1,10 +1,10 @@
 /***************************************************************************
                            routingviewer.cpp
-                           version 0.4.8 $Revision: 1.6 $
+                           version 0.4.8 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-14 18:52:52 $
+    last modified        : $Date: 2005-06-15 20:13:04 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -218,21 +218,9 @@ void RoutingViewer::slotRouteEdit()
 
 void RoutingViewer::slotEditRouteNo(int routeidx)
 {
-    //Route* sr = gbsRouter->getRouteAt(routeidx);
-   
-    /* 1:
-    sr->showRouteDialog(this, true);
-    */
-    
-    /* or 2:
-    routeDialog* rtDlg = new routeDialog(this);
-
-    if (rtDlg->exec() = QDialog::Accepted) {
-        iNewCols = rtDlg->getColumns();
-        iNewRows = rtDlg->getRows();
-    }
-    delete rtDlg;
-    */
+    Route* sr = gbsRouter->getRouteAt(routeidx);
+    if (sr != NULL && sr->runEditRouteDialog(this))
+        populateTableRow(routeidx);
 }
 
 

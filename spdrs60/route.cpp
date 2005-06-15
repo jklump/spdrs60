@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.13 $
+                           version 0.4.8 $Revision: 1.14 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-12 05:28:02 $
+    last modified        : $Date: 2005-06-15 20:13:04 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -23,7 +23,7 @@
 #include <stdlib.h> // for abs()
 #include <unistd.h> // for usleep()
 #include "route.h"
-
+#include "routedialog.h"
 
 Route::Route(TypeOfRoute arouteType,
         const QString& aName,
@@ -931,5 +931,23 @@ void Route::unlockByFeedbackPort(unsigned int port)
 {
     if (locked && rePort.address == port)
         stopRouting();
+}
+
+
+bool Route::runEditRouteDialog(QWidget* dlgparent)
+{
+    bool returnvalue = false;
+    
+    RouteDialog* rtDlg = new RouteDialog(dlgparent);
+
+    rtDlg->setRouteName(Name);
+    rtDlg->setRouteType(routeType);
+    if (rtDlg->exec() == QDialog::Accepted) {
+        Name = rtDlg->getRouteName();
+        routeType = (TypeOfRoute) rtDlg->getRouteType();
+        returnvalue = true;
+    }
+    delete rtDlg;
+    return returnvalue;
 }
 
