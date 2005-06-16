@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.4.8 $Revision: 1.7 $
+                           version 0.4.8 $Revision: 1.8 $
                            -------------------------------
     copyright            : (C) 2005 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-15 20:13:04 $
+    last modified        : $Date: 2005-06-16 21:04:35 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -55,6 +55,7 @@ RouteDialog::RouteDialog(QWidget* parent)
     connect(okPB, SIGNAL(clicked()), this, SLOT(accept()));
     buttonLayout->addWidget(okPB);
     okPB->setDefault(true);
+
     QPushButton* cancelPB = new QPushButton(tr("Cancel"), this);
     connect(cancelPB, SIGNAL(clicked()), this, SLOT(reject()));
     buttonLayout->addWidget(cancelPB);
@@ -81,14 +82,16 @@ RouteDialog::RouteDialog(QWidget* parent)
     lblRouteName->setBuddy(routeNameLE);
     nameLayout->addWidget(routeNameLE);
 
+    /*horizontal layout for start and stop signal data group boxes*/
+    QHBoxLayout* signalStaStoLayout = new QHBoxLayout(leftColumnLayout, 6);
     /*start signal group box*/
     QGroupBox* startsignalGB = new QGroupBox(0, Horizontal,
             tr("Start signal"), this, "startsignalGB");
-    leftColumnLayout->addWidget(startsignalGB);
-    QVBoxLayout* ssgbL = new QVBoxLayout(startsignalGB->layout(), 6);
+    signalStaStoLayout->addWidget(startsignalGB);
+    QVBoxLayout* startSigGBLayout = new QVBoxLayout(startsignalGB->layout(), 6);
 
     /*line with start signal name*/
-    QHBoxLayout* startSignalLayout = new QHBoxLayout(ssgbL, 6);
+    QHBoxLayout* startSignalLayout = new QHBoxLayout(startSigGBLayout, 6);
     QLabel* startSignalNameLB = new QLabel(tr("Name"), startsignalGB);
     startSignalLayout->addWidget(startSignalNameLB);
     spacer = new QSpacerItem(0, 0,
@@ -98,8 +101,19 @@ RouteDialog::RouteDialog(QWidget* parent)
     startSignalNameLE->setReadOnly(true);
     startSignalLayout->addWidget(startSignalNameLE);
 
+    /*line with start signal SRCP bus*/
+    QHBoxLayout* startSigSrcpBusLayout = new QHBoxLayout(startSigGBLayout, 6);
+    QLabel* startSignalSrcpBusLB = new QLabel(tr("SRC&P-Bus"), startsignalGB);
+    startSigSrcpBusLayout->addWidget(startSignalSrcpBusLB);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    startSigSrcpBusLayout->addItem(spacer);
+    startSignalSrcpBusLE = new QLineEdit(startsignalGB, "startSignalSrcpBusLE");
+    startSignalSrcpBusLB->setBuddy(startSignalSrcpBusLE);
+    startSigSrcpBusLayout->addWidget(startSignalSrcpBusLE);
+
     /*line with start signal adress*/
-    QHBoxLayout* startSigAddrLayout = new QHBoxLayout(ssgbL, 6);
+    QHBoxLayout* startSigAddrLayout = new QHBoxLayout(startSigGBLayout, 6);
     QLabel* startSignalAddressLB = new QLabel(tr("&Address"), startsignalGB);
     startSigAddrLayout->addWidget(startSignalAddressLB);
     spacer = new QSpacerItem(0, 0,
@@ -110,7 +124,7 @@ RouteDialog::RouteDialog(QWidget* parent)
     startSigAddrLayout->addWidget(startSignalAddressLE);
 
     /*line with start signal state*/
-    QHBoxLayout* startSigStateLayout = new QHBoxLayout(ssgbL, 6);
+    QHBoxLayout* startSigStateLayout = new QHBoxLayout(startSigGBLayout, 6);
     QLabel* startSignalStateLB = new QLabel(tr("&State"), startsignalGB);
     startSigStateLayout->addWidget(startSignalStateLB);
     spacer = new QSpacerItem(0, 0,
@@ -121,39 +135,158 @@ RouteDialog::RouteDialog(QWidget* parent)
     startSigStateLayout->addWidget(startSignalStateLE);
 
 
-
     /*stop signal group box*/
-    QGroupBox* stopsignalGB = new QGroupBox(0, Horizontal,
-            tr("Stop signal"), this, "stopsignalGB");
-    leftColumnLayout->addWidget(stopsignalGB);
-    QVBoxLayout* sogbL = new QVBoxLayout(stopsignalGB->layout(), 6);
+    QGroupBox* stopSignalGB = new QGroupBox(0, Horizontal,
+            tr("Stop signal"), this, "stopSignalGB");
+    signalStaStoLayout->addWidget(stopSignalGB);
+    QVBoxLayout* stopSigGBLayout = new QVBoxLayout(stopSignalGB->layout(), 6);
 
     /*line with stop signal name*/
-    QHBoxLayout* stopSignalLayout = new QHBoxLayout(sogbL, 6);
-    QLabel* stopSignalNameLB = new QLabel(tr("Name"), stopsignalGB);
+    QHBoxLayout* stopSignalLayout = new QHBoxLayout(stopSigGBLayout, 6);
+    QLabel* stopSignalNameLB = new QLabel(tr("Name"), stopSignalGB);
     stopSignalLayout->addWidget(stopSignalNameLB);
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
     stopSignalLayout->addItem(spacer);
-    stopSignalNameLE = new QLineEdit(stopsignalGB, "stopSignalNameLE");
+    stopSignalNameLE = new QLineEdit(stopSignalGB, "stopSignalNameLE");
     stopSignalNameLE->setReadOnly(true);
     stopSignalLayout->addWidget(stopSignalNameLE);
 
+    /*line with stop signal SRCP bus*/
+    QHBoxLayout* stopSigSrcpBusLayout = new QHBoxLayout(stopSigGBLayout, 6);
+    QLabel* stopSignalSrcpBusLB = new QLabel(tr("SRCP-&Bus"), stopSignalGB);
+    stopSigSrcpBusLayout->addWidget(stopSignalSrcpBusLB);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    stopSigSrcpBusLayout->addItem(spacer);
+    stopSignalSrcpBusLE = new QLineEdit(stopSignalGB, "stopSignalSrcpBusLE");
+    stopSignalSrcpBusLB->setBuddy(stopSignalSrcpBusLE);
+    stopSigSrcpBusLayout->addWidget(stopSignalSrcpBusLE);
+
     /*line with stop signal adress*/
-    QHBoxLayout* stopSigAddrLayout = new QHBoxLayout(sogbL, 6);
-    QLabel* stopSignalAddressLB = new QLabel(tr("A&ddress"), stopsignalGB);
+    QHBoxLayout* stopSigAddrLayout = new QHBoxLayout(stopSigGBLayout, 6);
+    QLabel* stopSignalAddressLB = new QLabel(tr("A&ddress"), stopSignalGB);
     stopSigAddrLayout->addWidget(stopSignalAddressLB);
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
     stopSigAddrLayout->addItem(spacer);
-    stopSignalAddressLE = new QLineEdit(stopsignalGB, "stopSignalAddressLE");
+    stopSignalAddressLE = new QLineEdit(stopSignalGB, "stopSignalAddressLE");
     stopSignalAddressLB->setBuddy(stopSignalAddressLE);
     stopSigAddrLayout->addWidget(stopSignalAddressLE);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    stopSigGBLayout->addItem(spacer);
 
+
+    /*horizontal layout for route activation and release group boxes*/
+    QHBoxLayout* routeAcReLayout = new QHBoxLayout(leftColumnLayout, 6);
+    /*activate route group box*/
+    QGroupBox* activateGB = new QGroupBox(0, Horizontal,
+            tr("Activate route"), this, "activateGB");
+    routeAcReLayout->addWidget(activateGB);
+    QVBoxLayout* activateGBL = new QVBoxLayout(activateGB->layout(), 6);
+
+    /*line with SRCP bus for activation by feedback*/
+    QHBoxLayout* activateSrcpBusLayout = new QHBoxLayout(activateGBL, 6);
+    QLabel* activateSrcpBusLB = new QLabel(tr("Bus (s&88/SRCP)"), activateGB);
+    activateSrcpBusLayout->addWidget(activateSrcpBusLB);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    activateSrcpBusLayout->addItem(spacer);
+    activateSrcpBusLE = new QLineEdit(activateGB, "activateSrcpBusLE");
+    activateSrcpBusLB->setBuddy(activateSrcpBusLE);
+    activateSrcpBusLayout->addWidget(activateSrcpBusLE);
+
+    /*line with contact for activation by feedback*/
+    QHBoxLayout* activateContactLayout = new QHBoxLayout(activateGBL, 6);
+    QLabel* activateContactLB = new QLabel(tr("&Contact"), activateGB);
+    activateContactLayout->addWidget(activateContactLB);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    activateContactLayout->addItem(spacer);
+    activateContactLE = new QLineEdit(activateGB, "activateContactLE");
+    activateContactLB->setBuddy(activateContactLE);
+    activateContactLayout->addWidget(activateContactLE);
+
+    /*line with module for activation by feedback*/
+    QHBoxLayout* activateModuleLayout = new QHBoxLayout(activateGBL, 6);
+    QLabel* activateModuleLB = new QLabel(tr("&Module"), activateGB);
+    activateModuleLayout->addWidget(activateModuleLB);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    activateModuleLayout->addItem(spacer);
+    activateModuleLE = new QLineEdit(activateGB, "activateModuleLE");
+    activateModuleLB->setBuddy(activateModuleLE);
+    activateModuleLayout->addWidget(activateModuleLE);
+
+    /*line with port for activation by feedback*/
+    QHBoxLayout* activatePortLayout = new QHBoxLayout(activateGBL, 6);
+    QLabel* activatePortLB = new QLabel(tr("&Port"), activateGB);
+    activatePortLayout->addWidget(activatePortLB);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    activatePortLayout->addItem(spacer);
+    activatePortLE = new QLineEdit(activateGB, "activatePortLE");
+    activatePortLB->setBuddy(activatePortLE);
+    activatePortLayout->addWidget(activatePortLE);
+
+
+    /*release route group box*/
+    QGroupBox* releaseGB = new QGroupBox(0, Horizontal,
+            tr("Release route"), this, "releaseGB");
+    routeAcReLayout->addWidget(releaseGB);
+    QVBoxLayout* releaseGBL = new QVBoxLayout(releaseGB->layout(), 6);
+
+    /*line with SRCP bus for activation by feedback*/
+    QHBoxLayout* releaseSrcpBusLayout = new QHBoxLayout(releaseGBL, 6);
+    QLabel* releaseSrcpBusLB = new QLabel(tr("Bus (s88/SRCP)"), releaseGB);
+    releaseSrcpBusLayout->addWidget(releaseSrcpBusLB);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    releaseSrcpBusLayout->addItem(spacer);
+    releaseSrcpBusLE = new QLineEdit(releaseGB, "releaseSrcpBusLE");
+    releaseSrcpBusLB->setBuddy(releaseSrcpBusLE);
+    releaseSrcpBusLayout->addWidget(releaseSrcpBusLE);
+
+    /*line with contact for activation by feedback*/
+    QHBoxLayout* releaseContactLayout = new QHBoxLayout(releaseGBL, 6);
+    QLabel* releaseContactLB = new QLabel(tr("Con&tact"), releaseGB);
+    releaseContactLayout->addWidget(releaseContactLB);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    releaseContactLayout->addItem(spacer);
+    releaseContactLE = new QLineEdit(releaseGB, "releaseContactLE");
+    releaseContactLB->setBuddy(releaseContactLE);
+    releaseContactLayout->addWidget(releaseContactLE);
+
+    /*line with module for activation by feedback*/
+    QHBoxLayout* releaseModuleLayout = new QHBoxLayout(releaseGBL, 6);
+    QLabel* releaseModuleLB = new QLabel(tr("M&odule"), releaseGB);
+    releaseModuleLayout->addWidget(releaseModuleLB);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    releaseModuleLayout->addItem(spacer);
+    releaseModuleLE = new QLineEdit(releaseGB, "releaseModuleLE");
+    releaseModuleLB->setBuddy(releaseModuleLE);
+    releaseModuleLayout->addWidget(releaseModuleLE);
+
+    /*line with port activation by feedback*/
+    QHBoxLayout* releasePortLayout = new QHBoxLayout(releaseGBL, 6);
+    QLabel* releasePortLB = new QLabel(tr("&Port"), releaseGB);
+    releasePortLayout->addWidget(releasePortLB);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    releasePortLayout->addItem(spacer);
+    releasePortLE = new QLineEdit(releaseGB, "releasePortLE");
+    releasePortLB->setBuddy(releasePortLE);
+    releasePortLayout->addWidget(releasePortLE);
+
+    
+    /*right column*/
     /*route type group box*/
     typeGB = new QButtonGroup(0, Horizontal,
             tr("Type"), this, "typeGB");
-    leftColumnLayout->addWidget(typeGB);
+    rightColumnLayout->addWidget(typeGB);
     QVBoxLayout* typeL = new QVBoxLayout(typeGB->layout(), 6);
     typeGB->setExclusive(true);
 
@@ -177,26 +310,12 @@ RouteDialog::RouteDialog(QWidget* parent)
             typeGB);
     typeL->addWidget(detourShuntingRB);
 
-
-    /*activate route group box*/
-    QGroupBox* activateGB = new QGroupBox(0, Horizontal,
-            tr("Activate route"), this, "activateGB");
-    leftColumnLayout->addWidget(activateGB);
-    QVBoxLayout* actibvateL = new QVBoxLayout(activateGB->layout(), 6);
-
-    /*release route group box*/
-    QGroupBox* releaseGB = new QGroupBox(0, Horizontal,
-            tr("Release route"), this, "releaseGB");
-    leftColumnLayout->addWidget(releaseGB);
-    QVBoxLayout* releaseL = new QVBoxLayout(releaseGB->layout(), 6);
-
-    
-    /*right column*/
     /*start signal group box*/
     QGroupBox* routeElementsGB = new QGroupBox(0, Horizontal,
             tr("Route elements"), this, "routeElementsGB");
     rightColumnLayout->addWidget(routeElementsGB);
     QVBoxLayout* routeElL = new QVBoxLayout(routeElementsGB->layout(), 6);
+    
     // TODO: table, Add-, Delete-buttons
 
 /*
@@ -358,6 +477,7 @@ QString RouteDialog::addZeros(const QString& sNZString_) // N on  Z ero  String
 
     return s;                   // string with leading zeros
 }
+
 
 void RouteDialog::setRouteName(const QString& rname)
 {
