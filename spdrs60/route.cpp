@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.15 $
+                           version 0.4.8 $Revision: 1.16 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-18 05:50:55 $
+    last modified        : $Date: 2005-06-18 07:18:43 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -560,12 +560,8 @@ int Route::startRouting()
     if (fromSignal.elemPtr2 != NULL)
         fromSignal.elemPtr2->setLocked(true);
 
-    if (toSignal.elemPtr != NULL)
-        toSignal.elemPtr->setLocked(true);
-
-    if (toSignal.elemPtr2 != NULL)
-        toSignal.elemPtr2->setLocked(true);
-
+    /*stop signal does not need locking*/
+    
     it.toFirst();
     while ((se = it.current()) != 0) {
         ++it;
@@ -637,12 +633,13 @@ void Route::stopRouting()
            fromSignal.elemPtr2->slotSwitchIt(0, -1);
     }
 
+    /*A stop signal does not need unlocking
     if (toSignal.elemPtr != NULL)
            toSignal.elemPtr->slotSwitchIt(0, -1);
 
     if (toSignal.elemPtr2 != NULL)
            toSignal.elemPtr2->slotSwitchIt(0, -1);
-
+*/
     QPtrListIterator<stateElement> it(switchItems);
     stateElement* se;
     while ((se = it.current()) != 0) {

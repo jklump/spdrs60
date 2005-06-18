@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.4.8 $Revision: 1.13 $
+                           version 0.4.8 $Revision: 1.14 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-15 20:13:04 $
+    last modified        : $Date: 2005-06-18 07:18:43 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -32,8 +32,8 @@ Router::Router(QObject* parent, const char* name):
     QObject(parent, name)
 {
     gbsElements = NULL;
-    recRoute = NULL;
-    resRoute = NULL;
+    recordRt = NULL;
+    resetRt = NULL;
     selectedStartSig = NULL;
     routeList.setAutoDelete(true);
     modified = false;
@@ -44,8 +44,8 @@ Router::Router(QObject* parent, const char* name):
 Router::Router(QObject* parent, QPtrVector<element>* elPtr, const char* name):
     QObject(parent, name)
 {
-    recRoute = NULL;
-    resRoute = NULL;
+    recordRt = NULL;
+    resetRt = NULL;
     selectedStartSig = NULL;
     gbsElements = elPtr;
     routeList.setAutoDelete(true);
@@ -220,7 +220,7 @@ void Router::selectedRouteChanged(int last, int current)
         if (cr != NULL) {
             cr->showRoute();
         }
-        recRoute = cr;
+        recordRt = cr;
     }
 }
 
@@ -239,29 +239,29 @@ void Router::switchVisualMode(elemVisualMode vm)
 {
     visualmode = vm;
     if (vm != kvmEditRoute)
-        recRoute = NULL;
+        recordRt = NULL;
 }
 
 
 void Router::recordElement(element* el, elemRecordType rtype)
 {
-    if (visualmode == kvmEditRoute && recRoute != NULL) {
+    if (visualmode == kvmEditRoute && recordRt != NULL) {
         switch (rtype) {
             case (krecStartStop):
-                if (!recRoute->hasStartSignal())
-                    recRoute->setStartSignal(el);
-                else if (!recRoute->hasStopSignal())
-                    recRoute->setStopSignal(el);
+                if (!recordRt->hasStartSignal())
+                    recordRt->setStartSignal(el);
+                else if (!recordRt->hasStopSignal())
+                    recordRt->setStopSignal(el);
                
                 /*send update signal to routingviewer to show changed
                   route name*/
-                emit updateRoutingViewerAt(routeList.find(recRoute));
+                emit updateRoutingViewerAt(routeList.find(recordRt));
                 break;
             case (krecNormal):
-                recRoute->addSwitchElement(el);
+                recordRt->addSwitchElement(el);
                 break;
             case (krecClear):
-                recRoute->removeElement(el);
+                recordRt->removeElement(el);
                 break;
             default:
                 break;
@@ -279,7 +279,7 @@ unsigned int Router::addNewRoute()
 
 void Router::startRecordModeAt(unsigned int index)
 {
-    recRoute = getRouteAt(index);
+    recordRt = getRouteAt(index);
     showRouteAt(index);
 }
 
@@ -372,9 +372,9 @@ void Router::setRoute(element* el, GbsButtonState cb, GbsButtonState sb)
                                 el->getName()), M_INFO, HIST);
             }
         }
+        selectedStartSig = NULL;
         /*send cursor time out to gbs*/
         emit routeFunctionFinished();
-        selectedStartSig = NULL;
     }
 }
 
@@ -385,12 +385,13 @@ void Router::resetRoute(element* el, GbsButtonState cb)
         return;
 
     /*check if is route to reset is allready choosen*/
-    if (resRoute == NULL) {
-        resRoute = getLockedRouteWithStartSignal(el);
-        if (resRoute != NULL) {
+    if (resetRt == NULL) {
+        resetRt = getLockedRouteWithStartSignal(el);
+        if (resetRt != NULL) {
             lastcb = cb;
+            selectedStartSig = el;
             // send signal to gbs to change mouse cursor
-            emit startRouteTimer(resRoute->getType());
+            emit startRouteTimer(resetRt->getType());
         }
         else {
             QApplication::beep();
@@ -407,25 +408,27 @@ void Router::resetRoute(element* el, GbsButtonState cb)
         }
         else {
             //check if selected route has same stop signal
-            if (resRoute->hasThisStopSignal(el)) {
+            if (resetRt->hasThisStopSignal(el)) {
                 emit showLogMessage(tr("Resetting route '%1'")
-                        .arg(resRoute->getName()), M_INFO, HIST);
-                resRoute->stopRouting();
+                        .arg(resetRt->getName()), M_INFO, HIST);
+                resetRt->stopRouting();
                 // send state to routingviewer
                 //TODO: optimize viewer update to change only lock state icon
-                emit updateRoutingViewerAt(routeList.find(resRoute));
+                emit updateRoutingViewerAt(routeList.find(resetRt));
             }
             else {
                 QApplication::beep();
-                emit showLogMessage(tr("No active route found from start "
-                            "signal '%1' to stop signal '%2'")
-                        .arg(selectedStartSig->getName(), el->getName()),
-                        M_INFO, HIST);
+                if (selectedStartSig != NULL)
+                    emit showLogMessage(tr("No active route found from "
+                                "start signal '%1' to stop signal '%2'")
+                            .arg(selectedStartSig->getName(), el->getName()),
+                            M_INFO, HIST);
             }
         }
         /*send cursor time out to gbs*/
         emit routeFunctionFinished();
-        resRoute = NULL;
+        resetRt = NULL;
+        selectedStartSig = NULL;
     }
 }
 
@@ -474,6 +477,7 @@ Route* Router::getUnlockedRouteWithStopSignal(element* el, GbsButtonState cb,
 void Router::resetSelectedSignal()
 {
     selectedStartSig = NULL;
+    resetRt = NULL;
 }
 
 

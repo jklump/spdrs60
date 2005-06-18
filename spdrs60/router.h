@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.h
-                           version 0.4.8 $Revision: 1.8 $
+                           version 0.4.8 $Revision: 1.9 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@ bayernline.de
-    last modified        : $Date: 2005-06-10 15:52:47 $
+    last modified        : $Date: 2005-06-18 07:18:43 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -71,8 +71,8 @@ public slots:
 private:
     QPtrVector<element>* gbsElements;
     QPtrList<Route> routeList;
-    Route* recRoute;
-    Route* resRoute;
+    Route* recordRt;
+    Route* resetRt;
     element* selectedStartSig;
     bool modified;
     elemVisualMode visualmode;
