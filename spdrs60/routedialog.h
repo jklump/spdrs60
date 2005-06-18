@@ -1,11 +1,11 @@
 /***************************************************************************
                            routedialog.h
-                           version 0.4.7 $Revision: 1.6 $
+                           version 0.4.7 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-18 05:50:55 $
+    last modified        : $Date: 2005-06-18 14:33:00 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -79,18 +79,24 @@ private:
    QLineEdit*    stopSignalAddressLE;
    
    QLineEdit*    activateSrcpBusLE;
-   QLineEdit*    activateContactLE;
+   QSpinBox*     activateContactSB;
    QLineEdit*    activateModuleLE;
    QLineEdit*    activatePortLE;
 
    QLineEdit*    releaseSrcpBusLE;
-   QLineEdit*    releaseContactLE;
+   QSpinBox*     releaseContactSB;
    QLineEdit*    releaseModuleLE;
    QLineEdit*    releasePortLE;
 
    QButtonGroup* typeBG;
    QButtonGroup* activateRouteBG;
    QButtonGroup* releaseRouteBG;
+
+   QPushButton*  addPB;
+   QPushButton*  removePB;
+
+   QSpinBox*     uzsLevelSB;
+   QSpinBox*     ursLevelSB;
 };
 
 #endif    //ROUTEDIALOG_H
