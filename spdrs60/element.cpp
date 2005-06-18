@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.24 $
+                           version 0.4.8 $Revision: 1.25 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-12 05:28:02 $
+    last modified        : $Date: 2005-06-18 05:50:55 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -451,7 +451,10 @@ bool element::isTurnout()
 
 void element::createPopupMenus()
 {
-    /* every single element gets his own toggle popupmenu (!?) */
+    /*
+     * Every single element gets his own toggle an edit popupmenu!
+     * TODO: Move this to gbsarea and use only one popup for all elements
+     */
     // context menu with "toggle" for normal mode
     ctxNorm = new QPopupMenu(this, "");
     ctxNorm->insertItem(tr("&Toggle"), this, SLOT(slotToggle()),
@@ -577,6 +580,7 @@ void element::mousePressEvent(QMouseEvent* e)
             GbsButtonState ctrlButton = kNoneClicked;
             QPoint CursorPos = mapFromGlobal(QCursor::pos());
 
+            /*TODO: move this to gbsarea*/
             if (sSoldIcon == SYM_DRE) {
                 ttComm = new turntableCommander(this, iSoldSubType, sSoldText);
                 connect(ttComm, SIGNAL(applyPressed(QPoint)),
@@ -588,6 +592,7 @@ void element::mousePressEvent(QMouseEvent* e)
                 ttComm->move(QCursor::pos());
             }
 
+            /*TODO: move this to gbsarea*/
             else if (sSoldIcon == SYM_SBN || sSoldIcon == SYM_MDC) {
                 turntableProperties = new elementCommander(this, sSoldIcon);
                 connect(turntableProperties, SIGNAL(applyPressed(QPoint)),
@@ -1036,6 +1041,14 @@ void element::showPropertyDlg()
         //delete elementPropertyDlg;
         elementPropertyDlg = NULL;
         //delete elementData;
+        /*TODO:
+        if (elementPropertyDlg->exec() == QDialog::Accepted){
+            // get feedback state from SRCP server if element was
+            // changed (feedback contact or LEDoff state changed)
+            // LEDs will be updates by server INFO message
+            sendCommand(QString("GET FB S88 %1").arg(iFBContact));
+        }
+        */
     }
 }
 
@@ -1897,10 +1910,6 @@ void element::paintEvent(QPaintEvent*)
             case ksmSwitchEl:
                 // yellow if clicked element in record route mode
                 c = QColor(251, 251, 0);
-                break;
-            case ksmStaStoSignal:
-                // orange if clicked element in record route mode
-                c = QColor("orange");
                 break;
             case ksmFoundEl:
                 // found: orange

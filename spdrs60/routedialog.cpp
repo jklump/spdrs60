@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.4.8 $Revision: 1.8 $
+                           version 0.4.8 $Revision: 1.9 $
                            -------------------------------
     copyright            : (C) 2005 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-16 21:04:35 $
+    last modified        : $Date: 2005-06-18 05:50:55 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -230,6 +230,21 @@ RouteDialog::RouteDialog(QWidget* parent)
     activatePortLB->setBuddy(activatePortLE);
     activatePortLayout->addWidget(activatePortLE);
 
+    /*two lines with radio buttons to choose feedback signal direction*/
+    activateRouteBG = new QButtonGroup(0, Horizontal,
+            tr("Feedback signal response"), activateGB, "activateRouteBG");
+    activateGBL->addWidget(activateRouteBG);
+    QVBoxLayout* activateFBL = new QVBoxLayout(activateRouteBG->layout(), 6);
+    activateRouteBG->setExclusive(true);
+    
+    QRadioButton* activateOnActivationRB = new QRadioButton(
+            tr("&Switch on activation"), activateRouteBG);
+    activateFBL->addWidget(activateOnActivationRB);
+
+    QRadioButton* activateOnDeactivationRB = new QRadioButton(
+            tr("S&witch on deactivation"), activateRouteBG);
+    activateFBL->addWidget(activateOnDeactivationRB);
+
 
     /*release route group box*/
     QGroupBox* releaseGB = new QGroupBox(0, Horizontal,
@@ -281,33 +296,48 @@ RouteDialog::RouteDialog(QWidget* parent)
     releasePortLB->setBuddy(releasePortLE);
     releasePortLayout->addWidget(releasePortLE);
 
+    /*two lines with radio buttons to choose feedback signal direction*/
+    releaseRouteBG = new QButtonGroup(0, Horizontal,
+            tr("Feedback signal response"), releaseGB, "releaseRouteBG");
+    releaseGBL->addWidget(releaseRouteBG);
+    QVBoxLayout* releaseFBL = new QVBoxLayout(releaseRouteBG->layout(), 6);
+    releaseRouteBG->setExclusive(true);
     
+    QRadioButton* releaseOnActivationRB = new QRadioButton(
+            tr("&Switch on activation"), releaseRouteBG);
+    releaseFBL->addWidget(releaseOnActivationRB);
+
+    QRadioButton* releaseOnDeactivationRB = new QRadioButton(
+            tr("S&witch on deactivation"), releaseRouteBG);
+    releaseFBL->addWidget(releaseOnDeactivationRB);
+
+
     /*right column*/
     /*route type group box*/
-    typeGB = new QButtonGroup(0, Horizontal,
-            tr("Type"), this, "typeGB");
-    rightColumnLayout->addWidget(typeGB);
-    QVBoxLayout* typeL = new QVBoxLayout(typeGB->layout(), 6);
-    typeGB->setExclusive(true);
+    typeBG = new QButtonGroup(0, Horizontal,
+            tr("Type"), this, "typeBG");
+    rightColumnLayout->addWidget(typeBG);
+    QVBoxLayout* typeL = new QVBoxLayout(typeBG->layout(), 6);
+    typeBG->setExclusive(true);
 
     QRadioButton* normalRouteRB = new QRadioButton(tr("&Normal route"),
-            typeGB);
+            typeBG);
     typeL->addWidget(normalRouteRB);
 
     QRadioButton* detourRouteRB = new QRadioButton(tr("&Detour route"),
-            typeGB);
+            typeBG);
     typeL->addWidget(detourRouteRB);
 
     QRadioButton* helpRouteRB = new QRadioButton(tr("&Help route"),
-            typeGB);
+            typeBG);
     typeL->addWidget(helpRouteRB);
 
     QRadioButton* normalShuntingRB = new QRadioButton(tr("Normal &shunting"),
-            typeGB);
+            typeBG);
     typeL->addWidget(normalShuntingRB);
 
     QRadioButton* detourShuntingRB = new QRadioButton(tr("Detour sh&unting"),
-            typeGB);
+            typeBG);
     typeL->addWidget(detourShuntingRB);
 
     /*start signal group box*/
@@ -319,18 +349,6 @@ RouteDialog::RouteDialog(QWidget* parent)
     // TODO: table, Add-, Delete-buttons
 
 /*
-    // elements to activate or deactivate a route
-    groupActivate =
-        new QGroupBox(tr("(De-) Activation"), this, "Activation");
-
-    lMod = new QLabel(tr("Mod #"), groupActivate);
-    lPort = new QLabel(tr("Port #"), groupActivate);
-    lRel = new QLabel(tr("Release:"), groupActivate);
-    lAct = new QLabel(tr("Activate:"), groupActivate);
-    lAct->setEnabled(false);
-    lAdd = new QLabel(tr("or loco #:"), groupActivate);
-    lAdd->setEnabled(false);
-
     sbRelMod =
         new QSpinBox(0, 4 * (31 + (FEEDBACK * 31)), 1, groupActivate, "");
     sbRelMod->setWrapping(true);
@@ -493,12 +511,29 @@ QString RouteDialog::getRouteName()
 
 void RouteDialog::setRouteType(int type)
 {
-    typeGB->setButton(type);
+    typeBG->setButton(type);
 }
 
 
 int RouteDialog::getRouteType()
 {
-    return typeGB->selectedId();
+    return typeBG->selectedId();
+}
+
+
+void RouteDialog::setStartSignalData(const stateElement& startSig)
+{
+    startSignalNameLE->setText(startSig.name);
+    startSignalSrcpBusLE->setText(QString::number(startSig.bus));
+    startSignalAddressLE->setText(QString::number(startSig.address));
+    startSignalStateLE->setText(QString::number(startSig.state));
+}
+
+
+void RouteDialog::setStopSignalData(const stateElement& stopSig)
+{
+    stopSignalNameLE->setText(stopSig.name);
+    stopSignalSrcpBusLE->setText(QString::number(stopSig.bus));
+    stopSignalAddressLE->setText(QString::number(stopSig.address));
 }
 

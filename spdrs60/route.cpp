@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.14 $
+                           version 0.4.8 $Revision: 1.15 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-15 20:13:04 $
+    last modified        : $Date: 2005-06-18 05:50:55 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -941,9 +941,13 @@ bool Route::runEditRouteDialog(QWidget* dlgparent)
     RouteDialog* rtDlg = new RouteDialog(dlgparent);
 
     rtDlg->setRouteName(Name);
+    rtDlg->setStartSignalData(fromSignal);
+    rtDlg->setStopSignalData(toSignal);
     rtDlg->setRouteType(routeType);
     if (rtDlg->exec() == QDialog::Accepted) {
         Name = rtDlg->getRouteName();
+        //rtDlg->getStartSignalData(fromSignal);
+        //rtDlg->getStopSignalData(toSignal);
         routeType = (TypeOfRoute) rtDlg->getRouteType();
         returnvalue = true;
     }

@@ -1,11 +1,11 @@
 /***************************************************************************
                            routedialog.h
-                           version 0.4.7 $Revision: 1.5 $
+                           version 0.4.7 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-16 21:04:35 $
+    last modified        : $Date: 2005-06-18 05:50:55 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -25,15 +25,11 @@
 
 #include <qbuttongroup.h>
 #include <qdialog.h>
-#include <qgroupbox.h>
-#include <qlabel.h>
 #include <qlineedit.h>
-#include <qradiobutton.h>
 #include <qstring.h>
 #include <qspinbox.h>
 #include <qtooltip.h>
 
-#include "resources.h"
 #include "element.h"
 
 
@@ -44,6 +40,7 @@ enum RouteType {
     kShunting,
     kShuntingD};
 
+
 class RouteDialog: public QDialog
 {
     Q_OBJECT
@@ -51,8 +48,10 @@ class RouteDialog: public QDialog
 public:
     RouteDialog(QWidget* parent = 0);
     void setRouteName(const QString&);
-    QString getRouteName();
     void setRouteType(int);
+    void setStartSignalData(const stateElement&);
+    void setStopSignalData(const stateElement&);
+    QString getRouteName();
     int getRouteType();
   
 private:
@@ -68,15 +67,6 @@ signals:
 protected:
 
 private:
-   QButtonGroup *bgRouteType;
-   QPixmap      *pix;
-
-   QRadioButton *rbRouteNormal;
-   QRadioButton *rbRouteDetour;
-   QRadioButton *rbRouteHelp;
-   QRadioButton *rbRouteShuntg;
-   QRadioButton *rbRouteDShuntg;
-
    QLineEdit*    routeNameLE;
 
    QLineEdit*    startSignalNameLE;
@@ -98,7 +88,9 @@ private:
    QLineEdit*    releaseModuleLE;
    QLineEdit*    releasePortLE;
 
-   QButtonGroup* typeGB;
+   QButtonGroup* typeBG;
+   QButtonGroup* activateRouteBG;
+   QButtonGroup* releaseRouteBG;
 };
 
 #endif    //ROUTEDIALOG_H
