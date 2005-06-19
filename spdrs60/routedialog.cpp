@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.4.8 $Revision: 1.10 $
+                           version 0.4.8 $Revision: 1.11 $
                            -------------------------------
     copyright            : (C) 2005 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-18 14:33:00 $
+    last modified        : $Date: 2005-06-19 07:04:44 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -234,26 +234,26 @@ RouteDialog::RouteDialog(QWidget* parent)
 
     /*line with module for activation by feedback*/
     QHBoxLayout* activateModuleLayout = new QHBoxLayout(activateGBL, 6);
-    QLabel* activateModuleLB = new QLabel(tr("&Module"), activateGB);
+    QLabel* activateModuleLB = new QLabel(tr("Module"), activateGB);
     activateModuleLayout->addWidget(activateModuleLB);
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
     activateModuleLayout->addItem(spacer);
     activateModuleLE = new QLineEdit(activateGB, "activateModuleLE");
     activateModuleLE->setMaximumWidth(LEMAXWIDTH);
-    activateModuleLB->setBuddy(activateModuleLE);
+    //activateModuleLB->setBuddy(activateModuleLE);
     activateModuleLayout->addWidget(activateModuleLE);
 
     /*line with port for activation by feedback*/
     QHBoxLayout* activatePortLayout = new QHBoxLayout(activateGBL, 6);
-    QLabel* activatePortLB = new QLabel(tr("&Port"), activateGB);
+    QLabel* activatePortLB = new QLabel(tr("Port"), activateGB);
     activatePortLayout->addWidget(activatePortLB);
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
     activatePortLayout->addItem(spacer);
     activatePortLE = new QLineEdit(activateGB, "activatePortLE");
     activatePortLE->setMaximumWidth(LEMAXWIDTH);
-    activatePortLB->setBuddy(activatePortLE);
+    //activatePortLB->setBuddy(activatePortLE);
     activatePortLayout->addWidget(activatePortLE);
 
     /*two lines with radio buttons to choose feedback signal direction*/
@@ -304,26 +304,26 @@ RouteDialog::RouteDialog(QWidget* parent)
 
     /*line with module for activation by feedback*/
     QHBoxLayout* releaseModuleLayout = new QHBoxLayout(releaseGBL, 6);
-    QLabel* releaseModuleLB = new QLabel(tr("M&odule"), releaseGB);
+    QLabel* releaseModuleLB = new QLabel(tr("Module"), releaseGB);
     releaseModuleLayout->addWidget(releaseModuleLB);
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
     releaseModuleLayout->addItem(spacer);
     releaseModuleLE = new QLineEdit(releaseGB, "releaseModuleLE");
     releaseModuleLE->setMaximumWidth(LEMAXWIDTH);
-    releaseModuleLB->setBuddy(releaseModuleLE);
+    //releaseModuleLB->setBuddy(releaseModuleLE);
     releaseModuleLayout->addWidget(releaseModuleLE);
 
     /*line with port activation by feedback*/
     QHBoxLayout* releasePortLayout = new QHBoxLayout(releaseGBL, 6);
-    QLabel* releasePortLB = new QLabel(tr("&Port"), releaseGB);
+    QLabel* releasePortLB = new QLabel(tr("Port"), releaseGB);
     releasePortLayout->addWidget(releasePortLB);
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
     releasePortLayout->addItem(spacer);
     releasePortLE = new QLineEdit(releaseGB, "releasePortLE");
     releasePortLE->setMaximumWidth(LEMAXWIDTH);
-    releasePortLB->setBuddy(releasePortLE);
+    //releasePortLB->setBuddy(releasePortLE);
     releasePortLayout->addWidget(releasePortLE);
 
     /*two lines with radio buttons to choose feedback signal direction*/
@@ -372,7 +372,7 @@ RouteDialog::RouteDialog(QWidget* parent)
     
     QLabel* label = new QLabel(tr("&Level:"), typeBG);
     uzsLayout->addWidget(label);
-    uzsLevelSB = new QSpinBox(1, 9, 1, typeBG, "uzsDetourLevelSB");
+    uzsLevelSB = new QSpinBox(0, 9, 1, typeBG, "uzsDetourLevelSB");
     uzsLevelSB->setWrapping(false);
     uzsLayout->addWidget(uzsLevelSB);
     label->setBuddy(uzsLevelSB);
@@ -404,7 +404,7 @@ RouteDialog::RouteDialog(QWidget* parent)
     
     label = new QLabel(tr("Le&vel:"), typeBG);
     ursLayout->addWidget(label);
-    ursLevelSB = new QSpinBox(1, 9, 1, typeBG, "ursDetourLevelSB");
+    ursLevelSB = new QSpinBox(0, 9, 1, typeBG, "ursDetourLevelSB");
     ursLevelSB->setWrapping(false);
     ursLayout->addWidget(ursLevelSB);
     label->setBuddy(ursLevelSB);
@@ -417,11 +417,20 @@ RouteDialog::RouteDialog(QWidget* parent)
     QVBoxLayout* routeElL = new QVBoxLayout(routeElementsGB->layout(), 6);
     
     // TODO: table
+    elementsLV = new QListView(routeElementsGB, "elementsLV");
+    routeElL->addWidget(elementsLV);
+    elementsLV->addColumn(tr("Name"));
+    elementsLV->setColumnWidthMode(0, QListView::Maximum);
+    elementsLV->addColumn(tr("SRCP-Bus"));
+    elementsLV->addColumn(tr("Address"));
+    elementsLV->addColumn(tr("State"));
+
+    
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
     routeElL->addItem(spacer);
 
-    /*line with OK and Cancel buttons*/
+    /*line with Add and Remove buttons*/
     QBoxLayout* routeElBtnLayout = new QHBoxLayout(0, 0, 6);
     routeElL->addLayout(routeElBtnLayout);
 
@@ -613,19 +622,64 @@ int RouteDialog::getRouteType()
 }
 
 
-void RouteDialog::setStartSignalData(const stateElement& startSig)
+void RouteDialog::setStartSignalData(const stateElement& signal)
 {
-    startSignalNameLE->setText(startSig.name);
-    startSignalSrcpBusLE->setText(QString::number(startSig.bus));
-    startSignalAddressLE->setText(QString::number(startSig.address));
-    startSignalStateLE->setText(QString::number(startSig.state));
+    startSignalNameLE->setText(signal.name);
+    startSignalSrcpBusLE->setText(QString::number(signal.bus));
+    startSignalAddressLE->setText(QString::number(signal.address));
+    startSignalStateLE->setText(QString::number(signal.state));
 }
 
 
-void RouteDialog::setStopSignalData(const stateElement& stopSig)
+void RouteDialog::getStartSignalData(stateElement& signal)
 {
-    stopSignalNameLE->setText(stopSig.name);
-    stopSignalSrcpBusLE->setText(QString::number(stopSig.bus));
-    stopSignalAddressLE->setText(QString::number(stopSig.address));
+    signal.name = startSignalNameLE->text();
+    signal.bus = startSignalSrcpBusLE->text().toUInt();
+    signal.address = startSignalAddressLE->text().toUInt();
+    signal.state = startSignalStateLE->text().toUInt();
+}
+
+
+void RouteDialog::setStopSignalData(const stateElement& signal)
+{
+    stopSignalNameLE->setText(signal.name);
+    stopSignalSrcpBusLE->setText(QString::number(signal.bus));
+    stopSignalAddressLE->setText(QString::number(signal.address));
+}
+
+
+void RouteDialog::getStopSignalData(stateElement& signal)
+{
+    signal.name = startSignalNameLE->text();
+    signal.bus = startSignalSrcpBusLE->text().toUInt();
+    signal.address = startSignalAddressLE->text().toUInt();
+}
+
+
+void RouteDialog::setActivateData(const Port& port)
+{
+    activateSrcpBusLE->setText(QString::number(port.bus));
+    activateContactSB->setValue(port.address);
+}
+
+
+void RouteDialog::getActivateData(Port& port)
+{
+    port.bus = activateSrcpBusLE->text().toUInt();
+    port.address = activateContactSB->value();
+}
+
+
+void RouteDialog::setReleaseData(const Port& port)
+{
+    releaseSrcpBusLE->setText(QString::number(port.bus));
+    releaseContactSB->setValue(port.address);
+}
+
+
+void RouteDialog::getReleaseData(Port& port)
+{
+    port.bus = releaseSrcpBusLE->text().toUInt();
+    port.address = releaseContactSB->value();
 }
 

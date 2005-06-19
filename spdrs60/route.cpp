@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.16 $
+                           version 0.4.8 $Revision: 1.17 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-18 07:18:43 $
+    last modified        : $Date: 2005-06-19 07:04:44 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -53,6 +53,8 @@ Route::Route(TypeOfRoute arouteType,
     fromSignal.elemPtr2 = afromSignal.elemPtr2;
     fromSignal.name = afromSignal.name;
     rePort.bus = arePort.bus;
+    rePort.address = arePort.address;
+    acPort.bus = aacPort.bus;
     acPort.address = aacPort.address;
     acLoco.bus = aacLoco.bus;
     acLoco.address = aacLoco.address;
@@ -88,7 +90,9 @@ Route::Route(element* startEl)
     toSignal.elemPtr = NULL;
     toSignal.elemPtr2 = NULL;
     routeType = RZS;
-    rePort.bus = 0;
+    rePort.bus = 1;
+    rePort.address = 0;
+    acPort.bus = 1;
     acPort.address = 0;
     acLoco.bus = 0;
     acLoco.address = 0;
@@ -154,6 +158,8 @@ Route::Route(const QString& aName)
     fromSignal.elemPtr2 = NULL;
     fromSignal.name = "";
     rePort.bus = 1;
+    rePort.address = 0;
+    acPort.bus = 1;
     acPort.address = 0;
     acLoco.bus = 1;
     acLoco.address = 0;
@@ -940,11 +946,15 @@ bool Route::runEditRouteDialog(QWidget* dlgparent)
     rtDlg->setRouteName(Name);
     rtDlg->setStartSignalData(fromSignal);
     rtDlg->setStopSignalData(toSignal);
+    rtDlg->setActivateData(acPort);
+    rtDlg->setReleaseData(rePort);
     rtDlg->setRouteType(routeType);
     if (rtDlg->exec() == QDialog::Accepted) {
         Name = rtDlg->getRouteName();
-        //rtDlg->getStartSignalData(fromSignal);
-        //rtDlg->getStopSignalData(toSignal);
+        rtDlg->getStartSignalData(fromSignal);
+        rtDlg->getStopSignalData(toSignal);
+        rtDlg->getActivateData(acPort);
+        rtDlg->getReleaseData(rePort);
         routeType = (TypeOfRoute) rtDlg->getRouteType();
         returnvalue = true;
     }

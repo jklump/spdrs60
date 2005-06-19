@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.4.8 $Revision: 1.9 $
+                           version 0.4.8 $Revision: 1.10 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-15 20:13:04 $
+    last modified        : $Date: 2005-06-19 07:04:44 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -129,7 +129,7 @@ private:
     QString Name;
     stateElement toSignal, fromSignal;
     TypeOfRoute routeType;
-    Port rePort, acPort;
+    Port acPort, rePort;
     Loco acLoco;
     unsigned int detourLevel;
     bool locked;

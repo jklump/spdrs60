@@ -1,11 +1,11 @@
 /***************************************************************************
                            routedialog.h
-                           version 0.4.7 $Revision: 1.7 $
+                           version 0.4.7 $Revision: 1.8 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-18 14:33:00 $
+    last modified        : $Date: 2005-06-19 07:04:45 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -26,11 +26,13 @@
 #include <qbuttongroup.h>
 #include <qdialog.h>
 #include <qlineedit.h>
+#include <qlistview.h>
 #include <qstring.h>
 #include <qspinbox.h>
 #include <qtooltip.h>
 
 #include "element.h"
+#include "route.h"
 
 
 enum RouteType {
@@ -51,7 +53,13 @@ public:
     void setRouteType(int);
     void setStartSignalData(const stateElement&);
     void setStopSignalData(const stateElement&);
+    void setActivateData(const Port&);
+    void setReleaseData(const Port&);
     QString getRouteName();
+    void getStartSignalData(stateElement&);
+    void getStopSignalData(stateElement&);
+    void getActivateData(Port&);
+    void getReleaseData(Port&);
     int getRouteType();
   
 private:
@@ -91,6 +99,8 @@ private:
    QButtonGroup* typeBG;
    QButtonGroup* activateRouteBG;
    QButtonGroup* releaseRouteBG;
+
+   QListView*    elementsLV;
 
    QPushButton*  addPB;
    QPushButton*  removePB;
