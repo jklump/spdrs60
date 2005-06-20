@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.22 $
+                           version 0.4.8 $Revision: 1.23 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-14 18:52:52 $
+    last modified        : $Date: 2005-06-20 20:55:41 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1431,11 +1431,17 @@ void MainWindow::CommandSocketReadyRead()
             if (ServerInfo.contains("POWER ON")) {
                 LayoutPowerIsOn = true;
                 updateLayoutPowerAction();
+                /*get all current feedback states*/
+                // TODO: ask only for configured feedback ports
+                SendCommandToSRCPServer((FEEDBACK <=
+                            1) ? "GET FB S88 *" : "GET FB I8255 *");
             }
             else {
                 if (AUTO_ZP9) {
                     LayoutPowerIsOn = !AUTO_ZP9;
                     slotToggleLayoutPower();
+                    /*TODO: check if feedback states are up to date
+                     * without asking for them (by INIT S88)*/
                 }
             }
 
@@ -1443,7 +1449,15 @@ void MainWindow::CommandSocketReadyRead()
             updateDaemonMenu();
             return;
         }
-        
+        else if (SRCPCommandStatus == srcp07Connected) {
+            /*close command port if string with zero length is send*/
+            if (ServerInfo.length() == 0) {
+                if (CommandSocket->isOpen()) {
+                    CommandSocket->close();
+                    CommandSocketConnectionClosed();
+                }
+            }
+        }
         else {
             /* else: no login but connection close */
             cmdToDebug(tr("Cannot read server welcome message!"), M_INFO, HIST);
@@ -1617,15 +1631,58 @@ void MainWindow::InfoSocketReadyRead()
         sInfo = InfoSocket->readLine();
         cmdToDebug(sInfo, M_CMD, INFO);
 
-        /*check for incomming GA actions and send them to gbs*/
-        // INFO GA <protocol> <addr> <port> <state>
-        //   0   1     2        3      4       5
-        if ("GA" == sInfo.section(" ", 1, 1)) {
+        QString device = sInfo.section(" ", 1, 1);
+        /*
+         * check for incomming GA actions and send them to gbs
+         * INFO GA <protocol> <addr> <port> <state>
+         *   0   1     2        3      4       5
+         */
+        if ("GA" == device) {
             gbs->sendInfoPortMessage(
                     sInfo.section(" ", 2, 2),
                     sInfo.section(" ", 3, 3).toInt(),
                     sInfo.section(" ", 4, 4).toInt(),
                     sInfo.section(" ", 5, 5).toInt());
+        }
+        /*
+         * check for requested FB states and send them to gbs, module
+         * window and route controller
+         * INFO FB <module_type> <portnr> <state>
+         *   0   1      2            3       4
+         */
+        else if ("FB" == device) {
+            // all states in one string
+            // INFO FB S88 * 10101010101010...
+            if ("*" == sInfo.section(" ", 3, 3)){
+                QString allstates = sInfo.section(" ", 4, 4);
+                
+                unsigned int limit = allstates.length();
+                if (limit > MAX_FB)
+                    limit = MAX_FB;
+                
+                for (unsigned int i = 0; i < limit; i++) {
+                    int tmpstate = allstates[i].digitValue();
+                    bFBport[i] = (tmpstate == 1);
+                }
+            }
+            // a state of a single port
+            else {
+                unsigned int port = sInfo.section(" ", 3, 3).toUInt();
+                unsigned int state = sInfo.section(" ", 4, 4).toUInt();
+
+                port--;
+                
+                // just for case 
+                if (port < MAX_FB)
+                    bFBport[port] = state;
+
+                emit sendFBChangeModule(port);
+                // send updates to all elements via gbs
+                emit sendFBChangeLayout(port);
+                // send updates to all routes if state changes to 1
+                if (!isFBInitMode && state == 1)
+                    emit sendFBChangeRoute(port);
+            }
         }
     }
 }

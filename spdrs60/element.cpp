@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.25 $
+                           version 0.4.8 $Revision: 1.26 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-18 05:50:55 $
+    last modified        : $Date: 2005-06-20 20:55:41 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2209,24 +2209,24 @@ int element::routeElement(int S, int iNewLEDstate_, int iLastC)
 }
 
 
+/**
+ * this slot is always called if a feedback port toggles and does NOT reset
+ * a route (done by GBSArea); but "setupElementIcon" is only called either
+ * with LED_OFF or LED_RED (never with LED_YEL) from this slot!
+ */
 void element::slotOccupyElement(unsigned int iPortNr_)
 {
     QString sReplaceIcon = "";
 
-    /*
-     * this slot is always called if a feedback port toggles and does NOT reset
-     * a route (done by GBSArea); but "setupElementIcon" is only called either
-     * with LED_OFF or LED_RED (never with LED_YEL) from this slot!
-     */
     if ((sSoldIcon == SYM_ADR) && ((iPortNr_ >> 3) << 3 ==
                                    (unsigned int) iFBContact))
         setupElementIcon(iSoldLEDstate, "");
     // evtl. Dauer der Anzeige einstellbar ????
 
     else if (iPortNr_ == (unsigned int) iFBContact) {
+        // either LED_OFF = 0 or LED_RED = 1 + 1 = 2
         if (iSoldRoutingActive == 0)
             iSoldLEDstate = bFBport[iPortNr_] << 1;
-        // either LED_OFF = 0 or LED_RED = 2*1=2
         else
             iSoldLEDstate = bFBport[iPortNr_] + 1;
 
