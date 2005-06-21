@@ -96,11 +96,7 @@ den Suchkriterien entspricht.</translation>
     </message>
     <message>
         <source>No switching possible, signal &apos;%1&apos; is locked by an active route.</source>
-        <translation>Kein Umschalten möglich; Signal &apos;%1&apos; ist durch eine aktive Fahrstraße gesperrt.</translation>
-    </message>
-    <message>
-        <source>No derouting possible; signal &apos;%1&apos; is not a start signal of an active route.</source>
-        <translation>Keine Fahrstraßenauflösung möglich; Signal &apos;%1&apos; ist kein Startsignal einer aktiven Fahrstraße.</translation>
+        <translation>Kein Umschalten möglich; Signal &apos;%1&apos; ist durch eine eingestellte Fahrstraße gesperrt.</translation>
     </message>
     <message>
         <source>Operation not allowed</source>
@@ -146,7 +142,7 @@ den Suchkriterien entspricht.</translation>
         <translation>&amp;Suchen...</translation>
     </message>
     <message>
-        <source>&amp;Preferences...</source>
+        <source>Pr&amp;eferences...</source>
         <translation>Ei&amp;nstellungen...</translation>
     </message>
     <message>
@@ -174,7 +170,7 @@ den Suchkriterien entspricht.</translation>
         <translation>&amp;Alles umschalten</translation>
     </message>
     <message>
-        <source>&amp;Send all</source>
+        <source>Send &amp;all</source>
         <translation>A&amp;lles senden</translation>
     </message>
     <message>
@@ -219,7 +215,7 @@ den Suchkriterien entspricht.</translation>
     </message>
     <message>
         <source>Show routing table</source>
-        <translation>Fahrstraßen anzeigen</translation>
+        <translation>Fahrstraßentabelle anzeigen</translation>
     </message>
     <message>
         <source>Show basic keyboard</source>
@@ -316,7 +312,7 @@ verwenden, starten sie erst den Daemon, dann dieses Programm).</translation>
         <translation>Persönliche Konfigurationsdatei nicht gefunden</translation>
     </message>
     <message>
-        <source>&amp;Start power</source>
+        <source>Start &amp;power</source>
         <translation>&amp;Digitalstrom ein</translation>
     </message>
     <message>
@@ -432,11 +428,11 @@ SRCP-Versionsnummer:
         <translation>Datei-Bedienung</translation>
     </message>
     <message>
-        <source>&amp;Cut</source>
+        <source>Cu&amp;t</source>
         <translation>&amp;Ausschneiden</translation>
     </message>
     <message>
-        <source>C&amp;opy</source>
+        <source>&amp;Copy</source>
         <translation>&amp;Kopieren</translation>
     </message>
     <message>
@@ -444,7 +440,7 @@ SRCP-Versionsnummer:
         <translation>&amp;Einfügen</translation>
     </message>
     <message>
-        <source>&amp;Routing table</source>
+        <source>Routing &amp;table</source>
         <translation>&amp;Fahrstraßentabelle</translation>
     </message>
     <message>
@@ -631,7 +627,7 @@ Wollen Sie sie überschreiben?</translation>
         <translation>&amp;Fahrstraßenbearbeitungsmodus</translation>
     </message>
     <message>
-        <source>&amp;Toggle history line</source>
+        <source>Toggle &amp;history line</source>
         <translation>Statuszeile &amp;umschalten</translation>
     </message>
     <message>
@@ -664,7 +660,7 @@ Wollen Sie sie überschreiben?</translation>
     </message>
     <message>
         <source>Use route help button</source>
-        <translation>Fahrstraßenhilfstaste benutzen</translation>
+        <translation>Fahrstraßenauflösehilfstaste benutzen</translation>
     </message>
     <message>
         <source>Use turnout group button</source>
@@ -712,7 +708,7 @@ Wollen Sie sie überschreiben?</translation>
     </message>
     <message>
         <source>Unlock all routes</source>
-        <translation>Alle Fahrstraßen entsperren</translation>
+        <translation>Alle Fahrstraßen zurücknehmen</translation>
     </message>
     <message>
         <source>Switch layout power off</source>
@@ -747,12 +743,8 @@ Wollen Sie sie überschreiben?</translation>
         <translation>&amp;Bearbeiten...</translation>
     </message>
     <message>
-        <source>&amp;Copy</source>
-        <translation>&amp;Kopieren</translation>
-    </message>
-    <message>
         <source>Activate route</source>
-        <translation>Fahrstraße aktivieren</translation>
+        <translation>Fahrstraße einstellen</translation>
     </message>
     <message>
         <source>Reset active route</source>
@@ -777,6 +769,18 @@ Wollen Sie sie überschreiben?</translation>
     <message>
         <source>Delete selected route</source>
         <translation>Gewählte Fahrstraße löschen</translation>
+    </message>
+    <message>
+        <source>Error: Could not save configuration file: ~/%1</source>
+        <translation>Fehler: Konfigurationsdatei &apos;~/%1&apos; konnte nicht gespeichert werden</translation>
+    </message>
+    <message>
+        <source>Writing SpDrS60 configuration file: ~/%1</source>
+        <translation>Schreibe SpDrS60-Konfigurationsdatei: ~/%1</translation>
+    </message>
+    <message>
+        <source>&amp;Start power</source>
+        <translation>&amp;Digitalstrom ein</translation>
     </message>
 </context>
 <context>
@@ -824,76 +828,8 @@ Wollen Sie sie überschreiben?</translation>
 <context>
     <name>RouteDialog</name>
     <message>
-        <source>Warning</source>
-        <translation>Warnung</translation>
-    </message>
-    <message>
-        <source>&amp;Yes</source>
-        <translation>&amp;Ja</translation>
-    </message>
-    <message>
-        <source>&amp;No</source>
-        <translation>&amp;Nein</translation>
-    </message>
-    <message>
-        <source>Routes</source>
-        <translation>Fahrstraßen</translation>
-    </message>
-    <message>
-        <source>Start routing</source>
-        <translation>Fahrstraße starten</translation>
-    </message>
-    <message>
-        <source>Click this button to start the selected routing</source>
-        <translation>Diesen Schalter betätigen, um die gewählte Fahrstraße zu starten</translation>
-    </message>
-    <message>
-        <source>Stopp routing</source>
-        <translation>Fahrstraße anhalten</translation>
-    </message>
-    <message>
-        <source>Click this button to reset the selected routing</source>
-        <translation>Diesen Schalter betätigen, um die gewählte Fahrstraße zurückzusetzen</translation>
-    </message>
-    <message>
-        <source>Setup</source>
-        <translation>Konfiguration</translation>
-    </message>
-    <message>
-        <source>Click this button to setup a routing</source>
-        <translation>Diesen Schalter betätigen, um eine Fahrstraße zu konfigurieren</translation>
-    </message>
-    <message>
-        <source>(De-) Activation</source>
-        <translation>(De-) Aktivierung</translation>
-    </message>
-    <message>
-        <source>Mod #</source>
-        <translation>Modul</translation>
-    </message>
-    <message>
-        <source>Port #</source>
-        <translation>Port</translation>
-    </message>
-    <message>
-        <source>Release:</source>
-        <translation>Lösen:</translation>
-    </message>
-    <message>
-        <source>Activate:</source>
-        <translation>Aktivieren:</translation>
-    </message>
-    <message>
-        <source>or loco #:</source>
-        <translation>oder Lok:</translation>
-    </message>
-    <message>
         <source>Type</source>
         <translation>Typ</translation>
-    </message>
-    <message>
-        <source>Start and stop signals</source>
-        <translation>Signale für Start und Halt</translation>
     </message>
     <message>
         <source>Name</source>
@@ -906,136 +842,6 @@ Wollen Sie sie überschreiben?</translation>
     <message>
         <source>State</source>
         <translation>Status</translation>
-    </message>
-    <message>
-        <source>Start:</source>
-        <translation>Start:</translation>
-    </message>
-    <message>
-        <source>Stop: </source>
-        <translation>Halt:</translation>
-    </message>
-    <message>
-        <source>Routed elements</source>
-        <translation>Fahrstraßenelemente</translation>
-    </message>
-    <message>
-        <source>Apply</source>
-        <translation>Übernehmen</translation>
-    </message>
-    <message>
-        <source>Apply route changes (CTRL+S)</source>
-        <translation>Fahrstraßenänderungen übernehmen (Strg+s)</translation>
-    </message>
-    <message>
-        <source>Delete</source>
-        <translation>Löschen</translation>
-    </message>
-    <message>
-        <source>Delete this route (CTRL+D)</source>
-        <translation>Diese Fahrstraße löschen (Strg+d)</translation>
-    </message>
-    <message>
-        <source>New</source>
-        <translation>Neu</translation>
-    </message>
-    <message>
-        <source>Add a new route (CTRL+A)</source>
-        <translation>Neue Fahrstraße hinzufügen (Strg+a)</translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation>Kopieren</translation>
-    </message>
-    <message>
-        <source>Copy this route (CTRL+C)</source>
-        <translation>Diese Fahrstraße kopieren (Strg+c)</translation>
-    </message>
-    <message>
-        <source>Record</source>
-        <translation>Aufzeichnen</translation>
-    </message>
-    <message>
-        <source>Record new route (CTRL+R)</source>
-        <translation>Neue Fahrstraße aufzeichnen (Strg+r)</translation>
-    </message>
-    <message>
-        <source>Show</source>
-        <translation>Anzeigen</translation>
-    </message>
-    <message>
-        <source>Show this route in layout</source>
-        <translation>Diese Fahrstraße im Gleisbild anzeigen</translation>
-    </message>
-    <message>
-        <source>Information</source>
-        <translation>Information</translation>
-    </message>
-    <message>
-        <source>You filled in an element&apos;s address
-but not it&apos;s state or vice versa!
-
-Please correct this before saving!</source>
-        <translation>Sie haben die Adresse eines Elements eingegeben,
-aber nicht dessen Status, oder umgekehrt.
-
-Bitte vor dem Speichern korrigieren!</translation>
-    </message>
-    <message>
-        <source>Changes not saved!
-Save route?</source>
-        <translation>Änderungen nicht gespeichert!
-Fahrstraße speichern?</translation>
-    </message>
-    <message>
-        <source>Do you want to delete this route?</source>
-        <translation>Wollen Sie diese Fahrstraße löschen?</translation>
-    </message>
-    <message>
-        <source>No routes are available!</source>
-        <translation>Keine Fahrstraßen verfügbar!</translation>
-    </message>
-    <message>
-        <source>Routingtable (%d routes)</source>
-        <translation>Fahrstraßentabelle (%d Fahrstraßen)</translation>
-    </message>
-    <message>
-        <source>Routingtable (1 route)</source>
-        <translation>Fahrstraßentabelle (1 Fahrstraße)</translation>
-    </message>
-    <message>
-        <source>Route #%d</source>
-        <translation>Fahrstraße Nr. %d</translation>
-    </message>
-    <message>
-        <source>Route #%d:</source>
-        <translation>Fahrstraße Nr. %d:</translation>
-    </message>
-    <message>
-        <source>Enter name of new route (max 40 chars)</source>
-        <translation>Fahrstraßenbezeichnung (max. 40 Zeichen)</translation>
-    </message>
-    <message>
-        <source>Copy of </source>
-        <translation>Kopie von </translation>
-    </message>
-    <message>
-        <source>No</source>
-        <translation type="unfinished">Nr.</translation>
-    </message>
-    <message>
-        <source>You did not fill in one or more fields
-concerning start and/or stop signals!
-
-Please correct this before saving!</source>
-        <translation>Sie haben nicht alle Felder beim Start und/oder
-Halt von Signalen ausgefüllt.
-
-Bitte vor dem Speichern korrigieren!</translation>
-    </message>
-    <message>
-        <source>Enter &amp;route title:</source>
-        <translation>&amp;Fahrstraßenbezeichnung eingeben:</translation>
     </message>
     <message>
         <source>&amp;Normal route</source>
@@ -1054,7 +860,7 @@ Bitte vor dem Speichern korrigieren!</translation>
         <translation>R&amp;egelrangierstraße</translation>
     </message>
     <message>
-        <source>Detour sh&amp;unting</source>
+        <source>Detour shuntin&amp;g</source>
         <translation>U&amp;mfahrrangierstraße</translation>
     </message>
     <message>
@@ -1062,16 +868,116 @@ Bitte vor dem Speichern korrigieren!</translation>
         <translation>&amp;Stufe:</translation>
     </message>
     <message>
-        <source>L&amp;evel:</source>
-        <translation>S&amp;tufe:</translation>
+        <source>Edit route</source>
+        <translation>Fahrstraße bearbeiten</translation>
     </message>
     <message>
-        <source>&amp;Route #%d:</source>
-        <translation>&amp;Fahrstraße Nr. %d:</translation>
+        <source>OK</source>
+        <translation>OK</translation>
     </message>
     <message>
-        <source>&gt;Recording new route ...</source>
-        <translation>&gt;Aufnehmen einer neuen Fahrstraße ...</translation>
+        <source>Cancel</source>
+        <translation>Abbrechen</translation>
+    </message>
+    <message>
+        <source>Na&amp;me</source>
+        <translation>&amp;Name</translation>
+    </message>
+    <message>
+        <source>Start signal</source>
+        <translation>Startsignal</translation>
+    </message>
+    <message>
+        <source>SRC&amp;P-Bus</source>
+        <translation>SRC&amp;P-Bus</translation>
+    </message>
+    <message>
+        <source>&amp;Address</source>
+        <translation>&amp;Adresse</translation>
+    </message>
+    <message>
+        <source>S&amp;tate</source>
+        <translation>S&amp;tatus</translation>
+    </message>
+    <message>
+        <source>Stop signal</source>
+        <translation>Zielsignal</translation>
+    </message>
+    <message>
+        <source>SRCP-&amp;Bus</source>
+        <translation>SRCP-&amp;Bus</translation>
+    </message>
+    <message>
+        <source>Add&amp;ress</source>
+        <translation>Ad&amp;resse</translation>
+    </message>
+    <message>
+        <source>Activate route</source>
+        <translation>Fahrstraße einstellen</translation>
+    </message>
+    <message>
+        <source>&amp;Enable feedback activation</source>
+        <translation>Au&amp;tomatisch einstellen</translation>
+    </message>
+    <message>
+        <source>B&amp;us (s88/SRCP)</source>
+        <translation>B&amp;us (s88/SRCP)</translation>
+    </message>
+    <message>
+        <source>Release route</source>
+        <translation>Fahrstraße auflösen</translation>
+    </message>
+    <message>
+        <source>Enable &amp;feedback release</source>
+        <translation>Automatisch aufl&amp;ösen </translation>
+    </message>
+    <message>
+        <source>Bus (s&amp;88/SRCP)</source>
+        <translation>Bus (s&amp;88/SRCP)</translation>
+    </message>
+    <message>
+        <source>Le&amp;vel:</source>
+        <translation>Stu&amp;fe:</translation>
+    </message>
+    <message>
+        <source>Route elements</source>
+        <translation>Fahrstraßenelemente</translation>
+    </message>
+    <message>
+        <source>SRCP-Bus</source>
+        <translation>SRCP-Bus</translation>
+    </message>
+    <message>
+        <source>&amp;Add</source>
+        <translation>&amp;Hinzufügen</translation>
+    </message>
+    <message>
+        <source>&amp;Remove</source>
+        <translation>&amp;Entfernen</translation>
+    </message>
+    <message>
+        <source>Switch on feedback response</source>
+        <translation>Art der Rückmeldung</translation>
+    </message>
+    <message>
+        <source>&amp;Deactivation</source>
+        <translation>&amp;Freimeldung</translation>
+    </message>
+    <message>
+        <source>Ac&amp;tivation</source>
+        <translation>&amp;Belegtmeldung</translation>
+    </message>
+    <message>
+        <source>&amp;Contact (1 - 496)</source>
+        <translation>&amp;Kontakt (1 - 496)</translation>
+    </message>
+    <message>
+        <source>Module (1 - %1)</source>
+        <translation>Modul (1 - %1)</translation>
+    </message>
+    <message>
+        <source>Port (1 - %1)</source>
+        <translation>Eingang (1 - %1)</translation>
     </message>
 </context>
 <context>
@@ -1086,7 +992,7 @@ Bitte vor dem Speichern korrigieren!</translation>
     </message>
     <message>
         <source>Activating route &apos;%1&apos;</source>
-        <translation>Fahrstraße &apos;%1&apos; aktiviert </translation>
+        <translation>Fahrstraße &apos;%1&apos; eingestellt </translation>
     </message>
     <message>
         <source>No matching route found from &apos;%1&apos; to &apos;%2&apos;</source>
@@ -1106,7 +1012,7 @@ Bitte vor dem Speichern korrigieren!</translation>
     </message>
     <message>
         <source>No routing possible; route &apos;%1&apos; is locked by an other route.</source>
-        <translation>Fahrstraße &apos;%1&apos; nicht aktivierbar; sie ist durch eine andere Fahrstraße blockiert.</translation>
+        <translation>Fahrstraße &apos;%1&apos; nicht einstellbar; sie ist durch eine andere Fahrstraße blockiert.</translation>
     </message>
     <message>
         <source>No routing possible; route &apos;%1&apos; is blocked by occupied element.</source>
@@ -1119,6 +1025,10 @@ Bitte vor dem Speichern korrigieren!</translation>
     <message>
         <source>Mixing signal buttons of different type is not allowed.</source>
         <translation>Gleichzeitiges Bedienen von Fahrstraßentasten verschiedenen Typs ist nicht erlaubt.</translation>
+    </message>
+    <message>
+        <source>No active route found from start signal &apos;%1&apos; to stop signal &apos;%2&apos;</source>
+        <translation>Keine aktive Fahrstraße von Startsignal &apos;%1&apos; zu Zielsignal &apos;%2&apos; gefunden</translation>
     </message>
 </context>
 <context>
@@ -1151,16 +1061,8 @@ Bitte vor dem Speichern korrigieren!</translation>
         <translation>Fahrstraßen</translation>
     </message>
     <message>
-        <source>Activating route &apos;%1&apos;</source>
-        <translation type="obsolete">Fahrstraße &apos;%1&apos; aktiviert</translation>
-    </message>
-    <message>
         <source>Resetting route &apos;%1&apos;</source>
         <translation></translation>
-    </message>
-    <message>
-        <source>No routing possible; route &apos;%1&apos; is locked by an other route.</source>
-        <translation type="obsolete">Fahrstraße &apos;%1&apos; nicht aktivierbar; sie ist durch eine andere Fahrstraße blockiert.</translation>
     </message>
 </context>
 <context>
@@ -1186,8 +1088,8 @@ Bitte vor dem Speichern korrigieren!</translation>
         <translation>&amp;Löschen</translation>
     </message>
     <message>
-        <source>&amp;Repeat: %s</source>
-        <translation>&amp;Wiederhole: %s</translation>
+        <source>&amp;Repeat: %1</source>
+        <translation>&amp;Wiederholen: %</translation>
     </message>
 </context>
 <context>

@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.23 $
+                           version 0.4.8 $Revision: 1.24 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-20 20:55:41 $
+    last modified        : $Date: 2005-06-21 20:50:21 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -540,7 +540,7 @@ void MainWindow::initMainWindow()
     //editmenu = new QPopupMenu(this);
     menuBar()->insertItem(tr("&Edit"), editmenu);
 
-    actionEditCut = new QAction(QPixmap(editcut_xpm), tr("&Cut"),
+    actionEditCut = new QAction(QPixmap(editcut_xpm), tr("Cu&t"),
             CTRL+Key_X, this, "editCut" );
     actionEditCut->setToolTip(tr("Cut selection to clipboard"));
     connect(actionEditCut, SIGNAL(activated()), this,
@@ -549,7 +549,7 @@ void MainWindow::initMainWindow()
     actionEditCut->addTo(edittb);
     actionEditCut->setEnabled(false);
 
-    actionEditCopy = new QAction(QPixmap(editcopy_xpm), tr("C&opy"),
+    actionEditCopy = new QAction(QPixmap(editcopy_xpm), tr("&Copy"),
             CTRL+Key_C, this, "editCopy" );
     actionEditCopy->setToolTip(tr("Copy selection to clipboard"));
     connect(actionEditCopy, SIGNAL(activated()), this,
@@ -583,7 +583,7 @@ void MainWindow::initMainWindow()
     //actionEditFind->setEnabled(false);
 
     actionEditOptions = new QAction(QPixmap(editoptions_xpm),
-            tr("&Preferences..."), CTRL+Key_P, this, "editPreferences" );
+            tr("Pr&eferences..."), CTRL+Key_P, this, "editPreferences" );
     actionEditOptions->setToolTip(tr("Edit application preferences"));
     connect(actionEditOptions, SIGNAL(activated()), this,
             SLOT(slotEditOptions()));
@@ -601,7 +601,7 @@ void MainWindow::initMainWindow()
     menuBar()->insertItem(tr("&View"), viewmenu);
 
     actionViewRoutes = new QAction(QPixmap(viewroute_xpm),
-            tr("&Routing table"), CTRL + Key_R, this, "viewRoutes" );
+            tr("Routing &table"), CTRL + Key_R, this, "viewRoutes" );
     actionViewRoutes->setToolTip(tr("Show routing table"));
     connect(actionViewRoutes, SIGNAL(activated()), this,
             SLOT(slotShowRoutes()));
@@ -658,7 +658,7 @@ void MainWindow::initMainWindow()
     viewmenu->insertSeparator();
 
     actionViewToggleHistory = new QAction(NULL,
-            tr("&Toggle history line"), CTRL + Key_D, // Ctrl H/T
+            tr("Toggle &history line"), CTRL + Key_D, // Ctrl H/T
             this, "viewToggleHistory" );
     actionViewToggleHistory->setToolTip(tr("Show basic keyboard"));
     connect(actionViewToggleHistory, SIGNAL(activated()), this,
@@ -728,7 +728,7 @@ void MainWindow::initMainWindow()
     menuBar()->insertItem(tr("&Layout"), layoutmenu);
 
     actionLayoutPower = new QAction(QPixmap(layoutstart_xpm),
-            tr("&Start power"), Key_F4, this, "layoutPower" );
+            tr("Start &power"), Key_F4, this, "layoutPower" );
     actionLayoutPower->setToolTip(tr("Switch layout power on"));
     connect(actionLayoutPower, SIGNAL(activated()), this,
             SLOT(slotToggleLayoutPower()));
@@ -786,7 +786,7 @@ void MainWindow::initMainWindow()
     //actionLayoutToggleAll->addTo(layouttb);
 
     actionLayoutSendAll = new QAction(NULL,
-            tr("&Send all"), Key_F11, this, "layoutSendAll" );
+            tr("Send &all"), Key_F11, this, "layoutSendAll" );
     actionLayoutSendAll->setToolTip(tr("Send current states of all "
                 "switchable elements to SRCP server"));
     connect(actionLayoutSendAll, SIGNAL(activated()), gbs,
@@ -1664,6 +1664,7 @@ void MainWindow::InfoSocketReadyRead()
                     int tmpstate = allstates[i].digitValue();
                     bFBport[i] = (tmpstate == 1);
                 }
+                isFBInitMode = false;
             }
             // a state of a single port
             else {
