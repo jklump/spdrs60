@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.4.8 $Revision: 1.10 $
+                           version 0.4.8 $Revision: 1.11 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-19 07:04:44 $
+    last modified        : $Date: 2005-06-21 20:49:14 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -42,7 +42,9 @@
 #define RF_DETOURLEVEL  "level"
 
 
-struct Port {
+struct PortState {
+    bool used;
+    bool switchtooff;
     unsigned int bus, address;
 };
 
@@ -77,8 +79,8 @@ public:
           const QString& aName,
           const stateElement& atoSignal,
           const stateElement& afromSignal,
-          const Port& arePort,
-          const Port& aacPort,
+          const PortState& arePort,
+          const PortState& aacPort,
           const Loco& aacLoco,
           unsigned int adetourLevel,
           const QPtrList<stateElement>& swis);
@@ -129,7 +131,7 @@ private:
     QString Name;
     stateElement toSignal, fromSignal;
     TypeOfRoute routeType;
-    Port acPort, rePort;
+    PortState acPort, rePort;
     Loco acLoco;
     unsigned int detourLevel;
     bool locked;

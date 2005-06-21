@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.17 $
+                           version 0.4.8 $Revision: 1.18 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-19 07:04:44 $
+    last modified        : $Date: 2005-06-21 20:49:14 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -29,8 +29,8 @@ Route::Route(TypeOfRoute arouteType,
         const QString& aName,
         const stateElement& atoSignal,
         const stateElement& afromSignal,
-        const Port& arePort,
-        const Port& aacPort,
+        const PortState& arePort,
+        const PortState& aacPort,
         const Loco& aacLoco,
         unsigned int adetourLevel,
         const QPtrList<stateElement>& swis)
@@ -52,8 +52,12 @@ Route::Route(TypeOfRoute arouteType,
     fromSignal.elemPtr = afromSignal.elemPtr;
     fromSignal.elemPtr2 = afromSignal.elemPtr2;
     fromSignal.name = afromSignal.name;
+    rePort.used = arePort.used;
+    rePort.switchtooff = arePort.switchtooff;
     rePort.bus = arePort.bus;
     rePort.address = arePort.address;
+    acPort.used = aacPort.used;
+    acPort.switchtooff = aacPort.switchtooff;
     acPort.bus = aacPort.bus;
     acPort.address = aacPort.address;
     acLoco.bus = aacLoco.bus;
@@ -90,8 +94,12 @@ Route::Route(element* startEl)
     toSignal.elemPtr = NULL;
     toSignal.elemPtr2 = NULL;
     routeType = RZS;
+    rePort.used = false;
+    rePort.switchtooff = false;
     rePort.bus = 1;
     rePort.address = 0;
+    acPort.used = false;
+    acPort.switchtooff = false;
     acPort.bus = 1;
     acPort.address = 0;
     acLoco.bus = 0;
@@ -157,8 +165,12 @@ Route::Route(const QString& aName)
     fromSignal.elemPtr = NULL;
     fromSignal.elemPtr2 = NULL;
     fromSignal.name = "";
+    rePort.used = false;
+    rePort.switchtooff = false;
     rePort.bus = 1;
     rePort.address = 0;
+    acPort.used = false;
+    acPort.switchtooff = false;
     acPort.bus = 1;
     acPort.address = 0;
     acLoco.bus = 1;
@@ -261,10 +273,14 @@ void Route::readFileTextFromStream(QTextStream& ts)
             else if (key.compare(RF_RELEASEPORT) == 0){
                 rePort.bus = s.section(DS, 1, 1).toUInt();
                 rePort.address = s.section(DS, 2, 2).toUInt();
+                rePort.used = (s.section(DS, 2, 2).toInt() == 1);
+                rePort.switchtooff = (s.section(DS, 2, 2).toInt() == 1);
             }
             else if (key.compare(RF_ACTIVATEPORT) == 0){
                 acPort.bus = s.section(DS, 1, 1).toUInt();
                 acPort.address = s.section(DS, 2, 2).toUInt();
+                acPort.used = (s.section(DS, 2, 2).toInt() == 1);
+                acPort.switchtooff = (s.section(DS, 2, 2).toInt() == 1);
             }
             else if (key.compare(RF_ACTIVATELOCO) == 0){
                 acLoco.bus = s.section(DS, 1, 1).toUInt();
@@ -318,20 +334,30 @@ void Route::readOldFileTextFromStream(QTextStream& ts)
                 fromSignal.state = value.section(" ", 1, 1).toUInt();
             }
             else if (key.compare(RF_RELEASEPORT) == 0){
+                rePort.switchtooff = false;
                 rePort.bus = 1;
                 intvalue = value.toInt();
-                if (intvalue == -1)
+                if (intvalue == -1) {
                     rePort.address = 0;
-                else
+                    rePort.used = false;
+                }
+                else {
                     rePort.address = (unsigned int)intvalue;
+                    rePort.used = true;
+                }
             }
             else if (key.compare(RF_ACTIVATEPORT) == 0){
+                acPort.switchtooff = false;
                 acPort.bus = 1;
                 intvalue = value.toInt();
-                if (intvalue == -1)
+                if (intvalue == -1) {
                     acPort.address = 0;
-                else
+                    acPort.used = false;
+                }
+                else {
                     acPort.address = (unsigned int)intvalue;
+                    acPort.used = true;
+                }
             }
             else if (key.compare(RF_ACTIVATELOCO) == 0){
                 acLoco.bus = 1;
@@ -366,8 +392,10 @@ void Route::writeFileTextToStream(QTextStream& ts)
         << RF_TOSIGNAL << DS << toSignal.bus << DS << toSignal.address << endl
         << RF_FROMSIGNAL << DS << fromSignal.bus << DS
         << fromSignal.address << DS << fromSignal.state << endl 
-        << RF_RELEASEPORT << DS << rePort.bus << DS << rePort.address << endl
-        << RF_ACTIVATEPORT << DS << acPort.bus << DS << acPort.address << endl
+        << RF_RELEASEPORT << DS << rePort.bus << DS << rePort.address
+        << DS << rePort.used << DS << rePort.switchtooff << endl
+        << RF_ACTIVATEPORT << DS << acPort.bus << DS << acPort.address
+        << DS << acPort.used << DS << acPort.switchtooff << endl
         << RF_ACTIVATELOCO << DS << acLoco.bus << DS << acLoco.address << endl
         << RF_TYPE << DS << routeType << DS << detourLevel << endl;
 

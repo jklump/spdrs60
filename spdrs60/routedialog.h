@@ -1,11 +1,11 @@
 /***************************************************************************
                            routedialog.h
-                           version 0.4.7 $Revision: 1.8 $
+                           version 0.4.7 $Revision: 1.9 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-19 07:04:45 $
+    last modified        : $Date: 2005-06-21 20:49:30 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -53,13 +53,13 @@ public:
     void setRouteType(int);
     void setStartSignalData(const stateElement&);
     void setStopSignalData(const stateElement&);
-    void setActivateData(const Port&);
-    void setReleaseData(const Port&);
+    void setActivateData(const PortState&);
+    void setReleaseData(const PortState&);
     QString getRouteName();
     void getStartSignalData(stateElement&);
     void getStopSignalData(stateElement&);
-    void getActivateData(Port&);
-    void getReleaseData(Port&);
+    void getActivateData(PortState&);
+    void getReleaseData(PortState&);
     int getRouteType();
   
 private:
@@ -80,17 +80,19 @@ private:
    QLineEdit*    startSignalNameLE;
    QLineEdit*    startSignalSrcpBusLE;
    QLineEdit*    startSignalAddressLE;
-   QLineEdit*    startSignalStateLE;
+   QSpinBox*     startSignalStateSB;
    
    QLineEdit*    stopSignalNameLE;
    QLineEdit*    stopSignalSrcpBusLE;
    QLineEdit*    stopSignalAddressLE;
    
+   QCheckBox*    activatefbCB;
    QLineEdit*    activateSrcpBusLE;
    QSpinBox*     activateContactSB;
    QLineEdit*    activateModuleLE;
    QLineEdit*    activatePortLE;
 
+   QCheckBox*    releasefbCB;
    QLineEdit*    releaseSrcpBusLE;
    QSpinBox*     releaseContactSB;
    QLineEdit*    releaseModuleLE;
