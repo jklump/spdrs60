@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.24 $
+                           version 0.4.8 $Revision: 1.25 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-21 20:50:21 $
+    last modified        : $Date: 2005-06-22 20:21:48 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -794,6 +794,15 @@ void MainWindow::initMainWindow()
     actionLayoutSendAll->addTo(layoutmenu);
     //actionLayoutSendAll->addTo(layouttb);
 
+    actionLayoutUpdateFB = new QAction(NULL,
+            tr("Up&date feedback states"), 0, this, "layoutUpdateFB" );
+    actionLayoutUpdateFB->setToolTip(tr("Get all current feedback "
+			    "states from SRCP server"));
+    connect(actionLayoutUpdateFB, SIGNAL(activated()), this,
+            SLOT(layoutUpdateFB()));
+    actionLayoutUpdateFB->addTo(layoutmenu);
+    //actionLayoutUpdateFB->addTo(layouttb);
+
     layoutmenu->insertSeparator();
 
     actionLayoutChangeSize = new QAction(NULL,
@@ -824,7 +833,7 @@ void MainWindow::initMainWindow()
 
     actionRouteStop = new QAction(QPixmap(route_stop_xpm), tr("Sto&p"),
             0, this, "routestop" );
-    actionRouteStop->setToolTip(tr("Reset active route"));
+    actionRouteStop->setToolTip(tr("Release route"));
     connect(actionRouteStop, SIGNAL(activated()), rtViewer,
             SLOT(slotRouteStop()));
     actionRouteStop->addTo(routemenu);
@@ -1108,6 +1117,7 @@ void MainWindow::updateFileMenuItems()
     if (CommandPortIsConnected) {
         actionLayoutToggleAll->setEnabled(true);
         actionLayoutSendAll->setEnabled(true);
+	actionLayoutUpdateFB->setEnabled(true);
     }
 
     //viewmenu->setItemEnabled(VIEW_ID_ROUTES, !fileName.isEmpty());
@@ -1431,10 +1441,6 @@ void MainWindow::CommandSocketReadyRead()
             if (ServerInfo.contains("POWER ON")) {
                 LayoutPowerIsOn = true;
                 updateLayoutPowerAction();
-                /*get all current feedback states*/
-                // TODO: ask only for configured feedback ports
-                SendCommandToSRCPServer((FEEDBACK <=
-                            1) ? "GET FB S88 *" : "GET FB I8255 *");
             }
             else {
                 if (AUTO_ZP9) {
@@ -1444,8 +1450,10 @@ void MainWindow::CommandSocketReadyRead()
                      * without asking for them (by INIT S88)*/
                 }
             }
+	    SendCommandToSRCPServer((FEEDBACK <= 1) ? 
+			    "GET FB S88 *" : "GET FB I8255 *");
+	    SRCPCommandStatus = srcp07GetFBStates;
 
-            SRCPCommandStatus = srcp07Connected;
             updateDaemonMenu();
             return;
         }
@@ -1458,6 +1466,9 @@ void MainWindow::CommandSocketReadyRead()
                 }
             }
         }
+        else if (SRCPCommandStatus == srcp07GetFBStates) {
+		SRCPCommandStatus = srcp07Connected;
+	}
         else {
             /* else: no login but connection close */
             cmdToDebug(tr("Cannot read server welcome message!"), M_INFO, HIST);
@@ -1911,6 +1922,7 @@ void MainWindow::updateDaemonMenu()
 
     actionLayoutToggleAll->setEnabled(CommandPortIsConnected);
     actionLayoutSendAll->setEnabled(CommandPortIsConnected);
+    actionLayoutUpdateFB->setEnabled(CommandPortIsConnected);
 }
 
 
@@ -2008,8 +2020,6 @@ void MainWindow::slotViewSwitchMode(QAction* ac)
  */
 void MainWindow::updateRouteMenu(bool rtvIsVisible)
 {
-     bool selectedRouteIsActive = false;
-
      //activate rtviewer to update route visibility
      if (rtvIsVisible)
          rtViewer->switchVisualMode(visualMode);
@@ -2189,6 +2199,13 @@ void MainWindow::slotEditFind()
     connect(findWindow, SIGNAL(sigFind(const QString&, int, bool)),
             gbs, SLOT(slotEditFind(const QString&, int, bool)));
     findWindow->exec();
+}
+
+
+void MainWindow::layoutUpdateFB()
+{
+    SendCommandToSRCPServer((FEEDBACK <=
+        1) ? "GET FB S88 *" : "GET FB I8255 *");
 }
 
 

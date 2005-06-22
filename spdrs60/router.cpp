@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.4.8 $Revision: 1.14 $
+                           version 0.4.8 $Revision: 1.15 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-18 07:18:43 $
+    last modified        : $Date: 2005-06-22 20:21:49 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -492,7 +492,7 @@ void Router::unlockAllLockedRoutes()
             emit updateRoutingViewerAt(routeList.find(rt));
         }
     }
-    emit showLogMessage(tr("All active routes unlocked"), M_INFO, HIST);
+    emit showLogMessage(tr("All active routes released"), M_INFO, HIST);
 }
 
 

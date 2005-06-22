@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.4.8 $Revision: 1.13 $
+                           version 0.4.8 $Revision: 1.14 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-13 20:46:55 $
+    last modified        : $Date: 2005-06-22 20:21:49 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -48,6 +48,7 @@ enum SRCPMode {
     srcpLogin,
     srcpUndefined,
     srcp07Connected,
+    srcp07GetFBStates,
     srcp07GetPower,
     srcp08GetBusPower,
     srcp08GoCommandMode,
@@ -121,6 +122,7 @@ private:
    QAction         *actionLayoutNotRot;
    QAction         *actionLayoutToggleAll;
    QAction         *actionLayoutSendAll;
+   QAction         *actionLayoutUpdateFB;
    QAction         *actionLayoutChangeSize;
 
    QAction         *actionRouteStart;
@@ -218,6 +220,7 @@ private slots:
    void slotViewDebug();
    void slotViewKeyboard();
    void slotViewSwitchMode(QAction*);
+   void layoutUpdateFB();
    void layoutChangeSize();
    void updateCaption();
    void updateFileMenuItems();

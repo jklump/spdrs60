@@ -417,7 +417,7 @@ SRCP-Versionsnummer:
     </message>
     <message>
         <source>Feedback port change: M %1 / P %2 = %3</source>
-        <translation>Rückmelde-Port geändert: M %1 / P %2 = %3</translation>
+        <translation>Rückmelde-Kontakt geändert: M %1 / P %2 = %3</translation>
     </message>
     <message>
         <source>Layouts</source>
@@ -704,7 +704,7 @@ Wollen Sie sie überschreiben?</translation>
     </message>
     <message>
         <source>&amp;Unlock all</source>
-        <translation>Alle &amp;entsperren</translation>
+        <translation>Alle zurück&amp;nehmen</translation>
     </message>
     <message>
         <source>Unlock all routes</source>
@@ -728,11 +728,11 @@ Wollen Sie sie überschreiben?</translation>
     </message>
     <message>
         <source>&amp;Start</source>
-        <translation>&amp;Aktivieren</translation>
+        <translation>&amp;Einstellen</translation>
     </message>
     <message>
         <source>Sto&amp;p</source>
-        <translation>&amp;Zurücksetzen</translation>
+        <translation>&amp;Zurücknehmen</translation>
     </message>
     <message>
         <source>&amp;Add</source>
@@ -745,10 +745,6 @@ Wollen Sie sie überschreiben?</translation>
     <message>
         <source>Activate route</source>
         <translation>Fahrstraße einstellen</translation>
-    </message>
-    <message>
-        <source>Reset active route</source>
-        <translation>Aktive Fahrstraße zurücksetzen</translation>
     </message>
     <message>
         <source>Add new route</source>
@@ -781,6 +777,18 @@ Wollen Sie sie überschreiben?</translation>
     <message>
         <source>&amp;Start power</source>
         <translation>&amp;Digitalstrom ein</translation>
+    </message>
+    <message>
+        <source>Up&amp;date feedback states</source>
+        <translation>&amp;Rückmeldungen erneuern</translation>
+    </message>
+    <message>
+        <source>Get all current feedback states from SRCP server</source>
+        <translation>Status aller aktuellen Rückmeldungen vom SRCP-Server laden</translation>
+    </message>
+    <message>
+        <source>Release route</source>
+        <translation>Fahrstraße auflösen</translation>
     </message>
 </context>
 <context>
@@ -929,7 +937,7 @@ Wollen Sie sie überschreiben?</translation>
     </message>
     <message>
         <source>Enable &amp;feedback release</source>
-        <translation>Automatisch aufl&amp;ösen </translation>
+        <translation>Automatisch aufl&amp;ösen</translation>
     </message>
     <message>
         <source>Bus (s&amp;88/SRCP)</source>
@@ -992,7 +1000,7 @@ Wollen Sie sie überschreiben?</translation>
     </message>
     <message>
         <source>Activating route &apos;%1&apos;</source>
-        <translation>Fahrstraße &apos;%1&apos; eingestellt </translation>
+        <translation>Fahrstraße &apos;%1&apos; einstellen</translation>
     </message>
     <message>
         <source>No matching route found from &apos;%1&apos; to &apos;%2&apos;</source>
@@ -1000,15 +1008,15 @@ Wollen Sie sie überschreiben?</translation>
     </message>
     <message>
         <source>No active route found for start signal &apos;%1&apos;</source>
-        <translation>Keine aktive Fahrstraße für Startsignal &apos;%1&apos; gefunden</translation>
+        <translation>Keine eingestellte Fahrstraße für Startsignal &apos;%1&apos; gefunden</translation>
     </message>
     <message>
         <source>Resetting route &apos;%1&apos;</source>
-        <translation>Fahrstraße &apos;%1&apos; zurückgesetzt</translation>
+        <translation>Fahrstraße &apos;%1&apos; zurückgenommen</translation>
     </message>
     <message>
-        <source>All active routes unlocked</source>
-        <translation>Alle aktiven Fahrstraßen entsperrt</translation>
+        <source>All active routes released</source>
+        <translation>Alle eingestellten Fahrstraßen zurückgenommen</translation>
     </message>
     <message>
         <source>No routing possible; route &apos;%1&apos; is locked by an other route.</source>
@@ -1016,11 +1024,11 @@ Wollen Sie sie überschreiben?</translation>
     </message>
     <message>
         <source>No routing possible; route &apos;%1&apos; is blocked by occupied element.</source>
-        <translation>Fahrstraße &apos;%1&apos; nicht aktivierbar; sie ist durch einen belegten Gleisabschnitt blockiert.</translation>
+        <translation>Fahrstraße &apos;%1&apos; nicht einstellbar; sie ist durch einen belegten Gleisabschnitt blockiert.</translation>
     </message>
     <message>
         <source>No routing possible; route &apos;%1&apos; is blocked by occupied turnout.</source>
-        <translation>Fahrstraße &apos;%1&apos; nicht aktivierbar; sie ist durch eine belegte Weiche blockiert.</translation>
+        <translation>Fahrstraße &apos;%1&apos; nicht einstellbar; sie ist durch eine belegte Weiche blockiert.</translation>
     </message>
     <message>
         <source>Mixing signal buttons of different type is not allowed.</source>
@@ -1028,7 +1036,7 @@ Wollen Sie sie überschreiben?</translation>
     </message>
     <message>
         <source>No active route found from start signal &apos;%1&apos; to stop signal &apos;%2&apos;</source>
-        <translation>Keine aktive Fahrstraße von Startsignal &apos;%1&apos; zu Zielsignal &apos;%2&apos; gefunden</translation>
+        <translation>Keine eingestellte Fahrstraße von Startsignal &apos;%1&apos; zu Zielsignal &apos;%2&apos; gefunden</translation>
     </message>
 </context>
 <context>
@@ -1062,7 +1070,7 @@ Wollen Sie sie überschreiben?</translation>
     </message>
     <message>
         <source>Resetting route &apos;%1&apos;</source>
-        <translation></translation>
+        <translation>Fahrstraße &apos;%1&apos; zurückgenommen</translation>
     </message>
 </context>
 <context>
@@ -1347,11 +1355,11 @@ NMRA/DCC: 1 - 4096</translation>
     </message>
     <message>
         <source>&amp;Exch. conn.</source>
-        <translation type="unfinished">&amp;Vertauschen</translation>
+        <translation>&amp;Vertauschen</translation>
     </message>
     <message>
         <source>E&amp;xch. conn.</source>
-        <translation type="unfinished">Ver&amp;tauschen</translation>
+        <translation>Ver&amp;tauschen</translation>
     </message>
     <message>
         <source>Address module</source>
