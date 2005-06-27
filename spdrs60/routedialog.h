@@ -1,11 +1,11 @@
 /***************************************************************************
                            routedialog.h
-                           version 0.4.7 $Revision: 1.9 $
+                           version 0.4.7 $Revision: 1.10 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-21 20:49:30 $
+    last modified        : $Date: 2005-06-27 20:49:02 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -61,13 +61,20 @@ public:
     void getActivateData(PortState&);
     void getReleaseData(PortState&);
     int getRouteType();
+    void setRouteElements(const QPtrList<stateElement>&);
   
 private:
-    QString addZeros(const QString&);
 
 public slots:
 
 private slots:
+    void activateCBchanged(bool);
+    void releaseCBchanged(bool);
+    void activateContactSBChanged(int);
+    void releaseContactSBChanged(int);
+    void typeBGPressed(int);
+    void elementsLVChanged(QListViewItem*);
+    void removeElementFromList();
 
 signals:
     void showLogMessage(const QString&, int, int);
@@ -87,15 +94,23 @@ private:
    QLineEdit*    stopSignalAddressLE;
    
    QCheckBox*    activatefbCB;
+   QLabel*       activateSrcpBusLB;
    QLineEdit*    activateSrcpBusLE;
+   QLabel*       activateContactLB;
    QSpinBox*     activateContactSB;
+   QLabel*       activateModuleLB;
    QLineEdit*    activateModuleLE;
+   QLabel*       activatePortLB;
    QLineEdit*    activatePortLE;
 
    QCheckBox*    releasefbCB;
+   QLabel*       releaseSrcpBusLB;
    QLineEdit*    releaseSrcpBusLE;
+   QLabel*       releaseContactLB;
    QSpinBox*     releaseContactSB;
+   QLabel*       releaseModuleLB;
    QLineEdit*    releaseModuleLE;
+   QLabel*       releasePortLB;
    QLineEdit*    releasePortLE;
 
    QButtonGroup* typeBG;
@@ -104,6 +119,7 @@ private:
 
    QListView*    elementsLV;
 
+   QPushButton*  editPB;
    QPushButton*  addPB;
    QPushButton*  removePB;
 

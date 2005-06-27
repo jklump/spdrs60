@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.4.8 $Revision: 1.12 $
+                           version 0.4.8 $Revision: 1.13 $
                            -------------------------------
     copyright            : (C) 2005 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-21 20:49:14 $
+    last modified        : $Date: 2005-06-27 20:49:00 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -210,6 +210,8 @@ RouteDialog::RouteDialog(QWidget* parent)
     activatefbCB = new QCheckBox(tr("&Enable feedback activation"),
             activateGB, "activatefbCB");
     activateGBL->addWidget(activatefbCB);
+    connect(activatefbCB, SIGNAL(toggled(bool)),
+            this, SLOT(activateCBchanged(bool)));
     
     /*two lines with radio buttons to choose feedback signal direction*/
     activateRouteBG = new QButtonGroup(0, Horizontal,
@@ -228,7 +230,7 @@ RouteDialog::RouteDialog(QWidget* parent)
 
     /*line with SRCP bus for activation by feedback*/
     QHBoxLayout* activateSrcpBusLayout = new QHBoxLayout(activateGBL, 6);
-    QLabel* activateSrcpBusLB = new QLabel(tr("B&us (s88/SRCP)"), activateGB);
+    activateSrcpBusLB = new QLabel(tr("B&us (s88/SRCP)"), activateGB);
     activateSrcpBusLayout->addWidget(activateSrcpBusLB);
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -241,7 +243,7 @@ RouteDialog::RouteDialog(QWidget* parent)
 
     /*line with contact for activation by feedback*/
     QHBoxLayout* activateContactLayout = new QHBoxLayout(activateGBL, 6);
-    QLabel* activateContactLB = new QLabel(tr("&Contact (1 - 496)"),
+    activateContactLB = new QLabel(tr("&Contact (1 - 496)"),
             activateGB);
     activateContactLayout->addWidget(activateContactLB);
     spacer = new QSpacerItem(0, 0,
@@ -251,10 +253,12 @@ RouteDialog::RouteDialog(QWidget* parent)
             "activateContactSB");
     activateContactLB->setBuddy(activateContactSB);
     activateContactLayout->addWidget(activateContactSB);
+    connect(activateContactSB, SIGNAL(valueChanged(int)),
+            this, SLOT(activateContactSBChanged(int)));
 
     /*line with module for activation by feedback*/
     QHBoxLayout* activateModuleLayout = new QHBoxLayout(activateGBL, 6);
-    QLabel* activateModuleLB = new QLabel(tr("Module (1 - %1)")
+    activateModuleLB = new QLabel(tr("Module (1 - %1)")
             .arg(FEEDBACK == FB_16 ? 31 : 62), activateGB);
     activateModuleLayout->addWidget(activateModuleLB);
     spacer = new QSpacerItem(0, 0,
@@ -262,12 +266,13 @@ RouteDialog::RouteDialog(QWidget* parent)
     activateModuleLayout->addItem(spacer);
     activateModuleLE = new QLineEdit(activateGB, "activateModuleLE");
     activateModuleLE->setMaximumWidth(LEMAXWIDTH);
+    activateModuleLE->setFocusPolicy(QWidget::NoFocus);
     //activateModuleLB->setBuddy(activateModuleLE);
     activateModuleLayout->addWidget(activateModuleLE);
 
     /*line with port for activation by feedback*/
     QHBoxLayout* activatePortLayout = new QHBoxLayout(activateGBL, 6);
-    QLabel* activatePortLB = new QLabel(tr("Port (1 - %1)")
+    activatePortLB = new QLabel(tr("Port (1 - %1)")
             .arg(FEEDBACK == FB_16 ? 16 : 8), activateGB);
     activatePortLayout->addWidget(activatePortLB);
     spacer = new QSpacerItem(0, 0,
@@ -275,6 +280,7 @@ RouteDialog::RouteDialog(QWidget* parent)
     activatePortLayout->addItem(spacer);
     activatePortLE = new QLineEdit(activateGB, "activatePortLE");
     activatePortLE->setMaximumWidth(LEMAXWIDTH);
+    activatePortLE->setFocusPolicy(QWidget::NoFocus);
     //activatePortLB->setBuddy(activatePortLE);
     activatePortLayout->addWidget(activatePortLE);
 
@@ -289,6 +295,8 @@ RouteDialog::RouteDialog(QWidget* parent)
     releasefbCB = new QCheckBox(tr("Enable &feedback release"),
             releaseGB, "releasefbCB");
     releaseGBL->addWidget(releasefbCB);
+    connect(releasefbCB, SIGNAL(toggled(bool)),
+            this, SLOT(releaseCBchanged(bool)));
     
     /*two lines with radio buttons to choose feedback signal direction*/
     releaseRouteBG = new QButtonGroup(0, Horizontal,
@@ -307,7 +315,7 @@ RouteDialog::RouteDialog(QWidget* parent)
 
     /*line with SRCP bus for activation by feedback*/
     QHBoxLayout* releaseSrcpBusLayout = new QHBoxLayout(releaseGBL, 6);
-    QLabel* releaseSrcpBusLB = new QLabel(tr("Bus (s&88/SRCP)"), releaseGB);
+    releaseSrcpBusLB = new QLabel(tr("Bus (s&88/SRCP)"), releaseGB);
     releaseSrcpBusLayout->addWidget(releaseSrcpBusLB);
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -320,7 +328,7 @@ RouteDialog::RouteDialog(QWidget* parent)
 
     /*line with contact for activation by feedback*/
     QHBoxLayout* releaseContactLayout = new QHBoxLayout(releaseGBL, 6);
-    QLabel* releaseContactLB = new QLabel(tr("&Contact (1 - 496)"), releaseGB);
+    releaseContactLB = new QLabel(tr("&Contact (1 - 496)"), releaseGB);
     releaseContactLayout->addWidget(releaseContactLB);
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -328,10 +336,12 @@ RouteDialog::RouteDialog(QWidget* parent)
     releaseContactSB = new QSpinBox(1, 496, 1, releaseGB, "releaseContactSB");
     releaseContactLB->setBuddy(releaseContactSB);
     releaseContactLayout->addWidget(releaseContactSB);
+    connect(releaseContactSB, SIGNAL(valueChanged(int)),
+            this, SLOT(releaseContactSBChanged(int)));
 
     /*line with module for activation by feedback*/
     QHBoxLayout* releaseModuleLayout = new QHBoxLayout(releaseGBL, 6);
-    QLabel* releaseModuleLB = new QLabel(tr("Module (1 - %1)")
+    releaseModuleLB = new QLabel(tr("Module (1 - %1)")
             .arg(FEEDBACK == FB_16 ? 31 : 62), releaseGB);
     releaseModuleLayout->addWidget(releaseModuleLB);
     spacer = new QSpacerItem(0, 0,
@@ -339,12 +349,13 @@ RouteDialog::RouteDialog(QWidget* parent)
     releaseModuleLayout->addItem(spacer);
     releaseModuleLE = new QLineEdit(releaseGB, "releaseModuleLE");
     releaseModuleLE->setMaximumWidth(LEMAXWIDTH);
+    releaseModuleLE->setFocusPolicy(QWidget::NoFocus);
     //releaseModuleLB->setBuddy(releaseModuleLE);
     releaseModuleLayout->addWidget(releaseModuleLE);
 
     /*line with port activation by feedback*/
     QHBoxLayout* releasePortLayout = new QHBoxLayout(releaseGBL, 6);
-    QLabel* releasePortLB = new QLabel(tr("Port (1 - %1)")
+    releasePortLB = new QLabel(tr("Port (1 - %1)")
             .arg(FEEDBACK == FB_16 ? 16 : 8), releaseGB);
     releasePortLayout->addWidget(releasePortLB);
     spacer = new QSpacerItem(0, 0,
@@ -352,6 +363,7 @@ RouteDialog::RouteDialog(QWidget* parent)
     releasePortLayout->addItem(spacer);
     releasePortLE = new QLineEdit(releaseGB, "releasePortLE");
     releasePortLE->setMaximumWidth(LEMAXWIDTH);
+    releasePortLE->setFocusPolicy(QWidget::NoFocus);
     //releasePortLB->setBuddy(releasePortLE);
     releasePortLayout->addWidget(releasePortLE);
 
@@ -422,6 +434,7 @@ RouteDialog::RouteDialog(QWidget* parent)
     ursLevelSB->setWrapping(false);
     ursLayout->addWidget(ursLevelSB);
     label->setBuddy(ursLevelSB);
+    connect(typeBG, SIGNAL(pressed(int)), this, SLOT(typeBGPressed(int)));
 
 
     /*route elements group box*/
@@ -438,7 +451,11 @@ RouteDialog::RouteDialog(QWidget* parent)
     elementsLV->addColumn(tr("SRCP-Bus"));
     elementsLV->addColumn(tr("Address"));
     elementsLV->addColumn(tr("State"));
-
+    elementsLV->setColumnAlignment(1, Qt::AlignRight);
+    elementsLV->setColumnAlignment(2, Qt::AlignRight);
+    elementsLV->setColumnAlignment(3, Qt::AlignRight);
+    connect(elementsLV, SIGNAL(currentChanged(QListViewItem*)),
+            this, SLOT(elementsLVChanged(QListViewItem*)));
     
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -452,163 +469,19 @@ RouteDialog::RouteDialog(QWidget* parent)
             QSizePolicy::Expanding, QSizePolicy::Minimum);
     routeElBtnLayout->addItem(spacer);
 
+    editPB = new QPushButton(tr("&Edit"), routeElementsGB);
+    //connect(editPB, SIGNAL(clicked()), this, SLOT(editListElement()));
+    routeElBtnLayout->addWidget(editPB);
+    editPB->setEnabled(false);
+
     addPB = new QPushButton(tr("&Add"), routeElementsGB);
     //connect(addPB, SIGNAL(clicked()), this, SLOT(addElementToList()));
     routeElBtnLayout->addWidget(addPB);
 
     removePB = new QPushButton(tr("&Remove"), routeElementsGB);
-    //connect(removePB, SIGNAL(clicked()), this, SLOT(removeElementFromList()));
+    connect(removePB, SIGNAL(clicked()), this, SLOT(removeElementFromList()));
     routeElBtnLayout->addWidget(removePB);
-
-
-/*
-    sbRelMod =
-        new QSpinBox(0, 4 * (31 + (FEEDBACK * 31)), 1, groupActivate, "");
-    sbRelMod->setWrapping(true);
-    connect(sbRelMod, SIGNAL(valueChanged(int)),
-            this, SLOT(slotValueChanged(int)));
-    connect(sbRelMod, SIGNAL(valueChanged(int)),
-            this, SLOT(slotDisableRelPort(int)));
-
-    sbRelPort = new QSpinBox(1, 16 - (FEEDBACK * 8), 1, groupActivate, "");
-    sbRelPort->setWrapping(true);
-    sbRelPort->setEnabled(false);
-    connect(sbRelPort, SIGNAL(valueChanged(int)),
-            this, SLOT(slotValueChanged(int)));
-
-    sbActMod =
-        new QSpinBox(0, 4 * (31 + (FEEDBACK * 31)), 1, groupActivate, "");
-    sbActMod->setWrapping(true);
-    connect(sbActMod, SIGNAL(valueChanged(int)),
-            this, SLOT(slotValueChanged(int)));
-    connect(sbActMod, SIGNAL(valueChanged(int)),
-            this, SLOT(slotDisableActPort(int)));
-    sbActMod->setEnabled(false);
-
-    sbActPort = new QSpinBox(1, 16 - (FEEDBACK * 8), 1, groupActivate, "");
-    sbActPort->setWrapping(true);
-    sbActPort->setEnabled(false);
-    connect(sbActPort, SIGNAL(valueChanged(int)),
-            this, SLOT(slotValueChanged(int)));
-
-    //lAdd->move(sbActPort->x()+sbActPort->width()+5, lAct->y());
-
-    leLocoAddr = new QLineEdit(groupActivate, "");
-    leLocoAddr->setMaxLength(4);
-    connect(leLocoAddr, SIGNAL(textChanged(const QString&)),
-            this, SLOT(slotTextChanged(const QString&)));
-    leLocoAddr->setEnabled(false);
-
-    groupActivate->setGeometry(lblRouteName->x(),
-                               routeNameLE->y() + routeNameLE->height() +
-                               15, 300,
-                               sbActMod->y() + sbActMod->height() + 10);
-
-    QLabel *label = new QLabel(tr("&Level:"), bgRouteType);
-
-    sbDetourLevel = new QSpinBox(1, 9, 1, bgRouteType, "DetourSB");
-    sbDetourLevel->setWrapping(false);  // enables to spin "over" the limits
-    connect(sbDetourLevel, SIGNAL(valueChanged(int)),
-            this, SLOT(slotValueChanged(int)));
-
-    label->setBuddy(sbDetourLevel);
-
-    label = new QLabel(tr("L&evel:"), bgRouteType);
-
-    sbShDetourLevel = new QSpinBox(1, 9, 1, bgRouteType, "ShDetourSB");
-    sbShDetourLevel->setWrapping(false);  // enables to spin "over" the limits
-    connect(sbShDetourLevel, SIGNAL(valueChanged(int)),
-            this, SLOT(slotValueChanged(int)));
-    label->setBuddy(sbShDetourLevel);
-
-    // all about start and stop signals
-    groupStartStop =
-        new QGroupBox(tr("Start and stop signals"), this, "Signals");
-    groupStartStop->setGeometry(groupActivate->x() +
-                                groupActivate->width() + 10,
-                                groupActivate->y(), 240,
-                                groupActivate->height());
-
-    lName = new QLabel(tr("Name"), groupStartStop);
-    lAddr = new QLabel(tr("Address"), groupStartStop);
-    lStat = new QLabel(tr("State"), groupStartStop);
-    lStart = new QLabel(tr("Start:"), groupStartStop);
-    lStopp = new QLabel(tr("Stop: "), groupStartStop);
-    lStartName = new QLabel(groupStartStop, "");
-    lStartName->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-    leStartAddr = new QLineEdit(groupStartStop, "");
-    leStartAddr->setMaxLength(4);
-    connect(leStartAddr, SIGNAL(textChanged(const QString&)),
-            this, SLOT(slotTextChanged(const QString&)));
-    connect(leStartAddr, SIGNAL(textChanged(const QString&)),
-            this, SLOT(slotAddressChanged(const QString&)));
-
-    leStartStat = new QLineEdit(groupStartStop, "");
-    leStartStat->setMaxLength(1);
-    connect(leStartStat, SIGNAL(textChanged(const QString&)),
-            this, SLOT(slotTextChanged(const QString&)));
-    connect(leStartStat, SIGNAL(textChanged(const QString&)),
-            this, SLOT(slotStatusChanged(const QString&)));
-
-    lStoppName = new QLabel(groupStartStop, "");
-    lStoppName->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-
-    leStoppAddr = new QLineEdit(groupStartStop, "");
-    leStoppAddr->setMaxLength(4);
-    connect(leStoppAddr, SIGNAL(textChanged(const QString&)),
-            this, SLOT(slotTextChanged(const QString&)));
-    connect(leStoppAddr, SIGNAL(textChanged(const QString&)),
-            this, SLOT(slotAddressChanged(const QString&)));
-
-
-    // the elements which are switched in a route
-    groupElements = new QGroupBox(tr("Routed elements"), this, "Elements");
-
-    lNo = new QLabel(tr("No"), groupElements);
-    lName2 = new QLabel(tr("Name"), groupElements);
-    lAddr2 = new QLabel(tr("Address"), groupElements);
-    lStat2 = new QLabel(tr("State"), groupElements);
-
-    QString s;
-    for (int j = 0; j < MAX_SW_ELEM; j++) {
-        s.sprintf("%d", j + 1);
-        lElem[j] = new QLabel(s, groupElements, "noLabel");
-        lElem[j]->text().setNum(j+1);
-        lElem[j]->setAlignment(Qt::AlignRight);
-
-        lElemName[j] = new QLabel(groupElements, "elemName");
-        lElemName[j]->setFrameStyle(QFrame::Panel | QFrame::Sunken);
-        lElemName[j]->setFocusPolicy(QWidget::NoFocus);
-
-        leElemAddr[j] = new QLineEdit(groupElements, "elemAddress");
-        leElemAddr[j]->setMaxLength(4);
-        leElemAddr[j]->setFocusPolicy(QWidget::StrongFocus);
-        connect(leElemAddr[j], SIGNAL(textChanged(const QString&)),
-                this, SLOT(slotTextChanged(const QString&)));
-        connect(leElemAddr[j], SIGNAL(textChanged(const QString&)),
-                this, SLOT(slotAddressChanged(const QString&)));
-
-        leElemStat[j] = new QLineEdit(groupElements, "elemState");
-        leElemStat[j]->setMaxLength(1);
-        leElemStat[j]->setFocusPolicy(QWidget::StrongFocus);
-        connect(leElemStat[j], SIGNAL(textChanged(const QString&)),
-                this, SLOT(slotTextChanged(const QString&)));
-        connect(leElemStat[j], SIGNAL(textChanged(const QString&)),
-                this, SLOT(slotStatusChanged(const QString&)));
-    }
-    */
-}
-
-/**
- * convert string shorter than 4 characters to string with leading
- * zeros
- */
-QString RouteDialog::addZeros(const QString& sNZString_)
-{
-    QString s = sNZString_;
-    while (s.length() < 4)
-        s.prepend("0");
-    return s;
+    removePB->setEnabled(false);
 }
 
 
@@ -627,6 +500,7 @@ QString RouteDialog::getRouteName()
 void RouteDialog::setRouteType(int type)
 {
     typeBG->setButton(type);
+    typeBGPressed(type);
 }
 
 
@@ -673,9 +547,12 @@ void RouteDialog::getStopSignalData(stateElement& signal)
 void RouteDialog::setActivateData(const PortState& port)
 {
     activatefbCB->setChecked(port.used);
+    // this should normaly not be necessary:
+    activateCBchanged(port.used);
     activateRouteBG->setButton((int)port.switchtooff);
     activateSrcpBusLE->setText(QString::number(port.bus));
     activateContactSB->setValue(port.address);
+    activateContactSBChanged(port.address);
 }
 
 
@@ -691,9 +568,12 @@ void RouteDialog::getActivateData(PortState& port)
 void RouteDialog::setReleaseData(const PortState& port)
 {
     releasefbCB->setChecked(port.used);
+    // this should normaly not be necessary:
+    releaseCBchanged(port.used);
     releaseRouteBG->setButton((int)port.switchtooff);
     releaseSrcpBusLE->setText(QString::number(port.bus));
     releaseContactSB->setValue(port.address);
+    releaseContactSBChanged(port.address);
 }
 
 
@@ -703,5 +583,98 @@ void RouteDialog::getReleaseData(PortState& port)
     port.switchtooff = (releaseRouteBG->selectedId() == 1);
     port.bus = releaseSrcpBusLE->text().toUInt();
     port.address = releaseContactSB->value();
+}
+
+
+void RouteDialog::setRouteElements(const QPtrList<stateElement>& items)
+{
+    QPtrListIterator<stateElement> it(items);
+    stateElement* se;
+    QListViewItem* element;
+    while ((se = it.current()) != 0) {
+        ++it;
+        element = new QListViewItem(elementsLV, se->name,
+            QString::number(se->bus), QString::number(se->address),
+            QString::number(se->state));
+    }
+}
+
+
+void RouteDialog::activateCBchanged(bool isChecked)
+{
+    activateRouteBG->setEnabled(isChecked);
+    activateSrcpBusLB->setEnabled(isChecked);
+    activateSrcpBusLE->setEnabled(isChecked);
+    activateContactLB->setEnabled(isChecked);
+    activateContactSB->setEnabled(isChecked);
+    activateModuleLB->setEnabled(isChecked);
+    activateModuleLE->setEnabled(isChecked);
+    activatePortLB->setEnabled(isChecked);
+    activatePortLE->setEnabled(isChecked);
+}
+
+
+void RouteDialog::releaseCBchanged(bool isChecked)
+{
+    releaseRouteBG->setEnabled(isChecked);
+    releaseSrcpBusLB->setEnabled(isChecked);
+    releaseSrcpBusLE->setEnabled(isChecked);
+    releaseContactLB->setEnabled(isChecked);
+    releaseContactSB->setEnabled(isChecked);
+    releaseModuleLB->setEnabled(isChecked);
+    releaseModuleLE->setEnabled(isChecked);
+    releasePortLB->setEnabled(isChecked);
+    releasePortLE->setEnabled(isChecked);
+}
+
+
+void RouteDialog::activateContactSBChanged(int contact)
+{
+    // FB_16 = 0, FB_8 = 1
+    int inputs = 16 - (FEEDBACK * 8);
+    int module = (contact - 1) / inputs + 1;
+    int port = contact - (module - 1) * inputs;
+    activateModuleLE->setText(QString::number(module));
+    activatePortLE->setText(QString::number(port));
+}
+
+
+void RouteDialog::releaseContactSBChanged(int contact)
+{
+    int inputs = 16 - (FEEDBACK * 8);
+    int module = (contact - 1) / inputs + 1;
+    int port = contact - (module - 1) * inputs;
+    releaseModuleLE->setText(QString::number(module));
+    releasePortLE->setText(QString::number(port));
+}
+
+
+void RouteDialog::typeBGPressed(int btn)
+{
+    uzsLevelSB->setEnabled(btn == 1);
+    ursLevelSB->setEnabled(btn == 4);
+}
+
+
+void RouteDialog::elementsLVChanged(QListViewItem* lvi)
+{
+    if (lvi == NULL) {
+	editPB->setEnabled(false);
+	removePB->setEnabled(false);
+    }
+    else {
+	editPB->setEnabled(true);
+	removePB->setEnabled(true);
+    }
+}
+
+
+void RouteDialog::removeElementFromList()
+{
+    QListViewItem* lvi = elementsLV->currentItem();
+    if (lvi != NULL) {
+        elementsLV->takeItem(lvi);
+        delete lvi;
+    }
 }
 
