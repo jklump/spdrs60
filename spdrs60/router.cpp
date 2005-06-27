@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.4.8 $Revision: 1.15 $
+                           version 0.4.8 $Revision: 1.16 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-22 20:21:49 $
+    last modified        : $Date: 2005-06-27 20:50:48 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -496,7 +496,8 @@ void Router::unlockAllLockedRoutes()
 }
 
 
-void Router::feedbackPortChanged(unsigned int port)
+void Router::feedbackPortChanged(unsigned int bus, unsigned int port,
+    bool ison)
 {
     QPtrListIterator<Route> routeit(routeList);
     Route* rt;
@@ -504,14 +505,14 @@ void Router::feedbackPortChanged(unsigned int port)
     /*first release locked routes*/
     while ((rt = routeit.current()) != 0 ) {
         ++routeit;
-        rt->unlockByFeedbackPort(port);
+        rt->unlockByFeedbackPort(bus, port, ison);
     }
     
     /*second activate unlocked routes*/
     routeit.toFirst();
     while ((rt = routeit.current()) != 0 ) {
         ++routeit;
-        rt->lockByFeedbackPort(port);
+        rt->lockByFeedbackPort(bus, port, ison);
     }
 }
 

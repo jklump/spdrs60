@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.18 $
+                           version 0.4.8 $Revision: 1.19 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-21 20:49:14 $
+    last modified        : $Date: 2005-06-27 20:50:46 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -200,6 +200,7 @@ void Route::setupElementLists(QPtrVector<element>* elements)
             ++it;
         
             if ((gbse != 0) && gbse->hasSameAddress(swElement->address)) {
+                swElement->name = gbse->getName();
                 if (swElement->elemPtr == NULL)
                     swElement->elemPtr = gbse;
                 else {
@@ -951,16 +952,18 @@ bool Route::isUnlockedType(element* fel, element* tel, GbsButtonState cb,
 }
 
 
-void Route::lockByFeedbackPort(unsigned int port)
+void Route::lockByFeedbackPort(unsigned int bus, unsigned int port, bool ison)
 {
-    if (!locked && acPort.address == port)
+    if (!locked && acPort.bus == bus && acPort.address == port &&
+        acPort.switchtooff != ison)
         startRouting();
 }
 
 
-void Route::unlockByFeedbackPort(unsigned int port)
+void Route::unlockByFeedbackPort(unsigned int bus, unsigned int port, bool ison)
 {
-    if (locked && rePort.address == port)
+    if (locked && rePort.bus == bus && rePort.address == port
+        && rePort.switchtooff != ison)
         stopRouting();
 }
 
@@ -977,6 +980,7 @@ bool Route::runEditRouteDialog(QWidget* dlgparent)
     rtDlg->setActivateData(acPort);
     rtDlg->setReleaseData(rePort);
     rtDlg->setRouteType(routeType);
+    rtDlg->setRouteElements(switchItems);
     if (rtDlg->exec() == QDialog::Accepted) {
         Name = rtDlg->getRouteName();
         rtDlg->getStartSignalData(fromSignal);

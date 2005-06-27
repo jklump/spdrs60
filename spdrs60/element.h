@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.4.8 $Revision: 1.21 $
+                           version 0.4.8 $Revision: 1.22 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-18 05:50:55 $
+    last modified        : $Date: 2005-06-27 20:50:39 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -149,6 +149,7 @@ public:
     bool hasShuntingRouteButtonOnly();
     bool hasDifferentDirection(int);
     bool hasFfMLock();
+    bool hasLEDsOn();
     bool isEmpty();
     bool isLocked();
     bool isOccupied();
@@ -216,7 +217,6 @@ public slots:
     void slotOccupyElement(unsigned int);
     void switchSelectionMode(elemSelectionMode);
     void switchVisualMode(elemVisualMode);
-    void slotRecordMode(elemVisualMode);
     void slotRepeatIcon(const QString&);
     void slotShowElement(int, int, elemSelectionMode);
     void slotRepaintLayout();

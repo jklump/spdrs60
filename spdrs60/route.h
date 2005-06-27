@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.4.8 $Revision: 1.11 $
+                           version 0.4.8 $Revision: 1.12 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-21 20:49:14 $
+    last modified        : $Date: 2005-06-27 20:50:47 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -119,8 +119,8 @@ public:
     void setStopSignal(element*);
     void addSwitchElement(element*);
     void removeElement(element*);
-    void lockByFeedbackPort(unsigned int port);
-    void unlockByFeedbackPort(unsigned int port);
+    void lockByFeedbackPort(unsigned int, unsigned int, bool);
+    void unlockByFeedbackPort(unsigned int, unsigned int, bool);
     
 signals:
     void showElement(int, int, int);
@@ -138,8 +138,6 @@ private:
 
     /*list with raw item data*/
     QPtrList<stateElement> switchItems;
-    /*list with pointers to all gbs-elements on route path*/
-    //QPtrList<element> routePathItems;
 };
 #endif // ROUTE_H
 

@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.26 $
+                           version 0.4.8 $Revision: 1.27 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-20 20:55:41 $
+    last modified        : $Date: 2005-06-27 20:50:38 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -814,13 +814,6 @@ void element::switchVisualMode(elemVisualMode vm)
 }
 
 
-/*TODO: remove this*/
-void element::slotRecordMode(elemVisualMode vm)
-{
-    switchVisualMode(vm);
-}
-
-
 void element::makeCommand()
 {
     /* do not send anything for rail buttons without signals */
@@ -1255,6 +1248,10 @@ void element::sendState()
 }
 
 
+/**
+ * paint element icon
+ * TODO: this should completely be rewritten due to performance flaws
+ */
 void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
 {
     // update the contextmenu
@@ -1388,7 +1385,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         pixBasicIcon = QPixmap(sPixMapName);
     }
     /*TODO: what about symbols with "taste"-name?*/
-    if (iSoldLEDoff == true || sSoldIcon == SYM_LEE)
+    if (iSoldLEDoff == 1 || sSoldIcon == SYM_LEE)
         goto LEDOFF;
         /*TODO: show white pattern on rail */
 
@@ -1665,7 +1662,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
     else
         pixRotatedIcon = pixBasicIcon;
 
-    // now add everything else like text, locked circles
+    // now paint everything else like text, locked circles
     QPainter p;
     p.begin(&pixRotatedIcon);
 
@@ -1680,17 +1677,17 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         // now setup the right font, TODO make configurable by user
         /* FIXME: each QWidget has allready a QFont, use it! */
         QFont f("Helvetica");
-        QRect br;               // for frame around text
-        QString s;              // empty and straight elements
+        QRect br;               // text bounding rectangle
+        QString s = "";
+	// empty and straight elements
         if (sSoldIcon == SYM_LEE || sSoldIcon == SYM_GER) {
-            f.setPointSize(10);
-            f.setWeight(QFont::DemiBold);
-            s = sSoldText.data();
+            f.setPointSize(QApplication::font().pointSize() - 1);
+            s = sSoldText;
         }
         
-        // address elements
+        // address element
         else if (sSoldIcon == SYM_ADR) {
-            f.setPointSize(12);
+            f.setPointSize(QApplication::font().pointSize() + 1);
             f.setWeight(QFont::DemiBold);
             int iAdr = bFBport[iFBContact] +
                   2 * (bFBport[iFBContact + 1]) +
@@ -1701,30 +1698,29 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                  64 * (bFBport[iFBContact + 6]) +
                 128 * (bFBport[iFBContact + 7]);
 
-            // only show if loco address is different from "0"
-            //if (iAdr > 0)
             s.sprintf("%05d", iAdr);
         }
         
+        // turntable
         else if (sSoldIcon == SYM_DRE) {
-            f.setPointSize(8);
-            s.sprintf("%d", iSoldSubType);
+            f.setPointSize(QApplication::font().pointSize() - 3);
+            s.setNum(iSoldSubType);
         }
 
         // all other switchable elements
         else {
-            f.setPointSize(8);
+            f.setPointSize(QApplication::font().pointSize() - 3);
             if (SHOW_TXT_ADR == TEXT)
-                s = sSoldText.data();
+                s = sSoldText;
             else
                 s.setNum(iSoldAddress_1);
         }
 
         QFontMetrics fm(f);
-        br = fm.boundingRect(s);
-        br.setWidth(br.width() + 6);
-        br.setHeight(br.height() + 4);
         p.setFont(f);
+        br = fm.boundingRect(s);
+        br.setWidth(br.width() + 4);
+        br.setHeight(br.height() + 2);
 
         // calculate matching textframe position
         if (sSoldIcon == SYM_GER)
@@ -1781,26 +1777,21 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                            (EL_WIDTH / 2 - br.width() / 2 + 1,
                             EL_HEIGHT / 2 - br.height() / 2));
 
-        // paint text and frame around text
-        if (sSoldIcon == SYM_SBN) {
+        // paint text on background rectangle
+        if (sSoldIcon == SYM_SBN)
             p.fillRect(br, QBrush(QColor("grey86")));
-            p.drawRect(br);
-        }
         
         else if (sSoldIcon == SYM_DRE)
             p.fillRect(br, QBrush(yellow));
         
         else if (sSoldIcon != SYM_LEE && sSoldIcon != SYM_GER
-                 && sSoldIcon != SYM_ADR && !sSoldText.isEmpty()){
-            //p.fillRect(br, QBrush(white)); // TODO: optional?
-            p.drawRect(br);
-        }
+                 && sSoldIcon != SYM_ADR && !sSoldText.isEmpty())
+            p.fillRect(br, QBrush(white));
 
-        p.setPen(blue);
-        p.drawText(br.bottomLeft() + QPoint(2, -1), s.data());
-        p.setPen(black);
+	p.drawText(br, Qt::AlignCenter | Qt::SingleLine | Qt::DontClip, s);
 
-        // locked circle for solenoids
+
+        // paint locked circle for solenoids
         QPoint xyLocked;
 
         if ((sSoldIcon == SYM_WEL && iSoldRotate == 0) ||
@@ -2394,5 +2385,11 @@ bool element::hasShuntingRouteButtonOnly()
 {
     return (sSoldIcon == SYM_SS || sSoldIcon == SYM_SSS || sSoldIcon ==
             SYM_SRB || sSoldIcon == SYM_WS);
+}
+
+
+bool element::hasLEDsOn()
+{
+    return (iSoldLEDoff == 0);
 }
 

@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.25 $
+                           version 0.4.8 $Revision: 1.26 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-22 20:21:48 $
+    last modified        : $Date: 2005-06-27 20:50:42 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -164,9 +164,9 @@ MainWindow::~MainWindow()
 }
 
 /**
-  * write application settings to personal config file, this is typicaly
-  * done if application window is closed
-  */
+ * write application settings to personal config file, this is typicaly
+ * done if application window is closed
+ */
 void MainWindow::writeConfigFile()
 {
     QFile file(QDir::homeDirPath() + "/" + SPDRS60_INIT);
@@ -185,14 +185,14 @@ void MainWindow::writeConfigFile()
     ts  << "# SpDrS60 for Linux config file" << endl
         << "# last modified: " << dt.toString(Qt::ISODate) << endl
         << "#" << endl;
-
+    // TODO: continue work
     file.close();
 }
 
 /**
-  * read application settings from config file, this is typicaly
-  * done on application startup
-  */
+ * read application settings from config file, this is typicaly
+ * done on application startup
+ */
 void MainWindow::slotReadConfigFile()
 {
     int i;
@@ -391,8 +391,9 @@ void MainWindow::initMainWindow()
     Q_CHECK_PTR(rtController);
     connect(this, SIGNAL(switchedVisualMode(elemVisualMode)),
             rtController, SLOT(switchVisualMode(elemVisualMode)));
-    connect(this, SIGNAL(sendFBChangeRoute(unsigned int)),
-            rtController, SLOT(feedbackPortChanged(unsigned int)));
+    connect(this, SIGNAL(sendFBChangeRoute(unsigned int, unsigned int, bool)),
+            rtController, SLOT(feedbackPortChanged(unsigned int,
+                    unsigned int, bool)));
     connect(rtController, SIGNAL(showLogMessage(const QString&, int,
                     int)),
             this, SLOT(cmdToDebug(const QString&, int, int)));
@@ -1524,7 +1525,7 @@ void MainWindow::FeedbackSocketReadyRead()
 {
     QString sInfo = "";
     QString sDebug;
-    unsigned int iPortNr, iState, uiModule = 0, uiPort = 0;
+    unsigned int fbbus, fbport, iPortNr, iState, uiModule = 0, uiPort = 0;
 
     while (FeedbackSocket->canReadLine()) {
         sInfo = FeedbackSocket->readLine();
@@ -1538,10 +1539,12 @@ void MainWindow::FeedbackSocketReadyRead()
             return;
         }
 
-        iPortNr = sInfo.section(" ", 3, 3).toInt();
+        iPortNr = sInfo.section(" ", 3, 3).toUInt();
+        fbport = iPortNr % 496;
         iPortNr--;
+        fbbus = iPortNr / 496 + 1;
 
-        iState = sInfo.section(" ", 4, 4).toInt();
+        iState = sInfo.section(" ", 4, 4).toUInt();
 
         if (iPortNr < MAX_FB)   //just for case 
             bFBport[iPortNr] = iState;
@@ -1558,7 +1561,7 @@ void MainWindow::FeedbackSocketReadyRead()
                 uiPort = iPortNr % 16;
                 uiPort++;
             }
-            else if (FEEDBACK == FB_8) {
+            else { //(FEEDBACK == FB_8)
                 uiModule = iPortNr >> 3;
                 uiModule++;
                 uiPort = iPortNr % 8;
@@ -1576,9 +1579,8 @@ void MainWindow::FeedbackSocketReadyRead()
         emit sendFBChangeModule(iPortNr);
         // send updates to all elements via gbs
         emit sendFBChangeLayout(iPortNr);
-        // send updates to all routes if state changes to 1
-        if (!isFBInitMode && iState == 1)
-            emit sendFBChangeRoute(iPortNr);
+        // send updates to all routes
+	emit sendFBChangeRoute(fbbus, iPortNr, iState == 1);
     }
 }
 
@@ -1681,6 +1683,7 @@ void MainWindow::InfoSocketReadyRead()
             else {
                 unsigned int port = sInfo.section(" ", 3, 3).toUInt();
                 unsigned int state = sInfo.section(" ", 4, 4).toUInt();
+		unsigned int fbbus = (port - 1) / 496 + 1;
 
                 port--;
                 
@@ -1692,8 +1695,8 @@ void MainWindow::InfoSocketReadyRead()
                 // send updates to all elements via gbs
                 emit sendFBChangeLayout(port);
                 // send updates to all routes if state changes to 1
-                if (!isFBInitMode && state == 1)
-                    emit sendFBChangeRoute(port);
+                if (!isFBInitMode)
+                    emit sendFBChangeRoute(fbbus, port, state == 1);
             }
         }
     }

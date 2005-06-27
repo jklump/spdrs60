@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.24 $
+                           version 0.4.8 $Revision: 1.25 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-18 07:18:43 $
+    last modified        : $Date: 2005-06-27 20:50:40 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -23,8 +23,6 @@
    dependant actions
  ***************************************************************************/
 
-#include <unistd.h>             // for write()
-#include <stdlib.h>             // for atoi(), abs()
 #include <qprogressdialog.h>
 
 #include "resources.h"
@@ -837,8 +835,6 @@ void GBSArea::setupElements()
             el->show();  // now show the element
             connect(el, SIGNAL(elementClicked(element*, GbsButtonState)),
                     this, SLOT(slotElementClicked(element*, GbsButtonState)));
-            connect(el, SIGNAL(sendCommand(const QString&)),
-                    this, SIGNAL(sendCommand(const QString&)));
             connect(el, SIGNAL(setRepeatIcon(const QString&)),
                     this, SIGNAL(setRepeatIcon(const QString&)));
             connect(el, SIGNAL(sigShowFBmodules()),
@@ -850,8 +846,6 @@ void GBSArea::setupElements()
                             elemSelectionMode)),
                     el, SLOT(slotShowElement(int, int,
                             elemSelectionMode)));
-            connect(this, SIGNAL(feedbackPortChanged(unsigned int)),
-                    el, SLOT(slotOccupyElement(unsigned int)));
             connect(this, SIGNAL(setRepeatIcon(const QString&)),
                     el, SLOT(slotRepeatIcon(const QString&)));
             connect(this, SIGNAL(sigRepaintLayout()),
@@ -864,7 +858,12 @@ void GBSArea::setupElements()
                                 int, int, int)),
                         el, SLOT(processInfoPortMessage(QString,
                                 int, int, int)));
+                connect(el, SIGNAL(sendCommand(const QString&)),
+                        this, SIGNAL(sendCommand(const QString&)));
             }
+            if (el->hasLEDsOn())
+                connect(this, SIGNAL(feedbackPortChanged(unsigned int)),
+                        el, SLOT(slotOccupyElement(unsigned int)));
         }
     }
     move(0, 0);
@@ -956,8 +955,6 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
                 connect(el, SIGNAL(elementClicked(element*, GbsButtonState)),
                         this, SLOT(slotElementClicked(element*,
                                 GbsButtonState)));
-                connect(el, SIGNAL(sendCommand(const QString&)),
-                        this, SIGNAL(sendCommand(const QString&)));
                 connect(el, SIGNAL(setRepeatIcon(const QString&)),
                         this, SIGNAL(setRepeatIcon(const QString&)));
                 connect(el, SIGNAL(sigShowFBmodules()),
@@ -968,8 +965,6 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
                                 elemSelectionMode)),
                         el, SLOT(slotShowElement(int, int,
                                 elemSelectionMode)));
-                connect(this, SIGNAL(feedbackPortChanged(unsigned int)),
-                        el, SLOT(slotOccupyElement(unsigned int)));
                 connect(this, SIGNAL(setRepeatIcon(const QString&)),
                         el, SLOT(slotRepeatIcon(const QString&)));
                 connect(this, SIGNAL(sigRepaintLayout()),
@@ -981,7 +976,12 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
                                     int, int, int)),
                             el, SLOT(processInfoPortMessage(QString,
                                     int, int, int)));
+                    connect(el, SIGNAL(sendCommand(const QString&)),
+                            this, SIGNAL(sendCommand(const QString&)));
                 }
+                if (el->hasLEDsOn())
+                    connect(this, SIGNAL(feedbackPortChanged(unsigned int)),
+                            el, SLOT(slotOccupyElement(unsigned int)));
             }
             el->setIndexNo(idx);
             /*TODO: set current visual mode */
