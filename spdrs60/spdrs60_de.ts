@@ -305,7 +305,7 @@ verwenden, starten sie erst den Daemon, dann dieses Programm).</translation>
     </message>
     <message>
         <source>Feedback port changes are omitted while initialization</source>
-        <translation>Änderungen am Rückmelde-Port sind bei der Initialisierung nicht erlaubt</translation>
+        <translation>Änderungen an Rückmeldeeingängen sind bei der Initialisierung nicht erlaubt</translation>
     </message>
     <message>
         <source>Personal config file not found</source>
@@ -417,7 +417,7 @@ SRCP-Versionsnummer:
     </message>
     <message>
         <source>Feedback port change: M %1 / P %2 = %3</source>
-        <translation>Rückmelde-Kontakt geändert: M %1 / P %2 = %3</translation>
+        <translation>Rückmelde-Kontakt geändert: M %1 / E %2 = %3</translation>
     </message>
     <message>
         <source>Layouts</source>
@@ -1097,7 +1097,7 @@ Wollen Sie sie überschreiben?</translation>
     </message>
     <message>
         <source>&amp;Repeat: %1</source>
-        <translation>&amp;Wiederholen: %</translation>
+        <translation>&amp;Wiederholen: 1%</translation>
     </message>
 </context>
 <context>
@@ -1467,7 +1467,7 @@ das neue Gleisbild eingeben</translation>
     </message>
     <message>
         <source>Show orange light for signals switched to Hp2</source>
-        <translation>Orangefarbenes Licht Hp2-Signale anzeigen</translation>
+        <translation>Orangefarbenes Licht für Hp2-Signale anzeigen</translation>
     </message>
     <message>
         <source>Show general bubblehelp (e.g. for buttons; a change needs program restart)</source>
@@ -1479,7 +1479,7 @@ das neue Gleisbild eingeben</translation>
     </message>
     <message>
         <source>Solenoids&apos; text fields show:</source>
-        <translation>Text für den Magnetartikel:</translation>
+        <translation>Beschriftung im Gleisbild für Magnetartikel:</translation>
     </message>
     <message>
         <source>address (e.g. decoder address)</source>
@@ -1495,11 +1495,11 @@ das neue Gleisbild eingeben</translation>
     </message>
     <message>
         <source>always on Halt (Hp0/Hp00/Sh0)</source>
-        <translation>immer auf Halt (Hp0/Hp00/Sh0)</translation>
+        <translation>Immer auf Halt (Hp0/Hp00/Sh0)</translation>
     </message>
     <message>
         <source>as saved from previous session</source>
-        <translation>wie von der letzten Sitzung gespeichert</translation>
+        <translation>Wie von der letzten Sitzung gespeichert</translation>
     </message>
     <message>
         <source>Default new columns for empty layout:</source>
@@ -1547,11 +1547,11 @@ das neue Gleisbild eingeben</translation>
     </message>
     <message>
         <source>s88 (or compatible) with 16 ports per module (M&#xe4;rklin, Viessmann)</source>
-        <translation>s88 (o. kompatibel) mit 16 Ports pro Modul (Märklin, Viessmann)</translation>
+        <translation>s88 (o. kompatibel) mit 16 Eingängen pro Modul (Märklin, Viessmann)</translation>
     </message>
     <message>
         <source>s88 (or compatible) with  8 ports per module (EDiTS, Friberg)</source>
-        <translation>s88 (oder kompatibel) mit 8 Ports pro Modul (EDiTS, Friberg)</translation>
+        <translation>s88 (oder kompatibel) mit 8 Eingängen pro Modul (EDiTS, Friberg)</translation>
     </message>
     <message>
         <source>Feedback type:</source>
@@ -1567,7 +1567,7 @@ das neue Gleisbild eingeben</translation>
     </message>
     <message>
         <source>SRCP-Server (DDL, m6051d)</source>
-        <translation>SRCP-Server (DDL, m6051d)</translation>
+        <translation>SRCP-Server (erddcd, srcpd)</translation>
     </message>
     <message>
         <source>Hostname (IP or DNS):</source>
