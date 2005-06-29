@@ -1,11 +1,11 @@
 /***************************************************************************
                            routedialog.h
-                           version 0.4.7 $Revision: 1.10 $
+                           version 0.4.7 $Revision: 1.11 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-27 20:49:02 $
+    last modified        : $Date: 2005-06-29 20:42:36 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -63,8 +63,6 @@ public:
     int getRouteType();
     void setRouteElements(const QPtrList<stateElement>&);
   
-private:
-
 public slots:
 
 private slots:
@@ -75,13 +73,21 @@ private slots:
     void typeBGPressed(int);
     void elementsLVChanged(QListViewItem*);
     void removeElementFromList();
+    void startSignalBusChanged(const QString&);
+    void startSignalAddressChanged(const QString&);
+    void stopSignalBusChanged(const QString&);
+    void stopSignalAddressChanged(const QString&);
 
 signals:
     void showLogMessage(const QString&, int, int);
+    void getElementByAddress(const int, const int, element**);
 
 protected:
 
 private:
+   element* startSignalElPtr;
+   element* stopSignalElPtr;
+    
    QLineEdit*    routeNameLE;
 
    QLineEdit*    startSignalNameLE;
@@ -125,6 +131,9 @@ private:
 
    QSpinBox*     uzsLevelSB;
    QSpinBox*     ursLevelSB;
+   
+   void updateStartSignalName(int, int);
+   void updateStopSignalName(int, int);
 };
 
 #endif    //ROUTEDIALOG_H

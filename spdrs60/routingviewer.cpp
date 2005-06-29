@@ -1,10 +1,10 @@
 /***************************************************************************
                            routingviewer.cpp
-                           version 0.4.8 $Revision: 1.7 $
+                           version 0.4.8 $Revision: 1.8 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-15 20:13:04 $
+    last modified        : $Date: 2005-06-29 20:42:36 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -35,9 +35,6 @@ RoutingViewer::RoutingViewer(QWidget* parent, const char* name,
     setCaption(tr("Routings"));
     setCloseMode(Always);
 
-    //boxLayout()->setDirection(QBoxLayout::TopToBottom);;
-    //boxLayout()->setMargin(2);
-    
     rTable = new RoutingTable(this);
     Q_CHECK_PTR(rTable);
     boxLayout()->addWidget(rTable);
@@ -48,11 +45,6 @@ RoutingViewer::RoutingViewer(QWidget* parent, const char* name,
     connect(rTable, SIGNAL(editRoute(int)),
             this, SLOT(slotEditRouteNo(int)));
 
-    /*at last get a new Router instance*/
-    /*
-    gbsRouter = new Router(this, "gbsRouter");
-    Q_CHECK_PTR(gbsRouter);
-    */
     gbsRouter = router;
 }
 
@@ -81,12 +73,10 @@ void RoutingViewer::updateRoutes()
         }
 
         /*adjust column width to new text length*/
-        /*
         rTable->adjustColumn(1);
         rTable->adjustColumn(2);
         rTable->adjustColumn(3);
         rTable->adjustColumn(4);
-        */
     }
 }
 
@@ -219,8 +209,21 @@ void RoutingViewer::slotRouteEdit()
 void RoutingViewer::slotEditRouteNo(int routeidx)
 {
     Route* sr = gbsRouter->getRouteAt(routeidx);
-    if (sr != NULL && sr->runEditRouteDialog(this))
-        populateTableRow(routeidx);
+    if (sr != NULL) {
+        connect(sr, SIGNAL(getElementByAddress(const int, const int,
+                        element**)), this,
+                SIGNAL(getElementByAddress(const int, const int,
+                        element**)));
+        
+        if (sr->runEditRouteDialog(this)) {
+            populateTableRow(routeidx);
+        }
+
+        disconnect(sr, SIGNAL(getElementByAddress(const int,
+                        const int, element**)), this,
+                SIGNAL(getElementByAddress(const int, const int,
+                        element**)));
+    }
 }
 
 

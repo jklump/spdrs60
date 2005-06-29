@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.4.8 $Revision: 1.12 $
+                           version 0.4.8 $Revision: 1.13 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-27 20:50:47 $
+    last modified        : $Date: 2005-06-29 20:42:36 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -126,6 +126,7 @@ signals:
     void showElement(int, int, int);
     void updateRoutePathLEDs(const stateElement&, const stateElement&,
             RouteSetAction&);
+    void getElementByAddress(const int, const int, element**);
 
 private:
     QString Name;

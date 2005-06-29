@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.26 $
+                           version 0.4.8 $Revision: 1.27 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-27 20:50:42 $
+    last modified        : $Date: 2005-06-29 20:42:35 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -420,8 +420,8 @@ void MainWindow::initMainWindow()
     
     /*route viewer*/
     rtViewer = new RoutingViewer(this, "Routings", rtController);
-    //rtViewer = new RoutingViewer(this, "Routings");
     Q_CHECK_PTR(rtViewer);
+    rtViewer->setFixedExtentWidth(360);
     moveDockWindow(rtViewer, Right);
     rtViewer->hide();
     connect(this, SIGNAL(switchedVisualMode(elemVisualMode)),
@@ -436,6 +436,9 @@ void MainWindow::initMainWindow()
             rtViewer, SLOT(updateRoutes()));
     connect(rtController, SIGNAL(updateRoutingViewerAt(int)),
             rtViewer, SLOT(updateRouteAt(int)));
+    connect(rtViewer, SIGNAL(getElementByAddress(const int, const int,
+                    element**)), gbs,
+            SLOT(getElementByAddress(const int, const int, element**)));
 
 
     /*file toolbar*/

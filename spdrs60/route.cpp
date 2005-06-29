@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.19 $
+                           version 0.4.8 $Revision: 1.20 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-27 20:50:46 $
+    last modified        : $Date: 2005-06-29 20:42:36 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -974,6 +974,10 @@ bool Route::runEditRouteDialog(QWidget* dlgparent)
     
     RouteDialog* rtDlg = new RouteDialog(dlgparent);
 
+    connect(rtDlg, SIGNAL(getElementByAddress(const int, const int,
+                    element**)), this,
+            SIGNAL(getElementByAddress(const int, const int,
+                    element**)));
     rtDlg->setRouteName(Name);
     rtDlg->setStartSignalData(fromSignal);
     rtDlg->setStopSignalData(toSignal);
@@ -982,12 +986,19 @@ bool Route::runEditRouteDialog(QWidget* dlgparent)
     rtDlg->setRouteType(routeType);
     rtDlg->setRouteElements(switchItems);
     if (rtDlg->exec() == QDialog::Accepted) {
+        // update gbs: 1) hide old route 2) show new route
+        hideRoute();
         Name = rtDlg->getRouteName();
         rtDlg->getStartSignalData(fromSignal);
         rtDlg->getStopSignalData(toSignal);
         rtDlg->getActivateData(acPort);
         rtDlg->getReleaseData(rePort);
         routeType = (TypeOfRoute) rtDlg->getRouteType();
+        disconnect(rtDlg, SIGNAL(getElementByAddress(const int,
+                        const int, element**)), this,
+                SIGNAL(getElementByAddress(const int, const int,
+                        element**)));
+        showRoute();
         returnvalue = true;
     }
     delete rtDlg;

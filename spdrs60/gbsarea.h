@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.4.8 $Revision: 1.16 $
+                           version 0.4.8 $Revision: 1.17 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-13 20:46:55 $
+    last modified        : $Date: 2005-06-29 20:42:35 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -130,6 +130,7 @@ public slots:
     void startRouteTimer(TypeOfRoute);
     void updateRoutePathLEDs(const stateElement&, const stateElement&,
             RouteSetAction&);
+    void getElementByAddress(const int, const int, element**);
 
 protected:
     int indexOf(int row, int col) const;

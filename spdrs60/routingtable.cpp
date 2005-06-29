@@ -1,10 +1,10 @@
 /***************************************************************************
                            routingtable.cpp
-                           version 0.4.8 $Revision: 1.1 $
+                           version 0.4.8 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-05-18 21:16:01 $
+    last modified        : $Date: 2005-06-29 20:42:36 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -40,7 +40,7 @@ RoutingTable::RoutingTable(QWidget* parent) :
     horizontalHeader()->setLabel(3, tr("To"));
     horizontalHeader()->setLabel(4, tr("Type"));
     setColumnWidth(0, 20);
-    setColumnWidth(1, 80);
+    setColumnWidth(1, 120);
     setColumnWidth(2, 60);
     setColumnWidth(3, 60);
     setColumnWidth(4, 40);

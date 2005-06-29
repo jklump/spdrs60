@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.25 $
+                           version 0.4.8 $Revision: 1.26 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-27 20:50:40 $
+    last modified        : $Date: 2005-06-29 20:42:35 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1052,5 +1052,20 @@ void GBSArea::sendInfoPortMessage(QString prot, int addr, int port,
 {
     /* send incomming GA actions to elements*/
     emit processInfoPortMessage(prot, addr, port, state);
+}
+
+
+void GBSArea::getElementByAddress(const int bus, const int address,
+        element** el)
+{
+    for (unsigned int i = 0; i < elements.size(); i++) {
+        element* gbse = elements.at(i);
+
+        //TODO: search also bus
+        if ((gbse != 0) && gbse->hasSameAddress(address)) {
+            *el = gbse;
+            break;
+        }
+    }
 }
 

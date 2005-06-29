@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.4.8 $Revision: 1.13 $
+                           version 0.4.8 $Revision: 1.14 $
                            -------------------------------
     copyright            : (C) 2005 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-27 20:49:00 $
+    last modified        : $Date: 2005-06-29 20:42:36 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -26,7 +26,7 @@
 
 #include "routedialog.h"
 
-    /*maximal length of an edit line*/
+/*maximal length of an edit line*/
 #define LEMAXWIDTH 55
 
 
@@ -38,6 +38,8 @@ extern int FEEDBACK;
 RouteDialog::RouteDialog(QWidget* parent)
 : QDialog(parent, "EditRouteDialog")
 {
+    startSignalElPtr = NULL;
+    stopSignalElPtr = NULL;
     
     setCaption(tr("Edit route"));
     /*Layout to separate OK Cancel Button form the upper rest*/
@@ -103,6 +105,7 @@ RouteDialog::RouteDialog(QWidget* parent)
     startSignalLayout->addItem(spacer);
     startSignalNameLE = new QLineEdit(startsignalGB, "startSignalNameLE");
     startSignalNameLE->setReadOnly(true);
+    startSignalNameLE->setFocusPolicy(QWidget::NoFocus);
     startSignalNameLE->setMaximumWidth(LEMAXWIDTH);
     startSignalLayout->addWidget(startSignalNameLE);
 
@@ -118,6 +121,8 @@ RouteDialog::RouteDialog(QWidget* parent)
     startSignalSrcpBusLE->setMaxLength(4);
     startSignalSrcpBusLB->setBuddy(startSignalSrcpBusLE);
     startSigSrcpBusLayout->addWidget(startSignalSrcpBusLE);
+    connect(startSignalSrcpBusLE, SIGNAL(textChanged(const QString&)),
+            this, SLOT(startSignalBusChanged(const QString&)));
 
     /*line with start signal adress*/
     QHBoxLayout* startSigAddrLayout = new QHBoxLayout(startSigGBLayout, 6);
@@ -131,6 +136,8 @@ RouteDialog::RouteDialog(QWidget* parent)
     startSignalAddressLE->setMaxLength(4);
     startSignalAddressLB->setBuddy(startSignalAddressLE);
     startSigAddrLayout->addWidget(startSignalAddressLE);
+    connect(startSignalAddressLE, SIGNAL(textChanged(const QString&)),
+            this, SLOT(startSignalAddressChanged(const QString&)));
 
     /*line with start signal state*/
     QHBoxLayout* startSigStateLayout = new QHBoxLayout(startSigGBLayout, 6);
@@ -165,6 +172,7 @@ RouteDialog::RouteDialog(QWidget* parent)
     stopSignalNameLE = new QLineEdit(stopSignalGB, "stopSignalNameLE");
     stopSignalNameLE->setMaximumWidth(LEMAXWIDTH);
     stopSignalNameLE->setReadOnly(true);
+    stopSignalNameLE->setFocusPolicy(QWidget::NoFocus);
     stopSignalLayout->addWidget(stopSignalNameLE);
 
     /*line with stop signal SRCP bus*/
@@ -179,6 +187,8 @@ RouteDialog::RouteDialog(QWidget* parent)
     stopSignalSrcpBusLE->setMaxLength(4);
     stopSignalSrcpBusLB->setBuddy(stopSignalSrcpBusLE);
     stopSigSrcpBusLayout->addWidget(stopSignalSrcpBusLE);
+    connect(stopSignalSrcpBusLE, SIGNAL(textChanged(const QString&)),
+            this, SLOT(stopSignalBusChanged(const QString&)));
 
     /*line with stop signal adress*/
     QHBoxLayout* stopSigAddrLayout = new QHBoxLayout(stopSigGBLayout, 6);
@@ -192,6 +202,8 @@ RouteDialog::RouteDialog(QWidget* parent)
     stopSignalAddressLE->setMaxLength(4);
     stopSignalAddressLB->setBuddy(stopSignalAddressLE);
     stopSigAddrLayout->addWidget(stopSignalAddressLE);
+    connect(stopSignalAddressLE, SIGNAL(textChanged(const QString&)),
+            this, SLOT(stopSignalAddressChanged(const QString&)));
 
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -411,7 +423,6 @@ RouteDialog::RouteDialog(QWidget* parent)
             typeBG);
     typeL->addWidget(normalShuntingRB);
 
-    //
     /*line with radio button and urs detour level spinbox*/
     QBoxLayout* ursLayout = new QHBoxLayout(0, 0, 16);
     typeL->addLayout(ursLayout);
@@ -443,8 +454,9 @@ RouteDialog::RouteDialog(QWidget* parent)
     rightColumnLayout->addWidget(routeElementsGB);
     QVBoxLayout* routeElL = new QVBoxLayout(routeElementsGB->layout(), 6);
     
-    // TODO: table
+    /* list with route elements */
     elementsLV = new QListView(routeElementsGB, "elementsLV");
+    elementsLV->setSorting(-1);
     routeElL->addWidget(elementsLV);
     elementsLV->addColumn(tr("Name"));
     elementsLV->setColumnWidthMode(0, QListView::Maximum);
@@ -456,7 +468,7 @@ RouteDialog::RouteDialog(QWidget* parent)
     elementsLV->setColumnAlignment(3, Qt::AlignRight);
     connect(elementsLV, SIGNAL(currentChanged(QListViewItem*)),
             this, SLOT(elementsLVChanged(QListViewItem*)));
-    
+ 
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
     routeElL->addItem(spacer);
@@ -512,7 +524,7 @@ int RouteDialog::getRouteType()
 
 void RouteDialog::setStartSignalData(const stateElement& signal)
 {
-    startSignalNameLE->setText(signal.name);
+    // name is set by "updateStartSignalName"
     startSignalSrcpBusLE->setText(QString::number(signal.bus));
     startSignalAddressLE->setText(QString::number(signal.address));
     startSignalStateSB->setValue(signal.state);
@@ -525,12 +537,14 @@ void RouteDialog::getStartSignalData(stateElement& signal)
     signal.bus = startSignalSrcpBusLE->text().toUInt();
     signal.address = startSignalAddressLE->text().toUInt();
     signal.state = startSignalStateSB->value();
+    signal.elemPtr = startSignalElPtr;
+    signal.elemPtr2 = NULL;
 }
 
 
 void RouteDialog::setStopSignalData(const stateElement& signal)
 {
-    stopSignalNameLE->setText(signal.name);
+    // name is set by "updateStopSignalName"
     stopSignalSrcpBusLE->setText(QString::number(signal.bus));
     stopSignalAddressLE->setText(QString::number(signal.address));
 }
@@ -538,9 +552,11 @@ void RouteDialog::setStopSignalData(const stateElement& signal)
 
 void RouteDialog::getStopSignalData(stateElement& signal)
 {
-    signal.name = startSignalNameLE->text();
-    signal.bus = startSignalSrcpBusLE->text().toUInt();
-    signal.address = startSignalAddressLE->text().toUInt();
+    signal.name = stopSignalNameLE->text();
+    signal.bus = stopSignalSrcpBusLE->text().toUInt();
+    signal.address = stopSignalAddressLE->text().toUInt();
+    signal.elemPtr = stopSignalElPtr;
+    signal.elemPtr2 = NULL;
 }
 
 
@@ -676,5 +692,79 @@ void RouteDialog::removeElementFromList()
         elementsLV->takeItem(lvi);
         delete lvi;
     }
+}
+
+
+void RouteDialog::startSignalBusChanged(const QString& bstr)
+{
+    if (!bstr.isEmpty()) {
+        int bus = bstr.toInt();
+        int address = startSignalAddressLE->text().toInt();
+        updateStartSignalName(bus, address);
+    }
+}
+
+
+void RouteDialog::startSignalAddressChanged(const QString& astr)
+{
+    if (!astr.isEmpty()) {
+        int address = astr.toInt();
+        int bus = startSignalSrcpBusLE->text().toInt();
+        updateStartSignalName(bus, address);
+    }
+}
+
+
+void RouteDialog::updateStartSignalName(int bus, int address)
+{
+    element* el = NULL;
+    // send signal to route, routingviewer, gbs
+    emit getElementByAddress(bus, address, &el);
+
+    startSignalElPtr = el;
+    if (el == NULL)
+        startSignalNameLE->setText(tr("Error"));
+    else {
+        startSignalNameLE->setText(el->getName());
+        int ac = el->getAddressCount();
+        if (ac == 1)
+            startSignalStateSB->setMaxValue(1);
+        else
+            startSignalStateSB->setMaxValue(3);
+    }
+}
+
+
+void RouteDialog::stopSignalBusChanged(const QString& bstr)
+{
+    if (!bstr.isEmpty()) {
+        int bus = bstr.toInt();
+        int address = stopSignalAddressLE->text().toInt();
+        updateStopSignalName(bus, address);
+    }
+}
+
+
+void RouteDialog::stopSignalAddressChanged(const QString& astr)
+{
+    if (!astr.isEmpty()) {
+        int address = astr.toInt();
+        int bus = stopSignalSrcpBusLE->text().toInt();
+        updateStopSignalName(bus, address);
+    }
+}
+
+
+void RouteDialog::updateStopSignalName(int bus, int address)
+{
+    element* el = NULL;
+    // send signal to route, routingviewer, gbs
+    emit getElementByAddress(bus, address, &el);
+
+    stopSignalElPtr = el;
+    if (el == NULL)
+        stopSignalNameLE->setText(tr("Error"));
+    else
+        stopSignalNameLE->setText(el->getName());
 }
 

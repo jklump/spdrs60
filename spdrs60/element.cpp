@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.27 $
+                           version 0.4.8 $Revision: 1.28 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-27 20:50:38 $
+    last modified        : $Date: 2005-06-29 20:42:35 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2291,9 +2291,10 @@ QString element::getName() const
 }
 
 
-bool element::hasSameAddress(int compAddress)
+// TODO: also compare SRCP bus value
+bool element::hasSameAddress(int address)
 {
-    return (compAddress == iSoldAddress_1);
+    return (address == iSoldAddress_1);
 }
 
 
@@ -2392,4 +2393,17 @@ bool element::hasLEDsOn()
 {
     return (iSoldLEDoff == 0);
 }
+
+
+int element::getAddressCount()
+{
+    int returnvalue = 0;
+    if (iSoldAddress_1 != -1) {
+        ++returnvalue;
+        if (iSoldAddress_2 != -1) 
+            ++returnvalue;
+    }
+    return returnvalue;
+}
+
 
