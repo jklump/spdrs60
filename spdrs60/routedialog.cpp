@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.4.8 $Revision: 1.14 $
+                           version 0.4.8 $Revision: 1.15 $
                            -------------------------------
     copyright            : (C) 2005 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-29 20:42:36 $
+    last modified        : $Date: 2005-07-01 15:50:45 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -410,7 +410,7 @@ RouteDialog::RouteDialog(QWidget* parent)
     
     QLabel* label = new QLabel(tr("&Level:"), typeBG);
     uzsLayout->addWidget(label);
-    uzsLevelSB = new QSpinBox(0, 9, 1, typeBG, "uzsDetourLevelSB");
+    uzsLevelSB = new QSpinBox(1, 9, 1, typeBG, "uzsDetourLevelSB");
     uzsLevelSB->setWrapping(false);
     uzsLayout->addWidget(uzsLevelSB);
     label->setBuddy(uzsLevelSB);
@@ -441,7 +441,7 @@ RouteDialog::RouteDialog(QWidget* parent)
     
     label = new QLabel(tr("Le&vel:"), typeBG);
     ursLayout->addWidget(label);
-    ursLevelSB = new QSpinBox(0, 9, 1, typeBG, "ursDetourLevelSB");
+    ursLevelSB = new QSpinBox(1, 9, 1, typeBG, "ursDetourLevelSB");
     ursLevelSB->setWrapping(false);
     ursLayout->addWidget(ursLevelSB);
     label->setBuddy(ursLevelSB);
@@ -509,19 +509,6 @@ QString RouteDialog::getRouteName()
 }
 
 
-void RouteDialog::setRouteType(int type)
-{
-    typeBG->setButton(type);
-    typeBGPressed(type);
-}
-
-
-int RouteDialog::getRouteType()
-{
-    return typeBG->selectedId();
-}
-
-
 void RouteDialog::setStartSignalData(const stateElement& signal)
 {
     // name is set by "updateStartSignalName"
@@ -537,8 +524,10 @@ void RouteDialog::getStartSignalData(stateElement& signal)
     signal.bus = startSignalSrcpBusLE->text().toUInt();
     signal.address = startSignalAddressLE->text().toUInt();
     signal.state = startSignalStateSB->value();
-    signal.elemPtr = startSignalElPtr;
-    signal.elemPtr2 = NULL;
+    if (signal.elemPtr != startSignalElPtr) {
+        signal.elemPtr = startSignalElPtr;
+        signal.elemPtr2 = NULL;
+    }
 }
 
 
@@ -555,8 +544,10 @@ void RouteDialog::getStopSignalData(stateElement& signal)
     signal.name = stopSignalNameLE->text();
     signal.bus = stopSignalSrcpBusLE->text().toUInt();
     signal.address = stopSignalAddressLE->text().toUInt();
-    signal.elemPtr = stopSignalElPtr;
-    signal.elemPtr2 = NULL;
+    if (signal.elemPtr != stopSignalElPtr) {
+        signal.elemPtr = stopSignalElPtr;
+        signal.elemPtr2 = NULL;
+    }
 }
 
 
@@ -599,6 +590,36 @@ void RouteDialog::getReleaseData(PortState& port)
     port.switchtooff = (releaseRouteBG->selectedId() == 1);
     port.bus = releaseSrcpBusLE->text().toUInt();
     port.address = releaseContactSB->value();
+}
+
+
+void RouteDialog::setRouteType(int type, unsigned int dl)
+{
+    typeBG->setButton(type);
+    typeBGPressed(type);
+
+    if (type == 1)
+        uzsLevelSB->setValue(dl);
+    else if (type == 4)
+        ursLevelSB->setValue(dl);
+}
+
+
+int RouteDialog::getRouteType()
+{
+    return typeBG->selectedId();
+}
+
+
+unsigned int RouteDialog::getDetourLevel()
+{
+    int returnvalue = 0;
+    int type = typeBG->selectedId();
+    if (type == 1)
+        returnvalue = uzsLevelSB->value();
+    else if (type == 4)
+        returnvalue = ursLevelSB->value();
+    return returnvalue;
 }
 
 

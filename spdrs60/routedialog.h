@@ -1,11 +1,11 @@
 /***************************************************************************
                            routedialog.h
-                           version 0.4.7 $Revision: 1.11 $
+                           version 0.4.7 $Revision: 1.12 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-29 20:42:36 $
+    last modified        : $Date: 2005-07-01 15:50:45 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -50,7 +50,7 @@ class RouteDialog: public QDialog
 public:
     RouteDialog(QWidget* parent = 0);
     void setRouteName(const QString&);
-    void setRouteType(int);
+    void setRouteType(int, unsigned int);
     void setStartSignalData(const stateElement&);
     void setStopSignalData(const stateElement&);
     void setActivateData(const PortState&);
@@ -61,6 +61,7 @@ public:
     void getActivateData(PortState&);
     void getReleaseData(PortState&);
     int getRouteType();
+    unsigned int getDetourLevel();
     void setRouteElements(const QPtrList<stateElement>&);
   
 public slots:

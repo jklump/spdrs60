@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.20 $
+                           version 0.4.8 $Revision: 1.21 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-29 20:42:36 $
+    last modified        : $Date: 2005-07-01 15:50:45 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -983,7 +983,7 @@ bool Route::runEditRouteDialog(QWidget* dlgparent)
     rtDlg->setStopSignalData(toSignal);
     rtDlg->setActivateData(acPort);
     rtDlg->setReleaseData(rePort);
-    rtDlg->setRouteType(routeType);
+    rtDlg->setRouteType(routeType, detourLevel);
     rtDlg->setRouteElements(switchItems);
     if (rtDlg->exec() == QDialog::Accepted) {
         // update gbs: 1) hide old route 2) show new route
@@ -994,6 +994,7 @@ bool Route::runEditRouteDialog(QWidget* dlgparent)
         rtDlg->getActivateData(acPort);
         rtDlg->getReleaseData(rePort);
         routeType = (TypeOfRoute) rtDlg->getRouteType();
+        detourLevel = rtDlg->getDetourLevel();
         disconnect(rtDlg, SIGNAL(getElementByAddress(const int,
                         const int, element**)), this,
                 SIGNAL(getElementByAddress(const int, const int,
