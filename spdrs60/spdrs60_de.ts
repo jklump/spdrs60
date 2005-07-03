@@ -987,6 +987,26 @@ Wollen Sie sie überschreiben?</translation>
         <source>Port (1 - %1)</source>
         <translation>Eingang (1 - %1)</translation>
     </message>
+    <message>
+        <source>No</source>
+        <translation>Nr</translation>
+    </message>
+    <message>
+        <source>&amp;Up</source>
+        <translation>A&amp;uf</translation>
+    </message>
+    <message>
+        <source>Do&amp;wn</source>
+        <translation>A&amp;b</translation>
+    </message>
+    <message>
+        <source>&amp;Edit</source>
+        <translation>&amp;Bearbeiten</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Fehler</translation>
+    </message>
 </context>
 <context>
     <name>Router</name>

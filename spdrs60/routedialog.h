@@ -1,11 +1,11 @@
 /***************************************************************************
                            routedialog.h
-                           version 0.4.7 $Revision: 1.12 $
+                           version 0.4.7 $Revision: 1.13 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-07-01 15:50:45 $
+    last modified        : $Date: 2005-07-03 06:35:38 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -78,6 +78,8 @@ private slots:
     void startSignalAddressChanged(const QString&);
     void stopSignalBusChanged(const QString&);
     void stopSignalAddressChanged(const QString&);
+    void upListElement();
+    void downListElement();
 
 signals:
     void showLogMessage(const QString&, int, int);
@@ -126,6 +128,8 @@ private:
 
    QListView*    elementsLV;
 
+   QPushButton*  upPB;
+   QPushButton*  downPB;
    QPushButton*  editPB;
    QPushButton*  addPB;
    QPushButton*  removePB;

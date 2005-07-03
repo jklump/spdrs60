@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.4.8 $Revision: 1.15 $
+                           version 0.4.8 $Revision: 1.16 $
                            -------------------------------
     copyright            : (C) 2005 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-07-01 15:50:45 $
+    last modified        : $Date: 2005-07-03 06:35:37 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -456,16 +456,18 @@ RouteDialog::RouteDialog(QWidget* parent)
     
     /* list with route elements */
     elementsLV = new QListView(routeElementsGB, "elementsLV");
-    elementsLV->setSorting(-1);
+    //elementsLV->setSorting(-1);
     routeElL->addWidget(elementsLV);
+    elementsLV->addColumn(tr("No"));
     elementsLV->addColumn(tr("Name"));
     elementsLV->setColumnWidthMode(0, QListView::Maximum);
     elementsLV->addColumn(tr("SRCP-Bus"));
     elementsLV->addColumn(tr("Address"));
     elementsLV->addColumn(tr("State"));
-    elementsLV->setColumnAlignment(1, Qt::AlignRight);
-    elementsLV->setColumnAlignment(2, Qt::AlignRight);
+    elementsLV->setColumnAlignment(0, Qt::AlignCenter);
+    elementsLV->setColumnAlignment(2, Qt::AlignCenter);
     elementsLV->setColumnAlignment(3, Qt::AlignRight);
+    elementsLV->setColumnAlignment(4, Qt::AlignCenter);
     connect(elementsLV, SIGNAL(currentChanged(QListViewItem*)),
             this, SLOT(elementsLVChanged(QListViewItem*)));
  
@@ -480,6 +482,16 @@ RouteDialog::RouteDialog(QWidget* parent)
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
     routeElBtnLayout->addItem(spacer);
+
+    upPB = new QPushButton(tr("&Up"), routeElementsGB);
+    connect(upPB, SIGNAL(clicked()), this, SLOT(upListElement()));
+    routeElBtnLayout->addWidget(upPB);
+    upPB->setEnabled(false);
+
+    downPB = new QPushButton(tr("Do&wn"), routeElementsGB);
+    connect(downPB, SIGNAL(clicked()), this, SLOT(downListElement()));
+    routeElBtnLayout->addWidget(downPB);
+    downPB->setEnabled(false);
 
     editPB = new QPushButton(tr("&Edit"), routeElementsGB);
     //connect(editPB, SIGNAL(clicked()), this, SLOT(editListElement()));
@@ -628,11 +640,14 @@ void RouteDialog::setRouteElements(const QPtrList<stateElement>& items)
     QPtrListIterator<stateElement> it(items);
     stateElement* se;
     QListViewItem* element;
+    it.toLast();
+    int i = items.count();
     while ((se = it.current()) != 0) {
-        ++it;
-        element = new QListViewItem(elementsLV, se->name,
-            QString::number(se->bus), QString::number(se->address),
-            QString::number(se->state));
+        --it;
+        element = new QListViewItem(elementsLV, QString::number(i),
+                se->name, QString::number(se->bus),
+                QString::number(se->address), QString::number(se->state));
+        --i;
     }
 }
 
@@ -696,10 +711,14 @@ void RouteDialog::typeBGPressed(int btn)
 void RouteDialog::elementsLVChanged(QListViewItem* lvi)
 {
     if (lvi == NULL) {
+        upPB->setEnabled(false);
+        downPB->setEnabled(false);
 	editPB->setEnabled(false);
 	removePB->setEnabled(false);
     }
     else {
+        upPB->setEnabled(lvi->itemAbove() != NULL);
+        downPB->setEnabled(lvi->itemBelow() != NULL);
 	editPB->setEnabled(true);
 	removePB->setEnabled(true);
     }
@@ -787,5 +806,35 @@ void RouteDialog::updateStopSignalName(int bus, int address)
         stopSignalNameLE->setText(tr("Error"));
     else
         stopSignalNameLE->setText(el->getName());
+}
+
+
+void RouteDialog::upListElement()
+{
+    QListViewItem* lvi = elementsLV->currentItem();
+    if (lvi != NULL) {
+        int idx = lvi->text(0).toInt();
+        lvi->setText(0, QString::number(idx - 1));
+        QListViewItem* ulvi = lvi->itemAbove();
+        if (ulvi != NULL) 
+            ulvi->setText(0, QString::number(idx));
+        elementsLV->sort();
+        elementsLVChanged(lvi);
+    }
+}
+
+
+void RouteDialog::downListElement()
+{
+    QListViewItem* lvi = elementsLV->currentItem();
+    if (lvi != NULL) {
+        int idx = lvi->text(0).toInt();
+        lvi->setText(0, QString::number(idx + 1));
+        QListViewItem* dlvi = lvi->itemBelow();
+        if (dlvi != NULL) 
+            dlvi->setText(0, QString::number(idx));
+        elementsLV->sort();
+        elementsLVChanged(lvi);
+    }
 }
 
