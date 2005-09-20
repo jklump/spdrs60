@@ -1,0 +1,9 @@
+?package(spdrs60): \
+needs="X11" \
+section="Games/Simulation" \
+title="SpDrS60" \
+command="/usr/bin/spdrs60" \
+hints="Small,Expert" \
+icon="/usr/share/pixmaps/spdrs60_16.xpm"
+icon16x16="/usr/share/pixmaps/spdrs60_16.xpm"
+icon32x32="/usr/share/pixmaps/spdrs60_32.xpm"

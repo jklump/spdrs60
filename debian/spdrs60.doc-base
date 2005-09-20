@@ -1,0 +1,11 @@
+Document: spdrs60
+Title: The SpDrS60 Manual
+Author: Stefan Preis, Guido Scholz
+Abstract: This manual describes what spdrs60 is
+ and how it can be used.
+Section: Games/Simulation
+
+Format: html
+Index: /usr/share/doc/spdrs60/html/de/index.html
+Files: /usr/share/doc/spdrs60/html/de/*.html
+
