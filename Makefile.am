@@ -1,6 +1,7 @@
 # Makefile.am for spdrs60
 # Guido Scholz
-# last update: 2005-01-28
+# version: $Revision $
+# last update: $Date $
 
 SUBDIRS = icons elements layouts \
         $(HTML_DOC) \
@@ -8,7 +9,7 @@ SUBDIRS = icons elements layouts \
 
 
 EXTRA_DIST = AUTHORS COPYING ChangeLog INSTALL README TODO NEWS \
-	spdrs60.lsm spdrs60.debianmenu \
+	spdrs60.lsm \
 	spdrs60.SuSE.desktop spdrs60.redhat.desktop \
 	spdrs60.SuSE.spec spdrs60.redhat.spec
 
