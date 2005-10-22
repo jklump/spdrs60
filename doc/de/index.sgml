@@ -57,62 +57,68 @@
 <sect1 id="sect-einfuehrung">
   <title>Einführung</title>
 <para>
-Vor sich haben Sie das erste Programm zum komfortablen Steuern von
-Weichen und Signalen für die Benutzung mit SRCP-konformen Servern wie
-DDL. Es ist au&szlig;erdem das erste grafische ausgereifte Programm, um
-unter Linux seine Modellbahn zu steuern. Es handelt sich hierbei um ein
-Programm, welches noch in der Aufbauphase ist und im Laufe der Zeit noch
-mehr oder weniger starken Änderungen unterzogen wird. Aber trotzdem
-bietet es schon jetzt soviel Komfort, um seine Modellbahnanlage getreu
-den bei der Deutschen Bahn AG immer noch verwendeten
+Bei &raquo;SpDrS60 für Linux&laquo; handelt es sich um das erste
+Programm zum komfortablen Steuern von Weichen und Signalen unter
+Benutzung eines SRCP-konformen Servers wie &raquo;erddcd&laquo; oder
+&raquo;srcpd&laquo;. Es ist au&szlig;erdem das erste grafische,
+ausgereifte Programm, dass eine Modellbahnsteuerung unter Linux erlaubt.
+&raquo;SpDrS60 für Linux&laquo; befindet sich programmtechnisch noch in
+der Aufbauphase und wird im Laufe der Zeit noch mehr oder weniger starken
+Änderungen unterzogen. Dennoch bietet es schon jetzt die Möglichkeit,
+eine Modellbahnanlage in Analogie zu den bei der Deutschen Bahn AG
+immer noch verwendeten
 Spurplan-Drucktastenstellwerken (SpDr) zu steuern. Bei der Benutzung
-dieses Programms muss man sich - sofern man es kennt - von einigen
-gewohnten Eigenschaften eines Steuerprogramms verabschieden, da diese
-meistens zu sehr auf die Belange der Modellbahn abgestimmt sind.
+dieses Programms ist es eventuell notwendig, sich von einigen
+Eigenschaften zu trennen, die man von anderen Steuerprogrammen gewohnt
+sein mag. Das liegt jedoch darin, dass diese Steuerprogramme oft zu sehr
+auf die Belange einer Modellbahn abgestimmt sind.
 </para>
 <para>
-Ein Ziel bei der Erstellung dieses Programms ist es, die Darstellung des
-Gleisbildstellwerks möglichst vorbildnah zu verwirklichen.
-Natürlich hei&szlig;t &raquo;möglichst
-vorbildnah&laquo; nur, dass alle für eine Modellbahn sinnvollen Anzeigen,
-Schalthandlungen etc. übernommen worden sind. Aber gerade bei letzterem
-ist als Beispiel anzumerken, dass Weichen halt nicht &raquo;einfach
-so&laquo; umgestellt werden, sondern dass dazu ein gewisser - der
-Sicherheit dienender - Ablauf einzuhalten ist, indem bestimmte andere
-Tasten vorher betätigt werden. In Zukunft werden noch einige weitere
-Features realisiert werden, so dass die Authentizität noch gesteigert
-werden kann. Aber wir sind zunächst im Heute, und damit ein kleiner
-Überblick über die schon vorhandenen Features:
+Ein Ziel bei der Erstellung dieses Programms ist es, sowohl die
+Darstellung als auch die Funktion des Gleisbildstellwerks möglichst
+vorbildnah zu verwirklichen.
+Natürlich bedeutet &raquo;möglichst vorbildnah&laquo; hier, dass
+primär Funktionen übernommen übernommen werden, die für den Betrieb
+einer Modellbahn sinnvoll sind. Dazu gehört aber auch, dass die im
+Orginal bewährten Sicherheitsmechnismen weitgehend implementiert werden.
+Als Beispiel sei nur genannt, dass Weichen halt nicht &raquo;einfach
+so&laquo; umgestellt werden können, sondern dass dazu ein festgelegter
+Ablauf mit einer einzuhaltenden Bedienreihenfolge verschiedener Tasten
+gehört. Die folgende Liste soll einen kurzen Überblick über die schon
+vorhandenen Funktionen bieten:
 <itemizedlist mark="bullet">
   <listitem><para>Einfaches Erstellen des Anlagenlayouts</para></listitem>
   <listitem><para>Einstellen von Fahrstra&szlig;en durch Anklicken der
 Start- und Zielsignale</para></listitem>
-  <listitem><para>Automatische Rücknahme von Fahrstra&szlig;en durch
-Gleiskontakte oder durch Betätigen der</para></listitem>
-  <listitem><para>Fahrstra&szlig;en-Hilfstaste FHT</para></listitem>
+  <listitem><para>Automatisches Einstellen und Auflösen von
+  Fahrstra&szlig;en durch Belegtmelder bzw. Gleiskontakte</para></listitem>
+  <listitem><para>Sicherheitstechnische Unterscheidung von Rangier- und
+  Zugfahrstra&szlig;en</para></listitem>
+  <listitem><para>Einstellen von Umfahrstra&szlig;en durch Betätigen der
+  Umfahrgruppentaste UfGT</para></listitem>
+  <listitem><para>Rücknahme von Fahrstra&szlig;en durch Betätigen der
+  Fahrstra&szlig;en-Hilfstaste FHT</para></listitem>
   <listitem><para>Stellen von einzelnen Weichen mit der
 Weichengruppentaste WGT</para></listitem>
   <listitem><para>Stellen von einzelnen Signalen mit der
 Signalgruppentaste SGT</para></listitem>
   <listitem><para>Drehscheiben- und
 Schiebebühnen-Ansteuerung</para></listitem>
-  <listitem><para>Übersicht über alle Rückmeldeports</para></listitem>
-  <listitem><para>Einfache Datenstruktur in den Dateien, für jedermann
-  im Klartext lesbar und die Inhalte daher änderbar</para></listitem>
+  <listitem><para>Übersicht über alle Rückmeldeanschlüsse</para></listitem>
+  <listitem><para>Einfache Datenstruktur in den Dateien, die für jedermann
+  im Klartext lesbar und im Inhalt einfach veränderbar sind</para></listitem>
 </itemizedlist>
 </para>
 <para>
-&raquo;SpDrS60 for Linux&laquo; kann nicht eigenständig benutzt werden. Es
+&raquo;SpDrS60 für Linux&laquo; kann nicht eigenständig benutzt werden. Es
 benötigt z.B. den signalerzeugenden Daemon &raquo;erddcd&laquo; aus dem
 DDL-Projekt (mehr dazu im <xref linkend="sect-installation">) oder jeden
-anderen SRCP Server, der die Verbindung zwischen PC und der Anlage
-herstellt. Meine Zielsetzung ist, eine sinnvolle Kombination aus
-Anwenderfreundlichkeit (z.B. schnelles Lernen der Bedienung) und
-Übersichtlichkeit (z.B. klare Dialoge) zu bieten. Trotz der relativen
-Einfachkeit in der Bedienung empfehle ich die Durcharbeitung dieser
-Dokumentation. Auch die kurze Durchsicht der Online-Hilfe (HTML-Format),
-welche über das Hilfe-Menü aufrufbar ist, sei
-vorher empfohlen, um die Mächtigkeit dieses Programms zu erfahren.
+anderen SRCP-Server, der z.B. auch über eine Zentrale die Verbindung
+zwischen PC und der Anlage herstellt. Eine Zielsetzung des Programms ist
+es, eine sinnvolle Kombination aus Anwenderfreundlichkeit (z.B. schnelles
+Lernen der Bedienung) und Übersichtlichkeit (z.B. klare Dialoge) zu
+bieten. Trotz der relativen Einfachkeit in der Bedienung ist es
+empfehlenswert, diese Dokumentation durchzuarbeiten.
 </para>
 </sect1>
 
@@ -158,7 +164,7 @@ Veröffentlicht am **.**.2005
   Maustaste auswählen. Durch erneutes Anklicken lassen sich allgemein
   Fahrstraßenelemente auch wieder abwählen.</para></listitem>
   <listitem><para>Ein Einrichten von Fahrstraßen nach rechts oder links über
-  die Gleisbildgrenzen hinweg ist nun dann möglich, wenn das Start- und/oder
+  die Gleisbildgrenzen hinweg ist nun dann möglich, wenn das Start- oder
   Zielsignal zweimal auf dem Gleisbild dargestellt ist, und zwar so,
   dass sich zwischen Start- und Zielsignal mindestens einmal ein
   durchgehender Streckenverlauf ergibt. Ein Beispiel hierfür bietet das
@@ -175,7 +181,7 @@ Veröffentlicht am **.**.2005
   funktioniert nun wieder.</para></listitem>
   <listitem><para>Die Belegung der Maustasten im
   Gleisbildbearbeitungsmodus wurde geändert, um später eine
-  Implementierung von "Drag-and-Drop" für Gleisbildsymbole zu
+  Implementierung von &raquo;Drag-and-Drop&laquo; für Gleisbildsymbole zu
   ermöglichen. Der Eigenschaftsdialog der Gleisbildsymbole erscheint nun
   nach Aktivierung der rechten Maustaste, was als allgemein üblicher
   Standard bei grafischen Programmen angesehen werden kann. Das Kontextmenü
@@ -201,10 +207,10 @@ Veröffentlicht am **.**.2005
   geschwindigkeitsoptimiert, so dass das Programm insbesondere beim
   Wechseln zwischen den verschiedenen Bearbeitungsmodi um Größenordnungen
   agiler wirkt.</para></listitem>
-  <listitem><para>Über den Info-Kanal eingehende Nachrichten, die z.B.
+  <listitem><para>Über den SRCP-Info-Kanal eingehende Nachrichten, die z.B.
   von anderen SRCP-Clients verursacht sein können, werden nun
   ausgewertet und gegebenenfalls visualisiert. Damit kann das Programm
-  nun auch von anderen Programmen verursachte Statusänderungen z.B. an
+  nun auch von anderen SRCP-Programmen verursachte Statusänderungen z.B. an
   Weichen oder Signalen anzeigen. Diese Funktionalität ist zur Zeit noch
   auf Magnetartikel mit einer Adresse beschränkt.
   </para></listitem>
@@ -645,19 +651,17 @@ Fahrstra&szlig;en dafür benutzt werden müssten</para></listitem>
 Die Heimat dieses Projektes ist folgende Internetadresse:
 </para>
 <para>
+<ulink url="http://spdrs60.sourceforge.net/">
+http://spdrs60.sourceforge.net/</ulink>
+</para>
+<para>
+Dort kann man den Quellcode der Version &ver; sowie Pakete verschiedener
+Linux-Distributionen herunterladen. Die alte Projektseite von Stefan
+Preis existiert ebenfall noch, wird aber nicht mehr aktuell gehalten:
+</para>
+<para>
 <ulink url="http://www.linux-modellbahn.de/">
-http://www.linux-modellbahn.de/</ulink>
-</para>
-<para>
-Dort kann man den Quellcode der Version &ver; sowie zusätzliche
-Informationen herunterladen. Die aktuelle Version wird zur Zeit von
-Guido Scholz gepflegt, und kann von den Seiten der LUG-Burghausen
-heruntergeladen werden. Dort finden sich auch Pakete für verschiedene
-Distributionen:
-</para>
-<para>
-<ulink url="http://www.lug-burghausen.org/dienste/rpm.html">
-http://www.lug-burghausen.org/dienste/rpm.html
+http://www.linux-modellbahn.de/
 </ulink>
 </para>
 </sect2>
@@ -676,76 +680,58 @@ Windowmanager.</para></listitem>
 besten mit einer Auflösung von 1024 x 768 oder mehr (kleinere tun es
 auch, aber man bekommt nicht alle Reihen gleichzeitig zu sehen, also
 auch entsprechend weniger Elemente auf einmal).</para></listitem>
-  <listitem><para>Für die aktuelle QT3-Version mu&szlig; die
+  <listitem><para>Für die aktuelle Qt3-Version mu&szlig; die
 Qt-Laufzeit-Bibliothek (qt3) installiert sein (unter SuSE oder Fedora
 Paket &raquo;qt3&laquo;). Überprüfen kann man das bei bei rpm-basierten
 Distributionen z.B. durch die Eingabe des Kommandos: <userinput>rpm -qi
 qt3</userinput></para></listitem>
-  <listitem><para>Zum Kompilieren benötigt man einen C++-Compiler (ich
-habe den g++ benutzt).</para></listitem>
+  <listitem><para>Zum Kompilieren benötigt man einen C++-Compiler (z.B.
+          g++).</para></listitem>
   <listitem><para>Einen Browser zum Anzeigen der Hilfedateien aus dem
 Programm heraus (z.b. Firefox, Netscape, Mozilla, Konqueror,
 Opera)</para></listitem>
-  <listitem><para>Einen Editor (z.B. &raquo;kwrite&laquo;); dieser ist mit
-beschränkter Auswahl über die Einstellungen
-konfigurierbar.</para></listitem>
+  <listitem><para>Einen Text-Editor (z.B. &raquo;kwrite&laquo;); dieser ist mit
+beschränkter Auswahl über die Einstellungen konfigurierbar.</para></listitem>
   <listitem><para>Ganz wichtig: Damit die Befehle überhaupt auf der Anlage
-ankommen, braucht man den Daemon &raquo;erddcd&laquo; aus dem DDL-Paket
-von Torsten Vogt (siehe auch das Kapitel &raquo;Download&laquo; auf den
-SpDrS60-Webseiten). Der Daemon sollte den neuen Rückmeldebus
-unterstützen, weshalb eine Version &gt; 1.2.x (z.B. die aktuelle
-xmas2001) empfohlen wird. Aktuelle RPM-Pakete hierzu gibt es auch von
-den Webseiten der LUG-Burghausen. Alternativ funktioniert SpDrS60 auch
-mit dem Übersetzer-Server m6051d von Matthias Trute. Dieser übersetzt
-zwischen SRCP-Clients und einem Original 6051-Interface von Märklin.
-Allgemein gilt, dass die Version des vom Server angebotenen
+ankommen, braucht man einen SRCP-Server, wie den Daemon &raquo;erddcd&laquo;
+aus dem DDL-Paket von Torsten Vogt (siehe auch das Kapitel
+&raquo;Download&laquo; auf den SpDrS60-Webseiten). Aktuelle
+RPM-Pakete hierzu gibt es auch von den Webseiten der
+<ulink url="http://www.lug-burghausen.org/">LUG-Burghausen</ulink>.
+Alternativ funktioniert SpDrS60 auch
+mit dem Übersetzer-Server &raquo;m6051d&laquo; von Matthias Trute.
+Dieser übersetzt zwischen SRCP-Clients und einem Original 6051-Interface
+von Märklin. Allgemein gilt, dass die Version des vom Server angebotenen
 SRCP-Protokolls &gt;=&nbsp;0.7.0 und &lt;&nbsp;0.8.0 sein
 mu&szlig;.</para></listitem>
 </itemizedlist>
 </para>
 
-<para>Ich selbst benutze ein SuSE-Linux 7.2, Kernel 2.2.x. über andere
-Linuxsysteme kann ich hier nichts sagen, da ich damit keinerlei
-Erfahrung habe. Wenn also jemand etwas anderes benutzt, bitte ich um
-kurze Rückmeldung bezüglich der Funktionsfähigkeit (Anmerkung: Unter
-SuSE-Distributionen bis 9.0 - Kernel 2.4.2x - erfolgt der Betrieb des
-DDL-Servers problemlos, für die 9.1 - Kernel 2.6.x - gab es noch keine
-Erfolgs- aber eine ganze Reihe Mi&szlig;erfolgsmeldungen). Dem
-entsprechend kann ich auch keine Aussage über die wirkliche
-Funktionsfähigkeit machen. Es wurden bisher ja einige Probleme bei der
-Lokansteuerung mit dem neuen Kernel 2.2.16 gemeldet. Sollte das Anwenden
-dieses Programmes zu unschönen Schaltvorgängen führen, so bitte ich
-damit, sich in der DDL-Mailingsliste oder in der Newsgroup
-&raquo;de.rec.modelle.bahn&laquo; zu melden, da dieses Programm nur eine
-Bedienoberfläche bietet und nicht für die korrekte Darstellung der
-digitalen Signale auf der Anlage verantwortlich ist.
+<para>SpDrS60 läuft unter den verschiedensten Linux-Distributionen,
+solange diese die Qt-Bibliothek in der Version 3.x unterstützen.
+Getestet wurde diese Version unter Qt 3.0.5 bis 3.3.4 mit SuSE, Fedora
+und Debian in unterschiedlichen Versionsständen.
+Problematisch kann der Betrieb des erddcd-Daemons in Kombination mit dem
+Kernel der Versionsreihe 2.6.x sein. Hierzu gibt es eine ganze Reihe
+Fehlermeldungen, die in der Ansteuerung der seriellen Schnittstelle
+liegen. Näheres hierzu kann man in der Newsgroup
+&raquo;de.rec.modelle.bahn&laquo; erfahren.
 </para>
 </sect3>
 
 <sect3>
   <title>Rechnersystem</title>
 <para>
-Mein Rechner ist ein AMD K6 200 MHz mit 64 MB RAM. Das halte ich die
-Mindestvoraussetzung auf Hardwareseite, da ansonsten
-Compilationsvorgänge oder das Starten des Programms und Laden von
-Oberflächen zu lange dauert. Auch ein lauffähiges X-System mit
-Windowmanager sollte bei schlechteren Bedingungen keine Freude mehr
-machen.
+Die Leistungsfähigkeit des Rechners wird zum einen über die Performance
+des X-Window Systems
+bestimmt und zum anderen über den im Hintergrund laufenden SRCP-Daemon.
+In der Regel reicht jeder heute noch erhältliche, etwas ältere Rechner
+für den Betrieb aus. Ein einfacher Windowmanager kann beispielsweise
+helfen, das grafische System zu entlasten. Eine etwas luxuriörere
+Variante ist ein kleines Netzwerk, bei dem der SRCP-Server auf einem
+anderen Rechner läuft, als die SRCP-Clients.
 </para>
 
-<para>Es macht daher meines Erachtens keinen Sinn, auf einem alten 386er
-mit wenig RAM, der eigentlich für den Daemon gedacht ist, noch ein X
-Window System, einen Windowmanager und dann dieses Programm zu
-installieren. Aber wer hat heute noch einen Steinzeitrechner wie ich?
-</para>
-
-<para>Zum Glück habe ich auch Zugang zu einem (zugegebenerma&szlig;en
-Arbeits-) Laptop mit PIII, 600 MHz und 192 MB RAM. Damit arbeite ich
-momentan lieber, da man auch im Zug zur Arbeit programmieren kann ;-).
-Für eine zügigere Anzeige beim Laden oder beim Umschalten in den
-Editiermodus macht sich eine solche schnellere Maschine schon sehr
-positiv bemerkbar.
-</para>
 </sect3>
 </sect2>
 
@@ -787,13 +773,13 @@ $ su -c "make install"
 <para>
 Da SpDrS60 das Konfigurationstool <command>autoconf</command> benutzt,
 sollten Sie keine Probleme beim Kompilieren haben. Voraussetzung ist
-natürlich, Sie haben alle notwendigen Bibliotheken (QT3) bzw. die
+natürlich, Sie haben alle notwendigen Bibliotheken (Qt3) bzw. die
 entsprechenden Entwicklerpakete (qt3-devel) installiert.
 </para>
 
 <para>
-Bei Problemen können Sie den Autor kontaktieren:
-<ulink url="mailto:info@linux-modellbahn.de">Stefan Preis</ulink>
+Bei Problemen können Sie die User-Mailingliste des Projektes benutzen:
+<ulink url="http://spdrs60.sourceforge.net">http://spdrs60.sourceforge.net</ulink>
 </para>
 </sect2>
 
@@ -857,6 +843,10 @@ unter folgendem Verzeichnis zu finden sind: <filename class="directory">
     </row>
     <row>
       <entry>Flandersbach.dat.gbs</entry>
+      <entry>Ein real existierender Bahnhof</entry>
+    </row>
+    <row>
+      <entry>Lintorf.dat.gbs</entry>
       <entry>Ein real existierender Bahnhof</entry>
     </row>
   </tbody>
@@ -956,6 +946,11 @@ Die Menüpunkte haben folgende Funktionen:
   <listitem><para>Interaktionen mit dem aktuell angezeigten Gleisbild</para></listitem>
 </varlistentry>
 <varlistentry>
+  <term><emphasis>Fahrstra&szlig;e</emphasis></term>
+  <listitem><para>Interaktionen mit der aktuell in der Fahrstraßenliste
+  ausgew&auml;hlten Fahrstra&szlig;e</para></listitem>
+</varlistentry>
+<varlistentry>
   <term><emphasis>Hilfe</emphasis></term>
   <listitem><para>Verweise auf die Hilfe und die Webseiten</para></listitem>
 </varlistentry>
@@ -965,10 +960,10 @@ Die Menüpunkte haben folgende Funktionen:
 
 <para>
 Je nach Programmzustand kann der eine oder andere Menüeintrag nicht
-aktiviert werden. Bei nicht laufendem Server ist dies z.B. mit allen
-Einträgen des Punktes &raquo;Daemon&laquo; der Fall. Ist kein Gleisbild
-geladen, dann sind die meisten Einträge des Menüs &raquo;Gleisbild&laquo;
-ausgegraut.
+aktiviert werden. Bei einer nicht vorhandenen Server-Verbindung ist dies
+z.B. bei den meisten Einträgen des Punktes &raquo;Daemon&laquo; der Fall.
+Ist kein Gleisbild geladen, dann sind die meisten Einträge des Menüs
+&raquo;Gleisbild&laquo; ausgegraut.
 </para>
 
 </sect3>
@@ -977,8 +972,10 @@ ausgegraut.
   <title>Werkzeugleiste</title>
 
 <para>
-Darunter befindet sich die Werkzeugleiste mit den Symbolen und
-Funktionen, die am häufigsten verwendet werden (v.l.n.r.):
+Unter dem Menü befindet sich die Werkzeugleiste mit den Symbolen für die
+Funktionen, welche am häufigsten verwendet werden. Die Leiste ist in
+einzelen Funktionsgruppen untergliedert, die der Menüeinteilung genau
+entspricht (v.l.n.r.):
 
 <figure id="abb-toolbar">
   <title>Werkzeugleiste</title>
@@ -1081,17 +1078,14 @@ werden, welche Befehle andere Programme an den Server geschickt haben.
 </figure>
 </para>
 <para>
-Zur Zeit werden diese Daten noch nicht ausgewertet. In Zukunft können aber
-Änderungen von Elementzuständen, wie sie z.B. durch eine zweite Instanz
-von SpDrS60 für Linux erzeugt werden, über diesen Infoport auch
-Auswirkungen auf die erste Instanz haben. Bis zu einer Realisation gilt
-daher, dass es noch keine Kommunikationsmöglichkeit zwischen zwei oder
-mehr Programm-Instanzen gibt. Insbesondere angezeigte Weichenstellungen
-und Zustände von Fahrstraßen können in beiden Programminstanzen
-widersprüchlich sein.
-Auch das Lesen der Informationen über den Rückmeldeport ist dann
-fraglich, da diese Informationen dann nur einem Programm zur Verfügung
-stehen.
+Zur Zeit werden diese Daten nur für Magnetartikel mit einem Antrieb
+ausgewertet. In Zukunft sollen alle Änderungen von Elementzuständen,
+wie sie z.B. durch eine zweite Instanz von SpDrS60 für Linux oder durch
+andere SRCP-Clients erzeugt werden, über diesen Infoport visualisert
+werden. Bis zu einer vollständigen Realisation gilt daher, dass bei
+einem Betrieb mit mehreren SRCP-Clients angezeigte Weichen- und
+Signalstellungen bei Magnetartikeln mit mehreren Antrieben vom
+tatsächlichen Zustand der Anlage abweichen können.
 </para>
 </sect4>
 
