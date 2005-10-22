@@ -1,11 +1,11 @@
 /***************************************************************************
                            routedialog.h
-                           version 0.4.7 $Revision: 1.13 $
+                           version 0.4.7 $Revision: 1.14 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-07-03 06:35:38 $
+    last modified        : $Date: 2005-10-22 05:43:44 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 /***************************************************************************
-   this is the header file to RouteDialog.cpp
+   this is the header file to routedialog.cpp
  ***************************************************************************/
 #ifndef ROUTEDIALOG_H
 #define ROUTEDIALOG_H
@@ -63,6 +63,7 @@ public:
     int getRouteType();
     unsigned int getDetourLevel();
     void setRouteElements(const QPtrList<stateElement>&);
+    void getRouteElements(QPtrList<stateElement>&);
   
 public slots:
 
@@ -80,6 +81,8 @@ private slots:
     void stopSignalAddressChanged(const QString&);
     void upListElement();
     void downListElement();
+    void editListElement();
+    void addElementToList();
 
 signals:
     void showLogMessage(const QString&, int, int);

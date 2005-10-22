@@ -1,8 +1,8 @@
 /***************************************************************************
-                           routingtable.h
-                           version 0.4.8 $Revision: 1.2 $
+                           routeelementlvi.h
+                           version 0.4.8 $Revision: 1.1 $
                            -------------------------------
-    copyright            : (C) 2004-2005 by Guido Scholz
+    copyright            : (C) 22005 by Guido Scholz
     email                : guido.scholz@bayernline.de
     last modified        : $Date: 2005-10-22 05:43:44 $
 ***************************************************************************/
@@ -17,38 +17,29 @@
  ***************************************************************************/
 
 /***************************************************************************
-   this is the headerfile for routingtable.cpp
+   this is the headerfile for routeelementlvi.cpp
  ***************************************************************************/
 
-#ifndef ROUTINGTABLE_H
-#define ROUTINGTABLE_H
+#ifndef ROUTEELEMENTLVI_H
+#define ROUTEELEMENTLVI_H
 
-#include <qtable.h>
+#include <qlistview.h>
+
+#include "element.h"
 
 
-class RoutingTable: public QTable
+class RouteElementLVI: public QListViewItem
 {
-    Q_OBJECT
+//    Q_OBJECT
         
 private:
-    QPixmap pLocked;
-    QPixmap pUnlocked;
-
-protected:
-    virtual void keyPressEvent(QKeyEvent *e);
+    stateElement routeElement;
 
 public:
-    RoutingTable(QWidget *parent=0);
-    void sortColumn(int, bool, bool);
+    RouteElementLVI(QListView *parent=0, int index = 0, stateElement* se = 0);
+    void getStateElementData(stateElement* se = 0);
+    void setStateElementData(const stateElement* se = 0);
     
-public slots:
-    void updateLockStateIcon(int, bool);
-    void updateCurrentRowLockStateIcon(bool);
-    
-signals:
-    void toggleRouteState(int);
-    void editRoute(int);
-
 };
-#endif // ROUTINGTABLE_H
+#endif // ROUTEELEMENTLVI_H
 

@@ -1009,6 +1009,45 @@ Wollen Sie sie überschreiben?</translation>
     </message>
 </context>
 <context>
+    <name>RouteElementDialog</name>
+    <message>
+        <source>Edit route element</source>
+        <translation>Fahrstraßenelement beabeiten</translation>
+    </message>
+    <message>
+        <source>Route element</source>
+        <translation>Fahrstraßenelement</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <source>SRCP-&amp;Bus</source>
+        <translation>SRCP-&amp;Bus</translation>
+    </message>
+    <message>
+        <source>&amp;Address</source>
+        <translation>&amp;Adresse</translation>
+    </message>
+    <message>
+        <source>&amp;State</source>
+        <translation>&amp;Status</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Abbrechen</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Fehler</translation>
+    </message>
+</context>
+<context>
     <name>Router</name>
     <message>
         <source>New route</source>

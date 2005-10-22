@@ -1,8 +1,8 @@
 /***************************************************************************
-                           routingtable.h
-                           version 0.4.8 $Revision: 1.2 $
+                           routeelementdialog.h
+                           version 0.4.8 $Revision: 1.1 $
                            -------------------------------
-    copyright            : (C) 2004-2005 by Guido Scholz
+    copyright            : (C) 2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
     last modified        : $Date: 2005-10-22 05:43:44 $
 ***************************************************************************/
@@ -17,38 +17,46 @@
  ***************************************************************************/
 
 /***************************************************************************
-   this is the headerfile for routingtable.cpp
+   this is the header file to routeelementdialog.cpp
  ***************************************************************************/
+#ifndef ROUTEELEMENTDIALOG_H
+#define ROUTEELEMENTDIALOG_H
 
-#ifndef ROUTINGTABLE_H
-#define ROUTINGTABLE_H
+#include <qdialog.h>
+#include <qlineedit.h>
+#include <qspinbox.h>
+#include <qstring.h>
 
-#include <qtable.h>
+#include "element.h"
+#include "route.h"
 
 
-class RoutingTable: public QTable
+class RouteElementDialog: public QDialog
 {
     Q_OBJECT
-        
-private:
-    QPixmap pLocked;
-    QPixmap pUnlocked;
-
-protected:
-    virtual void keyPressEvent(QKeyEvent *e);
 
 public:
-    RoutingTable(QWidget *parent=0);
-    void sortColumn(int, bool, bool);
-    
-public slots:
-    void updateLockStateIcon(int, bool);
-    void updateCurrentRowLockStateIcon(bool);
-    
+    RouteElementDialog(QWidget* parent = 0);
+    void setStateElementData(const stateElement*);
+    void getStateElementData(stateElement*);
+  
+private slots:
+    void reBusChanged(const QString&);
+    void reAddressChanged(const QString&);
+
 signals:
-    void toggleRouteState(int);
-    void editRoute(int);
+    void getElementByAddress(const int, const int, element**);
 
+private:
+   element* rePtr1;
+   element* rePtr2;
+    
+   QLineEdit* reNameLE;
+   QLineEdit* reSrcpBusLE;
+   QLineEdit* reAddressLE;
+   QSpinBox*  reStateSB;
+   
+   void updateRouteElementName(int, int);
 };
-#endif // ROUTINGTABLE_H
 
+#endif    //ROUTEELEMENTDIALOG_H

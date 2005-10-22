@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.7 $
-# last update: $Date: 2005-06-14 18:52:52 $
+# version: $Revision: 1.8 $
+# last update: $Date: 2005-10-22 05:43:44 $
 
 SUBDIRS = pixmaps
 
@@ -21,13 +21,15 @@ nodist_spdrs60_SOURCES = \
 	mainwindow.moc.cpp \
 	newlayoutdialog.moc.cpp \
 	options.moc.cpp \
-	routedialog.moc.cpp \
         route.moc.cpp \
+	routedialog.moc.cpp \
+	routeelementdialog.moc.cpp \
         router.moc.cpp \
         routingtable.moc.cpp \
         routingviewer.moc.cpp \
 	turntablecommander.moc.cpp
 
+# routeelementlvi.moc.cpp 
 # list of all sources and headers
 spdrs60_SOURCES = main.cpp resources.h \
 	elementcommander.cpp elementcommander.h \
@@ -42,8 +44,10 @@ spdrs60_SOURCES = main.cpp resources.h \
 	mainwindow.cpp mainwindow.h \
 	newlayoutdialog.cpp newlayoutdialog.h \
 	options.cpp options.h \
-	routedialog.cpp routedialog.h \
         route.cpp route.h \
+	routedialog.cpp routedialog.h \
+	routeelementdialog.cpp routeelementdialog.h \
+	routeelementlvi.cpp routeelementlvi.h \
         router.cpp router.h \
         routingtable.cpp routingtable.h \
         routingviewer.cpp routingviewer.h \
@@ -61,7 +65,7 @@ EXTRA_DIST = spdrs60_de.ts spdrs60.pro
 
 pkgdata_DATA = spdrs60_de.qm
 
-# remove generated files
+# all generated files are removed by "make clean"
 CLEANFILES = $(nodist_spdrs60_SOURCES) $(pkgdata_DATA)
 
 # rule for moc-file generation (moc_% conflicts with 'lupdate')

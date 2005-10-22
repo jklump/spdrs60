@@ -13,6 +13,8 @@ SOURCES = elementcommander.cpp \
           newlayoutdialog.cpp \
           options.cpp \
           routedialog.cpp \
+          routeelementdialog.cpp \
+          routeelementlvi.cpp \
           route.cpp \
           router.cpp \
           routingtable.cpp \

@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.21 $
+                           version 0.4.8 $Revision: 1.22 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-07-01 15:50:45 $
+    last modified        : $Date: 2005-10-22 05:43:44 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -71,14 +71,17 @@ Route::Route(TypeOfRoute arouteType,
         ++it;
 
         stateElement* el = new stateElement;
-        el->name = swElement->name;
-        el->bus = swElement->bus;
-        el->address = swElement->address;
-        el->state = swElement->state;
-        el->elemPtr = swElement->elemPtr;
-        el->elemPtr2 = swElement->elemPtr2;
+        if (el != NULL) {
+            el->name = swElement->name;
+            el->bus = swElement->bus;
+            el->address = swElement->address;
+            el->state = swElement->state;
+            el->elemPtr = swElement->elemPtr;
+            el->elemPtr2 = swElement->elemPtr2;
 
-        switchItems.append(el);
+            switchItems.append(el);
+        }
+        //else no memory available
     }
 }
 
@@ -257,14 +260,17 @@ void Route::readFileTextFromStream(QTextStream& ts)
             else if (key.compare(RF_SWITCHXTOY) == 0){
                 stateElement *switchElement = new stateElement;
                 
-                switchElement->bus = s.section(DS, 1, 1).toUInt();
-                switchElement->address = s.section(DS, 2, 2).toUInt();
-                switchElement->state = s.section(DS, 3, 3).toUInt();
-                switchElement->elemPtr = NULL;
-                switchElement->elemPtr2 = NULL;
-                switchElement->name = "";
-                
-                switchItems.append(switchElement);
+                if (switchElement != NULL) {
+                    switchElement->bus = s.section(DS, 1, 1).toUInt();
+                    switchElement->address = s.section(DS, 2, 2).toUInt();
+                    switchElement->state = s.section(DS, 3, 3).toUInt();
+                    switchElement->elemPtr = NULL;
+                    switchElement->elemPtr2 = NULL;
+                    switchElement->name = "";
+
+                    switchItems.append(switchElement);
+                }
+                // else no memory available
             }
             else if (key.compare(RF_FROMSIGNAL) == 0){
                 fromSignal.bus = s.section(DS, 1, 1).toUInt();
@@ -674,7 +680,7 @@ void Route::stopRouting()
 
     if (toSignal.elemPtr2 != NULL)
            toSignal.elemPtr2->slotSwitchIt(0, -1);
-*/
+    */
     QPtrListIterator<stateElement> it(switchItems);
     stateElement* se;
     while ((se = it.current()) != 0) {
@@ -790,9 +796,12 @@ void Route::setStopSignal(element* el)
 void Route::addSwitchElement(element* el)
 {
     stateElement* se = new stateElement;
-    el->getStateData(*se);
-    switchItems.append(se);
-    el->switchSelectionMode(ksmSwitchEl);
+    if (se != NULL) {
+        el->getStateData(*se);
+        switchItems.append(se);
+        el->switchSelectionMode(ksmSwitchEl);
+    }
+    // ele no memory available
 }
 
 
@@ -974,6 +983,9 @@ bool Route::runEditRouteDialog(QWidget* dlgparent)
     
     RouteDialog* rtDlg = new RouteDialog(dlgparent);
 
+    if (rtDlg == NULL)
+        return returnvalue;
+
     connect(rtDlg, SIGNAL(getElementByAddress(const int, const int,
                     element**)), this,
             SIGNAL(getElementByAddress(const int, const int,
@@ -995,13 +1007,15 @@ bool Route::runEditRouteDialog(QWidget* dlgparent)
         rtDlg->getReleaseData(rePort);
         routeType = (TypeOfRoute) rtDlg->getRouteType();
         detourLevel = rtDlg->getDetourLevel();
-        disconnect(rtDlg, SIGNAL(getElementByAddress(const int,
-                        const int, element**)), this,
-                SIGNAL(getElementByAddress(const int, const int,
-                        element**)));
+        switchItems.clear();
+        rtDlg->getRouteElements(switchItems);
         showRoute();
         returnvalue = true;
     }
+    disconnect(rtDlg, SIGNAL(getElementByAddress(const int,
+                    const int, element**)), this,
+            SIGNAL(getElementByAddress(const int, const int,
+                    element**)));
     delete rtDlg;
     return returnvalue;
 }

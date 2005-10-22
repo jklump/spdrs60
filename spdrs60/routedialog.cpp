@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.4.8 $Revision: 1.16 $
+                           version 0.4.8 $Revision: 1.17 $
                            -------------------------------
     copyright            : (C) 2005 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-07-03 06:35:37 $
+    last modified        : $Date: 2005-10-22 05:43:44 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -25,6 +25,8 @@
 #include <qlayout.h>
 
 #include "routedialog.h"
+#include "routeelementlvi.h"
+#include "routeelementdialog.h"
 
 /*maximal length of an edit line*/
 #define LEMAXWIDTH 55
@@ -494,12 +496,12 @@ RouteDialog::RouteDialog(QWidget* parent)
     downPB->setEnabled(false);
 
     editPB = new QPushButton(tr("&Edit"), routeElementsGB);
-    //connect(editPB, SIGNAL(clicked()), this, SLOT(editListElement()));
+    connect(editPB, SIGNAL(clicked()), this, SLOT(editListElement()));
     routeElBtnLayout->addWidget(editPB);
     editPB->setEnabled(false);
 
     addPB = new QPushButton(tr("&Add"), routeElementsGB);
-    //connect(addPB, SIGNAL(clicked()), this, SLOT(addElementToList()));
+    connect(addPB, SIGNAL(clicked()), this, SLOT(addElementToList()));
     routeElBtnLayout->addWidget(addPB);
 
     removePB = new QPushButton(tr("&Remove"), routeElementsGB);
@@ -639,15 +641,41 @@ void RouteDialog::setRouteElements(const QPtrList<stateElement>& items)
 {
     QPtrListIterator<stateElement> it(items);
     stateElement* se;
-    QListViewItem* element;
+    //QListViewItem* element;
+    RouteElementLVI* element;
     it.toLast();
     int i = items.count();
     while ((se = it.current()) != 0) {
         --it;
+        element = new RouteElementLVI(elementsLV, i, se);
+        /*
         element = new QListViewItem(elementsLV, QString::number(i),
                 se->name, QString::number(se->bus),
                 QString::number(se->address), QString::number(se->state));
+        */
         --i;
+    }
+}
+
+
+void RouteDialog::getRouteElements(QPtrList<stateElement>& items)
+{
+    int i = elementsLV->childCount();
+
+    if (i > 0) {
+        RouteElementLVI* relvi;
+        stateElement* se;
+        QListViewItemIterator it(elementsLV);
+        
+        while ((relvi = (RouteElementLVI*) it.current()) != 0) {
+            se = new stateElement;
+            if (se != NULL) {
+                relvi->getStateElementData(se);
+                items.append(se);
+            }
+            // else no memory available
+            ++it;
+        }
     }
 }
 
@@ -838,3 +866,75 @@ void RouteDialog::downListElement()
     }
 }
 
+
+void RouteDialog::editListElement()
+{
+    RouteElementLVI* relvi = (RouteElementLVI*) elementsLV->currentItem();
+    if (relvi == NULL)
+        return;
+        
+    RouteElementDialog* rteDlg = new RouteElementDialog(this);
+
+    if (rteDlg == NULL)
+        return;
+
+    connect(rteDlg, SIGNAL(getElementByAddress(const int, const int,
+                    element**)), this,
+            SIGNAL(getElementByAddress(const int, const int,
+                    element**)));
+    
+    stateElement* se = new stateElement;
+
+    if (se != NULL) {
+        relvi->getStateElementData(se);
+        rteDlg->setStateElementData(se);
+
+        if (rteDlg->exec() == QDialog::Accepted) {
+            rteDlg->getStateElementData(se);
+            relvi->setStateElementData(se);
+        }
+        delete se;
+    }
+
+    disconnect(rteDlg, SIGNAL(getElementByAddress(const int, const int,
+                    element**)), this,
+            SIGNAL(getElementByAddress(const int, const int,
+                    element**)));
+    delete rteDlg;
+}
+
+
+void RouteDialog::addElementToList()
+{
+    int ec = elementsLV->childCount();
+    ++ec;
+
+    RouteElementDialog* rteDlg = new RouteElementDialog(this);
+
+    if (rteDlg == NULL)
+        return;
+
+    connect(rteDlg, SIGNAL(getElementByAddress(const int, const int,
+                    element**)), this,
+            SIGNAL(getElementByAddress(const int, const int,
+                    element**)));
+    
+    stateElement* se = new stateElement;
+
+    if (se != NULL) {
+        if (rteDlg->exec() == QDialog::Accepted) {
+            rteDlg->getStateElementData(se);
+            RouteElementLVI* relvi = new RouteElementLVI(elementsLV,
+                    ec , se);
+            if (relvi != NULL)
+                relvi->setStateElementData(se);
+        }
+        delete se;
+    }
+
+    disconnect(rteDlg, SIGNAL(getElementByAddress(const int, const int,
+                    element**)), this,
+            SIGNAL(getElementByAddress(const int, const int,
+                    element**)));
+    delete rteDlg;
+}

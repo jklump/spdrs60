@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.28 $
+                           version 0.4.8 $Revision: 1.29 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-07-01 15:50:45 $
+    last modified        : $Date: 2005-10-22 05:43:44 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1454,10 +1454,12 @@ void MainWindow::CommandSocketReadyRead()
                      * without asking for them (by INIT S88)*/
                 }
             }
-	    SendCommandToSRCPServer((FEEDBACK <= 1) ? 
+            SRCPCommandStatus = srcp07Connected;
+	    /*
+               SendCommandToSRCPServer((FEEDBACK <= 1) ? 
 			    "GET FB S88 *" : "GET FB I8255 *");
 	    SRCPCommandStatus = srcp07GetFBStates;
-
+            */  
             updateDaemonMenu();
             return;
         }
@@ -1470,9 +1472,11 @@ void MainWindow::CommandSocketReadyRead()
                 }
             }
         }
+        /*
         else if (SRCPCommandStatus == srcp07GetFBStates) {
 		SRCPCommandStatus = srcp07Connected;
 	}
+        */
         else {
             /* else: no login but connection close */
             cmdToDebug(tr("Cannot read server welcome message!"), M_INFO, HIST);
