@@ -1,10 +1,10 @@
 /***************************************************************************
                            routeelementdialog.cpp
-                           version 0.4.8 $Revision: 1.1 $
+                           version 0.4.8 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 2005 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-10-22 05:43:44 $
+    last modified        : $Date: 2005-10-22 09:56:07 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -142,7 +142,7 @@ void RouteElementDialog::getStateElementData(stateElement* se)
     se->address = reAddressLE->text().toUInt();
     se->state = reStateSB->value();
     if (se->elemPtr != rePtr1) {
-        se->elemPtr = rePtr2;
+        se->elemPtr = rePtr1;
         se->elemPtr2 = NULL;
     }
 }

@@ -756,7 +756,7 @@ Wollen Sie sie überschreiben?</translation>
     </message>
     <message>
         <source>Copy selected route</source>
-        <translation>Gewählte Fahrstraße kopieren</translation>
+        <translation type="obsolete">Gewählte Fahrstraße kopieren</translation>
     </message>
     <message>
         <source>&amp;Delete</source>
@@ -789,6 +789,14 @@ Wollen Sie sie überschreiben?</translation>
     <message>
         <source>Release route</source>
         <translation>Fahrstraße auflösen</translation>
+    </message>
+    <message>
+        <source>Dupli&amp;cate</source>
+        <translation>&amp;Duplizieren</translation>
+    </message>
+    <message>
+        <source>Duplicate selected route</source>
+        <translation>Gewählte Fahrstraße duplizieren</translation>
     </message>
 </context>
 <context>
@@ -1006,6 +1014,10 @@ Wollen Sie sie überschreiben?</translation>
     <message>
         <source>Error</source>
         <translation>Fehler</translation>
+    </message>
+    <message>
+        <source>Add new element</source>
+        <translation>Element hinzufügen</translation>
     </message>
 </context>
 <context>

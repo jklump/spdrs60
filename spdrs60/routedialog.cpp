@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.4.8 $Revision: 1.17 $
+                           version 0.4.8 $Revision: 1.18 $
                            -------------------------------
     copyright            : (C) 2005 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-10-22 05:43:44 $
+    last modified        : $Date: 2005-10-22 09:56:07 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -572,8 +572,9 @@ void RouteDialog::setActivateData(const PortState& port)
     activateCBchanged(port.used);
     activateRouteBG->setButton((int)port.switchtooff);
     activateSrcpBusLE->setText(QString::number(port.bus));
-    activateContactSB->setValue(port.address);
-    activateContactSBChanged(port.address);
+    // temporary solution: +1
+    activateContactSB->setValue(port.address + 1);
+    activateContactSBChanged(port.address + 1);
 }
 
 
@@ -583,6 +584,8 @@ void RouteDialog::getActivateData(PortState& port)
     port.switchtooff = (activateRouteBG->selectedId() == 1);
     port.bus = activateSrcpBusLE->text().toUInt();
     port.address = activateContactSB->value();
+    // temporary solution
+    ++port.address;
 }
 
 
@@ -593,8 +596,9 @@ void RouteDialog::setReleaseData(const PortState& port)
     releaseCBchanged(port.used);
     releaseRouteBG->setButton((int)port.switchtooff);
     releaseSrcpBusLE->setText(QString::number(port.bus));
-    releaseContactSB->setValue(port.address);
-    releaseContactSBChanged(port.address);
+    // temporary solution: +1
+    releaseContactSB->setValue(port.address + 1);
+    releaseContactSBChanged(port.address + 1);
 }
 
 
@@ -604,6 +608,8 @@ void RouteDialog::getReleaseData(PortState& port)
     port.switchtooff = (releaseRouteBG->selectedId() == 1);
     port.bus = releaseSrcpBusLE->text().toUInt();
     port.address = releaseContactSB->value();
+    // temporary solution
+    ++port.address;
 }
 
 
@@ -641,18 +647,12 @@ void RouteDialog::setRouteElements(const QPtrList<stateElement>& items)
 {
     QPtrListIterator<stateElement> it(items);
     stateElement* se;
-    //QListViewItem* element;
     RouteElementLVI* element;
     it.toLast();
     int i = items.count();
     while ((se = it.current()) != 0) {
         --it;
         element = new RouteElementLVI(elementsLV, i, se);
-        /*
-        element = new QListViewItem(elementsLV, QString::number(i),
-                se->name, QString::number(se->bus),
-                QString::number(se->address), QString::number(se->state));
-        */
         --i;
     }
 }
@@ -914,6 +914,8 @@ void RouteDialog::addElementToList()
     if (rteDlg == NULL)
         return;
 
+    rteDlg->setCaption(tr("Add new element"));
+
     connect(rteDlg, SIGNAL(getElementByAddress(const int, const int,
                     element**)), this,
             SIGNAL(getElementByAddress(const int, const int,
@@ -922,12 +924,22 @@ void RouteDialog::addElementToList()
     stateElement* se = new stateElement;
 
     if (se != NULL) {
+        se->name = "";
+        se->bus = 1;
+        se->address = 0;
+        se->state = 0;
+        se->elemPtr = NULL;
+        se->elemPtr2 = NULL;
+        rteDlg->setStateElementData(se);
+        
         if (rteDlg->exec() == QDialog::Accepted) {
             rteDlg->getStateElementData(se);
             RouteElementLVI* relvi = new RouteElementLVI(elementsLV,
                     ec , se);
             if (relvi != NULL)
                 relvi->setStateElementData(se);
+            // set focus to new element
+            elementsLV->setSelected(relvi, true);
         }
         delete se;
     }

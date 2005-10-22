@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.29 $
+                           version 0.4.8 $Revision: 1.30 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-10-22 05:43:44 $
+    last modified        : $Date: 2005-10-22 09:56:07 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -862,9 +862,9 @@ void MainWindow::initMainWindow()
     actionRouteEdit->addTo(routemenu);
     actionRouteEdit->addTo(routetb);
 
-    actionRouteCopy = new QAction(QPixmap(route_copy_xpm), tr("&Copy"),
-            0, this, "routecopy" );
-    actionRouteCopy->setToolTip(tr("Copy selected route"));
+    actionRouteCopy = new QAction(QPixmap(route_copy_xpm),
+            tr("Dupli&cate"), 0, this, "routecopy" );
+    actionRouteCopy->setToolTip(tr("Duplicate selected route"));
     connect(actionRouteCopy, SIGNAL(activated()), rtViewer,
             SLOT(slotRouteCopy()));
     actionRouteCopy->addTo(routemenu);
