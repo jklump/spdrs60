@@ -1,7 +1,17 @@
+/*stylesheet for spdrs60 HTML handbook*/
+
 html, body {
-  background-color: white;
-  color: black;
-  font-family: Verdana, 'bitstream vera sans', Helvetica, sans-serif;
+    background-color: white;
+    color: black;
+    font-family: 'bitstream vera sans', Verdana, Helvetica, sans-serif;
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Trebuchet MS', 'Lucida Grande', Verdana, Helvetica, sans-serif;
+}
+
+h2, h3, h4 {
+    margin-top: 2em;
 }
 
 a:link {
@@ -29,3 +39,12 @@ p {
     margin: 0 0 0.7em 0;
 }
 
+.table {
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.figure {
+    margin-top: 2em;
+    margin-bottom: 2em;
+}

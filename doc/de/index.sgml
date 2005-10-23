@@ -657,7 +657,7 @@ http://spdrs60.sourceforge.net/</ulink>
 <para>
 Dort kann man den Quellcode der Version &ver; sowie Pakete verschiedener
 Linux-Distributionen herunterladen. Die alte Projektseite von Stefan
-Preis existiert ebenfall noch, wird aber nicht mehr aktuell gehalten:
+Preis existiert ebenfalls noch, wird aber nicht mehr aktuell gehalten:
 </para>
 <para>
 <ulink url="http://www.linux-modellbahn.de/">
@@ -675,11 +675,10 @@ Für ein erfolgreiches Arbeiten mit diesem Programm müssen folgende
 generelle Voraussetzungen erfüllt sein:
 <itemizedlist mark="bullet">
   <listitem><para>Installierter X-Server mit beliebigem
-Windowmanager.</para></listitem>
-  <listitem><para>Man braucht natürlich eine grafische Oberfläche, am
-besten mit einer Auflösung von 1024 x 768 oder mehr (kleinere tun es
-auch, aber man bekommt nicht alle Reihen gleichzeitig zu sehen, also
-auch entsprechend weniger Elemente auf einmal).</para></listitem>
+Windowmanager. Die für die grafische Oberfläche notwendige Auflösung
+richtet sich weitgehend nach den eigenen Ansprüchen. Kleinere
+Gleisbilder finden noch vollständig auf 800x600 Pixeln Platz, für größere
+können sogar 1280x1024 schon knapp werden.</para></listitem>
   <listitem><para>Für die aktuelle Qt3-Version mu&szlig; die
 Qt-Laufzeit-Bibliothek (qt3) installiert sein (unter SuSE oder Fedora
 Paket &raquo;qt3&laquo;). Überprüfen kann man das bei bei rpm-basierten
@@ -690,31 +689,33 @@ qt3</userinput></para></listitem>
   <listitem><para>Einen Browser zum Anzeigen der Hilfedateien aus dem
 Programm heraus (z.b. Firefox, Netscape, Mozilla, Konqueror,
 Opera)</para></listitem>
-  <listitem><para>Einen Text-Editor (z.B. &raquo;kwrite&laquo;); dieser ist mit
-beschränkter Auswahl über die Einstellungen konfigurierbar.</para></listitem>
+  <listitem><para>Einen Text-Editor (z.B. &raquo;kwrite&laquo;); dieser
+  ist mit beschränkter Auswahl über das Dialogfenster für die
+  persönlichen Einstellungen konfigurierbar.</para></listitem>
   <listitem><para>Ganz wichtig: Damit die Befehle überhaupt auf der Anlage
 ankommen, braucht man einen SRCP-Server, wie den Daemon &raquo;erddcd&laquo;
-aus dem DDL-Paket von Torsten Vogt (siehe auch das Kapitel
-&raquo;Download&laquo; auf den SpDrS60-Webseiten). Aktuelle
-RPM-Pakete hierzu gibt es auch von den Webseiten der
+aus dem <ulink url="http://www.vogt-it.com/OpenSource/DDL/">DDL-Paket</ulink>
+von Torsten Vogt. Alternativ funktioniert SpDrS60 auch mit dem
+Übersetzer-Server &raquo;m6051d&laquo; bzw. dessen Nachfolger
+&raquo;srcpd&laquo; von Matthias Trute. Dieser übersetzt zwischen
+SRCP-Clients und einer Digitalzentrale, wie z.B. dem Original
+6051-Interface von Märklin. Aktuelle RPM-Pakete von diesen Programmen
+gibt es auch von den Webseiten der
 <ulink url="http://www.lug-burghausen.org/">LUG-Burghausen</ulink>.
-Alternativ funktioniert SpDrS60 auch
-mit dem Übersetzer-Server &raquo;m6051d&laquo; von Matthias Trute.
-Dieser übersetzt zwischen SRCP-Clients und einem Original 6051-Interface
-von Märklin. Allgemein gilt, dass die Version des vom Server angebotenen
-SRCP-Protokolls &gt;=&nbsp;0.7.0 und &lt;&nbsp;0.8.0 sein
-mu&szlig;.</para></listitem>
+Allgemein gilt, dass die Version des vom Server angebotenen SRCP-Protokolls
+&gt;=&nbsp;0.7.0 und &lt;&nbsp;0.8.0 sein mu&szlig;. Die aktuelle
+SRCP-Version 0.8.2 wird also noch nicht unterstützt.</para></listitem>
 </itemizedlist>
 </para>
 
 <para>SpDrS60 läuft unter den verschiedensten Linux-Distributionen,
-solange diese die Qt-Bibliothek in der Version 3.x unterstützen.
+solange diese die Qt-Bibliothek in der Version 3.x mitliefern.
 Getestet wurde diese Version unter Qt 3.0.5 bis 3.3.4 mit SuSE, Fedora
 und Debian in unterschiedlichen Versionsständen.
 Problematisch kann der Betrieb des erddcd-Daemons in Kombination mit dem
 Kernel der Versionsreihe 2.6.x sein. Hierzu gibt es eine ganze Reihe
-Fehlermeldungen, die in der Ansteuerung der seriellen Schnittstelle
-liegen. Näheres hierzu kann man in der Newsgroup
+Fehlermeldungen, die ihre Ursache in Problemen mit der Ansteuerung der
+seriellen Schnittstelle haben. Näheres hierzu kann man in der Newsgroup
 &raquo;de.rec.modelle.bahn&laquo; erfahren.
 </para>
 </sect3>
@@ -774,12 +775,20 @@ $ su -c "make install"
 Da SpDrS60 das Konfigurationstool <command>autoconf</command> benutzt,
 sollten Sie keine Probleme beim Kompilieren haben. Voraussetzung ist
 natürlich, Sie haben alle notwendigen Bibliotheken (Qt3) bzw. die
-entsprechenden Entwicklerpakete (qt3-devel) installiert.
+entsprechenden Entwicklerpakete (qt3-devel) installiert. Da die
+HTML-Dateien dieser Dokumentation ebenfalls beim Aufrufen von
+&raquo;make&laquo; erstellt werden, benötigen Sie außer dem noch das
+Programmpaket &raquo;jade&laquo; bzw. &raquo;openjade&laquo; sowie die
+DSSSL-Stylesheets. Das Vorhandensein dieser Pakete wird bereits beim
+Aufruf von &raquo;./configure&laquo; überprüft und das Fehlen gegebenenfalls
+bemängelt.
 </para>
 
 <para>
-Bei Problemen können Sie die User-Mailingliste des Projektes benutzen:
-<ulink url="http://spdrs60.sourceforge.net">http://spdrs60.sourceforge.net</ulink>
+Bei Problemen und Fragestellungen beim Installieren oder zu speziellen
+Programmfunktionen kontaktieren Sie bitte die User-Mailingliste des
+Projektes:
+<ulink url="http://spdrs60.sourceforge.net/">http://spdrs60.sourceforge.net/</ulink>
 </para>
 </sect2>
 
@@ -882,9 +891,13 @@ Start</title>
 </para>
 
 <para>
-Bei den rpm-Paketen der LUG-Burghausen wird das Programm automatisch in
-die Menühierarchie (<xref linkend="abb-kdemenu">) integriert und kann
-von dort gestartet werden.
+Bei den fertigen Softwarepaketen von der
+<ulink url="http://spdrs60.sourceforge.net/">Sourceforge-Projektseite</ulink>
+wird das Programm automatisch in die Menühierarchie der verwendeten
+Desktop-Oberfläche integriert (<xref linkend="abb-kdemenu">) und kann
+einfach von dort gestartet werden. Abhängig von der
+Distribution ist SpDrS60 unter der Rubrik &raquo;Spiele&laquo; oder
+&raquo;Spiele/Simulationsspiele&laquo; eingeordnet.
 </para>
 <para>
 
@@ -910,7 +923,7 @@ von dort gestartet werden.
   <title>Menüleiste</title>
 <para>
 Am oberen Bildschirmrand erkennt man zunächst die Menüleiste mit den
-Einträgen:
+in <xref linkend="abb-menubar"> dargestellten Einträgen.
 
 <figure id="abb-menubar">
   <title>Menüleiste</title>
@@ -926,7 +939,8 @@ Die Menüpunkte haben folgende Funktionen:
 <variablelist>
 <varlistentry>
   <term><emphasis>Datei</emphasis></term>
-  <listitem><para>Alle dateibezogenen Aktionen</para></listitem>
+  <listitem><para>Alle dateibezogenen Aktionen, wie Öffnen, Speichern
+  usw.</para></listitem>
 </varlistentry>
 <varlistentry>  <term><emphasis>Bearbeiten</emphasis></term>
   <listitem><para>Editieren des Gleisbilds und der Datendateien, suchen von
@@ -939,11 +953,12 @@ Die Menüpunkte haben folgende Funktionen:
 </varlistentry>
 <varlistentry>
   <term><emphasis>Daemon</emphasis></term>
-  <listitem><para>Auf den Daemon bezogene Kommandos</para></listitem>
+  <listitem><para>Auf den SRCP-Daemon bezogene Kommandos</para></listitem>
 </varlistentry>
 <varlistentry>
   <term><emphasis>Gleisbild</emphasis></term>
-  <listitem><para>Interaktionen mit dem aktuell angezeigten Gleisbild</para></listitem>
+  <listitem><para>Interaktionen mit dem aktuell angezeigten Gleisbild,
+  sowie Anpassung gleisbildspezifischer Daten</para></listitem>
 </varlistentry>
 <varlistentry>
   <term><emphasis>Fahrstra&szlig;e</emphasis></term>
@@ -952,16 +967,18 @@ Die Menüpunkte haben folgende Funktionen:
 </varlistentry>
 <varlistentry>
   <term><emphasis>Hilfe</emphasis></term>
-  <listitem><para>Verweise auf die Hilfe und die Webseiten</para></listitem>
+  <listitem><para>Verweise auf die Hilfe, externe Webseiten und das
+  Copyright</para></listitem>
 </varlistentry>
 </variablelist>
 
 </para>
 
 <para>
-Je nach Programmzustand kann der eine oder andere Menüeintrag nicht
-aktiviert werden. Bei einer nicht vorhandenen Server-Verbindung ist dies
-z.B. bei den meisten Einträgen des Punktes &raquo;Daemon&laquo; der Fall.
+Je nach Programmzustand kann es sein, dass der eine oder andere
+Menüeintrag nicht aktivierbar ist. Bei einer nicht vorhandenen
+Server-Verbindung ist dies z.B. bei den meisten Einträgen des
+Punktes &raquo;Daemon&laquo; der Fall.
 Ist kein Gleisbild geladen, dann sind die meisten Einträge des Menüs
 &raquo;Gleisbild&laquo; ausgegraut.
 </para>
@@ -972,10 +989,16 @@ Ist kein Gleisbild geladen, dann sind die meisten Einträge des Menüs
   <title>Werkzeugleiste</title>
 
 <para>
-Unter dem Menü befindet sich die Werkzeugleiste mit den Symbolen für die
-Funktionen, welche am häufigsten verwendet werden. Die Leiste ist in
-einzelen Funktionsgruppen untergliedert, die der Menüeinteilung genau
-entspricht (v.l.n.r.):
+Unter dem Menü befindet sich die in <xref linkend="abb-toolbar">
+gezeigte Werkzeugleiste mit den Symbolen für die Funktionen, welche am
+häufigsten verwendet werden. Die Leiste ist in
+einzelne Funktionsgruppen untergliedert, die der Menüeinteilung genau
+entsprechen. Diese Werkzeuggruppen lassen sich einzeln verschieben und
+rund um das angezeigte Gleisbild nach persönlichem Geschmack platzieren.
+Die in der Leiste verwendeten Symbole finden sich auch in den
+Menüeinträgen wieder, so dass eine einfache Wiedererkennung
+gewährleistet ist. Bewegt man die Maus über einen Schaltknopf, erscheint
+eine Tooltip-Hilfe, die die Funktion des Schaltknopfes kurz erläutert.
 
 <figure id="abb-toolbar">
   <title>Werkzeugleiste</title>
@@ -983,34 +1006,12 @@ entspricht (v.l.n.r.):
     <imagedata fileref="../commonimages/schnapp-toolbar.png">
   </imageobject></mediaobject>
 </figure>
-
 </para>
 
 <para>
-
-<itemizedlist mark="bullet">
-  <listitem><para>Ein neues, leeres Gleisbild anlegen</para></listitem>
-  <listitem><para>Ein Gleisbild öffnen</para></listitem>
-  <listitem><para>Das aktive Gleisbild speichern</para></listitem>
-  
-  <listitem><para>Ausgewählte Elemente ausschneiden</para></listitem>
-  <listitem><para>Ausgewählte Elemente kopieren</para></listitem>
-  <listitem><para>Elemente aus der Zwischenablage einfügen</para></listitem>
-  
-  <listitem><para>Fahrstra&szlig;en-Fenster öffnen</para></listitem>
-  <listitem><para>Übersicht über die Rückmeldemodule anzeigen</para></listitem>
-  <listitem><para>Einfaches Schaltpult anzeigen</para></listitem>
-  <listitem><para>Bahnhofsuhr anzeigen</para></listitem>
-
-  <listitem><para>Senden der Daten zur Anlage starten</para></listitem>
-  <listitem><para>Senden der Daten zur Anlage beenden</para></listitem>
-  <listitem><para>Alle Signale auf Rot setzen (Nothalt)</para></listitem>
-</itemizedlist>
-</para>
-
-<para>
-Je nach Programmzustand ist das eine oder andere Symbol nicht
-aktivierbar. Ist der SRCP-Server nicht gestartet, können zum Beispiel
+Analog zu den Menüeinträgen kann es sein, dass je nach Programmzustand
+das eine oder andere Symbol nicht aktivierbar ist. Ist der SRCP-Server
+nicht gestartet, können zum Beispiel
 die Anlagen-Symbole nicht aktiviert werden. Läuft der Server ohne
 Rückmeldeunterstützung, dann erscheint das Rückmeldesymbol ausgegraut.
 </para>
@@ -1023,13 +1024,17 @@ Am unteren Rand findet man das Debugging-Fenster. Es ist umschaltbar in
 den Anzeigenarten &raquo;Kommandos&laquo;, &raquo;Infoport&laquo; und
 &raquo;Rückmeldung&laquo; (dies kann durch Drücken von
 <keycap>Strg-D</keycap> bzw. durch Wählen des Menüeintrages
-&raquo;Ansicht -&gt; Statuszeile umschalten&laquo; geschehen).
+&raquo;Ansicht -&gt; Statuszeile umschalten&laquo; geschehen). Diese
+Anzeigen sind programmtechnisch als &raquo;Dropdown&laquo;-Listen
+implementiert, in denen eine festgelegte Anzahl aufgelaufener Meldungen
+chronologisch sortiert zwischengespeichert werden.
 </para>
 
 <sect4>
   <title>Kommandoanzeige</title>
 <para>
-Hier erscheint alles, was mit der eigentlichen Programmaufgabe zu tun
+In der in <xref linkend="abb-history"> gezeigten Kommandozeile
+erscheint alles, was mit der eigentlichen Programmaufgabe zu tun
 hat. Befehle, die an den SRCP-Server geschickt werden, sind durch ein
 &apos;#&apos; hinter der Uhrzeit gekennzeichnet; es folgt der genaue
 gesendete Befehl. Ein &apos;&gt;&apos; dagegen zeigt an, dass es sich
@@ -1038,7 +1043,6 @@ Gleisbild-Datei erfolgreich gespeichert wurde.
 </para>
 
 <para>
-
 <figure id="abb-history">
   <title>Kommandohistorie</title>
   <mediaobject><imageobject>
@@ -1046,8 +1050,10 @@ Gleisbild-Datei erfolgreich gespeichert wurde.
   </imageobject></mediaobject>
 </figure>
 </para>
+
 <para>
-Eine solche Historien-Anzeige sieht im Detail etwa so aus:
+Die <xref linkend="abb-debcmd"> zeigt beispielhaft die Historie der
+aufgelaufenen Kommandomeldungen im Detail.
 </para>
 <para>
 
@@ -1063,11 +1069,12 @@ Eine solche Historien-Anzeige sieht im Detail etwa so aus:
 <sect4>
   <title>Infoportanzeige</title>
 <para>
-In dieser Auflistung (<xref linkend="abb-historyinf">) erscheinen alle
-Meldungen vom SRCP-Sever, die das Programm über den sogenannten Infoport
-erreichen. Alle Angaben erhalten daher, weil es SRCP-konforme Daten
+In dieser in <xref linkend="abb-historyinf"> gezeigten Auflistung
+erscheinen alle Meldungen vom SRCP-Sever, die das Programm über den
+sogenannten Infoport
+erreichen. Alle Angaben erhalten, weil es SRCP-konforme Daten
 sind, ebenfalls ein &apos;#&apos; nach der Uhrzeit. Damit kann ermittelt
-werden, welche Befehle andere Programme an den Server geschickt haben.
+werden, welche Befehle andere SRCP-Programme an den Server geschickt haben.
 </para>
 <para>
 <figure id="abb-historyinf">
@@ -1084,7 +1091,7 @@ wie sie z.B. durch eine zweite Instanz von SpDrS60 für Linux oder durch
 andere SRCP-Clients erzeugt werden, über diesen Infoport visualisert
 werden. Bis zu einer vollständigen Realisation gilt daher, dass bei
 einem Betrieb mit mehreren SRCP-Clients angezeigte Weichen- und
-Signalstellungen bei Magnetartikeln mit mehreren Antrieben vom
+Signalstellungen bei Magnetartikeln mit zwei Antrieben vom
 tatsächlichen Zustand der Anlage abweichen können.
 </para>
 </sect4>
@@ -1118,7 +1125,8 @@ neuem Zustand angezeigt).
 <sect2 id="sect-menuepunkte">
   <title>Menüpunkte</title>
 <para>
-Es stehen in den einzelnen Menüpunkten folgende Einträge zur Auswahl:
+Auf die Menüeinträge, die in den einzelnen Menüs zur Verfügung stehen,
+wird im folgenden näher eingegangen.
 </para>
 <sect3>
   <title>Datei</title>
@@ -1139,6 +1147,9 @@ Die Bedeutung der Einträge im Einzelnen von oben nach unten:
   <listitem><para>Speichern des aktiven Gleisbilds</para></listitem>
   <listitem><para>Speichern des aktiven Gleisbilds unter einem anderen
 Namen</para></listitem>
+  <listitem><para>Importieren einer Gleisbilddatei im alten Format</para></listitem>
+  <listitem><para>Ein neues Programmfenster öffnen</para></listitem>
+  <listitem><para>Schließen des aktuellen Programmfensters</para></listitem>
   <listitem><para>Beenden des Programms</para></listitem>
 </itemizedlist>
 </para>
@@ -1163,12 +1174,11 @@ Die Bedeutung der Einträge im Einzelnen von oben nach unten:
   <listitem><para>Ausgewählte Elemente kopieren</para></listitem>
   <listitem><para>Elemente aus der Zwischenablage einfügen</para></listitem>
 
-  <listitem><para>Untermenü: Editieren aller zu diesem Gleisbild gehörenden
-Dateien durch einen voreingestellten ASCII-Editor: Gleisbild-,
-Fahrstra&szlig;en- sowie ganz allgemein die Optionendatei zu
-SpDrS60</para></listitem>
-  <listitem><para>Finden von Elementen</para></listitem>
-  <listitem><para>Ändern der Programmeigenschaften</para></listitem>
+  <listitem><para>Untermenü &raquo;Datendateien&laquo;: Editieren der
+  Gleisbilddatei sowie der Datei mit den persönlichen Einstellungen
+  durch einen voreingestellten ASCII-Editor</para></listitem>
+  <listitem><para>Suchen und Finden von Elementen</para></listitem>
+  <listitem><para>Ändern der Programmeinstellungen</para></listitem>
 </itemizedlist>
 </para>
 </sect3>
@@ -1187,14 +1197,18 @@ SpDrS60</para></listitem>
 Die Bedeutung der Einträge im Einzelnen von oben nach unten:
 
 <itemizedlist mark="bullet">
-  <listitem><para>Öffnet die Fahrstra&szlig;enverwaltung</para></listitem>
+  <listitem><para>Zeigt die Fahrstra&szlig;entabelle an</para></listitem>
   <listitem><para>Zeigt die Rückmeldemodule an</para></listitem>
   <listitem><para>Zeigt die Bahnhofsuhr an</para></listitem>
-  <listitem><para>Öffnet ein einfaches Keyboard zum Testen von
+  <listitem><para>Öffnet ein einfaches Schaltpult zum Testen von
 Antrieben</para></listitem>
-  <listitem><para>Weiterschalten in den verschiedenen Debugging-Anzeigen
+  <listitem><para>Umschalten der Gleisbildansicht in den Betriebsmodus</para></listitem>
+  <listitem><para>Umschalten der Gleisbildansicht in den
+  Gleisbildbearbeitungsmodus</para></listitem>
+  <listitem><para>Umschalten der Gleisbildansicht in den
+  Fahrstraßenbearbeitungsmodus</para></listitem>
+  <listitem><para>Weiterschalten der verschiedenen Debugging-Anzeigen
 am Fu&szlig; des Progammfensters</para></listitem>
-  <listitem><para>Umschalten in den Editiermodus</para></listitem>
 </itemizedlist>
 </para>
 </sect3>
@@ -1219,7 +1233,7 @@ Die Bedeutung der Einträge im Einzelnen von oben nach unten:
   <listitem><para>Daemon erhält einen Reset</para></listitem>
   <listitem><para>Der Daemon wird heruntergefahren</para></listitem>
   <listitem><para>Information über die Version des Daemon sowie über die
-SRCP-Version</para></listitem>
+verwendete SRCP-Version (<xref linkend="abb-daemoninfo">)</para></listitem>
 </itemizedlist>
 </para>
 <para>
@@ -1235,7 +1249,7 @@ SRCP-Version</para></listitem>
 <sect3>
   <title>Gleisbild</title>
 <para>
-<figure id="abb-menuextra">
+<figure id="abb-menuelayout">
   <title>Gleisbild-Menü</title>
   <mediaobject><imageobject>
     <imagedata fileref="schnapp-layoutmenu.png">
@@ -1264,6 +1278,30 @@ herbeiführen)</para></listitem>
   <listitem><para>Alle aktiven Fahrstra&szlig;en werden zurückgenommen und
 deren Startsignale auf Rot gestellt</para></listitem>
 
+</itemizedlist>
+</para>
+</sect3>
+<sect3>
+  <title>Fahrstraße</title>
+<para>
+<figure id="abb-menuroute">
+  <title>Fahstraßen-Menü</title>
+  <mediaobject><imageobject>
+    <imagedata fileref="schnapp-routemenu.png">
+  </imageobject></mediaobject>
+</figure>
+</para>
+<para>
+Die Bedeutung der Einträge im Einzelnen von oben nach unten:
+
+<itemizedlist mark="bullet">
+  <listitem><para>Ausgewählte Fahrstraße einstellen</para></listitem>
+  <listitem><para>Ausgewählte Fahrstraße zurücknehmen</para></listitem>
+  <listitem><para>Neue Fahrstraße zur Liste hinzufügen</para></listitem>
+  <listitem><para>Ausgewählte Fahrstraße bearbeiten</para></listitem>
+  <listitem><para>Ausgewählte Fahrstraße duplizieren</para></listitem>
+  <listitem><para>Ausgewählte Fahrstraße löschen</para></listitem>
+  <listitem><para>Alle eingestellten Fahrstraßen zurücknehmen</para></listitem>
 </itemizedlist>
 </para>
 </sect3>
