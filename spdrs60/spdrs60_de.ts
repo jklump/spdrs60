@@ -1168,7 +1168,7 @@ Wollen Sie sie überschreiben?</translation>
     </message>
     <message>
         <source>&amp;Repeat: %1</source>
-        <translation>&amp;Wiederholen: 1%</translation>
+        <translation>&amp;Wiederholen: %1</translation>
     </message>
 </context>
 <context>
