@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60 documentation
 # last changes by: Guido Scholz
-# Version: $Revision: 1.4 $
-# last update: $Date: 2005-10-24 20:24:37 $
+# Version: $Revision: 1.5 $
+# last update: $Date: 2005-10-25 20:35:24 $
 
 # HTML_DOC_DIR wird in configure.ac definiert
 htmldir = @HTML_DOC_DIR@
@@ -226,6 +226,7 @@ dist_commonimages_DATA = \
 	commonimages/signal-zf-1.png \
 	commonimages/taste-fht.png \
 	commonimages/taste-wgt.png \
+	commonimages/taste-sgt.png \
 	commonimages/taste-ufgt.png \
 	commonimages/panel-blue.png \
 	commonimages/uebergang.png \

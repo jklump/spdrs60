@@ -1596,33 +1596,38 @@ linkend="sect-fahrstrassen-allg">.
 <sect3>
   <title>Einzelne Antriebe schalten</title>
 <para>
-Einzelne Antriebe kann man z.B. über das Kontextmenü
+Einzelne Antriebe kann man - nicht originalgetreu - über das Kontextmenü
 &raquo;Umschalten&laquo; eines schaltbaren Elements ansprechen. Dieser
 Eintrag ist nur aktiv bei nicht durch Fahrstra&szlig;en benutzen
 Antrieben und wenn die Weichen o.ä. nicht durch ein Fahrzeug besetzt
 sind, was an der roten Element-LED erkennbar ist. Dabei wird
 &raquo;im Kreis&laquo; umgeschaltet; d.h. bei mehr als zwei möglichen
 Elementstellungen wird bei jeder Benutzung von &raquo;Umschalten&laquo;
-die nächste Stellung angezeigt. Alternativ - und vorbildgetreuer -
+die nächste mögliche Stellung angezeigt. Alternativ - und vorbildgetreuer -
 benutzt man zum Schalten von einzelnen Weichen die Weichengruppentaste
-(WGT, <xref linkend="abb-wgt">) bzw. bei Signalen die Signalgruppentaste (SGT).
+(WGT) bzw. bei Signalen die Signalgruppentaste (SGT). Diese sind in
+<xref linkend="abb-wgt"> dargestellt.
 </para>
 <para>
 <figure id="abb-wgt">
-  <title>Weichengruppentaste</title>
+  <title>Weichengruppentaste und Signalgruppentaste</title>
   <mediaobject><imageobject>
     <imagedata fileref="../commonimages/taste-wgt.png">
+  </imageobject></mediaobject>
+  <mediaobject><imageobject>
+    <imagedata fileref="../commonimages/taste-sgt.png">
   </imageobject></mediaobject>
 </figure>
 </para>
 <para>
 Zunächst klickt man auf die WGT und dann innerhalb eines
-5-Sekunden-Zeitraums auf die Weiche, welche man gestellt
-haben möchte. Auch das vorherige Drücken der Taste <keycap>F6</keycap>
+5-Sekunden-Zeitraums auf die Weiche, welche gestellt werden soll.
+Auch das vorherige Drücken der Taste <keycap>F6</keycap>
 auf der Tastatur aktiviert im Hintergrund die WGT, das erspart eventuell
 einiges an Wegstrecke mit der Maus. Auch hier wird &raquo;im Kreis&laquo;
 umgeschaltet, was leider nicht ganz vorbildgetreu ist. Analog verläuft
-das Schalten der Signel mit der SGT.
+das Schalten der Signale mit der SGT und der Funktionstaste
+<keycap>F7</keycap>.
 </para>
 </sect3>
 
@@ -1651,7 +1656,7 @@ besonders beeindruckend aus. Einfach mal ausprobieren.
 <sect3>
   <title>Den aktuellen Zustand übermitteln</title>
 <para>
-Möchte man den aktuell angezeigten Zustand an die Anlage übermitteln,
+Um den aktuell im Gleisbild angezeigten Zustand an die Anlage zu übermitteln,
 benutzt man den Menüpunkt &raquo;Gleisbild-&gt;Alles senden&laquo; oder
 <keycap>F11</keycap>. Dabei ändert sich an der Gleisbildvisualisierung
 nichts; der Abschluss der Aktion wird durch ein akustisches Signal mitgeteilt.
@@ -1663,10 +1668,9 @@ nichts; der Abschluss der Aktion wird durch ein akustisches Signal mitgeteilt.
 <para>
 Durch Klick auf das Uhr-Symbol der Werkzeugleiste oder über das Menü
 &raquo;Ansicht-&gt;Bahnhofsuhr&laquo; erhält man eine Uhr im Stil der
-Deutschen Bahn AG. Sie weist
-originalgetreu den Minutensprung auf (dieser kann beim ersten Sprung
-nach dem Fensteröffnen eventuell nicht sichtbar sein). Die Uhr kann
-z.Zt. noch nicht langsamer oder schneller geschaltet werden.
+Deutschen Bahn AG. Sie weist zudem den originalgetreuen Minutensprung
+auf. Die Uhr kann z.Zt. noch nicht langsamer oder schneller geschaltet
+werden.
 </para>
 <para>
 <figure id="abb-uhr">
@@ -1709,7 +1713,7 @@ einfach &raquo;Abbrechen&laquo; im erscheinenden Warnmeldungsfenster; es
 Zum schnelleren Arbeiten mit dem Programm existiert eine größere Anzahl
 an Tastaturkürzeln, die die eine oder andere Mausbewegung überflüssig
 machen. Die folgenden Tabellen listen die vorhandenen Möglichkeiten
-in Abhängigkeit vom Betriebsmodus auf.
+in Abhängigkeit vom gerade aktiven Modus auf.
 </para>
 
 <sect3>
@@ -1907,10 +1911,10 @@ Gleisbild&laquo;</para></listitem>
 </para>
 
 <para>
-Nach allen Möglichkeiten erscheint zunächst das in
+Über alle Bedienvarianten erscheint zunächst das in
 <xref linkend="abb-newlayout"> dargestellte kleine Dialogfenster,
 in dem der Benutzer aufgefordert wird, die Abmessungen des neuen
-Gleisbilds (Anzahl der Spalten Zeilen) einzugeben.
+Gleisbilds (Anzahl der Spalten und Zeilen) einzugeben.
 </para>
 <para>
 <figure id="abb-newlayout">
@@ -1924,24 +1928,32 @@ Gleisbilds (Anzahl der Spalten Zeilen) einzugeben.
 <para>
 Dazu benutzt man entweder die Pfeiltasten neben der Ziffernanzeige oder
 markiert zunächst den Text in der Ziffernanzeige, um dann die neue Zahl
-einzutippen. Der gültige Bereich liegt zwischen minimal fünf (bei einer
-kleineren Spaltenzahl wird man kaum noch eine sinnvolle
-Elementekombination unterbringen) und maximal 25 Spalten (dass dürfte
-auch für den reichsten Modellbahner erstmal ausreichen).
+einzutippen. Der gültige Bereich liegt für die Spaltenanzahl zwischen
+minimal vier und maximal 70; für die Zeilenanzahl zwischen minimal vier
+und maximal 110. Dieses Beschränkung ergibt sich zum einen durch das
+zugrundeliegende X-Window-System und zum anderen durch das
+programmtechnisch zur Anzeige des Gleisbilds genutzte Softwaremodul.
+Explizit liegen die unter diesen Bedingungen nicht überschreitbaren
+Grenzen bei 4000 x 4000 Pixeln. Da jedes Element einen Platzbedarf
+von 56 x 35 Pixeln hat (im Original .. x .. mmm plus Spaltmaß),
+resultiert rechnerisch eine maximale Gleisbildgröße von
+71&nbsp;Spalten und 114&nbsp;Zeilen.
+Für die meisten Gleisbilder sollten diese Grenzen jedoch keine relevante
+Einschränkung darstellen. Der Speicherbedarf für die Elemente wird dynamisch
+belegt, richtet sich also nach der tatsächlichen Größe der Darstellung.
 </para>
 
 <para>
-Nach einer kurzen Wartezeit, die durch eine Balkenanzeige dargestellt
-wird, erscheint ein leeres Gleisbild in den gewünschten Dimensionen.
-Der Übersichtlichkeit wegen wird empfohlen, die
-Spaltenanzahl nicht zu hoch anzusetzen. Denn bei einer Auflösung von
-z.B. 1024 x 768 können auf einmal nur ca. 20 Spalten angezeigt werden,
-alle anderen sind dann nur durch Scrollen erreichbar. In brenzligen
-Situationen kann dies schon mal zu unnötigen Zeitverzögerungen kommen,
-wenn man das entsprechende Signal erst mal umständlich suchen muss.
+Nach Bestätigung der Eingabe entsteht eine kurze Wartezeit, die durch
+eine Balkenanzeige dargestellt wird. Anschließend erscheint ein leeres
+Gleisbild in den gewünschten Dimensionen.
+Der Übersichtlichkeit wegen sollte man die Abmessungen nicht zu weit
+über die Fähigkeiten des Bildschirms hinaus dehnen, da sonst die
+Bedienung durch das notwendige Hin- und
+Herschieben des sichtbaren Bereichs leidet.
 </para>
 <para>
-Nach dem anlegen eines leeren Gleisbilds kann man dann mit dem Anlagen
+Nach dem Erstellen eines leeren Gleisbilds kann man mit dem Anlegen
 der Gleisbildelemente beginnen, in dem man in den
 Gleisbildbearbeitungsmodus umschaltet.
 </para>
@@ -1955,21 +1967,22 @@ Gleisbildbearbeitungsmodus umschaltet.
   <title>Laden</title>
 
 <para>
-      Ein Gleisbild kann auf drei Arten geladen werden:
+      Ein Gleisbild kann auf durch drei Bedienvarianten geladen werden:
 <itemizedlist mark="bullet">
   <listitem><para>Über das Tastaturkürzel
 <keycap>Strg-O</keycap></para></listitem>
   <listitem><para>Über die Menüleiste &raquo;Datei -&gt;
 Öffnen&laquo;</para></listitem>
-  <listitem><para>Über den Toolbutton
-&raquo;Gleisbilddatei öffnen&laquo;</para></listitem>
+  <listitem><para>Über den entsprechenden Schalter in der
+  Werkzeugleiste</para></listitem>
 </itemizedlist>
 </para>
 
 <para>
-Nach allen Möglichkeiten erscheint zunächst ein kleines
-Datei-Dialogfenster, indem der Benutzer aufgefordert wird, die
-gewünschte Gleisbild-Datei durch Doppelklicken auszuwählen:
+Es erscheint jeweils zunächst das in <xref linkend="abb-openlayout">
+dargestellte kleine Datei-Dialogfenster, mit dem der Benutzer
+aufgefordert wird, die gewünschte Gleisbilddatei durch Doppelklicken
+auszuwählen.
 </para>
     
 <para>
@@ -1982,42 +1995,42 @@ gewünschte Gleisbild-Datei durch Doppelklicken auszuwählen:
 </para>
     
 <para>
-Nach einer kurzen Wartezeit, die durch eine Balkenanzeige
-dargestellt wird, erscheint dann das ausgewählte Gleisbild. Ein eventuell
-vorher schon geöffnetes Gleisbild wird automatisch auf der Platte
-gespeichert. Handelte es sich dabei um ein leeres, noch nicht
-gesichertes Gleisbild, wird hierzu zunächst abgefragt, ob eine Sicherung
-des neuen Gleisbilds gewünscht ist (siehe mehr dazu im Abschnitt
-&raquo;Speichern&laquo;).
+Nach einer kurzen Wartezeit erscheint das ausgewählte Gleisbild. Ein
+eventuell vorher schon geöffnetes Gleisbild wird automatisch
+geschlossen. Handelte es sich dabei um ein noch nicht
+gesichertes oder verändertes Gleisbild, wird hierzu zunächst abgefragt,
+ob eine Sicherung des neuen Gleisbilds gewünscht wird. Mehr dazu im
+Abschnitt &raquo;Speichern&laquo;.
 </para>
 
 <para>
-Die Ladezeit kann je nach Grö&szlig;e des Gleisbilds und
-Anzahl der darin befindlichen schaltbaren Elemente schon im Bereich von
+Die Ladezeit kann sich je nach Grö&szlig;e des Gleisbilds und
+Anzahl der darin befindlichen schaltbaren Elemente im Bereich von
 mehreren Sekunden bewegen. Ursache hierfür ist der Abgleich der
-Gleisbild-Daten mit der Anlage:
+Gleisbild-Daten mit der Anlage.
 </para>
 
 <para>
-Für das Programm gibt es keine Möglichkeit, den wirklich
-aktuellen Zustand einer Anlage einzulesen, da - entgegen der
-Wirklichkeit - die Weichen oder Signale ihren Zustand nicht an den
-Daemon und damit dieses Programm zurückmelden. Man könnte natürlich an
-jeden Antrieb einen Rückmeldebaustein anschlie&szlig;en, dies wäre dann
-wirklichkeitsgetreuer (ist aber teuer und vor allem noch nicht
-realisert). Also wurde hier die einfachere Methode gewählt, dass die
-Anlage auf den gespeicherten Zustand der Gleisbild-Datei eingestellt wird.
+Für das Programm gibt es keine Möglichkeit, den wirklich aktuellen
+Zustand einer Anlage einzulesen. Im Unterschied zum Original melden
+die Weichen oder Signale ihren Zustand nicht an den
+Daemon und damit weiter an dieses Programm. Man könnte zwar an
+jeden Antrieb einen Rückmeldebaustein anschlie&szlig;en, was
+wirklichkeitsgetreuer wäre, preislich wäre das aber sehr aufwändig;
+softwaretechnisch ist es zudem noch nicht realisiert.
+Die hier praktizierte Methode ist einfacher, da die
+Anlage auf den gespeicherten Zustand der Gleisbilddatei eingestellt wird.
 Für jedes schaltbare Element (Ausnahmen: Entkoppler, Drehscheibe und
-Schiebebühne) wird also ein entsprechendes Steuerkommando generiert, das
-den gespeicherten Zustand enthält. Auch wenn der Daemon nicht läuft,
-erscheinen auf dem Terminal die entsprechenden Befehle, es fällt dabei
-lediglich das Schreiben auf die Socket-Schnittstelle weg.
+Schiebebühne) wird ein entsprechendes SRCP-Steuerkommando generiert.
+Auch wenn der Daemon nicht läuft, erscheinen in der Kommandohistorie
+die entsprechenden Befehle, es entfällt dabei lediglich das Senden an
+die Netzwerkschnittstelle.
 </para>
 
 <para>
-Nach der Ladezeit erhält man dann vielleicht das in <xref
-linkend="abb-bahnhofklein"> dargestellte Bild, das auf der
-mitgelieferten Gleisbild-Datei <filename>bahnhof_klein.dat.gbs</filename>
+Nach der Ladezeit erhält man dann beispielsweise das in <xref
+linkend="abb-bahnhofklein"> dargestellte Bild, welches auf der
+mitgelieferten Gleisbilddatei <filename>bahnhof_klein.dat.gbs</filename>
 basiert.
 </para>
 
@@ -2032,59 +2045,40 @@ basiert.
 </para>
 
 <para>
-In dieser kleinen Beispiel-Datei erkennt man schon das
-typische Aussehen eines SpDrS60-Stellpultes:
+In diesem kleinen Beispiel erkennt man schon das
+typische Aussehen eines SpDrS60-Stelltisches:
 <itemizedlist mark="bullet">
-  <listitem><para>Schaltbare Elemente wie Weichen mit
-einer (eventuell zwei) LED(s), die die aktuelle Lage der Weichenzungen
-anzeigen</para></listitem>
-  <listitem><para>Nicht schaltbare Elemente mit LEDs, die
-je nach Aktivität auf den Gleisen diese Anzeigen (eingestellte
-Fahrstra&szlig;en oder besetzte Gleise)</para></listitem>
-  <listitem><para>Einige zusätzliche, nur auf der
-Modellbahn befindlichen Elemente wie Drehscheibe, Häuser
-u.ä.</para></listitem>
-  <listitem><para>Besondere Tasten (wie die
-Fahrstra&szlig;enauflösehilfstaste (FHT), die die Rücknahme von
-Fahrstra&szlig;en ermöglicht), die aus Sicherheitsgründen immer vor den
-eigentlichen Stellaktionen betätigt werden müssen.</para></listitem>
-</itemizedlist>
+  <listitem><para>Im oberen Bereich befinden sich die Außentasten
+  (Gruppentasten), ihrer Funktion nach in farblich abgesetzten Blöcken
+  gruppiert (Gruppentastenblöcke)</para></listitem>
+  <listitem><para>Darunter das eigentliche Gleisbild mit den
+  Innentasten und den Symbolen für Signale, Gleise und Weichen
+</para></listitem>
 </para>
-
-<para>
-Eine genauere Beschreibung der Symbole erfolgt im <xref linkend="sect-symbole">.
+<para>Das Gleisbild enthält hier einige zusätzliche, nur auf der
+Modellbahn befindliche Elemente wie Drehscheibe, Gebäude u.ä.
+Eine genauere Beschreibung der zur Verfügung stehenden Symbole erfolgt
+im <xref linkend="sect-symbole">.
 </para>
 
 </sect3>
   
 <sect3>
-  <title>Speichern einer Anlagendatei</title>
+  <title>Speichern einer Gleisbilddatei</title>
 
 <para>
-Das Speichern eines Gleisbilds geschieht im Allgemeinen
-automatisch. Sowohl beim Schlie&szlig;en des Programms (durch
-<keycap>Strg-Q</keycap>, <keycap>Alt-F4</keycap> oder die
-Fensteranfasser) als auch vor dem Anzeigen eines &raquo;Öffne ein neues
-Gleisbild&laquo;-Dialogs wird das aktuelle Gleisbild automatisch gespeichert.
-Es gibt daher in den meisten Fällen keinerlei Notwendigkeit, das
-benutzte Gleisbild aktiv zu speichern. Ein kleiner Hinweis sei aber hier
-fairerweise genannt: beende ich aus dem Terminal oder über den
-<command>kill</command>-Befehl das Programm, kann natürlich kein Gleisbild
-gespeichert werden.
+Das Speichern eines Gleisbilds geschieht im Allgemeinen über
+den Menüpunkt &raquo;Datei -&gt; Speichern&laquo; oder <keycap>Strg-S</keycap>.
+Möchte man ein Gleisbild unter einem anderen Namen speichern, nutzt
+man den Menüpunkt &raquo;Datei -&gt; Speichern unter&laquo;.
+Ist das aktuelle Gleisbild noch nicht unter einem eigenen Namen
+gespeichert, erscheint
+ebenfalls vor Programmende oder dem Laden eines neuen Gleisbilds das
+in <xref linkend="abb-savelayout"> gezeigte Fenster.
 </para>
 
 <para>
-Möchte man allerdings ein Gleisbild unter einem anderen Namen
-speichern, so wähle man den Menüpunkt &raquo;Datei -&gt; Speichern unter&laquo;.
-Ist das aktuelle Gleisbild ein kürzlich erstelltes, welches noch nicht
-unter einem anderen Namen als dem Standard-Namen
-<filename>default.dat.gbs</filename> gespeichert wurde, erscheint
-ebenfalls vor Programmschluss oder dem Laden eines neuen Gleisbilds das
-Speicherfenster:
-</para>
-
-<para>
-<figure id="add-savelayout">
+<figure id="abb-savelayout">
   <title>Gleisbild Speichern</title>
   <mediaobject><imageobject>
     <imagedata fileref="schnapp-save.png">
@@ -2093,12 +2087,11 @@ Speicherfenster:
 </para>
 
 <para>
-Hier gibt man jetzt einfach den Namen der neuen Gleisbild-Datei
-ein. Dabei ist es nicht unbedingt notwendig, das Datei-Suffix .dat.gbs,
-welches die Gleisbild-Dateien kenntlich macht, mit einzugeben. Enthält der
-eingegebene Dateiname dieses Suffix nicht, wird es vor dem Speichern
-automatisch angehängt. Selbstverständlich darf man sich auch ein anderes
-Verzeichnis zum Speichern aussuchen.
+Bei der Namensvergabe ist es nicht unbedingt notwendig, die
+Dateierweiterung (.spdrs60), welche die Gleisbilddateien kenntlich
+macht, mit einzugeben. Enthält der
+eingegebene Dateiname die Erweiterung nicht, wird sie beim Speichern
+automatisch angehängt.
 </para>
 </sect3>
 </sect2>
@@ -2243,12 +2236,12 @@ zukünftige Erweiterungen gedacht.</para></listitem>
 <sect2 id="sect-symbole-uebersicht">
   <title>Übersicht der Symbole</title>
 
-<para> Zur besseren Übersicht werden in der folgenden Tabelle die
-im Programm zur Verfügung stehenden Symbole und deren Eigenschaften
-beschrieben. Für Signale bzw. Weichen gibt es zusätzlich noch <xref
-linkend="sect-anschluesse">, in dem beschrieben wird, wie die Anschlüsse
-auszuführen sind. Für besondere Elemente wie die Drehscheibe gibt es
-ebenfalls ein eigenes Kapitel (<xref linkend="sect-drehscheibe">).
+<para>Die folgende Tabelle bietet eine Übersicht der im Programm zur
+Verfügung stehenden Symbole und deren Eigenschaften. Für Signale bzw.
+Weichen wird in  <xref linkend="sect-anschluesse"> zusätzlich
+beschrieben, wie Anschlüsse
+auszuführen sind. Für besondere Elemente wie die Drehscheibe wird auf
+<xref linkend="sect-drehscheibe"> verwiesen.
 </para>
 
 <para>
@@ -2862,15 +2855,15 @@ wie vorhanden):</para>
       <entry>0 = gerader Gleisstrang</entry>
       <entry morerows="1" valign="middle"><footnote id="fntabpos1"><para>
       Diese Symbole müssen auch genau entgegengesetzte reale
-      Verhältnisse anzeigen: so kann in echt eine linke Weiche eingebaut
+      Verhältnisse anzeigen. So kann in echt eine linke Weiche eingebaut
       sein, die im Gleisbild aus grafischen Gründen am Besten nur
       mit einer Rechtsweiche darstellbar ist. Dann stimmt auch
       nicht mehr unbedingt der Richtungswert mit der Wirklichkeit
-      überein: in unserem Beispiel mit der linken Weiche ist deren
+      überein. In unserem Beispiel mit der linken Weiche ist deren
       abzweigende Stellung (1) in der Grafik mit einer rechten Weiche
       vertreten, die dann aber nur den Richtungswert 0 haben kann. Die
-      Berücksichtigung dieser Tatsache ist aber noch nicht in der
-      Programmierung berücksichtigt wurden.
+      Berücksichtigung dieser Tatsache findet sich aber noch nicht in der
+      Programmierung wieder.
       </para></footnote></entry>
     </row>
     <row>
@@ -2910,7 +2903,7 @@ wie vorhanden):</para>
       <entry morerows="2" valign="middle"><footnote id="fntabpos4"><para>
       Die Modell-Dreiwegweichen müssen wie folgt aufgebaut sein,
       um die Stellkommandos einwandfrei verarbeiten zu können: Erste
-      Weichenzunge für Abzweig links; Zweite Weichenzunge für Abzweig
+      Weichenzunge für Abzweig links; zweite Weichenzunge für Abzweig
       rechts.
       </para></footnote></entry>
     </row>
@@ -2936,7 +2929,7 @@ wie vorhanden):</para>
       </imageobject></inlinemediaobject></entry>
       <entry>0 = gerader Gleisstrang</entry>
       <entry><footnote id="fntabpos2"><para>Die abgebildeten Symbole
-      gelten nur für DKWs mit 2 Antrieben. Märklin-DKWs mit einem
+      gelten nur für DKWs mit zwei Antrieben. Märklin-DKWs mit einem
       Antrieb (K-Gleis 2260, M-Gleis 5207 oder 5128, C-Gleis 24620)
       haben nur zwei verschiedene Richtungsmöglichkeiten. Die
       Anzeige bei diesen Symbolen richtet sich daher auch nach einer
@@ -3171,16 +3164,16 @@ befindet, erhalten alle Elemente einen roten Rahmen
 </para>
 
 <para>
-Jeder Linksklick auf ein Element öffnet nun das
-Eigenschaftenfenster zum jeweiligen Element. Darin können dann die Daten
-zum Element eingegeben werden (siehe <xref
+Jeder Rechtsklick auf ein Element öffnet nun das
+Eigenschaftenfenster zum jeweiligen Element. Darin können die
+Einstellungen des Elements variiert werden (siehe <xref
 linkend="sect-symboleigenschaften">).
 </para>
 <para>
-Hat man ein Element hinzugefügt, was sehr häufig nebeneinander
-vorkommt, dann möchte man das auch meistens möglichst oft wiederholen.
-Dazu erleichtert einem das Kontextmenü im Bearbeitungsmodus (<xref
-linkend="abb-editcx">) die Arbeit:
+Hat man ein Element hinzugefügt, welches im Gleisbild häufiger nebeneinander
+liegen soll, wie z.B. gerade Gleisabschnitte, dann erleichtert das
+über die mittlere Maustaste erreichbare Kontextmenü die Arbeit (<xref
+linkend="abb-editcx">).
 </para>
     
 <para>
@@ -3193,25 +3186,26 @@ linkend="abb-editcx">) die Arbeit:
 </para>
 
 <para>
-Rechtsklickt man auf ein anderes Element als das eben erstellte, dann
-steht an oberster Stelle des Kontextmenüs der Name des eben
+Klickt man mit der mittleren Maustaste auf ein anderes Element als das
+eben erstellte, dann
+steht an oberster Stelle des Kontextmenüs der Name des zuletzt
 erstellten Elementes (also z.B. &raquo;gerade&laquo;, wenn man zuvor
-eine Gerade ausgewählt hat). Das bedeutet, dass man viele gleiche
-aufeinanderfolgende Elemente sehr schnell erstellen kann.
+eine Gerade ausgewählt hat). Damit kann man sehr schnell viele gleiche
+aufeinanderfolgende Elemente erstellen.
 </para>
 <para>
-Möchte man ein Element nachträglich noch drehen, muss man auch nicht
-mehr in die Eigenschaften des Elementes gehen: Es genügt die Auswahl des
-Punktes Rotate im Kontextmenü. Das Löschen eines Elementes geschieht mit
-dem Punkt Clear. Für die Schnellauswahl von weiteren Elementen (die wohl
-am häufigsten gewählten) stehen die unteren Punkte zur Verfügung. Damit
-richtet man grundsätzlich ein Element ein, vergibt ihm aber nicht
-weitere Werte wie Dekoder-Adressen etc. Dazu muss man weiterhin -
-nachträglich - noch das Eigenschaftenfenster öffnen.
+Das nachträgliche Drehen eines Elements läßt sich ebenfalls durch einen
+Eintrag im Kontextmenü erledigen, ohne dass man die Eigenschaften des
+Elementes bearbeiten müßte. Das Löschen eines Elementes geschieht mit
+dem Punkt &raquo;Löschen&laquo;. Für die Schnellauswahl der am
+häufigsten gewählten Elemente stehen die unteren Menüpunkte zur Verfügung.
+Mit dieser Methode richtet man zwar grundsätzlich neue Elemente ein, vergibt
+aber keine weiteren Werte wie Dekoder-Adressen etc. Dafür ist weiterhin
+das Eigenschaftenfenster zuständig.
 </para>
 <para>
-<emphasis>WICHTIG:</emphasis> Alle Aktionen, für die bisher im
-Normalmodus im Bereich der Elemente die Maus zuständig war, sind jetzt
+<emphasis>WICHTIG:</emphasis> Alle Aktionen, für die im Betriebsmodus
+bei den Elementen die Maus zuständig war, sind jetzt
 nicht mehr mit dieser zu erreichen. Man kann also keine Antriebe mehr
 einzeln umschalten (auch nicht, wenn man vorher die Taste
 <keycap>F6</keycap> drückt, da danach ein Linksklick erwartet wird).
@@ -3222,17 +3216,15 @@ Fahrstra&szlig;entabelle geschaltet werden.
 </sect2>
   
 <sect2 id="sect-symboleigenschaften">
-  <title>Symboleigenschaften</title>
+  <title>Elementeigenschaften</title>
     
 <sect3>
   <title>Elemente ohne Dekoder</title>
 <para>
-Im Allgemeinen wird man aber zunächst ein leeres Gleisbild
-erstellen, um darin seine Anlage grafisch darzustellen. Beim rechten
-Mausklick auf jedes beliebige Element erhält man ein
-Eigenschaftenfenster, indem sich (fast) alle Elementeigenschaften
-einstellen lassen. Ein solches Fenster sieht z.B. wie in <xref
-linkend="abb-normal"> dargestellt aus.
+Mit einem rechten Mausklick auf jedes beliebige Element erhält man
+ein mehr oder weniger elementspezifisches Eigenschaftsfenster
+(<xref linkend="abb-normal">), indem sich die Merkmale des Elements
+variieren lassen. 
 </para>
 
 <para>
@@ -3246,8 +3238,8 @@ linkend="abb-normal"> dargestellt aus.
 </para>
 
 <para>
-In der Titelzeile wird die Nummer des angeklickten
-Elementes angezeigt. Das Fensterinhalt ist wie folgt aufgebaut:
+In der Titelzeile des Fensters wird die Nummer des angeklickten
+Elementes angezeigt. Der Fensterinhalt ist in zwei Bereiche aufgeteilt:
 </para>
 <para>
 <variablelist>
@@ -3265,44 +3257,42 @@ werden, die das grafische Aussehen des Elements beeinflussen.</para>
       <emphasis>Rechte Seite (Logische Seite)</emphasis>
     </term>
   <listitem>
-<para>Hier stehen die Daten, die zur Kommunikation mit der
+<para>Hier konfiguriert man die Daten, die zur Kommunikation mit der
 Anlage notwendig sind.</para>
     </listitem>
   </varlistentry>
 </variablelist>
 </para>
 <para>
-Das Beispiel oben zeigt das Eigenschaftenfenster für Symbole, die keinen
+Das Beispiel oben zeigt das Eigenschaftsfenster für Symbole, die keinen
 Antrieb besitzen, also z.B. einfache Gleiselemente. Im Pull-Down-Menü
-wähle man zunächst das eigentliche Icon, dreht das Element, schaltet die
+wählt man zunächst das Elementsymbol, dreht es bedarfsweise, schaltet
+ggf. die
 LED-Anzeige für die Besetztmeldung aus oder gibt einen Text ein. Je nach
 Art des gewählten Symbols kann das eine oder andere Eigenschaftsfeld
 deaktiviert sein.
 </para>
 <para>
-Bei Leerelementen ist z.B. das Feld &raquo;Inverted use&laquo; aktiviert:
-hier kann man durch ein Häkchen wählen, ob der Hintergrund eines
-Leerelements in dunkler Farbe dargestellt wird. Der eigentliche Nutzen
-dieses Feldes kommt eigentlich erst bei Weichenelementen zum Tragen,
-wurde dort aber bisher noch nicht programmiert, so dass diese eigentlich
-davon abweichende Verwendung die einzige ist.
+Bei Leerelementen ist z.B. das Feld &raquo;Invertieren&laquo; aktiviert.
+Damit läßt sich einstellen, ob der Hintergrund eines Leerelements in
+dunklem oder hellem Grau dargestellt wird.
 </para>
 <para>
 Um eine Gleisbesetztmeldung zu bekommen, muss man im rechten unteren
-Bereich noch das Modul und den Port einstellen, an dem die
+Bereich noch das Modul und den Eingang einstellen, an dem die
 Gleisbesetztmeldung für dieses Gleisstück angeschlossen ist. Beim
 &raquo;Durchscrollen&laquo; der Busnummern oder der Modulnummern springt
 die Anzeige automatisch auf die nächsten gültigen Werte. Braucht man mal
-mehr Übersicht, kann man sich über den Rückmeldebutton rechts neben dem
+mehr Übersicht, kann man sich über den Rückmeldeknopf rechts neben dem
 Modulselektor die grafische Übersicht über alle Rückmeldemodule öffnen
 (viel Sinn macht es momentan so noch nicht, erst wenn eine komfortablere
 Modulverwaltung geschrieben wurde, kann man hierüber dann den richtigen
-Port auswählen - z.B. nach dem Namen).
+Eingang auswählen - z.B. nach dem Namen).
 </para>
 </sect3>
     
 <sect3>
-  <title>Normale Weichen etc.</title>
+  <title>Elemente mit einem Antrieb</title>
 <para>
 <figure id="abb-antrieb">
   <title>Eigenschaften-Fenster des Elementsymbols für normale Antriebe</title>
@@ -3310,30 +3300,32 @@ Port auswählen - z.B. nach dem Namen).
     <imagedata fileref="schnapp-prop-antrieb.png">
   </imageobject></mediaobject>
 </figure>
+<para>
 Wählt man ein Symbol aus, welches einen Antrieb besitzt,
-ergeben sich hier im einfachsten Fall die folgenden Einstellungen (<xref
-linkend="abb-antrieb">). In der linken Hälfte neu ist die
-Dekoderbezeichnung. Hier wird zunächst bei einem noch nicht mit einem
-Typ versehenen Element der Standard-Dekoder-Typ eingetragen, wie er über
-das Optionenmenü festgelegt wurde. Wählt man hier einen anderen, so 
+ergeben sich hier im einfachsten Fall die in <xref linkend="abb-antrieb">
+gezeigten Einstellungen. In der linken Hälfte ist nun eine
+Eingabemöglichkeit für den verwendeten Dekoder sichtbar. Hier wird
+zunächst bei einem noch nicht mit einem
+Typ versehenen Element der Standard-Dekoder eingetragen, wie er über
+die Programmeinstellungen festgelegt wurde. Wählt man hier einen anderen, so 
 passt sich auch automatisch das zugehörige Protokoll in der rechten
 Hälfte des Fensters an.
 </para>
 <para>
-Danach gebe man die Adresse ein, die die Weiche haben soll. In den
-meisten Fällen wird der Anwender in den Antriebselementen auch die
-Adresse angezeigt haben. Deshalb wird standardgemä&szlig; bei Eingabe
+Anschließend vergibt man die Adresse für den Artikel. In manchen Fällen,
+wie z.B. bei Weichen, kann es sinnvoll sein, in den Antriebselementen die
+Dekoderadresse anzeigen lassen. Deshalb wird standardgemä&szlig; bei Eingabe
 einer Adresse diese automatisch in das Textfeld übertragen. Möchte man
 aber die Vorbildbezeichnungen für Weichen, Signale etc. benutzen, muss
 man nachträglich den Eintrag im Textfeld ändern (z.B. P1 für ein
 Ausfahrsignal). Welche Anzeige auf dem Element dann letztendlich
-erscheint, bestimmt der Nutzer selbst über das Optionenmenü: entweder
-der Eintrag aus dem Textfeld oder die Adresse.
+erscheint, bestimmt der Nutzer selbst über die Programmeinstellungen.
+Dort läßt sich zwischen dem Textfeld oder der Adresse wählen.
 </para>
 <para>
 Wird eine Adresse eingeben, die nicht den Grenzen des verwendeten
-Protokolls entspricht, dann gibt es einen kleinen Holzhammer, wie in
-<xref linkend="abb-prop-fehler"> der Art:
+Protokolls entspricht, erscheint die in 
+<xref linkend="abb-prop-fehler"> gezeigte Fehlermeldung.
 </para>
 <para>
 <figure id="abb-prop-fehler">
@@ -3344,37 +3336,57 @@ Protokolls entspricht, dann gibt es einen kleinen Holzhammer, wie in
 </figure>
 </para>
 <para>
-Danach korrigiere man einfach die fehlerhafte Adresse,
-fertig! Übrigens: Die Anfangsstellung eines Antriebs kann nirgendwo
-eingegeben werden. Wenn ein Element vorher nicht schaltbar war, bekommt
-es nun den Richtungswert 0, ansonsten übernimmt es den Richtungswert,
-der vor dem Öffnen des Eigenschaftenfensters aktuell war.
+Die Anfangsstellung eines Antriebs kann nicht voreingestellt
+werden. Wenn ein Element vorher nicht schaltbar war, bekommt
+es anfangs den Richtungswert 0, ansonsten übernimmt es den Richtungswert,
+der vor dem Öffnen des Eigenschaftsfensters aktuell war.
 </para>
 <para>
-Das Feld &raquo;Inverted use&laquo; ist zwar aktiviert, hat aber bei
+Das Feld &raquo;Invertieren&laquo; ist zwar aktiviert, hat aber bei
 Weichenantrieben noch keinerlei Konsequenzen. Interessant zum Einstellen
-sind die Felder &raquo;xch conn&laquo;, &raquo;Reset after&laquo; und
-&raquo;Feedback&laquo;. Das erste ermöglicht es durch einen einfachen
+sind die Felder &raquo;Vertauschen&laquo;, &raquo;Zurücksetzen nach&laquo; und
+&raquo;Rückmeldung&laquo;. Das erste ermöglicht es durch einen einfachen
 Klick, die Ausgänge zu einer Dekoderadresse elektronisch zu vertauschen.
 Wenn also die Weiche nicht so schaltet wie es die Grafik anzeigt, dann
-kann dies durch einen einfachen Haken korrigiert werden, ohne dass man
-unter die Anlage muss, um Kabel umzustecken oder sogar zu löten. Für
-ältere Weichen (wie häufig älter Märklin-M-Weichen) kann es nötig sein,
-dass der Stellbefehl etwas länger ausgeführt wird, damit die Spule genug
-Zeit hat, um sich in die andere Stellung zu bewegen. Die im Feld
-&raquo;Reset after&laquo; angegebene Zeit in Millisekunden kann dafür
+kann dies durch einen einfachen Haken korrigiert werden. Man muß also
+nicht unter die Anlage, um Kabel umzustecken oder sogar zu löten. Für
+ältere Weichen (wie z.B. häufig bei älteren Märklin-M-Weichen) kann es
+nötig sein,
+dass der Stellbefehl etwas länger ausgeführt wird. Die Spule bekommt
+damit genug Zeit, sich in die andere Stellung zu bewegen. Die im Feld
+&raquo;Zurücksetzen nach&laquo; angegebene Zeit in Millisekunden kann
 entsprechend erhöht werden, um eine ausreichende Funktion zu
 gewährleisten.
 </para>
 <para>
-Für eine korrekte Funktion eines GBS sind die Einträge in den Feldern zu
-&raquo;Feedback&laquo; wichtig: hier kann man die Nummer des
-Rückmeldemoduls und  des in Frage kommenden Eingangs einstellen, der die
-rote LED im Element (= Gleis besetzt) aktiviert.
+Für eine korrekte Funktion eines Gleisbilds sind die Einträge in den Feldern zu
+&raquo;Rückmeldung&laquo; wichtig. Hier kann man die Nummer des
+Rückmeldemoduls und  des in Frage kommenden Eingangs einstellen. Dieser
+steuert dann die rote LED im Element (rot = Gleis besetzt).
 </para>
 </sect3>
 <sect3>
   <title>Signale</title>
+<para>
+        <xref linkend="abb-sig1">, 
+        <xref linkend="abb-sig2"> und
+        <xref linkend="abb-sig3"> zeigen die
+        Eigenschaftsdialogfenster für die wichtigsten Signale.
+</para>
+<para>
+In <xref linkend="abb-sig1"> erkennt man die
+Einstellungen zu einem Standard-Hauptsignal oder Blocksignal. Zunächst
+vergibt man die Daten wie bei einer normalen Weiche. Dann allerdings
+kann man noch wählen, welche Begriffe das Signal darstellen soll.
+Je nach Standort des Signals an der Strecke kann es sich zum
+Beispiel um die Kombinationen Hp 0/Hp 1 handeln, wie es in dem obersten
+der drei Subtyp-Schalter bereits aktiviert wurde. Beim unteren Schalter,
+wenn also das Signal alle drei Begriffe darstellen kann, wird
+automatisch das Feld für eine zweite Adresse aktiviert, da jetzt bei
+drei möglichen Stellungen ein Dekoderausgang nicht mehr ausreicht. In
+diesem Fall muss man natürlich noch eine weitere Adresse (normalerweise
+die nächsthöhere) vergeben.
+</para>
 <para>
 <figure id="abb-sig1">
   <title>Eigenschaften-Fenster des Elementsymbols für Signale (1)</title>
@@ -3388,40 +3400,14 @@ rote LED im Element (= Gleis besetzt) aktiviert.
     <imagedata fileref="schnapp-prop-signal-2.png">
   </imageobject></mediaobject>
 </figure>
-<figure id="abb-sig3">
-  <title>Eigenschaften-Fenster des Elementsymbols für Signale (3)</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="schnapp-prop-signal-3.png">
-  </imageobject></mediaobject>
-</figure>
 </para>
 <para>
-        <xref linkend="abb-sig1">, 
-        <xref linkend="abb-sig2"> und
-        <xref linkend="abb-sig3"> zeigen die
-        Eigenschaften-Fenster für die wichtigsten Signale.
-</para>
-<para>
-In <xref linkend="abb-sig1"> erkennt man die
-Einstellungen zu einem Standard-Hauptsignal oder Blocksignal. Zunächst
-vergibt man die Daten wie bei einer normalen Weiche. Dann allerdings
-kann man noch wählen, welche Begriffe das Signal überhaupt darstellen
-kann. Je nach Standort des Signals an der Strecke kann es sich zum
-Beispiel um die Kombinationen Hp 0/Hp 1 handeln, wie es in dem obersten
-der drei Subtypus-Buttons bereits aktiviert wurde. Beim unteren Button,
-wenn also das Signal alle drei Begriffe darstellen kann, wird
-automatisch das Feld für eine zweite Adresse aktiviert, da jetzt bei
-drei möglichen Stellungen ein Dekoderausgang nicht mehr ausreicht. In
-diesem Fall muss man natürlich noch eine weitere Adresse (normalerweise
-die nächsthöhere) vergeben.
-</para>
-<para>
-In <xref linkend="abb-sig3"> erkennt man einen ähnlichen Fensteraufbau
-für ein Ausfahrsignal. Man wähle den Button aus, der die möglichen
+In <xref linkend="abb-sig2"> erkennt man einen ähnlichen Fensteraufbau
+für ein Ausfahrsignal. Man wählt den Schalter aus, der die möglichen
 Signalkombinationen für dieses Element repräsentiert. Eine zweite
-Adresse ist bei diesen Signalen immer zu vergeben, da es sich um mind.
-3-begriffige Signale handelt, also auf jeden Fall zwei Dekoderausgänge
-benötigt werden.
+Adresse ist bei diesen Signalen immer zu vergeben, da es sich um
+mindestens 3-begriffige Signale handelt, also auf jeden Fall zwei
+Dekoderausgänge benötigt werden.
 </para>
 <para>
 Obwohl in beiden Fällen nur Lichtsignale abgebildet sind, gelten die
@@ -3429,6 +3415,14 @@ entsprechenden Tasten selbstverständlich auch für Formsignale. Zu
 beachten ist dabei aber der etwas andere Zusammenschluss von
 Form-Hauptsignal und Form-Schutzsignal an den Dekoder, da es sich hier
 immer um zwei getrennte Signale handelt.
+</para>
+<para>
+<figure id="abb-sig3">
+  <title>Eigenschaften-Fenster des Elementsymbols für Signale (3)</title>
+  <mediaobject><imageobject>
+    <imagedata fileref="schnapp-prop-signal-3.png">
+  </imageobject></mediaobject>
+</figure>
 </para>
 </sect3>
     
@@ -3443,18 +3437,18 @@ immer um zwei getrennte Signale handelt.
 </figure>
 </para>
 <para>
-Wenn man Modellbahner ist, benutzt man wahrscheinlich
-Doppelkreuzweichen (DKW) mit 2 Antrieben, wie es im Vorbild auch der
-Fall ist. Deshalb wird standardmä&szlig;ig der untere Button mit den 4
-möglichen Weichenstellungen (<xref linkend="abb-dkw">) aktiviert.
-Deshalb sind in den meisten Fällen auch hier wieder zwei Dekoderadressen
+Auf der Modellbahn kommen meist Doppelkreuzweichen (DKW) mit zwei
+Antrieben zur Anwendung, wie es im Vorbild auch der
+Fall ist. Deshalb wird standardmä&szlig;ig der untere Schalter mit den
+vier möglichen Weichenstellungen (<xref linkend="abb-dkw">) aktiviert.
+Somit sind in den meisten Fällen auch hier wieder zwei Dekoderadressen
 einzugeben.
 </para>
 <para>
-Ist man mehr Spielbahner, benutzt man eventuell auch die normalen DKWs
-mit einem Antrieb, die meines Wissens nur Märklin-spezifisch sind. Diese
-haben nur einen Antrieb, benötigen daher nur eine Adresse. Benötigt man
-diese Art von DKW, wähle man den oberen Button mit den zwei möglichen
+Bei Spielbahnen kommen eventuell auch normale DKWs mit einem Antrieb zur
+Anwendung, die primär Märklin-spezifisch sind. Da sie nur einen Antrieb
+haben, benötigen sie auch nur eine Adresse. Verwendet man
+diese Art von DKW, wählt man den oberen Schalter mit den zwei möglichen
 Weichenstellungen.
 </para>
 </sect3>
@@ -3470,27 +3464,29 @@ Weichenstellungen.
 </figure>
 </para>
 <para>
-Die Drehscheibe ist ein ganz besonderer Fall, weswegen
+Die Drehscheibe ist ein ganz besonderer Fall, weshalb
 ihr auch ein spezielles Drehscheiben-Kapitel gewidmet wurde. Dort wird
 etwas genauer auf die Bedienung eingegangen. Zunächst einmal ist
 wichtig, dass die Drehscheibe in der Digitalversion nur von Märklin
 erhältlich ist und einen eigenen Dekoder mitbringt. Sie läuft daher nur
-im Motorola-Format, weswegen dies - auch beim Default-Protokoll DCC -
-unveränderbar automatisch ausgewählt wird. Eine Adresse gebe man hier
-nicht ein, denn diese wird aus der Aktivierung eines der beiden Buttons
-(<xref linkend="abb-dreh">) in der unteren linken Hälfte errechnet:
+im Motorola-Format, welches auch bei voreingestelltem DCC-Protokoll
+unveränderbar automatisch ausgewählt wird. Die Eingabe einer Adresse ist
+hier nicht erforderlich, denn diese wird aus der Aktivierung einer der
+beiden Schaltflächen (<xref linkend="abb-dreh">) in der unteren linken
+Hälfte errechnet.
 </para>
 <para>
-Erwirbt man eine Drehscheibe, so hat Märklin den zugehörigen Dekoder so
-programmiert, dass man diese mit einem Keyboard betreiben muss, welches
-die Keyboard-Adresse 15 besitzt. Braucht man eine zweite Drehscheibe, so
-muss man diese bei Märklin mit einer anderen Keyboard-Adresse bestellen
-(nämlich 14), die dann extra im Werk eingestellt wird. In diesen
-seltenen Fällen (nur die wenigsten dürften zwei digitale haben) wähle
-man daher Button 14, dann wird die Adresse angepasst. Mehr braucht man
-hier nicht zu tun, weitere Einstellungen erfolgen dann über den
+Der Decoder der Märklin-Drehscheibe ist standardmäßig so programmiert,
+dass diese mit einem auf Adresse 15 eingestellten Schaltpult betrieben
+werden muss. Benötigt man eine zweite Drehscheibe, so
+muss man diese bei Märklin mit einer anderen Keyboard-Adresse bestellen.
+Diese zweite Adresse (nämlich 14) wird dann extra im Werk eingestellt.
+In diesen
+seltenen Fällen (nur die wenigsten Anwender dürften im Besitz von zwei
+digitalen Drehscheiben sein) wählt man die Schaltfläche 14. Mehr braucht man
+hier nicht zu tun; weitere Einstellungen erfolgen über den
 Drehscheiben-Commander, welcher im Drehscheiben-Kapitel beschrieben
-wird. Bis auf die Reset-Zeit kann hier nichts weiter eingestellt werden.
+ist. Bis auf die Rücksetz-Zeit kann hier nichts weiter eingestellt werden.
 </para>
 </sect3>
     
@@ -3507,20 +3503,21 @@ wird. Bis auf die Reset-Zeit kann hier nichts weiter eingestellt werden.
 <para>
 Auch Entkoppler benötigen eine spezielle Behandlung. Am
 einfachsten sind die motorischen Entkoppler, da diese zwei definierte
-und stabile Stellungen besitzen. Dies soll durch den obersten Button
-(<xref linkend="abb-entk">) gekennzeichnet sein. Man vergebe dazu ganz
+und stabile Stellungen besitzen. Dies soll durch die oberste
+Schaltfläche (<xref linkend="abb-entk">) gekennzeichnet sein. Man
+vergibt dazu ganz
 normal die Adresse. Aber es gibt auch Entkoppler, die einen
 Momentkontakt aufweisen, dementsprechend auch nur einen Ausgang einer
 Adresse belegen (z.B. Märklin K-2297, M-5112 oder C-24997). Man kann
 daher an eine Adresse gleich zwei Entkoppler anschlie&szlig;en. Hierbei
-ist also auf jeden Fall auch ein eventuell Häkchen im Feld &raquo;xcg
-conn&laquo; zu beachten. Für momentan betätigte Entkoppler sind
-grundsätzlich die beiden unteren Buttons zuständig. Davon nehme man den
+ist also auch auf ein eventuell notwendiges Häkchen im Feld
+&raquo;Vertauschen&laquo; zu achten. Für momentan betätigte Entkoppler sind
+grundsätzlich die beiden unteren Schaltflächen zuständig. Davon wählt man den
 mittleren, wenn der Entkoppler am roten/linken Ausgang einer Adresse
 angeschlossen wurde bzw. den unteren, wenn man den grünen/rechten
-Ausgang benutzt. Notfalls kann der Ausgang jedoch durch &raquo;xch
-conn&laquo; getauscht werden. Bei beiden Möglichkeiten ist ebenfalls nur
-eine Adresse einzugeben.
+Ausgang benutzt. Notfalls kann die Zuordnung des Ausgangs durch
+&raquo;Vertauschen&laquo; korrigiert werden. Bei beiden Möglichkeiten
+ist ebenfalls nur eine Adresse einzugeben.
 </para>
 </sect3>
     
@@ -3536,26 +3533,26 @@ eine Adresse einzugeben.
 </figure>
 </para>
 <para>
-Diese Elemente sind ganz besondere Elemente. Dazu
-erstmal etwas zurück in der Historie. Obwohl das System der digitalen
-Zugsteuerungen nun seit schon ca. 20 Jahren existiert und in aller
-Hinsicht bereits verfeinert wurde, fehlt immer noch ein entscheidendes
+Diese Elemente sind etwas ganz besonderes, so dass sich ein Rückblick in
+die Historie lohnt. Obwohl das System der digitalen Zugsteuerungen nun
+seit schon ca. 20 Jahren existiert und bereits in vielerlei
+Hinsicht verfeinert wurde, fehlt immer noch ein entscheidendes
 Element bei allen Anbietern: Die Rückmeldung der Lokadresse einer an
 einem bestimmten Punkt vorbeifahrenden Lok. Seit wenigen Jahren gibt es
 bereits Zuglesesysteme (Holtermann etc.), die jedoch sehr teuer sind
-(mehrere 100 DM!) und nicht direkt mit dem Märklin-System verbindbar
+(mehrere 100 DM!) und nicht direkt mit einem Märklin-System verbindbar
 sind.</para>
 <para>
-Wie viele der User vielleicht wissen, hat die Zeitschrift Elektor Ende
+Die Zeitschrift Elektor hat Ende
 der 80er Jahre ein Selbstbau-Projekt zu einer Märklin-kompatiblen
 digitalen Steuerung namens EDiTS entwickelt (Elektor Digital Train
-System). Dies zeichnete sich schon damals gegenüber den Originalteilen
+System). Dies zeichnete sich schon damals gegenüber den Originalbauteilen
 durch äu&szlig;erst geringe Kosten aus. Auch Selbstbau-Lokdekoder
 gehörten damals schon zum Programm.
 </para>
 <para>
 Im Jahr 1999 startete Elektor mit einem Update des beliebten Systems. An
-manchen Stellen geschrumpft, wurde die CentralUnit durch einen einzigen
+manchen Stellen geschrumpft, wurde die Central-Unit durch einen einzigen
 Microcontroller ersetzt und Software zu einer einfachen Ansteurerung per
 PC angeboten. Ebenfalls runderneuert wurden die Lokdekoder, die jetzt
 auch das neue Märklin-Format verstehen.
@@ -3564,10 +3561,10 @@ auch das neue Märklin-Format verstehen.
 Aber der Clou an der Geschichte ist, was auch bisher noch kein anderer
 Selbstbau-Dekoder (aus dem Internet z.B.) hat ist: diese Dekoder senden
 über eine Infrarotdiode die eigene aktuell eingestellte Adresse des
-Dekoders. Mit einem passenden Empfänger (auch mit in der Serie
-beschrieben) wird dieses über eine eigene Schaltung im bzw. am Gleis
-empfangen und binär dekodiert. Nun hängen diese Lesegeräte (Preis pro
-Stück ca. 80 DM) nicht an einem speziellen Bus, nein: sie können ganz
+Dekoders. Mit einem passendeni, ebenfalls in der Serie beschriebenen
+Empfänger wird dieses Signal über eine eigene Schaltung im bzw. am Gleis
+empfangen und binär dekodiert. Diese Lesegeräte (Preis pro
+Stück ca. 80 DM) hängen nicht an einem speziellen Bus. Sie können ganz
 normal als S88-Module in den Rückmeldebus eingereiht werden (EDiTS
 bietet nur 8-polige Rückmeldemodule an, was aber in manchen Fällen nicht
 falsch ist, denn wann hat man schonmal 16 RM-Kontakte auf kleiner
@@ -3575,47 +3572,41 @@ Fläche, um ein Modul komplett zu beschalten? Rutger Friberg nennt diese
 &raquo;halben S88-Module&laquo; ganz einfach S44 :-). Die EDiTS-CU liest
 dann diese Module ganz normal beim Lesen des S88-Strangs aus und wertet
 die 8-Bit-Informationen an diesem Modul nicht als 8 voneinander
-unabhängige Kontakte aus, sondern als eine Information.
+unabhängige Kontakte aus, sondern als eine zusammengehörende
+Informationseinheit.
 </para>
 <para>
-Und hier wurde jetzt SpDrS60 for Linux erweitert. Es ist jetzt in der
-Lage, Informationen von einem Adress-RM-Dekoder als Klartext anzuzeigen.
-Dazu wählt man das Element Adresse (<xref linkend="abb-adr">).
+Hier besitzt SpDrS60 für Linux spezielle Möglichkeiten. Das Programm ist
+in der Lage, Informationen von einem Adress-Rückmelde-Dekoder als
+Klartext anzuzeigen. Zuständig hierfür ist das Element
+&raquo;Adresse&laquo; (<xref linkend="abb-adr">).
 </para>
 <para>
-Man gebe hier auf jeden Fall einen Text ein, auch wenn dieser nicht
+Bei diesem Elementtyp ist ein Text einzugeben, auch wenn dieser nicht
 angezeigt wird. Das dient später einmal zur genauen Identifizierung der
 Module (wird erst richtig funktionieren beim Implementieren der
 S88-Resource-Dateien). Da es sich um dieses spezielle Modul handelt,
-erscheint jetzt im Bereich Feedback ein Tickmark bei Address module. Da
-alle 8 Kontakte dieses Moduls benötigt werden, macht es keinen Sinn,
-hier vom Anwender einen einzelnen Port wählen zu lassen, er braucht
-lediglich die Nummer des Moduls einzugeben. Befährt eine Lok mit diesem
-neuen &raquo;Superlokdekoder&laquo; einen solchen Empfänger, dann wird die
+erscheint jetzt im Bereich Rückmeldung ein Markierung bei
+&raquo;Addressmodul&laquo;. Da
+alle acht Kontakte dieses Moduls benötigt werden, macht es keinen Sinn,
+hier vom Anwender einen einzelnen Eingang wählen zu lassen; er muß
+lediglich die Nummer des Moduls eingeben. Befährt eine Lok mit diesem
+&raquo;Superlokdekoder&laquo; einen Empfänger, wird die
 eingestellte Adresse in dezimaler Form im Gleisbild dargestellt.
 </para>
 <para>
-        <emphasis>ACHTUNG:</emphasis>
+<emphasis>ACHTUNG:</emphasis>
 </para>
 <para>
-Die Funktionalität habe ich mit einem normalen S88-Baustein getestet.
-Mal wieder liegt mir nicht die entsprechende Hardware vor. Ich habe
-daher die Berechnung der dezimalen Adressanzeige in der vorliegenden
-Form angenommen (d.h. &raquo;Kontakt 1&laquo; entspricht dem LSB, least
-significant bit, minderwertigstes Bit). Das kann genau falsch herum
-sein. Ich bitte diesbezüglich um Rückmeldung, wenn die Anzeige der
-eingestellten Adresse nicht entspricht.
+Die Funktionalität wurde bisher nur mit einem normalen S88-Baustein
+getestet, da die entsprechende Hardware bisher nicht verfügbar war. Die
+Berechnung der dezimalen Adressanzeige erfolgt unter der Annahme, dass 
+&raquo;Kontakt 1&laquo; dem LSB (least significant bit,
+minderwertigstes Bit) entspricht. Das kann genau falsch herum
+sein. Bitte Rückmeldung an die Programmentwickler, wenn die Anzeige der
+eingestellten Adresse nicht entsprechen sollte.
 </para>
 
-</sect3>
-    
-<sect3>
-  <title>Was für alle Fenster gilt</title>
-<para>
-        Für alle Elemente, die schaltbar sind, muss unbedingt
-eine Adresse eingetragen werden. Durch Klicken auf OK werden die Werte
-in das aktuelle Gleisbild übernommen.
-</para>
 </sect3>
 </sect2>
 </sect1>
@@ -3626,10 +3617,9 @@ in das aktuelle Gleisbild übernommen.
 <sect2 id="sect-fahrstrassen-vorwort">
   <title>Vorwort</title>
 <para>
-Wie es schon einmal kurz in der Einleitung zu dieser
-Dokumentation angesprochen wurde, ist die hervorstechende Eigenschaft
-eines Spurplan-Drucktasten-Stellwerks, dass hier überwiegend mit
-Fahrstra&szlig;en gearbeitet wird. Der Fahrdienstleiter sucht sich nicht
+In der Einleitung zu dieser Dokumentation wurde bereits angesprochen,
+dass die hervorstechende Eigenschaft eines Spurplan-Drucktasten-Stellwerks,
+das Arbeiten mit Fahrstra&szlig;en ist. Der Fahrdienstleiter sucht sich nicht
 selber eine mögliche Strecke durch den Weichendschungel aus und stellt
 alle Weichen einzeln, es werden vielmehr durch bestimmte
 Relaisverschaltung vorprogrammierte Fahrstra&szlig;en aktiviert
@@ -3637,7 +3627,7 @@ Relaisverschaltung vorprogrammierte Fahrstra&szlig;en aktiviert
 &raquo;Intelligenz&laquo; im System, die aus Start- und Zielsignal denn
 besten/schnellsten Weg durch ein Weichenfeld findet). Dies geschieht
 durch das gleichzeitige Drücken von zwei Fahrstraßentasten, die sich
-an den Signalen befinden: dem Startsignal, wo der Zug wartet (oder
+an den Signalen befinden: dem Startsignal, vor dem der Zug wartet (oder
 zuerst eintreffen wird) und das in seinem Fahrweg liegenden Zielsignal.
 Letzteres ist dann wiederum das Startsignal für den nächsten Abschnitt.
 Auf freier Strecke wird meistens im selbsttätigen Blockbetrieb
@@ -3647,15 +3637,15 @@ werden müssen, dennoch sind dafür Bedienmöglichkeiten vorhanden.
 <para>
 Wurden die Tasten gedrückt, dann laufen zunächst alle beteiligten
 Weichen in die erforderliche neue Lage und werden dort verriegelt. Die
-Fahrstra&szlig;e wird im Bedienpult mit gelben Lampen ausgeleuchtet,
+Fahrstra&szlig;e wird auf dem Stelltisch mit gelben Lampen ausgeleuchtet,
 damit man den gestellen Fahrweg direkt erkennen kann. Danach erst
 schaltet sich das Startsignal auf Fahrt (Hp 1 oder Hp 2), und der Zug
 kann losfahren; dabei meldet er über Gleismeldekontakte seine Position
 an den Stelltisch, der diese durch Ausleuchten der Fahrstra&szlig;e mit
 roten Lampen anzeigt. Wenn der Zug das Zielsignal passiert hat, wird
-über Gleismeldekontakte automatisch die Fahrstra&szlig;e deaktiviert, so
-dass die darin befindlichen Weichen dann für andere Fahrstra&szlig;en
-zur Verfügung stehen. Selbstverständlich sind auch bei der gro&szlig;en
+die Fahrstra&szlig;e über Gleismeldekontakte automatisch aufgelöst. Die
+darin befindlichen Weichen stehen dann wieder für Fahrstra&szlig;en
+zur Verfügung. Selbstverständlich sind auch bei der gro&szlig;en
 Bahn Weichen einzeln stellbar, dies ist z.B. allein für Wartungsarbeiten
 notwendig.
 </para>
@@ -3665,9 +3655,9 @@ Realisierung auf der Modellbahn und in diesem Programm.
 </para>
 <para>
 Das Gleichzeitige Drücken von zwei Tasten oder Klicken von Elementen ist
-hier natürlich nicht möglich. Ich bin leider nicht im Besitz eines
-Touchscreens, und wenn ich das wäre, dürften es die wenigsten anderen
-sein. Also bleibt nur das Arbeiten mit der Maus, und das kann nunmal nur
+so ohne weiteres nicht möglich. Die wenigsten Anwender werden im Besitz eines
+Touchscreens sein, so dass diese Bedinoption ausscheidet.
+Also bleibt nur das Arbeiten mit der Maus, und das kann nunmal nur
 sequentiell erfolgen, nie parallel (deswegen auch serielle Schnittstelle
 ;-)). Dieser Mangel ist aber durch ein anderes Verfahren zumindest
 nachempfunden (siehe gleich mehr dazu). Ansonsten ist alles sehr
@@ -3683,14 +3673,14 @@ blockiert aber mit seiner Fahrstra&szlig;e einen anderen.
 <sect2 id="sect-fahrstrassen-bedienung">
   <title>Bedienung</title>
 <sect3>
-  <title>Fahrstra&szlig;e aktivieren</title>
+  <title>Fahrstra&szlig;e einstellen</title>
 <para>
 Nehmen wir hier der Einfachheit einmal an, dass
-sämtliche Fahrstra&szlig;en-Daten zu einem Gleisbild schon vorliegen (Wie?
-Siehe Punkt &raquo;Eingabe&laquo;). Das ist z.B. bei den meisten
-mitgelieferten Gleisbild-Dateien wie
+sämtliche Fahrstra&szlig;en-Daten zu einem Gleisbild schon vorliegen
+(näheres hierzu siehe unter Punkt &raquo;Eingabe&laquo;). Das ist
+z.B. bei den meisten mitgelieferten Gleisbilddateien wie
 <filename>spdrs60/layouts/bahnhof_klein.dat.gbs</filename> der Fall. Aus
-dieser Datei ist auch das folgende Beispiel in <xref linkend="abb-routing1"> entnommen.
+dieser Datei ist auch das Beispiel in <xref linkend="abb-routing1"> entnommen.
 </para>
 <para>
 <figure id="abb-routing1">
@@ -3707,32 +3697,32 @@ werden soll. Dazu klickt man zuerst auf die Zugstraßentaste (rot) des
 Startsignals und innerhalb eines 5-Sekunden-Zeitraums auf die
 Zugstraßentaste des Zielsignals. Man erkennt dann, wie die
 für die Fahrstra&szlig;e benötigten Weichen in die richtige Stellung
-laufen, indem die Stellungsanzeige wechselt. Sind alle Weichen gestellt,
+laufen. Sind alle Weichen gestellt,
 wird die Fahrstra&szlig;e optisch angezeigt, was in
 <xref linkend="abb-routing2"> dargestellt ist.
 </para>
 <para>
 <figure id="abb-routing2">
-  <title>Aktivierte Fahrstra&szlig;e</title>
+  <title>Eingestellte Fahrstra&szlig;e</title>
   <mediaobject><imageobject>
     <imagedata fileref="../commonimages/schnapp-routing-show.png">
   </imageobject></mediaobject>
 </figure>
 </para>
 <para>
-Man erkennt darauf weiterhin als Unterschied zum ersten Bild kleine
+Man erkennt weiterhin als Unterschied zum ersten Bild kleine
 gelb ausgefüllte Kreise an den Weichen (Verschlußmelder) und an den
-Signalen (Sperrmelder). Diese zeigen an, das der
+Signalen (Sperrmelder). Diese zeigen an, dass der
 entsprechende Antrieb in einer aktivierten Fahrstra&szlig;e benötigt
 wird und deshalb nicht durch die Weichengruppentaste (WGT) oder durch eine
-andere Fahrstra&szlig;e, die diese Weiche enthält, gestellt werden kann.
+andere Fahrstra&szlig;e, gestellt werden kann.
 Wird dieses dennoch versucht, gibt es eine Fehlermeldung in der
 Kommando-Historie.
 </para>
 <para>
 Hat eine Weiche schon die für die Fahrstra&szlig;e benötigte Stellung,
 dann wird sie nicht noch einmal gestellt. Es wird
-daher auch kein Stellbefehl an den SRCP-Server geschickt, um unnötige
+auch kein Stellbefehl an den SRCP-Server geschickt, um unnötige
 Kommandos zu vermeiden. Selbstverständlich wird diese Weiche
 ebenfalls durch einen aktivierten Sperrmelder als einer
 Fahrstra&szlig;e zugehörig gekennzeichnet.
@@ -3748,7 +3738,7 @@ diese installiert sind.
 </para>
 <para>
 <figure id="abb-routing3">
-  <title>Aktivierte Fahrstra&szlig;e mit Gleisbesetztmeldern</title>
+  <title>Eingestellte Fahrstra&szlig;e mit Gleisbesetztmeldern</title>
   <mediaobject><imageobject>
     <imagedata fileref="../commonimages/schnapp-routing-occu.png">
   </imageobject></mediaobject>
@@ -3761,19 +3751,19 @@ befindet, repräsentiert durch die roten LEDs.
 </sect3>
 
 <sect3>
-  <title>Fahrstra&szlig;e deaktivieren</title>
+  <title>Fahrstra&szlig;e auflösen</title>
 <para>
 Passiert der Zug einen Rückmeldekontakt, der eine
-Fahrstra&szlig;e auflöst, so wird diese automatisch deaktiviert, d.h.
+Fahrstra&szlig;e auflöst, so wird diese automatisch aufgelöst, d.h.
 die gelben Gleis-Lampen verlöschen. Befindet sich aus welchen Gründen
 auch immer noch ein Zug/Wagen auf den Gleisen, so wird dies natürlich
 weiterhin angezeigt. Mit einem Rückmeldekontakt können auch mehrere
-Fahrstra&szlig;en gleichzeitig deaktiviert werden.
+Fahrstra&szlig;en gleichzeitig aufgelöst werden.
 </para>
 <para>
 <emphasis>ACHTUNG:</emphasis> Der Rückmeldekontakt für das Auflösen wird
-über den Fahrstra&szlig;endialog eingetragen (release port), während
-die Rückmeldekontakte der Gleisausleuchtung im Eigenschaftsdialog des
+über den Fahrstra&szlig;endialog eingetragen, während
+der Rückmeldekontakt der Gleisausleuchtung im Eigenschaftsdialog des
 entsprechenden Elements eingetragen wird.
 </para>
 <para>
@@ -3800,14 +3790,14 @@ die gelben Verschlußmelder verlöschen und das Startsignal sowie eventuelle
 Rangiersignale auf dem Fahrweg springen
 auf Rot. Ab jetzt sind die Weichen wieder für andere Fahrstra&szlig;en
 benutzbar oder können einzeln geschaltet werden. Möchte man sich ein
-Stück Mausbewegung sparen, so drücke man zuerst die Taste
+Stück Mausbewegung sparen, drückt man zuerst die Taste
 <keycap>F5</keycap> und dann spätestens nach den erwähnten fünf Sekunden
 das erste Signal, nach weiteren max. fünf Sekunden das zweite Signal.
 </para>
 </sect3>
 
 <sect3>
-  <title>Übersicht über alle Fahrstra&szlig;en</title>
+  <title>Fahrstra&szlig;enübersicht</title>
 <para>
 In der normalen Gleisbild-Darstellung erkennt man nicht,
 welche Fahrstra&szlig;en schon existieren. Man kann solch eine Anzeige
@@ -3825,37 +3815,34 @@ Fahrstraßentabelle&laquo; aktivieren.
 </figure>
 </para>
 <para>
-Hier erscheint die Anzahl der zum Gleisbild bereits
-existierenden Fahrstra&szlig;en, die dann im zentralen Fensterbereich
-mit Klartext-Namen aufgeführt sind. Daneben erkennt man ein Fahrtsignal
-und ein Stopsignal. Aus diesem Fenster können ebenfalls die
+Es öffnet sich eine tabellarische Liste, in der alle existierenden
+Fahrstra&szlig;en aufgeführt sind. Bereits eingestellte Fahrstraßen
+erkennt man sofort an dem gelben rechteckigen Symbol in der ersten
+Spalte. Auch aus diesem Fenster heraus können die
 Fahrstra&szlig;en gestellt werden. Dazu wählt man zunächst durch einfachen
-Klick die zu stellende Straße aus. Ist diese noch nicht aktiv, dann ist
-das Fahrtsignal aktiviert, durch ein Klick darauf wird die Straße dann
-aktiviert (ein Blick auf das Gleisbild zeigt dann das oben beschriebene
-Verhalten).
+Mausklick oder mit Hilfe der Pfeiltasten die zu stellende Straße aus.
+Ist diese noch nicht eingestellt, dann ist
+das rechteckige Grafiksymbol am Anfang der Tabellenzeile grau. Durch
+einen Druck mit der Leerzeichentaste oder einen Klick auf das
+entsprechende Signalsymbol in der Werkzeugleiste wird die Straße
+eingestellt. Das rechteckige Grafiksymbol am Anfang der Tabellenzeile
+wird gelb.
 </para>
 <para>
-Ist eine Straße bereits aktiv, wird das Stopsignal aktiviert, durch
-einen Klick darauf wird die Fahrstra&szlig;e wieder zurückgenommen, als
-hätte man die Kombination FHT + Start- + Zielsignal benutzt. Die in
-obigem Beispiel genannte Fahrstra&szlig;e ist hier in der dritten Zeile
-&raquo;Gleis 2 -&gt; links&laquo; vertreten. In der Fahrstra&szlig;endatei
-kann man dazu aussagekräftige Namen vergeben, damit man hier in diesem
-Fenster die gewünschte Straße auch leicht wiederfindet.
+Ist eine Straße bereits eingestellt, wird das Stopsignal in der
+Werkzeugleiste aktivierbar. Durch einen Klick darauf oder durch pressen
+der Leerzeichentaste wird die Fahrstra&szlig;e wieder zurückgenommen, als
+hätte man die Kombination FHT + Start- + Zielsignal benutzt.
 </para>
 </sect3>
 
 <sect3>
   <title>Alle Fahrstra&szlig;en zurücknehmen</title>
 <para>
-Evtl. könnte es nötig sein, alle Fahrstra&szlig;en zu
-de-aktivieren. Bei 1 oder 2 aktiven Straßen ist dies noch bequem über
-die FHT zu schaffen, bei mehreren benutzt man folgende Möglichkeit:
-</para>
-<para>
-Der Menübefehl &raquo;Gleisbild -&gt; Fahrstraßen entsperren&laquo; setzt alle
-Fahrstra&szlig;en schnell zurück (Tastaturkürzel: <keycap>Strg-U</keycap>)
+Unter Umständen kann es nötig sein, alle eingestellten Fahrstra&szlig;en
+zurückzunehmen. Bei einer oder zwei eingestellten Straßen ist dies noch
+bequem über die FHT zu schaffen, bei mehreren benutzt man den Menübefehl
+&raquo;Fahrstraße -&gt; Alle zurücknehmen&laquo; (<keycap>Strg-U</keycap>).
 </para>
 </sect3>
 </sect2>
