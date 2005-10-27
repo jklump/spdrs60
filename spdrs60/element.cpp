@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.28 $
+                           version 0.4.8 $Revision: 1.29 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-29 20:42:35 $
+    last modified        : $Date: 2005-10-27 20:35:59 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1150,6 +1150,9 @@ void element::slotCtxEdit(int ctxID)
         case CTX_ID_REP:
             clear();
             sSoldIcon = sRepeatIcon;
+            iSoldRotate = 0;        // all symbols are rotatable
+            iSoldLEDoff = 0;
+            iFBContact = 0;
             break;
         case CTX_ID_ROTATE:
             rotate();
