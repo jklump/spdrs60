@@ -410,7 +410,7 @@ kosmetisch beseitigt.</para></listitem>
   <listitem><para>Neue Elemente: Vorsignalelement (noch OHNE Steuerung
 durch ein Hauptsignal), Schuppenelemente.</para></listitem>
   <listitem><para>Anzeige des aktuell angefahrenen Anschlussgleises im
-Drehscheibenelement; korrekte Anzeige des Dekoders zur digitalen
+Drehscheibenelement; korrekte Anzeige des Decoders zur digitalen
 Drehscheibe.</para></listitem>
   <listitem><para>In weiteren zahlreichen Klassen wurde der Code
 überarbeitet und komplett dokumentiert.</para></listitem>
@@ -439,10 +439,10 @@ wenn einzelne Busstränge keine Module haben</para></listitem>
 Rückmeldebus wurde aufgegeben :-((</para></listitem>
   <listitem><para>Bereinigter Code mit Kommentaren</para></listitem>
   <listitem><para>Unterstützung der EDiTs-Pro Adress-Rückmeldemodule am
-Standard-S88Bus zur Anzeige von Lokdekoderadressen im
+Standard-S88Bus zur Anzeige von Lokdecoderadressen im
 Gleisbild</para></listitem>
   <listitem><para>Dafür neues Element: Adressanzeige, zeigt fünfstellig
-die rückgemeldete Lokdekoder-Adresse</para></listitem>
+die rückgemeldete Lokdecoder-Adresse</para></listitem>
   <listitem><para>Weiteres Element: Blindmodul zur Zustands-Anzeige von
 versteckten Fahrspannungseinspeisungen (z.B. bei
 Signalhalteabschnitten)</para></listitem>
@@ -540,11 +540,11 @@ Tagen nachreichen.</para></listitem>
 v0.6.1</para></listitem>
   <listitem><para>Optionenmenü, um vielfältige Programmparameter zur
 Laufzeit einzustellen</para></listitem>
-  <listitem><para>Unterstützung von Rückmelde-Dekodern: Ausleuchten von
+  <listitem><para>Unterstützung von Rückmelde-Decodern: Ausleuchten von
 besetzten Gleisen und automatische Rücknahme von
 Fahrstra&szlig;en</para></listitem>
   <listitem><para>Gesamtübersicht über die Stati der einzelnen Ports der
-Rückmeldedekoder</para></listitem>
+Rückmeldedecoder</para></listitem>
   <listitem><para>Neue Symbole: Wartesignal, Abfahrsignal,
 Tunnelelemente</para></listitem>
   <listitem><para>Korrigierte Steuerbefehle für die digitale Drehscheibe
@@ -557,7 +557,7 @@ Entkoppler-Eigenschaften</para></listitem>
   <listitem><para>Geänderte Farbzuweisung bei
 Leerelementen</para></listitem>
   <listitem><para>Zusätzliche Elementeigenschaften wie Rückmeldeport,
-Aktivierungszeit und Dekoderart</para></listitem>
+Aktivierungszeit und Decoderart</para></listitem>
   <listitem><para>Senden des aktuellen grafischen Gleisbildstatus an die
 Anlage</para></listitem>
 </itemizedlist>
@@ -573,7 +573,7 @@ Veröffentlicht am 08.03.2000
 Dreiwegweichen, DKWs und EKWs (mit v0.2 sind diese Weichen nicht
 ansteuerbar)</para></listitem>
   <listitem><para>Korrektur beim Kommando (Ausgangswert) für
-NMRA-/DCC-Dekoder</para></listitem>
+NMRA-/DCC-Decoder</para></listitem>
   <listitem><para>Wartezeit zum Schalten (= Aktivierung eines Ausgangs)
 auch für andere Elemente als Entkoppler</para></listitem>
   <listitem><para>Aufbau des Programms auf die Shell-Variable $DDLAPPS
@@ -1935,7 +1935,7 @@ zugrundeliegende X-Window-System und zum anderen durch das
 programmtechnisch zur Anzeige des Gleisbilds genutzte Softwaremodul.
 Explizit liegen die unter diesen Bedingungen nicht überschreitbaren
 Grenzen bei 4000 x 4000 Pixeln. Da jedes Element einen Platzbedarf
-von 56 x 35 Pixeln hat (im Original .. x .. mmm plus Spaltmaß),
+von 56 x 35 Pixeln hat (im Original 54 x 34&nbsp;mmm plus Spaltmaß),
 resultiert rechnerisch eine maximale Gleisbildgröße von
 71&nbsp;Spalten und 114&nbsp;Zeilen.
 Für die meisten Gleisbilder sollten diese Grenzen jedoch keine relevante
@@ -2023,12 +2023,12 @@ Anlage auf den gespeicherten Zustand der Gleisbilddatei eingestellt wird.
 Für jedes schaltbare Element (Ausnahmen: Entkoppler, Drehscheibe und
 Schiebebühne) wird ein entsprechendes SRCP-Steuerkommando generiert.
 Auch wenn der Daemon nicht läuft, erscheinen in der Kommandohistorie
-die entsprechenden Befehle, es entfällt dabei lediglich das Senden an
+die entsprechenden Befehle; es entfällt dabei lediglich das Senden an
 die Netzwerkschnittstelle.
 </para>
 
 <para>
-Nach der Ladezeit erhält man dann beispielsweise das in <xref
+Nach der Ladezeit erhält man beispielsweise das in <xref
 linkend="abb-bahnhofklein"> dargestellte Bild, welches auf der
 mitgelieferten Gleisbilddatei <filename>bahnhof_klein.dat.gbs</filename>
 basiert.
@@ -2045,7 +2045,7 @@ basiert.
 </para>
 
 <para>
-In diesem kleinen Beispiel erkennt man schon das
+Bereits in diesem kleinen Beispiel erkennt man das
 typische Aussehen eines SpDrS60-Stelltisches:
 <itemizedlist mark="bullet">
   <listitem><para>Im oberen Bereich befinden sich die Außentasten
@@ -2054,6 +2054,7 @@ typische Aussehen eines SpDrS60-Stelltisches:
   <listitem><para>Darunter das eigentliche Gleisbild mit den
   Innentasten und den Symbolen für Signale, Gleise und Weichen
 </para></listitem>
+</itemizedlist>
 </para>
 <para>Das Gleisbild enthält hier einige zusätzliche, nur auf der
 Modellbahn befindliche Elemente wie Drehscheibe, Gebäude u.ä.
@@ -2069,11 +2070,11 @@ im <xref linkend="sect-symbole">.
 <para>
 Das Speichern eines Gleisbilds geschieht im Allgemeinen über
 den Menüpunkt &raquo;Datei -&gt; Speichern&laquo; oder <keycap>Strg-S</keycap>.
-Möchte man ein Gleisbild unter einem anderen Namen speichern, nutzt
+Soll das Gleisbild unter einem anderen Namen gespeichert werden, nutzt
 man den Menüpunkt &raquo;Datei -&gt; Speichern unter&laquo;.
 Ist das aktuelle Gleisbild noch nicht unter einem eigenen Namen
-gespeichert, erscheint
-ebenfalls vor Programmende oder dem Laden eines neuen Gleisbilds das
+gespeichert, erscheint ebenfalls vor Programmende oder dem Laden eines
+neuen Gleisbilds das
 in <xref linkend="abb-savelayout"> gezeigte Fenster.
 </para>
 
@@ -2089,145 +2090,13 @@ in <xref linkend="abb-savelayout"> gezeigte Fenster.
 <para>
 Bei der Namensvergabe ist es nicht unbedingt notwendig, die
 Dateierweiterung (.spdrs60), welche die Gleisbilddateien kenntlich
-macht, mit einzugeben. Enthält der
-eingegebene Dateiname die Erweiterung nicht, wird sie beim Speichern
+macht, mit einzugeben. Enthält der eingegebene Dateiname die
+Erweiterung nicht, wird sie beim Speichern
 automatisch angehängt.
 </para>
 </sect3>
 </sect2>
   
-<sect2 id="sect-struktur">
-  <title>Exkurs: Struktur der Gleisbild-Dateien</title>
-
-<para>
-Die folgenden Informationen sind nicht zwangsweise für die
-Benutzung des Programms notwendig. Sie enthalten detailliertere
-Beschreibungen zu einigen Vorgängen, Dateiaufbauten etc., für alle die,
-die hinter die Kulissen schauen wollen.
-</para>
-    
-<para>
-Die Gleisbild-Dateien sind wie folgt aufgebaut:
-</para>
-
-<para>
-Zunächst findet man in den ersten paar Zeilen einen kleinen
-Header. Dieser enthält z.Zt. die Information, wieviele Elemente die
-entsprechende Gleisbild-Datei hat sowie das Datum der letzten
-Datei-Änderung:
-
-<screen>
-Symbols total #:180
-Last modified: Thu Nov 1 23:07:48 2001
-version: SpDrS60 for Linux v0.4.0
--------------------------------------
-</screen>
-</para>
-
-<para>
-Nach der ersten Trennzeile folgen dann alle Symbolbeschreibungen:
-
-<screen>
-SYMBOL -------> 114
-icon: weiche_rechts
-rotate: 0
-invers turnout: 0
-decoder: Littfinsky (D)
-protocol: M
-address_1: 9
-address_2: -1
-change conn 1: 0
-change conn 2: -1
-direction: 0
-subtype: -1
-text: 009
-active time: 50
-feedback port: 3
-hide LEDs: -1
-data 2: -1
-data 3: -1
--------------------------------------
-SYMBOL -------> 115
-icon: gerade
-rotate: 0
-invers turnout: -1
-decoder: -1
-protocol: -1
-address_1: -1
-address_2: -1
-change conn 1: -1
-change conn 2: -1
-direction: -1
-subtype: -1
-text: -1
-active time: -1
-feedback port: 0
-hide LEDs: -1
-data 2: -1
-data 3: -1
--------------------------------------
-</screen>
-</para>
-    
-<para>
-<itemizedlist mark="bullet">
-  <listitem><para>Man erkennt zunächst die Nummer des
-entsprechenden Elements. Dieses stimmt mit der Nummer überein, die über
-eine kleine Tooltip-Hilfe bei einer geladenen Gleisbild-Datei auch angezeigt
-wird. So kann man notfalls recht schnell den entsprechenden Eintrag in
-der Datei finden und dort manuell Änderungen vornehmen. Es ist nicht
-unbedingt notwendig, das diese Nummer wirklich in einer Reihe mit dem
-vorhergehenden oder nachfolgenden steht, da diese Zahlen erstmal nur zur
-Information für den Nutzer dienen. Spätestens beim Speichern einer Datei
-wird die richtige Reihenfolge sowieso wieder
-hergestellt.</para></listitem>
-  <listitem><para>Es folgt der Name des Symbols, das
-angezeigt werden soll,</para></listitem>
-  <listitem><para>danach ein Eintrag, ob das Icon drehbar
-sein soll oder nicht.</para></listitem>
-  <listitem><para>Es schlie&szlig;t sich der Invers-Wert
-an (<emphasis>ACHTUNG:</emphasis> Ein Eintrag hier ist noch völlig
-irrelevant, da die Anzeige programmiertechnisch noch nicht umgesetzt
-ist; Ausnahme: Leer-Element).</para></listitem>
-  <listitem><para>Es folgt der Dekoder-Typ.
-</para></listitem>
-  <listitem><para>Weiter geht es mit dem Protokoll, hier
-steht entweder der Wert &raquo;M&laquo; für Märklin-Dekoder oder
-&raquo;N&laquo; für DCC-Dekoder zur Verfügung. Eine -1 hei&szlig;t wieder,
-dass dieser Wert für das zugehörige Icon irrelevant
-ist.</para></listitem>
-  <listitem><para>Die Adresse, die zum Symbol gehört,
-belegt die nächste Zeile. Zugelassen sind Werte von &raquo;1&laquo; bis
-&raquo;324&laquo; bei M-Dekodern bzw. &raquo;1&laquo; bis &raquo;4096&laquo;
-bei N-Dekodern. Die Richtung des Antriebs wird auch gespeichert, damit
-man nach dem Ausschalten der Anlage wieder den in der Datei
-gespeicherten Zustand herstellen kann. Für Weichen oder Signale mit mehr
-als 1 Antrieb folgt noch die Adresse des zweiten Antriebs. Diese kann,
-muss aber nicht auf die Adresse 1 unmittelbar folgend sein.
-</para></listitem>
-  <listitem><para> Mit den Schlüsselwörtern &raquo;change
-conn&laquo; können die zwei Anschlüsse eines Dekoderausganges
-elektronisch getauscht werden, wenn hier eine &raquo;1&laquo; steht.
-</para></listitem>
-  <listitem><para>Der Subtype gibt eine Unterkklassierung
-einiger Elemente wie Signale an.</para></listitem>
-  <listitem><para>Es folgt noch die
-Textzeile,</para></listitem>
-  <listitem><para>dann die Aktivierungszeit für einen
-Ausgang.</para></listitem>
-  <listitem><para>Wichtig ist dann der Rückmeldeport,
-dieser steht hier allerdings nicht in der
-Form Modul-Nr. und Port-Nr., es werden hier alle Portnummern fortlaufend
-durchgezählt; demnach hat Modul 2 Port 3 den Eintrag
-19.</para></listitem>
-  <listitem><para>Zuletzt erscheint der Eintrag, mit dem
-man bei manchen Elementen die LED-Anzeige abschalten
-kann.</para></listitem>
-  <listitem><para>Die letzten zwei Zeilen sind für
-zukünftige Erweiterungen gedacht.</para></listitem>
-</itemizedlist>
-</para>
-</sect2>
 </sect1>
 
 <sect1 id="sect-symbole">
@@ -2648,7 +2517,7 @@ auszuführen sind. Für besondere Elemente wie die Drehscheibe wird auf
       <entry>Drehscheibe</entry>
       <entry>nein</entry>
       <entry>nein</entry>
-      <entry>spezieller Dekoder</entry>
+      <entry>spezieller Decoder</entry>
       <entry>Nur für Märklin Protokoll verwendbar</entry>
       <entry>Eigener Drehscheiben-Commander</entry>
     </row>
@@ -2659,7 +2528,7 @@ auszuführen sind. Für besondere Elemente wie die Drehscheibe wird auf
       <entry>nein</entry>
       <entry>nein</entry>
       <entry>2</entry>
-      <entry>Märklin Schiebebühne kann mit Dekodern beider Protokolle
+      <entry>Märklin Schiebebühne kann mit Decodern beider Protokolle
       angesprochen werden</entry>
       <entry>Eigener Schiebebühnen-Commander</entry>
     </row>
@@ -3200,7 +3069,7 @@ Elementes bearbeiten müßte. Das Löschen eines Elementes geschieht mit
 dem Punkt &raquo;Löschen&laquo;. Für die Schnellauswahl der am
 häufigsten gewählten Elemente stehen die unteren Menüpunkte zur Verfügung.
 Mit dieser Methode richtet man zwar grundsätzlich neue Elemente ein, vergibt
-aber keine weiteren Werte wie Dekoder-Adressen etc. Dafür ist weiterhin
+aber keine weiteren Werte wie Decoder-Adressen etc. Dafür ist weiterhin
 das Eigenschaftenfenster zuständig.
 </para>
 <para>
@@ -3219,7 +3088,7 @@ Fahrstra&szlig;entabelle geschaltet werden.
   <title>Elementeigenschaften</title>
     
 <sect3>
-  <title>Elemente ohne Dekoder</title>
+  <title>Elemente ohne Decoder</title>
 <para>
 Mit einem rechten Mausklick auf jedes beliebige Element erhält man
 ein mehr oder weniger elementspezifisches Eigenschaftsfenster
@@ -3304,9 +3173,9 @@ Eingang auswählen - z.B. nach dem Namen).
 Wählt man ein Symbol aus, welches einen Antrieb besitzt,
 ergeben sich hier im einfachsten Fall die in <xref linkend="abb-antrieb">
 gezeigten Einstellungen. In der linken Hälfte ist nun eine
-Eingabemöglichkeit für den verwendeten Dekoder sichtbar. Hier wird
+Eingabemöglichkeit für den verwendeten Decoder sichtbar. Hier wird
 zunächst bei einem noch nicht mit einem
-Typ versehenen Element der Standard-Dekoder eingetragen, wie er über
+Typ versehenen Element der Standard-Decoder eingetragen, wie er über
 die Programmeinstellungen festgelegt wurde. Wählt man hier einen anderen, so 
 passt sich auch automatisch das zugehörige Protokoll in der rechten
 Hälfte des Fensters an.
@@ -3314,7 +3183,7 @@ Hälfte des Fensters an.
 <para>
 Anschließend vergibt man die Adresse für den Artikel. In manchen Fällen,
 wie z.B. bei Weichen, kann es sinnvoll sein, in den Antriebselementen die
-Dekoderadresse anzeigen lassen. Deshalb wird standardgemä&szlig; bei Eingabe
+Decoderadresse anzeigen lassen. Deshalb wird standardgemä&szlig; bei Eingabe
 einer Adresse diese automatisch in das Textfeld übertragen. Möchte man
 aber die Vorbildbezeichnungen für Weichen, Signale etc. benutzen, muss
 man nachträglich den Eintrag im Textfeld ändern (z.B. P1 für ein
@@ -3346,7 +3215,7 @@ Das Feld &raquo;Invertieren&laquo; ist zwar aktiviert, hat aber bei
 Weichenantrieben noch keinerlei Konsequenzen. Interessant zum Einstellen
 sind die Felder &raquo;Vertauschen&laquo;, &raquo;Zurücksetzen nach&laquo; und
 &raquo;Rückmeldung&laquo;. Das erste ermöglicht es durch einen einfachen
-Klick, die Ausgänge zu einer Dekoderadresse elektronisch zu vertauschen.
+Klick, die Ausgänge zu einer Decoderadresse elektronisch zu vertauschen.
 Wenn also die Weiche nicht so schaltet wie es die Grafik anzeigt, dann
 kann dies durch einen einfachen Haken korrigiert werden. Man muß also
 nicht unter die Anlage, um Kabel umzustecken oder sogar zu löten. Für
@@ -3383,7 +3252,7 @@ Beispiel um die Kombinationen Hp 0/Hp 1 handeln, wie es in dem obersten
 der drei Subtyp-Schalter bereits aktiviert wurde. Beim unteren Schalter,
 wenn also das Signal alle drei Begriffe darstellen kann, wird
 automatisch das Feld für eine zweite Adresse aktiviert, da jetzt bei
-drei möglichen Stellungen ein Dekoderausgang nicht mehr ausreicht. In
+drei möglichen Stellungen ein Decoderausgang nicht mehr ausreicht. In
 diesem Fall muss man natürlich noch eine weitere Adresse (normalerweise
 die nächsthöhere) vergeben.
 </para>
@@ -3407,13 +3276,13 @@ für ein Ausfahrsignal. Man wählt den Schalter aus, der die möglichen
 Signalkombinationen für dieses Element repräsentiert. Eine zweite
 Adresse ist bei diesen Signalen immer zu vergeben, da es sich um
 mindestens 3-begriffige Signale handelt, also auf jeden Fall zwei
-Dekoderausgänge benötigt werden.
+Decoderausgänge benötigt werden.
 </para>
 <para>
 Obwohl in beiden Fällen nur Lichtsignale abgebildet sind, gelten die
 entsprechenden Tasten selbstverständlich auch für Formsignale. Zu
 beachten ist dabei aber der etwas andere Zusammenschluss von
-Form-Hauptsignal und Form-Schutzsignal an den Dekoder, da es sich hier
+Form-Hauptsignal und Form-Schutzsignal an den Decoder, da es sich hier
 immer um zwei getrennte Signale handelt.
 </para>
 <para>
@@ -3441,7 +3310,7 @@ Auf der Modellbahn kommen meist Doppelkreuzweichen (DKW) mit zwei
 Antrieben zur Anwendung, wie es im Vorbild auch der
 Fall ist. Deshalb wird standardmä&szlig;ig der untere Schalter mit den
 vier möglichen Weichenstellungen (<xref linkend="abb-dkw">) aktiviert.
-Somit sind in den meisten Fällen auch hier wieder zwei Dekoderadressen
+Somit sind in den meisten Fällen auch hier wieder zwei Decoderadressen
 einzugeben.
 </para>
 <para>
@@ -3468,7 +3337,7 @@ Die Drehscheibe ist ein ganz besonderer Fall, weshalb
 ihr auch ein spezielles Drehscheiben-Kapitel gewidmet wurde. Dort wird
 etwas genauer auf die Bedienung eingegangen. Zunächst einmal ist
 wichtig, dass die Drehscheibe in der Digitalversion nur von Märklin
-erhältlich ist und einen eigenen Dekoder mitbringt. Sie läuft daher nur
+erhältlich ist und einen eigenen Decoder mitbringt. Sie läuft daher nur
 im Motorola-Format, welches auch bei voreingestelltem DCC-Protokoll
 unveränderbar automatisch ausgewählt wird. Die Eingabe einer Adresse ist
 hier nicht erforderlich, denn diese wird aus der Aktivierung einer der
@@ -3547,21 +3416,21 @@ Die Zeitschrift Elektor hat Ende
 der 80er Jahre ein Selbstbau-Projekt zu einer Märklin-kompatiblen
 digitalen Steuerung namens EDiTS entwickelt (Elektor Digital Train
 System). Dies zeichnete sich schon damals gegenüber den Originalbauteilen
-durch äu&szlig;erst geringe Kosten aus. Auch Selbstbau-Lokdekoder
+durch äu&szlig;erst geringe Kosten aus. Auch Selbstbau-Lokdecoder
 gehörten damals schon zum Programm.
 </para>
 <para>
 Im Jahr 1999 startete Elektor mit einem Update des beliebten Systems. An
 manchen Stellen geschrumpft, wurde die Central-Unit durch einen einzigen
 Microcontroller ersetzt und Software zu einer einfachen Ansteurerung per
-PC angeboten. Ebenfalls runderneuert wurden die Lokdekoder, die jetzt
+PC angeboten. Ebenfalls runderneuert wurden die Lokdecoder, die jetzt
 auch das neue Märklin-Format verstehen.
 </para>
 <para>
 Aber der Clou an der Geschichte ist, was auch bisher noch kein anderer
-Selbstbau-Dekoder (aus dem Internet z.B.) hat ist: diese Dekoder senden
+Selbstbau-Decoder (aus dem Internet z.B.) hat ist: diese Decoder senden
 über eine Infrarotdiode die eigene aktuell eingestellte Adresse des
-Dekoders. Mit einem passendeni, ebenfalls in der Serie beschriebenen
+Decoders. Mit einem passendeni, ebenfalls in der Serie beschriebenen
 Empfänger wird dieses Signal über eine eigene Schaltung im bzw. am Gleis
 empfangen und binär dekodiert. Diese Lesegeräte (Preis pro
 Stück ca. 80 DM) hängen nicht an einem speziellen Bus. Sie können ganz
@@ -3577,7 +3446,7 @@ Informationseinheit.
 </para>
 <para>
 Hier besitzt SpDrS60 für Linux spezielle Möglichkeiten. Das Programm ist
-in der Lage, Informationen von einem Adress-Rückmelde-Dekoder als
+in der Lage, Informationen von einem Adress-Rückmelde-Decoder als
 Klartext anzuzeigen. Zuständig hierfür ist das Element
 &raquo;Adresse&laquo; (<xref linkend="abb-adr">).
 </para>
@@ -3591,7 +3460,7 @@ erscheint jetzt im Bereich Rückmeldung ein Markierung bei
 alle acht Kontakte dieses Moduls benötigt werden, macht es keinen Sinn,
 hier vom Anwender einen einzelnen Eingang wählen zu lassen; er muß
 lediglich die Nummer des Moduls eingeben. Befährt eine Lok mit diesem
-&raquo;Superlokdekoder&laquo; einen Empfänger, wird die
+&raquo;Superlokdecoder&laquo; einen Empfänger, wird die
 eingestellte Adresse in dezimaler Form im Gleisbild dargestellt.
 </para>
 <para>
@@ -3620,15 +3489,16 @@ eingestellten Adresse nicht entsprechen sollte.
 In der Einleitung zu dieser Dokumentation wurde bereits angesprochen,
 dass die hervorstechende Eigenschaft eines Spurplan-Drucktasten-Stellwerks,
 das Arbeiten mit Fahrstra&szlig;en ist. Der Fahrdienstleiter sucht sich nicht
-selber eine mögliche Strecke durch den Weichendschungel aus und stellt
-alle Weichen einzeln, es werden vielmehr durch bestimmte
-Relaisverschaltung vorprogrammierte Fahrstra&szlig;en aktiviert
+selbst eine mögliche Strecke über die vorhandenen Weichen aus und stellt
+jede Weiche einzeln; es werden vielmehr durch in Spurplantechnik
+verschaltete Relaisgruppen vorprogrammierte Fahrstra&szlig;en aktiviert
 (sämtliche Fahrstra&szlig;en sind vorbestimmt, d.h. es gibt keine
 &raquo;Intelligenz&laquo; im System, die aus Start- und Zielsignal denn
 besten/schnellsten Weg durch ein Weichenfeld findet). Dies geschieht
-durch das gleichzeitige Drücken von zwei Fahrstraßentasten, die sich
-an den Signalen befinden: dem Startsignal, vor dem der Zug wartet (oder
-zuerst eintreffen wird) und das in seinem Fahrweg liegenden Zielsignal.
+durch das gleichzeitige Drücken von entweder zwei Zugstraßentasten oder
+zwei Rangierstraßentaste, die sich an den Signalen befinden: dem
+Startsignal, vor dem der Zug bereits wartet bzw. zuerst eintreffen wird,
+und das in seinem Fahrweg liegende Zielsignal.
 Letzteres ist dann wiederum das Startsignal für den nächsten Abschnitt.
 Auf freier Strecke wird meistens im selbsttätigen Blockbetrieb
 gefahren, so dass hier im allgemeinen keine Stellvorgänge ausgelöst
@@ -3655,18 +3525,17 @@ Realisierung auf der Modellbahn und in diesem Programm.
 </para>
 <para>
 Das Gleichzeitige Drücken von zwei Tasten oder Klicken von Elementen ist
-so ohne weiteres nicht möglich. Die wenigsten Anwender werden im Besitz eines
-Touchscreens sein, so dass diese Bedinoption ausscheidet.
-Also bleibt nur das Arbeiten mit der Maus, und das kann nunmal nur
-sequentiell erfolgen, nie parallel (deswegen auch serielle Schnittstelle
-;-)). Dieser Mangel ist aber durch ein anderes Verfahren zumindest
-nachempfunden (siehe gleich mehr dazu). Ansonsten ist alles sehr
+an einem Computerbildschirm nicht so ohne weiteres möglich. Die
+wenigsten Anwender werden im Besitz eines Touchscreens sein, so dass
+diese Bedinoption ausscheidet. Also bleibt nur das Arbeiten mit der
+Maus. Das kann allerdings nur sequentiell erfolgen und nie parallel.
+Ansonsten ist alles sehr
 ähnlich: die Weichen werden hintereinander angesteuert, das Startsignal
 wird zuletzt auf Fahrt gestellt, und die Fahrstra&szlig;e wird mit
 gelben Lampen angezeigt. Auch die manuelle Rücknahme von
-Fahrstra&szlig;en ist hiermit möglich, denn man kann sich ja mal vertun
-(schlecht in der Wirklichkeit), oder ein Zug kann nicht abfahren,
-blockiert aber mit seiner Fahrstra&szlig;e einen anderen.
+Fahrstra&szlig;en ist hiermit möglich, denn der Bediener kann sich
+ja mal vertun. Außerdem könnte ein technischer Defekt einen Zug am Abfahren
+hindern und die eingestellte Fahrstraße einen anderen Zug blockieren.
 </para>
 </sect2>
   
@@ -3675,11 +3544,11 @@ blockiert aber mit seiner Fahrstra&szlig;e einen anderen.
 <sect3>
   <title>Fahrstra&szlig;e einstellen</title>
 <para>
-Nehmen wir hier der Einfachheit einmal an, dass
-sämtliche Fahrstra&szlig;en-Daten zu einem Gleisbild schon vorliegen
+Es sei der Einfachheit angenomme, dass sämtliche Fahrstra&szlig;endaten
+zu einem Gleisbild schon vorliegen
 (näheres hierzu siehe unter Punkt &raquo;Eingabe&laquo;). Das ist
 z.B. bei den meisten mitgelieferten Gleisbilddateien wie
-<filename>spdrs60/layouts/bahnhof_klein.dat.gbs</filename> der Fall. Aus
+<filename>bahnhof_klein.dat.gbs</filename> der Fall. Aus
 dieser Datei ist auch das Beispiel in <xref linkend="abb-routing1"> entnommen.
 </para>
 <para>
@@ -3830,7 +3699,7 @@ wird gelb.
 </para>
 <para>
 Ist eine Straße bereits eingestellt, wird das Stopsignal in der
-Werkzeugleiste aktivierbar. Durch einen Klick darauf oder durch pressen
+Werkzeugleiste aktivierbar. Durch einen Klick darauf oder durch drücken
 der Leerzeichentaste wird die Fahrstra&szlig;e wieder zurückgenommen, als
 hätte man die Kombination FHT + Start- + Zielsignal benutzt.
 </para>
@@ -3850,54 +3719,25 @@ bequem über die FHT zu schaffen, bei mehreren benutzt man den Menübefehl
 <sect2 id="sect-fahrstrassen">
   <title>Verwaltung von Fahrstra&szlig;en</title>
 <para>
-Ab der Version 0.4.0 wurde die Verwaltung von
-Fahrstra&szlig;en komplett in eine grafische Oberfläche integriert.
-Diese ist in der Lage, sämtliche Fahrstra&szlig;en zu einem Gleisbild
-komfortabel zu verwalten. Vorbei sind ab sofort daher die Zeiten, in
-denen die Fahrstra&szlig;en manuell mit einem ASCII-Editor angelegt
-werden mussten. Dabei wurde aber auch der Aufbau der Fahrstraßendatei
-verändert. Aber keine Sorge: die alten Dateien können weiter verwendet
-werden. Das Programm checkt die Dateiversion und konvertiert automatisch
-eine Fahrstraßendatei ins neue Format um. Wenn dies geschieht, wird dies dem
-Nutzer einmalig durch ein Fenster (<xref linkend="abb-routing7">)
-mitgeteilt.
+Eine Übersicht über die schon vorhandenen Fahrstraßen erhält man
+jederzeit durch die Fahrstraßentabelle (&raquo;Ansicht -&gt;
+Fahrstraßentabelle&laquo; oder <keycap>Strg-R</keycap>). Diese kann
+unabhängig vom aktuellen Anzeigemodus des Gleisbilds eingesetzt werden.
 </para>
 <para>
-<figure id="abb-routing7">
-  <title>Fahrstra&szlig;en-Konvertierung</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="schnapp-route-convert.png">
-  </imageobject></mediaobject>
-</figure>
+Das Bearbeiten von Fahrstraßen, also sowohl das Erstellen von neuen als
+auch das Verändern oder Löschen von schon vorhandenen Fahrstraßen kann
+nur im Fahrstraßenbearbeitungsmodus (<keycap>Strg-B</keycap>) geschehen.
+Diesen erkennt man in Gleisbild an den blauen Linien zwischen den
+einzelnen Elementen.
 </para>
-<para>
-Damit die Daten für alle Fahrstra&szlig;en richtig geladen
-werden, muss das Gleisbild erneut geöffnet werden. All dies passiert nur
-pro Gleisbild einmal, denn einmal konvertiert ist neue Version!
-</para>
-<para>
-<emphasis>ACHTUNG:</emphasis>
-</para>
-<para>
-Zum Konvertieren ist das Konvertierprogramm
-<command>convertrts</command> notwendig. Dies befindet sich als -
-automatisch von SpDrS60 ausführbare Datei - im <filename
-class="directory">/usr/bin</filename>-Verzeichnis. Ist diese Datei
-<command>convertrts</command> nicht dort, gibt es zwar eine Meldung,
-aber es wird nicht wirklich konvertiert.
-</para>
-    
 <sect3>
-  <title>Aufbau des Verwaltungsfensters</title>
+  <title>Aufbau des Fahrstraßenbearbeitungsfensters</title>
 <para>
-Öffnet man mit <keycap>Strg-R</keycap> das
-Übersichtsfenster der Fahrstra&szlig;en, dann entdeckt man unten rechts
-eine Schaltfläche mit einem Schraubenschlüssel. Klickt man auf diese, so
-erweitert
-sich das Fenster auf ca. das dreifache (<xref linkend="abb-routing8">),
-und man erkennt schon in etwa die ungefähre Struktur, in der man die
-Fahrstra&szlig;en-Daten eingeben kann. Zunächst einmal ein kleiner
-Überblick über die vorhandenen Fensterelemente.
+Wenn sich das Gleisbild im Fahrstraßenbearbeitungsmodus befindet und in
+der Fahrstraßentabelle eine Fahrstraße ausgewählt ist, kann man über das
+Menü &raquo;Fahrstraße -&gt; Bearbeiten&laquo; das in <xref
+linkend="abb-routing8"> dargestellte Fenster öffnen.
 </para>
 <para>
 <figure id="abb-routing8">
@@ -3908,131 +3748,54 @@ Fahrstra&szlig;en-Daten eingeben kann. Zunächst einmal ein kleiner
 </figure>
 </para>
 <para>
-In der linken Hälfte erkennt man weiterhin die Übersicht
-über alle Verfügbaren Fahrstraßen inkl. vollständigem Namen. Man wählt aus
-der Tabelle die Fahrstra&szlig;e, die einen näher interessiert, durch
-einen einfachen Klick; sie wird dann blau unterlegt. Ist die
-Fahrstra&szlig;e nicht aktiv im Gleisbild geschaltet, dann ist das
-Formsignal &raquo;Fahrt&laquo; aktiv, das bedeutet, dass diese
-Fahrstra&szlig;e nun jederzeit über diesen Button aktiviert werden kann.
+Im linken oberen Bereich läßt sich der Name der Fahrstraße sowie das
+Start- und das Zielsignal festlegen bzw. bearbeiten. Nur am
+Startsignal gibt es ein Feld für die Signalstellung, das Zielsignal ist
+immer auf Halt, bis es selbst bei einer anderen Fahrstra&szlig;e
+zum Startsignal wird. Angezeigt wird in der Zeile &raquo;Adresse&laquo;
+die Hauptadresse des Antriebes; bei Mehrfachantriebs-Elementen
+entspricht das der Adresse 1. Im Eingabefeld &raquo;Status&laquo; ist
+der Dezimalwert der Antriebsstellung (siehe auch
+<xref linkend="tabelle-positions">) wählbar. Je nach Anzahl der Antriebe
+des Elements kann hier zwischen zwei oder vier Zuständen ausgewählt
+werden. Das Feld &raquo;Name&laquo; gibt die Klartextanzeige des
+Elementes wieder, bei Signalen also z.B. &raquo;P 1&laquo; für ein
+Ausfahrsignal. Nur die Adresse, der SRCP-Bus und der
+Status sind editierbar, der Name wird automatisch aus dem Vorrat der im
+Gleisbild verfügbaren Elemente ermittelt.
 </para>
 <para>
-Wurde eine Straße ausgewählt, dann erscheinen in der rechten Hälfte die
-Informationen, die zu dieser Fahrstra&szlig;e gespeichert sind:
-<itemizedlist mark="bullet">
-  <listitem><para>eine laufende
-Nummer</para></listitem>
-  <listitem><para>der Name</para></listitem>
-</itemizedlist>
-stehen ganz oben.
+Darunter befinden sich Bedienelemente zur Konfiguration des
+Automatikbetriebs. Fahrstraßen lassen sich sowohl automatisch
+einstellen, als auch automatisch auflösen. Zusätzlich ist wählbar, ob
+der Schaltvorgang bei einer Belegtmeldung oder bei einer Freimeldung
+ausgelöst wird. Editierbar sind das Eingabefeld für den SRCP-Bus und die
+Nummer des Rückmeldekontaktes an diesem Bus. Die Nummern für das Modul
+sowie dessen Eingang werden automatisch berechnet.
 </para>
 <para>
-Links darunter schlie&szlig;t sich ein Feld an, in dem die Interaktion
-zwischen Rückmeldern und dieser Fahrstra&szlig;e eingestellt werden
-können. Zur Zeit ist dort das &raquo;Lösen&laquo;- und das
-&raquo;Aktivieren&laquo;-Feld aktiv. Die hier angezeigten Modul- und
-Portnummern geben an, durch
-welchen Kontakt diese Fahrstra&szlig;e automatisch zurückgenommen bzw.
-aktiviert wird (zukünftig ist noch geplant, dass Fahrstra&szlig;en
-automatisch durch eine bestimmte Lokadresse aktiviert werden können).
-</para>
-<para>
-Rechts daneben schlie&szlig;en sich die generellen Eigenschaften dieser
-Fahrstra&szlig;e an. Hier werden vorbildgerecht fünf verschiedene
-Fahrstraßentypen unterschieden: Regelzugstraße, Umfahrzugstraße,
-Zughilfsstraße, Regelrangierstraße und Umfahrrangierstraße. Bei
-Rangierstraßen sind Fahrten in bereits besetzte Gleise erlaubt, was
-spdrs60 programmtechnisch jedoch leider noch nicht erkennen kann. 
-Umfahrstra&szlig;en werden durch Aktivieren der Umfahrgruppentaste
-(UfGT) und anschließendes Wählen der Start- und Zieltasten im Gleisbild
-geschaltet. Die hier vorgesehene Option für mehrere Umfahrstufen, ist
+Im Bedienfeld rechts oben läßt sich der Fahrstraßentyp festlegen. Zug-
+und Rangierfahrstraßen werden sicherheitstechnisch unterschiedlich
+behandelt. Zugfahrstraßen lassen sich im Gegensatz zu Rangierfahrstraßen
+nicht in belegte Gleisabschnitte einrichten. Beim Einstellen von
+Umfahrstraßen ist die Bedienung der Umfahrgruppentaste (UfGT) vor den
+Start- und Zieltasten notwendig. 
+Die hier vorgesehene Option für mehrere Umfahrstufen, ist
 zur Zeit noch nicht implementiert.
 </para>
 <para>
-Im Bereich darunter stehen die Daten der Signale, an denen diese
-Fahrstra&szlig;e beginnt (Startsignal) und endet (Stopsignal). Nur am
-Startsignal gibt es ein Feld für die Signalstellung, das Zielsignal ist
-immer auf Halt (bis es eben selber bei einer anderen Fahrstra&szlig;e
-zum Startsignal wird). Angezeigt wird in der Spalte &raquo;Adresse&laquo;
-die Hauptadresse des Antriebes (bei Mehrfachantriebs-Elementen also
-Adresse 1), in der Spalte &raquo;Status&laquo; der Dezimalwert der
-Antriebsstellung (wie es auch in der <xref linkend="tabelle-positions">
-beschrieben wurde). Die Spalte
-&raquo;Name&laquo; gibt die Klartextanzeige des Elementes wieder, bei
-Signalen also z.B. P 1 für ein Ausfahrsignal. Nur die Adresse und der
-Status sind editierbar, der Name wird automatisch aus der Datenbank
-ermittelt.
-</para>
-<para>
-Im gro&szlig;en unteren Bereich stehen dann die zu dieser
-Fahrstra&szlig;e gehörenden Elemente, die au&szlig;er dem Startsignal
-noch geschaltet werden müssen. Bis zu 15 dieser Elemente sind möglich
-(eine überschlägige Rechnung hat ergeben, dass dies reichen sollte. Wenn
-nicht, bitte melden, ich passe den Code dann entsprechend an). Hier
-können nicht nur Weichen oder andere Signale (Schutzsignale, die
-&raquo;unterwegs&laquo; am Rand stehen), sondern auch Blindelemente (wenn
-man ein Signal mit Zugbeeinflussung mal von der anderen Seite
-durchfahren möchte) oder sonstige anderen normalen schaltbaren Elemente
-eintragen (von mir aus auch Entkoppler ;-)). Auch hier entdeckt man
-wieder die drei Spalten mit der Elementadresse, dem Status, den ein
-Antrieb in der Fahrstra&szlig;e einnehmen soll, sowie den Klartextnamen
-(diese sind hier ebenfalls nicht editierbar).
-</para>
-<para>
-<emphasis>WICHTIG:</emphasis> Wurde eine Fahrstra&szlig;e ausgewählt und
-dann aktiv geschaltet, dann können die Daten zu dieser Fahrstra&szlig;e
-nicht geändert werden, alle Anzeigeelemente werden für diese Fahrstraße
-ausgegraut. Das Verwalten von Fahrstraßen sollte daher nur dann am besten
-erfolgen, wenn keine Fahrstraße aktiv ist. Auch sollten keine Züge auf der
-Anlage fahren, wenn Fahrstraßen vorhanden sind, die durch Rückmeldekontakte
-oder eine bestimmte Lokadresse automatisch aktiviert werden können.
-</para>
-<para>
-Am unteren Abschluss des Fensters erkennt man noch sechs Schaltflächen,
-die verschiedene Aktionen mit einer Fahrstra&szlig;e auslösen. Bis auf
-den Hinzufügen-Button sind alle anderen Schaltflächen nicht verfügbar,
-wenn die zugehörige Fahrstra&szlig;e sich gerade im aktiven, gerouteten
-Zustand im Gleisbild befindet (Ein Beispiel sieht man hier). Dies sind von
-links nach rechts:
-
-<itemizedlist mark="bullet">
-  <listitem><para>Speichern einer Änderung/einer
-Neuanlage in einer Fahrstra&szlig;e</para></listitem>
-  <listitem><para>Löschen der ausgewählten
-Fahrstra&szlig;e</para></listitem>
-  <listitem><para>Hinzufügen einer neuen
-Fahrstra&szlig;e</para></listitem>
-  <listitem><para>Kopieren einer Fahrstra&szlig;e mit
-allen bereits angelegten Eigenschaften</para></listitem>
-  <listitem><para>Aufnehmen einer Fahrstra&szlig;e im
-Gleisbild</para></listitem>
-  <listitem><para>Prüfen/Anzeigen einer kpl.
-Fahrstra&szlig;e, ohne sie zu schalten</para></listitem>
-</itemizedlist>
-
-Im folgenden werden die einzelnen Aktionen beschrieben,
-die mit den Schaltflächen ausgelöst werden können.
-</para>
-<para>
-<emphasis>WICHTIG:</emphasis>
-</para>
-<para>
-Alle ändernden Aktionen an Fahrstra&szlig;en werden sofort in die
-Fahrstraßen-Datei geschrieben. Dies geschieht nicht - wie bei der
-Gleisbild-Datei - erst beim Beenden des Programmes. Man braucht also keine
-Angst zu haben, dass beim Absturz des Programmes während des Spielens
-die vorher mühsam eingepflegten Fahrstra&szlig;en verloren gehen.
-</para>
-</sect3>
-    
-<sect3>
-  <title>Löschen einer Fahrstra&szlig;e</title>
-<para>
-Nach der Auswahl einer Fahrstraße im Übersichtsfenster kann
-man durch einen Klick auf den Löschbutton die Fahrstra&szlig;e löschen.
-Damit man nicht aus Versehen eine Fahrstraße löschen kann, fragt das Programm
-nochmals nach (<xref linkend="abb-routing9">), ob die Löschung wirklich
-durchgeführt werden soll.
+Im Bereich darunter sind die Elemente der Fahrstra&szlig;e aufgelistet,
+die zusätzlich zum Startsignal geschaltet werden müssen. Die Anzahl
+dieser Elemente ist nicht limitiert. Hier werden nicht nur Weichen oder
+andere Signale
+wie Schutzsignale, die &raquo;unterwegs&laquo; am Fahrweg liegen, sondern
+auch Blindelemente (zum Durchfahren eines Signals mit Zugbeeinflussung
+aus der anderen Richtung) oder sonstige schaltbare Elemente
+eintragen (im Extremfall auch Entkoppler). Unterhalb der Liste
+existieren Schaltflächen mit denen sich die Reihenfolge der Elemente
+ändern läßt, vorhandene Elemente in einem weiteren Dialogfenster
+bearbeitet und einzelne Elemente aus der Fahrstraße
+entfernt werden können.
 </para>
 <para>
 <figure id="abb-routing9">
@@ -4041,11 +3804,6 @@ durchgeführt werden soll.
     <imagedata fileref="schnapp-route-del.png">
   </imageobject></mediaobject>
 </figure>
-</para>
-<para>
-Nach dem Betätigen der Ja-Schaltfläche wird die zugehörige Fahrstraße
-aus der Tabelle (und natürlich auch aus der Fahrstra&szlig;en-Datei)
-entfernt.
 </para>
 
 </sect3>
@@ -4382,158 +4140,6 @@ Stellwerksbetrieb mit eingebunden werden!
 </sect3>
 </sect2>
   
-<sect2 id="sect-fahrstrassen-dateiformat">
-  <title>Exkurs: Fahrstra&szlig;endatei</title>
-<para>
-Obwohl ab sofort die Verwaltung der Fahrstraßen grafisch möglich
-ist, sei hier - wie beim Gleisbild auch - nocheinmal in einem Exkurs auf
-den Aufbau der Fahrstraßen-Datei eingegangen. Wer mit dem grafischen Tool
-arbeitet, wird im allgemeinen kein Bedürfnis haben, sich dies hier
-durchzulesen. Falls aber mal die eine oder andere Frage auftaucht,
-sollte man schonmal eine Blick in dieses Kapitel werfen.
-</para>
-<para>
-Zunächst einmal ein Auszug aus einer Fahrstra&szlig;en-Datei zum
-besseren Verständnis:
-
-<screen>
-Routes total #: 10
-Last modified: Thu Oct 18 22:05:25 2001
-version: SpDrS60 for Linux v0.4.0
--------------------------------------
-ROUTE --------> 1
-name: Gleis 1 -> rechts
-to signal: 0012
-switch x to y: 0010 0
-switch x to y: 0009 0
-from signal: 0008 1
-release port: 3
-activate port: -1
-active by loco: -1
-type: 0
-level: -1
-data1:
-data2:
-data3:
--------------------------------------
-ROUTE --------> 2
-name: Gleis 1 -> links
-to signal: 0001
-switch x to y: 0003 0
-switch x to y: 0004 0
-switch x to y: 0014 0
-from signal: 0006 1
-release port: 0
-activate port: -1
-active by loco: -1
-type: 0
-level: -1
-data1:
-data2:
-data3:
--------------------------------------
-</screen>
-
-Der Header der Datei gibt an, wieviele Fahrstraßen in der Datei gespeichert
-sind. Das Datum des letzten Updates sowie die Programmversion sind hier
-ebenfalls angegeben.
-</para>
-<para>
-Man erkennt verschiedene, durch Striche getrennte Blöcke. Jeder Block
-steht für eine Fahrstra&szlig;e. Jeder Block ist in zwei Spalten
-aufgeteilt. In der linken stehen die Schlüsselwörter, damit man als
-Nutzer die nachfolgenden Werte in der rechten Spalte auch interpretieren
-kann (leider hier durch den HTML-Code nicht richtig sichtbar). Hier ist
-es wichtig, das die Datenspalte in der Spalte 17 beginnt, da beim Lesen
-der Datei alle Zeichen der Spalten 1 bis 16 gnadenlos abgeschnitten
-werden.
-</para>
-<para>
-In der ersten Zeile eines Blockes steht die Nummer der Straße, die wie
-bei den Elementen nur informationshalber hier steht. In dieser Version
-muss man also nicht auf eine fortlaufende Nummerierung achten. In der
-folgenden Zeile steht der Name der Straße, wie er in der
-Fahrstraßen-Übersicht angezeigt wird. Es folgt die Adresse des Zielsignals.
-Eine Eingabe der führenden Nullen ist nicht nötig, wird aber empfohlen,
-da dann die Lesbarkeit besser ist.
-</para>
-<para>
-Liegen zwischen Start- und Zielsignal andere Antriebe, die noch
-geschaltet werden müssen, dann stehen die Daten hierzu in den folgenden
-Zeilen. Die Anzahl dieser Zeilen ist prinzipiell unbegrenzt (es können
-aber nur max. 15 in der grafischen Verwaltung angezeigt werden). In der
-Datenspalte steht hier nicht nur die Adresse des Antriebs, sondern auch
-der Wert der Richtung, den dieser Antrieb in der Fahrstra&szlig;e
-einnehmen muss. Grundsätzlich möglich sind hier die Werte 0, 1, 2 oder
-3, aber nicht jeder Wert ist bei jedem Antrieb verfügbar und sinnvoll.
-Welche Werte hier eingegeben werden können, kann aus der
-Übersichtstabelle der schaltbaren Symbole entnommen werden. Wichtig ist
-ein Leerzeichen zwischen der Adresse und dem Richtungswert.
-</para>
-<para>
-Als vorletzte Zeile erkennt man noch das Startsignal, ebenfalls mit
-Adresse und Richtungswert. Der Unterschied zum Zielsignal erklärt sich
-dadurch, dass das Startsignal auch nocht geschaltet werden muss, das
-Zielsignal jedoch nicht.
-</para>
-<para>
-Die letzte Zeile ist wichtig, sofern man Rückmeldekontakte einsetzt, die
-Fahrstra&szlig;en automatisch auflösen sollen. Der &raquo;Release
-port&laquo; gibt an, welcher Kontakt die aufgeführte Straße zurücknimmt.
-Die Portnummern sind fortlaufend nummeriert, also bei S88-Rückmeldern
-von 1 bis 1984. Damit erspart man sich eine weitere Variable zum
-Auswerten, und wenn später einmal die grafische Eingabe der
-Fahrstra&szlig;en möglich sein wird, dann fällt dies auch nicht mehr so
-ins Gewicht. Den einzutragenden Wert bei der ausschlie&szlig;lichen
-Verwendung von 16-Port-Modulen ermittle man durch die Formel:
-</para>
-<para>
-<quote>
-16 x Modulnummer + Anschlussnummer des Kontakts an diesem Modul - 1
-</quote>
-</para>
-<para>
-<emphasis>ACHTUNG:</emphasis>
-</para>
-<para>
-Einige Elemente besitzen zwei Adressen, z.B. die Doppelten
-Kreuzungsweichen. Da kommt man vielleicht ins Grübeln, welche Adresse in
-der Datenspalte auftauchen muss. Einfache und unumstö&szlig;liche
-Antwort:
-</para>
-<para>
-<quote>
-IMMER die erste Adresse.
-</quote>
-</para>
-<para>
-Hat ein Element mehr als einen Antrieb, dann wird bei einem
-Richtungswert >= 2 automatisch unter Hilfe der 2. Adresse der richtige
-Befehl berechnet, d.h. diese Adresse ist nur für das Programm
-interessant, nicht für den Anwender im Falle der Straßen-Programmierung.
-</para>
-<para>
-Eine Fahrstra&szlig;en-Datei kann man also ganz einfach selber mit jedem
-beliebigen Editor erstellen, wenn die oben genannten Bedingungen
-eingehalten werden. Man speichere dann die Datei unter dem selben Namen
-wie die Gleisbild-Datei, allerdings mit der Endung
-<filename>.dat.rts</filename>. Zu einem normalen Gleisbild gehören daher
-immer zwei Dateien:
-
-<variablelist>
-      <varlistentry>
-<term><filename>bahnhof_klein.dat.gbs</filename></term>
-  <listitem><para>enthält die Informationen für den
-grafischen Aufbau der Anlage mit den Elementen</para></listitem>
-      </varlistentry>
-      <varlistentry>
-<term><filename>bahnhof_klein.dat.rts</filename></term>
-  <listitem><para>enthält die Informationen zu den
-Fahrstra&szlig;en</para></listitem>
-      </varlistentry>
-</variablelist>
-</para>
-</sect2>
 </sect1>
 
 <sect1 id="sect-rueckmeldung">
@@ -4564,23 +4170,23 @@ wie in dem Programm-Optionen-Menü unter dem Reiter &raquo;Daten&laquo; für
 jeden Bus einzeln anzuzeigen sind. Damit soll die Übersichtlichkeit
 besser gewahrt bleiben. Alle aktiven, d.h. geschlossenen Kontakte an den
 Moduln sind in dieser Übersicht mit einem roten Quadrat gekennzeichnet.
-Man erkennt jetzt neu unter der fortlaufenden Dekoder-Nummerierung eine
-blaue Zahl. Dies stellt die dekodierte Lokdekoder-Adresse dar, wenn
-dieser RM-Dekoder ein Adress-Dekoder ist. Da zum jetzigen Zeitpunkt das
-Programm aber nicht wissen kann, welcher Dekoder ein solcher ist, werden
-(noch) alle Dekoder mit der blauen Zahl angezeigt. Man muss sich leider
-noch selber merken, welcher Dekoder ein Adress-Dekoder ist. Bei allen
-anderen Dekodern ändert sich die blaue Zahl auch, macht aber hier keinen
+Man erkennt jetzt neu unter der fortlaufenden Decoder-Nummerierung eine
+blaue Zahl. Dies stellt die dekodierte Lokdecoder-Adresse dar, wenn
+dieser RM-Decoder ein Adress-Decoder ist. Da zum jetzigen Zeitpunkt das
+Programm aber nicht wissen kann, welcher Decoder ein solcher ist, werden
+(noch) alle Decoder mit der blauen Zahl angezeigt. Man muss sich leider
+noch selber merken, welcher Decoder ein Adress-Decoder ist. Bei allen
+anderen Decodern ändert sich die blaue Zahl auch, macht aber hier keinen
 Sinn.
 </para>
 <para>
-Apropos Sinn: Sinn macht diese Dekoder-Identifizierung auch nur, wenn
+Apropos Sinn: Sinn macht diese Decoder-Identifizierung auch nur, wenn
 man die Adresse nicht blo&szlig; anzeigt, sondern darüber auch noch eine
 automatische Steuerung legt. Im diesem Fall könnte das eine automatische
 Fahrstra&szlig;enschaltung je nach Loktyp sein [Dieselloks da lang,
 E-Loks über die Hauptstrecke]. Noch genialer wird es aber in dem Fall,
 wenn darüber automatisch ein Kommando zum Abbremsen der Lok kommt, z.B.
-vor Signalen [bedingt natürlich den Einsatz eines solchen Dekoders vor
+vor Signalen [bedingt natürlich den Einsatz eines solchen Decoders vor
 jedem Signal]. Das wäre dann der Zeitpunkt, wo ich mein altes DTCL bzw.
 den Nachfolger dtcl-tiny (Loksteuerprogramm unter Linux) wieder
 auskramen muss, um es mit SpDrS60 in eine komplette Steuersoftware zu
@@ -4939,13 +4545,13 @@ auf die Anschlussvorschriften für Signale eingegangen.
 <para>
 Es sei nochmal wiederholt: Ich habe keine Anlage zum Testen. Es kann
 daher sein, dass die unten gegeben Informationen genau falsch sind,
-sprich die Anschlüsse innerhalb einer Adresse (= einem Dekoderausgang)
+sprich die Anschlüsse innerhalb einer Adresse (= einem Decoderausgang)
 getauscht werden müssen.
 </para>
 <para>
 Die folgende Tabelle gibt Aufschluss über das Anschlussschema bei den
 verschiedenen Signalmöglichkeiten. Ich gehe mal davon aus, dass dafür an
-einem Dekoder zwei nebeneinander liegende Ausgänge = zwei aufeinander
+einem Decoder zwei nebeneinander liegende Ausgänge = zwei aufeinander
 folgende Adressen benutzt werden und das keinerlei Häkchen zum Tauschen
 der Ausgänge gesetzt wurde:
 </para>
@@ -4954,7 +4560,7 @@ Die Tabelle oben gilt vor allem für Lichtsignale. Bei Formsignalen gibt
 es keine Kombination Haupt- und Schutzsignal, es besteht immer aus zwei
 eigenständigen Signalen. Dies wurde im Modell auch so gehalten. Die
 Anschlussart ist daher etwas anders. Das Hauptsignal mit seinen 1 oder 2
-Antrieben wird wie beschrieben in die entsprechenden Dekoder-Ausgänge
+Antrieben wird wie beschrieben in die entsprechenden Decoder-Ausgänge
 gesteckt. Der Antrieb des Sh-Signals wird für die Stellung Sh 1 in die
 beschriebene Buchse für Sh1 gesteckt. Der Anschluss für Sh 0 dagegen
 wird zusammen mit dem Anschluss für Hp 0 (bzw. Hp 00) gesteckt, damit
@@ -4967,7 +4573,7 @@ das Schutzsignal auf jeden Fall zurückgestellt werden kann.
 <para>
 Von Modellbahnherstellern kann man im allgemeinen nur
 Signale kaufen, die maximal drei Begriffe anzeigen können, wenn sie mit
-herkömmlichen Bedienelementen wie Schaltpult oder Dekoder angesteuert
+herkömmlichen Bedienelementen wie Schaltpult oder Decoder angesteuert
 werden. Bei Formsignalen ist dies irrelevant, da das Form-Hauptsignal
 sowieso nur drei Begriffe aufweist. Das Form-Rangiersignal (=
 Richtungswert 3) ist ein eigenständiges Signal mit eigenem Antrieb.
@@ -4975,7 +4581,7 @@ Richtungswert 3) ist ein eigenständiges Signal mit eigenem Antrieb.
 <para>
 Bei Lichtsignalen jedoch gibt es zwar 4-begriffige zu kaufen (Busch,
 Viessmann etc.), jedoch ist dabei keine Ansteuerlogik inbegriffen. Man
-kann aber auch nicht einfach die LEDs der Signale an die Dekoder
+kann aber auch nicht einfach die LEDs der Signale an die Decoder
 anschlie&szlig;en, sie würden kaputt gehen, au&szlig;erdem habe ich
 nicht genug Ausgänge bei zwei Adressen, um z.B. die sechs LEDs eines
 Ausfahrsignals anzusteuern.
@@ -5000,7 +4606,7 @@ Modellbahntechnik</ulink>,
 Artikel-Nr. 5210, Preis ca. 75 DM
 </para>
 <para>
-Der Dekoder von <ulink
+Der Decoder von <ulink
 url="http://www.ldt-infocenter.com/">Littfinski</ulink> (Littfinski
 Datentechnik, Best.-Nr. LS-DEC, Preis ab 64 DM) kann damit nicht
 angesteuert werden, da er eine andere Ausgangsbelegung als in der obigen
@@ -5017,11 +4623,11 @@ Version passieren.
   <title>Allgemeine Bedienung</title>
 <para>
 Wie schon im Symbol-Kapitel kurz angesprochen, gibt es
-eine spezielle digitale Drehscheibe von Märklin mit eigenem Dekoder, der
+eine spezielle digitale Drehscheibe von Märklin mit eigenem Decoder, der
 nur auf das Motorola-Format hört. Die Grundeinstellung geschieht im
 Eigenschaften-Fenster zum Drehscheibensymbol. Hier hört es aber noch
 nicht auf, denn um eine einwandfreie Funktion zu bekommen, muss man dem
-Dekoder auch noch sagen, an welchen der möglichen maximal 24
+Decoder auch noch sagen, an welchen der möglichen maximal 24
 Gleisanschluss-Stutzen überhaupt ein Gleisstück dransteckt, die
 Schwenkbühne also halten kann.
 </para>
@@ -5041,6 +4647,8 @@ erscheint.
 </para>
 <para>
 V.l.n.r. erkennt man in der oberen Reihe folgende Bedienelemente:
+</para>
+<para>
 <itemizedlist mark="bullet">
   <listitem><para>Anfahren des nächst-möglichen
 Gleisstutzens entgegen dem Uhrzeigersinn</para></listitem>
@@ -5063,6 +4671,8 @@ Bühne</para></listitem>
   <listitem><para>Programmierung der
 Schiebebühne</para></listitem>
 </itemizedlist>
+</para>
+<para>
 Darunter folgen zwei Zahlenreihen der Werte 1-24, welche
 die maximal möglichen Gleisstutzen repräsentieren. Alle programmierten
 Gleisstutzen sind fett und grün unterlegt dargestellt. Die aktuelle
@@ -5102,7 +4712,7 @@ deaktiviert.
   <title>Programmierung</title>
 <para>
 Bevor man aber die Eigenschaften des Commanders benutzen
-kann, muss man dem Dekoder der Drehscheibe einmal am Anfang sagen, wo
+kann, muss man dem Decoder der Drehscheibe einmal am Anfang sagen, wo
 sich denn überhaupt Gleisstutzen befinden (eventuell auch nachträglich,
 wenn man die Drehscheibe erweitert). Beim Studieren der
 Original-Anleitung schwirrt einem aber schnell der Kopf, da man die
@@ -5133,6 +4743,8 @@ Zeitpunkt durchgeführt werden, sondern muss innerhalb von fünf Sekunden,
 nachdem Saft auf die Anlage gegeben wurde, gestartet worden sein. Diese
 Tatsache ist nicht auf meinem Mist gewachsen, sondern ist Vorgabe von
 Märklin. Wie geht man also vor?
+</para>
+<para>
 <itemizedlist mark="bullet">
   <listitem><para>Man starte den Rechner mit dem
 DDL-Daemon sowie den SpDrS60-Client und lädt das
@@ -5144,7 +4756,9 @@ Anlagen-Layout.</para></listitem>
   <listitem><para>Innerhalb von fünf Sekunden klicke man
 nun auf die Taste &raquo;Start programming&laquo;</para></listitem>
 </itemizedlist>
-Der Drehscheibendekoder befindet sich nun im Zustand, in dem er
+</para>
+<para>
+Der Drehscheibendecoder befindet sich nun im Zustand, in dem er
 Programmierbefehle aufnehmen kann. Alle vorher programmierten Gleise,
 sichtbar durch Fettdruck und farbiger Unterlegung in der oberen
 Fensterhälfte, werden ausgeblendet. Mit den Pfeiltasten des Commanders
@@ -5170,7 +4784,7 @@ neu die soeben programmierten Gleise. Automatisch fährt dann die Bühne
 zur Position &raquo;1&laquo;, was man am sich bewegenden gelben Cursor
 erkennen kann. Die programmierten Gleise werden ebenfalls in der
 Gleisbild-Datei gespeichert und brauchen nicht jedesmal neu eingegeben zu
-werden (der Drehscheiben-Dekoder speichert die Positionen natürlich
+werden (der Drehscheiben-Decoder speichert die Positionen natürlich
 völlig unabhängig davon!)
 </para>
 </sect3>
@@ -5179,7 +4793,7 @@ völlig unabhängig davon!)
   <title>Anschluss-Schema</title>
 <para> Für alle, die den Anschlussplan verlegt haben, kann man
 in <xref linkend="abb-drehscheibe"> diesen nochmal einsehen. Er
-funktioniert NUR mit dem der Drehscheibe beiliegenden Spezialdekoder.
+funktioniert NUR mit dem der Drehscheibe beiliegenden Spezialdecoder.
 </para>
 <para>
 <figure id="abb-drehscheibe">
@@ -5196,9 +4810,9 @@ funktioniert NUR mit dem der Drehscheibe beiliegenden Spezialdekoder.
   <title>Schiebebühne</title>
 <para>
 Die Schiebebühne ist im Gegensatz zur digitalen Drehscheibe
-ein sehr einfaches Element. Es benötigt auch keinen speziellen Dekoder,
+ein sehr einfaches Element. Es benötigt auch keinen speziellen Decoder,
 stattdessen muss man die Schiebebühne, wie <xref linkend="abb-schiebebuehne"> zeigt, an einen völlig beliebigen
-Schaltdekoder anschlie&szlig;en.
+Schaltdecoder anschlie&szlig;en.
 </para>
 <para>
 <figure id="abb-schiebebuehne">
@@ -5212,13 +4826,13 @@ Schaltdekoder anschlie&szlig;en.
 Hierbei sind die originalen Märklin-Bedienelemente aufgrund
 DDL natürlich nicht notwendig, sind aber zur Verdeutlichung der
 Anschlüsse mit in der Abbildung aufgenommen. Aus dem Bild erkennt man
-auch, dass die Schiebebühne zwei Dekoderadressen belegt, diese müssen
+auch, dass die Schiebebühne zwei Decoderadressen belegt, diese müssen
 für eine ausreichende Funktion im Eigenschaften-Fenster der Schiebebühne
 zunächst eingetragen werden.
 </para>
 <para>
-Ein Links-Klick auf das Schiebebühnen-Element gibt den in
-<xref linkend="abb-schiebebuehnecmd"> gezeigten Commander.
+Ein Links-Klick auf das Schiebebühnen-Element läßt den in
+<xref linkend="abb-schiebebuehnecmd"> gezeigten Commander erscheinen.
 </para>
 <para>
 <figure id="abb-schiebebuehnecmd">
@@ -5240,8 +4854,8 @@ Aktivität.
   <title>Gleichstrommotoren</title>
 <para>
 Das Anschluss-Schema (<xref linkend="abb-dcmotor">) ist
-ähnlich dem der Schiebebühne, als Dekoder ist jeder beliebige
-Schaltdekoder zu verwenden:
+ähnlich dem der Schiebebühne, als Decoder ist jeder beliebige
+Schaltdecoder verwendbar:
 </para>
 <para>
 <figure id="abb-dcmotor">
@@ -5269,25 +4883,11 @@ Man wähle hier zwischen Links- und Rechtslauf oder Anhalten.
 </sect2>
 </sect1>
 
+
 <sect1 id="sect-FAQ">
   <title>FAQ</title>
 <para>
     <variablelist>
-      <varlistentry>
-        <term><emphasis>
-          Was sind die Systemvoraussetzungen?
-        </emphasis></term>
-  <listitem><para>
-Ich benutze einen AMD K6 200&nbsp;MHz mit 64 MB RAM.
-Damit kann ich in zufriedenstellender Zeit die Quellcodes kompilieren.
-Au&szlig;erdem lädt sich ein Gleisbild &raquo;Bahnhof gro&szlig;&laquo; auch
-in aktzeptabler Zeit. Auch KDE läuft damit ausreichend. Da ich manchmal
-dennoch etwas mehr Power wünschte, komme ich daher zur Empfehlung, dass
-man unterhalb dieser genannten Daten wohl eher nicht zu diesem Programm
-greifen sollte (das ist kein absoluter Ausschluss, sondern lediglich
-eine Grenze aus praktischer Erfahrung).
-</para></listitem>
-      </varlistentry>
       <varlistentry>
         <term><emphasis>
           Warum gibt es keine senkrechten Elemente?
@@ -5295,53 +4895,33 @@ eine Grenze aus praktischer Erfahrung).
   <listitem><para>
 Das Aussehen dieses Programms lehnt sich sehr stark
 an das Vorbild an, wie es bei der Deutschen Bahn AG noch immer weit
-verbreitet ist. Dort ist es Usus, den Streckenverlauf waagerecht
-darzustellen (aus dem einfachen Grund: Ein Stellwerk bildet die
+verbreitet ist. Dort ist es üblich, den Streckenverlauf waagerecht
+darzustellen, auch wenn sich Strecken teilen und diese z.B. in einem
+90-Grad-Winkel zueinander verlaufen. Ein Stellwerk bildet die
 vorbeilaufende Strecke ab, und die bildet nun mal keinen Kreis wie auf
-der Modellbahn), auch wenn sich Strecken teilen und diese z.B. in einem
-90-Grad-Winkel zueinander verlaufen. So gibt es mehr Ordnung auf der
-Anzeigentafel, das Auge kann die Anzeigen besser und schneller erkennen.
+der Modellbahn. So gibt es mehr Ordnung auf dem Stelltisch und
+das Auge kann die Anzeigen besser und schneller erkennen.
 </para></listitem>
       </varlistentry>
       <varlistentry>
         <term><emphasis>
           Wird es dennoch eine Modellbahn-Anpassung durch
-senkrechte Elemente
-geben?
+senkrechte Elemente geben?
         </emphasis></term>
   <listitem><para>
-Das kommt auf die weiteren Änderungen im Code an.
-Sollte sich da keine nennenswerten weiteren Widrigkeiten auftun, werde
-ich die senkrechten Elemente mit aufnehmen.
-
-</para></listitem>
-      </varlistentry>
-      <varlistentry>
-        <term><emphasis>
-          Wird es weitere sowie spezielle Elemente geben?
-        </emphasis></term>
-  <listitem><para>
-Ja, ab der nächsten Version wird es voraussichtlich
-folgende Elemente geben:
-<itemizedlist>
-  <listitem><para>Vorsignale</para></listitem>
-  <listitem><para>eventuell Märklin-Digitalkran</para></listitem>
-  <listitem><para>ins Gleisbild integrierte Bahnhofsuhr</para></listitem>
-  <listitem><para>senkrechte Elemente</para></listitem>
-</itemizedlist>
+Das kommt auf die weitere Entwicklung an. Ein primäres Ziel ist es
+derzeit nicht.
 </para></listitem>
       </varlistentry>
       <varlistentry>
         <term><emphasis>
           Wie erfahre ich, ob es eine neue Version von
-&raquo;SpDrS60 for Linux&laquo; gibt?
+&raquo;SpDrS60 für Linux&laquo; gibt?
         </emphasis></term>
   <listitem><para>
-Am besten melde man sich über die
-Linux-Modellbahn-Seiten http://www.linux-modellbahn.de/ mit einem kurzen
-Formular bei mir. Alle angemeldeten User erhalten dann als erste eine
-Mitteilung, wenn eine neue Version vorliegt. Etwas später erfolgt die
-Mitteilung über die DDL-Mailingliste.
+Am besten meldet man sich auf den Mailinglisten unter <ulink
+url="http://spdrs60.sourceforge.net/">http://spdrs60.sourceforge.net/</ulink>
+an.
 </para></listitem>
       </varlistentry>
       <varlistentry>
@@ -5351,30 +4931,10 @@ Stellung als im Programm?
         </emphasis></term>
   <listitem><para>
 Das lä&szlig;t sich konfigurieren. Man stecke dazu
-entweder die beiden Weichenanschlüsse am Dekoder um oder - wenn das
+entweder die beiden Weichenanschlüsse am Decoder um oder - wenn das
 nicht oder nur mühsam geht - benutze über die Elementeigenschaften die
-Option &raquo;xch conn&laquo;, damit werden die Anschlüsse elektronisch
+Option &raquo;Vertauschen&laquo;, damit werden die Anschlüsse elektronisch
 vertauscht.
-</para></listitem>
-      </varlistentry>
-      <varlistentry>
-        <term><emphasis>
-          Warum lassen sich meine mit zwei Antrieben
-versehenen Weichen nicht korrekt ansteuern?
-        </emphasis></term>
-  <listitem><para>
-Dies liegt an einem Bug in Version 0.2, der in der
-neueren Version 0.2.1 beseitigt wurde. Bitte nur noch diese Version
-benutzen. Aber auch mit der neuen Version kann es zu Unstimmigkeiten
-kommen. Das liegt aber daran, dass das Anbringen von Weichenantrieben je
-nach Hersteller unterschiedlich ausfallen kann. Ich habe mich aber auf
-eine Art der Anbringung konzentriert (bei DKW/EKW diagonales Anbringen
-je ein Antrieb auf einer Seite, Dreiwegweichen erster Abzweig links,
-zweiter Abzweig rechts), so dass es zu Abweichungen kommen kann. Ich
-kann in der bereinigten Version 0.2.1 nicht alles berücksichtigen. Es
-wird ab der nächsten Version ein Tauschen der Anschlüsse möglich sein,
-so dass man dann alle Weichen aller Hersteller richtig herum ansteuern
-kann.
 </para></listitem>
       </varlistentry>
       <varlistentry>
@@ -5384,65 +4944,27 @@ Kreuzungen manchmal nicht?
         </emphasis></term>
   <listitem><para>
 Auch hier zeigen sich die DKWs mit nur einem Antrieb
-als die problematischeren Kandidaten für eine GBS-Programmierung. Für
+als die problematischeren Kandidaten für eine Gleisbild-Programmierung. Für
 jedes Element ist nur ein Rückmeldekontakt einstellbar, obwohl hierfür
-eigentlich 2 passender wären. Aber dafür müsste ich extra noch die
-Datenstruktur für alle Elemente aufblasen, was nicht besonders
-ökonomisch ist. Bei besetztem Gleis nimmt daher das Element immer an,
+eigentlich 2 passender wären. Aber dafür müsste man die
+Datenstruktur für alle Elemente ergänzen, was nicht besonders
+ökonomisch wäre. Bei besetztem Gleis nimmt daher das Element immer an,
 dass sich der Zug auf dem waagerechten Gleis bei Kreuzung links oder
 rechts oder auf dem links-diagonalen Gleis bei Hosenträgerkreuzugen
 befindet. In 50% der Fälle wird also das falsche Gleis angezeigt.
 Abhilfe: Bitte die LED-Anzeige für derartige Elemente ausschalten
-(Elementeigenschaften -&gt; LEDs off).
-</para></listitem>
-      </varlistentry>
-      <varlistentry>
-        <term><emphasis>
-          Wieso funktioniert die Ansteuerung der digitalen
-Märklin-Drehscheibe nicht?
-        </emphasis></term>
-  <listitem><para>
-Erst ab der Version 0.3.2 ist die Steuerung korrekt
-programmiert, bitte diese Version besorgen.
-</para></listitem>
-      </varlistentry>
-      <varlistentry>
-        <term><emphasis>
-          Das Programm startet nicht, ich bekomme
-Fehlermeldung &raquo;cannot find libstdc.2.so&laquo;
-        </emphasis></term>
-  <listitem><para>
-Es fehlt die Laufzeitbibliothek
-&raquo;libstdc.2.so&laquo;, in der die elementaren C++-Funktionen abgelegt
-sind. Bitte nachinstallieren (bei SuSE 7.x das Paket lipgpp aus der
-Serie d).
+(Elementeigenschaften -&gt; LEDs aus).
 </para></listitem>
       </varlistentry>
       <varlistentry>
         <term><emphasis>
           Warum zeigen alle S88-Module in der Modulübersicht
-die &raquo;Adresse&laquo; der Loks an?
+eine Lok-&raquo;Adresse&laquo; an?
         </emphasis></term>
   <listitem><para>
-Bisher gibt es noch keine S88-Resource-Datei. Erst
-wenn diese vorhanden ist, kann dem Programm dauerhaft mitgeteilt werden,
-bei welchem Modul es sich um ein Adressmodul handelt; und dann zeigt
-auch nur dieses Modul die Adresse an, keine Portstati mehr. Bis dahin
-der umgerechnete Dezimalwert der Ports. Man muss sich z.Zt. daher auch
-selber merken, welche Nummer das Adressmodul hat.
-</para></listitem>
-      </varlistentry>
-      <varlistentry>
-        <term><emphasis>
-          Warum werden manche Sachen in der Hilfe nicht dort
-beschrieben, wo man sie erwartet?
-        </emphasis></term>
-  <listitem><para>
-Aufgrund der vielen neuen Funktionen im Programm ist
-die alte Struktur der Hilfedatei überfällig geworden. Dies ist mir in
-letzter Zeit im klarer geworden, das werde ich ebenfalls mit der neuen
-Version verbessern, da aufgrund der Implementierung der
-Fahrstra&szlig;eneingabe sowieso ein gro&szlig;e Überarbeitung ansteht.
+Es gibt bisher keine Möglichkeit, den Anzeigemodus für
+S88-Rückmeldemodule zu konfigurieren. Zur Zeit wird daher sowohl die
+EDiTS-Adresse als auch der Belegtstatus der Anschüsse wiedergegeben.
 </para></listitem>
       </varlistentry>
       <varlistentry>
@@ -5452,30 +4974,22 @@ Fahrstra&szlig;eneingabe sowieso ein gro&szlig;e Überarbeitung ansteht.
 (ESTW)?
         </emphasis></term>
   <listitem><para>
-Zunächst einmal ist dieses Programm geplant und
-ausgeführt auf der Basis des guten alten Drucktasten-Stellwerkes. Das
-macht optisch was her, und viele kennen es irgendwoher. Anders bei den
-elektronischen Dingern. Grundsätzlich könnte man nachdenken, ob man die
-Elemente in diesem Prog nicht nach modernerem Vorbild gestaltet. Aber
-mal ehrlich: es fehlt noch soviel an Bedienung an diesem Programm, da
-habe ich z.Zt. Überhaupt keinen Nerv, mich um andere Gleisbilder zu
-kümmern. Wenn wirklich mal alles fertig ist, kann man darüber nachdenken
-- aber momentan: No way!
+Zunächst einmal ist dieses Programm auf der Basis des originalen
+Drucktasten-Stellwerkes geplant und ausgeführt. Das hat eine ansprechende
+Visualisierung mit hohem Bekanntheitsgrad; bei den elektronischen
+Stellwerken ist das anders. Grundsätzlich wäre es möglich, die
+Elemente in diesem Programm nach modernerem Vorbild zu gestalten, aber
+ein wirklich Bedarf dafür besteht nicht.
 </para></listitem>
       </varlistentry>
       <varlistentry>
         <term><emphasis>
-          Wieso werden Vorsignal nur einzeln, statt zusammen
+          Wieso werden Vorsignale einzeln, statt zusammen
 mit ihren Hauptsignalen angesteuert?
         </emphasis></term>
   <listitem><para>
-Eigentlich hätte ich dies auch schon früher
-realisieren können. Aber ich wollte Vr erst dann erstellen, wenn auch
-die automatische Hauptsignalsteuerung mit dabei ist, die aber zu
-programmieren braucht Zeit, andere wichtigen Features gingen vor. So ist
-es auch jetzt, aber da die meisten gro&szlig;en Sachen jetzt fertig
-programmiert sind, wird es zu einer derartigen Realisierung nicht mehr
-lange dauern.
+Die Verbesserung dieser Funktion ist als weitere Entwicklung eingeplant,
+hat aber eine geringe Priorität.
 </para></listitem>
       </varlistentry>
       <varlistentry>
@@ -5543,7 +5057,7 @@ Schaltbare Elemente haben ein Beschriftungsfeld, worin im Vorbild z.B.
 die Weichennummer (W001) oder die Signalbezeichnung (P1) unterkommt. Man
 entscheide sich hier zwischen der Darstellung dieser vorbildnahen
 Einträge (sofern sie im Textfeld der Elementeigenschaften eingetragen
-wurden) oder einfach der Dekoderadresse, an dem der Antrieb
+wurden) oder einfach der Decoderadresse, an dem der Antrieb
 angeschlossen ist.
 </para>
 <para>
@@ -5598,7 +5112,7 @@ Schlie&szlig;en der Optionen zu folgender Fehlermeldung:
 <para>
 Im obersten Bereich kann man das Protokoll wählen,
 welches man standardmä&szlig;ig bei den Elementeigenschaften
-eingeblendet haben will. Auch der entsprechende Dekoder ist hier
+eingeblendet haben will. Auch der entsprechende Decoder ist hier
 voreinstellbar. Zweckmä&szlig;igerweise wählt man an beiden Punkten
 diejenigen Eigenschaften aus, die bei einem gemischten Betrieb am
 häufigsten vorkommt. Auch die Aktivierungszeit jedes einzelnen Ausgangs
@@ -5723,7 +5237,7 @@ Fenster zum Schalten von Antrieben:
 <para>
 In der Zeile gebe man die Nummer des Antriebes ein und
 klicke dann auf der dem Ausgang entsprechenden farbigen Taste
-entsprechend dem Ausgangskontakt am Dekoder.
+entsprechend dem Ausgangskontakt am Decoder.
 </para>
 <para>
 <emphasis>ACHTUNG:</emphasis> Es wird lediglich überprüft, ob die
@@ -5744,8 +5258,7 @@ wissen, wie er damit umzugehen hat (verwerfen).
 <sect2 id="sect-bugs">
   <title>Bekannte Programmfehler</title>
 <para>
-Bisher gibt es die folgenden mir bekannten Fehler, die ich
-noch nicht beheben konnte:
+Die folgenden Fehler sind bekannt:
 <itemizedlist mark="bullet">
   <listitem><para>Liegt auf einer Fahrstraße eine Kreuzung,
 dann können über diese Kreuzung zwei Fahrstraßen aktiviert werden (von denen
@@ -5755,65 +5268,299 @@ keine Prüfung statt, ob sie schon durch andere Fahrstraßen benutzt werden.
 Eventuell muss dies bis auf weiteres durch Aktivieren von (Flankenschutz-)
 Weichen in der Umgebung der Kreuzung verhindert werden.</para></listitem>
   <listitem><para>Wird eine Fahrstraße aktiviert, die als
-Flankenschutzweiche eine Weiche enthält, die zum Aktivierungszeitpunkt
+Flankenschutzweiche eine Weiche enthält, welche zum Aktivierungszeitpunkt
 bereits in einer anderen aktiven Fahrstraße enthalten ist, dann wird diese
 Flankenschutzweiche grafisch de-routed, d.h. die LED in der
 Weichenwurzel wird dadurch deaktiviert.</para></listitem>
   <listitem><para>Wenn man mit dem Schnelleditor ein
 Element über den Repeat-Modus einfügt, welches drehbar sein sollte, dann
-ist es nicht über den Kontext drehbar. Man sollte dann einmal auf das
+ist es nicht über das Kontextmenü drehbar. Man sollte dann einmal auf das
 Element linksklicken und direkt danach Okay im Eigenschaften-Fenster,
 dann werden die entsprechenden Bits richtig gesetzt und es kann danach
 gedreht werden. Da man aber im Normalfall sowieso noch Rückmeldekontakte
 eintragen muss, wird diese Notwendigkeit kaum ins Gewicht
 fallen.</para></listitem>
   <listitem><para>Der Rückmeldemodul-Melder in den
-Element-Eigenschaften kann alle Module auswählbar machen, auch die, die
-laut Optionen eigentlich an einem Bus nicht vorhanden
+Element-Eigenschaften kann alle Module auswählbar machen, auch solche,
+welche laut Optionen eigentlich an einem Bus nicht vorhanden
 sind.</para></listitem>
 </itemizedlist>
 </para>
 </sect2>
 
-<sect2 id="sect-ausblick">
-  <title>Ausblick auf zukünftige Entwicklungen</title>
+
+<sect2 id="sect-filestructure">
+  <title>Aufbau der Gleisbilddatei</title>
+
 <para>
-Für den Frühsommer 2001 war die Aufnahme des DDL-Projektes
-mit den verschiedenen Teilprogrammen in die SuSE-Distribution
-vorgesehen. Leider habe ich bisher noch nichts weiteres davon gehört, in
-dem Release 7.3 war jedenfalls nichts enthalten. Mal sehen, was draus
-wird.
+Die folgenden Informationen sind nicht zwangsweise für die
+Benutzung des Programms notwendig. Sie enthalten detailliertere
+Beschreibungen zu einigen Vorgängen, Dateiaufbauten etc., für den Fall,
+dass die Gleibilddatei mit einem Texteditor bearbeitet werden soll.
+</para>
+    
+<para>
+Die Gleisbilddateien sind in drei inhaltlich getrennte Bereiche
+aufgeteilt:
+</para>
+<itemizedlist mark="bullet">
+  <listitem><para>Im ersten Bereich befindet sich der Dateikopf, der
+  Informationen über Formatversion, das Datum der letzten Änderung u.ä.
+  enthält.</para></listitem>
+  <listitem><para>Der zweite Block enhält die Beschreibung für das
+  eigentliche Gleisbild mit den Daten für die einzelnen Elemente.
+</para></listitem>
+  <listitem><para>Im dritten Block folgt die Auflistung der
+  konfigurierten Fahrstraßen.
+</para></listitem>
+</itemizedlist>
+
+<para>
+Zeilen, die durch ein &apos;#&apos; eingeleitet werden, gelten als
+Kommentar und werden beim Einlesen der Datei nicht ausgewertet. Selbst
+erstellte Kommentare werden bislang beim Speichern aus dem Programm
+heraus wieder überschrieben.
+</para>
+
+<para>
+Der Dateikopf wird durch eine Kommentarzeile eingeleitet, die die Datei
+als SpDrS60-Datendatei charakterisiert. Darunter finden sich Angaben zur
+Programmversion, welche zum Speichern genutzt wurden, zum Datum der
+letzten Änderung, und zur Formatversion des hier verwendetet
+Dateiformats. Für eine zukünftige Programmversion ist die
+Gleisbildbezogene Speicherung der Serverdaten vorgesehen. Dafür gibt es
+nun schon Platzhalter.
+</para>
+
+<screen>
+# spdrs60 data file
+# version=0.4.8
+# last modified=2005-06-14T21:37:01
+formatversion;1
+cmdhost;localhost;12345;0
+fbhost;localhost;12346;0
+</screen>
+
+<para>
+Dahinter folgt der Datenbereich für das Gleisbild selbst. Eine Zeile
+beschreibt die Abmessungen (Spalten und Zeilen); dahinter werden die
+einzelnen Elemente, jeweils aufgeführt mit ihren Merkmalswerten. Leere
+Elemente werden in der Datei nicht abgespeichert.
+</para>
+
+<screen>
+# start of layout section
+%% layout
+# layout dimensions=columns;rows
+dimensions;19;10
+# start of element section
+%% element 2
+index;2
+icon;leer
+rotate;-1
+invers turnout;0
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;Linksd.
+active time;-1
+feedback port;1;-1
+hide LEDs;-1
+%% element 3
+index;3
+icon;leer
+rotate;-1
+invers turnout;0
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;nach
+active time;-1
+feedback port;1;-1
+hide LEDs;-1
+</screen>
+    
+<para>Jedes Element wird mit der Kennung &raquo;%% element
+  &lt;nr&gt;&raquo; eingeleitet. Die Indexnummer hat hier nur informellen
+Charakter und wird beim Lesen der Datei nicht ausgewertet. Die folgenden
+Zeilen enthalten die Daten der Glesibildelemente in der Form:
 </para>
 <para>
-Dieses Programm stellt nur den Anfang eines leistungsfähigen Programms
-dar. Ich arbeite derweil schon mit Hochdruck an verbesserten Versionen,
-um der (zugegebenerma&szlig;en kommerziellen) Konkurrenz vorneweg zu
-sein. Das DDL-Projekt ist bisher das erste und einzige unter Linux
-lauffähige Projekt zur Steuerung der digitalen Modelleisenbahn. Ich
-hoffe, dass wir alle zusammen bald ein so leistungsfähiges Werkzeug
-zusammenkriegen, damit wir damit auch genug Leute erreichen. Vor allem
-der Kostenfaktor ist hier wohl entscheidend. Leider gibt es eine
-kommerzielle Anwendung, die ihr bisher auf Windows veröffentlichtes
-Steuerprogramm im Frühjahr 2002 auch auf Linux übertragen will.
+<screen>
+schlüssel;wert1;wert2;wert3
+</screen>
 </para>
 <para>
-Zur Zeit werden keinerlei Prognosen über die weitere Entwicklung
-abgegeben, da immer noch der Hausbau (Nacharbeiten im Innenausbau +
-Garten) noch Vorrang hat. Bisher habe ich immer die Termine angekündigt,
-aber nicht einhalten können.
+Die Anzahl der Wertangaben pro Schlüssel ist dabei variabel und abhängig
+von der Art des Schlüssels. Die Reihenfolge der Schlüssel ist beliebig,
+ein und der selbe Schlüssel darf aber pro Fahrstraßenabschnitt nur
+einmal genutzt werden.
 </para>
 <para>
-Ich kann nur allen Usern versichern, dass ich sobald wie möglich die
-Arbeit versuche aufzunehmen.
+Die erste Datenzeile enthält die Indexnummer des entsprechenden
+Elements. Diese Zahl ist für die Positionierung des Elements
+innerhalb des Gleisbilds verantwortlich. Die Nummerierung erfolgt
+spaltenweise von links oben nach rechts unten. Diese Nummer stimmt
+mit der Zahl überein, die über eine kleine Tooltip-Hilfe bei einer
+geladenen Gleisbilddatei angezeigt wird. So kann man notfalls recht
+schnell den entsprechenden Eintrag in der Datei finden und dort manuell
+Änderungen vornehmen. Es ist nicht notwendig, dass die Elemente
+nach dieser Nummer sortiert aufgelistet werden.
+Spätestens beim Speichern einer Datei wird die richtige Reihenfolge
+wieder hergestellt.
+</para>
+<para>Es folgt der Name des Symbols, das angezeigt werden soll, danach
+ein Eintrag, ob das Symbol um 180° verdreht abgebildet ist oder nicht.
+Es schlie&szlig;t sich der Invers-Wert an (<emphasis>ACHTUNG:</emphasis>
+Ein Eintrag hier ist noch völlig irrelevant, da die Anzeige
+programmiertechnisch noch nicht umgesetzt ist; Ausnahme: Leer-Element).
 </para>
 <para>
-Danach sind die wirklich wichtigsten und elementarsten Eigenschaften
-einer Gleisbildsteuerung realisiert, danach kann es an weitere kleinere
-Details gehen. Diese Angaben sind nicht verbindlich, man darf mich also
-nicht darauf festnageln, wann und wieso oder nicht oder warum etwas in
-einer Version kommt. Wenn diese Sachen alle realisiert sind und stabil
-laufen, wird also relativ bald (in ca. 1 bis 1 1/2 Jahren) eine Version
-1.0 dieses Programms erscheinen können.
+Es folgt der Decoder-Typ und anschließend das Protokoll, hier
+steht entweder der Wert &raquo;M&laquo; für Märklin-Decoder oder
+&raquo;N&laquo; für DCC-Decoder zur Verfügung. Eine -1 hei&szlig;t wieder,
+dass dieser Wert für das zugehörige Symbol irrelevant ist.
+</para>
+<para>
+Die Adresse des Symbols belegt die nächste Zeile. Zugelassen sind Werte
+von &raquo;1&laquo; bis &raquo;324&laquo; bei M-Decodern bzw.
+&raquo;1&laquo; bis &raquo;4096&laquo;
+bei N-Decodern. Die Richtung des Antriebs wird auch gespeichert, damit
+man nach dem Ausschalten der Anlage wieder den in der Datei
+gespeicherten Zustand herstellen kann. Für Weichen oder Signale mit mehr
+als 1 Antrieb folgt noch die Adresse des zweiten Antriebs. Diese kann,
+muss aber nicht auf die Adresse 1 unmittelbar folgend sein.
+</para>
+<para>Mit den Schlüsselwörtern &raquo;change conn&laquo; können die zwei
+Anschlüsse eines Decoderausganges
+elektronisch getauscht werden, wenn hier eine &raquo;1&laquo; steht.
+Der Subtype legt die Unterklassierung einiger Elemente, z.B. bei
+Signale fest. Es folgt die Textzeile, dann die Aktivierungszeit für
+einen Ausgang.
+</para>
+<para>Die nächste Zeile enthält die Daten für die
+  Rückmeldung. Diese sind hier allerdings nicht in der Form Modul-Nr. und
+  Anschluß-Nr. abgelegt, vielmehr werden alle Rückmeldeeingänge fortlaufend
+durchgezählt. Demnach hat Anschluß 3 von Modul 2 den Eintrag 19.
+</para>
+<para>Zuletzt erscheint der Eintrag, mit dem man bei manchen
+  Elementen die LED-Anzeige abschalten kann.</para>
+
+<para>
+Wenn die Beschreibung aller Gleisbildelemente abgeschlossen ist, folgt
+der Abschnitt für die Fahrstraßen. Er wird durch Kommentarzeilen
+eingeleitet, in denen auch die Anzahl der Fahrstraßen festgehalten ist.
+Dieser Zahlenwert hat aber an dieser Stelle nur informellen Charakter
+wird im Programm beim Lesen der Datei nicht ausgewertet.
+</para>
+
+<screen>
+# start of route section
+# routes=48
+%% route 1
+name;a3
+to signal;1;32
+from signal;1;21;2
+release port;1;0
+activate port;1;0
+active by loco;1;0
+type;0;0 
+switch x to y;1;3;1
+switch x to y;1;22;1
+switch x to y;1;2;3
+switch x to y;1;1;0
+switch x to y;1;23;0
+switch x to y;1;30;0
+%% route 2
+name;f3
+to signal;1;31
+from signal;1;15;2
+release port;1;0
+activate port;1;0
+active by loco;1;0
+type;0;0
+switch x to y;1;6;1
+switch x to y;1;5;2
+switch x to y;1;4;1
+switch x to y;1;14;1
+switch x to y;1;24;0
+switch x to y;1;25;0
+switch x to y;1;33;0
+switch x to y;1;13;0
+</screen>
+<para>
+Der Datenabschnitt einer Fahrstraße wird durch die Kennung &raquo;%%
+route &lt;nr&gt;&raquo; eingeleitet. Die Indexnummer hat hier nur informellen
+Charakter und wird beim Lesen der Datei nicht ausgewertet. Die folgenden
+Zeilen enthalten die Daten der Fahrstraße in der Form:
+</para>
+<screen>
+schlüssel;wert1;wert2;wert3
+</screen>
+<para>
+Die Anzahl der Wertangaben pro Schlüssel ist dabei variabel und abhängig
+von der Art des Schlüssels. Die Reihenfolge der Schlüssel ist beliebig,
+ein und der selbe Schlüssel darf aber pro Fahrstraßenabschnitt nur
+einmal genutzt werden. Die Anzahl der Fahrstraßen ist weitgehend
+beliebig und nur durch den verfügbaren Programmspeicher begrenzt.
+</para>
+<para>
+In der ersten Datenzeile steht der Name der Straße, wie er in der
+Fahrstraßen-Übersicht angezeigt wird. Es folgt die Adresse des
+Zielsignals mit der zugehörigen SRCP-Busnummer, sowie die Adresse des
+Startsignals mit einer zusätzlichen Information über den beim Schalten
+anzusteuernden Status.
+</para>
+<para>
+Die nächsten beiden Zeilen enthalten die Daten für das per Rückmeldung
+automatisch gesteuerte Auflösen bzw. Einstellen der Fahrstraße. Der
+erste Zahlenwert gibt den in fortlaufender Nummerierung gezählten
+Rückmeldekontakt (1 bis 1984) an. Die Berechnung dieses Wertes erfolgt
+gemäß folgender Formel:
+</para>
+<para>
+<quote>
+16 x Modulnummer + Anschlussnummer des Kontakts an diesem Modul - 1
+</quote>
+</para>
+<para>
+Der zweite Zahlenwert (0 oder 1) steuert die Auswahl zwischen Belegt-
+und Freimeldung zur Auslösung dieses Schaltvorgangs. 
+</para>
+<para>
+Existieren außer Start- und Zielsignal weitere Antriebe, die geschaltet
+werden müssen, dann folgen diese Daten in den folgenden
+Zeilen. Die Anzahl dieser Zeilen ist prinzipiell unbegrenzt. In der
+Datenzeile findet man hier den SRCP-Bus, die Adresse und Richtungswert,
+auf den dieser Antrieb in der Fahrstra&szlig;e eingestellt wird.
+Bei Elementen mit einem Antrieb sind hier die Werte 0 und 1, bei solchen
+mit zwei Antrieben die Werte 0, 1, 2 oder 3 verfügbar.
+Welcher Wert hier sinnvollerweise eingegeben werden kann, ist der
+Übersichtstabelle der schaltbaren Symbole zu entnehmen.
+</para>
+<para>
+<emphasis>ACHTUNG:</emphasis>
+</para>
+<para>
+Einige Elemente besitzen zwei Adressen, z.B. die Doppelten
+Kreuzungsweichen. Bei diesen ist zu beachten, dass hier immer die erste
+Adresse eingegeben werden muß.
+</para>
+<para>
+Hat ein Element mehr als einen Antrieb, dann wird bei einem
+Richtungswert &gt;= 2 automatisch unter Zuhilfenahme der zweiten Adresse
+der richtige Befehl berechnet, d.h. diese Adresse ist nur für das Programm
+interessant, nicht für den Anwender im Falle der Fahrstraßen-Programmierung.
 </para>
 </sect2>
 
@@ -5822,7 +5569,13 @@ laufen, wird also relativ bald (in ca. 1 bis 1 1/2 Jahren) eine Version
 <para>Als weiterführende Literatur zum Thema sei dem Interessierten
 folgendes Buch wärmstens empfohlen:</para>
 <para>F. Hein, Sp Dr 60-Stellwerke bedienen, Teil A - im Regelbetrieb,
-    Eisenbahn-Fachverlag, EUR&nbsp;44,-, ISBN 3-9801093-0-5</para>
+    Eisenbahn-Fachverlag, EUR&nbsp;44,-, ISBN 3-9801093-0-5
+</para>
+<para>
+Im Internet wird man unter
+<ulink url="http://www.stellwerke.de/">http://www.stellwerke.de/</ulink>
+fündig.
+</para>
 </sect2>
 
 <sect2 id="sect-copyright">
