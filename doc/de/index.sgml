@@ -1929,16 +1929,17 @@ Gleisbilds (Anzahl der Spalten und Zeilen) einzugeben.
 Dazu benutzt man entweder die Pfeiltasten neben der Ziffernanzeige oder
 markiert zunächst den Text in der Ziffernanzeige, um dann die neue Zahl
 einzutippen. Der gültige Bereich liegt für die Spaltenanzahl zwischen
-minimal vier und maximal 70; für die Zeilenanzahl zwischen minimal vier
-und maximal 110. Dieses Beschränkung ergibt sich zum einen durch das
-zugrundeliegende X-Window-System und zum anderen durch das
-programmtechnisch zur Anzeige des Gleisbilds genutzte Softwaremodul.
-Explizit liegen die unter diesen Bedingungen nicht überschreitbaren
-Grenzen bei 4000 x 4000 Pixeln. Da jedes Element einen Platzbedarf
-von 56 x 35 Pixeln hat (im Original 54 x 34&nbsp;mmm plus Spaltmaß),
-resultiert rechnerisch eine maximale Gleisbildgröße von
-71&nbsp;Spalten und 114&nbsp;Zeilen.
-Für die meisten Gleisbilder sollten diese Grenzen jedoch keine relevante
+minimal vier und maximal 120; für die Zeilenanzahl zwischen minimal vier
+und maximal 30, was der maximalen Höhe einer originalen SpDrS60-Stelltafel
+entspricht. Dieses Beschränkung ergibt sich zum einen durch das
+zugrundeliegende X-Window-System und zum anderen durch die
+programmtechnisch zur Anzeige des Gleisbilds genutzten Softwaremodule.
+Der Speicherbedarf des Programms liegt unter Ausreizung dieser
+Grenzenwerte bei knapp. 60&nbsp;MB.
+Jedes Element benötigt 56 x 35 Pixel (im Original 54 x 34&nbsp;mm),
+so dass mit diesen Grenzwerten im Verhältnis zu gängigen
+Bildschirmgrößen schon recht stattliche Abbildungen entstehen. Für die
+meisten Gleisbilder sollten diese Grenzen daher keine wirklich relevante
 Einschränkung darstellen. Der Speicherbedarf für die Elemente wird dynamisch
 belegt, richtet sich also nach der tatsächlichen Größe der Darstellung.
 </para>
@@ -1967,7 +1968,7 @@ Gleisbildbearbeitungsmodus umschaltet.
   <title>Laden</title>
 
 <para>
-      Ein Gleisbild kann auf durch drei Bedienvarianten geladen werden:
+      Ein Gleisbild kann durch drei Bedienvarianten geladen werden:
 <itemizedlist mark="bullet">
   <listitem><para>Über das Tastaturkürzel
 <keycap>Strg-O</keycap></para></listitem>
@@ -3508,8 +3509,8 @@ werden müssen, dennoch sind dafür Bedienmöglichkeiten vorhanden.
 Wurden die Tasten gedrückt, dann laufen zunächst alle beteiligten
 Weichen in die erforderliche neue Lage und werden dort verriegelt. Die
 Fahrstra&szlig;e wird auf dem Stelltisch mit gelben Lampen ausgeleuchtet,
-damit man den gestellen Fahrweg direkt erkennen kann. Danach erst
-schaltet sich das Startsignal auf Fahrt (Hp 1 oder Hp 2), und der Zug
+damit man den gestellen Fahrweg direkt erkennen kann. Danach erst schaltet
+sich das Startsignal auf Fahrt (Hp&nbsp;1 oder Hp&nbsp;2), und der Zug
 kann losfahren; dabei meldet er über Gleismeldekontakte seine Position
 an den Stelltisch, der diese durch Ausleuchten der Fahrstra&szlig;e mit
 roten Lampen anzeigt. Wenn der Zug das Zielsignal passiert hat, wird
@@ -3524,18 +3525,17 @@ Nach dieser kurzen Zusammenfassung des wirklichen Geschehens nun zur
 Realisierung auf der Modellbahn und in diesem Programm.
 </para>
 <para>
-Das Gleichzeitige Drücken von zwei Tasten oder Klicken von Elementen ist
-an einem Computerbildschirm nicht so ohne weiteres möglich. Die
-wenigsten Anwender werden im Besitz eines Touchscreens sein, so dass
-diese Bedinoption ausscheidet. Also bleibt nur das Arbeiten mit der
-Maus. Das kann allerdings nur sequentiell erfolgen und nie parallel.
-Ansonsten ist alles sehr
-ähnlich: die Weichen werden hintereinander angesteuert, das Startsignal
-wird zuletzt auf Fahrt gestellt, und die Fahrstra&szlig;e wird mit
-gelben Lampen angezeigt. Auch die manuelle Rücknahme von
-Fahrstra&szlig;en ist hiermit möglich, denn der Bediener kann sich
-ja mal vertun. Außerdem könnte ein technischer Defekt einen Zug am Abfahren
-hindern und die eingestellte Fahrstraße einen anderen Zug blockieren.
+Das gleichzeitige Drücken von zwei Tasten oder Klicken auf
+Elementsymbole ist an einem Computerbildschirm nicht so ohne weiteres
+möglich. Die wenigsten Anwender werden im Besitz eines
+berührungssensitiven Bildschirms sein, so dass diese Bedienoption
+ausscheidet. Es bleibt das Arbeiten mit der Maus, welches allerdings
+nur sequentiell erfolgen kann und nie parallel.
+Ansonsten ist alles sehr ähnlich: Die Weichen werden hintereinander
+angesteuert, das Startsignal wird zuletzt auf Fahrt gestellt, und die
+Fahrstra&szlig;e wird in gelber Ausleuchtung angezeigt. Auch die
+manuelle Rücknahme von Fahrstra&szlig;en ist mit diesem Bedienkonzept
+möglich.
 </para>
 </sect2>
   
@@ -3544,12 +3544,10 @@ hindern und die eingestellte Fahrstraße einen anderen Zug blockieren.
 <sect3>
   <title>Fahrstra&szlig;e einstellen</title>
 <para>
-Es sei der Einfachheit angenomme, dass sämtliche Fahrstra&szlig;endaten
-zu einem Gleisbild schon vorliegen
-(näheres hierzu siehe unter Punkt &raquo;Eingabe&laquo;). Das ist
-z.B. bei den meisten mitgelieferten Gleisbilddateien wie
-<filename>bahnhof_klein.dat.gbs</filename> der Fall. Aus
-dieser Datei ist auch das Beispiel in <xref linkend="abb-routing1"> entnommen.
+Dem Programmpaket liegen einige Beispielgleisbilder bei, an denen sich
+das Einstellen von Fahrstraßen gut üben läßt. Für die folgenden
+Abbildungen dient die Datei <filename>bahnhof_klein.dat.gbs</filename>
+als Vorlage.
 </para>
 <para>
 <figure id="abb-routing1">
@@ -3560,15 +3558,15 @@ dieser Datei ist auch das Beispiel in <xref linkend="abb-routing1"> entnommen.
 </figure>
 </para>
 <para>
-Man erkennt hier einen Gleisbild-Ausschnitt, indem die
+In <xref linkend="abb-routing1"> erkennt man einen Gleisbild-Ausschnitt,
+indem die
 Fahrstra&szlig;e von (Start-)Signal 5 nach (Ziel-)Signal 1 geschaltet
 werden soll. Dazu klickt man zuerst auf die Zugstraßentaste (rot) des
-Startsignals und innerhalb eines 5-Sekunden-Zeitraums auf die
-Zugstraßentaste des Zielsignals. Man erkennt dann, wie die
+Startsignals und dann innerhalb eines 5-Sekunden-Zeitraums auf die
+Zugstraßentaste des Zielsignals. Anschließen kann man verfolgen, wie die
 für die Fahrstra&szlig;e benötigten Weichen in die richtige Stellung
-laufen. Sind alle Weichen gestellt,
-wird die Fahrstra&szlig;e optisch angezeigt, was in
-<xref linkend="abb-routing2"> dargestellt ist.
+laufen. Sind alle Weichen gestellt, wird die Fahrstra&szlig;e in
+gelber Ausleuchtung angezeigt (<xref linkend="abb-routing2">).
 </para>
 <para>
 <figure id="abb-routing2">
@@ -3579,12 +3577,12 @@ wird die Fahrstra&szlig;e optisch angezeigt, was in
 </figure>
 </para>
 <para>
-Man erkennt weiterhin als Unterschied zum ersten Bild kleine
-gelb ausgefüllte Kreise an den Weichen (Verschlußmelder) und an den
-Signalen (Sperrmelder). Diese zeigen an, dass der
-entsprechende Antrieb in einer aktivierten Fahrstra&szlig;e benötigt
-wird und deshalb nicht durch die Weichengruppentaste (WGT) oder durch eine
-andere Fahrstra&szlig;e, gestellt werden kann.
+Man erkennt weiterhin als Unterschied zum ersten Bild kleine gelb
+ausgefüllte Kreise an den Weichen (Verschlußmelder) und an den
+Signalen (Sperrmelder). Diese zeigen an, dass der entsprechende Antrieb
+in einer aktivierten Fahrstra&szlig;e benötigt wird und deshalb nicht
+durch die Weichengruppentaste (WGT) bzw. die Signalgruppentaste (SGT)
+oder durch eine andere Fahrstra&szlig;e gestellt werden kann.
 Wird dieses dennoch versucht, gibt es eine Fehlermeldung in der
 Kommando-Historie.
 </para>
@@ -3601,9 +3599,10 @@ Fahrstra&szlig;e zugehörig gekennzeichnet.
 <sect3>
   <title>Zugbewegungen</title>
 <para>
-Fährt der Zug ab, kann man dies sehr schön über die
-Gleisbesetztmelder erkennen (<xref linkend="abb-routing3">), sofern
-diese installiert sind.
+Fährt der Zug ab, kann man dies bei installierten Gleisbesetztmeldern
+sehr schön über die Rotausleuchtung der Gleisabschnitte erkennen.
+<xref linkend="abb-routing3"> zeigt einen Zug, der sich gerade im
+Weichenfeld befindet.
 </para>
 <para>
 <figure id="abb-routing3">
@@ -3613,10 +3612,6 @@ diese installiert sind.
   </imageobject></mediaobject>
 </figure>
 </para>
-<para>
-Man erkennt den Zug, der sich gerade im Weichenfeld
-befindet, repräsentiert durch die roten LEDs.
-</para>
 </sect3>
 
 <sect3>
@@ -3625,7 +3620,7 @@ befindet, repräsentiert durch die roten LEDs.
 Passiert der Zug einen Rückmeldekontakt, der eine
 Fahrstra&szlig;e auflöst, so wird diese automatisch aufgelöst, d.h.
 die gelben Gleis-Lampen verlöschen. Befindet sich aus welchen Gründen
-auch immer noch ein Zug/Wagen auf den Gleisen, so wird dies natürlich
+auch immer noch ein Zug oder Wagen auf den Gleisen, so wird dies natürlich
 weiterhin angezeigt. Mit einem Rückmeldekontakt können auch mehrere
 Fahrstra&szlig;en gleichzeitig aufgelöst werden.
 </para>
@@ -3636,10 +3631,11 @@ der Rückmeldekontakt der Gleisausleuchtung im Eigenschaftsdialog des
 entsprechenden Elements eingetragen wird.
 </para>
 <para>
-Möchte man eine Fahrstra&szlig;e wegen irrtümlicher Einstellung oder weil
-sie nicht mehr benötigt wird zurücknehmen, so benutzt man die auch in
-Echt vorhandene Fahrstra&szlig;enauflösehilfstaste (FHT)
-(<xref linkend="abb-routing5">), die auf keinem Gleisbild fehlen sollte.
+Muß eine Fahrstra&szlig;e wegen irrtümlicher Einstellung, oder weil
+sie nicht mehr benötigt wird, zurückgenommen werden, so benutzt man die
+auch im Original vorhandene Fahrstra&szlig;enauflösehilfstaste (FHT)
+(<xref linkend="abb-routing5">). Diese sollte auf keinem Gleisbild
+fehlen.
 </para>
 <para>
 <figure id="abb-routing5">
@@ -3653,15 +3649,15 @@ Echt vorhandene Fahrstra&szlig;enauflösehilfstaste (FHT)
 Man klickt zunächst auf das FHT-Element und hat dann
 maximal fünf Sekunden Zeit, um wie beim Aktivieren zuerst das
 Startsignal und dann wiederum innerhalb eines 5-Sekunden-Zeitraums das
-Zielsignal anzuklicken. Als Folge davon erlöscht die gelbe
-Fahrstra&szlig;enausleuchtung (nicht jedoch die Stellungsmelder der Weichen),
-die gelben Verschlußmelder verlöschen und das Startsignal sowie eventuelle
-Rangiersignale auf dem Fahrweg springen
+Zielsignal anzuklicken. Als Folge davon erlischt die gelbe
+Fahrstra&szlig;enausleuchtung (nicht jedoch die Stellungsmelder der
+Weichen). Weiterhin verlöschen die gelben Verschlußmelder; das Startsignal
+sowie eventuelle Rangiersignale auf dem Fahrweg springen
 auf Rot. Ab jetzt sind die Weichen wieder für andere Fahrstra&szlig;en
 benutzbar oder können einzeln geschaltet werden. Möchte man sich ein
 Stück Mausbewegung sparen, drückt man zuerst die Taste
 <keycap>F5</keycap> und dann spätestens nach den erwähnten fünf Sekunden
-das erste Signal, nach weiteren max. fünf Sekunden das zweite Signal.
+das erste Signal, nach weiteren maximal fünf Sekunden das zweite Signal.
 </para>
 </sect3>
 
@@ -3685,12 +3681,12 @@ Fahrstraßentabelle&laquo; aktivieren.
 </para>
 <para>
 Es öffnet sich eine tabellarische Liste, in der alle existierenden
-Fahrstra&szlig;en aufgeführt sind. Bereits eingestellte Fahrstraßen
-erkennt man sofort an dem gelben rechteckigen Symbol in der ersten
-Spalte. Auch aus diesem Fenster heraus können die
-Fahrstra&szlig;en gestellt werden. Dazu wählt man zunächst durch einfachen
-Mausklick oder mit Hilfe der Pfeiltasten die zu stellende Straße aus.
-Ist diese noch nicht eingestellt, dann ist
+Fahrstra&szlig;en mit Namen, Startsignal, Zielsignal und Typ aufgeführt
+sind. Bereits eingestellte Fahrstraßen erkennt man sofort an dem gelben
+rechteckigen Symbol in der ersten Spalte. Auch aus diesem Fenster heraus
+können die Fahrstra&szlig;en gestellt werden. Dazu wählt man zunächst
+durch einfachen Mausklick oder mit Hilfe der Pfeiltasten die zu
+stellende Straße aus. Ist diese noch nicht eingestellt, erscheint
 das rechteckige Grafiksymbol am Anfang der Tabellenzeile grau. Durch
 einen Druck mit der Leerzeichentaste oder einen Klick auf das
 entsprechende Signalsymbol in der Werkzeugleiste wird die Straße
@@ -3710,12 +3706,14 @@ hätte man die Kombination FHT + Start- + Zielsignal benutzt.
 <para>
 Unter Umständen kann es nötig sein, alle eingestellten Fahrstra&szlig;en
 zurückzunehmen. Bei einer oder zwei eingestellten Straßen ist dies noch
-bequem über die FHT zu schaffen, bei mehreren benutzt man den Menübefehl
-&raquo;Fahrstraße -&gt; Alle zurücknehmen&laquo; (<keycap>Strg-U</keycap>).
+bequem über die FHT zu schaffen, für eine flächendeckende Anwendung
+steht der Menübefehl &raquo;Fahrstraße -&gt; Alle zurücknehmen&laquo;
+(<keycap>Strg-U</keycap>) zur Verfügung.
 </para>
 </sect3>
 </sect2>
-  
+
+
 <sect2 id="sect-fahrstrassen">
   <title>Verwaltung von Fahrstra&szlig;en</title>
 <para>
@@ -3726,100 +3724,50 @@ unabhängig vom aktuellen Anzeigemodus des Gleisbilds eingesetzt werden.
 </para>
 <para>
 Das Bearbeiten von Fahrstraßen, also sowohl das Erstellen von neuen als
-auch das Verändern oder Löschen von schon vorhandenen Fahrstraßen kann
+auch das Verändern oder Löschen von schon vorhandenen Fahrstraßen, kann
 nur im Fahrstraßenbearbeitungsmodus (<keycap>Strg-B</keycap>) geschehen.
 Diesen erkennt man in Gleisbild an den blauen Linien zwischen den
 einzelnen Elementen.
 </para>
-<sect3>
-  <title>Aufbau des Fahrstraßenbearbeitungsfensters</title>
-<para>
-Wenn sich das Gleisbild im Fahrstraßenbearbeitungsmodus befindet und in
-der Fahrstraßentabelle eine Fahrstraße ausgewählt ist, kann man über das
-Menü &raquo;Fahrstraße -&gt; Bearbeiten&laquo; das in <xref
-linkend="abb-routing8"> dargestellte Fenster öffnen.
-</para>
-<para>
-<figure id="abb-routing8">
-  <title>Dialogfenster zum Bearbeiten von Fahrstra&szlig;en</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="schnapp-routing-table-all.png">
-  </imageobject></mediaobject>
-</figure>
-</para>
-<para>
-Im linken oberen Bereich läßt sich der Name der Fahrstraße sowie das
-Start- und das Zielsignal festlegen bzw. bearbeiten. Nur am
-Startsignal gibt es ein Feld für die Signalstellung, das Zielsignal ist
-immer auf Halt, bis es selbst bei einer anderen Fahrstra&szlig;e
-zum Startsignal wird. Angezeigt wird in der Zeile &raquo;Adresse&laquo;
-die Hauptadresse des Antriebes; bei Mehrfachantriebs-Elementen
-entspricht das der Adresse 1. Im Eingabefeld &raquo;Status&laquo; ist
-der Dezimalwert der Antriebsstellung (siehe auch
-<xref linkend="tabelle-positions">) wählbar. Je nach Anzahl der Antriebe
-des Elements kann hier zwischen zwei oder vier Zuständen ausgewählt
-werden. Das Feld &raquo;Name&laquo; gibt die Klartextanzeige des
-Elementes wieder, bei Signalen also z.B. &raquo;P 1&laquo; für ein
-Ausfahrsignal. Nur die Adresse, der SRCP-Bus und der
-Status sind editierbar, der Name wird automatisch aus dem Vorrat der im
-Gleisbild verfügbaren Elemente ermittelt.
-</para>
-<para>
-Darunter befinden sich Bedienelemente zur Konfiguration des
-Automatikbetriebs. Fahrstraßen lassen sich sowohl automatisch
-einstellen, als auch automatisch auflösen. Zusätzlich ist wählbar, ob
-der Schaltvorgang bei einer Belegtmeldung oder bei einer Freimeldung
-ausgelöst wird. Editierbar sind das Eingabefeld für den SRCP-Bus und die
-Nummer des Rückmeldekontaktes an diesem Bus. Die Nummern für das Modul
-sowie dessen Eingang werden automatisch berechnet.
-</para>
-<para>
-Im Bedienfeld rechts oben läßt sich der Fahrstraßentyp festlegen. Zug-
-und Rangierfahrstraßen werden sicherheitstechnisch unterschiedlich
-behandelt. Zugfahrstraßen lassen sich im Gegensatz zu Rangierfahrstraßen
-nicht in belegte Gleisabschnitte einrichten. Beim Einstellen von
-Umfahrstraßen ist die Bedienung der Umfahrgruppentaste (UfGT) vor den
-Start- und Zieltasten notwendig. 
-Die hier vorgesehene Option für mehrere Umfahrstufen, ist
-zur Zeit noch nicht implementiert.
-</para>
-<para>
-Im Bereich darunter sind die Elemente der Fahrstra&szlig;e aufgelistet,
-die zusätzlich zum Startsignal geschaltet werden müssen. Die Anzahl
-dieser Elemente ist nicht limitiert. Hier werden nicht nur Weichen oder
-andere Signale
-wie Schutzsignale, die &raquo;unterwegs&laquo; am Fahrweg liegen, sondern
-auch Blindelemente (zum Durchfahren eines Signals mit Zugbeeinflussung
-aus der anderen Richtung) oder sonstige schaltbare Elemente
-eintragen (im Extremfall auch Entkoppler). Unterhalb der Liste
-existieren Schaltflächen mit denen sich die Reihenfolge der Elemente
-ändern läßt, vorhandene Elemente in einem weiteren Dialogfenster
-bearbeitet und einzelne Elemente aus der Fahrstraße
-entfernt werden können.
-</para>
-<para>
-<figure id="abb-routing9">
-  <title>Sicherheitsabfrage beim Löschen einer Fahrstra&szlig;e</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="schnapp-route-del.png">
-  </imageobject></mediaobject>
-</figure>
-</para>
 
-</sect3>
-    
 <sect3>
-  <title>Fahrstra&szlig;e hinzufügen</title>
+  <title>Hinzufügen einer Fahrstra&szlig;e</title>
 <para>
-Nach Klicken auf die Hinzufügen-Schaltfläche wird die rechte
-Eingabemaske komplett gelöscht, um die Eingabe von neuen Fahrstraßendaten
-vorzubereiten. Das Feld für den Fahrstraßennamen wird mit einer Aufforderung
-zur Eingabe eines neuen Namens gefüllt, der zudem komplett selektiert ist;
-d.h., man braucht nach Aktivierung des Schalters nicht mehr mit der Maus
-zu diesem
-Feld wandern, sondern kann den Fahrstraßennamen direkt eintippen. Das Fenster
-sieht daher ausschnittsweise wie in <xref linkend="abb-routing10">
-gezeigt aus.
+Für das Erstellen neuer Fahrstraßen bietet das Programm prinzipiell zwei
+Möglichkeiten.
+</para>
+<itemizedlist mark="bullet">
+  <listitem><para>Eine grafisch Eingabe, bei der die Fahrstraßenelemente
+  mit der Maus im Gleisbild ausgewählt werden.
+  </para></listitem>
+  <listitem><para>Eine Dialogfenster orientierte Variante, bei der die
+  einzelnen Elemente über manuelle Eingaben zusammengestellt werden.
+</para></listitem>
+</itemizedlist>
+<para>
+In der Regel wird man beide Möglichkeiten kombinieren, da zum einen das
+Zusammenstellen der Fahrstraßenelemente grafisch sehr schnell und
+einfach ist und zum anderen das Ändern spezieller Einstellungen, wie
+z.B. des Automatikbetriebs, nur über das Dialogfenster erfolgen kann.
+</para>
+<para>
+Über das Menü &raquo;Fahrstraße -&gt; Hinzufügen&laquo; oder über das
+Plus-Symbol in der Werkzeugleiste wird eine neue Fahrstraße in der
+Tabelle angelegt. Diese wählt man anschließend mit einem Mausklick aus
+und kann dann die Elemente durch Anklicken im Gleisbild
+hinzufügen. Mit der linken Maustaste lassen sich die Start- und
+Zielsignale festlegen, mit der mittleren Maustaste die übrigen Elemente.
+Das erste Signal, auf das man klickt wird zum Startsignal, das zweite
+gewählte Signal zum Zielsignal. Das Startsignal bekommt eine grüne
+Umrandung, das Zielsignal eine solche in Rot. Die sonstigen Elemente der
+Fahrstraße bekommen eine gelbe Umrandung. Durch erneutes Anklicken eines
+gewählten Elements, wird es wieder von der Fahrstraße entfernt.
+</para>
+<para>
+Die Weichen im Fahrweg bzw. für den Flankenschutz sollten vor dem
+Hinzufügen in der richtigen Stellung sein und können auch nur vor dem
+Hinzufügen umgestellt werden. Das geschieht am einfachsten über das
+Kontextmenü der rechten Maustaste.
 </para>
 <para>
 <figure id="abb-routing10">
@@ -3830,20 +3778,16 @@ gezeigt aus.
 </figure>
 </para>
 <para>
-Nach dem Fahrstraßennamen wählt man noch den Rückmeldeport aus. Steht die
-Modulanzeige auf 0, dann ist die Portanzeige gesperrt. Damit kann man
-eingeben, dass für diese Fahrstra&szlig;e keine automatische Auflösung
-benutzt werden soll. Möchte man dies, so wähle man zunächst das
-entsprechende Modul aus, danach die Portnummer dieses Moduls.
-</para>
-<para>
-Die dann folgenden Eingaben zur Fahrstraße (Signale und zu schaltende
-Elemente) können sowohl händisch als auch halbautomatisch über das
-grafische Gleisbild geschehen. Letzteres wird hier beschrieben.
+Hat man alle gewünschten Elemente zusammengestellt, kann man über das
+Menü &raquo;Fahrstraße -&gt; Bearbeiten&laquo; oder einfach über das
+Drücken der Enter-Taste das Fahrstraßenbearbeitungsfenster öffnen und
+dort weitere Einstellungen an der Fahrstraße vornehmen. Dazu gehört
+die Festlegung des Namens, die Optionen für den Automatikbetrieb, aber
+eventuell auch eine Korrektur des Typs.
 </para>
 
 <sect4>
-  <title>Händische Eingabe</title>
+  <title>Manuelle Fahrstraßenerfassung</title>
 <para>
 Diese Eingabe benötigt das Wissen, welche
 Hauptadresse die entsprechenden Elemente haben. Eventuell ist es dabei
@@ -3922,6 +3866,82 @@ Originalroute verschieden sind. Danach nur noch speichern
 </para>
 </sect3>
 
+<sect3>
+  <title>Aufbau des Fahrstraßenbearbeitungsfensters</title>
+<para>
+Wenn sich das Gleisbild im Fahrstraßenbearbeitungsmodus befindet und in
+der Fahrstraßentabelle eine Fahrstraße ausgewählt ist, kann man über das
+Menü &raquo;Fahrstraße -&gt; Bearbeiten&laquo; das in <xref
+linkend="abb-routing8"> dargestellte Fenster öffnen.
+</para>
+<para>
+<figure id="abb-routing8">
+  <title>Dialogfenster zum Bearbeiten von Fahrstra&szlig;en</title>
+  <mediaobject><imageobject>
+    <imagedata fileref="schnapp-routing-table-all.png">
+  </imageobject></mediaobject>
+</figure>
+</para>
+<para>
+Im linken oberen Bereich läßt sich der Name der Fahrstraße sowie das
+Start- und das Zielsignal festlegen bzw. bearbeiten. Nur am
+Startsignal gibt es ein Feld für die Signalstellung, das Zielsignal ist
+immer auf Halt, bis es selbst bei einer anderen Fahrstra&szlig;e
+zum Startsignal wird. Angezeigt wird in der Zeile &raquo;Adresse&laquo;
+die Hauptadresse des Antriebes; bei Mehrfachantriebs-Elementen
+entspricht das der Adresse 1. Im Eingabefeld &raquo;Status&laquo; ist
+der Dezimalwert der Antriebsstellung (siehe auch
+<xref linkend="tabelle-positions">) wählbar. Je nach Anzahl der Antriebe
+des Elements kann hier zwischen zwei oder vier Zuständen ausgewählt
+werden. Das Feld &raquo;Name&laquo; gibt die Klartextanzeige des
+Elementes wieder, bei Signalen also z.B. &raquo;P 1&laquo; für ein
+Ausfahrsignal. Nur die Adresse, der SRCP-Bus und der
+Status sind editierbar, der Name wird automatisch aus dem Vorrat der im
+Gleisbild verfügbaren Elemente ermittelt.
+</para>
+<para>
+Darunter befinden sich Bedienelemente zur Konfiguration des
+Automatikbetriebs. Fahrstraßen lassen sich sowohl automatisch
+einstellen, als auch automatisch auflösen. Zusätzlich ist wählbar, ob
+der Schaltvorgang bei einer Belegtmeldung oder bei einer Freimeldung
+ausgelöst wird. Editierbar sind das Eingabefeld für den SRCP-Bus und die
+Nummer des Rückmeldekontaktes an diesem Bus. Die Nummern für das Modul
+sowie dessen Eingang werden automatisch berechnet.
+</para>
+<para>
+Im Bedienfeld rechts oben läßt sich der Fahrstraßentyp festlegen. Zug-
+und Rangierfahrstraßen werden sicherheitstechnisch unterschiedlich
+behandelt. Zugfahrstraßen lassen sich im Gegensatz zu Rangierfahrstraßen
+nicht in belegte Gleisabschnitte einrichten. Beim Einstellen von
+Umfahrstraßen ist die Bedienung der Umfahrgruppentaste (UfGT) vor den
+Start- und Zieltasten notwendig. 
+Die hier vorgesehene Option für mehrere Umfahrstufen, ist
+zur Zeit noch nicht implementiert.
+</para>
+<para>
+Im Bereich darunter sind die Elemente der Fahrstra&szlig;e aufgelistet,
+die zusätzlich zum Startsignal geschaltet werden müssen. Die Anzahl
+dieser Elemente ist nicht limitiert. Hier werden nicht nur Weichen oder
+andere Signale wie Schutzsignale, die auf dem Fahrweg liegen, sondern
+auch Blindelemente (zum Durchfahren eines Signals mit Zugbeeinflussung
+aus der anderen Richtung) oder sonstige schaltbare Elemente
+eintragen (im Extremfall auch Entkoppler). Unterhalb der Liste
+existieren Schaltflächen mit denen sich die Reihenfolge der Elemente
+ändern läßt, vorhandene Elemente in einem weiteren Dialogfenster
+bearbeitet und einzelne Elemente aus der Fahrstraße
+entfernt werden können.
+</para>
+<para>
+<figure id="abb-routing9">
+  <title>Sicherheitsabfrage beim Löschen einer Fahrstra&szlig;e</title>
+  <mediaobject><imageobject>
+    <imagedata fileref="schnapp-route-del.png">
+  </imageobject></mediaobject>
+</figure>
+</para>
+
+</sect3>
+    
 <sect3>
   <title>Fahrstra&szlig;endaten ändern</title>
 <para>
@@ -5569,7 +5589,8 @@ interessant, nicht für den Anwender im Falle der Fahrstraßen-Programmierung.
 <para>Als weiterführende Literatur zum Thema sei dem Interessierten
 folgendes Buch wärmstens empfohlen:</para>
 <para>F. Hein, Sp Dr 60-Stellwerke bedienen, Teil A - im Regelbetrieb,
-    Eisenbahn-Fachverlag, EUR&nbsp;44,-, ISBN 3-9801093-0-5
+    <ulink url="http://www.deine-bahn.de/">Eisenbahn-Fachverlag</ulink>,
+    EUR&nbsp;44,-, ISBN 3-9801093-0-5
 </para>
 <para>
 Im Internet wird man unter
