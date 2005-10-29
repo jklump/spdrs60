@@ -128,7 +128,7 @@ empfehlenswert, diese Dokumentation durchzuarbeiten.
 <sect2 id="ver-0.4.8">
   <title>Version 0.4.8</title>
 <para>
-Veröffentlicht am **.**.2005
+Veröffentlicht am **.11.2005
 <itemizedlist mark="bullet">
   <listitem><para>Die Datei Öffen/Speichern/Schließen-Logik wurde
   komplett neu geschrieben, so dass nun kein Zwangsspeichern der
@@ -136,7 +136,7 @@ Veröffentlicht am **.**.2005
   <listitem><para>Die Handhabung der Fahrstraßen wurde ebenfalls
   komplett neu geschrieben. Davon ist sowohl der für den
   Benutzer sichtbare Anteil, wie z.B. die Fahrstraßentabelle, als auch der
-  unsichtbare Anteil, der u.a. für das Aktivieren der Fahrstraßen
+  unsichtbare Anteil, der u.a. für das Einstellen der Fahrstraßen
   verantwortlich ist, betroffen.</para></listitem>
   <listitem><para>Das Dateiformat, mit dem das Programm seine Daten
   (Gleisbilder, Fahrstraßen) speichert, wurde weitgehend geändert. Es
@@ -163,12 +163,15 @@ Veröffentlicht am **.**.2005
   linken Maustaste, die übrigen Fahrstraßenelemente mit der mittleren
   Maustaste auswählen. Durch erneutes Anklicken lassen sich allgemein
   Fahrstraßenelemente auch wieder abwählen.</para></listitem>
+  <listitem><para>Das Dialogfenster zum bearbeiten von Fahrstraßen bzw.
+  deren Merkmale wurde komplett neu geschrieben. Dabei
+  wurden bereits Datenfelder für SRCP 0.8.x berücksichtigt.</para></listitem>
   <listitem><para>Ein Einrichten von Fahrstraßen nach rechts oder links über
   die Gleisbildgrenzen hinweg ist nun dann möglich, wenn das Start- oder
   Zielsignal zweimal auf dem Gleisbild dargestellt ist, und zwar so,
   dass sich zwischen Start- und Zielsignal mindestens einmal ein
   durchgehender Streckenverlauf ergibt. Ein Beispiel hierfür bietet das
-  Beispielgleisbild &raquo;bahnhofklein&laquo;.</para></listitem>
+  Beispielgleisbild &raquo;bahnhof_klein&laquo;.</para></listitem>
   <listitem><para>Zur Bearbeitung von Fahrstraßen wurde das Hauptmenü um
   entsprechende Einträge ergänzt, die nur bei Sichtbarkeit der
   Fahrstraßentabelle nutzbar sind.</para></listitem>
@@ -188,7 +191,10 @@ Veröffentlicht am **.**.2005
   zum Zeichen von Gleissymbolen liegt auf der mittleren
   Maustaste.</para></listitem>
   <listitem><para>Die bisher vorhandene Größenbegrenzung von
-  Gleisbildern ist nun aufgehoben.</para></listitem>
+  Gleisbildern ist nun aufgehoben. Um den potentiellen Speicherverbrauch
+  des Programms auf ein das System nicht überforderndes Maß zu
+  begrenzen, sind die Gleisbilddimensionen auf maximal 30 Zeilen und 120
+  Spalten beschränkt.</para></listitem>
   <listitem><para>Die Symbolleiste wurde (intern) komplett überarbeitet
   und um eine Reihe an Symbolen ergänzt, die nun einen schnelleren
   Zugang zu diesen Funktionen bieten. Gleichzeitig wurde sie der
@@ -214,6 +220,8 @@ Veröffentlicht am **.**.2005
   Weichen oder Signalen anzeigen. Diese Funktionalität ist zur Zeit noch
   auf Magnetartikel mit einer Adresse beschränkt.
   </para></listitem>
+  <listitem><para>Das als als Online-Hilfe (F1) mitgelieferte Handbuch wurde
+  weitgehend überarbeitet.</para></listitem>
 </itemizedlist>
 </para>
 </sect2>
@@ -3545,7 +3553,7 @@ möglich.
   <title>Fahrstra&szlig;e einstellen</title>
 <para>
 Dem Programmpaket liegen einige Beispielgleisbilder bei, an denen sich
-das Einstellen von Fahrstraßen gut üben läßt. Für die folgenden
+das Einstellen von Fahrstraßen anschaulich darstellen läßt. Für die folgenden
 Abbildungen dient die Datei <filename>bahnhof_klein.dat.gbs</filename>
 als Vorlage.
 </para>
@@ -3559,7 +3567,7 @@ als Vorlage.
 </para>
 <para>
 In <xref linkend="abb-routing1"> erkennt man einen Gleisbild-Ausschnitt,
-indem die
+in welchem die
 Fahrstra&szlig;e von (Start-)Signal 5 nach (Ziel-)Signal 1 geschaltet
 werden soll. Dazu klickt man zuerst auf die Zugstraßentaste (rot) des
 Startsignals und dann innerhalb eines 5-Sekunden-Zeitraums auf die
@@ -3684,7 +3692,7 @@ Es öffnet sich eine tabellarische Liste, in der alle existierenden
 Fahrstra&szlig;en mit Namen, Startsignal, Zielsignal und Typ aufgeführt
 sind. Bereits eingestellte Fahrstraßen erkennt man sofort an dem gelben
 rechteckigen Symbol in der ersten Spalte. Auch aus diesem Fenster heraus
-können die Fahrstra&szlig;en gestellt werden. Dazu wählt man zunächst
+können die Fahrstra&szlig;en beeinflußt werden. Dazu wählt man zunächst
 durch einfachen Mausklick oder mit Hilfe der Pfeiltasten die zu
 stellende Straße aus. Ist diese noch nicht eingestellt, erscheint
 das rechteckige Grafiksymbol am Anfang der Tabellenzeile grau. Durch
@@ -3727,152 +3735,29 @@ Das Bearbeiten von Fahrstraßen, also sowohl das Erstellen von neuen als
 auch das Verändern oder Löschen von schon vorhandenen Fahrstraßen, kann
 nur im Fahrstraßenbearbeitungsmodus (<keycap>Strg-B</keycap>) geschehen.
 Diesen erkennt man in Gleisbild an den blauen Linien zwischen den
-einzelnen Elementen.
-</para>
-
-<sect3>
-  <title>Hinzufügen einer Fahrstra&szlig;e</title>
-<para>
-Für das Erstellen neuer Fahrstraßen bietet das Programm prinzipiell zwei
-Möglichkeiten.
-</para>
-<itemizedlist mark="bullet">
-  <listitem><para>Eine grafisch Eingabe, bei der die Fahrstraßenelemente
-  mit der Maus im Gleisbild ausgewählt werden.
-  </para></listitem>
-  <listitem><para>Eine Dialogfenster orientierte Variante, bei der die
-  einzelnen Elemente über manuelle Eingaben zusammengestellt werden.
-</para></listitem>
-</itemizedlist>
-<para>
-In der Regel wird man beide Möglichkeiten kombinieren, da zum einen das
-Zusammenstellen der Fahrstraßenelemente grafisch sehr schnell und
-einfach ist und zum anderen das Ändern spezieller Einstellungen, wie
-z.B. des Automatikbetriebs, nur über das Dialogfenster erfolgen kann.
+einzelnen Elementen. Wählt man in diesem Modus eine Fahrstraße in der
+Tabelle aus, so werden die Fahrstraßenelemente im Gleisbild farblich
+hervorgehoben; das Startsignal wird grün umrandet, das Zielsignal rot
+und die übrigen schaltenden Elemente gelb. In
+<xref linkend="abb-routing15"> ist ein Beispiel dafür wiedergegeben.
 </para>
 <para>
-Über das Menü &raquo;Fahrstraße -&gt; Hinzufügen&laquo; oder über das
-Plus-Symbol in der Werkzeugleiste wird eine neue Fahrstraße in der
-Tabelle angelegt. Diese wählt man anschließend mit einem Mausklick aus
-und kann dann die Elemente durch Anklicken im Gleisbild
-hinzufügen. Mit der linken Maustaste lassen sich die Start- und
-Zielsignale festlegen, mit der mittleren Maustaste die übrigen Elemente.
-Das erste Signal, auf das man klickt wird zum Startsignal, das zweite
-gewählte Signal zum Zielsignal. Das Startsignal bekommt eine grüne
-Umrandung, das Zielsignal eine solche in Rot. Die sonstigen Elemente der
-Fahrstraße bekommen eine gelbe Umrandung. Durch erneutes Anklicken eines
-gewählten Elements, wird es wieder von der Fahrstraße entfernt.
-</para>
-<para>
-Die Weichen im Fahrweg bzw. für den Flankenschutz sollten vor dem
-Hinzufügen in der richtigen Stellung sein und können auch nur vor dem
-Hinzufügen umgestellt werden. Das geschieht am einfachsten über das
-Kontextmenü der rechten Maustaste.
-</para>
-<para>
-<figure id="abb-routing10">
-  <title>Hinzufügen einer Fahrstra&szlig;e</title>
+<figure id="abb-routing15">
+  <title>Visuelle Überprüfung einer Fahrstra&szlig;e</title>
   <mediaobject><imageobject>
-    <imagedata fileref="schnapp-route-add.png">
+    <imagedata fileref="../commonimages/schnapp-route-pruef.png">
   </imageobject></mediaobject>
 </figure>
 </para>
-<para>
-Hat man alle gewünschten Elemente zusammengestellt, kann man über das
-Menü &raquo;Fahrstraße -&gt; Bearbeiten&laquo; oder einfach über das
-Drücken der Enter-Taste das Fahrstraßenbearbeitungsfenster öffnen und
-dort weitere Einstellungen an der Fahrstraße vornehmen. Dazu gehört
-die Festlegung des Namens, die Optionen für den Automatikbetrieb, aber
-eventuell auch eine Korrektur des Typs.
-</para>
-
-<sect4>
-  <title>Manuelle Fahrstraßenerfassung</title>
-<para>
-Diese Eingabe benötigt das Wissen, welche
-Hauptadresse die entsprechenden Elemente haben. Eventuell ist es dabei
-empfehlenswert, über die Programmoptionen die Anzeige der Elemente auf
-&raquo;Text&laquo; zu stellen.
-</para>
-<para>
-In die Adressfelder gibt man die Adresse des zu schaltenden Elementes
-ein, im Feld Status der Zustand, den das Element neu einnehmen soll.
-Dies gilt sowohl für die Eingabe der Signale als auch für die übrigen zu
-schaltenden 15 Elemente. Zusätzliche Elemente KÖNNEN eingegeben werden.
-Ein Start- und Zielsignal MUSS auf jeden Fall eingegeben werden,
-ansonsten kann die Fahrstra&szlig;e nicht geschaltet werden. Damit dies
-nicht passiert, meckert das Programm, wenn eine Signaladresse und/oder
-der Status des Startsignals fehlt (<xref linkend="abb-routing11">).
-</para>
-<para>
-<figure id="abb-routing11">
-  <title>Fehlermeldung bei fehlender Signaladresse</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="schnapp-route-adderror1.png">
-  </imageobject></mediaobject>
-</figure>
-</para>
-<para>
-Ähnliches passiert auch, wenn man in den zusätzlichen Elementen in einer
-Zeile nur die Adresse/Status eingibt (<xref linkend="abb-routing12">).
-</para>
-<para>
-<figure id="abb-routing12">
-  <title>Fehlermeldung bei fehlenden Elementdaten</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="schnapp-route-adderror2.png">
-  </imageobject></mediaobject>
-</figure>
-</para>
-<para>
-Wurden alle Eingaben gemacht, kann man durch die Speichern-Schaltfläche
-diese Fahrstra&szlig;e abspeichern. Sie erscheint dann
-sofort mit ihrem neuen Namen links in der Fahrstraßentabelle. Sie kann sofort
-über die Signalschalter aktiviert und deaktiviert werden. Nach dem
-Speichern liest das Programm auch die Textfelder der betroffenen
-Elemente aus, ab dann können also auch diese Felder gefüllt sein. Ist
-der Name eines Elementes nicht auffindbar, so wird das entsprechende
-Feld mit dem Hinweis &raquo;unknown&laquo; versehen.
-</para>
-</sect4>
-</sect3>
-    
-<sect3>
-  <title>Fahrstra&szlig;e kopieren/duplizieren</title>
-<para>
-Wenn für ein Gleisbild zwei sehr ähnliche Fahrstra&szlig;en
-existieren, in denen z.B. nur ein Element unterschiedlich geschaltet
-wird, sollte man sich der Kopierfunktion bedienen. Dazu klickt man auf
-den Copy-Button (oder drückt <keycap>Strg-C</keycap>). Alsdann erhält
-man ein neu vorbereitete Fahrstraße mit denselben zu schaltenden Elementen.
-Lediglich der Name der Fahrstraße lautet jetzt: &raquo;Copy of ...&laquo;,
-wobei &raquo;...&laquo; für den Namen der kopierten Originalroute steht.
-Aufgrund der schon ausgelesenen Textfelder sind diesmal die Felder
-&raquo;Name&laquo; bereits gefüllt (<xref linkend="abb-routing13">).
-</para>
-<para>
-<figure id="abb-routing13">
-  <title>Fahrstra&szlig;e kopieren</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="schnapp-route-copy.png">
-  </imageobject></mediaobject>
-</figure>
-</para>
-<para>
-Danach wählt man eventuell noch eine andere Verknüpfung
-zu einem Rückmeldeport, und natürlich auch die Elemente, die zur
-Originalroute verschieden sind. Danach nur noch speichern
-(<keycap>Strg-S</keycap>) - fertig!
-</para>
-</sect3>
 
 <sect3>
   <title>Aufbau des Fahrstraßenbearbeitungsfensters</title>
 <para>
 Wenn sich das Gleisbild im Fahrstraßenbearbeitungsmodus befindet und in
 der Fahrstraßentabelle eine Fahrstraße ausgewählt ist, kann man über das
-Menü &raquo;Fahrstraße -&gt; Bearbeiten&laquo; das in <xref
-linkend="abb-routing8"> dargestellte Fenster öffnen.
+Menü &raquo;Fahrstraße -&gt; Bearbeiten&laquo; oder durch Drücken der
+Enter-Taste das in <xref linkend="abb-routing8"> dargestellte Fenster
+öffnen.
 </para>
 <para>
 <figure id="abb-routing8">
@@ -3931,155 +3816,90 @@ existieren Schaltflächen mit denen sich die Reihenfolge der Elemente
 bearbeitet und einzelne Elemente aus der Fahrstraße
 entfernt werden können.
 </para>
-<para>
-<figure id="abb-routing9">
-  <title>Sicherheitsabfrage beim Löschen einer Fahrstra&szlig;e</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="schnapp-route-del.png">
-  </imageobject></mediaobject>
-</figure>
-</para>
-
 </sect3>
     
 <sect3>
-  <title>Fahrstra&szlig;endaten ändern</title>
+  <title>Hinzufügen einer Fahrstra&szlig;e</title>
 <para>
-Sobald die Daten einer Fahrstra&szlig;e angezeigt
-werden, können diese auch geändert werden. Voraussetzung ist lediglich,
-dass diese Fahrstraße nicht gerade geschaltet wurde (aber dann sind die
-Datenfelder sowieso für eine Eingabe gesperrt). Man kann daher jederzeit
-einzelne oder mehrere Felder in ihrem Inhalt ändern. Danach sollte man
-immer abspeichern. Tut man das nicht, wird eine Warnung ausgegeben
-(<xref linkend="abb-routing14">), damit man die soeben gemachten
-Änderungen nicht leichtfertig in den Wind schie&szlig;t:
+Für das Erstellen neuer Fahrstraßen bietet das Programm prinzipiell zwei
+Möglichkeiten.
+</para>
+<itemizedlist mark="bullet">
+  <listitem><para>Eine grafisch Eingabe, bei der die Fahrstraßenelemente
+  mit der Maus im Gleisbild ausgewählt werden.
+  </para></listitem>
+  <listitem><para>Eine Dialogfenster orientierte Variante, bei der die
+  einzelnen Elemente über manuelle Eingaben zusammengestellt werden.
+</para></listitem>
+</itemizedlist>
+<para>
+In der Regel wird man beide Möglichkeiten kombinieren, da zum einen das
+Zusammenstellen der Fahrstraßenelemente grafisch sehr schnell und
+einfach ist und zum anderen das Ändern spezieller Einstellungen, wie
+z.B. des Automatikbetriebs, nur über das Dialogfenster erfolgen kann.
 </para>
 <para>
-<figure id="abb-routing14">
-  <title>Fehlermeldung bei ungesicherten Fahrstra&szlig;enänderungen</title>
+<figure id="abb-routing7">
+  <title>Hinzufügen einer Fahrstra&szlig;e</title>
   <mediaobject><imageobject>
-    <imagedata fileref="schnapp-route-saveerror.png">
-  </imageobject></mediaobject>
-</figure>
-</para>
-
-</sect3>
-
-<sect3>
-  <title>Fahrstra&szlig;e prüfen</title>
-<para>
-Bei grö&szlig;eren Anlagen werden einem nach einer Zeit
-die ganzen Zahlen nicht mehr viel sagen. Es wird auch schwer sein, seine
-Fahrstraßen nachher noch genau nachvollziehen zu können. Es gibt daher die
-Funktion &raquo;Prüfen&laquo;, mit der die in der Übersicht angezeigte
-Fahrstraße im Gleisbild grafisch markiert werden kann. Dies sieht beispielsweise
-wie in <xref linkend="abb-routing15">) gezeigt aus.
-</para>
-<para>
-<figure id="abb-routing15">
-  <title>Visuelle Überprüfung einer Fahrstra&szlig;e</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="../commonimages/schnapp-route-pruef.png">
+    <imagedata fileref="schnapp-route-add.png">
   </imageobject></mediaobject>
 </figure>
 </para>
 <para>
-Auffällig ist die blaue Umrandung sämtlicher Elemente.
-Diese Einfärbung steht für den Prüfmodus. Das Startsignal ist zusätzlich
-mit einem grünen Rand versehen, das Stopsignal mit einem roten (das
-hei&szlig;t NICHT, dass sich das Stopsignal-Element jetzt im
-Editiermodus befindet!). Alle zusätzlich zu schaltenden Elemente sind
-gelb umrandet.
+Über das Menü &raquo;Fahrstraße -&gt; Hinzufügen&laquo; oder über das
+Plus-Symbol in der Werkzeugleiste wird eine neue Fahrstraße als
+unterster Eintrag in der Tabelle angelegt (<xref linkend="abb-routing7">).
+Diesen wählt man anschließend mit einem Mausklick aus
+und kann dann die Elemente durch Anklicken im Gleisbild
+hinzufügen. Mit der linken Maustaste lassen sich die Start- und
+Zielsignale festlegen, mit der mittleren Maustaste die übrigen Elemente.
+Das erste Signal, auf das man klickt wird zum Startsignal, das zweite
+gewählte Signal zum Zielsignal. Das Startsignal bekommt eine grüne
+Umrandung, das Zielsignal eine solche in Rot. Die sonstigen, schaltbaren
+Elemente der
+Fahrstraße bekommen eine gelbe Umrandung. Durch erneutes Anklicken eines
+gewählten Elements, wird es wieder von der Fahrstraße entfernt.
 </para>
 <para>
-Hat man alles genau geprüft, dann klickt man mit der Maus einfach auf
-ein leeres Element, so dass der Prüfmodus wieder verlassen wird. Das
-Fahrstraßenfenster erscheint nun wieder.
+Die Weichen im Fahrweg bzw. für den Flankenschutz sollten vor dem
+Hinzufügen in der richtigen Stellung sein und können auch nur vor dem
+Hinzufügen umgestellt werden. Das geschieht am einfachsten über das
+Kontextmenü der rechten Maustaste.
 </para>
-</sect3>
+<para>
+Hat man alle gewünschten Elemente zusammengestellt, kann man über das
+Menü &raquo;Fahrstraße -&gt; Bearbeiten&laquo; oder einfach über das
+Drücken der Enter-Taste das in <xref linkend="abb-routing8">
+dargestellte Fahrstraßenbearbeitungsfenster öffnen und
+dort weitere Einstellungen an der Fahrstraße vornehmen. Dazu gehört
+die Festlegung des Namens, die Optionen für den Automatikbetrieb, aber
+eventuell auch eine Korrektur des Typs.
+</para>
 
-<sect3>
+<sect4>
   <title>Fahrstra&szlig;en über das Gleisbild eingeben</title>
 <para>
-Den High-End-Komfort erreicht man natürlich nur dann,
-wenn man die Fahrstraße über das grafische Gleisbild eingeben kann. Und das ist
-ja auch das, worauf alle hoffentlich lange genug gewartet haben. Die
-Bedienung ist ganz einfach. Zur Erinnerung nochmals vorneweg: aufgrund
-der Programmarchitektur ist es NICHT notwendig, dass sämtliche Elemente,
-die in einer Fahrstraße liegen und keine Antriebe haben, auch in die Fahrstraße
-mit aufgenommen werden müssen. Gerade oder gebogene Elemente können also
-sowohl bei der händischen als auch bei der grafischen Fahrstraßeneingabe
-getrost unbeachtet gelassen werden.
-</para>
-<para>
-Idealerweise beginnt man mit dem Hinzufügen einer neuen Fahrstraße. Zunächst
-sollte man einen aussagekräftigen Namen nach den schon genannten Regeln
-vergeben. Danach klicke man auf den Aufnahmeschalter (oder
-<keycap>Strg-R</keycap>). Das Fahrstraßenfenster verschwindet, und man sieht
-das Gleisbild der Anlage, wobei alle Elemente mit einem dicken grünen Rand
-versehen sind (<xref linkend="abb-routing16">). Dies bedeutet, dass sich
-das Gleisbild im Record- oder Aufnahmemodus befindet.
-</para>
-<para>
-<figure id="abb-routing16">
-  <title>Darstellung des Gleisbilds im Aufnahmemodus</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="../commonimages/schnapp-route-rec0.png">
-  </imageobject></mediaobject>
-</figure>
-</para>
-<para>
-Es kommt nun nicht darauf an, ob man die zu schaltenden
-Element oder die Start/Zielsignale zuerst aufnimmt. Damit man aber nicht
-verwirrt wird, sollte man die Reihenfolge einhalten, wie sie auch in den
-Eingabefeldern des Fahrstraßenfensters vorgegeben wird. Grundregel: alle mit
-der linken Maustaste angeklickten Elemente mit Antrieb werden in die
-Fahrstraße übernommen. Klickt man mit der rechten Maustaste auf ein
-schaltbares Element, dann erscheint ein kleines Minikontextmenü mit dem
-Inhalt &raquo;Umschalten&laquo;. Damit muss man zuerst dem Element den
-richtigen Status geben, sprich die Weiche oder das Signal umschalten.
-Erst danach sollte das Element aufgenommen werden.
-</para>
-<para>
-Dabei gilt (alles mit Linksklicks):
-
-<itemizedlist mark="bullet">
-  <listitem><para>Das zuallererst doppelt angeklickte
-Signal wird das Startsignal</para></listitem>
-  <listitem><para>Das zweite doppelt angeklickte
-Signal wird das Zielsignal (dazwischen können jedoch beliebige
-Nicht-Signal-Elemente angeklickt werden)</para></listitem>
-  <listitem><para>Alle Nicht-Signal-Elemente wandern
-durch einen einfachen Linksklick in den Bereich der übrigen zu
-schaltenden Elemente. Wurden davon bereits 15 angeklickt, öffnet sich
-automatisch wieder das Fahrstraßenfenster.</para></listitem>
-  <listitem><para>Klickt man einfach auf ein leeres
-Element, zeigt man dem Recorder, dass die Aufnahme beendet ist. Das
-Fahrstraßenfenster erscheint wieder, und alle soeben angeklickten Elemente
-erscheinen mit ihren Adressen und ihren Stati in den
-Datenfeldern.</para></listitem>
-</itemizedlist>
-        
-Im Einzelnen sieht eine Aufnahmeprozedur wie folgt aus:
-
-Im Aufnahmemodus rechts-klickt man auf ein Element, welches den falschen
-Status hat. Es erscheint das Mini-Kontextmenü mit dem Eintrag
-&raquo;Umschalten&laquo;. <xref linkend="abb-routing17"> zeigt das am
-Signal-Element &raquo;B&laquo;).
+Im Einzelnen sieht das grafische Erstellen einer Fahrstraße wie folgt
+aus. Hat das gewünschte Element noch den falschen Status, klickt man
+zunächst mit der rechten Maustaste darauf. Es erscheint das
+Mini-Kontextmenü mit dem Eintrag &raquo;Umschalten&laquo;.
+<xref linkend="abb-routing17"> zeigt das am Signal-Element
+&raquo;P2&laquo;).
 </para>
 <para>
 <figure id="abb-routing17">
   <title>Status des Startsignals setzen</title>
   <mediaobject><imageobject>
-    <imagedata fileref="../commonimages/schnapp-route-rec1.png">
+    <imagedata fileref="schnapp-route-rec1.png">
   </imageobject></mediaobject>
 </figure>
 </para>
 <para>
 Nach der Auswahl von &raquo;Umschalten&laquo; bekommt das
-Element einen anderen Zustand. Ist dies nicht der richtige, dann
-wiederholt man den Umschalten-Befehl nochmals (hier nicht notwendig, siehe
-<xref linkend="abb-routing18">).
+Element einen anderen Zustand. Ist dieser noch nicht der richtige, dann
+wiederholt man den Umschalten-Befehl, bis der richtige Zustand angezeigt
+wird (<xref linkend="abb-routing18">).
 </para>
 <para>
 <figure id="abb-routing18">
@@ -4090,11 +3910,8 @@ wiederholt man den Umschalten-Befehl nochmals (hier nicht notwendig, siehe
 </figure>
 </para>
 <para>
-Durch einen einfachen Linksklick speichert man das
-Element als normal schaltbares Element, mit einem Doppelklick speichert
-man es als Signal (in <xref linkend="abb-routing19"> wurde ein Signal
-angeklickt; da es das 1. Signal während der aktuellen Aufnahmeprozedur
-war, wird es das Startsignal).
+Durch einen einfachen Linksklick wird das Signal in diesem Beispiel zum
+Startsignal (<xref linkend="abb-routing19">).
 </para>
 <para>
 <figure id="abb-routing19">
@@ -4105,9 +3922,10 @@ war, wird es das Startsignal).
 </figure>
 </para>
 <para>
-Durch einen weiteren Doppelklick auf ein anderes Signal
-legt man das Zielsignal fest. In <xref linkend="abb-routing20"> handelt
-es sich dabei um das Signal-Element &raquo;001&laquo;.
+Durch einen weiteren Klick mit der linken Maustaste auf ein anderes
+Signal bzw. eine Gleistaste legt man das Zielsignal fest. In
+<xref linkend="abb-routing20"> handelt es sich dabei um die in der
+Bahnhofsausfahrt liegende Gleistaste &raquo;n.L.&laquo;.
 </para>
 <para>
 <figure id="abb-routing20">
@@ -4118,8 +3936,8 @@ es sich dabei um das Signal-Element &raquo;001&laquo;.
 </figure>
 </para>
 <para>
-Die zu schaltenden übrigen Antriebe werden ebenfalls
-durch einen einfachen Linksklick aufgenommen. Die in
+Die übrigen zu schaltenden Antriebe werden durch einen Klick
+mit der mittleren Maustaste aufgenommen. Die in
 <xref linkend="abb-routing21"> zu schaltenden Weichen auf dem Weg vom Start-
 zum Zielsignal hatten alle schon die richtige Stellung, so dass sich ein
 Umschalten erübrigte.
@@ -4133,31 +3951,77 @@ Umschalten erübrigte.
 </figure>
 </para>
 <para>
-Nach einen Linksklick auf ein leeres Element im Gleisbild
-erscheint wieder das Fahrstraßenfenster (<xref linkend="abb-routing22">).
-Hier erscheinen jetzt in allen elementbezogenen Datenfeldern die
-Adressen und die Stati der Elemente, die man soeben im Gleisbild grafisch
-für diese Fahrstraße aufgenommen hat. Auch die Textfelder der betroffenen
-Elemente sind gefüllt. Wenn man sein Gleisbild gewöhnlich im
-Textanzeige-Modus betreibt, kann man so prüfen, ob alles eine
-Richtigkeit hat, da die Adresse dann in den Anzeigefeldern der Elemente
-nicht erscheint.
+</sect4>
+
+<sect4>
+  <title>Manuelle Fahrstraßenerfassung</title>
+<para>
+Fahrstraßen lassen sich manuell vollständig über den Fahrstraßendialog
+(<xref linkend="abb-routing8">) eingeben. Bei dieser Eingabemethode ist
+es notwendig, die Adressen der einzugebenden Elemente zu kennen.
+Eventuell ist es dabei empfehlenswert, über die Programmoptionen die
+Anzeige der Elemente im Gleisbild auf &raquo;Text&laquo; zu stellen.
+</para>
+<para>
+Im Fahrstraßendialog sind die Felder für die Namen der Elemente nicht
+editierber. Es reicht, im Adressfeld eine Eingabe zu machen, da der Name
+sofort aus den im Gleisbild vorhandenen Elementen ermittelt wird. Sollte
+unter der eingegebenen
+Adresse kein Element vorhanden sein, wird das als Fehler angezeigt
+(<xref linkend="abb-routing11">). Im Feld Status wählt man anschließend
+den gewünschten Schaltzustand. Hier wird die Auswahl der möglichen
+Zustände automatisch aus dem Elementtyp ermittelt; je nach Anzahl der
+Antriebe stehen zwei oder vier verschiedene Zustände zur Auswahl.
+Dies gilt sowohl für die Eingabe der Signale als auch für die übrigen zu
+schaltenden Elemente. Start- und Zielsignale müssen auf jeden Fall
+eingegeben werden, da sonst die Fahrstra&szlig;e nicht geschaltet werden
+kann. Die Eingabe weiterer Elemente ist optional.
+</para>
+<para>
+<figure id="abb-routing11">
+  <title>Fehlermeldung bei falscher Signaladresse</title>
+  <mediaobject><imageobject>
+    <imagedata fileref="schnapp-route-adderror1.png">
+  </imageobject></mediaobject>
+</figure>
+</para>
+<para>
+Das Hinzufügen von zusätzlichen geschalteten Elementen wie den Weichen
+im Fahrweg erfolgt mit Hilfe der im Fahrstraßendialog
+(<xref linkend="abb-routing8">) rechts unten sichtbare Liste. Über
+den Schaltknopf &raquo;Hinzufügen&laquo; erscheint ein kleines
+Dialogfenster (<xref linkend="abb-routing22">), das Eingaben ähnlich
+wie beim Startsignal erlaubt. Auch hier wird der Name des
+Elements und die Auswahl der erlaubten Schaltzustände vom Programm
+automatisch ermittelt.
 </para>
 <para>
 <figure id="abb-routing22">
-  <title>Fahrstra&szlig;endialog mit den erfassten Gleisbildelementen</title>
+  <title>Fahrstra&szlig;enelement hinzufügen</title>
   <mediaobject><imageobject>
     <imagedata fileref="schnapp-route-rec6.png">
   </imageobject></mediaobject>
 </figure>
 </para>
 <para>
-Nach dem Speichern (Namen für diese Fahrstraße nicht
-vergessen!) kann man die Fahrstraße nochmals mit dem Prüfbutton überprüfen.
-Wenn alles richtig ist, kann diese Fahrstraße ab sofort in den
-Stellwerksbetrieb mit eingebunden werden!
+Wurden alle Fahrstraßenelemente hinzugefügt, kann das Dialogfenster
+über OK geschlossen
+werden. Die Fahrstra&szlig;e erscheint dann sofort mit ihrem neuen Namen
+sowie den Start- und Zielsignalen in der Fahrstraßentabelle. Sie kann sofort
+über die Signalschalter eingestellt und zurückgenommen werden. Nach
+wechseln in den Betriebsmodus können die neu erstellten Fahrstraßen mit
+dem Menü &raquo;Datei -&gt; Speichern&laquo; gespeichert werden.
 </para>
+<para>
+Wenn für ein Gleisbild eine weitere Fahrstra&szlig;e erstellt werden
+soll, für die es schon eine ähnliche Vorlage gibt, kann man das
+Menü &raquo;Fahrstraße -&gt; Duplizieren&laquo; nutzen. Damit wird eine
+exakte Kopie der gewählten Fahrstraße erstellt. Die Anpassungen
+beschränken sich dann auf die anders geschalteten Elemente der Kopie.
+</para>
+</sect4>
 </sect3>
+
 </sect2>
   
 </sect1>
@@ -4551,7 +4415,7 @@ der beiden Tasten in <xref linkend="abb-entkoppler2"> zu aktivieren.
 <sect3>
   <title>Bis zu 3-begriffige Signale</title>
 <para>
-        Manchmal reicht ein Antrieb für ein Signal oder für eine
+Manchmal reicht ein Antrieb für ein Signal oder für eine
 Weiche nicht aus. Für ambitionierte Modellbahner gibt es halt mehr als
 nur Rot + Grün am Signal! Deswegen wurde in diesem Programm auf einfache
 Weise dafür Rechnung getragen, dass auch andere Signalbegriffe

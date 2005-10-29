@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.29 $
+                           version 0.4.8 $Revision: 1.30 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-10-27 20:35:59 $
+    last modified        : $Date: 2005-10-29 20:09:39 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -456,14 +456,14 @@ void element::createPopupMenus()
      * TODO: Move this to gbsarea and use only one popup for all elements
      */
     // context menu with "toggle" for normal mode
-    ctxNorm = new QPopupMenu(this, "");
+    ctxNorm = new QPopupMenu(this, "ctxNormPM");
     ctxNorm->insertItem(tr("&Toggle"), this, SLOT(slotToggle()),
                         0, CTX_ID_TOGGLE);
 
     QPixmap p;
     /* every single element gets his own edit popupmenu (!?) */
     // context menu with entries for edit mode
-    ctxEdit = new QPopupMenu(this, "editctx");
+    ctxEdit = new QPopupMenu(this, "ctxEditPM");
     ctxEdit->insertItem(tr("&Repeat"), CTX_ID_REP);
     ctxEdit->setItemEnabled(CTX_ID_REP, false);
     ctxEdit->insertSeparator();
@@ -1269,7 +1269,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                             (visualMode == kvmNormal || visualMode ==
                              kvmEditRoute));
 
-    // translate icon name and direction into a binary-coded integers
+    // translate icon name and direction into binary-coded integers
     int iIconByte = 0;
     int iDirByte = 0;
 
@@ -1791,6 +1791,8 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                  && sSoldIcon != SYM_ADR && !sSoldText.isEmpty())
             p.fillRect(br, QBrush(white));
 
+        // adjust text position one pixel to right
+        br.setX(br.x() + 1);
 	p.drawText(br, Qt::AlignCenter | Qt::SingleLine | Qt::DontClip, s);
 
 
