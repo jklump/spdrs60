@@ -1,9 +1,9 @@
 # Makefile.am for spdrs60 documentation
 # last changes by: Guido Scholz
-# Version: $Revision: 1.5 $
-# last update: $Date: 2005-10-25 20:35:24 $
+# Version: $Revision: 1.6 $
+# last update: $Date: 2005-10-30 15:16:04 $
 
-# HTML_DOC_DIR wird in configure.ac definiert
+# HTML_DOC_DIR is defined in configure.ac
 htmldir = @HTML_DOC_DIR@
 
 enhtmldir = $(htmldir)/en
@@ -13,7 +13,6 @@ dehtmldir = $(htmldir)/de
 deimagesdir=$(dehtmldir)
 
 commonimagesdir = $(htmldir)/commonimages
-
 
 dist_enimages_DATA = \
 	en/schnapp-bhf-klein.png \
@@ -63,6 +62,7 @@ dist_enimages_DATA = \
 	en/schnapp-route-convert.png \
 	en/schnapp-route-copy.png \
 	en/schnapp-route-del.png \
+	en/schnapp-route-rec1.png \
 	en/schnapp-route-rec6.png \
 	en/schnapp-route-saveerror.png \
 	en/schnapp-routing-table2-all.png \
@@ -123,6 +123,7 @@ dist_deimages_DATA = \
 	de/schnapp-route-convert.png \
 	de/schnapp-route-copy.png \
 	de/schnapp-route-del.png \
+	de/schnapp-route-rec1.png \
 	de/schnapp-route-rec6.png \
 	de/schnapp-route-saveerror.png \
         de/schnapp-routemenu.png \
@@ -191,7 +192,6 @@ dist_commonimages_DATA = \
 	commonimages/schnapp-found.png \
 	commonimages/schnapp-route-pruef.png \
 	commonimages/schnapp-route-rec0.png \
-	commonimages/schnapp-route-rec1.png \
 	commonimages/schnapp-route-rec2.png \
 	commonimages/schnapp-route-rec3.png \
 	commonimages/schnapp-route-rec4.png \
