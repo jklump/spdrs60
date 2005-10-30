@@ -1,3 +1,9 @@
+2005-10-30 Guido Scholz <guido.scholz@bayernline.de>
+	* doc/*: German handbook updated
+	* routedialog.*, routeelementlvi.*, routeelementdialog.* : new
+        designed dialog windows to edit route properties
+	* element.cpp: new design for solenoid labels
+
 2005-06-07 Guido Scholz <guido.scholz@bayernline.de>
 	* route.cpp, element.cpp: new "Fahrstrassenfestlegemelder"
 	for start signals of "Zugfahrstrassen"; optimized route switching

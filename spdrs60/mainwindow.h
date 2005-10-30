@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.4.8 $Revision: 1.15 $
+                           version 0.4.8 $Revision: 1.16 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-27 20:50:45 $
+    last modified        : $Date: 2005-10-30 15:04:52 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -210,6 +210,8 @@ private slots:
    void slotFileSaveAs();
    void slotFileImport();
    void slotReadConfigFile();
+   void slotRouteAdd();
+   void slotRouteDelete();
    void slotDaemonReset();
    void slotDaemonKill();
    void slotDaemonInfo();

@@ -1,11 +1,11 @@
 /***************************************************************************
                            routedialog.h
-                           version 0.4.7 $Revision: 1.14 $
+                           version 0.4.7 $Revision: 1.15 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-10-22 05:43:44 $
+    last modified        : $Date: 2005-10-30 15:04:52 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -142,6 +142,7 @@ private:
    
    void updateStartSignalName(int, int);
    void updateStopSignalName(int, int);
+   void updateListIndexNumbersFrom(QListViewItem*);
 };
 
 #endif    //ROUTEDIALOG_H

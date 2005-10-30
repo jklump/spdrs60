@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.30 $
+                           version 0.4.8 $Revision: 1.31 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-10-22 09:56:07 $
+    last modified        : $Date: 2005-10-30 15:04:52 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -849,7 +849,7 @@ void MainWindow::initMainWindow()
     actionRouteAdd = new QAction(QPixmap(route_new_xpm), tr("&Add"),
             0, this, "routeadd" );
     actionRouteAdd->setToolTip(tr("Add new route"));
-    connect(actionRouteAdd, SIGNAL(activated()), rtViewer,
+    connect(actionRouteAdd, SIGNAL(activated()), this,
             SLOT(slotRouteAdd()));
     actionRouteAdd->addTo(routemenu);
     actionRouteAdd->addTo(routetb);
@@ -873,7 +873,7 @@ void MainWindow::initMainWindow()
     actionRouteDelete = new QAction(QPixmap(route_clear_xpm),
             tr("&Delete"), 0, this, "routedelete" );
     actionRouteDelete->setToolTip(tr("Delete selected route"));
-    connect(actionRouteDelete, SIGNAL(activated()), rtViewer,
+    connect(actionRouteDelete, SIGNAL(activated()), this,
             SLOT(slotRouteDelete()));
     actionRouteDelete->addTo(routemenu);
     actionRouteDelete->addTo(routetb);
@@ -2045,12 +2045,16 @@ void MainWindow::updateRouteMenu(bool rtvIsVisible)
      }
      actionRouteAdd->setEnabled(rtvIsVisible &&
              visualMode == kvmEditRoute);
+     // the next three items should only be enabled when route list
+     // count > 0
+     bool hasroutes = (rtController->getRouteCount() > 0);
+     
      actionRouteEdit->setEnabled(rtvIsVisible &&
-             visualMode == kvmEditRoute);
+             visualMode == kvmEditRoute && hasroutes);
      actionRouteCopy->setEnabled(rtvIsVisible &&
-             visualMode == kvmEditRoute);
+             visualMode == kvmEditRoute && hasroutes);
      actionRouteDelete->setEnabled(rtvIsVisible &&
-             visualMode == kvmEditRoute);
+             visualMode == kvmEditRoute && hasroutes);
 }
 
 
@@ -2244,3 +2248,23 @@ bool MainWindow::isModified()
     return (gbs->isModified() || rtController->isModified());
 }
 
+
+void MainWindow::slotRouteAdd()
+{
+    if (rtViewer != NULL)
+        rtViewer->slotRouteAdd();
+        bool rtvIsVisible = rtViewer->isVisible();
+        /*update rootingtoolbar buttons*/
+        updateRouteMenu(rtvIsVisible);
+}
+
+
+void MainWindow::slotRouteDelete()
+{
+    if (rtViewer != NULL) {
+        rtViewer->slotRouteDelete();
+        bool rtvIsVisible = rtViewer->isVisible();
+        /*update rootingtoolbar buttons*/
+        updateRouteMenu(rtvIsVisible);
+    }
+}

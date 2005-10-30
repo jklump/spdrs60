@@ -1,10 +1,10 @@
 /***************************************************************************
                            routingviewer.cpp
-                           version 0.4.8 $Revision: 1.8 $
+                           version 0.4.8 $Revision: 1.9 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-29 20:42:36 $
+    last modified        : $Date: 2005-10-30 15:04:52 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -240,11 +240,15 @@ void RoutingViewer::slotRouteDelete()
 {
     /*TODO: ask for "Do you realy want to delete this route?*/
     int row = rTable->currentRow();
-    rTable->removeRow(row);
-    gbsRouter->deleteRouteAt(row);
-    /*update rootingtoolbar buttons*/
-    if (rTable->numRows() == 0)
-        emit noRoutesAvailable();
+
+    if (row >= 0){
+        Route* selectedRoute = gbsRouter->getRouteAt(row);
+        if (selectedRoute != NULL)
+            selectedRoute->hideRoute();
+        
+        rTable->removeRow(row);
+        gbsRouter->deleteRouteAt(row);
+    }
 }
 
 

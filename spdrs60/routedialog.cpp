@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.4.8 $Revision: 1.18 $
+                           version 0.4.8 $Revision: 1.19 $
                            -------------------------------
     copyright            : (C) 2005 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-10-22 09:56:07 $
+    last modified        : $Date: 2005-10-30 15:04:52 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -747,8 +747,9 @@ void RouteDialog::elementsLVChanged(QListViewItem* lvi)
     else {
         upPB->setEnabled(lvi->itemAbove() != NULL);
         downPB->setEnabled(lvi->itemBelow() != NULL);
-	editPB->setEnabled(true);
-	removePB->setEnabled(true);
+        bool haselements = (elementsLV->childCount() > 0);
+	editPB->setEnabled(haselements);
+	removePB->setEnabled(haselements);
     }
 }
 
@@ -757,8 +758,17 @@ void RouteDialog::removeElementFromList()
 {
     QListViewItem* lvi = elementsLV->currentItem();
     if (lvi != NULL) {
+        QListViewItem* nextlvi = lvi->itemBelow();
         elementsLV->takeItem(lvi);
         delete lvi;
+        // TODO: save index number and update all following items
+        updateListIndexNumbersFrom(nextlvi); 
+
+        // update button states if list is empty
+        if (elementsLV->childCount() == 0) {
+            editPB->setEnabled(false);
+            removePB->setEnabled(false);
+        }
     }
 }
 
@@ -936,10 +946,14 @@ void RouteDialog::addElementToList()
             rteDlg->getStateElementData(se);
             RouteElementLVI* relvi = new RouteElementLVI(elementsLV,
                     ec , se);
-            if (relvi != NULL)
+            if (relvi != NULL) {
                 relvi->setStateElementData(se);
-            // set focus to new element
-            elementsLV->setSelected(relvi, true);
+                elementsLV->sort();
+                // set focus to new element
+                elementsLV->setSelected(relvi, true);
+                // update button states
+                elementsLVChanged(relvi);
+            }
         }
         delete se;
     }
@@ -950,3 +964,20 @@ void RouteDialog::addElementToList()
                     element**)));
     delete rteDlg;
 }
+
+
+void RouteDialog::updateListIndexNumbersFrom(QListViewItem* lvi)
+{
+    if (lvi == NULL)
+        return;
+    
+    QListViewItem* newlvi = lvi;
+    while (newlvi != NULL) {
+        int idx = newlvi->text(0).toInt();
+        --idx;
+        newlvi->setText(0, QString::number(idx));
+        QListViewItem* nextlvi = newlvi->itemBelow();
+        newlvi = nextlvi;
+    }
+}
+
