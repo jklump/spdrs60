@@ -221,7 +221,15 @@ Veröffentlicht am **.11.2005
   auf Magnetartikel mit einer Adresse beschränkt.
   </para></listitem>
   <listitem><para>Das als als Online-Hilfe (F1) mitgelieferte Handbuch wurde
-  weitgehend überarbeitet.</para></listitem>
+  sowohl stilistisch als auch inhaltlich weitgehend überarbeitet.
+  </para></listitem>
+  <listitem><para>Die Beschriftung der Signale und Weichen ist nun
+  in schwarzer Schrift auf weißem Grund ausgeführt, was dem Original
+  deutlich näher kommt, als die bisherig Darstellung. Die innerhalb von
+  Gleisbildelementen verwendete Schriftgröße ist nun relativ zur
+  verwendeten Systemschriftgröße festgelegt und damit über das
+  Qt-Konfigurationstool &raquo;qtconfig&laquo; einstellbar.
+  </para></listitem>
 </itemizedlist>
 </para>
 </sect2>

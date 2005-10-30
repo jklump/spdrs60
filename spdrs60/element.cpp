@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.30 $
+                           version 0.4.8 $Revision: 1.31 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-10-29 20:09:39 $
+    last modified        : $Date: 2005-10-30 12:11:39 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -170,18 +170,6 @@ element::element(QStrList* elementData_, QWidget* parent): QWidget(parent)
     ttComm = NULL;
 
     createPopupMenus();
-    // init signals as they were saved in layout file or with red state
-    if ((sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
-         sSoldIcon == SYM_SS || sSoldIcon == SYM_SSH ||
-         sSoldIcon == SYM_SSS || sSoldIcon == SYM_REL ||
-         sSoldIcon == SYM_WS || sSoldIcon == SYM_ZP ||
-         sSoldIcon == SYM_BLD || sSoldIcon == SYM_VS) &&
-         (INIT_SIGNALS == RED))
-        iSoldDirection = 0;
-
-    if (sSoldIcon == SYM_ENK)   // couplers get the non-active direction
-        iSoldDirection = 0;     // on setup
-
     updateProperties();
 
     setupElementIcon(iSoldLEDstate, sSaveReplaceIcon);
@@ -381,6 +369,18 @@ void element::updateProperties()
     /* initialize standard properties of this special symbol to avoid
      * recalculation in several procedures by expensive string
      * comparations*/
+    // init signals as they were saved in layout file or with red state
+    if ((sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
+         sSoldIcon == SYM_SS || sSoldIcon == SYM_SSH ||
+         sSoldIcon == SYM_SSS || sSoldIcon == SYM_REL ||
+         sSoldIcon == SYM_WS || sSoldIcon == SYM_ZP ||
+         sSoldIcon == SYM_BLD || sSoldIcon == SYM_VS) &&
+         (INIT_SIGNALS == RED))
+        iSoldDirection = 0;
+
+    if (sSoldIcon == SYM_ENK)   // couplers get the non-active direction
+        iSoldDirection = 0;     // on setup
+
     signal = sSoldIcon.startsWith("signal");
 
     if (signal)
@@ -1144,6 +1144,8 @@ void element::slotToggle()
 }
 
 
+// this method has some inherent errors due to missing property
+// settings, especialy when sRepeatIcon is used
 void element::slotCtxEdit(int ctxID)
 {
     switch (ctxID) {
@@ -1153,6 +1155,7 @@ void element::slotCtxEdit(int ctxID)
             iSoldRotate = 0;        // all symbols are rotatable
             iSoldLEDoff = 0;
             iFBContact = 0;
+            updateProperties();
             break;
         case CTX_ID_ROTATE:
             rotate();
@@ -1166,6 +1169,7 @@ void element::slotCtxEdit(int ctxID)
             iSoldRotate = 0;        // all symbols are rotatable
             iSoldLEDoff = 0;
             iFBContact = 0;
+            updateProperties();
             break;
         case 6:
             clear();
@@ -1173,6 +1177,7 @@ void element::slotCtxEdit(int ctxID)
             iSoldRotate = 0;        // all symbols are rotatable
             iSoldLEDoff = 0;
             iFBContact = 0;
+            updateProperties();
             break;
         case 7:
             clear();
@@ -1180,18 +1185,21 @@ void element::slotCtxEdit(int ctxID)
             iSoldRotate = 0;        // all symbols are rotatable
             iSoldLEDoff = 0;
             iFBContact = 0;
+            updateProperties();
             break;
         case 8:
             clear();
             sSoldIcon = SYM_DIL;    // left diagonal
             iSoldLEDoff = 0;
             iFBContact = 0;
+            updateProperties();
             break;
         case 9:
             clear();
             sSoldIcon = SYM_DIR;    // right "
             iSoldLEDoff = 0;
             iFBContact = 0;
+            updateProperties();
             break;
         case 10:
             clear();
@@ -1199,6 +1207,7 @@ void element::slotCtxEdit(int ctxID)
             iSoldRotate = 0;        // all symbols are rotatable
             iSoldLEDoff = 0;
             iFBContact = 0;
+            updateProperties();
             break;
         case 11:
             clear();
@@ -1206,6 +1215,7 @@ void element::slotCtxEdit(int ctxID)
             iSoldRotate = 0;        // all symbols are rotatable
             iSoldLEDoff = 0;
             iFBContact = 0;
+            updateProperties();
             break;
     }
     iSoldLEDstate = bFBport[iFBContact] << 1;
@@ -1791,12 +1801,15 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                  && sSoldIcon != SYM_ADR && !sSoldText.isEmpty())
             p.fillRect(br, QBrush(white));
 
-        // adjust text position one pixel to right
+        // adjust text area position
         br.setX(br.x() + 1);
+        br.setY(br.y() + 1);
+        br.setHeight(br.height() - 2);
 	p.drawText(br, Qt::AlignCenter | Qt::SingleLine | Qt::DontClip, s);
 
 
-        // paint locked circle for solenoids
+        // paint locked circle for solenoids (Sperrmelder,
+        // Verschlussmelder)
         QPoint xyLocked;
 
         if ((sSoldIcon == SYM_WEL && iSoldRotate == 0) ||
@@ -1846,6 +1859,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                 && sSoldIcon != SYM_REL && sSoldIcon != SYM_SBN
                 && sSoldIcon != SYM_MDC && sSoldIcon != SYM_DRE
                 && sSoldIcon != SYM_ADR && sSoldIcon != SYM_BLD
+                && sSoldIcon != SYM_SRB && sSoldIcon != SYM_NRB
                 && sSoldIcon != SYM_VS) {
             p.setPen(black);
             p.setBrush(iSoldLocked > 0 ? yellow : darkGray);

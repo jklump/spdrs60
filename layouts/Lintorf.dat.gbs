@@ -7361,7 +7361,7 @@ rotate:         1
 invers turnout: -1
 decoder:        Lenz LS 130 SD (D)
 protocol:       N
-address_1:      82
+address_1:      83
 address_2:      -1
 change conn 1:  0
 change conn 2:  -1

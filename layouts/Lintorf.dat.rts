@@ -212,7 +212,7 @@ type:           0
 level:          -1
 -------------------------------------
 ROUTE --------> 14
-name:           ZHS v.T. - P3
+name:           v.T. - P3
 to signal:      0057
 switch x to y:  0025 1
 switch x to y:  0026 1
@@ -226,7 +226,7 @@ type:           2
 level:          -1
 -------------------------------------
 ROUTE --------> 15
-name:           ZHS N2 - n.T.
+name:           N2 - n.T.
 to signal:      0060
 switch x to y:  0028 1
 switch x to y:  0027 1
@@ -240,7 +240,7 @@ type:           2
 level:          -1
 -------------------------------------
 ROUTE --------> 16
-name:           ZHS N3 - n.T.
+name:           N3 - n.T.
 to signal:      0060
 switch x to y:  0028 1
 switch x to y:  0027 1
@@ -254,7 +254,7 @@ type:           2
 level:          -1
 -------------------------------------
 ROUTE --------> 17
-name:           ZHS v.W. - N2
+name:           v.W. - N2
 to signal:      0058
 switch x to y:  0009 0
 switch x to y:  0010 0
@@ -273,7 +273,7 @@ type:           2
 level:          -1
 -------------------------------------
 ROUTE --------> 18
-name:           ZHS v.W. - N3
+name:           v.W. - N3
 to signal:      0059
 switch x to y:  0009 1
 switch x to y:  0010 1
@@ -292,7 +292,7 @@ type:           2
 level:          -1
 -------------------------------------
 ROUTE --------> 19
-name:           ZHS P3 - n.W.
+name:           P3 - n.W.
 to signal:      0066
 switch x to y:  0006 0
 switch x to y:  0007 0
@@ -657,7 +657,7 @@ from signal:    0071 1
 release port:   -1
 activate port:  -1
 active by loco: -1
-type:           0
+type:           3
 level:          -1
 -------------------------------------
 ROUTE --------> 45
@@ -770,7 +770,7 @@ from signal:    0070 1
 release port:   -1
 activate port:  -1
 active by loco: -1
-type:           0
+type:           3
 level:          -1
 -------------------------------------
 ROUTE --------> 52
