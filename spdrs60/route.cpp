@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.22 $
+                           version 0.4.8 $Revision: 1.23 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-10-22 05:43:44 $
+    last modified        : $Date: 2005-10-30 20:14:58 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -109,7 +109,7 @@ Route::Route(element* startEl)
     acLoco.address = 0;
     detourLevel = 0;
 
-    Name = tr("New route from ");
+    Name = tr("New route");
     if (startEl != NULL) {
         Name.append(startEl->getName());
         startEl->getStateData(fromSignal);
@@ -552,7 +552,7 @@ int Route::startRouting()
         if (el != NULL)
             /* The original SpDr waits 250 ms until next turnout is
              * switched to avoid high power consumption. Signals on
-             * route path are switched after "Fahrstraßenfestlegemelder"*/
+             * route path are switched after "Fahrstrassenfestlegemelder"*/
             if (el->isTurnout() && el->hasDifferentDirection(se->state)) {
 
                 // turnout can not be switched if is occupied
@@ -584,7 +584,7 @@ int Route::startRouting()
     // send signal to gbs to change route path LEDs
     emit updateRoutePathLEDs(fromSignal, toSignal, rsa);
     
-    // interrupt routing if "Zugfahrstraße" meets occupied element
+    // interrupt routing if "Zugfahrstrasse" meets occupied element
     if (krouteReset == rsa) {
         return -1;
     }
@@ -592,7 +592,7 @@ int Route::startRouting()
     /* 
      * 4) lock all switchable elements; in original SpDr this is done
      * with step 3) but is too complicated to implement respecting
-     * interruption by occupied elements for "Zugfahrstraßen" and the
+     * interruption by occupied elements for "Zugfahrstrassen" and the
      * necessary unlocking of allready locked elements
      */
     if (fromSignal.elemPtr != NULL)
@@ -615,7 +615,7 @@ int Route::startRouting()
     }
 
     /*
-     * 5) activate "Fahrstraßenfestlegemelder" (FfM) at start signal
+     * 5) activate "Fahrstrassenfestlegemelder" (FfM) at start signal
      */ //TODO: shunting routes do not have an active FfM
     if (fromSignal.elemPtr != NULL)
            fromSignal.elemPtr->activateFfM((routeType != RRS &&
@@ -766,14 +766,7 @@ void Route::showRoute()
 void Route::setStartSignal(element* el)
 {
     el->getStateData(fromSignal);
-    Name = tr("New route");
-    
-    if (hasStartSignal())
-        Name.append(tr(" from %1").arg(fromSignal.name));
- 
-    if (hasStopSignal())
-        Name.append(tr(" to %1").arg(toSignal.name));
-
+    updateRouteName();
     el->switchSelectionMode(ksmStartSig);
 }
 
@@ -781,15 +774,25 @@ void Route::setStartSignal(element* el)
 void Route::setStopSignal(element* el)
 {
     el->getStateData(toSignal);
-    Name = tr("New route");
-
-    if (hasStartSignal())
-        Name.append(tr(" from %1").arg(fromSignal.name));
- 
-    if (hasStopSignal())
-        Name.append(tr(" to %1").arg(toSignal.name));
-
+    updateRouteName();
     el->switchSelectionMode(ksmStopSig);
+}
+
+
+void Route::updateRouteName()
+{
+    if (hasStartSignal()) {
+        if (hasStopSignal()) 
+            Name = QString("%1 - %2").arg(fromSignal.name).arg(toSignal.name);
+        else
+            Name = QString(tr("New route from %1").arg(fromSignal.name));
+    }
+    else {
+        if (hasStopSignal())
+            Name = QString(tr("New route to %1").arg(fromSignal.name));
+        else
+            Name = tr("New route");
+    }
 }
 
 
@@ -812,10 +815,12 @@ void Route::removeElement(element* el)
         case (ksmStartSig):
             fromSignal.elemPtr = NULL;
             fromSignal.elemPtr2 = NULL;
+            updateRouteName();
             break;
         case (ksmStopSig):
             toSignal.elemPtr = NULL;
             toSignal.elemPtr2 = NULL;
+            updateRouteName();
             break;
         case (ksmSwitchEl):
             {

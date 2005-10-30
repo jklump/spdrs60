@@ -755,10 +755,6 @@ Wollen Sie sie überschreiben?</translation>
         <translation>Gewählte Fahrstraße bearbeiten</translation>
     </message>
     <message>
-        <source>Copy selected route</source>
-        <translation type="obsolete">Gewählte Fahrstraße kopieren</translation>
-    </message>
-    <message>
         <source>&amp;Delete</source>
         <translation>&amp;Löschen</translation>
     </message>
@@ -825,20 +821,16 @@ Wollen Sie sie überschreiben?</translation>
 <context>
     <name>Route</name>
     <message>
-        <source>New route from </source>
-        <translation>Neue Fahrstraße von </translation>
-    </message>
-    <message>
         <source>New route</source>
         <translation>Neue Fahrstraße</translation>
     </message>
     <message>
-        <source> from %1</source>
-        <translation> von %1</translation>
+        <source>New route from %1</source>
+        <translation>Neue Fahrstraße von %1</translation>
     </message>
     <message>
-        <source> to %1</source>
-        <translation> nach %1</translation>
+        <source>New route to %1</source>
+        <translation>Neue Fahrstraße nach %1</translation>
     </message>
 </context>
 <context>

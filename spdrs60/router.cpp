@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.4.8 $Revision: 1.16 $
+                           version 0.4.8 $Revision: 1.17 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-27 20:50:48 $
+    last modified        : $Date: 2005-10-30 20:14:58 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -262,6 +262,9 @@ void Router::recordElement(element* el, elemRecordType rtype)
                 break;
             case (krecClear):
                 recordRt->removeElement(el);
+                /*send update signal to routingviewer to show changed
+                  route name if changed element was start or stop signal*/
+                emit updateRoutingViewerAt(routeList.find(recordRt));
                 break;
             default:
                 break;
