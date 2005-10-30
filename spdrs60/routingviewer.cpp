@@ -1,10 +1,10 @@
 /***************************************************************************
                            routingviewer.cpp
-                           version 0.4.8 $Revision: 1.9 $
+                           version 0.4.8 $Revision: 1.10 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-10-30 15:04:52 $
+    last modified        : $Date: 2005-10-30 21:12:24 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -196,7 +196,10 @@ void RoutingViewer::slotRouteAdd()
 {
     unsigned int idx = gbsRouter->addNewRoute();
     rTable->setNumRows(idx);
-    populateTableRow(idx - 1);
+    --idx;
+    populateTableRow(idx);
+    // set focus to new row
+    rTable->selectRow(idx);
 }
 
 
@@ -232,7 +235,10 @@ void RoutingViewer::slotRouteCopy()
     int row = rTable->currentRow();
     rTable->insertRows(row + 1, 1);
     gbsRouter->copyRouteAt(row);
-    populateTableRow(row + 1);
+    ++row;
+    populateTableRow(row);
+    // set focus to new row
+    rTable->selectRow(row);
 }
 
 
@@ -248,6 +254,7 @@ void RoutingViewer::slotRouteDelete()
         
         rTable->removeRow(row);
         gbsRouter->deleteRouteAt(row);
+        //TODO: set focus to row above removed row
     }
 }
 
