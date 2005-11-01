@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.4.8 $Revision: 1.23 $
+                           version 0.4.8 $Revision: 1.24 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-29 20:42:35 $
+    last modified        : $Date: 2005-11-01 16:37:33 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -215,7 +215,7 @@ private:
 public slots:
     void slotSwitchIt(int, int);
     void slotToggle();
-    void slotOccupyElement(unsigned int);
+    void slotOccupyElement(unsigned int, unsigned int, unsigned int);
     void switchSelectionMode(elemSelectionMode);
     void switchVisualMode(elemVisualMode);
     void slotRepeatIcon(const QString&);

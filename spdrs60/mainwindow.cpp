@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.31 $
+                           version 0.4.8 $Revision: 1.32 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-10-30 15:04:52 $
+    last modified        : $Date: 2005-11-01 16:37:34 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -325,8 +325,10 @@ void MainWindow::initMainWindow()
     Q_CHECK_PTR(gbs);
     scrollview->addChild(gbs);
 
-    connect(this, SIGNAL(sendFBChangeLayout(unsigned int)),
-            gbs, SIGNAL(feedbackPortChanged(unsigned int)));
+    connect(this, SIGNAL(sendFBChangeLayout(unsigned int, unsigned int,
+                    unsigned int)),
+            gbs, SIGNAL(feedbackPortChanged(unsigned int, unsigned int,
+                    unsigned int)));
     connect(this, SIGNAL(switchedVisualMode(elemVisualMode)),
             gbs, SIGNAL(switchVisualMode(elemVisualMode)));
     connect(gbs, SIGNAL(showLogMessage(const QString&, int, int)),
@@ -1472,11 +1474,32 @@ void MainWindow::CommandSocketReadyRead()
                 }
             }
         }
-        /*
+        
         else if (SRCPCommandStatus == srcp07GetFBStates) {
-		SRCPCommandStatus = srcp07Connected;
+            /*
+             * INFO FB <module_type> * < all states>
+             *   0   1      2        3       4
+             */
+            if (ServerInfo.startsWith("INFO FB")) {
+                QString allstates = ServerInfo.section(" ", 4, 4);
+                
+                unsigned int limit = allstates.length();
+                if (limit > MAX_FB)
+                    limit = MAX_FB;
+                
+                for (unsigned int i = 0; i < limit; i++) {
+                    int tmpstate = allstates[i].digitValue();
+                    bFBport[i] = (tmpstate == 1);
+                    unsigned int fbbus = i / 496 + 1;
+                    // update module window and gbs
+                    emit sendFBChangeModule(i);
+                    emit sendFBChangeLayout(fbbus, i, tmpstate);
+                }
+            }
+
+            SRCPCommandStatus = srcp07Connected;
 	}
-        */
+        
         else {
             /* else: no login but connection close */
             cmdToDebug(tr("Cannot read server welcome message!"), M_INFO, HIST);
@@ -1543,7 +1566,7 @@ void MainWindow::FeedbackSocketReadyRead()
         // error-code
         if (sInfo.contains("-", 0)) {
             cmdToDebug(sInfo, M_INFO, FEED);
-            return;
+            break;
         }
 
         iPortNr = sInfo.section(" ", 3, 3).toUInt();
@@ -1568,7 +1591,8 @@ void MainWindow::FeedbackSocketReadyRead()
                 uiPort = iPortNr % 16;
                 uiPort++;
             }
-            else { //(FEEDBACK == FB_8)
+            //(FEEDBACK == FB_8)
+            else {
                 uiModule = iPortNr >> 3;
                 uiModule++;
                 uiPort = iPortNr % 8;
@@ -1585,7 +1609,7 @@ void MainWindow::FeedbackSocketReadyRead()
         // send updates to module window
         emit sendFBChangeModule(iPortNr);
         // send updates to all elements via gbs
-        emit sendFBChangeLayout(iPortNr);
+        emit sendFBChangeLayout(fbbus, iPortNr, iState);
         // send updates to all routes
 	emit sendFBChangeRoute(fbbus, iPortNr, iState == 1);
     }
@@ -1671,40 +1695,23 @@ void MainWindow::InfoSocketReadyRead()
          *   0   1      2            3       4
          */
         else if ("FB" == device) {
-            // all states in one string
-            // INFO FB S88 * 10101010101010...
-            if ("*" == sInfo.section(" ", 3, 3)){
-                QString allstates = sInfo.section(" ", 4, 4);
-                
-                unsigned int limit = allstates.length();
-                if (limit > MAX_FB)
-                    limit = MAX_FB;
-                
-                for (unsigned int i = 0; i < limit; i++) {
-                    int tmpstate = allstates[i].digitValue();
-                    bFBport[i] = (tmpstate == 1);
-                }
-                isFBInitMode = false;
-            }
-            // a state of a single port
-            else {
-                unsigned int port = sInfo.section(" ", 3, 3).toUInt();
-                unsigned int state = sInfo.section(" ", 4, 4).toUInt();
-		unsigned int fbbus = (port - 1) / 496 + 1;
+            // one state of a single FB port
+            unsigned int port = sInfo.section(" ", 3, 3).toUInt();
+            unsigned int state = sInfo.section(" ", 4, 4).toUInt();
+            unsigned int fbbus = (port - 1) / 496 + 1;
 
-                port--;
-                
-                // just for case 
-                if (port < MAX_FB)
-                    bFBport[port] = state;
+            port--;
 
-                emit sendFBChangeModule(port);
-                // send updates to all elements via gbs
-                emit sendFBChangeLayout(port);
-                // send updates to all routes if state changes to 1
-                if (!isFBInitMode)
-                    emit sendFBChangeRoute(fbbus, port, state == 1);
-            }
+            // just for case 
+            if (port < MAX_FB)
+                bFBport[port] = state;
+
+            emit sendFBChangeModule(port);
+            // send updates to all elements via gbs
+            emit sendFBChangeLayout(fbbus, port, state);
+            // send updates to all routes if state changes to 1
+            if (!isFBInitMode)
+                emit sendFBChangeRoute(fbbus, port, state == 1);
         }
     }
 }
@@ -2221,6 +2228,7 @@ void MainWindow::layoutUpdateFB()
 {
     SendCommandToSRCPServer((FEEDBACK <=
         1) ? "GET FB S88 *" : "GET FB I8255 *");
+    SRCPCommandStatus = srcp07GetFBStates;
 }
 
 

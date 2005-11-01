@@ -4037,6 +4037,25 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
 <sect1 id="sect-rueckmeldung">
   <title>Rückmeldung</title>
 <para>
+Rückmeldungen werden im Programm sowohl für die Visualisierung von
+Anlagenzuständen, als auch zum Auslösen von Schaltvorgängen genutzt.
+Die Bearbeitung eingehender Rückmeldungen erfolgt programmintern mit
+folgender Reihenfolge:
+</para>
+<itemizedlist mark="bullet">
+  <listitem><para>Darstellung der Rückmeldeeingänge im
+  Rückmeldemodulfenster.
+</para></listitem>
+  <listitem><para>Darstellung der belegten Gleisabschnitte im Gleisbild
+  und Ansteuerung der EDiTS-Lokadress-Anzeigeelemente.
+  </para></listitem>
+  <listitem><para>Auflösen einer angesteuerten Fahrstraße.
+</para></listitem>
+  <listitem><para>Einstellen einer angesteuerten Fahrstraße.
+</para></listitem>
+</itemizedlist>
+
+<para>
 Mit der Tastenkombination <keycap>Strg-M</keycap> Öffnet man das
 Übersichtfenster für die Rückmeldebusse. Mit der neuen Version des
 Daemon (&gt; 1.2 ) werden jetzt 4 Rückmeldebusse à 31 Module mit 16

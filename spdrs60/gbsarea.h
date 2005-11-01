@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.4.8 $Revision: 1.17 $
+                           version 0.4.8 $Revision: 1.18 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-29 20:42:35 $
+    last modified        : $Date: 2005-11-01 16:37:34 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -138,7 +138,7 @@ protected:
 signals:
     void showLogMessage(const QString&, int, int);
     void switchVisualMode(elemVisualMode);
-    void feedbackPortChanged(unsigned int);
+    void feedbackPortChanged(unsigned int, unsigned int, unsigned int);
     void sendCommand(const QString&);
     void setRepeatIcon(const QString&);
     void setRoute(element*, GbsButtonState, GbsButtonState);

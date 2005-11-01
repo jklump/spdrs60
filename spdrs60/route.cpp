@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.24 $
+                           version 0.4.8 $Revision: 1.25 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-10-30 21:12:24 $
+    last modified        : $Date: 2005-11-01 16:37:34 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -966,6 +966,16 @@ bool Route::isUnlockedType(element* fel, element* tel, GbsButtonState cb,
 }
 
 
+/* activate route action if conditions are given:
+
+   switchtooff  ison  action
+   -------------------------
+        0        0      0
+        0        1      1
+        1        0      1
+        1        1      0
+   -------------------------
+   */
 void Route::lockByFeedbackPort(unsigned int bus, unsigned int port, bool ison)
 {
     if (!locked && acPort.bus == bus && acPort.address == port &&

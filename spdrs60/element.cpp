@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.31 $
+                           version 0.4.8 $Revision: 1.32 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-10-30 12:11:39 $
+    last modified        : $Date: 2005-11-01 16:37:33 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2224,7 +2224,8 @@ int element::routeElement(int S, int iNewLEDstate_, int iLastC)
  * a route (done by GBSArea); but "setupElementIcon" is only called either
  * with LED_OFF or LED_RED (never with LED_YEL) from this slot!
  */
-void element::slotOccupyElement(unsigned int iPortNr_)
+void element::slotOccupyElement(unsigned int bus, unsigned int iPortNr_,
+        unsigned int state)
 {
     QString sReplaceIcon = "";
 
@@ -2233,6 +2234,7 @@ void element::slotOccupyElement(unsigned int iPortNr_)
         setupElementIcon(iSoldLEDstate, "");
     // evtl. Dauer der Anzeige einstellbar ????
 
+    // TODO: take care of fbus for SRCP 0.8
     else if (iPortNr_ == (unsigned int) iFBContact) {
         // either LED_OFF = 0 or LED_RED = 1 + 1 = 2
         if (iSoldRoutingActive == 0)
@@ -2410,7 +2412,7 @@ bool element::hasShuntingRouteButtonOnly()
 
 bool element::hasLEDsOn()
 {
-    return (iSoldLEDoff == 0);
+    return (iSoldLEDoff != 1);
 }
 
 

@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.26 $
+                           version 0.4.8 $Revision: 1.27 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-29 20:42:35 $
+    last modified        : $Date: 2005-11-01 16:37:34 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -862,8 +862,10 @@ void GBSArea::setupElements()
                         this, SIGNAL(sendCommand(const QString&)));
             }
             if (el->hasLEDsOn())
-                connect(this, SIGNAL(feedbackPortChanged(unsigned int)),
-                        el, SLOT(slotOccupyElement(unsigned int)));
+                connect(this, SIGNAL(feedbackPortChanged(unsigned int,
+                                unsigned int, unsigned int)),
+                        el, SLOT(slotOccupyElement(unsigned int,
+                                unsigned int, unsigned int)));
         }
     }
     move(0, 0);
