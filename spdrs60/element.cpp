@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.32 $
+                           version 0.4.8 $Revision: 1.33 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-01 16:37:33 $
+    last modified        : $Date: 2005-11-03 22:00:47 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -136,7 +136,6 @@ element::element(QWidget* parent): QWidget(parent)
 
     createPopupMenus();
     updateProperties();
-
     setupElementIcon(iSoldLEDstate, sSaveReplaceIcon);
 }
     
@@ -171,7 +170,6 @@ element::element(QStrList* elementData_, QWidget* parent): QWidget(parent)
 
     createPopupMenus();
     updateProperties();
-
     setupElementIcon(iSoldLEDstate, sSaveReplaceIcon);
 
     if (!(sSoldIcon == SYM_ENK && iSoldSubType != -1)
@@ -401,7 +399,7 @@ void element::updateProperties()
         sSoldIcon.startsWith("kurve") ||
         sSoldIcon.startsWith("richtung") ||
         sSoldIcon.startsWith("gerade") || sSoldIcon == SYM_BUE ||
-        sSoldIcon == SYM_ADR|| sSoldIcon == SYM_BLD;
+        sSoldIcon == SYM_ADR || sSoldIcon == SYM_BLD;
     
     /*element has solenoid connected*/
     /*TODO: add other switchable elements (direction != -1)*/
@@ -902,7 +900,7 @@ void element::makeCommand()
         }
 
         // SET GA <protocol> <addr> <port> <action> <delay>
-        sSocketCommand.sprintf("SET GA %s %04d %1d 1 %d\n",
+        sSocketCommand.sprintf("SET GA %s %d %d 1 %d\n",
         /*protocol*/ sSoldProtocol.data(),
         /*addr    */ iRealAddress,
         /*port    */ (sSoldProtocol == "M") ? iRealDirection : !iRealDirection,

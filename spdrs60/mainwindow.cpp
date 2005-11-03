@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.32 $
+                           version 0.4.8 $Revision: 1.33 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-01 16:37:34 $
+    last modified        : $Date: 2005-11-03 22:00:47 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -942,17 +942,20 @@ void MainWindow::resetMenu()
 
 void MainWindow::slotEditCut()
 {
- /*TODO*/}
+ /*TODO*/
+}
 
 
 void MainWindow::slotEditCopy()
 {
- /*TODO*/}
+ /*TODO*/
+}
 
 
 void MainWindow::slotEditPaste()
 {
- /*TODO*/}
+ /*TODO*/
+}
 
 
 void MainWindow::slotViewDebug()
@@ -1121,9 +1124,9 @@ void MainWindow::updateFileMenuItems()
     actionLayoutNotRot->setEnabled(true);
 
     if (CommandPortIsConnected) {
-        actionLayoutToggleAll->setEnabled(true);
-        actionLayoutSendAll->setEnabled(true);
-	actionLayoutUpdateFB->setEnabled(true);
+        actionLayoutToggleAll->setEnabled(LayoutPowerIsOn);
+        actionLayoutSendAll->setEnabled(LayoutPowerIsOn);
+	actionLayoutUpdateFB->setEnabled(LayoutPowerIsOn);
     }
 
     //viewmenu->setItemEnabled(VIEW_ID_ROUTES, !fileName.isEmpty());
@@ -1324,6 +1327,8 @@ void MainWindow::openFile(const QString& fn)
     cmdToDebug(tr("Layout file '%1' opened").arg(fn), M_INFO, HIST);
     updateCaption();
     updateFileMenuItems();
+    // update feedback states
+    layoutUpdateFB();
 }
 
 
@@ -1937,9 +1942,9 @@ void MainWindow::updateDaemonMenu()
     
     actionLayoutPower->setEnabled(CommandPortIsConnected);
 
-    actionLayoutToggleAll->setEnabled(CommandPortIsConnected);
-    actionLayoutSendAll->setEnabled(CommandPortIsConnected);
-    actionLayoutUpdateFB->setEnabled(CommandPortIsConnected);
+    actionLayoutToggleAll->setEnabled(LayoutPowerIsOn);
+    actionLayoutSendAll->setEnabled(LayoutPowerIsOn);
+    actionLayoutUpdateFB->setEnabled(LayoutPowerIsOn);
 }
 
 

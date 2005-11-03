@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.27 $
+                           version 0.4.8 $Revision: 1.28 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-01 16:37:34 $
+    last modified        : $Date: 2005-11-03 22:00:47 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -657,7 +657,9 @@ void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
                 rel != fSig.elemPtr) {
             // feedback for caller
             setRoute = krouteReset;
-            //TODO: error message
+            // show error message
+            emit showLogMessage(tr("Establishing train routes over"
+                        " occupied elements is not allowed"), M_INFO, HIST);
             return;
         }
 
@@ -821,6 +823,7 @@ void GBSArea::deleteElements()
 {
     /* send signal to router */
     emit clearRoutes();
+    //TODO: disconnect all elements
     elements.clear();
     move(0, 0);
     updateGeometry();

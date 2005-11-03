@@ -110,6 +110,10 @@ den Suchkriterien entspricht.</translation>
         <source>No routing possible; signal &apos;%1&apos; is allready locked by an active route.</source>
         <translation>Kein Umschalten möglich; Signal &apos;%1&apos; ist durch eine aktive Fahrstraße gesperrt.</translation>
     </message>
+    <message>
+        <source>Establishing train routes over occupied elements is not allowed</source>
+        <translation>Das Einrichten von Zugfahrstraßen über belegte Gleisabschnitte ist nicht erlaubt</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
