@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.25 $
+                           version 0.4.8 $Revision: 1.26 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-01 16:37:34 $
+    last modified        : $Date: 2005-11-03 18:00:26 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -966,28 +966,29 @@ bool Route::isUnlockedType(element* fel, element* tel, GbsButtonState cb,
 }
 
 
-/* activate route action if conditions are given:
+/* 
+  activate route action if conditions are given:
 
-   switchtooff  ison  action
-   -------------------------
-        0        0      0
-        0        1      1
-        1        0      1
-        1        1      0
-   -------------------------
-   */
+  used  switchtooff  ison  action
+  -------------------------------
+   1         0        0      0
+   1         0        1      1
+   1         1        0      1
+   1         1        1      0
+  -------------------------------
+ */
 void Route::lockByFeedbackPort(unsigned int bus, unsigned int port, bool ison)
 {
-    if (!locked && acPort.bus == bus && acPort.address == port &&
-        acPort.switchtooff != ison)
+    if (!locked && acPort.used && acPort.bus == bus &&
+            acPort.address == port && acPort.switchtooff != ison)
         startRouting();
 }
 
 
 void Route::unlockByFeedbackPort(unsigned int bus, unsigned int port, bool ison)
 {
-    if (locked && rePort.bus == bus && rePort.address == port
-        && rePort.switchtooff != ison)
+    if (locked && rePort.used && rePort.bus == bus &&
+            rePort.address == port && rePort.switchtooff != ison)
         stopRouting();
 }
 
