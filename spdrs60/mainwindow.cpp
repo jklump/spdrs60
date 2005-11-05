@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.34 $
+                           version 0.4.8 $Revision: 1.35 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-05 06:53:35 $
+    last modified        : $Date: 2005-11-05 09:43:13 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -384,6 +384,11 @@ void MainWindow::initMainWindow()
     FeedBackCB->setSizeLimit(15);
     FeedBackCB->setFont(f);
     cbStack->addWidget(FeedBackCB, 2);
+#if QT_VERSION < 0x030200
+    // force painting of history lines and their labels
+    cbStack->raiseWidget(0);
+    lblStack->raiseWidget(0);
+#endif
 
     setCentralWidget(vBox);
 
@@ -453,38 +458,65 @@ void MainWindow::initMainWindow()
     menuBar()->insertItem(tr("&File"), filemenu);
 
     /*file actions*/
+#if QT_VERSION >= 0x030200
     actionFileNew = new QAction(QPixmap(filenew_xpm), tr("&New..."),
             CTRL+Key_N, this, "fileNew" );
     actionFileNew->setToolTip(tr("Create empty layout"));
+#else
+    actionFileNew = new QAction(tr("Create empty layout"),
+		    QPixmap(filenew_xpm), tr("&New..."), CTRL+Key_N,
+                    this, "fileNew" );
+#endif
     connect(actionFileNew, SIGNAL(activated()), this,
             SLOT(slotFileNew()));
     actionFileNew->addTo(filemenu);
     actionFileNew->addTo(filetb);
 
+#if QT_VERSION >= 0x030200
     actionFileOpen = new QAction(QPixmap(fileopen_xpm), tr("&Open..."),
             CTRL+Key_O, this, "fileOpen" );
     actionFileOpen->setToolTip(tr("Open layout file"));
+#else
+    actionFileOpen = new QAction(tr("Open layout file"), 
+            QPixmap(fileopen_xpm), tr("&Open..."), CTRL+Key_O, this,
+            "fileOpen" );
+#endif
     connect(actionFileOpen, SIGNAL(activated()), this,
             SLOT(slotFileOpen()));
     actionFileOpen->addTo(filemenu);
     actionFileOpen->addTo(filetb);
 
+#if QT_VERSION >= 0x030200
     actionFileSave = new QAction(QPixmap(filesave_xpm), tr("&Save"),
             CTRL+Key_S, this, "fileSave" );
+#else
+    actionFileSave = new QAction("", QPixmap(filesave_xpm), tr("&Save"),
+            CTRL+Key_S, this, "fileSave" );
+#endif
     connect(actionFileSave, SIGNAL(activated()), this,
             SLOT(slotFileSave()));
     actionFileSave->addTo(filemenu);
     actionFileSave->addTo(filetb);
 
+#if QT_VERSION >= 0x030200
     actionFileSaveAs = new QAction(QPixmap(filesaveas_xpm), tr("Save &as..."),
             CTRL+Key_A, this, "fileSaveAs" );
+#else
+    actionFileSaveAs = new QAction("", QPixmap(filesaveas_xpm), tr("Save &as..."),
+            CTRL+Key_A, this, "fileSaveAs" );
+#endif
     connect(actionFileSaveAs, SIGNAL(activated()), this,
             SLOT(slotFileSaveAs()));
     actionFileSaveAs->addTo(filemenu);
     //actionFileSaveAs->addTo(filetb);
 
+#if QT_VERSION >= 0x030200
     actionFileImport = new QAction(QPixmap(fileimport_xpm), tr("&Import..."),
             CTRL+Key_I, this, "fileImport" );
+#else
+    actionFileImport = new QAction("", QPixmap(fileimport_xpm), tr("&Import..."),
+            CTRL+Key_I, this, "fileImport" );
+#endif
     connect(actionFileImport, SIGNAL(activated()), this,
             SLOT(slotFileImport()));
     actionFileImport->addTo(filemenu);
@@ -493,22 +525,37 @@ void MainWindow::initMainWindow()
     filemenu->insertSeparator();
     //filetb->addSeparator();
 
+#if QT_VERSION >= 0x030200
     actionFileNewWindow = new QAction(QPixmap(filenewwindow_xpm),
             tr("New &window"), 0, this, "fileNewWindow" );
+#else
+    actionFileNewWindow = new QAction("", QPixmap(filenewwindow_xpm),
+            tr("New &window"), 0, this, "fileNewWindow" );
+#endif
     connect(actionFileNewWindow, SIGNAL(activated()), this,
             SLOT(slotFileNewWin()));
     actionFileNewWindow->addTo(filemenu);
     //actionFileNewWindow->addTo(filetb);
 
+#if QT_VERSION >= 0x030200
     actionFileClose = new QAction(QPixmap(fileclose_xpm), tr("&Close"),
             CTRL+Key_W, this, "fileClose" );
+#else
+    actionFileClose = new QAction("", QPixmap(fileclose_xpm), tr("&Close"),
+            CTRL+Key_W, this, "fileClose" );
+#endif
     connect(actionFileClose, SIGNAL(activated()), this,
             SLOT(close()));
     actionFileClose->addTo(filemenu);
     //actionFileClose->addTo(filetb);
 
+#if QT_VERSION >= 0x030200
     actionFileQuit = new QAction(QPixmap(filequit_xpm), tr("&Quit"),
             CTRL+Key_Q, this, "fileQuit" );
+#else
+    actionFileQuit = new QAction("", QPixmap(filequit_xpm), tr("&Quit"),
+            CTRL+Key_Q, this, "fileQuit" );
+#endif
     connect(actionFileQuit, SIGNAL(activated()), qApp,
             SLOT(closeAllWindows()));
     actionFileQuit->addTo(filemenu);
@@ -521,20 +568,32 @@ void MainWindow::initMainWindow()
 
     QPopupMenu* editfilemenu = new QPopupMenu(this);
     
+#if QT_VERSION >= 0x030200
     actionEditFileLayout = new QAction(NULL, tr("&Layout"), 0, this,
             "editFileLayout" );
     actionEditFileLayout->setToolTip(tr(
                 "Edit layout file with external editor"));
+#else
+    actionEditFileLayout = new QAction(tr("Edit layout file with"
+                " external editor"), tr("&Layout"), 0, this,
+            "editFileLayout" );
+#endif
     connect(actionEditFileLayout, SIGNAL(activated()), this,
             SLOT(slotEditGBSFiles()));
     actionEditFileLayout->addTo(editfilemenu);
     //actionEditFileLayout->addTo(edittb);
 
+#if QT_VERSION >= 0x030200
     actionEditFileOptions = new QAction(NULL,
             QDir::homeDirPath() + "/" + SPDRS60_INIT, 0, this,
             "editFileOptions" );
     actionEditFileOptions->setToolTip(tr(
                 "Edit config file with external editor"));
+#else
+    actionEditFileOptions = new QAction(tr("Edit config file with external editor"),
+            QDir::homeDirPath() + "/" + SPDRS60_INIT, 0, this,
+            "editFileOptions" );
+#endif
     connect(actionEditFileOptions, SIGNAL(activated()), this,
             SLOT(slotEditConfigFile()));
     actionEditFileOptions->addTo(editfilemenu);
@@ -546,27 +605,45 @@ void MainWindow::initMainWindow()
     //editmenu = new QPopupMenu(this);
     menuBar()->insertItem(tr("&Edit"), editmenu);
 
+#if QT_VERSION >= 0x030200
     actionEditCut = new QAction(QPixmap(editcut_xpm), tr("Cu&t"),
             CTRL+Key_X, this, "editCut" );
     actionEditCut->setToolTip(tr("Cut selection to clipboard"));
+#else
+    actionEditCut = new QAction(tr("Cut selection to clipboard"),
+            QPixmap(editcut_xpm), tr("Cu&t"),
+            CTRL+Key_X, this, "editCut" );
+#endif
     connect(actionEditCut, SIGNAL(activated()), this,
             SLOT(slotEditCut()));
     actionEditCut->addTo(editmenu);
     actionEditCut->addTo(edittb);
     actionEditCut->setEnabled(false);
 
+#if QT_VERSION >= 0x030200
     actionEditCopy = new QAction(QPixmap(editcopy_xpm), tr("&Copy"),
             CTRL+Key_C, this, "editCopy" );
     actionEditCopy->setToolTip(tr("Copy selection to clipboard"));
+#else
+    actionEditCopy = new QAction(tr("Copy selection to clipboard"),
+            QPixmap(editcopy_xpm), tr("&Copy"),
+            CTRL+Key_C, this, "editCopy" );
+#endif
     connect(actionEditCopy, SIGNAL(activated()), this,
             SLOT(slotEditCopy()));
     actionEditCopy->addTo(editmenu);
     actionEditCopy->addTo(edittb);
     actionEditCopy->setEnabled(false);
 
+#if QT_VERSION >= 0x030200
     actionEditPaste = new QAction(QPixmap(editpaste_xpm), tr("&Paste"),
             CTRL+Key_V, this, "editPaste" );
     actionEditPaste->setToolTip(tr("Paste from clipboard"));
+#else
+    actionEditPaste = new QAction(tr("Paste from clipboard"),
+            QPixmap(editpaste_xpm), tr("&Paste"),
+            CTRL+Key_V, this, "editPaste" );
+#endif
     connect(actionEditPaste, SIGNAL(activated()), this,
             SLOT(slotEditPaste()));
     actionEditPaste->addTo(editmenu);
@@ -579,18 +656,29 @@ void MainWindow::initMainWindow()
     editmenu->insertSeparator();
     edittb->addSeparator();
 
+#if QT_VERSION >= 0x030200
     actionEditFind = new QAction(QPixmap(editfind_xpm), tr("&Find..."),
             CTRL+Key_F, this, "editFind" );
     actionEditFind->setToolTip(tr("Find information in layout element"));
+#else
+    actionEditFind = new QAction(tr("Find information in layout element"),
+            QPixmap(editfind_xpm), tr("&Find..."),
+            CTRL+Key_F, this, "editFind" );
+#endif
     connect(actionEditFind, SIGNAL(activated()), this,
             SLOT(slotEditFind()));
     actionEditFind->addTo(editmenu);
     actionEditFind->addTo(edittb);
     //actionEditFind->setEnabled(false);
 
+#if QT_VERSION >= 0x030200
     actionEditOptions = new QAction(QPixmap(editoptions_xpm),
             tr("Pr&eferences..."), CTRL+Key_P, this, "editPreferences" );
     actionEditOptions->setToolTip(tr("Edit application preferences"));
+#else
+    actionEditOptions = new QAction("", QPixmap(editoptions_xpm),
+            tr("Pr&eferences..."), CTRL+Key_P, this, "editPreferences" );
+#endif
     connect(actionEditOptions, SIGNAL(activated()), this,
             SLOT(slotEditOptions()));
     actionEditOptions->addTo(editmenu);
@@ -606,34 +694,58 @@ void MainWindow::initMainWindow()
     //viewmenu = new QPopupMenu(this);
     menuBar()->insertItem(tr("&View"), viewmenu);
 
+#if QT_VERSION >= 0x030200
     actionViewRoutes = new QAction(QPixmap(viewroute_xpm),
             tr("Routing &table"), CTRL + Key_R, this, "viewRoutes" );
     actionViewRoutes->setToolTip(tr("Show routing table"));
+#else
+    actionViewRoutes = new QAction(tr("Show routing table"),
+            QPixmap(viewroute_xpm),
+            tr("Routing &table"), CTRL + Key_R, this, "viewRoutes" );
+#endif
     connect(actionViewRoutes, SIGNAL(activated()), this,
             SLOT(slotShowRoutes()));
     actionViewRoutes->addTo(viewmenu);
     actionViewRoutes->addTo(viewtb);
 
+#if QT_VERSION >= 0x030200
     actionViewFBModules = new QAction(QPixmap(viewfeedback_xpm),
             tr("&Feedback modules"), CTRL + Key_M, this, "viewFBModules" );
     actionViewFBModules->setToolTip(tr("Show feedback module window"));
+#else
+    actionViewFBModules = new QAction(tr("Show feedback module window"),
+            QPixmap(viewfeedback_xpm),
+            tr("&Feedback modules"), CTRL + Key_M, this, "viewFBModules" );
+#endif
     connect(actionViewFBModules, SIGNAL(activated()), this,
             SLOT(slotShowModules()));
     actionViewFBModules->addTo(viewmenu);
     actionViewFBModules->addTo(viewtb);
     actionViewFBModules->setEnabled(false);
 
+#if QT_VERSION >= 0x030200
     actionViewClock = new QAction(QPixmap(viewclock_xpm),
             tr("&Central clock"), 0, this, "viewClock" );
     actionViewClock->setToolTip(tr("Show central clock"));
+#else
+    actionViewClock = new QAction(tr("Show central clock"),
+            QPixmap(viewclock_xpm),
+            tr("&Central clock"), 0, this, "viewClock" );
+#endif
     connect(actionViewClock, SIGNAL(activated()), this,
             SLOT(slotShowClock()));
     actionViewClock->addTo(viewmenu);
     actionViewClock->addTo(viewtb);
 
+#if QT_VERSION >= 0x030200
     actionViewKeyboard = new QAction(QPixmap(viewkeyboard_xpm),
             tr("&Keyboard"), CTRL + Key_K, this, "viewKeyboard" );
     actionViewKeyboard->setToolTip(tr("Show basic keyboard"));
+#else
+    actionViewKeyboard = new QAction(tr("Show basic keyboard"),
+            QPixmap(viewkeyboard_xpm),
+            tr("&Keyboard"), CTRL + Key_K, this, "viewKeyboard" );
+#endif
     connect(actionViewKeyboard, SIGNAL(activated()), this,
             SLOT(slotViewKeyboard()));
     actionViewKeyboard->addTo(viewmenu);
@@ -646,16 +758,31 @@ void MainWindow::initMainWindow()
     connect(ViewGrp, SIGNAL(selected(QAction*)), this,
             SLOT(slotViewSwitchMode(QAction*)));
     
+#if QT_VERSION >= 0x030200
     actionViewNormalMode = new QAction(QPixmap(viewnormalmode_xpm),
             tr("&Normal mode"), CTRL + Key_L, ViewGrp, "normalmode");
+#else
+    actionViewNormalMode = new QAction("", QPixmap(viewnormalmode_xpm),
+            tr("&Normal mode"), CTRL + Key_L, ViewGrp, "normalmode");
+#endif
     actionViewNormalMode->setToggleAction(true);
     
+#if QT_VERSION >= 0x030200
     actionViewLayoutEditMode = new QAction(QPixmap(viewlayouteditmode_xpm),
             tr("&Layout edit mode"), CTRL + Key_E, ViewGrp, "layouteditmode");
+#else
+    actionViewLayoutEditMode = new QAction("", QPixmap(viewlayouteditmode_xpm),
+            tr("&Layout edit mode"), CTRL + Key_E, ViewGrp, "layouteditmode");
+#endif
     actionViewLayoutEditMode->setToggleAction(true);
     
+#if QT_VERSION >= 0x030200
     actionViewRouteEditMode = new QAction(QPixmap(viewrouteeditmode_xpm),
             tr("&Route edit mode"), CTRL + Key_B, ViewGrp, "routeeditmode");
+#else
+    actionViewRouteEditMode = new QAction("", QPixmap(viewrouteeditmode_xpm),
+            tr("&Route edit mode"), CTRL + Key_B, ViewGrp, "routeeditmode");
+#endif
     actionViewRouteEditMode->setToggleAction(true);
     
     ViewGrp->addTo(viewmenu);
@@ -663,10 +790,16 @@ void MainWindow::initMainWindow()
 
     viewmenu->insertSeparator();
 
+#if QT_VERSION >= 0x030200
     actionViewToggleHistory = new QAction(NULL,
             tr("Toggle &history line"), CTRL + Key_D, // Ctrl H/T
             this, "viewToggleHistory" );
     actionViewToggleHistory->setToolTip(tr("Show basic keyboard"));
+#else
+    actionViewToggleHistory = new QAction(tr("Show basic keyboard"),
+            tr("Toggle &history line"), CTRL + Key_D, // Ctrl H/T
+            this, "viewToggleHistory" );
+#endif
     connect(actionViewToggleHistory, SIGNAL(activated()), this,
             SLOT(slotViewDebug()));
     actionViewToggleHistory->addTo(viewmenu);
@@ -682,17 +815,29 @@ void MainWindow::initMainWindow()
     //daemonmenu = new QPopupMenu(this);
     menuBar()->insertItem(tr("&Daemon"), daemonmenu);
 
+#if QT_VERSION >= 0x030200
     actionDaemonConnect = new QAction(QPixmap(daemonconnect_xpm),
             tr("&Connect"), 0, this, "daemonConnect" ); // Ctrl D
     actionDaemonConnect->setToolTip(tr("Connect to SRCP daemon"));
+#else
+    actionDaemonConnect = new QAction(tr("Connect to SRCP daemon"),
+            QPixmap(daemonconnect_xpm),
+            tr("&Connect"), 0, this, "daemonConnect" ); // Ctrl D
+#endif
     connect(actionDaemonConnect, SIGNAL(activated()), this,
             SLOT(ConnectToSRCPServer()));
     actionDaemonConnect->addTo(daemonmenu);
     actionDaemonConnect->addTo(daemontb);
 
+#if QT_VERSION >= 0x030200
     actionDaemonDisconnect = new QAction(QPixmap(daemondisconnect_xpm),
             tr("&Disconnect"), 0, this, "daemonDisconnect" );
     actionDaemonDisconnect->setToolTip(tr("Disconnect from SRCP daemon"));
+#else
+    actionDaemonDisconnect = new QAction(tr("Disconnect from SRCP daemon"),
+            QPixmap(daemondisconnect_xpm),
+            tr("&Disconnect"), 0, this, "daemonDisconnect" );
+#endif
     connect(actionDaemonDisconnect, SIGNAL(activated()), this,
             SLOT(CloseSRCPServerConnection()));
     actionDaemonDisconnect->addTo(daemonmenu);
@@ -700,25 +845,43 @@ void MainWindow::initMainWindow()
 
     daemonmenu->insertSeparator();
     
+#if QT_VERSION >= 0x030200
     actionDaemonReset = new QAction(QPixmap(daemonreset_xpm),
             tr("&Reset"), 0, this, "daemonReset" );
     actionDaemonReset->setToolTip(tr("Reset SRCP daemon"));
+#else
+    actionDaemonReset = new QAction(tr("Reset SRCP daemon"),
+            QPixmap(daemonreset_xpm),
+            tr("&Reset"), 0, this, "daemonReset" );
+#endif
     connect(actionDaemonReset, SIGNAL(activated()), this,
             SLOT(slotDaemonReset()));
     actionDaemonReset->addTo(daemonmenu);
     //actionDaemonReset->addTo(daemontb);
 
+#if QT_VERSION >= 0x030200
     actionDaemonKill = new QAction(QPixmap(daemonkill_xpm),
             tr("&Kill"), 0, this, "daemonKill" );
     actionDaemonKill->setToolTip(tr("Kill SRCP daemon"));
+#else
+    actionDaemonKill = new QAction(tr("Kill SRCP daemon"),
+            QPixmap(daemonkill_xpm),
+            tr("&Kill"), 0, this, "daemonKill" );
+#endif
     connect(actionDaemonKill, SIGNAL(activated()), this,
             SLOT(slotDaemonKill()));
     actionDaemonKill->addTo(daemonmenu);
     //actionDaemonKill->addTo(daemontb);
 
+#if QT_VERSION >= 0x030200
     actionDaemonInfo = new QAction(QPixmap(daemoninfo_xpm),
             tr("&Info..."), 0, this, "daemonInfo" );
     actionDaemonInfo->setToolTip(tr("Info about SRCP daemon"));
+#else
+    actionDaemonInfo = new QAction(tr("Info about SRCP daemon"),
+            QPixmap(daemoninfo_xpm),
+            tr("&Info..."), 0, this, "daemonInfo" );
+#endif
     connect(actionDaemonInfo, SIGNAL(activated()), this,
             SLOT(slotDaemonInfo()));
     actionDaemonInfo->addTo(daemonmenu);
@@ -733,41 +896,67 @@ void MainWindow::initMainWindow()
     QPopupMenu* layoutmenu = new QPopupMenu(this);
     menuBar()->insertItem(tr("&Layout"), layoutmenu);
 
+#if QT_VERSION >= 0x030200
     actionLayoutPower = new QAction(QPixmap(layoutstart_xpm),
             tr("Start &power"), Key_F4, this, "layoutPower" );
     actionLayoutPower->setToolTip(tr("Switch layout power on"));
+#else
+    actionLayoutPower = new QAction(tr("Switch layout power on"),
+            QPixmap(layoutstart_xpm),
+            tr("Start &power"), Key_F4, this, "layoutPower" );
+#endif
     connect(actionLayoutPower, SIGNAL(activated()), this,
             SLOT(slotToggleLayoutPower()));
     actionLayoutPower->addTo(layoutmenu);
     actionLayoutPower->addTo(layouttb);
 
+#if QT_VERSION >= 0x030200
     actionLayoutFht = new QAction(NULL,
             tr("Use &FHT"), Key_F5, this, "layoutFht" );
     actionLayoutFht->setToolTip(tr("Use route help button"));
+#else
+    actionLayoutFht = new QAction(tr("Use route help button"),
+            tr("Use &FHT"), Key_F5, this, "layoutFht" );
+#endif
     connect(actionLayoutFht, SIGNAL(activated()), gbs,
             SLOT(slotFHTclicked()));
     actionLayoutFht->addTo(layoutmenu);
     //actionLayoutFht->addTo(layouttb);
 
+#if QT_VERSION >= 0x030200
     actionLayoutWgt = new QAction(NULL,
             tr("Use &WGT"), Key_F6, this, "layoutWgt" );
     actionLayoutWgt->setToolTip(tr("Use turnout group button"));
+#else
+    actionLayoutWgt = new QAction(tr("Use turnout group button"),
+            tr("Use &WGT"), Key_F6, this, "layoutWgt" );
+#endif
     connect(actionLayoutWgt, SIGNAL(activated()), gbs,
             SLOT(slotWGTclicked()));
     actionLayoutWgt->addTo(layoutmenu);
     //actionLayoutWgt->addTo(layouttb);
 
+#if QT_VERSION >= 0x030200
     actionLayoutSgt = new QAction(NULL,
             tr("Use &SGT"), Key_F7, this, "layoutSgt" );
     actionLayoutSgt->setToolTip(tr("Use signal group button"));
+#else
+    actionLayoutSgt = new QAction(tr("Use signal group button"),
+            tr("Use &SGT"), Key_F7, this, "layoutSgt" );
+#endif
     connect(actionLayoutSgt, SIGNAL(activated()), gbs,
             SLOT(slotSGTclicked()));
     actionLayoutSgt->addTo(layoutmenu);
     //actionLayoutSgt->addTo(layouttb);
 
+#if QT_VERSION >= 0x030200
     actionLayoutUfgt = new QAction(NULL,
             tr("Use &UfGT"), Key_F8, this, "layoutUfgt" );
     actionLayoutUfgt->setToolTip(tr("Use detour group button"));
+#else
+    actionLayoutUfgt = new QAction(tr("Use detour group button"),
+            tr("Use &UfGT"), Key_F8, this, "layoutUfgt" );
+#endif
     connect(actionLayoutUfgt, SIGNAL(activated()), gbs,
             SLOT(slotUfGTclicked()));
     actionLayoutUfgt->addTo(layoutmenu);
@@ -775,35 +964,58 @@ void MainWindow::initMainWindow()
 
     layoutmenu->insertSeparator();
 
+#if QT_VERSION >= 0x030200
     actionLayoutNotRot = new QAction(QPixmap(layoutnotrot_xpm),
             tr("&Halt signals"), Key_F12, this, "layoutNotRot" );
     actionLayoutNotRot->setToolTip(tr("Switch all signals to halt"));
+#else
+    actionLayoutNotRot = new QAction(tr("Switch all signals to halt"),
+            QPixmap(layoutnotrot_xpm),
+            tr("&Halt signals"), Key_F12, this, "layoutNotRot" );
+#endif
     connect(actionLayoutNotRot, SIGNAL(activated()), gbs,
             SLOT(slotNotrot()));
     actionLayoutNotRot->addTo(layoutmenu);
     actionLayoutNotRot->addTo(layouttb);
 
+#if QT_VERSION >= 0x030200
     actionLayoutToggleAll = new QAction(NULL,
             tr("&Toggle all"), Key_F10, this, "layoutToggleAll" );
     actionLayoutToggleAll->setToolTip(tr("Toggle all switchable elements"));
+#else
+    actionLayoutToggleAll = new QAction(tr("Toggle all switchable elements"),
+            tr("&Toggle all"), Key_F10, this, "layoutToggleAll" );
+#endif
     connect(actionLayoutToggleAll, SIGNAL(activated()), gbs,
             SLOT(slotToggleAll()));
     actionLayoutToggleAll->addTo(layoutmenu);
     //actionLayoutToggleAll->addTo(layouttb);
 
+#if QT_VERSION >= 0x030200
     actionLayoutSendAll = new QAction(NULL,
             tr("Send &all"), Key_F11, this, "layoutSendAll" );
     actionLayoutSendAll->setToolTip(tr("Send current states of all "
                 "switchable elements to SRCP server"));
+#else
+    actionLayoutSendAll = new QAction(tr("Send current states of all "
+                                "switchable elements to SRCP server"), 
+            tr("Send &all"), Key_F11, this, "layoutSendAll" );
+#endif
     connect(actionLayoutSendAll, SIGNAL(activated()), gbs,
             SLOT(slotSendAll()));
     actionLayoutSendAll->addTo(layoutmenu);
     //actionLayoutSendAll->addTo(layouttb);
 
+#if QT_VERSION >= 0x030200
     actionLayoutUpdateFB = new QAction(NULL,
             tr("Up&date feedback states"), 0, this, "layoutUpdateFB" );
     actionLayoutUpdateFB->setToolTip(tr("Get all current feedback "
 			    "states from SRCP server"));
+#else
+    actionLayoutUpdateFB = new QAction(tr("Get all current feedback "
+                                            "states from SRCP server"),
+            tr("Up&date feedback states"), 0, this, "layoutUpdateFB" );
+#endif
     connect(actionLayoutUpdateFB, SIGNAL(activated()), this,
             SLOT(layoutUpdateFB()));
     actionLayoutUpdateFB->addTo(layoutmenu);
@@ -811,9 +1023,14 @@ void MainWindow::initMainWindow()
 
     layoutmenu->insertSeparator();
 
+#if QT_VERSION >= 0x030200
     actionLayoutChangeSize = new QAction(NULL,
             tr("&Change size..."), 0, this, "layoutChangeSize" );
     actionLayoutChangeSize->setToolTip(tr("Change layout size"));
+#else
+    actionLayoutChangeSize = new QAction(tr("Change layout size"),
+            tr("&Change size..."), 0, this, "layoutChangeSize" );
+#endif
     connect(actionLayoutChangeSize, SIGNAL(activated()), this,
             SLOT(layoutChangeSize()));
     actionLayoutChangeSize->addTo(layoutmenu);
@@ -829,17 +1046,29 @@ void MainWindow::initMainWindow()
     QPopupMenu* routemenu = new QPopupMenu(this);
     menuBar()->insertItem(tr("&Route"), routemenu);
 
+#if QT_VERSION >= 0x030200
     actionRouteStart = new QAction(QPixmap(route_start_xpm),
             tr("&Start"), 0, this, "routestart" );
     actionRouteStart->setToolTip(tr("Activate route"));
+#else
+    actionRouteStart = new QAction(tr("Activate route"),
+            QPixmap(route_start_xpm),
+            tr("&Start"), 0, this, "routestart" );
+#endif
     connect(actionRouteStart, SIGNAL(activated()), rtViewer,
             SLOT(slotRouteStart()));
     actionRouteStart->addTo(routemenu);
     actionRouteStart->addTo(routetb);
 
+#if QT_VERSION >= 0x030200
     actionRouteStop = new QAction(QPixmap(route_stop_xpm), tr("Sto&p"),
             0, this, "routestop" );
     actionRouteStop->setToolTip(tr("Release route"));
+#else
+    actionRouteStop = new QAction(tr("Release route"),
+            QPixmap(route_stop_xpm), tr("Sto&p"),
+            0, this, "routestop" );
+#endif
     connect(actionRouteStop, SIGNAL(activated()), rtViewer,
             SLOT(slotRouteStop()));
     actionRouteStop->addTo(routemenu);
@@ -848,33 +1077,57 @@ void MainWindow::initMainWindow()
     routemenu->insertSeparator();
     routetb->addSeparator();
 
+#if QT_VERSION >= 0x030200
     actionRouteAdd = new QAction(QPixmap(route_new_xpm), tr("&Add"),
             0, this, "routeadd" );
     actionRouteAdd->setToolTip(tr("Add new route"));
+#else
+    actionRouteAdd = new QAction(tr("Add new route"),
+            QPixmap(route_new_xpm), tr("&Add"),
+            0, this, "routeadd" );
+#endif
     connect(actionRouteAdd, SIGNAL(activated()), this,
             SLOT(slotRouteAdd()));
     actionRouteAdd->addTo(routemenu);
     actionRouteAdd->addTo(routetb);
 
+#if QT_VERSION >= 0x030200
     actionRouteEdit = new QAction(QPixmap(route_edit_xpm),
             tr("&Edit..."), 0, this, "routeedit" );
     actionRouteEdit->setToolTip(tr("Edit selected route"));
+#else
+    actionRouteEdit = new QAction(tr("Edit selected route"),
+            QPixmap(route_edit_xpm),
+            tr("&Edit..."), 0, this, "routeedit" );
+#endif
     connect(actionRouteEdit, SIGNAL(activated()), rtViewer,
             SLOT(slotRouteEdit()));
     actionRouteEdit->addTo(routemenu);
     actionRouteEdit->addTo(routetb);
 
+#if QT_VERSION >= 0x030200
     actionRouteCopy = new QAction(QPixmap(route_copy_xpm),
             tr("Dupli&cate"), 0, this, "routecopy" );
     actionRouteCopy->setToolTip(tr("Duplicate selected route"));
+#else
+    actionRouteCopy = new QAction(tr("Duplicate selected route"),
+            QPixmap(route_copy_xpm),
+            tr("Dupli&cate"), 0, this, "routecopy" );
+#endif
     connect(actionRouteCopy, SIGNAL(activated()), rtViewer,
             SLOT(slotRouteCopy()));
     actionRouteCopy->addTo(routemenu);
     actionRouteCopy->addTo(routetb);
 
+#if QT_VERSION >= 0x030200
     actionRouteDelete = new QAction(QPixmap(route_clear_xpm),
             tr("&Delete"), 0, this, "routedelete" );
     actionRouteDelete->setToolTip(tr("Delete selected route"));
+#else
+    actionRouteDelete = new QAction(tr("Delete selected route"),
+            QPixmap(route_clear_xpm),
+            tr("&Delete"), 0, this, "routedelete" );
+#endif
     connect(actionRouteDelete, SIGNAL(activated()), this,
             SLOT(slotRouteDelete()));
     actionRouteDelete->addTo(routemenu);
@@ -882,9 +1135,14 @@ void MainWindow::initMainWindow()
 
     routemenu->insertSeparator();
 
+#if QT_VERSION >= 0x030200
     actionRouteUnlockAll = new QAction(NULL,
             tr("&Unlock all"), CTRL + Key_U, this, "layoutUnlockRoutes" );
     actionRouteUnlockAll->setToolTip(tr("Unlock all routes"));
+#else
+    actionRouteUnlockAll = new QAction(tr("Unlock all routes"),
+            tr("&Unlock all"), CTRL + Key_U, this, "layoutUnlockRoutes" );
+#endif
     connect(actionRouteUnlockAll, SIGNAL(activated()), rtController,
             SLOT(unlockAllLockedRoutes()));
     actionRouteUnlockAll->addTo(routemenu);

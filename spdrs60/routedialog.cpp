@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.4.8 $Revision: 1.19 $
+                           version 0.4.8 $Revision: 1.20 $
                            -------------------------------
     copyright            : (C) 2005 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-10-30 15:04:52 $
+    last modified        : $Date: 2005-11-05 09:43:13 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -581,7 +581,11 @@ void RouteDialog::setActivateData(const PortState& port)
 void RouteDialog::getActivateData(PortState& port)
 {
     port.used = activatefbCB->isChecked();
+#if QT_VERSION >= 0x030300
     port.switchtooff = (activateRouteBG->selectedId() == 1);
+#else
+    port.switchtooff = (activateRouteBG->id(activateRouteBG->selected()) == 1);
+#endif
     port.bus = activateSrcpBusLE->text().toUInt();
     port.address = activateContactSB->value();
     // temporary solution
@@ -605,7 +609,11 @@ void RouteDialog::setReleaseData(const PortState& port)
 void RouteDialog::getReleaseData(PortState& port)
 {
     port.used = releasefbCB->isChecked();
+#if QT_VERSION >= 0x030300
     port.switchtooff = (releaseRouteBG->selectedId() == 1);
+#else
+    port.switchtooff = (releaseRouteBG->id(releaseRouteBG->selected()) == 1);
+#endif
     port.bus = releaseSrcpBusLE->text().toUInt();
     port.address = releaseContactSB->value();
     // temporary solution
@@ -627,14 +635,22 @@ void RouteDialog::setRouteType(int type, unsigned int dl)
 
 int RouteDialog::getRouteType()
 {
+#if QT_VERSION >= 0x030300
     return typeBG->selectedId();
+#else
+    return typeBG->id(typeBG->selected());
+#endif
 }
 
 
 unsigned int RouteDialog::getDetourLevel()
 {
     int returnvalue = 0;
+#if QT_VERSION >= 0x030300
     int type = typeBG->selectedId();
+#else
+    int type = typeBG->id(typeBG->selected());
+#endif
     if (type == 1)
         returnvalue = uzsLevelSB->value();
     else if (type == 4)

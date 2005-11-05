@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.4.8 $Revision: 1.20 $
+                           version 0.4.8 $Revision: 1.21 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-05 06:53:35 $
+    last modified        : $Date: 2005-11-05 09:43:13 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -371,8 +371,8 @@ void Router::setRoute(element* el, GbsButtonState cb, GbsButtonState sb)
             else {
                 QApplication::beep();
                 emit showLogMessage(tr("No matching route found from '%1'"
-                            " to '%2'").arg(selectedStartSig->getName(),
-                                el->getName()), MT_INFO, HL_CMND);
+                            " to '%2'").arg(selectedStartSig->getName())
+                                .arg(el->getName()), MT_INFO, HL_CMND);
             }
         }
         selectedStartSig = NULL;
@@ -424,7 +424,7 @@ void Router::resetRoute(element* el, GbsButtonState cb)
                 if (selectedStartSig != NULL)
                     emit showLogMessage(tr("No active route found from "
                                 "start signal '%1' to stop signal '%2'")
-                            .arg(selectedStartSig->getName(), el->getName()),
+                            .arg(selectedStartSig->getName()).arg(el->getName()),
                             MT_INFO, HL_CMND);
             }
         }

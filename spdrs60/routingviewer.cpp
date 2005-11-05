@@ -1,10 +1,10 @@
 /***************************************************************************
                            routingviewer.cpp
-                           version 0.4.8 $Revision: 1.12 $
+                           version 0.4.8 $Revision: 1.13 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-05 06:53:35 $
+    last modified        : $Date: 2005-11-05 09:43:13 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -26,8 +26,13 @@
 #include "route.h"
 
 
+#if QT_VERSION >= 0x030100
 RoutingViewer::RoutingViewer(QWidget* parent, const char* name,
         Router* router): QDockWindow(parent, name)
+#else
+RoutingViewer::RoutingViewer(QWidget* parent, const char* name,
+        Router* router): QDockWindow(QDockWindow::InDock, parent, name)
+#endif
 {
     lastrow = -1;
     
@@ -199,7 +204,12 @@ void RoutingViewer::slotRouteAdd()
     --idx;
     populateTableRow(idx);
     // set focus to new row
+#if QT_VERSION >= 0x030200
     rTable->selectRow(idx);
+#else
+    rTable->removeSelection(rTable->currentSelection());
+    // no idea how to get QTableSelection working here
+#endif
 }
 
 
@@ -238,7 +248,12 @@ void RoutingViewer::slotRouteCopy()
     ++row;
     populateTableRow(row);
     // set focus to new row
+#if QT_VERSION >= 0x030200
     rTable->selectRow(row);
+#else
+    rTable->removeSelection(rTable->currentSelection());
+    // no idea how to get QTableSelection working here
+#endif
 }
 
 
