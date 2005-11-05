@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.8 $
-# last update: $Date: 2005-10-22 05:43:44 $
+# version: $Revision: 1.9 $
+# last update: $Date: 2005-11-05 11:27:48 $
 
 SUBDIRS = pixmaps
 
@@ -73,6 +73,11 @@ CLEANFILES = $(nodist_spdrs60_SOURCES) $(pkgdata_DATA)
 	$(MOC) $< -o $@
 
 # rule for translation file generation
+# lrelease 3.0 does not understand option -qm
+if LRELEASE_QM
 %.qm: %.ts
 	$(LRELEASE) -verbose $< -qm $@
-
+else
+%.qm: %.ts
+	$(LRELEASE) -verbose spdrs60.pro
+endif

@@ -1,7 +1,7 @@
 dnl configure.ac for spdrs60
 dnl Guido Scholz
-dnl last update: $Date: 2005-11-05 06:53:35 $
-dnl version: $Revision: 1.7 $
+dnl last update: $Date: 2005-11-05 11:27:48 $
+dnl version: $Revision: 1.8 $
 dnl Process this file with autoconf to produce a configure script.
 
 AC_INIT([spdrs60],[0.4.8],[Guido Scholz <guido.scholz@bayernline.de>])
@@ -64,7 +64,17 @@ else
   LRELEASE_VERSION=`$LRELEASE -version 2>&1 | awk '{print $3}'`
   AC_SUBST(LRELEASE_VERSION)
   AC_MSG_RESULT([$LRELEASE_VERSION])
+    
+  AC_MSG_CHECKING([whether lrelease supports -qm])
+  lrelease_mqline=`$LRELEASE -help 2>&1| sed -n '/-qm/p'`
+  if test -z "$lrelease_mqline"; then
+    lrelease_qm=no 
+  else
+    lrelease_qm=yes
+  fi
+  AC_MSG_RESULT([$lrelease_qm])
 fi
+AM_CONDITIONAL(LRELEASE_QM, test x$lrelease_qm = xyes)
 
 
 AC_CHECK_LIB(m, roundf,,AC_MSG_ERROR([required library missing]))
