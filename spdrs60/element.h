@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.4.8 $Revision: 1.25 $
+                           version 0.4.8 $Revision: 1.26 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-05 06:53:35 $
+    last modified        : $Date: 2005-11-05 13:41:01 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -243,6 +243,7 @@ signals:
     void recordElement(element*, elemRecordType);
 
 protected:
+    virtual void fontChange(const QFont&);
     virtual void mousePressEvent(QMouseEvent*);
     virtual void mouseReleaseEvent(QMouseEvent*);
     virtual void paintEvent(QPaintEvent*);

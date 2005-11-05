@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.34 $
+                           version 0.4.8 $Revision: 1.35 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-05 06:53:35 $
+    last modified        : $Date: 2005-11-05 13:41:01 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -419,7 +419,7 @@ bool element::is2StateDKW()
 bool element::isEmpty()
 {
     return (sSoldIcon == SYM_LEE) && (iSoldInvert != 1) &&
-        (sSoldText== "-1" || sSoldText== "");
+        (sSoldText == "-1" || sSoldText.isEmpty());
 }
 
 
@@ -2438,3 +2438,16 @@ void element::updateFeedbackState()
                 .arg(iFBContact));
 }
 */
+
+/*
+ * update element if system font is changed e.g. by qtconfig
+ * do nothing for empty element with no text
+ */
+void element::fontChange(const QFont& oldFont)
+{
+    if (sSoldIcon == SYM_LEE && (sSoldText.isEmpty() || sSoldText == "-1"))
+        return;
+    else
+        setupElementIcon(iSoldLEDstate, "");
+}
+
