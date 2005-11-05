@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.4.8 $Revision: 1.19 $
+                           version 0.4.8 $Revision: 1.20 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-01 16:37:34 $
+    last modified        : $Date: 2005-11-05 06:53:35 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -305,7 +305,7 @@ bool Router::activateRoute(Route* rt)
     switch (result) {
         case 1:
             emit showLogMessage(tr("Activating route '%1'")
-                    .arg(rt->getName()), M_INFO, HIST);
+                    .arg(rt->getName()), MT_INFO, HL_CMND);
             // send state to routingviewer
             //TODO: optimize to change only lock state icon
             emit updateRoutingViewerAt(routeList.find(rt));
@@ -315,19 +315,19 @@ bool Router::activateRoute(Route* rt)
             QApplication::beep();
             emit showLogMessage(tr("No routing possible; "
                         "route '%1' is locked by an other route.")
-                    .arg(rt->getName()), M_INFO, HIST);
+                    .arg(rt->getName()), MT_INFO, HL_CMND);
             break;
         case -1: 
             QApplication::beep();
             emit showLogMessage(tr("No routing possible; "
                         "route '%1' is blocked by occupied element.")
-                    .arg(rt->getName()), M_INFO, HIST);
+                    .arg(rt->getName()), MT_INFO, HL_CMND);
             break;
         case -2: 
             QApplication::beep();
             emit showLogMessage(tr("No routing possible; "
                         "route '%1' is blocked by occupied turnout.")
-                    .arg(rt->getName()), M_INFO, HIST);
+                    .arg(rt->getName()), MT_INFO, HL_CMND);
             break;
     }
     return returnvalue;
@@ -352,7 +352,7 @@ void Router::setRoute(element* el, GbsButtonState cb, GbsButtonState sb)
             /*TODO: more detailed error message*/
             QApplication::beep();
             emit showLogMessage(tr("No matching route found for start "
-                        "signal '%1'").arg(el->getName()), M_INFO, HIST);
+                        "signal '%1'").arg(el->getName()), MT_INFO, HL_CMND);
             /*send cursor time out to gbs*/
             emit routeFunctionFinished();
         }
@@ -362,7 +362,7 @@ void Router::setRoute(element* el, GbsButtonState cb, GbsButtonState sb)
         if (lastcb != cb) {
             QApplication::beep();
             emit showLogMessage(tr("Mixing signal buttons of different"
-                        " type is not allowed."), M_INFO, HIST);
+                        " type is not allowed."), MT_INFO, HL_CMND);
         }
         else {
             Route* sr = getUnlockedRouteWithStopSignal(el, cb, sb);
@@ -372,7 +372,7 @@ void Router::setRoute(element* el, GbsButtonState cb, GbsButtonState sb)
                 QApplication::beep();
                 emit showLogMessage(tr("No matching route found from '%1'"
                             " to '%2'").arg(selectedStartSig->getName(),
-                                el->getName()), M_INFO, HIST);
+                                el->getName()), MT_INFO, HL_CMND);
             }
         }
         selectedStartSig = NULL;
@@ -399,7 +399,7 @@ void Router::resetRoute(element* el, GbsButtonState cb)
         else {
             QApplication::beep();
             emit showLogMessage(tr("No active route found for start "
-                        "signal '%1'").arg(el->getName()), M_INFO, HIST);
+                        "signal '%1'").arg(el->getName()), MT_INFO, HL_CMND);
             emit routeFunctionFinished();
         }
     }
@@ -407,13 +407,13 @@ void Router::resetRoute(element* el, GbsButtonState cb)
         if (lastcb != cb) {
             QApplication::beep();
             emit showLogMessage(tr("Mixing signal buttons of different"
-                        " type is not allowed."), M_INFO, HIST);
+                        " type is not allowed."), MT_INFO, HL_CMND);
         }
         else {
             //check if selected route has same stop signal
             if (resetRt->hasThisStopSignal(el)) {
                 emit showLogMessage(tr("Resetting route '%1'")
-                        .arg(resetRt->getName()), M_INFO, HIST);
+                        .arg(resetRt->getName()), MT_INFO, HL_CMND);
                 resetRt->stopRouting();
                 // send state to routingviewer
                 //TODO: optimize viewer update to change only lock state icon
@@ -425,7 +425,7 @@ void Router::resetRoute(element* el, GbsButtonState cb)
                     emit showLogMessage(tr("No active route found from "
                                 "start signal '%1' to stop signal '%2'")
                             .arg(selectedStartSig->getName(), el->getName()),
-                            M_INFO, HIST);
+                            MT_INFO, HL_CMND);
             }
         }
         /*send cursor time out to gbs*/
@@ -495,7 +495,7 @@ void Router::unlockAllLockedRoutes()
             emit updateRoutingViewerAt(routeList.find(rt));
         }
     }
-    emit showLogMessage(tr("All active routes released"), M_INFO, HIST);
+    emit showLogMessage(tr("All active routes released"), MT_INFO, HL_CMND);
 }
 
 

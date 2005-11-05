@@ -1,10 +1,10 @@
 /***************************************************************************
                            routingviewer.cpp
-                           version 0.4.8 $Revision: 1.11 $
+                           version 0.4.8 $Revision: 1.12 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-01 16:37:34 $
+    last modified        : $Date: 2005-11-05 06:53:35 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -168,7 +168,7 @@ void RoutingViewer::slotRouteStop()
         /*update toolbar buttons and table lock icon*/
         rTable->updateCurrentRowLockStateIcon(false);
         emit showLogMessage(tr("Resetting route '%1'")
-                .arg(sr->getName()), M_INFO, HIST);
+                .arg(sr->getName()), MT_INFO, HL_CMND);
         emit selectedRouteIsLocked(false);
     }
 }
@@ -182,7 +182,7 @@ void RoutingViewer::slotStopRouteNo(int routeidx)
     if (sr != NULL) {
         sr->stopRouting();
         emit showLogMessage(tr("Resetting route '%1'")
-                .arg(sr->getName()), M_INFO, HIST);
+                .arg(sr->getName()), MT_INFO, HL_CMND);
 
         /*update toolbar buttons and table lock icon*/
         rTable->updateLockStateIcon(routeidx, false);

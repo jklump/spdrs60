@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.4.8 $Revision: 1.17 $
+                           version 0.4.8 $Revision: 1.18 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-01 16:37:34 $
+    last modified        : $Date: 2005-11-05 06:53:35 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -77,7 +77,7 @@ public:
 private:
    bool            LayoutPowerIsOn;
    bool            isFBInitMode;
-   int             iDebugNo;
+   int             CurrentHL;
    QString         fileName;  //serd
    QString         lastDir;
    elemVisualMode  visualMode;

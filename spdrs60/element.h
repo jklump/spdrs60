@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.4.8 $Revision: 1.24 $
+                           version 0.4.8 $Revision: 1.25 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-01 16:37:33 $
+    last modified        : $Date: 2005-11-05 06:53:35 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -165,6 +165,7 @@ public:
     void getStateData(stateElement& se);
     elemSelectionMode getSelectionMode();
     int getAddressCount();
+    //void updateFeedbackState();
 
 private:
     elementDialog*      elementPropertyDlg;

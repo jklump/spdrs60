@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.33 $
+                           version 0.4.8 $Revision: 1.34 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-03 22:00:47 $
+    last modified        : $Date: 2005-11-05 06:53:35 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1029,17 +1029,19 @@ void element::showPropertyDlg()
                 this, SIGNAL(sigShowFBmodules()));
         elementPropertyDlg->exec();      // parent window NOT usable
         // nach Beenden Zeiger wieder zurücksetzen:
-        //delete elementPropertyDlg;
-        elementPropertyDlg = NULL;
-        //delete elementData;
         /*TODO:
         if (elementPropertyDlg->exec() == QDialog::Accepted){
             // get feedback state from SRCP server if element was
             // changed (feedback contact or LEDoff state changed)
             // LEDs will be updates by server INFO message
-            sendCommand(QString("GET FB S88 %1").arg(iFBContact));
+            sendCommand(QString("GET FB %1 %2")
+            .arg((FEEDBACK <= 1) ? "S88" : "I8255")
+            .arg(iFBContact));
         }
         */
+        //delete elementPropertyDlg;
+        elementPropertyDlg = NULL;
+        //delete elementData;
     }
 }
 
@@ -2425,4 +2427,14 @@ int element::getAddressCount()
     return returnvalue;
 }
 
-
+/*
+void element::updateFeedbackState()
+{
+    // get current feedback status from server to update LEDstate
+    // TODO: switch mainwindow to INFO FB receive mode
+    if ((iSoldLEDoff != 1) && (iFBContact >= 0))
+        emit sendCommand(QString("GET FB %1 %2")
+                .arg((FEEDBACK <= 1) ? "S88" : "I8255")
+                .arg(iFBContact));
+}
+*/

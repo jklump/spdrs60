@@ -15,10 +15,8 @@
 #define   MIN_ROWS         4   // min number of rows in layout
 #define   MAX_ROWS         250 // max number of rows in layout
 
-#define   cDelayTime       5000 // serd: Timer for WHT and Routing.
-                                // 2000 ms was too Short for
-                                // big layouts when working with
-                                // touchpad (or my fingers are too slow:-)
+#define   cDelayTime       5000 // Timer for external buttons and routing.
+
 #define   cNumRepeatCommands 3  //serd: Viessman Signale often need
                                 // several attempts for reaching
                                 // their correct position
@@ -56,14 +54,10 @@
 #define   TEXT             1   // show text or address in elements
 #define   ADDRESS          0
 
-#define   LOAD_TIMER_TIME  1000// delay for autoloader
 #define   LOCATE_TIMER     5000// delay for edit mode after element locating
 
 #define   LOCKED           1   // state of a routing
 #define   UNLOCKED         0
-
-#define   SET              0   // activities for a routing
-#define   RESET            1
 
 #define   LED_OFF          0   // LED states of an element = off
 #define   LED_YEL          1   // route selected
@@ -82,17 +76,13 @@
 #define   RIGHT            0
 
 // TODO: change to enum type kmtCmd, kmtInfo
-#define   M_CMD            0   // command message type
-#define   M_INFO           1   // info message type
+#define   MT_CMD           0   // command message type
+#define   MT_INFO          1   // info message type
 
 // TODO: change to enum type khlHist, khlInfo, khlFeed
-#define   HIST             0   // command history line
-#define   INFO             1   // info history line
-#define   FEED             2   // feedback history line
-
-#define   REC_STASTO       0   // clicked element while recording is a signal
-#define   REC_NORMAL       1   // clicked element while recording is normal
-#define   REC_FINISH       2
+#define   HL_CMND          0   // command history line
+#define   HL_INFO          1   // info history line
+#define   HL_FEED          2   // feedback history line
 
 #define   SINGLE           0   // search only one element
 #define   MULTI            1   // search all elements

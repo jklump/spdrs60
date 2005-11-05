@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.28 $
+                           version 0.4.8 $Revision: 1.29 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-03 22:00:47 $
+    last modified        : $Date: 2005-11-05 06:53:35 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -439,7 +439,7 @@ void GBSArea::externalButtonClicked(GbsButtonState externalButton)
             /*TODO: implement MGT-function*/
             QApplication::beep();
             emit showLogMessage(tr("MGT-Function not supported."),
-                    M_INFO, HIST);
+                    MT_INFO, HL_CMND);
             delayTimer->start(500);
             break;
         case kUfgtClicked:
@@ -456,7 +456,7 @@ void GBSArea::externalButtonClicked(GbsButtonState externalButton)
             /*TODO: implement HaGT-function*/
             QApplication::beep();
             emit showLogMessage(tr("HaGT-Function not supported."),
-                    M_INFO, HIST);
+                    MT_INFO, HL_CMND);
             delayTimer->start(500);
             break;
         default:
@@ -495,13 +495,13 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
                     QApplication::beep();
                     emit showLogMessage(tr("No switching possible, "
                                 "signal '%1' is locked by an active route.")
-                            .arg(el->getName()), M_INFO, HIST);
+                            .arg(el->getName()), MT_INFO, HL_CMND);
                 }
                 /*TODO: check this*/
                 //else if (el->isOccupied()) {
                 //    QApplication::beep();
                 //    emit showLogMessage(tr("No switching possible, "
-                //                "signal is occupied"), M_INFO, HIST);
+                //                "signal is occupied"), MT_INFO, HL_CMND);
                 //}
                 else
                     el->slotToggle();
@@ -519,7 +519,7 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
                     QApplication::beep();
                     emit showLogMessage(tr("No routing possible; signal '%1'"
                                 " is allready locked by an active route.")
-                            .arg(el->getName()), M_INFO, HIST);
+                            .arg(el->getName()), MT_INFO, HL_CMND);
                     slotElementClickedTimeout();
                 }
                 else {
@@ -531,7 +531,7 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
             }
             else {
                 QApplication::beep();
-                emit showLogMessage(tr("Operation not allowed"), M_INFO, HIST);
+                emit showLogMessage(tr("Operation not allowed"), MT_INFO, HL_CMND);
                 slotElementClickedTimeout();
             }
             break;
@@ -543,19 +543,19 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
                     QApplication::beep();
                     emit showLogMessage(tr("No switching possible, "
                                 "solenoid '%1' is locked by an active route.")
-                            .arg(el->getName()), M_INFO, HIST);
+                            .arg(el->getName()), MT_INFO, HL_CMND);
                 }
                 else if (el->isOccupied()) {
                     QApplication::beep();
                     emit showLogMessage(tr("No switching possible, "
-                                "turnout is occupied"), M_INFO, HIST);
+                                "turnout is occupied"), MT_INFO, HL_CMND);
                 }
                 else
                     el->slotToggle();
             }
             else {
                 QApplication::beep();
-                emit showLogMessage(tr("Operation not allowed"), M_INFO, HIST);
+                emit showLogMessage(tr("Operation not allowed"), MT_INFO, HL_CMND);
             }
             slotElementClickedTimeout();
             break;
@@ -659,7 +659,7 @@ void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
             setRoute = krouteReset;
             // show error message
             emit showLogMessage(tr("Establishing train routes over"
-                        " occupied elements is not allowed"), M_INFO, HIST);
+                        " occupied elements is not allowed"), MT_INFO, HL_CMND);
             return;
         }
 
@@ -815,7 +815,8 @@ void GBSArea::slotNotrot()
     for (unsigned int j = 0; j < elements.size(); j++)
         if (elements[j]->isSignal())
             elements[j]->slotSwitchIt(0, 0);  // sec. "0" = NONE (RouteStatus)
-    emit showLogMessage(tr("Switched all signals to halt/stop"), M_INFO, HIST);
+    emit showLogMessage(tr("Switched all signals to halt/stop"),
+            MT_INFO, HL_CMND);
 }
 
 
@@ -869,6 +870,7 @@ void GBSArea::setupElements()
                                 unsigned int, unsigned int)),
                         el, SLOT(slotOccupyElement(unsigned int,
                                 unsigned int, unsigned int)));
+            //TODO: el->updateFeedbackState();
         }
     }
     move(0, 0);

@@ -1,7 +1,7 @@
 dnl configure.ac for spdrs60
 dnl Guido Scholz
-dnl last update: $Date: 2005-06-12 12:02:39 $
-dnl version: $Revision: 1.6 $
+dnl last update: $Date: 2005-11-05 06:53:35 $
+dnl version: $Revision: 1.7 $
 dnl Process this file with autoconf to produce a configure script.
 
 AC_INIT([spdrs60],[0.4.8],[Guido Scholz <guido.scholz@bayernline.de>])
@@ -59,6 +59,11 @@ AC_PATH_PROG(LRELEASE, lrelease, no, [$PATH:$QTDIR/bin])
 if test "$LRELEASE" = "no" ; then
   AC_MSG_ERROR(
     [cannot find 'lrelease', please install the Qt development tools package.])
+else
+  AC_MSG_CHECKING([for lrelease version])
+  LRELEASE_VERSION=`$LRELEASE -version 2>&1 | awk '{print $3}'`
+  AC_SUBST(LRELEASE_VERSION)
+  AC_MSG_RESULT([$LRELEASE_VERSION])
 fi
 
 

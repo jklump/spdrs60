@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.cpp
-                           version 0.4.8 $Revision: 1.5 $
+                           version 0.4.8 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-05 13:04:19 $
+    last modified        : $Date: 2005-11-05 06:53:35 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -747,12 +747,12 @@ void optionsDialog::done(int r)
 
         if (!file.open(IO_WriteOnly)) {
             emit showLogMessage(tr("Error: Could not save configuration"
-                        " file: ~/%1").arg(SPDRS60_INIT), M_INFO, HIST);
+                        " file: ~/%1").arg(SPDRS60_INIT), MT_INFO, HL_CMND);
             return;
         }
 
         emit showLogMessage(tr("Writing SpDrS60 configuration"
-                    " file: ~/%1").arg(SPDRS60_INIT), M_INFO, HIST);
+                    " file: ~/%1").arg(SPDRS60_INIT), MT_INFO, HL_CMND);
 
         QDateTime dt = QDateTime::currentDateTime();
         QTextStream ts(&file);
