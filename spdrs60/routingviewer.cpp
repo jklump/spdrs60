@@ -1,10 +1,10 @@
 /***************************************************************************
                            routingviewer.cpp
-                           version 0.4.8 $Revision: 1.13 $
+                           version 0.4.8 $Revision: 1.14 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-05 09:43:13 $
+    last modified        : $Date: 2005-11-06 08:46:11 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -59,6 +59,18 @@ void RoutingViewer::updateRouteAt(int row)
     /*security checks*/
     if (row >= 0 && row < rTable->numRows())
         populateTableRow(row);
+}
+
+
+void RoutingViewer::updateRouteStateAt(int row, bool state)
+{
+    /*security checks*/
+    if (row >= 0 && row < rTable->numRows()) {
+        rTable->updateLockStateIcon(row, state);
+        // if row is selected also update menu buttons
+        if (rTable->currentRow() == row)
+            emit selectedRouteIsLocked(state);
+    }
 }
 
 
@@ -121,14 +133,7 @@ void RoutingViewer::slotRouteStart()
     if (gbsRouter == NULL)
         return;
 
-    /*TODO: optimize, may be it is better, the route sends a "lock state
-     * changed" signal*/
-    if (gbsRouter->activateRouteAt(rTable->currentRow())) {
-        /*update toolbar buttons and table lock icon*/
-        rTable->updateCurrentRowLockStateIcon(true);
-        /*update menuitems/toolbar in mainwindow*/
-        emit selectedRouteIsLocked(true);
-    }
+    gbsRouter->activateRouteAt(rTable->currentRow());
 }
 
 
@@ -150,15 +155,7 @@ void RoutingViewer::slotStartRouteNo(int routeidx)
     if (gbsRouter == NULL)
         return;
 
-    /*TODO: optimize, may be it is better, the route sends a "lock state
-     * changed" signal*/
-    if (gbsRouter->activateRouteAt(routeidx)) {
-        /*update toolbar buttons and table lock icon*/
-        rTable->updateLockStateIcon(routeidx, true);
-
-        if (rTable->isRowSelected(routeidx))
-            emit selectedRouteIsLocked(true);
-    }
+    gbsRouter->activateRouteAt(routeidx);
 }
 
 
@@ -167,33 +164,16 @@ void RoutingViewer::slotRouteStop()
     if (gbsRouter == NULL)
         return;
 
-    Route* sr = gbsRouter->getRouteAt(rTable->currentRow());
-    if (sr != NULL) {
-        sr->stopRouting();
-        /*update toolbar buttons and table lock icon*/
-        rTable->updateCurrentRowLockStateIcon(false);
-        emit showLogMessage(tr("Resetting route '%1'")
-                .arg(sr->getName()), MT_INFO, HL_CMND);
-        emit selectedRouteIsLocked(false);
-    }
+    slotStopRouteNo(rTable->currentRow());
 }
 
 
 void RoutingViewer::slotStopRouteNo(int routeidx)
 {
-    /*TODO: optimize, may be it is better, the route sends a "lock state
-     * changed" signal*/
-    Route* sr = gbsRouter->getRouteAt(routeidx);
-    if (sr != NULL) {
-        sr->stopRouting();
-        emit showLogMessage(tr("Resetting route '%1'")
-                .arg(sr->getName()), MT_INFO, HL_CMND);
+    if (gbsRouter == NULL)
+        return;
 
-        /*update toolbar buttons and table lock icon*/
-        rTable->updateLockStateIcon(routeidx, false);
-        if (rTable->isRowSelected(routeidx))
-            emit selectedRouteIsLocked(false);
-    }
+    gbsRouter->releaseRouteAt(routeidx);
 }
 
 
@@ -274,14 +254,13 @@ void RoutingViewer::slotRouteDelete()
 }
 
 
+/*
+ * QTable sends this signal for every cell selection change, but we
+ * are only interessted in changed rows
+ */
 void RoutingViewer::selectedRouteChanged(int row, int col)
 {
-    /*
-     * QTable sends this signal for every cell selection change, but we
-     * are only interessted in changed rows
-     */
     //fprintf(stderr, "row: %d  lastrow: %d\n", row, lastrow);
-
     if (row != lastrow){
         /* send route lock state to rountingtoolbar to update button
          * states */

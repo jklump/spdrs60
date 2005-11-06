@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.h
-                           version 0.4.8 $Revision: 1.10 $
+                           version 0.4.8 $Revision: 1.11 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@ bayernline.de
-    last modified        : $Date: 2005-06-27 20:50:53 $
+    last modified        : $Date: 2005-11-06 08:46:11 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -57,6 +57,8 @@ public:
     void startRecordModeAt(unsigned int);
     bool activateRoute(Route*);
     bool activateRouteAt(unsigned int);
+    void releaseRoute(Route*);
+    void releaseRouteAt(unsigned int);
 
 public slots:
     void clearRoutes();
@@ -89,6 +91,7 @@ signals:
     void updateRoutingViewer();
     void updateRoutingViewerAt(int);
     void routeFunctionFinished();
+    void routeStateChanged(int, bool);
     void showLogMessage(const QString&, int, int);
     void startRouteTimer(TypeOfRoute);
     void updateRoutePathLEDs(const stateElement&, const stateElement&,

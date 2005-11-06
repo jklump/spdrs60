@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.4.8 $Revision: 1.21 $
+                           version 0.4.8 $Revision: 1.22 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-05 09:43:13 $
+    last modified        : $Date: 2005-11-06 08:46:11 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -300,15 +300,16 @@ bool Router::activateRoute(Route* rt)
         return false;
 
     bool returnvalue = false;
+    int index = 0;
 
     int result = rt->startRouting();
     switch (result) {
         case 1:
             emit showLogMessage(tr("Activating route '%1'")
                     .arg(rt->getName()), MT_INFO, HL_CMND);
-            // send state to routingviewer
-            //TODO: optimize to change only lock state icon
-            emit updateRoutingViewerAt(routeList.find(rt));
+            index = routeList.find(rt);
+            // send signal to routing viewer to update state icon
+            emit routeStateChanged(index, true);
             returnvalue = true;
             break;
         case 0: 
@@ -331,6 +332,29 @@ bool Router::activateRoute(Route* rt)
             break;
     }
     return returnvalue;
+}
+
+
+void Router::releaseRouteAt(unsigned int index)
+{
+    Route* rt = getRouteAt(index);
+    releaseRoute(rt);
+}
+
+
+void Router::releaseRoute(Route* rt)
+{
+    if (rt == NULL)
+        return;
+
+    int index = 0;
+
+    rt->stopRouting();
+    emit showLogMessage(tr("Releasing route '%1'")
+            .arg(rt->getName()), MT_INFO, HL_CMND);
+    index = routeList.find(rt);
+    // send signal to routing viewer to update state icon
+    emit routeStateChanged(index, false);
 }
 
 
@@ -415,9 +439,9 @@ void Router::resetRoute(element* el, GbsButtonState cb)
                 emit showLogMessage(tr("Resetting route '%1'")
                         .arg(resetRt->getName()), MT_INFO, HL_CMND);
                 resetRt->stopRouting();
-                // send state to routingviewer
-                //TODO: optimize viewer update to change only lock state icon
-                emit updateRoutingViewerAt(routeList.find(resetRt));
+                int index = routeList.find(resetRt);
+                // send signal to routing viewer to update state icon
+                emit routeStateChanged(index, false);
             }
             else {
                 QApplication::beep();
@@ -488,12 +512,15 @@ void Router::unlockAllLockedRoutes()
 {
     QPtrListIterator<Route> routeit(routeList);
     Route* rt;
+    int index = 0;
     while ((rt = routeit.current()) != 0 ) {
         ++routeit;
         if (rt->isLocked()) {
             rt->stopRouting();
-            emit updateRoutingViewerAt(routeList.find(rt));
+            // send signal to routing viewer to update state icon
+            emit routeStateChanged(index, false);
         }
+        ++index;
     }
     emit showLogMessage(tr("All active routes released"), MT_INFO, HL_CMND);
 }
