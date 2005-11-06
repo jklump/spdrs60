@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.4.8 $Revision: 1.17 $
+                           version 0.4.8 $Revision: 1.18 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-06 16:44:05 $
+    last modified        : $Date: 2005-11-06 20:49:44 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -119,8 +119,8 @@ public:
     void setStopSignal(element*);
     void addSwitchElement(element*);
     void removeElement(element*);
-    void lockByFeedbackPort(unsigned int, unsigned int, bool);
-    void unlockByFeedbackPort(unsigned int, unsigned int, bool);
+    bool canActivateByFeedbackPort(unsigned int, unsigned int, bool);
+    bool canReleaseByFeedbackPort(unsigned int, unsigned int, bool);
     
 signals:
     void showElement(int, int, int);

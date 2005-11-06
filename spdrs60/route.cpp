@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.27 $
+                           version 0.4.8 $Revision: 1.28 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-06 16:44:05 $
+    last modified        : $Date: 2005-11-06 20:49:44 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -280,14 +280,14 @@ void Route::readFileTextFromStream(QTextStream& ts)
             else if (key.compare(RF_RELEASEPORT) == 0){
                 rePort.bus = s.section(DS, 1, 1).toUInt();
                 rePort.address = s.section(DS, 2, 2).toUInt();
-                rePort.used = (s.section(DS, 2, 2).toInt() == 1);
-                rePort.switchtooff = (s.section(DS, 2, 2).toInt() == 1);
+                rePort.used = (s.section(DS, 3, 3).toInt() == 1);
+                rePort.switchtooff = (s.section(DS, 4, 4).toInt() == 1);
             }
             else if (key.compare(RF_ACTIVATEPORT) == 0){
                 acPort.bus = s.section(DS, 1, 1).toUInt();
                 acPort.address = s.section(DS, 2, 2).toUInt();
-                acPort.used = (s.section(DS, 2, 2).toInt() == 1);
-                acPort.switchtooff = (s.section(DS, 2, 2).toInt() == 1);
+                acPort.used = (s.section(DS, 3, 3).toInt() == 1);
+                acPort.switchtooff = (s.section(DS, 4, 4).toInt() == 1);
             }
             else if (key.compare(RF_ACTIVATELOCO) == 0){
                 acLoco.bus = s.section(DS, 1, 1).toUInt();
@@ -999,19 +999,19 @@ bool Route::isUnlockedType(element* fel, element* tel, GbsButtonState cb,
    1         1        1      0
   -------------------------------
  */
-void Route::lockByFeedbackPort(unsigned int bus, unsigned int port, bool ison)
+bool Route::canActivateByFeedbackPort(unsigned int bus,
+        unsigned int port, bool ison)
 {
-    if (!locked && acPort.used && acPort.bus == bus &&
-            acPort.address == port && acPort.switchtooff != ison)
-        startRouting();
+    return (!locked && acPort.used && acPort.bus == bus &&
+        acPort.address == port && acPort.switchtooff != ison);
 }
 
 
-void Route::unlockByFeedbackPort(unsigned int bus, unsigned int port, bool ison)
+bool Route::canReleaseByFeedbackPort(unsigned int bus,
+        unsigned int port, bool ison)
 {
-    if (locked && rePort.used && rePort.bus == bus &&
-            rePort.address == port && rePort.switchtooff != ison)
-        stopRouting();
+    return (locked && rePort.used && rePort.bus == bus &&
+        rePort.address == port && rePort.switchtooff != ison);
 }
 
 

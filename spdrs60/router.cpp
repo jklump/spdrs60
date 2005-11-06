@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.4.8 $Revision: 1.23 $
+                           version 0.4.8 $Revision: 1.24 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-06 16:44:05 $
+    last modified        : $Date: 2005-11-06 20:49:44 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -327,8 +327,8 @@ bool Router::activateRoute(Route* rt)
         case 1:
             index = routeList.find(rt);
             // send signal to routing viewer to update state icon
-            emit routeStateChanged(index, true);
             returnvalue = true;
+            emit routeStateChanged(index, true);
             emit showLogMessage(tr("Route '%1' activated")
                     .arg(rt->getName()), MT_INFO, HL_CMND);
             break;
@@ -564,18 +564,20 @@ void Router::feedbackPortChanged(unsigned int bus, unsigned int port,
 {
     QPtrListIterator<Route> routeit(routeList);
     Route* rt;
-    
+
     /*first release locked routes*/
     while ((rt = routeit.current()) != 0 ) {
         ++routeit;
-        rt->unlockByFeedbackPort(bus, port, ison);
+        if (rt->canReleaseByFeedbackPort(bus, port, ison))
+            releaseRoute(rt);
     }
     
     /*second activate unlocked routes*/
     routeit.toFirst();
     while ((rt = routeit.current()) != 0 ) {
         ++routeit;
-        rt->lockByFeedbackPort(bus, port, ison);
+        if (rt->canActivateByFeedbackPort(bus, port, ison))
+            activateRoute(rt);
     }
 }
 
