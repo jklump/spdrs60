@@ -1,7 +1,7 @@
 dnl configure.ac for spdrs60
 dnl Guido Scholz
-dnl last update: $Date: 2005-11-05 11:27:48 $
-dnl version: $Revision: 1.8 $
+dnl last update: $Date: 2005-11-06 16:44:05 $
+dnl version: $Revision: 1.9 $
 dnl Process this file with autoconf to produce a configure script.
 
 AC_INIT([spdrs60],[0.4.8],[Guido Scholz <guido.scholz@bayernline.de>])
@@ -53,6 +53,13 @@ AC_SUBST(all_libraries)
 
 KDE_USE_QT(3.0)
 AC_PATH_QT
+
+dnl check for lupdate
+AC_PATH_PROG(LUPDATE, lupdate, no, [$PATH:$QTDIR/bin])
+if test "$LUPDATE" = "no" ; then
+  AC_MSG_ERROR(
+    [cannot find 'lupdate', please install the Qt development tools package.])
+fi
 
 dnl check for lrelease
 AC_PATH_PROG(LRELEASE, lrelease, no, [$PATH:$QTDIR/bin])

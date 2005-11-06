@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.4.8 $Revision: 1.16 $
+                           version 0.4.8 $Revision: 1.17 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-01 16:37:34 $
+    last modified        : $Date: 2005-11-06 16:44:05 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -140,6 +140,7 @@ private:
     /*list with raw item data*/
     QPtrList<stateElement> switchItems;
     void updateRouteName();
+    void updateRouteType();
 };
 #endif // ROUTE_H
 

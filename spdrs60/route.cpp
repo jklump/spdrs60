@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.26 $
+                           version 0.4.8 $Revision: 1.27 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-03 18:00:26 $
+    last modified        : $Date: 2005-11-06 16:44:05 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -766,16 +766,18 @@ void Route::showRoute()
 void Route::setStartSignal(element* el)
 {
     el->getStateData(fromSignal);
-    updateRouteName();
     el->switchSelectionMode(ksmStartSig);
+    updateRouteName();
+    updateRouteType();
 }
 
 
 void Route::setStopSignal(element* el)
 {
     el->getStateData(toSignal);
-    updateRouteName();
     el->switchSelectionMode(ksmStopSig);
+    updateRouteName();
+    updateRouteType();
 }
 
 
@@ -789,10 +791,30 @@ void Route::updateRouteName()
     }
     else {
         if (hasStopSignal())
-            Name = QString(tr("New route to %1").arg(fromSignal.name));
+            Name = QString(tr("New route to %1").arg(toSignal.name));
         else
             Name = tr("New route");
     }
+}
+
+/* 
+ * In route edit mode try to guess what type of route is recorded,
+ * but only respecting changes from default RZS to new RRS.
+ */
+void Route::updateRouteType()
+{
+    if (RZS != routeType)
+        return;
+    
+    if (hasStartSignal() &&
+            fromSignal.elemPtr->hasShuntingRouteButtonOnly()) {
+        routeType = RRS;
+        return;
+    }
+    
+    if (hasStopSignal() &&
+            toSignal.elemPtr->hasShuntingRouteButtonOnly())
+        routeType = RRS;
 }
 
 
@@ -804,7 +826,7 @@ void Route::addSwitchElement(element* el)
         switchItems.append(se);
         el->switchSelectionMode(ksmSwitchEl);
     }
-    // ele no memory available
+    // else no memory available
 }
 
 

@@ -1066,20 +1066,12 @@ Wollen Sie sie überschreiben?</translation>
         <translation>Keine passende Fahrstraße für Startsignal &apos;%1&apos; gefunden</translation>
     </message>
     <message>
-        <source>Activating route &apos;%1&apos;</source>
-        <translation>Fahrstraße &apos;%1&apos; einstellen</translation>
-    </message>
-    <message>
         <source>No matching route found from &apos;%1&apos; to &apos;%2&apos;</source>
         <translation>Keine passende Fahrstraße von &apos;%1&apos; nach &apos;%2&apos; gefunden</translation>
     </message>
     <message>
         <source>No active route found for start signal &apos;%1&apos;</source>
         <translation>Keine eingestellte Fahrstraße für Startsignal &apos;%1&apos; gefunden</translation>
-    </message>
-    <message>
-        <source>Resetting route &apos;%1&apos;</source>
-        <translation>Fahrstraße &apos;%1&apos; zurückgenommen</translation>
     </message>
     <message>
         <source>All active routes released</source>
@@ -1104,6 +1096,14 @@ Wollen Sie sie überschreiben?</translation>
     <message>
         <source>No active route found from start signal &apos;%1&apos; to stop signal &apos;%2&apos;</source>
         <translation>Keine eingestellte Fahrstraße von Startsignal &apos;%1&apos; zu Zielsignal &apos;%2&apos; gefunden</translation>
+    </message>
+    <message>
+        <source>Route &apos;%1&apos; activated</source>
+        <translation>Fahrstraße &apos;%1&apos; eingestellt</translation>
+    </message>
+    <message>
+        <source>Route &apos;%1&apos; released</source>
+        <translation>Fahrstraße &apos;%1&apos; zurückgenommen</translation>
     </message>
 </context>
 <context>
@@ -1134,10 +1134,6 @@ Wollen Sie sie überschreiben?</translation>
     <message>
         <source>Routings</source>
         <translation>Fahrstraßen</translation>
-    </message>
-    <message>
-        <source>Resetting route &apos;%1&apos;</source>
-        <translation>Fahrstraße &apos;%1&apos; zurückgenommen</translation>
     </message>
 </context>
 <context>

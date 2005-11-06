@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.4.8 $Revision: 1.22 $
+                           version 0.4.8 $Revision: 1.23 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-06 08:46:11 $
+    last modified        : $Date: 2005-11-06 16:44:05 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -142,15 +142,27 @@ void Router::copyRouteAt(unsigned int index)
 {
     Route* selectedRoute = getRouteAt(index);
     if (selectedRoute != NULL) {
-        routeList.insert(index, selectedRoute->getClone());
-        // TODO: connect
-        modified = true;
+        Route* nr = selectedRoute->getClone();
+        if (nr != NULL) {
+            routeList.insert(index, nr);
+            connect(nr, SIGNAL(updateRoutePathLEDs(const stateElement&,
+                            const stateElement&, RouteSetAction&)),
+                    this, SIGNAL(updateRoutePathLEDs(const stateElement&,
+                            const stateElement&, RouteSetAction&)));
+            modified = true;
+        }
     }
 }
 
 
 void Router::deleteRouteAt(unsigned int index)
 {
+    Route* dr = routeList.at(index);
+    if (dr != NULL) 
+        disconnect(dr, SIGNAL(updateRoutePathLEDs(const stateElement&,
+                        const stateElement&, RouteSetAction&)),
+                this, SIGNAL(updateRoutePathLEDs(const stateElement&,
+                        const stateElement&, RouteSetAction&)));
     routeList.remove(index);
     modified = true;
 }
@@ -275,7 +287,15 @@ void Router::recordElement(element* el, elemRecordType rtype)
 
 unsigned int Router::addNewRoute()
 {
-    routeList.append(new Route(tr("New route")));
+    Route* nr = new Route(tr("New route"));
+    if (nr != NULL) {
+        routeList.append(nr);
+
+        connect(nr, SIGNAL(updateRoutePathLEDs(const stateElement&,
+                        const stateElement&, RouteSetAction&)),
+                this, SIGNAL(updateRoutePathLEDs(const stateElement&,
+                        const stateElement&, RouteSetAction&)));
+    }
     return routeList.count();
 }
 
@@ -305,12 +325,12 @@ bool Router::activateRoute(Route* rt)
     int result = rt->startRouting();
     switch (result) {
         case 1:
-            emit showLogMessage(tr("Activating route '%1'")
-                    .arg(rt->getName()), MT_INFO, HL_CMND);
             index = routeList.find(rt);
             // send signal to routing viewer to update state icon
             emit routeStateChanged(index, true);
             returnvalue = true;
+            emit showLogMessage(tr("Route '%1' activated")
+                    .arg(rt->getName()), MT_INFO, HL_CMND);
             break;
         case 0: 
             QApplication::beep();
@@ -350,14 +370,27 @@ void Router::releaseRoute(Route* rt)
     int index = 0;
 
     rt->stopRouting();
-    emit showLogMessage(tr("Releasing route '%1'")
-            .arg(rt->getName()), MT_INFO, HL_CMND);
     index = routeList.find(rt);
     // send signal to routing viewer to update state icon
     emit routeStateChanged(index, false);
+    emit showLogMessage(tr("Route '%1' released")
+            .arg(rt->getName()), MT_INFO, HL_CMND);
 }
 
 
+/*
+   old error messages
+   case kNormal:
+   (tr("No normal route found for start signal '%1'!").arg(s.data()));
+   case kDetour:
+   (tr("No detour route found for start signal '%1'!").arg(s.data()));
+   case kHelp:
+   (tr("No help route found for start signal '%1'!").arg(s.data()));
+   case kShunting:
+   (tr("No shunting route found for start signal '%1'!").arg(s.data()));
+   case kShuntingD:
+   (tr("No detour shunting route found for start signal '%1'!").arg(s.data()));
+*/
 void Router::setRoute(element* el, GbsButtonState cb, GbsButtonState sb)
 {
     if (el == NULL)
@@ -375,10 +408,10 @@ void Router::setRoute(element* el, GbsButtonState cb, GbsButtonState sb)
         else {
             /*TODO: more detailed error message*/
             QApplication::beep();
-            emit showLogMessage(tr("No matching route found for start "
-                        "signal '%1'").arg(el->getName()), MT_INFO, HL_CMND);
             /*send cursor time out to gbs*/
             emit routeFunctionFinished();
+            emit showLogMessage(tr("No matching route found for start "
+                        "signal '%1'").arg(el->getName()), MT_INFO, HL_CMND);
         }
     }
     /*stop signal button is pressed*/
@@ -436,12 +469,12 @@ void Router::resetRoute(element* el, GbsButtonState cb)
         else {
             //check if selected route has same stop signal
             if (resetRt->hasThisStopSignal(el)) {
-                emit showLogMessage(tr("Resetting route '%1'")
-                        .arg(resetRt->getName()), MT_INFO, HL_CMND);
                 resetRt->stopRouting();
                 int index = routeList.find(resetRt);
                 // send signal to routing viewer to update state icon
                 emit routeStateChanged(index, false);
+                emit showLogMessage(tr("Route '%1' released")
+                        .arg(resetRt->getName()), MT_INFO, HL_CMND);
             }
             else {
                 QApplication::beep();

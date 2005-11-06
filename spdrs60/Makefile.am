@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.9 $
-# last update: $Date: 2005-11-05 11:27:48 $
+# version: $Revision: 1.10 $
+# last update: $Date: 2005-11-06 16:44:05 $
 
 SUBDIRS = pixmaps
 
@@ -29,7 +29,6 @@ nodist_spdrs60_SOURCES = \
         routingviewer.moc.cpp \
 	turntablecommander.moc.cpp
 
-# routeelementlvi.moc.cpp 
 # list of all sources and headers
 spdrs60_SOURCES = main.cpp resources.h \
 	elementcommander.cpp elementcommander.h \
@@ -81,3 +80,8 @@ else
 %.qm: %.ts
 	$(LRELEASE) -verbose spdrs60.pro
 endif
+
+# rule for translation file updates
+update-ts: spdrs60.pro $(spdrs60_SOURCES) $(nodist_spdrs60_SOURCES)
+	$(LUPDATE) -verbose spdrs60.pro
+

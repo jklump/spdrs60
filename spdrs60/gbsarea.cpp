@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.29 $
+                           version 0.4.8 $Revision: 1.30 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-05 06:53:35 $
+    last modified        : $Date: 2005-11-06 16:44:05 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -565,19 +565,6 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
     }
 }
 
-/*
-   preserve old error messages
-   case kNormal:
-   (tr("No normal route found for start signal '%1'!").arg(s.data()));
-   case kDetour:
-   (tr("No detour route found for start signal '%1'!").arg(s.data()));
-   case kHelp:
-   (tr("No help route found for start signal '%1'!").arg(s.data()));
-   case kShunting:
-   (tr("No shunting route found for start signal '%1'!").arg(s.data()));
-   case kShuntingD:
-   (tr("No detour shunting route found for start signal '%1'!").arg(s.data()));
-*/
 
 void GBSArea::startRouteTimer(TypeOfRoute tor)
 {
