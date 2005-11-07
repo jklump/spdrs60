@@ -2820,7 +2820,7 @@ wie vorhanden):</para>
       Antrieb (K-Gleis 2260, M-Gleis 5207 oder 5128, C-Gleis 24620)
       haben nur zwei verschiedene Richtungsmöglichkeiten. Die
       Anzeige bei diesen Symbolen richtet sich daher auch nach einer
-      eingestellten Fahrstra&szlig;e, die über ein solches Elemente
+      eingestellten Fahrstra&szlig;e, die über ein solches Element
       verläuft (siehe auch Kapitel &raquo;Fahrstra&szlig;en&laquo;).
       </para></footnote></entry>
     </row>
@@ -3110,7 +3110,7 @@ Fahrstra&szlig;entabelle geschaltet werden.
 <para>
 Mit einem rechten Mausklick auf jedes beliebige Element erhält man
 ein mehr oder weniger elementspezifisches Eigenschaftsfenster
-(<xref linkend="abb-normal">), indem sich die Merkmale des Elements
+(<xref linkend="abb-normal">), in welchem sich die Merkmale des Elements
 variieren lassen. 
 </para>
 
@@ -3201,7 +3201,7 @@ Hälfte des Fensters an.
 <para>
 Anschließend vergibt man die Adresse für den Artikel. In manchen Fällen,
 wie z.B. bei Weichen, kann es sinnvoll sein, in den Antriebselementen die
-Decoderadresse anzeigen lassen. Deshalb wird standardgemä&szlig; bei Eingabe
+Decoderadresse anzeigen lassen. Deshalb wird standardmä&szlig;ig bei Eingabe
 einer Adresse diese automatisch in das Textfeld übertragen. Möchte man
 aber die Vorbildbezeichnungen für Weichen, Signale etc. benutzen, muß
 man nachträglich den Eintrag im Textfeld ändern (z.B. P1 für ein
@@ -3234,7 +3234,7 @@ Weichenantrieben noch keinerlei Konsequenzen. Interessant zum Einstellen
 sind die Felder &raquo;Vertauschen&laquo;, &raquo;Zurücksetzen nach&laquo; und
 &raquo;Rückmeldung&laquo;. Das erste ermöglicht es durch einen einfachen
 Klick, die Ausgänge zu einer Decoderadresse elektronisch zu vertauschen.
-Wenn also die Weiche nicht so schaltet wie es die Grafik anzeigt, dann
+Wenn also die Weiche nicht so schaltet, wie es die Grafik anzeigt, dann
 kann dies durch einen einfachen Haken korrigiert werden. Man muß also
 nicht unter die Anlage, um Kabel umzustecken oder sogar zu löten. Für
 ältere Weichen (wie z.B. häufig bei älteren Märklin-M-Weichen) kann es
@@ -3299,7 +3299,7 @@ Decoderausgänge benötigt werden.
 <para>
 Obwohl in beiden Fällen nur Lichtsignale abgebildet sind, gelten die
 entsprechenden Tasten selbstverständlich auch für Formsignale. Zu
-beachten ist dabei aber der etwas andere Zusammenschluß von
+beachten ist dabei aber der etwas andere Anschluß von
 Form-Hauptsignal und Form-Schutzsignal an den Decoder, da es sich hier
 immer um zwei getrennte Signale handelt.
 </para>
@@ -3398,7 +3398,7 @@ Momentkontakt aufweisen, dementsprechend auch nur einen Ausgang einer
 Adresse belegen (z.B. Märklin K-2297, M-5112 oder C-24997). Man kann
 daher an eine Adresse gleich zwei Entkoppler anschlie&szlig;en. Hierbei
 ist also auch auf ein eventuell notwendiges Häkchen im Feld
-&raquo;Vertauschen&laquo; zu achten. Für momentan betätigte Entkoppler sind
+&raquo;Vertauschen&laquo; zu achten. Für momentbetätigte Entkoppler sind
 grundsätzlich die beiden unteren Schaltflächen zuständig. Davon wählt man den
 mittleren, wenn der Entkoppler am roten/linken Ausgang einer Adresse
 angeschlossen wurde bzw. den unteren, wenn man den grünen/rechten
@@ -3426,9 +3426,7 @@ seit schon ca. 20 Jahren existiert und bereits in vielerlei
 Hinsicht verfeinert wurde, fehlt immer noch ein entscheidendes
 Element bei allen Anbietern: Die Rückmeldung der Lokadresse einer an
 einem bestimmten Punkt vorbeifahrenden Lok. Seit wenigen Jahren gibt es
-bereits Zuglesesysteme (Holtermann etc.), die jedoch sehr teuer sind
-(mehrere 100 DM!) und nicht direkt mit einem Märklin-System verbindbar
-sind.</para>
+bereits Zuglesesysteme (Holtermann etc.), die jedoch sehr teuer sind.</para>
 <para>
 Die Zeitschrift Elektor hat Ende
 der 80er Jahre ein Selbstbau-Projekt zu einer Märklin-kompatiblen
@@ -3445,16 +3443,17 @@ PC angeboten. Ebenfalls runderneuert wurden die Lokdecoder, die jetzt
 auch das neue Märklin-Format verstehen.
 </para>
 <para>
-Aber der Clou an der Geschichte ist, was auch bisher noch kein anderer
-Selbstbau-Decoder (aus dem Internet z.B.) hat ist: diese Decoder senden
+Aber der Clou an der Geschichte ist ein Merkmal, welches auch bisher
+noch kein anderer Selbstbau-Decoder (z.B. aus dem Internet) hat:
+Diese Decoder senden
 über eine Infrarotdiode die eigene aktuell eingestellte Adresse des
 Decoders. Mit einem passenden, ebenfalls in der Serie beschriebenen
 Empfänger wird dieses Signal über eine eigene Schaltung im bzw. am Gleis
 empfangen und binär dekodiert. Diese Lesegeräte (Preis pro
-Stück ca. 80 DM) hängen nicht an einem speziellen Bus. Sie können ganz
+Stück ca. 50 EUR) hängen nicht an einem speziellen Bus. Sie können ganz
 normal als S88-Module in den Rückmeldebus eingereiht werden (EDiTS
 bietet nur 8-polige Rückmeldemodule an, was aber in manchen Fällen nicht
-falsch ist, denn wann hat man schonmal 16 Rückmelde-Kontakte auf kleiner
+falsch ist. Wann hat man schon 16 Rückmelde-Kontakte auf kleiner
 Fläche, um ein Modul komplett zu beschalten? Rutger Friberg nennt diese
 &raquo;halben S88-Module&laquo; ganz einfach S44 :-). Die EDiTS-CU liest
 dann diese Module ganz normal beim Lesen des S88-Strangs aus und wertet
@@ -3472,8 +3471,8 @@ Klartext anzuzeigen. Zuständig hierfür ist das Element
 Bei diesem Elementtyp ist ein Text einzugeben, auch wenn dieser nicht
 angezeigt wird. Das dient später einmal zur genauen Identifizierung der
 Module (wird erst richtig funktionieren beim Implementieren der
-S88-Ressource-Dateien). Da es sich um dieses spezielle Modul handelt,
-erscheint jetzt im Bereich Rückmeldung ein Markierung bei
+S88-Ressourcen-Dateien). Da es sich um dieses spezielle Modul handelt,
+erscheint jetzt im Bereich Rückmeldung eine Markierung bei
 &raquo;Addressmodul&laquo;. Da
 alle acht Kontakte dieses Moduls benötigt werden, macht es keinen Sinn,
 hier vom Anwender einen einzelnen Eingang wählen zu lassen; er muß
@@ -3505,7 +3504,7 @@ eingestellten Adresse nicht entsprechen sollte.
   <title>Vorwort</title>
 <para>
 In der Einleitung zu dieser Dokumentation wurde bereits angesprochen,
-dass die hervorstechende Eigenschaft eines Spurplan-Drucktasten-Stellwerks,
+dass die hervorstechende Eigenschaft eines Spurplan-Drucktasten-Stellwerks
 das Arbeiten mit Fahrstra&szlig;en ist. Der Fahrdienstleiter sucht sich nicht
 selbst eine mögliche Strecke über die vorhandenen Weichen aus und stellt
 jede Weiche einzeln; es werden vielmehr durch in Spurplantechnik
@@ -3514,7 +3513,7 @@ verschaltete Relaisgruppen vorprogrammierte Fahrstra&szlig;en aktiviert
 &raquo;Intelligenz&laquo; im System, die aus Start- und Zielsignal denn
 besten/schnellsten Weg durch ein Weichenfeld findet). Dies geschieht
 durch das gleichzeitige Drücken von entweder zwei Zugstraßentasten oder
-zwei Rangierstraßentaste, die sich an den Signalen befinden: dem
+zwei Rangierstraßentasten, die sich an den Signalen befinden: dem
 Startsignal, vor dem der Zug bereits wartet bzw. zuerst eintreffen wird,
 und das in seinem Fahrweg liegende Zielsignal.
 Letzteres ist dann wiederum das Startsignal für den nächsten Abschnitt.
@@ -3777,7 +3776,7 @@ Enter-Taste das in <xref linkend="abb-routing8"> dargestellte Fenster
 </figure>
 </para>
 <para>
-Im linken oberen Bereich läßt sich der Name der Fahrstraße sowie das
+Im linken oberen Bereich läßt sich der Name der Fahrstraße, sowie das
 Start- und das Zielsignal festlegen bzw. bearbeiten. Nur am
 Startsignal gibt es ein Feld für die Signalstellung, das Zielsignal ist
 immer auf Halt, bis es selbst bei einer anderen Fahrstra&szlig;e
@@ -3820,7 +3819,7 @@ andere Signale wie Schutzsignale, die auf dem Fahrweg liegen, sondern
 auch Blindelemente (zum Durchfahren eines Signals mit Zugbeeinflussung
 aus der anderen Richtung) oder sonstige schaltbare Elemente
 eintragen (im Extremfall auch Entkoppler). Unterhalb der Liste
-existieren Schaltflächen mit denen sich die Reihenfolge der Elemente
+existieren Schaltflächen, mit denen sich die Reihenfolge der Elemente
 ändern läßt, vorhandene Elemente in einem weiteren Dialogfenster
 bearbeitet und einzelne Elemente aus der Fahrstraße
 entfernt werden können.
@@ -3834,10 +3833,10 @@ Für das Erstellen neuer Fahrstraßen bietet das Programm prinzipiell zwei
 Möglichkeiten.
 </para>
 <itemizedlist mark="bullet">
-  <listitem><para>Eine grafisch Eingabe, bei der die Fahrstraßenelemente
+  <listitem><para>Eine grafische Eingabe, bei der die Fahrstraßenelemente
   mit der Maus im Gleisbild ausgewählt werden.
   </para></listitem>
-  <listitem><para>Eine Dialogfenster orientierte Variante, bei der die
+  <listitem><para>Eine dialogfensterorientierte Variante, bei der die
   einzelnen Elemente über manuelle Eingaben zusammengestellt werden.
 </para></listitem>
 </itemizedlist>
@@ -3863,12 +3862,12 @@ Diesen wählt man anschließend mit einem Mausklick aus
 und kann dann die Elemente durch Anklicken im Gleisbild
 hinzufügen. Mit der linken Maustaste lassen sich die Start- und
 Zielsignale festlegen, mit der mittleren Maustaste die übrigen Elemente.
-Das erste Signal, auf das man klickt wird zum Startsignal, das zweite
+Das erste Signal, auf das man klickt, wird zum Startsignal, das zweite
 gewählte Signal zum Zielsignal. Das Startsignal bekommt eine grüne
 Umrandung, das Zielsignal eine solche in Rot. Die sonstigen, schaltbaren
 Elemente der
 Fahrstraße bekommen eine gelbe Umrandung. Durch erneutes Anklicken eines
-gewählten Elements, wird es wieder von der Fahrstraße entfernt.
+gewählten Elements wird es wieder von der Fahrstraße entfernt.
 </para>
 <para>
 Die Weichen im Fahrweg bzw. für den Flankenschutz sollten vor dem
@@ -3995,7 +3994,7 @@ kann. Die Eingabe weiterer Elemente ist optional.
 </figure>
 </para>
 <para>
-Das Hinzufügen von zusätzlichen geschalteten Elementen wie den Weichen
+Das Hinzufügen von zusätzlichen geschalteten Elementen, wie den Weichen
 im Fahrweg erfolgt mit Hilfe der im Fahrstraßendialog
 (<xref linkend="abb-routing8">) rechts unten sichtbare Liste. Über
 den Schaltknopf &raquo;Hinzufügen&laquo; erscheint ein kleines
@@ -4014,9 +4013,9 @@ automatisch ermittelt.
 </para>
 <para>
 Wurden alle Fahrstraßenelemente hinzugefügt, kann das Dialogfenster
-über OK geschlossen
-werden. Die Fahrstra&szlig;e erscheint dann sofort mit ihrem neuen Namen
-sowie den Start- und Zielsignalen in der Fahrstraßentabelle. Sie kann sofort
+über OK geschlossen werden. Die Fahrstra&szlig;e erscheint dann sofort
+mit ihrem neuen Namen, sowie den Start- und Zielsignalen in der
+Fahrstraßentabelle. Sie kann sofort
 über die Signalschalter eingestellt und zurückgenommen werden. Nach
 wechseln in den Betriebsmodus können die neu erstellten Fahrstraßen mit
 dem Menü &raquo;Datei -&gt; Speichern&laquo; gespeichert werden.
@@ -4057,11 +4056,11 @@ folgender Reihenfolge:
 </itemizedlist>
 
 <para>
-Mit der Tastenkombination <keycap>Strg-M</keycap> Öffnet man das
+Mit der Tastenkombination <keycap>Strg-M</keycap> öffnet man das
 Übersichtfenster für die Rückmeldebusse. Mit der neuen Version des
 Daemon (&gt; 1.2 ) werden jetzt 4 Rückmeldebusse à 31 Module mit 16
 Anschlüssen unterstützt (wenn man nach der Original Märklin-Portzahl geht).
-Dementsprechend aufgebaut ist auch das sich öffnende Fenster (<xref
+Dementsprechend ist auch das sich öffnende Fenster aufgebaut (<xref
 linkend="abb-feedbacks">):
 </para>
 <para>
@@ -4110,9 +4109,9 @@ einen Klick auf die Vorwärts-/Rückwärtspfeile neben der
 Busnummern-Anzeige. Welche Art der Anzeige (8 oder 16 Anschlüsse/Modul) man
 wählt, ist eigentlich egal. Natürlich ist die Übersicht besser, wenn man
 die passende Anzeige wählt. Was aber macht man, wenn man gemischte
-Module einsetzt, was durchaus möglich ist? Dieser Anzeigenfall ist noch
+Module einsetzt, was durchaus möglich ist? Dieser Anzeigefall ist noch
 nicht vorgesehen. Evtl. wird es in Zukunft einmal eine weitere
-<filename>*.dat.fbm</filename>-Datei geben, wo Daten zu den Modulen
+<filename>*.dat.fbm</filename>-Datei geben, in welcher Daten zu den Modulen
 vorgehalten werden (Art des Moduls, Klartext-Beschreibung zu jedem
 Kontakt). Bis dahin sollte bei einem gemischten Betrieb der gemeinsame
 Nenner benutzt werden, und das sind meines Erachtens die 8-Port-Modulen.
@@ -4216,16 +4215,16 @@ entgegengesetztes Schaltverhalten</entry>
         </row>
         <row>
           <entry>
-<para>42594 DoppelKW 15° (Bettung)</para>
-<para>42451 DoppelKW 15°</para>
+<para>42594 Doppel-KW 15° (Bettung)</para>
+<para>42451 Doppel-KW 15°</para>
           </entry>
           <entry>2</entry>
           <entry></entry>
         </row>
         <row>
           <entry>
-<para>42549 DoppelKW 10° (Bettung)</para>
-<para>42496 DoppelKW 10°</para>
+<para>42549 Doppel-KW 10° (Bettung)</para>
+<para>42496 Doppel-KW 10°</para>
           </entry>
           <entry>2</entry>
           <entry></entry>
@@ -4314,8 +4313,8 @@ entgegengesetztes Schaltverhalten</entry>
         </row>
         <row>
           <entry>
-<para>6166 DoppelKW links</para>
-<para>6167 DoppelKW rechts</para>
+<para>6166 Doppel-KW links</para>
+<para>6167 Doppel-KW rechts</para>
           </entry>
           <entry>1</entry>
           <entry></entry>
@@ -4464,7 +4463,7 @@ getauscht werden müssen.
 Die folgende Tabelle gibt Aufschluß über das Anschlussschema bei den
 verschiedenen Signalmöglichkeiten. Ich gehe mal davon aus, dass dafür an
 einem Decoder zwei nebeneinander liegende Ausgänge = zwei aufeinander
-folgende Adressen benutzt werden und das keinerlei Häkchen zum Tauschen
+folgende Adressen benutzt werden und dass keinerlei Häkchen zum Tauschen
 der Ausgänge gesetzt wurde:
 </para>
 <para>
@@ -4472,10 +4471,10 @@ Die Tabelle oben gilt vor allem für Lichtsignale. Bei Formsignalen gibt
 es keine Kombination Haupt- und Schutzsignal, es besteht immer aus zwei
 eigenständigen Signalen. Dies wurde im Modell auch so gehalten. Die
 Anschlussart ist daher etwas anders. Das Hauptsignal mit seinen 1 oder 2
-Antrieben wird wie beschrieben in die entsprechenden Decoder-Ausgänge
-gesteckt. Der Antrieb des Sh-Signals wird für die Stellung Sh 1 in die
-beschriebene Buchse für Sh1 gesteckt. Der Anschluß für Sh 0 dagegen
-wird zusammen mit dem Anschluß für Hp 0 (bzw. Hp 00) gesteckt, damit
+Antrieben wird wie beschrieben an die entsprechenden Decoder-Ausgänge
+angeschlossen. Der Antrieb des Sh-Signals wird für die Stellung Sh1 an die
+beschriebene Buchse für Sh1 angeschlossen. Der Anschluß für Sh0 dagegen
+wird zusammen mit dem Anschluß für Hp0 (bzw. Hp00) gesteckt, damit
 das Schutzsignal auf jeden Fall zurückgestellt werden kann.
 </para>
 </sect3>
@@ -4491,36 +4490,33 @@ sowieso nur drei Begriffe aufweist. Das Form-Rangiersignal (=
 Richtungswert 3) ist ein eigenständiges Signal mit eigenem Antrieb.
 </para>
 <para>
-Bei Lichtsignalen jedoch gibt es zwar 4-begriffige zu kaufen (Busch,
-Viessmann etc.), jedoch ist dabei keine Ansteuerlogik inbegriffen. Man
-kann aber auch nicht einfach die LEDs der Signale an die Decoder
-anschlie&szlig;en, sie würden kaputt gehen, au&szlig;erdem habe ich
-nicht genug Ausgänge bei zwei Adressen, um z.B. die sechs LEDs eines
-Ausfahrsignals anzusteuern.
+Bei Lichtsignalen gibt es 4-begriffige zu kaufen (Busch,
+Viessmann etc.), die eine separate Ansteuerlogik benötigen. Man
+kann nicht einfach die LEDs der Signale an die Decoder
+anschlie&szlig;en, sie würden dabei Schaden nehmen.
 </para>
 <para>
-Dazu sind also meistens Ansteuerelektroniken notwendig. Diese sind z.B.
-erhältlich bei:
+Ansteuerelektroniken erhält man z.B. bei:
 </para>
 <para>
 <ulink url="http://www.voelkner.de/">Völkner Elektronik</ulink>,</para>
 <para>
-Best.-Nr. 013-860-222 (Bausatz, Preis 19,95 DM),
+Best.-Nr. 013-860-222 (Bausatz),
 </para>
 <para>
-Best.-Nr. 013-861-122 (Fertigmodul, Preis 34,95 DM)
+Best.-Nr. 013-861-122 (Fertigmodul)
 </para>
 <para>
 <ulink url="http://www.viessmann-electronic.de/">Viessmann
 Modellbahntechnik</ulink>, 
 </para>
 <para>
-Artikel-Nr. 5210, Preis ca. 75 DM
+Artikel-Nr. 5210
 </para>
 <para>
 Der Decoder von <ulink
 url="http://www.ldt-infocenter.com/">Littfinski</ulink> (Littfinski
-Datentechnik, Best.-Nr. LS-DEC, Preis ab 64 DM) kann damit nicht
+Datentechnik, Best.-Nr. LS-DEC) kann damit nicht
 angesteuert werden, da er eine andere Ausgangsbelegung als in der obigen
 Tabelle angegeben besitzt. Eine Realisierung wird erst in einer weiteren
 Version passieren.
@@ -4536,12 +4532,11 @@ Version passieren.
 <para>
 Wie schon im Symbol-Kapitel kurz angesprochen, gibt es
 eine spezielle digitale Drehscheibe von Märklin mit eigenem Decoder, der
-nur auf das Motorola-Format hört. Die Grundeinstellung geschieht im
-Eigenschaften-Fenster zum Drehscheibensymbol. Hier hört es aber noch
-nicht auf, denn um eine einwandfreie Funktion zu bekommen, muß man dem
-Decoder auch noch sagen, an welchen der möglichen maximal 24
-Gleisanschluss-Stutzen überhaupt ein Gleisstück dransteckt, die
-Schwenkbühne also halten kann.
+nur das Motorola-Format versteht. Die Grundeinstellung geschieht im
+Eigenschaftsfenster zum Drehscheibensymbol. Um eine einwandfreie
+Funktion zu bekommen, muß man dem Decoder noch mitteilen, an welchen
+der möglichen maximal 48 Gleisanschluss-Stutzen überhaupt ein
+Gleisstück angesteckt ist, die Schwenkbühne also halten kann.
 </para>
 <para>
 Die Steuerung der Drehscheibe geschieht mit dem Drehscheiben-Commander
@@ -4605,12 +4600,12 @@ verfügbaren Stutzen.
 </para>
 <para>
 Je nach gewählter Aktivität kann der eine oder andere Knopf dabei nicht
-verfügbar sein. Das Schwenken zum nächstmöglichen Stutzen sowie das
+verfügbar sein. Das Schwenken zum nächstmöglichen Stutzen, sowie das
 180°-Drehen brauchen keine besondere Erklärung. Zum Anfahren eines
 bestimmten Gleises wähle man zunächst die Nummer dessen aus und klicke
 dann auf den blauen Pfeil. Im Optionenmenü zum Programm kann man
-einstellen, ob die Drehrichtung der Bühne manuell gewählt werden muß
-oder ob das Programm die optimale, weil kürzeste Drehrichtung selber
+einstellen, ob die Drehrichtung der Bühne manuell gewählt werden muß,
+oder ob das Programm die optimale, weil kürzeste Drehrichtung selbst
 automatisch wählen soll. Ist erstgenannte Eigenschaft aktiv, dann kann
 man durch vorheriges Klicken auf den Links- oder Rechtspfeil die
 Drehrichtung der Bühne bestimmen. Es ist also so möglich, von Gleis 3 zu
@@ -4652,9 +4647,9 @@ der Drehscheibensteuerung</title>
 <para>
 Die Programmierung kann jedoch nicht zu jedem beliebigem
 Zeitpunkt durchgeführt werden, sondern muß innerhalb von fünf Sekunden,
-nachdem Saft auf die Anlage gegeben wurde, gestartet worden sein. Diese
-Tatsache ist nicht auf meinem Mist gewachsen, sondern ist Vorgabe von
-Märklin. Wie geht man also vor?
+nachdem die Versorgungsspannung der Anlage eingeschaltet wurde,
+gestartet worden sein. Dies ist eine Vorgabe von Märklin.
+Wie geht man also vor?
 </para>
 <para>
 <itemizedlist mark="bullet">
@@ -4663,18 +4658,19 @@ DDL-Daemon sowie den SpDrS60-Client und lädt das
 Anlagen-Layout.</para></listitem>
   <listitem><para>Danach aktiviere man den Commander und
 öffne das Programmierfenster.</para></listitem>
-  <listitem><para>Jetzt wird der Verstärker eingeschaltet
-(oder CentralUnit o.ä., was den Saft bereitstellt)</para></listitem>
+  <listitem><para>Jetzt wird die Versorgungsspannung eingeschaltet
+(Central-Unit, Verstärker (&raquo;Booster&laquo;) oder ähnliches)
+</para></listitem>
   <listitem><para>Innerhalb von fünf Sekunden klicke man
 nun auf die Taste &raquo;Start programming&laquo;</para></listitem>
 </itemizedlist>
 </para>
 <para>
-Der Drehscheibendecoder befindet sich nun im Zustand, in dem er
+Der Drehscheibendecoder befindet sich nun in einem Zustand, in welchem er
 Programmierbefehle aufnehmen kann. Alle vorher programmierten Gleise,
 sichtbar durch Fettdruck und farbiger Unterlegung in der oberen
 Fensterhälfte, werden ausgeblendet. Mit den Pfeiltasten des Commanders
-(die einzigen Tasten, die über dem Strich noch aktiv sind), fahre man jetzt
+(die einzigen Tasten, die noch aktiv sind), fahre man jetzt
 die Schwenkbühne zu dem Gleis, welches die Nummer 1 werden soll (sind an
 beiden Enden Anschlüsse, muß man sich natürlich genauer merken, welches
 von beiden die 1 ist; am besten orientiere man sich an der Stellung des
@@ -4687,15 +4683,15 @@ ihres Auftretens zu speichern. Dazu fährt man nacheinander im oder gegen
 den Uhrzeigersinn mit dem Referenzende der Bühne die Gleise an. Jedesmal
 nach Erreichen eines Gleises wird dessen Position durch Klicken des
 Tasters &raquo;Save pos. #x&laquo; gespeichert. Wurde eine Position
-schonmal gespeichert, dann erscheint als Tastentext &raquo;Pos. #x is
+schon einmal gespeichert, dann erscheint als Tastentext &raquo;Pos. #x is
 saved!&laquo;. Wurden alle Gleise eingegeben, klicke man nur noch auf
-&raquo;Done&laquo; (ist die Drehscheibe voll belegt und alle 24 Positionen
-programmiert, beendet sich der Programmiermodus von selbst). Fertig! Das
-Commander-Fenster verkleinert sich, und die Zahlenreihen enthalten jetzt
+&raquo;Done&laquo; (ist die Drehscheibe voll belegt und alle 48 Positionen
+programmiert, beendet sich der Programmiermodus von selbst). Das
+Commander-Fenster verkleinert sich nun, und die Zahlenreihen enthalten jetzt
 neu die soeben programmierten Gleise. Automatisch fährt dann die Bühne
 zur Position &raquo;1&laquo;, was man am sich bewegenden gelben Cursor
 erkennen kann. Die programmierten Gleise werden ebenfalls in der
-Gleisbild-Datei gespeichert und brauchen nicht jedesmal neu eingegeben zu
+Gleisbilddatei gespeichert und brauchen nicht jedesmal neu eingegeben zu
 werden (der Drehscheiben-Decoder speichert die Positionen natürlich
 völlig unabhängig davon!)
 </para>
@@ -4703,9 +4699,14 @@ völlig unabhängig davon!)
     
 <sect3>
   <title>Anschluss-Schema</title>
-<para> Für alle, die den Anschlussplan verlegt haben, kann man
-in <xref linkend="abb-drehscheibe"> diesen nochmal einsehen. Er
-funktioniert NUR mit dem der Drehscheibe beiliegenden Spezialdecoder.
+<para> Für den Fall, dass man den Anschlussplan verlegt hat, kann man
+diesen in <xref linkend="abb-drehscheibe"> nochmal einsehen. Er
+funktioniert NUR mit dem seinerzeit der Drehscheibe beiliegenden
+Spezialdecoder. Die Drehscheibe Märklin Art.-Nr.
+7286 wird mittlerweile von der Firma Märklin nur mit einem
+konventionellen Steuergerät und ohne eine digitale Steuerelektronik
+ausgeliefert. Eine digitale &raquo;Komfort&laquo;-Steuerelektronik
+ist nur separat erhältlich (Märklin Art.-Nr. 7687).
 </para>
 <para>
 <figure id="abb-drehscheibe">
@@ -4845,7 +4846,7 @@ Stellung als im Programm?
 Das lä&szlig;t sich konfigurieren. Man stecke dazu
 entweder die beiden Weichenanschlüsse am Decoder um oder - wenn das
 nicht oder nur mühsam geht - benutze über die Elementeigenschaften die
-Option &raquo;Vertauschen&laquo;, damit werden die Anschlüsse elektronisch
+Option &raquo;Vertauschen&laquo;, damit werden die Anschlüsse logisch
 vertauscht.
 </para></listitem>
       </varlistentry>
@@ -5050,8 +5051,9 @@ man gar keine Drehscheibe hat):
 </figure>
 </para>
 <para>
-Autostart voltage sagt bei Aktivierung aus, dass
-automatisch Saft auf die Anlage nach dem Programmstart gegeben wird.
+&raquo;Autostart voltage&laquo; sagt bei Aktivierung aus, dass
+die Versorgungsspannung der Anlage automatisch nach dem Programmstart
+eingeschaltet wird.
 </para>
 <para>
 Damit man bei der Aktivierung von Fahrstra&szlig;en nicht dieselbe ad
@@ -5099,16 +5101,12 @@ http://www.linux-modellbahn.de/</ulink>.</para>
 </figure>
 </para>
 <para>
-Diese Seite ist zugegebenerma&szlig;en noch recht leer
-und enthält nur zwei Eingabezeilen für den DDL-Servernamen und die
-Portnummer für die Verbindung dorthin. Alle anderen Felder sind noch
-ausgeschaltet, da sie für zukünftige Ansteuerungen reserviert sind. Denn
-denkbar ist, dass dieses Programm dereinst auchmal direkt
-Original-Interfaces mit Daten beschicken wird.
+Auf dieser Seite sind Eingabezeilen für den Namen des SRCP-Servers und
+die Portnummer für die Netzwerkverbindung dorthin vorhanden.
 </para>
 <para>
-Bei fehlenden Eingaben im Bereich SRCP-Server erhält der User eine der
-folgenden Fehlermeldungen:
+Bei fehlenden Eingaben im Bereich SRCP-Server erhält der Benutzer eine
+der folgenden Fehlermeldungen:
 </para>
 <para>
 <figure id="abb-optservererr1">
@@ -5355,9 +5353,9 @@ muß aber nicht auf die Adresse 1 unmittelbar folgend sein.
 </para>
 <para>Mit den Schlüsselwörtern &raquo;change conn&laquo; können die zwei
 Anschlüsse eines Decoderausganges
-elektronisch getauscht werden, wenn hier eine &raquo;1&laquo; steht.
-Der Subtype legt die Unterklassierung einiger Elemente, z.B. bei
-Signale fest. Es folgt die Textzeile, dann die Aktivierungszeit für
+logisch getauscht werden, wenn hier eine &raquo;1&laquo; steht.
+Der Subtyp legt die Unterklassierung einiger Elemente, z.B. bei
+Signalen fest. Es folgt die Textzeile, dann die Aktivierungszeit für
 einen Ausgang.
 </para>
 <para>Die nächste Zeile enthält die Daten für die
