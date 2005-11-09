@@ -1,11 +1,11 @@
 /***************************************************************************
                            keyboard.cpp
-                           version 0.4.7 $Revision: 1.3 $
+                           version 0.4.7 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-09 20:54:50 $
+    last modified        : $Date: 2005-11-09 21:04:59 $
 ***************************************************************************/
 
 /*****************************************************************************
@@ -27,9 +27,6 @@
 
 #include "keyboard.h"
 
-/*button icons*/
-#include "pixmaps/keyb_green.xpm"
-#include "pixmaps/keyb_red.xpm"
 
 extern int SHOW_TOOLTIPS;
 
