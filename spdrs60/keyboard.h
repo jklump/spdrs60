@@ -1,10 +1,10 @@
 /***************************************************************************
                            keyboard.h
-                           version 0.4.3 $Revision: 1.3 $
+                           version 0.4.3 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-09 20:54:50 $
+    last modified        : $Date: 2005-11-09 21:32:19 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -24,11 +24,7 @@
 #define KEYBOARD_H
 
 #include <qdialog.h>                    
-#include <qlabel.h>
 #include <qlineedit.h>
-#include <qtooltip.h>
-#include <qpixmap.h>
-#include <qpushbutton.h>
 
 #include "resources.h"
 
@@ -38,19 +34,16 @@ class keyboard: public QDialog
    Q_OBJECT
 
 public:
-   keyboard(QWidget* parent=0); // creator of keyboard window
+   keyboard(QWidget* parent=0);
 
 private:
 
 signals:
-/*   void cmdToDebug(const QString&); // send command to debug
- *   window*/
    void sendCommand(const QString&);
 
 private slots:
-   void slotActivateRed();        // call switchIt with right direction
-   void slotActivateGrn();        // call switchIt with right direction
-   void slotAddressChanged(const QString&); // check for number inputs
+   void slotActivateRed();
+   void slotActivateGrn();
 
 private:
    QLineEdit*   addressLE;    // lineedit for address to switch

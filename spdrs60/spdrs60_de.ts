@@ -1451,20 +1451,8 @@ NMRA/DCC: 1 - 4096</translation>
         <translation>Schaltpult</translation>
     </message>
     <message>
-        <source>Basic switch keyboard</source>
-        <translation>Basisschaltpult</translation>
-    </message>
-    <message>
         <source>Please enter the address to be switched</source>
         <translation>Bitte die zu schaltende Adresse eingeben</translation>
-    </message>
-    <message>
-        <source>Red</source>
-        <translation>Rot</translation>
-    </message>
-    <message>
-        <source>Green</source>
-        <translation>Grün</translation>
     </message>
     <message>
         <source>Press this button to activate red connector</source>
@@ -1473,6 +1461,18 @@ NMRA/DCC: 1 - 4096</translation>
     <message>
         <source>Press this button to activate green connector</source>
         <translation>Diesen Schalter zur Betätitung des grünen Anschlusses drücken</translation>
+    </message>
+    <message>
+        <source>SRCP-Bus:</source>
+        <translation>SRCP-Bus:</translation>
+    </message>
+    <message>
+        <source>Please enter the SRCB-bus for the address</source>
+        <translation>Bitte den zur Adresse passenden SRCP-Bus eingeben</translation>
+    </message>
+    <message>
+        <source>Address:</source>
+        <translation>Adresse:</translation>
     </message>
 </context>
 <context>

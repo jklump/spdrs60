@@ -1,29 +1,31 @@
 /***************************************************************************
                            keyboard.cpp
-                           version 0.4.7 $Revision: 1.4 $
+                           version 0.4.7 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-09 21:04:59 $
+    last modified        : $Date: 2005-11-09 21:32:18 $
 ***************************************************************************/
 
-/*****************************************************************************
- *                                                                            *
- *   This program is free software; you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by     *
- *   the Free Software Foundation; either version 2 of the License, or        *
- *   (at your option) any later version.                                      *
- *                                                                            *
- ******************************************************************************/
-/******************************************************************************
-   this code shows a window with a manual keyboard to switch solenoids
- ******************************************************************************/
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
 
-#include <ctype.h>              // for isdigit()
-#include <stdlib.h>             // for atoi()
-#include <unistd.h>             // for write()
+/***************************************************************************
+   this code shows a window with a manual keyboard to switch solenoids
+ ***************************************************************************/
+
+#include <qlabel.h>
 #include <qlayout.h>
+#include <qpushbutton.h>
+#include <qtooltip.h>
+#include <qvalidator.h>
 
 #include "keyboard.h"
 
@@ -31,7 +33,8 @@
 extern int SHOW_TOOLTIPS;
 
 
-keyboard::keyboard(QWidget* parent): QDialog(parent, "keyboard", false)
+keyboard::keyboard(QWidget* parent): QDialog(parent, "keyboard", false, 
+        Qt::WDestructiveClose)
 {
     setCaption(tr("Keyboard"));
 
@@ -55,8 +58,8 @@ keyboard::keyboard(QWidget* parent): QDialog(parent, "keyboard", false)
     int LEwidth = fm.width("8888") + 10;
     busLE->setMaxLength(4);
     busLE->setMaximumWidth(LEwidth);
-    //connect(busLE, SIGNAL(textChanged(const QString &)),
-    //        this, SLOT(slotAddressChanged(const QString &)));
+    QValidator* busValidator = new QIntValidator(1, 999, this );
+    busLE->setValidator(busValidator);
     busLayout->addWidget(busLE);
     busLbl->setBuddy(busLE);
     
@@ -77,8 +80,8 @@ keyboard::keyboard(QWidget* parent): QDialog(parent, "keyboard", false)
     addressLE = new QLineEdit(this, "addressLE");
     addressLE->setMaxLength(4);
     addressLE->setMaximumWidth(LEwidth);
-    connect(addressLE, SIGNAL(textChanged(const QString &)),
-            this, SLOT(slotAddressChanged(const QString &)));
+    QValidator* addressValidator = new QIntValidator(1, 4096, this );
+    addressLE->setValidator(addressValidator);
     addressLayout->addWidget(addressLE);
     labelAddress->setBuddy(addressLE);
     
@@ -124,9 +127,6 @@ keyboard::keyboard(QWidget* parent): QDialog(parent, "keyboard", false)
 void keyboard::slotActivateRed()
 {
     unsigned int adr = addressLE->text().toUInt();
-    if (adr == 0 || adr > 4096)
-        // TODO show error message
-        return;
     QString cs = QString("SET GA M %1 0 1 50").arg(adr);
     emit sendCommand(cs);
     cs = QString("SET GA N %1 0 1 50").arg(adr);
@@ -137,31 +137,9 @@ void keyboard::slotActivateRed()
 void keyboard::slotActivateGrn()
 {
     unsigned int adr = addressLE->text().toUInt();
-    if (adr == 0 || adr > 4096)
-        // TODO show error message
-        return;
     QString cs = QString("SET GA M %1 1 1 50").arg(adr);
     emit sendCommand(cs);
     cs = QString("SET GA N %1 1 1 50").arg(adr);
     emit sendCommand(cs);
 }
 
-
-void keyboard::slotAddressChanged(const QString & cNewAddress_)
-{
-    QString sCorrection = cNewAddress_;
-
-    // a zero length is okay
-    if (sCorrection.length() == 0)
-        return;
-
-    // now reject character input if it was not a digit
-    for (uint i = 0; i < sCorrection.length(); i++) {
-        if (isdigit(cNewAddress_[i]) == false) {
-            sCorrection.replace(i, 1, '\0');    // correction code replaces
-            addressLE->setText(sCorrection);    // the wrong user entry in
-            addressLE->setCursorPosition(i);    // line edits
-            break;
-        }
-    }
-}
