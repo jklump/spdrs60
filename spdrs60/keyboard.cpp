@@ -1,11 +1,11 @@
 /***************************************************************************
                            keyboard.cpp
-                           version 0.4.7 $Revision: 1.2 $
+                           version 0.4.7 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-07 12:22:43 $
+    last modified        : $Date: 2005-11-09 20:54:50 $
 ***************************************************************************/
 
 /*****************************************************************************
@@ -23,6 +23,7 @@
 #include <ctype.h>              // for isdigit()
 #include <stdlib.h>             // for atoi()
 #include <unistd.h>             // for write()
+#include <qlayout.h>
 
 #include "keyboard.h"
 
@@ -34,94 +35,118 @@ extern int SHOW_TOOLTIPS;
 
 
 keyboard::keyboard(QWidget* parent): QDialog(parent, "keyboard", false)
-{                               // false == parent window is still usable
-    //if (parent);                // dummy command to avoid compiler warning
-
+{
     setCaption(tr("Keyboard"));
-    setMaximumWidth(150);
-    setMinimumWidth(150);
-    setMaximumHeight(100);
-    setMinimumHeight(100);
 
-    QLabel *title = new QLabel(this, "");
-    title->setText(tr("Basic switch keyboard"));
-    title->resize(title->sizeHint());
-    title->move(this->width() / 2 - title->width() / 2, 5);
+    QBoxLayout* baseLayout = new QVBoxLayout(this, 10, 10);
 
-    leAddress = new QLineEdit(this, "");
-    leAddress->resize(50, 20);
-    leAddress->move(this->width() / 2 - leAddress->width() / 2,
-                    title->y() + title->height() + 5);
-    leAddress->setFocus();
-    connect(leAddress, SIGNAL(textChanged(const QString &)),
-            this, SLOT(slotAddressChanged(const QString &)));
+    /*line with SRCP-bus label and edit line*/
+    QBoxLayout* busLayout = new QHBoxLayout(0, 0, 6);
+    baseLayout->addLayout(busLayout);
 
-    QLabel *labelAddress = new QLabel(this, "");
-    labelAddress->resize(100, 20);
-    labelAddress->move(leAddress->x() - 10 - labelAddress->width(), 20);
+    QLabel *busLbl = new QLabel(tr("SRCP-Bus:"), this, "busLbl");
+    if (SHOW_TOOLTIPS)
+        QToolTip::add(busLbl, tr("Please enter the SRCB-bus for the address"));
+    busLayout->addWidget(busLbl);
+
+    QSpacerItem* spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    busLayout->addItem(spacer);
+
+    busLE = new QLineEdit("1", this, "busLE");
+    QFontMetrics fm(busLE->font());
+    int LEwidth = fm.width("8888") + 10;
+    busLE->setMaxLength(4);
+    busLE->setMaximumWidth(LEwidth);
+    //connect(busLE, SIGNAL(textChanged(const QString &)),
+    //        this, SLOT(slotAddressChanged(const QString &)));
+    busLayout->addWidget(busLE);
+    busLbl->setBuddy(busLE);
+    
+    /*line with address label and edit line*/
+    QBoxLayout* addressLayout = new QHBoxLayout(0, 0, 6);
+    baseLayout->addLayout(addressLayout);
+
+    QLabel *labelAddress = new QLabel(tr("Address:"), this, "addressLbl");
     if (SHOW_TOOLTIPS)
         QToolTip::add(labelAddress,
                       tr("Please enter the address to be switched"));
+    addressLayout->addWidget(labelAddress);
 
-    buttRed = new QPushButton(this, tr("Red"));
-    buttGrn = new QPushButton(this, tr("Green"));
-    buttRed->resize(35, 35);
-    buttGrn->resize(35, 35);
-    buttRed->move(20, leAddress->y() + 30);
-    buttGrn->move(95, leAddress->y() + 30);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    addressLayout->addItem(spacer);
 
-    QPixmap pix = QPixmap(keyb_red_xpm);
-    buttRed->setPixmap(pix);
-    pix = QPixmap(keyb_green_xpm);
-    buttGrn->setPixmap(pix);
+    addressLE = new QLineEdit(this, "addressLE");
+    addressLE->setMaxLength(4);
+    addressLE->setMaximumWidth(LEwidth);
+    connect(addressLE, SIGNAL(textChanged(const QString &)),
+            this, SLOT(slotAddressChanged(const QString &)));
+    addressLayout->addWidget(addressLE);
+    labelAddress->setBuddy(addressLE);
+    
+    /*line with red and green buttons*/
+    QBoxLayout* buttonLayout = new QHBoxLayout(0, 0, 6);
+    baseLayout->addLayout(buttonLayout);
 
-    connect(buttRed, SIGNAL(clicked()), this, SLOT(slotActivateRed()));
-    connect(buttGrn, SIGNAL(clicked()), this, SLOT(slotActivateGrn()));
-    if (SHOW_TOOLTIPS) {
-        QToolTip::add(buttRed,
-                      tr("Press this button to activate red connector"));
-        QToolTip::add(buttGrn,
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    buttonLayout->addItem(spacer);
+
+    QPushButton* greenPB = new QPushButton("", this, "greenBtn");
+    greenPB->setMaximumWidth(LEwidth);
+    greenPB->setPaletteBackgroundColor(QColor(0, 255, 0));
+    connect(greenPB, SIGNAL(clicked()), this, SLOT(slotActivateGrn()));
+    buttonLayout->addWidget(greenPB);
+    greenPB->setDefault(true);
+    if (SHOW_TOOLTIPS)
+        QToolTip::add(greenPB,
                       tr("Press this button to activate green connector"));
-    }
+
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    buttonLayout->addItem(spacer);
+
+    QPushButton* redPB = new QPushButton("", this, "redBtn");
+    redPB->setMaximumWidth(LEwidth);
+    redPB->setPaletteBackgroundColor(QColor(255, 0, 0));
+    connect(redPB, SIGNAL(clicked()), this, SLOT(slotActivateRed()));
+    buttonLayout->addWidget(redPB);
+    if (SHOW_TOOLTIPS)
+        QToolTip::add(redPB,
+                      tr("Press this button to activate red connector"));
+
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    buttonLayout->addItem(spacer);
 }
 
 
+// send command for both protocols with a basic 
+// limit check (4096 is the higher limit of DCC protocol)
 void keyboard::slotActivateRed()
 {
-    switchIt(0);                // switch red connector
+    unsigned int adr = addressLE->text().toUInt();
+    if (adr == 0 || adr > 4096)
+        // TODO show error message
+        return;
+    QString cs = QString("SET GA M %1 0 1 50").arg(adr);
+    emit sendCommand(cs);
+    cs = QString("SET GA N %1 0 1 50").arg(adr);
+    emit sendCommand(cs);
 }
 
 
 void keyboard::slotActivateGrn()
 {
-    switchIt(1);                // switch green connector
-}
-
-
-void keyboard::switchIt(int iDir_)
-{
-    char buf[30];
-    QString s;
-    int iSolenoid = 0;
-
-    iSolenoid = atoi(leAddress->text());        // read address to switch ...
-    leAddress->setText("");     // ... and clear lineedit
-    leAddress->setFocus();
-
-    if (iSolenoid == 0 || iSolenoid > 4096)
-        // basic limit check (4096 is the
-        // higher limit of DCC protocol)
+    unsigned int adr = addressLE->text().toUInt();
+    if (adr == 0 || adr > 4096)
+        // TODO show error message
         return;
-
-    for (int i = 77; i <= 78; i++)      // 77 = "M", 78 = "N"
-    {                           // send command for both protocols
-        s.sprintf("SET GA %c %04d %1d 1 50\n", i, iSolenoid, iDir_);
-        bzero(buf, 30);
-        strcpy(buf, s.data());
-
-        /* MainWindow procedure takes the action */
-        emit sendCommand(s);
-    }
+    QString cs = QString("SET GA M %1 1 1 50").arg(adr);
+    emit sendCommand(cs);
+    cs = QString("SET GA N %1 1 1 50").arg(adr);
+    emit sendCommand(cs);
 }
 
 
@@ -137,8 +162,8 @@ void keyboard::slotAddressChanged(const QString & cNewAddress_)
     for (uint i = 0; i < sCorrection.length(); i++) {
         if (isdigit(cNewAddress_[i]) == false) {
             sCorrection.replace(i, 1, '\0');    // correction code replaces
-            leAddress->setText(sCorrection);    // the wrong user entry in
-            leAddress->setCursorPosition(i);    // line edits
+            addressLE->setText(sCorrection);    // the wrong user entry in
+            addressLE->setCursorPosition(i);    // line edits
             break;
         }
     }
