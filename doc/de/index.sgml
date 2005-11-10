@@ -4507,7 +4507,7 @@ Best.-Nr. 013-860-222 (Bausatz),
 Best.-Nr. 013-861-122 (Fertigmodul)
 </para>
 <para>
-<ulink url="http://www.viessmann-electronic.de/">Viessmann
+<ulink url="http://www.viessmann-modell.com/">Viessmann
 Modellbahntechnik</ulink>, 
 </para>
 <para>
@@ -4624,9 +4624,9 @@ sich denn überhaupt Gleisstutzen befinden (eventuell auch nachträglich,
 wenn man die Drehscheibe erweitert). Beim Studieren der
 Original-Anleitung schwirrt einem aber schnell der Kopf, da man die
 Bedienung auf das Keyboard zugeschnitten hat und dort nunmal nur rote
-und grüne Tasten zur Verfügung standen. Am besten man schmei&szlig;t
-diese Anleitung in die Kiste zurück und benutzt diesen eingebauten
-komfortablen Programmierer.
+und grüne Tasten zur Verfügung standen. Am besten ignoriert man
+diese Anleitung und benutzt dieses eingebaute komfortable
+Programmierwerkzeug.
 </para>
 <para>
 Klickt man auf das Schraubenschlüssel-Symbol, dann erweitert sich das
@@ -5130,14 +5130,15 @@ Eintragung einer IP-Adresse wurde hier verzichtet.
 </sect2>
   
 <sect2 id="sect-keyboard">
-  <title>Einfaches Keyboard</title>
+  <title>Einfaches Schaltpult</title>
 <para>
-Durch Drücken der Tasten <keycap>Strg-K</keycap> bzw.
-Auswahl im Menü &raquo;Ansicht-&gt;Stellpult&laquo; erscheint ein einfaches
-Fenster zum Schalten von Antrieben:
+Durch Drücken der Tasten <keycap>Strg-K</keycap> bzw. Auswahl im Menü
+&raquo;Ansicht-&gt;Stellpult&laquo; erscheint das in
+<xref linkend="abb-viewkeyboard"> dargestellte Fenster zum Schalten
+von Antrieben.
 </para>
 <para>
-<figure id="abb-optkeyboard">
+<figure id="abb-viewkeyboard">
   <title>Einfaches Keyboard</title>
   <mediaobject><imageobject>
     <imagedata fileref="schnapp-keyboard.png">
@@ -5145,23 +5146,23 @@ Fenster zum Schalten von Antrieben:
 </figure>
 </para>
 <para>
-In der Zeile gebe man die Nummer des Antriebs ein und
-klicke dann auf der dem Ausgang entsprechenden farbigen Taste
+In der Adresszeile gibt man die Nummer des Antriebs ein und
+klickt dann auf der dem Ausgang zugeordnete farbigen Taste
 entsprechend dem Ausgangskontakt am Decoder.
 </para>
 <para>
-<emphasis>ACHTUNG:</emphasis> Es wird lediglich überprüft, ob die
-eingegebene Adresse im Bereich 1...4096 liegt. Desweiteren wird durch
-das Stellen eines Antriebs durch das Keyboard ein eventuell auch in
-einem Gleisbild vorhandener Antrieb mit gleicher Adresse NICHT gestellt. An
-dieser Stelle muß man sich keinerlei Gedanken darüber machen, ob der
-Antrieb auf das Motorola- oder DCC-Format hört. Es werden nämlich zwei
-Befehle hintereinander geschickt, die beide die gleiche Adresse, aber
+Bei der Adresseingabe wird überprüft, ob der eingegebene Zahlenwert
+in dem für DCC gültigen Bereich (1 bis 4096) liegt. Ein im Gleisbild
+vorhandener Antrieb mit dieser Adresse wird durch den gesendeten
+Stellbefehl nicht direkt visuell umgeschaltet, sondern nur über die
+Auswertung der vom SRCP-Server kommenden INFO-Mitteilungen. An
+dieser Stelle ist es unerheblich, ob der Antrieb über das Motorola-
+oder das DCC-Format angesteuert wird. Es werden Befehle für beide
+Protokolle hintereinander gesendet, die die gleiche Adresse, aber
 unterschiedliche Formate enthalten. So muß man sich nicht merken, zu
-welchem Format welche Nummer gehört. Durch die einfache Beschränkung des
-Adressbereiches kommt es dabei auch zum Aussenden von Motorola-Befehlen,
-die nicht umgesetzt werden können, der Server sollte aber im allgemeinen
-wissen, wie er damit umzugehen hat (verwerfen).
+welchem Format welche Nummer gehört. Da der Adressbereich im
+Motorola-Format bis 324 reicht, werden Adresseingaben oberhalb dieser
+Grenze nur im DCC-Format gesendet.
 </para>
 </sect2>
 

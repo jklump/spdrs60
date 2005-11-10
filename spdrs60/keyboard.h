@@ -1,10 +1,10 @@
 /***************************************************************************
                            keyboard.h
-                           version 0.4.3 $Revision: 1.4 $
+                           version 0.4.3 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-09 21:32:19 $
+    last modified        : $Date: 2005-11-10 21:48:05 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -26,15 +26,13 @@
 #include <qdialog.h>                    
 #include <qlineedit.h>
 
-#include "resources.h"
-
 
 class keyboard: public QDialog
 {
    Q_OBJECT
 
 public:
-   keyboard(QWidget* parent=0);
+   keyboard(QWidget* parent = 0, unsigned int srcpv = 7);
 
 private:
 

@@ -1,11 +1,11 @@
 /***************************************************************************
                            keyboard.cpp
-                           version 0.4.7 $Revision: 1.5 $
+                           version 0.4.7 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-09 21:32:18 $
+    last modified        : $Date: 2005-11-10 21:48:05 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -27,22 +27,23 @@
 #include <qtooltip.h>
 #include <qvalidator.h>
 
+#include "resources.h"
 #include "keyboard.h"
 
 
 extern int SHOW_TOOLTIPS;
 
 
-keyboard::keyboard(QWidget* parent): QDialog(parent, "keyboard", false, 
-        Qt::WDestructiveClose)
+keyboard::keyboard(QWidget* parent, unsigned int srcpv): QDialog(parent,
+        "keyboard", false, Qt::WDestructiveClose)
 {
     setCaption(tr("Keyboard"));
+    // srcpV = srcpv;
 
     QBoxLayout* baseLayout = new QVBoxLayout(this, 10, 10);
 
     /*line with SRCP-bus label and edit line*/
-    QBoxLayout* busLayout = new QHBoxLayout(0, 0, 6);
-    baseLayout->addLayout(busLayout);
+    QBoxLayout* busLayout = new QHBoxLayout(baseLayout, 6, "busLayout");
 
     QLabel *busLbl = new QLabel(tr("SRCP-Bus:"), this, "busLbl");
     if (SHOW_TOOLTIPS)
@@ -62,10 +63,16 @@ keyboard::keyboard(QWidget* parent): QDialog(parent, "keyboard", false,
     busLE->setValidator(busValidator);
     busLayout->addWidget(busLE);
     busLbl->setBuddy(busLE);
+
+    // hide SRCP bus line if server provides SRCP 0.7.x
+    if (7 == srcpv) {
+        busLbl->hide();
+        busLE->hide();
+    }
     
     /*line with address label and edit line*/
-    QBoxLayout* addressLayout = new QHBoxLayout(0, 0, 6);
-    baseLayout->addLayout(addressLayout);
+    QBoxLayout* addressLayout = new QHBoxLayout(baseLayout, 6,
+            "addressLayout");
 
     QLabel *labelAddress = new QLabel(tr("Address:"), this, "addressLbl");
     if (SHOW_TOOLTIPS)
@@ -80,7 +87,7 @@ keyboard::keyboard(QWidget* parent): QDialog(parent, "keyboard", false,
     addressLE = new QLineEdit(this, "addressLE");
     addressLE->setMaxLength(4);
     addressLE->setMaximumWidth(LEwidth);
-    QValidator* addressValidator = new QIntValidator(1, 4096, this );
+    QValidator* addressValidator = new QIntValidator(1, MAX_GADCC, this );
     addressLE->setValidator(addressValidator);
     addressLayout->addWidget(addressLE);
     labelAddress->setBuddy(addressLE);
@@ -122,24 +129,28 @@ keyboard::keyboard(QWidget* parent): QDialog(parent, "keyboard", false,
 }
 
 
-// send command for both protocols with a basic 
-// limit check (4096 is the higher limit of DCC protocol)
+// send command for both protocols with a basic limit check,
+// MAX_GADCC is the higher limit of DCC protocol
 void keyboard::slotActivateRed()
 {
     unsigned int adr = addressLE->text().toUInt();
-    QString cs = QString("SET GA M %1 0 1 50").arg(adr);
+    QString cs = QString("SET GA N %1 0 1 50").arg(adr);
     emit sendCommand(cs);
-    cs = QString("SET GA N %1 0 1 50").arg(adr);
-    emit sendCommand(cs);
+    if (adr <= MAX_GAMM) {
+        cs = QString("SET GA M %1 0 1 50").arg(adr);
+        emit sendCommand(cs);
+    }
 }
 
 
 void keyboard::slotActivateGrn()
 {
     unsigned int adr = addressLE->text().toUInt();
-    QString cs = QString("SET GA M %1 1 1 50").arg(adr);
+    QString cs = QString("SET GA N %1 1 1 50").arg(adr);
     emit sendCommand(cs);
-    cs = QString("SET GA N %1 1 1 50").arg(adr);
-    emit sendCommand(cs);
+    if (adr <= MAX_GAMM) {
+        cs = QString("SET GA M %1 1 1 50").arg(adr);
+        emit sendCommand(cs);
+    }
 }
 
