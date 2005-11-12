@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60 documentation
 # last changes by: Guido Scholz
-# Version: $Revision: 1.6 $
-# last update: $Date: 2005-10-30 15:16:04 $
+# Version: $Revision: 1.7 $
+# last update: $Date: 2005-11-12 06:44:50 $
 
 # HTML_DOC_DIR is defined in configure.ac
 htmldir = @HTML_DOC_DIR@
@@ -191,7 +191,6 @@ dist_commonimages_DATA = \
 	commonimages/schnapp-feedbacks.png \
 	commonimages/schnapp-found.png \
 	commonimages/schnapp-route-pruef.png \
-	commonimages/schnapp-route-rec0.png \
 	commonimages/schnapp-route-rec2.png \
 	commonimages/schnapp-route-rec3.png \
 	commonimages/schnapp-route-rec4.png \

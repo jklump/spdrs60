@@ -45,7 +45,7 @@
     </revision>
     <revision>
       <revnumber>0.6</revnumber>
-      <date>Tue Nov 07 18:00:00 CEST 2005</date>
+      <date>Fri Nov 11 19:00:00 CEST 2005</date>
     </revision>
   </revhistory>
   <abstract>
@@ -1699,15 +1699,44 @@ werden.
 </para>
 </sect3>
 
-<sect3>
+<sect3 id="sect-keyboard">
   <title>Einfaches Schaltpult</title>
 <para>
-Zum manuellen Schalten einzelner Antriebe dient das Schaltpult
-(<keycap>Strg-K</keycap> oder &raquo;Ansicht -&gt;
-Schaltpult&laquo;). Auf die Bedienung wird im
-<xref linkend="sect-keyboard"> näher eingegangen.
+Durch Drücken der Tasten <keycap>Strg-K</keycap> bzw. Auswahl im Menü
+&raquo;Ansicht-&gt;Schaltpult&laquo; erscheint das in
+<xref linkend="abb-viewkeyboard"> dargestellte Fenster zum Schalten
+einzelner Antriebe.
+</para>
+<para>
+<figure id="abb-viewkeyboard">
+  <title>Einfaches Schaltpult</title>
+  <mediaobject><imageobject>
+    <imagedata fileref="schnapp-keyboard.png">
+  </imageobject></mediaobject>
+</figure>
+</para>
+<para>
+In der Adresszeile gibt man die Nummer des Antriebs ein und
+klickt dann auf der dem Ausgang zugeordnete farbigen Taste
+entsprechend dem Ausgangskontakt am Decoder.
+</para>
+<para>
+Bei der Adresseingabe wird überprüft, ob der eingegebene Zahlenwert
+in dem für DCC gültigen Bereich (1 bis 4096) liegt. Ein im Gleisbild
+vorhandener Antrieb mit dieser Adresse wird durch den gesendeten
+Stellbefehl nicht direkt visuell umgeschaltet, sondern nur über die
+Auswertung der vom SRCP-Server kommenden INFO-Mitteilungen. Bei
+Verwendung dieses Schaltpults ist es unerheblich, ob der Antrieb über
+das Motorola- oder das DCC-Format angesteuert wird. Die Befehle für
+beide Protokolle werden mit gleicher Adresse, aber unterschiedlichem
+Format direkt
+hintereinander zum Server gesendet. So muß man sich nicht merken, zu
+welchem Format welche Nummer gehört. Da der Adressbereich im
+Motorola-Format nur bis 324 reicht, werden Adresseingaben oberhalb
+dieser Grenze nur im DCC-Format gesendet.
 </para>
 </sect3>
+
 
 <sect3>
   <title>Hilfe</title>
@@ -5129,43 +5158,6 @@ Eintragung einer IP-Adresse wurde hier verzichtet.
 </sect3>
 </sect2>
   
-<sect2 id="sect-keyboard">
-  <title>Einfaches Schaltpult</title>
-<para>
-Durch Drücken der Tasten <keycap>Strg-K</keycap> bzw. Auswahl im Menü
-&raquo;Ansicht-&gt;Stellpult&laquo; erscheint das in
-<xref linkend="abb-viewkeyboard"> dargestellte Fenster zum Schalten
-von Antrieben.
-</para>
-<para>
-<figure id="abb-viewkeyboard">
-  <title>Einfaches Keyboard</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="schnapp-keyboard.png">
-  </imageobject></mediaobject>
-</figure>
-</para>
-<para>
-In der Adresszeile gibt man die Nummer des Antriebs ein und
-klickt dann auf der dem Ausgang zugeordnete farbigen Taste
-entsprechend dem Ausgangskontakt am Decoder.
-</para>
-<para>
-Bei der Adresseingabe wird überprüft, ob der eingegebene Zahlenwert
-in dem für DCC gültigen Bereich (1 bis 4096) liegt. Ein im Gleisbild
-vorhandener Antrieb mit dieser Adresse wird durch den gesendeten
-Stellbefehl nicht direkt visuell umgeschaltet, sondern nur über die
-Auswertung der vom SRCP-Server kommenden INFO-Mitteilungen. An
-dieser Stelle ist es unerheblich, ob der Antrieb über das Motorola-
-oder das DCC-Format angesteuert wird. Es werden Befehle für beide
-Protokolle hintereinander gesendet, die die gleiche Adresse, aber
-unterschiedliche Formate enthalten. So muß man sich nicht merken, zu
-welchem Format welche Nummer gehört. Da der Adressbereich im
-Motorola-Format bis 324 reicht, werden Adresseingaben oberhalb dieser
-Grenze nur im DCC-Format gesendet.
-</para>
-</sect2>
-
 <sect2 id="sect-bugs">
   <title>Bekannte Programmfehler</title>
 <para>
