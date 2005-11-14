@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.4.8 $Revision: 1.20 $
+                           version 0.4.8 $Revision: 1.21 $
                            -------------------------------
     copyright            : (C) 2005 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-05 09:43:13 $
+    last modified        : $Date: 2005-11-14 16:30:43 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -589,7 +589,7 @@ void RouteDialog::getActivateData(PortState& port)
     port.bus = activateSrcpBusLE->text().toUInt();
     port.address = activateContactSB->value();
     // temporary solution
-    ++port.address;
+    --port.address;
 }
 
 
@@ -617,7 +617,7 @@ void RouteDialog::getReleaseData(PortState& port)
     port.bus = releaseSrcpBusLE->text().toUInt();
     port.address = releaseContactSB->value();
     // temporary solution
-    ++port.address;
+    --port.address;
 }
 
 
