@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.4.8 $Revision: 1.24 $
+                           version 0.4.8 $Revision: 1.25 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-06 20:49:44 $
+    last modified        : $Date: 2005-11-14 17:28:49 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -268,15 +268,18 @@ void Router::recordElement(element* el, elemRecordType rtype)
                 /*send update signal to routingviewer to show changed
                   route name*/
                 emit updateRoutingViewerAt(routeList.find(recordRt));
+                modified = true;
                 break;
             case (krecNormal):
                 recordRt->addSwitchElement(el);
+                modified = true;
                 break;
             case (krecClear):
                 recordRt->removeElement(el);
                 /*send update signal to routingviewer to show changed
                   route name if changed element was start or stop signal*/
                 emit updateRoutingViewerAt(routeList.find(recordRt));
+                modified = true;
                 break;
             default:
                 break;
@@ -579,5 +582,29 @@ void Router::feedbackPortChanged(unsigned int bus, unsigned int port,
         if (rt->canActivateByFeedbackPort(bus, port, ison))
             activateRoute(rt);
     }
+}
+
+
+bool Router::editRouteAt(QWidget* owner, int index)
+{
+    bool isEdited = false;
+    
+    Route* er = routeList.at(index);
+    if (er != NULL) {
+        connect(er, SIGNAL(getElementByAddress(const int, const int,
+                        element**)), this,
+                SIGNAL(getElementByAddress(const int, const int,
+                        element**)));
+        
+        isEdited = er->runEditRouteDialog(owner);
+
+        disconnect(er, SIGNAL(getElementByAddress(const int,
+                        const int, element**)), this,
+                SIGNAL(getElementByAddress(const int, const int,
+                        element**)));
+        if (isEdited)
+            modified = true;
+    }
+    return isEdited;
 }
 

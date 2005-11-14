@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.28 $
+                           version 0.4.8 $Revision: 1.29 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-06 20:49:44 $
+    last modified        : $Date: 2005-11-14 17:28:49 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -40,26 +40,31 @@ Route::Route(TypeOfRoute arouteType,
 
     routeType = arouteType;
     Name = aName;
+
     toSignal.name = atoSignal.name;
     toSignal.bus = atoSignal.bus;
     toSignal.address = atoSignal.address;
     toSignal.state = atoSignal.state;
     toSignal.elemPtr = atoSignal.elemPtr;
     toSignal.elemPtr2 = atoSignal.elemPtr2;
+    
+    fromSignal.name = afromSignal.name;
     fromSignal.bus = afromSignal.bus;
     fromSignal.address = afromSignal.address;
     fromSignal.state = afromSignal.state;
     fromSignal.elemPtr = afromSignal.elemPtr;
     fromSignal.elemPtr2 = afromSignal.elemPtr2;
-    fromSignal.name = afromSignal.name;
+    
     rePort.used = arePort.used;
     rePort.switchtooff = arePort.switchtooff;
     rePort.bus = arePort.bus;
     rePort.address = arePort.address;
+    
     acPort.used = aacPort.used;
     acPort.switchtooff = aacPort.switchtooff;
     acPort.bus = aacPort.bus;
     acPort.address = aacPort.address;
+    
     acLoco.bus = aacLoco.bus;
     acLoco.address = aacLoco.address;
     detourLevel = adetourLevel;
@@ -96,15 +101,19 @@ Route::Route(element* startEl)
     toSignal.name = "";
     toSignal.elemPtr = NULL;
     toSignal.elemPtr2 = NULL;
+    
     routeType = RZS;
+
     rePort.used = false;
     rePort.switchtooff = false;
     rePort.bus = 1;
     rePort.address = 0;
+    
     acPort.used = false;
     acPort.switchtooff = false;
     acPort.bus = 1;
     acPort.address = 0;
+    
     acLoco.bus = 0;
     acLoco.address = 0;
     detourLevel = 0;
@@ -162,20 +171,24 @@ Route::Route(const QString& aName)
     toSignal.state = 0;
     toSignal.elemPtr = NULL;
     toSignal.elemPtr2 = NULL;
+    
+    fromSignal.name = "";
     fromSignal.bus = 1;
     fromSignal.address = 0;
     fromSignal.state = 0;
     fromSignal.elemPtr = NULL;
     fromSignal.elemPtr2 = NULL;
-    fromSignal.name = "";
+    
     rePort.used = false;
     rePort.switchtooff = false;
     rePort.bus = 1;
     rePort.address = 0;
+    
     acPort.used = false;
     acPort.switchtooff = false;
     acPort.bus = 1;
     acPort.address = 0;
+    
     acLoco.bus = 1;
     acLoco.address = 0;
     detourLevel = 0;
@@ -559,8 +572,8 @@ int Route::startRouting()
                 if (el->isOccupied())
                     return -2;
                 
-                /*TODO: use a nonblocking timer event, force repainting
-                 * of element to get visual layout update*/
+                /* force repainting of element to get visual layout update*/
+                /*TODO: use a nonblocking timer event */
                 usleep(250 * 1000);
                 el->slotSwitchIt(se->state, 0);
                 el->repaint();
@@ -616,7 +629,8 @@ int Route::startRouting()
 
     /*
      * 5) activate "Fahrstrassenfestlegemelder" (FfM) at start signal
-     */ //TODO: shunting routes do not have an active FfM
+     *    shunting routes do not have an active FfM
+     */
     if (fromSignal.elemPtr != NULL)
            fromSignal.elemPtr->activateFfM((routeType != RRS &&
                        routeType != URS));

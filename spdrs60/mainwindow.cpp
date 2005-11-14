@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.36 $
+                           version 0.4.8 $Revision: 1.37 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-06 08:46:11 $
+    last modified        : $Date: 2005-11-14 17:28:49 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -445,7 +445,7 @@ void MainWindow::initMainWindow()
             rtViewer, SLOT(updateRouteAt(int)));
     connect(rtController, SIGNAL(routeStateChanged(int, bool)),
             rtViewer, SLOT(updateRouteStateAt(int, bool)));
-    connect(rtViewer, SIGNAL(getElementByAddress(const int, const int,
+    connect(rtController, SIGNAL(getElementByAddress(const int, const int,
                     element**)), gbs,
             SLOT(getElementByAddress(const int, const int, element**)));
 
@@ -1196,6 +1196,7 @@ void MainWindow::resetMenu()
     actionLayoutUfgt->setEnabled(false);
     actionLayoutSgt->setEnabled(false);
     actionLayoutNotRot->setEnabled(false);
+    actionLayoutChangeSize->setEnabled(false);
     actionRouteUnlockAll->setEnabled(false);
 }
 
@@ -1382,6 +1383,7 @@ void MainWindow::updateFileMenuItems()
     actionLayoutUfgt->setEnabled(true);
     actionLayoutSgt->setEnabled(true);
     actionLayoutNotRot->setEnabled(true);
+    actionLayoutChangeSize->setEnabled(true);
 
     if (CommandPortIsConnected) {
         actionLayoutToggleAll->setEnabled(LayoutPowerIsOn);

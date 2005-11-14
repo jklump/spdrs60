@@ -1,10 +1,10 @@
 /***************************************************************************
                            routingviewer.h
-                           version 0.4.8 $Revision: 1.8 $
+                           version 0.4.8 $Revision: 1.9 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@ bayernline.de
-    last modified        : $Date: 2005-11-06 08:46:11 $
+    last modified        : $Date: 2005-11-14 17:28:49 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -58,7 +58,6 @@ public slots:
 signals:
     void selectedRouteIsLocked(bool);
     void showLogMessage(const QString&, int, int);
-    void getElementByAddress(const int, const int, element**);
     
 private:
     int lastrow;

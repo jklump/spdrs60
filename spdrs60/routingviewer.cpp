@@ -1,10 +1,10 @@
 /***************************************************************************
                            routingviewer.cpp
-                           version 0.4.8 $Revision: 1.14 $
+                           version 0.4.8 $Revision: 1.15 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-06 08:46:11 $
+    last modified        : $Date: 2005-11-14 17:28:49 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -201,22 +201,8 @@ void RoutingViewer::slotRouteEdit()
 
 void RoutingViewer::slotEditRouteNo(int routeidx)
 {
-    Route* sr = gbsRouter->getRouteAt(routeidx);
-    if (sr != NULL) {
-        connect(sr, SIGNAL(getElementByAddress(const int, const int,
-                        element**)), this,
-                SIGNAL(getElementByAddress(const int, const int,
-                        element**)));
-        
-        if (sr->runEditRouteDialog(this)) {
-            populateTableRow(routeidx);
-        }
-
-        disconnect(sr, SIGNAL(getElementByAddress(const int,
-                        const int, element**)), this,
-                SIGNAL(getElementByAddress(const int, const int,
-                        element**)));
-    }
+    if (gbsRouter->editRouteAt(this, routeidx))
+        populateTableRow(routeidx);
 }
 
 

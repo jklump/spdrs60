@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.h
-                           version 0.4.8 $Revision: 1.11 $
+                           version 0.4.8 $Revision: 1.12 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@ bayernline.de
-    last modified        : $Date: 2005-11-06 08:46:11 $
+    last modified        : $Date: 2005-11-14 17:28:49 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -49,6 +49,7 @@ public:
     Route* getRouteAt(unsigned int);
     void deleteRouteAt(unsigned int);
     void copyRouteAt(unsigned int);
+    bool editRouteAt(QWidget*, int);
     bool isModified();
     void clear();
     void setElementListPtr(QPtrVector<element>*);
@@ -88,6 +89,7 @@ private:
             GbsButtonState);
     
 signals:
+    void getElementByAddress(const int, const int, element**);
     void updateRoutingViewer();
     void updateRoutingViewerAt(int);
     void routeFunctionFinished();
