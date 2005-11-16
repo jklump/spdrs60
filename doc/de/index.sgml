@@ -230,6 +230,10 @@ Veröffentlicht am **.11.2005
   verwendeten Systemschriftgröße festgelegt und damit über das
   Qt-Konfigurationstool &raquo;qtconfig&laquo; einstellbar.
   </para></listitem>
+  <listitem><para>Das über das Menü &raquo;Ansicht/Schaltpult&laquo;
+  ereichbare einfache Schaltpult funktioniert nun wieder und wurde
+  gleichzeitig auf automatisches Layoutmanagement umgestellt.
+  </para></listitem>
 </itemizedlist>
 </para>
 </sect2>

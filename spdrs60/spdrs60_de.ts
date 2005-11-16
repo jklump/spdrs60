@@ -1463,16 +1463,16 @@ NMRA/DCC: 1 - 4096</translation>
         <translation>Diesen Schalter zur Betätitung des grünen Anschlusses drücken</translation>
     </message>
     <message>
-        <source>SRCP-Bus:</source>
-        <translation>SRCP-Bus:</translation>
-    </message>
-    <message>
         <source>Please enter the SRCB-bus for the address</source>
         <translation>Bitte den zur Adresse passenden SRCP-Bus eingeben</translation>
     </message>
     <message>
-        <source>Address:</source>
-        <translation>Adresse:</translation>
+        <source>SRCP-&amp;Bus:</source>
+        <translation>SRCP-&amp;Bus:</translation>
+    </message>
+    <message>
+        <source>&amp;Address:</source>
+        <translation>&amp;Adresse:</translation>
     </message>
 </context>
 <context>

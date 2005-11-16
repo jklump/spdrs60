@@ -1,11 +1,11 @@
 /***************************************************************************
                            keyboard.cpp
-                           version 0.4.7 $Revision: 1.6 $
+                           version 0.4.7 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-10 21:48:05 $
+    last modified        : $Date: 2005-11-16 21:13:27 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -45,7 +45,7 @@ keyboard::keyboard(QWidget* parent, unsigned int srcpv): QDialog(parent,
     /*line with SRCP-bus label and edit line*/
     QBoxLayout* busLayout = new QHBoxLayout(baseLayout, 6, "busLayout");
 
-    QLabel *busLbl = new QLabel(tr("SRCP-Bus:"), this, "busLbl");
+    QLabel *busLbl = new QLabel(tr("SRCP-&Bus:"), this, "busLbl");
     if (SHOW_TOOLTIPS)
         QToolTip::add(busLbl, tr("Please enter the SRCB-bus for the address"));
     busLayout->addWidget(busLbl);
@@ -74,7 +74,7 @@ keyboard::keyboard(QWidget* parent, unsigned int srcpv): QDialog(parent,
     QBoxLayout* addressLayout = new QHBoxLayout(baseLayout, 6,
             "addressLayout");
 
-    QLabel *labelAddress = new QLabel(tr("Address:"), this, "addressLbl");
+    QLabel *labelAddress = new QLabel(tr("&Address:"), this, "addressLbl");
     if (SHOW_TOOLTIPS)
         QToolTip::add(labelAddress,
                       tr("Please enter the address to be switched"));
@@ -100,7 +100,20 @@ keyboard::keyboard(QWidget* parent, unsigned int srcpv): QDialog(parent,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
     buttonLayout->addItem(spacer);
 
-    QPushButton* greenPB = new QPushButton("", this, "greenBtn");
+    QPushButton* redPB = new QPushButton("&0", this, "redBtn");
+    redPB->setMaximumWidth(LEwidth);
+    redPB->setPaletteBackgroundColor(QColor(255, 0, 0));
+    connect(redPB, SIGNAL(clicked()), this, SLOT(slotActivateRed()));
+    buttonLayout->addWidget(redPB);
+    if (SHOW_TOOLTIPS)
+        QToolTip::add(redPB,
+                      tr("Press this button to activate red connector"));
+
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    buttonLayout->addItem(spacer);
+
+    QPushButton* greenPB = new QPushButton("&1", this, "greenBtn");
     greenPB->setMaximumWidth(LEwidth);
     greenPB->setPaletteBackgroundColor(QColor(0, 255, 0));
     connect(greenPB, SIGNAL(clicked()), this, SLOT(slotActivateGrn()));
@@ -109,19 +122,6 @@ keyboard::keyboard(QWidget* parent, unsigned int srcpv): QDialog(parent,
     if (SHOW_TOOLTIPS)
         QToolTip::add(greenPB,
                       tr("Press this button to activate green connector"));
-
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    buttonLayout->addItem(spacer);
-
-    QPushButton* redPB = new QPushButton("", this, "redBtn");
-    redPB->setMaximumWidth(LEwidth);
-    redPB->setPaletteBackgroundColor(QColor(255, 0, 0));
-    connect(redPB, SIGNAL(clicked()), this, SLOT(slotActivateRed()));
-    buttonLayout->addWidget(redPB);
-    if (SHOW_TOOLTIPS)
-        QToolTip::add(redPB,
-                      tr("Press this button to activate red connector"));
 
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
