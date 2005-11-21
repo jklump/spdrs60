@@ -1,3 +1,17 @@
+2005-11-21 Guido Scholz <guido.scholz@bayernline.de>
+	* element.cpp: "Toggle" context menu now only appears for elements
+	connected to decoder
+
+2005-11-09 Guido Scholz <guido.scholz@bayernline.de>
+	* keyboard.*: fixed not sending SRCP command bug, redesigned
+        with layout management and labels for input lines, prepared
+        for SRCP 0.8
+
+2005-11-07 Guido Scholz <guido.scholz@bayernline.de>
+	* doc/de/indey.sgml: German handbook updated as reported
+        by Sven Roth <sven@r0th.de>
+	* doc/*.png: some images updated
+
 2005-10-30 Guido Scholz <guido.scholz@bayernline.de>
 	* doc/*: German handbook updated
 	* routedialog.*, routeelementlvi.*, routeelementdialog.* : new

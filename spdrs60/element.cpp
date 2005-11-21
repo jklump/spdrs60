@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.35 $
+                           version 0.4.8 $Revision: 1.36 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-05 13:41:01 $
+    last modified        : $Date: 2005-11-21 19:29:17 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -401,9 +401,10 @@ void element::updateProperties()
         sSoldIcon.startsWith("gerade") || sSoldIcon == SYM_BUE ||
         sSoldIcon == SYM_ADR || sSoldIcon == SYM_BLD;
     
-    /*element has solenoid connected*/
-    /*TODO: add other switchable elements (direction != -1)*/
-    switchable = signal || turnout;
+    /*element has decoder connected*/
+    switchable = (signal || turnout || sSoldIcon == SYM_ENK ||
+        sSoldIcon == SYM_REL || sSoldIcon == SYM_BLD) &&
+        sSoldIcon != SYM_NRB && sSoldIcon != SYM_SRB;
 
     state2dkw = (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR)
         && iSoldSubType == 0;
@@ -450,16 +451,16 @@ bool element::isTurnout()
 void element::createPopupMenus()
 {
     /*
-     * Every single element gets his own toggle an edit popupmenu!
+     * Every single element gets its own toggle and edit popupmenu!
      * TODO: Move this to gbsarea and use only one popup for all elements
      */
+
     // context menu with "toggle" for normal mode
     ctxNorm = new QPopupMenu(this, "ctxNormPM");
     ctxNorm->insertItem(tr("&Toggle"), this, SLOT(slotToggle()),
                         0, CTX_ID_TOGGLE);
 
     QPixmap p;
-    /* every single element gets his own edit popupmenu (!?) */
     // context menu with entries for edit mode
     ctxEdit = new QPopupMenu(this, "ctxEditPM");
     ctxEdit->insertItem(tr("&Repeat"), CTX_ID_REP);
@@ -676,7 +677,8 @@ void element::mouseReleaseEvent(QMouseEvent* e)
     /*normal mode*/
     if (visualMode == kvmNormal) {
         if (e->button() == RightButton){
-            ctxNorm->exec(QCursor::pos());
+            if (isSwitchable())
+                ctxNorm->exec(QCursor::pos());
             e->accept();
         }
     }
@@ -732,7 +734,7 @@ void element::mouseReleaseEvent(QMouseEvent* e)
         }
         else if (e->button() == RightButton){
             /*show context menu to switch element only without selection*/
-            if (ksmNormal == selectionMode)
+            if (ksmNormal == selectionMode && isSwitchable())
                 ctxNorm->exec(QCursor::pos());
             e->accept();
         }
@@ -1270,14 +1272,12 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
     // update the contextmenu
     ctxEdit->setItemEnabled(CTX_ID_CLEAR, !isEmpty());
     ctxEdit->setItemEnabled(CTX_ID_ROTATE, iSoldRotate != -1);
-    ctxNorm->setItemEnabled(CTX_ID_TOGGLE,
-                            (iSoldAddress_1 != -1) &&
-                            (sSoldIcon != SYM_DRE) &&
-                            (sSoldIcon != SYM_MDC) &&
-                            (iSoldLocked == UNLOCKED) &&
-                            (iLEDstate_ != LED_RED) &&
-                            (visualMode == kvmNormal || visualMode ==
-                             kvmEditRoute));
+
+    bool enableCtxN = (iSoldLocked != LOCKED) &&
+        (iLEDstate_ != LED_RED || sSoldIcon == SYM_ENK) &&
+        (visualMode == kvmNormal || visualMode == kvmEditRoute);
+
+    ctxNorm->setItemEnabled(CTX_ID_TOGGLE, enableCtxN);
 
     // translate icon name and direction into binary-coded integers
     int iIconByte = 0;
