@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementDialog.cpp
-                           version 0.4.8 $Release$
+                           version 0.4.8 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-29 19:27:26 $
+    last modified        : $Date: 2005-11-25 21:26:44 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -58,14 +58,15 @@ extern QString DEF_DECODER;
 
 
 // true, parent window not usable until this closed
-elementDialog::elementDialog(QWidget* parent, QStrList* listElementData_)
+elementDialog::elementDialog(QWidget* parent, QStrList* edList)
 :  QDialog(0, "elementDialog", true)
 {
     if (parent);                // dummy command to avoid compiler warning
     bBlockMSignals = false;
     bBlockBSignals = false;
-    listElementData = new QStrList(true);
-    listElementData = listElementData_;
+    gaSubType = 0;
+    //copy list pointer to local variable
+    listElementData = edList;
 
     setupDataFrame();
     setupLogicFrame();
@@ -74,7 +75,7 @@ elementDialog::elementDialog(QWidget* parent, QStrList* listElementData_)
     buttOK->setDefault(true);
     buttOK->move((2 * frLogic->width() + 30) / 3 - buttOK->width() / 2,
                  frLogic->y() + frLogic->height() + 10);
-    connect(buttOK, SIGNAL(clicked()), this, SLOT(slotApplyPressed()));
+    connect(buttOK, SIGNAL(clicked()), this, SLOT(accept()));
 
     QPushButton *CancelButton = new QPushButton(tr("Cancel"), this);
     CancelButton->move((2 * frLogic->width() + 30) * 2 / 3 -
@@ -90,7 +91,6 @@ elementDialog::elementDialog(QWidget* parent, QStrList* listElementData_)
     this->setTabOrder(leText, leAddress_1);
     this->setTabOrder(leAddress_1, leAddress_2);
 }
-
 
 
 void elementDialog::setupDataFrame()
@@ -142,18 +142,18 @@ void elementDialog::setupDataFrame()
     setupElement(SYM_DLT);
     setupElement(SYM_DRT);
     setupElement(SYM_GET);
-    setupElement(SYM_REL);
-    setupElement(SYM_MDC);
     setupElement(SYM_BUE);
+    setupElement(SYM_ADR);
+    setupElement(SYM_BLD);
     setupElement(SYM_DRE);
     setupElement(SYM_SBN);
+    setupElement(SYM_REL);
+    setupElement(SYM_MDC);
     setupElement(SYM_HS1);
     setupElement(SYM_HS2);
     setupElement(SYM_SHO);
     setupElement(SYM_SHM);
     setupElement(SYM_SHU);
-    setupElement(SYM_ADR);
-    setupElement(SYM_BLD);
     
     /*external buttons*/
     setupElement(SYM_TAF);
@@ -279,14 +279,13 @@ void elementDialog::setupDataFrame()
 }
 
 
-
 void elementDialog::setupLogicFrame()
 {
     frLogic = new QGroupBox(tr("Logic"), this, "logicGroupBox");
     frLogic->move(frData->x() + frData->width() + 10, frData->y());
     frLogic->resize(frData->width(), frData->height());
 
-    QButtonGroup *bgLogic = new QButtonGroup(frLogic, "protocolBGroup");
+    bgLogic = new QButtonGroup(frLogic, "protocolBGroup");
     bgLogic->setFrameStyle(QFrame::NoFrame);
 
     bgLogic->move(5, 20);
@@ -313,9 +312,9 @@ void elementDialog::setupLogicFrame()
     leAddress_1 = new QLineEdit(frLogic, "address_1");
     leAddress_1->setGeometry(100, line->y() + 8, 50, 20);
     leAddress_1->setMaxLength(4);       // address length of NA protocol
+    a1Validator = new QIntValidator(-1, MAX_GADCC, this);
+    leAddress_1->setValidator(a1Validator);
     leAddress_1->setText(listElementData->at(LIST_ID_ADDRESS_1));
-    connect(leAddress_1, SIGNAL(textChanged(const QString &)),
-            this, SLOT(slotAddressChanged(const QString &)));
 
     labelAddress_1 = new QLabel(tr("Address &1:"), frLogic);
     labelAddress_1->setGeometry(10, line->y() + 10, 90, 15);
@@ -325,9 +324,9 @@ void elementDialog::setupLogicFrame()
     leAddress_2 = new QLineEdit(frLogic, "address_2");
     leAddress_2->setGeometry(100, line->y() + 38, 50, 20);
     leAddress_2->setMaxLength(4);
+    a2Validator = new QIntValidator(-1, MAX_GADCC, this);
+    leAddress_2->setValidator(a2Validator);
     leAddress_2->setText(listElementData->at(LIST_ID_ADDRESS_2));
-    connect(leAddress_2, SIGNAL(textChanged(const QString &)),
-            this, SLOT(slotAddressChanged(const QString &)));
 
     labelAddress_2 = new QLabel(tr("Address &2:"), frLogic);
     labelAddress_2->setGeometry(10, line->y() + 40, 90, 15);
@@ -429,7 +428,6 @@ void elementDialog::setupLogicFrame()
 }
 
 
-
 void elementDialog::setupElement(const char *cElementName_)
 {
     /*
@@ -448,32 +446,60 @@ void elementDialog::setupElement(const char *cElementName_)
 }
 
 
-
 void elementDialog::slotDecoderChanged(int)
 {
     QString sText = coboDecoder->currentText();
     // autoset protocol type after choosing a decoder
-    sText.right(3) == "(M)" ?
-        rbProtocol_MS->setChecked(true) : rbProtocol_NA-> setChecked(true);
+    if (sText.right(3) == "(M)") {
+        bgLogic->setButton(0);
+        slotProtChanged(0);
+    }
+    else {
+        bgLogic->setButton(1);
+        slotProtChanged(1);
+    }
 }
-
 
 
 void elementDialog::slotProtChanged(int)
 {
-    QString sProt = (rbProtocol_MS->isChecked() == 1) ? "(M)" : "(D)";
+    bool isMM = (rbProtocol_MS->isChecked());
+    QString icon = IconNameList->at(IconComboBox->currentItem());
+    
+    if (icon == SYM_NRB || icon == SYM_SRB) {
+        a1Validator->setTop(MAX_RB);
+        a2Validator->setTop(MAX_RB);
+    }
+    else { 
+        if (isMM) {
+            a1Validator->setTop(MAX_GAMM);
+            a2Validator->setTop(MAX_GAMM);
+            
+            if (leAddress_1->text().toInt() > MAX_GAMM)
+                leAddress_1->setText(QString::number(MAX_GAMM));
+
+            if (leAddress_2->text().toInt() > MAX_GAMM)
+                leAddress_2->setText(QString::number(MAX_GAMM));
+        }
+        else {
+            a1Validator->setTop(MAX_GADCC);
+            a2Validator->setTop(MAX_GADCC);
+        }
+    }
+
+    QString sProt = (isMM) ? "(M)" : "(D)";
     QString sText;
 
+    // find first decoder which support the chosen protocol
     for (int i = 0; i < coboDecoder->count(); i++) {
         sText = coboDecoder->text(i);
-        if (sText.right(3) == sProt)    // find first decoder which
-        {                       // support the chosen protocol
+
+        if (sText.right(3) == sProt) {
             coboDecoder->setCurrentItem(i);
             break;
         }
     }
 }
-
 
 
 void elementDialog::slotModuleChanged(int iModuleNo_)
@@ -499,7 +525,6 @@ void elementDialog::slotModuleChanged(int iModuleNo_)
 }
 
 
-
 void elementDialog::slotBusChanged(int iBusNo_)
 {
     if (!bBlockMSignals) {
@@ -519,12 +544,10 @@ void elementDialog::slotBusChanged(int iBusNo_)
 }
 
 
-
 void elementDialog::slotShowFBmodules()
 {
     emit sigShowFBmodules();
 }
-
 
 
 void elementDialog::slotSymbolChanged(int iCoboIconID)
@@ -604,7 +627,7 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
     labelText->setEnabled(enabled);
 
     // show address_2 data
-    sListText = listElementData->at(LIST_ID_SUBTYPE);
+    sListText = QString::number(gaSubType);
 
     // Hp0+Hp1+Hp2
     enabled = sSoldIcon == SYM_HSS || sSoldIcon == SYM_DRW
@@ -798,10 +821,10 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
         sSoldIcon == SYM_VS;
 
     if (!enabled)
-        listElementData->insert(LIST_ID_SUBTYPE, "-1");
+        gaSubType = -1;
+
     showSubTypes(enabled);
 }
-
 
 
 void elementDialog::slotEnable_LED_FB()
@@ -819,7 +842,6 @@ void elementDialog::slotEnable_LED_FB()
     sbBus->setEnabled(!cbLEDoff->isChecked());
     labelFBBus->setEnabled(!cbLEDoff->isChecked());
 }
-
 
 
 void elementDialog::showSubTypes(int iShow_)
@@ -897,7 +919,7 @@ void elementDialog::showSubTypes(int iShow_)
 
 
     // activate the subtype dependant button
-    QString sListText = listElementData->at(LIST_ID_SUBTYPE);
+    QString sListText = QString::number(gaSubType);
 
     if (sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS || sSoldIcon == SYM_VS) {
         if (sSoldIcon == SYM_HS && SHOW_TOOLTIPS) {
@@ -1029,7 +1051,6 @@ void elementDialog::showSubTypes(int iShow_)
 }
 
 
-
 void elementDialog::slotSubTypeClicked(int iSubTypeID_)
 {
     switch (iSubTypeID_) {
@@ -1040,18 +1061,19 @@ void elementDialog::slotSubTypeClicked(int iSubTypeID_)
             cbChaConn2->setEnabled(false);
 
             leAddress_2->setText("-1");
-            listElementData->insert(LIST_ID_SUBTYPE, "0");
+            gaSubType = 0;
         }
 
-        if (sSoldIcon == SYM_HSS)
-            listElementData->insert(LIST_ID_SUBTYPE, "1");
+        else if (sSoldIcon == SYM_HSS) {
+            gaSubType = 1;
+        }
 
-        if (sSoldIcon == SYM_ENK) {
+        else if (sSoldIcon == SYM_ENK) {
             leAddress_2->setEnabled(false);
             labelAddress_2->setEnabled(false);
             cbChaConn2->setEnabled(false);
 
-            listElementData->insert(LIST_ID_SUBTYPE, "-1");
+            gaSubType = -1;
         }
         break;
 
@@ -1061,24 +1083,23 @@ void elementDialog::slotSubTypeClicked(int iSubTypeID_)
             labelAddress_2->setEnabled(false);
             cbChaConn2->setEnabled(false);
             leAddress_2->setText("-1");
-            listElementData->insert(LIST_ID_SUBTYPE, "6");
+            gaSubType = 6;
         }
 
-        if (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) {
+        else if (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) {
             leAddress_2->setEnabled(false);
             labelAddress_2->setEnabled(false);
             cbChaConn2->setEnabled(false);
-
-            listElementData->insert(LIST_ID_SUBTYPE, "0");
+            gaSubType = 0;
         }
 
-        if (sSoldIcon == SYM_HSS)
-            listElementData->insert(LIST_ID_SUBTYPE, "7");
+        else if (sSoldIcon == SYM_HSS)
+            gaSubType = 7;
 
-        if (sSoldIcon == SYM_ENK)
-            listElementData->insert(LIST_ID_SUBTYPE, "0");
+        else if (sSoldIcon == SYM_ENK)
+            gaSubType = 0;
 
-        if (sSoldIcon == SYM_DRE)
+        else if (sSoldIcon == SYM_DRE)
             leAddress_2->setText("240");
 
         break;
@@ -1088,23 +1109,23 @@ void elementDialog::slotSubTypeClicked(int iSubTypeID_)
             leAddress_2->setEnabled(true);
             labelAddress_2->setEnabled(true);
             cbChaConn2->setEnabled(true);
-            listElementData->insert(LIST_ID_SUBTYPE, "4");
+            gaSubType = 4;
         }
 
-        if (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) {
+        else if (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) {
             leAddress_2->setEnabled(true);
             labelAddress_2->setEnabled(true);
             cbChaConn2->setEnabled(true);
-            listElementData->insert(LIST_ID_SUBTYPE, "1");
+            gaSubType = 1;
         }
 
-        if (sSoldIcon == SYM_HSS)
-            listElementData->insert(LIST_ID_SUBTYPE, "5");
+        else if (sSoldIcon == SYM_HSS)
+            gaSubType = 5;
 
-        if (sSoldIcon == SYM_ENK)
-            listElementData->insert(LIST_ID_SUBTYPE, "1");
+        else if (sSoldIcon == SYM_ENK)
+            gaSubType = 1;
 
-        if (sSoldIcon == SYM_DRE)
+        else if (sSoldIcon == SYM_DRE)
             leAddress_2->setText("224");
 
         break;
@@ -1112,142 +1133,77 @@ void elementDialog::slotSubTypeClicked(int iSubTypeID_)
 }
 
 
-
-void elementDialog::slotAddressChanged(const QString & cNewAddress_)
+void elementDialog::copyDataToList(QStrList* sl)
 {
-    QString sCorrection = cNewAddress_;
-
-    // a zero length and "-1" value are o.k.
-    if (sCorrection.length() == 0 || sCorrection == "-1")
-        return;
-
-    // now reject character input if it was not a digit
-    for (uint i = 0; i < sCorrection.length(); i++) {
-
-        if (isdigit(cNewAddress_[i]) == false) {
-            sCorrection.replace(i, 1, '\0');    // correction code replaces
-            if (leAddress_1->text() == cNewAddress_)    // the wrong user entry in
-            {                   // line edits
-                leAddress_1->setText(sCorrection);
-                leAddress_1->setCursorPosition(i);
-            }
-            else {
-                leAddress_2->setText(sCorrection);
-                leAddress_2->setCursorPosition(i);
-            }
-            break;
-        }
-    }
-
-    if (leAddress_1->text() == cNewAddress_)
-        leText->setText(sCorrection);
-    // if user enters new address but does not
-    // change the text field (where the old
-    // address is still visible) the element
-    // shows the old address, and the user is
-    // confused
-}
-
-
-
-void elementDialog::slotApplyPressed()
-{
-    // make sure that the address have leading "0"s if shorter than protocol
-    // determined and check for protocol limits
-    if (checkAddressLimits(leAddress_1->text()) == INVALID ||
-        checkAddressLimits(leAddress_2->text()) == INVALID)
-        return;
-
-    // now read all widget data and store them in a new QStrList
-    listNewData = new QStrList(true);
-
-    listNewData->insert(LIST_ID_INDEX, listElementData->at(LIST_ID_INDEX));
-    listNewData->insert(LIST_ID_ICON,
+    sl->insert(LIST_ID_ICON,
                         IconNameList->at(IconComboBox->currentItem()));
 
-    listNewData->insert(LIST_ID_ROTATE, cbRotate->isEnabled()?
+    sl->insert(LIST_ID_ROTATE, cbRotate->isEnabled()?
                         (cbRotate->isChecked()? "1" : "0") : "-1");
 
-    listNewData->insert(LIST_ID_INVERT, cbInvert->isEnabled()?
+    sl->insert(LIST_ID_INVERT, cbInvert->isEnabled()?
                         (cbInvert->isChecked()? "1" : "0") : "-1");
 
-    listNewData->insert(LIST_ID_DECODER, coboDecoder->currentText());
+    sl->insert(LIST_ID_DECODER, coboDecoder->currentText());
 
-    listNewData->insert(LIST_ID_PROTOCOL, rbProtocol_MS->isEnabled()?
+    sl->insert(LIST_ID_PROTOCOL, rbProtocol_MS->isEnabled()?
                         (rbProtocol_MS->isChecked()? "M" : "N") : "-1");
 
-    listNewData->insert(LIST_ID_ADDRESS_1, leAddress_1->text());
-    listNewData->insert(LIST_ID_ADDRESS_2, leAddress_2->text());
+    sl->insert(LIST_ID_ADDRESS_1, leAddress_1->text());
+    sl->insert(LIST_ID_ADDRESS_2, leAddress_2->text());
 
-    listNewData->insert(LIST_ID_CHACONN_1, cbChaConn1->isEnabled()?
+    sl->insert(LIST_ID_CHACONN_1, cbChaConn1->isEnabled()?
                         (cbChaConn1->isChecked()? "1" : "0") : "-1");
-    listNewData->insert(LIST_ID_CHACONN_2, cbChaConn2->isEnabled()?
+    sl->insert(LIST_ID_CHACONN_2, cbChaConn2->isEnabled()?
                         (cbChaConn2->isChecked()? "1" : "0") : "-1");
 
-    listNewData->insert(LIST_ID_DIRECTION, leAddress_1->isEnabled()?
+    sl->insert(LIST_ID_DIRECTION, leAddress_1->isEnabled()?
                         listElementData->at(LIST_ID_DIRECTION) : "-1");
 
-    listNewData->insert(LIST_ID_SUBTYPE,
-                        listElementData->at(LIST_ID_SUBTYPE));
-
     /* if field contains '-1' then show address*/
-    listNewData->insert(LIST_ID_TEXT,
+    sl->insert(LIST_ID_TEXT,
                         /*(leText->text() != "" && leText->text() != "-1")
                          ? leText->text() : leAddress_1->text());*/
                         (leText->text() == "-1")
                          ? leAddress_1->text() : leText->text());
 
-    listNewData->insert(LIST_ID_ACTTIME, sbActiveTime->isEnabled()
+    sl->insert(LIST_ID_ACTTIME, sbActiveTime->isEnabled()
             ? sbActiveTime->text() : (QString) "-1");
 
     QString sPort;
-    listNewData->insert(LIST_ID_FBPORT, labelFB->isEnabled()?
+    sl->insert(LIST_ID_FBPORT, labelFB->isEnabled()?
                         (sPort.
                          setNum((sbModule->value() - 1) * (16 -
                                                            FEEDBACK * 8) +
                                 (sbPort->value() - 1)).data()) : "-1");
 
-    listNewData->insert(LIST_ID_LEDOFF, cbLEDoff->isEnabled()?
+    sl->insert(LIST_ID_LEDOFF, cbLEDoff->isEnabled()?
                         (cbLEDoff->isChecked()? "1" : "0") : "-1");
-
-    //listNewData->insert( LIST_ID_DATA_2, "-1" );
-    //listNewData->insert( LIST_ID_DATA_3, "-1" );
-
-    emit ApplyPressed();        // send signal to element to copy new data
 }
 
 
-
-int elementDialog::checkAddressLimits(QString sAddressToCheck_)
+int elementDialog::getGASubType()
 {
-    if (sAddressToCheck_ == "-1")
-        return VALID;
-    // function is also called if no address has been
-    // entered other negative values than -1 are not
-    // possible cause you can't enter the "-" sign!
-    
-    QString SymName = QString(IconNameList->at(IconComboBox->currentItem()));
-    
-    /* for this symbols also dummy numbers are allowed*/ 
-    if (SymName == SYM_NRB || SymName == SYM_SRB)
-        return VALID;
-    
-    int chkAddress = sAddressToCheck_.toInt();
+    return gaSubType;
+};
 
-    if ((chkAddress > 324 && rbProtocol_MS->isChecked()) ||
-        (chkAddress > 4096 && rbProtocol_NA->isChecked())) {
-        qApp->beep();
-        QMessageBox::warning(this, tr("Wrong address(es)"),
-                             tr("Entered address(es) exceed\n"
-                                "the protocol limits.\n\n"
-                                "Valid ranges are:\n"
-                                "Maerklin/Motorola: 1 -  324\n"
-                                "NMRA/DCC:          1 - 4096"),
-                             tr("&OK"), 0, 0, 0, 0);
-        // butt 1: OK, butt 2+3: not avail.
-        // <ENTER> + <ESC> default to butt 0 = OK
-        return INVALID;
-    }
 
-    return VALID;               // everything else is valid
+void elementDialog::setGASubType(int sType)
+{
+    gaSubType = sType;
+    QString icon = IconNameList->at(IconComboBox->currentItem());
+
+    /*
+     * for SYM_ENK:
+     *
+     * gaSubType   pressed button
+     * --------------------------
+     *    -1            0
+     *     0            1
+     *     1            2
+     * --------------------------
+    */
+    if (icon == SYM_ENK)
+        bgSubType->setButton(gaSubType + 1);
 }
+

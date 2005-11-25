@@ -1,11 +1,11 @@
 /***************************************************************************
                            keyboard.cpp
-                           version 0.4.7 $Revision: 1.7 $
+                           version 0.4.7 $Revision: 1.8 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-16 21:13:27 $
+    last modified        : $Date: 2005-11-25 21:26:44 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -59,7 +59,7 @@ keyboard::keyboard(QWidget* parent, unsigned int srcpv): QDialog(parent,
     int LEwidth = fm.width("8888") + 10;
     busLE->setMaxLength(4);
     busLE->setMaximumWidth(LEwidth);
-    QValidator* busValidator = new QIntValidator(1, 999, this );
+    QValidator* busValidator = new QIntValidator(1, 999, this);
     busLE->setValidator(busValidator);
     busLayout->addWidget(busLE);
     busLbl->setBuddy(busLE);
@@ -87,7 +87,7 @@ keyboard::keyboard(QWidget* parent, unsigned int srcpv): QDialog(parent,
     addressLE = new QLineEdit(this, "addressLE");
     addressLE->setMaxLength(4);
     addressLE->setMaximumWidth(LEwidth);
-    QValidator* addressValidator = new QIntValidator(1, MAX_GADCC, this );
+    QValidator* addressValidator = new QIntValidator(1, MAX_GADCC, this);
     addressLE->setValidator(addressValidator);
     addressLayout->addWidget(addressLE);
     labelAddress->setBuddy(addressLE);

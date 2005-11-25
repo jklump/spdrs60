@@ -518,7 +518,7 @@ existiert nicht. Bitte korrigieren Sie die Einstellungen.</translation>
     </message>
     <message>
         <source>Unnamed file was changed.
-Save Changes?</source>
+Save changes?</source>
         <translation>Die unbenannte Datei wurde geändert.
 Änderungen speichern?</translation>
     </message>

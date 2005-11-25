@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.4.8 $Revision: 1.26 $
+                           version 0.4.8 $Revision: 1.27 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-05 13:41:01 $
+    last modified        : $Date: 2005-11-25 21:26:44 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -165,7 +165,6 @@ public:
     void getStateData(stateElement& se);
     elemSelectionMode getSelectionMode();
     int getAddressCount();
-    //void updateFeedbackState();
 
 private:
     elementDialog*      elementPropertyDlg;
@@ -212,6 +211,7 @@ private:
     void rotate();
     void setupElementIcon(int, QString);
     void updateProperties();
+    void updateCtxNorm();
 
 public slots:
     void slotSwitchIt(int, int);
@@ -222,10 +222,10 @@ public slots:
     void slotRepeatIcon(const QString&);
     void slotShowElement(int, int, elemSelectionMode);
     void slotRepaintLayout();
+    void repaintTimeOutEnk();
 
 private slots:
     void slotLocateTimerTimeout();
-    void slotUpdateData();
     void slotUpdateTurntableData(QPoint);
     void slotCopyAvailTracks(const QString&);
     void slotCtxEdit(int);

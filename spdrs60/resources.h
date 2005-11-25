@@ -33,6 +33,7 @@
 #define MAX_FB         1984    // number of total s88 feedback ports
 #define MAX_GAMM       324     // max number of mototola addresses
 #define MAX_GADCC      4096    // max number of DCC addresses
+#define MAX_RB         6000    // max value of route button addresses
 
 #define APP_NAME       "SpDrS60"
 #define SPDRS60_INIT   ".spdrs60rc"   // program init filename

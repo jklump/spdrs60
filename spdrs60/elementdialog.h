@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.h
-                           version 0.4.8 $Revision: 1.3 $
+                           version 0.4.8 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-29 19:27:26 $
+    last modified        : $Date: 2005-11-25 21:26:44 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -38,26 +38,27 @@
 #include <qspinbox.h>
 #include <qstrlist.h>
 #include <qtooltip.h>
+#include <qvalidator.h>
   	
 
-class elementDialog : public QDialog
+class elementDialog: public QDialog
 {
    Q_OBJECT
 
 public:
-   elementDialog(QWidget* parent=0, QStrList* elementData_=0);
+   elementDialog(QWidget* parent = 0, QStrList* edList = 0);
+   void copyDataToList(QStrList*);
+   int getGASubType();
+   void setGASubType(int);
 
 private:
    void setupElement(const char*);
-   int  checkAddressLimits(QString);
    void showSubTypes(int);
    void setupDataFrame();
    void setupLogicFrame();
 
 private slots:
    void slotSymbolChanged(int);
-   void slotApplyPressed();
-   void slotAddressChanged(const QString&);
    void slotSubTypeClicked(int);
    void slotDecoderChanged(int);
    void slotProtChanged(int);
@@ -67,11 +68,7 @@ private slots:
    void slotEnable_LED_FB();
 
 signals:
-   void ApplyPressed();
    void sigShowFBmodules();
-
-public:
-   QStrList     *listNewData;
 
 private:
    QLineEdit    *leAddress_1;
@@ -111,6 +108,7 @@ private:
    QPushButton  *buttSubType[3];
    QPushButton  *buttFBmodules;
    QButtonGroup *bgSubType;
+   QButtonGroup *bgLogic;
 
    QSpinBox     *sbActiveTime;
    QSpinBox     *sbModule;
@@ -120,11 +118,14 @@ private:
    QString      sSoldIcon;
    QFrame       *frData;
    QFrame       *frLogic;
+   QIntValidator* a1Validator;
+   QIntValidator* a2Validator;
 
    bool         bBlockMSignals;
    bool         bBlockBSignals;
    int          iPrevBusNo;
    int          iPrevModNo;
+   int          gaSubType;
 };
 
 #endif    //ELEMENTDIALOG_H

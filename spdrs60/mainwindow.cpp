@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.37 $
+                           version 0.4.8 $Revision: 1.38 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-14 17:28:49 $
+    last modified        : $Date: 2005-11-25 21:26:44 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1227,18 +1227,18 @@ void MainWindow::slotViewDebug()
         CurrentHL = HL_CMND;
 
     switch (CurrentHL) {
-    case (HL_CMND):
-        cbStack->raiseWidget(0);
-        lblStack->raiseWidget(0);
-        break;
-    case (HL_INFO):
-        cbStack->raiseWidget(1);
-        lblStack->raiseWidget(1);
-        break;
-    case (HL_FEED):
-        cbStack->raiseWidget(2);
-        lblStack->raiseWidget(2);
-        break;
+        case (HL_CMND):
+            cbStack->raiseWidget(0);
+            lblStack->raiseWidget(0);
+            break;
+        case (HL_INFO):
+            cbStack->raiseWidget(1);
+            lblStack->raiseWidget(1);
+            break;
+        case (HL_FEED):
+            cbStack->raiseWidget(2);
+            lblStack->raiseWidget(2);
+            break;
     }
 }
 
@@ -1308,7 +1308,7 @@ int MainWindow::querySaveChanges()
     QString queryStr;
     
     if (fileName.isEmpty())
-        queryStr = tr("Unnamed file was changed.\nSave Changes?");
+        queryStr = tr("Unnamed file was changed.\nSave changes?");
     else
         queryStr = tr("File '%1' was changed.\n"
                 "Save changes?").arg(fileName);

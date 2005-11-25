@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.31 $
+                           version 0.4.8 $Revision: 1.32 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-06 20:49:44 $
+    last modified        : $Date: 2005-11-25 21:26:44 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -841,15 +841,15 @@ void GBSArea::setupElements()
             connect(el, SIGNAL(recordElement(element*,
                             elemRecordType)),
                     this, SIGNAL(recordElement(element*, elemRecordType)));
-            if (el->isSwitchable()) {
+            //if (el->isSwitchable()) {
                 connect(this, SIGNAL(processInfoPortMessage(QString,
                                 int, int, int)),
                         el, SLOT(processInfoPortMessage(QString,
                                 int, int, int)));
                 connect(el, SIGNAL(sendCommand(const QString&)),
                         this, SIGNAL(sendCommand(const QString&)));
-            }
-            if (el->hasLEDsOn())
+            //}
+            //if (el->hasLEDsOn())
                 connect(this, SIGNAL(feedbackPortChanged(unsigned int,
                                 unsigned int, unsigned int)),
                         el, SLOT(slotOccupyElement(unsigned int,
@@ -962,15 +962,15 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
                         el, SLOT(slotRepaintLayout()));
                 connect(el, SIGNAL(recordElement(element*, elemRecordType)),
                         this, SIGNAL(recordElement(element*, elemRecordType)));
-                if (el->isSwitchable()) {
+                //if (el->isSwitchable()) {
                     connect(this, SIGNAL(processInfoPortMessage(QString,
                                     int, int, int)),
                             el, SLOT(processInfoPortMessage(QString,
                                     int, int, int)));
                     connect(el, SIGNAL(sendCommand(const QString&)),
                             this, SIGNAL(sendCommand(const QString&)));
-                }
-                if (el->hasLEDsOn())
+                //}
+                //if (el->hasLEDsOn())
                     connect(this, SIGNAL(feedbackPortChanged(unsigned int)),
                             el, SLOT(slotOccupyElement(unsigned int)));
             }

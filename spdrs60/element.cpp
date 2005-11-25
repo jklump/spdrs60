@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.36 $
+                           version 0.4.8 $Revision: 1.37 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-21 19:29:17 $
+    last modified        : $Date: 2005-11-25 21:26:44 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -558,6 +558,7 @@ void element::slotSwitchIt(int iNewDirection, int iLocked)
     if (iNewDirection != iSoldDirection || sSoldIcon == SYM_ENK) {
         iSoldDirection = iNewDirection;
         setupElementIcon(iSoldLEDstate, "");
+        repaint();
         makeCommand();
     }
     // if the new direction equals the old one just setup the element to ensure
@@ -790,8 +791,10 @@ void element::switchSelectionMode(elemSelectionMode sm)
 {
     if (selectionMode != sm) {
         selectionMode = sm;
-        ctxNorm->setItemEnabled(CTX_ID_TOGGLE, !iSoldLocked &&
-                iSoldLEDstate != LED_RED);
+
+        if (isSwitchable())
+            updateCtxNorm();
+
         update();
     }
 }
@@ -803,13 +806,12 @@ void element::switchVisualMode(elemVisualMode vm)
     /* send element state when visual mode is switched to normal mode
      * and selection mode is not normal; typicaly after view route mode
      */
-    if (selectionMode != ksmNormal) {
+    if (selectionMode != ksmNormal)
         selectionMode = ksmNormal;
-        ctxNorm->setItemEnabled(CTX_ID_TOGGLE, !iSoldLocked &&
-                iSoldLEDstate != LED_RED);
-        /*TODO: check if this is realy necessary:*/
-        //makeCommand();
-    }
+
+    if (isSwitchable())
+        updateCtxNorm();
+
     update();
 }
 
@@ -926,16 +928,23 @@ void element::makeCommand()
             bSwitchSecondAddress = true;
             goto DO_AGAIN;
         }
-        else if (sSoldIcon == SYM_ENK && iSoldSubType != -1) {
-            // if momentary coupler: activate it,
-            // wait for a short time and deactivate it graphically
-            setupElementIcon(iSoldLEDstate, "");
-            usleep(1000 * iSoldActiveTime);
-            iSoldDirection = !iSoldDirection;
-            setupElementIcon(iSoldLEDstate, "");
-        }
+        /*
+         * if momentary coupler: activate it, wait for a short time
+         * and deactivate it graphically
+         */
+        else if (sSoldIcon == SYM_ENK && iSoldSubType != -1)
+            QTimer::singleShot(iSoldActiveTime, this,
+                    SLOT(repaintTimeOutEnk()));
     }
 }
+
+
+void element::repaintTimeOutEnk()
+{
+    iSoldDirection = !iSoldDirection;
+    setupElementIcon(iSoldLEDstate, "");
+}
+
 
 /**
  * this is the reverse case of "makeCommand()"
@@ -1025,48 +1034,35 @@ void element::showPropertyDlg()
         elementPropertyDlg = new elementDialog(this, elementData);
         title.sprintf(tr("Properties of Element #%d"), iSoldIndex);
         elementPropertyDlg->setCaption(title);
-        connect(elementPropertyDlg, SIGNAL(ApplyPressed()),
-                this, SLOT(slotUpdateData()));
+        elementPropertyDlg->setGASubType(iSoldSubType);
+        
         connect(elementPropertyDlg, SIGNAL(sigShowFBmodules()),
                 this, SIGNAL(sigShowFBmodules()));
-        elementPropertyDlg->exec();      // parent window NOT usable
-        // nach Beenden Zeiger wieder zurücksetzen:
-        /*TODO:
+        
         if (elementPropertyDlg->exec() == QDialog::Accepted){
-            // get feedback state from SRCP server if element was
-            // changed (feedback contact or LEDoff state changed)
-            // LEDs will be updates by server INFO message
-            sendCommand(QString("GET FB %1 %2")
-            .arg((FEEDBACK <= 1) ? "S88" : "I8255")
-            .arg(iFBContact));
+            elementPropertyDlg->copyDataToList(elementData);
+            copyData(elementData);
+            iSoldSubType = elementPropertyDlg->getGASubType();
+            
+            //set new repeat icon and send new name to all other elements
+            slotRepeatIcon(sSoldIcon);
+            emit setRepeatIcon(sRepeatIcon);
+
+            updateProperties();
+            iSoldLEDstate = bFBport[iFBContact] << 1;
+            setupElementIcon(iSoldLEDstate, "");
         }
-        */
-        //delete elementPropertyDlg;
+        delete elementPropertyDlg;
         elementPropertyDlg = NULL;
-        //delete elementData;
+        delete elementData;
     }
 }
 
 
-void element::slotUpdateData()
+void element::slotRepeatIcon(const QString& ri)
 {
-    copyData(elementPropertyDlg->listNewData);
-    elementPropertyDlg->close(true);
-    // copy data from properties window,
-    // either LED_OFF = 0 or LED_RED = 2*1=2
-    iSoldLEDstate = bFBport[iFBContact] << 1;
-    sRepeatIcon = sSoldIcon;
-    //send new icon name to all other elements
-    emit setRepeatIcon(sRepeatIcon);
-    setupElementIcon(iSoldLEDstate, "");
-    updateProperties();
-}
-
-
-void element::slotRepeatIcon(const QString& sRepeat_)
-{
-    if (sRepeatIcon != sRepeat_) {
-        sRepeatIcon = sRepeat_;
+    if (sRepeatIcon != ri) {
+        sRepeatIcon = ri;
         if (sRepeatIcon.isEmpty())
             ctxEdit->setItemEnabled(CTX_ID_REP, false);
         else
@@ -1263,21 +1259,26 @@ void element::sendState()
 }
 
 
+void element::updateCtxNorm()
+{
+    bool enableCtxN = (iSoldLocked != LOCKED) &&
+        (iSoldLEDstate != LED_RED || sSoldIcon == SYM_ENK) &&
+        (visualMode == kvmNormal || visualMode == kvmEditRoute);
+
+    ctxNorm->setItemEnabled(CTX_ID_TOGGLE, enableCtxN);
+}
+
 /**
  * paint element icon
  * TODO: this should completely be rewritten due to performance flaws
  */
 void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
 {
-    // update the contextmenu
+    // update the contextmenus
     ctxEdit->setItemEnabled(CTX_ID_CLEAR, !isEmpty());
     ctxEdit->setItemEnabled(CTX_ID_ROTATE, iSoldRotate != -1);
-
-    bool enableCtxN = (iSoldLocked != LOCKED) &&
-        (iLEDstate_ != LED_RED || sSoldIcon == SYM_ENK) &&
-        (visualMode == kvmNormal || visualMode == kvmEditRoute);
-
-    ctxNorm->setItemEnabled(CTX_ID_TOGGLE, enableCtxN);
+    if (isSwitchable())
+        updateCtxNorm();
 
     // translate icon name and direction into binary-coded integers
     int iIconByte = 0;
