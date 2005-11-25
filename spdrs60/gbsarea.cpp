@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.32 $
+                           version 0.4.8 $Revision: 1.33 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-25 21:26:44 $
+    last modified        : $Date: 2005-11-25 21:41:21 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -268,6 +268,7 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
                 if (progress.wasCancelled()) {
 #endif
                     deleteElements();
+                    ecount = 0;
                     break;
                 }
             }
