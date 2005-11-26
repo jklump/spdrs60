@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementDialog.cpp
-                           version 0.4.8 $Revision: 1.5 $
+                           version 0.4.8 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
-    email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-25 21:26:44 $
+    email                : guido.scholz@bayernline.de
+    last modified        : $Date: 2005-11-26 07:31:21 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -18,10 +18,9 @@
  ***************************************************************************/
 
 /***************************************************************************
- this file provides an user interface to change the properties of one element
+ this file provides an user interface to change properties of an element
  ***************************************************************************/
 
-#include <ctype.h>              // for isdigit()
 
 #include "elementdialog.h"
 #include "element.h"
@@ -58,43 +57,17 @@ extern QString DEF_DECODER;
 
 
 // true, parent window not usable until this closed
-elementDialog::elementDialog(QWidget* parent, QStrList* edList)
-:  QDialog(0, "elementDialog", true)
+elementDialog::elementDialog(QWidget* parent, QStrList* edList):
+    QDialog(parent, "elementDialog", true)
 {
-    if (parent);                // dummy command to avoid compiler warning
     bBlockMSignals = false;
     bBlockBSignals = false;
     gaSubType = 0;
     //copy list pointer to local variable
     listElementData = edList;
 
-    setupDataFrame();
-    setupLogicFrame();
 
-    buttOK = new QPushButton(tr("OK"), this);
-    buttOK->setDefault(true);
-    buttOK->move((2 * frLogic->width() + 30) / 3 - buttOK->width() / 2,
-                 frLogic->y() + frLogic->height() + 10);
-    connect(buttOK, SIGNAL(clicked()), this, SLOT(accept()));
-
-    QPushButton *CancelButton = new QPushButton(tr("Cancel"), this);
-    CancelButton->move((2 * frLogic->width() + 30) * 2 / 3 -
-                       CancelButton->width() / 2,
-                       frLogic->y() + frLogic->height() + 10);
-    connect(CancelButton, SIGNAL(clicked()), this, SLOT(reject()));
-
-    // now fill the widgets with data
-    slotSymbolChanged(IconComboBox->currentItem());
-
-    this->setFixedWidth(2 * frData->width() + 3 * frData->x());
-    this->setFixedHeight(buttOK->y() + buttOK->height() + 10);
-    this->setTabOrder(leText, leAddress_1);
-    this->setTabOrder(leAddress_1, leAddress_2);
-}
-
-
-void elementDialog::setupDataFrame()
-{
+    /*Data frame*/
     frData = new QGroupBox(tr("Data"), this, "dataGroupBox");
     frData->move(10, 10);
     frData->resize(260, 415);
@@ -276,11 +249,9 @@ void elementDialog::setupDataFrame()
 
     connect(bgSubType, SIGNAL(clicked(int)),
             this, SLOT(slotSubTypeClicked(int)));
-}
 
-
-void elementDialog::setupLogicFrame()
-{
+    
+    /*right side with logic frame*/
     frLogic = new QGroupBox(tr("Logic"), this, "logicGroupBox");
     frLogic->move(frData->x() + frData->width() + 10, frData->y());
     frLogic->resize(frData->width(), frData->height());
@@ -304,7 +275,7 @@ void elementDialog::setupLogicFrame()
     connect(bgLogic, SIGNAL(clicked(int)),
             this, SLOT(slotProtChanged(int)));
 
-    QFrame *line = new QFrame(frLogic);
+    line = new QFrame(frLogic);
     line->setFrameStyle(QFrame::HLine | QFrame::Sunken);
     line->setGeometry(10, 118, frLogic->width() - 20, 2);
 
@@ -425,22 +396,50 @@ void elementDialog::setupLogicFrame()
     cbAdrMod->move(20, labelFBBus->y() + 30);
     cbAdrMod->resize(cbAdrMod->sizeHint());
     cbAdrMod->setEnabled(false);
+
+    
+    /*button line at bottom*/
+    buttOK = new QPushButton(tr("OK"), this);
+    buttOK->setDefault(true);
+    buttOK->move((2 * frLogic->width() + 30) / 3 - buttOK->width() / 2,
+                 frLogic->y() + frLogic->height() + 10);
+    connect(buttOK, SIGNAL(clicked()), this, SLOT(accept()));
+
+    QPushButton *CancelButton = new QPushButton(tr("Cancel"), this);
+    CancelButton->move((2 * frLogic->width() + 30) * 2 / 3 -
+                       CancelButton->width() / 2,
+                       frLogic->y() + frLogic->height() + 10);
+    connect(CancelButton, SIGNAL(clicked()), this, SLOT(reject()));
+
+    // now fill the widgets with data
+    slotSymbolChanged(IconComboBox->currentItem());
+
+    this->setFixedWidth(2 * frData->width() + 3 * frData->x());
+    this->setFixedHeight(buttOK->y() + buttOK->height() + 10);
+    this->setTabOrder(leText, leAddress_1);
+    this->setTabOrder(leAddress_1, leAddress_2);
 }
 
 
-void elementDialog::setupElement(const char *cElementName_)
+elementDialog::~elementDialog()
 {
-    /*
-     * in this dialog we work with two different list: a QStrList which holds
-     * all element names and a ComboBox which holds all elements graphically
-     * thus it is not possible to determin the name of a QPixmap in a ComboBox
-     * we use a trick: at the same index ID we have the icon in ComboBox and
-     * it큦 name in QStrList. To get a pixmap큦 name we must recalculate the
-     * name using the current item ID of the ComboBox
-     */
-    IconNameList->append(cElementName_);
+    delete IconNameList;
+}
+
+
+/*
+ * in this dialog we work with two different list: a QStrList which holds
+ * all element names and a ComboBox which holds all elements graphically
+ * thus it is not possible to determin the name of a QPixmap in a ComboBox
+ * we use a trick: at the same index ID we have the icon in ComboBox and
+ * it큦 name in QStrList. To get a pixmap큦 name we must recalculate the
+ * name using the current item ID of the ComboBox
+ */
+void elementDialog::setupElement(const char *eName)
+{
+    IconNameList->append(eName);
     QString sPixmapName = RES_DIR_ELEM;
-    sPixmapName += cElementName_;
+    sPixmapName += eName;
     sPixmapName += XPM_SUFFIX;
     IconComboBox->insertItem(QPixmap(sPixmapName));
 }
@@ -858,7 +857,6 @@ void elementDialog::showSubTypes(int iShow_)
         return;
     }
 
-
     buttSubType[0]->show();
     buttSubType[1]->show();
     buttSubType[2]->show();
@@ -1051,84 +1049,84 @@ void elementDialog::showSubTypes(int iShow_)
 }
 
 
-void elementDialog::slotSubTypeClicked(int iSubTypeID_)
+void elementDialog::slotSubTypeClicked(int stBtn)
 {
-    switch (iSubTypeID_) {
-    case 0:                    // == subType 1
-        if (sSoldIcon == SYM_HS || sSoldIcon == SYM_VS) {
-            leAddress_2->setEnabled(false);
-            labelAddress_2->setEnabled(false);
-            cbChaConn2->setEnabled(false);
+    switch (stBtn) {
+        case 0:                    // == subType 1
+            if (sSoldIcon == SYM_HS || sSoldIcon == SYM_VS) {
+                leAddress_2->setEnabled(false);
+                labelAddress_2->setEnabled(false);
+                cbChaConn2->setEnabled(false);
 
-            leAddress_2->setText("-1");
-            gaSubType = 0;
-        }
+                leAddress_2->setText("-1");
+                gaSubType = 0;
+            }
 
-        else if (sSoldIcon == SYM_HSS) {
-            gaSubType = 1;
-        }
+            else if (sSoldIcon == SYM_HSS) {
+                gaSubType = 1;
+            }
 
-        else if (sSoldIcon == SYM_ENK) {
-            leAddress_2->setEnabled(false);
-            labelAddress_2->setEnabled(false);
-            cbChaConn2->setEnabled(false);
+            else if (sSoldIcon == SYM_ENK) {
+                leAddress_2->setEnabled(false);
+                labelAddress_2->setEnabled(false);
+                cbChaConn2->setEnabled(false);
 
-            gaSubType = -1;
-        }
-        break;
+                gaSubType = -1;
+            }
+            break;
 
-    case 1:                    // == subType 2
-        if (sSoldIcon == SYM_HS || sSoldIcon == SYM_VS) {
-            leAddress_2->setEnabled(false);
-            labelAddress_2->setEnabled(false);
-            cbChaConn2->setEnabled(false);
-            leAddress_2->setText("-1");
-            gaSubType = 6;
-        }
+        case 1:                    // == subType 2
+            if (sSoldIcon == SYM_HS || sSoldIcon == SYM_VS) {
+                leAddress_2->setEnabled(false);
+                labelAddress_2->setEnabled(false);
+                cbChaConn2->setEnabled(false);
+                leAddress_2->setText("-1");
+                gaSubType = 6;
+            }
 
-        else if (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) {
-            leAddress_2->setEnabled(false);
-            labelAddress_2->setEnabled(false);
-            cbChaConn2->setEnabled(false);
-            gaSubType = 0;
-        }
+            else if (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) {
+                leAddress_2->setEnabled(false);
+                labelAddress_2->setEnabled(false);
+                cbChaConn2->setEnabled(false);
+                gaSubType = 0;
+            }
 
-        else if (sSoldIcon == SYM_HSS)
-            gaSubType = 7;
+            else if (sSoldIcon == SYM_HSS)
+                gaSubType = 7;
 
-        else if (sSoldIcon == SYM_ENK)
-            gaSubType = 0;
+            else if (sSoldIcon == SYM_ENK)
+                gaSubType = 0;
 
-        else if (sSoldIcon == SYM_DRE)
-            leAddress_2->setText("240");
+            else if (sSoldIcon == SYM_DRE)
+                leAddress_2->setText("240");
 
-        break;
+            break;
 
-    case 2:                    // == subType 3
-        if (sSoldIcon == SYM_HS || sSoldIcon == SYM_VS) {
-            leAddress_2->setEnabled(true);
-            labelAddress_2->setEnabled(true);
-            cbChaConn2->setEnabled(true);
-            gaSubType = 4;
-        }
+        case 2:                    // == subType 3
+            if (sSoldIcon == SYM_HS || sSoldIcon == SYM_VS) {
+                leAddress_2->setEnabled(true);
+                labelAddress_2->setEnabled(true);
+                cbChaConn2->setEnabled(true);
+                gaSubType = 4;
+            }
 
-        else if (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) {
-            leAddress_2->setEnabled(true);
-            labelAddress_2->setEnabled(true);
-            cbChaConn2->setEnabled(true);
-            gaSubType = 1;
-        }
+            else if (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) {
+                leAddress_2->setEnabled(true);
+                labelAddress_2->setEnabled(true);
+                cbChaConn2->setEnabled(true);
+                gaSubType = 1;
+            }
 
-        else if (sSoldIcon == SYM_HSS)
-            gaSubType = 5;
+            else if (sSoldIcon == SYM_HSS)
+                gaSubType = 5;
 
-        else if (sSoldIcon == SYM_ENK)
-            gaSubType = 1;
+            else if (sSoldIcon == SYM_ENK)
+                gaSubType = 1;
 
-        else if (sSoldIcon == SYM_DRE)
-            leAddress_2->setText("224");
+            else if (sSoldIcon == SYM_DRE)
+                leAddress_2->setText("224");
 
-        break;
+            break;
     }
 }
 
@@ -1205,5 +1203,83 @@ void elementDialog::setGASubType(int sType)
     */
     if (icon == SYM_ENK)
         bgSubType->setButton(gaSubType + 1);
+
+    /*
+     * for SYM_HSS:
+     *
+     * gaSubType   pressed button
+     * --------------------------
+     *     1            0
+     *     7            1
+     *     5            2
+     * --------------------------
+    */
+    else if (icon == SYM_HSS) {
+        switch (gaSubType) {
+            case 1:
+                bgSubType->setButton(0);
+                break;
+            case 5:
+                bgSubType->setButton(2);
+                break;
+            case 7:
+                bgSubType->setButton(1);
+                break;
+            default:
+                bgSubType->setButton(0);
+                break;
+        }
+    }
+    
+    /*
+     * for SYM_HS and SYM_VS:
+     *
+     * gaSubType   pressed button
+     * --------------------------
+     *     0            0
+     *     6            1
+     *     4            2
+     * --------------------------
+    */
+    else if (icon == SYM_HS || icon == SYM_VS) {
+        switch (gaSubType) {
+            case 0:
+                bgSubType->setButton(0);
+                break;
+            case 4:
+                bgSubType->setButton(2);
+                break;
+            case 6:
+                bgSubType->setButton(1);
+                break;
+            default:
+                bgSubType->setButton(0);
+                break;
+        }
+    }
+    
+    /*
+     * for SYM_DKL and SYM_DKR:
+     *
+     * gaSubType   pressed button
+     * --------------------------
+     *     n.d.         0
+     *     0            1
+     *     1            2
+     * --------------------------
+    */
+    else if (icon == SYM_DKL || icon == SYM_DKR) {
+        switch (gaSubType) {
+            case 0:
+                bgSubType->setButton(1);
+                break;
+            case 1:
+                bgSubType->setButton(2);
+                break;
+            default:
+                bgSubType->setButton(1);
+                break;
+        }
+    }
 }
 

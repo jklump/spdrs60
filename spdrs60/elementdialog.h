@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.h
-                           version 0.4.8 $Revision: 1.4 $
+                           version 0.4.8 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-25 21:26:44 $
+    last modified        : $Date: 2005-11-26 07:31:21 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -47,6 +47,8 @@ class elementDialog: public QDialog
 
 public:
    elementDialog(QWidget* parent = 0, QStrList* edList = 0);
+   virtual ~elementDialog();
+
    void copyDataToList(QStrList*);
    int getGASubType();
    void setGASubType(int);
@@ -54,8 +56,6 @@ public:
 private:
    void setupElement(const char*);
    void showSubTypes(int);
-   void setupDataFrame();
-   void setupLogicFrame();
 
 private slots:
    void slotSymbolChanged(int);
