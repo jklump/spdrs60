@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.4.8 $Revision: 1.21 $
+                           version 0.4.8 $Revision: 1.22 $
                            -------------------------------
     copyright            : (C) 2005 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-14 16:30:43 $
+    last modified        : $Date: 2005-11-26 07:55:46 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -48,12 +48,10 @@ RouteDialog::RouteDialog(QWidget* parent)
     QBoxLayout* baseLayout = new QVBoxLayout(this, 12, 12);
     
     /*Layout to separate left and right groupboxest*/
-    QBoxLayout* leftRightLayout = new QHBoxLayout(0, 0, 12);
-    baseLayout->addLayout(leftRightLayout);
+    QBoxLayout* leftRightLayout = new QHBoxLayout(baseLayout, 12);
     
     /*line with OK and Cancel buttons*/
-    QBoxLayout* buttonLayout = new QHBoxLayout(0, 0, 6);
-    baseLayout->addLayout(buttonLayout);
+    QBoxLayout* buttonLayout = new QHBoxLayout(baseLayout, 6);
 
     QSpacerItem* spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -69,13 +67,11 @@ RouteDialog::RouteDialog(QWidget* parent)
     buttonLayout->addWidget(cancelPB);
 
     /*Layout to separate left column verticaly*/
-    QBoxLayout* leftColumnLayout = new QVBoxLayout(0, 0, 6);
-    leftRightLayout->addLayout(leftColumnLayout);
+    QBoxLayout* leftColumnLayout = new QVBoxLayout(leftRightLayout, 6);
     
 
     /*Layout to separate right column verticaly*/
-    QBoxLayout* rightColumnLayout = new QVBoxLayout(0, 0, 6);
-    leftRightLayout->addLayout(rightColumnLayout);
+    QBoxLayout* rightColumnLayout = new QVBoxLayout(leftRightLayout, 6);
     
 
     /*left column*/
@@ -395,8 +391,7 @@ RouteDialog::RouteDialog(QWidget* parent)
     typeL->addWidget(normalRouteRB);
 
     /*line with radio button and uzs detour level spinbox*/
-    QBoxLayout* uzsLayout = new QHBoxLayout(0, 0, 16);
-    typeL->addLayout(uzsLayout);
+    QBoxLayout* uzsLayout = new QHBoxLayout(typeL, 16);
     
     QRadioButton* detourRouteRB = new QRadioButton(tr("&Detour route"),
             typeBG);
@@ -407,8 +402,7 @@ RouteDialog::RouteDialog(QWidget* parent)
     uzsLayout->addItem(spacer);
     
     /*sublayout for label ans spinbox*/
-    QBoxLayout* uzsLevelLayout = new QHBoxLayout(0, 0, 6);
-    uzsLayout->addLayout(uzsLevelLayout);
+    QBoxLayout* uzsLevelLayout = new QHBoxLayout(uzsLayout, 6);
     
     QLabel* label = new QLabel(tr("&Level:"), typeBG);
     uzsLayout->addWidget(label);
@@ -426,8 +420,7 @@ RouteDialog::RouteDialog(QWidget* parent)
     typeL->addWidget(normalShuntingRB);
 
     /*line with radio button and urs detour level spinbox*/
-    QBoxLayout* ursLayout = new QHBoxLayout(0, 0, 16);
-    typeL->addLayout(ursLayout);
+    QBoxLayout* ursLayout = new QHBoxLayout(typeL, 16);
     
     QRadioButton* detourShuntingRB = new QRadioButton(tr("Detour shuntin&g"),
             typeBG);
@@ -438,8 +431,7 @@ RouteDialog::RouteDialog(QWidget* parent)
     ursLayout->addItem(spacer);
     
     /*sublayout for label ans spinbox*/
-    QBoxLayout* ursLevelLayout = new QHBoxLayout(0, 0, 6);
-    ursLayout->addLayout(ursLevelLayout);
+    QBoxLayout* ursLevelLayout = new QHBoxLayout(ursLayout, 6);
     
     label = new QLabel(tr("Le&vel:"), typeBG);
     ursLayout->addWidget(label);
@@ -478,8 +470,7 @@ RouteDialog::RouteDialog(QWidget* parent)
     routeElL->addItem(spacer);
 
     /*line with Add and Remove buttons*/
-    QBoxLayout* routeElBtnLayout = new QHBoxLayout(0, 0, 6);
-    routeElL->addLayout(routeElBtnLayout);
+    QBoxLayout* routeElBtnLayout = new QHBoxLayout(routeElL, 6);
 
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
