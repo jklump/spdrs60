@@ -1,5 +1,5 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.2//EN" [
-<!-- current version: --> <!ENTITY ver "0.4.6">
+<!-- current version: --> <!ENTITY ver "0.4.8">
 ]>
 
 <article lang="en">
@@ -45,7 +45,7 @@
 		</revision>
 	</revhistory>
 <abstract>
-<para>This Handbook describes SpDrS60 version 0.4.6</para>
+<para>This handbook describes SRCP client SpDrS60 version &ver; for Qt3.</para>
 </abstract>
 </articleinfo>
 
@@ -76,8 +76,8 @@ Here&apos;s a review of the features which are available right now:</para>
 <listitem><para>any specialized editor.</para></listitem>
 </itemizedlist>
 <para>This program can not be used as a standalone. It needs communication to
-a SRCP server (such as "erddcd" or "m6051d"), which gives the link
-between your computer and the physical layout. My goal is a senseful
+a SRCP server (such as "erddcd" or "srcpd"), which gives the link
+between your computer and the physical layout. The goal is a senseful
 combination of easy-to-use and well-ordered arrangement of dialogs, data
 entries etc. Please read these pages careful to learn more about all
 features. Look at some screenshots, or even download the online-help
@@ -86,6 +86,99 @@ installing the program itself.</para>
 </sect1>
 
 <sect1 id="sect-changes"><title>Changes</title>
+
+<sect2 id="ver-0.4.8"><title>xx.11.2005 New version 0.4.8 with following changes:</title>
+<itemizedlist mark="bullet">
+<listitem><para>Program logic for file open/save/close completely was
+rewritten. Forced file saving on program exit is gone now.</para></listitem>
+<listitem><para>Usage of routes also completely has been rewritten. This
+not only applies to the user interface but also program internal route
+handling.</para></listitem>
+<listitem><para>A new file format for saving layout and route
+information together was created. The suffix for this format is
+&raquo;spdrs60&laquo;. Files in old format (&raquo;dat.gbs&laquo;) can
+easily be imported.</para></listitem>
+<listitem><para>Like in the original switchbox now normal train routes
+can not be routed over occupied tracks.</para></listitem>
+<listitem><para>Start signals of normal train routes now have a
+&raquo;Fahrstraﬂenfestlegemelder&laquo; (FfM) indicating an active route
+for this signal.</para></listitem>
+<listitem><para>For route editing there is a new edit mode indicated by
+blue lines around each symbol. Users can easily assemble new routes or
+edit allready configured routes by clicking on layout elements. Mouse
+behavior has changed here. A single click with left mouse button selects
+or deselects start and stop signals; a single click with middle button
+does the same for other switchable route elements.</para></listitem>
+<listitem><para>The route edit dialog window has completely been
+rewritten respecting new data fields for SRCP 0.8.</para></listitem>
+<listitem><para>Routing beond layout edges is possible now if a start or
+stop signal is doubled. At a minimum there must be one continuous track
+from start do stop signal. The sample file &raquo;bahnhof_klein&laquo;
+shows how is works.</para></listitem>
+<listitem><para>The main menu got a new entry for user interaction with
+routes.</para></listitem>
+<listitem><para>In analogy to WGT key now there is a new SGT key allowing
+manual switching of signals.</para></listitem>
+<listitem><para>Context menu for painting rail tracks in layout edit
+mode now works again.</para></listitem>
+<listitem><para>In layout edit mode mouse key actions changed due to a
+possibly later implementation of drag and drop operations. Right mouse
+button now shows up the element property dialog, what is common to other
+user interfaces. Middle mouse button pops up the painting context menu.</para></listitem>
+<listitem><para>Size limit for layout is (mainly) gone now. For reasons
+not to compromise the computer system by spending to much memmory,
+maximum size is limited to 30 rows and 120 columns.</para></listitem>
+<listitem><para>Toolbox has been revised completely and restructured in
+analogy to menue entries. A lot of icons have been added leading to a
+faster access of program functions.</para></listitem>
+<listitem><para>The first argument given to the program now is
+interpreted as a filename to load.</para></listitem>
+<listitem><para>Menu item &raquo;File/New window&laquo;, which has gone
+some times ago, now is reimplemented and working without
+errors.</para></listitem>
+<listitem><para>Painting of layout elements has been speed optimized a
+lot gaining a much better user interaction especially when layout is
+switched between different edit modes.</para></listitem>
+<listitem><para>Informations comming in over SRCP info channel now are
+interpreted for solenoids connected to a decoder with a single
+address.</para></listitem>
+<listitem><para>German handbook was revised respecting stylistic and
+orthographic changes.</para></listitem>
+<listitem><para>Lettering of layout elements now is in black on white
+background. Font size is set relative to system font size as adjustable by
+configuration tool &raquo;qtconfig&laquo;.</para></listitem>
+<listitem><para>The simple switch box activatable by menu item
+&raquo;View/Switchbox&laquo; now works again.</para></listitem>
+<listitem><para>The element properties dialog window was revised now
+using automatic layout management and additionaly respecting new edit
+lines for SRCP 0.8 bus data.</para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2 id="ver-0.4.7"><title>31.01.2005 New version 0.4.7 with following changes:</title>
+<itemizedlist mark="bullet">
+<listitem><para>Some memory leaks in gbsarea.cpp and
+  routingdialog.cpp are removed.</para></listitem>
+<listitem><para>Online-Documentation is ported from Linuxdoc to
+Docbook/SGML; the documentation text was updated.</para></listitem>
+<listitem><para>Bugfix for routing editor showing wrong data for
+allready configured routes.</para></listitem>
+<listitem><para>Some reorganization of code.</para></listitem>
+<listitem><para>Three new sample files ared added; &raquo;dedorf&laquo; which
+is used in the tutorial book &raquo;Sp Dr S60-Stellwerke bedienen&laquo;
+writen by F. Hein. &raquo;Flandersbach&laquo; in original is a DrS2
+switchbox and &raquo;Lintorf&laquo; station.</para></listitem>
+<listitem><para>Initiated by the totorial book of F. Hein eleven new
+symbols were created.</para></listitem>
+<listitem><para>The complete set of five routing types are supported
+now. Different cursors were created to show their activation.</para></listitem>
+<listitem><para>Keys in layout now can differentiate between normal routes
+and shunting routes.</para></listitem>
+<listitem><para>Some symbols are revised.</para></listitem>
+<listitem><para>With exception of layout symbols and images in HTML
+documentation all icons used are staticaly linked to the program binary.</para></listitem>
+</itemizedlist>
+</sect2>
 
 <sect2 id="ver-0.4.6"><title>31.12.2004 New version 0.4.6 with following changes:</title>
 <itemizedlist mark="bullet">
