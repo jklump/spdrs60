@@ -705,8 +705,9 @@ richtet sich weitgehend nach den eigenen Ansprüchen. Kleinere
 Gleisbilder finden noch vollständig auf 800x600 Pixeln Platz, für größere
 können sogar 1280x1024 schon knapp werden.</para></listitem>
   <listitem><para>Für die aktuelle Qt3-Version mu&szlig; die
-Qt-Laufzeit-Bibliothek (qt3) installiert sein (unter SuSE oder Fedora
-Paket &raquo;qt3&laquo;). Überprüfen kann man das bei rpm-basierten
+Qt-Laufzeit-Bibliothek (qt3) installiert sein (unter SuSE Paket
+&raquo;qt3&laquo; oder unter Fedora Paket &raquo;qt&laquo;). Überprüfen
+kann man das bei rpm-basierten
 Distributionen z.B. durch die Eingabe des Kommandos: <userinput>rpm -qi
 qt3</userinput></para></listitem>
   <listitem><para>Zum Kompilieren benötigt man einen C++-Compiler (z.B.
@@ -2740,6 +2741,16 @@ auszuführen sind. Für besondere Elemente wie die Drehscheibe wird auf
       <entry>Hindergrundfarbe nicht veränderbar</entry>
       <entry>&nbsp;</entry>
     </row>
+    <row>
+      <entry><graphic fileref="../commonimages/taste-sgt.png"></entry>
+      <entry>taste_sgt</entry>
+      <entry>Signalgruppentaste zum manuellen Einstellen von Signalen</entry>
+      <entry>nein</entry>
+      <entry>nein</entry>
+      <entry>0</entry>
+      <entry>Hindergrundfarbe nicht veränderbar</entry>
+      <entry>&nbsp;</entry>
+    </row>
   </tbody>
   </tgroup>
 </table>
@@ -3247,17 +3258,12 @@ erscheint, bestimmt der Benutzer selbst über die Programmeinstellungen.
 Dort läßt sich zwischen dem Textfeld oder der Adresse wählen.
 </para>
 <para>
-Wird eine Adresse eingeben, die nicht den Grenzen des verwendeten
-Protokolls entspricht, erscheint die in 
-<xref linkend="abb-prop-fehler"> gezeigte Fehlermeldung.
-</para>
-<para>
-<figure id="abb-prop-fehler">
-  <title>Protokollfehler</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="schnapp-prop-fehler.png">
-  </imageobject></mediaobject>
-</figure>
+Die Eingabefelder für die Decoderadressen werden vom Programm auf ihre
+Gültigkeit hin überprüft. Es sind nur Wertangaben innerhalb des vom
+Digitalprotokoll definierten Adressbereichs erlaubt. Lediglich die beiden
+Symbole für die Gleistasten bilden eine Ausnahme. Hier sind Adresswerte
+bis 6000 erlaubt, da dieser Wert nur programmintern zur Identifizierung
+beim Schalten von Fahrstraßen benötigt wird.
 </para>
 <para>
 Die Anfangsstellung eines Antriebs kann nicht voreingestellt

@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementDialog.cpp
-                           version 0.4.8 $Revision: 1.7 $
+                           version 0.4.8 $Revision: 1.8 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-27 14:05:40 $
+    last modified        : $Date: 2005-11-27 19:38:27 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -88,7 +88,7 @@ elementDialog::elementDialog(QWidget* parent, QStrList* edList):
     /*line with symbol group box*/
     QHBoxLayout* symbolLayout = new QHBoxLayout(rfDataGBLayout, 6);
 
-    QLabel *label = new QLabel(tr("&Icon:"), frData);
+    QLabel *label = new QLabel(tr("I&con:"), frData);
     symbolLayout->addWidget(label);
     QSpacerItem* spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -260,7 +260,7 @@ elementDialog::elementDialog(QWidget* parent, QStrList* edList):
 
     /*line with decoder combobox*/
     QHBoxLayout* decoderLayout = new QHBoxLayout(decoderGBL, 6);
-    labelDecoder = new QLabel(tr("&Type:"), decoderGB);
+    labelDecoder = new QLabel(tr("T&ype:"), decoderGB);
     decoderLayout->addWidget(labelDecoder);
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);

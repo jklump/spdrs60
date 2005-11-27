@@ -1327,7 +1327,7 @@ Controlled via keyboard #14</source>
         <translation>Daten</translation>
     </message>
     <message>
-        <source>&amp;Icon:</source>
+        <source>I&amp;con:</source>
         <translation>&amp;Symbol:</translation>
     </message>
     <message>
@@ -1356,7 +1356,7 @@ Controlled via keyboard #14</source>
     </message>
     <message>
         <source>E&amp;xch. conn.</source>
-        <translation>Ver&amp;tauschen</translation>
+        <translation>V&amp;ertauschen</translation>
     </message>
     <message>
         <source>Address module</source>
@@ -1379,8 +1379,8 @@ Controlled via keyboard #14</source>
         <translation>Decoder</translation>
     </message>
     <message>
-        <source>&amp;Type:</source>
-        <translation>&amp;Typ:</translation>
+        <source>T&amp;ype:</source>
+        <translation>T&amp;yp:</translation>
     </message>
     <message>
         <source>S&amp;RCP-Bus 1:</source>
@@ -1555,8 +1555,8 @@ das neue Gleisbild eingeben</translation>
         <translation>Anzahl Spalten für neues Gleisbild:</translation>
     </message>
     <message>
-        <source>Editor for layout, routing and init files:</source>
-        <translation>Editor für Gleisbild-, Fahrstraßen- und Startdateien:</translation>
+        <source>Editor for layout and preferences files:</source>
+        <translation>Editor für Gleisbild- und Konfigurationsdateien:</translation>
     </message>
     <message>
         <source>Browser for documentation:</source>

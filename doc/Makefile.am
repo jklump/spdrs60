@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60 documentation
 # last changes by: Guido Scholz
-# Version: $Revision: 1.7 $
-# last update: $Date: 2005-11-12 06:44:50 $
+# Version: $Revision: 1.8 $
+# last update: $Date: 2005-11-27 19:38:26 $
 
 # HTML_DOC_DIR is defined in configure.ac
 htmldir = @HTML_DOC_DIR@
@@ -51,7 +51,6 @@ dist_enimages_DATA = \
 	en/schnapp-prop-dkw.png \
 	en/schnapp-prop-dreh.png \
 	en/schnapp-prop-entk.png \
-	en/schnapp-prop-fehler.png \
 	en/schnapp-prop-normal.png \
 	en/schnapp-prop-signal-1.png \
 	en/schnapp-prop-signal-2.png \
@@ -112,7 +111,6 @@ dist_deimages_DATA = \
 	de/schnapp-prop-dkw.png \
 	de/schnapp-prop-dreh.png \
 	de/schnapp-prop-entk.png \
-	de/schnapp-prop-fehler.png \
 	de/schnapp-prop-normal.png \
 	de/schnapp-prop-signal-1.png \
 	de/schnapp-prop-signal-2.png \

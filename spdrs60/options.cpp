@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.cpp
-                           version 0.4.8 $Revision: 1.6 $
+                           version 0.4.8 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-05 06:53:35 $
+    last modified        : $Date: 2005-11-27 19:38:27 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -159,7 +159,7 @@ void optionsDialog::setupTabLayout()
     line->setGeometry(10, label->y() + label->height() + 15, 455, 2);
 
     label =
-        new QLabel(tr("Editor for layout, routing and init files:"), w);
+        new QLabel(tr("Editor for layout and preferences files:"), w);
     label->setGeometry(10, line->y() + 15, 300, 20);
 
     coboEditor = new QComboBox(true, w);
