@@ -35,6 +35,9 @@
 #define MAX_GADCC      4096    // max number of DCC addresses
 #define MAX_RB         6000    // max value of route button addresses
 
+/*maximal length of an address edit line in dialogs*/
+#define LEMAXWIDTH 55
+
 #define APP_NAME       "SpDrS60"
 #define SPDRS60_INIT   ".spdrs60rc"   // program init filename
 

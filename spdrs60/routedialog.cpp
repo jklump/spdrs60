@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.4.8 $Revision: 1.22 $
+                           version 0.4.8 $Revision: 1.23 $
                            -------------------------------
     copyright            : (C) 2005 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-26 07:55:46 $
+    last modified        : $Date: 2005-11-27 14:03:36 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -23,13 +23,12 @@
 
 #include <qhbox.h>
 #include <qlayout.h>
+#include <qvalidator.h>
 
 #include "routedialog.h"
 #include "routeelementlvi.h"
 #include "routeelementdialog.h"
 
-/*maximal length of an edit line*/
-#define LEMAXWIDTH 55
 
 
 extern bool SHOW_TOOLTIPS;
@@ -116,7 +115,8 @@ RouteDialog::RouteDialog(QWidget* parent)
     startSigSrcpBusLayout->addItem(spacer);
     startSignalSrcpBusLE = new QLineEdit(startsignalGB, "startSignalSrcpBusLE");
     startSignalSrcpBusLE->setMaximumWidth(LEMAXWIDTH);
-    startSignalSrcpBusLE->setMaxLength(4);
+    QValidator* busValidator = new QIntValidator(1, 999, this);
+    startSignalSrcpBusLE->setValidator(busValidator);
     startSignalSrcpBusLB->setBuddy(startSignalSrcpBusLE);
     startSigSrcpBusLayout->addWidget(startSignalSrcpBusLE);
     connect(startSignalSrcpBusLE, SIGNAL(textChanged(const QString&)),
@@ -182,7 +182,7 @@ RouteDialog::RouteDialog(QWidget* parent)
     stopSigSrcpBusLayout->addItem(spacer);
     stopSignalSrcpBusLE = new QLineEdit(stopSignalGB, "stopSignalSrcpBusLE");
     stopSignalSrcpBusLE->setMaximumWidth(LEMAXWIDTH);
-    stopSignalSrcpBusLE->setMaxLength(4);
+    stopSignalSrcpBusLE->setValidator(busValidator);
     stopSignalSrcpBusLB->setBuddy(stopSignalSrcpBusLE);
     stopSigSrcpBusLayout->addWidget(stopSignalSrcpBusLE);
     connect(stopSignalSrcpBusLE, SIGNAL(textChanged(const QString&)),
@@ -247,13 +247,13 @@ RouteDialog::RouteDialog(QWidget* parent)
     activateSrcpBusLayout->addItem(spacer);
     activateSrcpBusLE = new QLineEdit(activateGB, "activateSrcpBusLE");
     activateSrcpBusLE->setMaximumWidth(LEMAXWIDTH);
-    activateSrcpBusLE->setMaxLength(4);
+    activateSrcpBusLE->setValidator(busValidator);
     activateSrcpBusLB->setBuddy(activateSrcpBusLE);
     activateSrcpBusLayout->addWidget(activateSrcpBusLE);
 
     /*line with contact for activation by feedback*/
     QHBoxLayout* activateContactLayout = new QHBoxLayout(activateGBL, 6);
-    activateContactLB = new QLabel(tr("&Contact (1 - 496)"),
+    activateContactLB = new QLabel(tr("C&ontact (1 - 496)"),
             activateGB);
     activateContactLayout->addWidget(activateContactLB);
     spacer = new QSpacerItem(0, 0,
@@ -332,7 +332,7 @@ RouteDialog::RouteDialog(QWidget* parent)
     releaseSrcpBusLayout->addItem(spacer);
     releaseSrcpBusLE = new QLineEdit(releaseGB, "releaseSrcpBusLE");
     releaseSrcpBusLE->setMaximumWidth(LEMAXWIDTH);
-    releaseSrcpBusLE->setMaxLength(4);
+    releaseSrcpBusLE->setValidator(busValidator);
     releaseSrcpBusLB->setBuddy(releaseSrcpBusLE);
     releaseSrcpBusLayout->addWidget(releaseSrcpBusLE);
 
@@ -522,7 +522,8 @@ void RouteDialog::setStartSignalData(const stateElement& signal)
     startSignalStateSB->setValue(signal.state);
 }
 
-
+/* Information about a second element in layout with same function is
+ * lost here. It will be back when layout is loaded from file.*/
 void RouteDialog::getStartSignalData(stateElement& signal)
 {
     signal.name = startSignalNameLE->text();
@@ -544,6 +545,8 @@ void RouteDialog::setStopSignalData(const stateElement& signal)
 }
 
 
+/* Information about a second element in layout with same function is
+ * lost here. It will be back when layout is loaded from file.*/
 void RouteDialog::getStopSignalData(stateElement& signal)
 {
     signal.name = stopSignalNameLE->text();

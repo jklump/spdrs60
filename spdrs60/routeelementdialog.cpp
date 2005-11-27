@@ -1,10 +1,10 @@
 /***************************************************************************
                            routeelementdialog.cpp
-                           version 0.4.8 $Revision: 1.2 $
+                           version 0.4.8 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 2005 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-10-22 09:56:07 $
+    last modified        : $Date: 2005-11-27 14:03:36 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -24,9 +24,6 @@
 #include <qlayout.h>
 
 #include "routeelementdialog.h"
-
-/*maximal length of an edit line*/
-#define LEMAXWIDTH 55
 
 
 /* non modal window */
