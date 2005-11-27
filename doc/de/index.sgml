@@ -234,6 +234,10 @@ Veröffentlicht am **.11.2005
   ereichbare einfache Schaltpult funktioniert nun wieder und wurde
   gleichzeitig auf automatisches Layoutmanagement umgestellt.
   </para></listitem>
+  <listitem><para>Das Dialogfenster zum Bearbeiten der
+  Elementeigenschaften wurde überarbeitet und benutzt nun ein
+  automatisches Layoutmanagement. Gleichzeitig wurden bereits
+  Datenfelder für SRCP 0.8.x berücksichtigt.</para></listitem>
 </itemizedlist>
 </para>
 </sect2>

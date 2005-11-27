@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.37 $
+                           version 0.4.8 $Revision: 1.38 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-25 21:26:44 $
+    last modified        : $Date: 2005-11-27 14:05:40 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1002,6 +1002,7 @@ void element::showPropertyDlg()
 
         QString title;
         QString insert;
+        // TODO: remove this list
         QStrList *elementData = new QStrList(true);
 
         // cause we copied the QStrList into member variables, we now
@@ -1032,17 +1033,39 @@ void element::showPropertyDlg()
         elementData->insert(LIST_ID_LEDOFF, insert.setNum(iSoldLEDoff));
 
         elementPropertyDlg = new elementDialog(this, elementData);
+        if (elementPropertyDlg == NULL)
+            return;
+        
         title.sprintf(tr("Properties of Element #%d"), iSoldIndex);
         elementPropertyDlg->setCaption(title);
         elementPropertyDlg->setGASubType(iSoldSubType);
-        
+        elementPropertyDlg->setSRCPBus1(iGA1BusNo);
+        elementPropertyDlg->setSRCPBus2(iGA2BusNo);
+        elementPropertyDlg->setFBBus(iFBBusNo);
+        elementPropertyDlg->setFBContact(iFBContact);
         connect(elementPropertyDlg, SIGNAL(sigShowFBmodules()),
                 this, SIGNAL(sigShowFBmodules()));
         
         if (elementPropertyDlg->exec() == QDialog::Accepted){
-            elementPropertyDlg->copyDataToList(elementData);
-            copyData(elementData);
+
+            sSoldIcon = elementPropertyDlg->getSymbolName();
+            sSoldText = elementPropertyDlg->getSymbolText();
+            iSoldRotate = elementPropertyDlg->getRotated();
+            iSoldInvert = elementPropertyDlg->getInverted();
+            iSoldLEDoff = elementPropertyDlg->getLEDsAreOff();
             iSoldSubType = elementPropertyDlg->getGASubType();
+            sSoldProtocol = elementPropertyDlg->getProtocol();
+            sSoldDecoder = elementPropertyDlg->getDecoder();
+            iGA1BusNo = elementPropertyDlg->getSRCPBus1();
+            iSoldAddress_1 = elementPropertyDlg->getAddress1();
+            iGA2BusNo = elementPropertyDlg->getSRCPBus2();
+            iSoldAddress_2 = elementPropertyDlg->getAddress2();
+            iSoldChangeConn[0] = elementPropertyDlg->getXChangeConn1();
+            iSoldChangeConn[1] = elementPropertyDlg->getXChangeConn2();
+            iSoldDirection = elementPropertyDlg->getDirection();
+            iSoldActiveTime = elementPropertyDlg->getActiveTime();
+            iFBBusNo = elementPropertyDlg->getFBBus();
+            iFBContact = elementPropertyDlg->getFBContact();
             
             //set new repeat icon and send new name to all other elements
             slotRepeatIcon(sSoldIcon);

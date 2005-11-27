@@ -1,3 +1,7 @@
+2005-11-27 Guido Scholz <guido.scholz@bayernline.de>
+	* elementdialog.*: dialog redesigned using layout management,
+	 prepared for SRCP 0.8, dialog now remembers element subtypes
+
 2005-11-21 Guido Scholz <guido.scholz@bayernline.de>
 	* element.cpp: "Toggle" context menu now only appears for elements
 	connected to decoder

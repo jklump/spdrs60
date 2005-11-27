@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.h
-                           version 0.4.8 $Revision: 1.5 $
+                           version 0.4.8 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-26 07:31:21 $
+    last modified        : $Date: 2005-11-27 14:05:40 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -49,9 +49,29 @@ public:
    elementDialog(QWidget* parent = 0, QStrList* edList = 0);
    virtual ~elementDialog();
 
-   void copyDataToList(QStrList*);
    int getGASubType();
    void setGASubType(int);
+   int getSRCPBus1();
+   void setSRCPBus1(int);
+   int getSRCPBus2();
+   void setSRCPBus2(int);
+   QString getSymbolName();
+   int getRotated();
+   int getInverted();
+   int getLEDsAreOff();
+   QString getDecoder();
+   QString getProtocol();
+   int getAddress1();
+   int getAddress2();
+   int getXChangeConn1();
+   int getXChangeConn2();
+   int getDirection();
+   QString getSymbolText();
+   int getActiveTime();
+   int getFBBus();
+   void setFBBus(int);
+   int getFBContact();
+   void setFBContact(int);
 
 private:
    void setupElement(const char*);
@@ -62,10 +82,9 @@ private slots:
    void slotSubTypeClicked(int);
    void slotDecoderChanged(int);
    void slotProtChanged(int);
-   void slotBusChanged(int);
-   void slotModuleChanged(int);
    void slotShowFBmodules();
    void slotEnable_LED_FB();
+   void contactSBChanged(int);
 
 signals:
    void sigShowFBmodules();
@@ -74,6 +93,11 @@ private:
    QLineEdit    *leAddress_1;
    QLineEdit    *leAddress_2;
    QLineEdit    *leText;
+   QLineEdit    *srcpBus1LE;
+   QLineEdit    *srcpBus2LE;
+   QLineEdit    *fbBusLE;
+   QLineEdit    *moduleLE;
+   QLineEdit    *portLE;
 
    QCheckBox    *cbRotate;
    QCheckBox    *cbInvert;
@@ -91,40 +115,31 @@ private:
    QStrList     *IconNameList;
    QStrList     *listElementData;
 
+   QLabel       *srcpBus1Label;
+   QLabel       *srcpBus2Label;
    QLabel       *labelAddress_1;
    QLabel       *labelAddress_2;
-   QLabel       *labelColour;
-   QLabel       *labelSubTypeText;
+   QLabel       *subtypeLabel;
    QLabel       *labelText;
    QLabel       *labelDecoder;
    QLabel       *labelTime;
-   QLabel       *labelFB;
    QLabel       *labelFBmodule;
    QLabel       *labelFBport;
    QLabel       *labelFBBus;
-   QLabel       *labelBus2;
 
    QPushButton  *buttOK;
    QPushButton  *buttSubType[3];
    QPushButton  *buttFBmodules;
    QButtonGroup *bgSubType;
-   QButtonGroup *bgLogic;
+   QGroupBox*    feedbackGB;
 
-   QSpinBox     *sbActiveTime;
-   QSpinBox     *sbModule;
-   QSpinBox     *sbPort;
-   QSpinBox     *sbBus;
+   QSpinBox     *activeTimeSB;
+   QSpinBox     *contactSB;
 
    QString      sSoldIcon;
-   QFrame       *frData;
-   QFrame       *frLogic;
    QIntValidator* a1Validator;
    QIntValidator* a2Validator;
 
-   bool         bBlockMSignals;
-   bool         bBlockBSignals;
-   int          iPrevBusNo;
-   int          iPrevModNo;
    int          gaSubType;
 };
 

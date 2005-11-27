@@ -1011,6 +1011,10 @@ Wollen Sie sie überschreiben?</translation>
         <source>Add new element</source>
         <translation>Element hinzufügen</translation>
     </message>
+    <message>
+        <source>C&amp;ontact (1 - 496)</source>
+        <translation>K&amp;ontakt (1 - 496)</translation>
+    </message>
 </context>
 <context>
     <name>RouteElementDialog</name>
@@ -1197,14 +1201,6 @@ Wollen Sie sie überschreiben?</translation>
 <context>
     <name>elementDialog</name>
     <message>
-        <source>&amp;OK</source>
-        <translation>&amp;OK</translation>
-    </message>
-    <message>
-        <source>&amp;Decoder:</source>
-        <translation>&amp;Dekoder:</translation>
-    </message>
-    <message>
         <source>&amp;Text:</source>
         <translation>&amp;Text:</translation>
     </message>
@@ -1217,44 +1213,12 @@ Wollen Sie sie überschreiben?</translation>
         <translation>Adresse &amp;2:</translation>
     </message>
     <message>
-        <source>Feedback (track LEDs only):</source>
-        <translation>Rückmeldung (Strecken-LEDs):</translation>
-    </message>
-    <message>
-        <source>Port:</source>
-        <translation>Port:</translation>
-    </message>
-    <message>
-        <source>Bus:</source>
-        <translation>Bus:</translation>
-    </message>
-    <message>
-        <source>Module:</source>
-        <translation>Modul:</translation>
-    </message>
-    <message>
         <source>&amp;FB</source>
         <translation>&amp;FB</translation>
     </message>
     <message>
         <source>Show feedback module window</source>
         <translation>Rückmeldemodule anzeigen</translation>
-    </message>
-    <message>
-        <source>Please choose the button which represents the available signal states:</source>
-        <translation>Bitte den Schalter mit den verfügbaren Signalzuständen wählen:</translation>
-    </message>
-    <message>
-        <source>Please choose the button which represents the available crossing states:</source>
-        <translation>Bitte den Schalter mit den verfügbaren Kreuzungszuständen wählen:</translation>
-    </message>
-    <message>
-        <source>Please choose the button which represents the used coupler:</source>
-        <translation>Bitte den Schalter mit dem entsprechenden Kuppler wählen:</translation>
-    </message>
-    <message>
-        <source>Please choose the button which represents the turntable base address:</source>
-        <translation>Bitte den Schalter mit der Basisadresse der Drehscheibe wählen:</translation>
     </message>
     <message>
         <source>Allows to switch this signal to:
@@ -1359,38 +1323,12 @@ Controlled via keyboard #14</source>
         <translation>Extra-Drehscheibe: Steuerung über Schaltpult Nr. 14</translation>
     </message>
     <message>
-        <source>Wrong address(es)</source>
-        <translation>Falsche Adresse(n)</translation>
-    </message>
-    <message>
-        <source>Entered address(es) exceed
-the protocol limits.
-
-Valid ranges are:
-Maerklin/Motorola: 1 -  324
-NMRA/DCC:          1 - 4096</source>
-        <translation>Die eingegebene Adresse
-überschreitet das Protokolllimit.
-
-Gültig sind die Bereiche:
-Märklin/Motorola: 1 - 324
-NMRA/DCC: 1 - 4096</translation>
-    </message>
-    <message>
         <source>Data</source>
         <translation>Daten</translation>
     </message>
     <message>
         <source>&amp;Icon:</source>
         <translation>&amp;Symbol:</translation>
-    </message>
-    <message>
-        <source>Logic</source>
-        <translation>Logik</translation>
-    </message>
-    <message>
-        <source>Reset after (ms):</source>
-        <translation>Zurücksetzen nach (ms):</translation>
     </message>
     <message>
         <source>OK</source>
@@ -1423,6 +1361,58 @@ NMRA/DCC: 1 - 4096</translation>
     <message>
         <source>Address module</source>
         <translation>Adressmodul</translation>
+    </message>
+    <message>
+        <source>Symbol variants</source>
+        <translation>Symbolvarianten</translation>
+    </message>
+    <message>
+        <source>Choose appropriate variant</source>
+        <translation>Passende Variante wählen</translation>
+    </message>
+    <message>
+        <source>Protocol</source>
+        <translation>Protokoll</translation>
+    </message>
+    <message>
+        <source>Decoder</source>
+        <translation>Decoder</translation>
+    </message>
+    <message>
+        <source>&amp;Type:</source>
+        <translation>&amp;Typ:</translation>
+    </message>
+    <message>
+        <source>S&amp;RCP-Bus 1:</source>
+        <translation>S&amp;RCP-Bus 1:</translation>
+    </message>
+    <message>
+        <source>SR&amp;CP-Bus 2:</source>
+        <translation>SR&amp;CP-Bus 2:</translation>
+    </message>
+    <message>
+        <source>Reset &amp;after (ms):</source>
+        <translation>&amp;Zurücksetzen nach (ms):</translation>
+    </message>
+    <message>
+        <source>Feedback for track LEDs</source>
+        <translation>Rückmeldung für Strecken-LEDs</translation>
+    </message>
+    <message>
+        <source>Bus (s&amp;88/SRCP):</source>
+        <translation>Bus (s&amp;88/SRCP):</translation>
+    </message>
+    <message>
+        <source>C&amp;ontact (1 - 496):</source>
+        <translation>K&amp;ontact (1 - 496):</translation>
+    </message>
+    <message>
+        <source>Module (1 - %1):</source>
+        <translation>Modul (1 - %1):</translation>
+    </message>
+    <message>
+        <source>Port (1 - %1):</source>
+        <translation>Eingang (1 - %1):</translation>
     </message>
 </context>
 <context>

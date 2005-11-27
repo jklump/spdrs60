@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementDialog.cpp
-                           version 0.4.8 $Revision: 1.6 $
+                           version 0.4.8 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-26 07:31:21 $
+    last modified        : $Date: 2005-11-27 14:05:40 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -21,6 +21,8 @@
  this file provides an user interface to change properties of an element
  ***************************************************************************/
 
+#include <qhbox.h>
+#include <qlayout.h>
 
 #include "elementdialog.h"
 #include "element.h"
@@ -60,22 +62,43 @@ extern QString DEF_DECODER;
 elementDialog::elementDialog(QWidget* parent, QStrList* edList):
     QDialog(parent, "elementDialog", true)
 {
-    bBlockMSignals = false;
-    bBlockBSignals = false;
     gaSubType = 0;
     //copy list pointer to local variable
     listElementData = edList;
 
+    /*Layout to separate OK Cancel buttons from the upper rest*/
+    QBoxLayout* baseLayout = new QVBoxLayout(this, 12, 12);
 
-    /*Data frame*/
-    frData = new QGroupBox(tr("Data"), this, "dataGroupBox");
-    frData->move(10, 10);
-    frData->resize(260, 415);
+    /*Layout to separate left and right groupboxest*/
+    QBoxLayout* leftRightLayout = new QHBoxLayout(baseLayout, 12);
+
+    /*Layout to separate left column verticaly*/
+    QBoxLayout* leftColumnLayout = new QVBoxLayout(leftRightLayout, 6);
+
+    /*Layout to separate right column verticaly*/
+    QBoxLayout* rightColumnLayout = new QVBoxLayout(leftRightLayout, 6);
+
+
+    /*left column*/
+    QGroupBox* frData = new QGroupBox(0, Horizontal, tr("Data"), this,
+            "dataGroupBox");
+    leftColumnLayout->addWidget(frData);
+    QVBoxLayout* rfDataGBLayout = new QVBoxLayout(frData->layout(), 6);
+
+    /*line with symbol group box*/
+    QHBoxLayout* symbolLayout = new QHBoxLayout(rfDataGBLayout, 6);
+
+    QLabel *label = new QLabel(tr("&Icon:"), frData);
+    symbolLayout->addWidget(label);
+    QSpacerItem* spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    symbolLayout->addItem(spacer);
 
     /*container for icon names, unvisible */
     IconNameList = new QStrList(true);
     /*container for shown icons */
     IconComboBox = new QComboBox(false, frData);    // false = not editable
+    symbolLayout->addWidget(IconComboBox);
 
     setupElement(SYM_LEE);
     setupElement(SYM_GER);
@@ -144,19 +167,106 @@ elementDialog::elementDialog(QWidget* parent, QStrList* edList):
 
     // only four elements visible in open combo Box
     IconComboBox->setSizeLimit(4);
-    IconComboBox->setGeometry(100, 23, 80, EL_HEIGHT + 5);
-    // show the right icon belonging to actual element
+    IconComboBox->setMinimumHeight(EL_HEIGHT + 5);
+    // show the right icon belonging to current symbol
     IconComboBox->setCurrentItem(IconNameList->
                              find(listElementData->at(LIST_ID_ICON)));
     connect(IconComboBox, SIGNAL(activated(int)), this,
             SLOT(slotSymbolChanged(int)));
+    label->setBuddy(IconComboBox);
 
-    QLabel *label = new QLabel(IconComboBox, tr("&Icon:"), frData);
-    label->move(10, 33);
-    label->resize(label->sizeHint());
-    //label->setBuddy(IconComboBox);
+    /*line with text edit line*/
+    QHBoxLayout* textLayout = new QHBoxLayout(rfDataGBLayout);
+    labelText = new QLabel(tr("&Text:"), frData);
+    textLayout->addWidget(labelText);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    textLayout->addItem(spacer);
+    leText = new QLineEdit(frData, "text");
+    leText->setMaxLength(10);
+    leText->setMaximumWidth(IconComboBox->width() - 13);
+    textLayout->addWidget(leText);
+    /*TODO: clear this list */
+    /*leText->setText(listElementData->at(LIST_ID_TEXT)); */
+    labelText->setBuddy(leText);
 
-    coboDecoder = new QComboBox(false, frData); // false = not editable
+    /* line with rotate checkbox*/
+    cbRotate = new QCheckBox(tr("&Rotation"), frData, "rotateCB");
+    rfDataGBLayout->addWidget(cbRotate);
+
+    /* line with LED off checkbox*/
+    cbLEDoff = new QCheckBox(tr("&LEDs off"), frData, "LEDsCB");
+    rfDataGBLayout->addWidget(cbLEDoff);
+    connect(cbLEDoff, SIGNAL(clicked()), this, SLOT(slotEnable_LED_FB()));
+
+    /* line with invert checkbox*/
+    cbInvert = new QCheckBox(tr("&Inverted use"), frData, "invertCB");
+    rfDataGBLayout->addWidget(cbInvert);
+
+    /* spacer to shift lines above to top*/
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    rfDataGBLayout->addItem(spacer);
+
+    /*group box for symbol variants*/
+    QGroupBox* variantGB = new QGroupBox(0, Horizontal,
+            tr("Symbol variants"), this, "variantsGB");
+    leftColumnLayout->addWidget(variantGB);
+    QVBoxLayout* variantGBLayout = new
+        QVBoxLayout(variantGB->layout(), 6);
+
+    /*line with text*/
+    subtypeLabel = new QLabel(tr("Choose appropriate variant"),
+            variantGB, "subType");
+    subtypeLabel->setAlignment(AlignLeft | AlignTop | WordBreak);
+    variantGBLayout->addWidget(subtypeLabel);
+
+    /*group of three buttons*/
+    bgSubType = new QButtonGroup(0, Horizontal, "", variantGB, "bgSubType");
+    variantGBLayout->addWidget(bgSubType);
+    QVBoxLayout* subtypeBGL = new QVBoxLayout(bgSubType->layout(), 6);
+    bgSubType->setFrameStyle(QFrame::NoFrame);  // buttongroup not visible
+    bgSubType->setExclusive(true);
+
+    // on startup hide subtype buttons, they are only used by some elements
+    for (int i = 0; i < 3; i++) {
+        buttSubType[i] = new QPushButton(bgSubType, "buttSubType");
+        buttSubType[i]->setPixmap(QPixmap(signal_hss_st1_xpm));
+        subtypeBGL->addWidget(buttSubType[i]); 
+        buttSubType[i]->setToggleButton(true);
+        buttSubType[i]->hide();
+    }
+
+    connect(bgSubType, SIGNAL(clicked(int)),
+            this, SLOT(slotSubTypeClicked(int)));
+
+    
+    /*right side with logic data*/
+    /*groupbox with protocol data*/
+    QButtonGroup* protocolBG = new QButtonGroup(2, Horizontal,
+                        tr("Protocol"), this, "protocolBG");
+    rightColumnLayout->addWidget(protocolBG);
+    protocolBG->setExclusive(true);
+    rbProtocol_MS = new QRadioButton("&Maerklin/Motorola", protocolBG);
+    rbProtocol_NA = new QRadioButton("&NMRA/DCC", protocolBG);
+    connect(protocolBG, SIGNAL(clicked(int)),
+            this, SLOT(slotProtChanged(int)));
+
+    /*decoder data group box*/
+    QGroupBox* decoderGB = new QGroupBox(0, Horizontal,
+            tr("Decoder"), this, "decoderGB");
+    rightColumnLayout->addWidget(decoderGB);
+    QVBoxLayout* decoderGBL = new QVBoxLayout(decoderGB->layout(), 6);
+
+    /*line with decoder combobox*/
+    QHBoxLayout* decoderLayout = new QHBoxLayout(decoderGBL, 6);
+    labelDecoder = new QLabel(tr("&Type:"), decoderGB);
+    decoderLayout->addWidget(labelDecoder);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    decoderLayout->addItem(spacer);
+
+    coboDecoder = new QComboBox(false, decoderGB);
     coboDecoder->setGeometry(100, 75, 140, 22);
     coboDecoder->insertItem("Maerklin k83 WD (M)");
     coboDecoder->insertItem("Maerklin k84 SD (M)");
@@ -182,242 +292,171 @@ elementDialog::elementDialog(QWidget* parent, QStrList* edList):
     coboDecoder->insertItem("Lenz LS 110 WD (D)");
     coboDecoder->insertItem("Lenz LS 130 SD (D)");
     coboDecoder->insertItem("-1");
-//    coboDecoder->setFont((QFont) "Courier");
+    decoderLayout->addWidget(coboDecoder);
 
-    labelDecoder = new QLabel(tr("&Decoder:"), frData);
-    labelDecoder->move(10, 78);
-    labelDecoder->resize(labelDecoder->sizeHint());
     labelDecoder->setBuddy(coboDecoder);
 
     connect(coboDecoder, SIGNAL(activated(int)),
             this, SLOT(slotDecoderChanged(int)));
-
-    // setup the rotate widgets
-    cbRotate = new QCheckBox(tr("&Rotation"), frData, "rotateCB");
-    cbRotate->move(10, 108);
-    cbRotate->resize(cbRotate->sizeHint());
-
-    // setup the LED off widgets
-    cbLEDoff = new QCheckBox(tr("&LEDs off"), frData, "LEDsCB");
-    cbLEDoff->move(cbRotate->x() + 130, cbRotate->y());
-    cbLEDoff->resize(cbLEDoff->sizeHint());
-
-    connect(cbLEDoff, SIGNAL(clicked()), this, SLOT(slotEnable_LED_FB()));
-
-    // setup the invert widgets
-    cbInvert = new QCheckBox(tr("&Inverted use"), frData, "invertCB");
-    cbInvert->move(10, 138);
-    cbInvert->resize(cbInvert->sizeHint());
-
-    // setup the text widgets
-    leText = new QLineEdit(frData, "text");
-    leText->setGeometry(95, 166, 80, 20);
-    leText->setMaxLength(10);
-    /*TODO: clear this list */
-    /*leText->setText(listElementData->at(LIST_ID_TEXT)); */
-
-    labelText = new QLabel(tr("&Text:"), frData);
-    labelText->move(10, 168);
-    labelText->resize(labelText->sizeHint());
-    labelText->setBuddy(leText);
-
-    QFrame *line = new QFrame(frData);
-    line->setFrameStyle(QFrame::HLine | QFrame::Sunken);
-    line->setGeometry(10, 190 /*leAddress_2->y()+24 */ ,
-                      frData->width() - 20, 2);
-
-    // setup the subtypes widgets
-    bgSubType = new QButtonGroup("", frData);
-    bgSubType->setGeometry(5, line->y() + 5, frData->width() - 10, 190);
-    bgSubType->setFrameStyle(QFrame::NoFrame);  // buttongroup not visible
-    bgSubType->setExclusive(true);
-
-    labelSubTypeText = new QLabel("subType", bgSubType);
-    labelSubTypeText->setGeometry(5, 5, frData->width() - 20, 60);
-    labelSubTypeText->setAlignment(AlignLeft | AlignTop | WordBreak);
-
-    for (int i = 0; i < 3; i++) {
-        buttSubType[i] = new QPushButton("", bgSubType);
-        buttSubType[i]->move(frData->width() - 15 - 115,
-                             labelSubTypeText->y() +
-                             labelSubTypeText->height()
-                             + i * 40 + 10);
-        buttSubType[i]->resize(115, 30);
-        buttSubType[i]->setToggleButton(true);  // on startup hide subtype butts
-        buttSubType[i]->hide(); // only used by some elements
-    }
-
-    connect(bgSubType, SIGNAL(clicked(int)),
-            this, SLOT(slotSubTypeClicked(int)));
-
     
-    /*right side with logic frame*/
-    frLogic = new QGroupBox(tr("Logic"), this, "logicGroupBox");
-    frLogic->move(frData->x() + frData->width() + 10, frData->y());
-    frLogic->resize(frData->width(), frData->height());
-
-    bgLogic = new QButtonGroup(frLogic, "protocolBGroup");
-    bgLogic->setFrameStyle(QFrame::NoFrame);
-
-    bgLogic->move(5, 20);
-    bgLogic->resize(frData->width() - 10, 80);
-
-    rbProtocol_MS = new QRadioButton("&Maerklin/Motorola", bgLogic);
-    rbProtocol_MS->move(5, 15);
-    rbProtocol_MS->resize(rbProtocol_MS->sizeHint());
-    rbProtocol_MS->setFocusPolicy(NoFocus);
-
-    rbProtocol_NA = new QRadioButton("&NMRA/DCC", bgLogic);
-    rbProtocol_NA->move(5, 35);
-    rbProtocol_NA->resize(rbProtocol_NA->sizeHint());
-    rbProtocol_NA->setFocusPolicy(NoFocus);
-
-    connect(bgLogic, SIGNAL(clicked(int)),
-            this, SLOT(slotProtChanged(int)));
-
-    line = new QFrame(frLogic);
-    line->setFrameStyle(QFrame::HLine | QFrame::Sunken);
-    line->setGeometry(10, 118, frLogic->width() - 20, 2);
-
-    // setup the address_1 widgets
-    leAddress_1 = new QLineEdit(frLogic, "address_1");
-    leAddress_1->setGeometry(100, line->y() + 8, 50, 20);
+    QGridLayout* decdataLayout = new QGridLayout(decoderGBL, 4, 3, 10,
+            "decdataLayout");
+    
+    /*line with srcp bus 1 */
+    srcpBus1Label = new QLabel(tr("S&RCP-Bus 1:"), decoderGB);
+    decdataLayout->addWidget(srcpBus1Label, 0, 0);
+    srcpBus1LE = new QLineEdit(decoderGB, "srcpBus1LE");
+    srcpBus1LE->setMaxLength(4);
+    srcpBus1LE->setMaximumWidth(LEMAXWIDTH);
+    decdataLayout->addWidget(srcpBus1LE, 0, 1);
+    srcpBus1Label->setBuddy(srcpBus1LE);
+    
+    /*line with address 1 */
+    labelAddress_1 = new QLabel(tr("Address &1:"), decoderGB);
+    decdataLayout->addWidget(labelAddress_1, 1, 0);
+    leAddress_1 = new QLineEdit(decoderGB, "address_1");
+    decdataLayout->addWidget(leAddress_1, 1, 1);
     leAddress_1->setMaxLength(4);       // address length of NA protocol
+    leAddress_1->setMaximumWidth(LEMAXWIDTH);
     a1Validator = new QIntValidator(-1, MAX_GADCC, this);
     leAddress_1->setValidator(a1Validator);
     leAddress_1->setText(listElementData->at(LIST_ID_ADDRESS_1));
-
-    labelAddress_1 = new QLabel(tr("Address &1:"), frLogic);
-    labelAddress_1->setGeometry(10, line->y() + 10, 90, 15);
     labelAddress_1->setBuddy(leAddress_1);
+    cbChaConn1 = new QCheckBox(tr("&Exch. conn."), decoderGB, "xch1");
+    decdataLayout->addWidget(cbChaConn1, 1, 2);
 
-    // setup the address_2 widgets
-    leAddress_2 = new QLineEdit(frLogic, "address_2");
-    leAddress_2->setGeometry(100, line->y() + 38, 50, 20);
+    /*line with srcp bus 2 */
+    srcpBus2Label = new QLabel(tr("SR&CP-Bus 2:"), decoderGB);
+    decdataLayout->addWidget(srcpBus2Label, 2, 0);
+    srcpBus2LE = new QLineEdit(decoderGB, "srcpBus2LE");
+    srcpBus2LE->setMaxLength(4);
+    srcpBus2LE->setMaximumWidth(LEMAXWIDTH);
+    decdataLayout->addWidget(srcpBus2LE, 2, 1);
+    srcpBus2Label->setBuddy(srcpBus2LE);
+    
+    /*line with address 2 */
+    labelAddress_2 = new QLabel(tr("Address &2:"), decoderGB);
+    decdataLayout->addWidget(labelAddress_2, 3, 0);
+    leAddress_2 = new QLineEdit(decoderGB, "address_2");
+    decdataLayout->addWidget(leAddress_2, 3, 1);
     leAddress_2->setMaxLength(4);
+    leAddress_2->setMaximumWidth(LEMAXWIDTH);
     a2Validator = new QIntValidator(-1, MAX_GADCC, this);
     leAddress_2->setValidator(a2Validator);
     leAddress_2->setText(listElementData->at(LIST_ID_ADDRESS_2));
-
-    labelAddress_2 = new QLabel(tr("Address &2:"), frLogic);
-    labelAddress_2->setGeometry(10, line->y() + 40, 90, 15);
     labelAddress_2->setBuddy(leAddress_2);
+    cbChaConn2 = new QCheckBox(tr("E&xch. conn."), decoderGB, "xch2");
+    decdataLayout->addWidget(cbChaConn2, 3, 2);
 
-    cbChaConn1 = new QCheckBox(tr("&Exch. conn."), frLogic, "xch1");
-    cbChaConn1->move(160, labelAddress_1->y() - 2);
-    cbChaConn1->resize(cbChaConn1->sizeHint());
+    /*line with resettime */
+    QHBoxLayout* resetLayout = new QHBoxLayout(decoderGBL, 6);
+    labelTime = new QLabel(tr("Reset &after (ms):"), decoderGB);
+    resetLayout->addWidget(labelTime);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    resetLayout->addItem(spacer);
 
-    cbChaConn2 = new QCheckBox(tr("E&xch. conn."), frLogic, "xch2");
-    cbChaConn2->move(160, labelAddress_2->y() - 2);
-    cbChaConn2->resize(cbChaConn2->sizeHint());
+    activeTimeSB = new QSpinBox(50, 2000, 50, decoderGB, ""); // 20 ms steps
+    activeTimeSB->setWrapping(true);    // enables to spin "over" the limits
+    resetLayout->addWidget(activeTimeSB);
+    labelTime->setBuddy(activeTimeSB);
 
-    line = new QFrame(frLogic);
-    line->setFrameStyle(QFrame::HLine | QFrame::Sunken);
-    line->setGeometry(10, leAddress_2->y() + 24, frLogic->width() - 20, 2);
 
-    labelTime = new QLabel(tr("Reset after (ms):"), frLogic);
-    labelTime->move(10, line->y() + 10);
-    labelTime->resize(labelTime->sizeHint());
+    /*feedback LED data group box*/
+    feedbackGB = new QGroupBox(0, Horizontal,
+            tr("Feedback for track LEDs"), this, "feedbackGB");
+    rightColumnLayout->addWidget(feedbackGB);
+    QVBoxLayout* feedbackGBL = new QVBoxLayout(feedbackGB->layout(), 6);
 
-    sbActiveTime = new QSpinBox(50, 2000, 50, frLogic, "");     // 20 ms steps
-    sbActiveTime->resize(50, 20);
-    sbActiveTime->move(194, line->y() + 8);
-    sbActiveTime->setWrapping(true);    // enables to spin "over" the limits
+    /*line with bus*/
+    QHBoxLayout* busLayout = new QHBoxLayout(feedbackGBL, 6);
+    labelFBBus = new QLabel(tr("Bus (s&88/SRCP):"), feedbackGB);
+    busLayout->addWidget(labelFBBus);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    busLayout->addItem(spacer);
+    fbBusLE = new QLineEdit(feedbackGB, "fbBusLE");
+    busLayout->addWidget(fbBusLE);
+    fbBusLE->setMaximumWidth(LEMAXWIDTH);
+    labelFBBus->setBuddy(fbBusLE);
+    QValidator* busValidator = new QIntValidator(1, 999, this);
+    fbBusLE->setValidator(busValidator);
 
-    line = new QFrame(frLogic);
-    line->setFrameStyle(QFrame::HLine | QFrame::Sunken);
-    line->setGeometry(10, sbActiveTime->y() + 24, frLogic->width() - 20,
-                      2);
+    /*line with contact*/
+    QHBoxLayout* feedbackLayout = new QHBoxLayout(feedbackGBL, 6);
+    labelFBport = new QLabel(tr("C&ontact (1 - 496):"), feedbackGB);
+    feedbackLayout->addWidget(labelFBport);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    feedbackLayout->addItem(spacer);
+    contactSB = new QSpinBox(0, 496, 1, feedbackGB, "contactSB");
+    labelFBport->setBuddy(contactSB);
+    feedbackLayout->addWidget(contactSB);
+    connect(contactSB, SIGNAL(valueChanged(int)),
+            this, SLOT(contactSBChanged(int)));
 
-    labelFB = new QLabel(tr("Feedback (track LEDs only):"), frLogic);
-    labelFB->move(10, line->y() + 10);
-    labelFB->resize(labelFB->sizeHint());
-
-    labelFBport = new QLabel(tr("Port:"), frLogic);
-    labelFBport->move(20, line->y() + 35);
-    labelFBport->resize(labelFBport->sizeHint());
-    sbPort = new QSpinBox(0, 16 - FEEDBACK * 8, 1, frLogic, "");
-    sbPort->resize(50, 20);
-    sbPort->move(100, line->y() + 33);
-    sbPort->setWrapping(true);  // enables to spin "over" the limits
-
-    labelFBmodule = new QLabel(tr("Module:"), frLogic);
-    labelFBmodule->move(20, line->y() + 65);
-    labelFBmodule->resize(labelFBmodule->sizeHint());
-    sbModule = new QSpinBox(1, 4 * (31 + FEEDBACK * 31), 1, frLogic, "");
-    sbModule->resize(50, 20);
-    sbModule->move(100, line->y() + 63);
-    sbModule->setWrapping(true);        // enables to spin "over" the limits
-    iPrevModNo = 1;
-    connect(sbModule, SIGNAL(valueChanged(int)),
-            this, SLOT(slotModuleChanged(int)));
-
-    buttFBmodules = new QPushButton(tr("&FB"), frLogic);
+    /*line with module*/
+    QHBoxLayout* moduleLayout = new QHBoxLayout(feedbackGBL, 6);
+    labelFBmodule = new QLabel(tr("Module (1 - %1):")
+            .arg(FEEDBACK == FB_16 ? 31 : 62), feedbackGB);
+    moduleLayout->addWidget(labelFBmodule);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    moduleLayout->addItem(spacer);
+    moduleLE = new QLineEdit(feedbackGB, "moduleLE");
+    moduleLE->setMaximumWidth(LEMAXWIDTH);
+    moduleLE->setFocusPolicy(QWidget::NoFocus);
+    moduleLayout->addWidget(moduleLE);
+    
+    /*line with port*/
+    QHBoxLayout* portLayout = new QHBoxLayout(feedbackGBL, 6);
+    QLabel* portLabel = new QLabel(tr("Port (1 - %1):")
+            .arg(FEEDBACK == FB_16 ? 16 : 8), feedbackGB);
+    portLayout->addWidget(portLabel);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    portLayout->addItem(spacer);
+    portLE = new QLineEdit(feedbackGB, "portLE");
+    portLE->setMaximumWidth(LEMAXWIDTH);
+    portLE->setFocusPolicy(QWidget::NoFocus);
+    portLayout->addWidget(portLE);
+    
+    /*this checkbox never is active, shows only state information*/
+    QHBoxLayout* mbLayout = new QHBoxLayout(feedbackGBL, 6);
+    cbAdrMod = new QCheckBox(tr("Address module"), feedbackGB,
+                "AddressmoduleCB");
+    mbLayout->addWidget(cbAdrMod);
+    cbAdrMod->setEnabled(false);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    mbLayout->addItem(spacer);
+    buttFBmodules = new QPushButton(tr("&FB"), feedbackGB);
+    mbLayout->addWidget(buttFBmodules);
     buttFBmodules->setPixmap(QPixmap(viewfeedback_xpm));
-    buttFBmodules->resize(20, 20);
-    buttFBmodules->move(sbModule->x() + sbModule->width() + 30,
-                        sbModule->y());
     connect(buttFBmodules, SIGNAL(clicked()), this,
             SLOT(slotShowFBmodules()));
     if (SHOW_TOOLTIPS == true)
         QToolTip::add(buttFBmodules, tr("Show feedback module window"));
 
-    labelFBBus = new QLabel(tr("Bus:"), frLogic);
-    labelFBBus->setGeometry(20, line->y() + 95, 220, 15);
-
-    sbBus = new QSpinBox(1, 4, 1, frLogic, "");
-    sbBus->resize(50, 20);
-    sbBus->move(100, line->y() + 93);
-    sbBus->setWrapping(true);   // enables to spin "over" the limits
-    iPrevBusNo = 1;
-    connect(sbBus, SIGNAL(valueChanged(int)),
-            this, SLOT(slotBusChanged(int)));
-/*
-    QString sBusN_A = tr("(# ");
-    for (int i = 0; i < 4; i++) {
-        if (FB_MODULES_[i] == 0) {
-            if (sBusN_A.length() != 3)
-                sBusN_A.append(", ");
-            QString s;
-            sBusN_A.append(s.setNum(i + 1));
-        }
-    }
-    if (sBusN_A.length() != 3)  // something has been added
-    {
-        sBusN_A.append(tr(" not available)"));
-    }
-    labelBus2 = new QLabel(sBusN_A, frLogic);
-    labelBus2->move(20 + 30, line->y() + 125);
-    labelBus2->resize(labelBus2->sizeHint());
-*/
-    /*this checkbox never is active, shows only state information*/
-    cbAdrMod = new QCheckBox(tr("Address module"), frLogic,
-                "AddressmoduleCB");
-    cbAdrMod->move(20, labelFBBus->y() + 30);
-    cbAdrMod->resize(cbAdrMod->sizeHint());
-    cbAdrMod->setEnabled(false);
-
     
+    /*layout with OK and Cancel buttons*/
+    QBoxLayout* buttonLayout = new QHBoxLayout(baseLayout, 6);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    buttonLayout->addItem(spacer);
+
     /*button line at bottom*/
     buttOK = new QPushButton(tr("OK"), this);
     buttOK->setDefault(true);
-    buttOK->move((2 * frLogic->width() + 30) / 3 - buttOK->width() / 2,
-                 frLogic->y() + frLogic->height() + 10);
     connect(buttOK, SIGNAL(clicked()), this, SLOT(accept()));
+    buttonLayout->addWidget(buttOK);
 
     QPushButton *CancelButton = new QPushButton(tr("Cancel"), this);
-    CancelButton->move((2 * frLogic->width() + 30) * 2 / 3 -
-                       CancelButton->width() / 2,
-                       frLogic->y() + frLogic->height() + 10);
     connect(CancelButton, SIGNAL(clicked()), this, SLOT(reject()));
-
+    buttonLayout->addWidget(CancelButton);
+    
     // now fill the widgets with data
     slotSymbolChanged(IconComboBox->currentItem());
-
-    this->setFixedWidth(2 * frData->width() + 3 * frData->x());
-    this->setFixedHeight(buttOK->y() + buttOK->height() + 10);
-    this->setTabOrder(leText, leAddress_1);
-    this->setTabOrder(leAddress_1, leAddress_2);
 }
 
 
@@ -445,20 +484,20 @@ void elementDialog::setupElement(const char *eName)
 }
 
 
-void elementDialog::slotDecoderChanged(int)
+void elementDialog::slotDecoderChanged(int index)
 {
-    QString sText = coboDecoder->currentText();
+    QString decoder = coboDecoder->text(index);
+    if (decoder == QString::null)
+        return;
+
     // autoset protocol type after choosing a decoder
-    if (sText.right(3) == "(M)") {
-        bgLogic->setButton(0);
-        slotProtChanged(0);
-    }
-    else {
-        bgLogic->setButton(1);
-        slotProtChanged(1);
-    }
+    if (decoder.right(3) == "(M)")
+        rbProtocol_MS->setChecked(true);
+    else
+        rbProtocol_NA->setChecked(true);
 }
 
+//TODO: updateValidators
 
 void elementDialog::slotProtChanged(int)
 {
@@ -497,48 +536,6 @@ void elementDialog::slotProtChanged(int)
             coboDecoder->setCurrentItem(i);
             break;
         }
-    }
-}
-
-
-void elementDialog::slotModuleChanged(int iModuleNo_)
-{
-    int iBusNo = ((iModuleNo_ - 1) / (31 + FEEDBACK * 31)) + 1;
-
-    if (!bBlockBSignals) {
-        bBlockMSignals = true;
-        if (FB_MODULES_[iBusNo - 1] != 0) {
-            sbBus->setValue(iBusNo);
-            iPrevModNo = iModuleNo_;
-        }
-        else {
-            iPrevModNo <
-                iModuleNo_ ? sbModule->stepUp() : sbModule->stepDown();
-            iPrevModNo =
-                (iPrevModNo <
-                 iModuleNo_) ? iModuleNo_ + 1 : iModuleNo_ - 1;
-        }
-        iPrevBusNo = sbBus->value();
-        bBlockMSignals = false;
-    }
-}
-
-
-void elementDialog::slotBusChanged(int iBusNo_)
-{
-    if (!bBlockMSignals) {
-        bBlockBSignals = true;
-        if (FB_MODULES_[iBusNo_ - 1] != 0) {
-            sbModule->setValue((iBusNo_ - 1) * (31 + FEEDBACK * 31) + 1);
-            iPrevBusNo = iBusNo_;
-        }
-        else {
-            iPrevBusNo < iBusNo_ ? sbBus->stepUp() : sbBus->stepDown();
-            iPrevBusNo =
-                (iPrevBusNo < iBusNo_) ? iBusNo_ + 1 : iBusNo_ - 1;
-        }
-        iPrevBusNo = iBusNo_;
-        bBlockBSignals = false;
     }
 }
 
@@ -597,6 +594,8 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
     else
         leAddress_1->setText("-1");
 
+    srcpBus1Label->setEnabled(enabled);
+    srcpBus1LE->setEnabled(enabled);
     leAddress_1->setEnabled(enabled);
     labelAddress_1->setEnabled(enabled);
     cbChaConn1->setEnabled(enabled);
@@ -647,6 +646,8 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
     else
         leAddress_2->setText("-1");
 
+    srcpBus2Label->setEnabled(enabled);
+    srcpBus2LE->setEnabled(enabled);
     leAddress_2->setEnabled(enabled);
     labelAddress_2->setEnabled(enabled);
     cbChaConn2->setEnabled(enabled && sSoldIcon != SYM_DRE
@@ -731,29 +732,27 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
           sSoldIcon == SYM_KRL || sSoldIcon == SYM_KRR) &&
          !cbLEDoff->isChecked());
 
-    sListText = listElementData->at(LIST_ID_FBPORT);
-    labelFB->setEnabled(enabled);
+    //sListText = listElementData->at(LIST_ID_FBPORT);
+    feedbackGB->setEnabled(enabled);
     buttFBmodules->setEnabled(enabled);
 
     if (sSoldIcon == SYM_ADR) {
         cbAdrMod->setChecked(true);
-        sbPort->setValue(1);
-        sbPort->setEnabled(false);
+        //contactSBChanged(1);
+        contactSB->setEnabled(false);
     }
     else {
         cbAdrMod->setChecked(false);
-        sbPort->setEnabled(true);
+        contactSB->setEnabled(true);
+        //contactSBChanged(sListText.toInt() + 1);
     }
 
-    sbModule->setValue(sListText.toInt() / (16 - FEEDBACK * 8) + 1);
-    sbModule->setEnabled(enabled);
+
+    moduleLE->setEnabled(enabled);
     labelFBmodule->setEnabled(enabled);
-
-    sbPort->setValue(sListText.toInt() % (16 - FEEDBACK * 8) + 1);
-    sbPort->setEnabled(enabled);
+    contactSB->setEnabled(enabled);
     labelFBport->setEnabled(enabled);
-
-    sbBus->setEnabled(enabled);
+    fbBusLE->setEnabled(enabled);
     labelFBBus->setEnabled(enabled);
 
     // show active time
@@ -773,11 +772,11 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
     sListText = listElementData->at(LIST_ID_ACTTIME);
     if (enabled) {
         if (sListText != "-1")
-            sbActiveTime->setValue(sListText.toInt());
+            activeTimeSB->setValue(sListText.toInt());
         else
-            sbActiveTime->setValue(ACTIVE_TIME);
+            activeTimeSB->setValue(ACTIVE_TIME);
     }
-    sbActiveTime->setEnabled(enabled);
+    activeTimeSB->setEnabled(enabled);
     labelTime->setEnabled(enabled);
 
     // show decoder data
@@ -828,17 +827,17 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
 
 void elementDialog::slotEnable_LED_FB()
 {
-    labelFB->setEnabled(!cbLEDoff->isChecked());
+    feedbackGB->setEnabled(!cbLEDoff->isChecked());
     //labelAdrMod->setEnabled(!cbLEDoff->isChecked());
     buttFBmodules->setEnabled(!cbLEDoff->isChecked());
 
-    sbModule->setEnabled(!cbLEDoff->isChecked());
+    moduleLE->setEnabled(!cbLEDoff->isChecked());
     labelFBmodule->setEnabled(!cbLEDoff->isChecked());
 
-    sbPort->setEnabled(!cbLEDoff->isChecked());
+    contactSB->setEnabled(!cbLEDoff->isChecked());
     labelFBport->setEnabled(!cbLEDoff->isChecked());
 
-    sbBus->setEnabled(!cbLEDoff->isChecked());
+    fbBusLE->setEnabled(!cbLEDoff->isChecked());
     labelFBBus->setEnabled(!cbLEDoff->isChecked());
 }
 
@@ -849,7 +848,7 @@ void elementDialog::showSubTypes(int iShow_)
 
     // remove text field and hide buttons
     if (!iShow_) {
-        labelSubTypeText->hide();
+        subtypeLabel->hide();
         for (i = 0; i < 3; i++) {
             QToolTip::remove(buttSubType[i]);
             buttSubType[i]->hide();
@@ -863,9 +862,6 @@ void elementDialog::showSubTypes(int iShow_)
     // show appropriate text ...
     if (sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS || sSoldIcon ==
             SYM_VS) {
-        labelSubTypeText->setText(tr
-                ("Please choose the button which represents "
-                 "the available signal states:"));
         if (sSoldIcon == SYM_HS){
             buttSubType[0]->setPixmap(QPixmap(signal_hs_st1_xpm));
             buttSubType[1]->setPixmap(QPixmap(signal_hs_st2_xpm));
@@ -884,9 +880,6 @@ void elementDialog::showSubTypes(int iShow_)
     }
     
     else if (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) {
-        labelSubTypeText->setText(tr
-                ("Please choose the button which represents "
-                 "the available crossing states:"));
         if (sSoldIcon == SYM_DKL){
             buttSubType[1]->setPixmap(QPixmap(dkw_links_st2_xpm));
             buttSubType[2]->setPixmap(QPixmap(dkw_links_st3_xpm));
@@ -898,27 +891,19 @@ void elementDialog::showSubTypes(int iShow_)
         buttSubType[0]->hide();
     }
     else if (sSoldIcon == SYM_ENK) {
-        labelSubTypeText->setText(tr
-                ("Please choose the button which represents "
-                 "the used coupler:"));
         buttSubType[0]->setPixmap(QPixmap(entkoppler_st1_xpm));
         buttSubType[1]->setPixmap(QPixmap(entkoppler_st2_xpm));
         buttSubType[2]->setPixmap(QPixmap(entkoppler_st3_xpm));
     }
     else if (sSoldIcon == SYM_DRE) {
-        labelSubTypeText->setText(tr
-                ("Please choose the button which represents "
-                 "the turntable base address:"));
         buttSubType[0]->hide();
         buttSubType[1]->setPixmap(QPixmap(drehscheibe_st2_xpm));
         buttSubType[2]->setPixmap(QPixmap(drehscheibe_st3_xpm));
     }
-    labelSubTypeText->show();
+    subtypeLabel->show();
 
 
     // activate the subtype dependant button
-    QString sListText = QString::number(gaSubType);
-
     if (sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS || sSoldIcon == SYM_VS) {
         if (sSoldIcon == SYM_HS && SHOW_TOOLTIPS) {
             QToolTip::add(buttSubType[0],
@@ -954,7 +939,7 @@ void elementDialog::showSubTypes(int iShow_)
                              "Vr0, Vr1 and Vr2"));
         }
 
-        switch (sListText.toInt()) {
+        switch (gaSubType) {
             default:               // on new creation
             case 0:                // Hp0+Hp1
             case 1:                // Hp0+Hp1+Sh1
@@ -985,7 +970,7 @@ void elementDialog::showSubTypes(int iShow_)
                                              "momentary coupler\n"
                                              "on right connector"));
         }
-        switch (sListText.toInt()) {
+        switch (gaSubType) {
             default:               // on new creation
             case -1:
                 buttSubType[0]->setOn(true);        // bistable coupler
@@ -1013,7 +998,7 @@ void elementDialog::showSubTypes(int iShow_)
                              "4 state double turnout\n"
                              "(f.e. Maerklin 2275,\nall Roco´s)"));
         }
-        switch (sListText.toInt()) {
+        switch (gaSubType) {
             case 0:
                 buttSubType[1]->setOn(true);   // 2 states possible/Maerklin
                 slotSubTypeClicked(1);
@@ -1027,14 +1012,16 @@ void elementDialog::showSubTypes(int iShow_)
     }
 
     if (sSoldIcon == SYM_DRE) {
+
         if (SHOW_TOOLTIPS) {
-            sListText = listElementData->at(LIST_ID_ADDRESS_2);
             QToolTip::add(buttSubType[1], tr("Default turntable:\n"
                                              "Controlled via keyboard #15"));
             QToolTip::add(buttSubType[2], tr("Extra turntable:\n"
                                              "Controlled via keyboard #14"));
         }
-        switch (sListText.toInt() / 16) {
+
+        int a2 = QString(listElementData->at(LIST_ID_ADDRESS_2)).toInt();
+        switch (a2 / 16) {
             default:               // default turntable
             case 15:
                 buttSubType[1]->setOn(true);
@@ -1054,6 +1041,8 @@ void elementDialog::slotSubTypeClicked(int stBtn)
     switch (stBtn) {
         case 0:                    // == subType 1
             if (sSoldIcon == SYM_HS || sSoldIcon == SYM_VS) {
+                srcpBus2Label->setEnabled(false);
+                srcpBus2LE->setEnabled(false);
                 leAddress_2->setEnabled(false);
                 labelAddress_2->setEnabled(false);
                 cbChaConn2->setEnabled(false);
@@ -1067,6 +1056,8 @@ void elementDialog::slotSubTypeClicked(int stBtn)
             }
 
             else if (sSoldIcon == SYM_ENK) {
+                srcpBus2Label->setEnabled(false);
+                srcpBus2LE->setEnabled(false);
                 leAddress_2->setEnabled(false);
                 labelAddress_2->setEnabled(false);
                 cbChaConn2->setEnabled(false);
@@ -1077,6 +1068,8 @@ void elementDialog::slotSubTypeClicked(int stBtn)
 
         case 1:                    // == subType 2
             if (sSoldIcon == SYM_HS || sSoldIcon == SYM_VS) {
+                srcpBus2Label->setEnabled(false);
+                srcpBus2LE->setEnabled(false);
                 leAddress_2->setEnabled(false);
                 labelAddress_2->setEnabled(false);
                 cbChaConn2->setEnabled(false);
@@ -1085,6 +1078,8 @@ void elementDialog::slotSubTypeClicked(int stBtn)
             }
 
             else if (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) {
+                srcpBus2Label->setEnabled(false);
+                srcpBus2LE->setEnabled(false);
                 leAddress_2->setEnabled(false);
                 labelAddress_2->setEnabled(false);
                 cbChaConn2->setEnabled(false);
@@ -1104,6 +1099,8 @@ void elementDialog::slotSubTypeClicked(int stBtn)
 
         case 2:                    // == subType 3
             if (sSoldIcon == SYM_HS || sSoldIcon == SYM_VS) {
+                srcpBus2Label->setEnabled(true);
+                srcpBus2LE->setEnabled(true);
                 leAddress_2->setEnabled(true);
                 labelAddress_2->setEnabled(true);
                 cbChaConn2->setEnabled(true);
@@ -1111,6 +1108,8 @@ void elementDialog::slotSubTypeClicked(int stBtn)
             }
 
             else if (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) {
+                srcpBus2Label->setEnabled(true);
+                srcpBus2LE->setEnabled(true);
                 leAddress_2->setEnabled(true);
                 labelAddress_2->setEnabled(true);
                 cbChaConn2->setEnabled(true);
@@ -1131,52 +1130,14 @@ void elementDialog::slotSubTypeClicked(int stBtn)
 }
 
 
-void elementDialog::copyDataToList(QStrList* sl)
+void elementDialog::contactSBChanged(int contact)
 {
-    sl->insert(LIST_ID_ICON,
-                        IconNameList->at(IconComboBox->currentItem()));
-
-    sl->insert(LIST_ID_ROTATE, cbRotate->isEnabled()?
-                        (cbRotate->isChecked()? "1" : "0") : "-1");
-
-    sl->insert(LIST_ID_INVERT, cbInvert->isEnabled()?
-                        (cbInvert->isChecked()? "1" : "0") : "-1");
-
-    sl->insert(LIST_ID_DECODER, coboDecoder->currentText());
-
-    sl->insert(LIST_ID_PROTOCOL, rbProtocol_MS->isEnabled()?
-                        (rbProtocol_MS->isChecked()? "M" : "N") : "-1");
-
-    sl->insert(LIST_ID_ADDRESS_1, leAddress_1->text());
-    sl->insert(LIST_ID_ADDRESS_2, leAddress_2->text());
-
-    sl->insert(LIST_ID_CHACONN_1, cbChaConn1->isEnabled()?
-                        (cbChaConn1->isChecked()? "1" : "0") : "-1");
-    sl->insert(LIST_ID_CHACONN_2, cbChaConn2->isEnabled()?
-                        (cbChaConn2->isChecked()? "1" : "0") : "-1");
-
-    sl->insert(LIST_ID_DIRECTION, leAddress_1->isEnabled()?
-                        listElementData->at(LIST_ID_DIRECTION) : "-1");
-
-    /* if field contains '-1' then show address*/
-    sl->insert(LIST_ID_TEXT,
-                        /*(leText->text() != "" && leText->text() != "-1")
-                         ? leText->text() : leAddress_1->text());*/
-                        (leText->text() == "-1")
-                         ? leAddress_1->text() : leText->text());
-
-    sl->insert(LIST_ID_ACTTIME, sbActiveTime->isEnabled()
-            ? sbActiveTime->text() : (QString) "-1");
-
-    QString sPort;
-    sl->insert(LIST_ID_FBPORT, labelFB->isEnabled()?
-                        (sPort.
-                         setNum((sbModule->value() - 1) * (16 -
-                                                           FEEDBACK * 8) +
-                                (sbPort->value() - 1)).data()) : "-1");
-
-    sl->insert(LIST_ID_LEDOFF, cbLEDoff->isEnabled()?
-                        (cbLEDoff->isChecked()? "1" : "0") : "-1");
+    // FB_16 = 0, FB_8 = 1
+    int inputs = 16 - (FEEDBACK * 8);
+    int module = (contact - 1) / inputs + 1;
+    int port = contact - (module - 1) * inputs;
+    moduleLE->setText(QString::number(module));
+    portLE->setText(QString::number(port));
 }
 
 
@@ -1282,4 +1243,139 @@ void elementDialog::setGASubType(int sType)
         }
     }
 }
+
+
+int elementDialog::getSRCPBus1()
+{
+    return srcpBus1LE->text().toInt();
+};
+
+
+void elementDialog::setSRCPBus1(int bus)
+{
+    srcpBus1LE->setText(QString::number(bus));
+}
+
+
+int elementDialog::getSRCPBus2()
+{
+    return srcpBus2LE->text().toInt();
+};
+
+
+void elementDialog::setSRCPBus2(int bus)
+{
+    srcpBus2LE->setText(QString::number(bus));
+}
+
+
+QString elementDialog::getSymbolName()
+{
+    return IconNameList->at(IconComboBox->currentItem());
+};
+
+
+int elementDialog::getRotated()
+{
+    return cbRotate->isEnabled() ? (cbRotate->isChecked()? 1 : 0) : -1;
+};
+
+
+int elementDialog::getInverted()
+{
+    return cbInvert->isEnabled() ? (cbInvert->isChecked()? 1 : 0) : -1;
+};
+
+
+int elementDialog::getLEDsAreOff()
+{
+    return cbLEDoff->isEnabled() ? (cbLEDoff->isChecked()? 1 : 0) : -1;
+};
+
+
+QString elementDialog::getDecoder()
+{
+    return coboDecoder->currentText();
+};
+
+
+QString elementDialog::getProtocol()
+{
+    return rbProtocol_MS->isEnabled() ?
+        (rbProtocol_MS->isChecked()? "M" : "N") : "-1";
+};
+
+
+int elementDialog::getAddress1()
+{
+    return leAddress_1->text().toInt();
+};
+
+
+int elementDialog::getAddress2()
+{
+    return leAddress_2->text().toInt();
+};
+
+
+int elementDialog::getXChangeConn1()
+{
+    return cbChaConn1->isEnabled() ?
+        (cbChaConn1->isChecked() ? 1 : 0) : -1;
+};
+
+
+int elementDialog::getXChangeConn2()
+{
+    return cbChaConn2->isEnabled() ?
+        (cbChaConn2->isChecked() ? 1 : 0) : -1;
+};
+
+
+int elementDialog::getDirection()
+{
+    return leAddress_1->isEnabled() ?
+        QString(listElementData->at(LIST_ID_DIRECTION)).toInt() : -1;
+};
+
+
+QString elementDialog::getSymbolText()
+{
+    return (leText->text() == "-1") ?
+        leAddress_1->text() : leText->text();
+};
+
+
+int elementDialog::getActiveTime()
+{
+    return activeTimeSB->isEnabled() ?
+        activeTimeSB->text().toInt() : -1;
+};
+
+
+int elementDialog::getFBBus()
+{
+    return fbBusLE->text().toInt();
+};
+
+
+void elementDialog::setFBBus(int bus)
+{
+    fbBusLE->setText(QString::number(bus));
+};
+
+
+int elementDialog::getFBContact()
+{
+    // temporary solution: - 1
+    return contactSB->value() - 1;
+};
+
+
+void elementDialog::setFBContact(int contact)
+{
+    // temporary solution: + 1
+    contactSB->setValue(contact +1);
+    contactSBChanged(contact +1);
+};
 
