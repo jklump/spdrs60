@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.38 $
+                           version 0.4.8 $Revision: 1.39 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-25 21:26:44 $
+    last modified        : $Date: 2005-12-01 20:21:20 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -73,11 +73,13 @@
 #include "pixmaps/route_copy.xpm"
 #include "pixmaps/route_clear.xpm"
 
-#define GF_OLDGBSEXT   ".dat.gbs"
-#define GF_OLDRTSEXT   ".dat.rts"
+#define GF_OLDGBSEXT     ".dat.gbs"
+#define GF_OLDRTSEXT     ".dat.rts"
 /*for srcpCom*/
-#define GF_CMDHOST     "cmdhost"
-#define GF_FBHOST      "fbhost"
+#define GF_CMDHOST       "cmdhost"
+#define GF_FBHOST        "fbhost"
+#define GF_FORMATVERSION "formatversion"
+#define GF_FV            "1"
 
 extern bool bFBport[MAX_FB];
 
@@ -1423,6 +1425,7 @@ bool MainWindow::saveFile()
     ts << "# spdrs60 data file" << endl
        << "# version=" << VERSION << endl
        << "# last modified=" << dt.toString(Qt::ISODate) << endl
+       << GF_FORMATVERSION << DS << GF_FV << endl
        << GF_CMDHOST << DS << cmdHost << DS << cmdPort <<
                         DS << cmdLogin << endl
        << GF_FBHOST << DS << fbHost << DS << fbPort << DS << fbLogin <<

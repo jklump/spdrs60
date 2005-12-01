@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.h
-                           version 0.4.8 $Revision: 1.6 $
+                           version 0.4.8 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-27 14:05:40 $
+    last modified        : $Date: 2005-12-01 20:21:20 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -76,6 +76,7 @@ public:
 private:
    void setupElement(const char*);
    void showSubTypes(int);
+   void updateValidators();
 
 private slots:
    void slotSymbolChanged(int);

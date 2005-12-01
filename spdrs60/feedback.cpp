@@ -1,11 +1,11 @@
 /***************************************************************************
                            feedback.cpp
-                           version 0.4.8 $Revision: 1.2 $
+                           version 0.4.8 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-07 12:22:43 $
+    last modified        : $Date: 2005-12-01 20:21:20 $
 ***************************************************************************/
 
 /******************************************************************************
@@ -31,10 +31,8 @@ extern int FEEDBACK;
 extern int SHOW_TOOLTIPS;
 
 
-feedback::feedback(QWidget* parent): QDialog(0, "feedback", false)
+feedback::feedback(QWidget* parent): QDialog(parent, "feedback", false)
 {
-    if (parent);                // dummy command to avoid compiler warning
-
     iPage = 0;                  // == s88-busnumber 1 on window-startup
     iMdCnt = 0;                 // no modules shown yet
     this->setCaption(tr("Overview over feedback modules"));

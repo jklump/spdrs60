@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementDialog.cpp
-                           version 0.4.8 $Revision: 1.8 $
+                           version 0.4.8 $Revision: 1.9 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-27 19:38:27 $
+    last modified        : $Date: 2005-12-01 20:21:20 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -53,7 +53,6 @@ extern int ACTIVE_TIME;
 extern int FEEDBACK;
 extern int FB_MODULES_[4];
 extern bool SHOW_TOOLTIPS;
-
 extern QString DEF_DECODER;
 
 
@@ -484,22 +483,7 @@ void elementDialog::setupElement(const char *eName)
 }
 
 
-void elementDialog::slotDecoderChanged(int index)
-{
-    QString decoder = coboDecoder->text(index);
-    if (decoder == QString::null)
-        return;
-
-    // autoset protocol type after choosing a decoder
-    if (decoder.right(3) == "(M)")
-        rbProtocol_MS->setChecked(true);
-    else
-        rbProtocol_NA->setChecked(true);
-}
-
-//TODO: updateValidators
-
-void elementDialog::slotProtChanged(int)
+void elementDialog::updateValidators()
 {
     bool isMM = (rbProtocol_MS->isChecked());
     QString icon = IconNameList->at(IconComboBox->currentItem());
@@ -524,7 +508,28 @@ void elementDialog::slotProtChanged(int)
             a2Validator->setTop(MAX_GADCC);
         }
     }
+}
 
+
+void elementDialog::slotDecoderChanged(int index)
+{
+    QString decoder = coboDecoder->text(index);
+    if (decoder == QString::null)
+        return;
+
+    // autoset protocol type after choosing a decoder
+    if (decoder.right(3) == "(M)")
+        rbProtocol_MS->setChecked(true);
+    else
+        rbProtocol_NA->setChecked(true);
+
+    updateValidators();
+}
+
+
+void elementDialog::slotProtChanged(int)
+{
+    bool isMM = (rbProtocol_MS->isChecked());
     QString sProt = (isMM) ? "(M)" : "(D)";
     QString sText;
 
@@ -537,6 +542,7 @@ void elementDialog::slotProtChanged(int)
             break;
         }
     }
+    updateValidators();
 }
 
 
@@ -625,7 +631,9 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
     labelText->setEnabled(enabled);
 
     // show address_2 data
-    sListText = QString::number(gaSubType);
+    //TODO: this value is not valid at this time
+    
+    gaSubType = QString(listElementData->at(LIST_ID_ADDRESS_2)).toInt();
 
     // Hp0+Hp1+Hp2
     enabled = sSoldIcon == SYM_HSS || sSoldIcon == SYM_DRW
@@ -633,8 +641,8 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
         || sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR
         || sSoldIcon == SYM_MDC || sSoldIcon == SYM_DRE
         || sSoldIcon == SYM_SBN || (sSoldIcon == SYM_VS
-                                    && sListText == "4")
-        || (sSoldIcon == SYM_HS && sListText == "4");
+                                    && gaSubType == 4)
+        || (sSoldIcon == SYM_HS && gaSubType == 4);
 
     if (enabled) {
         leAddress_2->setText(listElementData->at(LIST_ID_ADDRESS_2));
@@ -650,10 +658,11 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
     srcpBus2LE->setEnabled(enabled);
     leAddress_2->setEnabled(enabled);
     labelAddress_2->setEnabled(enabled);
+
     cbChaConn2->setEnabled(enabled && sSoldIcon != SYM_DRE
                            && sSoldIcon != SYM_SBN
                            && sSoldIcon != SYM_MDC);
-
+ 
     if (sSoldIcon == SYM_DRE)
         leAddress_2->setFocusPolicy(NoFocus);
     else
@@ -822,6 +831,7 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
         gaSubType = -1;
 
     showSubTypes(enabled);
+    updateValidators();
 }
 
 
@@ -1149,6 +1159,7 @@ int elementDialog::getGASubType()
 
 void elementDialog::setGASubType(int sType)
 {
+    int btn = -1;
     gaSubType = sType;
     QString icon = IconNameList->at(IconComboBox->currentItem());
 
@@ -1163,7 +1174,7 @@ void elementDialog::setGASubType(int sType)
      * --------------------------
     */
     if (icon == SYM_ENK)
-        bgSubType->setButton(gaSubType + 1);
+        btn = gaSubType + 1;
 
     /*
      * for SYM_HSS:
@@ -1178,16 +1189,16 @@ void elementDialog::setGASubType(int sType)
     else if (icon == SYM_HSS) {
         switch (gaSubType) {
             case 1:
-                bgSubType->setButton(0);
+                btn = 0;
                 break;
             case 5:
-                bgSubType->setButton(2);
+                btn = 2;
                 break;
             case 7:
-                bgSubType->setButton(1);
+                btn = 1;
                 break;
             default:
-                bgSubType->setButton(0);
+                btn = 0;
                 break;
         }
     }
@@ -1205,16 +1216,16 @@ void elementDialog::setGASubType(int sType)
     else if (icon == SYM_HS || icon == SYM_VS) {
         switch (gaSubType) {
             case 0:
-                bgSubType->setButton(0);
+                btn = 0;
                 break;
             case 4:
-                bgSubType->setButton(2);
+                btn = 2;
                 break;
             case 6:
-                bgSubType->setButton(1);
+                btn = 1;
                 break;
             default:
-                bgSubType->setButton(0);
+                btn = 0;
                 break;
         }
     }
@@ -1232,15 +1243,19 @@ void elementDialog::setGASubType(int sType)
     else if (icon == SYM_DKL || icon == SYM_DKR) {
         switch (gaSubType) {
             case 0:
-                bgSubType->setButton(1);
+                btn = 1;
                 break;
             case 1:
-                bgSubType->setButton(2);
+                btn = 2;
                 break;
             default:
-                bgSubType->setButton(1);
+                btn = 1;
                 break;
         }
+    }
+    if (btn != -1) {
+        bgSubType->setButton(btn);
+        slotSubTypeClicked(btn);
     }
 }
 
@@ -1367,15 +1382,13 @@ void elementDialog::setFBBus(int bus)
 
 int elementDialog::getFBContact()
 {
-    // temporary solution: - 1
-    return contactSB->value() - 1;
+    return contactSB->value();
 };
 
 
 void elementDialog::setFBContact(int contact)
 {
-    // temporary solution: + 1
-    contactSB->setValue(contact +1);
-    contactSBChanged(contact +1);
+    contactSB->setValue(contact);
+    contactSBChanged(contact);
 };
 
