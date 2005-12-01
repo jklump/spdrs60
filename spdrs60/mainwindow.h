@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.4.8 $Revision: 1.18 $
+                           version 0.4.8 $Revision: 1.19 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-05 06:53:35 $
+    last modified        : $Date: 2005-12-01 20:37:04 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -249,8 +249,8 @@ private slots:
 
 signals:
    void switchedVisualMode(elemVisualMode);
-   void sendFBChangeLayout(unsigned int, unsigned int, unsigned int);
-   void sendFBChangeModule(unsigned int);
+   void sendFBChangeLayout(unsigned int, unsigned int, bool);
+   void sendFBChangeModule(unsigned int, unsigned int, unsigned int);
    void sendFBChangeRoute(unsigned int, unsigned int, bool);
 
 protected:

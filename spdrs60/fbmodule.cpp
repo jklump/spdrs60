@@ -1,11 +1,11 @@
 /***************************************************************************
                            fbmodule.cpp
-                           version 0.4.8 $Revision: 1.2 $
+                           version 0.4.8 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-07 12:22:43 $
+    last modified        : $Date: 2005-12-01 20:37:04 $
 ***************************************************************************/
 
 /******************************************************************************
@@ -21,6 +21,11 @@
    this code shows all feedback modules with their actual port states
  ******************************************************************************/
 
+#include <qapplication.h>
+#include <qfont.h>
+#include <qpainter.h>                       
+#include <qpixmap.h>
+
 #include "fbmodule.h"
 
 /*module pixmaps*/
@@ -32,26 +37,28 @@ extern int FEEDBACK;
 
 
 
-fbModule::fbModule(QWidget* parent, int iModNr_): QWidget(parent)
+fbModule::fbModule(QWidget* parent, unsigned int modid): QWidget(parent)
 {
-    iModNr = iModNr_;
-    slotSetupModule(iModNr);
-    this->resize(139 - FEEDBACK * 60, 90);
+    // iModNr range: 0 - 30
+    iModNr = modid;
+    slotSetupModule(iModNr, 0, 0);
     // resize module due to module type
+    this->resize(139 - FEEDBACK * 60, 90);
 }
 
 
-void fbModule::slotSetupModule(int iModID_)
+void fbModule::slotSetupModule(unsigned int module, unsigned int input,
+        unsigned int state)
 {
+    if (module != iModNr)
+        return;
+
     int i;
     QString s;
     QPixmap pixModule;
 
-    // load bitmap according to number of ports per module if port belongs to
-    // this module
-    if (iModID_ != iModNr)
-        return;
-
+    // load bitmap according to number of ports per module if port
+    // belongs to this module
     if (FEEDBACK == FB_16)
         pixModule = QPixmap(fb_s88_xpm);
     if (FEEDBACK == FB_8)
@@ -60,7 +67,7 @@ void fbModule::slotSetupModule(int iModID_)
     p.begin(&pixModule);
 
     QFont f("*");               // display module number
-    f.setPointSize(12);
+    f.setPointSize(QApplication::font().pointSize() + 2);
     f.setWeight(QFont::DemiBold);
     p.setFont(f);
 
@@ -83,7 +90,7 @@ void fbModule::slotSetupModule(int iModID_)
     p.setPen(blue);
     p.drawText(69 - FEEDBACK * 30 - br.width() / 2, 65, s.data());
 
-    f.setPointSize(10);
+    f.setPointSize(QApplication::font().pointSize());
     f.setWeight(QFont::Normal);
     p.setFont(f);
     p.setPen(black);

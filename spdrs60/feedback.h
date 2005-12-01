@@ -1,11 +1,11 @@
 /***************************************************************************
                            feedback.h
-                           version 0.4.8 $Revision: 1.2 $
+                           version 0.4.8 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-07 12:22:43 $
+    last modified        : $Date: 2005-12-01 20:37:04 $
 ***************************************************************************/
 
 /******************************************************************************
@@ -38,29 +38,27 @@ class feedback: public QDialog
    Q_OBJECT
 
 public:
-   feedback(QWidget* parent=0); // creator of this window
-
-private:
-   void showModules();            // shows all modules on a bus
+   feedback(QWidget* parent=0);
 
 public slots:
-   void slotUpdateModules(unsigned int);
-   // gets update event through GBSArea.cpp
+   void slotUpdateModules(unsigned int, unsigned int, unsigned int);
 
 private slots:
-   void slotNextPage();           // shows next page/bus
-   void slotPrevPage();           // shows previous page/bus
+   void slotNextPage();
+   void slotPrevPage();
 
 signals:
-   void updateModule(int);      // sends update to fbModule.cpp
+   void updateModule(unsigned int, unsigned int, unsigned int);
 
 private:
-   fbModule    *module[62];       // a series of s88 modules
+   fbModule*   module[62];        // pointer list for a series of s88 modules
    int         iPage;             // number of page = busnumber - 1
    int         iMdCnt;            // shown modules on a page
    QPushButton *buttNextPage;     // button to display next page/bus
    QPushButton *buttPrevPage;     // button to display previous page/bus
    QLabel      *lPageInfo;        // label with no of s88 bus    
+
+   void showModules();
 };
 
 #endif

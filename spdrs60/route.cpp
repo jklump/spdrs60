@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.29 $
+                           version 0.4.8 $Revision: 1.30 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-14 17:28:49 $
+    last modified        : $Date: 2005-12-01 20:37:04 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -355,27 +355,29 @@ void Route::readOldFileTextFromStream(QTextStream& ts)
             }
             else if (key.compare(RF_RELEASEPORT) == 0){
                 rePort.switchtooff = false;
-                rePort.bus = 1;
                 intvalue = value.toInt();
-                if (intvalue == -1) {
+                if (intvalue <= -1) {
                     rePort.address = 0;
+                    rePort.bus = 1;
                     rePort.used = false;
                 }
                 else {
-                    rePort.address = (unsigned int)intvalue;
+                    rePort.address = intvalue % 496 + 1;
+                    rePort.bus = intvalue / 496 + 1;
                     rePort.used = true;
                 }
             }
             else if (key.compare(RF_ACTIVATEPORT) == 0){
                 acPort.switchtooff = false;
-                acPort.bus = 1;
                 intvalue = value.toInt();
                 if (intvalue == -1) {
                     acPort.address = 0;
+                    acPort.bus = 1;
                     acPort.used = false;
                 }
                 else {
-                    acPort.address = (unsigned int)intvalue;
+                    acPort.address = intvalue % 496 + 1;
+                    acPort.bus = intvalue / 496 + 1;
                     acPort.used = true;
                 }
             }

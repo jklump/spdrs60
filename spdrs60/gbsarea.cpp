@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.33 $
+                           version 0.4.8 $Revision: 1.34 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-25 21:41:21 $
+    last modified        : $Date: 2005-12-01 20:37:04 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -55,8 +55,6 @@
 
 #define OLD_MAX_ROWS 18;
 
-extern int ROUTING_TIME;
-extern bool bFBport[MAX_FB];
 
 
 GBSArea::GBSArea(QWidget* parent, const char* name)
@@ -614,13 +612,7 @@ void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
     bool layoutEdge = false;
     bool finished = false;
     bool toRight = !fSig.elemPtr->iSoldRotate;
-
-    int LEDcolor;
-    if (krouteReset == setRoute)
-        LEDcolor = LED_OFF;
-    else
-        LEDcolor = LED_YEL;
-
+    bool setrt = (krouteReset != setRoute);
 
     while (!finished) {
         if ((idx < 0) || (idx >= maxIdx)) {
@@ -650,8 +642,8 @@ void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
 
         finished = (rel == endPtr);
 
-        // get back vertical correction value
-        iCorr = rel->routeElement(toRight, LEDcolor, iCorr);
+        // paint yellow track and get back vertical correction value
+        iCorr = rel->routeElement(toRight, setrt, iCorr);
 
         // calculate column of next element
         if (toRight)
@@ -702,7 +694,7 @@ void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
             }
             finished = (rel == endPtr);
 
-            iCorr = rel->routeElement(toRight, LEDcolor, iCorr);
+            iCorr = rel->routeElement(toRight, setrt, iCorr);
 
             if (toRight)
                 idx += rows + iCorr;
@@ -843,18 +835,18 @@ void GBSArea::setupElements()
                             elemRecordType)),
                     this, SIGNAL(recordElement(element*, elemRecordType)));
             //if (el->isSwitchable()) {
-                connect(this, SIGNAL(processInfoPortMessage(QString,
-                                int, int, int)),
-                        el, SLOT(processInfoPortMessage(QString,
-                                int, int, int)));
-                connect(el, SIGNAL(sendCommand(const QString&)),
-                        this, SIGNAL(sendCommand(const QString&)));
+            connect(this, SIGNAL(processInfoPortMessage(QString,
+                            int, int, int)),
+                    el, SLOT(processInfoPortMessage(QString,
+                            int, int, int)));
+            connect(el, SIGNAL(sendCommand(const QString&)),
+                    this, SIGNAL(sendCommand(const QString&)));
             //}
             //if (el->hasLEDsOn())
-                connect(this, SIGNAL(feedbackPortChanged(unsigned int,
-                                unsigned int, unsigned int)),
-                        el, SLOT(slotOccupyElement(unsigned int,
-                                unsigned int, unsigned int)));
+            connect(this, SIGNAL(feedbackPortChanged(unsigned int,
+                            unsigned int, bool)),
+                    el, SLOT(slotOccupyElement(unsigned int,
+                            unsigned int, bool)));
             //TODO: el->updateFeedbackState();
         }
     }
@@ -964,16 +956,18 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
                 connect(el, SIGNAL(recordElement(element*, elemRecordType)),
                         this, SIGNAL(recordElement(element*, elemRecordType)));
                 //if (el->isSwitchable()) {
-                    connect(this, SIGNAL(processInfoPortMessage(QString,
-                                    int, int, int)),
-                            el, SLOT(processInfoPortMessage(QString,
-                                    int, int, int)));
-                    connect(el, SIGNAL(sendCommand(const QString&)),
-                            this, SIGNAL(sendCommand(const QString&)));
+                connect(this, SIGNAL(processInfoPortMessage(QString,
+                                int, int, int)),
+                        el, SLOT(processInfoPortMessage(QString,
+                                int, int, int)));
+                connect(el, SIGNAL(sendCommand(const QString&)),
+                        this, SIGNAL(sendCommand(const QString&)));
                 //}
                 //if (el->hasLEDsOn())
-                    connect(this, SIGNAL(feedbackPortChanged(unsigned int)),
-                            el, SLOT(slotOccupyElement(unsigned int)));
+                connect(this, SIGNAL(feedbackPortChanged(unsigned int,
+                                unsigned int, bool)),
+                        el, SLOT(slotOccupyElement(unsigned int,
+                                unsigned int, bool)));
             }
             el->setIndexNo(idx);
             /*TODO: set current visual mode */

@@ -1,11 +1,11 @@
 /***************************************************************************
                            feedback.cpp
-                           version 0.4.8 $Revision: 1.3 $
+                           version 0.4.8 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-12-01 20:21:20 $
+    last modified        : $Date: 2005-12-01 20:37:04 $
 ***************************************************************************/
 
 /******************************************************************************
@@ -104,22 +104,24 @@ void feedback::slotPrevPage()
 
 void feedback::showModules()
 {
-    int j = 0, i;
-
-    if (iMdCnt != 0)            // delete any modules if new page is displayed
-        for (i = 0; i < iMdCnt; i++)
+    // delete any modules if new page is displayed
+    if (iMdCnt != 0)
+        for (int i = 0; i < iMdCnt; i++)
             delete module[i];
 
-    this->setFixedWidth(991 - FEEDBACK * 10);   // calculate right window size
+   // calculate right window size
+    this->setFixedWidth(991 - FEEDBACK * 10);
     this->setFixedHeight(470 + FEEDBACK * 95);
 
-    QString sText;              // show bus number
+    // show bus number
+    QString sText;
     sText.sprintf("Bus #%1d", iPage + 1);
     lPageInfo->setGeometry(700, this->height() - 65, 140, 40);
     lPageInfo->setText(sText);
 
     // create and show modules
-    for (i = iPage * 31 * (FEEDBACK + 1);
+    int j = 0;
+    for (unsigned int i = iPage * 31 * (FEEDBACK + 1);
          i < iPage * 31 * (FEEDBACK + 1) + FB_MODULES_[iPage]; i++) {
         module[j] = new fbModule(this, i);
         if (FEEDBACK == FB_16)
@@ -127,8 +129,10 @@ void feedback::showModules()
         if (FEEDBACK == FB_8)
             module[j]->move((j % 12) * 82, (j / 12) * 95);
 
-        connect(this, SIGNAL(updateModule(int)),
-                module[j], SLOT(slotSetupModule(int)));
+        connect(this, SIGNAL(updateModule(unsigned int, unsigned int,
+                        unsigned int)),
+                module[j], SLOT(slotSetupModule(unsigned int,
+                        unsigned int, unsigned int)));
         module[j]->show();
         j++;
         iMdCnt = j;
@@ -136,9 +140,18 @@ void feedback::showModules()
 }
 
 
-void feedback::slotUpdateModules(unsigned int iPortNr_)
+void feedback::slotUpdateModules(unsigned int bus, unsigned int contact,
+        unsigned int state)
 {
-    // send signals to __ALL__ modules, but only the one with equal module ID
-    // will do the update in port colours
-    emit updateModule(iPortNr_ / (16 - FEEDBACK * 8));
+    unsigned int module, input;
+
+    // number range: 0 - 30
+    // input range: 1 - 16 or 1 - 8
+    module = (contact - 1) / (16 - FEEDBACK * 8); // + 1
+    input = (contact - 1) % (16 - FEEDBACK * 8) + 1;
+    
+    // send signals to __ALL__ modules, but only the one with equal
+    // module ID will do the update in port colours
+    // TODO: adjust number counting
+    emit updateModule(module, input, state);
 }

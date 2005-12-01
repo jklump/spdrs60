@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.38 $
+                           version 0.4.8 $Revision: 1.39 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-27 14:05:40 $
+    last modified        : $Date: 2005-12-01 20:37:04 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -83,20 +83,24 @@ extern bool SHOW_HP2;
 extern bool SHOW_DATA_TOOLTIPS;
 extern bool INIT_SIGNALS;
 extern bool SHOW_TXT_ADR;
-extern bool bFBport[MAX_FB];
-extern int ACTIVE_TIME;
+//extern bool bFBport[MAX_FB];
+
 extern int FEEDBACK;
 
 
 element::element(QWidget* parent): QWidget(parent)
 {
-    signal = false;
-    turnout = false;
-    routable = false;
-    switchable = false;
-    state2dkw = false;
+    editsPattern = 0;
+    editsAddress = 0;
     ffmactive = false;
     ffm = false;
+    occupied = false;
+    routable = false;
+    routed = false;
+    signal = false;
+    state2dkw = false;
+    switchable = false;
+    turnout = false;
     iGA1BusNo = iGA2BusNo = iFBBusNo = 1;
 
     setMaximumSize(sizeHint());
@@ -122,13 +126,12 @@ element::element(QWidget* parent): QWidget(parent)
     iFBContact = 0;
     iSoldLEDoff = 1;
     iSoldLEDstate = LED_OFF;
-    iSoldRoutingActive = 0;     // set global vars for this ...
     selectionMode = ksmNormal;
     visualMode = kvmNormal;
 
     sSaveReplaceIcon = "";
     sRepeatIcon = SYM_LEE;
-    iSoldLocked = UNLOCKED;
+    lockCounter = 0;
 
     elementPropertyDlg = NULL;
     turntableProperties = NULL;
@@ -142,13 +145,17 @@ element::element(QWidget* parent): QWidget(parent)
 /*constructor for element setup by QStrList*/
 element::element(QStrList* elementData_, QWidget* parent): QWidget(parent)
 {
-    signal = false;
-    turnout = false;
-    routable = false;
-    switchable = false;
-    state2dkw = false;
+    editsPattern = 0;
+    editsAddress = 0;
     ffmactive = false;
     ffm = false;
+    occupied = false;
+    routable = false;
+    routed = false;
+    signal = false;
+    state2dkw = false;
+    switchable = false;
+    turnout = false;
     iGA1BusNo = iGA2BusNo = iFBBusNo = 1;
 
     setMaximumSize(sizeHint());
@@ -156,13 +163,12 @@ element::element(QStrList* elementData_, QWidget* parent): QWidget(parent)
     setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed,
                 false));
     copyData(elementData_);     // copy the parameter string list
-    iSoldLEDstate = bFBport[iFBContact] << 1;   // LED_OFF=0 or LED_RED=2*1=2
-    iSoldRoutingActive = 0;     // set global vars for this ...
+    iSoldLEDstate = LED_OFF;
     selectionMode = ksmNormal;
     visualMode = kvmNormal;
     sSaveReplaceIcon = "";
     sRepeatIcon = SYM_LEE;
-    iSoldLocked = UNLOCKED;
+    lockCounter = 0;
 
     elementPropertyDlg = NULL;
     turntableProperties = NULL;
@@ -186,26 +192,29 @@ element::element(QTextStream& ats, QWidget* parent, bool isNewFormat)
 : QWidget(parent)
 {
     /*set all variables which are not read from file*/
-    signal = false;
-    turnout = false;
-    routable = false;
-    switchable = false;
-    state2dkw = false;
+    editsPattern = 0;
+    editsAddress = 0;
     ffmactive = false;
     ffm = false;
+    occupied = false;
+    routable = false;
+    routed = false;
+    signal = false;
+    state2dkw = false;
+    switchable = false;
+    turnout = false;
     iGA1BusNo = iGA2BusNo = iFBBusNo = 1;
 
     setMaximumSize(sizeHint());
     setMinimumSize(sizeHint());
     setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed,
                 false));
-    iSoldRoutingActive = 0;
     selectionMode = ksmNormal;
     visualMode = kvmNormal;
 
     sSaveReplaceIcon = "";
     sRepeatIcon = SYM_LEE;
-    iSoldLocked = UNLOCKED;
+    lockCounter = 0;
     iSoldLEDstate = LED_OFF;
 
     elementPropertyDlg = NULL;
@@ -282,9 +291,9 @@ void element::readFileTextFromStream(QTextStream& ats)
                 iSoldActiveTime = value.toInt();
             }
             else if (key.compare(GF_FBPORT) == 0){
-                iFBBusNo = value.toInt();
+                iFBBusNo = value.toUInt();
                 value = s.section(DS, 2, 2).stripWhiteSpace();
-                iFBContact = value.toInt();
+                iFBContact = value.toUInt();
             }
             else if (key.compare(GF_HIDELEDS) == 0){
                 iSoldLEDoff = value.toInt();
@@ -349,8 +358,15 @@ void element::readOldFileTextFromStream(QTextStream& ats)
                 iSoldActiveTime = value.toInt();
             }
             else if (key.compare(GF_FBPORT) == 0){
-                iFBContact = value.toInt();
-                iFBBusNo = 1;
+                int tempport = value.toInt();
+                if (tempport <= -1) {
+                    iFBContact = 0;
+                    iFBBusNo = 1;
+                }
+                else {
+                    iFBContact = tempport % 496 + 1;
+                    iFBBusNo = tempport / 496 + 1;
+                }
             }
             else if (key.compare(GF_HIDELEDS) == 0){
                 iSoldLEDoff = value.toInt();
@@ -549,7 +565,7 @@ void element::slotSwitchIt(int iNewDirection, int iLocked)
 
     // add an other locked state cause a solenoid can belong to more
     // than one route
-    iSoldLocked += iLocked;
+    lockCounter += iLocked;
 
     // only save new direction and switch it if the new direction differs from
     // the old one;
@@ -1072,7 +1088,9 @@ void element::showPropertyDlg()
             emit setRepeatIcon(sRepeatIcon);
 
             updateProperties();
-            iSoldLEDstate = bFBport[iFBContact] << 1;
+            // TODO: ask server for current occupation state
+            //iSoldLEDstate = bFBport[iFBContact] << 1;
+            updateLEDState();
             setupElementIcon(iSoldLEDstate, "");
         }
         delete elementPropertyDlg;
@@ -1166,7 +1184,7 @@ void element::slotToggle()
 
 
 // this method has some inherent errors due to missing property
-// settings, especialy when sRepeatIcon is used
+// settings, especially when sRepeatIcon is used
 void element::slotCtxEdit(int ctxID)
 {
     switch (ctxID) {
@@ -1239,11 +1257,13 @@ void element::slotCtxEdit(int ctxID)
             updateProperties();
             break;
     }
-    iSoldLEDstate = bFBport[iFBContact] << 1;
-    setupElementIcon(iSoldLEDstate, "");
+    //TODO: get current occupation state
+    //iSoldLEDstate = bFBport[iFBContact] << 1;
     sRepeatIcon = sSoldIcon;
     //send new icon name to all other elements
     emit setRepeatIcon(sRepeatIcon);
+    updateLEDState();
+    setupElementIcon(iSoldLEDstate, "");
 }
 
 
@@ -1259,11 +1279,11 @@ void element::clear()
     iSoldChangeConn[0] = -1;
     iSoldChangeConn[1] = -1;
     iSoldDirection = -1;
-    iFBContact = -1;
+    iFBContact = 0;
     iSoldInvert = -1;
     iSoldLEDoff = 1;
     iSoldLEDstate = LED_OFF;
-    iSoldLocked = UNLOCKED;
+    lockCounter = 0;
     iSoldRotate = -1;
     iSoldSubType = -1;
     iSoldAddress_1 = -1;
@@ -1284,8 +1304,8 @@ void element::sendState()
 
 void element::updateCtxNorm()
 {
-    bool enableCtxN = (iSoldLocked != LOCKED) &&
-        (iSoldLEDstate != LED_RED || sSoldIcon == SYM_ENK) &&
+    bool enableCtxN = (!isLocked()) &&
+        (!isOccupied() || sSoldIcon == SYM_ENK) &&
         (visualMode == kvmNormal || visualMode == kvmEditRoute);
 
     ctxNorm->setItemEnabled(CTX_ID_TOGGLE, enableCtxN);
@@ -1711,11 +1731,13 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
     // setup adress/text and locked symbol
     // no text if we have a "-1"-entry
     if (sSoldText != "-1" && !sSoldText.isEmpty()) {
-        // now setup the right font, TODO make configurable by user
-        /* FIXME: each QWidget has allready a QFont, use it! */
+        /*
+         * now setup the right font, TODO make configurable by user
+         * FIXME: each QWidget has allready a QFont, use it!
+         */
         QFont f("Helvetica");
-        QRect br;               // text bounding rectangle
         QString s = "";
+
 	// empty and straight elements
         if (sSoldIcon == SYM_LEE || sSoldIcon == SYM_GER) {
             f.setPointSize(QApplication::font().pointSize() - 1);
@@ -1726,16 +1748,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         else if (sSoldIcon == SYM_ADR) {
             f.setPointSize(QApplication::font().pointSize() + 1);
             f.setWeight(QFont::DemiBold);
-            int iAdr = bFBport[iFBContact] +
-                  2 * (bFBport[iFBContact + 1]) +
-                  4 * (bFBport[iFBContact + 2]) +
-                  8 * (bFBport[iFBContact + 3]) +
-                 16 * (bFBport[iFBContact + 4]) +
-                 32 * (bFBport[iFBContact + 5]) +
-                 64 * (bFBport[iFBContact + 6]) +
-                128 * (bFBport[iFBContact + 7]);
-
-            s.sprintf("%05d", iAdr);
+            s.sprintf("%04d", editsAddress);
         }
         
         // turntable
@@ -1755,6 +1768,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
 
         QFontMetrics fm(f);
         p.setFont(f);
+        QRect br;               // text bounding rectangle
         br = fm.boundingRect(s);
         br.setWidth(br.width() + 4);
         br.setHeight(br.height() + 2);
@@ -1811,7 +1825,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         
         else if (sSoldIcon == SYM_LEE || sSoldIcon == SYM_ADR)
             br.moveTopLeft(QPoint
-                           (EL_WIDTH / 2 - br.width() / 2 + 1,
+                           (EL_WIDTH / 2 - br.width() / 2 - 2,
                             EL_HEIGHT / 2 - br.height() / 2));
 
         // paint text on background rectangle
@@ -1886,7 +1900,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                 && sSoldIcon != SYM_SRB && sSoldIcon != SYM_NRB
                 && sSoldIcon != SYM_VS) {
             p.setPen(black);
-            p.setBrush(iSoldLocked > 0 ? yellow : darkGray);
+            p.setBrush(isLocked() ? yellow : darkGray);
             p.drawEllipse(xyLocked.x(), xyLocked.y(), 5, 5);
         }
     }
@@ -1897,6 +1911,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
     setPaletteBackgroundPixmap(pixRotatedIcon);
     addTooltip();
 }
+
 
 /*this draws only foreground lines on background pixmap*/
 void element::paintEvent(QPaintEvent*)
@@ -2019,9 +2034,8 @@ void element::addTooltip()
                      -1 ? "N/A" : (iSoldChangeConn[1] == 0 ? "No" : "Yes"),
                      iSoldChangeConn[1], iSoldDirection, iSoldSubType,
                      sSoldText == "-1" ? "N/A (=-1)" : sSoldText.data(),
-                     iSoldLocked == -1 ? "N/A" : (iSoldLocked ==
-                                                  0 ? "No" : "Yes"),
-                     iSoldLocked, iSoldActiveTime,
+                     lockCounter == -1 ? "N/A" : (isLocked() ? "No" : "Yes"),
+                     lockCounter, iSoldActiveTime,
                      iFBContact / (16 - FEEDBACK * 8) + 1,
                      iFBContact % (16 - FEEDBACK * 8) + 1);
 
@@ -2033,22 +2047,20 @@ void element::addTooltip()
 }
 
 
-int element::routeElement(int S, int iNewLEDstate_, int iLastC)
+/**
+ * paint yellow track and deliver back vertical correction value
+ * S = routing direction (bool: to right is true)
+ * C = correction for index
+ */
+int element::routeElement(int S, bool setroute, int vertcorr)
 {
-    // this slot is always called if a routing is done (SET or RESET);
-    // but "setupElementIcon" is only called either
-    // with LED_OFF or LED_YEL (never with LED_RED) from this function!
-    // S = routing direction
-    // C = correction for index
     int D = iSoldDirection;
     int R = iSoldRotate;
     int I = sSoldIcon.contains("links", 1) ? 0 : 1;
-    if ((iNewLEDstate_ != LED_OFF || iSoldLEDstate != LED_RED) &&
-        (iNewLEDstate_ != LED_YEL || iSoldLEDstate != LED_RED))
-        iSoldLEDstate = iNewLEDstate_;
 
-    iSoldRoutingActive = iNewLEDstate_;
+    setRouted(setroute);
 
+    // immediate return if track is straightforward
     if (sSoldIcon == SYM_GER || sSoldIcon == SYM_ENK || sSoldIcon == SYM_HS
         || sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB
         || sSoldIcon == SYM_HSS || sSoldIcon == SYM_SS
@@ -2161,55 +2173,55 @@ int element::routeElement(int S, int iNewLEDstate_, int iLastC)
         QString sReplaceIcon;
         int C = 5;              // dummy value, not used !
 
-        if (D == 0 && iLastC == 0) {
+        if (D == 0 && vertcorr == 0) {
             sReplaceIcon = SYM_GER;
-            C = iLastC;         // == 0
+            C = vertcorr;         // == 0
         }
         
         else if (D == 0 && I == 0
-            && (iLastC == +1 && S == 0 || iLastC == -1 && S == 1)) {
+            && (vertcorr == +1 && S == 0 || vertcorr == -1 && S == 1)) {
             sReplaceIcon = SYM_DIL;
-            C = iLastC;         // == +-1
+            C = vertcorr;         // == +-1
         }
         
         else if (D == 0 && I == 1
-            && (iLastC == -1 && S == 0 || iLastC == +1 && S == 1)) {
+            && (vertcorr == -1 && S == 0 || vertcorr == +1 && S == 1)) {
             sReplaceIcon = SYM_DIR;
-            C = iLastC;         // == +-1
+            C = vertcorr;         // == +-1
         }
 
         else if (D == 1 && I == 0
-            && (iLastC == +1 && S == 0 || iLastC == 0 && S == 1)) {
+            && (vertcorr == +1 && S == 0 || vertcorr == 0 && S == 1)) {
             sReplaceIcon = SYM_KUL;
-            if (iLastC != 0)
+            if (vertcorr != 0)
                 C = 0;
-            if (iLastC == 0)
+            if (vertcorr == 0)
                 C = -1;
         }
 
         else if (D == 1 && I == 1
-            && (iLastC == -1 && S == 0 || iLastC == 0 && S == 1)) {
+            && (vertcorr == -1 && S == 0 || vertcorr == 0 && S == 1)) {
             sReplaceIcon = SYM_KUR;
-            if (iLastC != 0)
+            if (vertcorr != 0)
                 C = 0;
-            if (iLastC == 0)
+            if (vertcorr == 0)
                 C = +1;
         }
 
         else if (D == 1 && I == 0
-            && (iLastC == -1 && S == 1 || iLastC == 0 && S == 0)) {
+            && (vertcorr == -1 && S == 1 || vertcorr == 0 && S == 0)) {
             sReplaceIcon = SYM_KULR;
-            if (iLastC != 0)
+            if (vertcorr != 0)
                 C = 0;
-            if (iLastC == 0)
+            if (vertcorr == 0)
                 C = +1;
         }
         else if (D == 1 && I == 1
-            && (iLastC == +1 && S == 1 || iLastC == 0 && S == 0)) {
+            && (vertcorr == +1 && S == 1 || vertcorr == 0 && S == 0)) {
             sReplaceIcon = SYM_KURR;
-            if (iLastC != 0)
+            if (vertcorr != 0)
                 C = 0;
-            if (iLastC == 0)
+            if (vertcorr == 0)
                 C = -1;
         }
 
@@ -2217,60 +2229,134 @@ int element::routeElement(int S, int iNewLEDstate_, int iLastC)
         return C;
     }
 
+    // rail crossings
     if (sSoldIcon == SYM_KRL || sSoldIcon == SYM_KRR
         || sSoldIcon == SYM_KRH) {
         QString sReplaceIcon;
 
-        if (iLastC == 0)
+        if (vertcorr == 0)
             sReplaceIcon = SYM_GER;
-        else if (S == 0 && iLastC == +1 || S == 1 && iLastC == -1)
+        else if (S == 0 && vertcorr == +1 || S == 1 && vertcorr == -1)
             sReplaceIcon = SYM_DIL;
-        else if (S == 0 && iLastC == -1 || S == 1 && iLastC == +1)
+        else if (S == 0 && vertcorr == -1 || S == 1 && vertcorr == +1)
             sReplaceIcon = SYM_DIR;
 
-        /*if (iSoldLEDstate == LED_OFF)
-           iSoldLocked = 0;
-           else
-           iSoldLocked = 1; */
-        iSoldLocked = !(iSoldLEDstate == LED_OFF);
+        //TODO: check this integer/bool mixture
+        lockCounter = !(iSoldLEDstate == LED_OFF);
 
         sSaveReplaceIcon = sReplaceIcon;
         setupElementIcon(iSoldLEDstate, sReplaceIcon);
         // return the same correctional value as obtained before
-        return iLastC;
+        return vertcorr;
     }
-    return iLastC;              // this line should never be reached!
+    return vertcorr;              // this line should never be reached!
 }
 
 
 /**
- * this slot is always called if a feedback port toggles and does NOT reset
- * a route (done by GBSArea); but "setupElementIcon" is only called either
- * with LED_OFF or LED_RED (never with LED_YEL) from this slot!
+ * this slot is always called if a feedback port toggles 
  */
-void element::slotOccupyElement(unsigned int bus, unsigned int iPortNr_,
-        unsigned int state)
+void element::slotOccupyElement(unsigned int bus, unsigned int contact,
+        bool state)
 {
-    QString sReplaceIcon = "";
+    if (bus == iFBBusNo) {
+        if ((sSoldIcon == SYM_ADR) &&
+                ((contact >> 3) << 3 == iFBContact))
+            updateEDiTSAddress(contact, state);
 
-    if ((sSoldIcon == SYM_ADR) && ((iPortNr_ >> 3) << 3 ==
-                                   (unsigned int) iFBContact))
-        setupElementIcon(iSoldLEDstate, "");
-    // evtl. Dauer der Anzeige einstellbar ????
+        else if (contact == iFBContact)
+            setOccupied(state);
+    }
+}
 
-    // TODO: take care of fbus for SRCP 0.8
-    else if (iPortNr_ == (unsigned int) iFBContact) {
-        // either LED_OFF = 0 or LED_RED = 1 + 1 = 2
-        if (iSoldRoutingActive == 0)
-            iSoldLEDstate = bFBport[iPortNr_] << 1;
+
+/**
+ * calculate the EDiTS address by bit field manipulation
+ */
+void element::updateEDiTSAddress(unsigned int contact, bool state)
+{
+    // mask three lower address bits
+    unsigned int address = contact & 7u;
+    unsigned int bit = 1u << address;
+   
+    // set or clear addressed pattern bit
+    if (state)
+        editsPattern = editsPattern | bit;
+    else
+        editsPattern = editsPattern & ~bit;
+
+    // calculate new address
+    editsAddress = (editsPattern & 1u) * 1 +
+        (editsPattern & 2u) * 2 +
+        (editsPattern & 4u) * 4 +
+        (editsPattern & 8u) * 8 +
+        (editsPattern & 16u) * 16 +
+        (editsPattern & 32u) * 32 +
+        (editsPattern & 64u) * 64 +
+        (editsPattern & 128u) * 128;
+
+    // evtl. Dauer der Anzeige einstellbar? Nein, eine zweite
+    // als Belegtmeldung konfigurierte Rueckmeldung triggert das
+    // Abschalten (und Einschalten?) der Anzeige.
+    /*
+     * Most probably this is done eight times, due to eight feedback
+     * address bits. If this eight feedback states are send in a fixed
+     * sequence, it would be possible to check for the last arriving
+     * bit and update the icon only once:
+     * if (address == 7)
+     */
+    setupElementIcon(iSoldLEDstate, "");
+}
+
+
+void element::setOccupied(bool ostate)
+{
+    if (occupied != ostate) {
+        occupied = ostate;
+        updateLEDState();
+    }
+}
+
+
+void element::setRouted(bool rstate)
+{
+    if (routed != rstate) {
+        routed = rstate;
+        updateLEDState();
+    }
+}
+
+
+void element::updateLEDState()
+{
+    /*
+     * routed occupied iSoldLEDstate
+     * -----------------------------
+     *   0       0         LED_OFF
+     *   1       0         LED_YEL
+     *   0       1         LED_RED
+     *   1       1         LED_RED
+     * -----------------------------
+     */
+    int newLEDState;
+
+    if (occupied)
+        newLEDState = LED_RED;
+    else {
+        if (routed)
+            newLEDState = LED_YEL;
         else
-            iSoldLEDstate = bFBport[iPortNr_] + 1;
+            newLEDState = LED_OFF;
+    }
 
+    if (iSoldLEDstate != newLEDState) {
+        iSoldLEDstate = newLEDState;
+        
         if (sSoldIcon == SYM_KRL || sSoldIcon == SYM_KRR
-            || sSoldIcon == SYM_KRH)
-            sReplaceIcon = sSaveReplaceIcon;    // else sReplaceIcon stays ""
-
-        setupElementIcon(iSoldLEDstate, sReplaceIcon);
+                || sSoldIcon == SYM_KRH)
+            setupElementIcon(iSoldLEDstate, sSaveReplaceIcon);
+        else
+            setupElementIcon(iSoldLEDstate, "");
     }
 }
 
@@ -2288,11 +2374,14 @@ void element::slotUpdateTurntableData(QPoint newCmd_)
     makeCommand();
 }
 
-
+/*
+ * copy all available tracks at turntable into element's text
+ * field, update tooltip
+ */
 void element::slotCopyAvailTracks(const QString& sAvailTracks_)
 {
-    sSoldText = sAvailTracks_;  // copy all available tracks at turntable
-    addTooltip();               // into element's text field, update tooltip
+    sSoldText = sAvailTracks_;
+    addTooltip();
 }
 
 
@@ -2345,7 +2434,7 @@ bool element::hasSameAddress(int address)
 
 bool element::isLocked()
 {
-    return (LOCKED <= iSoldLocked);
+    return (lockCounter > 0);
 }
 
 
@@ -2358,13 +2447,13 @@ bool element::isOccupied()
 void element::setLocked(bool lock)
 {
     if (lock) {
-        ++iSoldLocked;
-        if (iSoldLocked == 1)
+        ++lockCounter;
+        if (lockCounter == 1)
             setupElementIcon(iSoldLEDstate, "");
     }
     else {
-        --iSoldLocked;
-        if (iSoldLocked == 0)
+        --lockCounter;
+        if (lockCounter == 0)
             setupElementIcon(iSoldLEDstate, "");
     }
 }

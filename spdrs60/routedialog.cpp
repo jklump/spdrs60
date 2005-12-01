@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.4.8 $Revision: 1.23 $
+                           version 0.4.8 $Revision: 1.24 $
                            -------------------------------
     copyright            : (C) 2005 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-27 14:03:36 $
+    last modified        : $Date: 2005-12-01 20:37:04 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -566,9 +566,8 @@ void RouteDialog::setActivateData(const PortState& port)
     activateCBchanged(port.used);
     activateRouteBG->setButton((int)port.switchtooff);
     activateSrcpBusLE->setText(QString::number(port.bus));
-    // temporary solution: +1
-    activateContactSB->setValue(port.address + 1);
-    activateContactSBChanged(port.address + 1);
+    activateContactSB->setValue(port.address);
+    activateContactSBChanged(port.address);
 }
 
 
@@ -582,8 +581,7 @@ void RouteDialog::getActivateData(PortState& port)
 #endif
     port.bus = activateSrcpBusLE->text().toUInt();
     port.address = activateContactSB->value();
-    // temporary solution
-    --port.address;
+    port.address;
 }
 
 
@@ -594,9 +592,8 @@ void RouteDialog::setReleaseData(const PortState& port)
     releaseCBchanged(port.used);
     releaseRouteBG->setButton((int)port.switchtooff);
     releaseSrcpBusLE->setText(QString::number(port.bus));
-    // temporary solution: +1
-    releaseContactSB->setValue(port.address + 1);
-    releaseContactSBChanged(port.address + 1);
+    releaseContactSB->setValue(port.address);
+    releaseContactSBChanged(port.address);
 }
 
 
@@ -610,8 +607,7 @@ void RouteDialog::getReleaseData(PortState& port)
 #endif
     port.bus = releaseSrcpBusLE->text().toUInt();
     port.address = releaseContactSB->value();
-    // temporary solution
-    --port.address;
+    port.address;
 }
 
 

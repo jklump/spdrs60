@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.4.8 $Revision: 1.27 $
+                           version 0.4.8 $Revision: 1.28 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-25 21:26:44 $
+    last modified        : $Date: 2005-12-01 20:37:04 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -141,7 +141,7 @@ public:
     void readOldFileTextFromStream(QTextStream&);
     void writeFileTextToStream(QTextStream&);
     QSize sizeHint() const;
-    int  routeElement(int, int, int);
+    int  routeElement(int, bool, int);
     void sendState();
     void locateMe();
     QString getName() const;
@@ -176,8 +176,10 @@ private:
     elemSelectionMode selectionMode;
     elemVisualMode visualMode;
     unsigned int iSoldIndex;
-    int      iFBBusNo;
-    int      iFBContact;
+    unsigned int iFBBusNo;
+    unsigned int iFBContact;
+    unsigned int editsPattern;
+    unsigned int editsAddress;
     int      iGA1BusNo;
     int      iGA2BusNo;
     int      iSoldActiveTime;
@@ -187,15 +189,16 @@ private:
     int      iSoldInvert;
     int      iSoldLEDoff;
     int      iSoldLEDstate;
-    int      iSoldLocked;
-    int      iSoldRoutingActive;
+    int      lockCounter;
+    bool     ffm;
+    bool     ffmactive;
+    bool     occupied;
     bool     routable;
+    bool     routed;
     bool     signal;
     bool     state2dkw;
     bool     switchable;
     bool     turnout;
-    bool     ffmactive;
-    bool     ffm;
     QString  sRepeatIcon;
     QString  sSoldDecoder;
     QString  sSoldProtocol;
@@ -212,11 +215,15 @@ private:
     void setupElementIcon(int, QString);
     void updateProperties();
     void updateCtxNorm();
+    void updateLEDState();
+    void setOccupied(bool);
+    void setRouted(bool);
+    void updateEDiTSAddress(unsigned int, bool);
 
 public slots:
     void slotSwitchIt(int, int);
     void slotToggle();
-    void slotOccupyElement(unsigned int, unsigned int, unsigned int);
+    void slotOccupyElement(unsigned int, unsigned int, bool);
     void switchSelectionMode(elemSelectionMode);
     void switchVisualMode(elemVisualMode);
     void slotRepeatIcon(const QString&);

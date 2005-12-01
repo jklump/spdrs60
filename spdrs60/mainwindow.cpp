@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.39 $
+                           version 0.4.8 $Revision: 1.40 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-12-01 20:21:20 $
+    last modified        : $Date: 2005-12-01 20:37:04 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -328,9 +328,9 @@ void MainWindow::initMainWindow()
     scrollview->addChild(gbs);
 
     connect(this, SIGNAL(sendFBChangeLayout(unsigned int, unsigned int,
-                    unsigned int)),
+                    bool)),
             gbs, SIGNAL(feedbackPortChanged(unsigned int, unsigned int,
-                    unsigned int)));
+                    bool)));
     connect(this, SIGNAL(switchedVisualMode(elemVisualMode)),
             gbs, SIGNAL(switchVisualMode(elemVisualMode)));
     connect(gbs, SIGNAL(showLogMessage(const QString&, int, int)),
@@ -1752,14 +1752,18 @@ void MainWindow::CommandSocketReadyRead()
                 unsigned int limit = allstates.length();
                 if (limit > MAX_FB)
                     limit = MAX_FB;
+               
+                unsigned int fbbus, fbcontact, fbstate;
                 
-                for (unsigned int i = 0; i < limit; i++) {
-                    int tmpstate = allstates[i].digitValue();
-                    bFBport[i] = (tmpstate == 1);
-                    unsigned int fbbus = i / 496 + 1;
+                for (unsigned int port = 0; port < limit; port++) {
+                    fbstate = allstates[port].digitValue();
+                    bFBport[port] = (fbstate == 1);
+                    fbcontact = port % 496 + 1;
+                    fbbus = port / 496 + 1;
+
                     // update module window and gbs
-                    emit sendFBChangeModule(i);
-                    emit sendFBChangeLayout(fbbus, i, tmpstate);
+                    emit sendFBChangeModule(fbbus, fbcontact, fbstate);
+                    emit sendFBChangeLayout(fbbus, fbcontact, fbstate == 1);
                 }
             }
 
@@ -1818,67 +1822,88 @@ void MainWindow::CommandSocketError(int e)
 }
 
 
+/*
+ * SRCP 0.7 port transformations
+ *
+ *   07port     contact     bus      module       input
+ * (1 - 1984)  (1 - 496)  (1 - 4)  (1 - 31/62)  (1 - 16/8)
+ * -------------------------------------------------------
+ *      1           1        1          1           1
+ *      2           2        1          1           2
+ *      .           .        .          .           .
+ *     16          16        1          1          16
+ *     17          17        1          2           1
+ *      .           .        .          .           .
+ *     32          32        1          2          16
+ *     33          33        1          3           1
+ *      .           .        .          .           .
+ *    496         496        1         31          16
+ *    497           1        2          1           1
+ *      .           .        .          .           .
+ *    512          16        2          1          16
+ *    513          17        2          2           1
+ *      .           .        .          .           .
+ *   1984         496        4         31          16
+ * -------------------------------------------------------
+ * 
+ * calculation (integer based):
+ * 
+ *   contact = (07port - 1) mod 496 + 1;
+ *   bus     = (07port - 1) / 496 + 1;
+ *   module  = (contact - 1) / 16 + 1;
+ *   input   = (contact - 1) mod 16 + 1;
+ */
+
 void MainWindow::FeedbackSocketReadyRead()
 {
     QString sInfo = "";
-    QString sDebug;
-    unsigned int fbbus, fbport, iPortNr, iState, uiModule = 0, uiPort = 0;
+    unsigned int fbcontact, fbbus, fbport, fbstate;
 
     while (FeedbackSocket->canReadLine()) {
         sInfo = FeedbackSocket->readLine();
 
-        /*INFO FB <module_type> <portnr> <state> */
-        /* 0   1       2           3        4   : Qstring sections */
-
-        // error-code
+        // if we got error code, break loop
         if (sInfo.contains("-", 0)) {
             cmdToDebug(sInfo, MT_INFO, HL_FEED);
             break;
         }
 
-        iPortNr = sInfo.section(" ", 3, 3).toUInt();
-        fbport = iPortNr % 496;
-        iPortNr--;
-        fbbus = iPortNr / 496 + 1;
+        /*
+         * Qstring sections:
+         * INFO FB <module_type> <portnr> <state>
+         *  0   1       2           3        4
+         */
 
-        iState = sInfo.section(" ", 4, 4).toUInt();
+        fbport = sInfo.section(" ", 3, 3).toUInt();
+        fbstate = sInfo.section(" ", 4, 4).toUInt();
 
-        if (iPortNr < MAX_FB)   //just for case 
-            bFBport[iPortNr] = iState;
+        fbcontact = (fbport - 1) % 496 + 1;
+        fbbus = (fbport - 1) / 496 + 1;
+
+        /*
+         * this feedback buffer will be removed in next release, it is
+         * left here only for feedback module window 
+         */
+        // check address range just for case 
+        if (fbport > 0 && fbport <= MAX_FB)
+            bFBport[fbport - 1] = fbstate;
 
         /* switch on port change messages after initialization */
         if (isFBInitMode) {
-            if (iPortNr == MAX_FB - 1)
+            if (fbport == MAX_FB)
                 isFBInitMode = false;
         }
-        else {
-            if (FEEDBACK == FB_16) {
-                uiModule = iPortNr >> 4;
-                uiModule++;
-                uiPort = iPortNr % 16;
-                uiPort++;
-            }
-            //(FEEDBACK == FB_8)
-            else {
-                uiModule = iPortNr >> 3;
-                uiModule++;
-                uiPort = iPortNr % 8;
-                uiPort++;
-            }
-            sDebug = QString(tr("Feedback port change: M %1 / P %2 = %3"))
-                .arg(uiModule, 3, 10)
-                .arg(uiPort, 2, 10)
-                .arg(iState);
-            cmdToDebug(sDebug, MT_CMD, HL_FEED);
-        }
+        else
+            cmdToDebug(sInfo, MT_CMD, HL_FEED);
 
         /* should'nt we only send modules which are realy connected? */
-        // send updates to module window
-        emit sendFBChangeModule(iPortNr);
-        // send updates to all elements via gbs
-        emit sendFBChangeLayout(fbbus, iPortNr, iState);
-        // send updates to all routes
-	emit sendFBChangeRoute(fbbus, iPortNr, iState == 1);
+        // send feedback updates to:
+        // 1. module window
+        // 2. all elements via gbs
+        // 3. all routes
+        emit sendFBChangeModule(fbbus, fbcontact, fbstate);
+        emit sendFBChangeLayout(fbbus, fbcontact, fbstate == 1);
+	emit sendFBChangeRoute(fbbus, fbcontact, fbstate == 1);
     }
 }
 
@@ -1963,22 +1988,26 @@ void MainWindow::InfoSocketReadyRead()
          */
         else if ("FB" == device) {
             // one state of a single FB port
-            unsigned int port = sInfo.section(" ", 3, 3).toUInt();
-            unsigned int state = sInfo.section(" ", 4, 4).toUInt();
-            unsigned int fbbus = (port - 1) / 496 + 1;
+            unsigned int fbport, fbcontact, fbbus, fbstate;
 
-            port--;
+            fbport = sInfo.section(" ", 3, 3).toUInt();
+            fbstate = sInfo.section(" ", 4, 4).toUInt();
+
+            fbcontact = (fbport - 1) % 496 + 1;
+            fbbus = (fbport - 1) / 496 + 1;
 
             // just for case 
-            if (port < MAX_FB)
-                bFBport[port] = state;
+            if (fbport > 0 && fbport <= MAX_FB)
+                bFBport[fbport - 1] = fbstate;
 
-            emit sendFBChangeModule(port);
-            // send updates to all elements via gbs
-            emit sendFBChangeLayout(fbbus, port, state);
-            // send updates to all routes if state changes to 1
+            // send updates to:
+            // 1. module window
+            // 2. all elements via gbs
+            // 3. all routes if not in init mode
+            emit sendFBChangeModule(fbbus, fbcontact, fbstate);
+            emit sendFBChangeLayout(fbbus, fbcontact, fbstate == 1);
             if (!isFBInitMode)
-                emit sendFBChangeRoute(fbbus, port, state == 1);
+                emit sendFBChangeRoute(fbbus, fbcontact, fbstate == 1);
         }
     }
 }
@@ -2400,8 +2429,10 @@ void MainWindow::slotShowClock()
 void MainWindow::slotShowModules()
 {
     modulesWindow = new feedback(this);
-    connect(this, SIGNAL(sendFBChangeModule(unsigned int)),
-            modulesWindow, SLOT(slotUpdateModules(unsigned int)));
+    connect(this, SIGNAL(sendFBChangeModule(unsigned int, unsigned int,
+                    unsigned int)),
+            modulesWindow, SLOT(slotUpdateModules(unsigned int,
+                    unsigned int, unsigned int)));
     modulesWindow->show();
 }
 
