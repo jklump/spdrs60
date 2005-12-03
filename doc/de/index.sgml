@@ -849,39 +849,35 @@ unter folgendem Verzeichnis zu finden sind: <filename class="directory">
   
   <tbody>
     <row>
-      <entry>alle_elemente.dat.gbs</entry>
+      <entry>alle_elemente.spdrs60</entry>
       <entry>Enthält alle zur Zeit verfügbaren Elemente</entry>
     </row>
     <row>
-      <entry>bahnhof_klein.dat.gbs</entry>
-      <entry>Ein kleiner Beispielbahnhof</entry>
+      <entry>bahnhof_klein.spdrs60</entry>
+      <entry>Ein kleiner Modell-Beispielbahnhof</entry>
     </row>
     <row>
-      <entry>bahnhof_gross.dat.gbs</entry>
+      <entry>bahnhof_gross.spdrs60</entry>
       <entry>Ein gro&szlig;er Beispielbahnhof</entry>
     </row>
     <row>
-      <entry>KleinMaschen.dat.gbs</entry>
-      <entry>Der Bahnhof von Klein Maschen</entry>
+      <entry>kleinmaschen.spdrs60</entry>
+      <entry>Der Modell-Bahnhof von Klein Maschen</entry>
     </row>
     <row>
-      <entry>reststeinzeit.dat.gbs</entry>
-      <entry>?</entry>
+      <entry>abzw-bf.spdrs60</entry>
+      <entry>Ein Modell-Abzweigbahnhof an einer zweigleisigen Strecke</entry>
     </row>
     <row>
-      <entry>search_example.dat.gbs</entry>
-      <entry>?</entry>
-    </row>
-    <row>
-      <entry>dedorf.dat.gbs</entry>
+      <entry>dedorf.spdrs60</entry>
       <entry>Schulungsbeispiel aus "Sp Dr 60- Stellwerke bedienen"</entry>
     </row>
     <row>
-      <entry>Flandersbach.dat.gbs</entry>
+      <entry>flandersbach.spdrs60</entry>
       <entry>Ein real existierender Bahnhof</entry>
     </row>
     <row>
-      <entry>Lintorf.dat.gbs</entry>
+      <entry>lintorf.spdrs60</entry>
       <entry>Ein real existierender Bahnhof</entry>
     </row>
   </tbody>
@@ -2086,14 +2082,14 @@ die Netzwerkschnittstelle.
 <para>
 Nach der Ladezeit erhält man beispielsweise das in <xref
 linkend="abb-bahnhofklein"> dargestellte Bild, welches auf der
-mitgelieferten Gleisbilddatei <filename>bahnhof_klein.dat.gbs</filename>
+mitgelieferten Gleisbilddatei <filename>bahnhof_klein.spdrs60</filename>
 basiert.
 </para>
 
 <para>
 <figure id="abb-bahnhofklein">
   <title>SpDrS60 mit dem Beispiellayout
-&raquo;<filename>bahnhof_klein.dat.gbs</filename>&laquo;</title>
+&raquo;<filename>bahnhof_klein.spdrs60</filename>&laquo;</title>
   <mediaobject><imageobject>
     <imagedata fileref="schnapp-bhf-klein.de.png">
   </imageobject></mediaobject>
@@ -3605,7 +3601,7 @@ möglich.
 <para>
 Dem Programmpaket liegen einige Beispielgleisbilder bei, an denen sich
 das Einstellen von Fahrstraßen anschaulich darstellen läßt. Für die folgenden
-Abbildungen dient die Datei <filename>bahnhof_klein.dat.gbs</filename>
+Abbildungen dient die Datei <filename>bahnhof_klein.spdrs60</filename>
 als Vorlage.
 </para>
 <para>
