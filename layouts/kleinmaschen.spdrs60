@@ -1,0 +1,3804 @@
+# spdrs60 data file
+# version=0.4.8
+# last modified=2005-12-01T21:59:45
+formatversion;1
+cmdhost;localhost;12345;0
+fbhost;localhost;12346;0
+# start of layout section
+%% layout
+# layout dimensions=columns;rows
+dimensions;25;18
+# start of element section
+%% element 2
+index;2
+icon;leer
+rotate;-1
+invers turnout;0
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;nach
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 3
+index;3
+icon;leer
+rotate;-1
+invers turnout;0
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;Klein
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 4
+index;4
+icon;leer
+rotate;-1
+invers turnout;0
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;Stadt
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 15
+index;15
+icon;leer
+rotate;-1
+invers turnout;0
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;West
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 21
+index;21
+icon;uebergang
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 22
+index;22
+icon;uebergang
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 32
+index;32
+icon;gerade
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;99
+hide LEDs;-1
+%% element 33
+index;33
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;2
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 34
+index;34
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 38
+index;38
+icon;prellbock
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 39
+index;39
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 40
+index;40
+icon;weiche_links
+rotate;0
+invers turnout;0
+decoder;Maerklin k83       WD (M)
+protocol;M
+address_1;1;-1
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;-1
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 42
+index;42
+icon;schuppen_u
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 43
+index;43
+icon;schuppen_m
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 44
+index;44
+icon;schuppen_o
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 50
+index;50
+icon;weiche_links
+rotate;0
+invers turnout;0
+decoder;Maerklin k83       WD (M)
+protocol;M
+address_1;1;-1
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;-1
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 51
+index;51
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 52
+index;52
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 56
+index;56
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 57
+index;57
+icon;weiche_links
+rotate;1
+invers turnout;0
+decoder;Maerklin k83       WD (M)
+protocol;M
+address_1;1;-1
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;-1
+active time;50
+feedback port;1;99
+hide LEDs;-1
+%% element 58
+index;58
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 61
+index;61
+icon;drehscheibe
+rotate;-1
+invers turnout;-1
+decoder;Maerklin k83       WD (M)
+protocol;M
+address_1;1;-1
+address_2;1;240
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;50
+feedback port;1;0
+hide LEDs;-1
+%% element 67
+index;67
+icon;diagonale_links
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;99
+hide LEDs;-1
+%% element 68
+index;68
+icon;weiche_links
+rotate;0
+invers turnout;0
+decoder;Maerklin k83       WD (M)
+protocol;M
+address_1;1;-1
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;-1
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 69
+index;69
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 70
+index;70
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 74
+index;74
+icon;signal_ss
+rotate;0
+invers turnout;-1
+decoder;Maerklin k83       WD (M)
+protocol;M
+address_1;1;-1
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;-1
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 75
+index;75
+icon;weiche_links
+rotate;0
+invers turnout;0
+decoder;Maerklin k83       WD (M)
+protocol;M
+address_1;1;-1
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;-1
+active time;50
+feedback port;1;99
+hide LEDs;-1
+%% element 76
+index;76
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 78
+index;78
+icon;kurve_links
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;1
+%% element 84
+index;84
+icon;diagonale_links
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 85
+index;85
+icon;weiche_diag_rechts
+rotate;0
+invers turnout;0
+decoder;Maerklin k83       WD (M)
+protocol;M
+address_1;1;-1
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;-1
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 86
+index;86
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 87
+index;87
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 88
+index;88
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 92
+index;92
+icon;weiche_links
+rotate;1
+invers turnout;0
+decoder;Maerklin k83       WD (M)
+protocol;M
+address_1;1;-1
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;-1
+active time;50
+feedback port;1;99
+hide LEDs;-1
+%% element 93
+index;93
+icon;signal_ss
+rotate;1
+invers turnout;-1
+decoder;Maerklin k83       WD (M)
+protocol;M
+address_1;1;-1
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;-1
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 94
+index;94
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 96
+index;96
+icon;gerade
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 97
+index;97
+icon;richtung_1
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 98
+index;98
+icon;richtung_1
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 99
+index;99
+icon;richtung_1
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 101
+index;101
+icon;diagonale_links
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 102
+index;102
+icon;diagonale_links
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 103
+index;103
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 104
+index;104
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 105
+index;105
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 106
+index;106
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 108
+index;108
+icon;taste_sgt
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 111
+index;111
+icon;leer
+rotate;-1
+invers turnout;0
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;West
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 114
+index;114
+icon;signal_ws
+rotate;0
+invers turnout;-1
+decoder;Maerklin k83       WD (M)
+protocol;M
+address_1;1;-1
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;-1
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 115
+index;115
+icon;signal_ws
+rotate;0
+invers turnout;-1
+decoder;Maerklin k83       WD (M)
+protocol;M
+address_1;1;-1
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;-1
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 116
+index;116
+icon;signal_ss
+rotate;0
+invers turnout;-1
+decoder;Maerklin k83       WD (M)
+protocol;M
+address_1;1;-1
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;-1
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 117
+index;117
+icon;signal_ss
+rotate;0
+invers turnout;-1
+decoder;Maerklin k83       WD (M)
+protocol;M
+address_1;1;-1
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;-1
+active time;50
+feedback port;1;195
+hide LEDs;-1
+%% element 118
+index;118
+icon;diagonale_links
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 119
+index;119
+icon;weiche_diag_rechts
+rotate;0
+invers turnout;0
+decoder;Maerklin k83       WD (M)
+protocol;M
+address_1;1;-1
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;-1
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 121
+index;121
+icon;gerade
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 122
+index;122
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 123
+index;123
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 124
+index;124
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 126
+index;126
+icon;taste_wgt
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 132
+index;132
+icon;kurve_rechts
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 133
+index;133
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;99
+hide LEDs;-1
+%% element 134
+index;134
+icon;gerade
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;99
+hide LEDs;-1
+%% element 135
+index;135
+icon;weiche_diag_rechts
+rotate;1
+invers turnout;0
+decoder;Maerklin k83       WD (M)
+protocol;M
+address_1;1;-1
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;-1
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 136
+index;136
+icon;diagonale_links
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 137
+index;137
+icon;signal_ss
+rotate;1
+invers turnout;-1
+decoder;Maerklin k83       WD (M)
+protocol;M
+address_1;1;-1
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;-1
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 139
+index;139
+icon;signal_hss
+rotate;1
+invers turnout;-1
+decoder;Maerklin k83       WD (M)
+protocol;M
+address_1;1;-1
+address_2;1;-1
+change conn 1;0
+change conn 2;0
+direction;0
+subtype;7
+text;N4
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 140
+index;140
+icon;signal_hss
+rotate;1
+invers turnout;-1
+decoder;Maerklin k83       WD (M)
+protocol;M
+address_1;1;-1
+address_2;1;-1
+change conn 1;0
+change conn 2;0
+direction;0
+subtype;7
+text;N3
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 141
+index;141
+icon;signal_hs
+rotate;1
+invers turnout;-1
+decoder;Maerklin k83       WD (M)
+protocol;M
+address_1;1;-1
+address_2;1;-1
+change conn 1;0
+change conn 2;0
+direction;0
+subtype;4
+text;N2
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 142
+index;142
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 144
+index;144
+icon;taste_fht
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 150
+index;150
+icon;prellbock
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 151
+index;151
+icon;weiche_rechts
+rotate;1
+invers turnout;0
+decoder;Maerklin k83       WD (M)
+protocol;M
+address_1;1;-1
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;-1
+active time;50
+feedback port;1;99
+hide LEDs;-1
+%% element 152
+index;152
+icon;weiche_links
+rotate;1
+invers turnout;0
+decoder;Maerklin k83       WD (M)
+protocol;M
+address_1;1;-1
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;1
+active time;50
+feedback port;1;99
+hide LEDs;-1
+%% element 153
+index;153
+icon;diagonale_links
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 155
+index;155
+icon;gerade
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;Ablaufberg
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 157
+index;157
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 158
+index;158
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 159
+index;159
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 160
+index;160
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 162
+index;162
+icon;taste_ufgt
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 163
+index;163
+icon;leer
+rotate;-1
+invers turnout;0
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;nach
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 164
+index;164
+icon;leer
+rotate;-1
+invers turnout;0
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;S-blick
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 168
+index;168
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 169
+index;169
+icon;gerade
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;99
+hide LEDs;-1
+%% element 170
+index;170
+icon;dkw_links
+rotate;-1
+invers turnout;-1
+decoder;Maerklin k83       WD (M)
+protocol;M
+address_1;1;-1
+address_2;1;-1
+change conn 1;0
+change conn 2;0
+direction;0
+subtype;1
+text;-1
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 173
+index;173
+icon;dreier_weiche
+rotate;0
+invers turnout;-1
+decoder;Viessm.  5211      WD (M)
+protocol;M
+address_1;1;38
+address_2;1;42
+change conn 1;0
+change conn 2;0
+direction;0
+subtype;-1
+text;38
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 175
+index;175
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 176
+index;176
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 177
+index;177
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 178
+index;178
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 181
+index;181
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 182
+index;182
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 186
+index;186
+icon;kurve_rechts
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 187
+index;187
+icon;weiche_links
+rotate;1
+invers turnout;0
+decoder;Viessm.  5211      WD (M)
+protocol;M
+address_1;1;43
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;43
+active time;50
+feedback port;1;195
+hide LEDs;-1
+%% element 188
+index;188
+icon;signal_hss
+rotate;1
+invers turnout;-1
+decoder;Viessm.  5211      WD (M)
+protocol;M
+address_1;1;34
+address_2;1;35
+change conn 1;0
+change conn 2;0
+direction;0
+subtype;7
+text;34
+active time;50
+feedback port;1;2
+hide LEDs;-1
+%% element 190
+index;190
+icon;diagonale_links
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 191
+index;191
+icon;weiche_links
+rotate;0
+invers turnout;0
+decoder;Viessm.  5211      WD (M)
+protocol;M
+address_1;1;41
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;41
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 192
+index;192
+icon;kurve_rechts
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 193
+index;193
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 194
+index;194
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 195
+index;195
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 196
+index;196
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 199
+index;199
+icon;signal_hs
+rotate;1
+invers turnout;-1
+decoder;Maerklin k83       WD (M)
+protocol;M
+address_1;1;-1
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;0
+text;-1
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 200
+index;200
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 205
+index;205
+icon;weiche_rechts
+rotate;1
+invers turnout;0
+decoder;Viessm.  5211      WD (M)
+protocol;M
+address_1;1;44
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;44
+active time;50
+feedback port;1;195
+hide LEDs;-1
+%% element 206
+index;206
+icon;richtung_1
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 207
+index;207
+icon;kurve_links
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 208
+index;208
+icon;kurve_links
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 209
+index;209
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 210
+index;210
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 211
+index;211
+icon;richtung_2
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 212
+index;212
+icon;richtung_2
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 213
+index;213
+icon;richtung_2
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 214
+index;214
+icon;richtung_1
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 217
+index;217
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 218
+index;218
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 223
+index;223
+icon;signal_ss
+rotate;1
+invers turnout;-1
+decoder;Viessm.  5211      WD (M)
+protocol;M
+address_1;1;36
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;36
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 224
+index;224
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;99
+hide LEDs;-1
+%% element 225
+index;225
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 226
+index;226
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 227
+index;227
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 228
+index;228
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 229
+index;229
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 230
+index;230
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 231
+index;231
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 232
+index;232
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 235
+index;235
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 236
+index;236
+icon;signal_hs
+rotate;0
+invers turnout;-1
+decoder;Maerklin k83       WD (M)
+protocol;M
+address_1;1;-1
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;0
+text;-1
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 241
+index;241
+icon;signal_ws
+rotate;0
+invers turnout;-1
+decoder;Viessm.  5211      WD (M)
+protocol;M
+address_1;1;39
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;39
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 242
+index;242
+icon;signal_ws
+rotate;0
+invers turnout;-1
+decoder;Viessm.  5211      WD (M)
+protocol;M
+address_1;1;40
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;40
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 243
+index;243
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 244
+index;244
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 245
+index;245
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 246
+index;246
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 247
+index;247
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 248
+index;248
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 249
+index;249
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 250
+index;250
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 253
+index;253
+icon;richtung_1
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 254
+index;254
+icon;richtung_1
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 259
+index;259
+icon;weiche_rechts
+rotate;0
+invers turnout;0
+decoder;Viessm.  5211      WD (M)
+protocol;M
+address_1;1;28
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;28
+active time;50
+feedback port;1;195
+hide LEDs;-1
+%% element 260
+index;260
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 261
+index;261
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 262
+index;262
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 263
+index;263
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 264
+index;264
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 265
+index;265
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 266
+index;266
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 267
+index;267
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 268
+index;268
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 271
+index;271
+icon;signal_hs
+rotate;1
+invers turnout;-1
+decoder;Maerklin k83       WD (M)
+protocol;M
+address_1;1;-1
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;0
+text;-1
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 272
+index;272
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 277
+index;277
+icon;weiche_rechts
+rotate;0
+invers turnout;0
+decoder;Viessm.  5211      WD (M)
+protocol;M
+address_1;1;29
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;29
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 278
+index;278
+icon;weiche_diag_links
+rotate;1
+invers turnout;1
+decoder;Viessm.  5211      WD (M)
+protocol;M
+address_1;1;31
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;31
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 279
+index;279
+icon;kurve_rechts
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 280
+index;280
+icon;gerade
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;99
+hide LEDs;-1
+%% element 281
+index;281
+icon;kurve_links
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 282
+index;282
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 283
+index;283
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 284
+index;284
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 285
+index;285
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 286
+index;286
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 289
+index;289
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 290
+index;290
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 295
+index;295
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 296
+index;296
+icon;weiche_diag_links
+rotate;0
+invers turnout;0
+decoder;Viessm.  5211      WD (M)
+protocol;M
+address_1;1;27
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;27
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 297
+index;297
+icon;diagonale_rechts
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 298
+index;298
+icon;dreier_weiche
+rotate;1
+invers turnout;-1
+decoder;Viessm.  5211      WD (M)
+protocol;M
+address_1;1;16
+address_2;1;30
+change conn 1;0
+change conn 2;0
+direction;0
+subtype;-1
+text;16
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 300
+index;300
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 301
+index;301
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 302
+index;302
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 303
+index;303
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 304
+index;304
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 307
+index;307
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 308
+index;308
+icon;signal_hs
+rotate;0
+invers turnout;-1
+decoder;Maerklin k83       WD (M)
+protocol;M
+address_1;1;-1
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;0
+text;-1
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 313
+index;313
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 314
+index;314
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 315
+index;315
+icon;kurve_rechts
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 316
+index;316
+icon;weiche_diag_links
+rotate;1
+invers turnout;0
+decoder;Viessm.  5211      WD (M)
+protocol;M
+address_1;1;15
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;15
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 318
+index;318
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 319
+index;319
+icon;signal_hss
+rotate;0
+invers turnout;-1
+decoder;Viessm.  5211      WD (M)
+protocol;M
+address_1;1;25
+address_2;1;20
+change conn 1;0
+change conn 2;0
+direction;0
+subtype;7
+text;P4
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 320
+index;320
+icon;signal_hss
+rotate;0
+invers turnout;-1
+decoder;Viessm.  5211      WD (M)
+protocol;M
+address_1;1;26
+address_2;1;21
+change conn 1;0
+change conn 2;0
+direction;0
+subtype;7
+text;P3
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 321
+index;321
+icon;signal_hs
+rotate;0
+invers turnout;-1
+decoder;Viessm.  5211      WD (M)
+protocol;M
+address_1;1;22
+address_2;1;23
+change conn 1;0
+change conn 2;0
+direction;0
+subtype;4
+text;P2
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 322
+index;322
+icon;signal_hs
+rotate;0
+invers turnout;-1
+decoder;Viessm.  5211      WD (M)
+protocol;M
+address_1;1;24
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;0
+text;P1
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 325
+index;325
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;Ost
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 326
+index;326
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 331
+index;331
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 332
+index;332
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 333
+index;333
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 335
+index;335
+icon;diagonale_rechts
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 336
+index;336
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 337
+index;337
+icon;kurve_rechts
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 338
+index;338
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 339
+index;339
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 340
+index;340
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 343
+index;343
+icon;gerade_tl
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 344
+index;344
+icon;gerade_tl
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 349
+index;349
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 350
+index;350
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 351
+index;351
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 354
+index;354
+icon;weiche_diag_links
+rotate;1
+invers turnout;0
+decoder;Viessm.  5211      WD (M)
+protocol;M
+address_1;1;14
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;14
+active time;50
+feedback port;1;195
+hide LEDs;-1
+%% element 356
+index;356
+icon;dkw_rechts
+rotate;-1
+invers turnout;-1
+decoder;Viessm.  5211      WD (M)
+protocol;M
+address_1;1;9
+address_2;1;10
+change conn 1;0
+change conn 2;0
+direction;2
+subtype;1
+text;9
+active time;50
+feedback port;1;195
+hide LEDs;-1
+%% element 357
+index;357
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 358
+index;358
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 367
+index;367
+icon;prellbock
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 368
+index;368
+icon;prellbock
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 369
+index;369
+icon;prellbock
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 373
+index;373
+icon;diagonale_rechts
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 374
+index;374
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 375
+index;375
+icon;weiche_rechts
+rotate;1
+invers turnout;1
+decoder;Viessm.  5211      WD (M)
+protocol;M
+address_1;1;12
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;1
+subtype;-1
+text;12
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 376
+index;376
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 392
+index;392
+icon;weiche_rechts
+rotate;1
+invers turnout;1
+decoder;Viessm.  5211      WD (M)
+protocol;M
+address_1;1;13
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;13
+active time;50
+feedback port;1;195
+hide LEDs;-1
+%% element 393
+index;393
+icon;weiche_rechts
+rotate;0
+invers turnout;0
+decoder;Viessm.  5211      WD (M)
+protocol;M
+address_1;1;11
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;1
+subtype;-1
+text;11
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 394
+index;394
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 409
+index;409
+icon;leer
+rotate;-1
+invers turnout;0
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;Ost
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 410
+index;410
+icon;signal_ss
+rotate;1
+invers turnout;-1
+decoder;Viessm.  5211      WD (M)
+protocol;M
+address_1;1;19
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;19
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 411
+index;411
+icon;signal_hs
+rotate;1
+invers turnout;-1
+decoder;Viessm.  5211      WD (M)
+protocol;M
+address_1;1;7
+address_2;1;18
+change conn 1;0
+change conn 2;0
+direction;0
+subtype;4
+text;7
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 412
+index;412
+icon;weiche_rechts
+rotate;1
+invers turnout;1
+decoder;Viessm.  5211      WD (M)
+protocol;M
+address_1;1;5
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;5
+active time;50
+feedback port;1;387
+hide LEDs;-1
+%% element 428
+index;428
+icon;prellbock
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 429
+index;429
+icon;gerade_tl
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 430
+index;430
+icon;gerade_tl
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+# start of route section
+# routes=0

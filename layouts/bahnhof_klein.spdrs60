@@ -1,0 +1,850 @@
+# spdrs60 data file
+# version=0.4.8
+# last modified=2005-12-02T17:48:51
+formatversion;1
+cmdhost;localhost;12345;0
+fbhost;localhost;12346;0
+# start of layout section
+%% layout
+# layout dimensions=columns;rows
+dimensions;10;11
+# start of element section
+%% element 4
+index;4
+icon;signal_hs
+rotate;1
+invers turnout;-1
+decoder;Maerklin k83 (M)
+protocol;M
+address_1;1;1
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;0
+text;001
+active time;50
+feedback port;1;12
+hide LEDs;-1
+%% element 6
+index;6
+icon;prellbock
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 14
+index;14
+icon;prellbock
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 15
+index;15
+icon;signal_hs
+rotate;0
+invers turnout;-1
+decoder;Maerklin k83 (M)
+protocol;M
+address_1;1;2
+address_2;1;-1
+change conn 1;0
+change conn 2;0
+direction;0
+subtype;4
+text;002
+active time;50
+feedback port;1;11
+hide LEDs;-1
+%% element 17
+index;17
+icon;drehscheibe
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;M
+address_1;1;246
+address_2;1;240
+change conn 1;-1
+change conn 2;-1
+direction;0
+subtype;5
+text;1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 20
+index;20
+icon;richtung_2
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 25
+index;25
+icon;signal_ss
+rotate;0
+invers turnout;-1
+decoder;EDiTS Schaltdek. (M)
+protocol;M
+address_1;1;13
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;Sh I
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 26
+index;26
+icon;weiche_links
+rotate;0
+invers turnout;0
+decoder;Maerklin k83 (M)
+protocol;M
+address_1;1;3
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;003
+active time;50
+feedback port;1;10
+hide LEDs;-1
+%% element 27
+index;27
+icon;diagonale_links
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;14
+hide LEDs;-1
+%% element 28
+index;28
+icon;prellbock
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 31
+index;31
+icon;signal_hs
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;M
+address_1;1;15
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;0
+text;015
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 33
+index;33
+icon;taste_sgt
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 36
+index;36
+icon;weiche_links
+rotate;1
+invers turnout;0
+decoder;Maerklin k83 (M)
+protocol;M
+address_1;1;4
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;004
+active time;50
+feedback port;1;10
+hide LEDs;-1
+%% element 37
+index;37
+icon;weiche_links
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;M
+address_1;1;14
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;014
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 42
+index;42
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 44
+index;44
+icon;taste_wgt
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 46
+index;46
+icon;leer
+rotate;-1
+invers turnout;1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 47
+index;47
+icon;signal_hss
+rotate;1
+invers turnout;-1
+decoder;EDiTS Schaltdek. (M)
+protocol;M
+address_1;1;5
+address_2;1;105
+change conn 1;0
+change conn 2;0
+direction;0
+subtype;7
+text;B
+active time;50
+feedback port;1;9
+hide LEDs;-1
+%% element 48
+index;48
+icon;signal_hss
+rotate;1
+invers turnout;-1
+decoder;EDiTS Schaltdek. (M)
+protocol;M
+address_1;1;6
+address_2;1;206
+change conn 1;0
+change conn 2;0
+direction;0
+subtype;1
+text;A
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 49
+index;49
+icon;leer
+rotate;-1
+invers turnout;1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 50
+index;50
+icon;haus_2
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 53
+index;53
+icon;uebergang
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 55
+index;55
+icon;taste_fht
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 57
+index;57
+icon;leer
+rotate;-1
+invers turnout;1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;Gleis 2
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 58
+index;58
+icon;signal_hss
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;M
+address_1;1;7
+address_2;1;207
+change conn 1;0
+change conn 2;0
+direction;0
+subtype;7
+text;007
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 59
+index;59
+icon;signal_hss
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;M
+address_1;1;8
+address_2;1;208
+change conn 1;0
+change conn 2;0
+direction;0
+subtype;1
+text;008
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 60
+index;60
+icon;leer
+rotate;-1
+invers turnout;1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;Gleis 1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 61
+index;61
+icon;haus_2
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 64
+index;64
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 66
+index;66
+icon;taste_ufgt
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 68
+index;68
+icon;leer
+rotate;-1
+invers turnout;1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 69
+index;69
+icon;weiche_rechts
+rotate;0
+invers turnout;0
+decoder;Littfinsky (D)
+protocol;M
+address_1;1;9
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;009
+active time;50
+feedback port;1;4
+hide LEDs;-1
+%% element 70
+index;70
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 71
+index;71
+icon;leer
+rotate;-1
+invers turnout;1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 75
+index;75
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 80
+index;80
+icon;gerade
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;51
+hide LEDs;-1
+%% element 81
+index;81
+icon;weiche_rechts
+rotate;1
+invers turnout;0
+decoder;Littfinsky (D)
+protocol;M
+address_1;1;10
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;010
+active time;50
+feedback port;1;13
+hide LEDs;-1
+%% element 86
+index;86
+icon;signal_hs
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;M
+address_1;1;1
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;0
+text;001
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 91
+index;91
+icon;signal_hs
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;M
+address_1;1;11
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;0
+text;011
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 92
+index;92
+icon;richtung_1
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 97
+index;97
+icon;richtung_2
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 102
+index;102
+icon;richtung_1
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;51
+hide LEDs;-1
+%% element 103
+index;103
+icon;signal_hs
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;M
+address_1;1;12
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;0
+text;012
+active time;50
+feedback port;1;1
+hide LEDs;-1
+# start of route section
+# routes=10
+%% route 1
+name;Gleis 1 -> rechts
+to signal;1;12
+from signal;1;8;1
+release port;1;4;1;0
+activate port;1;0;0;0
+active by loco;1;0
+type;0;0
+switch x to y;1;10;0
+switch x to y;1;9;0
+%% route 2
+name;Gleis 1 -> links
+to signal;1;1
+from signal;1;6;1
+release port;1;1;1;0
+activate port;1;0;0;0
+active by loco;1;0
+type;0;0
+switch x to y;1;3;0
+switch x to y;1;4;0
+switch x to y;1;14;0
+%% route 3
+name;Gleis 2 -> links
+to signal;1;1
+from signal;1;5;2
+release port;1;5;1;0
+activate port;1;0;0;0
+active by loco;1;0
+type;0;0
+switch x to y;1;4;1
+switch x to y;1;3;1
+switch x to y;1;2;0
+switch x to y;1;14;1
+switch x to y;1;13;0
+%% route 4
+name;Gleis 2 -> rechts
+to signal;1;12
+from signal;1;7;2
+release port;1;129;1;0
+activate port;1;0;0;0
+active by loco;1;0
+type;0;0
+switch x to y;1;9;1
+switch x to y;1;10;1
+switch x to y;1;11;0
+switch x to y;1;8;0
+%% route 5
+name;rechts -> Gleis 2
+to signal;1;5
+from signal;1;11;1
+release port;1;358;1;0
+activate port;1;0;0;0
+active by loco;1;0
+type;0;0
+switch x to y;1;9;0
+switch x to y;1;10;0
+switch x to y;1;200;1
+%% route 6
+name;links -> Gleis 1
+to signal;1;8
+from signal;1;2;1
+release port;1;100;1;0
+activate port;1;0;0;0
+active by loco;1;0
+type;0;0
+switch x to y;1;3;0
+switch x to y;1;4;0
+switch x to y;1;14;0
+%% route 7
+name;Gbhf -> Gleis 2
+to signal;1;7
+from signal;1;13;1
+release port;3;9;1;0
+activate port;1;0;0;0
+active by loco;1;0
+type;0;0
+switch x to y;1;3;0
+switch x to y;1;4;0
+%% route 8
+name;Gleis 2 -> Gbhf
+to signal;1;13
+from signal;1;5;3
+release port;1;0;0;0
+activate port;1;0;0;0
+active by loco;1;0
+type;0;0
+switch x to y;1;3;0
+switch x to y;1;4;0
+%% route 9
+name;Streckengleis
+to signal;1;15
+from signal;1;1;1
+release port;1;0;0;0
+activate port;1;0;0;0
+active by loco;1;0
+type;0;0
+%% route 10
+name;Sh I - B
+to signal;1;5
+from signal;1;13;0
+release port;1;0;0;0
+activate port;1;0;0;0
+active by loco;1;0
+type;3;0
+switch x to y;1;4;0
+switch x to y;1;3;0
