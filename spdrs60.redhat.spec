@@ -2,13 +2,12 @@ Summary: SpDrS60, Control center for digital model railroads
 Summary(de): SpDrS60, Spurplan-Drucktastenstellwerk für digitale Modelleisenbahnen
 Name: spdrs60
 Version: 0.4.8
-Release: FC2_1
+Release: 1%{?dist}
 License: GPL
 Group: Amusements/Games
 Distribution: Fedora Core 2 Linux
 Vendor: Stefan Preis, Guido Scholz
 URL: http://www.linux-modellbahn.de/
-Packager: Guido Scholz <guido.scholz@bayernline.de>
 Provides: spdrs60
 Requires: qt
 BuildRequires: glibc-devel qt-devel qt-designer openjade docbook-style-dsssl
