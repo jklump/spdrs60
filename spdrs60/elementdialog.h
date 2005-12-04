@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.h
-                           version 0.4.8 $Revision: 1.7 $
+                           version 0.4.8 $Revision: 1.8 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-12-01 20:21:20 $
+    last modified        : $Date: 2005-12-04 21:03:05 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -36,7 +36,6 @@
 #include <qpushbutton.h>
 #include <qradiobutton.h>
 #include <qspinbox.h>
-#include <qstrlist.h>
 #include <qtooltip.h>
 #include <qvalidator.h>
   	
@@ -46,7 +45,7 @@ class elementDialog: public QDialog
    Q_OBJECT
 
 public:
-   elementDialog(QWidget* parent = 0, QStrList* edList = 0);
+   elementDialog(QWidget* parent = 0, int idx = 0);
    virtual ~elementDialog();
 
    int getGASubType();
@@ -56,18 +55,31 @@ public:
    int getSRCPBus2();
    void setSRCPBus2(int);
    QString getSymbolName();
+   void setSymbolName(const QString&);
    int getRotated();
+   void setRotated(int);
    int getInverted();
+   void setInverted(int);
    int getLEDsAreOff();
+   void setLEDsAreOff(int);
    QString getDecoder();
+   void setDecoder(const QString&);
    QString getProtocol();
+   void setProtocol(const QString&);
    int getAddress1();
+   void setAddress1(int);
    int getAddress2();
+   void setAddress2(int);
    int getXChangeConn1();
+   void setXChangeConn1(int);
    int getXChangeConn2();
+   void setXChangeConn2(int);
    int getDirection();
+   void setDirection(int);
    QString getSymbolText();
+   void setSymbolText(const QString&);
    int getActiveTime();
+   void setActiveTime(int);
    int getFBBus();
    void setFBBus(int);
    int getFBContact();
@@ -78,7 +90,9 @@ private:
    void showSubTypes(int);
    void updateValidators();
 
+
 private slots:
+   void slotAddress1Changed(const QString&);
    void slotSymbolChanged(int);
    void slotSubTypeClicked(int);
    void slotDecoderChanged(int);
@@ -86,6 +100,7 @@ private slots:
    void slotShowFBmodules();
    void slotEnable_LED_FB();
    void contactSBChanged(int);
+   void letteringChanged(bool);
 
 signals:
    void sigShowFBmodules();
@@ -100,6 +115,7 @@ private:
    QLineEdit    *moduleLE;
    QLineEdit    *portLE;
 
+   QCheckBox    *cbAddrLabeling;
    QCheckBox    *cbRotate;
    QCheckBox    *cbInvert;
    QCheckBox    *cbLEDoff;
@@ -114,7 +130,6 @@ private:
    QComboBox    *coboDecoder;
 
    QStrList     *IconNameList;
-   QStrList     *listElementData;
 
    QLabel       *srcpBus1Label;
    QLabel       *srcpBus2Label;
@@ -142,6 +157,8 @@ private:
    QIntValidator* a2Validator;
 
    int          gaSubType;
+   int          gaDirection;
+   QString      lastDecoder;
 };
 
 #endif    //ELEMENTDIALOG_H

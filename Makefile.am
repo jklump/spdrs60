@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # Guido Scholz
-# version: $Revision $
-# last update: $Date $
+# version: $Revision: 1.5 $
+# last update: $Date: 2005-12-04 21:03:05 $
 
 SUBDIRS = icons elements layouts \
         $(HTML_DOC) \

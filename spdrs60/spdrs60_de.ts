@@ -416,10 +416,6 @@ SRCP-Versionsnummer:
         <translation>Info-Port durch Server geschlossen!</translation>
     </message>
     <message>
-        <source>Feedback port change: M %1 / P %2 = %3</source>
-        <translation>Rückmelde-Kontakt geändert: M %1 / E %2 = %3</translation>
-    </message>
-    <message>
         <source>Layouts</source>
         <translation>Gleisbilder</translation>
     </message>
@@ -1139,10 +1135,6 @@ Wollen Sie sie überschreiben?</translation>
 <context>
     <name>element</name>
     <message>
-        <source>Properties of Element #%d</source>
-        <translation>Eigenschaften von Element Nr. %d</translation>
-    </message>
-    <message>
         <source>&amp;Toggle</source>
         <translation>&amp;Umschalten</translation>
     </message>
@@ -1413,6 +1405,14 @@ Controlled via keyboard #14</source>
     <message>
         <source>Port (1 - %1):</source>
         <translation>Eingang (1 - %1):</translation>
+    </message>
+    <message>
+        <source>Properties of Element #%1</source>
+        <translation>Eigenschaften von Element Nr. %1</translation>
+    </message>
+    <message>
+        <source>Address for la&amp;beling</source>
+        <translation>Mit Adresse &amp;beschriften</translation>
     </message>
 </context>
 <context>

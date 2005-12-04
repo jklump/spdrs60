@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementDialog.cpp
-                           version 0.4.8 $Revision: 1.9 $
+                           version 0.4.8 $Revision: 1.10 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-12-01 20:21:20 $
+    last modified        : $Date: 2005-12-04 21:03:05 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -58,12 +58,12 @@ extern QString DEF_DECODER;
 
 
 // true, parent window not usable until this closed
-elementDialog::elementDialog(QWidget* parent, QStrList* edList):
+elementDialog::elementDialog(QWidget* parent, int idx):
     QDialog(parent, "elementDialog", true)
 {
+    setCaption(tr("Properties of Element #%1").arg(idx));
     gaSubType = 0;
-    //copy list pointer to local variable
-    listElementData = edList;
+    gaDirection = 0;
 
     /*Layout to separate OK Cancel buttons from the upper rest*/
     QBoxLayout* baseLayout = new QVBoxLayout(this, 12, 12);
@@ -167,9 +167,6 @@ elementDialog::elementDialog(QWidget* parent, QStrList* edList):
     // only four elements visible in open combo Box
     IconComboBox->setSizeLimit(4);
     IconComboBox->setMinimumHeight(EL_HEIGHT + 5);
-    // show the right icon belonging to current symbol
-    IconComboBox->setCurrentItem(IconNameList->
-                             find(listElementData->at(LIST_ID_ICON)));
     connect(IconComboBox, SIGNAL(activated(int)), this,
             SLOT(slotSymbolChanged(int)));
     label->setBuddy(IconComboBox);
@@ -185,9 +182,14 @@ elementDialog::elementDialog(QWidget* parent, QStrList* edList):
     leText->setMaxLength(10);
     leText->setMaximumWidth(IconComboBox->width() - 13);
     textLayout->addWidget(leText);
-    /*TODO: clear this list */
-    /*leText->setText(listElementData->at(LIST_ID_TEXT)); */
     labelText->setBuddy(leText);
+
+    /* line with address to text checkbox*/
+    cbAddrLabeling = new QCheckBox(tr("Address for la&beling"), frData,
+            "addressLabelingCB");
+    rfDataGBLayout->addWidget(cbAddrLabeling);
+    connect(cbAddrLabeling, SIGNAL(toggled(bool)), this,
+            SLOT(letteringChanged(bool))); 
 
     /* line with rotate checkbox*/
     cbRotate = new QCheckBox(tr("&Rotation"), frData, "rotateCB");
@@ -317,9 +319,10 @@ elementDialog::elementDialog(QWidget* parent, QStrList* edList):
     decdataLayout->addWidget(leAddress_1, 1, 1);
     leAddress_1->setMaxLength(4);       // address length of NA protocol
     leAddress_1->setMaximumWidth(LEMAXWIDTH);
+    connect(leAddress_1, SIGNAL(textChanged(const QString&)),
+            this, SLOT(slotAddress1Changed(const QString&)));
     a1Validator = new QIntValidator(-1, MAX_GADCC, this);
     leAddress_1->setValidator(a1Validator);
-    leAddress_1->setText(listElementData->at(LIST_ID_ADDRESS_1));
     labelAddress_1->setBuddy(leAddress_1);
     cbChaConn1 = new QCheckBox(tr("&Exch. conn."), decoderGB, "xch1");
     decdataLayout->addWidget(cbChaConn1, 1, 2);
@@ -342,7 +345,6 @@ elementDialog::elementDialog(QWidget* parent, QStrList* edList):
     leAddress_2->setMaximumWidth(LEMAXWIDTH);
     a2Validator = new QIntValidator(-1, MAX_GADCC, this);
     leAddress_2->setValidator(a2Validator);
-    leAddress_2->setText(listElementData->at(LIST_ID_ADDRESS_2));
     labelAddress_2->setBuddy(leAddress_2);
     cbChaConn2 = new QCheckBox(tr("E&xch. conn."), decoderGB, "xch2");
     decdataLayout->addWidget(cbChaConn2, 3, 2);
@@ -453,9 +455,6 @@ elementDialog::elementDialog(QWidget* parent, QStrList* edList):
     QPushButton *CancelButton = new QPushButton(tr("Cancel"), this);
     connect(CancelButton, SIGNAL(clicked()), this, SLOT(reject()));
     buttonLayout->addWidget(CancelButton);
-    
-    // now fill the widgets with data
-    slotSymbolChanged(IconComboBox->currentItem());
 }
 
 
@@ -480,6 +479,24 @@ void elementDialog::setupElement(const char *eName)
     sPixmapName += eName;
     sPixmapName += XPM_SUFFIX;
     IconComboBox->insertItem(QPixmap(sPixmapName));
+}
+
+
+void elementDialog::slotAddress1Changed(const QString&)
+{
+    if (cbAddrLabeling->isChecked())
+        leText->setText(leAddress_1->text());
+}
+
+
+void elementDialog::letteringChanged(bool takeaddr)
+{
+    if (takeaddr) {
+        leText->setFocusPolicy(QWidget::NoFocus);
+        leText->setText(leAddress_1->text());
+    }
+    else
+        leText->setFocusPolicy(QWidget::StrongFocus);
 }
 
 
@@ -575,27 +592,15 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
         sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB ||
         sSoldIcon == SYM_ZP || sSoldIcon == SYM_VS;
 
-    sListText = listElementData->at(LIST_ID_PROTOCOL);
-
-    if (sListText == "M" || (DEF_PROTOCOL == PROT_MS && sListText != "N")
-        || sSoldIcon == SYM_DRE)
-        rbProtocol_MS->setChecked(true);
-    if (sListText == "N" || (DEF_PROTOCOL == PROT_NA && sListText != "M"))
-        rbProtocol_NA->setChecked(true);
-
     rbProtocol_MS->setEnabled(enabled || sSoldIcon == SYM_DRE);
     rbProtocol_NA->setEnabled(enabled);
 
     // show address_1 data, but take enabled value from above
     enabled = enabled && sSoldIcon != SYM_SBN && sSoldIcon != SYM_MDC;
     if (enabled) {
-        sListText = listElementData->at(LIST_ID_DIRECTION);
         // set direction to 0 if it was -1 before and address_1 is now enabled
-        if (sListText == "-1")
-            listElementData->insert(LIST_ID_DIRECTION, "0");
-        leAddress_1->setText(listElementData->at(LIST_ID_ADDRESS_1));
-        sListText = listElementData->at(LIST_ID_CHACONN_1);
-        cbChaConn1->setChecked(sListText == "1");
+        if (gaDirection == -1)
+            gaDirection = 0;
     }
     else
         leAddress_1->setText("-1");
@@ -603,6 +608,7 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
     srcpBus1Label->setEnabled(enabled);
     srcpBus1LE->setEnabled(enabled);
     leAddress_1->setEnabled(enabled);
+    cbAddrLabeling->setEnabled(enabled);
     labelAddress_1->setEnabled(enabled);
     cbChaConn1->setEnabled(enabled);
 
@@ -622,19 +628,13 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
         sSoldIcon == SYM_SBN || sSoldIcon == SYM_ADR ||
         sSoldIcon == SYM_BLD || sSoldIcon == SYM_ZP;
 
-    if (enabled)
-        leText->setText(listElementData->at(LIST_ID_TEXT));
-    else
+    if (!enabled)
         leText->setText("-1");
 
     leText->setEnabled(enabled);
     labelText->setEnabled(enabled);
 
     // show address_2 data
-    //TODO: this value is not valid at this time
-    
-    gaSubType = QString(listElementData->at(LIST_ID_ADDRESS_2)).toInt();
-
     // Hp0+Hp1+Hp2
     enabled = sSoldIcon == SYM_HSS || sSoldIcon == SYM_DRW
         || sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR
@@ -643,13 +643,13 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
         || sSoldIcon == SYM_SBN || (sSoldIcon == SYM_VS
                                     && gaSubType == 4)
         || (sSoldIcon == SYM_HS && gaSubType == 4);
-
+    
     if (enabled) {
-        leAddress_2->setText(listElementData->at(LIST_ID_ADDRESS_2));
+        /*
         if (sSoldIcon != SYM_DRE && sSoldIcon != SYM_SBN) {
             sListText = listElementData->at(LIST_ID_CHACONN_2);
             cbChaConn2->setChecked(sListText == "1");
-        }
+        }*/
     }
     else
         leAddress_2->setText("-1");
@@ -686,11 +686,6 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
         sSoldIcon == SYM_SHU || sSoldIcon == SYM_ZP;
     // SYM_GER: only for text placement
 
-    sListText = listElementData->at(LIST_ID_ROTATE);
-
-    cbRotate->setChecked(sListText == "1");
-    cbRotate->setEnabled(enabled);
-
     // show LEDoff data
     enabled = sSoldIcon == SYM_KUL || sSoldIcon == SYM_KUR ||
         sSoldIcon == SYM_DIL || sSoldIcon == SYM_DIR ||
@@ -699,9 +694,6 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
         sSoldIcon == SYM_RI2 || sSoldIcon == SYM_KRH ||
         sSoldIcon == SYM_KRL || sSoldIcon == SYM_KRR;
 
-    sListText = listElementData->at(LIST_ID_LEDOFF);
-
-    cbLEDoff->setChecked(sListText == "1");
     cbLEDoff->setEnabled(enabled);
 
     // show invert data for empty elements only for colour
@@ -710,9 +702,6 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
         || sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR
         || sSoldIcon == SYM_LEE;
 
-    sListText = listElementData->at(LIST_ID_INVERT);
-
-    cbInvert->setChecked(sListText == "1");
     cbInvert->setEnabled(enabled);
 /*
     enabled = sSoldIcon == SYM_KUL || sSoldIcon == SYM_KUR ||
@@ -741,7 +730,6 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
           sSoldIcon == SYM_KRL || sSoldIcon == SYM_KRR) &&
          !cbLEDoff->isChecked());
 
-    //sListText = listElementData->at(LIST_ID_FBPORT);
     feedbackGB->setEnabled(enabled);
     buttFBmodules->setEnabled(enabled);
 
@@ -755,7 +743,6 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
         contactSB->setEnabled(true);
         //contactSBChanged(sListText.toInt() + 1);
     }
-
 
     moduleLE->setEnabled(enabled);
     labelFBmodule->setEnabled(enabled);
@@ -778,13 +765,6 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
         sSoldIcon == SYM_SBN || sSoldIcon == SYM_MDC ||
         sSoldIcon == SYM_BLD || sSoldIcon == SYM_ZP;
 
-    sListText = listElementData->at(LIST_ID_ACTTIME);
-    if (enabled) {
-        if (sListText != "-1")
-            activeTimeSB->setValue(sListText.toInt());
-        else
-            activeTimeSB->setValue(ACTIVE_TIME);
-    }
     activeTimeSB->setEnabled(enabled);
     labelTime->setEnabled(enabled);
 
@@ -807,7 +787,7 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
     else if (!enabled && sSoldIcon == SYM_DRE)
         coboDecoder->setCurrentItem(8); // Maerklin special turntable decoder
     else {
-        sListText = listElementData->at(LIST_ID_DECODER);
+        sListText = lastDecoder;
         if (sListText == "-1")
             sListText = DEF_DECODER;
 
@@ -1030,7 +1010,7 @@ void elementDialog::showSubTypes(int iShow_)
                                              "Controlled via keyboard #14"));
         }
 
-        int a2 = QString(listElementData->at(LIST_ID_ADDRESS_2)).toInt();
+        int a2 = leAddress_2->text().toInt();
         switch (a2 / 16) {
             default:               // default turntable
             case 15:
@@ -1290,10 +1270,26 @@ QString elementDialog::getSymbolName()
 };
 
 
+void elementDialog::setSymbolName(const QString& sname) 
+{
+    IconComboBox->setCurrentItem(IconNameList->find(sname));
+    slotSymbolChanged(IconComboBox->currentItem());
+}
+
+
 int elementDialog::getRotated()
 {
     return cbRotate->isEnabled() ? (cbRotate->isChecked()? 1 : 0) : -1;
 };
+
+
+void elementDialog::setRotated(int rotated)
+{
+    if (rotated == -1)
+        cbRotate->setChecked(false);
+    else
+        cbRotate->setChecked(rotated);
+}
 
 
 int elementDialog::getInverted()
@@ -1302,16 +1298,53 @@ int elementDialog::getInverted()
 };
 
 
+void elementDialog::setInverted(int inverted)
+{
+    if (inverted == -1)
+        cbInvert->setChecked(false);
+    else
+        cbInvert->setChecked(inverted);
+}
+
+
 int elementDialog::getLEDsAreOff()
 {
     return cbLEDoff->isEnabled() ? (cbLEDoff->isChecked()? 1 : 0) : -1;
 };
 
 
+void elementDialog::setLEDsAreOff(int off)
+{
+    if (off == -1)
+        cbLEDoff->setEnabled(false);
+    else
+        cbLEDoff->setChecked(off);
+}
+
+
 QString elementDialog::getDecoder()
 {
     return coboDecoder->currentText();
 };
+
+
+void elementDialog::setDecoder(const QString& decoder)
+{
+    QString sDec;
+    lastDecoder = decoder;
+
+    if (decoder == "-1")
+        sDec = DEF_DECODER;
+    else
+        sDec = decoder;
+
+    for (int i = 0; i < coboDecoder->count(); i++) {
+        if (sDec == coboDecoder->text(i)) {
+            coboDecoder->setCurrentItem(i);
+            break;
+        }
+    }
+}   
 
 
 QString elementDialog::getProtocol()
@@ -1321,16 +1354,43 @@ QString elementDialog::getProtocol()
 };
 
 
+void elementDialog::setProtocol(const QString& protocol)
+{
+    if (protocol == "-1") {
+        rbProtocol_MS->setEnabled(false);
+        rbProtocol_NA->setEnabled(false);
+    }
+    else {
+        if (protocol == "M")
+            rbProtocol_MS->setChecked(true);
+        else
+            rbProtocol_NA->setChecked(true);
+    }
+}
+
+
 int elementDialog::getAddress1()
 {
     return leAddress_1->text().toInt();
 };
 
 
+void elementDialog::setAddress1(int addr)
+{
+    leAddress_1->setText(QString::number(addr));
+}
+
+
 int elementDialog::getAddress2()
 {
     return leAddress_2->text().toInt();
 };
+
+
+void elementDialog::setAddress2(int addr)
+{
+    leAddress_2->setText(QString::number(addr));
+}
 
 
 int elementDialog::getXChangeConn1()
@@ -1340,6 +1400,15 @@ int elementDialog::getXChangeConn1()
 };
 
 
+void elementDialog::setXChangeConn1(int xch)
+{
+    if (xch == -1)
+        cbChaConn1->setChecked(false);
+    else
+        cbChaConn1->setChecked(xch);
+}
+
+
 int elementDialog::getXChangeConn2()
 {
     return cbChaConn2->isEnabled() ?
@@ -1347,10 +1416,24 @@ int elementDialog::getXChangeConn2()
 };
 
 
+void elementDialog::setXChangeConn2(int xch)
+{
+    if (xch == -1)
+        cbChaConn2->setChecked(false);
+    else
+        cbChaConn2->setChecked(xch);
+}
+
+
 int elementDialog::getDirection()
 {
-    return leAddress_1->isEnabled() ?
-        QString(listElementData->at(LIST_ID_DIRECTION)).toInt() : -1;
+    return leAddress_1->isEnabled() ? gaDirection : -1;
+};
+
+
+void elementDialog::setDirection(int dir)
+{
+    gaDirection = dir;
 };
 
 
@@ -1361,11 +1444,26 @@ QString elementDialog::getSymbolText()
 };
 
 
+void elementDialog::setSymbolText(const QString& text)
+{
+    leText->setText(text);
+}
+
+
 int elementDialog::getActiveTime()
 {
     return activeTimeSB->isEnabled() ?
         activeTimeSB->text().toInt() : -1;
 };
+
+
+void elementDialog::setActiveTime(int atime)
+{
+    if (atime != -1)
+        activeTimeSB->setValue(atime);
+    else
+        activeTimeSB->setValue(ACTIVE_TIME);
+}
 
 
 int elementDialog::getFBBus()

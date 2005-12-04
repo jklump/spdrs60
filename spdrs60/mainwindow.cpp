@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.40 $
+                           version 0.4.8 $Revision: 1.41 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-12-01 20:37:04 $
+    last modified        : $Date: 2005-12-04 21:03:05 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2283,7 +2283,9 @@ void MainWindow::slotEditGBSFiles()
     QString sCommand = EDITOR;
     sCommand.append(" " + fileName + (" &"));
     system(sCommand.data());
-    // TODO: check this: tbFileSave->setEnabled(true);
+    // if the user edited the stored file there must be a chance to
+    // overwrite these changes again with the loaded file
+    actionFileSave->setEnabled(true);
 }
 
 
@@ -2329,7 +2331,8 @@ void MainWindow::slotViewSwitchMode(QAction* ac)
     actionFileImport->setEnabled(visualMode == kvmNormal);
 }
 
-/* called when layout viewmode is changed, visibility of routingviewer
+/*
+ * called when layout viewmode is changed, visibility of routingviewer
  * changes and activity state of a selected route changes
  */
 void MainWindow::updateRouteMenu(bool rtvIsVisible)

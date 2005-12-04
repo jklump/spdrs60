@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.39 $
+                           version 0.4.8 $Revision: 1.40 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-12-01 20:37:04 $
+    last modified        : $Date: 2005-12-04 21:03:05 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1008,57 +1008,38 @@ void element::processInfoPortMessage(QString prot, int addr, int port,
 
 void element::showPropertyDlg()
 {
-    /* when dialog is allready open just bring it to front*/
+    /* when dialog is allready open just bring it to front
+       else create new dialog */
     if (elementPropertyDlg != NULL) {
         elementPropertyDlg->setActiveWindow();
         elementPropertyDlg->raise();
     }
-    // else create new dialog
     else {
-
-        QString title;
-        QString insert;
-        // TODO: remove this list
-        QStrList *elementData = new QStrList(true);
-
-        // cause we copied the QStrList into member variables, we now
-        // must re-copy them into a new QStrList to pass the data to
-        // the properties window it did not work in this class to hold
-        // the data permanently in a QStrList
-        elementData->insert(LIST_ID_INDEX, insert.setNum(iSoldIndex));
-        elementData->insert(LIST_ID_ICON, sSoldIcon);
-        elementData->insert(LIST_ID_ROTATE, insert.setNum(iSoldRotate));
-        elementData->insert(LIST_ID_INVERT, insert.setNum(iSoldInvert));
-        elementData->insert(LIST_ID_DECODER, sSoldDecoder);
-        elementData->insert(LIST_ID_PROTOCOL, sSoldProtocol);
-        elementData->insert(LIST_ID_ADDRESS_1,
-                insert.setNum(iSoldAddress_1));
-        elementData->insert(LIST_ID_ADDRESS_2,
-                insert.setNum(iSoldAddress_2));
-        elementData->insert(LIST_ID_CHACONN_1,
-                            insert.setNum(iSoldChangeConn[0]));
-        elementData->insert(LIST_ID_CHACONN_2,
-                            insert.setNum(iSoldChangeConn[1]));
-        elementData->insert(LIST_ID_DIRECTION,
-                            insert.setNum(iSoldDirection));
-        elementData->insert(LIST_ID_SUBTYPE, insert.setNum(iSoldSubType));
-        elementData->insert(LIST_ID_TEXT, sSoldText);
-        elementData->insert(LIST_ID_ACTTIME,
-                            insert.setNum(iSoldActiveTime));
-        elementData->insert(LIST_ID_FBPORT, insert.setNum(iFBContact));
-        elementData->insert(LIST_ID_LEDOFF, insert.setNum(iSoldLEDoff));
-
-        elementPropertyDlg = new elementDialog(this, elementData);
+        elementPropertyDlg = new elementDialog(this, iSoldIndex);
         if (elementPropertyDlg == NULL)
             return;
         
-        title.sprintf(tr("Properties of Element #%d"), iSoldIndex);
-        elementPropertyDlg->setCaption(title);
+        elementPropertyDlg->setSymbolText(sSoldText);
+        elementPropertyDlg->setRotated(iSoldRotate);
+        elementPropertyDlg->setInverted(iSoldInvert);
+        elementPropertyDlg->setLEDsAreOff(iSoldLEDoff);
         elementPropertyDlg->setGASubType(iSoldSubType);
+        elementPropertyDlg->setProtocol(sSoldProtocol);
+        elementPropertyDlg->setDecoder(sSoldDecoder);
         elementPropertyDlg->setSRCPBus1(iGA1BusNo);
+        elementPropertyDlg->setAddress1(iSoldAddress_1);
         elementPropertyDlg->setSRCPBus2(iGA2BusNo);
+        elementPropertyDlg->setAddress2(iSoldAddress_2);
+        elementPropertyDlg->setXChangeConn1(iSoldChangeConn[0]);
+        elementPropertyDlg->setXChangeConn2(iSoldChangeConn[1]);
+        elementPropertyDlg->setDirection(iSoldDirection);
+        elementPropertyDlg->setActiveTime(iSoldActiveTime);
         elementPropertyDlg->setFBBus(iFBBusNo);
         elementPropertyDlg->setFBContact(iFBContact);
+        // this must be the last one, because it tiggers enabling and
+        // disabling of all element dependend widgets
+        elementPropertyDlg->setSymbolName(sSoldIcon);
+
         connect(elementPropertyDlg, SIGNAL(sigShowFBmodules()),
                 this, SIGNAL(sigShowFBmodules()));
         
@@ -1095,7 +1076,6 @@ void element::showPropertyDlg()
         }
         delete elementPropertyDlg;
         elementPropertyDlg = NULL;
-        delete elementData;
     }
 }
 
