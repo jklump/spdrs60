@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.41 $
+                           version 0.4.8 $Revision: 1.42 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-12-04 21:03:05 $
+    last modified        : $Date: 2005-12-04 21:08:12 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2136,15 +2136,34 @@ void MainWindow::CloseSRCPServerConnection()
 }
 
 
-void MainWindow::SendCommandToSRCPServer(const QString& CommandStr)
+void MainWindow::SendCommandToSRCPServer(const QString& cmdstr)
 {
     if (CommandSocket->isOpen()) {
-        QCString Command = CommandStr.ascii();
+        QCString cmd = cmdstr.ascii();
         /*temporary solution for command strings with and without '\n' */
-        if (Command.find("\n", Command.length() - 1, true) == -1)
-            Command.append("\n");
-        CommandSocket->writeBlock(Command, (ulong) Command.length());
-        cmdToDebug(CommandStr, MT_CMD, HL_CMND);
+        if (!cmdstr.endsWith("\n"))
+            cmd.append("\n");
+        CommandSocket->writeBlock(cmd, (ulong) cmd.length());
+        cmdToDebug(cmdstr, MT_CMD, HL_CMND);
+    }
+}
+
+
+void MainWindow::SendSRCPCommandSETGA(const QString& prot, unsigned int
+        bus, unsigned int addr, unsigned int port, unsigned int delay)
+{
+    if (CommandSocket->isOpen()) {
+        // if SRCP 0.7
+        /* SET GA <protocol> <addr> <port> <action> <delay> */
+        QString cmd = QString("SET GA %1 %2 %3 1 %4")
+            .arg(prot).arg(addr).arg(port).arg(delay);
+        // else SRCP 0.8
+        /* SET <bus> GA <addr> <port> <value> <delay> */
+        //QString cmd = QString("SET %1 GA %2 %3 1 %4")
+        //    .arg(bus).arg(addr).arg(port).arg(delay);
+        cmdToDebug(cmd, MT_CMD, HL_CMND);
+        cmd.append("\n");
+        CommandSocket->writeBlock(cmd.ascii(), (unsigned long) cmd.length());
     }
 }
 /* End of new Networking code */

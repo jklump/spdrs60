@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.4.8 $Revision: 1.19 $
+                           version 0.4.8 $Revision: 1.20 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-12-01 20:37:04 $
+    last modified        : $Date: 2005-12-04 21:08:12 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -230,6 +230,8 @@ private slots:
    void ConnectToSRCPServer();
    void CloseSRCPServerConnection();
    void SendCommandToSRCPServer(const QString&);
+   void SendSRCPCommandSETGA(const QString&, unsigned int,
+        unsigned int, unsigned int, unsigned int);
    void CommandSocketHostFound();
    void CommandSocketReadyRead();
    void CommandSocketConnected();
