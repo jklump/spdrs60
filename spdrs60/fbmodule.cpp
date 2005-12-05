@@ -1,11 +1,11 @@
 /***************************************************************************
                            fbmodule.cpp
-                           version 0.4.8 $Revision: 1.3 $
+                           version 0.4.8 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-12-01 20:37:04 $
+    last modified        : $Date: 2005-12-05 19:24:39 $
 ***************************************************************************/
 
 /******************************************************************************
@@ -67,7 +67,7 @@ void fbModule::slotSetupModule(unsigned int module, unsigned int input,
     p.begin(&pixModule);
 
     QFont f("*");               // display module number
-    f.setPointSize(QApplication::font().pointSize() + 2);
+    f.setPointSize(QApplication::font().pointSize());
     f.setWeight(QFont::DemiBold);
     p.setFont(f);
 
@@ -90,7 +90,7 @@ void fbModule::slotSetupModule(unsigned int module, unsigned int input,
     p.setPen(blue);
     p.drawText(69 - FEEDBACK * 30 - br.width() / 2, 65, s.data());
 
-    f.setPointSize(QApplication::font().pointSize());
+    f.setPointSize(QApplication::font().pointSize() - 2);
     f.setWeight(QFont::Normal);
     p.setFont(f);
     p.setPen(black);
@@ -98,7 +98,7 @@ void fbModule::slotSetupModule(unsigned int module, unsigned int input,
 // display port status for every one port
     for (i = 0; i < 8 - FEEDBACK * 4; i += 1) {
         s.sprintf("%2d", i + 1);
-        p.drawText(117 - FEEDBACK * 60 - i * 15, 23, s.data());
+        p.drawText(115 - FEEDBACK * 60 - i * 15, 23, s.data());
         p.fillRect(118 - FEEDBACK * 60 - i * 15, 2, 8, 8,
                    QBrush(QColor
                           (bFBport[iModNr * (16 - FEEDBACK * 8) + i] ? red

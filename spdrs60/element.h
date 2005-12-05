@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.4.8 $Revision: 1.28 $
+                           version 0.4.8 $Revision: 1.29 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-12-01 20:37:04 $
+    last modified        : $Date: 2005-12-05 19:24:39 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -178,7 +178,6 @@ private:
     unsigned int iSoldIndex;
     unsigned int iFBBusNo;
     unsigned int iFBContact;
-    unsigned int editsPattern;
     unsigned int editsAddress;
     int      iGA1BusNo;
     int      iGA2BusNo;

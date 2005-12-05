@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.40 $
+                           version 0.4.8 $Revision: 1.41 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-12-04 21:03:05 $
+    last modified        : $Date: 2005-12-05 19:24:39 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -90,7 +90,6 @@ extern int FEEDBACK;
 
 element::element(QWidget* parent): QWidget(parent)
 {
-    editsPattern = 0;
     editsAddress = 0;
     ffmactive = false;
     ffm = false;
@@ -145,7 +144,6 @@ element::element(QWidget* parent): QWidget(parent)
 /*constructor for element setup by QStrList*/
 element::element(QStrList* elementData_, QWidget* parent): QWidget(parent)
 {
-    editsPattern = 0;
     editsAddress = 0;
     ffmactive = false;
     ffm = false;
@@ -192,7 +190,6 @@ element::element(QTextStream& ats, QWidget* parent, bool isNewFormat)
 : QWidget(parent)
 {
     /*set all variables which are not read from file*/
-    editsPattern = 0;
     editsAddress = 0;
     ffmactive = false;
     ffm = false;
@@ -2234,16 +2231,19 @@ int element::routeElement(int S, bool setroute, int vertcorr)
 
 
 /**
- * this slot is always called if a feedback port toggles 
+ * This slot is always called if a feedback port toggles.
  */
 void element::slotOccupyElement(unsigned int bus, unsigned int contact,
         bool state)
 {
     if (bus == iFBBusNo) {
-        if ((sSoldIcon == SYM_ADR) &&
-                ((contact >> 3) << 3 == iFBContact))
-            updateEDiTSAddress(contact, state);
+        if (sSoldIcon == SYM_ADR) {
+            unsigned int targetmod = (contact - 1) / 8 + 1;
+            unsigned int selfmod = (iFBContact - 1) / 8 + 1;
 
+            if (targetmod == selfmod)
+                updateEDiTSAddress(contact, state);
+        }
         else if (contact == iFBContact)
             setOccupied(state);
     }
@@ -2255,25 +2255,17 @@ void element::slotOccupyElement(unsigned int bus, unsigned int contact,
  */
 void element::updateEDiTSAddress(unsigned int contact, bool state)
 {
-    // mask three lower address bits
-    unsigned int address = contact & 7u;
+    /*
+     * address range for contact is 1..8, 9..16, 17..24, etc.
+     * first mask three lower address bits (7), then evaluate bit value
+     */
+    unsigned int address = (contact - 1) & 7u;
     unsigned int bit = 1u << address;
    
-    // set or clear addressed pattern bit
     if (state)
-        editsPattern = editsPattern | bit;
+        editsAddress = editsAddress | bit;
     else
-        editsPattern = editsPattern & ~bit;
-
-    // calculate new address
-    editsAddress = (editsPattern & 1u) * 1 +
-        (editsPattern & 2u) * 2 +
-        (editsPattern & 4u) * 4 +
-        (editsPattern & 8u) * 8 +
-        (editsPattern & 16u) * 16 +
-        (editsPattern & 32u) * 32 +
-        (editsPattern & 64u) * 64 +
-        (editsPattern & 128u) * 128;
+        editsAddress = editsAddress & ~bit;
 
     // evtl. Dauer der Anzeige einstellbar? Nein, eine zweite
     // als Belegtmeldung konfigurierte Rueckmeldung triggert das

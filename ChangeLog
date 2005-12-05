@@ -1,3 +1,7 @@
+2005-12-05 Guido Scholz <guido.scholz@bayernline.de>
+	* element.*: new EDiTS address calculation
+	* fbmodule.cpp: font size now is relative to system font size
+
 2005-11-27 Guido Scholz <guido.scholz@bayernline.de>
 	* elementdialog.*: dialog redesigned using layout management,
 	 prepared for SRCP 0.8, dialog now remembers element subtypes
