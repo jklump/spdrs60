@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.4.8 $Revision: 1.25 $
+                           version 0.4.8 $Revision: 1.26 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-14 17:28:49 $
+    last modified        : $Date: 2005-12-09 18:07:07 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -158,13 +158,17 @@ void Router::copyRouteAt(unsigned int index)
 void Router::deleteRouteAt(unsigned int index)
 {
     Route* dr = routeList.at(index);
-    if (dr != NULL) 
+    if (dr != NULL) { 
+        if (dr->isLocked())
+            dr->stopRouting();
+        dr->hideRoute();
         disconnect(dr, SIGNAL(updateRoutePathLEDs(const stateElement&,
                         const stateElement&, RouteSetAction&)),
                 this, SIGNAL(updateRoutePathLEDs(const stateElement&,
                         const stateElement&, RouteSetAction&)));
-    routeList.remove(index);
-    modified = true;
+        routeList.remove(index);
+        modified = true;
+    }
 }
 
 

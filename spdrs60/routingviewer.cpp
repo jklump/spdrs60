@@ -1,10 +1,10 @@
 /***************************************************************************
                            routingviewer.cpp
-                           version 0.4.8 $Revision: 1.15 $
+                           version 0.4.8 $Revision: 1.16 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-14 17:28:49 $
+    last modified        : $Date: 2005-12-09 18:07:08 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -229,13 +229,13 @@ void RoutingViewer::slotRouteDelete()
     int row = rTable->currentRow();
 
     if (row >= 0){
-        Route* selectedRoute = gbsRouter->getRouteAt(row);
-        if (selectedRoute != NULL)
-            selectedRoute->hideRoute();
-        
         rTable->removeRow(row);
         gbsRouter->deleteRouteAt(row);
         //TODO: set focus to row above removed row
+        /* not possible without flickering
+        if (row > 0)
+            rTable->selectRow(row - 1);
+        */
     }
 }
 

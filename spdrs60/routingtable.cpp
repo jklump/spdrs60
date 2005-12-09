@@ -1,10 +1,10 @@
 /***************************************************************************
                            routingtable.cpp
-                           version 0.4.8 $Revision: 1.2 $
+                           version 0.4.8 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-06-29 20:42:36 $
+    last modified        : $Date: 2005-12-09 18:07:08 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -30,6 +30,7 @@ RoutingTable::RoutingTable(QWidget* parent) :
     QTable(0, 5, parent, "routingTable")
 {
     setSelectionMode(QTable::SingleRow);
+    setFocusStyle(QTable::FollowStyle);
     setShowGrid(false);
     /*TODO: if sorting is "true" also sort route list*/
     setSorting(false);
