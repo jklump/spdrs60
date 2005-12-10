@@ -41,7 +41,7 @@
 		</revision>
 		<revision>
 			<revnumber>0.5</revnumber>
-			<date><emphasis>noch nicht released</emphasis></date>
+			<date><emphasis>Sat Dec 12 15:17:00 CET 2005</emphasis></date>
 		</revision>
 	</revhistory>
 <abstract>
@@ -87,7 +87,7 @@ installing the program itself.</para>
 
 <sect1 id="sect-changes"><title>Changes</title>
 
-<sect2 id="ver-0.4.8"><title>xx.11.2005 New version 0.4.8 with following changes:</title>
+<sect2 id="ver-0.4.8"><title>11.12.2005 New version 0.4.8 with following changes:</title>
 <itemizedlist mark="bullet">
 <listitem><para>Program logic for file open/save/close completely was
 rewritten. Forced file saving on program exit is gone now.</para></listitem>

@@ -45,7 +45,7 @@
     </revision>
     <revision>
       <revnumber>0.6</revnumber>
-      <date>Fri Nov 11 19:00:00 CEST 2005</date>
+      <date>Sat Dec 10 15:16:00 CET 2005</date>
     </revision>
   </revhistory>
   <abstract>
@@ -128,7 +128,7 @@ empfehlenswert, diese Dokumentation durchzuarbeiten.
 <sect2 id="ver-0.4.8">
   <title>Version 0.4.8</title>
 <para>
-Veröffentlicht am **.11.2005
+Veröffentlicht am 11.12.2005
 <itemizedlist mark="bullet">
   <listitem><para>Die Datei Öffnen/Speichern/Schließen-Logik wurde
   komplett neu geschrieben, so dass nun kein Zwangsspeichern der
