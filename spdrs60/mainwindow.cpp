@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.42 $
+                           version 0.4.8 $Revision: 1.43 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-12-04 21:08:12 $
+    last modified        : $Date: 2005-12-11 17:09:29 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -134,6 +134,7 @@ MainWindow::MainWindow()
     SRCPCommandStatus = srcpUndefined;
     LayoutPowerIsOn = false;
 
+    modulesWindow = NULL;
     CurrentHL = HL_CMND;            // default debug window ist HISTORY
     isFBInitMode = true;        // var to avoid all startup feedback
     visualMode = kvmNormal;         // normal layout mode
@@ -2450,12 +2451,20 @@ void MainWindow::slotShowClock()
 // show feedback module window
 void MainWindow::slotShowModules()
 {
-    modulesWindow = new feedback(this);
-    connect(this, SIGNAL(sendFBChangeModule(unsigned int, unsigned int,
-                    unsigned int)),
-            modulesWindow, SLOT(slotUpdateModules(unsigned int,
-                    unsigned int, unsigned int)));
-    modulesWindow->show();
+    if (modulesWindow != NULL) {
+        if (!modulesWindow->isVisible())
+            modulesWindow->show();
+        modulesWindow->setActiveWindow();
+        modulesWindow->raise();
+    }
+    else {
+        modulesWindow = new feedback(this);
+        connect(this, SIGNAL(sendFBChangeModule(unsigned int, unsigned int,
+                        unsigned int)),
+                modulesWindow, SLOT(slotUpdateModules(unsigned int,
+                        unsigned int, unsigned int)));
+        modulesWindow->show();
+    }
 }
 
 
