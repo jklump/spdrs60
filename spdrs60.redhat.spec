@@ -1,13 +1,13 @@
-Summary: SpDrS60, Control center for digital model railroads 
+Summary: SpDrS60, Switchbox for digital model railroads 
 Summary(de): SpDrS60, Spurplan-Drucktastenstellwerk für digitale Modelleisenbahnen
 Name: spdrs60
 Version: 0.4.8
 Release: 1%{?dist}
 License: GPL
 Group: Amusements/Games
-Distribution: Fedora Core 2 Linux
+Distribution: Fedora Core Linux
 Vendor: Stefan Preis, Guido Scholz
-URL: http://www.linux-modellbahn.de/
+URL: http://spdrs60.sourceforge.net/
 Provides: spdrs60
 Requires: qt
 BuildRequires: glibc-devel qt-devel qt-designer openjade docbook-style-dsssl
@@ -19,10 +19,10 @@ Buildroot: %{_tmppath}/%{name}-%{version}-buildroot
 Graphical program to comfortably control a digital model railroad.
 Visual appearance and usage comply to the SpDr of the german national
 railroad company. SpDrS60 needs a Simple Railroad Command Protocol
-(SRCP) server (e.g. erddcd) as a link to the physical layout of the
-model. 
+(SRCP) server (e.g. erddcd or srcpd) as a link to the physical layout
+of the model. 
 
-Authoren:
+Authors:
 --------
     Stefan Preis
     Guido Scholz
@@ -30,9 +30,9 @@ Authoren:
 %description -l de
 Grafisches Programm zur komfortablen Steuerung von Weichen und Signalen. 
 Visuelle Darstellung und Bedienung sind eng an das
-Spurplan-Drucktastenstellwerk (SpDr) der Deutschen Bundesbahn angelehnt.
-Zur Steuerung der Modellbahn wird ein SRCP-konformer Server (z.B. erddcd)
-benötigt.
+Spurplandrucktastenstellwerk Bauart Siemens 60 (SpDrS60) der Deutschen
+Bundesbahn angelehnt. Zur Steuerung der Modellbahn wird ein
+SRCP-konformer Server (z.B. erddcd oder srcpd) benötigt.
 
 Autoren:
 --------
@@ -55,8 +55,6 @@ make
 make DESTDIR=$RPM_BUILD_ROOT install
 
 install -d $RPM_BUILD_ROOT%{_datadir}/applications
-install -d $RPM_BUILD_ROOT%{_datadir}/pixmaps
-
 install -p -m 644 spdrs60.redhat.desktop "$RPM_BUILD_ROOT%{_datadir}/applications/spdrs60.desktop"
 
 for i in AUTHORS COPYING INSTALL README TODO NEWS ChangeLog spdrs60.lsm ; do
@@ -81,7 +79,7 @@ done
 %{_docdir}/%{name}
 
 %changelog
-* Sun Feb 06 2005 Guido Scholz <guido.scholz@bayernline.de>
+* Sun Dec 11 2005 Guido Scholz <guido.scholz@bayernline.de>
 - Update to spdrs60-0.4.8
 
 * Fri Jan 07 2005 Guido Scholz <guido.scholz@bayernline.de>
@@ -90,8 +88,7 @@ done
 * Fri Dec 31 2004 Guido Scholz <guido.scholz@bayernline.de>
 - Update to spdrs60-0.4.6
 
-* Sat Dec 11 2004 Guido Scholz <guido.scholz@bayernline.de>
-- Adaptation to Fedora Core 2
+* Mon Dec 06 2004 Guido Scholz <guido.scholz@bayernline.de>
 - Update to spdrs60-0.4.5
 
 * Thu Nov 18 2004 Guido Scholz <guido.scholz@bayernline.de>
