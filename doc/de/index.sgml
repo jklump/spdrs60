@@ -1455,7 +1455,7 @@ Punkt &raquo;Bearbeiten -&gt; Datendateien -&gt; &lt;Dateiname&gt;&laquo;
 erreichen. Das Programm öffnet dann den über den Einstellungsdialog
 konfigurierten Texteditor mit der entsprechenden ASCII-Datei.
 Zur Auswahl stehen hierbei die gerade aktive Gleisbilddatei und die
-Datei mit den persönlichen Einstellungen (<command>~/.spdrs60rc<command>).
+Datei mit den persönlichen Einstellungen (<command>~/.spdrs60rc</command>).
 </para>
 <para>
 <emphasis>Achtung:</emphasis>
@@ -3231,6 +3231,7 @@ Eingang auswählen - z.B. nach dem Namen).
     <imagedata fileref="schnapp-prop-antrieb.png">
   </imageobject></mediaobject>
 </figure>
+</para>
 <para>
 Wählt man ein Symbol aus, welches einen Antrieb besitzt,
 ergeben sich hier im einfachsten Fall die in <xref linkend="abb-antrieb">
@@ -3997,7 +3998,6 @@ Umschalten erübrigte.
   </imageobject></mediaobject>
 </figure>
 </para>
-<para>
 </sect4>
 
 <sect4>
