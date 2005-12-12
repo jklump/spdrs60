@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.43 $
+                           version 0.4.8 $Revision: 1.44 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-12-11 17:09:29 $
+    last modified        : $Date: 2005-12-12 20:19:56 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2452,10 +2452,13 @@ void MainWindow::slotShowClock()
 void MainWindow::slotShowModules()
 {
     if (modulesWindow != NULL) {
-        if (!modulesWindow->isVisible())
+        if (modulesWindow->isVisible())
+            modulesWindow->hide();
+        else {
             modulesWindow->show();
-        modulesWindow->setActiveWindow();
-        modulesWindow->raise();
+            modulesWindow->setActiveWindow();
+            modulesWindow->raise();
+        }
     }
     else {
         modulesWindow = new feedback(this);
