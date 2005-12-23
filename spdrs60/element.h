@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.4.8 $Revision: 1.29 $
+                           version 0.4.8 $Revision: 1.30 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-12-05 19:24:39 $
+    last modified        : $Date: 2005-12-23 17:48:05 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -126,7 +126,6 @@ class element: public QWidget
 
 public:
     element(QWidget* parent=0);
-    element(QStrList* elementData_=0, QWidget* parent=0);
     element(QTextStream&, QWidget* parent=0, bool isNewFormat = false);
 
     /*this variables should also be private*/
@@ -158,6 +157,7 @@ public:
     bool isRoutable();
     bool isSwitchable();
     bool is2StateDKW();
+    bool isSimpleGA();
     void showElementState(int, elemSelectionMode);
     void setIndexNo(unsigned int);
     void setLocked(bool);
@@ -198,6 +198,7 @@ private:
     bool     state2dkw;
     bool     switchable;
     bool     turnout;
+    bool     simplega;
     QString  sRepeatIcon;
     QString  sSoldDecoder;
     QString  sSoldProtocol;
@@ -206,7 +207,6 @@ private:
 
     void addTooltip();
     void clear();
-    void copyData(QStrList*);
     void createPopupMenus();
     void makeCommand();
     void showPropertyDlg();

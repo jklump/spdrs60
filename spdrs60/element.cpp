@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.41 $
+                           version 0.4.8 $Revision: 1.42 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-12-05 19:24:39 $
+    last modified        : $Date: 2005-12-23 17:48:05 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -99,6 +99,7 @@ element::element(QWidget* parent): QWidget(parent)
     signal = false;
     state2dkw = false;
     switchable = false;
+    simplega = false;
     turnout = false;
     iGA1BusNo = iGA2BusNo = iFBBusNo = 1;
 
@@ -141,50 +142,6 @@ element::element(QWidget* parent): QWidget(parent)
     setupElementIcon(iSoldLEDstate, sSaveReplaceIcon);
 }
     
-/*constructor for element setup by QStrList*/
-element::element(QStrList* elementData_, QWidget* parent): QWidget(parent)
-{
-    editsAddress = 0;
-    ffmactive = false;
-    ffm = false;
-    occupied = false;
-    routable = false;
-    routed = false;
-    signal = false;
-    state2dkw = false;
-    switchable = false;
-    turnout = false;
-    iGA1BusNo = iGA2BusNo = iFBBusNo = 1;
-
-    setMaximumSize(sizeHint());
-    setMinimumSize(sizeHint());
-    setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed,
-                false));
-    copyData(elementData_);     // copy the parameter string list
-    iSoldLEDstate = LED_OFF;
-    selectionMode = ksmNormal;
-    visualMode = kvmNormal;
-    sSaveReplaceIcon = "";
-    sRepeatIcon = SYM_LEE;
-    lockCounter = 0;
-
-    elementPropertyDlg = NULL;
-    turntableProperties = NULL;
-    ttComm = NULL;
-
-    createPopupMenus();
-    updateProperties();
-    setupElementIcon(iSoldLEDstate, sSaveReplaceIcon);
-
-    if (!(sSoldIcon == SYM_ENK && iSoldSubType != -1)
-        && sSoldIcon != SYM_DRE && sSoldIcon != SYM_SBN
-        && sSoldIcon != SYM_MDC)
-        makeCommand();
-    // switch everything but momentary couplers
-    // write to socket to ensure that the solenoid
-    // get the saved state
-}
-
 
 element::element(QTextStream& ats, QWidget* parent, bool isNewFormat)
 : QWidget(parent)
@@ -199,6 +156,7 @@ element::element(QTextStream& ats, QWidget* parent, bool isNewFormat)
     signal = false;
     state2dkw = false;
     switchable = false;
+    simplega = false;
     turnout = false;
     iGA1BusNo = iGA2BusNo = iFBBusNo = 1;
 
@@ -398,12 +356,16 @@ void element::updateProperties()
         ffm = (sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
                 sSoldIcon == SYM_SSH);
 
-    else
-        turnout = (sSoldIcon.startsWith("weiche") ||
+    else if (sSoldIcon.startsWith("weiche") ||
                 sSoldIcon.startsWith("dreier") ||
                 sSoldIcon.startsWith("ekw") ||
                 sSoldIcon.startsWith("dkw") ||
-                sSoldIcon == SYM_DRW);
+                sSoldIcon == SYM_DRW)
+        turnout = true;
+
+    else if (sSoldIcon == SYM_BLD ||sSoldIcon == SYM_ENK ||
+            sSoldIcon == SYM_REL || sSoldIcon == SYM_MDC)
+        simplega = true;
 
     /*element can be a part of a route*/
     routable = signal || turnout ||
@@ -412,11 +374,11 @@ void element::updateProperties()
         sSoldIcon.startsWith("kurve") ||
         sSoldIcon.startsWith("richtung") ||
         sSoldIcon.startsWith("gerade") || sSoldIcon == SYM_BUE ||
-        sSoldIcon == SYM_ADR || sSoldIcon == SYM_BLD;
+        sSoldIcon == SYM_ADR || sSoldIcon == SYM_BLD ||
+        sSoldIcon == SYM_ENK;
     
     /*element has decoder connected*/
-    switchable = (signal || turnout || sSoldIcon == SYM_ENK ||
-        sSoldIcon == SYM_REL || sSoldIcon == SYM_BLD) &&
+    switchable = (signal || turnout || simplega) &&
         sSoldIcon != SYM_NRB && sSoldIcon != SYM_SRB;
 
     state2dkw = (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR)
@@ -452,6 +414,12 @@ bool element::isRoutable()
 bool element::isSwitchable()
 {
     return switchable;
+}
+
+
+bool element::isSimpleGA()
+{
+    return simplega;
 }
 
 
@@ -502,54 +470,6 @@ void element::createPopupMenus()
     ctxEdit->insertItem(p, SYM_WER, 11);
 
     connect(ctxEdit, SIGNAL(activated(int)), this, SLOT(slotCtxEdit(int)));
-}
-
-
-void element::copyData(QStrList* copyData)
-{
-    QString data;
-
-    // copy a QStrList into different member variables
-    data = copyData->at(LIST_ID_INDEX);
-    iSoldIndex = data.toUInt();
-
-    sSoldIcon = copyData->at(LIST_ID_ICON);
-
-    data = copyData->at(LIST_ID_ROTATE);
-    iSoldRotate = data.toInt();
-
-    data = copyData->at(LIST_ID_INVERT);
-    iSoldInvert = data.toInt();
-
-    sSoldDecoder = copyData->at(LIST_ID_DECODER);
-    sSoldProtocol = copyData->at(LIST_ID_PROTOCOL);
-    data = copyData->at(LIST_ID_ADDRESS_1);
-    iSoldAddress_1 = data.toInt();
-    data = copyData->at(LIST_ID_ADDRESS_2);
-    iSoldAddress_2 = data.toInt();
-
-    data = copyData->at(LIST_ID_CHACONN_1);
-    iSoldChangeConn[0] = data.toInt();
-
-    data = copyData->at(LIST_ID_CHACONN_2);
-    iSoldChangeConn[1] = data.toInt();
-
-    data = copyData->at(LIST_ID_DIRECTION);
-    iSoldDirection = data.toInt();
-
-    data = copyData->at(LIST_ID_SUBTYPE);
-    iSoldSubType = data.toInt();
-
-    sSoldText = copyData->at(LIST_ID_TEXT);
-
-    data = copyData->at(LIST_ID_ACTTIME);
-    iSoldActiveTime = data.toInt();
-
-    data = copyData->at(LIST_ID_FBPORT);
-    iFBContact = data.toInt();
-
-    data = copyData->at(LIST_ID_LEDOFF);
-    iSoldLEDoff = data.toInt();
 }
 
 

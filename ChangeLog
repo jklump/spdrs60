@@ -1,3 +1,7 @@
+2005-12-23 Guido Scholz <guido.scholz@bayernline.de>
+	* element.*, route.cpp: make simple GA elements switchable by
+        routes
+
 2005-12-05 Guido Scholz <guido.scholz@bayernline.de>
 	* element.*: new EDiTS address calculation
 	* fbmodule.cpp: font size now is relative to system font size

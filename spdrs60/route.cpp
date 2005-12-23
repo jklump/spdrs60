@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.30 $
+                           version 0.4.8 $Revision: 1.31 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-12-01 20:37:04 $
+    last modified        : $Date: 2005-12-23 17:48:05 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -643,14 +643,15 @@ int Route::startRouting()
 
     /*
      * 6) switch signals on route path to Sh1 (Siemens Type)
-     * without changing lock state
+     * without changing lock state, also simple GA elements are switched
+     * now
      */
     it.toFirst();
     while ((se = it.current()) != 0) {
         ++it;
         element* el = se->elemPtr;
         if (el != NULL)
-            if (el->isSignal()) {
+            if (el->isSignal() || el->isSimpleGA()) {
                 el->slotSwitchIt(se->state, 0);
                 el->repaint();
 
@@ -690,13 +691,6 @@ void Route::stopRouting()
            fromSignal.elemPtr2->slotSwitchIt(0, -1);
     }
 
-    /*A stop signal does not need unlocking
-    if (toSignal.elemPtr != NULL)
-           toSignal.elemPtr->slotSwitchIt(0, -1);
-
-    if (toSignal.elemPtr2 != NULL)
-           toSignal.elemPtr2->slotSwitchIt(0, -1);
-    */
     QPtrListIterator<stateElement> it(switchItems);
     stateElement* se;
     while ((se = it.current()) != 0) {
@@ -705,19 +699,17 @@ void Route::stopRouting()
         if (el != NULL)
             if (el->isSignal())
                 el->slotSwitchIt(0, -1);
-            else
-                el->slotSwitchIt(se->state, -1);
 
         el = se->elemPtr2;
         if (el != NULL)
             if (el->isSignal())
                 el->slotSwitchIt(0, -1);
-            else
-                el->slotSwitchIt(se->state, -1);
     }
-    // update route path element LEDs
-    // send signal to gbs to change route path LEDs
 
+    /*
+     * update route path element LEDs and
+     * send signal to gbs to change route path LEDs
+     */
     RouteSetAction rsa = krouteReset;
     emit updateRoutePathLEDs(fromSignal, toSignal, rsa);
 

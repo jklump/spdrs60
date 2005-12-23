@@ -1,13 +1,13 @@
 # spdrs60 data file
 # version=0.4.8
-# last modified=2005-12-02T18:33:47
+# last modified=2005-12-23T18:16:18
 formatversion;1
 cmdhost;localhost;12345;0
 fbhost;localhost;12346;0
 # start of layout section
 %% layout
 # layout dimensions=columns;rows
-dimensions;13;7
+dimensions;14;7
 # start of element section
 %% element 0
 index;0
@@ -958,6 +958,23 @@ change conn 2;-1
 direction;0
 subtype;-1
 text;26
+active time;50
+feedback port;1;0
+hide LEDs;-1
+%% element 94
+index;94
+icon;entkoppler
+rotate;0
+invers turnout;-1
+decoder;Littf. S-DEC-4 WD (D)
+protocol;N
+address_1;1;27
+address_2;1;-1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;27
 active time;50
 feedback port;1;0
 hide LEDs;-1
