@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.34 $
+                           version 0.4.8 $Revision: 1.35 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-12-01 20:37:04 $
+    last modified        : $Date: 2005-12-26 21:12:53 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -714,9 +714,10 @@ int GBSArea::locateIndex(const QString& sLocateString_, int iLocateType_,
     int iFound = 0;
 
     // locate element with certain address 1
+    //FIXME: search is fixed to bus number 1
     if (iLocateType_ == SRCH_A1) 
         for (unsigned int iIndex = 0; iIndex < elements.size(); iIndex++) {
-            if (elements[iIndex]->hasSameAddress(sLocateString_.toInt())) {
+            if (elements[iIndex]->hasSameAddress(1, sLocateString_.toInt())) {
                 iFound += 1;
                 if (iFound != iMultiple_ + 1)
                     continue;
@@ -839,8 +840,10 @@ void GBSArea::setupElements()
                             int, int, int)),
                     el, SLOT(processInfoPortMessage(QString,
                             int, int, int)));
-            connect(el, SIGNAL(sendCommand(const QString&)),
-                    this, SIGNAL(sendCommand(const QString&)));
+            connect(el, SIGNAL(sendSrcpCmdSetGA(const QString&, unsigned int,
+                            unsigned int, unsigned int, unsigned int)),
+                    this, SIGNAL(sendSrcpCmdSetGA(const QString&, unsigned int,
+                            unsigned int, unsigned int, unsigned int)));
             //}
             //if (el->hasLEDsOn())
             connect(this, SIGNAL(feedbackPortChanged(unsigned int,
@@ -960,8 +963,12 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
                                 int, int, int)),
                         el, SLOT(processInfoPortMessage(QString,
                                 int, int, int)));
-                connect(el, SIGNAL(sendCommand(const QString&)),
-                        this, SIGNAL(sendCommand(const QString&)));
+                connect(el, SIGNAL(sendSrcpCmdSetGA(const QString&,
+                                unsigned int, unsigned int, unsigned int,
+                                unsigned int)),
+                        this, SIGNAL(sendSrcpCmdSetGA(const QString&,
+                                unsigned int, unsigned int, unsigned int,
+                                unsigned int)));
                 //}
                 //if (el->hasLEDsOn())
                 connect(this, SIGNAL(feedbackPortChanged(unsigned int,
@@ -1048,7 +1055,7 @@ void GBSArea::getElementByAddress(const int bus, const int address,
         element* gbse = elements.at(i);
 
         //TODO: search also bus
-        if ((gbse != 0) && gbse->hasSameAddress(address)) {
+        if ((gbse != 0) && gbse->hasSameAddress(bus, address)) {
             *el = gbse;
             break;
         }

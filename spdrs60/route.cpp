@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.31 $
+                           version 0.4.8 $Revision: 1.32 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-12-23 17:48:05 $
+    last modified        : $Date: 2005-12-26 21:12:53 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -215,7 +215,8 @@ void Route::setupElementLists(QPtrVector<element>* elements)
         while ((swElement = it.current()) != 0) {
             ++it;
         
-            if ((gbse != 0) && gbse->hasSameAddress(swElement->address)) {
+            if ((gbse != 0) && gbse->hasSameAddress(swElement->bus,
+                        swElement->address)) {
                 swElement->name = gbse->getName();
                 if (swElement->elemPtr == NULL)
                     swElement->elemPtr = gbse;
@@ -228,7 +229,8 @@ void Route::setupElementLists(QPtrVector<element>* elements)
         }
 
         /*add stop signal*/
-        if ((gbse != 0) && gbse->hasSameAddress(toSignal.address)) {
+        if ((gbse != 0) && gbse->hasSameAddress(toSignal.bus,
+                    toSignal.address)) {
             //routePathItems.append(gbse);
             toSignal.name = gbse->getName();
             if (toSignal.elemPtr == NULL)
@@ -240,7 +242,8 @@ void Route::setupElementLists(QPtrVector<element>* elements)
         }
 
         /*add start signal*/
-        if ((gbse != 0) && gbse->hasSameAddress(fromSignal.address)) {
+        if ((gbse != 0) && gbse->hasSameAddress(fromSignal.bus,
+                    fromSignal.address)) {
             //routePathItems.append(gbse);
             fromSignal.name = gbse->getName();
             if (fromSignal.elemPtr == NULL)

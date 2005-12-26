@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.44 $
+                           version 0.4.8 $Revision: 1.45 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-12-12 20:19:56 $
+    last modified        : $Date: 2005-12-26 21:12:53 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -132,6 +132,10 @@ MainWindow::MainWindow()
     FeedbackPortIsConnected = false;
     InfoPortIsConnected = false;
     SRCPCommandStatus = srcpUndefined;
+    SRCPInfoStatus = srcpUndefined;
+    srcpVersion = 7;
+    srcpCommandSessionID = 0;
+    srcpInfoSessionID = 0;
     LayoutPowerIsOn = false;
 
     modulesWindow = NULL;
@@ -336,8 +340,10 @@ void MainWindow::initMainWindow()
             gbs, SIGNAL(switchVisualMode(elemVisualMode)));
     connect(gbs, SIGNAL(showLogMessage(const QString&, int, int)),
             this, SLOT(cmdToDebug(const QString&, int, int)));
-    connect(gbs, SIGNAL(sendCommand(const QString&)),
-            this, SLOT(SendCommandToSRCPServer(const QString&)));
+    connect(gbs, SIGNAL(sendSrcpCmdSetGA(const QString&, unsigned int,
+                    unsigned int, unsigned int, unsigned int)),
+            this, SLOT(sendSrcpCmdSetGA(const QString&, unsigned int,
+                    unsigned int, unsigned int, unsigned int)));
     connect(gbs, SIGNAL(sigShowFBmodules()),
             this, SLOT(slotShowModules()));
 
@@ -1638,8 +1644,10 @@ void MainWindow::updateCaption()
 }
 
 
-/* New event driven networking code starts here: (guido)
-   This should be a separate class like "SRCPCommunicator"
+/*
+ * New event driven networking code starts here: (guido)
+ * This should be a separate class like "SRCPCommunicator" or
+ * "srcpSessionController"
  */
 void MainWindow::initAllSockets()
 {
@@ -1677,7 +1685,8 @@ void MainWindow::initAllSockets()
 
 void MainWindow::CommandSocketHostFound()
 {
-    cmdToDebug(tr("Command port: Host '%1' found.").arg(HOST), MT_INFO, HL_CMND);
+    cmdToDebug(tr("Command port: Host '%1' found.").arg(HOST), MT_INFO,
+            HL_CMND);
 }
 
 
@@ -1693,7 +1702,9 @@ void MainWindow::CommandSocketReadyRead()
             sWelcome = ServerInfo;
             sSRCPVer = sWelcome.mid(sWelcome.find("SRCP ", 0, 0) + 5, 5);
 
-            if (isValidSRCPVersion(sSRCPVer)) {
+            /*SRCP 0.7.x */
+            if (isValidSRCP07Version(sSRCPVer)) {
+                srcpVersion = 7;
                 cmdToDebug(tr("SRCP: %1 ===> PASS").arg(sSRCPVer), MT_INFO,
                            HL_CMND);
                 /* first is OK, next two readonly ports follow */
@@ -1707,15 +1718,35 @@ void MainWindow::CommandSocketReadyRead()
                 SRCPCommandStatus = srcp07GetPower;
                 SendCommandToSRCPServer("GET POWER");
             }
+            /*SRCP 0.8.x */
+            else if (isValidSRCP08Version(sSRCPVer)) {
+                srcpVersion = 8;
+                cmdToDebug(tr("SRCP: %1 ===> PASS").arg(sSRCPVer), MT_INFO,
+                           HL_CMND);
+
+                SRCPCommandStatus = srcp08SetConnectionModeCommand;
+                SendCommandToSRCPServer("SET CONNECTIONMODE SRCP COMMAND");
+
+                /* command channel is OK, now also establish info channel */
+                ConnectInfoPort();
+            }
+            /*SRCP ?.?.? */
             else {
                 cmdToDebug(tr("SRCP: %1 ===> FAILED; "
-                            "spdrs60 requires SRCP >= 0.7.0 and < 0.8.0")
+                            "spdrs60 requires SRCP >= 0.7.0 and < 0.9.0")
                            .arg(sSRCPVer), MT_INFO, HL_CMND);
                 /* close connection */
-                // TODO: a SRCP 0.8.x server will not understand this:
-                SendCommandToSRCPServer("LOGOUT");
+                CommandSocket->close();
+                CommandSocketConnectionClosed();
+                SRCPCommandStatus = srcpUndefined;
             }
         }
+        /*end srcp login*/
+
+        /*
+         * respond to SRCP 0.7 messages 
+         */
+
         else if (SRCPCommandStatus == srcp07GetPower) {
             /* INFO POWER ON */
             if (ServerInfo.contains("POWER ON")) {
@@ -1730,8 +1761,9 @@ void MainWindow::CommandSocketReadyRead()
             }
             SRCPCommandStatus = srcp07Connected;
             updateDaemonMenu();
-            return;
+            //return;
         }
+        
         else if (SRCPCommandStatus == srcp07Connected) {
             /*close command port if string with zero length is send*/
             if (ServerInfo.length() == 0) {
@@ -1744,9 +1776,10 @@ void MainWindow::CommandSocketReadyRead()
         
         else if (SRCPCommandStatus == srcp07GetFBStates) {
             /*
-             * INFO FB <module_type> * < all states>
+             * INFO FB <module_type> * <all states>
              *   0   1      2        3       4
              */
+            // TODO: differentiate between all ports (*) or single port
             if (ServerInfo.startsWith("INFO FB")) {
                 QString allstates = ServerInfo.section(" ", 4, 4);
                 
@@ -1771,6 +1804,161 @@ void MainWindow::CommandSocketReadyRead()
             SRCPCommandStatus = srcp07Connected;
 	}
         
+        /*
+         * respond to SRCP 0.8 messages 
+         */
+
+        else if (SRCPCommandStatus == srcp08SetConnectionModeCommand) {
+            /* 202 OK CONNECTION MODE */
+            if (ServerInfo.contains("202 OK")) {
+                SRCPCommandStatus = srcp08GoCommandMode;
+                SendCommandToSRCPServer("GO");
+            }
+            else {
+                SRCPCommandStatus = srcp08ServerError;
+                cmdToDebug("Server communication error!", MT_INFO, HL_CMND);
+            }
+        }
+
+        else if (SRCPCommandStatus == srcp08TermServer) {
+            if (ServerInfo.contains("200 OK")) {
+                SRCPCommandStatus = srcpUndefined;
+                CloseSRCPServerConnection();
+            }
+        }
+
+        else if (SRCPCommandStatus == srcp08GoCommandMode) {
+            if (ServerInfo.contains("OK GO")) {
+                srcpCommandSessionID = ServerInfo.section(" ", 4, 4).toInt();
+                updateDaemonMenu();
+                /*
+		 * now the server is ready for basic commands
+                 * tell each layout element about connection and
+                 * server mode
+                 */
+                //TODO:
+                //gbs->setElementSRCPServerMode(true, SRCPVersion);
+
+                /*
+                 * the complete server initialization will go through
+                 * this sequence:
+                 *   1) initialize all GAs
+                 *   2) init all FB busses
+                 *   3) power on all busses if automode set
+                 */
+                SRCPCommandStatus = srcp08InitGADevices;
+                /*when GA init is done, go to FB bus init */
+                /*
+                if (!gbs->runSRCP08GAInitSequence()){
+                    SRCPCommandStatus = srcp08InitFBBusses;
+                    if (!gbs->switchSRCP08FBBusState(true)){
+                        if (AUTO_ZP9){
+                            SRCPCommandStatus = srcp08GetBusPower;
+                            if (!gbs->getSRCP08BusPower()){
+                                LayoutPowerIsOn = true;
+                                updateLayoutPowerDependendMenuItems();
+                                SRCPCommandStatus = srcpUndefined;
+                            }
+                        }
+                        else
+                            SRCPCommandStatus = srcpUndefined;
+                    }
+                }*/
+            }
+            else
+                SRCPCommandStatus = srcp08ServerError;
+        }
+
+        else if (SRCPCommandStatus == srcp08InitGADevices) {
+	    /*
+	     * start FB bus init sequence
+	     * when GA init is done, go to FB bus init
+	    */
+            /*
+            if (!gbs->runSRCP08GAInitSequence()){
+                SRCPCommandStatus = srcp08InitFBBusses;
+                if (!gbs->switchSRCP08FBBusState(true)){
+		    if (AUTO_ZP9){
+                        SRCPCommandStatus = srcp08GetBusPower;
+			if (!gbs->getSRCP08BusPower()){
+			    LayoutPowerIsOn = true;
+                            updateLayoutPowerDependendMenuItems();
+                            SRCPCommandStatus = srcpUndefined;
+			}
+		    }
+		    else
+                        SRCPCommandStatus = srcpUndefined;
+		}
+	    }*/
+        }
+
+        else if (SRCPCommandStatus == srcp08InitFBBusses) {
+	    /*
+	     * walk through FB bus list step by step
+	     * keep SRCPCommandStatus while initialization is not finished
+	     */
+            /*
+	    if (!gbs->switchSRCP08FBBusState(true))
+		if (AUTO_ZP9){
+                    SRCPCommandStatus = srcp08GetBusPower;
+		    if (!gbs->getSRCP08BusPower()){
+			LayoutPowerIsOn = true;
+                        updateLayoutPowerDependendMenuItems();
+                        SRCPCommandStatus = srcpUndefined;
+		    }
+		}
+		else
+                    SRCPCommandStatus = srcpUndefined;
+                    */
+        }
+
+        else if (SRCPCommandStatus == srcp08SetBusPower) {
+	    /*
+	     * walk through bus list step by step
+	     * keep SRCPCommandStatus while power switching is not finished
+	     */
+            /*
+	    if (!gbs->setSRCP08BusPower(LayoutPowerIsOn))
+                SRCPCommandStatus = srcpUndefined;
+                */
+        }
+
+        else if (SRCPCommandStatus == srcp08GetBusPower) {
+	    bool PowerSwitched = false;
+	    /*
+	     * walk through bus list step by step
+	     * keep SRCPCommandStatus while getting bus power states is
+             * not finished
+	     *
+	     * messages arriving here should look like
+             *   1101459005.557 100 INFO 2 POWER ON
+	     * or
+	     *   1101459034.300 100 INFO 2 POWER OFF
+	     *        0          1    2  3   4    5    -> QString sections
+	     */
+            if (ServerInfo.section(" ", 1, 2) == "100 INFO"){
+                if (ServerInfo.section(" ", 5, 5) == "OFF"){
+                    SendCommandToSRCPServer(QString("SET %1 POWER ON")
+                        .arg(ServerInfo.section(" ", 3, 3)));
+		    PowerSwitched = true;
+		}
+		/* echo "200 OK" is only displayed in history line */
+            }
+	    /* 
+	     * if power was switched wait for server response and switch
+	     * next bus at next cycle
+	     */
+	    //if (!PowerSwitched)
+                /*
+		if (!gbs->getSRCP08BusPower()){
+		    // all busses are switched on, we are ready 
+		    LayoutPowerIsOn = true;
+                    updateLayoutPowerDependendMenuItems();
+                    SRCPCommandStatus = srcpUndefined;
+		}
+                */
+        }
+
         else {
             /* else: no login but connection close */
             cmdToDebug(tr("Cannot read server welcome message!"),
@@ -1855,6 +2043,10 @@ void MainWindow::CommandSocketError(int e)
  *   input   = (contact - 1) mod 16 + 1;
  */
 
+/**
+ * read incomming feedback infos, this procedure is only used in
+ *  SRCP 0.7 mode, incomming FB info for SRCP 0.8 see InfoSocketReadyRead()
+ */
 void MainWindow::FeedbackSocketReadyRead()
 {
     QString sInfo = "";
@@ -1968,47 +2160,126 @@ void MainWindow::InfoSocketReadyRead()
         sInfo = InfoSocket->readLine();
         cmdToDebug(sInfo, MT_CMD, HL_INFO);
 
-        QString device = sInfo.section(" ", 1, 1);
-        /*
-         * check for incomming GA actions and send them to gbs
-         * INFO GA <protocol> <addr> <port> <state>
-         *   0   1     2        3      4       5
-         */
-        if ("GA" == device) {
-            gbs->sendInfoPortMessage(
-                    sInfo.section(" ", 2, 2),
-                    sInfo.section(" ", 3, 3).toInt(),
-                    sInfo.section(" ", 4, 4).toInt(),
-                    sInfo.section(" ", 5, 5).toInt());
+        /* reaktions to SRCP 0.7 commands */
+        if (srcpVersion == 7) {
+            QString device = sInfo.section(" ", 1, 1);
+            /*
+             * check for incomming GA actions and send them to gbs
+             * INFO GA <protocol> <addr> <port> <state>
+             *   0   1     2        3      4       5
+             */
+            if ("GA" == device) {
+                gbs->sendInfoPortMessage(
+                        sInfo.section(" ", 2, 2),
+                        sInfo.section(" ", 3, 3).toInt(),
+                        sInfo.section(" ", 4, 4).toInt(),
+                        sInfo.section(" ", 5, 5).toInt());
+            }
+            /*
+             * check for requested FB states and send them to gbs, module
+             * window and route controller
+             * INFO FB <module_type> <portnr> <state>
+             *   0   1      2            3       4
+             */
+            else if ("FB" == device) {
+                // one state of a single FB port
+                unsigned int fbport, fbcontact, fbbus, fbstate;
+
+                fbport = sInfo.section(" ", 3, 3).toUInt();
+                fbstate = sInfo.section(" ", 4, 4).toUInt();
+
+                fbcontact = (fbport - 1) % 496 + 1;
+                fbbus = (fbport - 1) / 496 + 1;
+
+                // just for case 
+                if (fbport > 0 && fbport <= MAX_FB)
+                    bFBport[fbport - 1] = fbstate;
+
+                // send updates to:
+                // 1. module window
+                // 2. all elements via gbs
+                // 3. all routes if not in init mode
+                emit sendFBChangeModule(fbbus, fbcontact, fbstate);
+                emit sendFBChangeLayout(fbbus, fbcontact, fbstate == 1);
+                if (!isFBInitMode)
+                    emit sendFBChangeRoute(fbbus, fbcontact, fbstate == 1);
+            }
         }
-        /*
-         * check for requested FB states and send them to gbs, module
-         * window and route controller
-         * INFO FB <module_type> <portnr> <state>
-         *   0   1      2            3       4
-         */
-        else if ("FB" == device) {
-            // one state of a single FB port
-            unsigned int fbport, fbcontact, fbbus, fbstate;
 
-            fbport = sInfo.section(" ", 3, 3).toUInt();
-            fbstate = sInfo.section(" ", 4, 4).toUInt();
+        /* respond to SRCP 0.8 messages */
+        else {
+            if (SRCPInfoStatus == srcpLogin) {
+                /*
+                 * version verification is neglected here, because this
+                 * is allready done in COMMAND mode
+                 */
+                SRCPInfoStatus = srcp08SetConnectionModeInfo;
+                SendInfoCommandToSRCPServer("SET CONNECTIONMODE SRCP INFO");
+            }
 
-            fbcontact = (fbport - 1) % 496 + 1;
-            fbbus = (fbport - 1) / 496 + 1;
+            else if (SRCPInfoStatus == srcp08SetConnectionModeInfo) {
+                if (sInfo.contains("202 OK")) {
+                    SRCPInfoStatus = srcp08GoCommandMode;
+                    SendInfoCommandToSRCPServer("GO");
+                }
+                else {
+                    SRCPInfoStatus = srcp08ServerError;
+                    cmdToDebug("Server communication error!", MT_INFO,
+                            HL_INFO);
+                }
+            }
 
-            // just for case 
-            if (fbport > 0 && fbport <= MAX_FB)
-                bFBport[fbport - 1] = fbstate;
+            else if (SRCPInfoStatus == srcp08GoCommandMode) {
+                if (sInfo.contains("OK GO"))
+                    srcpInfoSessionID = sInfo.section(" ", 4, 4).toInt();
+                SRCPInfoStatus = srcp08RunInfoMode;
+            }
 
-            // send updates to:
-            // 1. module window
-            // 2. all elements via gbs
-            // 3. all routes if not in init mode
-            emit sendFBChangeModule(fbbus, fbcontact, fbstate);
-            emit sendFBChangeLayout(fbbus, fbcontact, fbstate == 1);
-            if (!isFBInitMode)
-                emit sendFBChangeRoute(fbbus, fbcontact, fbstate == 1);
+            else if (SRCPInfoStatus == srcp08RunInfoMode) {
+                unsigned int iBus, iContact = 0, iState = 0;
+
+                /*
+                 * respond to incomming info messages
+                 * <time> 100 INFO <bus> FB <addr> <value>
+                 *   0     1   2     3   4    5       6 : Qstring sections
+                 */
+                QString devGroup = sInfo.section(" ", 4, 4);
+
+                /*feedback messages*/
+                if (devGroup == "FB") {
+                    unsigned int fbbus, fbcontact, fbstate;
+                    /*TODO: implement FB for other hardware then s88 */
+
+                    /* which bus is first one when FB type is s88? */
+                    fbbus = sInfo.section(" ", 3, 3).toUInt();
+                    fbcontact = sInfo.section(" ", 5, 5).toUInt();
+                    fbstate  = sInfo.section(" ", 6, 6).toUInt();
+
+                    // send updates to:
+                    // 1. module window
+                    // 2. all elements via gbs
+                    // 3. all routes if not in init mode
+                    emit sendFBChangeModule(fbbus, fbcontact, fbstate);
+                    emit sendFBChangeLayout(fbbus, fbcontact, fbstate == 1);
+                    emit sendFBChangeRoute(fbbus, fbcontact, fbstate == 1);
+                }
+                /*
+                 * generic article messages
+                 *
+                 * <time> 100 INFO <bus> GA <addr> <value>
+                 * <time> 101 INFO <bus> GA <prot> <optionales>
+                 *   0     1   2     3   4    5       6 : Qstring sections
+                 */
+                else if (devGroup == "GA") {
+                    /*TODO: react to incomming messages*/
+                    if (sInfo.section(" ", 1, 1).toUInt() == 100)
+                        // (QString prot, int addr, int port, int state)
+                        gbs->sendInfoPortMessage("",
+                                sInfo.section(" ", 3, 3).toInt(),
+                                sInfo.section(" ", 5, 5).toInt(),
+                                sInfo.section(" ", 6, 6).toInt());
+                }
+            }
         }
     }
 }
@@ -2072,12 +2343,24 @@ void MainWindow::ConnectToSRCPServer()
 }
 
 
-bool MainWindow::isValidSRCPVersion(const QString& SRCPVerStr)
+bool MainWindow::isValidSRCP07Version(const QString& SRCPVerStr)
 {
     bool returnvalue = false;
 
     if ((QString::compare(SRCPVerStr, "0.7.0") >= 0) &&
         QString::compare(SRCPVerStr, "0.8.0") < 0) {
+        returnvalue = true;
+    }
+    return returnvalue;
+}
+
+
+bool MainWindow::isValidSRCP08Version(const QString& SRCPVerStr)
+{
+    bool returnvalue = false;
+
+    if ((QString::compare(SRCPVerStr, "0.8.0") >= 0) &&
+        QString::compare(SRCPVerStr, "0.9.0") < 0) {
         returnvalue = true;
     }
     return returnvalue;
@@ -2099,17 +2382,42 @@ void MainWindow::ConnectFeedbackPort()
 
 void MainWindow::ConnectInfoPort()
 {
-    InfoSocket->connectToHost(HOST, PORT + 2);  /*e.g.: 12347 */
+    /*
+     * in SRCP 0.7 mode connection is established to second port
+     * e.g.: 12347
+     * in SRCP 0.8 mode connection is established to same port as
+     * command channel, but other login type
+     */
+    if (srcpVersion == 7)
+        InfoSocket->connectToHost(HOST, PORT + 2);
+    else {
+        SRCPInfoStatus = srcpLogin;
+        InfoSocket->connectToHost(HOST, PORT);
+    }
 }
 
 
 void MainWindow::CloseSRCPServerConnection()
 {
-    /* Command port is closed by "passive close" */
-    SendCommandToSRCPServer("LOGOUT");
+    /* In SRCP 0.7 command port is closed by "passive close" */
+    if (srcpVersion == 7)
+        SendCommandToSRCPServer("LOGOUT");
+    
+    /* In SRCP 0.8 command port is closed by "active close" */
+    else if (srcpVersion == 8) {
+        CommandSocket->close();
+        if (CommandSocket->state() == QSocket::Closing) {
+            // We have a delayed close.
+            connect(CommandSocket, SIGNAL(delayedCloseFinished()),
+                    SLOT(CommandSocketConnectionClosed()));
+        } 
+        else
+            // The socket is closed.
+            CommandSocketConnectionClosed();
+    }        
 
-    /* Feedback port is closed by "active close" */
-    if (FeedbackSocket->isOpen()) {
+    /* Only SRCP 0.7: Feedback port is closed by "active close" */
+    if (srcpVersion == 7 && FeedbackSocket->isOpen()) {
         FeedbackSocket->close();
         if (FeedbackSocket->state() == QSocket::Closing) {
             // We have a delayed close.
@@ -2121,7 +2429,7 @@ void MainWindow::CloseSRCPServerConnection()
             FeedbackSocketConnectionClosed();
     }
 
-    /* Info port is closed by "active close" */
+    /* SRCP 0.7 and 0.8: Info port is closed by "active close" */
     if (InfoSocket->isOpen()) {
         InfoSocket->close();
         if (InfoSocket->state() == QSocket::Closing) {
@@ -2149,19 +2457,35 @@ void MainWindow::SendCommandToSRCPServer(const QString& cmdstr)
     }
 }
 
+/* this is only used in SRCP 0.8 mode */
+void MainWindow::SendInfoCommandToSRCPServer(const QString& cmdstr)
+{
+    if (InfoSocket->isOpen()) {
+        QCString cmd = cmdstr.ascii();
+        /*temporary solution for command strings with and without '\n' */
+        if (!cmdstr.endsWith("\n"))
+            cmd.append("\n");
+        InfoSocket->writeBlock(cmd, (ulong) cmd.length());
+        InfoSocket->flush();
+        cmdToDebug(cmdstr, MT_CMD, HL_INFO);
+    }
+}
 
-void MainWindow::SendSRCPCommandSETGA(const QString& prot, unsigned int
+
+void MainWindow::sendSrcpCmdSetGA(const QString& prot, unsigned int
         bus, unsigned int addr, unsigned int port, unsigned int delay)
 {
     if (CommandSocket->isOpen()) {
-        // if SRCP 0.7
-        /* SET GA <protocol> <addr> <port> <action> <delay> */
-        QString cmd = QString("SET GA %1 %2 %3 1 %4")
-            .arg(prot).arg(addr).arg(port).arg(delay);
-        // else SRCP 0.8
-        /* SET <bus> GA <addr> <port> <value> <delay> */
-        //QString cmd = QString("SET %1 GA %2 %3 1 %4")
-        //    .arg(bus).arg(addr).arg(port).arg(delay);
+        QString cmd = "";
+        if (srcpVersion == 7)
+            /* SET GA <protocol> <addr> <port> <action> <delay> */
+            cmd = QString("SET GA %1 %2 %3 1 %4")
+                .arg(prot).arg(addr).arg(port).arg(delay);
+        else
+            /* SET <bus> GA <addr> <port> <value> <delay> */
+            cmd = QString("SET %1 GA %2 %3 1 %4")
+                .arg(bus).arg(addr).arg(port).arg(delay);
+
         cmdToDebug(cmd, MT_CMD, HL_CMND);
         cmd.append("\n");
         CommandSocket->writeBlock(cmd.ascii(), (unsigned long) cmd.length());
@@ -2174,7 +2498,13 @@ void MainWindow::slotToggleLayoutPower()
 {
     LayoutPowerIsOn = !LayoutPowerIsOn;
 
-    SendCommandToSRCPServer(LayoutPowerIsOn ? "SET POWER ON" : "SET POWER OFF");
+    if (srcpVersion == 7)
+        SendCommandToSRCPServer(
+                LayoutPowerIsOn ? "SET POWER ON" : "SET POWER OFF");
+    else if (srcpVersion == 8) {
+        //TODO
+        //SRCPCommandStatus = srcp08SetBusPower;
+    }
     updateLayoutPowerAction();
 }
 
@@ -2194,10 +2524,13 @@ void MainWindow::updateLayoutPowerAction()
 }
 
 
+// reset the daemon
 void MainWindow::slotDaemonReset()
 {
-    // reset the daemon
-    SendCommandToSRCPServer("RESET");
+    if (srcpVersion == 7)
+        SendCommandToSRCPServer("RESET");
+    else if (srcpVersion == 8)
+        SendCommandToSRCPServer("RESET 0 SERVER");
 }
 
 
@@ -2209,16 +2542,22 @@ void MainWindow::slotDaemonKill()
                         "(Note: if you plan to use this program again\n"
                         "please restart daemon first, then this program)."),
                         tr("&Kill"), tr("Cancel"), 0, 1, 1);
-    if (choice == 1)            // do not kill daemon -> return
+    // do not kill daemon -> return
+    if (choice == 1)
         return;
 
-    SendCommandToSRCPServer("SHUTDOWN");
-    cmdToDebug(tr
-               ("Daemon has been killed. Restart server, "
-                "then reconnect \"SpDrS60 for Linux\""),
-               MT_INFO, HL_CMND);
+    if (srcpVersion == 7) {
+        SendCommandToSRCPServer("SHUTDOWN");
+        CloseSRCPServerConnection();
+    }
+    else if (srcpVersion == 8) {
+        SRCPCommandStatus = srcp08TermServer;
+        SendCommandToSRCPServer("TERM 0 SERVER");
+    }
 
-    CloseSRCPServerConnection();
+    cmdToDebug(tr("Daemon has been killed. Restart server, "
+             "then reconnect \"SpDrS60 for Linux\""),
+            MT_INFO, HL_CMND);
 }
 
 
@@ -2297,9 +2636,9 @@ void MainWindow::slotShowRoutes()
 }
 
 
+// edit layout file with editor program
 void MainWindow::slotEditGBSFiles()
 {
-    // edit layout file with editor program
     QString sCommand = EDITOR;
     sCommand.append(" " + fileName + (" &"));
     system(sCommand.data());
@@ -2474,7 +2813,7 @@ void MainWindow::slotShowModules()
 // show a simple keyboard
 void MainWindow::slotViewKeyboard()
 {
-    keybWindow = new keyboard(this);
+    keybWindow = new keyboard(this, srcpVersion);
     connect(keybWindow, SIGNAL(sendCommand(const QString&)),
             this, SLOT(SendCommandToSRCPServer(const QString&)));
 
@@ -2523,9 +2862,9 @@ void MainWindow::cmdToDebug(const QString& hl_message, int m_type,
 }
 
 
+/* show dialog window with program options */
 void MainWindow::slotEditOptions()
 {
-    // open dialog window with program options
     optionsWindow = new optionsDialog(this);
     connect(optionsWindow, SIGNAL(repaintLayout()),
             gbs, SIGNAL(sigRepaintLayout()));
@@ -2537,13 +2876,12 @@ void MainWindow::slotEditOptions()
 }
 
 
+/*create new application window*/
 void MainWindow::slotFileNewWin()
 {
-    /*create new application window*/
     MainWindow *sw = new MainWindow;
     sw->resize(740, 480);
     sw->show();
-
 }
 
 
@@ -2561,9 +2899,11 @@ void MainWindow::slotEditFind()
 
 void MainWindow::layoutUpdateFB()
 {
-    SendCommandToSRCPServer((FEEDBACK <=
-        1) ? "GET FB S88 *" : "GET FB I8255 *");
-    SRCPCommandStatus = srcp07GetFBStates;
+    if (srcpVersion == 7) {
+        SendCommandToSRCPServer((FEEDBACK <=
+                    1) ? "GET FB S88 *" : "GET FB I8255 *");
+        SRCPCommandStatus = srcp07GetFBStates;
+    }
 }
 
 

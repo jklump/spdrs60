@@ -1,11 +1,11 @@
 /***************************************************************************
                            keyboard.cpp
-                           version 0.4.7 $Revision: 1.8 $
+                           version 0.4.7 $Revision: 1.9 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-25 21:26:44 $
+    last modified        : $Date: 2005-12-26 21:12:53 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -38,7 +38,7 @@ keyboard::keyboard(QWidget* parent, unsigned int srcpv): QDialog(parent,
         "keyboard", false, Qt::WDestructiveClose)
 {
     setCaption(tr("Keyboard"));
-    // srcpV = srcpv;
+    srcpVersion = srcpv;
 
     QBoxLayout* baseLayout = new QVBoxLayout(this, 10, 10);
 
@@ -134,10 +134,20 @@ keyboard::keyboard(QWidget* parent, unsigned int srcpv): QDialog(parent,
 void keyboard::slotActivateRed()
 {
     unsigned int adr = addressLE->text().toUInt();
-    QString cs = QString("SET GA N %1 0 1 50").arg(adr);
-    emit sendCommand(cs);
-    if (adr <= MAX_GAMM) {
-        cs = QString("SET GA M %1 0 1 50").arg(adr);
+    unsigned int bus = busLE->text().toUInt();
+
+    if (srcpVersion == 7) {
+        /* SET GA <protocol> <addr> <port> <action> <delay> */
+        QString cs = QString("SET GA N %1 0 1 50").arg(adr);
+        emit sendCommand(cs);
+        if (adr <= MAX_GAMM) {
+            cs = QString("SET GA M %1 0 1 50").arg(adr);
+            emit sendCommand(cs);
+        }
+    }
+    else {
+        /* SET <bus> GA <addr> <port> <value> <delay> */
+        QString cs = QString("SET %1 GA %2 0 1 50").arg(bus).arg(adr);
         emit sendCommand(cs);
     }
 }
@@ -146,10 +156,20 @@ void keyboard::slotActivateRed()
 void keyboard::slotActivateGrn()
 {
     unsigned int adr = addressLE->text().toUInt();
-    QString cs = QString("SET GA N %1 1 1 50").arg(adr);
-    emit sendCommand(cs);
-    if (adr <= MAX_GAMM) {
-        cs = QString("SET GA M %1 1 1 50").arg(adr);
+    unsigned int bus = busLE->text().toUInt();
+    
+    if (srcpVersion == 7) {
+        /* SET GA <protocol> <addr> <port> <action> <delay> */
+        QString cs = QString("SET GA N %1 1 1 50").arg(adr);
+        emit sendCommand(cs);
+        if (adr <= MAX_GAMM) {
+            cs = QString("SET %1 GA %2 1 1 50").arg(bus).arg(adr);
+            emit sendCommand(cs);
+        }
+    }
+    else {
+        /* SET <bus> GA <addr> <port> <value> <delay> */
+        QString cs = QString("SET %1 GA %2 0 1 50").arg(bus).arg(adr);
         emit sendCommand(cs);
     }
 }

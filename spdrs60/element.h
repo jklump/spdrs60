@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.4.8 $Revision: 1.30 $
+                           version 0.4.8 $Revision: 1.31 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-12-23 17:48:05 $
+    last modified        : $Date: 2005-12-26 21:12:53 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -144,7 +144,7 @@ public:
     void sendState();
     void locateMe();
     QString getName() const;
-    bool hasSameAddress(int);
+    bool hasSameAddress(int, int);
     bool hasShuntingRouteButtonOnly();
     bool hasDifferentDirection(int);
     bool hasFfMLock();
@@ -242,7 +242,10 @@ signals:
     void cmdToDebug(const QString&);
     void elementClicked(int, GbsButtonState);
     void elementClicked(element*, GbsButtonState);
-    void sendCommand(const QString&);
+    //TODO: remove this
+    //void sendCommand(const QString&);
+    void sendSrcpCmdSetGA(const QString&, unsigned int,
+            unsigned int, unsigned int, unsigned int);
     void setRepeatIcon(const QString&);
     void sigElementClickedRecord(int, int);
     void sigShowFBmodules();

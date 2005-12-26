@@ -1,10 +1,10 @@
 /***************************************************************************
                            keyboard.h
-                           version 0.4.3 $Revision: 1.5 $
+                           version 0.4.3 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-10 21:48:05 $
+    last modified        : $Date: 2005-12-26 21:12:53 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -35,6 +35,7 @@ public:
    keyboard(QWidget* parent = 0, unsigned int srcpv = 7);
 
 private:
+   unsigned int srcpVersion;
 
 signals:
    void sendCommand(const QString&);

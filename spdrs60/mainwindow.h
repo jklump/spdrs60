@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.4.8 $Revision: 1.20 $
+                           version 0.4.8 $Revision: 1.21 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-12-04 21:08:12 $
+    last modified        : $Date: 2005-12-26 21:12:53 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -162,7 +162,11 @@ private:
    bool CommandPortIsConnected;
    bool FeedbackPortIsConnected;
    bool InfoPortIsConnected;
-   SRCPMode        SRCPCommandStatus;
+   SRCPMode     SRCPCommandStatus;
+   SRCPMode     SRCPInfoStatus;
+   unsigned int srcpVersion;
+   int          srcpCommandSessionID;
+   int          srcpInfoSessionID;
 
    void initMainWindow();
    void updateDaemonMenu();
@@ -183,7 +187,8 @@ private:
    void ConnectCommandPort();
    void ConnectFeedbackPort();
    void ConnectInfoPort();
-   bool isValidSRCPVersion(const QString&);
+   bool isValidSRCP07Version(const QString&);
+   bool isValidSRCP08Version(const QString&);
    QString GetSocketErrorString(int e);
 
 public slots:
@@ -230,7 +235,8 @@ private slots:
    void ConnectToSRCPServer();
    void CloseSRCPServerConnection();
    void SendCommandToSRCPServer(const QString&);
-   void SendSRCPCommandSETGA(const QString&, unsigned int,
+   void SendInfoCommandToSRCPServer(const QString&);
+   void sendSrcpCmdSetGA(const QString&, unsigned int,
         unsigned int, unsigned int, unsigned int);
    void CommandSocketHostFound();
    void CommandSocketReadyRead();

@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.42 $
+                           version 0.4.8 $Revision: 1.43 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-12-23 17:48:05 $
+    last modified        : $Date: 2005-12-26 21:12:53 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -760,6 +760,7 @@ void element::makeCommand()
     // default copy of direction + address
     int iRealDirection = iSoldDirection;
     int iRealAddress = iSoldAddress_1;
+    int iRealBus = iGA1BusNo;
 
 
   DO_AGAIN:;
@@ -780,17 +781,22 @@ void element::makeCommand()
         case 6:                // Hp0+Hp2,     --> iSoldDirection = 2
         case 7:                // Hp0+Hp2+Sh1, --> iSoldDirection = 2 or 3
             iRealDirection = 1;
-            if (iSoldDirection == 3)    // Sh1, case 7, HSS
+            // Sh1, case 7, HSS
+            if (iSoldDirection == 3) {
                 iRealAddress = iSoldAddress_2;
+                iRealBus = iGA2BusNo;
+            }
             break;
         case 4:                // Hp0+Hp1+Hp2, --> iSoldDirection = 2
             iRealDirection = 0;
             iRealAddress = iSoldAddress_2;
+            iRealBus = iGA2BusNo;
             break;
         case 1:                // Hp0+Hp1+Sh1, --> iSoldDirection = 3
         case 5:                // Hp0+Hp1+Hp2+Sh1, --> iSoldDirection = 2 or 3
             iRealDirection = iSoldDirection - 2;
             iRealAddress = iSoldAddress_2;
+            iRealBus = iGA2BusNo;
             break;
         }
     }
@@ -804,6 +810,7 @@ void element::makeCommand()
         case true:             // send second address data
             iRealDirection = (iSoldDirection > 1);
             iRealAddress = iSoldAddress_2;
+            iRealBus = iGA2BusNo;
             break;
         }
     }
@@ -819,13 +826,12 @@ void element::makeCommand()
         case true:             // send second address data
             iRealDirection = (iSoldDirection == 1 || iSoldDirection == 2);
             iRealAddress = iSoldAddress_2;
+            iRealBus = iGA2BusNo;
             break;
         }
     }
 
     if (sSoldProtocol != "-1") {
-        // holds the erddcd command for writing to socket
-        QString sSocketCommand;
 
         if (sSoldIcon != SYM_DRE) {
             // the calculated real direction to be sent is modified again if you
@@ -836,20 +842,18 @@ void element::makeCommand()
                 iRealDirection = iRealDirection ^ iSoldChangeConn[1];
         }
 
-        // SET GA <protocol> <addr> <port> <action> <delay>
-        sSocketCommand.sprintf("SET GA %s %d %d 1 %d\n",
-        /*protocol*/ sSoldProtocol.data(),
-        /*addr    */ iRealAddress,
-        /*port    */ (sSoldProtocol == "M") ? iRealDirection : !iRealDirection,
-        /*action  */ /* = 1*/
-        /*delay   */ iSoldActiveTime);
+        unsigned int port = (sSoldProtocol == "M") ? iRealDirection
+            : !iRealDirection;
 
-        //serd: Viessman Formsignale often need several attempts
-        while (sendRepeatCounter) {
-            emit sendCommand(sSocketCommand);   // switch solenoid
+        /*
+         * serd: Viessman Formsignale often need several attempts
+         * wait 500 ms only if repeating command for signal
+         */
+        while (sendRepeatCounter > 0) {
+            emit sendSrcpCmdSetGA(sSoldProtocol, iRealBus, iRealAddress,
+                    port, iSoldActiveTime);
             sendRepeatCounter--;
-            if (sendRepeatCounter)
-                //serd: wait 500 ms only if repeating command for signal
+            if (sendRepeatCounter > 0)
                 usleep(500 * 1000);
         }
 
@@ -2317,10 +2321,9 @@ QString element::getName() const
 }
 
 
-// TODO: also compare SRCP bus value
-bool element::hasSameAddress(int address)
+bool element::hasSameAddress(int bus, int address)
 {
-    return (address == iSoldAddress_1);
+    return (bus == iGA1BusNo && address == iSoldAddress_1);
 }
 
 
