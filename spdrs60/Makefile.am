@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.10 $
-# last update: $Date: 2005-11-06 16:44:05 $
+# version: $Revision: 1.11 $
+# last update: $Date: 2005-12-29 21:40:28 $
 
 SUBDIRS = pixmaps
 
@@ -50,6 +50,7 @@ spdrs60_SOURCES = main.cpp resources.h \
         router.cpp router.h \
         routingtable.cpp routingtable.h \
         routingviewer.cpp routingviewer.h \
+        srcpmessage.cpp srcpmessage.h \
 	turntablecommander.cpp turntablecommander.h
 	
 spdrs60_LDADD = @LIB_QT@
