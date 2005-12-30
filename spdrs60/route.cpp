@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.32 $
+                           version 0.4.8 $Revision: 1.33 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-12-26 21:12:53 $
+    last modified        : $Date: 2005-12-30 18:49:03 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -680,7 +680,8 @@ int Route::startRouting()
 
 /**
  * Stop an active route. All signals are switched to red light,
- * turnouts keep current direction, a FfM is deactivated.
+ * turnouts keep current direction, a FfM is deactivated, locked
+ * elements are unlocked.
  */
 void Route::stopRouting()
 {
@@ -694,6 +695,7 @@ void Route::stopRouting()
            fromSignal.elemPtr2->slotSwitchIt(0, -1);
     }
 
+    /* */
     QPtrListIterator<stateElement> it(switchItems);
     stateElement* se;
     while ((se = it.current()) != 0) {
@@ -702,11 +704,15 @@ void Route::stopRouting()
         if (el != NULL)
             if (el->isSignal())
                 el->slotSwitchIt(0, -1);
+            else
+                el->slotSwitchIt(se->state, -1);
 
         el = se->elemPtr2;
         if (el != NULL)
             if (el->isSignal())
                 el->slotSwitchIt(0, -1);
+            else
+                el->slotSwitchIt(se->state, -1);
     }
 
     /*
