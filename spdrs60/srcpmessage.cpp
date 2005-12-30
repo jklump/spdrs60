@@ -1,10 +1,10 @@
 /***************************************************************************
                            srcpmessage.cpp
-                           version 0.5.0 $Revision: 1.1 $
+                           version 0.5.0 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-12-29 21:41:18 $
+    last modified        : $Date: 2005-12-30 21:47:59 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -30,6 +30,8 @@ SrcpMessage::SrcpMessage(Command cmd)
    cmdmode = true;
    command = cmd;
    delay = 0;
+   fbport = 0;
+   fbtype = fbS88;
    port = 0;
    power = false;
    protocol = proMM;
@@ -48,9 +50,27 @@ QString SrcpMessage::getSrcpMessageStr(unsigned int version)
             case cmdGetPower:
                 cmdStr = "GET POWER";
                 break;
+            case cmdGetFb:
+                if (fbport == 0)
+                    cmdStr = "GET FB *";
+                else
+                    cmdStr = QString("GET FB %1").arg(fbport);
+                break;
             case cmdInitFb:
-                cmdStr = "INIT FB S88";
-                //TODO: I8255
+                switch(fbtype) {
+                    case fbS88:
+                        cmdStr = "INIT FB S88";
+                        break;
+                    case fbI8255:
+                        cmdStr = "INIT FB I8255";
+                        break;
+                    case fbM6051:
+                        cmdStr = "INIT FB M6051";
+                        break;
+                    case fbPS:
+                        cmdStr = "INIT FB PS";
+                        break;
+                }
                 break;
             case cmdLogout:
                 cmdStr = "LOGOUT";
@@ -78,6 +98,9 @@ QString SrcpMessage::getSrcpMessageStr(unsigned int version)
         switch(command) {
             case cmdGetPower:
                 cmdStr = QString("GET %1 POWER").arg(srcpbus);
+                break;
+            case cmdGetFb:
+                cmdStr = QString("GET %1 FB %2").arg(srcpbus).arg(fbport);
                 break;
             case cmdInitFb:
                 cmdStr = QString("INIT %1 FB").arg(srcpbus);
@@ -139,6 +162,12 @@ void SrcpMessage::setCommand(Command cmd)
 void SrcpMessage::setDelay(unsigned int dly)
 {
     delay = dly;
+}
+
+
+void SrcpMessage::setFbPort(unsigned int prt)
+{
+    fbport = prt;
 }
 
 

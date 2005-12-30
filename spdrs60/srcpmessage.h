@@ -1,10 +1,10 @@
 /***************************************************************************
                            srcpmessage.h
-                           version 0.5.0 $Revision: 1.1 $
+                           version 0.5.0 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-12-29 21:41:18 $
+    last modified        : $Date: 2005-12-30 21:47:59 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -29,10 +29,12 @@
 class SrcpMessage
 {
     public:
-        enum Command {cmdNoCmd = 0, cmdGetPower, cmdGo, cmdInitFb,
-            cmdLogout, cmdReset, cmdShutdown, cmdSetConnectionMode,
-            cmdSetGa, cmdSetPower, cmdTermFb};
-        enum Protocol {proMM = 0, proDCC, proSel, proServ};
+        enum Command {cmdNoCmd = 0, cmdGetFb, cmdGetPower, cmdGo,
+            cmdInitFb, cmdLogout, cmdReset, cmdShutdown,
+            cmdSetConnectionMode, cmdSetGa, cmdSetPower, cmdTermFb};
+        enum Protocol {proMM = 0, proDCC, proFsm, proLoco, proStx,
+            proServ, proZimo};
+        enum Feedback {fbS88 = 0, fbI8255, fbM6051, fbPS};
 
         SrcpMessage(Command = cmdNoCmd);
         QString getSrcpMessageStr(unsigned int version = 7);
@@ -41,6 +43,7 @@ class SrcpMessage
         void setCommand(Command);
         void setConnectionModeCmd(bool);
         void setDelay(unsigned int);
+        void setFbPort(unsigned int);
         void setPort(unsigned int);
         void setPower(bool);
         void setProtocol(Protocol);
@@ -48,10 +51,12 @@ class SrcpMessage
     private:
         Command command;
         Protocol protocol;
+        Feedback fbtype;
         bool cmdmode;
         bool power;
         unsigned int address;
         unsigned int delay;
+        unsigned int fbport;
         unsigned int port;
         unsigned int srcpbus;
 };

@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.33 $
+                           version 0.4.8 $Revision: 1.34 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-12-30 18:49:03 $
+    last modified        : $Date: 2005-12-30 21:47:59 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -852,11 +852,19 @@ void Route::removeElement(element* el)
     elemSelectionMode sm = el->getSelectionMode();
     switch (sm) {
         case (ksmStartSig):
+            fromSignal.state = 0;
+            fromSignal.address = 0;
+            fromSignal.bus = 0;
+            fromSignal.name = "";
             fromSignal.elemPtr = NULL;
             fromSignal.elemPtr2 = NULL;
             updateRouteName();
             break;
         case (ksmStopSig):
+            toSignal.state = 0;
+            toSignal.address = 0;
+            toSignal.bus = 0;
+            toSignal.name = "";
             toSignal.elemPtr = NULL;
             toSignal.elemPtr2 = NULL;
             updateRouteName();
