@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.4.8 $Revision: 1.24 $
+                           version 0.4.8 $Revision: 1.25 $
                            -------------------------------
     copyright            : (C) 2005 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-12-01 20:37:04 $
+    last modified        : $Date: 2005-12-31 18:48:15 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -514,9 +514,9 @@ QString RouteDialog::getRouteName()
 }
 
 
-void RouteDialog::setStartSignalData(const stateElement& signal)
+void RouteDialog::setEntrySignalData(const stateElement& signal)
 {
-    // name is set by "updateStartSignalName"
+    // name is set by "updateEntrySignalName"
     startSignalSrcpBusLE->setText(QString::number(signal.bus));
     startSignalAddressLE->setText(QString::number(signal.address));
     startSignalStateSB->setValue(signal.state);
@@ -524,7 +524,7 @@ void RouteDialog::setStartSignalData(const stateElement& signal)
 
 /* Information about a second element in layout with same function is
  * lost here. It will be back when layout is loaded from file.*/
-void RouteDialog::getStartSignalData(stateElement& signal)
+void RouteDialog::getEntrySignalData(stateElement& signal)
 {
     signal.name = startSignalNameLE->text();
     signal.bus = startSignalSrcpBusLE->text().toUInt();
@@ -537,9 +537,9 @@ void RouteDialog::getStartSignalData(stateElement& signal)
 }
 
 
-void RouteDialog::setStopSignalData(const stateElement& signal)
+void RouteDialog::setExitSignalData(const stateElement& signal)
 {
-    // name is set by "updateStopSignalName"
+    // name is set by "updateExitSignalName"
     stopSignalSrcpBusLE->setText(QString::number(signal.bus));
     stopSignalAddressLE->setText(QString::number(signal.address));
 }
@@ -547,7 +547,7 @@ void RouteDialog::setStopSignalData(const stateElement& signal)
 
 /* Information about a second element in layout with same function is
  * lost here. It will be back when layout is loaded from file.*/
-void RouteDialog::getStopSignalData(stateElement& signal)
+void RouteDialog::getExitSignalData(stateElement& signal)
 {
     signal.name = stopSignalNameLE->text();
     signal.bus = stopSignalSrcpBusLE->text().toUInt();
@@ -784,7 +784,7 @@ void RouteDialog::startSignalBusChanged(const QString& bstr)
     if (!bstr.isEmpty()) {
         int bus = bstr.toInt();
         int address = startSignalAddressLE->text().toInt();
-        updateStartSignalName(bus, address);
+        updateEntrySignalName(bus, address);
     }
 }
 
@@ -794,12 +794,12 @@ void RouteDialog::startSignalAddressChanged(const QString& astr)
     if (!astr.isEmpty()) {
         int address = astr.toInt();
         int bus = startSignalSrcpBusLE->text().toInt();
-        updateStartSignalName(bus, address);
+        updateEntrySignalName(bus, address);
     }
 }
 
 
-void RouteDialog::updateStartSignalName(int bus, int address)
+void RouteDialog::updateEntrySignalName(int bus, int address)
 {
     element* el = NULL;
     // send signal to route, routingviewer, gbs
@@ -824,7 +824,7 @@ void RouteDialog::stopSignalBusChanged(const QString& bstr)
     if (!bstr.isEmpty()) {
         int bus = bstr.toInt();
         int address = stopSignalAddressLE->text().toInt();
-        updateStopSignalName(bus, address);
+        updateExitSignalName(bus, address);
     }
 }
 
@@ -834,12 +834,12 @@ void RouteDialog::stopSignalAddressChanged(const QString& astr)
     if (!astr.isEmpty()) {
         int address = astr.toInt();
         int bus = stopSignalSrcpBusLE->text().toInt();
-        updateStopSignalName(bus, address);
+        updateExitSignalName(bus, address);
     }
 }
 
 
-void RouteDialog::updateStopSignalName(int bus, int address)
+void RouteDialog::updateExitSignalName(int bus, int address)
 {
     element* el = NULL;
     // send signal to route, routingviewer, gbs

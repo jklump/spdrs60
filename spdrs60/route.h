@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.4.8 $Revision: 1.18 $
+                           version 0.4.8 $Revision: 1.19 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-11-06 20:49:44 $
+    last modified        : $Date: 2005-12-31 18:48:15 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -77,8 +77,8 @@ class Route: public QObject
 public:
     Route(TypeOfRoute arouteType,
           const QString& aName,
-          const stateElement& atoSignal,
-          const stateElement& afromSignal,
+          const stateElement& aexitSignal,
+          const stateElement& aentrySignal,
           const PortState& arePort,
           const PortState& aacPort,
           const Loco& aacLoco,
@@ -107,16 +107,16 @@ public:
     void viewRoute();
     bool runEditRouteDialog(QWidget*);
     void setupElementLists(QPtrVector<element>*);
-    bool isLockedWithStartSignal(element*);
-    bool isUnlockedWithStartSignalType(element*, GbsButtonState,
+    bool isLockedWithEntrySignal(element*);
+    bool isUnlockedWithEntrySignalType(element*, GbsButtonState,
             GbsButtonState);
     bool isUnlockedType(element*, element*, GbsButtonState,
             GbsButtonState);
-    bool hasStopSignal();
-    bool hasStartSignal();
-    bool hasThisStopSignal(element*);
-    void setStartSignal(element*);
-    void setStopSignal(element*);
+    bool hasExitSignal();
+    bool hasEntrySignal();
+    bool hasThisExitSignal(element*);
+    void setEntrySignal(element*);
+    void setExitSignal(element*);
     void addSwitchElement(element*);
     void removeElement(element*);
     bool canActivateByFeedbackPort(unsigned int, unsigned int, bool);
@@ -130,7 +130,7 @@ signals:
 
 private:
     QString Name;
-    stateElement toSignal, fromSignal;
+    stateElement exitSignal, entrySignal;
     TypeOfRoute routeType;
     PortState acPort, rePort;
     Loco acLoco;

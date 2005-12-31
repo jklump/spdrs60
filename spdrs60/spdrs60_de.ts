@@ -1058,7 +1058,7 @@ Wollen Sie sie überschreiben?</translation>
         <translation>Neue Fahrstraße</translation>
     </message>
     <message>
-        <source>No matching route found for start signal &apos;%1&apos;</source>
+        <source>No matching route found for entry signal &apos;%1&apos;</source>
         <translation>Keine passende Fahrstraße für Startsignal &apos;%1&apos; gefunden</translation>
     </message>
     <message>
@@ -1066,7 +1066,7 @@ Wollen Sie sie überschreiben?</translation>
         <translation>Keine passende Fahrstraße von &apos;%1&apos; nach &apos;%2&apos; gefunden</translation>
     </message>
     <message>
-        <source>No active route found for start signal &apos;%1&apos;</source>
+        <source>No active route found for entry signal &apos;%1&apos;</source>
         <translation>Keine eingestellte Fahrstraße für Startsignal &apos;%1&apos; gefunden</translation>
     </message>
     <message>
@@ -1090,7 +1090,7 @@ Wollen Sie sie überschreiben?</translation>
         <translation>Gleichzeitiges Bedienen von Fahrstraßentasten verschiedenen Typs ist nicht erlaubt.</translation>
     </message>
     <message>
-        <source>No active route found from start signal &apos;%1&apos; to stop signal &apos;%2&apos;</source>
+        <source>No active route found from entry signal &apos;%1&apos; to exit signal &apos;%2&apos;</source>
         <translation>Keine eingestellte Fahrstraße von Startsignal &apos;%1&apos; zu Zielsignal &apos;%2&apos; gefunden</translation>
     </message>
     <message>

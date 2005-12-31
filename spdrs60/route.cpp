@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.34 $
+                           version 0.4.8 $Revision: 1.35 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-12-30 21:47:59 $
+    last modified        : $Date: 2005-12-31 18:48:15 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -27,8 +27,8 @@
 
 Route::Route(TypeOfRoute arouteType,
         const QString& aName,
-        const stateElement& atoSignal,
-        const stateElement& afromSignal,
+        const stateElement& aexitSignal,
+        const stateElement& aentrySignal,
         const PortState& arePort,
         const PortState& aacPort,
         const Loco& aacLoco,
@@ -41,19 +41,19 @@ Route::Route(TypeOfRoute arouteType,
     routeType = arouteType;
     Name = aName;
 
-    toSignal.name = atoSignal.name;
-    toSignal.bus = atoSignal.bus;
-    toSignal.address = atoSignal.address;
-    toSignal.state = atoSignal.state;
-    toSignal.elemPtr = atoSignal.elemPtr;
-    toSignal.elemPtr2 = atoSignal.elemPtr2;
+    exitSignal.name = aexitSignal.name;
+    exitSignal.bus = aexitSignal.bus;
+    exitSignal.address = aexitSignal.address;
+    exitSignal.state = aexitSignal.state;
+    exitSignal.elemPtr = aexitSignal.elemPtr;
+    exitSignal.elemPtr2 = aexitSignal.elemPtr2;
     
-    fromSignal.name = afromSignal.name;
-    fromSignal.bus = afromSignal.bus;
-    fromSignal.address = afromSignal.address;
-    fromSignal.state = afromSignal.state;
-    fromSignal.elemPtr = afromSignal.elemPtr;
-    fromSignal.elemPtr2 = afromSignal.elemPtr2;
+    entrySignal.name = aentrySignal.name;
+    entrySignal.bus = aentrySignal.bus;
+    entrySignal.address = aentrySignal.address;
+    entrySignal.state = aentrySignal.state;
+    entrySignal.elemPtr = aentrySignal.elemPtr;
+    entrySignal.elemPtr2 = aentrySignal.elemPtr2;
     
     rePort.used = arePort.used;
     rePort.switchtooff = arePort.switchtooff;
@@ -95,12 +95,12 @@ Route::Route(element* startEl)
     locked = false;
     switchItems.setAutoDelete(true);
 
-    toSignal.state = 0;
-    toSignal.address = 0;
-    toSignal.bus = 0;
-    toSignal.name = "";
-    toSignal.elemPtr = NULL;
-    toSignal.elemPtr2 = NULL;
+    exitSignal.state = 0;
+    exitSignal.address = 0;
+    exitSignal.bus = 0;
+    exitSignal.name = "";
+    exitSignal.elemPtr = NULL;
+    exitSignal.elemPtr2 = NULL;
     
     routeType = RZS;
 
@@ -121,18 +121,18 @@ Route::Route(element* startEl)
     Name = tr("New route");
     if (startEl != NULL) {
         Name.append(startEl->getName());
-        startEl->getStateData(fromSignal);
+        startEl->getStateData(entrySignal);
         //select route type element name dependent
         if (startEl->hasShuntingRouteButtonOnly())
             routeType = RRS;
     }
     else {
-        fromSignal.state = 0;
-        fromSignal.address = 0;
-        fromSignal.bus = 0;
-        fromSignal.name = "";
-        fromSignal.elemPtr = NULL;
-        fromSignal.elemPtr2 = NULL;
+        entrySignal.state = 0;
+        entrySignal.address = 0;
+        entrySignal.bus = 0;
+        entrySignal.name = "";
+        entrySignal.elemPtr = NULL;
+        entrySignal.elemPtr2 = NULL;
     }
 }
 
@@ -141,14 +141,14 @@ Route::Route(QTextStream& ts, bool isNewFormat)
     locked = false;
     switchItems.setAutoDelete(true);
 
-    /*stop signals are red by default*/
-    toSignal.state = 0;
-    toSignal.name = "";
-    toSignal.elemPtr = NULL;
-    toSignal.elemPtr2 = NULL;
-    fromSignal.name = "";
-    fromSignal.elemPtr = NULL;
-    fromSignal.elemPtr2 = NULL;
+    /*exit signals are red by default*/
+    exitSignal.state = 0;
+    exitSignal.name = "";
+    exitSignal.elemPtr = NULL;
+    exitSignal.elemPtr2 = NULL;
+    entrySignal.name = "";
+    entrySignal.elemPtr = NULL;
+    entrySignal.elemPtr2 = NULL;
 
     if (isNewFormat)
         readFileTextFromStream(ts);
@@ -165,19 +165,19 @@ Route::Route(const QString& aName)
     routeType = RZS;
     Name = aName;
 
-    toSignal.name = "";
-    toSignal.bus = 1;
-    toSignal.address = 0;
-    toSignal.state = 0;
-    toSignal.elemPtr = NULL;
-    toSignal.elemPtr2 = NULL;
+    exitSignal.name = "";
+    exitSignal.bus = 1;
+    exitSignal.address = 0;
+    exitSignal.state = 0;
+    exitSignal.elemPtr = NULL;
+    exitSignal.elemPtr2 = NULL;
     
-    fromSignal.name = "";
-    fromSignal.bus = 1;
-    fromSignal.address = 0;
-    fromSignal.state = 0;
-    fromSignal.elemPtr = NULL;
-    fromSignal.elemPtr2 = NULL;
+    entrySignal.name = "";
+    entrySignal.bus = 1;
+    entrySignal.address = 0;
+    entrySignal.state = 0;
+    entrySignal.elemPtr = NULL;
+    entrySignal.elemPtr2 = NULL;
     
     rePort.used = false;
     rePort.switchtooff = false;
@@ -209,7 +209,7 @@ void Route::setupElementLists(QPtrVector<element>* elements)
     for (unsigned int i = 0; i < elements->size(); i++) {
         element* gbse = elements->at(i);
 
-        /*first add switchable elements "between" start and stop signals*/
+        /*first add switchable elements "between" entry and exit signals*/
         QPtrListIterator<stateElement> it(switchItems);
         stateElement* swElement;
         while ((swElement = it.current()) != 0) {
@@ -228,29 +228,29 @@ void Route::setupElementLists(QPtrVector<element>* elements)
             }
         }
 
-        /*add stop signal*/
-        if ((gbse != 0) && gbse->hasSameAddress(toSignal.bus,
-                    toSignal.address)) {
+        /*add exit signal*/
+        if ((gbse != 0) && gbse->hasSameAddress(exitSignal.bus,
+                    exitSignal.address)) {
             //routePathItems.append(gbse);
-            toSignal.name = gbse->getName();
-            if (toSignal.elemPtr == NULL)
-                toSignal.elemPtr = gbse;
+            exitSignal.name = gbse->getName();
+            if (exitSignal.elemPtr == NULL)
+                exitSignal.elemPtr = gbse;
             else {
                 /*may be this signal is twice on layout*/
-                toSignal.elemPtr2 = gbse;
+                exitSignal.elemPtr2 = gbse;
             }
         }
 
-        /*add start signal*/
-        if ((gbse != 0) && gbse->hasSameAddress(fromSignal.bus,
-                    fromSignal.address)) {
+        /*add entry signal*/
+        if ((gbse != 0) && gbse->hasSameAddress(entrySignal.bus,
+                    entrySignal.address)) {
             //routePathItems.append(gbse);
-            fromSignal.name = gbse->getName();
-            if (fromSignal.elemPtr == NULL)
-                fromSignal.elemPtr = gbse;
+            entrySignal.name = gbse->getName();
+            if (entrySignal.elemPtr == NULL)
+                entrySignal.elemPtr = gbse;
             else {
                 /*may be this signal is twice on layout*/
-                fromSignal.elemPtr2 = gbse;
+                entrySignal.elemPtr2 = gbse;
             }
         }
     }
@@ -270,8 +270,8 @@ void Route::readFileTextFromStream(QTextStream& ts)
                 Name = s.section(DS, 1, 1);
             }
             else if (key.compare(RF_TOSIGNAL) == 0){
-                toSignal.bus = s.section(DS, 1, 1).toUInt();
-                toSignal.address = s.section(DS, 2, 2).toUInt();
+                exitSignal.bus = s.section(DS, 1, 1).toUInt();
+                exitSignal.address = s.section(DS, 2, 2).toUInt();
             }
             else if (key.compare(RF_SWITCHXTOY) == 0){
                 stateElement *switchElement = new stateElement;
@@ -289,9 +289,9 @@ void Route::readFileTextFromStream(QTextStream& ts)
                 // else no memory available
             }
             else if (key.compare(RF_FROMSIGNAL) == 0){
-                fromSignal.bus = s.section(DS, 1, 1).toUInt();
-                fromSignal.address = s.section(DS, 2, 2).toUInt();
-                fromSignal.state = s.section(DS, 3, 3).toUInt();
+                entrySignal.bus = s.section(DS, 1, 1).toUInt();
+                entrySignal.address = s.section(DS, 2, 2).toUInt();
+                entrySignal.state = s.section(DS, 3, 3).toUInt();
             }
             else if (key.compare(RF_RELEASEPORT) == 0){
                 rePort.bus = s.section(DS, 1, 1).toUInt();
@@ -336,8 +336,8 @@ void Route::readOldFileTextFromStream(QTextStream& ts)
                   Name = value.stripWhiteSpace();
             }
             else if (key.compare(RF_TOSIGNAL) == 0){
-                toSignal.bus = 1;
-                toSignal.address = value.toUInt();
+                exitSignal.bus = 1;
+                exitSignal.address = value.toUInt();
             }
             else if (key.compare(RF_SWITCHXTOY) == 0){
                 stateElement* switchElement = new stateElement;
@@ -352,9 +352,9 @@ void Route::readOldFileTextFromStream(QTextStream& ts)
                 switchItems.append(switchElement);
             }
             else if (key.compare(RF_FROMSIGNAL) == 0){
-                fromSignal.bus = 1;
-                fromSignal.address = value.section(" ", 0, 0).toUInt();
-                fromSignal.state = value.section(" ", 1, 1).toUInt();
+                entrySignal.bus = 1;
+                entrySignal.address = value.section(" ", 0, 0).toUInt();
+                entrySignal.state = value.section(" ", 1, 1).toUInt();
             }
             else if (key.compare(RF_RELEASEPORT) == 0){
                 rePort.switchtooff = false;
@@ -414,9 +414,9 @@ void Route::writeFileTextToStream(QTextStream& ts)
 {
     ts
         << RF_NAME << DS << Name << endl
-        << RF_TOSIGNAL << DS << toSignal.bus << DS << toSignal.address << endl
-        << RF_FROMSIGNAL << DS << fromSignal.bus << DS
-        << fromSignal.address << DS << fromSignal.state << endl 
+        << RF_TOSIGNAL << DS << exitSignal.bus << DS << exitSignal.address << endl
+        << RF_FROMSIGNAL << DS << entrySignal.bus << DS
+        << entrySignal.address << DS << entrySignal.state << endl 
         << RF_RELEASEPORT << DS << rePort.bus << DS << rePort.address
         << DS << rePort.used << DS << rePort.switchtooff << endl
         << RF_ACTIVATEPORT << DS << acPort.bus << DS << acPort.address
@@ -439,7 +439,7 @@ void Route::writeFileTextToStream(QTextStream& ts)
 
 Route* Route::getClone()
 {
-    return new Route(routeType, Name, toSignal, fromSignal,
+    return new Route(routeType, Name, exitSignal, entrySignal,
             rePort, acPort, acLoco, detourLevel, switchItems);
 }
 
@@ -458,19 +458,19 @@ QString Route::getName() const
 
 QString Route::getFromSignalName() const
 {
-    if (fromSignal.name.isEmpty())
-        return QString::number(fromSignal.address);
+    if (entrySignal.name.isEmpty())
+        return QString::number(entrySignal.address);
     else
-        return fromSignal.name;
+        return entrySignal.name;
 }
 
 
 QString Route::getToSignalName() const
 {
-    if (toSignal.name.isEmpty())
-        return QString::number(toSignal.address);
+    if (exitSignal.name.isEmpty())
+        return QString::number(exitSignal.address);
     else
-        return toSignal.name;
+        return exitSignal.name;
 }
 
 
@@ -519,18 +519,18 @@ int Route::startRouting()
     /*
      * 1) check for locked elements
      */
-    if (fromSignal.elemPtr != NULL && fromSignal.elemPtr->isLocked())
+    if (entrySignal.elemPtr != NULL && entrySignal.elemPtr->isLocked())
                return 0;
 
-    if (fromSignal.elemPtr2 != NULL && fromSignal.elemPtr2->isLocked())
+    if (entrySignal.elemPtr2 != NULL && entrySignal.elemPtr2->isLocked())
                return 0;
 
-    if (toSignal.elemPtr != NULL && toSignal.elemPtr->isLocked() &&
-                toSignal.elemPtr->hasDifferentDirection(toSignal.state))
+    if (exitSignal.elemPtr != NULL && exitSignal.elemPtr->isLocked() &&
+                exitSignal.elemPtr->hasDifferentDirection(exitSignal.state))
                return 0;
 
-    if (toSignal.elemPtr2 != NULL && toSignal.elemPtr2->isLocked() &&
-                toSignal.elemPtr2->hasDifferentDirection(toSignal.state))
+    if (exitSignal.elemPtr2 != NULL && exitSignal.elemPtr2->isLocked() &&
+                exitSignal.elemPtr2->hasDifferentDirection(exitSignal.state))
                return 0;
 
     QPtrListIterator<stateElement> it(switchItems);
@@ -553,14 +553,14 @@ int Route::startRouting()
     /*
      * 2) switch route elements but without locking
      */
-    if (toSignal.elemPtr != NULL) {
-           toSignal.elemPtr->slotSwitchIt(toSignal.state, 0);
-           toSignal.elemPtr->repaint();
+    if (exitSignal.elemPtr != NULL) {
+           exitSignal.elemPtr->slotSwitchIt(exitSignal.state, 0);
+           exitSignal.elemPtr->repaint();
     }
 
-    if (toSignal.elemPtr2 != NULL) {
-           toSignal.elemPtr2->slotSwitchIt(toSignal.state, 0);
-           toSignal.elemPtr2->repaint();
+    if (exitSignal.elemPtr2 != NULL) {
+           exitSignal.elemPtr2->slotSwitchIt(exitSignal.state, 0);
+           exitSignal.elemPtr2->repaint();
     }
     
     it.toFirst();
@@ -600,7 +600,7 @@ int Route::startRouting()
         rsa = krouteRfs;
     }
     // send signal to gbs to change route path LEDs
-    emit updateRoutePathLEDs(fromSignal, toSignal, rsa);
+    emit updateRoutePathLEDs(entrySignal, exitSignal, rsa);
     
     // interrupt routing if "Zugfahrstrasse" meets occupied element
     if (krouteReset == rsa) {
@@ -613,13 +613,13 @@ int Route::startRouting()
      * interruption by occupied elements for "Zugfahrstrassen" and the
      * necessary unlocking of allready locked elements
      */
-    if (fromSignal.elemPtr != NULL)
-        fromSignal.elemPtr->setLocked(true);
+    if (entrySignal.elemPtr != NULL)
+        entrySignal.elemPtr->setLocked(true);
 
-    if (fromSignal.elemPtr2 != NULL)
-        fromSignal.elemPtr2->setLocked(true);
+    if (entrySignal.elemPtr2 != NULL)
+        entrySignal.elemPtr2->setLocked(true);
 
-    /*stop signal does not need locking*/
+    /*exit signal does not need locking*/
     
     it.toFirst();
     while ((se = it.current()) != 0) {
@@ -633,15 +633,15 @@ int Route::startRouting()
     }
 
     /*
-     * 5) activate "Fahrstrassenfestlegemelder" (FfM) at start signal
+     * 5) activate "Fahrstrassenfestlegemelder" (FfM) at entry signal
      *    shunting routes do not have an active FfM
      */
-    if (fromSignal.elemPtr != NULL)
-           fromSignal.elemPtr->activateFfM((routeType != RRS &&
+    if (entrySignal.elemPtr != NULL)
+           entrySignal.elemPtr->activateFfM((routeType != RRS &&
                        routeType != URS));
 
-    if (fromSignal.elemPtr2 != NULL)
-           fromSignal.elemPtr2->activateFfM(routeType != RRS &&
+    if (entrySignal.elemPtr2 != NULL)
+           entrySignal.elemPtr2->activateFfM(routeType != RRS &&
                        routeType != URS);
 
     /*
@@ -666,12 +666,12 @@ int Route::startRouting()
             }
     }
 
-    /* 7) at last switch start signal to Hp1/Sh1 etc.*/
-    if (fromSignal.elemPtr != NULL)
-        fromSignal.elemPtr->slotSwitchIt(fromSignal.state, 0);
+    /* 7) at last switch entry signal to Hp1/Sh1 etc.*/
+    if (entrySignal.elemPtr != NULL)
+        entrySignal.elemPtr->slotSwitchIt(entrySignal.state, 0);
 
-    if (fromSignal.elemPtr2 != NULL)
-        fromSignal.elemPtr2->slotSwitchIt(fromSignal.state, 0);
+    if (entrySignal.elemPtr2 != NULL)
+        entrySignal.elemPtr2->slotSwitchIt(entrySignal.state, 0);
 
     locked = true;
     return 1;
@@ -685,14 +685,14 @@ int Route::startRouting()
  */
 void Route::stopRouting()
 {
-    if (fromSignal.elemPtr != NULL) {
-           fromSignal.elemPtr->activateFfM(false);
-           fromSignal.elemPtr->slotSwitchIt(0, -1);
+    if (entrySignal.elemPtr != NULL) {
+           entrySignal.elemPtr->activateFfM(false);
+           entrySignal.elemPtr->slotSwitchIt(0, -1);
     }
 
-    if (fromSignal.elemPtr2 != NULL) {
-           fromSignal.elemPtr2->activateFfM(false);
-           fromSignal.elemPtr2->slotSwitchIt(0, -1);
+    if (entrySignal.elemPtr2 != NULL) {
+           entrySignal.elemPtr2->activateFfM(false);
+           entrySignal.elemPtr2->slotSwitchIt(0, -1);
     }
 
     /* */
@@ -720,7 +720,7 @@ void Route::stopRouting()
      * send signal to gbs to change route path LEDs
      */
     RouteSetAction rsa = krouteReset;
-    emit updateRoutePathLEDs(fromSignal, toSignal, rsa);
+    emit updateRoutePathLEDs(entrySignal, exitSignal, rsa);
 
     locked = false;
 }
@@ -728,17 +728,17 @@ void Route::stopRouting()
 
 void Route::hideRoute()
 {
-    if (toSignal.elemPtr != NULL)
-           toSignal.elemPtr->switchSelectionMode(ksmNormal);
+    if (exitSignal.elemPtr != NULL)
+           exitSignal.elemPtr->switchSelectionMode(ksmNormal);
 
-    if (toSignal.elemPtr2 != NULL)
-           toSignal.elemPtr2->switchSelectionMode(ksmNormal);
+    if (exitSignal.elemPtr2 != NULL)
+           exitSignal.elemPtr2->switchSelectionMode(ksmNormal);
 
-    if (fromSignal.elemPtr != NULL)
-           fromSignal.elemPtr->switchSelectionMode(ksmNormal);
+    if (entrySignal.elemPtr != NULL)
+           entrySignal.elemPtr->switchSelectionMode(ksmNormal);
 
-    if (fromSignal.elemPtr2 != NULL)
-           fromSignal.elemPtr2->switchSelectionMode(ksmNormal);
+    if (entrySignal.elemPtr2 != NULL)
+           entrySignal.elemPtr2->switchSelectionMode(ksmNormal);
 
     QPtrListIterator<stateElement> it(switchItems);
     stateElement* swe;
@@ -755,17 +755,17 @@ void Route::hideRoute()
 
 void Route::showRoute()
 {
-    if (toSignal.elemPtr != NULL)
-           toSignal.elemPtr->showElementState(toSignal.state, ksmStopSig);
+    if (exitSignal.elemPtr != NULL)
+           exitSignal.elemPtr->showElementState(exitSignal.state, ksmStopSig);
 
-    if (toSignal.elemPtr2 != NULL)
-           toSignal.elemPtr2->showElementState(toSignal.state, ksmStopSig);
+    if (exitSignal.elemPtr2 != NULL)
+           exitSignal.elemPtr2->showElementState(exitSignal.state, ksmStopSig);
 
-    if (fromSignal.elemPtr != NULL)
-           fromSignal.elemPtr->showElementState(fromSignal.state, ksmStartSig);
+    if (entrySignal.elemPtr != NULL)
+           entrySignal.elemPtr->showElementState(entrySignal.state, ksmStartSig);
 
-    if (fromSignal.elemPtr2 != NULL)
-           fromSignal.elemPtr2->showElementState(fromSignal.state, ksmStartSig);
+    if (entrySignal.elemPtr2 != NULL)
+           entrySignal.elemPtr2->showElementState(entrySignal.state, ksmStartSig);
 
     QPtrListIterator<stateElement> it(switchItems);
     stateElement* swe;
@@ -780,18 +780,18 @@ void Route::showRoute()
 }
 
 
-void Route::setStartSignal(element* el)
+void Route::setEntrySignal(element* el)
 {
-    el->getStateData(fromSignal);
+    el->getStateData(entrySignal);
     el->switchSelectionMode(ksmStartSig);
     updateRouteName();
     updateRouteType();
 }
 
 
-void Route::setStopSignal(element* el)
+void Route::setExitSignal(element* el)
 {
-    el->getStateData(toSignal);
+    el->getStateData(exitSignal);
     el->switchSelectionMode(ksmStopSig);
     updateRouteName();
     updateRouteType();
@@ -800,15 +800,15 @@ void Route::setStopSignal(element* el)
 
 void Route::updateRouteName()
 {
-    if (hasStartSignal()) {
-        if (hasStopSignal()) 
-            Name = QString("%1 - %2").arg(fromSignal.name).arg(toSignal.name);
+    if (hasEntrySignal()) {
+        if (hasExitSignal()) 
+            Name = QString("%1 - %2").arg(entrySignal.name).arg(exitSignal.name);
         else
-            Name = QString(tr("New route from %1").arg(fromSignal.name));
+            Name = QString(tr("New route from %1").arg(entrySignal.name));
     }
     else {
-        if (hasStopSignal())
-            Name = QString(tr("New route to %1").arg(toSignal.name));
+        if (hasExitSignal())
+            Name = QString(tr("New route to %1").arg(exitSignal.name));
         else
             Name = tr("New route");
     }
@@ -823,14 +823,14 @@ void Route::updateRouteType()
     if (RZS != routeType)
         return;
     
-    if (hasStartSignal() &&
-            fromSignal.elemPtr->hasShuntingRouteButtonOnly()) {
+    if (hasEntrySignal() &&
+            entrySignal.elemPtr->hasShuntingRouteButtonOnly()) {
         routeType = RRS;
         return;
     }
     
-    if (hasStopSignal() &&
-            toSignal.elemPtr->hasShuntingRouteButtonOnly())
+    if (hasExitSignal() &&
+            exitSignal.elemPtr->hasShuntingRouteButtonOnly())
         routeType = RRS;
 }
 
@@ -852,21 +852,21 @@ void Route::removeElement(element* el)
     elemSelectionMode sm = el->getSelectionMode();
     switch (sm) {
         case (ksmStartSig):
-            fromSignal.state = 0;
-            fromSignal.address = 0;
-            fromSignal.bus = 0;
-            fromSignal.name = "";
-            fromSignal.elemPtr = NULL;
-            fromSignal.elemPtr2 = NULL;
+            entrySignal.state = 0;
+            entrySignal.address = 0;
+            entrySignal.bus = 0;
+            entrySignal.name = "";
+            entrySignal.elemPtr = NULL;
+            entrySignal.elemPtr2 = NULL;
             updateRouteName();
             break;
         case (ksmStopSig):
-            toSignal.state = 0;
-            toSignal.address = 0;
-            toSignal.bus = 0;
-            toSignal.name = "";
-            toSignal.elemPtr = NULL;
-            toSignal.elemPtr2 = NULL;
+            exitSignal.state = 0;
+            exitSignal.address = 0;
+            exitSignal.bus = 0;
+            exitSignal.name = "";
+            exitSignal.elemPtr = NULL;
+            exitSignal.elemPtr2 = NULL;
             updateRouteName();
             break;
         case (ksmSwitchEl):
@@ -896,31 +896,31 @@ void Route::removeElement(element* el)
 }
 
 
-bool Route::hasStartSignal()
+bool Route::hasEntrySignal()
 {
-    return fromSignal.elemPtr != NULL;
+    return entrySignal.elemPtr != NULL;
 }
 
 
-bool Route::hasStopSignal()
+bool Route::hasExitSignal()
 {
-    return toSignal.elemPtr != NULL;
+    return exitSignal.elemPtr != NULL;
 }
 
 
-bool Route::hasThisStopSignal(element* el)
+bool Route::hasThisExitSignal(element* el)
 {
-    return (toSignal.elemPtr == el || toSignal.elemPtr2 == el);
+    return (exitSignal.elemPtr == el || exitSignal.elemPtr2 == el);
 }
 
 
-bool Route::isLockedWithStartSignal(element* el)
+bool Route::isLockedWithEntrySignal(element* el)
 {
-    return locked && (fromSignal.elemPtr == el || fromSignal.elemPtr2 == el);
+    return locked && (entrySignal.elemPtr == el || entrySignal.elemPtr2 == el);
 }
 
 
-bool Route::isUnlockedWithStartSignalType(element* el, GbsButtonState cb,
+bool Route::isUnlockedWithEntrySignalType(element* el, GbsButtonState cb,
         GbsButtonState sb)
 {
     /* Function matrix
@@ -935,8 +935,8 @@ bool Route::isUnlockedWithStartSignalType(element* el, GbsButtonState cb,
           URS       kRfsClicked   kUfgtClicked
        ----------------------------------------
     */
-    if (!locked && (fromSignal.elemPtr == el || 
-                fromSignal.elemPtr2 == el)) {
+    if (!locked && (entrySignal.elemPtr == el || 
+                entrySignal.elemPtr2 == el)) {
         
         bool returnvalue = false;
         switch (routeType){
@@ -981,9 +981,9 @@ bool Route::isUnlockedType(element* fel, element* tel, GbsButtonState cb,
           URS       kRfsClicked   kUfgtClicked
        ----------------------------------------
     */
-    if (!locked && (fromSignal.elemPtr == fel || 
-                fromSignal.elemPtr2 == fel) && (toSignal.elemPtr == tel || 
-                    toSignal.elemPtr2 == tel)) {
+    if (!locked && (entrySignal.elemPtr == fel || 
+                entrySignal.elemPtr2 == fel) && (exitSignal.elemPtr == tel || 
+                    exitSignal.elemPtr2 == tel)) {
         
         bool returnvalue = false;
         switch (routeType){
@@ -1054,8 +1054,8 @@ bool Route::runEditRouteDialog(QWidget* dlgparent)
             SIGNAL(getElementByAddress(const int, const int,
                     element**)));
     rtDlg->setRouteName(Name);
-    rtDlg->setStartSignalData(fromSignal);
-    rtDlg->setStopSignalData(toSignal);
+    rtDlg->setEntrySignalData(entrySignal);
+    rtDlg->setExitSignalData(exitSignal);
     rtDlg->setActivateData(acPort);
     rtDlg->setReleaseData(rePort);
     rtDlg->setRouteType(routeType, detourLevel);
@@ -1064,8 +1064,8 @@ bool Route::runEditRouteDialog(QWidget* dlgparent)
         // update gbs: 1) hide old route 2) show new route
         hideRoute();
         Name = rtDlg->getRouteName();
-        rtDlg->getStartSignalData(fromSignal);
-        rtDlg->getStopSignalData(toSignal);
+        rtDlg->getEntrySignalData(entrySignal);
+        rtDlg->getExitSignalData(exitSignal);
         rtDlg->getActivateData(acPort);
         rtDlg->getReleaseData(rePort);
         routeType = (TypeOfRoute) rtDlg->getRouteType();

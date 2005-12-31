@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.4.8 $Revision: 1.26 $
+                           version 0.4.8 $Revision: 1.27 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-12-09 18:07:07 $
+    last modified        : $Date: 2005-12-31 18:48:15 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -264,10 +264,10 @@ void Router::recordElement(element* el, elemRecordType rtype)
     if (visualmode == kvmEditRoute && recordRt != NULL) {
         switch (rtype) {
             case (krecStartStop):
-                if (!recordRt->hasStartSignal())
-                    recordRt->setStartSignal(el);
-                else if (!recordRt->hasStopSignal())
-                    recordRt->setStopSignal(el);
+                if (!recordRt->hasEntrySignal())
+                    recordRt->setEntrySignal(el);
+                else if (!recordRt->hasExitSignal())
+                    recordRt->setExitSignal(el);
                
                 /*send update signal to routingviewer to show changed
                   route name*/
@@ -281,7 +281,7 @@ void Router::recordElement(element* el, elemRecordType rtype)
             case (krecClear):
                 recordRt->removeElement(el);
                 /*send update signal to routingviewer to show changed
-                  route name if changed element was start or stop signal*/
+                  route name if changed element was entry or exit signal*/
                 emit updateRoutingViewerAt(routeList.find(recordRt));
                 modified = true;
                 break;
@@ -388,24 +388,24 @@ void Router::releaseRoute(Route* rt)
 /*
    old error messages
    case kNormal:
-   (tr("No normal route found for start signal '%1'!").arg(s.data()));
+   (tr("No normal route found for entry signal '%1'!").arg(s.data()));
    case kDetour:
-   (tr("No detour route found for start signal '%1'!").arg(s.data()));
+   (tr("No detour route found for entry signal '%1'!").arg(s.data()));
    case kHelp:
-   (tr("No help route found for start signal '%1'!").arg(s.data()));
+   (tr("No help route found for entry signal '%1'!").arg(s.data()));
    case kShunting:
-   (tr("No shunting route found for start signal '%1'!").arg(s.data()));
+   (tr("No shunting route found for entry signal '%1'!").arg(s.data()));
    case kShuntingD:
-   (tr("No detour shunting route found for start signal '%1'!").arg(s.data()));
+   (tr("No detour shunting route found for entry signal '%1'!").arg(s.data()));
 */
 void Router::setRoute(element* el, GbsButtonState cb, GbsButtonState sb)
 {
     if (el == NULL)
         return;
 
-    /*check if start signal is allready choosen*/
+    /*check if entry signal is allready choosen*/
     if (selectedStartSig == NULL) {
-        Route* sr = getUnlockedRouteWithStartSignal(el, cb, sb);
+        Route* sr = getUnlockedRouteWithEntrySignal(el, cb, sb);
         if (sr != NULL) {
             selectedStartSig = el;
             lastcb = cb;
@@ -417,11 +417,11 @@ void Router::setRoute(element* el, GbsButtonState cb, GbsButtonState sb)
             QApplication::beep();
             /*send cursor time out to gbs*/
             emit routeFunctionFinished();
-            emit showLogMessage(tr("No matching route found for start "
+            emit showLogMessage(tr("No matching route found for entry "
                         "signal '%1'").arg(el->getName()), MT_INFO, HL_CMND);
         }
     }
-    /*stop signal button is pressed*/
+    /*exit signal button is pressed*/
     else {
         if (lastcb != cb) {
             QApplication::beep();
@@ -429,7 +429,7 @@ void Router::setRoute(element* el, GbsButtonState cb, GbsButtonState sb)
                         " type is not allowed."), MT_INFO, HL_CMND);
         }
         else {
-            Route* sr = getUnlockedRouteWithStopSignal(el, cb, sb);
+            Route* sr = getUnlockedRouteWithExitSignal(el, cb, sb);
             if (sr != NULL)
                 activateRoute(sr);
             else {
@@ -453,7 +453,7 @@ void Router::resetRoute(element* el, GbsButtonState cb)
 
     /*check if is route to reset is allready choosen*/
     if (resetRt == NULL) {
-        resetRt = getLockedRouteWithStartSignal(el);
+        resetRt = getLockedRouteWithEntrySignal(el);
         if (resetRt != NULL) {
             lastcb = cb;
             selectedStartSig = el;
@@ -462,7 +462,7 @@ void Router::resetRoute(element* el, GbsButtonState cb)
         }
         else {
             QApplication::beep();
-            emit showLogMessage(tr("No active route found for start "
+            emit showLogMessage(tr("No active route found for entry "
                         "signal '%1'").arg(el->getName()), MT_INFO, HL_CMND);
             emit routeFunctionFinished();
         }
@@ -474,8 +474,8 @@ void Router::resetRoute(element* el, GbsButtonState cb)
                         " type is not allowed."), MT_INFO, HL_CMND);
         }
         else {
-            //check if selected route has same stop signal
-            if (resetRt->hasThisStopSignal(el)) {
+            //check if selected route has same exit signal
+            if (resetRt->hasThisExitSignal(el)) {
                 resetRt->stopRouting();
                 int index = routeList.find(resetRt);
                 // send signal to routing viewer to update state icon
@@ -487,7 +487,7 @@ void Router::resetRoute(element* el, GbsButtonState cb)
                 QApplication::beep();
                 if (selectedStartSig != NULL)
                     emit showLogMessage(tr("No active route found from "
-                                "start signal '%1' to stop signal '%2'")
+                                "entry signal '%1' to exit signal '%2'")
                             .arg(selectedStartSig->getName()).arg(el->getName()),
                             MT_INFO, HL_CMND);
             }
@@ -500,34 +500,34 @@ void Router::resetRoute(element* el, GbsButtonState cb)
 }
 
 
-Route* Router::getLockedRouteWithStartSignal(element* el)
+Route* Router::getLockedRouteWithEntrySignal(element* el)
 {
     QPtrListIterator<Route> routeit(routeList);
     Route* rt;
     while ((rt = routeit.current()) != 0 ) {
         ++routeit;
-        if (rt->isLockedWithStartSignal(el))
+        if (rt->isLockedWithEntrySignal(el))
             return rt;
     }
     return NULL;
 }
 
 
-Route* Router::getUnlockedRouteWithStartSignal(element* el, GbsButtonState cb,
+Route* Router::getUnlockedRouteWithEntrySignal(element* el, GbsButtonState cb,
         GbsButtonState sb)
 {
     QPtrListIterator<Route> routeit(routeList);
     Route* rt;
     while ((rt = routeit.current()) != 0 ) {
         ++routeit;
-        if (rt->isUnlockedWithStartSignalType(el, cb, sb))
+        if (rt->isUnlockedWithEntrySignalType(el, cb, sb))
             return rt;
     }
     return NULL;
 }
 
 
-Route* Router::getUnlockedRouteWithStopSignal(element* el, GbsButtonState cb,
+Route* Router::getUnlockedRouteWithExitSignal(element* el, GbsButtonState cb,
         GbsButtonState sb)
 {
     QPtrListIterator<Route> routeit(routeList);

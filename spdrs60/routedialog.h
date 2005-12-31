@@ -1,11 +1,11 @@
 /***************************************************************************
                            routedialog.h
-                           version 0.4.7 $Revision: 1.15 $
+                           version 0.4.7 $Revision: 1.16 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-10-30 15:04:52 $
+    last modified        : $Date: 2005-12-31 18:48:15 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -51,13 +51,13 @@ public:
     RouteDialog(QWidget* parent = 0);
     void setRouteName(const QString&);
     void setRouteType(int, unsigned int);
-    void setStartSignalData(const stateElement&);
-    void setStopSignalData(const stateElement&);
+    void setEntrySignalData(const stateElement&);
+    void setExitSignalData(const stateElement&);
     void setActivateData(const PortState&);
     void setReleaseData(const PortState&);
     QString getRouteName();
-    void getStartSignalData(stateElement&);
-    void getStopSignalData(stateElement&);
+    void getEntrySignalData(stateElement&);
+    void getExitSignalData(stateElement&);
     void getActivateData(PortState&);
     void getReleaseData(PortState&);
     int getRouteType();
@@ -140,8 +140,8 @@ private:
    QSpinBox*     uzsLevelSB;
    QSpinBox*     ursLevelSB;
    
-   void updateStartSignalName(int, int);
-   void updateStopSignalName(int, int);
+   void updateEntrySignalName(int, int);
+   void updateExitSignalName(int, int);
    void updateListIndexNumbersFrom(QListViewItem*);
 };
 
