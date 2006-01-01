@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.4.8 $Revision: 1.22 $
+                           version 0.4.8 $Revision: 1.23 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-    copyright            : (C) 2004-2005 by Guido Scholz
+    copyright            : (C) 2004-2006 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-12-29 21:40:28 $
+    last modified        : $Date: 2006-01-01 21:29:59 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -162,8 +162,8 @@ private:
    bool CommandPortIsConnected;
    bool FeedbackPortIsConnected;
    bool InfoPortIsConnected;
-   SRCPMode     SRCPCommandStatus;
-   SRCPMode     SRCPInfoStatus;
+   SRCPMode     SRCPCommandState;
+   SRCPMode     SRCPInfoState;
    unsigned int srcpVersion;
    int          srcpCommandSessionID;
    int          srcpInfoSessionID;
@@ -236,8 +236,7 @@ private slots:
    void CloseSRCPServerConnection();
    void SendCommandToSRCPServer(const QString&);
    void SendInfoCommandToSRCPServer(const QString&);
-   void sendSrcpCmdSetGA(const QString&, unsigned int,
-        unsigned int, unsigned int, unsigned int);
+   void sendSrcpMessage(SrcpMessage*);
    void CommandSocketHostFound();
    void CommandSocketReadyRead();
    void CommandSocketConnected();

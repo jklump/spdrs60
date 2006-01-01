@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.35 $
+                           version 0.4.8 $Revision: 1.36 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-12-26 21:12:53 $
+    last modified        : $Date: 2006-01-01 21:29:58 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -840,10 +840,8 @@ void GBSArea::setupElements()
                             int, int, int)),
                     el, SLOT(processInfoPortMessage(QString,
                             int, int, int)));
-            connect(el, SIGNAL(sendSrcpCmdSetGA(const QString&, unsigned int,
-                            unsigned int, unsigned int, unsigned int)),
-                    this, SIGNAL(sendSrcpCmdSetGA(const QString&, unsigned int,
-                            unsigned int, unsigned int, unsigned int)));
+            connect(el, SIGNAL(sendSrcpMessage(SrcpMessage*)),
+                    this, SIGNAL(sendSrcpMessage(SrcpMessage*)));
             //}
             //if (el->hasLEDsOn())
             connect(this, SIGNAL(feedbackPortChanged(unsigned int,
@@ -963,12 +961,8 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
                                 int, int, int)),
                         el, SLOT(processInfoPortMessage(QString,
                                 int, int, int)));
-                connect(el, SIGNAL(sendSrcpCmdSetGA(const QString&,
-                                unsigned int, unsigned int, unsigned int,
-                                unsigned int)),
-                        this, SIGNAL(sendSrcpCmdSetGA(const QString&,
-                                unsigned int, unsigned int, unsigned int,
-                                unsigned int)));
+                connect(el, SIGNAL(sendSrcpMessage(SrcpMessage*)),
+                        this, SIGNAL(sendSrcpMessage(SrcpMessage*)));
                 //}
                 //if (el->hasLEDsOn())
                 connect(this, SIGNAL(feedbackPortChanged(unsigned int,

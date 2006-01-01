@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.4.8 $Revision: 1.20 $
+                           version 0.4.8 $Revision: 1.21 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-12-26 21:12:53 $
+    last modified        : $Date: 2006-01-01 21:29:58 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -139,8 +139,7 @@ signals:
     void showLogMessage(const QString&, int, int);
     void switchVisualMode(elemVisualMode);
     void feedbackPortChanged(unsigned int, unsigned int, bool);
-    void sendSrcpCmdSetGA(const QString&, unsigned int,
-            unsigned int, unsigned int, unsigned int);
+    void sendSrcpMessage(SrcpMessage*);
     void setRepeatIcon(const QString&);
     void setRoute(element*, GbsButtonState, GbsButtonState);
     void resetRoute(element*, GbsButtonState);

@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.43 $
+                           version 0.4.8 $Revision: 1.44 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-12-26 21:12:53 $
+    last modified        : $Date: 2006-01-01 21:29:56 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -849,13 +849,21 @@ void element::makeCommand()
          * serd: Viessman Formsignale often need several attempts
          * wait 500 ms only if repeating command for signal
          */
+        SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgGaSet);
+        if (sm == NULL)
+            return;
+
+        sm->setGaData((sSoldProtocol == "M") ? SrcpMessage::proMM :
+                SrcpMessage::proDCC, iRealBus, iRealAddress, port,
+                iSoldActiveTime);
+        
         while (sendRepeatCounter > 0) {
-            emit sendSrcpCmdSetGA(sSoldProtocol, iRealBus, iRealAddress,
-                    port, iSoldActiveTime);
+            emit sendSrcpMessage(sm);
             sendRepeatCounter--;
             if (sendRepeatCounter > 0)
                 usleep(500 * 1000);
         }
+        delete sm;
 
         // return to copy direction and address for second switch
         if ((sSoldIcon == SYM_DRW || sSoldIcon == SYM_EKL ||
@@ -2435,17 +2443,26 @@ int element::getAddressCount()
     return returnvalue;
 }
 
-/*
+
 void element::updateFeedbackState()
 {
     // get current feedback status from server to update LEDstate
     // TODO: switch mainwindow to INFO FB receive mode
-    if ((iSoldLEDoff != 1) && (iFBContact >= 0))
-        emit sendCommand(QString("GET FB %1 %2")
-                .arg((FEEDBACK <= 1) ? "S88" : "I8255")
-                .arg(iFBContact));
+    if ((iSoldLEDoff != 1) && (iFBContact >= 0)) {
+        
+        SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgFbGet);
+        if (sm == NULL)
+            return;
+        
+        sm->setFbData(iFBBusNo, (FEEDBACK <= 1) ? SrcpMessage::fbS88 :
+                SrcpMessage::fbI8255, iFBContact);
+        
+        emit sendSrcpMessage(sm);
+
+        delete sm;
+    }
 }
-*/
+
 
 /*
  * update element if system font is changed e.g. by qtconfig

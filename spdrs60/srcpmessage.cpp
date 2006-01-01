@@ -1,10 +1,10 @@
 /***************************************************************************
                            srcpmessage.cpp
-                           version 0.5.0 $Revision: 1.2 $
+                           version 0.5.0 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-12-30 21:47:59 $
+    last modified        : $Date: 2006-01-01 21:29:59 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -17,18 +17,21 @@
  ***************************************************************************/
 
 /***************************************************************************
-    this code implements a class wrapping srcp commands
+    This code implements a class for SRCP messages which can be
+    exchanged between a SRCP-data containing class and the SRCP protocol
+    class. It implements a method to translate binary data to SRCP-
+    protocol dependend command strings. 
  ***************************************************************************/
 
 #include "srcpmessage.h"
 
 
 
-SrcpMessage::SrcpMessage(Command cmd)
+SrcpMessage::SrcpMessage(Message msg)
 {
    address = 0;
    cmdmode = true;
-   command = cmd;
+   message = msg;
    delay = 0;
    fbport = 0;
    fbtype = fbS88;
@@ -39,24 +42,22 @@ SrcpMessage::SrcpMessage(Command cmd)
 }
 
 
-QString SrcpMessage::getSrcpMessageStr(unsigned int version)
+QString SrcpMessage::getSrcpMessageStr(unsigned int version) const
 {
     QString cmdStr = "";
 
     // SRCP 0.7
     if (7 == version)
 
-        switch(command) {
-            case cmdGetPower:
-                cmdStr = "GET POWER";
-                break;
-            case cmdGetFb:
+        switch(message) {
+            case msgFbGet:
                 if (fbport == 0)
                     cmdStr = "GET FB *";
                 else
-                    cmdStr = QString("GET FB %1").arg(fbport);
+                    cmdStr = QString("GET FB %1")
+                        .arg((srcpbus - 1) * 496 + fbport);
                 break;
-            case cmdInitFb:
+            case msgFbInit:
                 switch(fbtype) {
                     case fbS88:
                         cmdStr = "INIT FB S88";
@@ -72,61 +73,74 @@ QString SrcpMessage::getSrcpMessageStr(unsigned int version)
                         break;
                 }
                 break;
-            case cmdLogout:
-                cmdStr = "LOGOUT";
+            case msgGaGet:
+                cmdStr = QString("GET GA %1 %2 %3")
+                    .arg(protocol).arg(address).arg(port);
                 break;
-            case cmdReset:
-                cmdStr = "RESET";
-                break;
-            case cmdSetGa:
+            case msgGaSet:
                 cmdStr = QString("SET GA %1 %2 %3 1 %4")
                     .arg(protocol).arg(address).arg(port).arg(delay);
                 break;
-            case cmdShutdown:
-                cmdStr = "SHUTDOWN";
+                //TODO: msgGl...
+            case msgPowerGet:
+                cmdStr = "GET POWER";
                 break;
-            case cmdSetPower:
+            case msgPowerSet:
                 cmdStr = QString("SET POWER %1").arg(power ? "ON" : "OFF");
                 break;
-            case cmdNoCmd:
+            case msgServerLogout:
+                cmdStr = "LOGOUT";
+                break;
+            case msgServerReset:
+                cmdStr = "RESET";
+                break;
+            case msgServerShutdown:
+                cmdStr = "SHUTDOWN";
+                break;
+            case msgNoMsg:
             default:
                 break;
         }
 
     // SRCP 0.8
     else
-        switch(command) {
-            case cmdGetPower:
-                cmdStr = QString("GET %1 POWER").arg(srcpbus);
-                break;
-            case cmdGetFb:
+        switch(message) {
+            case msgFbGet:
                 cmdStr = QString("GET %1 FB %2").arg(srcpbus).arg(fbport);
                 break;
-            case cmdInitFb:
+            case msgFbInit:
                 cmdStr = QString("INIT %1 FB").arg(srcpbus);
                 break;
-            case cmdReset:
-                cmdStr = "RESET 0 SERVER";
+            case msgFbTerm:
+                cmdStr = QString("TERM %1 FB").arg(srcpbus);
                 break;
-            case cmdSetConnectionMode:
-                cmdStr = QString("SET CONNECTIONMODE SRCP %1")
-                    .arg(cmdmode ? "COMMAND" : "INFO");
+            case msgGaGet:
+                cmdStr = QString("GET %1 GA %2 %3")
+                    .arg(srcpbus).arg(address).arg(port);
                 break;
-            case cmdSetGa:
+            case msgGaInit:
+                cmdStr = QString("GET %1 GA %2 %3")
+                    .arg(srcpbus).arg(address).arg(protocol);
+                break;
+            case msgGaSet:
                 cmdStr = QString("SET %1 GA %2 %3 1 %4")
                     .arg(srcpbus).arg(address).arg(port).arg(delay);
                 break;
-            case cmdShutdown:
-                cmdStr = "TERM 0 SERVER";
+                //TODO: msgGl...
+            case msgPowerGet:
+                cmdStr = QString("GET %1 POWER").arg(srcpbus);
                 break;
-            case cmdSetPower:
+            case msgPowerSet:
                 cmdStr = QString("SET %1 POWER %2").arg(srcpbus)
                     .arg(power ? "ON" :"OFF");
                 break;
-            case cmdTermFb:
-                cmdStr = QString("TERM %1 FB").arg(srcpbus);
+            case msgServerShutdown:
+                cmdStr = "TERM 0 SERVER";
                 break;
-            case cmdNoCmd:
+            case msgServerReset:
+                cmdStr = "RESET 0 SERVER";
+                break;
+            case msgNoMsg:
             default:
                 break;
         }
@@ -135,15 +149,9 @@ QString SrcpMessage::getSrcpMessageStr(unsigned int version)
 }
 
 
-void SrcpMessage::setAddress(unsigned int adr)
+int SrcpMessage::getMessage()
 {
-    address = adr;
-}
-
-
-void SrcpMessage::setBus(unsigned int bus)
-{
-    srcpbus = bus;
+    return (int) message;
 }
 
 
@@ -153,38 +161,30 @@ void SrcpMessage::setConnectionModeCmd(bool cmode)
 }
 
 
-void SrcpMessage::setCommand(Command cmd)
+void SrcpMessage::setFbData(unsigned int bus, Feedback fbt, unsigned int prt)
 {
-    command = cmd;
-}
-
-
-void SrcpMessage::setDelay(unsigned int dly)
-{
-    delay = dly;
-}
-
-
-void SrcpMessage::setFbPort(unsigned int prt)
-{
+    srcpbus = bus;
+    fbtype = fbt;
     fbport = prt;
 }
 
 
-void SrcpMessage::setPort(unsigned int prt)
+void SrcpMessage::setGaData(Protocol pro, unsigned int bus,
+        unsigned int adr, unsigned int prt, unsigned int dly)
 {
+    protocol = pro;
+    srcpbus = bus;
+    address = adr;
     port = prt;
+    delay = dly;
 }
 
+//TODO: void SrcpMessage::setGlData()
 
-void SrcpMessage::setPower(bool pwr)
+void SrcpMessage::setPowerData(unsigned int bus, bool pwr)
 {
+    srcpbus = bus;
     power = pwr;
 }
 
-
-void SrcpMessage::setProtocol(Protocol pro)
-{
-    protocol = pro;
-}
 
