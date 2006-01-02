@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.4.8 $Revision: 1.21 $
+                           version 0.4.8 $Revision: 1.22 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-01 21:29:58 $
+    last modified        : $Date: 2006-01-02 22:14:15 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -67,6 +67,10 @@ public:
    QPtrVector<element>* getGbsElementListPtr();
    void sendInfoPortMessage(QString prot, int addr, int port, int
            state);
+   bool getSRCP08BusPower();
+   bool setSRCP08BusPower(bool);
+   bool switchSRCP08FBBusState(bool);
+   bool runSRCP08GAInitSequence();
     
 private:
    QCursor     FHTCursor;
@@ -96,10 +100,23 @@ private:
    bool        modified: 1;
    GbsButtonState  gkbState;
 
+   // for SRCP 0.8
+   int         SRCP08GA1InitWalker;
+   int         SRCP08GA2InitWalker;
+   int         SRCP08GABusCount;
+   int         SRCP08GABusWalker;
+   int         *pSRCP08GABusList;
+   int         SRCP08FBBusCount;
+   int         SRCP08FBBusWalker;
+   int         *pSRCP08FBBusList;
+
    void deleteElements();
    void externalButtonClicked(GbsButtonState);
    int  locateIndex(const QString&, int, int);
    void setupElements();
+   void updateSRCP08GABusList();
+   void updateSRCP08FBBusList();
+   void updateSRCP08BusLists();
    
 /*
 void savePixmaps(int ID)

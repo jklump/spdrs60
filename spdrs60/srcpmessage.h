@@ -1,10 +1,10 @@
 /***************************************************************************
                            srcpmessage.h
-                           version 0.5.0 $Revision: 1.3 $
+                           version 0.5.0 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-01-01 21:29:59 $
+    last modified        : $Date: 2006-01-02 22:14:15 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -46,7 +46,7 @@ class SrcpMessage
         SrcpMessage(Message = msgNoMsg);
         QString getSrcpMessageStr(unsigned int version = 7) const;
         int getMessage();
-        void setConnectionModeCmd(bool);
+        void setBus(unsigned int);
         void setFbData(unsigned int, Feedback, unsigned int);
         void setGaData(Protocol, unsigned int, unsigned int,
                 unsigned int, unsigned int);
@@ -57,7 +57,6 @@ class SrcpMessage
         Message message;
         Protocol protocol;
         Feedback fbtype;
-        bool cmdmode;
         bool power;
         unsigned int address;
         unsigned int delay;

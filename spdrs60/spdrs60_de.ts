@@ -110,6 +110,30 @@ den Suchkriterien entspricht.</translation>
         <source>No routing possible; signal &apos;%1&apos; is allready locked by an active route.</source>
         <translation>Kein Umschalten möglich; Signal &apos;%1&apos; ist durch eine aktive Fahrstraße gesperrt.</translation>
     </message>
+    <message>
+        <source>Layout does not contain a SRCP bus configuration for GAs</source>
+        <translation>Gleisbild enthält keine SRCP-Bus Konfiguration für Magnetartikel (GA)</translation>
+    </message>
+    <message>
+        <source>Layout contains 1 configured GA bus</source>
+        <translation>Gleisbild enthält einen konfigurierten SRCP-Bus für Magnetartikel (GA)</translation>
+    </message>
+    <message>
+        <source>Layout contains %1 configured GA busses</source>
+        <translation>Gleisbild enthält %1 konfigurierte SRCP-Busse für Magnetartikel (GA)</translation>
+    </message>
+    <message>
+        <source>Layout does not contain a SRCP bus configuration for FBs</source>
+        <translation>Gleisbild enthält keine SRCP-Bus Konfiguration für Rückmeldungen (FB)</translation>
+    </message>
+    <message>
+        <source>Layout contains 1 configured FB bus</source>
+        <translation>Gleisbild enthält einen konfigurierten SRCP-Bus für Rückmeldungen (FB)</translation>
+    </message>
+    <message>
+        <source>Layout contains %1 configured FB busses</source>
+        <translation>Gleisbild enthält %1 konfigurierte SRCP-Busse für Rückmeldungen (FB)</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -398,10 +422,6 @@ SRCP version number:
 
 SRCP-Versionsnummer:
 %s</translation>
-    </message>
-    <message>
-        <source>SRCP: %1 ===&gt; FAILED; spdrs60 requires SRCP &gt;= 0.7.0 and &lt; 0.8.0</source>
-        <translation>SRCP: %1 ===&gt; FEHLER, spdrs60 benötigt SRCP &gt;= 0.7.0 und &lt; 0.8.0</translation>
     </message>
     <message>
         <source>Command port closed by foreign host!</source>
@@ -790,6 +810,10 @@ Wollen Sie sie überschreiben?</translation>
         <source>Duplicate selected route</source>
         <translation>Gewählte Fahrstraße duplizieren</translation>
     </message>
+    <message>
+        <source>SRCP: %1 ===&gt; FAILED; spdrs60 requires SRCP &gt;= 0.7.0 and &lt; 0.9.0</source>
+        <translation>SRCP: %1 ===&gt; FEHLER, spdrs60 benötigt SRCP &gt;= 0.7.0 und &lt; 0.9.0</translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -1130,6 +1154,21 @@ Wollen Sie sie überschreiben?</translation>
     <message>
         <source>Routings</source>
         <translation>Fahrstraßen</translation>
+    </message>
+</context>
+<context>
+    <name>Srcp</name>
+    <message>
+        <source>connection refused</source>
+        <translation>Verbindung abgelehnt</translation>
+    </message>
+    <message>
+        <source>host not found</source>
+        <translation>Host nicht gefunden</translation>
+    </message>
+    <message>
+        <source>socket read error</source>
+        <translation>Socket-Lesefehler</translation>
     </message>
 </context>
 <context>

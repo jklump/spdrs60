@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.44 $
+                           version 0.4.8 $Revision: 1.45 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-01-01 21:29:56 $
+    last modified        : $Date: 2006-01-02 22:14:14 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2475,4 +2475,64 @@ void element::fontChange(const QFont& oldFont)
     else
         setupElementIcon(iSoldLEDstate, "");
 }
+
+bool element::sendSRCP08InitGA1()
+{
+    bool returnvalue = false;
+
+    if (isSwitchable()){
+
+        SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgGaSet);
+        if (sm == NULL)
+            return returnvalue;
+
+        sm->setGaData((sSoldProtocol == "M") ? SrcpMessage::proMM :
+                SrcpMessage::proDCC, iGA1BusNo, iSoldAddress_1, 0, 0);
+        emit sendSrcpMessage(sm);
+        delete sm;
+
+        returnvalue = true;
+    }
+    return returnvalue;
+}
+
+
+bool element::sendSRCP08InitGA2()
+{
+    bool returnvalue = false;
+
+    if (isSwitchable()){
+
+        SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgGaSet);
+        if (sm == NULL)
+            return returnvalue;
+
+        sm->setGaData((sSoldProtocol == "M") ? SrcpMessage::proMM :
+                SrcpMessage::proDCC, iGA2BusNo, iSoldAddress_2, 0, 0);
+        emit sendSrcpMessage(sm);
+        delete sm;
+
+        returnvalue = true;
+    }
+    return returnvalue;
+}
+
+
+int element::getGA1BusNo()
+{               
+    return iGA1BusNo;
+}   
+            
+            
+int element::getGA2BusNo()
+{
+    return iGA2BusNo;
+}   
+
+                        
+int element::getFBBusNo()
+{
+    return iFBBusNo;
+}   
+                
 

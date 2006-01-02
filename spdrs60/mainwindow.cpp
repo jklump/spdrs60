@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.46 $
+                           version 0.4.8 $Revision: 1.47 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-01 21:29:58 $
+    last modified        : $Date: 2006-01-02 22:14:15 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1842,7 +1842,6 @@ void MainWindow::CommandSocketReadyRead()
 
                 SRCPCommandState = srcp08InitGADevices;
                 /*when GA init is done, go to FB bus init */
-                /*
                 if (!gbs->runSRCP08GAInitSequence()){
                     SRCPCommandState = srcp08InitFBBusses;
                     if (!gbs->switchSRCP08FBBusState(true)){
@@ -1850,14 +1849,14 @@ void MainWindow::CommandSocketReadyRead()
                             SRCPCommandState = srcp08GetBusPower;
                             if (!gbs->getSRCP08BusPower()){
                                 LayoutPowerIsOn = true;
-                                updateLayoutPowerDependendMenuItems();
+                                updateLayoutPowerAction();
                                 SRCPCommandState = srcpUndefined;
                             }
                         }
                         else
                             SRCPCommandState = srcpUndefined;
                     }
-                }*/
+                }
             }
             else
                 SRCPCommandState = srcp08ServerError;
@@ -1868,7 +1867,6 @@ void MainWindow::CommandSocketReadyRead()
 	     * start FB bus init sequence
 	     * when GA init is done, go to FB bus init
 	    */
-            /*
             if (!gbs->runSRCP08GAInitSequence()){
                 SRCPCommandState = srcp08InitFBBusses;
                 if (!gbs->switchSRCP08FBBusState(true)){
@@ -1876,14 +1874,14 @@ void MainWindow::CommandSocketReadyRead()
                         SRCPCommandState = srcp08GetBusPower;
 			if (!gbs->getSRCP08BusPower()){
 			    LayoutPowerIsOn = true;
-                            updateLayoutPowerDependendMenuItems();
+                            updateLayoutPowerAction();
                             SRCPCommandState = srcpUndefined;
 			}
 		    }
 		    else
                         SRCPCommandState = srcpUndefined;
 		}
-	    }*/
+	    }
         }
 
         else if (SRCPCommandState == srcp08InitFBBusses) {
@@ -1891,19 +1889,17 @@ void MainWindow::CommandSocketReadyRead()
 	     * walk through FB bus list step by step
 	     * keep SRCPCommandState while initialization is not finished
 	     */
-            /*
 	    if (!gbs->switchSRCP08FBBusState(true))
 		if (AUTO_ZP9){
                     SRCPCommandState = srcp08GetBusPower;
 		    if (!gbs->getSRCP08BusPower()){
 			LayoutPowerIsOn = true;
-                        updateLayoutPowerDependendMenuItems();
+                        updateLayoutPowerAction();
                         SRCPCommandState = srcpUndefined;
 		    }
 		}
 		else
                     SRCPCommandState = srcpUndefined;
-                    */
         }
 
         else if (SRCPCommandState == srcp08SetBusPower) {
@@ -1911,10 +1907,8 @@ void MainWindow::CommandSocketReadyRead()
 	     * walk through bus list step by step
 	     * keep SRCPCommandState while power switching is not finished
 	     */
-            /*
 	    if (!gbs->setSRCP08BusPower(LayoutPowerIsOn))
                 SRCPCommandState = srcpUndefined;
-                */
         }
 
         else if (SRCPCommandState == srcp08GetBusPower) {
@@ -1942,15 +1936,13 @@ void MainWindow::CommandSocketReadyRead()
 	     * if power was switched wait for server response and switch
 	     * next bus at next cycle
 	     */
-	    //if (!PowerSwitched)
-                /*
+	    if (!PowerSwitched)
 		if (!gbs->getSRCP08BusPower()){
 		    // all busses are switched on, we are ready 
 		    LayoutPowerIsOn = true;
-                    updateLayoutPowerDependendMenuItems();
+                    updateLayoutPowerAction();
                     SRCPCommandState = srcpUndefined;
 		}
-                */
         }
 
         else {

@@ -1,10 +1,10 @@
 /***************************************************************************
                            srcpmessage.cpp
-                           version 0.5.0 $Revision: 1.3 $
+                           version 0.5.0 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-01-01 21:29:59 $
+    last modified        : $Date: 2006-01-02 22:14:15 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -30,7 +30,6 @@
 SrcpMessage::SrcpMessage(Message msg)
 {
    address = 0;
-   cmdmode = true;
    message = msg;
    delay = 0;
    fbport = 0;
@@ -134,11 +133,11 @@ QString SrcpMessage::getSrcpMessageStr(unsigned int version) const
                 cmdStr = QString("SET %1 POWER %2").arg(srcpbus)
                     .arg(power ? "ON" :"OFF");
                 break;
-            case msgServerShutdown:
-                cmdStr = "TERM 0 SERVER";
-                break;
             case msgServerReset:
                 cmdStr = "RESET 0 SERVER";
+                break;
+            case msgServerShutdown:
+                cmdStr = "TERM 0 SERVER";
                 break;
             case msgNoMsg:
             default:
@@ -155,9 +154,9 @@ int SrcpMessage::getMessage()
 }
 
 
-void SrcpMessage::setConnectionModeCmd(bool cmode)
+void SrcpMessage::setBus(unsigned int bus)
 {
-    cmdmode = cmode;
+    srcpbus = bus;
 }
 
 
