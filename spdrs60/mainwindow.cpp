@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.47 $
+                           version 0.4.8 $Revision: 1.48 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-02 22:14:15 $
+    last modified        : $Date: 2006-01-03 22:00:55 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1757,12 +1757,12 @@ void MainWindow::CommandSocketReadyRead()
                     slotToggleLayoutPower();
                 }
             }
-            SRCPCommandState = srcp07Connected;
+            SRCPCommandState = srcpConnected;
             updateDaemonMenu();
             //return;
         }
         
-        else if (SRCPCommandState == srcp07Connected) {
+        else if (SRCPCommandState == srcpConnected) {
             /*close command port if string with zero length is send*/
             if (ServerInfo.length() == 0) {
                 if (CommandSocket->isOpen()) {
@@ -1799,7 +1799,7 @@ void MainWindow::CommandSocketReadyRead()
                 }
             }
 
-            SRCPCommandState = srcp07Connected;
+            SRCPCommandState = srcpConnected;
 	}
         
         /*
@@ -1850,11 +1850,11 @@ void MainWindow::CommandSocketReadyRead()
                             if (!gbs->getSRCP08BusPower()){
                                 LayoutPowerIsOn = true;
                                 updateLayoutPowerAction();
-                                SRCPCommandState = srcpUndefined;
+                                SRCPCommandState = srcpConnected;
                             }
                         }
                         else
-                            SRCPCommandState = srcpUndefined;
+                            SRCPCommandState = srcpConnected;
                     }
                 }
             }
@@ -1875,11 +1875,11 @@ void MainWindow::CommandSocketReadyRead()
 			if (!gbs->getSRCP08BusPower()){
 			    LayoutPowerIsOn = true;
                             updateLayoutPowerAction();
-                            SRCPCommandState = srcpUndefined;
+                            SRCPCommandState = srcpConnected;
 			}
 		    }
 		    else
-                        SRCPCommandState = srcpUndefined;
+                        SRCPCommandState = srcpConnected;
 		}
 	    }
         }
@@ -1895,11 +1895,11 @@ void MainWindow::CommandSocketReadyRead()
 		    if (!gbs->getSRCP08BusPower()){
 			LayoutPowerIsOn = true;
                         updateLayoutPowerAction();
-                        SRCPCommandState = srcpUndefined;
+                        SRCPCommandState = srcpConnected;
 		    }
 		}
 		else
-                    SRCPCommandState = srcpUndefined;
+                    SRCPCommandState = srcpConnected;
         }
 
         else if (SRCPCommandState == srcp08SetBusPower) {
@@ -1908,7 +1908,7 @@ void MainWindow::CommandSocketReadyRead()
 	     * keep SRCPCommandState while power switching is not finished
 	     */
 	    if (!gbs->setSRCP08BusPower(LayoutPowerIsOn))
-                SRCPCommandState = srcpUndefined;
+                SRCPCommandState = srcpConnected;
         }
 
         else if (SRCPCommandState == srcp08GetBusPower) {
@@ -1941,7 +1941,7 @@ void MainWindow::CommandSocketReadyRead()
 		    // all busses are switched on, we are ready 
 		    LayoutPowerIsOn = true;
                     updateLayoutPowerAction();
-                    SRCPCommandState = srcpUndefined;
+                    SRCPCommandState = srcpConnected;
 		}
         }
 
@@ -1954,6 +1954,7 @@ void MainWindow::CommandSocketReadyRead()
                 if (CommandSocket->isOpen()) {
                     CommandSocket->close();
                     CommandSocketConnectionClosed();
+                    SRCPCommandState = srcpUndefined;
                 }
             }
         }
@@ -2473,14 +2474,10 @@ void MainWindow::sendSrcpMessage(SrcpMessage* sm)
 
     switch(sm->getMessage()) {
         //TODO: set apropriate SRCPCommandStates
-        case SrcpMessage::msgGaSet:
-            SRCPCommandState = srcpUndefined;
-            break;
         case SrcpMessage::msgFbGet:
             SRCPCommandState = srcp07GetFBStates;
             break;
         default:
-            SRCPCommandState = srcpUndefined;
             break;
     }
 }

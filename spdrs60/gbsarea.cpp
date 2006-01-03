@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.37 $
+                           version 0.4.8 $Revision: 1.38 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-02 22:14:15 $
+    last modified        : $Date: 2006-01-03 22:00:51 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1106,7 +1106,7 @@ bool GBSArea::runSRCP08GAInitSequence()
             if (el == NULL)
                 continue;
 
-            if (!el->isSwitchable())
+            if (!el->isSwitchable() || el->getAddressCount() != 2)
                 continue;
 
             if (el->sendSRCP08InitGA2()) {

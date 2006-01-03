@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.4.8 $Revision: 1.23 $
+                           version 0.4.8 $Revision: 1.24 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2006 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-01 21:29:59 $
+    last modified        : $Date: 2006-01-03 22:00:55 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -45,9 +45,9 @@
 
 
 enum SRCPMode {    
-    srcpLogin = 0,
-    srcpUndefined,
-    srcp07Connected,
+    srcpUndefined = 0,
+    srcpLogin,
+    srcpConnected,
     srcp07GetFBStates,
     srcp07GetPower,
     srcp08GetBusPower,
