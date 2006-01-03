@@ -1,10 +1,10 @@
 /***************************************************************************
                            srcpmessage.cpp
-                           version 0.5.0 $Revision: 1.4 $
+                           version 0.5.0 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-01-02 22:14:15 $
+    last modified        : $Date: 2006-01-03 16:27:13 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -118,7 +118,7 @@ QString SrcpMessage::getSrcpMessageStr(unsigned int version) const
                     .arg(srcpbus).arg(address).arg(port);
                 break;
             case msgGaInit:
-                cmdStr = QString("GET %1 GA %2 %3")
+                cmdStr = QString("INIT %1 GA %2 %3")
                     .arg(srcpbus).arg(address).arg(protocol);
                 break;
             case msgGaSet:
