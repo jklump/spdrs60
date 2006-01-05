@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.4.8 $Revision: 1.22 $
+                           version 0.4.8 $Revision: 1.23 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-02 22:14:15 $
+    last modified        : $Date: 2006-01-05 22:00:14 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -67,9 +67,9 @@ public:
    QPtrVector<element>* getGbsElementListPtr();
    void sendInfoPortMessage(QString prot, int addr, int port, int
            state);
-   bool getSRCP08BusPower();
+   bool sendSRCP08BusMessage(SrcpMessage::Message);
    bool setSRCP08BusPower(bool);
-   bool switchSRCP08FBBusState(bool);
+   //bool switchSRCP08FBBusState(bool);
    bool runSRCP08GAInitSequence();
     
 private:

@@ -1,10 +1,10 @@
 /***************************************************************************
                            srcpmessage.cpp
-                           version 0.5.0 $Revision: 1.5 $
+                           version 0.5.0 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-01-03 16:27:13 $
+    last modified        : $Date: 2006-01-05 22:00:14 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -126,6 +126,9 @@ QString SrcpMessage::getSrcpMessageStr(unsigned int version) const
                     .arg(srcpbus).arg(address).arg(port).arg(delay);
                 break;
                 //TODO: msgGl...
+            case msgPowerInit:
+                cmdStr = QString("INIT %1 POWER").arg(srcpbus);
+                break;
             case msgPowerGet:
                 cmdStr = QString("GET %1 POWER").arg(srcpbus);
                 break;

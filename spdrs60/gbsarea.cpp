@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.38 $
+                           version 0.4.8 $Revision: 1.39 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-03 22:00:51 $
+    last modified        : $Date: 2006-01-05 22:00:14 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1131,16 +1131,17 @@ bool GBSArea::runSRCP08GAInitSequence()
  * init or term every single FB bus, but only one at a time
  * return true while there are unchanged busses left
  */
+/*
 bool GBSArea::switchSRCP08FBBusState(bool setInitOn)
 {
     bool WalkerChanged = false;
 
-    /*
+    *
      * generate
      *   INIT <bus> FB
      * or
      *   TERM <bus> FB
-     */
+     *
     if ((SRCP08FBBusCount > 0)
         && (SRCP08FBBusWalker < SRCP08FBBusCount)) {
 
@@ -1164,12 +1165,13 @@ bool GBSArea::switchSRCP08FBBusState(bool setInitOn)
 
     return WalkerChanged;
 }
-
+*/
 /*
  * ask server about power status off every single bus, but only one at
  * a time return true while there are unasked busses left
  */
-bool GBSArea::getSRCP08BusPower()
+// sendSRCP08BusMessage()
+bool GBSArea::sendSRCP08BusMessage(SrcpMessage::Message smt)
 {
     bool WalkerChanged = false;
 
@@ -1179,11 +1181,9 @@ bool GBSArea::getSRCP08BusPower()
      */
     if ((SRCP08GABusCount > 0)
         && (SRCP08GABusWalker < SRCP08GABusCount)) {
-        //QString srcpCommand = QString("GET %1 POWER")
-        //    .arg(pSRCP08GABusList[SRCP08GABusWalker]);
-        //sendCommand(srcpCommand);
 
-        SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgPowerGet);
+        //SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgPowerGet);
+        SrcpMessage* sm = new SrcpMessage(smt);
         if (sm == NULL)
             return WalkerChanged;
        
@@ -1201,11 +1201,9 @@ bool GBSArea::getSRCP08BusPower()
      */
     if (!WalkerChanged && (SRCP08FBBusCount > 0) &&
         (SRCP08FBBusWalker < SRCP08FBBusCount)) {
-        //QString srcpCommand = QString("GET %1 POWER")
-        //    .arg(pSRCP08FBBusList[SRCP08FBBusWalker]);
-        //sendCommand(srcpCommand);
 
-        SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgPowerGet);
+        //SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgPowerGet);
+        SrcpMessage* sm = new SrcpMessage(smt);
         if (sm == NULL)
             return WalkerChanged;
        
@@ -1222,7 +1220,6 @@ bool GBSArea::getSRCP08BusPower()
         SRCP08GABusWalker = 0;
         SRCP08FBBusWalker = 0;
     }
-    //fprintf(stderr, "GAWalker: %d FBWalker: %d\n", SRCP08GABusWalker, SRCP08FBBusWalker);
 
     return WalkerChanged;
 }
@@ -1242,10 +1239,6 @@ bool GBSArea::setSRCP08BusPower(bool setPowerOn)
      */
     if ((SRCP08GABusCount > 0)
         && (SRCP08GABusWalker < SRCP08GABusCount)) {
-        //QString srcpCommand = QString("SET %1 POWER %2")
-        //    .arg(pSRCP08GABusList[SRCP08GABusWalker])
-        //    .arg(setPowerOn ? "ON" : "OFF");
-        //sendCommand(srcpCommand);
         SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgPowerSet);
         if (sm == NULL)
             CounterChanged = true;
@@ -1265,10 +1258,6 @@ bool GBSArea::setSRCP08BusPower(bool setPowerOn)
      */
     if (!CounterChanged && (SRCP08FBBusCount > 0) &&
         (SRCP08FBBusWalker < SRCP08FBBusCount)) {
-        //QString srcpCommand = QString("SET %1 POWER %2")
-        //    .arg(pSRCP08FBBusList[SRCP08FBBusWalker])
-        //    .arg(setPowerOn ? "ON" : "OFF");
-        //sendCommand(srcpCommand);
         SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgPowerSet);
         if (sm == NULL)
             CounterChanged = true;

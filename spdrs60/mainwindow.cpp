@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.48 $
+                           version 0.4.8 $Revision: 1.49 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-03 22:00:55 $
+    last modified        : $Date: 2006-01-05 22:00:14 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1844,10 +1844,12 @@ void MainWindow::CommandSocketReadyRead()
                 /*when GA init is done, go to FB bus init */
                 if (!gbs->runSRCP08GAInitSequence()){
                     SRCPCommandState = srcp08InitFBBusses;
-                    if (!gbs->switchSRCP08FBBusState(true)){
+                    if (!gbs->sendSRCP08BusMessage(
+                                SrcpMessage::msgPowerInit)){
                         if (AUTO_ZP9){
                             SRCPCommandState = srcp08GetBusPower;
-                            if (!gbs->getSRCP08BusPower()){
+                            if (!gbs->sendSRCP08BusMessage(
+                                        SrcpMessage::msgPowerGet)){
                                 LayoutPowerIsOn = true;
                                 updateLayoutPowerAction();
                                 SRCPCommandState = srcpConnected;
@@ -1869,10 +1871,12 @@ void MainWindow::CommandSocketReadyRead()
 	    */
             if (!gbs->runSRCP08GAInitSequence()){
                 SRCPCommandState = srcp08InitFBBusses;
-                if (!gbs->switchSRCP08FBBusState(true)){
+                //if (!gbs->switchSRCP08FBBusState(true)){
+                if (!gbs->sendSRCP08BusMessage(SrcpMessage::msgPowerInit)){
 		    if (AUTO_ZP9){
                         SRCPCommandState = srcp08GetBusPower;
-			if (!gbs->getSRCP08BusPower()){
+			if (!gbs->sendSRCP08BusMessage(
+                                    SrcpMessage::msgPowerGet)){
 			    LayoutPowerIsOn = true;
                             updateLayoutPowerAction();
                             SRCPCommandState = srcpConnected;
@@ -1889,10 +1893,12 @@ void MainWindow::CommandSocketReadyRead()
 	     * walk through FB bus list step by step
 	     * keep SRCPCommandState while initialization is not finished
 	     */
-	    if (!gbs->switchSRCP08FBBusState(true))
+	    //if (!gbs->switchSRCP08FBBusState(true))
+             if (!gbs->sendSRCP08BusMessage(SrcpMessage::msgPowerInit))
 		if (AUTO_ZP9){
                     SRCPCommandState = srcp08GetBusPower;
-		    if (!gbs->getSRCP08BusPower()){
+		    if (!gbs->sendSRCP08BusMessage(
+                                SrcpMessage::msgPowerGet)){
 			LayoutPowerIsOn = true;
                         updateLayoutPowerAction();
                         SRCPCommandState = srcpConnected;
@@ -1937,7 +1943,7 @@ void MainWindow::CommandSocketReadyRead()
 	     * next bus at next cycle
 	     */
 	    if (!PowerSwitched)
-		if (!gbs->getSRCP08BusPower()){
+		if (!gbs->sendSRCP08BusMessage(SrcpMessage::msgPowerGet)){
 		    // all busses are switched on, we are ready 
 		    LayoutPowerIsOn = true;
                     updateLayoutPowerAction();
@@ -2492,8 +2498,9 @@ void MainWindow::slotToggleLayoutPower()
         SendCommandToSRCPServer(
                 LayoutPowerIsOn ? "SET POWER ON" : "SET POWER OFF");
     else if (srcpVersion == 8) {
-        //TODO
-        //SRCPCommandState = srcp08SetBusPower;
+        SRCPCommandState = srcp08SetBusPower;
+        if (!gbs->setSRCP08BusPower(LayoutPowerIsOn))
+            SRCPCommandState = srcpConnected;
     }
     updateLayoutPowerAction();
 }
