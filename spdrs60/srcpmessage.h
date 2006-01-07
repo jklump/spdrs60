@@ -1,10 +1,10 @@
 /***************************************************************************
                            srcpmessage.h
-                           version 0.5.0 $Revision: 1.4 $
+                           version 0.5.0 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-01-02 22:14:15 $
+    last modified        : $Date: 2006-01-07 21:20:08 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -37,14 +37,14 @@ class SrcpMessage
             msgFbInit, msgFbGet, msgFbTerm, msgFbInfo,
             msgGaInit, msgGaSet, msgGaGet, msgGaInfo,
             msgGlInit, msgGlSet, msgGlGet, msgGlTerm, msgGlInfo};
-        
-        enum Protocol {proMM = 0, proDCC, proFsm, proLoco, proStx,
-            proServ, proZimo};
+       
+        // only GA protocols
+        enum Protocol {proMM = 0, proDCC, proServ};
 
         enum Feedback {fbS88 = 0, fbI8255, fbM6051, fbPS};
 
         SrcpMessage(Message = msgNoMsg);
-        QString getSrcpMessageStr(unsigned int version = 7) const;
+        virtual QString getSrcpMessageStr(unsigned int version = 7) const;
         int getMessage();
         void setBus(unsigned int);
         void setFbData(unsigned int, Feedback, unsigned int);
@@ -63,6 +63,7 @@ class SrcpMessage
         unsigned int fbport;
         unsigned int port;
         unsigned int srcpbus;
+        QString getProtocolStr(Protocol pro = proMM) const;
 };
 #endif
 

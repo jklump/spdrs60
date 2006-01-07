@@ -1,11 +1,11 @@
 /***************************************************************************
                            fbmodule.cpp
-                           version 0.4.8 $Revision: 1.4 $
+                           version 0.4.8 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-12-05 19:24:39 $
+    last modified        : $Date: 2006-01-07 21:20:08 $
 ***************************************************************************/
 
 /******************************************************************************
@@ -95,7 +95,7 @@ void fbModule::slotSetupModule(unsigned int module, unsigned int input,
     p.setFont(f);
     p.setPen(black);
 
-// display port status for every one port
+    // display port status for every single port
     for (i = 0; i < 8 - FEEDBACK * 4; i += 1) {
         s.sprintf("%2d", i + 1);
         p.drawText(115 - FEEDBACK * 60 - i * 15, 23, s.data());

@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.49 $
+                           version 0.4.8 $Revision: 1.50 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-05 22:00:14 $
+    last modified        : $Date: 2006-01-07 21:20:08 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1392,11 +1392,12 @@ void MainWindow::updateFileMenuItems()
     actionLayoutNotRot->setEnabled(true);
     actionLayoutChangeSize->setEnabled(true);
 
-    if (CommandPortIsConnected) {
+    //if (CommandPortIsConnected) {
         actionLayoutToggleAll->setEnabled(LayoutPowerIsOn);
         actionLayoutSendAll->setEnabled(LayoutPowerIsOn);
-	actionLayoutUpdateFB->setEnabled(LayoutPowerIsOn);
-    }
+	actionLayoutUpdateFB->setEnabled(LayoutPowerIsOn &&
+                srcpVersion == 7);
+    //}
 
     //viewmenu->setItemEnabled(VIEW_ID_ROUTES, !fileName.isEmpty());
     actionViewRoutes->setEnabled(true);
@@ -1425,7 +1426,6 @@ bool MainWindow::saveFile()
     
     QDateTime dt = QDateTime::currentDateTime();
     
-    /*TODO: srcpCom->writeFileTextToStream(ts);*/
     // write the header
     ts << "# spdrs60 data file" << endl
        << "# version=" << VERSION << endl
@@ -1436,6 +1436,7 @@ bool MainWindow::saveFile()
        << GF_FBHOST << DS << fbHost << DS << fbPort << DS << fbLogin <<
        endl;
 
+    /*TODO: srcpCom->writeFileTextToStream(ts);*/
     gbs->writeFileTextToStream(ts);
     rtController->writeFileTextToStream(ts);
 
@@ -1566,7 +1567,6 @@ void MainWindow::openFile(const QString& fn)
     QTextStream ts(&f);
     
     QString s, key, value;
-    /*TODO: srcpCom->readFileTextFromStream(ts);*/
     while (!ts.eof()) {
         s = ts.readLine();
         
@@ -1589,6 +1589,7 @@ void MainWindow::openFile(const QString& fn)
                 break;
         }
     }
+    /*TODO: srcpCom->readFileTextFromStream(ts);*/
     gbs->readFileTextFromStream(ts);
     rtController->readFileTextFromStream(ts);
 
@@ -1773,25 +1774,46 @@ void MainWindow::CommandSocketReadyRead()
         }
         
         else if (SRCPCommandState == srcp07GetFBStates) {
-            /*
-             * INFO FB <module_type> * <all states>
-             *   0   1      2        3       4
-             */
-            // TODO: differentiate between all ports (*) or single port
             if (ServerInfo.startsWith("INFO FB")) {
-                QString allstates = ServerInfo.section(" ", 4, 4);
                 
-                unsigned int limit = allstates.length();
-                if (limit > MAX_FB)
-                    limit = MAX_FB;
-               
-                unsigned int fbbus, fbcontact, fbstate;
-                
-                for (unsigned int port = 0; port < limit; port++) {
-                    fbstate = allstates[port].digitValue();
-                    bFBport[port] = (fbstate == 1);
-                    fbcontact = port % 496 + 1;
-                    fbbus = port / 496 + 1;
+                /*
+                 * 1) all feedback ports
+                 * INFO FB <module_type> * <all states>
+                 *   0   1      2        3       4
+                 */
+                if ("*" == ServerInfo.section(" ", 3, 3)) {
+                    QString allstates = ServerInfo.section(" ", 4, 4);
+
+                    unsigned int limit = allstates.length();
+                    if (limit > MAX_FB)
+                        limit = MAX_FB;
+
+                    unsigned int fbbus, fbcontact, fbstate;
+
+                    for (unsigned int port = 0; port < limit; port++) {
+                        fbstate = allstates[port].digitValue();
+                        bFBport[port] = (fbstate == 1);
+                        fbcontact = port % 496 + 1;
+                        fbbus = port / 496 + 1;
+
+                        // update module window and gbs
+                        emit sendFBChangeModule(fbbus, fbcontact, fbstate);
+                        emit sendFBChangeLayout(fbbus, fbcontact, fbstate == 1);
+                    }
+                }
+
+                /*
+                 * 2) a single feedback port
+                 * INFO FB <module_type> <portnr> <state>
+                 *   0   1      2           3        4
+                 */
+                else {
+                    unsigned int fbport, fbbus, fbcontact, fbstate;
+
+                    fbport = ServerInfo.section(" ", 3, 3).toUInt();
+                    fbstate = ServerInfo.section(" ", 4, 4).toUInt();
+                    fbcontact = (fbport - 1) % 496 + 1;
+                    fbbus = (fbport - 1) / 496 + 1;
 
                     // update module window and gbs
                     emit sendFBChangeModule(fbbus, fbcontact, fbstate);
@@ -1871,7 +1893,6 @@ void MainWindow::CommandSocketReadyRead()
 	    */
             if (!gbs->runSRCP08GAInitSequence()){
                 SRCPCommandState = srcp08InitFBBusses;
-                //if (!gbs->switchSRCP08FBBusState(true)){
                 if (!gbs->sendSRCP08BusMessage(SrcpMessage::msgPowerInit)){
 		    if (AUTO_ZP9){
                         SRCPCommandState = srcp08GetBusPower;
@@ -1893,7 +1914,6 @@ void MainWindow::CommandSocketReadyRead()
 	     * walk through FB bus list step by step
 	     * keep SRCPCommandState while initialization is not finished
 	     */
-	    //if (!gbs->switchSRCP08FBBusState(true))
              if (!gbs->sendSRCP08BusMessage(SrcpMessage::msgPowerInit))
 		if (AUTO_ZP9){
                     SRCPCommandState = srcp08GetBusPower;
@@ -2226,6 +2246,7 @@ void MainWindow::InfoSocketReadyRead()
                 if (sInfo.contains("OK GO"))
                     srcpInfoSessionID = sInfo.section(" ", 4, 4).toInt();
                 SRCPInfoState = srcp08RunInfoMode;
+                updateFeedbackMenu();
             }
 
             else if (SRCPInfoState == srcp08RunInfoMode) {
@@ -2518,6 +2539,10 @@ void MainWindow::updateLayoutPowerAction()
         actionLayoutPower->setToolTip(tr("Switch layout power on"));
         actionLayoutPower->setIconSet(QPixmap(layoutstart_xpm));
     }
+    actionLayoutToggleAll->setEnabled(LayoutPowerIsOn);
+    actionLayoutSendAll->setEnabled(LayoutPowerIsOn);
+    actionLayoutUpdateFB->setEnabled(LayoutPowerIsOn &&
+                srcpVersion == 7);
 }
 
 
@@ -2591,13 +2616,17 @@ void MainWindow::updateDaemonMenu()
 
     actionLayoutToggleAll->setEnabled(LayoutPowerIsOn);
     actionLayoutSendAll->setEnabled(LayoutPowerIsOn);
-    actionLayoutUpdateFB->setEnabled(LayoutPowerIsOn);
+    actionLayoutUpdateFB->setEnabled(LayoutPowerIsOn &&
+                srcpVersion == 7);
 }
 
 
 void MainWindow::updateFeedbackMenu()
 {
-    actionViewFBModules->setEnabled(FeedbackPortIsConnected);
+    if (srcpVersion == 7)
+        actionViewFBModules->setEnabled(FeedbackPortIsConnected);
+    else
+        actionViewFBModules->setEnabled(InfoPortIsConnected);
 }
 
 
@@ -2682,8 +2711,8 @@ void MainWindow::slotViewSwitchMode(QAction* ac)
     // change edit related menus
     actionFileNew->setEnabled(visualMode == kvmNormal);
     actionFileOpen->setEnabled(visualMode == kvmNormal);
-    actionFileSave->setEnabled(visualMode == kvmNormal);
-    actionFileSaveAs->setEnabled(visualMode == kvmNormal);
+    actionFileSave->setEnabled(isModified());
+    actionFileSaveAs->setEnabled(isModified());
     actionFileImport->setEnabled(visualMode == kvmNormal);
 }
 
@@ -2894,6 +2923,10 @@ void MainWindow::slotEditFind()
 }
 
 
+/**
+ * This command asks the server for states of all feedback ports, it is
+ * only available for SRCP 0.7
+ */
 void MainWindow::layoutUpdateFB()
 {
     if (srcpVersion == 7) {
@@ -2914,7 +2947,11 @@ void MainWindow::layoutChangeSize()
     if (nlDlg->exec() == QDialog::Accepted) {
         int iNewCols = nlDlg->getColumns();
         int iNewRows = nlDlg->getRows();
+        //TODO:
+        //QString cmdHost = nlDlg->getHost();
+        //int cmdPort = nlDlg->getPort();
         gbs->setLayoutSize(iNewCols, iNewRows);
+        //srcpCom->setCmdHost(cmdHost, cmdPort);
     }
     delete nlDlg;
 

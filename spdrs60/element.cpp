@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.45 $
+                           version 0.4.8 $Revision: 1.46 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-01-02 22:14:14 $
+    last modified        : $Date: 2006-01-07 21:20:08 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2476,39 +2476,23 @@ void element::fontChange(const QFont& oldFont)
         setupElementIcon(iSoldLEDstate, "");
 }
 
-bool element::sendSRCP08InitGA1()
+bool element::sendSRCP08InitGA(unsigned int gano)
 {
     bool returnvalue = false;
 
     if (isSwitchable()){
 
-        SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgGaSet);
+        SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgGaInit);
         if (sm == NULL)
             return returnvalue;
 
-        sm->setGaData((sSoldProtocol == "M") ? SrcpMessage::proMM :
-                SrcpMessage::proDCC, iGA1BusNo, iSoldAddress_1, 0, 0);
-        emit sendSrcpMessage(sm);
-        delete sm;
+        if (gano ==1)
+            sm->setGaData((sSoldProtocol == "M") ? SrcpMessage::proMM :
+                    SrcpMessage::proDCC, iGA1BusNo, iSoldAddress_1, 0, 0);
+        else
+            sm->setGaData((sSoldProtocol == "M") ? SrcpMessage::proMM :
+                    SrcpMessage::proDCC, iGA2BusNo, iSoldAddress_2, 0, 0);
 
-        returnvalue = true;
-    }
-    return returnvalue;
-}
-
-
-bool element::sendSRCP08InitGA2()
-{
-    bool returnvalue = false;
-
-    if (isSwitchable()){
-
-        SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgGaSet);
-        if (sm == NULL)
-            return returnvalue;
-
-        sm->setGaData((sSoldProtocol == "M") ? SrcpMessage::proMM :
-                SrcpMessage::proDCC, iGA2BusNo, iSoldAddress_2, 0, 0);
         emit sendSrcpMessage(sm);
         delete sm;
 

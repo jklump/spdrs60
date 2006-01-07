@@ -1,11 +1,11 @@
 /***************************************************************************
                            main.cpp
-                           version 0.4.8 $Revision: 1.3 $
+                           version 0.4.8 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-29 19:27:27 $
+    last modified        : $Date: 2006-01-07 21:20:08 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -36,7 +36,8 @@
 #include "mainwindow.h"
 
 /* configuration variables with default setup */
-bool bFBport[MAX_FB];            // status of each feedback port
+bool bFBport[MAX_FB];            // status of each feedback port, only
+                                 // used for module window
 bool SHOW_HP2= true;             // show signals with orange HP2 light?
 bool SHOW_TOOLTIPS= true;        // show tooltips?
 bool SHOW_DATA_TOOLTIPS= false;  // show element's data in a tooltip?

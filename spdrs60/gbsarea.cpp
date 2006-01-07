@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.39 $
+                           version 0.4.8 $Revision: 1.40 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-05 22:00:14 $
+    last modified        : $Date: 2006-01-07 21:20:08 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1090,7 +1090,7 @@ bool GBSArea::runSRCP08GAInitSequence()
         if (!el->isSwitchable())
             continue;
 
-        if (el->sendSRCP08InitGA1()) {
+        if (el->sendSRCP08InitGA(1)) {
             SRCP08GA1InitWalker = i;
             SRCP08GA1InitWalker++;
             returnvalue = (SRCP08GA1InitWalker < elements.size());
@@ -1109,7 +1109,7 @@ bool GBSArea::runSRCP08GAInitSequence()
             if (!el->isSwitchable() || el->getAddressCount() != 2)
                 continue;
 
-            if (el->sendSRCP08InitGA2()) {
+            if (el->sendSRCP08InitGA(2)) {
                 SRCP08GA2InitWalker = i;
                 SRCP08GA2InitWalker++;
                 returnvalue = (SRCP08GA2InitWalker < elements.size());

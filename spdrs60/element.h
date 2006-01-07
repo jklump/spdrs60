@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.4.8 $Revision: 1.33 $
+                           version 0.4.8 $Revision: 1.34 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-02 22:14:14 $
+    last modified        : $Date: 2006-01-07 21:20:08 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -160,8 +160,7 @@ public:
     bool is2StateDKW();
     bool isSimpleGA();
     void showElementState(int, elemSelectionMode);
-    bool sendSRCP08InitGA1();
-    bool sendSRCP08InitGA2();
+    bool sendSRCP08InitGA(unsigned int gano = 1);
     void setIndexNo(unsigned int);
     void setLocked(bool);
     unsigned int getIndexNo();

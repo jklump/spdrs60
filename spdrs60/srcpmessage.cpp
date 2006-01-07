@@ -1,10 +1,10 @@
 /***************************************************************************
                            srcpmessage.cpp
-                           version 0.5.0 $Revision: 1.6 $
+                           version 0.5.0 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-01-05 22:00:14 $
+    last modified        : $Date: 2006-01-07 21:20:08 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -74,11 +74,12 @@ QString SrcpMessage::getSrcpMessageStr(unsigned int version) const
                 break;
             case msgGaGet:
                 cmdStr = QString("GET GA %1 %2 %3")
-                    .arg(protocol).arg(address).arg(port);
+                    .arg(getProtocolStr(protocol)).arg(address).arg(port);
                 break;
             case msgGaSet:
                 cmdStr = QString("SET GA %1 %2 %3 1 %4")
-                    .arg(protocol).arg(address).arg(port).arg(delay);
+                    .arg(getProtocolStr(protocol)).arg(address)
+                    .arg(port).arg(delay);
                 break;
                 //TODO: msgGl...
             case msgPowerGet:
@@ -119,7 +120,7 @@ QString SrcpMessage::getSrcpMessageStr(unsigned int version) const
                 break;
             case msgGaInit:
                 cmdStr = QString("INIT %1 GA %2 %3")
-                    .arg(srcpbus).arg(address).arg(protocol);
+                    .arg(srcpbus).arg(address).arg(getProtocolStr(protocol));
                 break;
             case msgGaSet:
                 cmdStr = QString("SET %1 GA %2 %3 1 %4")
@@ -154,6 +155,25 @@ QString SrcpMessage::getSrcpMessageStr(unsigned int version) const
 int SrcpMessage::getMessage()
 {
     return (int) message;
+}
+
+
+QString SrcpMessage::getProtocolStr(Protocol pro) const
+{
+    QString proStr = "";
+
+    switch (pro) {
+        case proMM:
+            proStr = "M";
+            break;
+        case proDCC:
+            proStr = "N";
+            break;
+        case proServ:
+            proStr = "P";
+            break;
+    }
+    return proStr;
 }
 
 
