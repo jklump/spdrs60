@@ -1,6 +1,10 @@
+2006-01-07 Guido Scholz <guido.scholz@bayernline.de>
+	* element.*, gbsarea.*, mainwindow.*, srcpmessage.*: support for
+	SRCP 0.8
+
 2005-12-23 Guido Scholz <guido.scholz@bayernline.de>
 	* element.*, route.cpp: make simple GA elements switchable by
-        routes
+	routes
 
 2005-12-05 Guido Scholz <guido.scholz@bayernline.de>
 	* element.*: new EDiTS address calculation
@@ -16,18 +20,18 @@
 
 2005-11-09 Guido Scholz <guido.scholz@bayernline.de>
 	* keyboard.*: fixed not sending SRCP command bug, redesigned
-        with layout management and labels for input lines, prepared
-        for SRCP 0.8
+	with layout management and labels for input lines, prepared
+	for SRCP 0.8
 
 2005-11-07 Guido Scholz <guido.scholz@bayernline.de>
 	* doc/de/indey.sgml: German handbook updated as reported
-        by Sven Roth <sven@r0th.de>
+	        by Sven Roth <sven@r0th.de>
 	* doc/*.png: some images updated
 
 2005-10-30 Guido Scholz <guido.scholz@bayernline.de>
 	* doc/*: German handbook updated
 	* routedialog.*, routeelementlvi.*, routeelementdialog.* : new
-        designed dialog windows to edit route properties
+	designed dialog windows to edit route properties
 	* element.cpp: new design for solenoid labels
 
 2005-06-07 Guido Scholz <guido.scholz@bayernline.de>

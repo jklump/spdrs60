@@ -1,5 +1,5 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.2//EN" [
-<!-- Aktuelle Version: --> <!ENTITY ver "0.4.8">
+<!-- Aktuelle Version: --> <!ENTITY ver "0.5.0">
 ]>
 
 <article lang="de">
@@ -36,16 +36,20 @@
 
   <revhistory>
     <revision>
-      <revnumber>0.4</revnumber>
-      <date>Fri Dec 31 19:36:00 CET 2004</date>
-    </revision>
-    <revision>
-      <revnumber>0.5</revnumber>
-      <date>Mon Jan 31 20:33:48 CET 2005</date>
+      <revnumber>0.7</revnumber>
+      <date>So Jan 08 12:34:00 CET 2005</date>
     </revision>
     <revision>
       <revnumber>0.6</revnumber>
-      <date>Sat Dec 10 15:16:00 CET 2005</date>
+      <date>Sa Dez 10 15:16:00 CET 2005</date>
+    </revision>
+    <revision>
+      <revnumber>0.5</revnumber>
+      <date>Mo Jan 31 20:33:48 CET 2005</date>
+    </revision>
+    <revision>
+      <revnumber>0.4</revnumber>
+      <date>Fr Dez 31 19:36:00 CET 2004</date>
     </revision>
   </revhistory>
   <abstract>
@@ -57,13 +61,11 @@
 <sect1 id="sect-einfuehrung">
   <title>Einführung</title>
 <para>
-Bei &raquo;SpDrS60 für Linux&laquo; handelt es sich um das erste
+Bei &raquo;SpDrS60 für Linux&laquo; handelt es sich um ein
 Programm zum komfortablen Steuern von Weichen und Signalen unter
 Benutzung eines SRCP-konformen Servers wie &raquo;erddcd&laquo; oder
-&raquo;srcpd&laquo;. Es ist au&szlig;erdem das erste grafische,
-ausgereifte Programm, das eine Modellbahnsteuerung unter Linux erlaubt.
-&raquo;SpDrS60 für Linux&laquo; befindet sich programmtechnisch noch in
-der Aufbauphase und wird im Laufe der Zeit noch mehr oder weniger starken
+&raquo;srcpd&laquo;. Das Programm befindet sich noch in der
+Aufbauphase und wird im Laufe der Zeit noch mehr oder weniger starken
 Änderungen unterzogen. Dennoch bietet es schon jetzt die Möglichkeit,
 eine Modellbahnanlage in Analogie zu den bei der Deutschen Bahn AG
 immer noch verwendeten
@@ -75,19 +77,20 @@ auf die Belange einer Modellbahn abgestimmt sind.
 </para>
 <para>
 Ein Ziel bei der Erstellung dieses Programms ist es, sowohl die
-Darstellung als auch die Funktion des Gleisbildstellwerks möglichst
-vorbildnah zu verwirklichen.
+bildliche Darstellung als auch die Funktion eines Gleisbildstellwerks
+möglichst vorbildnah zu verwirklichen.
 Natürlich bedeutet &raquo;möglichst vorbildnah&laquo; hier, dass
 primär Funktionen übernommen werden, die für den Betrieb
 einer Modellbahn sinnvoll sind. Dazu gehört aber auch, dass die im
 Original bewährten Sicherheitsmechanismen weitgehend implementiert werden.
-Als Beispiel sei nur genannt, dass Weichen halt nicht &raquo;einfach
+Als Beispiel sei genannt, dass Weichen nicht &raquo;einfach
 so&laquo; umgestellt werden können, sondern dass dazu ein festgelegter
 Ablauf mit einer einzuhaltenden Bedienreihenfolge verschiedener Tasten
 gehört. Die folgende Liste soll einen kurzen Überblick über die schon
 vorhandenen Funktionen bieten:
 <itemizedlist mark="bullet">
-  <listitem><para>Einfaches Erstellen des Anlagenlayouts</para></listitem>
+  <listitem><para>Einfaches Erstellen des grafischen Anlagenlayouts</para></listitem>
+  <listitem><para>Einfaches, grafisches Erfassen von Fahrstraßen</para></listitem>
   <listitem><para>Einstellen von Fahrstra&szlig;en durch Anklicken der
 Start- und Zielsignale</para></listitem>
   <listitem><para>Automatisches Einstellen und Auflösen von
@@ -110,11 +113,16 @@ Schiebebühnen-Ansteuerung</para></listitem>
 </itemizedlist>
 </para>
 <para>
-&raquo;SpDrS60 für Linux&laquo; kann nicht eigenständig benutzt werden. Es
-benötigt z.B. den signalerzeugenden Daemon &raquo;erddcd&laquo; aus dem
-DDL-Projekt (mehr dazu im <xref linkend="sect-installation">) oder jeden
-anderen SRCP-Server, der z.B. auch über eine Zentrale die Verbindung
-zwischen PC und der Anlage herstellt. Eine Zielsetzung des Programms ist
+&raquo;SpDrS60 für Linux&laquo; kann nicht eigenständig benutzt werden.
+Das Programm benötigt grundsätzlich einen SRCP-Server zur Anbindung an
+die Hardware der Modellbahnanlage. Zur Auswahl stehen hier
+beispielsweise der
+<ulink url="http://www.vogt-it.com/OpenSource/DDL/">erddcd</ulink>
+des DDL-Projektes oder der
+<ulink url="http://srcpd.sourceforge.net/">srcpd</ulink>,
+mit dem sich auch verschiedene Digitalzentralen unterschiedlichster
+Hersteller ansteuern lassen (mehr dazu im
+<xref linkend="sect-installation">). Eine Zielsetzung des Programms ist
 es, eine sinnvolle Kombination aus Anwenderfreundlichkeit (z.B. schnelles
 Lernen der Bedienung) und Übersichtlichkeit (z.B. klare Dialoge) zu
 bieten. Trotz der relativen Einfachheit in der Bedienung ist es
@@ -124,6 +132,23 @@ empfehlenswert, diese Dokumentation durchzuarbeiten.
 
 <sect1 id="sect-aenderungen">
   <title>Änderungen</title>
+
+<sect2 id="ver-0.5.0">
+  <title>Version 0.5.0</title>
+<para>
+Veröffentlicht am xx.xx.2006
+</para>
+<itemizedlist mark="bullet">
+  <listitem><para>Die Fähigkeiten der Netzwerkkommunikation wurde um
+  die Protokollversion SRCP 0.8 ergänzt. Damit ist nun auch die
+  aktuelle Version des &raquo;srcpd&laquo; als SRCP-Server ansprechbar.
+  </para></listitem>
+  <listitem><para>Einfache Magnetartikel, wie z.B. Relais, lassen sich
+  wieder über Fahrstraßen schalten. Diese Fähigkeit war bei dem
+  Umbauarbeiten von Verion 0.4.7 auf 0.4.8 verloren gegangen.</para></listitem>
+  <listitem><para>Es ist nun möglich, Fahrstraßen über
+  Gleisabschnitte mit Entkopplern einzurichten.</para></listitem>
+</itemizedlist>
 
 <sect2 id="ver-0.4.8">
   <title>Version 0.4.8</title>
@@ -616,8 +641,8 @@ restlichen Dokumentation</para></listitem>
 <para>
 Veröffentlicht am 29.02.2000
 <itemizedlist mark="bullet">
-  <listitem><para>Die mit der Version 0.1 erzeugten Gleisbild-Dateien können
-mit dieser Version NICHT mehr benutzt werden</para></listitem>
+  <listitem><para>Die mit der Version 0.1 erzeugten Gleisbild-Dateien
+  können mit dieser Version NICHT mehr benutzt werden</para></listitem>
   <listitem><para>Diese Version unterstützt NICHT das neue DDL-Protokoll
 SRCP, da dies erst kurz vor Fertigstellung veröffentlicht
 wurde.</para></listitem>
@@ -632,8 +657,8 @@ Minutensprung(!)</para></listitem>
   <listitem><para>Geändertes User-Interface beim Editieren der einzelnen
 Elemente (z.B. Grafiken statt Text in der
 Elementauswahl)</para></listitem>
-  <listitem><para>Editieren der Gleisbild- und Fahrstraßen-Dateien aus dem Programm
-heraus möglich mit externem Editor kwrite</para></listitem>
+  <listitem><para>Editieren der Gleisbild- und Fahrstraßen-Dateien aus
+  dem Programm heraus möglich mit externem Editor kwrite</para></listitem>
   <listitem><para>Beim Erstellen eines leeren Gleisbilds
 Eingabemöglichkeit, wieviele Spalten erzeugt werden
 sollen</para></listitem>
@@ -680,9 +705,9 @@ http://spdrs60.sourceforge.net/</ulink>
 </para>
 <para>
 Dort kann man den Quellcode der Version &ver;, sowie Pakete für
-verschiedene
-Linux-Distributionen herunterladen. Die alte Projektseite von Stefan
-Preis existiert ebenfalls noch, wird aber nicht mehr aktuell gehalten:
+verschiedene Linux-Distributionen herunterladen. Die alte Projektseite
+von Stefan Preis existiert ebenfalls noch, wird aber nicht mehr aktuell
+gehalten:
 </para>
 <para>
 <ulink url="http://www.linux-modellbahn.de/">
@@ -705,7 +730,7 @@ richtet sich weitgehend nach den eigenen Ansprüchen. Kleinere
 Gleisbilder finden noch vollständig auf 800x600 Pixeln Platz, für größere
 können sogar 1280x1024 schon knapp werden.</para></listitem>
   <listitem><para>Für die aktuelle Qt3-Version mu&szlig; die
-Qt-Laufzeit-Bibliothek (qt3) installiert sein (unter SuSE Paket
+Qt-Laufzeit-Bibliothek installiert sein (unter SuSE Paket
 &raquo;qt3&laquo; oder unter Fedora Paket &raquo;qt&laquo;). Überprüfen
 kann man das bei rpm-basierten
 Distributionen z.B. durch die Eingabe des Kommandos: <userinput>rpm -qi
@@ -725,12 +750,12 @@ von Torsten Vogt. Alternativ funktioniert SpDrS60 auch mit dem
 Übersetzer-Server &raquo;m6051d&laquo; bzw. dessen Nachfolger
 &raquo;srcpd&laquo; von Matthias Trute. Dieser übersetzt zwischen
 SRCP-Clients und einer Digitalzentrale, wie z.B. dem Original
-6051-Interface von Märklin. Aktuelle RPM-Pakete von diesen Programmen
-gibt es auch von den Webseiten der
+6051-Interface von Märklin, der Intellibox von Uhlenbrock und anderen
+Zentralen mit Computerschnittstellen. Aktuelle RPM-Pakete von diesen Programmen
+gibt es zum Teil von den Webseiten der
 <ulink url="http://www.lug-burghausen.org/">LUG-Burghausen</ulink>.
 Allgemein gilt, dass die Version des vom Server angebotenen SRCP-Protokolls
-&gt;=&nbsp;0.7.0 und &lt;&nbsp;0.8.0 sein mu&szlig;. Die aktuelle
-SRCP-Version 0.8.2 wird also noch nicht unterstützt.</para></listitem>
+&gt;=&nbsp;0.7.0 und &lt;&nbsp;0.9.0 sein mu&szlig;.</para></listitem>
 </itemizedlist>
 </para>
 
@@ -801,7 +826,7 @@ $ su -c "make install"
 Da SpDrS60 das Konfigurationstool <command>autoconf</command> benutzt,
 sollten Sie keine Probleme beim Kompilieren haben. Voraussetzung ist
 natürlich, Sie haben alle notwendigen Bibliotheken (Qt3) bzw. die
-entsprechenden Entwicklerpakete (qt3-devel) installiert. Da die
+entsprechenden Entwicklerpakete (qt3-devel bzw. qt-devel) installiert. Da die
 HTML-Dateien dieser Dokumentation ebenfalls beim Aufrufen von
 &raquo;make&laquo; erstellt werden, benötigen Sie außerdem noch das
 Programmpaket &raquo;jade&laquo; bzw. &raquo;openjade&laquo; sowie die
@@ -811,7 +836,7 @@ bemängelt.
 </para>
 
 <para>
-Bei Problemen und Fragestellungen beim Installieren oder zu speziellen
+Bei Problemen und Fragestellungen zur Installation oder zu speziellen
 Programmfunktionen kontaktieren Sie bitte die User-Mailingliste des
 Projektes:
 <ulink url="http://spdrs60.sourceforge.net/">http://spdrs60.sourceforge.net/</ulink>
@@ -3557,6 +3582,18 @@ zwei Rangierstraßentasten, die sich an den Signalen befinden: dem
 Startsignal, vor dem der Zug bereits wartet bzw. zuerst eintreffen wird,
 und das in seinem Fahrweg liegende Zielsignal.
 Letzteres ist dann wiederum das Startsignal für den nächsten Abschnitt.
+</para>
+<para>
+In größeren Stellwerken, in denen sich das Gleisbild über mehrere
+Meter breite Stelltafeln erstreckt, werden die Fahrstraßen der
+einfacheren Bedienung wegen von einem separaten Nummernstellpult aus
+eingestellt. Der
+Fahrdienstleiter gib dazu zwei dreistellige Nummern ein, zum einen die
+vom Startgleisabschnitt und zum anderen die vom Zielgleisabschnitt.
+Aktiviert wird die Fahrstraße dann durch Drücken der ATE-Taste und
+einer zweiten Taste zur Festlegung der Länge des Durchrutschweges.
+</para>
+<para>
 Auf freier Strecke wird meistens im selbsttätigen Blockbetrieb
 gefahren, so dass hier im allgemeinen keine Stellvorgänge ausgelöst
 werden müssen, dennoch sind dafür Bedienmöglichkeiten vorhanden.
@@ -3572,7 +3609,10 @@ an den Stelltisch, der diese durch Ausleuchten der Fahrstra&szlig;e mit
 roten Lampen anzeigt. Wenn der Zug das Zielsignal passiert hat, wird
 die Fahrstra&szlig;e über Gleismeldekontakte automatisch aufgelöst. Die
 darin befindlichen Weichen stehen dann wieder für Fahrstra&szlig;en
-zur Verfügung. Selbstverständlich sind auch bei der gro&szlig;en
+zur Verfügung. Besteht die Fahrstraße aus mehreren
+Gleisbelegtmeldeabschnitte, dann erfolgt die Auflösung der Fahrstraße
+und die Freigabe der entsprechenden Weichen abschnittsweise.
+Selbstverständlich sind auch bei der gro&szlig;en
 Bahn Weichen einzeln stellbar, dies ist z.B. allein für Wartungsarbeiten
 notwendig.
 </para>
@@ -3592,6 +3632,16 @@ angesteuert, das Startsignal wird zuletzt auf Fahrt gestellt, und die
 Fahrstra&szlig;e wird in gelber Ausleuchtung angezeigt. Auch die
 manuelle Rücknahme von Fahrstra&szlig;en ist mit diesem Bedienkonzept
 möglich.
+</para>
+<para>
+Prinzipiell ist es möglich, die Fahrstraßen in SpDrS60 für Linux nur
+über Rückmeldungen zu beeinflussen. Eine direkte Bedienhandlung am PC
+ist dann nicht notwendig und dessen Funktion reduziert sich auf die
+Visualisierung des Betriebsgeschehens, die Überprüfung der
+Fahrstraßensicherheitstechnik, sowie die Weitergabe der Stellbefehle an
+den SRCP-Server. Die Rückmeldekontakte kann man an Taster oder Schalter
+eines Stellpultes anschließen, woraus mit etwas handwerklichem Geschick
+ein stelltischartiger Aufbau resultieren kann. 
 </para>
 </sect2>
   
@@ -4096,9 +4146,9 @@ folgender Reihenfolge:
 
 <para>
 Mit der Tastenkombination <keycap>Strg-M</keycap> öffnet man das
-Übersichtfenster für die Rückmeldebusse. Mit der neuen Version des
-Daemon (&gt; 1.2 ) werden jetzt 4 Rückmeldebusse à 31 Module mit 16
-Anschlüssen unterstützt (wenn man nach der Original Märklin-Portzahl geht).
+Übersichtfenster für die Rückmeldebusse. Mit der aktuellen Version des
+Daemon (&gt; 1.2 ) werden vier s88-Rückmeldebusse à 31 Module mit je 16
+Anschlüssen unterstützt (wenn man nach der Original Märklin-Kontaktzahl geht).
 Dementsprechend ist auch das sich öffnende Fenster aufgebaut (<xref
 linkend="abb-feedbacks">):
 </para>
@@ -4114,13 +4164,13 @@ linkend="abb-feedbacks">):
 Man erkennt je nach gewählter Art der Anzeige im
 Programm-Optionen-Menü (siehe nächstes Kapitel <xref
 linkend="sect-sonstiges"> -&gt; Abschnitt Daten) pro Seite entweder max.
-31 Module a 16 Anschlüssen (z.B. Märklin-Module) oder max. 62 Module a 8 Anschlüssen
+31 Module à 16 Anschlüssen (z.B. Märklin-Module) oder max. 62 Module à 8 Anschlüssen
 (z.B. EDiTS-Module). Es erscheinen je Bus jedoch nur so viele Module,
 wie in dem Programm-Optionen-Menü unter dem Reiter &raquo;Daten&laquo; für
 jeden Bus einzeln anzuzeigen sind. Damit soll die Übersichtlichkeit
 besser gewahrt bleiben. Alle aktiven, d.h. geschlossenen Kontakte an den
 Modulen sind in dieser Übersicht mit einem roten Quadrat gekennzeichnet.
-Man erkennt jetzt neu unter der fortlaufenden Decoder-Numerierung eine
+Man erkennt zusätzlich unter der fortlaufenden Decoder-Numerierung eine
 blaue Zahl. Dies stellt die dekodierte Lokdecoder-Adresse dar, wenn
 dieser Rückmelde-Decoder ein Adress-Decoder ist. Da zum jetzigen Zeitpunkt das
 Programm aber nicht wissen kann, welcher Decoder ein solcher ist, werden
@@ -4130,30 +4180,28 @@ anderen Decodern ändert sich die blaue Zahl auch, macht aber hier keinen
 Sinn.
 </para>
 <para>
-Apropos Sinn: Sinn macht diese Decoder-Identifizierung auch nur, wenn
-man die Adresse nicht blo&szlig; anzeigt, sondern darüber auch noch eine
-automatische Steuerung legt. Im diesem Fall könnte das eine automatische
-Fahrstra&szlig;enschaltung je nach Loktyp sein (Dieselloks da lang,
-E-Loks über die Hauptstrecke). Noch genialer wird es aber in dem Fall,
-wenn darüber automatisch ein Kommando zum Abbremsen der Lok kommt, z.B.
+Eine interessante Anwendung bekommt diese Decoder-Identifizierung erst,
+wenn man die Adresse nicht nur anzeigt, sondern darüber auch noch eine
+automatische Steuerung legt. Im diesem Fall könnte das beispielsweise eine
+lokadressenabhängige Fahrstra&szlig;enschaltung sein (Dieselloks da lang,
+E-Loks über die Hauptstrecke). Noch interessanter wird es aber,
+wenn man damit automatisch ein Kommando zum Abbremsen der Lok auslöst, z.B.
 vor Signalen [bedingt natürlich den Einsatz eines solchen Decoders vor
-jedem Signal]. Das wäre dann der Zeitpunkt, wo ich mein altes DTCL bzw.
-den Nachfolger dtcl-tiny (Loksteuerprogramm unter Linux) wieder
-auskramen muß, um es mit SpDrS60 in eine komplette Steuersoftware zu
-integrieren ... Träume.
+jedem Signal].
 </para> 
 <para>
-Alle weiteren Modulen der anderen Busse erreicht man ganz einfach durch
+Alle weiteren Module der anderen Busse erreicht man ganz einfach durch
 einen Klick auf die Vorwärts-/Rückwärtspfeile neben der
 Busnummern-Anzeige. Welche Art der Anzeige (8 oder 16 Anschlüsse/Modul) man
-wählt, ist eigentlich egal. Natürlich ist die Übersicht besser, wenn man
+wählt, ist eigentlich gleichgültig. Natürlich ist die Übersicht besser, wenn man
 die passende Anzeige wählt. Was aber macht man, wenn man gemischte
 Module einsetzt, was durchaus möglich ist? Dieser Anzeigefall ist noch
-nicht vorgesehen. Evtl. wird es in Zukunft einmal eine weitere
-<filename>*.dat.fbm</filename>-Datei geben, in welcher Daten zu den Modulen
-vorgehalten werden (Art des Moduls, Klartext-Beschreibung zu jedem
+nicht vorgesehen. Eventuell wird diese Information einmal mit dem
+zugehörigen Gleisbild abspeicherbar sein. Dort könnten auch Daten zu den
+Modulen vorgehalten werden (Art des Moduls, Klartext-Beschreibung zu jedem
 Kontakt). Bis dahin sollte bei einem gemischten Betrieb der gemeinsame
-Nenner benutzt werden, und das sind meines Erachtens die 8-Port-Modulen.
+Nenner benutzt werden, und das sind meines Erachtens die Module mit acht
+Eingängen.
 Die Funktionstüchtigkeit ist dadurch in keinster Weise beeinträchtigt.
 </para>
 <para>
@@ -4166,7 +4214,7 @@ Eine Verwendung der i8255 Multiport-PC-Karte wird nicht unterstützt.
 <sect2 id="sect-anschluesse-weichen">
   <title>Weichen</title>
 <para>
-      Die folgende kleine Übersicht listet die wichtigsten
+Die folgende kleine Übersicht listet die wichtigsten
 Hersteller mit ihren Produkten auf.
 <table frame="topbot">
   <title>Weichenübersicht
@@ -4417,7 +4465,7 @@ Adressierung</entry>
 </table>
 </para>
 <para>
-      Die in den Tabellen aufgeführten Artikel-Nummern und
+Die in den Tabellen aufgeführten Artikel-Nummern und
 Beschreibungen wurden nicht immer aus den aktuellsten Katalogen
 entnommen, so dass es unter Umständen zu Verständnisschwierigkeiten
 kommen kann.
@@ -4493,14 +4541,14 @@ auf die Anschlussvorschriften für Signale eingegangen.
 <emphasis>ACHTUNG:</emphasis>
 </para>
 <para>
-Es sei nochmal wiederholt: Ich habe keine Anlage zum Testen. Es kann
-daher sein, dass die unten gegeben Informationen genau falsch sind,
-sprich die Anschlüsse innerhalb einer Adresse (= einem Decoderausgang)
-getauscht werden müssen.
+Es kann in Einzelfällen sein, dass die unten gegeben Informationen genau
+falsch sind, sprich die Anschlüsse innerhalb einer Adresse
+(= einem Decoderausgang) getauscht werden müssen.
 </para>
 <para>
 Die folgende Tabelle gibt Aufschluß über das Anschlussschema bei den
-verschiedenen Signalmöglichkeiten. Ich gehe mal davon aus, dass dafür an
+verschiedenen Signalmöglichkeiten. Es wird dabei davon ausgegangen, dass
+dafür an
 einem Decoder zwei nebeneinander liegende Ausgänge = zwei aufeinander
 folgende Adressen benutzt werden und dass keinerlei Häkchen zum Tauschen
 der Ausgänge gesetzt wurde:
@@ -4592,7 +4640,8 @@ erscheint.
 </figure>
 </para>
 <para>
-V.l.n.r. erkennt man in der oberen Reihe folgende Bedienelemente:
+Von links nach rechts erkennt man in der oberen Reihe folgende
+Bedienelemente:
 </para>
 <para>
 <itemizedlist mark="bullet">
@@ -4838,138 +4887,138 @@ Man wähle hier zwischen Links- und Rechtslauf oder Anhalten.
 
 <sect1 id="sect-FAQ">
   <title>FAQ</title>
-<para>
-    <variablelist>
-      <varlistentry>
-        <term><emphasis>
-          Warum gibt es keine senkrechten Elemente?
-        </emphasis></term>
+  <para>
+  <variablelist>
+  <varlistentry>
+  <term><emphasis>
+  Warum gibt es keine senkrechten Elemente?
+  </emphasis></term>
   <listitem><para>
-Das Aussehen dieses Programms lehnt sich sehr stark
-an das Vorbild an, wie es bei der Deutschen Bahn AG noch immer weit
-verbreitet ist. Dort ist es üblich, den Streckenverlauf waagerecht
-darzustellen, auch wenn sich Strecken teilen und diese z.B. in einem
-90-Grad-Winkel zueinander verlaufen. Ein Stellwerk bildet die
-vorbeilaufende Strecke ab, und die bildet nun mal keinen Kreis wie auf
-der Modellbahn. So gibt es mehr Ordnung auf dem Stelltisch und
-das Auge kann die Anzeigen besser und schneller erkennen.
-</para></listitem>
-      </varlistentry>
-      <varlistentry>
-        <term><emphasis>
-          Wird es dennoch eine Modellbahn-Anpassung durch
-senkrechte Elemente geben?
-        </emphasis></term>
+  Das Aussehen dieses Programms lehnt sich sehr stark
+  an das Vorbild an, wie es bei der Deutschen Bahn AG noch immer weit
+  verbreitet ist. Dort ist es üblich, den Streckenverlauf waagerecht
+  darzustellen, auch wenn sich Strecken teilen und diese z.B. in einem
+  90-Grad-Winkel zueinander verlaufen. Ein Stellwerk bildet die
+  vorbeilaufende Strecke ab, und die bildet nun mal keinen Kreis wie auf
+  der Modellbahn. So gibt es mehr Ordnung auf dem Stelltisch und
+  das Auge kann die Anzeigen besser und schneller erkennen.
+  </para></listitem>
+  </varlistentry>
+  <varlistentry>
+  <term><emphasis>
+  Wird es dennoch eine Modellbahn-Anpassung durch
+  senkrechte Elemente geben?
+  </emphasis></term>
   <listitem><para>
-Das kommt auf die weitere Entwicklung an. Ein primäres Ziel ist es
-derzeit nicht.
-</para></listitem>
-      </varlistentry>
-      <varlistentry>
-        <term><emphasis>
-          Wie erfahre ich, ob es eine neue Version von
-&raquo;SpDrS60 für Linux&laquo; gibt?
-        </emphasis></term>
+  Das kommt auf die weitere Entwicklung an. Ein primäres Ziel ist es
+  derzeit nicht.
+  </para></listitem>
+  </varlistentry>
+  <varlistentry>
+  <term><emphasis>
+  Wie erfahre ich, ob es eine neue Version von
+  &raquo;SpDrS60 für Linux&laquo; gibt?
+  </emphasis></term>
   <listitem><para>
-Am besten meldet man sich auf den Mailinglisten unter <ulink
-url="http://spdrs60.sourceforge.net/">http://spdrs60.sourceforge.net/</ulink>
-an.
-</para></listitem>
-      </varlistentry>
-      <varlistentry>
-        <term><emphasis>
-          Warum zeigen Weichen auf der Anlage eine andere
-Stellung als im Programm?
-        </emphasis></term>
+  Am besten meldet man sich auf den Mailinglisten unter <ulink
+  url="http://spdrs60.sourceforge.net/">http://spdrs60.sourceforge.net/</ulink>
+  an.
+  </para></listitem>
+  </varlistentry>
+  <varlistentry>
+  <term><emphasis>
+  Warum zeigen Weichen auf der Anlage eine andere
+  Stellung als im Programm?
+  </emphasis></term>
   <listitem><para>
-Das lä&szlig;t sich konfigurieren. Man stecke dazu
-entweder die beiden Weichenanschlüsse am Decoder um oder - wenn das
-nicht oder nur mühsam geht - benutze über die Elementeigenschaften die
-Option &raquo;Vertauschen&laquo;, damit werden die Anschlüsse logisch
-vertauscht.
-</para></listitem>
-      </varlistentry>
-      <varlistentry>
-        <term><emphasis>
-          Warum stimmt die Gleisbesetztmeldung bei einfachen
-Kreuzungen manchmal nicht?
-        </emphasis></term>
+  Das lä&szlig;t sich konfigurieren. Man stecke dazu
+  entweder die beiden Weichenanschlüsse am Decoder um oder - wenn das
+  nicht oder nur mühsam geht - benutze über die Elementeigenschaften die
+  Option &raquo;Vertauschen&laquo;, damit werden die Anschlüsse logisch
+  vertauscht.
+  </para></listitem>
+  </varlistentry>
+  <varlistentry>
+  <term><emphasis>
+  Warum stimmt die Gleisbesetztmeldung bei einfachen
+  Kreuzungen manchmal nicht?
+  </emphasis></term>
   <listitem><para>
-Auch hier zeigen sich die DKWs mit nur einem Antrieb
-als die problematischeren Kandidaten für eine Gleisbild-Programmierung. Für
-jedes Element ist nur ein Rückmeldekontakt einstellbar, obwohl hierfür
-eigentlich 2 passender wären. Aber dafür müßte man die
-Datenstruktur für alle Elemente ergänzen, was nicht besonders
-ökonomisch wäre. Bei besetztem Gleis nimmt daher das Element immer an,
-dass sich der Zug auf dem waagerechten Gleis bei Kreuzung links oder
-rechts oder auf dem links-diagonalen Gleis bei Hosenträgerkreuzungenn
-befindet. In 50% der Fälle wird also das falsche Gleis angezeigt.
-Abhilfe: Bitte die LED-Anzeige für derartige Elemente ausschalten
-(Elementeigenschaften -&gt; LEDs aus).
-</para></listitem>
-      </varlistentry>
-      <varlistentry>
-        <term><emphasis>
-          Warum zeigen alle S88-Module in der Modulübersicht
-eine Lok-&raquo;Adresse&laquo; an?
-        </emphasis></term>
+  Auch hier zeigen sich die DKWs mit nur einem Antrieb
+  als die problematischeren Kandidaten für eine Gleisbild-Programmierung. Für
+  jedes Element ist nur ein Rückmeldekontakt einstellbar, obwohl hierfür
+  eigentlich 2 passender wären. Aber dafür müßte man die
+  Datenstruktur für alle Elemente ergänzen, was nicht besonders
+  ökonomisch wäre. Bei besetztem Gleis nimmt daher das Element immer an,
+  dass sich der Zug auf dem waagerechten Gleis bei Kreuzung links oder
+  rechts oder auf dem links-diagonalen Gleis bei Hosenträgerkreuzungenn
+  befindet. In 50% der Fälle wird also das falsche Gleis angezeigt.
+  Abhilfe: Bitte die LED-Anzeige für derartige Elemente ausschalten
+  (Elementeigenschaften -&gt; LEDs aus).
+  </para></listitem>
+  </varlistentry>
+  <varlistentry>
+  <term><emphasis>
+  Warum zeigen alle S88-Module in der Modulübersicht
+  eine Lok-&raquo;Adresse&laquo; an?
+  </emphasis></term>
   <listitem><para>
-Es gibt bisher keine Möglichkeit, den Anzeigemodus für
-S88-Rückmeldemodule zu konfigurieren. Zur Zeit wird daher sowohl die
-EDiTS-Adresse als auch der Belegtstatus der Anschlüsse wiedergegeben.
-</para></listitem>
-      </varlistentry>
-      <varlistentry>
-        <term><emphasis>
-          Wird es ein anderes Aussehen von
-<command>spdrs60</command> geben, z.B. als elektronisches Stellwerk
-(ESTW)?
-        </emphasis></term>
+  Es gibt bisher keine Möglichkeit, den Anzeigemodus für
+  S88-Rückmeldemodule zu konfigurieren. Zur Zeit wird daher sowohl die
+  EDiTS-Adresse als auch der Belegtstatus der Anschlüsse wiedergegeben.
+  </para></listitem>
+  </varlistentry>
+  <varlistentry>
+  <term><emphasis>
+  Wird es ein anderes Aussehen von
+  <command>spdrs60</command> geben, z.B. als elektronisches Stellwerk
+  (ESTW)?
+  </emphasis></term>
   <listitem><para>
-Zunächst einmal ist dieses Programm auf der Basis des originalen
-Drucktasten-Stellwerks geplant und ausgeführt. Das hat eine ansprechende
-Visualisierung mit hohem Bekanntheitsgrad; bei den elektronischen
-Stellwerken ist das anders. Grundsätzlich wäre es möglich, die
-Elemente in diesem Programm nach modernerem Vorbild zu gestalten, aber
-ein wirklich Bedarf dafür besteht nicht.
-</para></listitem>
-      </varlistentry>
-      <varlistentry>
-        <term><emphasis>
-          Wieso werden Vorsignale einzeln, statt zusammen
-mit ihren Hauptsignalen angesteuert?
-        </emphasis></term>
+  Zunächst einmal ist dieses Programm auf der Basis des originalen
+  Drucktasten-Stellwerks geplant und ausgeführt. Das hat eine ansprechende
+  Visualisierung mit hohem Bekanntheitsgrad; bei den elektronischen
+  Stellwerken ist das anders. Grundsätzlich wäre es möglich, die
+  Elemente in diesem Programm nach modernerem Vorbild zu gestalten, aber
+  ein wirklich Bedarf dafür besteht nicht.
+  </para></listitem>
+  </varlistentry>
+  <varlistentry>
+  <term><emphasis>
+  Wieso werden Vorsignale einzeln, statt zusammen
+  mit ihren Hauptsignalen angesteuert?
+  </emphasis></term>
   <listitem><para>
-Die Verbesserung dieser Funktion ist als weitere Entwicklung eingeplant,
-hat aber eine geringe Priorität.
-</para></listitem>
-      </varlistentry>
-      <varlistentry>
-        <term><emphasis>
-          Kann ich mit spdrs60 auch originale serielle
-Interfaces (Märklin, Intellibox, Lenz ...) ansteuern?
-        </emphasis></term>
+  Die Verbesserung dieser Funktion ist als weitere Entwicklung eingeplant,
+  hat aber eine geringe Priorität.
+  </para></listitem>
+  </varlistentry>
+  <varlistentry>
+  <term><emphasis>
+  Kann ich mit spdrs60 auch originale serielle
+  Interfaces (Märklin, Intellibox, Lenz ...) ansteuern?
+  </emphasis></term>
   <listitem><para>
-Nein, das ist auch nicht geplant. SpDrS60 soll ein reiner SRCP-Client
-bleiben. Mit der bald anstehenden Unterstützung der SRCP-Protokollversion
-0.8 wird die Anbindung an den von Matthias Trute und anderen
-entwickelten SRCP-Server &raquo;srcpd&laquo;
-(http://srcpd.sourceforge.net/) die Ansteuerung dieser Hardware
-weitestgehend möglich sein.</para></listitem>
-      </varlistentry>
-      <varlistentry>
-        <term><emphasis>
-          Wann kommt SpDrS60 für Windows?
-        </emphasis></term>
+  Nein, das ist auch nicht geplant. SpDrS60 soll ein reiner SRCP-Client
+  bleiben. Mit der bald anstehenden Unterstützung der SRCP-Protokollversion
+  0.8 wird die Anbindung an den von Matthias Trute und anderen
+  entwickelten SRCP-Server &raquo;srcpd&laquo;
+  (http://srcpd.sourceforge.net/) die Ansteuerung dieser Hardware
+  weitestgehend möglich sein.</para></listitem>
+  </varlistentry>
+  <varlistentry>
+  <term><emphasis>
+  Wann kommt SpDrS60 für Windows?
+  </emphasis></term>
   <listitem><para>
-Da SpDrS60 auf der Qt Bibliothek von Trolltech (http://www.trolltech.com/)
-basiert, ist eine Portierung auf dieses Betriebsystem prinzipiell möglich.
-Bisher hat sich allerdings kein Interessent gefunden, der diese Arbeit
-übernehmen will.
-</para></listitem>
-      </varlistentry>
-    </variablelist>
-</para>
+  Da SpDrS60 auf der Qt Bibliothek von Trolltech (http://www.trolltech.com/)
+  basiert, ist eine Portierung auf dieses Betriebssystem prinzipiell möglich.
+  Bisher hat sich allerdings kein Interessent gefunden, der diese Arbeit
+  übernehmen will.
+  </para></listitem>
+  </varlistentry>
+  </variablelist>
+  </para>
 </sect1>
 
 <sect1 id="sect-sonstiges">
@@ -5351,7 +5400,7 @@ von &raquo;1&laquo; bis &raquo;324&laquo; bei M-Decodern bzw.
 bei N-Decodern. Die Richtung des Antriebs wird auch gespeichert, damit
 man nach dem Ausschalten der Anlage wieder den in der Datei
 gespeicherten Zustand herstellen kann. Für Weichen oder Signale mit mehr
-als 1 Antrieb folgt noch die Adresse des zweiten Antriebs. Diese kann,
+als einem Antrieb folgt noch die Adresse des zweiten Antriebs. Diese kann,
 muß aber nicht auf die Adresse 1 unmittelbar folgend sein.
 </para>
 <para>Mit den Schlüsselwörtern &raquo;change conn&laquo; können die zwei
@@ -5496,7 +5545,7 @@ fündig.
   <title>Copyright</title>
 <para>
 Copyright 2000-2003 Stefan Preis.
-Copyright 2004-2005 Guido Scholz.
+Copyright 2004-2006 Guido Scholz.
 </para>
 <para>
 This program is free software; you can redistribute it
