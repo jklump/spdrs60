@@ -1,7 +1,7 @@
 Summary: SpDrS60, Switchbox for digital model railroads 
 Summary(de): SpDrS60, Spurplan-Drucktastenstellwerk für digitale Modelleisenbahnen
 Name: spdrs60
-Version: 0.4.8
+Version: 0.5.0
 Release: 1%{?dist}
 License: GPL
 Group: Amusements/Games
@@ -79,6 +79,9 @@ done
 %{_docdir}/%{name}
 
 %changelog
+* Sun Jan 08 2006 Guido Scholz <guido.scholz@bayernline.de>
+- Update to spdrs60-0.5.0
+
 * Sun Dec 11 2005 Guido Scholz <guido.scholz@bayernline.de>
 - Update to spdrs60-0.4.8
 

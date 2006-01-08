@@ -1,10 +1,10 @@
 dnl configure.ac for spdrs60
 dnl Guido Scholz
-dnl last update: $Date: 2005-12-06 17:43:52 $
-dnl version: $Revision: 1.11 $
+dnl last update: $Date: 2006-01-08 15:44:03 $
+dnl version: $Revision: 1.12 $
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT([spdrs60],[0.4.8],[Guido Scholz <guido.scholz@bayernline.de>])
+AC_INIT([spdrs60],[0.5.0],[Guido Scholz <guido.scholz@bayernline.de>])
 AC_CONFIG_SRCDIR([spdrs60/main.cpp])
 AC_CANONICAL_TARGET
 AM_INIT_AUTOMAKE([dist-bzip2])
