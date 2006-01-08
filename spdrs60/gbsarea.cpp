@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.40 $
+                           version 0.4.8 $Revision: 1.41 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-07 21:20:08 $
+    last modified        : $Date: 2006-01-08 16:31:20 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -23,6 +23,7 @@
    dependant actions
  ***************************************************************************/
 
+#include <stdlib.h>            //for free, calloc, realloc
 #include <qprogressdialog.h>
 
 #include "resources.h"
