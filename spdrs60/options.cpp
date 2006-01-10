@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.cpp
-                           version 0.4.8 $Revision: 1.7 $
+                           version 0.4.8 $Revision: 1.8 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-                         : (C) 2004-2005 Guido Scholz
+                         : (C) 2004-2006 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-11-27 19:38:27 $
+    last modified        : $Date: 2006-01-10 21:54:52 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -21,11 +21,13 @@
    provides an user interface to change various settings of the programm
  ***************************************************************************/
 #include <ctype.h>              // for isdigit()
+#include <qhbox.h>
+#include <qlayout.h>
+#include <qvbox.h>
+#include <qvgroupbox.h>
 
 #include "options.h"
 #include "gbsarea.h"
-
-#include "pixmaps/fileopen.xpm"
 
 extern bool SHOW_HP2;
 extern bool SHOW_TOOLTIPS;
@@ -52,127 +54,130 @@ extern QString EDITOR;
 extern QString BROWSER;
 extern QString DEF_DECODER;
 extern QString HOST;
-extern QString COMX;
-extern QString BAUD;
-extern QString DATAB;
-extern QString STOPB;
-extern QString PARI;
 
 
 
-optionsDialog::optionsDialog(QWidget * parent)
-:  QTabDialog(0, "optionsDialog", true)// true, parent window not
-{                               // usable until this closed
-    if (parent);                // dummy command to avoid compiler warning
-
+optionsDialog::optionsDialog(QWidget* parent)
+: QTabDialog(parent, "optionsDialog", true)
+{
     setupTabLayout();           // construct layout tab
     setupTabData();             // construct data tab
     setupTabInterface();        // construct server/interface tab
     fillWithData();             // fill all with data from init file
     bRepaintNecessary = false;  // no repaint necessary yet
 
-    this->setCaption(tr("Preferences"));        // set a caption, resize window
-    this->setFixedWidth(500);
-    this->setFixedHeight(TABHEIGHT);
-    this->setOKButton();
-    this->setCancelButton();    // ... and show an OK + Esc button
+    setCaption(tr("Preferences"));        // set a caption, resize window
+    setOKButton();
+    setCancelButton();    // ... and show an OK + Esc button
 }
 
 
 void optionsDialog::setupTabLayout()
 {
-    QWidget *w = new QWidget(this, "page one");
-
-    cbShowHp2 =
-        new QCheckBox(tr("Show orange light for signals switched to Hp2"),
-                      w, "");
-    cbShowHp2->move(10, 12);
-    cbShowHp2->resize(cbShowHp2->sizeHint());
-
-    cbGenBubble =
-        new
-        QCheckBox(tr
-                  ("Show general bubblehelp (e.g. for buttons; "
-                   "a change needs program restart)"), w, "");
-    cbGenBubble->move(10, cbShowHp2->y() + 30);
-    cbGenBubble->resize(cbGenBubble->sizeHint());
-
-    cbDataBubble =
-        new QCheckBox(tr("Show elements' data bubblehelp"), w, "");
-    cbDataBubble->move(10, cbGenBubble->y() + 30);
-    cbDataBubble->resize(cbDataBubble->sizeHint());
+    QVBox *tab1 = new QVBox(this, "tapPageOne");
+    tab1->setMargin(10);
+    tab1->setSpacing(10);
+         
+    // elements groupbox
+    QButtonGroup* generalBG = new QButtonGroup(1, Qt::Horizontal,
+            tr("General options"), tab1, "generalBG");
+    cbShowHp2 = new QCheckBox(tr("Show &orange light for signals"
+                " switched to Hp2"), generalBG, "Hp2CB");
+    cbGenBubble = new QCheckBox(tr("Show &general bubblehelp (e.g."
+                " for buttons; a change needs program restart)"),
+            generalBG, "bubbleCB");
+    cbDataBubble = new QCheckBox(tr("Show elements' &data bubblehelp"),
+            generalBG, "databubbleCB");
     connect(cbDataBubble, SIGNAL(pressed()), this, SLOT(slotSetRepaint()));
 
-    line = new QFrame(w);
-    line->setFrameStyle(QFrame::HLine | QFrame::Sunken);
-    line->setGeometry(10, cbDataBubble->y() + 40, 455, 2);
-
-    label = new QLabel(tr("Solenoids' text fields show:"), w);
-    label->setGeometry(10, line->y() + 15, 300, 20);
-
-    QButtonGroup *grpBox = new QButtonGroup("", w);
-    grpBox->setGeometry(10, line->y() + 35, 300, 60);
-    grpBox->setFrameStyle(QFrame::NoFrame);
-
-    rbShowAddr =
-        new QRadioButton(tr("address (e.g. decoder address)"), grpBox);
-    rbShowAddr->setGeometry(0, 10, 300, 20);
-    rbShowTxt =
-        new QRadioButton(tr("text (e.g. turnout or signal name)"), grpBox);
-    rbShowTxt->setGeometry(0, 40, 300, 20);
-
+    // line with two group boxes
+    QHBox* solHB = new QHBox(tab1, "solHB");
+    solHB->setSpacing(10);
+    
+    
+    // left groupbox
+    QButtonGroup* soladdrBG = new QButtonGroup(1, Qt::Horizontal,
+            tr("Solenoids' text fields show"), solHB, "soladdrBG");
+    rbShowAddr = new QRadioButton(tr("&Address (e.g. decoder address)"),
+            soladdrBG);
+    rbShowTxt = new QRadioButton(
+            tr("&Text (e.g. turnout or signal name)"), soladdrBG);
     connect(rbShowAddr, SIGNAL(pressed()), this, SLOT(slotSetRepaint()));
     connect(rbShowTxt, SIGNAL(pressed()), this, SLOT(slotSetRepaint()));
 
-    line = new QFrame(w);
-    line->setFrameStyle(QFrame::HLine | QFrame::Sunken);
-    line->setGeometry(10, grpBox->y() + grpBox->height() + 20, 455, 2);
-
-    label = new QLabel(tr("Initialize signals on startup:"), w);
-    label->setGeometry(10, line->y() + 15, 300, 20);
-
-    grpBox = new QButtonGroup("", w);
-    grpBox->setGeometry(10, line->y() + 35, 300, 60);
-    grpBox->setFrameStyle(QFrame::NoFrame);
-
+    // right groupbox
+    QButtonGroup* initsigBG = new QButtonGroup(1, Qt::Horizontal,
+            tr("Initialize signals on startup"), solHB, "initsigBG");
     rbSignalRed =
-        new QRadioButton(tr("always on Halt (Hp0/Hp00/Sh0)"), grpBox);
-    rbSignalRed->setGeometry(0, 10, 300, 20);
+        new QRadioButton(tr("A&lways on Halt (Hp0/Hp00/Sh0)"), initsigBG);
     rbSignalLay =
-        new QRadioButton(tr("as saved from previous session"), grpBox);
-    rbSignalLay->setGeometry(0, 40, 300, 20);
-
-    line = new QFrame(w);
-    line->setFrameStyle(QFrame::HLine | QFrame::Sunken);
-    line->setGeometry(10, grpBox->y() + grpBox->height() + 20, 455, 2);
-
-    label = new QLabel(tr("Default new columns for empty layout:"), w);
-    label->setGeometry(10, line->y() + 15, 300, 20);
-
-    sbDefaultCols = new QSpinBox(MIN_COLS, MAX_COLS, 1, w, "");
-    sbDefaultCols->resize(50, 25);
-    sbDefaultCols->move(290, label->y());
+        new QRadioButton(tr("As &saved from previous session"), initsigBG);
+   
+    
+    // new layout groupbox
+    QGroupBox* newlayoutGB = new QGroupBox(0, Horizontal,
+            tr("Default dimensions for new layouts"), tab1, "newlayoutGB");
+    QVBoxLayout* newlayoutGBL = new QVBoxLayout(newlayoutGB->layout(), 6);
+    
+    // line with cols number spin box
+    QHBoxLayout* dimcolLayout = new QHBoxLayout(newlayoutGBL);
+    label = new QLabel(tr("Default new &columns for empty layout:"),
+            newlayoutGB);
+    dimcolLayout->addWidget(label);
+    QSpacerItem* spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    dimcolLayout->addItem(spacer);
+    sbDefaultCols = new QSpinBox(MIN_COLS, MAX_COLS, 1, newlayoutGB,
+            "colsSB");
+    dimcolLayout->addWidget(sbDefaultCols);
     sbDefaultCols->setWrapping(true);
+    label->setBuddy(sbDefaultCols);
 
-    line = new QFrame(w);
-    line->setFrameStyle(QFrame::HLine | QFrame::Sunken);
-    line->setGeometry(10, label->y() + label->height() + 15, 455, 2);
+    // line with rows number spin box
+    QHBoxLayout* dimrowLayout = new QHBoxLayout(newlayoutGBL);
+    label = new QLabel(tr("Default new &rows for empty layout:"),
+            newlayoutGB);
+    dimrowLayout->addWidget(label);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    dimrowLayout->addItem(spacer);
+    sbDefaultRows = new QSpinBox(MIN_ROWS, MAX_ROWS, 1, newlayoutGB,
+            "rowsSB");
+    dimrowLayout->addWidget(sbDefaultRows);
+    sbDefaultRows->setWrapping(true);
+    label->setBuddy(sbDefaultRows);
 
-    label =
-        new QLabel(tr("Editor for layout and preferences files:"), w);
-    label->setGeometry(10, line->y() + 15, 300, 20);
 
-    coboEditor = new QComboBox(true, w);
+    // external program groupbox
+    QGroupBox* extprogGB = new QGroupBox(0, Horizontal,
+            tr("External programms"), tab1, "extprogGB");
+    QVBoxLayout* extprogGBL = new QVBoxLayout(extprogGB->layout(), 6);
+    
+    // line with editor cb
+    QHBoxLayout* editorLayout = new QHBoxLayout(extprogGBL);
+    label = new QLabel(tr("&Editor for layout and preferences files:"),
+            extprogGB);
+    editorLayout->addWidget(label);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    editorLayout->addItem(spacer);
+    coboEditor = new QComboBox(true, extprogGB);
     coboEditor->insertItem("kwrite");
     coboEditor->insertItem("kedit");
     coboEditor->insertItem("nedit");
     coboEditor->insertItem("xterm -e vim");
-    coboEditor->setGeometry(290, line->y() + 15, 150, 25);
+    coboEditor->setMinimumWidth(160); //MAGIC
+    label->setBuddy(coboEditor);
+    editorLayout->addWidget(coboEditor);
 
-    label = new QLabel(tr("Browser for documentation:"), w);
-    label->setGeometry(10, line->y() + 45, 300, 20);
-
-    coboBrowser = new QComboBox(true, w);
+    // line with browser cb
+    QHBoxLayout* browserLayout = new QHBoxLayout(extprogGBL);
+    label = new QLabel(tr("&Browser for documentation:"), extprogGB);
+    browserLayout->addWidget(label);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    browserLayout->addItem(spacer);
+    coboBrowser = new QComboBox(true, extprogGB);
     coboBrowser->insertItem("firefox");
     coboBrowser->insertItem("konqueror");
     coboBrowser->insertItem("mozilla");
@@ -181,33 +186,38 @@ void optionsDialog::setupTabLayout()
     coboBrowser->insertItem("xterm -e links");
     coboBrowser->insertItem("xterm -e lynx");
     coboBrowser->insertItem("xterm -e w3m");
-    coboBrowser->setGeometry(290, line->y() + 45, 150, 25);
+    coboBrowser->setMinimumWidth(160); //MAGIC
+    label->setBuddy(coboBrowser);
+    browserLayout->addWidget(coboBrowser);
 
-    line = new QFrame(w);
-    line->setFrameStyle(QFrame::HLine | QFrame::Sunken);
-    line->setGeometry(10, label->y() + label->height() + 15, 455, 2);
 
-    cbAutoload =
-        new QCheckBox(tr("Autoload this layout on startup:"), w, "");
-    cbAutoload->move(10, line->y() + 17);
-    cbAutoload->resize(cbAutoload->sizeHint());
+    // autoload groupbox
+    QGroupBox* autolayoutGB = new QGroupBox(0, Horizontal,
+            tr("Autoload layout"), tab1, "autolayoutGB");
+    QVBoxLayout* autoGBLayout = new
+        QVBoxLayout(autolayoutGB->layout(), 6);
+    
+    // line with radiobutton and choose button
+    QHBoxLayout* chooseLayout = new QHBoxLayout(autoGBLayout);
+    cbAutoload = new QCheckBox(tr("Autoload this la&yout on startup:"),
+            autolayoutGB, "autoloadCB");
+    chooseLayout->addWidget(cbAutoload);
     connect(cbAutoload, SIGNAL(toggled(bool)),
             this, SLOT(slotAutoload(bool)));
-
-    leAutoload = new QLineEdit(w, "autoload");
-    leAutoload->setGeometry(10,
-                            cbAutoload->y() + cbAutoload->height() + 10,
-                            430, 25);
-
-    buttGetAutofile = new QPushButton("", w, "");
-    QPixmap pixOpen = QPixmap(fileopen_xpm);
-    buttGetAutofile->setPixmap(pixOpen);
-    buttGetAutofile->setGeometry(290, line->y() + 15, 25, 25);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    chooseLayout->addItem(spacer);
+    buttGetAutofile = new QPushButton("C&hoose...", autolayoutGB,
+            "choosePB");
+    chooseLayout->addWidget(buttGetAutofile);
     connect(buttGetAutofile, SIGNAL(clicked()),
             this, SLOT(slotGetAutofile()));
 
-    w->setFixedSize(500, TABHEIGHT);
-    this->addTab(w, "&Layout");
+    // line with lineedit
+    leAutoload = new QLineEdit(autolayoutGB, "autoloadLE");
+    autoGBLayout->addWidget(leAutoload);
+
+    addTab(tab1, "&Layout");
 }
 
 
@@ -238,22 +248,24 @@ void optionsDialog::setupTabData()
     coboDecoder->insertItem("Märklin k84 SD (M)");
     coboDecoder->insertItem("Viessm. 5211 WD (M)");
     coboDecoder->insertItem("Viessm. 5213 SD (M)");
-//   coboDecoder->insertItem( "Viessmann 5210 (M)" ); // Signalbaustein, extra Code!
+    // Signalbaustein, extra Code!
+    // coboDecoder->insertItem( "Viessmann 5210 (M)" );
     coboDecoder->insertItem("Littf. QS-DEC-II WD (M)");
     coboDecoder->insertItem("Littf. S-DEC-4 WD (M)");
     coboDecoder->insertItem("Littf. SA-DEC-4 SD (M)");
     coboDecoder->insertItem("Littf. M-DEC-MM WD (M)");
-//   coboDecoder->insertItem( "Littfinsky LS-DEC (M)" ); // Signalbaustein, extra Code!
+    // Signalbaustein, extra Code!
+    // coboDecoder->insertItem( "Littfinsky LS-DEC (M)" );
     coboDecoder->insertItem("EDiTS WD (M)");
     coboDecoder->insertItem("EDiTS SD (M)");
     coboDecoder->insertItem("Littf. S-DEC-4 WD (D)");
     coboDecoder->insertItem("Littf. SA-DEC-4 SD (D)");
     coboDecoder->insertItem("Littf. M-DEC-DC WD (D)");
-//   coboDecoder->insertItem( "Littfinsky LS-DEC (D)" );  // Signalbaustein, extra Code!
+    // Signalbaustein, extra Code!
+    // coboDecoder->insertItem( "Littfinsky LS-DEC (D)" );
     coboDecoder->insertItem("Lenz LS 100 WD (D)");
     coboDecoder->insertItem("Lenz LS 110 WD (D)");
     coboDecoder->insertItem("Lenz LS 130 SD (D)");
-    //coboDecoder->setFont(QFont( "Courier", 12));  //serd
 
     coboDecoder->setGeometry(270, grpBox->y() + grpBox->height() + 15, 195,
                              25);
@@ -272,11 +284,8 @@ void optionsDialog::setupTabData()
     line->setFrameStyle(QFrame::HLine | QFrame::Sunken);
     line->setGeometry(10, label->y() + label->height() + 15, 455, 2);
 
-    cbAutoTTDir =
-        new
-        QCheckBox(tr
-                  ("Choose digital turntable moving-direction automatically"),
-                  w, "");
+    cbAutoTTDir = new QCheckBox(tr("Choose digital turntable"
+                " moving-direction automatically"), w, "");
     cbAutoTTDir->move(10, line->y() + 12);
     cbAutoTTDir->resize(cbAutoTTDir->sizeHint());
 
@@ -291,15 +300,6 @@ void optionsDialog::setupTabData()
     line = new QFrame(w);
     line->setFrameStyle(QFrame::HLine | QFrame::Sunken);
     line->setGeometry(10, label->y() + label->height() + 15, 455, 2);
-
-    cbAutoZP9 = new QCheckBox(tr("Autostart voltage on layout"), w, "");
-    cbAutoZP9->move(10, line->y() + 13);
-    cbAutoZP9->resize(cbAutoZP9->sizeHint());
-
-    line = new QFrame(w);
-    line->setFrameStyle(QFrame::HLine | QFrame::Sunken);
-    line->setGeometry(10, cbAutoZP9->y() + cbAutoZP9->height() + 15, 455,
-                      2);
 
     label = new QLabel(tr("Routing delay per element (ms):"), w);
     label->setGeometry(10, line->y() + 15, 300, 20);
@@ -317,18 +317,12 @@ void optionsDialog::setupTabData()
     grpBox->setGeometry(10, line->y() + 35, 460, 60);
     grpBox->setFrameStyle(QFrame::NoFrame);
 
-    rbS88_16 =
-        new
-        QRadioButton(tr
-                     ("s88 (or compatible) with 16 ports per module (Märklin, Viessmann)"),
-                     grpBox);
+    rbS88_16 = new QRadioButton(tr("s88 (or compatible) with 16 ports"
+                " per module (Märklin, Viessmann)"), grpBox);
     rbS88_16->move(0, 10);
     rbS88_16->resize(rbS88_16->sizeHint());
-    rbS88_8 =
-        new
-        QRadioButton(tr
-                     ("s88 (or compatible) with  8 ports per module (EDiTS, Friberg)"),
-                     grpBox);
+    rbS88_8 = new QRadioButton(tr("s88 (or compatible) with 8 ports per"
+                " module (EDiTS, Friberg)"), grpBox);
     rbS88_8->move(0, 40);
     rbS88_8->resize(rbS88_8->sizeHint());
 
@@ -411,87 +405,17 @@ void optionsDialog::setupTabInterface()
     lePort->setGeometry(230, lServerIP->y() + 30, 150, 25);
     lePort->setMaxLength(5);
 
-    connect(lePort, SIGNAL(textChanged(const QString &)),
-            this, SLOT(slotPortChanged(const QString &)));
+    connect(lePort, SIGNAL(textChanged(const QString&)),
+            this, SLOT(slotPortChanged(const QString&)));
 
     /*new in qt3_17 */
     cbAutologin = new QCheckBox(tr("Server login on startup"), w, "");
     cbAutologin->move(31, lServerPort->y() + 34);
     cbAutologin->resize(cbAutologin->sizeHint());
 
-    line = new QFrame(w);
-    line->setFrameStyle(QFrame::HLine | QFrame::Sunken);
-    line->setGeometry(10, lePort->y() + lePort->height() + 15 + 30, 455,
-                      2);
-
-    label = new QLabel(tr("Interfaces connected at a serial port:"), w);
-    label->resize(label->sizeHint());
-    label->move(10, line->y() + 20);
-
-    rbEditsP = new QRadioButton("EDiTS Pro", grpBox);
-    rbEditsP->setGeometry(0, label->y() + 30, 300, 20);
-    rbEditsP->setEnabled(false);
-
-    rb6051 = new QRadioButton("Märklin Interface 6050/6051", grpBox);
-    rb6051->setGeometry(0, rbEditsP->y() + 30, 300, 20);
-    rb6051->setEnabled(false);
-
-    rbIntelli = new QRadioButton("Intellibox", grpBox);
-    rbIntelli->setGeometry(0, rb6051->y() + 30, 300, 20);
-    rbIntelli->setEnabled(false);
-
-
-    connect(grpBox, SIGNAL(clicked(int)),
-            this, SLOT(slotChangeServer(int)));
-
-    coboCom = new QComboBox(false, w);
-    coboCom->insertItem("Com 1");
-    coboCom->insertItem("Com 2");
-    coboCom->resize(80, 25);
-    coboCom->move(230, rbIntelli->y() + 40);
-    lCom = new QLabel(tr("Serial interface:"), w);
-    lCom->setGeometry(30, coboCom->y(), 200, 20);
-
-    coboBaud = new QComboBox(false, w);
-    coboBaud->insertItem("2400");
-    coboBaud->insertItem("4800");
-    coboBaud->insertItem("9600");
-    coboBaud->insertItem("19200");
-    coboBaud->resize(80, 25);
-    coboBaud->move(230, coboCom->y() + 30);
-    lBaud = new QLabel(tr("Baudrate:"), w);
-    lBaud->setGeometry(30, coboBaud->y(), 200, 20);
-
-    coboData = new QComboBox(false, w);
-    coboData->insertItem("6");
-    coboData->insertItem("7");
-    coboData->insertItem("8");
-    coboData->resize(80, 25);
-    coboData->move(230, coboBaud->y() + 30);
-    lData = new QLabel(tr("Databits:"), w);
-    lData->setGeometry(30, coboData->y(), 200, 20);
-
-    coboStop = new QComboBox(false, w);
-    coboStop->insertItem("0");
-    coboStop->insertItem("1");
-    coboStop->insertItem("2");
-    coboStop->resize(80, 25);
-    coboStop->move(230, coboData->y() + 30);
-    lStop = new QLabel(tr("Stopbits:"), w);
-    lStop->setGeometry(30, coboStop->y(), 200, 20);
-
-    coboPari = new QComboBox(false, w);
-    coboPari->insertItem("None");
-    coboPari->insertItem("Odd");
-    coboPari->insertItem("Even");
-    coboPari->resize(80, 25);
-    coboPari->move(230, coboStop->y() + 30);
-    lPari = new QLabel(tr("Parity:"), w);
-    lPari->setGeometry(30, coboPari->y(), 200, 20);
-// disabled until realisation for "normal" interfaces
-//rbEditsP->setEnabled(0);
-//rb6051->setEnabled(0);
-//rbIntelli->setEnabled(0);
+    cbAutoZP9 = new QCheckBox(tr("Autostart voltage on layout"), w, "");
+    cbAutoZP9->move(31, lServerPort->y() + 70);
+    cbAutoZP9->resize(cbAutoZP9->sizeHint());
 
     w->setFixedSize(500, TABHEIGHT);
     this->addTab(w, tr("&Server/Interface"));
@@ -545,44 +469,9 @@ void optionsDialog::slotProtChanged(int)
 }
 
 
-void optionsDialog::slotChangeServer(int iServerID_)
-{
-    // depending on which server/interface has been selected highlight
-    // the corresponding data fields
-    leHost->setEnabled(iServerID_ == 0);
-    lePort->setEnabled(iServerID_ == 0);
-    lServerIP->setEnabled(iServerID_ == 0);
-    lServerPort->setEnabled(iServerID_ == 0);
-    cbAutologin->setEnabled(iServerID_ == 0);
-
-    coboCom->setEnabled(iServerID_ > 0);
-    coboBaud->setEnabled(iServerID_ > 0);
-    coboData->setEnabled(iServerID_ > 0);
-    coboStop->setEnabled(iServerID_ > 0);
-    coboPari->setEnabled(iServerID_ > 0);
-    lCom->setEnabled(iServerID_ > 0);
-    lBaud->setEnabled(iServerID_ > 0);
-    lData->setEnabled(iServerID_ > 0);
-    lStop->setEnabled(iServerID_ > 0);
-    lPari->setEnabled(iServerID_ > 0);
-
-    if ((iSelectedServer == SRCP && iServerID_ != SRCP) ||
-        (iSelectedServer != SRCP && iServerID_ == SRCP))
-        QMessageBox::information(this,
-                                 tr("Server or interface changed"),
-                                 tr("You changed between SRCP server and\n"
-                                    "serial interface or vice versa.\n\n"
-                                    "Please restart this program after\n"
-                                    "accepting all changes with \"OK\"."),
-                                 tr("OK"), 0, 0, 0, 0);
-    // butt 1: Yes, butt 2-3: N/A.
-    // <ENTER> + <ESC> default to butt 0 = OK
-}
-
-
+// depending on feedback module type (16 or 8 port) set the spin box ranges
 void optionsDialog::slotLimitModules(int iType_)
 {
-    // depending on feedback module type (16 or 8 port) set the spin box ranges
     sbFBmod_1->setRange(0, 31 + iType_ * 31);
     sbFBmod_2->setRange(0, 31 + iType_ * 31);
     sbFBmod_3->setRange(0, 31 + iType_ * 31);
@@ -697,49 +586,17 @@ void optionsDialog::fillWithData()
 
     cbAutologin->setChecked(SERVERLOGIN);
     rbServer->setChecked(SERVER == SRCP);
-    rbEditsP->setChecked(SERVER == EDITS);
-    rb6051->setChecked(SERVER == MAERKIF);
-    rbIntelli->setChecked(SERVER == INTELLI);
     iSelectedServer = SERVER;   // save the server type from config file
-    if (SERVER > 0)             // only for serial interfaces
-    {
-        for (i = 0; i < coboCom->count(); i++)
-            if (coboCom->text(i) == COMX) {
-                coboCom->setCurrentItem(i);
-                break;
-            }
-        for (i = 0; i < coboBaud->count(); i++)
-            if (coboBaud->text(i) == BAUD) {
-                coboBaud->setCurrentItem(i);
-                break;
-            }
-        for (i = 0; i < coboStop->count(); i++)
-            if (coboStop->text(i) == STOPB) {
-                coboStop->setCurrentItem(i);
-                break;
-            }
-        for (i = 0; i < coboData->count(); i++)
-            if (coboData->text(i) == DATAB) {
-                coboData->setCurrentItem(i);
-                break;
-            }
-        for (i = 0; i < coboPari->count(); i++)
-            if (coboPari->text(i) == PARI) {
-                coboPari->setCurrentItem(i);
-                break;
-            }
-    }
-
-    slotChangeServer(SERVER);
 }
 
 
 void optionsDialog::done(int r)
 {
-    if (r == QDialog::Accepted) {       // user has clicked OK to accept changes
+    // user has clicked OK to accept changes
+    if (r == QDialog::Accepted) {
+        // something's wrong or missing, so don't leave this dialog
         if (checkForWarnings() == INVALID)
-            return;             // something's wrong or missing, so don't leave
-        // this dialog
+            return;
 
         // everything is okay, write config file and leave dialog
         QFile file(QDir::homeDirPath() + "/" + SPDRS60_INIT);
@@ -802,36 +659,17 @@ void optionsDialog::done(int r)
         if (rbServer->isChecked())
             ts << "server:         " << "SRCP" << endl;
 
-        else if (rbEditsP->isChecked())
-            ts << "interface:      " << "EditsPro" << endl;
-
-        else if (rb6051->isChecked())
-            ts << "interface:      " << "Märklin-6050/6051" << endl;
-
-        else if (rbIntelli->isChecked())
-            ts << "interface:      " << "Intellibox" << endl;
-
         ts << "hostname:       " << ((rbServer->isChecked() == 1) ?
                                      leHost->
                                      text() : (QString) "-1") << endl;
         ts << "port number:    " << ((rbServer->isChecked() == 1) ?
                                      lePort->
                                      text() : (QString) "-1") << endl;
-        ts << "comport:        " << ((rbServer->isChecked() == 1)
-                                     ? (QString) "-1" : coboCom->
-                                     currentText()) << endl;
-        ts << "baud:           " << ((rbServer->isChecked() == 1)
-                                     ? (QString) "-1" : coboBaud->
-                                     currentText()) << endl;
-        ts << "databits:       " << ((rbServer->isChecked() == 1)
-                                     ? (QString) "-1" : coboData->
-                                     currentText()) << endl;
-        ts << "stoppbits:      " << ((rbServer->isChecked() == 1)
-                                     ? (QString) "-1" : coboStop->
-                                     currentText()) << endl;
-        ts << "parity:         " << ((rbServer->isChecked() == 1)
-                                     ? (QString) "-1" : coboPari->
-                                     currentText()) << endl;
+        ts << "comport:        " << "-1" << endl;
+        ts << "baud:           " << "-1" << endl;
+        ts << "databits:       " << "-1" << endl;
+        ts << "stoppbits:      " << "-1" << endl;
+        ts << "parity:         " << "-1" << endl;
         ts << "autologin:      " << (int) cbAutologin->isChecked() << endl;
 
         file.close();
@@ -868,7 +706,8 @@ int optionsDialog::checkForWarnings()
         QMessageBox::warning(this,
                              tr("Turntable at lightspeed"),
                              tr("Please specify the total time\n"
-                                "that a turntable needs for a whole\n360° turn.\n"),
+                                "that a turntable needs for a whole\n"
+                                "360° turn.\n"),
                              tr("&OK"), 0, 0, 0, 0);
         // butt 1: OK, butt 2+3: not avail.
         // <ENTER> + <ESC> default to butt 0 = OK

@@ -1,10 +1,11 @@
 /***************************************************************************
                            options.h
-                           version 0.4.3 $Revision: 1.3 $
+                           version 0.4.3 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
+                         : (C) 2004-2006 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-05 13:04:19 $
+    last modified        : $Date: 2006-01-10 21:54:52 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -66,7 +67,6 @@ private slots:
    void slotGetAutofile();             // select a file to be auto-opened
    void slotAutoload(bool);            // activate autoload filename lineentry
    void slotDecoderChanged(int);       // selects new protocol if dec selected
-   void slotChangeServer(int);         // de/activate server dependant fields
    void slotProtChanged(int);          // selects new dec if protocol changed
    void slotLimitModules(int);         // limits no of fb moduls on each bus
    void slotPortChanged(const QString&);// check for valid port number entries
@@ -98,12 +98,10 @@ private:
    QRadioButton *rbSignalRed;          // init signals always red or as saved
    QRadioButton *rbSignalLay;
    QRadioButton *rbServer;             // SpDrS60 works with a SRCP server ...
-   QRadioButton *rbEditsP;             // ... or with EDiTS Pro
-   QRadioButton *rb6051;               // ... or with an original Märklin IF
-   QRadioButton *rbIntelli;            // ... or with Intellibox
 
    QSpinBox     *sbActiveTime;         // default activation time for solenoids
    QSpinBox     *sbDefaultCols;        // no of default new columns
+   QSpinBox     *sbDefaultRows;        // no of default new rows
    QSpinBox     *sbRoutingTime;        // default delay between to elements in
                                        // a route
    QSpinBox     *sbFBmod_1;            // no of fb mods on bus 1 ... 4
@@ -114,11 +112,6 @@ private:
    QComboBox    *coboEditor;           // name of file editor
    QComboBox    *coboDecoder;          // name of default decoder
    QComboBox    *coboBrowser;          // name of help browser
-   QComboBox    *coboCom;              // name of com interface
-   QComboBox    *coboBaud;             // baudrate for that serial IF
-   QComboBox    *coboData;             // no of databits
-   QComboBox    *coboStop;             // no of stopbits
-   QComboBox    *coboPari;             // type of parity
 
    QLineEdit    *leAutoload;           // name entry field for autoload file
    QLineEdit    *leHost;               // name of SRCP server
@@ -129,11 +122,6 @@ private:
    QLabel       *label;                // various text labels
    QLabel       *lServerIP;            // label for SRCP server name
    QLabel       *lServerPort;          // label for SRCP port number
-   QLabel       *lCom;                 // labels for serial IF specs
-   QLabel       *lBaud;
-   QLabel       *lData;
-   QLabel       *lStop;
-   QLabel       *lPari;
 
    QPushButton  *buttGetAutofile;      // button to select autoload file
    bool         bRepaintNecessary;     // save a necessary layout repaint
