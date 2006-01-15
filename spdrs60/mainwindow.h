@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.4.8 $Revision: 1.24 $
+                           version 0.4.8 $Revision: 1.25 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2006 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-03 22:00:55 $
+    last modified        : $Date: 2006-01-15 16:29:04 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -154,7 +154,8 @@ private:
    QString     fbHost;
    int         cmdPort;
    int         fbPort;
-   bool        cmdLogin;
+   bool        cmdAutoLogin;
+   bool        cmdAutoPower;
    bool        fbLogin;
    QSocket* CommandSocket;
    QSocket* FeedbackSocket;

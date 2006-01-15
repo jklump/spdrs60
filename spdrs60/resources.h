@@ -74,6 +74,8 @@
 
 #define   FB_16            0   // feedback types
 #define   FB_8             1
+#define   FB_I8255         2
+//define   FB_M6051         3
 
 #define   USAGE            1   // modes for digital turntable
 #define   PROG             0

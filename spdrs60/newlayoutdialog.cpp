@@ -1,11 +1,11 @@
 /***************************************************************************
                            newlayoutdialog.cpp
-                           version 0.4.8 $Revision: 1.3 $
+                           version 0.4.8 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2006 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-10 21:54:52 $
+    last modified        : $Date: 2006-01-15 16:29:04 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -21,71 +21,109 @@
    this code provides an user interface to enter the number of new columns
  ***************************************************************************/
 
+#include <qbuttongroup.h>
 #include <qgroupbox.h>
 #include <qhbox.h>
 #include <qlayout.h>
+#include <qvalidator.h>
 
 #include "newlayoutdialog.h"
 
 extern bool SHOW_TOOLTIPS;
-extern int DEF_COLS;
-extern int DEF_ROWS;
 
 
 newLayoutDialog::newLayoutDialog(QWidget* parent)
 : QDialog(parent, "newLayoutDialog", true)
 {
     setCaption(tr("Create new layout"));
-    QVBoxLayout* newlayoutDlgLayout = new QVBoxLayout(this, 10, 6);
+    QVBoxLayout* baseLayout = new QVBoxLayout(this, 10, 6);
 
+    // layout dimensions group box
     QGroupBox* dimensionsGB = new QGroupBox(0, Horizontal,
             tr("Layout dimensions"), this, "dimensionsGB");
-    newlayoutDlgLayout->addWidget(dimensionsGB);
+    baseLayout->addWidget(dimensionsGB);
+    QVBoxLayout* boxL = new QVBoxLayout(dimensionsGB->layout(), 6);
 
-    QVBoxLayout* box = new QVBoxLayout(dimensionsGB->layout(), 6);
-    
-    QHBoxLayout* columnsLayout = new QHBoxLayout(box);
-
-    QLabel* columnsLabel = new QLabel(tr("&Columns:"), dimensionsGB);
-    columnsLayout->addWidget(columnsLabel);
-    
+    //line with column number
+    QHBoxLayout* columnsLayout = new QHBoxLayout(boxL);
+    QLabel* label = new QLabel(tr("&Columns:"), dimensionsGB);
+    columnsLayout->addWidget(label);
     QSpacerItem* spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
     columnsLayout->addItem(spacer);
-    
     sbEnterCols = new QSpinBox(MIN_COLS, MAX_COLS, 1, dimensionsGB,
             "sbEnterCols");
     columnsLayout->addWidget(sbEnterCols);
-    sbEnterCols->setValue(DEF_COLS);
-    //sbEnterCols->setFocus();
+    label->setBuddy(sbEnterCols);
     sbEnterCols->setWrapping(true);     // enables to spin "over" the limits
     if (SHOW_TOOLTIPS)
         QToolTip::add(sbEnterCols, tr("Choose or enter the number of\n"
                                       "columns for an empty layout"));
 
-    columnsLabel->setBuddy(sbEnterCols);
-
-
-    QHBoxLayout* rowsLayout = new QHBoxLayout(box);
-
-    QLabel* rowsLabel = new QLabel(tr("&Rows:"), dimensionsGB);
-    rowsLayout->addWidget(rowsLabel);
-    
+    //line with row number
+    QHBoxLayout* rowsLayout = new QHBoxLayout(boxL);
+    label = new QLabel(tr("&Rows:"), dimensionsGB);
+    rowsLayout->addWidget(label);
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
     rowsLayout->addItem(spacer);
-    
     sbEnterRows = new QSpinBox(MIN_ROWS, MAX_ROWS, 1, dimensionsGB,
             "sbEnterCols");
     rowsLayout->addWidget(sbEnterRows);
-    sbEnterRows->setValue(DEF_ROWS);
+    label->setBuddy(sbEnterRows);
     sbEnterRows->setWrapping(true);     // enables to spin "over" the limits
     if (SHOW_TOOLTIPS)
         QToolTip::add(sbEnterRows, tr("Choose or enter the number of\n"
                                       "rows for an empty layout"));
 
-    rowsLabel->setBuddy(sbEnterRows);
+    // server group box
+    QGroupBox *serverGB = new QGroupBox(0, Horizontal, "SRCP-Server",
+            this, "serverGB");
+    baseLayout->addWidget(serverGB);
+    QVBoxLayout* serverGBL = new QVBoxLayout(serverGB->layout(), 6);
 
+    // line with host name
+    QHBoxLayout* hostL = new QHBoxLayout(serverGBL);
+    label = new QLabel(tr("&Hostname:"), serverGB);
+    hostL->addWidget(label);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    hostL->addItem(spacer);
+    hostLE = new QLineEdit(serverGB, "host");
+    hostL->addWidget(hostLE);
+    hostLE->setMaximumWidth(100);
+    label->setBuddy(hostLE);
+
+    // line with port number
+    QHBoxLayout* portL = new QHBoxLayout(serverGBL);
+    label = new QLabel(tr("&Portnumber:"), serverGB);
+    portL->addWidget(label);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    portL->addItem(spacer);
+
+    portLE = new QLineEdit(serverGB, "port");
+    portL->addWidget(portLE);
+    portLE->setMaximumWidth(100);
+    label->setBuddy(portLE);
+    portLE->setMaxLength(5);
+    QValidator* portValidator = new QIntValidator(10000, 65535, serverGB);
+    portLE->setValidator(portValidator);
+
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    serverGBL->addItem(spacer);
+
+    // start options group box
+    QButtonGroup *startBG = new QButtonGroup(2, Vertical,
+            "Start options", this);
+    baseLayout->addWidget(startBG);
+    autologinCB = new QCheckBox(tr("&Server login on startup"),
+            startBG, "autologinCB");
+    autopowerCB = new QCheckBox(tr("&Autostart voltage on layout"),
+            startBG, "autopowerCB");
+
+    // line with OK/Cancel buttons
     QHBoxLayout* buttonLayout = new QHBoxLayout(0, 0, 6);
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -100,7 +138,7 @@ newLayoutDialog::newLayoutDialog(QWidget* parent)
     buttonLayout->addWidget(buttCancel);
     connect(buttCancel, SIGNAL(clicked()), this, SLOT(reject()));
 
-    newlayoutDlgLayout->addLayout(buttonLayout);
+    baseLayout->addLayout(buttonLayout);
 }
 
 
@@ -118,7 +156,6 @@ int newLayoutDialog::getRows()
 
 void newLayoutDialog::setColumns(int cols)
 {
-    setCaption(tr("Change layout size"));
     sbEnterCols->setValue(cols);
 }
 
@@ -127,3 +164,58 @@ void newLayoutDialog::setRows(int rows)
 {
     sbEnterRows->setValue(rows);
 }
+
+
+QString newLayoutDialog::getHost()
+{ 
+    if (hostLE->text().isEmpty())
+        return "localhost"; //FIXME
+    else
+        return hostLE->text();
+}
+
+
+int newLayoutDialog::getPort()
+{
+    if (portLE->hasAcceptableInput())
+        return portLE->text().toInt();
+    else
+        return 12345;  //FIXME
+}
+
+
+void newLayoutDialog::setHost(const QString& host)
+{
+    hostLE->setText(host);
+}
+
+
+void newLayoutDialog::setPort(int port)
+{
+    portLE->setText(QString::number(port));
+}
+
+bool newLayoutDialog::getAutoLogin()
+{
+    return autologinCB->isChecked();
+    
+}
+
+
+bool newLayoutDialog::getAutoPower()
+{
+    return autopowerCB->isChecked();
+}
+
+
+void newLayoutDialog::setAutoLogin(bool login)
+{
+    autologinCB->setChecked(login);
+}
+
+
+void newLayoutDialog::setAutoPower(bool power)
+{
+    autopowerCB->setChecked(power);
+}
+

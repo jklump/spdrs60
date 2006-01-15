@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.h
-                           version 0.4.3 $Revision: 1.4 $
+                           version 0.4.3 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-10 21:54:52 $
+    last modified        : $Date: 2006-01-15 16:29:04 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -56,11 +56,11 @@ public:
    optionsDialog(QWidget* parent=0);
 
 private:
-   void setupTabLayout();              // creates the tab with layout specs
-   void setupTabData();                // creates the tab with data specs
-   void setupTabInterface();           // creates the tab with interface specs
+   void setupElementTab();
+   void setupLayoutTab();              // creates the tab with layout specs
+   void setupDigitalTab();                // creates the tab with data specs
+   void setupFeedbackTab();                // creates the tab with data specs
    void fillWithData();                // fills all tabs with actual data
-   void readData();                    // reads data from init file
    int  checkForWarnings();            // check if any user entry is wrong
 
 private slots:
@@ -69,7 +69,6 @@ private slots:
    void slotDecoderChanged(int);       // selects new protocol if dec selected
    void slotProtChanged(int);          // selects new dec if protocol changed
    void slotLimitModules(int);         // limits no of fb moduls on each bus
-   void slotPortChanged(const QString&);// check for valid port number entries
    void slotSetRepaint();              // saves a necessary layout repaint
 
 signals:
@@ -85,19 +84,19 @@ private:
    QCheckBox    *cbGenBubble;          // show general bubble help
    QCheckBox    *cbDataBubble;         // show element data as bubblehelp
    QCheckBox    *cbAutoload;           // activate autoloader
-   QCheckBox    *cbAutoZP9;            // auto-start layout voltage
    QCheckBox    *cbAutoTTDir;          // auto-select turn dir of turntable
-   QCheckBox    *cbAutologin;          // auto-login to server on start
 
    QRadioButton *rbShowAddr;           // show element's address or full text
    QRadioButton *rbShowTxt;
    QRadioButton *rbS88_16;             // user has 16 or 8 port feedback mods
    QRadioButton *rbS88_8;
+   QRadioButton *rbI8255;
+   QRadioButton *fixedBusesRB;
+   QRadioButton *flexBusesRB;
    QRadioButton *rbProtMS;             // default protocol selector
    QRadioButton *rbProtNA;
    QRadioButton *rbSignalRed;          // init signals always red or as saved
    QRadioButton *rbSignalLay;
-   QRadioButton *rbServer;             // SpDrS60 works with a SRCP server ...
 
    QSpinBox     *sbActiveTime;         // default activation time for solenoids
    QSpinBox     *sbDefaultCols;        // no of default new columns
@@ -114,18 +113,14 @@ private:
    QComboBox    *coboBrowser;          // name of help browser
 
    QLineEdit    *leAutoload;           // name entry field for autoload file
-   QLineEdit    *leHost;               // name of SRCP server
-   QLineEdit    *lePort;               // port number to SRCP server
    QLineEdit    *leTTRoundTime;        // time for a whole turntable turn
-
-   QFrame       *line;                 // various separator lines
-   QLabel       *label;                // various text labels
-   QLabel       *lServerIP;            // label for SRCP server name
-   QLabel       *lServerPort;          // label for SRCP port number
+   QLineEdit*    bus1LE;
+   QLineEdit*    bus2LE;
+   QLineEdit*    bus3LE;
+   QLineEdit*    bus4LE;
 
    QPushButton  *buttGetAutofile;      // button to select autoload file
    bool         bRepaintNecessary;     // save a necessary layout repaint
-   int          iSelectedServer;       // button ID for server or interface
 };
 
 #endif    //OPTIONSDIALOG_H

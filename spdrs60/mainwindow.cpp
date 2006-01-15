@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.50 $
+                           version 0.4.8 $Revision: 1.51 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-07 21:20:08 $
+    last modified        : $Date: 2006-01-15 16:29:04 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -90,12 +90,10 @@ extern bool LOAD_DEF_LAYOUT;
 extern bool INIT_SIGNALS;
 extern bool SHOW_TXT_ADR;
 extern bool LOGGING;
-extern bool AUTO_ZP9;
 extern bool AUTO_TT_DIR;
-extern bool SERVERLOGIN;
-extern int SERVER;
 
 extern int DEF_COLS;
+extern int DEF_ROWS;
 extern int DEF_PROTOCOL;
 extern int ACTIVE_TIME;
 extern int ROUTING_TIME;
@@ -108,12 +106,6 @@ extern QString DEF_LAYOUT;
 extern QString EDITOR;
 extern QString BROWSER;
 extern QString DEF_DECODER;
-extern QString HOST;
-extern QString COMX;
-extern QString BAUD;
-extern QString DATAB;
-extern QString STOPB;
-extern QString PARI;
 
 
 
@@ -126,7 +118,8 @@ MainWindow::MainWindow()
     fbHost = "localhost";
     cmdPort = 12345;
     fbPort = 12346;
-    cmdLogin = false;
+    cmdAutoLogin = false;
+    cmdAutoPower = false;
     fbLogin = false;
     CommandPortIsConnected = false;
     FeedbackPortIsConnected = false;
@@ -146,11 +139,9 @@ MainWindow::MainWindow()
     initMainWindow();           // setup main window with all menus
     slotReadConfigFile();       // read user dependend config file
 
-    if (SERVER == SRCP) {
-        initAllSockets();       // init connection to daemon ...
-        if (SERVERLOGIN)
-            ConnectToSRCPServer();
-    }
+    initAllSockets();       // init connection to daemon ...
+    if (cmdAutoLogin)
+        ConnectToSRCPServer();
 
     /* autostart voltage on layout only when these conditions are true?
      * 1) option set in preferences
@@ -250,38 +241,25 @@ void MainWindow::slotReadConfigFile()
     ACTIVE_TIME = ts.readLine().remove(0, 16).toInt();
     AUTO_TT_DIR = ts.readLine().remove(0, 16).toInt();
     TT_ROUND_TIME = ts.readLine().remove(0, 16).toDouble();
-    AUTO_ZP9 = (ts.readLine().remove(0, 16) == "1");
+    s = ts.readLine();// autozp9
     ROUTING_TIME = ts.readLine().remove(0, 16).toInt();
     FEEDBACK = ts.readLine().remove(0, 16) == "S88_16" ? FB_16 : FB_8;
 
     for (i = 0; i < 4; i++)
         FB_MODULES_[i] = ts.readLine().remove(0, 16).toInt();
 
-    // interface section
-    for (i = 0; i < 3; i++)     // omit three section description lines
-        s = ts.readLine();
-
-    s = ts.readLine().remove(0, 16);
-    if (s == "SRCP")
-        SERVER = SRCP;
-    else if (s == "EditsPro")
-        SERVER = EDITS;
-    else if (s == "Märklin-6050/6051")
-        SERVER = MAERKIF;
-    else if (s == "Intellibox")
-        SERVER = INTELLI;
-
-    HOST = ts.readLine().remove(0, 16);
-    PORT = ts.readLine().remove(0, 16).toInt();
-    COMX = ts.readLine().remove(0, 16);
-    BAUD = ts.readLine().remove(0, 16);
-    DATAB = ts.readLine().remove(0, 16);
-    STOPB = ts.readLine().remove(0, 16);
-    PARI = ts.readLine().remove(0, 16);
-    /* old config files have here a closing "----..." */
-    SERVERLOGIN = ts.readLine().remove(0, 16).toInt();
-
     file.close();
+
+    // interface section ignored
+    //SRCP
+    //host
+    //port
+    //COMX
+    //BAUD
+    //DATAB
+    //STOPB
+    //PARI
+    //SERVERLOGIN
 }
 
 
@@ -1034,11 +1012,11 @@ void MainWindow::initMainWindow()
 
 #if QT_VERSION >= 0x030200
     actionLayoutChangeSize = new QAction(NULL,
-            tr("&Change size..."), 0, this, "layoutChangeSize" );
-    actionLayoutChangeSize->setToolTip(tr("Change layout size"));
+            tr("S&ettings..."), 0, this, "layoutChangeSettings" );
+    actionLayoutChangeSize->setToolTip(tr("Change layout settings"));
 #else
-    actionLayoutChangeSize = new QAction(tr("Change layout size"),
-            tr("&Change size..."), 0, this, "layoutChangeSize" );
+    actionLayoutChangeSize = new QAction(tr("Change layout settings"),
+            tr("S&ettings..."), 0, this, "layoutChangeSettings" );
 #endif
     connect(actionLayoutChangeSize, SIGNAL(activated()), this,
             SLOT(layoutChangeSize()));
@@ -1353,12 +1331,23 @@ void MainWindow::newFile()
     // show a dialog where the user can put in layout dimensions
     newLayoutDialog* nlDlg = new newLayoutDialog(this);
 
+    nlDlg->setColumns(DEF_COLS);
+    nlDlg->setRows(DEF_ROWS);
+    nlDlg->setHost(cmdHost);
+    nlDlg->setPort(cmdPort);
+    nlDlg->setAutoLogin(cmdAutoLogin);
+    nlDlg->setAutoPower(cmdAutoPower);
+    
     if (nlDlg->exec() != QDialog::Accepted) {
         delete nlDlg;
         return;
     }
     int iNewCols = nlDlg->getColumns();
     int iNewRows = nlDlg->getRows();
+    cmdHost = nlDlg->getHost();
+    cmdPort = nlDlg->getPort();
+    cmdAutoLogin = nlDlg->getAutoLogin();
+    cmdAutoPower = nlDlg->getAutoPower();
     delete nlDlg;
     
     fileName = "";
@@ -1432,7 +1421,7 @@ bool MainWindow::saveFile()
        << "# last modified=" << dt.toString(Qt::ISODate) << endl
        << GF_FORMATVERSION << DS << GF_FV << endl
        << GF_CMDHOST << DS << cmdHost << DS << cmdPort <<
-                        DS << cmdLogin << endl
+                        DS << cmdAutoLogin <<DS << cmdAutoPower << endl
        << GF_FBHOST << DS << fbHost << DS << fbPort << DS << fbLogin <<
        endl;
 
@@ -1579,11 +1568,17 @@ void MainWindow::openFile(const QString& fn)
                 cmdHost = value;
                 value = s.section(DS, 2, 2).stripWhiteSpace();
                 cmdPort = value.toInt();
+                value = s.section(DS, 3, 3).stripWhiteSpace();
+                cmdAutoLogin = value.toInt() == 1;
+                value = s.section(DS, 4, 4).stripWhiteSpace();
+                cmdAutoPower = value.toInt() == 1;
             }
             else if (key.compare(GF_FBHOST) == 0){
                 fbHost = value;
                 value = s.section(DS, 2, 2).stripWhiteSpace();
                 fbPort = value.toInt();
+                value = s.section(DS, 3, 3).stripWhiteSpace();
+                fbLogin = value.toInt() == 1;
             }
             else if (s.startsWith("%% layout"))
                 break;
@@ -1684,7 +1679,7 @@ void MainWindow::initAllSockets()
 
 void MainWindow::CommandSocketHostFound()
 {
-    cmdToDebug(tr("Command port: Host '%1' found.").arg(HOST), MT_INFO,
+    cmdToDebug(tr("Command port: Host '%1' found.").arg(cmdHost), MT_INFO,
             HL_CMND);
 }
 
@@ -1753,8 +1748,8 @@ void MainWindow::CommandSocketReadyRead()
                 updateLayoutPowerAction();
             }
             else {
-                if (AUTO_ZP9) {
-                    LayoutPowerIsOn = !AUTO_ZP9;
+                if (cmdAutoPower) {
+                    LayoutPowerIsOn = !cmdAutoPower;
                     slotToggleLayoutPower();
                 }
             }
@@ -1868,7 +1863,7 @@ void MainWindow::CommandSocketReadyRead()
                     SRCPCommandState = srcp08InitFBBusses;
                     if (!gbs->sendSRCP08BusMessage(
                                 SrcpMessage::msgPowerInit)){
-                        if (AUTO_ZP9){
+                        if (cmdAutoPower){
                             SRCPCommandState = srcp08GetBusPower;
                             if (!gbs->sendSRCP08BusMessage(
                                         SrcpMessage::msgPowerGet)){
@@ -1894,7 +1889,7 @@ void MainWindow::CommandSocketReadyRead()
             if (!gbs->runSRCP08GAInitSequence()){
                 SRCPCommandState = srcp08InitFBBusses;
                 if (!gbs->sendSRCP08BusMessage(SrcpMessage::msgPowerInit)){
-		    if (AUTO_ZP9){
+		    if (cmdAutoPower){
                         SRCPCommandState = srcp08GetBusPower;
 			if (!gbs->sendSRCP08BusMessage(
                                     SrcpMessage::msgPowerGet)){
@@ -1915,7 +1910,7 @@ void MainWindow::CommandSocketReadyRead()
 	     * keep SRCPCommandState while initialization is not finished
 	     */
              if (!gbs->sendSRCP08BusMessage(SrcpMessage::msgPowerInit))
-		if (AUTO_ZP9){
+		if (cmdAutoPower){
                     SRCPCommandState = srcp08GetBusPower;
 		    if (!gbs->sendSRCP08BusMessage(
                                 SrcpMessage::msgPowerGet)){
@@ -2384,13 +2379,13 @@ bool MainWindow::isValidSRCP08Version(const QString& SRCPVerStr)
 void MainWindow::ConnectCommandPort()
 {
     SRCPCommandState = srcpLogin;
-    CommandSocket->connectToHost(HOST, PORT);   /*e.g.: 12345 */
+    CommandSocket->connectToHost(cmdHost, cmdPort);   /*e.g.: 12345 */
 }
 
 
 void MainWindow::ConnectFeedbackPort()
 {
-    FeedbackSocket->connectToHost(HOST, PORT + 1);      /*e.g.: 12346 */
+    FeedbackSocket->connectToHost(cmdHost, cmdPort + 1);      /*e.g.: 12346 */
 }
 
 
@@ -2403,10 +2398,10 @@ void MainWindow::ConnectInfoPort()
      * command channel, but other login type
      */
     if (srcpVersion == 7)
-        InfoSocket->connectToHost(HOST, PORT + 2);
+        InfoSocket->connectToHost(cmdHost, cmdPort + 2);
     else {
         SRCPInfoState = srcpLogin;
-        InfoSocket->connectToHost(HOST, PORT);
+        InfoSocket->connectToHost(cmdHost, cmdPort);
     }
 }
 
@@ -2940,17 +2935,26 @@ void MainWindow::layoutUpdateFB()
 void MainWindow::layoutChangeSize()
 {
     newLayoutDialog* nlDlg = new newLayoutDialog(this);
+    if (nlDlg == NULL)
+        return;
 
+    nlDlg->setCaption(tr("Change layout settings"));
     nlDlg->setColumns(gbs->getColumns());
     nlDlg->setRows(gbs->getRows());
+    nlDlg->setHost(cmdHost);
+    nlDlg->setPort(cmdPort);
+    nlDlg->setAutoLogin(cmdAutoLogin);
+    nlDlg->setAutoPower(cmdAutoPower);
     
     if (nlDlg->exec() == QDialog::Accepted) {
         int iNewCols = nlDlg->getColumns();
         int iNewRows = nlDlg->getRows();
-        //TODO:
-        //QString cmdHost = nlDlg->getHost();
-        //int cmdPort = nlDlg->getPort();
         gbs->setLayoutSize(iNewCols, iNewRows);
+        cmdHost = nlDlg->getHost();
+        cmdPort = nlDlg->getPort();
+        cmdAutoLogin = nlDlg->getAutoLogin();
+        cmdAutoPower = nlDlg->getAutoPower();
+        //TODO:
         //srcpCom->setCmdHost(cmdHost, cmdPort);
     }
     delete nlDlg;

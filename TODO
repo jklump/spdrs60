@@ -1,4 +1,3 @@
 * Translation of online documentation to english.
 * Rewrite all dialogs to use layout management
 * Rewrite dialog code to use OO-methods for variable access
-* Port to SRCP 0.8
