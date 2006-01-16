@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.cpp
-                           version 0.4.8 $Revision: 1.9 $
+                           version 0.4.8 $Revision: 1.10 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-15 16:29:04 $
+    last modified        : $Date: 2006-01-16 14:51:32 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -168,7 +168,7 @@ void optionsDialog::setupLayoutTab()
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
     chooseLayout->addItem(spacer);
-    buttGetAutofile = new QPushButton("C&hoose...", autolayoutGB,
+    buttGetAutofile = new QPushButton(tr("C&hoose..."), autolayoutGB,
             "choosePB");
     chooseLayout->addWidget(buttGetAutofile);
     connect(buttGetAutofile, SIGNAL(clicked()),
@@ -183,7 +183,7 @@ void optionsDialog::setupLayoutTab()
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
     tabL->addItem(spacer);
-    addTab(w, "&Layout");
+    addTab(w, tr("&Layout"));
 }
 
 
@@ -233,7 +233,7 @@ void optionsDialog::setupElementTab()
     QSpacerItem* spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
     tabL->addItem(spacer);
-    addTab(w, "&Elements");
+    addTab(w, tr("&Elements"));
 }
 
 
@@ -245,7 +245,7 @@ void optionsDialog::setupDigitalTab()
     
     // protocol groupbox
     QButtonGroup *protocolBG = new QButtonGroup(2, Vertical,
-            "Default protocol", w);
+            tr("Default protocol"), w);
     tabL->addWidget(protocolBG);
     rbProtMS = new QRadioButton("Märklin/M&otorola", protocolBG);
     rbProtNA = new QRadioButton("&NMRA/DCC", protocolBG);
@@ -359,18 +359,18 @@ void optionsDialog::setupFeedbackTab()
     
     // feedback module groupbox
     QButtonGroup* grpBox = new QButtonGroup(3, Vertical,
-            "Feedback type", tab);
+            tr("Feedback type"), tab);
 
     rbS88_16 = new QRadioButton(tr("s88 with 1&6 inputs per module"), grpBox);
     rbS88_8 = new QRadioButton(tr("s88 with &8 inputs per module"), grpBox);
-    rbI8255 = new QRadioButton(tr("i8255 IO-Ca&rd"), grpBox);
+    //rbI8255 = new QRadioButton(tr("i8255 IO-Ca&rd"), grpBox);
 
     connect(grpBox, SIGNAL(clicked(int)),
             this, SLOT(slotLimitModules(int)));
 
     // bus numbering groupbox
     QButtonGroup* busnoGB = new QButtonGroup(2, Vertical,
-            "Feedback bus numbering", tab);
+            tr("Feedback bus numbering"), tab);
 
     fixedBusesRB = new QRadioButton(tr("Fi&xed "
                 "(SRCP 0.7)"), busnoGB);
@@ -385,7 +385,7 @@ void optionsDialog::setupFeedbackTab()
     // * SRCP 0.8 -> number is variable
 
     QGroupBox* busGB = new QGroupBox(0, Vertical,
-            tr("Modules per feedback bus"), tab, "busGB");
+            tr("Connected modules per feedback bus"), tab, "busGB");
     QHBoxLayout* busGBL = new QHBoxLayout(busGB->layout(), 6);
 
 

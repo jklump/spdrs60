@@ -523,10 +523,6 @@ und sonstige Kommentare an:
         <translation>S&amp;chließen</translation>
     </message>
     <message>
-        <source>&amp;Change size...</source>
-        <translation>&amp;Größe ändern...</translation>
-    </message>
-    <message>
         <source>The selected autoload file &apos;%1&apos;
 does not exist. Please adjust your options.</source>
         <translation>Die zum automatischen Laden gewählte Datei &apos;%1&apos;
@@ -707,10 +703,6 @@ Wollen Sie sie überschreiben?</translation>
         <translation>Aktuellen Status aller Magnetartikel an SRCP-Server senden</translation>
     </message>
     <message>
-        <source>Change layout size</source>
-        <translation>Gleisbildgröße ändern</translation>
-    </message>
-    <message>
         <source>Route operations</source>
         <translation>Fahrstraßen-Bedienung</translation>
     </message>
@@ -813,6 +805,14 @@ Wollen Sie sie überschreiben?</translation>
     <message>
         <source>SRCP: %1 ===&gt; FAILED; spdrs60 requires SRCP &gt;= 0.7.0 and &lt; 0.9.0</source>
         <translation>SRCP: %1 ===&gt; FEHLER, spdrs60 benötigt SRCP &gt;= 0.7.0 und &lt; 0.9.0</translation>
+    </message>
+    <message>
+        <source>S&amp;ettings...</source>
+        <translation>&amp;Einstellungen...</translation>
+    </message>
+    <message>
+        <source>Change layout settings</source>
+        <translation>Gleisbildeinstellungen ändern</translation>
     </message>
 </context>
 <context>
@@ -1154,21 +1154,6 @@ Wollen Sie sie überschreiben?</translation>
     <message>
         <source>Routings</source>
         <translation>Fahrstraßen</translation>
-    </message>
-</context>
-<context>
-    <name>Srcp</name>
-    <message>
-        <source>connection refused</source>
-        <translation>Verbindung abgelehnt</translation>
-    </message>
-    <message>
-        <source>host not found</source>
-        <translation>Host nicht gefunden</translation>
-    </message>
-    <message>
-        <source>socket read error</source>
-        <translation>Socket-Lesefehler</translation>
     </message>
 </context>
 <context>
@@ -1543,172 +1528,28 @@ das neue Gleisbild eingeben</translation>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <source>Change layout size</source>
-        <translation>Gleisbildgröße ändern</translation>
+        <source>&amp;Hostname:</source>
+        <translation>&amp;Hostname:</translation>
+    </message>
+    <message>
+        <source>&amp;Portnumber:</source>
+        <translation>&amp;Portnummer:</translation>
+    </message>
+    <message>
+        <source>&amp;Server login on startup</source>
+        <translation>Automatisch mit Server &amp;verbinden</translation>
+    </message>
+    <message>
+        <source>&amp;Autostart voltage on layout</source>
+        <translation>Spannung &amp;automatisch aktivieren</translation>
+    </message>
+    <message>
+        <source>Start options</source>
+        <translation>Programmstart</translation>
     </message>
 </context>
 <context>
     <name>optionsDialog</name>
-    <message>
-        <source>Preferences</source>
-        <translation>Einstellungen</translation>
-    </message>
-    <message>
-        <source>Show orange light for signals switched to Hp2</source>
-        <translation>Orangefarbenes Licht für Hp2-Signale anzeigen</translation>
-    </message>
-    <message>
-        <source>Show general bubblehelp (e.g. for buttons; a change needs program restart)</source>
-        <translation>Allgemeine Tooltip-Hilfe (z.B. für Schalter; benötigt Programmneustart)</translation>
-    </message>
-    <message>
-        <source>Show elements&apos; data bubblehelp</source>
-        <translation>Tooltip-Hilfe für Elemente anzeigen</translation>
-    </message>
-    <message>
-        <source>Solenoids&apos; text fields show:</source>
-        <translation>Beschriftung im Gleisbild für Magnetartikel:</translation>
-    </message>
-    <message>
-        <source>address (e.g. decoder address)</source>
-        <translation>Adresse (z.B. Dekoderadresse)</translation>
-    </message>
-    <message>
-        <source>text (e.g. turnout or signal name)</source>
-        <translation>Text (z.B. Weichen- oder Signalname)</translation>
-    </message>
-    <message>
-        <source>Initialize signals on startup:</source>
-        <translation>Signalinitialisierung:</translation>
-    </message>
-    <message>
-        <source>always on Halt (Hp0/Hp00/Sh0)</source>
-        <translation>Immer auf Halt (Hp0/Hp00/Sh0)</translation>
-    </message>
-    <message>
-        <source>as saved from previous session</source>
-        <translation>Wie von der letzten Sitzung gespeichert</translation>
-    </message>
-    <message>
-        <source>Default new columns for empty layout:</source>
-        <translation>Anzahl Spalten für neues Gleisbild:</translation>
-    </message>
-    <message>
-        <source>Editor for layout and preferences files:</source>
-        <translation>Editor für Gleisbild- und Konfigurationsdateien:</translation>
-    </message>
-    <message>
-        <source>Browser for documentation:</source>
-        <translation>Browser für die Dokumentation:</translation>
-    </message>
-    <message>
-        <source>Autoload this layout on startup:</source>
-        <translation>Beim Start automatisch laden:</translation>
-    </message>
-    <message>
-        <source>Default protocol:</source>
-        <translation>Standard-Protokoll:</translation>
-    </message>
-    <message>
-        <source>Default solenoid decoder:</source>
-        <translation>Standard Magnetartikel Dekoder:</translation>
-    </message>
-    <message>
-        <source>Default activation time (ms):</source>
-        <translation>Voreingestellte Aktivierungszeit (ms):</translation>
-    </message>
-    <message>
-        <source>Choose digital turntable moving-direction automatically</source>
-        <translation>Drehrichtung der digitalen Drehscheibe automatisch wählen</translation>
-    </message>
-    <message>
-        <source>Time for a 360&#xb0; turn of turntable (s.ms):</source>
-        <translation>Zeit für eine 360° Drehung (s.ms):</translation>
-    </message>
-    <message>
-        <source>Autostart voltage on layout</source>
-        <translation>Spannung automatisch aktivieren</translation>
-    </message>
-    <message>
-        <source>Routing delay per element (ms):</source>
-        <translation>Schaltverzögerung pro Element (ms):</translation>
-    </message>
-    <message>
-        <source>s88 (or compatible) with 16 ports per module (M&#xe4;rklin, Viessmann)</source>
-        <translation>s88 (o. kompatibel) mit 16 Eingängen pro Modul (Märklin, Viessmann)</translation>
-    </message>
-    <message>
-        <source>s88 (or compatible) with  8 ports per module (EDiTS, Friberg)</source>
-        <translation>s88 (oder kompatibel) mit 8 Eingängen pro Modul (EDiTS, Friberg)</translation>
-    </message>
-    <message>
-        <source>Feedback type:</source>
-        <translation>Rückmeldetyp:</translation>
-    </message>
-    <message>
-        <source>Number of s88-modules on bus:</source>
-        <translation>Anzahl der s88-Module am Bus:</translation>
-    </message>
-    <message>
-        <source>Server connected via TCP/IP:</source>
-        <translation>Über TCP/IP verbundener Server:</translation>
-    </message>
-    <message>
-        <source>SRCP-Server (DDL, m6051d)</source>
-        <translation>SRCP-Server (erddcd, srcpd)</translation>
-    </message>
-    <message>
-        <source>Hostname (IP or DNS):</source>
-        <translation>Hostname (IP oder DNS):</translation>
-    </message>
-    <message>
-        <source>Portnumber (10000-65535):</source>
-        <translation>Portnummer (10000-65535):</translation>
-    </message>
-    <message>
-        <source>Interfaces connected at a serial port:</source>
-        <translation>Interface an der seriellen Schnittstelle:</translation>
-    </message>
-    <message>
-        <source>Serial interface:</source>
-        <translation>Serielle Schnittstelle:</translation>
-    </message>
-    <message>
-        <source>Baudrate:</source>
-        <translation>Baudrate:</translation>
-    </message>
-    <message>
-        <source>Databits:</source>
-        <translation>Datenbits:</translation>
-    </message>
-    <message>
-        <source>Stopbits:</source>
-        <translation>Stopbits:</translation>
-    </message>
-    <message>
-        <source>Parity:</source>
-        <translation>Parität:</translation>
-    </message>
-    <message>
-        <source>&amp;Server/Interface</source>
-        <translation>&amp;Server/Schnittstelle</translation>
-    </message>
-    <message>
-        <source>Server or interface changed</source>
-        <translation>Server oder Schnittstelle geändert</translation>
-    </message>
-    <message>
-        <source>You changed between SRCP server and
-serial interface or vice versa.
-
-Please restart this program after
-accepting all changes with &quot;OK&quot;.</source>
-        <translation>Sie haben zwischen SRCP-Server und
-seriellem Interface gewechselt.
-
-Bitte starten Sie dieses Programm neu, nachdem
-Sie alle Änderungen mit &quot;OK&quot; bestätigt haben.</translation>
-    </message>
     <message>
         <source>&amp;Yes</source>
         <translation>&amp;Ja</translation>
@@ -1742,22 +1583,6 @@ Drehscheibe für eine volle Umdrehung
 (360°) benötigt.</translation>
     </message>
     <message>
-        <source>Hostname missing</source>
-        <translation>Hostname fehlt</translation>
-    </message>
-    <message>
-        <source>Port number missing</source>
-        <translation>Portnummer fehlt</translation>
-    </message>
-    <message>
-        <source>You have selected a SRCP server,
-so you must enter a valid port number, too
-(Value between 10000 and 65535).</source>
-        <translation>Sie haben einen SRCP-Server gewählt; dann
-müssen Sie auch eine gültige Port-Adresse
-(Wert zwischen 10000 und 65535) eingeben.</translation>
-    </message>
-    <message>
         <source>Feedback modules missing</source>
         <translation>Rückmeldemodule fehlen</translation>
     </message>
@@ -1778,39 +1603,6 @@ Es wird angenommen, dass mindestens
 ein Modul an Bus Nr. 1 angeschlossen ist.</translation>
     </message>
     <message>
-        <source>You have selected a SRCP server,
-so you must enter a hostname
-(DNS name or IP address) too.
-</source>
-        <translation>Sie haben einen SRCP-Server gewählt; dann
-müssen Sie auch dessen Hostnamen
-(DNS-Name oder IP-Adresse) eingeben.</translation>
-    </message>
-    <message>
-        <source>#1</source>
-        <translation>Nr. 1</translation>
-    </message>
-    <message>
-        <source>#2</source>
-        <translation>Nr. 2</translation>
-    </message>
-    <message>
-        <source>#3</source>
-        <translation>Nr. 3</translation>
-    </message>
-    <message>
-        <source>#4</source>
-        <translation>Nr. 4</translation>
-    </message>
-    <message>
-        <source>Server login on startup</source>
-        <translation>Beim Programmstart automatisch mit Server verbinden</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
         <source>Layouts</source>
         <translation>Gleisbilder</translation>
     </message>
@@ -1821,6 +1613,174 @@ müssen Sie auch dessen Hostnamen
     <message>
         <source>Writing SpDrS60 configuration file: ~/%1</source>
         <translation>Schreibe SpDrS60-Konfigurationsdatei: ~/%1</translation>
+    </message>
+    <message>
+        <source>User preferences</source>
+        <translation>Benutzereinstellungen</translation>
+    </message>
+    <message>
+        <source>Default dimensions for new layouts</source>
+        <translation>Abmessungen neuer Gleisbilder</translation>
+    </message>
+    <message>
+        <source>&amp;Columns:</source>
+        <translation>&amp;Spalten:</translation>
+    </message>
+    <message>
+        <source>&amp;Rows:</source>
+        <translation>&amp;Zeilen:</translation>
+    </message>
+    <message>
+        <source>External programms</source>
+        <translation>Externe Programme</translation>
+    </message>
+    <message>
+        <source>&amp;Editor for layout and preferences files:</source>
+        <translation>&amp;Editor für Programmdateien:</translation>
+    </message>
+    <message>
+        <source>&amp;Browser for documentation:</source>
+        <translation>&amp;Browser für die Dokumentation:</translation>
+    </message>
+    <message>
+        <source>Autoload layout</source>
+        <translation>Gleisbild automatisch laden</translation>
+    </message>
+    <message>
+        <source>Autoload this la&amp;yout on startup:</source>
+        <translation>Gleisbild beim &amp;Programmstart laden:</translation>
+    </message>
+    <message>
+        <source>General options</source>
+        <translation>Allgemeine Einstellungen</translation>
+    </message>
+    <message>
+        <source>Show &amp;orange light for signals switched to Hp2</source>
+        <translation>&amp;Orangefarbenes Licht für Hp2-Signale anzeigen</translation>
+    </message>
+    <message>
+        <source>Show &amp;general bubblehelp (change needs program restart)</source>
+        <translation>Allgemeine &amp;Tooltip-Hilfe (benötigt Programmneustart)</translation>
+    </message>
+    <message>
+        <source>Show bubblehelp for element &amp;data</source>
+        <translation>Tooltip-Hilfe für &amp;Elementdaten</translation>
+    </message>
+    <message>
+        <source>Solenoid labeling</source>
+        <translation>Magnetartikelbeschriftung</translation>
+    </message>
+    <message>
+        <source>Show decoder &amp;address</source>
+        <translation>Decoder&amp;adresse anzeigen</translation>
+    </message>
+    <message>
+        <source>Show &amp;text (turnout or signal name)</source>
+        <translation>Te&amp;xt anzeigen (Weichen- oder Signalname)</translation>
+    </message>
+    <message>
+        <source>Initialize signals on startup</source>
+        <translation>Signalinitialisierung</translation>
+    </message>
+    <message>
+        <source>A&amp;lways on Halt (Hp0/Hp00/Sh0)</source>
+        <translation>Immer auf &amp;Halt (Hp0/Hp00/Sh0)</translation>
+    </message>
+    <message>
+        <source>As &amp;saved from previous session</source>
+        <translation>Wie von der letzten &amp;Sitzung gespeichert</translation>
+    </message>
+    <message>
+        <source>Solenoid defaults</source>
+        <translation>Magnetartikelvoreinstellungen</translation>
+    </message>
+    <message>
+        <source>Default de&amp;coder:</source>
+        <translation>Standardde&amp;coder:</translation>
+    </message>
+    <message>
+        <source>Default &amp;activation time (ms):</source>
+        <translation>&amp;Aktivierungszeit (ms):</translation>
+    </message>
+    <message>
+        <source>Routing &amp;delay per element (ms):</source>
+        <translation>&amp;Schaltverzögerung pro Element (ms):</translation>
+    </message>
+    <message>
+        <source>Turntable defaults</source>
+        <translation>Drehscheibe</translation>
+    </message>
+    <message>
+        <source>Choose digital &amp;turntable moving-direction automatically</source>
+        <translation>&amp;Drehrichtung automatisch wählen</translation>
+    </message>
+    <message>
+        <source>T&amp;ime for a 360&#xb0; turn of turntable (s.ms):</source>
+        <translation>&amp;Zeit für eine 360° Drehung (s.ms):</translation>
+    </message>
+    <message>
+        <source>s88 with 1&amp;6 inputs per module</source>
+        <translation>s88 mit 1&amp;6 Eingängen pro Modul</translation>
+    </message>
+    <message>
+        <source>s88 with &amp;8 inputs per module</source>
+        <translation>s88 mit &amp;8 Eingängen pro Modul</translation>
+    </message>
+    <message>
+        <source>i8255 IO-Ca&amp;rd</source>
+        <translation>i8255 IO-&amp;Karte</translation>
+    </message>
+    <message>
+        <source>Fi&amp;xed (SRCP 0.7)</source>
+        <translation>Fe&amp;ste Zuordnung (SRCP 0.7)</translation>
+    </message>
+    <message>
+        <source>F&amp;lexible (SRCP 0.8)</source>
+        <translation>Fle&amp;xible Zuordnung (SRCP 0.8)</translation>
+    </message>
+    <message>
+        <source>Modules per feedback bus</source>
+        <translation type="obsolete">Module pro Rückmeldebus</translation>
+    </message>
+    <message>
+        <source>&amp;Bus:</source>
+        <translation>&amp;Bus:</translation>
+    </message>
+    <message>
+        <source>&amp;Modules:</source>
+        <translation>&amp;Module:</translation>
+    </message>
+    <message>
+        <source>&amp;Feedback</source>
+        <translation>&amp;Rückmeldungen</translation>
+    </message>
+    <message>
+        <source>&amp;Layout</source>
+        <translation>&amp;Gleisbild</translation>
+    </message>
+    <message>
+        <source>&amp;Elements</source>
+        <translation>&amp;Elemente</translation>
+    </message>
+    <message>
+        <source>C&amp;hoose...</source>
+        <translation>&amp;Wählen...</translation>
+    </message>
+    <message>
+        <source>Default protocol</source>
+        <translation>Standardprotokoll</translation>
+    </message>
+    <message>
+        <source>Feedback type</source>
+        <translation>Rückmeldetyp</translation>
+    </message>
+    <message>
+        <source>Feedback bus numbering</source>
+        <translation>Nummerierung der Rückmeldebusse</translation>
+    </message>
+    <message>
+        <source>Connected modules per feedback bus</source>
+        <translation>Angeschlossene Module pro Rückmeldebus</translation>
     </message>
 </context>
 <context>

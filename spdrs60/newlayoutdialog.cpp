@@ -1,11 +1,11 @@
 /***************************************************************************
                            newlayoutdialog.cpp
-                           version 0.4.8 $Revision: 1.4 $
+                           version 0.4.8 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2006 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-15 16:29:04 $
+    last modified        : $Date: 2006-01-16 14:51:32 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -116,7 +116,7 @@ newLayoutDialog::newLayoutDialog(QWidget* parent)
 
     // start options group box
     QButtonGroup *startBG = new QButtonGroup(2, Vertical,
-            "Start options", this);
+            tr("Start options"), this);
     baseLayout->addWidget(startBG);
     autologinCB = new QCheckBox(tr("&Server login on startup"),
             startBG, "autologinCB");

@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60 documentation
 # last changes by: Guido Scholz
-# Version: $Revision: 1.8 $
-# last update: $Date: 2005-11-27 19:38:26 $
+# Version: $Revision: 1.9 $
+# last update: $Date: 2006-01-16 14:51:32 $
 
 # HTML_DOC_DIR is defined in configure.ac
 htmldir = @HTML_DOC_DIR@
@@ -288,20 +288,13 @@ EXTRA_DIST = en/index.sgml de/index.sgml \
 en/index.html: en/index.sgml $(dist_commonimages_DATA) $(dist_enimages_DATA) spdrs60.dsl
 	cd en; $(JADE) -b ISO-8859-1 -t sgml -i html -d "../spdrs60.dsl#html" index.sgml; cd ..
 
+#en/index.tex: en/index.sgml $(dist_commonimages_DATA) $(dist_enimages_DATA) spdrs60.dsl
+#	cd en; $(JADE) -b ISO-8859-1 -t tex -d "../spdrs60.dsl#print" index.sgml; cd ..
+
 de/index.html: de/index.sgml $(dist_commonimages_DATA) $(dist_deimages_DATA) spdrs60.dsl
 	cd de; $(JADE) -b ISO-8859-1 -t sgml -i html -d "../spdrs60.dsl#html" index.sgml; cd ..
 
-
-#en/spdrs60-en.ps: en/index.sgml $(nodist_commonimages_DATA) $(nodist_enimages_DATA)
-#	cd en; sgml2latex --charset=ascii -l en --output=ps index.sgml
-#	cd ..; mv en/index.ps en/spdrs60-en.ps
-
-#de/spdrs60-de.ps: de/index.sgml $(nodist_commonimages_DATA) $(nodist_deimages_DATA)
-#	cd de; sgml2latex --charset=latin --language=de --output=ps index.sgml
-#	cd ..; mv de/index.ps de/spdrs60-de.ps
-
-# pdf-Dateien mit ps2pdf sehen am Bildschirm leider pixelig aus
-#.ps.pdf:
-#	ps2pdf $< $@
+#de/index.tex: de/index.sgml $(dist_commonimages_DATA) $(dist_deimages_DATA) spdrs60.dsl
+#	cd de; $(JADE) -b ISO-8859-1 -t tex -d "../spdrs60.dsl#print" index.sgml; cd ..
 
 

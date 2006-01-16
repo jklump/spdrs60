@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.h
-                           version 0.4.3 $Revision: 1.5 $
+                           version 0.4.3 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-15 16:29:04 $
+    last modified        : $Date: 2006-01-16 14:51:32 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -90,7 +90,7 @@ private:
    QRadioButton *rbShowTxt;
    QRadioButton *rbS88_16;             // user has 16 or 8 port feedback mods
    QRadioButton *rbS88_8;
-   QRadioButton *rbI8255;
+   //QRadioButton *rbI8255;
    QRadioButton *fixedBusesRB;
    QRadioButton *flexBusesRB;
    QRadioButton *rbProtMS;             // default protocol selector
