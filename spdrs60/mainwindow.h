@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.4.8 $Revision: 1.25 $
+                           version 0.4.8 $Revision: 1.26 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2006 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-15 16:29:04 $
+    last modified        : $Date: 2006-01-24 20:38:33 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -145,7 +145,7 @@ private:
    RoutingViewer   *rtViewer;
    Router          *rtController;
    feedback        *modulesWindow;
-   optionsDialog   *optionsWindow;
+   optionsDialog   *optDlg;
    Finder          *findWindow;
    keyboard        *keybWindow;
 
@@ -182,6 +182,7 @@ private:
    int querySaveChanges();
    bool isModified();
    void writeConfigFile();
+   void readConfigFile();
 
    /* New Networking code: */
    void initAllSockets();
@@ -215,7 +216,6 @@ private slots:
    void slotFileSave();
    void slotFileSaveAs();
    void slotFileImport();
-   void slotReadConfigFile();
    void slotRouteAdd();
    void slotRouteDelete();
    void slotDaemonReset();

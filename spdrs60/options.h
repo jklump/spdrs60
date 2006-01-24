@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.h
-                           version 0.4.3 $Revision: 1.6 $
+                           version 0.4.3 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-16 14:51:32 $
+    last modified        : $Date: 2006-01-24 20:38:33 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -43,8 +43,7 @@
 #include <qtextstream.h>
   	
 #include "resources.h"
-
-#define  TABHEIGHT 550                 // constant height of pref dialog
+#include "preferences.h"
 
 
 
@@ -53,15 +52,17 @@ class optionsDialog: public QTabDialog
    Q_OBJECT
 
 public:
-   optionsDialog(QWidget* parent=0);
+    optionsDialog(QWidget* parent = 0);
+
+    void getPreferences(Preferences&);
+    void setPreferences(const Preferences&);
 
 private:
    void setupElementTab();
    void setupLayoutTab();              // creates the tab with layout specs
    void setupDigitalTab();                // creates the tab with data specs
    void setupFeedbackTab();                // creates the tab with data specs
-   void fillWithData();                // fills all tabs with actual data
-   int  checkForWarnings();            // check if any user entry is wrong
+   bool valuesAreValid();              // check if any user entry is wrong
 
 private slots:
    void slotGetAutofile();             // select a file to be auto-opened
@@ -69,16 +70,8 @@ private slots:
    void slotDecoderChanged(int);       // selects new protocol if dec selected
    void slotProtChanged(int);          // selects new dec if protocol changed
    void slotLimitModules(int);         // limits no of fb moduls on each bus
-   void slotSetRepaint();              // saves a necessary layout repaint
+   void fixFBBusNumbers(int);
 
-signals:
-    void repaintLayout();              // send a repaint to all elements
-    void refreshConfigData();          // send a re-read of init file to MainWin
-    void showLogMessage(const QString&, int, int);
-
-protected:
-   virtual void done( int );           // what to do when window is closed
-                                       // (save all or reject)
 private:
    QCheckBox    *cbShowHp2;            // layout shows orange light for Hp2
    QCheckBox    *cbGenBubble;          // show general bubble help
@@ -120,7 +113,6 @@ private:
    QLineEdit*    bus4LE;
 
    QPushButton  *buttGetAutofile;      // button to select autoload file
-   bool         bRepaintNecessary;     // save a necessary layout repaint
 };
 
 #endif    //OPTIONSDIALOG_H

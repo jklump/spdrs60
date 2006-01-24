@@ -1607,14 +1607,6 @@ ein Modul an Bus Nr. 1 angeschlossen ist.</translation>
         <translation>Gleisbilder</translation>
     </message>
     <message>
-        <source>Error: Could not save configuration file: ~/%1</source>
-        <translation>Fehler: Konfigurationsdatei &apos;~/%!&apos; konnte nicht gespeichert werden</translation>
-    </message>
-    <message>
-        <source>Writing SpDrS60 configuration file: ~/%1</source>
-        <translation>Schreibe SpDrS60-Konfigurationsdatei: ~/%1</translation>
-    </message>
-    <message>
         <source>User preferences</source>
         <translation>Benutzereinstellungen</translation>
     </message>
@@ -1727,20 +1719,12 @@ ein Modul an Bus Nr. 1 angeschlossen ist.</translation>
         <translation>s88 mit &amp;8 Eingängen pro Modul</translation>
     </message>
     <message>
-        <source>i8255 IO-Ca&amp;rd</source>
-        <translation>i8255 IO-&amp;Karte</translation>
-    </message>
-    <message>
         <source>Fi&amp;xed (SRCP 0.7)</source>
         <translation>Fe&amp;ste Zuordnung (SRCP 0.7)</translation>
     </message>
     <message>
         <source>F&amp;lexible (SRCP 0.8)</source>
         <translation>Fle&amp;xible Zuordnung (SRCP 0.8)</translation>
-    </message>
-    <message>
-        <source>Modules per feedback bus</source>
-        <translation type="obsolete">Module pro Rückmeldebus</translation>
     </message>
     <message>
         <source>&amp;Bus:</source>

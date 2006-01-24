@@ -1,10 +1,10 @@
 /***************************************************************************
                            finder.cpp
-                           version 0.4.3 $Revision: 1.3 $
+                           version 0.4.3 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-14 20:13:43 $
+    last modified        : $Date: 2006-01-24 20:38:33 $
 ***************************************************************************/
 
 /*****************************************************************************
@@ -18,11 +18,9 @@
 /******************************************************************************
    this code shows a window where user enters an address to be searched for
  ******************************************************************************/
-#include <ctype.h>              // for isdigit()
-#include <stdlib.h>             // for atoi()
-#include <unistd.h>             // for write()
+
 #include "finder.h"
-extern int SHOW_TOOLTIPS;
+#include "preferences.h"
 
 
 Finder::Finder(QWidget* parent): QDialog(parent, "Finder", false)
@@ -109,7 +107,7 @@ Finder::Finder(QWidget* parent): QDialog(parent, "Finder", false)
 
     connect(buttSearch, SIGNAL(clicked()), this, SLOT(slotBeginSearch()));
     connect(buttCancel, SIGNAL(clicked()), SLOT(reject()));
-    if (SHOW_TOOLTIPS) {
+    if (pref.tooltips) {
         QToolTip::add(buttSearch,
                       tr("Press this button to begin searching"));
         QToolTip::add(buttCancel,

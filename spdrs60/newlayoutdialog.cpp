@@ -1,11 +1,11 @@
 /***************************************************************************
                            newlayoutdialog.cpp
-                           version 0.4.8 $Revision: 1.5 $
+                           version 0.4.8 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2006 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-16 14:51:32 $
+    last modified        : $Date: 2006-01-24 20:38:33 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -28,8 +28,8 @@
 #include <qvalidator.h>
 
 #include "newlayoutdialog.h"
+#include "preferences.h"
 
-extern bool SHOW_TOOLTIPS;
 
 
 newLayoutDialog::newLayoutDialog(QWidget* parent)
@@ -56,7 +56,7 @@ newLayoutDialog::newLayoutDialog(QWidget* parent)
     columnsLayout->addWidget(sbEnterCols);
     label->setBuddy(sbEnterCols);
     sbEnterCols->setWrapping(true);     // enables to spin "over" the limits
-    if (SHOW_TOOLTIPS)
+    if (pref.tooltips)
         QToolTip::add(sbEnterCols, tr("Choose or enter the number of\n"
                                       "columns for an empty layout"));
 
@@ -72,7 +72,7 @@ newLayoutDialog::newLayoutDialog(QWidget* parent)
     rowsLayout->addWidget(sbEnterRows);
     label->setBuddy(sbEnterRows);
     sbEnterRows->setWrapping(true);     // enables to spin "over" the limits
-    if (SHOW_TOOLTIPS)
+    if (pref.tooltips)
         QToolTip::add(sbEnterRows, tr("Choose or enter the number of\n"
                                       "rows for an empty layout"));
 

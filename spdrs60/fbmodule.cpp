@@ -1,11 +1,11 @@
 /***************************************************************************
                            fbmodule.cpp
-                           version 0.4.8 $Revision: 1.5 $
+                           version 0.4.8 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-07 21:20:08 $
+    last modified        : $Date: 2006-01-24 20:38:33 $
 ***************************************************************************/
 
 /******************************************************************************
@@ -27,13 +27,13 @@
 #include <qpixmap.h>
 
 #include "fbmodule.h"
+#include "preferences.h"
 
 /*module pixmaps*/
 #include "pixmaps/fb_s44.xpm"
 #include "pixmaps/fb_s88.xpm"
 
 extern bool bFBport[MAX_FB];
-extern int FEEDBACK;
 
 
 
@@ -43,7 +43,7 @@ fbModule::fbModule(QWidget* parent, unsigned int modid): QWidget(parent)
     iModNr = modid;
     slotSetupModule(iModNr, 0, 0);
     // resize module due to module type
-    this->resize(139 - FEEDBACK * 60, 90);
+    this->resize(139 - pref.fbfactor * 60, 90);
 }
 
 
@@ -59,9 +59,9 @@ void fbModule::slotSetupModule(unsigned int module, unsigned int input,
 
     // load bitmap according to number of ports per module if port
     // belongs to this module
-    if (FEEDBACK == FB_16)
+    if (pref.fbfactor == 0)
         pixModule = QPixmap(fb_s88_xpm);
-    if (FEEDBACK == FB_8)
+    else
         pixModule = QPixmap(fb_s44_xpm);
     QPainter p;
     p.begin(&pixModule);
@@ -77,7 +77,7 @@ void fbModule::slotSetupModule(unsigned int module, unsigned int input,
     br = fm.boundingRect(s.data());
 
     p.setPen(red);
-    p.drawText(69 - FEEDBACK * 30 - br.width() / 2, 49, s.data());
+    p.drawText(69 - pref.fbfactor * 30 - br.width() / 2, 49, s.data());
 
     // display loco address if address fb module (beta)
     int iAdr = bFBport[iModNr * 8] + 2 * (bFBport[iModNr * 8 + 1]) +
@@ -88,7 +88,7 @@ void fbModule::slotSetupModule(unsigned int module, unsigned int input,
     s.sprintf("%05d", iAdr);
     br = fm.boundingRect(s.data());
     p.setPen(blue);
-    p.drawText(69 - FEEDBACK * 30 - br.width() / 2, 65, s.data());
+    p.drawText(69 - pref.fbfactor * 30 - br.width() / 2, 65, s.data());
 
     f.setPointSize(QApplication::font().pointSize() - 2);
     f.setWeight(QFont::Normal);
@@ -96,20 +96,20 @@ void fbModule::slotSetupModule(unsigned int module, unsigned int input,
     p.setPen(black);
 
     // display port status for every single port
-    for (i = 0; i < 8 - FEEDBACK * 4; i += 1) {
+    for (i = 0; i < 8 - pref.fbfactor * 4; i += 1) {
         s.sprintf("%2d", i + 1);
-        p.drawText(115 - FEEDBACK * 60 - i * 15, 23, s.data());
-        p.fillRect(118 - FEEDBACK * 60 - i * 15, 2, 8, 8,
+        p.drawText(115 - pref.fbfactor * 60 - i * 15, 23, s.data());
+        p.fillRect(118 - pref.fbfactor * 60 - i * 15, 2, 8, 8,
                    QBrush(QColor
-                          (bFBport[iModNr * (16 - FEEDBACK * 8) + i] ? red
+                          (bFBport[iModNr * (16 - pref.fbfactor * 8) + i] ? red
                            : white), SolidPattern));
     }
-    for (i = 8 - FEEDBACK * 4; i < 16 - FEEDBACK * 8; i += 1) {
+    for (i = 8 - pref.fbfactor * 4; i < 16 - pref.fbfactor * 8; i += 1) {
         s.sprintf("%2d", i + 1);
-        p.drawText(11 + (i - 8 + FEEDBACK * 4) * 15, 76, s.data());
-        p.fillRect(13 + (i - 8 + FEEDBACK * 4) * 15, 80, 8, 8,
+        p.drawText(11 + (i - 8 + pref.fbfactor * 4) * 15, 76, s.data());
+        p.fillRect(13 + (i - 8 + pref.fbfactor * 4) * 15, 80, 8, 8,
                    QBrush(QColor
-                          (bFBport[iModNr * (16 - FEEDBACK * 8) + i] ? red
+                          (bFBport[iModNr * (16 - pref.fbfactor * 8) + i] ? red
                            : white), SolidPattern));
     }
 

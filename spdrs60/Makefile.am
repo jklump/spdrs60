@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.11 $
-# last update: $Date: 2005-12-29 21:40:28 $
+# version: $Revision: 1.12 $
+# last update: $Date: 2006-01-24 20:38:33 $
 
 SUBDIRS = pixmaps
 
@@ -43,6 +43,7 @@ spdrs60_SOURCES = main.cpp resources.h \
 	mainwindow.cpp mainwindow.h \
 	newlayoutdialog.cpp newlayoutdialog.h \
 	options.cpp options.h \
+        preferences.cpp preferences.h \
         route.cpp route.h \
 	routedialog.cpp routedialog.h \
 	routeelementdialog.cpp routeelementdialog.h \

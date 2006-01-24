@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.4.8 $Revision: 1.25 $
+                           version 0.5.0 $Revision: 1.26 $
                            -------------------------------
-    copyright            : (C) 2005 Guido Scholz
+    copyright            : (C) 2005-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-12-31 18:48:15 $
+    last modified        : $Date: 2006-01-24 20:38:33 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -28,14 +28,10 @@
 #include "routedialog.h"
 #include "routeelementlvi.h"
 #include "routeelementdialog.h"
+#include "preferences.h"
 
 
 
-extern bool SHOW_TOOLTIPS;
-extern int FEEDBACK;
-
-
-/* non modal window */
 RouteDialog::RouteDialog(QWidget* parent)
 : QDialog(parent, "EditRouteDialog")
 {
@@ -67,7 +63,6 @@ RouteDialog::RouteDialog(QWidget* parent)
 
     /*Layout to separate left column verticaly*/
     QBoxLayout* leftColumnLayout = new QVBoxLayout(leftRightLayout, 6);
-    
 
     /*Layout to separate right column verticaly*/
     QBoxLayout* rightColumnLayout = new QVBoxLayout(leftRightLayout, 6);
@@ -269,7 +264,7 @@ RouteDialog::RouteDialog(QWidget* parent)
     /*line with module for activation by feedback*/
     QHBoxLayout* activateModuleLayout = new QHBoxLayout(activateGBL, 6);
     activateModuleLB = new QLabel(tr("Module (1 - %1)")
-            .arg(FEEDBACK == FB_16 ? 31 : 62), activateGB);
+            .arg(pref.fbfactor == 0 ? 31 : 62), activateGB);
     activateModuleLayout->addWidget(activateModuleLB);
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -283,7 +278,7 @@ RouteDialog::RouteDialog(QWidget* parent)
     /*line with port for activation by feedback*/
     QHBoxLayout* activatePortLayout = new QHBoxLayout(activateGBL, 6);
     activatePortLB = new QLabel(tr("Port (1 - %1)")
-            .arg(FEEDBACK == FB_16 ? 16 : 8), activateGB);
+            .arg(pref.fbfactor == 0 ? 16 : 8), activateGB);
     activatePortLayout->addWidget(activatePortLB);
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -352,7 +347,7 @@ RouteDialog::RouteDialog(QWidget* parent)
     /*line with module for activation by feedback*/
     QHBoxLayout* releaseModuleLayout = new QHBoxLayout(releaseGBL, 6);
     releaseModuleLB = new QLabel(tr("Module (1 - %1)")
-            .arg(FEEDBACK == FB_16 ? 31 : 62), releaseGB);
+            .arg(pref.fbfactor == 0 ? 31 : 62), releaseGB);
     releaseModuleLayout->addWidget(releaseModuleLB);
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -366,7 +361,7 @@ RouteDialog::RouteDialog(QWidget* parent)
     /*line with port activation by feedback*/
     QHBoxLayout* releasePortLayout = new QHBoxLayout(releaseGBL, 6);
     releasePortLB = new QLabel(tr("Port (1 - %1)")
-            .arg(FEEDBACK == FB_16 ? 16 : 8), releaseGB);
+            .arg(pref.fbfactor == 0 ? 16 : 8), releaseGB);
     releasePortLayout->addWidget(releasePortLB);
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -717,7 +712,7 @@ void RouteDialog::releaseCBchanged(bool isChecked)
 void RouteDialog::activateContactSBChanged(int contact)
 {
     // FB_16 = 0, FB_8 = 1
-    int inputs = 16 - (FEEDBACK * 8);
+    int inputs = 16 - (pref.fbfactor * 8);
     int module = (contact - 1) / inputs + 1;
     int port = contact - (module - 1) * inputs;
     activateModuleLE->setText(QString::number(module));
@@ -727,7 +722,7 @@ void RouteDialog::activateContactSBChanged(int contact)
 
 void RouteDialog::releaseContactSBChanged(int contact)
 {
-    int inputs = 16 - (FEEDBACK * 8);
+    int inputs = 16 - (pref.fbfactor * 8);
     int module = (contact - 1) / inputs + 1;
     int port = contact - (module - 1) * inputs;
     releaseModuleLE->setText(QString::number(module));

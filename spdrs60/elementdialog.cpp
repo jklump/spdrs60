@@ -1,11 +1,11 @@
 /***************************************************************************
-                           elementDialog.cpp
-                           version 0.4.8 $Revision: 1.10 $
+                           elementdialog.cpp
+                           version 0.4.8 $Revision: 1.11 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-                         : (C) 2004-2005 Guido Scholz
+                         : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-12-04 21:03:05 $
+    last modified        : $Date: 2006-01-24 20:38:33 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -26,6 +26,7 @@
 
 #include "elementdialog.h"
 #include "element.h"
+#include "preferences.h"
 
 /*button icons*/
 #include "pixmaps/viewfeedback.xpm"
@@ -48,16 +49,8 @@
 #include "pixmaps/entkoppler_st2.xpm"
 #include "pixmaps/entkoppler_st3.xpm"
 
-extern int DEF_PROTOCOL;
-extern int ACTIVE_TIME;
-extern int FEEDBACK;
-extern int FB_MODULES_[4];
-extern bool SHOW_TOOLTIPS;
-extern QString DEF_DECODER;
 
 
-
-// true, parent window not usable until this closed
 elementDialog::elementDialog(QWidget* parent, int idx):
     QDialog(parent, "elementDialog", true)
 {
@@ -399,7 +392,7 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     /*line with module*/
     QHBoxLayout* moduleLayout = new QHBoxLayout(feedbackGBL, 6);
     labelFBmodule = new QLabel(tr("Module (1 - %1):")
-            .arg(FEEDBACK == FB_16 ? 31 : 62), feedbackGB);
+            .arg(pref.fbfactor == 0 ? 31 : 62), feedbackGB);
     moduleLayout->addWidget(labelFBmodule);
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -412,7 +405,7 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     /*line with port*/
     QHBoxLayout* portLayout = new QHBoxLayout(feedbackGBL, 6);
     QLabel* portLabel = new QLabel(tr("Port (1 - %1):")
-            .arg(FEEDBACK == FB_16 ? 16 : 8), feedbackGB);
+            .arg(pref.fbfactor == 0 ? 16 : 8), feedbackGB);
     portLayout->addWidget(portLabel);
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -436,7 +429,7 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     buttFBmodules->setPixmap(QPixmap(viewfeedback_xpm));
     connect(buttFBmodules, SIGNAL(clicked()), this,
             SLOT(slotShowFBmodules()));
-    if (SHOW_TOOLTIPS == true)
+    if (pref.tooltips == true)
         QToolTip::add(buttFBmodules, tr("Show feedback module window"));
 
     
@@ -789,7 +782,7 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
     else {
         sListText = lastDecoder;
         if (sListText == "-1")
-            sListText = DEF_DECODER;
+            sListText = pref.decoder;
 
         for (int i = 0; i < coboDecoder->count(); i++) {
             if (sListText == coboDecoder->text(i)) {
@@ -895,7 +888,7 @@ void elementDialog::showSubTypes(int iShow_)
 
     // activate the subtype dependant button
     if (sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS || sSoldIcon == SYM_VS) {
-        if (sSoldIcon == SYM_HS && SHOW_TOOLTIPS) {
+        if (sSoldIcon == SYM_HS && pref.tooltips) {
             QToolTip::add(buttSubType[0],
                           tr("Allows to switch this signal to:\n"
                              "Hp0, Hp1"));
@@ -906,7 +899,7 @@ void elementDialog::showSubTypes(int iShow_)
                           tr("Allows to switch this signal to:\n"
                              "Hp0, Hp1 and Hp2"));
         }
-        if (sSoldIcon == SYM_HSS && SHOW_TOOLTIPS) {
+        if (sSoldIcon == SYM_HSS && pref.tooltips) {
             QToolTip::add(buttSubType[0],
                           tr("Allows to switch this signal to:\n"
                              "Hp0, Hp1 and Sh1"));
@@ -917,7 +910,7 @@ void elementDialog::showSubTypes(int iShow_)
                           tr("Allows to switch this signal to:\n"
                              "Hp0, Hp1, Hp2 and Sh1"));
         }
-        if (sSoldIcon == SYM_VS && SHOW_TOOLTIPS) {
+        if (sSoldIcon == SYM_VS && pref.tooltips) {
             QToolTip::add(buttSubType[0],
                           tr("Allows to switch this signal to:\n"
                              "Vr0, Vr1"));
@@ -950,7 +943,7 @@ void elementDialog::showSubTypes(int iShow_)
     }
 
     if (sSoldIcon == SYM_ENK) {
-        if (SHOW_TOOLTIPS) {
+        if (pref.tooltips) {
             QToolTip::add(buttSubType[0],
                           tr("Allows to use a:\nbistable coupler"));
             QToolTip::add(buttSubType[1], tr("Allows to use a:\n"
@@ -978,7 +971,7 @@ void elementDialog::showSubTypes(int iShow_)
     }
 
     if (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) {
-        if (SHOW_TOOLTIPS) {
+        if (pref.tooltips) {
             QToolTip::add(buttSubType[1],
                           tr("Allows to use a:\n"
                              "2 state double turnout\n(f.e. Maerklin 2264)"
@@ -1003,7 +996,7 @@ void elementDialog::showSubTypes(int iShow_)
 
     if (sSoldIcon == SYM_DRE) {
 
-        if (SHOW_TOOLTIPS) {
+        if (pref.tooltips) {
             QToolTip::add(buttSubType[1], tr("Default turntable:\n"
                                              "Controlled via keyboard #15"));
             QToolTip::add(buttSubType[2], tr("Extra turntable:\n"
@@ -1123,7 +1116,7 @@ void elementDialog::slotSubTypeClicked(int stBtn)
 void elementDialog::contactSBChanged(int contact)
 {
     // FB_16 = 0, FB_8 = 1
-    int inputs = 16 - (FEEDBACK * 8);
+    int inputs = 16 - (pref.fbfactor * 8);
     int module = (contact - 1) / inputs + 1;
     int port = contact - (module - 1) * inputs;
     moduleLE->setText(QString::number(module));
@@ -1334,7 +1327,7 @@ void elementDialog::setDecoder(const QString& decoder)
     lastDecoder = decoder;
 
     if (decoder == "-1")
-        sDec = DEF_DECODER;
+        sDec = pref.decoder;
     else
         sDec = decoder;
 
@@ -1462,7 +1455,7 @@ void elementDialog::setActiveTime(int atime)
     if (atime != -1)
         activeTimeSB->setValue(atime);
     else
-        activeTimeSB->setValue(ACTIVE_TIME);
+        activeTimeSB->setValue(pref.activetime);
 }
 
 

@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementcommander.cpp
-                           version 0.4.7 $Revision: 1.2 $
+                           version 0.4.7 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-07 12:22:43 $ 
+    last modified        : $Date: 2006-01-24 20:38:33 $ 
 ***************************************************************************/
 
 /***************************************************************************
@@ -21,6 +21,7 @@
  this code provides a GUI to control analog turntables, shifting brigdes ...
 ****************************************************************************/
 #include "elementcommander.h"
+#include "preferences.h"
 
 /*button icons*/
 #include "pixmaps/tt_stop.xpm"
@@ -29,7 +30,6 @@
 #include "pixmaps/tt_right.xpm"
 #include "pixmaps/tt_right_step.xpm"
 
-extern bool SHOW_TOOLTIPS;
 
 
 elementCommander::elementCommander(QWidget * parent, QString sSoldIcon_)
@@ -83,7 +83,7 @@ void elementCommander::setupBridge()
     connect(buttMoveUp, SIGNAL(clicked()), this, SLOT(slotMoveUp()));
     connect(buttMoveDown, SIGNAL(clicked()), this, SLOT(slotMoveDown()));
 
-    if (SHOW_TOOLTIPS == true) {
+    if (pref.tooltips == true) {
         QToolTip::add(buttMoveUp, tr("Move bridge upwards"));
         QToolTip::add(buttMoveDown, tr("Move bridge downwards"));
         QToolTip::add(buttStop, tr("Stop moving bridge"));
@@ -113,7 +113,7 @@ void elementCommander::setupMotor()
     connect(buttRotateRight, SIGNAL(clicked()),
             this, SLOT(slotRotateRight()));
 
-    if (SHOW_TOOLTIPS == true) {
+    if (pref.tooltips == true) {
         QToolTip::add(buttRotateLeft, tr("Move motor clockwise"));
         QToolTip::add(buttRotateRight, tr("Move motor anti-clockwise"));
         QToolTip::add(buttStop, tr("Stop motor"));

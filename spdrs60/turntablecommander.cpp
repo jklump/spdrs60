@@ -1,10 +1,10 @@
 /***************************************************************************
                            turntablecommander.cpp
-                           version 0.4.7 $Revision: 1.3 $
+                           version 0.4.7 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-06-05 20:57:11 $
+    last modified        : $Date: 2006-01-24 20:38:33 $
 ***************************************************************************/
 
 /******************************************************************************
@@ -23,6 +23,7 @@
 #include <math.h>               // for nearbyint()
 
 #include "turntablecommander.h"
+#include "preferences.h"
 
 /*button icons*/
 #include "pixmaps/tt_stop.xpm"
@@ -34,10 +35,6 @@
 #include "pixmaps/tt_prog.xpm"
 #include "pixmaps/tt_turn180.xpm"
 
-
-extern bool SHOW_TOOLTIPS;
-extern bool AUTO_TT_DIR;
-extern double TT_ROUND_TIME;
 
 
 turntableCommander::turntableCommander(QWidget * parent, int iActiveTrack_,
@@ -143,8 +140,8 @@ turntableCommander::turntableCommander(QWidget * parent, int iActiveTrack_,
 
 
     buttChooseLeft->setOn(true);        // setup button states
-    buttChooseLeft->setEnabled(!AUTO_TT_DIR);
-    buttChooseRight->setEnabled(!AUTO_TT_DIR);
+    buttChooseLeft->setEnabled(!pref.autottdir);
+    buttChooseRight->setEnabled(!pref.autottdir);
 
      // show available tracks
     for (int i = 0; i < 24; i++) {
@@ -219,7 +216,7 @@ void turntableCommander::setupProgArea()
     connect(bgProg, SIGNAL(released(int)),
             this, SLOT(slotProgrammer(int)));
 
-    if (SHOW_TOOLTIPS == true) {
+    if (pref.tooltips == true) {
         QToolTip::add(buttLeftStep,
                       tr
                       ("Step to next available track\ncounter-clockwise"));
@@ -347,7 +344,7 @@ void turntableCommander::slotGoToTrack()
     if (iTracksToMove == 0 || iNewTrack == 0)
         return;                 // do nothing if new track is old track
 
-    if (AUTO_TT_DIR || bStep) { // autoselect direction of rotating
+    if (pref.autottdir || bStep) { // autoselect direction of rotating
         bgChooseDir->
             setButton((iTracksToMove > 12) ^ (iNewTrack > iActiveTrack));
         slotChooseDir((iTracksToMove > 12) ^ (iNewTrack > iActiveTrack));
@@ -371,7 +368,7 @@ void turntableCommander::startTrackTimer()
     listTracks->setEnabled(false);
 
     tTrackReached = new QTimer();       // start timer
-    tTrackReached->start((int) nearbyint(1000 * TT_ROUND_TIME / 24));
+    tTrackReached->start((int) nearbyint(1000 * pref.ttroundtime / 24));
     connect(tTrackReached, SIGNAL(timeout()),
             this, SLOT(slotTrackReached()));
 }
@@ -423,8 +420,8 @@ void turntableCommander::slotTrackReached()
 
     if (iNewTrack == iTrackID) {        // enable most buttons if track is reached
         buttStopCont->setEnabled(false);
-        buttChooseLeft->setEnabled(!AUTO_TT_DIR);
-        buttChooseRight->setEnabled(!AUTO_TT_DIR);
+        buttChooseLeft->setEnabled(!pref.autottdir);
+        buttChooseRight->setEnabled(!pref.autottdir);
         buttLeftStep->setEnabled(true);
         buttRightStep->setEnabled(true);
         buttGoToTrack->setEnabled(true);

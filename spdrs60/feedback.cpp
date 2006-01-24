@@ -1,11 +1,11 @@
 /***************************************************************************
                            feedback.cpp
-                           version 0.4.8 $Revision: 1.5 $
+                           version 0.4.8 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-12-11 17:09:29 $
+    last modified        : $Date: 2006-01-24 20:38:33 $
 ***************************************************************************/
 
 /******************************************************************************
@@ -21,14 +21,12 @@
    this code shows a window with the feedback modules and port stati
  ******************************************************************************/
 #include "feedback.h"
+#include "preferences.h"
 
 /*module pixmaps*/
 #include "pixmaps/fb_nextpage.xpm"
 #include "pixmaps/fb_prevpage.xpm"
 
-extern int FB_MODULES_[4];
-extern int FEEDBACK;
-extern int SHOW_TOOLTIPS;
 
 
 feedback::feedback(QWidget* parent): QDialog(parent, "feedbackDlg", false)
@@ -46,7 +44,7 @@ feedback::feedback(QWidget* parent): QDialog(parent, "feedbackDlg", false)
     QPixmap pix = QPixmap(fb_nextpage_xpm);
     buttNextPage = new QPushButton(tr("Next Page"), this, "");
     buttNextPage->setPixmap(pix);
-    if (SHOW_TOOLTIPS)
+    if (pref.tooltips)
         QToolTip::add(buttNextPage, tr("Show next page"));
 
     connect(buttNextPage, SIGNAL(clicked()), this, SLOT(slotNextPage()));
@@ -55,19 +53,26 @@ feedback::feedback(QWidget* parent): QDialog(parent, "feedbackDlg", false)
     pix = QPixmap(fb_prevpage_xpm);
     buttPrevPage = new QPushButton(tr("Prev Page"), this, "");
     buttPrevPage->setPixmap(pix);
-    if (SHOW_TOOLTIPS)
+    if (pref.tooltips)
         QToolTip::add(buttPrevPage, tr("Show next page"));
 
     connect(buttPrevPage, SIGNAL(clicked()), this, SLOT(slotPrevPage()));
 
-    if (((FB_MODULES_[0] > 0) + (FB_MODULES_[1] > 0) +
-         (FB_MODULES_[2] > 0) + (FB_MODULES_[3] > 0)) <= 1) {
-        buttNextPage->setEnabled(false);  // disable page buttons if only one
-        buttPrevPage->setEnabled(false);  // bus has feedback modules connected
-        for (int i = 0; i < 4; i++) {
-            if (FB_MODULES_[i] != 0)
-                iPage = i;
-        }
+    if (((pref.fbbus1.modules > 0) + (pref.fbbus2.modules > 0) +
+         (pref.fbbus3.modules > 0) + (pref.fbbus4.modules > 0)) <= 1) {
+        // disable page buttons if only one
+        // bus has feedback modules connected
+        buttNextPage->setEnabled(false);
+        buttPrevPage->setEnabled(false);
+
+        if (pref.fbbus1.modules != 0)
+            iPage = 0;
+        else if (pref.fbbus2.modules != 0)
+            iPage = 1;
+        else if (pref.fbbus3.modules != 0)
+            iPage = 2;
+        else if (pref.fbbus4.modules != 0)
+            iPage = 3;
     }
 
     showModules();              // now display all modules
@@ -78,12 +83,18 @@ feedback::feedback(QWidget* parent): QDialog(parent, "feedbackDlg", false)
 
 void feedback::slotNextPage()
 {
-    if (iPage < 3)              // calculate new page number == new busnumber
-        iPage += 1;
+    // calculate new page number == new busnumber
+    if (iPage < 3)
+        ++iPage;
     else
         iPage = 0;
-    if (FB_MODULES_[iPage] == 0)
-        slotNextPage();         // skip next page if no modules present
+
+    if ((iPage == 0 && pref.fbbus1.modules == 0)
+        || (iPage == 1 && pref.fbbus2.modules == 0)
+        || (iPage == 2 && pref.fbbus3.modules == 0)
+        || (iPage == 3 && pref.fbbus4.modules == 0))
+        // skip next page if no modules present
+        slotNextPage();
     else
         showModules();
 }
@@ -91,12 +102,18 @@ void feedback::slotNextPage()
 
 void feedback::slotPrevPage()
 {
-    if (iPage > 0)              // calculate new page number == new busnumber
-        iPage -= 1;
+    // calculate new page number == new busnumber
+    if (iPage > 0)
+        --iPage;
     else
         iPage = 3;
-    if (FB_MODULES_[iPage] == 0)
-        slotPrevPage();         // skip prev page if no modules present
+
+    if ((iPage == 0 && pref.fbbus1.modules == 0)
+        || (iPage == 1 && pref.fbbus2.modules == 0)
+        || (iPage == 2 && pref.fbbus3.modules == 0)
+        || (iPage == 3 && pref.fbbus4.modules == 0))
+        // skip prev page if no modules present
+        slotPrevPage();
     else
         showModules();
 }
@@ -104,14 +121,24 @@ void feedback::slotPrevPage()
 
 void feedback::showModules()
 {
+    unsigned int mods = 0;
+    if (iPage == 0)
+        mods = pref.fbbus1.modules;
+    else if (iPage == 1)
+        mods = pref.fbbus2.modules;
+    else if (iPage == 2)
+        mods = pref.fbbus3.modules;
+    else if (iPage == 3)
+        mods = pref.fbbus4.modules;
+    
     // delete any modules if new page is displayed
     if (iMdCnt != 0)
         for (int i = 0; i < iMdCnt; i++)
             delete module[i];
 
    // calculate right window size
-    this->setFixedWidth(991 - FEEDBACK * 10);
-    this->setFixedHeight(470 + FEEDBACK * 95);
+    this->setFixedWidth(991 - pref.fbfactor * 10);
+    this->setFixedHeight(470 + pref.fbfactor * 95);
 
     // show bus number
     QString sText;
@@ -121,12 +148,11 @@ void feedback::showModules()
 
     // create and show modules
     int j = 0;
-    for (unsigned int i = iPage * 31 * (FEEDBACK + 1);
-         i < iPage * 31 * (FEEDBACK + 1) + FB_MODULES_[iPage]; i++) {
-        module[j] = new fbModule(this, i);
-        if (FEEDBACK == FB_16)
+    for (unsigned int i = 0; i < mods; i++) {
+        module[j] = new fbModule(this, i + iPage * 31 * (pref.fbfactor + 1));
+        if (pref.fbfactor == 0)
             module[j]->move((j % 7) * 142, (j / 7) * 95);
-        if (FEEDBACK == FB_8)
+        else
             module[j]->move((j % 12) * 82, (j / 12) * 95);
 
         connect(this, SIGNAL(updateModule(unsigned int, unsigned int,
@@ -147,8 +173,8 @@ void feedback::slotUpdateModules(unsigned int bus, unsigned int contact,
 
     // number range: 0 - 30
     // input range: 1 - 16 or 1 - 8
-    module = (contact - 1) / (16 - FEEDBACK * 8); // + 1
-    input = (contact - 1) % (16 - FEEDBACK * 8) + 1;
+    module = (contact - 1) / (16 - pref.fbfactor * 8); // + 1
+    input = (contact - 1) % (16 - pref.fbfactor * 8) + 1;
     
     // send signals to __ALL__ modules, but only the one with equal
     // module ID will do the update in port colours

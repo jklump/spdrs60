@@ -1,11 +1,11 @@
 /***************************************************************************
                            keyboard.cpp
-                           version 0.4.7 $Revision: 1.9 $
+                           version 0.4.7 $Revision: 1.10 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-12-26 21:12:53 $
+    last modified        : $Date: 2006-01-24 20:38:33 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -29,9 +29,8 @@
 
 #include "resources.h"
 #include "keyboard.h"
+#include "preferences.h"
 
-
-extern int SHOW_TOOLTIPS;
 
 
 keyboard::keyboard(QWidget* parent, unsigned int srcpv): QDialog(parent,
@@ -46,7 +45,7 @@ keyboard::keyboard(QWidget* parent, unsigned int srcpv): QDialog(parent,
     QBoxLayout* busLayout = new QHBoxLayout(baseLayout, 6, "busLayout");
 
     QLabel *busLbl = new QLabel(tr("SRCP-&Bus:"), this, "busLbl");
-    if (SHOW_TOOLTIPS)
+    if (pref.tooltips)
         QToolTip::add(busLbl, tr("Please enter the SRCB-bus for the address"));
     busLayout->addWidget(busLbl);
 
@@ -75,7 +74,7 @@ keyboard::keyboard(QWidget* parent, unsigned int srcpv): QDialog(parent,
             "addressLayout");
 
     QLabel *labelAddress = new QLabel(tr("&Address:"), this, "addressLbl");
-    if (SHOW_TOOLTIPS)
+    if (pref.tooltips)
         QToolTip::add(labelAddress,
                       tr("Please enter the address to be switched"));
     addressLayout->addWidget(labelAddress);
@@ -105,7 +104,7 @@ keyboard::keyboard(QWidget* parent, unsigned int srcpv): QDialog(parent,
     redPB->setPaletteBackgroundColor(QColor(255, 0, 0));
     connect(redPB, SIGNAL(clicked()), this, SLOT(slotActivateRed()));
     buttonLayout->addWidget(redPB);
-    if (SHOW_TOOLTIPS)
+    if (pref.tooltips)
         QToolTip::add(redPB,
                       tr("Press this button to activate red connector"));
 
@@ -119,7 +118,7 @@ keyboard::keyboard(QWidget* parent, unsigned int srcpv): QDialog(parent,
     connect(greenPB, SIGNAL(clicked()), this, SLOT(slotActivateGrn()));
     buttonLayout->addWidget(greenPB);
     greenPB->setDefault(true);
-    if (SHOW_TOOLTIPS)
+    if (pref.tooltips)
         QToolTip::add(greenPB,
                       tr("Press this button to activate green connector"));
 

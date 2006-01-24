@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.51 $
+                           version 0.4.8 $Revision: 1.52 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-15 16:29:04 $
+    last modified        : $Date: 2006-01-24 20:38:33 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -22,7 +22,7 @@
    elements and sets up the connection to the SRCP server
  ***************************************************************************/
 
-#include <stdio.h>              // for perror(), sprintf()
+#include <stdio.h>              // for sprintf()
 #include <stdlib.h>             // for system()
 #include <qhbox.h>
 #include <qmenubar.h>
@@ -30,6 +30,7 @@
 
 #include "gbsscrollview.h"
 #include "mainwindow.h"
+#include "preferences.h"
 
 #include "../icons/spdrs60_32.xpm"
 /*toolbar icons*/
@@ -83,31 +84,6 @@
 
 extern bool bFBport[MAX_FB];
 
-extern bool SHOW_HP2;           // all global vars are used in this
-extern bool SHOW_TOOLTIPS;      // class cause they are read from
-extern bool SHOW_DATA_TOOLTIPS; // SpDrS60 config file on startup
-extern bool LOAD_DEF_LAYOUT;
-extern bool INIT_SIGNALS;
-extern bool SHOW_TXT_ADR;
-extern bool LOGGING;
-extern bool AUTO_TT_DIR;
-
-extern int DEF_COLS;
-extern int DEF_ROWS;
-extern int DEF_PROTOCOL;
-extern int ACTIVE_TIME;
-extern int ROUTING_TIME;
-extern int FEEDBACK;
-extern int FB_MODULES_[4];
-extern int PORT;
-extern double TT_ROUND_TIME;
-
-extern QString DEF_LAYOUT;
-extern QString EDITOR;
-extern QString BROWSER;
-extern QString DEF_DECODER;
-
-
 
 MainWindow::MainWindow()
 : QMainWindow(0, "SpDrS60", WDestructiveClose | WGroupLeader)
@@ -133,13 +109,13 @@ MainWindow::MainWindow()
 
     modulesWindow = NULL;
     CurrentHL = HL_CMND;            // default debug window ist HISTORY
-    isFBInitMode = true;        // var to avoid all startup feedback
+    isFBInitMode = true;            // var to avoid all startup feedback
     visualMode = kvmNormal;         // normal layout mode
     lastDir = QDir::homeDirPath();  // remembers path for FileOpen
-    initMainWindow();           // setup main window with all menus
-    slotReadConfigFile();       // read user dependend config file
+    initMainWindow();               // setup main window with all menus
+    readConfigFile();               // read user dependend config file
 
-    initAllSockets();       // init connection to daemon ...
+    initAllSockets();               // init connection to daemon ...
     if (cmdAutoLogin)
         ConnectToSRCPServer();
 
@@ -162,36 +138,10 @@ MainWindow::~MainWindow()
 }
 
 /**
- * write application settings to personal config file, this is typicaly
- * done if application window is closed
- */
-void MainWindow::writeConfigFile()
-{
-    QFile file(QDir::homeDirPath() + "/" + SPDRS60_INIT);
-    
-    if (!file.open(IO_WriteOnly)) {
-        cmdToDebug(tr("Error: Could not save configuration"
-                    " file: ~/%1").arg(SPDRS60_INIT), MT_INFO, HL_CMND);
-        return;
-    }
-    cmdToDebug(tr("Writing SpDrS60 configuration"
-                " file: ~/%1").arg(SPDRS60_INIT), MT_INFO, HL_CMND);
-
-    QDateTime dt = QDateTime::currentDateTime();
-    QTextStream ts(&file);
-
-    ts  << "# SpDrS60 for Linux config file" << endl
-        << "# last modified: " << dt.toString(Qt::ISODate) << endl
-        << "#" << endl;
-    // TODO: continue work
-    file.close();
-}
-
-/**
  * read application settings from config file, this is typicaly
  * done on application startup
  */
-void MainWindow::slotReadConfigFile()
+void MainWindow::readConfigFile()
 {
     int i;
 
@@ -221,47 +171,103 @@ void MainWindow::slotReadConfigFile()
             lastDir = s.section("=", 1, 1);
     }
 
-    SHOW_HP2 = (ts.readLine().remove(0, 16) == "1");
-    SHOW_TOOLTIPS = (ts.readLine().remove(0, 16) == "1");
-    SHOW_DATA_TOOLTIPS = (ts.readLine().remove(0, 16) == "1");
-    SHOW_TXT_ADR = (ts.readLine().remove(0, 16) == "text");
-    INIT_SIGNALS = (ts.readLine().remove(0, 16) == "red");
-    DEF_COLS = ts.readLine().remove(0, 16).toInt();
-    LOAD_DEF_LAYOUT = (ts.readLine().remove(0, 16) == "1");
-    DEF_LAYOUT = ts.readLine().remove(0, 16);
-    EDITOR = ts.readLine().remove(0, 16);
-    BROWSER = ts.readLine().remove(0, 16);
+    pref.hp2 = (ts.readLine().remove(0, 16) == "1");
+    pref.tooltips = (ts.readLine().remove(0, 16) == "1");
+    pref.datatooltips = (ts.readLine().remove(0, 16) == "1");
+    pref.addresslabeling = (ts.readLine().remove(0, 16) == "text");
+    pref.initsignalsred = (ts.readLine().remove(0, 16) == "red");
+    pref.layoutcols = ts.readLine().remove(0, 16).toInt();
+    pref.autoload = (ts.readLine().remove(0, 16) == "1");
+    pref.autolayout = ts.readLine().remove(0, 16);
+    pref.editor = ts.readLine().remove(0, 16);
+    pref.browser = ts.readLine().remove(0, 16);
 
     // data section
     for (i = 0; i < 3; i++)     // omit three section description lines
         s = ts.readLine();
 
-    DEF_PROTOCOL = (ts.readLine().remove(0, 16) == "Motorola");
-    DEF_DECODER = ts.readLine().remove(0, 16);
-    ACTIVE_TIME = ts.readLine().remove(0, 16).toInt();
-    AUTO_TT_DIR = ts.readLine().remove(0, 16).toInt();
-    TT_ROUND_TIME = ts.readLine().remove(0, 16).toDouble();
+    pref.protocolmm = (ts.readLine().remove(0, 16) == "Motorola");
+    pref.decoder = ts.readLine().remove(0, 16);
+    pref.activetime = ts.readLine().remove(0, 16).toInt();
+    pref.autottdir = ts.readLine().remove(0, 16).toInt();
+    pref.ttroundtime = ts.readLine().remove(0, 16).toDouble();
     s = ts.readLine();// autozp9
-    ROUTING_TIME = ts.readLine().remove(0, 16).toInt();
-    FEEDBACK = ts.readLine().remove(0, 16) == "S88_16" ? FB_16 : FB_8;
+    pref.routingtime = ts.readLine().remove(0, 16).toInt();
+    pref.fbfactor = (ts.readLine().remove(0, 16) == "S88_16") ? 0 : 1;
 
-    for (i = 0; i < 4; i++)
-        FB_MODULES_[i] = ts.readLine().remove(0, 16).toInt();
+    pref.fbbus1.modules = ts.readLine().remove(0, 16).toInt();
+    pref.fbbus2.modules = ts.readLine().remove(0, 16).toInt();
+    pref.fbbus3.modules = ts.readLine().remove(0, 16).toInt();
+    pref.fbbus4.modules = ts.readLine().remove(0, 16).toInt();
+
+    pref.fbbus1.number = 1;
+    pref.fbbus2.number = 2;
+    pref.fbbus3.number = 3;
+    pref.fbbus4.number = 4;
 
     file.close();
-
-    // interface section ignored
-    //SRCP
-    //host
-    //port
-    //COMX
-    //BAUD
-    //DATAB
-    //STOPB
-    //PARI
-    //SERVERLOGIN
 }
 
+/**
+ * write application settings to user config file, this is typicaly
+ * done if application window is closed
+ */
+void MainWindow::writeConfigFile()
+{
+    QFile file(QDir::homeDirPath() + "/" + SPDRS60_INIT);
+    
+    if (!file.open(IO_WriteOnly)) {
+        cmdToDebug(tr("Error: Could not save configuration"
+                    " file: ~/%1").arg(SPDRS60_INIT), MT_INFO, HL_CMND);
+        return;
+    }
+    cmdToDebug(tr("Writing SpDrS60 configuration"
+                " file: ~/%1").arg(SPDRS60_INIT), MT_INFO, HL_CMND);
+
+    QDateTime dt = QDateTime::currentDateTime();
+    QTextStream ts(&file);
+
+    QString rtstr;
+    rtstr.sprintf("%.2f", pref.ttroundtime);
+
+    ts  << "# SpDrS60 for Linux config file" << endl
+        << "# last modified: " << dt.toString(Qt::ISODate) << endl
+        << "#" << endl
+        << "# LAYOUT SECTION" << endl
+        << "#" << endl
+        << "show hp2:       " << (int) pref.hp2 << endl
+        << "show gen bubb:  " << (int) pref.tooltips << endl
+        << "show data bubb: " << (int) pref.datatooltips << endl
+        << "in text fields: " << ((pref.addresslabeling) ?
+                                  "address" : "text") << endl
+        << "init signals as:" << ((pref.initsignalsred) ?
+                                  "red" : "saved") << endl
+        << "def new cols:   " << pref.layoutcols << endl
+        << "autoloader:     " << (int) pref.autoload << endl
+        << "autoload file:  " << pref.autolayout << endl
+        << "editor name:    " << pref.editor << endl
+        << "browser name:   " << pref.browser << endl
+        << "#" << endl
+        << "# DATA SECTION" << endl
+        << "#" << endl
+        << "def protocol:   " << ((pref.protocolmm) ?
+                                  "Motorola" : "DCC") << endl
+        << "def decoder:    " << pref.decoder << endl
+        << "activation time:" << pref.activetime << endl
+        << "auto tt direct.:" << (int) pref.autottdir << endl
+        << "tt round time:  " << rtstr << endl
+        << "auto ZP 9:      " << 0 << endl
+        << "routing delay:  " << pref.routingtime << endl
+        << "feedback type:  " <<
+          ((pref.fbfactor == 0) ? "S88_16" : "S88_8") << endl
+        //TODO: i8255
+        << "modules bus #1: " << pref.fbbus1.modules << endl
+        << "modules bus #2: " << pref.fbbus2.modules << endl
+        << "modules bus #3: " << pref.fbbus3.modules << endl
+        << "modules bus #4: " << pref.fbbus4.modules << endl;
+
+    file.close();
+}
 
 void MainWindow::initMainWindow()
 {
@@ -1230,31 +1236,34 @@ void MainWindow::slotViewDebug()
 
 void MainWindow::readAutoloadFile()
 {
+    if (!pref.autoload)
+        return;
+
     // if autoload file from config data does
     // not exist ask user to change options
 
     bool oldFileFormat = false;
     /* check for file extension, compatible to version <= 0.4.7*/
-    if (DEF_LAYOUT.findRev(GF_GBSEXT) == -1) {
+    if (pref.autolayout.findRev(GF_GBSEXT) == -1) {
         oldFileFormat = true;
-        DEF_LAYOUT.append(GF_OLDGBSEXT);
+        pref.autolayout.append(GF_OLDGBSEXT);
     }
     
-    if (!QFile::exists(DEF_LAYOUT)) {                           
+    if (!QFile::exists(pref.autolayout)) {                           
         qApp->beep();
         int choice = QMessageBox::warning(this, tr("Autoloader failed"),
                          tr("The selected autoload file '%1'\n"
                             "does not exist. Please adjust your"
-                            " options.").arg(DEF_LAYOUT),
+                            " options.").arg(pref.autolayout),
                          tr("&Now"), tr("&Later"), 0, 0, 0);
         if (choice == 0)
             slotEditOptions();
     }
     else
         if (oldFileFormat)
-            importFile(DEF_LAYOUT);
+            importFile(pref.autolayout);
         else
-            openFile(DEF_LAYOUT);
+            openFile(pref.autolayout);
 }
 
 
@@ -1282,9 +1291,6 @@ void MainWindow::closeEvent(QCloseEvent* e)
             e->ignore();
             break;
     }
-    
-    /*TODO: check why this may be necessary:*/
-    //emit switchEditMode(kvmNormal);
 }
 
 
@@ -1330,9 +1336,11 @@ void MainWindow::newFile()
 {
     // show a dialog where the user can put in layout dimensions
     newLayoutDialog* nlDlg = new newLayoutDialog(this);
+    if (nlDlg == NULL)
+        return;
 
-    nlDlg->setColumns(DEF_COLS);
-    nlDlg->setRows(DEF_ROWS);
+    nlDlg->setColumns(pref.layoutcols);
+    nlDlg->setRows(pref.layoutrows);
     nlDlg->setHost(cmdHost);
     nlDlg->setPort(cmdPort);
     nlDlg->setAutoLogin(cmdAutoLogin);
@@ -2122,8 +2130,10 @@ void MainWindow::FeedbackSocketConnected()
         bFBport[i] = 0;
 
     /*may be this makes only sense when a layout is loaded: */
-    SendCommandToSRCPServer((FEEDBACK <=
-                             1) ? "INIT FB S88" : "INIT FB I8255");
+    //TODO: FB_TYPE
+    //SendCommandToSRCPServer((FEEDBACK <=
+    //                         1) ? "INIT FB S88" : "INIT FB I8255");
+    SendCommandToSRCPServer("INIT FB S88");
     cmdToDebug(tr
                ("Feedback port changes are omitted while initialization"),
                MT_INFO, HL_FEED);
@@ -2660,7 +2670,7 @@ void MainWindow::slotShowRoutes()
 // edit layout file with editor program
 void MainWindow::slotEditGBSFiles()
 {
-    QString sCommand = EDITOR;
+    QString sCommand = pref.editor;
     sCommand.append(" " + fileName + (" &"));
     system(sCommand.data());
     // if the user edited the stored file there must be a chance to
@@ -2672,7 +2682,7 @@ void MainWindow::slotEditGBSFiles()
 void MainWindow::slotEditConfigFile()
 {
     // edit program´s config file with editor program
-    QString sCommand = EDITOR + " " + QDir::homeDirPath() + "/" +
+    QString sCommand = pref.editor + " " + QDir::homeDirPath() + "/" +
         SPDRS60_INIT + (" &");
     system(sCommand.data());
 }
@@ -2774,14 +2784,14 @@ void MainWindow::slotAboutHelp()
     /* if browser is mozilla or firefox first check for running program
      * instance; run with "-remote" option to get a new tab */
 
-    if (BROWSER == "mozilla" || BROWSER == "firefox") {
-        if (system(BROWSER + " -remote 'ping()'") == 0)
-            system(BROWSER + " -remote 'openURL(" + sURL + ",new-tab)'");
+    if (pref.browser == "mozilla" || pref.browser == "firefox") {
+        if (system(pref.browser + " -remote 'ping()'") == 0)
+            system(pref.browser + " -remote 'openURL(" + sURL + ",new-tab)'");
         else
-            system(BROWSER + " " + sURL + " &");
+            system(pref.browser + " " + sURL + " &");
     }
     else
-        system(BROWSER + " " + sURL + " &");
+        system(pref.browser + " " + sURL + " &");
 }
 
 
@@ -2790,14 +2800,14 @@ void MainWindow::slotAboutWeb()
 {    
     QString sURL = QString("http://spdrs60.sourceforge.net/");
 
-    if (BROWSER == "mozilla" || BROWSER == "firefox") {
-        if (system(BROWSER + " -remote 'ping()'") == 0)
-            system(BROWSER + " -remote 'openURL(" + sURL + ",new-tab)'");
+    if (pref.browser == "mozilla" || pref.browser == "firefox") {
+        if (system(pref.browser + " -remote 'ping()'") == 0)
+            system(pref.browser + " -remote 'openURL(" + sURL + ",new-tab)'");
         else
-            system(BROWSER + " " + sURL + " &");
+            system(pref.browser + " " + sURL + " &");
     }
     else
-        system(BROWSER + " " + sURL + " &");
+        system(pref.browser + " " + sURL + " &");
 }
 
 // show an original DB clock with minute delay
@@ -2883,17 +2893,22 @@ void MainWindow::cmdToDebug(const QString& hl_message, int m_type,
 }
 
 
-/* show dialog window with program options */
+/* show dialog window with user preferences */
 void MainWindow::slotEditOptions()
 {
-    optionsWindow = new optionsDialog(this);
-    connect(optionsWindow, SIGNAL(repaintLayout()),
-            gbs, SIGNAL(sigRepaintLayout()));
-    connect(optionsWindow, SIGNAL(refreshConfigData()),
-            this, SLOT(slotReadConfigFile()));
-    connect(optionsWindow, SIGNAL(showLogMessage(const QString&, int, int)),
-            this, SLOT(cmdToDebug(const QString&, int, int)));
-    optionsWindow->show();
+    optDlg = new optionsDialog(this);
+    if (optDlg == NULL)
+        return;
+
+    optDlg->setPreferences(pref);
+
+    if (optDlg->exec() == QDialog::Accepted) {
+        optDlg->getPreferences(pref);
+        writeConfigFile();
+    }
+    //TODO: repaint layout if data tooltips and address/text has changed
+    delete optDlg;
+    optDlg = NULL;
 }
 
 
@@ -2925,8 +2940,10 @@ void MainWindow::slotEditFind()
 void MainWindow::layoutUpdateFB()
 {
     if (srcpVersion == 7) {
-        SendCommandToSRCPServer((FEEDBACK <=
-                    1) ? "GET FB S88 *" : "GET FB I8255 *");
+        //TODO: FB_TYPE
+        //SendCommandToSRCPServer((FEEDBACK <=
+        //            1) ? "GET FB S88 *" : "GET FB I8255 *");
+        SendCommandToSRCPServer("GET FB S88 *");
         SRCPCommandState = srcp07GetFBStates;
     }
 }

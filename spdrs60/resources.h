@@ -21,8 +21,6 @@
                                 // several attempts for reaching
                                 // their correct position
 
-#define   SMAJ             0   // SRCP version, major value
-#define   SMIN             7   // SRCP version, minor value
 #define   MAX_HISTORY      100 // max lines in debugging history
 
 /**********************************************************************
@@ -31,7 +29,7 @@
 
 //   Resource dependant, do NOT edit
 #define MAX_FB         1984    // number of total s88 feedback ports
-#define MAX_GAMM       324     // max number of mototola addresses
+#define MAX_GAMM       324     // max number of motorola addresses
 #define MAX_GADCC      4096    // max number of DCC addresses
 #define MAX_RB         6000    // max value of route button addresses
 
@@ -46,20 +44,6 @@
 #define   SRCH_A1          1   // search string should be in address 1 field
 #define   SRCH_A2          2   // search string should be in address 2 field
 
-#define   SRCP             0   // ID if prog works with a SRCP server
-#define   EDITS            1   // ID if prog works with EDiTS Pro
-#define   MAERKIF          2   // ID if prog works with Märklin IF
-#define   INTELLI          3   // ID if prog works with a Intellibox
-
-#define   VALID            1   // for validity check in various windows
-#define   INVALID          0
-
-#define   RED              1   // init state for signals
-#define   LAYOUT           0
-
-#define   TEXT             1   // show text or address in elements
-#define   ADDRESS          0
-
 #define   LOCATE_TIMER     5000// delay for edit mode after element locating
 
 #define   LOCKED           1   // state of a routing
@@ -69,13 +53,10 @@
 #define   LED_YEL          1   // route selected
 #define   LED_RED          2   // occupied
 
-#define   PROT_MS          1   // protocol is maerklin/motorola
-#define   PROT_NA          0   // protocol is dcc/nmra
-
-#define   FB_16            0   // feedback types
-#define   FB_8             1
-#define   FB_I8255         2
-//define   FB_M6051         3
+//TODO: different feedback types
+#define   FB_S88           0
+#define   FB_I8255         1
+#define   FB_M6051         2
 
 #define   USAGE            1   // modes for digital turntable
 #define   PROG             0
@@ -183,24 +164,5 @@
 #define   SYM_KURR         "kurr"
 #define   SYM_KULR         "kulr"
 
-//   QStrList IDs, do NOT edit
-#define   LIST_ID_INDEX        0
-#define   LIST_ID_ICON         1
-#define   LIST_ID_ROTATE       2
-#define   LIST_ID_INVERT       3
-#define   LIST_ID_DECODER      4
-#define   LIST_ID_PROTOCOL     5
-#define   LIST_ID_ADDRESS_1    6
-#define   LIST_ID_ADDRESS_2    7
-#define   LIST_ID_CHACONN_1    8
-#define   LIST_ID_CHACONN_2    9
-#define   LIST_ID_DIRECTION    10
-#define   LIST_ID_SUBTYPE      11
-#define   LIST_ID_TEXT         12
-#define   LIST_ID_ACTTIME      13
-#define   LIST_ID_FBPORT       14
-#define   LIST_ID_LEDOFF       15
-#define   LIST_ID_DATA_2       16
-#define   LIST_ID_DATA_3       17
 
 #endif

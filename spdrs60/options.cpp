@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.cpp
-                           version 0.4.8 $Revision: 1.10 $
+                           version 0.4.8 $Revision: 1.11 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-16 14:51:32 $
+    last modified        : $Date: 2006-01-24 20:38:33 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -29,26 +29,6 @@
 #include "options.h"
 #include "gbsarea.h"
 
-extern bool SHOW_HP2;
-extern bool SHOW_TOOLTIPS;
-extern bool SHOW_DATA_TOOLTIPS;
-extern bool LOAD_DEF_LAYOUT;
-extern bool INIT_SIGNALS;
-extern bool SHOW_TXT_ADR;
-extern bool AUTO_TT_DIR;
-
-extern int DEF_PROTOCOL;
-extern int ACTIVE_TIME;
-extern int ROUTING_TIME;
-extern int FEEDBACK;
-extern int FB_MODULES_[4];
-extern double TT_ROUND_TIME;
-
-extern QString DEF_LAYOUT;
-extern QString EDITOR;
-extern QString BROWSER;
-extern QString DEF_DECODER;
-
 
 
 optionsDialog::optionsDialog(QWidget* parent)
@@ -58,8 +38,6 @@ optionsDialog::optionsDialog(QWidget* parent)
     setupElementTab();
     setupDigitalTab();
     setupFeedbackTab();
-    fillWithData();             // fill all with data from init file
-    bRepaintNecessary = false;  // no repaint necessary yet
 
     setCaption(tr("User preferences"));
     setOKButton();
@@ -204,7 +182,7 @@ void optionsDialog::setupElementTab()
             generalBG, "bubbleCB");
     cbDataBubble = new QCheckBox(tr("Show bubblehelp for element &data"),
             generalBG, "databubbleCB");
-    connect(cbDataBubble, SIGNAL(pressed()), this, SLOT(slotSetRepaint()));
+    //connect(cbDataBubble, SIGNAL(pressed()), this, SLOT(slotSetRepaint()));
 
     
     // text groupbox
@@ -215,8 +193,8 @@ void optionsDialog::setupElementTab()
             soladdrBG);
     rbShowTxt = new QRadioButton(
             tr("Show &text (turnout or signal name)"), soladdrBG);
-    connect(rbShowAddr, SIGNAL(pressed()), this, SLOT(slotSetRepaint()));
-    connect(rbShowTxt, SIGNAL(pressed()), this, SLOT(slotSetRepaint()));
+    //connect(rbShowAddr, SIGNAL(pressed()), this, SLOT(slotSetRepaint()));
+    //connect(rbShowTxt, SIGNAL(pressed()), this, SLOT(slotSetRepaint()));
 
 
     // init groupbox
@@ -377,8 +355,8 @@ void optionsDialog::setupFeedbackTab()
     flexBusesRB = new QRadioButton(tr("F&lexible "
                 "(SRCP 0.8)"), busnoGB);
 
-    //connect(busnoGB, SIGNAL(clicked(int)),
-    //        this, SLOT(slotLimitModules(int)));
+    connect(busnoGB, SIGNAL(clicked(int)),
+            this, SLOT(fixFBBusNumbers(int)));
 
     // Feedback bus numbering
     // * SRCP 0.7 -> number is fixed
@@ -509,8 +487,10 @@ void optionsDialog::slotProtChanged(int)
     }
 }
 
-
-// depending on feedback module type (16 or 8 port) set the spin box ranges
+/*
+ * depending on feedback module type (16 or 8 port) set the spin box
+ * ranges, 16 <-> 0, 8 <-> 1
+ */
 void optionsDialog::slotLimitModules(int iType_)
 {
     sbFBmod_1->setRange(0, 31 + iType_ * 31);
@@ -519,169 +499,13 @@ void optionsDialog::slotLimitModules(int iType_)
     sbFBmod_4->setRange(0, 31 + iType_ * 31);
 }
 
-
-void optionsDialog::slotSetRepaint()
-{
-    // user has changed options that need a layout repaint
-    bRepaintNecessary = true;
-}
-
-
-void optionsDialog::fillWithData()
-{
-    int i;
-
-    // layout section
-    cbShowHp2->setChecked(SHOW_HP2);
-    cbGenBubble->setChecked(SHOW_TOOLTIPS);
-    cbDataBubble->setChecked(SHOW_DATA_TOOLTIPS);
-    rbShowAddr->setChecked(SHOW_TXT_ADR == ADDRESS);
-    rbShowTxt->setChecked(SHOW_TXT_ADR == TEXT);
-    rbSignalRed->setChecked(INIT_SIGNALS == RED);
-    rbSignalLay->setChecked(INIT_SIGNALS == LAYOUT);
-    cbAutoload->setChecked(LOAD_DEF_LAYOUT);
-
-    //if (DEF_LAYOUT != "-1" && LOAD_DEF_LAYOUT != 0 )
-    if (DEF_LAYOUT != "-1" && LOAD_DEF_LAYOUT)
-        leAutoload->setText(DEF_LAYOUT);
-    else if (DEF_LAYOUT == "-1")
-        slotAutoload(false);
-
-    bool editorfound = false;
-    for (i = 0; i < coboEditor->count(); i++) {
-        if (coboEditor->text(i) == EDITOR) {
-            coboEditor->setCurrentItem(i);
-            editorfound = true;
-            break;
-        }
-    }
-    if (!editorfound) {
-        coboEditor->insertItem(EDITOR);
-        coboEditor->setCurrentItem(coboEditor->count() - 1);
-    }
-    
-    bool browserfound = false;
-    for (i = 0; i < coboBrowser->count(); i++) {
-        if (coboBrowser->text(i) == BROWSER) {
-            coboBrowser->setCurrentItem(i);
-            browserfound = true;
-            break;
-        }
-    }
-    if (!browserfound) {
-        coboBrowser->insertItem(BROWSER);
-        coboBrowser->setCurrentItem(coboBrowser->count() - 1);
-    }
-
-    // data section
-    rbProtMS->setChecked(DEF_PROTOCOL == PROT_MS);
-    rbProtNA->setChecked(DEF_PROTOCOL == PROT_NA);
-
-    for (i = 0; i < coboDecoder->count(); i++) {
-        if (coboDecoder->text(i) == DEF_DECODER) {
-            coboDecoder->setCurrentItem(i);
-            break;
-        }
-    }
-    sbActiveTime->setValue(ACTIVE_TIME);
-    cbAutoTTDir->setChecked(AUTO_TT_DIR);
-
-    QString sText;
-    sText.sprintf("%.2f", TT_ROUND_TIME);
-    leTTRoundTime->setText(sText);
-
-    sbRoutingTime->setValue(ROUTING_TIME);
-    rbS88_16->setChecked(FEEDBACK == FB_16);
-    rbS88_8->setChecked(FEEDBACK == FB_8);
-    sbFBmod_1->setValue(FB_MODULES_[0]);
-    sbFBmod_2->setValue(FB_MODULES_[1]);
-    sbFBmod_3->setValue(FB_MODULES_[2]);
-    sbFBmod_4->setValue(FB_MODULES_[3]);
-    slotLimitModules(FEEDBACK);
-}
-
-
-void optionsDialog::done(int r)
-{
-    // user has clicked OK to accept changes
-    if (r == QDialog::Accepted) {
-        // something's wrong or missing, so don't leave this dialog
-        if (checkForWarnings() == INVALID)
-            return;
-
-        // everything is okay, write config file and leave dialog
-        QFile file(QDir::homeDirPath() + "/" + SPDRS60_INIT);
-        QString s;
-
-        if (!file.open(IO_WriteOnly)) {
-            emit showLogMessage(tr("Error: Could not save configuration"
-                        " file: ~/%1").arg(SPDRS60_INIT), MT_INFO, HL_CMND);
-            return;
-        }
-
-        emit showLogMessage(tr("Writing SpDrS60 configuration"
-                    " file: ~/%1").arg(SPDRS60_INIT), MT_INFO, HL_CMND);
-
-        QDateTime dt = QDateTime::currentDateTime();
-        QTextStream ts(&file);
-
-        ts << "# SpDrS60 for Linux config file" << endl;
-        ts << "# Last modified: " << dt.toString(Qt::ISODate) << endl;
-        ts << "#" << endl;
-        ts << "# LAYOUT SECTION" << endl;
-        ts << "#" << endl;
-        ts << "show hp2:       " << (int) cbShowHp2->isChecked() << endl;
-        ts << "show gen bubb:  " << (int) cbGenBubble->isChecked() << endl;
-        ts << "show data bubb: " << (int) cbDataBubble->
-            isChecked() << endl;
-        ts << "in text fields: " << ((rbShowAddr->isChecked() == 1) ?
-                                     "address" : "text") << endl;
-        ts << "init signals as:" << ((rbSignalRed->isChecked() == 1) ?
-                                     "red" : "saved") << endl;
-        ts << "def new cols:   " << sbDefaultCols->value() << endl;
-        ts << "autoloader:     " << (int) cbAutoload->isChecked() << endl;
-        ts << "autoload file:  " << ((cbAutoload->isChecked() == 1) ?
-                                     leAutoload->
-                                     text() : (QString) "-1") << endl;
-        ts << "editor name:    " << coboEditor->currentText() << endl;
-        ts << "browser name:   " << coboBrowser->currentText() << endl;
-        ts << "#" << endl;
-        ts << "# DATA SECTION" << endl;
-        ts << "#" << endl;
-        ts << "def protocol:   " << ((rbProtMS->isChecked() == 1) ?
-                                     "Motorola" : "DCC") << endl;
-        ts << "def decoder:    " << coboDecoder->currentText() << endl;
-        ts << "activation time:" << sbActiveTime->value() << endl;
-        ts << "auto tt direct.:" << (int) cbAutoTTDir->isChecked() << endl;
-        ts << "tt round time:  " << leTTRoundTime->text() << endl;
-        ts << "auto ZP 9:      " << 0 << endl;
-        ts << "routing delay:  " << sbRoutingTime->value() << endl;
-        if (rbS88_16->isChecked() == 1)
-            ts << "feedback type:  " << "S88_16" << endl;
-        if (rbS88_8->isChecked() == 1)
-            ts << "feedback type:  " << "S88_8" << endl;
-        //TODO: i8255
-        ts << "modules bus #1: " << sbFBmod_1->value() << endl;
-        ts << "modules bus #2: " << sbFBmod_2->value() << endl;
-        ts << "modules bus #3: " << sbFBmod_3->value() << endl;
-        ts << "modules bus #4: " << sbFBmod_4->value() << endl;
-
-        file.close();
-
-        emit refreshConfigData();       // in MainWindow re-read Config file
-        if (bRepaintNecessary)  // repaint layout if f.e. no bubblehelp
-            emit repaintLayout();       // is wished
-    }
-    QDialog::done(r);           // close this dialog
-}
-
-
-int optionsDialog::checkForWarnings()
+// TODO: remove this
+bool optionsDialog::valuesAreValid()
 {
     QString sText;
 
     sText = leAutoload->text();
-    if (sText == "" && leAutoload->isEnabled() == true) {
+    if (sText == "" && leAutoload->isEnabled()) {
         qApp->beep();
         QMessageBox::warning(this,
                              tr("Filename missing"),
@@ -691,7 +515,7 @@ int optionsDialog::checkForWarnings()
         // butt 1: OK, butt 2+3: not avail.
         // <ENTER> + <ESC> default to butt 0 = OK
         buttGetAutofile->setFocus();
-        return INVALID;
+        return false;
     }
 
     sText = leTTRoundTime->text();
@@ -706,7 +530,7 @@ int optionsDialog::checkForWarnings()
         // butt 1: OK, butt 2+3: not avail.
         // <ENTER> + <ESC> default to butt 0 = OK
         leTTRoundTime->setFocus();
-        return INVALID;
+        return false;
     }
 
     if (sbFBmod_1->value() == 0 && sbFBmod_2->value() == 0 &&
@@ -723,8 +547,175 @@ int optionsDialog::checkForWarnings()
         // butt 1: Yes, butt 2+3: N/A.
         // <ENTER> + <ESC> default to butt 0 = OK
         sbFBmod_1->setValue(1);
-        return VALID;
+        return true;
     }
 
-    return VALID;               // everything is correct, so return VALID
+    // everything is correct, so return VALID
+    return true;
 }
+
+
+void optionsDialog::fixFBBusNumbers(int fixed)
+{
+    if (fixed == 0) {
+        bus1LE->setText("1");
+        bus2LE->setText("2");
+        bus3LE->setText("3");
+        bus4LE->setText("4");
+        bus1LE->setFocusPolicy(QWidget::NoFocus);
+        bus2LE->setFocusPolicy(QWidget::NoFocus);
+        bus3LE->setFocusPolicy(QWidget::NoFocus);
+        bus4LE->setFocusPolicy(QWidget::NoFocus);
+    }
+    else {
+        bus1LE->setFocusPolicy(QWidget::StrongFocus);
+        bus2LE->setFocusPolicy(QWidget::StrongFocus);
+        bus3LE->setFocusPolicy(QWidget::StrongFocus);
+        bus4LE->setFocusPolicy(QWidget::StrongFocus);
+    }
+}
+
+
+void optionsDialog::getPreferences(Preferences& prf)
+{
+    prf.layoutcols = sbDefaultCols->value();
+    prf.layoutrows = sbDefaultRows->value();
+    prf.hp2 = cbShowHp2->isChecked();
+    prf.tooltips = cbGenBubble->isChecked();
+    prf.datatooltips = cbDataBubble->isChecked();
+    prf.addresslabeling = rbShowAddr->isChecked();
+    prf.initsignalsred = rbSignalRed->isChecked();
+    prf.autoload = cbAutoload->isChecked();
+    prf.autolayout = leAutoload->text();
+    prf.editor = coboEditor->currentText();
+    prf.browser = coboBrowser->currentText();
+    prf.protocolmm = rbProtMS->isChecked();
+    prf.decoder = coboDecoder->currentText();
+    prf.autottdir = cbAutoTTDir->isChecked();
+    prf.activetime = sbActiveTime->value();
+    prf.routingtime = sbRoutingTime->value();
+    prf.ttroundtime = leTTRoundTime->text().toDouble();
+    if (rbS88_16->isChecked())
+        prf.fbfactor = 0;
+    else 
+        prf.fbfactor = 1;
+    prf.fixedbusnum = fixedBusesRB->isChecked();
+    prf.fbbus1.modules = sbFBmod_1->value();
+    prf.fbbus2.modules = sbFBmod_2->value();
+    prf.fbbus3.modules = sbFBmod_3->value();
+    prf.fbbus4.modules = sbFBmod_4->value();
+    prf.fbbus1.number = bus1LE->text().toUInt();
+    prf.fbbus2.number = bus2LE->text().toUInt();
+    prf.fbbus3.number = bus3LE->text().toUInt();
+    prf.fbbus4.number = bus4LE->text().toUInt();
+}
+
+
+void optionsDialog::setPreferences(const Preferences& prf)
+{
+    sbDefaultCols->setValue(prf.layoutcols);
+    sbDefaultRows->setValue(prf.layoutrows);
+    cbShowHp2->setChecked(prf.hp2);
+    cbGenBubble->setChecked(prf.tooltips);
+    cbDataBubble->setChecked(prf.datatooltips);
+    
+    if (prf.addresslabeling)
+        rbShowAddr->setChecked(true);
+    else
+        rbShowTxt->setChecked(true);
+
+    if (prf.initsignalsred)
+        rbSignalRed->setChecked(true);
+    else
+        rbSignalLay->setChecked(true);
+    
+    if (prf.autoload) {
+        cbAutoload->setChecked(true);
+        leAutoload->setText(prf.autolayout);
+    }
+    else
+        rbSignalLay->setChecked(false);
+
+    slotAutoload(prf.autoload);
+
+    bool found = false;
+    for (int i = 0; i < coboEditor->count(); i++) {
+        if (coboEditor->text(i) == prf.editor) {
+            coboEditor->setCurrentItem(i);
+            found = true;
+            break;
+        }
+    }
+    if (!found) {
+        //TODO: prog == ""
+        coboEditor->insertItem(prf.editor);
+        coboEditor->setCurrentItem(coboEditor->count() - 1);
+    }
+
+    found = false;
+    for (int i = 0; i < coboBrowser->count(); i++) {
+        if (coboBrowser->text(i) == prf.browser) {
+            coboBrowser->setCurrentItem(i);
+            found = true;
+            break;
+        }
+    }
+    if (!found) {
+        //TODO: prog == ""
+        coboBrowser->insertItem(prf.browser);
+        coboBrowser->setCurrentItem(coboBrowser->count() - 1);
+    }
+
+    if (prf.protocolmm)
+        rbProtMS->setChecked(true);
+    else
+        rbProtNA->setChecked(true);
+
+    found = false;
+    for (int i = 0; i < coboDecoder->count(); i++) {
+        if (coboDecoder->text(i) == prf.decoder) {
+            coboDecoder->setCurrentItem(i);
+            found = true;
+            break;
+        }
+    }
+    if (!found) {
+        coboDecoder->setCurrentItem(1);
+    }
+
+    cbAutoTTDir->setChecked(prf.autottdir);
+    sbActiveTime->setValue(prf.activetime);
+    sbRoutingTime->setValue(prf.routingtime);
+
+    QString t;
+    t.sprintf("%.2f", prf.ttroundtime);
+    leTTRoundTime->setText(t);
+
+    if (prf.fbfactor == 0) {
+        rbS88_16->setChecked(true);
+        slotLimitModules(0);
+    }
+    else {
+        rbS88_8->setChecked(true);
+        slotLimitModules(1);
+    }
+
+    if (prf.fixedbusnum) {
+        fixedBusesRB->setChecked(true);
+        fixFBBusNumbers(0);
+    }
+    else {
+        flexBusesRB->setChecked(true);
+        fixFBBusNumbers(1);
+    }
+
+    bus1LE->setText(QString::number(prf.fbbus1.number));
+    sbFBmod_1->setValue(prf.fbbus1.modules);
+    bus2LE->setText(QString::number(prf.fbbus2.number));
+    sbFBmod_2->setValue(prf.fbbus2.modules);
+    bus3LE->setText(QString::number(prf.fbbus3.number));
+    sbFBmod_3->setValue(prf.fbbus3.modules);
+    bus4LE->setText(QString::number(prf.fbbus4.number));
+    sbFBmod_4->setValue(prf.fbbus4.modules);
+}
+

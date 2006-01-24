@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.46 $
+                           version 0.4.8 $Revision: 1.47 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-01-07 21:20:08 $
+    last modified        : $Date: 2006-01-24 20:38:33 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -27,6 +27,7 @@
 #include <stdio.h>              // for sprintf()
 
 #include "element.h"
+#include "preferences.h"
 
 /*menu icons*/
 #include "pixmaps/ctx_rota.xpm"
@@ -78,14 +79,6 @@ static const char* leer_xpm[]={
 "........................................................",
 "........................................................"};
 
-
-extern bool SHOW_HP2;
-extern bool SHOW_DATA_TOOLTIPS;
-extern bool INIT_SIGNALS;
-extern bool SHOW_TXT_ADR;
-//extern bool bFBport[MAX_FB];
-
-extern int FEEDBACK;
 
 
 element::element(QWidget* parent): QWidget(parent)
@@ -344,7 +337,7 @@ void element::updateProperties()
          sSoldIcon == SYM_SSS || sSoldIcon == SYM_REL ||
          sSoldIcon == SYM_WS || sSoldIcon == SYM_ZP ||
          sSoldIcon == SYM_BLD || sSoldIcon == SYM_VS) &&
-         (INIT_SIGNALS == RED))
+         (pref.initsignalsred))
         iSoldDirection = 0;
 
     if (sSoldIcon == SYM_ENK)   // couplers get the non-active direction
@@ -1543,7 +1536,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             sStateIcon = "LED_hp0";
             break;              // 0
         case DIR_HP2:
-            if (SHOW_HP2) {
+            if (pref.hp2) {
                 sStateIcon = "LED_hp2";
                 break;
             }
@@ -1574,7 +1567,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             sStateIcon = "LED_vs0";
             break;              // 0
         case DIR_HP2:
-            if (SHOW_HP2) {
+            if (pref.hp2) {
                 sStateIcon = "LED_vs2";
                 break;
             }
@@ -1669,10 +1662,10 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         // all other switchable elements
         else {
             f.setPointSize(QApplication::font().pointSize() - 3);
-            if (SHOW_TXT_ADR == TEXT)
-                s = sSoldText;
-            else
+            if (pref.addresslabeling)
                 s.setNum(iSoldAddress_1);
+            else
+                s = sSoldText;
         }
 
         QFontMetrics fm(f);
@@ -1893,7 +1886,7 @@ void element::addTooltip()
     // remove every tooltip and if wished add new one
     // setup element's tooltip
     // with all information of the member variables
-    if (SHOW_DATA_TOOLTIPS) {
+    if (pref.datatooltips) {
         QString a1, a2;
         a1 = QString::number(iSoldAddress_1);
         a2 = QString::number(iSoldAddress_2);
@@ -1945,8 +1938,8 @@ void element::addTooltip()
                      sSoldText == "-1" ? "N/A (=-1)" : sSoldText.data(),
                      lockCounter == -1 ? "N/A" : (isLocked() ? "No" : "Yes"),
                      lockCounter, iSoldActiveTime,
-                     iFBContact / (16 - FEEDBACK * 8) + 1,
-                     iFBContact % (16 - FEEDBACK * 8) + 1);
+                     iFBContact / (16 - pref.fbfactor * 8) + 1,
+                     iFBContact % (16 - pref.fbfactor * 8) + 1);
 
         tip1.append(tip2);
 
@@ -2453,9 +2446,10 @@ void element::updateFeedbackState()
         SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgFbGet);
         if (sm == NULL)
             return;
-        
-        sm->setFbData(iFBBusNo, (FEEDBACK <= 1) ? SrcpMessage::fbS88 :
-                SrcpMessage::fbI8255, iFBContact);
+        //TODO: FB_TYPE 
+        //sm->setFbData(iFBBusNo, (FEEDBACK <= 1) ? SrcpMessage::fbS88 :
+        //        SrcpMessage::fbI8255, iFBContact);
+        sm->setFbData(iFBBusNo, SrcpMessage::fbS88, iFBContact);
         
         emit sendSrcpMessage(sm);
 
