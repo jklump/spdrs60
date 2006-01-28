@@ -1,10 +1,10 @@
 /***************************************************************************
                            routeelementdialog.cpp
-                           version 0.4.8 $Revision: 1.4 $
+                           version 0.4.8 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 2005 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-01-15 16:29:04 $
+    last modified        : $Date: 2006-01-28 21:09:32 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -31,7 +31,6 @@ RouteElementDialog::RouteElementDialog(QWidget* parent)
 : QDialog(parent, "RouteElementDialog")
 {
     rePtr1 = NULL;
-    rePtr2 = NULL;
     
     setCaption(tr("Edit route element"));
     /*Layout to separate OK and Cancel buttons form the upper rest*/
@@ -128,6 +127,7 @@ void RouteElementDialog::setStateElementData(const stateElement* se)
     reSrcpBusLE->setText(QString::number(se->bus));
     reAddressLE->setText(QString::number(se->address));
     reStateSB->setValue(se->state);
+    rePtr1 = se->elemPtr;
 }
 
 

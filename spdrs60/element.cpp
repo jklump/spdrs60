@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.47 $
+                           version 0.4.8 $Revision: 1.48 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-01-24 20:38:33 $
+    last modified        : $Date: 2006-01-28 21:09:32 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1530,22 +1530,42 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
     // now in addition: setup other LEDs like signal or relais lamps
 
     QString sStateIcon;
-    if (sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS)
+    if (sSoldIcon == SYM_HS) {
+        // fix wrong direction if hp2-subtype
+        if (iSoldSubType == 6 && iSoldDirection == DIR_HP1)
+            iSoldDirection = DIR_HP2;
+
         switch (iSoldDirection) {
-        case DIR_HP0:
-            sStateIcon = "LED_hp0";
-            break;              // 0
-        case DIR_HP2:
-            if (pref.hp2) {
-                sStateIcon = "LED_hp2";
+            case DIR_HP0:              // 0
+                sStateIcon = "LED_hp0";
                 break;
-            }
-        case DIR_HP1:
-            sStateIcon = "LED_hp1";
-            break;              // 1
-        case DIR_SH1:
-            sStateIcon = "LED_sh1";
-            break;              // 3
+            case DIR_HP2:              // 2
+                if (pref.hp2) {
+                    sStateIcon = "LED_hp2";
+                    break;
+                }
+            case DIR_HP1:              // 1
+                sStateIcon = "LED_hp1";
+                break;
+        }
+    }
+
+    else if (sSoldIcon == SYM_HSS)
+        switch (iSoldDirection) {
+            case DIR_HP0:              // 0
+                sStateIcon = "LED_hp0";
+                break;
+            case DIR_HP2:              // 2
+                if (pref.hp2) {
+                    sStateIcon = "LED_hp2";
+                    break;
+                }
+            case DIR_HP1:              // 1
+                sStateIcon = "LED_hp1";
+                break;
+            case DIR_SH1:              // 3
+                sStateIcon = "LED_sh1";
+                break;
         }
 
     else if (sSoldIcon == SYM_SS || sSoldIcon == SYM_ZP
@@ -1553,54 +1573,59 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
              || sSoldIcon == SYM_SSH || sSoldIcon == SYM_SSS
              )
         switch (iSoldDirection) {
-        case DIR_0:
-            sStateIcon = sSoldIcon + "_0";
-            break;              // 0
-        case DIR_1:
-            sStateIcon = sSoldIcon + "_1";
-            break;              // 1
-        }
-
-    else if (sSoldIcon == SYM_VS)
-        switch (iSoldDirection) {
-        case DIR_HP0:
-            sStateIcon = "LED_vs0";
-            break;              // 0
-        case DIR_HP2:
-            if (pref.hp2) {
-                sStateIcon = "LED_vs2";
+            case DIR_0:              // 0
+                sStateIcon = sSoldIcon + "_0";
                 break;
-            }
-        case DIR_HP1:
-            sStateIcon = "LED_vs1";
-            break;              // 1
+            case DIR_1:              // 1
+                sStateIcon = sSoldIcon + "_1";
+                break;
         }
 
+    else if (sSoldIcon == SYM_VS) {
+        // fix wrong direction if hp2-subtype
+        if (iSoldSubType == 6 && iSoldDirection == DIR_HP1)
+            iSoldDirection = DIR_HP2;
+
+        switch (iSoldDirection) {
+            case DIR_HP0:              // 0
+                sStateIcon = "LED_vs0";
+                break;
+            case DIR_HP2:              // 2
+                if (pref.hp2) {
+                    sStateIcon = "LED_vs2";
+                    break;
+                }
+            case DIR_HP1:              // 1
+                sStateIcon = "LED_vs1";
+                break;
+        }
+    }
+
+    // in a coupler element, iSoldDirection is only used as a directional
+    // value if it´s a bistable coupler. Otherwise the value of iSold-
+    // Direction is only used to setup the right icon on screen. The sent
+    // direction is either 0 if we use the left decoder connector or 1 if
+    // we use the right one. The right value to send is then obtained by
+    // copying iSoldSubType value into iRealDirection (see "makeCommand")
     else if (sSoldIcon == SYM_ENK) {
         switch (iSoldDirection) {
-           // in a coupler element, iSoldDirection is only used as a directional
-           // value if it´s a bistable coupler. Otherwise the value of iSold-
-           // Direction is only used to setup the right icon on screen. The sent
-           // direction is either 0 if we use the left decoder connector or 1 if
-           // we use the right one. The right value to send is then obtained by
-           // copying iSoldSubType value into iRealDirection (see "makeCommand")
-        case DIR_ENK_DW:
-            sStateIcon = sSoldIcon;
-            break;              // 0
-        case DIR_ENK_UP:
-            sStateIcon = sSoldIcon + "_1";
-            break;              // 1
+            case DIR_ENK_DW:              // 0
+                sStateIcon = sSoldIcon;
+                break;
+            case DIR_ENK_UP:              // 1
+                sStateIcon = sSoldIcon + "_1";
+                break;
         }
     }
 
     else if (sSoldIcon == SYM_REL)
         switch (iSoldDirection) {
-        case DIR_REL0:
-            sStateIcon = sSoldIcon;
-            break;              // 0
-        case DIR_REL1:
-            sStateIcon = sSoldIcon + "_1";
-            break;              // 1
+            case DIR_REL0:              // 0
+                sStateIcon = sSoldIcon;
+                break;
+            case DIR_REL1:              // 1
+                sStateIcon = sSoldIcon + "_1";
+                break;
         }
 
     // copy the additional LED pixmaps to basic icon
@@ -2514,3 +2539,8 @@ int element::getFBBusNo()
 }   
                 
 
+bool element::hasThreeStates()
+{
+    return (sSoldIcon == SYM_HS || sSoldIcon == SYM_VS) &&
+        iSoldSubType == 6;
+}

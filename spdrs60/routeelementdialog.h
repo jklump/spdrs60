@@ -1,10 +1,10 @@
 /***************************************************************************
                            routeelementdialog.h
-                           version 0.4.8 $Revision: 1.1 $
+                           version 0.4.8 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-10-22 05:43:44 $
+    last modified        : $Date: 2006-01-28 21:09:32 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -49,7 +49,6 @@ signals:
 
 private:
    element* rePtr1;
-   element* rePtr2;
     
    QLineEdit* reNameLE;
    QLineEdit* reSrcpBusLE;

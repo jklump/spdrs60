@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.4.8 $Revision: 1.34 $
+                           version 0.4.8 $Revision: 1.35 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-07 21:20:08 $
+    last modified        : $Date: 2006-01-28 21:09:32 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -159,6 +159,7 @@ public:
     bool isSwitchable();
     bool is2StateDKW();
     bool isSimpleGA();
+    bool hasThreeStates();
     void showElementState(int, elemSelectionMode);
     bool sendSRCP08InitGA(unsigned int gano = 1);
     void setIndexNo(unsigned int);

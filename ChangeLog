@@ -1,3 +1,15 @@
+2006-01-28 Guido Scholz <guido.scholz@bayernline.de>
+	* routedialog.cpp: fixed route element list focus bug, rearanged
+	element list edit buttons
+	* routedialog.cpp, element.*: fixed hp2 bug for entry signals
+	* routedialog.cpp, routeelementdialog.*: fixed element pointer
+	usage
+
+2006-01-24 Guido Scholz <guido.scholz@bayernline.de>
+	* preferences.*: new file for global variables
+	* element.*, gbsarea.*, mainwindow.*, main.ccp, options.*:
+	 global variables renamed
+
 2006-01-14 Guido Scholz <guido.scholz@bayernline.de>
 	* mainwindow.cpp, newlayoutdialog.cpp: SRCP server variables now
 	are layout specific

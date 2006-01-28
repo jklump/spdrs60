@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.5.0 $Revision: 1.26 $
+                           version 0.5.0 $Revision: 1.27 $
                            -------------------------------
     copyright            : (C) 2005-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-01-24 20:38:33 $
+    last modified        : $Date: 2006-01-28 21:09:32 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -441,11 +441,10 @@ RouteDialog::RouteDialog(QWidget* parent)
     QGroupBox* routeElementsGB = new QGroupBox(0, Horizontal,
             tr("Route elements"), this, "routeElementsGB");
     rightColumnLayout->addWidget(routeElementsGB);
-    QVBoxLayout* routeElL = new QVBoxLayout(routeElementsGB->layout(), 6);
+    QHBoxLayout* routeElL = new QHBoxLayout(routeElementsGB->layout(), 10);
     
     /* list with route elements */
     elementsLV = new QListView(routeElementsGB, "elementsLV");
-    //elementsLV->setSorting(-1);
     routeElL->addWidget(elementsLV);
     elementsLV->addColumn(tr("No"));
     elementsLV->addColumn(tr("Name"));
@@ -457,15 +456,15 @@ RouteDialog::RouteDialog(QWidget* parent)
     elementsLV->setColumnAlignment(2, Qt::AlignCenter);
     elementsLV->setColumnAlignment(3, Qt::AlignRight);
     elementsLV->setColumnAlignment(4, Qt::AlignCenter);
-    connect(elementsLV, SIGNAL(currentChanged(QListViewItem*)),
+    connect(elementsLV, SIGNAL(selectionChanged(QListViewItem*)),
             this, SLOT(elementsLVChanged(QListViewItem*)));
  
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
     routeElL->addItem(spacer);
 
-    /*line with Add and Remove buttons*/
-    QBoxLayout* routeElBtnLayout = new QHBoxLayout(routeElL, 6);
+    /*column with Add and Remove buttons*/
+    QVBoxLayout* routeElBtnLayout = new QVBoxLayout(routeElL, 6);
 
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -515,6 +514,7 @@ void RouteDialog::setEntrySignalData(const stateElement& signal)
     startSignalSrcpBusLE->setText(QString::number(signal.bus));
     startSignalAddressLE->setText(QString::number(signal.address));
     startSignalStateSB->setValue(signal.state);
+    startSignalElPtr = signal.elemPtr;
 }
 
 /* Information about a second element in layout with same function is
@@ -537,6 +537,7 @@ void RouteDialog::setExitSignalData(const stateElement& signal)
     // name is set by "updateExitSignalName"
     stopSignalSrcpBusLE->setText(QString::number(signal.bus));
     stopSignalAddressLE->setText(QString::number(signal.address));
+    stopSignalElPtr = signal.elemPtr;
 }
 
 
@@ -762,7 +763,6 @@ void RouteDialog::removeElementFromList()
         QListViewItem* nextlvi = lvi->itemBelow();
         elementsLV->takeItem(lvi);
         delete lvi;
-        // TODO: save index number and update all following items
         updateListIndexNumbersFrom(nextlvi); 
 
         // update button states if list is empty
@@ -806,8 +806,12 @@ void RouteDialog::updateEntrySignalName(int bus, int address)
     else {
         startSignalNameLE->setText(el->getName());
         int ac = el->getAddressCount();
-        if (ac == 1)
-            startSignalStateSB->setMaxValue(1);
+        if (ac == 1) {
+            if (el->hasThreeStates())
+                startSignalStateSB->setMaxValue(2);
+            else
+                startSignalStateSB->setMaxValue(1);
+        }
         else
             startSignalStateSB->setMaxValue(3);
     }
@@ -949,6 +953,7 @@ void RouteDialog::addElementToList()
                     ec , se);
             if (relvi != NULL) {
                 relvi->setStateElementData(se);
+                //TODO: listview (string) sorting fails if items count > 9
                 elementsLV->sort();
                 // set focus to new element
                 elementsLV->setSelected(relvi, true);
