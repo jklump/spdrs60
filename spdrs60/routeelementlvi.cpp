@@ -1,10 +1,10 @@
 /***************************************************************************
                            routeelementlvi.cpp
-                           version 0.4.8 $Revision: 1.3 $
+                           version 0.4.8 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-01-30 20:06:43 $
+    last modified        : $Date: 2006-01-30 20:19:08 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -106,10 +106,11 @@ int RouteElementLVI::compare(QListViewItem* i, int col,
     RouteElementLVI* item = (RouteElementLVI*) i;
     item->getStateElementData(ce);
     
+    int key1 = key(col, ascending).toInt();
+    int key2 = i->key(col, ascending).toInt();
+
     switch (col) {
         case 0:
-            int key1 = key(col, ascending).toInt();
-            int key2 = i->key(col, ascending).toInt();
             if (key1 > key2)
                 returnvalue = 1;
             else if (key1 < key2)
