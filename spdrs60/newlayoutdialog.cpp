@@ -1,11 +1,11 @@
 /***************************************************************************
                            newlayoutdialog.cpp
-                           version 0.4.8 $Revision: 1.6 $
+                           version 0.4.8 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2006 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-24 20:38:33 $
+    last modified        : $Date: 2006-01-30 20:06:43 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -177,10 +177,14 @@ QString newLayoutDialog::getHost()
 
 int newLayoutDialog::getPort()
 {
+#if QT_VERSION >= 0x030200
     if (portLE->hasAcceptableInput())
+#endif
         return portLE->text().toInt();
+#if QT_VERSION >= 0x030200
     else
         return 12345;  //FIXME
+#endif
 }
 
 

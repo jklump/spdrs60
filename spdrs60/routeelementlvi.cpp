@@ -1,10 +1,10 @@
 /***************************************************************************
                            routeelementlvi.cpp
-                           version 0.4.8 $Revision: 1.2 $
+                           version 0.4.8 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-12-29 21:40:28 $
+    last modified        : $Date: 2006-01-30 20:06:43 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -69,6 +69,7 @@ void RouteElementLVI::setStateElementData(const stateElement* se)
    setText(4, QString::number(routeElement.state));  
 }
 
+
 void RouteElementLVI::getStateElementData(stateElement* se)
 {
    if (se == NULL)
@@ -82,3 +83,67 @@ void RouteElementLVI::getStateElementData(stateElement* se)
    se->elemPtr2 = routeElement.elemPtr2;
 }
 
+
+/*
+ * sort all columns:
+ *
+ * No Name      Type
+ * -------------------------
+ * 0  No        int
+ * 1  Name      QString
+ * 2  SRCP-Bus  unsigned int
+ * 3  Addres    unsigned int
+ * 4  State     unsigned int
+ * -------------------------
+ */
+int RouteElementLVI::compare(QListViewItem* i, int col,
+        bool ascending) const
+{
+    int returnvalue = 0;
+    stateElement* ce = new stateElement;
+    if (ce == NULL)
+        return returnvalue;
+    RouteElementLVI* item = (RouteElementLVI*) i;
+    item->getStateElementData(ce);
+    
+    switch (col) {
+        case 0:
+            int key1 = key(col, ascending).toInt();
+            int key2 = i->key(col, ascending).toInt();
+            if (key1 > key2)
+                returnvalue = 1;
+            else if (key1 < key2)
+                returnvalue = -1;
+            if (!ascending)
+                returnvalue *= -1;
+            break;
+        case 1:
+            returnvalue = key(col, ascending).compare(i->key(col, ascending));
+            break;
+        case 2:
+            if (routeElement.bus > ce->bus)
+                returnvalue = 1;
+            else if (routeElement.bus < ce->bus)
+                returnvalue = -1;
+            if (!ascending)
+                returnvalue *= -1;
+            break;
+        case 3:
+            if (routeElement.address > ce->address)
+                returnvalue = 1;
+            else if (routeElement.address < ce->address)
+                returnvalue = -1;
+            if (!ascending)
+                returnvalue *= -1;
+            break;
+        case 4:
+            if (routeElement.state > ce->state)
+                returnvalue = 1;
+            else if (routeElement.state < ce->state)
+                returnvalue = -1;
+            if (!ascending)
+                returnvalue *= -1;
+            break;
+    }
+    return returnvalue;
+}

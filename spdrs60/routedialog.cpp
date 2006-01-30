@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.5.0 $Revision: 1.27 $
+                           version 0.5.0 $Revision: 1.28 $
                            -------------------------------
     copyright            : (C) 2005-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-01-28 21:09:32 $
+    last modified        : $Date: 2006-01-30 20:06:43 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -445,6 +445,7 @@ RouteDialog::RouteDialog(QWidget* parent)
     
     /* list with route elements */
     elementsLV = new QListView(routeElementsGB, "elementsLV");
+    elementsLV->setAllColumnsShowFocus(true);
     routeElL->addWidget(elementsLV);
     elementsLV->addColumn(tr("No"));
     elementsLV->addColumn(tr("Name"));

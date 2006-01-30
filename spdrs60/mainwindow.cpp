@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.52 $
+                           version 0.4.8 $Revision: 1.53 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-24 20:38:33 $
+    last modified        : $Date: 2006-01-30 20:06:43 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1420,6 +1420,7 @@ bool MainWindow::saveFile()
     }
 
     QTextStream ts(&f);
+    ts.setEncoding(QTextStream::UnicodeUTF8);
     
     QDateTime dt = QDateTime::currentDateTime();
     
@@ -1562,6 +1563,7 @@ void MainWindow::openFile(const QString& fn)
     fileName = fn;
 
     QTextStream ts(&f);
+    ts.setEncoding(QTextStream::UnicodeUTF8);
     
     QString s, key, value;
     while (!ts.eof()) {
