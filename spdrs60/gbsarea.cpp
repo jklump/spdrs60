@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.41 $
+                           version 0.4.8 $Revision: 1.42 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-08 16:31:20 $
+    last modified        : $Date: 2006-01-31 17:04:55 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -470,11 +470,6 @@ void GBSArea::externalButtonClicked(GbsButtonState externalButton)
             break;
         case kHagtClicked:
             setCursor(HaGTCursor);
-            /*TODO: implement HaGT-function*/
-            QApplication::beep();
-            emit showLogMessage(tr("HaGT-Function not supported."),
-                    MT_INFO, HL_CMND);
-            delayTimer->start(500);
             break;
         default:
             break;
@@ -507,21 +502,18 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
         case kRfsClicked:
         case kZfsClicked:
         case kZhsClicked:
-            if (kSgtClicked == gkbState) {
+            if (kSgtClicked == gkbState || kHagtClicked == gkbState) {
                 if (el->isLocked()) {
                     QApplication::beep();
                     emit showLogMessage(tr("No switching possible, "
                                 "signal '%1' is locked by an active route.")
                             .arg(el->getName()), MT_INFO, HL_CMND);
                 }
-                /*TODO: check this*/
-                //else if (el->isOccupied()) {
-                //    QApplication::beep();
-                //    emit showLogMessage(tr("No switching possible, "
-                //                "signal is occupied"), MT_INFO, HL_CMND);
-                //}
                 else
-                    el->slotToggle();
+                    if (kSgtClicked == gkbState)
+                        el->slotToggle();
+                    else
+                        el->slotSwitchIt(0, UNLOCKED);
                 slotElementClickedTimeout();
             }
             else if (kFhtClicked == gkbState) {
@@ -546,9 +538,16 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
                     emit setRoute(el, gbsButton, gkbState);
                 }
             }
+            else if (kWgtClicked == gkbState) {
+                QApplication::beep();
+                emit showLogMessage(tr("Signals can not be switched "
+                            "using WGT"), MT_INFO, HL_CMND);
+                slotElementClickedTimeout();
+            }
             else {
                 QApplication::beep();
-                emit showLogMessage(tr("Operation not allowed"), MT_INFO, HL_CMND);
+                emit showLogMessage(tr("Operation not allowed"),
+                        MT_INFO, HL_CMND);
                 slotElementClickedTimeout();
             }
             break;
@@ -570,9 +569,28 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
                 else
                     el->slotToggle();
             }
+            else if (kFhtClicked == gkbState){
+                QApplication::beep();
+                emit showLogMessage(tr("Turnouts can not be switched "
+                            "using FHT"),
+                        MT_INFO, HL_CMND);
+            }
+            else if (kSgtClicked == gkbState){
+                QApplication::beep();
+                emit showLogMessage(tr("Turnouts can not be switched "
+                            "using SGT"),
+                        MT_INFO, HL_CMND);
+            }
+            else if (kUfgtClicked == gkbState){
+                QApplication::beep();
+                emit showLogMessage(tr("Turnouts can not be switched "
+                            "using UfGT"),
+                        MT_INFO, HL_CMND);
+            }
             else {
                 QApplication::beep();
-                emit showLogMessage(tr("Operation not allowed"), MT_INFO, HL_CMND);
+                emit showLogMessage(tr("Operation not allowed"),
+                        MT_INFO, HL_CMND);
             }
             slotElementClickedTimeout();
             break;

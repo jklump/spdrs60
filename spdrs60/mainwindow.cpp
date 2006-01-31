@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.53 $
+                           version 0.4.8 $Revision: 1.54 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-30 20:06:43 $
+    last modified        : $Date: 2006-01-31 17:04:55 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2975,6 +2975,7 @@ void MainWindow::layoutChangeSize()
         cmdAutoPower = nlDlg->getAutoPower();
         //TODO:
         //srcpCom->setCmdHost(cmdHost, cmdPort);
+        gbs->setModified(true);
     }
     delete nlDlg;
 

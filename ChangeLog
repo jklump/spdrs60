@@ -1,6 +1,7 @@
 2006-01-30 Guido Scholz <guido.scholz@bayernline.de>
 	* mainwindow.cpp: file text is set to UTF8
 	* routeelementlvi.*: value based sorting added
+	* gbsarea.cpp: more error messages, HaGT button enabled
 
 2006-01-28 Guido Scholz <guido.scholz@bayernline.de>
 	* routedialog.cpp: fixed route element list focus bug, rearanged

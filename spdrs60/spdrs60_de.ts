@@ -91,10 +91,6 @@ den Suchkriterien entspricht.</translation>
         <translation>Hinzufügen der leeren Elemente</translation>
     </message>
     <message>
-        <source>HaGT-Function not supported.</source>
-        <translation>HaGT-Funktion wird noch nicht unterstützt.</translation>
-    </message>
-    <message>
         <source>No switching possible, signal &apos;%1&apos; is locked by an active route.</source>
         <translation>Kein Umschalten möglich; Signal &apos;%1&apos; ist durch eine eingestellte Fahrstraße gesperrt.</translation>
     </message>
@@ -133,6 +129,22 @@ den Suchkriterien entspricht.</translation>
     <message>
         <source>Layout contains %1 configured FB busses</source>
         <translation>Gleisbild enthält %1 konfigurierte SRCP-Busse für Rückmeldungen (FB)</translation>
+    </message>
+    <message>
+        <source>Signals can not be switched using WGT</source>
+        <translation>Signal können mit einer WGT nicht umgeschaltet werden</translation>
+    </message>
+    <message>
+        <source>Turnouts can not be switched using FHT</source>
+        <translation>Weichen können mit einer FHT nicht gestellt werden</translation>
+    </message>
+    <message>
+        <source>Turnouts can not be switched using SGT</source>
+        <translation>Weichen können mit einer SGT nicht gestellt werden</translation>
+    </message>
+    <message>
+        <source>Turnouts can not be switched using UfGT</source>
+        <translation>Weichen können mit einer UfGT nicht gestellt werden</translation>
     </message>
 </context>
 <context>
