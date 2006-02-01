@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.4.8 $Revision: 1.26 $
+                           version 0.4.8 $Revision: 1.27 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2006 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-24 20:38:33 $
+    last modified        : $Date: 2006-02-01 16:40:46 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -256,6 +256,7 @@ private slots:
    void InfoSocketError(int);
 
 signals:
+   void repaintLayout();
    void switchedVisualMode(elemVisualMode);
    void sendFBChangeLayout(unsigned int, unsigned int, bool);
    void sendFBChangeModule(unsigned int, unsigned int, unsigned int);

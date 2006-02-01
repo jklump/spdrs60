@@ -1,10 +1,11 @@
 /***************************************************************************
                            finder.cpp
-                           version 0.4.3 $Revision: 1.4 $
+                           version 0.5.0 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-    email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-24 20:38:33 $
+                         : (C) 2004-2006 by Guido Scholz
+    email                : guido.scholz@bayernline.de
+    last modified        : $Date: 2006-02-01 16:40:46 $
 ***************************************************************************/
 
 /*****************************************************************************
@@ -19,30 +20,32 @@
    this code shows a window where user enters an address to be searched for
  ******************************************************************************/
 
+#include <qlayout.h>
+
 #include "finder.h"
 #include "preferences.h"
 
 
 Finder::Finder(QWidget* parent): QDialog(parent, "Finder", false)
 {
-//    if (parent);                // dummy command to avoid compiler warning
-
-    this->setCaption(tr("Element locator"));
-    this->setFixedWidth(270);
     iSearchType = SRCH_TX;      // default search in text fields
     iMultiType = MULTI;         // default search for first element
 
-    QLabel *title =
-        new QLabel(tr("Search for this element data:"), this, "");
-    title->resize(title->sizeHint());
-    title->move(10, 10);
-
-    leSearch = new QLineEdit(this, "");
-    leSearch->resize(100, 20);
-    leSearch->move(10, title->y() + 30);
-    leSearch->setMaxLength(10); // max chars is 10 as in text field of element
-    leSearch->setFocus();
-
+    setCaption(tr("Element locator"));
+    /*Layout to separate Search and Cancel buttons form the upper rest*/
+    QVBoxLayout* baseLayout = new QVBoxLayout(this, 10, 10);
+    
+    /*line with search editline*/
+    QHBoxLayout* searchLayout = new QHBoxLayout(baseLayout, 6);
+    QLabel *title = new QLabel(tr("&Find:"), this, "searchLbl");
+    searchLayout->addWidget(title);
+    QSpacerItem* spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    searchLayout->addItem(spacer);
+    leSearch = new QLineEdit(this, "searchLE");
+    searchLayout->addWidget(leSearch);
+    title->setBuddy(leSearch);
+    leSearch->setMaxLength(10);
     // if at least one char has been entered highlight search button
     connect(leSearch, SIGNAL(textChanged(const QString&)),
             this, SLOT(slotActivateSearchButt(const QString&)));
@@ -50,61 +53,45 @@ Finder::Finder(QWidget* parent): QDialog(parent, "Finder", false)
     connect(leSearch, SIGNAL(returnPressed()),
             this, SLOT(slotBeginSearch()));
 
-    QLabel *label = new QLabel("in:", this, "");
-    label->resize(label->sizeHint());
-    label->move(10, leSearch->y() + leSearch->height() + 20);
-
-    QButtonGroup *grpBox1 = new QButtonGroup("", this);
-    grpBox1->setGeometry(10, label->y() + 20, this->width() - 20, 100);
-    grpBox1->setFrameStyle(QFrame::NoFrame);
-
-    // different types of fields to search in for the entered string
+    /*group box to choose data field*/
+    QButtonGroup *grpBox1 = new QButtonGroup(3, Vertical,
+            tr("Data fields"), this, "dataGB");
+    baseLayout->addWidget(grpBox1);
     QRadioButton *rbSearchText =
-        new QRadioButton(tr("text fields"), grpBox1);
-    rbSearchText->setGeometry(10, 10, grpBox1->width() - 20, 20);
+        new QRadioButton(tr("&Text fields"), grpBox1);
     QRadioButton *rbSearchAdr1 =
-        new QRadioButton(tr("address 1 fields (main addresses)"), grpBox1);
-    rbSearchAdr1->setGeometry(10, 40, grpBox1->width() - 10, 20);
+        new QRadioButton(tr("Decoder address &1"), grpBox1);
     QRadioButton *rbSearchAdr2 =
-        new QRadioButton(tr("address 2 fields (extra addresses)"),
+        new QRadioButton(tr("Decoder address &2"),
                          grpBox1);
-    rbSearchAdr2->setGeometry(10, 70, grpBox1->width() - 10, 20);
     rbSearchText->setChecked(true);
 
     connect(grpBox1, SIGNAL(clicked(int)),
             this, SLOT(slotSaveSearchType(int)));
 
-    label = new QLabel(tr("Find:"), this, "");
-    label->resize(label->sizeHint());
-    label->move(10, grpBox1->y() + grpBox1->height() + 20);
-
-    QButtonGroup *grpBox2 = new QButtonGroup("", this);
-    grpBox2->setGeometry(10, label->y() + 20, this->width() - 20, 70);
-    grpBox2->setFrameStyle(QFrame::NoFrame);
-
-    // different types of fields to search in for the entered string
+    /*group box to choose find count*/
+    QButtonGroup *grpBox2 = new QButtonGroup(2, Vertical,
+            tr("Match counter"), this, "foundGB");
+    baseLayout->addWidget(grpBox2);
     QRadioButton *rbSearchSingle =
-        new QRadioButton(tr("first/only one match"), grpBox2);
-    rbSearchSingle->setGeometry(10, 10, grpBox2->width() - 20, 20);
+        new QRadioButton(tr("&First/only one match"), grpBox2);
     QRadioButton *rbSearchMulti =
-        new QRadioButton(tr("all matches"), grpBox2);
-    rbSearchMulti->setGeometry(10, 40, grpBox2->width() - 20, 20);
+        new QRadioButton(tr("&All matches"), grpBox2);
     rbSearchSingle->setChecked(true);
 
     connect(grpBox2, SIGNAL(clicked(int)),
             this, SLOT(slotSaveMultiType(int)));
 
-    buttSearch = new QPushButton(tr("Search"), this, "Search");
-    buttSearch->resize(buttSearch->sizeHint());
-    buttSearch->move(this->width() / 2 - buttSearch->width() - 30,
-                     grpBox2->y() + grpBox2->height() + 10);
+    /*separated line with Search and Cancel buttons*/
+    QHBoxLayout* buttonLayout = new QHBoxLayout(baseLayout, 6);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    buttonLayout->addItem(spacer);
+    buttSearch = new QPushButton(tr("Search"), this, "searchBtn");
+    buttonLayout->addWidget(buttSearch);
     buttSearch->setEnabled(false);
-
-    buttCancel = new QPushButton(tr("Cancel"), this, "Cancel");
-    buttCancel->resize(buttCancel->sizeHint());
-    buttCancel->move(this->width() - 20 - buttCancel->width(),
-                     grpBox2->y() + grpBox2->height() + 10);
-
+    buttCancel = new QPushButton(tr("Cancel"), this, "cancelBtn");
+    buttonLayout->addWidget(buttCancel);
     connect(buttSearch, SIGNAL(clicked()), this, SLOT(slotBeginSearch()));
     connect(buttCancel, SIGNAL(clicked()), SLOT(reject()));
     if (pref.tooltips) {
@@ -113,7 +100,6 @@ Finder::Finder(QWidget* parent): QDialog(parent, "Finder", false)
         QToolTip::add(buttCancel,
                       tr("Press this button to close this window"));
     }
-    this->setFixedHeight(buttSearch->y() + buttSearch->height() + 10);
 }
 
 
@@ -141,6 +127,5 @@ void Finder::slotSaveMultiType(int iButtID_)
 void Finder::slotActivateSearchButt(const QString&)
 {
     // only enable search button if at least one char has been entered
-    QString sSearch = leSearch->text();
-    buttSearch->setEnabled(!sSearch.isEmpty());
+    buttSearch->setEnabled(!leSearch->text().isEmpty());
 }

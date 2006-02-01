@@ -19,7 +19,7 @@ spdrs60-0.4.8 (2005-12-11)
     respecting new data fields for SRCP 0.8.
   o Routing beond layout edges is possible now if a start or stop signal
     is doubled. At a minimum there must be one continuous track from start
-    do stop signal. The sample file »bahnhof_klein« shows how is works.
+    to stop signal. The sample file »bahnhof_klein« shows how is works.
   o The main menu got a new entry for user interaction with routes.
   o In analogy to WGT key now there is a new SGT key allowing manual
     switching of signals.

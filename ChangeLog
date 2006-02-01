@@ -1,3 +1,6 @@
+2006-01-31 Guido Scholz <guido.scholz@bayernline.de>
+	* finder.cpp: redesigned to use layout management
+
 2006-01-30 Guido Scholz <guido.scholz@bayernline.de>
 	* mainwindow.cpp: file text is set to UTF8
 	* routeelementlvi.*: value based sorting added
@@ -100,26 +103,26 @@
 
 2005-05-19 Guido Scholz <guido.scholz@bayernline.de>
 	* main.cpp: first commandline argument is interpreted as
-        filename to load
+	filename to load
 
 2005-05-14 Guido Scholz <guido.scholz@bayernline.de>
 	* element.cpp, element.h, mainwindow.cpp, mainwindow.h,
 	routedialog.cpp, gbsarea.cpp, gbsarea.h: strongly improved
-        element painting, changed element selection handling,
-        finder is working again
-        
+	element painting, changed element selection handling,
+	finder is working again
+
 2005-05-12 Guido Scholz <guido.scholz@bayernline.de>
 	* element.cpp, element.h: improved mouse event handling, changed
 	mouse button actions
-        
+
 2005-05-07 Guido Scholz <guido.scholz@bayernline.de>
 	* mainwindow.cpp, gbsarea.cpp: new file format for layout files,
-        size limits for layout files removed
+	size limits for layout files removed
 	* main.cpp, mainwindow.cpp: menu for new application windows
-        relaunched
+	relaunched
 	* mainwindow.cpp: icon for application window
 	* element.cpp: removed layout element overlapping
-        
+
 2005-03-17 Guido Scholz <guido.scholz@bayernline.de>
 	* options.cpp: prefered editor and browser are editable
 

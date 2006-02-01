@@ -6,28 +6,28 @@
         <translation>Element-Suche</translation>
     </message>
     <message>
-        <source>Search for this element data:</source>
-        <translation>Nach diesen Elementdaten suchen:</translation>
+        <source>&amp;Find:</source>
+        <translation>&amp;Suchen:</translation>
     </message>
     <message>
-        <source>text fields</source>
-        <translation>Textfelder</translation>
+        <source>&amp;Text fields</source>
+        <translation>&amp;Textfelder</translation>
     </message>
     <message>
-        <source>address 1 fields (main addresses)</source>
-        <translation>Adressfeld 1 (Hauptadresse)</translation>
+        <source>Decoder address &amp;1</source>
+        <translation>Decoderadresse &amp;1</translation>
     </message>
     <message>
-        <source>address 2 fields (extra addresses)</source>
-        <translation>Adressfeld 2 (Hauptadresse)</translation>
+        <source>Decoder address &amp;2</source>
+        <translation>Decoderadresse &amp;2</translation>
     </message>
     <message>
-        <source>first/only one match</source>
-        <translation>Erster/nur ein Treffer</translation>
+        <source>&amp;First/only one match</source>
+        <translation>&amp;Erster/nur ein Treffer</translation>
     </message>
     <message>
-        <source>all matches</source>
-        <translation>Alle Treffer</translation>
+        <source>&amp;All matches</source>
+        <translation>&amp;Alle Treffer</translation>
     </message>
     <message>
         <source>Search</source>
@@ -46,8 +46,12 @@
         <translation>Zum Schließen des Fensters diese Schaltfläche drücken</translation>
     </message>
     <message>
-        <source>Find:</source>
-        <translation>Suchen:</translation>
+        <source>Data fields</source>
+        <translation>Datenfelder</translation>
+    </message>
+    <message>
+        <source>Match counter</source>
+        <translation>Trefferanzahl</translation>
     </message>
 </context>
 <context>

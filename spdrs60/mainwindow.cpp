@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.54 $
+                           version 0.4.8 $Revision: 1.55 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-31 17:04:55 $
+    last modified        : $Date: 2006-02-01 16:40:46 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -316,6 +316,8 @@ void MainWindow::initMainWindow()
     Q_CHECK_PTR(gbs);
     scrollview->addChild(gbs);
 
+    connect(this, SIGNAL(repaintLayout()),
+            gbs, SIGNAL(sigRepaintLayout()));
     connect(this, SIGNAL(sendFBChangeLayout(unsigned int, unsigned int,
                     bool)),
             gbs, SIGNAL(feedbackPortChanged(unsigned int, unsigned int,
@@ -2907,8 +2909,8 @@ void MainWindow::slotEditOptions()
     if (optDlg->exec() == QDialog::Accepted) {
         optDlg->getPreferences(pref);
         writeConfigFile();
+        emit repaintLayout();
     }
-    //TODO: repaint layout if data tooltips and address/text has changed
     delete optDlg;
     optDlg = NULL;
 }

@@ -1,10 +1,10 @@
 /***************************************************************************
                            routeelementdialog.cpp
-                           version 0.4.8 $Revision: 1.5 $
+                           version 0.4.8 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 2005 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-01-28 21:09:32 $
+    last modified        : $Date: 2006-02-01 16:40:46 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -34,7 +34,7 @@ RouteElementDialog::RouteElementDialog(QWidget* parent)
     
     setCaption(tr("Edit route element"));
     /*Layout to separate OK and Cancel buttons form the upper rest*/
-    QBoxLayout* baseLayout = new QVBoxLayout(this, 12, 12);
+    QVBoxLayout* baseLayout = new QVBoxLayout(this, 12, 12);
     
     /*element data group box*/
     QGroupBox* elDataGB = new QGroupBox(0, Horizontal,
@@ -100,7 +100,7 @@ RouteElementDialog::RouteElementDialog(QWidget* parent)
 
 
     /*separated line with OK and Cancel buttons*/
-    QBoxLayout* buttonLayout = new QHBoxLayout(0, 0, 6);
+    QHBoxLayout* buttonLayout = new QHBoxLayout(0, 0, 6);
     baseLayout->addLayout(buttonLayout);
 
     spacer = new QSpacerItem(0, 0,
