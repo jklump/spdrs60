@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.42 $
+                           version 0.4.8 $Revision: 1.43 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-31 17:04:55 $
+    last modified        : $Date: 2006-02-02 21:04:37 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -872,10 +872,10 @@ void GBSArea::setupElements()
                             elemRecordType)),
                     this, SIGNAL(recordElement(element*, elemRecordType)));
             //if (el->isSwitchable()) {
-            connect(this, SIGNAL(processInfoPortMessage(QString,
-                            int, int, int)),
-                    el, SLOT(processInfoPortMessage(QString,
-                            int, int, int)));
+            connect(this, SIGNAL(processInfoPortMessage(unsigned int,
+                            unsigned int, unsigned int)),
+                    el, SLOT(processInfoPortMessage(unsigned int,
+                            unsigned int, unsigned int)));
             connect(el, SIGNAL(sendSrcpMessage(SrcpMessage*)),
                     this, SIGNAL(sendSrcpMessage(SrcpMessage*)));
             //}
@@ -995,10 +995,10 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
                 connect(el, SIGNAL(recordElement(element*, elemRecordType)),
                         this, SIGNAL(recordElement(element*, elemRecordType)));
                 //if (el->isSwitchable()) {
-                connect(this, SIGNAL(processInfoPortMessage(QString,
-                                int, int, int)),
-                        el, SLOT(processInfoPortMessage(QString,
-                                int, int, int)));
+                connect(this, SIGNAL(processInfoPortMessage(unsigned int,
+                                unsigned int, unsigned int)),
+                        el, SLOT(processInfoPortMessage(unsigned int,
+                                unsigned int, unsigned int)));
                 connect(el, SIGNAL(sendSrcpMessage(SrcpMessage*)),
                         this, SIGNAL(sendSrcpMessage(SrcpMessage*)));
                 //}
@@ -1072,11 +1072,11 @@ QPtrVector<element>* GBSArea::getGbsElementListPtr()
 }
 
 
-void GBSArea::sendInfoPortMessage(QString prot, int addr, int port,
-        int state)
+void GBSArea::sendInfoPortMessage(unsigned int bus,
+        unsigned int addr, unsigned int port)
 {
-    /* send incomming GA actions to elements*/
-    emit processInfoPortMessage(prot, addr, port, state);
+    /* send incomming GA actions to all elements*/
+    emit processInfoPortMessage(bus, addr, port);
 }
 
 

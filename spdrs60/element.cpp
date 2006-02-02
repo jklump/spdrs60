@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.48 $
+                           version 0.4.8 $Revision: 1.49 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-01-28 21:09:32 $
+    last modified        : $Date: 2006-02-02 21:04:37 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -887,10 +887,14 @@ void element::repaintTimeOutEnk()
 /**
  * this is the reverse case of "makeCommand()"
  */
-void element::processInfoPortMessage(QString prot, int addr, int port,
-                    int state)
+void element::processInfoPortMessage(unsigned int bus,
+        unsigned int addr, unsigned int port)
 {
-    if (addr != iSoldAddress_1)
+    if (!switchable)
+        return;
+    
+    if (!(bus == iGA1BusNo && addr == iSoldAddress_1) ||
+       (bus == iGA2BusNo && addr == iSoldAddress_2))
         return;
     
     /*TODO: add elements with two addresses*/
@@ -908,7 +912,7 @@ void element::processInfoPortMessage(QString prot, int addr, int port,
     /*invert direction if connectors are exchanged*/
     realDir = realDir ^ iSoldChangeConn[0];
         
-    if (port != realDir && state == 0) {
+    if (port != realDir) {
         realDir = port;
 
         /*again invert direction if connectors are exchanged*/

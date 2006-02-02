@@ -1,10 +1,10 @@
 /***************************************************************************
                            routingviewer.cpp
-                           version 0.4.8 $Revision: 1.16 $
+                           version 0.4.8 $Revision: 1.17 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-12-09 18:07:08 $
+    last modified        : $Date: 2006-02-02 21:04:37 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -195,6 +195,7 @@ void RoutingViewer::slotRouteAdd()
 
 void RoutingViewer::slotRouteEdit()
 {
+    //TODO: only in edit mode;  if (kvmEditRoute == vm) {
     slotEditRouteNo(rTable->currentRow());
 }
 
@@ -265,6 +266,7 @@ void RoutingViewer::selectedRouteChanged(int row, int col)
 
 void RoutingViewer::switchVisualMode(elemVisualMode vm)
 {
+    // TODO: store mode to disable route editing with keystroke
     if (isVisible()) {
         int row = rTable->currentRow();
 

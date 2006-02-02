@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.4.8 $Revision: 1.35 $
+                           version 0.4.8 $Revision: 1.36 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-28 21:09:32 $
+    last modified        : $Date: 2006-02-02 21:04:37 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -242,8 +242,8 @@ private slots:
     void slotUpdateTurntableData(QPoint);
     void slotCopyAvailTracks(const QString&);
     void slotCtxEdit(int);
-    void processInfoPortMessage(QString prot, int addr, int port,
-                    int state);
+    void processInfoPortMessage(unsigned int bus,
+            unsigned int addr, unsigned int port);
 
 signals:
     void cmdToDebug(const QString&);

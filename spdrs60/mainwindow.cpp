@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.55 $
+                           version 0.4.8 $Revision: 1.56 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-02-01 16:40:46 $
+    last modified        : $Date: 2006-02-02 21:04:37 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2190,12 +2190,11 @@ void MainWindow::InfoSocketReadyRead()
              * INFO GA <protocol> <addr> <port> <state>
              *   0   1     2        3      4       5
              */
-            if ("GA" == device) {
+            if ("GA" == device && sInfo.section(" ", 5, 5).toUInt() == 1) {
                 gbs->sendInfoPortMessage(
-                        sInfo.section(" ", 2, 2),
-                        sInfo.section(" ", 3, 3).toInt(),
-                        sInfo.section(" ", 4, 4).toInt(),
-                        sInfo.section(" ", 5, 5).toInt());
+                        1,
+                        sInfo.section(" ", 3, 3).toUInt(),
+                        sInfo.section(" ", 4, 4).toUInt());
             }
             /*
              * check for requested FB states and send them to gbs, module
@@ -2289,18 +2288,19 @@ void MainWindow::InfoSocketReadyRead()
                 /*
                  * generic article messages
                  *
-                 * <time> 100 INFO <bus> GA <addr> <value>
+                 * <time> 100 INFO <bus> GA <addr> <port> <value>
                  * <time> 101 INFO <bus> GA <prot> <optionales>
-                 *   0     1   2     3   4    5       6 : Qstring sections
+                 *   0     1   2     3   4    5       6     7: Qstring sections
                  */
                 else if (devGroup == "GA") {
-                    /*TODO: react to incomming messages*/
-                    if (sInfo.section(" ", 1, 1).toUInt() == 100)
-                        // (QString prot, int addr, int port, int state)
-                        gbs->sendInfoPortMessage("",
-                                sInfo.section(" ", 3, 3).toInt(),
-                                sInfo.section(" ", 5, 5).toInt(),
-                                sInfo.section(" ", 6, 6).toInt());
+                    /* react to incomming messages only if state == 1*/
+                    if (sInfo.section(" ", 1, 1).toUInt() == 100 &&
+                       sInfo.section(" ", 7, 7).toUInt() == 1)
+                        // (bus, addr, port)
+                        gbs->sendInfoPortMessage(
+                                sInfo.section(" ", 3, 3).toUInt(),
+                                sInfo.section(" ", 5, 5).toUInt(),
+                                sInfo.section(" ", 6, 6).toUInt());
                 }
             }
         }
@@ -2907,9 +2907,11 @@ void MainWindow::slotEditOptions()
     optDlg->setPreferences(pref);
 
     if (optDlg->exec() == QDialog::Accepted) {
+        bool al = pref.addresslabeling;
         optDlg->getPreferences(pref);
         writeConfigFile();
-        emit repaintLayout();
+        if (al != pref.addresslabeling)
+            emit repaintLayout();
     }
     delete optDlg;
     optDlg = NULL;
