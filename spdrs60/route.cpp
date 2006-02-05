@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.4.8 $Revision: 1.35 $
+                           version 0.5.0 $Revision: 1.36 $
                            -------------------------------
-    copyright            : (C) 2004-2005 by Guido Scholz
+    copyright            : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-12-31 18:48:15 $
+    last modified        : $Date: 2006-02-05 20:18:31 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -22,6 +22,8 @@
 
 #include <stdlib.h> // for abs()
 #include <unistd.h> // for usleep()
+
+#include "preferences.h"
 #include "route.h"
 #include "routedialog.h"
 
@@ -567,28 +569,31 @@ int Route::startRouting()
     while ((se = it.current()) != 0) {
         ++it;
         element* el = se->elemPtr;
-        if (el != NULL)
-            /* The original SpDr waits 250 ms until next turnout is
-             * switched to avoid high power consumption. Signals on
-             * route path are switched after "Fahrstrassenfestlegemelder"*/
-            if (el->isTurnout() && el->hasDifferentDirection(se->state)) {
 
-                // turnout can not be switched if is occupied
-                if (el->isOccupied())
-                    return -2;
-                
-                /* force repainting of element to get visual layout update*/
-                /*TODO: use a nonblocking timer event */
-                usleep(250 * 1000);
+        /* The original SpDr waits 250 ms until next turnout is
+         * switched to avoid high power consumption. Signals on
+         * route path are switched after "Fahrstrassenfestlegemelder".
+         * Option to force turnout switching: prf.sendstate
+         */
+        if (el != NULL && el->isTurnout() && (pref.sendstate ||
+                    el->hasDifferentDirection(se->state))) {
+
+            // turnout can not be switched if is occupied
+            if (el->isOccupied())
+                return -2;
+
+            /* force repainting of element to get visual layout update*/
+            /*TODO: use a nonblocking timer event */
+            usleep(250 * 1000);
+            el->slotSwitchIt(se->state, 0);
+            el->repaint();
+
+            el = se->elemPtr2;
+            if (el != NULL) {
                 el->slotSwitchIt(se->state, 0);
                 el->repaint();
-
-                el = se->elemPtr2;
-                if (el != NULL) {
-                    el->slotSwitchIt(se->state, 0);
-                    el->repaint();
-                }
             }
+        }
     }
 
     /*
@@ -705,14 +710,14 @@ void Route::stopRouting()
             if (el->isSignal())
                 el->slotSwitchIt(0, -1);
             else
-                el->slotSwitchIt(se->state, -1);
+                el->setLocked(false);
 
         el = se->elemPtr2;
         if (el != NULL)
             if (el->isSignal())
                 el->slotSwitchIt(0, -1);
             else
-                el->slotSwitchIt(se->state, -1);
+                el->setLocked(false);
     }
 
     /*
@@ -756,16 +761,20 @@ void Route::hideRoute()
 void Route::showRoute()
 {
     if (exitSignal.elemPtr != NULL)
-           exitSignal.elemPtr->showElementState(exitSignal.state, ksmStopSig);
+           exitSignal.elemPtr->showElementState(exitSignal.state,
+                   ksmStopSig);
 
     if (exitSignal.elemPtr2 != NULL)
-           exitSignal.elemPtr2->showElementState(exitSignal.state, ksmStopSig);
+           exitSignal.elemPtr2->showElementState(exitSignal.state,
+                   ksmStopSig);
 
     if (entrySignal.elemPtr != NULL)
-           entrySignal.elemPtr->showElementState(entrySignal.state, ksmStartSig);
+           entrySignal.elemPtr->showElementState(entrySignal.state,
+                   ksmStartSig);
 
     if (entrySignal.elemPtr2 != NULL)
-           entrySignal.elemPtr2->showElementState(entrySignal.state, ksmStartSig);
+           entrySignal.elemPtr2->showElementState(entrySignal.state,
+                   ksmStartSig);
 
     QPtrListIterator<stateElement> it(switchItems);
     stateElement* swe;

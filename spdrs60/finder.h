@@ -1,11 +1,11 @@
 /***************************************************************************
                            finder.h
-                           version 0.4.8 $Revision: 1.3 $
+                           version 0.4.8 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-14 20:13:43 $
+    last modified        : $Date: 2006-02-05 20:18:31 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -37,31 +37,23 @@
 
 class Finder: public QDialog
 {
-   Q_OBJECT
+    Q_OBJECT
 
 public:
-   Finder(QWidget* parent=0);            // creator of Finder window
+    Finder(QWidget* parent = 0);
+    QString getSearchText();
+    int getDataType();
+    int getMatchType();
 
 private:
-
-
-signals:
-   void sigFind(const QString&, int, bool);    // send search string to gbs
-
+    QPushButton*  buttSearch;
+    QLineEdit*    leSearch;
+    QButtonGroup* dataBG;
+    QButtonGroup* matchBG;
+   
 private slots:
-   void slotActivateSearchButt(const QString&);// activates search butt if a
-                                           // char has been entered
-   void slotBeginSearch();                 // begins searching
-   void slotSaveSearchType(int);           // saves search type button IDs
-   void slotSaveMultiType(int);            // saves single/multi search type
+    void slotActivateSearchButt(const QString&);
 
-private:
-   QPushButton   *buttSearch;              // button to start searching
-   QPushButton   *buttCancel;              // button to close dialog
-   QLineEdit     *leSearch;                // line edit for search string
-
-   int           iSearchType;              // search type button ID
-   int           iMultiType;               // single/multi type button ID
 };
 
 #endif

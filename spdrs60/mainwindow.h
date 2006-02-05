@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.4.8 $Revision: 1.27 $
+                           version 0.5.0 $Revision: 1.28 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2006 by Guido Scholz
-    email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-02-01 16:40:46 $
+    email                : guido.scholz@bayernline.de
+    last modified        : $Date: 2006-02-05 20:18:31 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -39,9 +39,6 @@
 #include "routingviewer.h"
 #include "newlayoutdialog.h"
 #include "feedback.h"
-#include "options.h"
-#include "keyboard.h"
-#include "finder.h"
 
 
 enum SRCPMode {    
@@ -145,9 +142,6 @@ private:
    RoutingViewer   *rtViewer;
    Router          *rtController;
    feedback        *modulesWindow;
-   optionsDialog   *optDlg;
-   Finder          *findWindow;
-   keyboard        *keybWindow;
 
    /*SRCP Networking (srcpCom)*/
    QString     cmdHost;
@@ -257,6 +251,7 @@ private slots:
 
 signals:
    void repaintLayout();
+   void findElement(const QString&, int, int);
    void switchedVisualMode(elemVisualMode);
    void sendFBChangeLayout(unsigned int, unsigned int, bool);
    void sendFBChangeModule(unsigned int, unsigned int, unsigned int);

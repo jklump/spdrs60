@@ -1,11 +1,11 @@
 /***************************************************************************
                            finder.cpp
-                           version 0.5.0 $Revision: 1.5 $
+                           version 0.5.0 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-01 16:40:46 $
+    last modified        : $Date: 2006-02-05 20:18:31 $
 ***************************************************************************/
 
 /*****************************************************************************
@@ -28,9 +28,6 @@
 
 Finder::Finder(QWidget* parent): QDialog(parent, "Finder", false)
 {
-    iSearchType = SRCH_TX;      // default search in text fields
-    iMultiType = MULTI;         // default search for first element
-
     setCaption(tr("Element locator"));
     /*Layout to separate Search and Cancel buttons form the upper rest*/
     QVBoxLayout* baseLayout = new QVBoxLayout(this, 10, 10);
@@ -49,38 +46,31 @@ Finder::Finder(QWidget* parent): QDialog(parent, "Finder", false)
     // if at least one char has been entered highlight search button
     connect(leSearch, SIGNAL(textChanged(const QString&)),
             this, SLOT(slotActivateSearchButt(const QString&)));
-    // even return key starts searching
-    connect(leSearch, SIGNAL(returnPressed()),
-            this, SLOT(slotBeginSearch()));
 
     /*group box to choose data field*/
-    QButtonGroup *grpBox1 = new QButtonGroup(3, Vertical,
-            tr("Data fields"), this, "dataGB");
-    baseLayout->addWidget(grpBox1);
+    dataBG = new QButtonGroup(3, Vertical,
+            tr("Data fields"), this, "dataBG");
+    dataBG->setExclusive(true);
+    baseLayout->addWidget(dataBG);
     QRadioButton *rbSearchText =
-        new QRadioButton(tr("&Text fields"), grpBox1);
+        new QRadioButton(tr("&Text fields"), dataBG);
     QRadioButton *rbSearchAdr1 =
-        new QRadioButton(tr("Decoder address &1"), grpBox1);
+        new QRadioButton(tr("Decoder address &1"), dataBG);
     QRadioButton *rbSearchAdr2 =
         new QRadioButton(tr("Decoder address &2"),
-                         grpBox1);
+                         dataBG);
     rbSearchText->setChecked(true);
 
-    connect(grpBox1, SIGNAL(clicked(int)),
-            this, SLOT(slotSaveSearchType(int)));
-
     /*group box to choose find count*/
-    QButtonGroup *grpBox2 = new QButtonGroup(2, Vertical,
+    matchBG = new QButtonGroup(2, Vertical,
             tr("Match counter"), this, "foundGB");
-    baseLayout->addWidget(grpBox2);
+    matchBG->setExclusive(true);
+    baseLayout->addWidget(matchBG);
     QRadioButton *rbSearchSingle =
-        new QRadioButton(tr("&First/only one match"), grpBox2);
+        new QRadioButton(tr("&First/only one match"), matchBG);
     QRadioButton *rbSearchMulti =
-        new QRadioButton(tr("&All matches"), grpBox2);
+        new QRadioButton(tr("&All matches"), matchBG);
     rbSearchSingle->setChecked(true);
-
-    connect(grpBox2, SIGNAL(clicked(int)),
-            this, SLOT(slotSaveMultiType(int)));
 
     /*separated line with Search and Cancel buttons*/
     QHBoxLayout* buttonLayout = new QHBoxLayout(baseLayout, 6);
@@ -89,11 +79,12 @@ Finder::Finder(QWidget* parent): QDialog(parent, "Finder", false)
     buttonLayout->addItem(spacer);
     buttSearch = new QPushButton(tr("Search"), this, "searchBtn");
     buttonLayout->addWidget(buttSearch);
+    buttSearch->setDefault(true);
     buttSearch->setEnabled(false);
-    buttCancel = new QPushButton(tr("Cancel"), this, "cancelBtn");
+    connect(buttSearch, SIGNAL(clicked()), this, SLOT(accept()));
+    QPushButton* buttCancel = new QPushButton(tr("Cancel"), this, "cancelBtn");
     buttonLayout->addWidget(buttCancel);
-    connect(buttSearch, SIGNAL(clicked()), this, SLOT(slotBeginSearch()));
-    connect(buttCancel, SIGNAL(clicked()), SLOT(reject()));
+    connect(buttCancel, SIGNAL(clicked()), this, SLOT(reject()));
     if (pref.tooltips) {
         QToolTip::add(buttSearch,
                       tr("Press this button to begin searching"));
@@ -103,24 +94,21 @@ Finder::Finder(QWidget* parent): QDialog(parent, "Finder", false)
 }
 
 
-void Finder::slotBeginSearch()
+QString Finder::getSearchText()
 {
-    QString sSearch = leSearch->text();
-    // send string & type to gbs
-    emit sigFind(sSearch, iSearchType, iMultiType);
-    reject();                   // close this window
+    return leSearch->text();
 }
 
 
-void Finder::slotSaveSearchType(int iButtID_)
+int Finder::getDataType()
 {
-    iSearchType = iButtID_;     // save search type button ID
+    return dataBG->selectedId();
 }
 
 
-void Finder::slotSaveMultiType(int iButtID_)
+int Finder::getMatchType()
 {
-    iMultiType = iButtID_;      // save multi type button ID
+    return matchBG->selectedId();
 }
 
 

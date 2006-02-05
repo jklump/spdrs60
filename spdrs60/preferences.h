@@ -1,10 +1,10 @@
 /***************************************************************************
                            preferences.h
-                           version 0.5.0 $Revision: 1.1 $
+                           version 0.5.0 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-01-24 20:38:33 $
+    last modified        : $Date: 2006-02-05 20:18:31 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -34,6 +34,7 @@ struct Preferences {
     unsigned int layoutcols;
     unsigned int layoutrows;
     bool hp2;
+    bool sendstate;
     bool tooltips;
     bool datatooltips;
     bool addresslabeling;

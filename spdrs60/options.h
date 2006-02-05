@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.h
-                           version 0.4.3 $Revision: 1.7 $
+                           version 0.4.3 $Revision: 1.8 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-24 20:38:33 $
+    last modified        : $Date: 2006-02-05 20:18:31 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -74,6 +74,7 @@ private slots:
 
 private:
    QCheckBox    *cbShowHp2;            // layout shows orange light for Hp2
+   QCheckBox*   allwaysSendState;      // send solenoid state on routing
    QCheckBox    *cbGenBubble;          // show general bubble help
    QCheckBox    *cbDataBubble;         // show element data as bubblehelp
    QCheckBox    *cbAutoload;           // activate autoloader

@@ -1,2 +1,4 @@
 * Translation of online documentation to english.
-* Rewrite dialog code to use OO-methods for variable access
+* Make elements with buttons activatable by feedback messages
+* Change element painting to vector based drawing
+* Release routes by occupy sections

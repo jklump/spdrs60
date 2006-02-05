@@ -37,7 +37,7 @@
   <revhistory>
     <revision>
       <revnumber>0.7</revnumber>
-      <date>So Jan 08 12:34:00 CET 2005</date>
+      <date>So Feb 05 11:18:00 CET 2006</date>
     </revision>
     <revision>
       <revnumber>0.6</revnumber>
@@ -89,8 +89,10 @@ Ablauf mit einer einzuhaltenden Bedienreihenfolge verschiedener Tasten
 gehört. Die folgende Liste soll einen kurzen Überblick über die schon
 vorhandenen Funktionen bieten:
 <itemizedlist mark="bullet">
-  <listitem><para>Einfaches Erstellen des grafischen Anlagenlayouts</para></listitem>
-  <listitem><para>Einfaches, grafisches Erfassen von Fahrstraßen</para></listitem>
+  <listitem><para>Einfaches Erstellen des grafischen Anlagenlayouts
+  </para></listitem>
+  <listitem><para>Einfaches, grafisches Erfassen von Fahrstraßen
+  </para></listitem>
   <listitem><para>Einstellen von Fahrstra&szlig;en durch Anklicken der
 Start- und Zielsignale</para></listitem>
   <listitem><para>Automatisches Einstellen und Auflösen von
@@ -104,7 +106,7 @@ Start- und Zielsignale</para></listitem>
   <listitem><para>Stellen von einzelnen Weichen mit der
 Weichengruppentaste WGT</para></listitem>
   <listitem><para>Stellen von einzelnen Signalen mit der
-Signalgruppentaste SGT</para></listitem>
+Signalgruppentaste SGT und der Haltgruppentaste HaGT</para></listitem>
   <listitem><para>Drehscheiben- und
 Schiebebühnen-Ansteuerung</para></listitem>
   <listitem><para>Übersicht über alle Rückmeldeanschlüsse</para></listitem>
@@ -144,10 +146,31 @@ Veröffentlicht am xx.xx.2006
   aktuelle Version des &raquo;srcpd&laquo; als SRCP-Server ansprechbar.
   </para></listitem>
   <listitem><para>Einfache Magnetartikel, wie z.B. Relais, lassen sich
-  wieder über Fahrstraßen schalten. Diese Fähigkeit war bei dem
-  Umbauarbeiten von Verion 0.4.7 auf 0.4.8 verloren gegangen.</para></listitem>
+  wieder über Fahrstraßen schalten. Diese Fähigkeit war bei den
+  Umbauarbeiten von Version 0.4.7 auf 0.4.8 verloren gegangen.
+  </para></listitem>
   <listitem><para>Es ist nun möglich, Fahrstraßen über
-  Gleisabschnitte mit Entkopplern einzurichten.</para></listitem>
+  Gleisabschnitte mit Entkopplern und/oder Blindelementen einzurichten.
+  </para></listitem>
+  <listitem><para>Das Dialogfenster für die Benutzereinstellungen wurde
+  überarbeitet; es ist nun kompakter und verwendet automatisches
+  Layoutmamagement.</para></listitem>
+  <listitem><para>Das Dialogfenster zum Suchen von Elementen wurde
+  überarbeitet und verwendet nun ebenfalls automatisches
+  Layoutmamagement.</para></listitem>
+  <listitem><para>Im Dialogfenster zum Bearbeiten von Fahrstraßen wurde
+  die Liste der Fahrstraßenelemente überarbeitet. Die numerische
+  Sortierung funktioniert nun auch bei mehr als neun Einträgen und die
+  Handhabung des Listenfocus wurde verbessert. Die Anordnung der
+  zugehörigen Bedientasten wurde platzsparender gelöst.</para></listitem>
+  <listitem><para>Einstellungen für den SRCP-Server sind nun nicht mehr
+  persönliche Benutzereinstellungen, sondern Daten, die an das
+  entsprechende Gleisbild gebunden sind. Bearbeiten kann man diese über
+  das neue Menü &raquo;Gleisbild/Eigenschaften...&laquo;. Damit ist es
+  nun für einen Benutzer möglich, unterschiedliche SRCP-Server
+  anzusprechen.</para></listitem>
+  <listitem><para>Die Haltgruppentaste HaGT kann nun zum Schalten von
+  Signalen auf &raquo;Halt&laquo; genutzt werden.</para></listitem>
 </itemizedlist>
 </sect2>
 
@@ -1653,8 +1676,8 @@ sind, was an der roten Element-LED erkennbar ist. Dabei wird
 Elementstellungen wird bei jeder Benutzung von &raquo;Umschalten&laquo;
 die nächste mögliche Stellung angezeigt. Alternativ - und vorbildgetreuer -
 benutzt man zum Schalten von einzelnen Weichen die Weichengruppentaste
-(WGT) bzw. bei Signalen die Signalgruppentaste (SGT). Diese sind in
-<xref linkend="abb-wgt"> dargestellt.
+(WGT) bzw. bei Signalen die Signalgruppentaste (SGT) oder die
+Haltgruppentaste (HaGT). Diese sind in <xref linkend="abb-wgt"> dargestellt.
 </para>
 <para>
 <figure id="abb-wgt">
@@ -4971,9 +4994,8 @@ Man wähle hier zwischen Links- und Rechtslauf oder Anhalten.
   </varlistentry>
   <varlistentry>
   <term><emphasis>
-  Wird es ein anderes Aussehen von
-  <command>spdrs60</command> geben, z.B. als elektronisches Stellwerk
-  (ESTW)?
+  Wird es ein anderes Aussehen von <command>spdrs60</command> geben,
+  z.B. als elektronisches Stellwerk (ESTW)?
   </emphasis></term>
   <listitem><para>
   Zunächst einmal ist dieses Programm auf der Basis des originalen
@@ -4996,23 +5018,25 @@ Man wähle hier zwischen Links- und Rechtslauf oder Anhalten.
   </varlistentry>
   <varlistentry>
   <term><emphasis>
-  Kann ich mit spdrs60 auch originale serielle
-  Interfaces (Märklin, Intellibox, Lenz ...) ansteuern?
+  Kann ich mit spdrs60 auch originale serielle Interfaces (Märklin,
+  Intellibox, Lenz ...) ansteuern?
   </emphasis></term>
   <listitem><para>
-  Nein, das ist auch nicht geplant. SpDrS60 soll ein reiner SRCP-Client
-  bleiben. Mit der bald anstehenden Unterstützung der SRCP-Protokollversion
-  0.8 wird die Anbindung an den von Matthias Trute und anderen
-  entwickelten SRCP-Server &raquo;srcpd&laquo;
-  (http://srcpd.sourceforge.net/) die Ansteuerung dieser Hardware
-  weitestgehend möglich sein.</para></listitem>
+  In Form einer direkten Anbindung ist das nicht möglich und auch nicht
+  geplant. SpDrS60 soll ein reiner SRCP-Client bleiben. Durch die
+  Unterstützung der SRCP-Protokollversion 0.8 ist über die Anbindung an
+  den von Matthias Trute und anderen entwickelten SRCP-Server
+  &raquo;srcpd&laquo; (<ulink
+   url="http://srcpd.sourceforge.net/">http://srcpd.sourceforge.net/</ulink>)
+  die Ansteuerung dieser Hardware weitestgehend möglich.</para></listitem>
   </varlistentry>
   <varlistentry>
   <term><emphasis>
   Wann kommt SpDrS60 für Windows?
   </emphasis></term>
   <listitem><para>
-  Da SpDrS60 auf der Qt Bibliothek von Trolltech (http://www.trolltech.com/)
+  Da SpDrS60 auf der Qt Bibliothek von Trolltech (<ulink
+   url="http://www.trolltech.com/">http://www.trolltech.com/</ulink>)
   basiert, ist eine Portierung auf dieses Betriebssystem prinzipiell möglich.
   Bisher hat sich allerdings kein Interessent gefunden, der diese Arbeit
   übernehmen will.
@@ -5027,13 +5051,12 @@ Man wähle hier zwischen Links- und Rechtslauf oder Anhalten.
 <sect2 id="sect-optionen">
   <title>Änderung von Programm-Optionen</title>
 <para>
-Viele Eigenschaften des Programms können mittels eines
-Optionenmenüs eingestellt oder verändert werden. Dadurch ist es in
-gewissen Grenzen möglich, das Aussehen oder Verhalten auf die
-Benutzerwünsche abzustimmen. Das Optionenmenü erreicht man durch den
-Menüpunkt &raquo;Bearbeiten/Einstellungen&laquo; (<keycap>Strg-P</keycap>).
-Man erkennt im dann erscheinenden Fenster, dass die Optionen in die
-folgenden drei Bereiche geteilt sind.
+Viele Eigenschaften des Programms können mit Hilfe des Dialogfensters
+für Benutzereinstellungen an persönliche Bedürfnisse angepaßt werden.
+Dadurch ist es in gewissen Grenzen möglich, das Aussehen oder Verhalten
+zu beeinflussen. Dieses Dialogfenster erreicht man über den
+Menüpunkt &raquo;Bearbeiten/Einstellungen...&laquo; (<keycap>Strg-P</keycap>).
+Das Fenster ist über Tabulatoren in drei Bereiche untergliedert.
 </para>
 
 <sect3>
@@ -5055,27 +5078,28 @@ Kurzhilfe gibt und ob die aktuellen Daten jedes Elements als Kurzhilfe
 angezeigt werden sollen (letzteres nur im Fehlersuchfall zu empfehlen!)
 </para>
 <para>
-Schaltbare Elemente haben ein Beschriftungsfeld, worin im Vorbild z.B.
-die Weichennummer (W001) oder die Signalbezeichnung (P1) unterkommt. Man
-entscheide sich hier zwischen der Darstellung dieser vorbildnahen
+Schaltbare Elemente haben ein Beschriftungsfeld, welches im Vorbild z.B.
+für die Weichennummer (W001) oder die Signalbezeichnung (P1) genutzt
+wird. Man kann hier zwischen der Darstellung dieser vorbildnahen
 Einträge (sofern sie im Textfeld der Elementeigenschaften eingetragen
-wurden) oder einfach der Decoderadresse, an dem der Antrieb
-angeschlossen ist.
+wurden) oder der Decoderadresse, an dem der Antrieb
+angeschlossen ist, wählen.
 </para>
 <para>
 Die Zustände der Signale werden beim Beenden des Programms wie vorhanden
 gespeichert. Möchte man diesen Zustand genau wieder nach einem erneuten
-Laden erhalten, so wähle man &raquo;As saved in layout file&laquo;. Ist
-man sich aber nicht sicher, wie alle Signale zu stehen haben und möchte
-man sicher sein, dass beim Anlagenstart kein Unfall wg. grüner Signale
-passiert, wähle man den anderen Punkt: alle Signal werden beim Laden auf
-Rot gestellt.
+Laden erhalten, so wählt man &raquo;Wie von der letzten Sitzung
+gespeichert&laquo;. Ist man sich aber nicht sicher, wie alle Signale zu
+stehen haben und möchte
+man sicher sein, dass beim Anlagenstart kein Unfall wegen grüner Signale
+passiert, wählt man eine weitere Option: Alle Signal beim Laden auf
+&raquo;Rot&laquo; initialisieren.
 </para>
 <para>
-Legt man ein neues Gleisbild an, so entscheidet die folgende Zahl die
-defaultmä&szlig;ig angegebene Zahl an Spalten für dieses neue Gleisbild,
-sie kann in dem kleinen Dialogfenster beim Neuerstellen
-selbstverständlich geändert werden.
+Legt man ein neues Gleisbild an, so erlauben die folgenden Werte die
+per Voreinstellung angegebene Zahl an Zeilen und Spalten für dieses
+neue Gleisbild. Sie kann in dem Dialogfenster beim Neuerstellen oder
+später über die Gleisbildeinstellunge selbstverständlich geändert werden.
 </para>
 <para>
 In den nächsten zwei Einträgen wähle man das Programm zum Lesen der
@@ -5086,10 +5110,10 @@ kword aus dem koffice-Paket) aus.
 <para>
 Als letztes folgt noch die Auswahl eines Gleisbilds, das automatisch
 beim Programmstart aufgerufen werden soll. Wenn man das genaue
-Verzeichnis nicht wei&szlig;, kann man über das Verzeichnisicon sich
-diese Datei aussuchen. Aktiviert man mit einem Haken den Autoloader,
-vergißt dann aber, einen Dateinamen anzugeben, so führt das beim
-Schlie&szlig;en der Optionen zu folgender Fehlermeldung:
+Verzeichnis nicht wei&szlig;, kann man diese Datei über den Schalter
+&raquo;Wählen...&laquo; aussuchen. Aktiviert man mit einem Haken den
+Autoloader, vergißt dann aber, einen Dateinamen anzugeben, so führt das
+beim Schlie&szlig;en des Dialogs zu folgender Fehlermeldung:
 </para>
 <para>
 <figure id="abb-optlayouterr">
@@ -5288,26 +5312,26 @@ heraus wieder überschrieben.
 <para>
 Der Dateikopf wird durch eine Kommentarzeile eingeleitet, die die Datei
 als SpDrS60-Datendatei charakterisiert. Darunter finden sich Angaben zur
-Programmversion, welche zum Speichern genutzt wurden, zum Datum der
-letzten Änderung, und zur Formatversion des hier verwendetet
-Dateiformats. Für eine zukünftige Programmversion ist die
-gleisbildbezogene Speicherung der Serverdaten vorgesehen. Dafür gibt es
-nun schon Platzhalter.
+Programmversion, welche zum Speichern genutzt wurde, zum Datum der
+letzten Änderung, und zur Version des hier verwendetet
+Dateiformats. Es folgen Einträge für die gleisbildbezogene Speicherung der
+Serverdaten. Das hier ebenfalls schon vorhandene Datenfeld für einen
+separaten Rückmeldeserver dient bisher nur als Platzhalter.
 </para>
 
 <screen>
 # spdrs60 data file
 # version=0.4.8
-# last modified=2005-06-14T21:37:01
+# last modified=2006-01-21T21:37:01
 formatversion;1
-cmdhost;localhost;12345;0
+cmdhost;localhost;12345;0;0
 fbhost;localhost;12346;0
 </screen>
 
 <para>
 Dahinter folgt der Datenbereich für das Gleisbild selbst. Eine Zeile
 beschreibt die Abmessungen (Spalten und Zeilen); dahinter werden die
-einzelnen Elemente, jeweils aufgeführt mit ihren Merkmalswerten. Leere
+einzelnen Elemente jeweils mit ihren Merkmalswerten aufgeführt. Leere
 Elemente werden in der Datei nicht abgespeichert.
 </para>
 
@@ -5487,9 +5511,9 @@ anzusteuernden Status.
 <para>
 Die nächsten beiden Zeilen enthalten die Daten für das per Rückmeldung
 automatisch gesteuerte Auflösen bzw. Einstellen der Fahrstraße. Der
-erste Zahlenwert gibt den in fortlaufender Numerierung gezählten
-Rückmeldekontakt (1 bis 1984) an. Die Berechnung dieses Wertes erfolgt
-gemäß folgender Formel:
+erste Zahlenwert gibt die Nummer des s88/SRCP-Busses wieder, der nächste
+den in fortlaufender Numerierung gezählten Rückmeldekontakt (1 bis 496)
+an. Die Berechnung dieses Wertes erfolgt gemäß folgender Formel:
 </para>
 <para>
 <quote>
@@ -5536,9 +5560,9 @@ folgendes Buch wärmstens empfohlen:</para>
     EUR&nbsp;44,-, ISBN 3-9801093-0-5
 </para>
 <para>
-Im Internet wird man unter
+Im Internet findet man unter
 <ulink url="http://www.stellwerke.de/">http://www.stellwerke.de/</ulink>
-fündig.
+weiterführende Literatur.
 </para>
 </sect2>
 

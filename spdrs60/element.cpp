@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.49 $
+                           version 0.4.8 $Revision: 1.50 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-02 21:04:37 $
+    last modified        : $Date: 2006-02-05 20:18:31 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -466,35 +466,45 @@ void element::createPopupMenus()
 }
 
 
-void element::slotSwitchIt(int iNewDirection, int iLocked)
+void element::slotSwitchIt(int newdir, int lockcount)
 {
-    // quit if element contains no solenoid, otherwise
-    // "toggle all" would toggle them, too
-    if (iSoldDirection == -1)
+    // quit if element contains no solenoid
+    if (!switchable)
         return;
 
-    // add an other locked state cause a solenoid can belong to more
+    // add an other locked state because a solenoid can belong to more
     // than one route
-    lockCounter += iLocked;
+    lockCounter += lockcount;
 
-    // only save new direction and switch it if the new direction differs from
-    // the old one;
-    // momentary couplers are exceptional: they only use one connector e.g. one
+    // Repainting the element is only done when new direction differs
+    // from the old one.
+    // Momentary couplers are exceptional: they only use one connector e.g. one
     // direction which is activated or deactivated, these are treated the same
-    if (iNewDirection != iSoldDirection || sSoldIcon == SYM_ENK) {
-        iSoldDirection = iNewDirection;
+    // TODO: option to repaint only when INFO messages came back from
+    // srcp server
+    if (newdir != iSoldDirection || sSoldIcon == SYM_ENK) {
+        iSoldDirection = newdir;
         setupElementIcon(iSoldLEDstate, "");
-        repaint();
-        makeCommand();
+        sendSrcpState();
     }
+
     // if the new direction equals the old one just setup the element to ensure
     // that the contextmenu and the lock variable are correct set
     // exception: 2-state-DKW, they would show a momentary false LED state
-
     //else if (!((sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR)
     //           && iSoldSubType == 0))
-    else if (!is2StateDKW())
-        setupElementIcon(iSoldLEDstate, "");
+    else {
+        //if (!is2StateDKW()) 
+            //updateCtxNorm();
+        
+        // repaint if lockstate changes
+        if (lockcount != 0) 
+            setupElementIcon(iSoldLEDstate, "");
+        
+        // Switch command is send to SRCP server if forced.
+        if (pref.sendstate)
+            sendSrcpState();
+    }
 }
 
 
@@ -742,7 +752,7 @@ void element::switchVisualMode(elemVisualMode vm)
 }
 
 
-void element::makeCommand()
+void element::sendSrcpState()
 {
     /* do not send anything for rail buttons without signals */
     if (sSoldIcon == SYM_SRB || sSoldIcon == SYM_NRB)
@@ -885,7 +895,7 @@ void element::repaintTimeOutEnk()
 
 
 /**
- * this is the reverse case of "makeCommand()"
+ * this is the reverse case of "sendSrcpState()"
  */
 void element::processInfoPortMessage(unsigned int bus,
         unsigned int addr, unsigned int port)
@@ -1000,6 +1010,9 @@ void element::showPropertyDlg()
             updateLEDState();
             setupElementIcon(iSoldLEDstate, "");
         }
+        disconnect(elementPropertyDlg, SIGNAL(sigShowFBmodules()),
+                this, SIGNAL(sigShowFBmodules()));
+        
         delete elementPropertyDlg;
         elementPropertyDlg = NULL;
     }
@@ -1199,12 +1212,6 @@ void element::clear()
     sSoldProtocol = "-1";
     sSoldText = "-1";
     updateProperties();
-}
-
-
-void element::sendState()
-{
-    makeCommand();
 }
 
 
@@ -1610,7 +1617,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
     // Direction is only used to setup the right icon on screen. The sent
     // direction is either 0 if we use the left decoder connector or 1 if
     // we use the right one. The right value to send is then obtained by
-    // copying iSoldSubType value into iRealDirection (see "makeCommand")
+    // copying iSoldSubType value into iRealDirection (see "sendSrcpState")
     else if (sSoldIcon == SYM_ENK) {
         switch (iSoldDirection) {
             case DIR_ENK_DW:              // 0
@@ -1979,7 +1986,7 @@ void element::addTooltip()
 
 
 /**
- * paint yellow track and deliver back vertical correction value
+ * paint yellow track and return vertical correction value
  * S = routing direction (bool: to right is true)
  * C = correction for index
  */
@@ -2126,7 +2133,7 @@ int element::routeElement(int S, bool setroute, int vertcorr)
             sReplaceIcon = SYM_KUL;
             if (vertcorr != 0)
                 C = 0;
-            if (vertcorr == 0)
+            else
                 C = -1;
         }
 
@@ -2135,7 +2142,7 @@ int element::routeElement(int S, bool setroute, int vertcorr)
             sReplaceIcon = SYM_KUR;
             if (vertcorr != 0)
                 C = 0;
-            if (vertcorr == 0)
+            else
                 C = +1;
         }
 
@@ -2144,7 +2151,7 @@ int element::routeElement(int S, bool setroute, int vertcorr)
             sReplaceIcon = SYM_KULR;
             if (vertcorr != 0)
                 C = 0;
-            if (vertcorr == 0)
+            else
                 C = +1;
         }
         else if (D == 1 && I == 1
@@ -2152,7 +2159,7 @@ int element::routeElement(int S, bool setroute, int vertcorr)
             sReplaceIcon = SYM_KURR;
             if (vertcorr != 0)
                 C = 0;
-            if (vertcorr == 0)
+            else
                 C = -1;
         }
 
@@ -2297,7 +2304,7 @@ void element::slotUpdateTurntableData(QPoint newCmd_)
         iSoldSubType = newCmd_.x() * 2 - 9 + newCmd_.y();
 
     setupElementIcon(iSoldLEDstate, "");
-    makeCommand();
+    sendSrcpState();
 }
 
 /*
@@ -2365,7 +2372,7 @@ bool element::isLocked()
 
 bool element::isOccupied()
 {
-    return (LED_RED == iSoldLEDstate);
+    return occupied;
 }
 
 /*increase or decrease lock state and repaint element if necessary*/
@@ -2469,7 +2476,6 @@ int element::getAddressCount()
 void element::updateFeedbackState()
 {
     // get current feedback status from server to update LEDstate
-    // TODO: switch mainwindow to INFO FB receive mode
     if ((iSoldLEDoff != 1) && (iFBContact >= 0)) {
         
         SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgFbGet);
@@ -2499,6 +2505,7 @@ void element::fontChange(const QFont& oldFont)
         setupElementIcon(iSoldLEDstate, "");
 }
 
+
 bool element::sendSRCP08InitGA(unsigned int gano)
 {
     bool returnvalue = false;
@@ -2509,7 +2516,7 @@ bool element::sendSRCP08InitGA(unsigned int gano)
         if (sm == NULL)
             return returnvalue;
 
-        if (gano ==1)
+        if (gano == 1)
             sm->setGaData((sSoldProtocol == "M") ? SrcpMessage::proMM :
                     SrcpMessage::proDCC, iGA1BusNo, iSoldAddress_1, 0, 0);
         else

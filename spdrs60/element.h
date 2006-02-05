@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.4.8 $Revision: 1.36 $
+                           version 0.4.8 $Revision: 1.37 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-02-02 21:04:37 $
+    last modified        : $Date: 2006-02-05 20:18:31 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -142,7 +142,6 @@ public:
     void writeFileTextToStream(QTextStream&);
     QSize sizeHint() const;
     int  routeElement(int, bool, int);
-    void sendState();
     void locateMe();
     QString getName() const;
     bool hasSameAddress(int, int);
@@ -161,6 +160,7 @@ public:
     bool isSimpleGA();
     bool hasThreeStates();
     void showElementState(int, elemSelectionMode);
+    void sendSrcpState();
     bool sendSRCP08InitGA(unsigned int gano = 1);
     void setIndexNo(unsigned int);
     void setLocked(bool);
@@ -214,7 +214,6 @@ private:
     void addTooltip();
     void clear();
     void createPopupMenus();
-    void makeCommand();
     void showPropertyDlg();
     void rotate();
     void setupElementIcon(int, QString);

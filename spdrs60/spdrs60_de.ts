@@ -1782,6 +1782,10 @@ ein Modul an Bus Nr. 1 angeschlossen ist.</translation>
         <source>Connected modules per feedback bus</source>
         <translation>Angeschlossene Module pro Rückmeldebus</translation>
     </message>
+    <message>
+        <source>A&amp;llways send solenoid states on routing</source>
+        <translation>Beim Stellen von Fahrtraßen immer &amp;Magnetartikelstatus senden</translation>
+    </message>
 </context>
 <context>
     <name>turntableCommander</name>

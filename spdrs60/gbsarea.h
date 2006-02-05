@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.4.8 $Revision: 1.24 $
+                           version 0.4.8 $Revision: 1.25 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-02-02 21:04:37 $
+    last modified        : $Date: 2006-02-05 20:18:31 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -143,7 +143,7 @@ public slots:
     void slotSendAll();
     void slotElementClicked(element*, GbsButtonState);
     void slotNotrot();
-    void slotEditFind(const QString&, int, bool);
+    void slotEditFind(const QString&, int, int);
     void startRouteTimer(TypeOfRoute);
     void updateRoutePathLEDs(const stateElement&, const stateElement&,
             RouteSetAction&);

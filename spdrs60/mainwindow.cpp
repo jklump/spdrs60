@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.4.8 $Revision: 1.56 $
+                           version 0.5.8 $Revision: 1.57 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-                         : (C) 2004-2005 Guido Scholz
-    email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-02-02 21:04:37 $
+                         : (C) 2004-2006 Guido Scholz
+    email                : guido.scholz@bayernline.de
+    last modified        : $Date: 2006-02-05 20:18:31 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -31,6 +31,9 @@
 #include "gbsscrollview.h"
 #include "mainwindow.h"
 #include "preferences.h"
+#include "options.h"
+#include "keyboard.h"
+#include "finder.h"
 
 #include "../icons/spdrs60_32.xpm"
 /*toolbar icons*/
@@ -86,7 +89,7 @@ extern bool bFBport[MAX_FB];
 
 
 MainWindow::MainWindow()
-: QMainWindow(0, "SpDrS60", WDestructiveClose | WGroupLeader)
+: QMainWindow(NULL, "SpDrS60", WDestructiveClose | WGroupLeader)
 {
     setIcon(QPixmap(spdrs60_32));
     /*Networking */
@@ -318,6 +321,8 @@ void MainWindow::initMainWindow()
 
     connect(this, SIGNAL(repaintLayout()),
             gbs, SIGNAL(sigRepaintLayout()));
+    connect(this, SIGNAL(findElement(const QString&, int, int)),
+            gbs, SLOT(slotEditFind(const QString&, int, int)));
     connect(this, SIGNAL(sendFBChangeLayout(unsigned int, unsigned int,
                     bool)),
             gbs, SIGNAL(feedbackPortChanged(unsigned int, unsigned int,
@@ -2848,7 +2853,7 @@ void MainWindow::slotShowModules()
 // show a simple keyboard
 void MainWindow::slotViewKeyboard()
 {
-    keybWindow = new keyboard(this, srcpVersion);
+    keyboard* keybWindow = new keyboard(this, srcpVersion);
     connect(keybWindow, SIGNAL(sendCommand(const QString&)),
             this, SLOT(SendCommandToSRCPServer(const QString&)));
 
@@ -2900,7 +2905,7 @@ void MainWindow::cmdToDebug(const QString& hl_message, int m_type,
 /* show dialog window with user preferences */
 void MainWindow::slotEditOptions()
 {
-    optDlg = new optionsDialog(this);
+    optionsDialog* optDlg = new optionsDialog(this);
     if (optDlg == NULL)
         return;
 
@@ -2914,14 +2919,13 @@ void MainWindow::slotEditOptions()
             emit repaintLayout();
     }
     delete optDlg;
-    optDlg = NULL;
 }
 
 
 /*create new application window*/
 void MainWindow::slotFileNewWin()
 {
-    MainWindow *sw = new MainWindow;
+    MainWindow *sw = new MainWindow();
     sw->resize(740, 480);
     sw->show();
 }
@@ -2932,10 +2936,14 @@ void MainWindow::slotFileNewWin()
  */
 void MainWindow::slotEditFind()
 {
-    findWindow = new Finder(this);
-    connect(findWindow, SIGNAL(sigFind(const QString&, int, bool)),
-            gbs, SLOT(slotEditFind(const QString&, int, bool)));
-    findWindow->exec();
+    Finder* findWindow = new Finder(this);
+    Q_CHECK_PTR(findWindow);
+    if (findWindow->exec() == QDialog::Accepted) {
+        emit findElement(findWindow->getSearchText(),
+                findWindow->getDataType(),
+                findWindow->getMatchType());
+    }
+    delete findWindow;
 }
 
 

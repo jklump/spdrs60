@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.cpp
-                           version 0.4.8 $Revision: 1.11 $
+                           version 0.4.8 $Revision: 1.12 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-24 20:38:33 $
+    last modified        : $Date: 2006-02-05 20:18:31 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -172,11 +172,13 @@ void optionsDialog::setupElementTab()
     
          
     // elements groupbox
-    QButtonGroup* generalBG = new QButtonGroup(1, Qt::Horizontal,
+    QButtonGroup* generalBG = new QButtonGroup(4, Qt::Vertical,
             tr("General options"), w, "generalBG");
     tabL->addWidget(generalBG);
     cbShowHp2 = new QCheckBox(tr("Show &orange light for signals"
                 " switched to Hp2"), generalBG, "Hp2CB");
+    allwaysSendState = new QCheckBox(tr("A&llways send solenoid states"
+                " on routing"), generalBG, "sendStateCB");
     cbGenBubble = new QCheckBox(tr("Show &general bubblehelp "
                 "(change needs program restart)"),
             generalBG, "bubbleCB");
@@ -186,7 +188,7 @@ void optionsDialog::setupElementTab()
 
     
     // text groupbox
-    QButtonGroup* soladdrBG = new QButtonGroup(1, Qt::Horizontal,
+    QButtonGroup* soladdrBG = new QButtonGroup(2, Qt::Vertical,
             tr("Solenoid labeling"), w, "soladdrBG");
     tabL->addWidget(soladdrBG);
     rbShowAddr = new QRadioButton(tr("Show decoder &address"),
@@ -198,7 +200,7 @@ void optionsDialog::setupElementTab()
 
 
     // init groupbox
-    QButtonGroup* initsigBG = new QButtonGroup(1, Qt::Horizontal,
+    QButtonGroup* initsigBG = new QButtonGroup(2, Qt::Vertical,
             tr("Initialize signals on startup"), w, "initsigBG");
     tabL->addWidget(initsigBG);
     rbSignalRed =
@@ -336,7 +338,7 @@ void optionsDialog::setupFeedbackTab()
     tab->setSpacing(10);
     
     // feedback module groupbox
-    QButtonGroup* grpBox = new QButtonGroup(3, Vertical,
+    QButtonGroup* grpBox = new QButtonGroup(2, Vertical,
             tr("Feedback type"), tab);
 
     rbS88_16 = new QRadioButton(tr("s88 with 1&6 inputs per module"), grpBox);
@@ -581,6 +583,7 @@ void optionsDialog::getPreferences(Preferences& prf)
     prf.layoutcols = sbDefaultCols->value();
     prf.layoutrows = sbDefaultRows->value();
     prf.hp2 = cbShowHp2->isChecked();
+    prf.sendstate = allwaysSendState->isChecked();
     prf.tooltips = cbGenBubble->isChecked();
     prf.datatooltips = cbDataBubble->isChecked();
     prf.addresslabeling = rbShowAddr->isChecked();
@@ -616,6 +619,7 @@ void optionsDialog::setPreferences(const Preferences& prf)
     sbDefaultCols->setValue(prf.layoutcols);
     sbDefaultRows->setValue(prf.layoutrows);
     cbShowHp2->setChecked(prf.hp2);
+    allwaysSendState->setChecked(prf.sendstate);
     cbGenBubble->setChecked(prf.tooltips);
     cbDataBubble->setChecked(prf.datatooltips);
     

@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.43 $
+                           version 0.4.8 $Revision: 1.44 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-02-02 21:04:37 $
+    last modified        : $Date: 2006-02-05 20:18:31 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -741,8 +741,7 @@ void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
 }
 
 
-int GBSArea::locateIndex(const QString& sLocateString_, int iLocateType_,
-                         int iMultiple_)
+int GBSArea::locateIndex(const QString& ftext, int ftype, int fmulti)
 {
     // search all elements for the desired addresses or text and
     // return its index
@@ -751,11 +750,11 @@ int GBSArea::locateIndex(const QString& sLocateString_, int iLocateType_,
 
     // locate element with certain address 1
     //FIXME: search is fixed to bus number 1
-    if (iLocateType_ == SRCH_A1) 
+    if (ftype == SRCH_A1) 
         for (unsigned int iIndex = 0; iIndex < elements.size(); iIndex++) {
-            if (elements[iIndex]->hasSameAddress(1, sLocateString_.toInt())) {
+            if (elements[iIndex]->hasSameAddress(1, ftext.toInt())) {
                 iFound += 1;
-                if (iFound != iMultiple_ + 1)
+                if (iFound != fmulti + 1)
                     continue;
                 else
                     return iIndex;
@@ -763,12 +762,12 @@ int GBSArea::locateIndex(const QString& sLocateString_, int iLocateType_,
         }
 
     // locate element with certain address 2
-    else if (iLocateType_ == SRCH_A2) 
+    else if (ftype == SRCH_A2) 
         for (unsigned int iIndex = 0; iIndex < elements.size(); iIndex++) {
-            if (sLocateString_.toInt() ==
+            if (ftext.toInt() ==
                     elements[iIndex]->iSoldAddress_2) {
                 iFound += 1;
-                if (iFound != iMultiple_ + 1)
+                if (iFound != fmulti + 1)
                     continue;
                 else
                     return iIndex;
@@ -776,12 +775,12 @@ int GBSArea::locateIndex(const QString& sLocateString_, int iLocateType_,
         }
 
     // locate element with certain textfield
-    else if (iLocateType_ == SRCH_TX) 
+    else if (ftype == SRCH_TX) 
         for (unsigned int iIndex = 0; iIndex < elements.size(); iIndex++) {
             s = elements[iIndex]->sSoldText;
-            if (s.contains(sLocateString_, 0)) {
+            if (s.contains(ftext, 0)) {
                 iFound += 1;
-                if (iFound != iMultiple_ + 1)
+                if (iFound != fmulti + 1)
                     continue;
                 else
                     return iIndex;
@@ -789,7 +788,6 @@ int GBSArea::locateIndex(const QString& sLocateString_, int iLocateType_,
         }
 
     // element 0 must be none-switching all the time
-    return 0;
 }
 
 
@@ -818,7 +816,7 @@ void GBSArea::slotSendAll()
                     elements[j]->sSoldIcon != SYM_MDC &&
                     elements[j]->sSoldIcon != SYM_SBN &&
                     elements[j]->sSoldIcon != SYM_DRE)
-                elements[j]->sendState();
+                elements[j]->sendSrcpState();
     QApplication::beep();
 }
 
@@ -892,20 +890,22 @@ void GBSArea::setupElements()
 }
 
 
-void GBSArea::slotEditFind(const QString& sSearch_, int type, bool multiple)
+void GBSArea::slotEditFind(const QString& ftext, int type, int multiple)
 {
-    int iElemID = -1, i = 0;
+    int idx = 0;
+    int i = 0;
     bool found = false;
 
     do {
-        iElemID = locateIndex(sSearch_, type, i++);
+        idx = locateIndex(ftext, type, i++);
         // search for first or all occurence (es) of desired element data
-        if (iElemID != 0) {
+        if (idx != 0) {
             found = true;
-            elements[iElemID]->locateMe();
+            if (elements[idx] != NULL)
+                elements[idx]->locateMe();
         }
     }
-    while (iElemID != 0 && multiple);
+    while (idx != 0 && multiple == 1);
 
     // no element could be located -> show this information
     if (!found)

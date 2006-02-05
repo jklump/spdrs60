@@ -1,8 +1,8 @@
 # spdrs60 data file
-# version=0.4.8
-# last modified=2005-12-01T22:39:06
+# version=0.5.0_beta2
+# last modified=2006-02-04T18:24:27
 formatversion;1
-cmdhost;localhost;12345;0
+cmdhost;localhost;12345;0;0
 fbhost;localhost;12346;0
 # start of layout section
 %% layout
@@ -624,12 +624,12 @@ hide LEDs;-1
 %% element 100
 index;100
 icon;dkw_links
-rotate;-1
+rotate;0
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
 address_1;1;5
-address_2;1;1
+address_2;1;105
 change conn 1;0
 change conn 2;0
 direction;0
