@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.52 $
+                           version 0.5.0 $Revision: 1.53 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-07 19:39:12 $
+    last modified        : $Date: 2006-02-07 20:11:40 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1218,7 +1218,7 @@ void element::clear()
 void element::updateCtxNorm()
 {
     bool enableCtxN = (!isLocked()) &&
-        (!isOccupied() || sSoldIcon == SYM_ENK) &&
+        (!isOccupied() || sSoldIcon == SYM_ENK || signal) &&
         (visualMode == kvmNormal || visualMode == kvmEditRoute);
 
     ctxNorm->setItemEnabled(CTX_ID_TOGGLE, enableCtxN);
