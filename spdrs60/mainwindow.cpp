@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.60 $
+                           version 0.5.0 $Revision: 1.61 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-07 19:39:12 $
+    last modified        : $Date: 2006-02-07 20:28:10 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1370,6 +1370,7 @@ void MainWindow::newFile()
     cmdAutoPower = nlDlg->getAutoPower();
     delete nlDlg;
     
+    CloseSRCPServerConnection();
     fileName = "";
     gbs->newFile(iNewCols, iNewRows);
 
@@ -1572,6 +1573,7 @@ void MainWindow::openFile(const QString& fn)
         cmdToDebug(tr("Could not read file '%1'").arg(fn), MT_INFO, HL_HINT);
         return;
     }
+    CloseSRCPServerConnection();
     fileName = fn;
 
     QTextStream ts(&f);
@@ -1635,6 +1637,7 @@ void MainWindow::importFile(const QString& fn)
         cmdToDebug(tr("Could not read file '%1'").arg(fn), MT_INFO, HL_HINT);
         return;
     }
+    CloseSRCPServerConnection();
     fileName = "";
 
     QTextStream ts(&f);
