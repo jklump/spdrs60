@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.4.8 $Revision: 1.50 $
+                           version 0.4.8 $Revision: 1.51 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-05 20:18:31 $
+    last modified        : $Date: 2006-02-07 17:17:38 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2532,6 +2532,18 @@ bool element::sendSRCP08InitGA(unsigned int gano)
 }
 
 
+int element::getAddress1()
+{               
+    return iSoldAddress_1;
+}   
+            
+            
+int element::getAddress2()
+{
+    return iSoldAddress_2;
+}   
+
+                        
 int element::getGA1BusNo()
 {               
     return iGA1BusNo;

@@ -1,11 +1,11 @@
 /***************************************************************************
                            keyboard.cpp
-                           version 0.4.7 $Revision: 1.10 $
+                           version 0.4.7 $Revision: 1.11 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-24 20:38:33 $
+    last modified        : $Date: 2006-02-07 17:17:38 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -162,13 +162,13 @@ void keyboard::slotActivateGrn()
         QString cs = QString("SET GA N %1 1 1 50").arg(adr);
         emit sendCommand(cs);
         if (adr <= MAX_GAMM) {
-            cs = QString("SET %1 GA %2 1 1 50").arg(bus).arg(adr);
+            cs = QString("SET GA M %1 1 1 50").arg(adr);
             emit sendCommand(cs);
         }
     }
     else {
         /* SET <bus> GA <addr> <port> <value> <delay> */
-        QString cs = QString("SET %1 GA %2 0 1 50").arg(bus).arg(adr);
+        QString cs = QString("SET %1 GA %2 1 1 50").arg(bus).arg(adr);
         emit sendCommand(cs);
     }
 }

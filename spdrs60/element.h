@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.4.8 $Revision: 1.37 $
+                           version 0.4.8 $Revision: 1.38 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-02-05 20:18:31 $
+    last modified        : $Date: 2006-02-07 17:17:38 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -168,9 +168,11 @@ public:
     void getStateData(stateElement& se);
     elemSelectionMode getSelectionMode();
     int getAddressCount();
-    int  getFBBusNo();
-    int  getGA1BusNo();
-    int  getGA2BusNo();
+    int getAddress1();
+    int getAddress2();
+    int getFBBusNo();
+    int getGA1BusNo();
+    int getGA2BusNo();
 
 private:
     elementDialog*      elementPropertyDlg;

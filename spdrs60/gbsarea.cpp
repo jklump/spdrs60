@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.4.8 $Revision: 1.44 $
+                           version 0.4.8 $Revision: 1.45 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-02-05 20:18:31 $
+    last modified        : $Date: 2006-02-07 17:17:38 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -741,53 +741,68 @@ void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
 }
 
 
-int GBSArea::locateIndex(const QString& ftext, int ftype, int fmulti)
+void GBSArea::slotEditFind(const QString& ftext, int type, int multiple)
+{
+    bool found = findElement(ftext, type, multiple);
+
+    // no element could be located -> show this information
+    if (!found)
+        QMessageBox::information(this, tr("Locate error"),
+                                 tr("There's no element which\n"
+                                    "matches your search criteria."));
+}
+
+
+bool GBSArea::findElement(const QString& ftext, int ftype, int fmulti)
 {
     // search all elements for the desired addresses or text and
     // return its index
     QString s = "";
-    int iFound = 0;
+    unsigned int idx;
+    bool returnvalue = false;
 
     // locate element with certain address 1
-    //FIXME: search is fixed to bus number 1
     if (ftype == SRCH_A1) 
-        for (unsigned int iIndex = 0; iIndex < elements.size(); iIndex++) {
-            if (elements[iIndex]->hasSameAddress(1, ftext.toInt())) {
-                iFound += 1;
-                if (iFound != fmulti + 1)
+        for (idx = 0; idx < elements.size(); idx++) {
+            if (ftext.toInt() ==
+                    elements[idx]->getAddress1()) {
+                returnvalue = true;
+                elements[idx]->locateMe();
+                if (fmulti == 1)
                     continue;
                 else
-                    return iIndex;
+                    return returnvalue;
             }
         }
 
     // locate element with certain address 2
     else if (ftype == SRCH_A2) 
-        for (unsigned int iIndex = 0; iIndex < elements.size(); iIndex++) {
+        for (idx = 0; idx < elements.size(); idx++) {
             if (ftext.toInt() ==
-                    elements[iIndex]->iSoldAddress_2) {
-                iFound += 1;
-                if (iFound != fmulti + 1)
+                    elements[idx]->getAddress2()) {
+                returnvalue = true;
+                elements[idx]->locateMe();
+                if (fmulti == 1)
                     continue;
                 else
-                    return iIndex;
+                    return returnvalue;
             }
         }
 
     // locate element with certain textfield
     else if (ftype == SRCH_TX) 
-        for (unsigned int iIndex = 0; iIndex < elements.size(); iIndex++) {
-            s = elements[iIndex]->sSoldText;
+        for (idx = 0; idx < elements.size(); idx++) {
+            s = elements[idx]->sSoldText;
             if (s.contains(ftext, 0)) {
-                iFound += 1;
-                if (iFound != fmulti + 1)
+                returnvalue = true;
+                elements[idx]->locateMe();
+                if (fmulti == 1)
                     continue;
                 else
-                    return iIndex;
+                    return returnvalue;
             }
         }
-
-    // element 0 must be none-switching all the time
+    return returnvalue;
 }
 
 
@@ -889,30 +904,6 @@ void GBSArea::setupElements()
     updateGeometry();
 }
 
-
-void GBSArea::slotEditFind(const QString& ftext, int type, int multiple)
-{
-    int idx = 0;
-    int i = 0;
-    bool found = false;
-
-    do {
-        idx = locateIndex(ftext, type, i++);
-        // search for first or all occurence (es) of desired element data
-        if (idx != 0) {
-            found = true;
-            if (elements[idx] != NULL)
-                elements[idx]->locateMe();
-        }
-    }
-    while (idx != 0 && multiple == 1);
-
-    // no element could be located -> show this information
-    if (!found)
-        QMessageBox::information(this, tr("Locate error"),
-                                 tr("There's no element which\n"
-                                    "matches your search criteria."));
-}
 
 // *INDENT-OFF*
 bool GBSArea::isModified() const

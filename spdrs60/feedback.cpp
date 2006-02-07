@@ -1,25 +1,26 @@
-/***************************************************************************
+/**************************************************************************
                            feedback.cpp
-                           version 0.4.8 $Revision: 1.6 $
+                           version 0.5.0 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-                           (C) 2004-2005 by Guido Scholz
-    email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-24 20:38:33 $
+                           (C) 2004-2006 by Guido Scholz
+    email                : guido.scholz@bayernline.de
+    last modified        : $Date: 2006-02-07 17:17:38 $
 ***************************************************************************/
 
-/******************************************************************************
- *                                                                            *
- *   This program is free software; you can redistribute it and/or modify     *
- *   it under the terms of the GNU General Public License as published by     *
- *   the Free Software Foundation; either version 2 of the License, or        *
- *   (at your option) any later version.                                      *
- *                                                                            *
- ******************************************************************************/
+/**************************************************************************
+ *                                                                        *
+ *  This program is free software; you can redistribute it and/or modify  *
+ *  it under the terms of the GNU General Public License as published by  *
+ *  the Free Software Foundation; either version 2 of the License, or     *
+ *  (at your option) any later version.                                   *
+ *                                                                        *
+ **************************************************************************/
 
-/******************************************************************************
+/**************************************************************************
    this code shows a window with the feedback modules and port stati
- ******************************************************************************/
+ **************************************************************************/
+
 #include "feedback.h"
 #include "preferences.h"
 
@@ -33,7 +34,7 @@ feedback::feedback(QWidget* parent): QDialog(parent, "feedbackDlg", false)
 {
     iPage = 0;                  // == s88-busnumber 1 on window-startup
     iMdCnt = 0;                 // no modules shown yet
-    this->setCaption(tr("Overview over feedback modules"));
+    setCaption(tr("Overview of feedback modules"));
 
     lPageInfo = new QLabel("", this, "labelPageInfo");
     lPageInfo->setFont(QFont("*", 20, QFont::Bold));

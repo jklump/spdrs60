@@ -1458,7 +1458,7 @@ Controlled via keyboard #14</source>
 <context>
     <name>feedback</name>
     <message>
-        <source>Overview over feedback modules</source>
+        <source>Overview of feedback modules</source>
         <translation>Rückmeldemodulübersicht</translation>
     </message>
     <message>

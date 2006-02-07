@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.4.8 $Revision: 1.25 $
+                           version 0.4.8 $Revision: 1.26 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-02-05 20:18:31 $
+    last modified        : $Date: 2006-02-07 17:17:38 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -112,7 +112,7 @@ private:
 
    void deleteElements();
    void externalButtonClicked(GbsButtonState);
-   int  locateIndex(const QString&, int, int);
+   bool findElement(const QString&, int, int);
    void setupElements();
    void updateSRCP08GABusList();
    void updateSRCP08FBBusList();

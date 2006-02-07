@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.5.0 $Revision: 1.28 $
+                           version 0.5.0 $Revision: 1.29 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-05 20:18:31 $
+    last modified        : $Date: 2006-02-07 17:17:38 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -39,6 +39,7 @@
 #include "routingviewer.h"
 #include "newlayoutdialog.h"
 #include "feedback.h"
+#include "keyboard.h"
 
 
 enum SRCPMode {    
@@ -142,6 +143,7 @@ private:
    RoutingViewer   *rtViewer;
    Router          *rtController;
    feedback        *modulesWindow;
+   keyboard        *keybWindow;
 
    /*SRCP Networking (srcpCom)*/
    QString     cmdHost;

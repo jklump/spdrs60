@@ -1,11 +1,11 @@
 /***************************************************************************
                            fbmodule.cpp
-                           version 0.4.8 $Revision: 1.6 $
+                           version 0.4.8 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-24 20:38:33 $
+    last modified        : $Date: 2006-02-07 17:17:38 $
 ***************************************************************************/
 
 /******************************************************************************
@@ -66,15 +66,15 @@ void fbModule::slotSetupModule(unsigned int module, unsigned int input,
     QPainter p;
     p.begin(&pixModule);
 
-    QFont f("*");               // display module number
-    f.setPointSize(QApplication::font().pointSize());
+    // display module number
+    QFont f("*");
+    f.setPointSize(QApplication::font().pointSize() - 1);
     f.setWeight(QFont::DemiBold);
     p.setFont(f);
 
     s.sprintf("%d", iModNr + 1);
-    QRect br;
     QFontMetrics fm(f);
-    br = fm.boundingRect(s.data());
+    QRect br = fm.boundingRect(s.data());
 
     p.setPen(red);
     p.drawText(69 - pref.fbfactor * 30 - br.width() / 2, 49, s.data());
@@ -113,6 +113,6 @@ void fbModule::slotSetupModule(unsigned int module, unsigned int input,
                            : white), SolidPattern));
     }
 
-    p.end();                    // at least show module
+    p.end();
     setBackgroundPixmap(pixModule);
 }

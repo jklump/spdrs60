@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.8 $Revision: 1.57 $
+                           version 0.5.8 $Revision: 1.58 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-05 20:18:31 $
+    last modified        : $Date: 2006-02-07 17:17:38 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -32,7 +32,6 @@
 #include "mainwindow.h"
 #include "preferences.h"
 #include "options.h"
-#include "keyboard.h"
 #include "finder.h"
 
 #include "../icons/spdrs60_32.xpm"
@@ -111,6 +110,7 @@ MainWindow::MainWindow()
     LayoutPowerIsOn = false;
 
     modulesWindow = NULL;
+    keybWindow = NULL;
     CurrentHL = HL_CMND;            // default debug window ist HISTORY
     isFBInitMode = true;            // var to avoid all startup feedback
     visualMode = kvmNormal;         // normal layout mode
@@ -2853,12 +2853,18 @@ void MainWindow::slotShowModules()
 // show a simple keyboard
 void MainWindow::slotViewKeyboard()
 {
-    keyboard* keybWindow = new keyboard(this, srcpVersion);
-    connect(keybWindow, SIGNAL(sendCommand(const QString&)),
-            this, SLOT(SendCommandToSRCPServer(const QString&)));
+    if (keybWindow != NULL) {
+        keybWindow->setActiveWindow();
+        keybWindow->raise();
+    }
+    else {
+        keybWindow = new keyboard(this, srcpVersion);
+        connect(keybWindow, SIGNAL(sendCommand(const QString&)),
+                this, SLOT(SendCommandToSRCPServer(const QString&)));
 
-    keybWindow->move(QCursor::pos());
-    keybWindow->show();
+        keybWindow->move(QCursor::pos());
+        keybWindow->show();
+    }
 }
 
 
