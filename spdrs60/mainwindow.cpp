@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.8 $Revision: 1.58 $
+                           version 0.5.8 $Revision: 1.59 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-07 17:17:38 $
+    last modified        : $Date: 2006-02-07 17:44:56 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -117,16 +117,7 @@ MainWindow::MainWindow()
     lastDir = QDir::homeDirPath();  // remembers path for FileOpen
     initMainWindow();               // setup main window with all menus
     readConfigFile();               // read user dependend config file
-
     initAllSockets();               // init connection to daemon ...
-    if (cmdAutoLogin)
-        ConnectToSRCPServer();
-
-    /* autostart voltage on layout only when these conditions are true?
-     * 1) option set in preferences
-     * 2) connection to server established
-     * 3) layout is loaded
-     */
     cmdToDebug(tr("Program succesfully started!"), MT_INFO, HL_CMND);
 }
 
@@ -1612,6 +1603,8 @@ void MainWindow::openFile(const QString& fn)
     updateFileMenuItems();
     // update feedback states
     layoutUpdateFB();
+    if (cmdAutoLogin)
+        ConnectToSRCPServer();
 }
 
 
