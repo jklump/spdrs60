@@ -1,11 +1,11 @@
 /***************************************************************************
                            finder.cpp
-                           version 0.5.0 $Revision: 1.6 $
+                           version 0.5.0 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-05 20:18:31 $
+    last modified        : $Date: 2006-02-07 17:50:47 $
 ***************************************************************************/
 
 /*****************************************************************************
@@ -102,13 +102,21 @@ QString Finder::getSearchText()
 
 int Finder::getDataType()
 {
+#if QT_VERSION >= 0x030300
     return dataBG->selectedId();
+#else
+    return dataBG->id(dataBG->selected());
+#endif
 }
 
 
 int Finder::getMatchType()
 {
+#if QT_VERSION >= 0x030300
     return matchBG->selectedId();
+#else
+    return matchBG->id(matchBG->selected());
+#endif
 }
 
 
