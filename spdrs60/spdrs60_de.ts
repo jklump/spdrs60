@@ -628,7 +628,7 @@ Wollen Sie sie überschreiben?</translation>
     </message>
     <message>
         <source>Find information in layout element</source>
-        <translation>Information in Gleisbildelement suchen</translation>
+        <translation>Information in Gleisbildelementen suchen</translation>
     </message>
     <message>
         <source>Edit application preferences</source>
@@ -829,6 +829,10 @@ Wollen Sie sie überschreiben?</translation>
     <message>
         <source>Change layout settings</source>
         <translation>Gleisbildeinstellungen ändern</translation>
+    </message>
+    <message>
+        <source>Hints</source>
+        <translation>Hinweise</translation>
     </message>
 </context>
 <context>

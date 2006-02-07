@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.5.0 $Revision: 1.29 $
+                           version 0.5.0 $Revision: 1.30 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-07 17:17:38 $
+    last modified        : $Date: 2006-02-07 19:39:12 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -135,7 +135,8 @@ private:
 
    QWidgetStack    *cbStack;
    QWidgetStack    *lblStack;
-   QComboBox       *HistCB;
+   QComboBox       *HintCB;
+   QComboBox       *CmdCB;
    QComboBox       *InfoCB;
    QComboBox       *FeedBackCB;
 

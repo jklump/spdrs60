@@ -69,9 +69,10 @@
 #define   MT_INFO          1   // info message type
 
 // TODO: change to enum type khlHist, khlInfo, khlFeed
-#define   HL_CMND          0   // command history line
-#define   HL_INFO          1   // info history line
-#define   HL_FEED          2   // feedback history line
+#define   HL_HINT          0   // hint history line
+#define   HL_CMND          1   // command history line
+#define   HL_INFO          2   // info history line
+#define   HL_FEED          3   // feedback history line
 
 #define   SINGLE           0   // search only one element
 #define   MULTI            1   // search all elements

@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.8 $Revision: 1.59 $
+                           version 0.5.0 $Revision: 1.60 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-07 17:44:56 $
+    last modified        : $Date: 2006-02-07 19:39:12 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -111,14 +111,14 @@ MainWindow::MainWindow()
 
     modulesWindow = NULL;
     keybWindow = NULL;
-    CurrentHL = HL_CMND;            // default debug window ist HISTORY
+    CurrentHL = HL_HINT;            // default debug window ist HISTORY
     isFBInitMode = true;            // var to avoid all startup feedback
     visualMode = kvmNormal;         // normal layout mode
     lastDir = QDir::homeDirPath();  // remembers path for FileOpen
     initMainWindow();               // setup main window with all menus
     readConfigFile();               // read user dependend config file
     initAllSockets();               // init connection to daemon ...
-    cmdToDebug(tr("Program succesfully started!"), MT_INFO, HL_CMND);
+    cmdToDebug(tr("Program succesfully started!"), MT_INFO, HL_HINT);
 }
 
 /* Cleanup by destructor */
@@ -143,7 +143,7 @@ void MainWindow::readConfigFile()
     if (!file.open(IO_ReadOnly)) {
         /* if no configuration file is found, just keep defaults */
         cmdToDebug(tr("Personal config file not found") + ": ~/" +
-                   SPDRS60_INIT, MT_INFO, HL_CMND);
+                   SPDRS60_INIT, MT_INFO, HL_HINT);
         return;
     }
     QTextStream ts(&file);
@@ -212,11 +212,11 @@ void MainWindow::writeConfigFile()
     
     if (!file.open(IO_WriteOnly)) {
         cmdToDebug(tr("Error: Could not save configuration"
-                    " file: ~/%1").arg(SPDRS60_INIT), MT_INFO, HL_CMND);
+                    " file: ~/%1").arg(SPDRS60_INIT), MT_INFO, HL_HINT);
         return;
     }
     cmdToDebug(tr("Writing SpDrS60 configuration"
-                " file: ~/%1").arg(SPDRS60_INIT), MT_INFO, HL_CMND);
+                " file: ~/%1").arg(SPDRS60_INIT), MT_INFO, HL_HINT);
 
     QDateTime dt = QDateTime::currentDateTime();
     QTextStream ts(&file);
@@ -337,20 +337,25 @@ void MainWindow::initMainWindow()
     lblStack->setSizePolicy(QSizePolicy(QSizePolicy::Fixed,
                 QSizePolicy::Fixed, false));
 
-    QLabel *HistLabel = new QLabel(lblStack, "Cmd");
-    HistLabel->setText(tr("Commands"));
-    HistLabel->setIndent(3);
-    lblStack->addWidget(HistLabel, 0);
+    QLabel *HintLabel = new QLabel(lblStack, "Hint");
+    HintLabel->setText(tr("Hints"));
+    HintLabel->setIndent(3);
+    lblStack->addWidget(HintLabel, 0);
+
+    QLabel *CmdLabel = new QLabel(lblStack, "Cmd");
+    CmdLabel->setText(tr("Commands"));
+    CmdLabel->setIndent(3);
+    lblStack->addWidget(CmdLabel, 1);
 
     QLabel *InfoLabel = new QLabel(lblStack, "Info");
     InfoLabel->setText(tr("Infoport"));
     InfoLabel->setIndent(3);
-    lblStack->addWidget(InfoLabel, 1);
+    lblStack->addWidget(InfoLabel, 2);
 
     QLabel *FeedBackLabel = new QLabel(lblStack, "Feedb");
     FeedBackLabel->setText(tr("Feedbacks"));
     FeedBackLabel->setIndent(3);
-    lblStack->addWidget(FeedBackLabel, 2);
+    lblStack->addWidget(FeedBackLabel, 3);
 
     cbStack = new QWidgetStack(hBox, "cbstack");
     cbStack->setSizePolicy(QSizePolicy(QSizePolicy::Expanding,
@@ -359,20 +364,25 @@ void MainWindow::initMainWindow()
     QFont f;
     f.setFamily("Courier");
 
-    HistCB = new QComboBox(false, cbStack);
-    HistCB->setSizeLimit(15);
-    HistCB->setFont(f);
-    cbStack->addWidget(HistCB, 0);
+    HintCB = new QComboBox(false, cbStack);
+    HintCB->setSizeLimit(15);
+    HintCB->setFont(f);
+    cbStack->addWidget(HintCB, 0);
+
+    CmdCB = new QComboBox(false, cbStack);
+    CmdCB->setSizeLimit(15);
+    CmdCB->setFont(f);
+    cbStack->addWidget(CmdCB, 1);
 
     InfoCB = new QComboBox(false, cbStack);
     InfoCB->setSizeLimit(15);
     InfoCB->setFont(f);
-    cbStack->addWidget(InfoCB, 1);
+    cbStack->addWidget(InfoCB, 2);
 
     FeedBackCB = new QComboBox(false, cbStack);
     FeedBackCB->setSizeLimit(15);
     FeedBackCB->setFont(f);
-    cbStack->addWidget(FeedBackCB, 2);
+    cbStack->addWidget(FeedBackCB, 3);
 #if QT_VERSION < 0x030200
     // force painting of history lines and their labels
     cbStack->raiseWidget(0);
@@ -1213,20 +1223,24 @@ void MainWindow::slotViewDebug()
     // circular toggle through all three history lines
     CurrentHL += 1;
     if (CurrentHL > HL_FEED)
-        CurrentHL = HL_CMND;
+        CurrentHL = HL_HINT;
 
     switch (CurrentHL) {
-        case (HL_CMND):
+        case (HL_HINT):
             cbStack->raiseWidget(0);
             lblStack->raiseWidget(0);
             break;
-        case (HL_INFO):
+        case (HL_CMND):
             cbStack->raiseWidget(1);
             lblStack->raiseWidget(1);
             break;
-        case (HL_FEED):
+        case (HL_INFO):
             cbStack->raiseWidget(2);
             lblStack->raiseWidget(2);
+            break;
+        case (HL_FEED):
+            cbStack->raiseWidget(3);
+            lblStack->raiseWidget(3);
             break;
     }
 }
@@ -1361,7 +1375,7 @@ void MainWindow::newFile()
 
     updateCaption();
     updateFileMenuItems();
-    cmdToDebug(tr("New layout file created"), MT_INFO, HL_CMND);
+    cmdToDebug(tr("New layout file created"), MT_INFO, HL_HINT);
 }
 
 
@@ -1413,7 +1427,7 @@ bool MainWindow::saveFile()
     QFile f(fileName);
     if (!f.open(IO_WriteOnly)) {
         cmdToDebug(tr("Could not write to file '%1'").arg(fileName),
-                MT_INFO, HL_CMND);
+                MT_INFO, HL_HINT);
         return false;
     }
 
@@ -1441,7 +1455,7 @@ bool MainWindow::saveFile()
     updateCaption();
     updateFileMenuItems();
 
-    cmdToDebug(tr("Layout file '%1' saved").arg(fileName), MT_INFO, HL_CMND);
+    cmdToDebug(tr("Layout file '%1' saved").arg(fileName), MT_INFO, HL_HINT);
     return true;
 }
 
@@ -1478,7 +1492,7 @@ void MainWindow::slotFileSaveAs()
         saveFile();
     }
     else
-        cmdToDebug(tr("Saving aborted"), MT_INFO, HL_CMND);
+        cmdToDebug(tr("Saving aborted"), MT_INFO, HL_HINT);
 }
 
 
@@ -1555,7 +1569,7 @@ void MainWindow::openFile(const QString& fn)
 
     QFile f(fn);
     if (!f.open(IO_ReadOnly)){
-        cmdToDebug(tr("Could not read file '%1'").arg(fn), MT_INFO, HL_CMND);
+        cmdToDebug(tr("Could not read file '%1'").arg(fn), MT_INFO, HL_HINT);
         return;
     }
     fileName = fn;
@@ -1598,7 +1612,7 @@ void MainWindow::openFile(const QString& fn)
 
     f.close();
     
-    cmdToDebug(tr("Layout file '%1' opened").arg(fn), MT_INFO, HL_CMND);
+    cmdToDebug(tr("Layout file '%1' opened").arg(fn), MT_INFO, HL_HINT);
     updateCaption();
     updateFileMenuItems();
     // update feedback states
@@ -1618,7 +1632,7 @@ void MainWindow::importFile(const QString& fn)
 
     QFile f(fn);
     if (!f.open(IO_ReadOnly)){
-        cmdToDebug(tr("Could not read file '%1'").arg(fn), MT_INFO, HL_CMND);
+        cmdToDebug(tr("Could not read file '%1'").arg(fn), MT_INFO, HL_HINT);
         return;
     }
     fileName = "";
@@ -1633,7 +1647,7 @@ void MainWindow::importFile(const QString& fn)
     rfn.append(GF_OLDRTSEXT);
     rtController->importFile(rfn);
 
-    cmdToDebug(tr("Layout file '%1' imported").arg(fn), MT_INFO, HL_CMND);
+    cmdToDebug(tr("Layout file '%1' imported").arg(fn), MT_INFO, HL_HINT);
     updateCaption();
     updateFileMenuItems();
 }
@@ -1690,7 +1704,7 @@ void MainWindow::initAllSockets()
 void MainWindow::CommandSocketHostFound()
 {
     cmdToDebug(tr("Command port: Host '%1' found.").arg(cmdHost), MT_INFO,
-            HL_CMND);
+            HL_HINT);
 }
 
 
@@ -1710,7 +1724,7 @@ void MainWindow::CommandSocketReadyRead()
             if (isValidSRCP07Version(sSRCPVer)) {
                 srcpVersion = 7;
                 cmdToDebug(tr("SRCP: %1 ===> PASS").arg(sSRCPVer), MT_INFO,
-                           HL_CMND);
+                           HL_HINT);
                 /* first is OK, next two readonly ports follow */
                 ConnectFeedbackPort();
                 ConnectInfoPort();
@@ -1726,7 +1740,7 @@ void MainWindow::CommandSocketReadyRead()
             else if (isValidSRCP08Version(sSRCPVer)) {
                 srcpVersion = 8;
                 cmdToDebug(tr("SRCP: %1 ===> PASS").arg(sSRCPVer), MT_INFO,
-                           HL_CMND);
+                           HL_HINT);
 
                 SRCPCommandState = srcp08SetConnectionModeCommand;
                 SendCommandToSRCPServer("SET CONNECTIONMODE SRCP COMMAND");
@@ -1738,7 +1752,7 @@ void MainWindow::CommandSocketReadyRead()
             else {
                 cmdToDebug(tr("SRCP: %1 ===> FAILED; "
                             "spdrs60 requires SRCP >= 0.7.0 and < 0.9.0")
-                           .arg(sSRCPVer), MT_INFO, HL_CMND);
+                           .arg(sSRCPVer), MT_INFO, HL_HINT);
                 /* close connection */
                 CommandSocket->close();
                 CommandSocketConnectionClosed();
@@ -1841,7 +1855,7 @@ void MainWindow::CommandSocketReadyRead()
             }
             else {
                 SRCPCommandState = srcp08ServerError;
-                cmdToDebug("Server communication error!", MT_INFO, HL_CMND);
+                cmdToDebug("Server communication error!", MT_INFO, HL_HINT);
             }
         }
 
@@ -1979,7 +1993,7 @@ void MainWindow::CommandSocketReadyRead()
         else {
             /* else: no login but connection close */
             cmdToDebug(tr("Cannot read server welcome message!"),
-                    MT_INFO, HL_CMND);
+                    MT_INFO, HL_HINT);
             /*close command port */
             if (ServerInfo.length() == 0) {
                 if (CommandSocket->isOpen()) {
@@ -1995,7 +2009,7 @@ void MainWindow::CommandSocketReadyRead()
 
 void MainWindow::CommandSocketConnected()
 {
-    cmdToDebug(tr("Command port connected!"), MT_INFO, HL_CMND);
+    cmdToDebug(tr("Command port connected!"), MT_INFO, HL_HINT);
     CommandPortIsConnected = true;
     updateDaemonMenu();
 }
@@ -2006,7 +2020,7 @@ void MainWindow::CommandSocketConnectionClosedByServer()
     if (CommandSocket->isOpen()) {
         CommandSocket->close();
     }
-    cmdToDebug(tr("Command port closed by foreign host!"), MT_INFO, HL_CMND);
+    cmdToDebug(tr("Command port closed by foreign host!"), MT_INFO, HL_HINT);
     CommandPortIsConnected = false;
     SRCPCommandState = srcpUndefined;
     updateDaemonMenu();
@@ -2015,7 +2029,7 @@ void MainWindow::CommandSocketConnectionClosedByServer()
 
 void MainWindow::CommandSocketConnectionClosed()
 {
-    cmdToDebug(tr("Command port closed!"), MT_INFO, HL_CMND);
+    cmdToDebug(tr("Command port closed!"), MT_INFO, HL_HINT);
     CommandPortIsConnected = false;
     updateDaemonMenu();
 }
@@ -2025,7 +2039,7 @@ void MainWindow::CommandSocketError(int e)
 {
     QString ErrMessage = GetSocketErrorString(e);
     cmdToDebug(tr("Command port: Error number %1 occurred (%2)")
-               .arg(e).arg(ErrMessage), MT_INFO, HL_CMND);
+               .arg(e).arg(ErrMessage), MT_INFO, HL_HINT);
 }
 
 
@@ -2121,7 +2135,7 @@ void MainWindow::FeedbackSocketReadyRead()
 
 void MainWindow::FeedbackSocketConnected()
 {
-    cmdToDebug(tr("Feedback port connected!"), MT_INFO, HL_CMND);
+    cmdToDebug(tr("Feedback port connected!"), MT_INFO, HL_HINT);
     FeedbackPortIsConnected = true;
     // flag to avoid history line flooding by startup feedback
     isFBInitMode = true;
@@ -2147,7 +2161,7 @@ void MainWindow::FeedbackSocketConnectionClosedByServer()
     if (FeedbackSocket->isOpen()) {
         FeedbackSocket->close();
     }
-    cmdToDebug(tr("Feedback port closed by foreign host!"), MT_INFO, HL_CMND);
+    cmdToDebug(tr("Feedback port closed by foreign host!"), MT_INFO, HL_HINT);
     FeedbackPortIsConnected = false;
     updateFeedbackMenu();
 }
@@ -2155,7 +2169,7 @@ void MainWindow::FeedbackSocketConnectionClosedByServer()
 
 void MainWindow::FeedbackSocketConnectionClosed()
 {
-    cmdToDebug(tr("Feedback port closed!"), MT_INFO, HL_CMND);
+    cmdToDebug(tr("Feedback port closed!"), MT_INFO, HL_HINT);
     FeedbackPortIsConnected = false;
     updateFeedbackMenu();
 }
@@ -2165,7 +2179,7 @@ void MainWindow::FeedbackSocketError(int e)
 {
     QString ErrMessage = GetSocketErrorString(e);
     cmdToDebug(tr("Feedback port: Error number %1 occurred (%2)")
-               .arg(e).arg(ErrMessage), MT_INFO, HL_CMND);
+               .arg(e).arg(ErrMessage), MT_INFO, HL_HINT);
 }
 
 
@@ -2308,7 +2322,7 @@ void MainWindow::InfoSocketReadyRead()
 
 void MainWindow::InfoSocketConnected()
 {
-    cmdToDebug(tr("Info port connected!"), MT_INFO, HL_CMND);
+    cmdToDebug(tr("Info port connected!"), MT_INFO, HL_HINT);
     InfoPortIsConnected = true;
 }
 
@@ -2318,14 +2332,14 @@ void MainWindow::InfoSocketConnectionClosedByServer()
     if (InfoSocket->isOpen()) {
         InfoSocket->close();
     }
-    cmdToDebug(tr("Info port closed by foreign host!"), MT_INFO, HL_CMND);
+    cmdToDebug(tr("Info port closed by foreign host!"), MT_INFO, HL_HINT);
     InfoPortIsConnected = false;
 }
 
 
 void MainWindow::InfoSocketConnectionClosed()
 {
-    cmdToDebug(tr("Info port closed!"), MT_INFO, HL_CMND);
+    cmdToDebug(tr("Info port closed!"), MT_INFO, HL_HINT);
     InfoPortIsConnected = false;
 }
 
@@ -2334,7 +2348,7 @@ void MainWindow::InfoSocketError(int e)
 {
     QString ErrMessage = GetSocketErrorString(e);
     cmdToDebug(tr("Info port: Error number %1 occurred (%2)")
-               .arg(e).arg(ErrMessage), MT_INFO, HL_CMND);
+               .arg(e).arg(ErrMessage), MT_INFO, HL_HINT);
 }
 
 
@@ -2586,7 +2600,7 @@ void MainWindow::slotDaemonKill()
 
     cmdToDebug(tr("Daemon has been killed. Restart server, "
              "then reconnect \"SpDrS60 for Linux\""),
-            MT_INFO, HL_CMND);
+            MT_INFO, HL_HINT);
 }
 
 
@@ -2697,7 +2711,7 @@ void MainWindow::slotViewSwitchMode(QAction* ac)
     if (ac == actionViewNormalMode) {
             visualMode = kvmNormal;
             updateRouteMenu(rtvIsVisible);
-            cmdToDebug(tr("Layout in normal view mode"), MT_INFO, HL_CMND);
+            cmdToDebug(tr("Layout in normal view mode"), MT_INFO, HL_HINT);
     }
     else if (ac == actionViewLayoutEditMode) {
             visualMode = kvmEditLayout;
@@ -2705,12 +2719,12 @@ void MainWindow::slotViewSwitchMode(QAction* ac)
             // assumed to be modified
             gbs->setModified(true);
             updateRouteMenu(rtvIsVisible);
-            cmdToDebug(tr("Entering layout edit mode"), MT_INFO, HL_CMND);
+            cmdToDebug(tr("Entering layout edit mode"), MT_INFO, HL_HINT);
     }
     else if (ac == actionViewRouteEditMode) {
             visualMode = kvmEditRoute;
             updateRouteMenu(rtvIsVisible);
-            cmdToDebug(tr("Entering route edit mode"), MT_INFO, HL_CMND);
+            cmdToDebug(tr("Entering route edit mode"), MT_INFO, HL_HINT);
         }
     // send new visual mode to router and gbs
     emit switchedVisualMode(visualMode);
@@ -2879,11 +2893,17 @@ void MainWindow::cmdToDebug(const QString& hl_message, int m_type,
 
     // delete oldest entries and add newer ones
     switch (hl_type) {
+        case HL_HINT:
+            if (HintCB->count() == MAX_HISTORY)
+                HintCB->removeItem(0);
+            HintCB->insertItem(t);
+            HintCB->setCurrentItem(HintCB->count() - 1);
+            break;
         case HL_CMND:
-            if (HistCB->count() == MAX_HISTORY)
-                HistCB->removeItem(0);
-            HistCB->insertItem(t);
-            HistCB->setCurrentItem(HistCB->count() - 1);
+            if (CmdCB->count() == MAX_HISTORY)
+                CmdCB->removeItem(0);
+            CmdCB->insertItem(t);
+            CmdCB->setCurrentItem(CmdCB->count() - 1);
             break;
         case HL_INFO:
             if (InfoCB->count() == MAX_HISTORY)
