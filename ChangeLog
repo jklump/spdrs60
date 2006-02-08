@@ -1,3 +1,6 @@
+2006-02-08 Guido Scholz <guido.scholz@bayernline.de>
+	* mainwindow.cpp: respond to power change messages
+
 2006-02-07 Guido Scholz <guido.scholz@bayernline.de>
 	* mainwindow.*: separate history line for program messages
 

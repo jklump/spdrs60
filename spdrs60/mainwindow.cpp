@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.61 $
+                           version 0.5.0 $Revision: 1.62 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-07 20:28:10 $
+    last modified        : $Date: 2006-02-08 20:19:37 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2272,17 +2272,16 @@ void MainWindow::InfoSocketReadyRead()
                 updateFeedbackMenu();
             }
 
+            /* respond to incomming info messages */
             else if (SRCPInfoState == srcp08RunInfoMode) {
-                unsigned int iBus, iContact = 0, iState = 0;
+                QString devGroup = sInfo.section(" ", 4, 4);
 
                 /*
-                 * respond to incomming info messages
+                 * respond to incomming feedback messages
+                 *
                  * <time> 100 INFO <bus> FB <addr> <value>
                  *   0     1   2     3   4    5       6 : Qstring sections
                  */
-                QString devGroup = sInfo.section(" ", 4, 4);
-
-                /*feedback messages*/
                 if (devGroup == "FB") {
                     unsigned int fbbus, fbcontact, fbstate;
                     /*TODO: implement FB for other hardware then s88 */
@@ -2300,15 +2299,16 @@ void MainWindow::InfoSocketReadyRead()
                     emit sendFBChangeLayout(fbbus, fbcontact, fbstate == 1);
                     emit sendFBChangeRoute(fbbus, fbcontact, fbstate == 1);
                 }
+
                 /*
-                 * generic article messages
+                 * respond to incomming generic article messages
                  *
                  * <time> 100 INFO <bus> GA <addr> <port> <value>
                  * <time> 101 INFO <bus> GA <prot> <optionales>
                  *   0     1   2     3   4    5       6     7: Qstring sections
                  */
                 else if (devGroup == "GA") {
-                    /* react to incomming messages only if state == 1*/
+                    /* respond only if state == 1 */
                     if (sInfo.section(" ", 1, 1).toUInt() == 100 &&
                        sInfo.section(" ", 7, 7).toUInt() == 1)
                         // (bus, addr, port)
@@ -2316,6 +2316,26 @@ void MainWindow::InfoSocketReadyRead()
                                 sInfo.section(" ", 3, 3).toUInt(),
                                 sInfo.section(" ", 5, 5).toUInt(),
                                 sInfo.section(" ", 6, 6).toUInt());
+                }
+                
+                /*
+                 * respond to incomming power messages
+                 *
+                 * <time> 100 INFO <bus> POWER <on/off>
+                 *   0     1   2     3     4      5     : Qstring sections
+                 */
+                else if (devGroup == "POWER") {
+                    if (sInfo.section(" ", 1, 1).toUInt() == 100) {
+                        unsigned int bus = sInfo.section(" ", 3, 3).toUInt();
+                        bool poweron = sInfo.section(" ", 5, 5) == "ON";
+                        
+                        //check if bus is relevant for this layout
+                        if (gbs->hasSrcp08GaBus(bus)) 
+                            if (poweron != LayoutPowerIsOn) {
+                                LayoutPowerIsOn = poweron;
+                                updateLayoutPowerAction();
+                            }
+                    }
                 }
             }
         }

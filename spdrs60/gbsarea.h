@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.5.0 $Revision: 1.27 $
+                           version 0.5.0 $Revision: 1.28 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-02-07 19:39:12 $
+    last modified        : $Date: 2006-02-08 20:19:37 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -71,6 +71,7 @@ public:
    bool setSRCP08BusPower(bool);
    //bool switchSRCP08FBBusState(bool);
    bool runSRCP08GAInitSequence();
+   bool hasSrcp08GaBus(unsigned int);
     
 private:
    QCursor     FHTCursor;

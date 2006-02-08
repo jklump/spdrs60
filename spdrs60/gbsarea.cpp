@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.0 $Revision: 1.46 $
+                           version 0.5.0 $Revision: 1.47 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-02-07 19:39:12 $
+    last modified        : $Date: 2006-02-08 20:19:37 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1454,5 +1454,20 @@ void GBSArea::updateSRCP08FBBusList()
                    arg(count), MT_INFO, HL_HINT);
 
     SRCP08FBBusCount = count;
+}
+
+
+bool GBSArea::hasSrcp08GaBus(unsigned int bus)
+{
+    bool returnvalue = false;
+
+    if (SRCP08GABusCount > 0) 
+        for (int i = 0; i < SRCP08GABusCount; i++)
+            if (bus == pSRCP08GABusList[i]){
+                returnvalue = true;
+                break;
+            }
+
+    return returnvalue;
 }
 
