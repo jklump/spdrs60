@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.53 $
+                           version 0.5.0 $Revision: 1.54 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-07 20:11:40 $
+    last modified        : $Date: 2006-02-08 20:22:40 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -901,6 +901,9 @@ void element::processInfoPortMessage(unsigned int bus,
         unsigned int addr, unsigned int port)
 {
     if (!switchable)
+        return;
+    
+    if (sSoldIcon == SYM_ENK && iSoldSubType != -1)
         return;
     
     if (!(bus == iGA1BusNo && addr == iSoldAddress_1) ||

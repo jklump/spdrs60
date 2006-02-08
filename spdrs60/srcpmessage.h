@@ -1,10 +1,10 @@
 /***************************************************************************
                            srcpmessage.h
-                           version 0.5.0 $Revision: 1.5 $
+                           version 0.5.0 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-01-07 21:20:08 $
+    last modified        : $Date: 2006-02-08 20:22:40 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -49,7 +49,7 @@ class SrcpMessage
         void setBus(unsigned int);
         void setFbData(unsigned int, Feedback, unsigned int);
         void setGaData(Protocol, unsigned int, unsigned int,
-                unsigned int, unsigned int);
+                unsigned int, int);
         //TODO: void setGlData();
         void setPowerData(unsigned int, bool);
 
@@ -58,8 +58,8 @@ class SrcpMessage
         Protocol protocol;
         Feedback fbtype;
         bool power;
+        int delay;
         unsigned int address;
-        unsigned int delay;
         unsigned int fbport;
         unsigned int port;
         unsigned int srcpbus;

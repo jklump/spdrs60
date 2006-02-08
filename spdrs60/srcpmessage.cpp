@@ -1,10 +1,10 @@
 /***************************************************************************
                            srcpmessage.cpp
-                           version 0.5.0 $Revision: 1.7 $
+                           version 0.5.0 $Revision: 1.8 $
                            -------------------------------
     copyright            : (C) 2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-01-07 21:20:08 $
+    last modified        : $Date: 2006-02-08 20:22:40 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -192,7 +192,7 @@ void SrcpMessage::setFbData(unsigned int bus, Feedback fbt, unsigned int prt)
 
 
 void SrcpMessage::setGaData(Protocol pro, unsigned int bus,
-        unsigned int adr, unsigned int prt, unsigned int dly)
+        unsigned int adr, unsigned int prt, int dly)
 {
     protocol = pro;
     srcpbus = bus;
