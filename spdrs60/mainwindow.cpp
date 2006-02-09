@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.62 $
+                           version 0.5.0 $Revision: 1.63 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-08 20:19:37 $
+    last modified        : $Date: 2006-02-09 17:04:03 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -168,7 +168,7 @@ void MainWindow::readConfigFile()
     pref.hp2 = (ts.readLine().remove(0, 16) == "1");
     pref.tooltips = (ts.readLine().remove(0, 16) == "1");
     pref.datatooltips = (ts.readLine().remove(0, 16) == "1");
-    pref.addresslabeling = (ts.readLine().remove(0, 16) == "text");
+    pref.addresslabeling = (ts.readLine().remove(0, 16) == "address");
     pref.initsignalsred = (ts.readLine().remove(0, 16) == "red");
     pref.layoutcols = ts.readLine().remove(0, 16).toInt();
     pref.autoload = (ts.readLine().remove(0, 16) == "1");
