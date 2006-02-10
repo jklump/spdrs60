@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.63 $
+                           version 0.5.0 $Revision: 1.64 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-09 17:04:03 $
+    last modified        : $Date: 2006-02-10 19:23:12 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2884,8 +2884,13 @@ void MainWindow::slotShowModules()
 void MainWindow::slotViewKeyboard()
 {
     if (keybWindow != NULL) {
-        keybWindow->setActiveWindow();
-        keybWindow->raise();
+        if (keybWindow->isVisible())
+            keybWindow->hide();
+        else {
+            keybWindow->show();
+            keybWindow->setActiveWindow();
+            keybWindow->raise();
+        }
     }
     else {
         keybWindow = new keyboard(this, srcpVersion);
