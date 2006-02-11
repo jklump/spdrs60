@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.0 $Revision: 1.36 $
+                           version 0.5.0 $Revision: 1.37 $
                            -------------------------------
     copyright            : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-05 20:18:31 $
+    last modified        : $Date: 2006-02-11 20:39:19 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -607,8 +607,16 @@ int Route::startRouting()
     // send signal to gbs to change route path LEDs
     emit updateRoutePathLEDs(entrySignal, exitSignal, rsa);
     
-    // interrupt routing if "Zugfahrstrasse" meets occupied element
+    // Interrupt routing if "Zugfahrstrasse" meets occupied element.
+    // Lock state should not only be boolean but something like "waiting
+    // for lock". The real lock state should be reached when all
+    // occupied segments changed to be unoccupied.
+    // route states: rsUnlocked, rsLocked, rsWfLock, rsWfUnlock
+    // occupied tracks go this ways:
+    //   rsUnlocked -> rsWfLock -> rsLocked 
+    //   rsLocked -> rsWfUnlock -> rsUnlocked 
     if (krouteReset == rsa) {
+        locked = true;
         return -1;
     }
 
@@ -638,7 +646,7 @@ int Route::startRouting()
     }
 
     /*
-     * 5) activate "Fahrstrassenfestlegemelder" (FfM) at entry signal
+     * 5) activate "Fahrstrassenfestlegemelder" (FfM) at entry signal,
      *    shunting routes do not have an active FfM
      */
     if (entrySignal.elemPtr != NULL)
