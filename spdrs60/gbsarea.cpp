@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.0 $Revision: 1.47 $
+                           version 0.5.0 $Revision: 1.48 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-02-08 20:19:37 $
+    last modified        : $Date: 2006-02-11 20:42:04 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -513,7 +513,7 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
                     if (kSgtClicked == gkbState)
                         el->slotToggle();
                     else
-                        el->slotSwitchIt(0, UNLOCKED);
+                        el->switchToDir(0);
                 slotElementClickedTimeout();
             }
             else if (kFhtClicked == gkbState) {
@@ -841,7 +841,7 @@ void GBSArea::slotNotrot()
     // sets all signals to red state
     for (unsigned int j = 0; j < elements.size(); j++)
         if (elements[j]->isSignal())
-            elements[j]->slotSwitchIt(0, 0);  // sec. "0" = NONE (RouteStatus)
+            elements[j]->switchToDir(0);
     emit showLogMessage(tr("Switched all signals to halt/stop"),
             MT_INFO, HL_HINT);
 }

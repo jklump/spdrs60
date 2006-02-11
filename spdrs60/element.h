@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.0 $Revision: 1.39 $
+                           version 0.5.0 $Revision: 1.40 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-02-07 19:39:12 $
+    last modified        : $Date: 2006-02-11 20:42:04 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -228,7 +228,7 @@ private:
     void updateFeedbackState();
 
 public slots:
-    void slotSwitchIt(int, int);
+    void switchToDir(int);
     void slotToggle();
     void slotOccupyElement(unsigned int, unsigned int, bool);
     void switchSelectionMode(elemSelectionMode);

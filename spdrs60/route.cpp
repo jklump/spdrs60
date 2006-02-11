@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.0 $Revision: 1.37 $
+                           version 0.5.0 $Revision: 1.38 $
                            -------------------------------
     copyright            : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-11 20:39:19 $
+    last modified        : $Date: 2006-02-11 20:42:04 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -556,12 +556,12 @@ int Route::startRouting()
      * 2) switch route elements but without locking
      */
     if (exitSignal.elemPtr != NULL) {
-           exitSignal.elemPtr->slotSwitchIt(exitSignal.state, 0);
+           exitSignal.elemPtr->switchToDir(exitSignal.state);
            exitSignal.elemPtr->repaint();
     }
 
     if (exitSignal.elemPtr2 != NULL) {
-           exitSignal.elemPtr2->slotSwitchIt(exitSignal.state, 0);
+           exitSignal.elemPtr2->switchToDir(exitSignal.state);
            exitSignal.elemPtr2->repaint();
     }
     
@@ -585,12 +585,12 @@ int Route::startRouting()
             /* force repainting of element to get visual layout update*/
             /*TODO: use a nonblocking timer event */
             usleep(250 * 1000);
-            el->slotSwitchIt(se->state, 0);
+            el->switchToDir(se->state);
             el->repaint();
 
             el = se->elemPtr2;
             if (el != NULL) {
-                el->slotSwitchIt(se->state, 0);
+                el->switchToDir(se->state);
                 el->repaint();
             }
         }
@@ -668,12 +668,12 @@ int Route::startRouting()
         element* el = se->elemPtr;
         if (el != NULL)
             if (el->isSignal() || el->isSimpleGA()) {
-                el->slotSwitchIt(se->state, 0);
+                el->switchToDir(se->state);
                 el->repaint();
 
                 el = se->elemPtr2;
                 if (el != NULL) {
-                    el->slotSwitchIt(se->state, 0);
+                    el->switchToDir(se->state);
                     el->repaint();
                 }
             }
@@ -681,10 +681,10 @@ int Route::startRouting()
 
     /* 7) at last switch entry signal to Hp1/Sh1 etc.*/
     if (entrySignal.elemPtr != NULL)
-        entrySignal.elemPtr->slotSwitchIt(entrySignal.state, 0);
+        entrySignal.elemPtr->switchToDir(entrySignal.state);
 
     if (entrySignal.elemPtr2 != NULL)
-        entrySignal.elemPtr2->slotSwitchIt(entrySignal.state, 0);
+        entrySignal.elemPtr2->switchToDir(entrySignal.state);
 
     locked = true;
     return 1;
@@ -700,32 +700,33 @@ void Route::stopRouting()
 {
     if (entrySignal.elemPtr != NULL) {
            entrySignal.elemPtr->activateFfM(false);
-           entrySignal.elemPtr->slotSwitchIt(0, -1);
+           entrySignal.elemPtr->switchToDir(0);
+           entrySignal.elemPtr->setLocked(false);
     }
 
     if (entrySignal.elemPtr2 != NULL) {
            entrySignal.elemPtr2->activateFfM(false);
-           entrySignal.elemPtr2->slotSwitchIt(0, -1);
+           entrySignal.elemPtr2->switchToDir(0);
+           entrySignal.elemPtr2->setLocked(false);
     }
 
-    /* */
     QPtrListIterator<stateElement> it(switchItems);
     stateElement* se;
     while ((se = it.current()) != 0) {
         ++it;
         element* el = se->elemPtr;
-        if (el != NULL)
+        if (el != NULL) {
             if (el->isSignal())
-                el->slotSwitchIt(0, -1);
-            else
-                el->setLocked(false);
+                el->switchToDir(0);
+            el->setLocked(false);
+        }
 
         el = se->elemPtr2;
-        if (el != NULL)
+        if (el != NULL) {
             if (el->isSignal())
-                el->slotSwitchIt(0, -1);
-            else
-                el->setLocked(false);
+                el->switchToDir(0);
+            el->setLocked(false);
+        }
     }
 
     /*

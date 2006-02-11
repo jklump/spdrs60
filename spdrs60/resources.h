@@ -46,9 +46,6 @@
 
 #define   LOCATE_TIMER     5000// delay for edit mode after element locating
 
-#define   LOCKED           1   // state of a routing
-#define   UNLOCKED         0
-
 #define   LED_OFF          0   // LED states of an element = off
 #define   LED_YEL          1   // route selected
 #define   LED_RED          2   // occupied

@@ -1,11 +1,11 @@
 /***************************************************************************
                            newLayoutDialog.h
-                           version 0.4.3 $Revision: 1.3 $
+                           version 0.4.3 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-15 16:29:04 $
+    last modified        : $Date: 2006-02-11 20:42:04 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -48,12 +48,14 @@ public:
     int getPort();
     bool getAutoLogin();
     bool getAutoPower();
+    bool getAutoSendAll();
     void setColumns(int);
     void setRows(int);
     void setHost(const QString&);
     void setPort(int);
     void setAutoLogin(bool);
     void setAutoPower(bool);
+    void setAutoSendAll(bool);
 
 private:
     QSpinBox* sbEnterCols;
@@ -62,6 +64,7 @@ private:
     QLineEdit* portLE;
     QCheckBox* autologinCB;
     QCheckBox* autopowerCB;
+    QCheckBox* autosendallCB;
 };
 
 #endif

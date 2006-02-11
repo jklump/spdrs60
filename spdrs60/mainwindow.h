@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.5.0 $Revision: 1.30 $
+                           version 0.5.0 $Revision: 1.31 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-07 19:39:12 $
+    last modified        : $Date: 2006-02-11 20:42:04 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -153,6 +153,7 @@ private:
    int         fbPort;
    bool        cmdAutoLogin;
    bool        cmdAutoPower;
+   bool        cmdAutoSendAll;
    bool        fbLogin;
    QSocket* CommandSocket;
    QSocket* FeedbackSocket;
@@ -225,8 +226,9 @@ private slots:
    void slotViewDebug();
    void slotViewKeyboard();
    void slotViewSwitchMode(QAction*);
-   void layoutUpdateFB();
    void layoutChangeSize();
+   void layoutUpdateFB();
+   void layoutSendAll();
    void updateCaption();
    void updateFileMenuItems();
    /* New Networking code: */

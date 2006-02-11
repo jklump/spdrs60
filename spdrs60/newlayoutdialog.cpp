@@ -1,11 +1,11 @@
 /***************************************************************************
                            newlayoutdialog.cpp
-                           version 0.4.8 $Revision: 1.7 $
+                           version 0.4.8 $Revision: 1.8 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2006 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-01-30 20:06:43 $
+    last modified        : $Date: 2006-02-11 20:42:04 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -115,13 +115,16 @@ newLayoutDialog::newLayoutDialog(QWidget* parent)
     serverGBL->addItem(spacer);
 
     // start options group box
-    QButtonGroup *startBG = new QButtonGroup(2, Vertical,
+    QButtonGroup *startBG = new QButtonGroup(3, Vertical,
             tr("Start options"), this);
     baseLayout->addWidget(startBG);
     autologinCB = new QCheckBox(tr("&Server login on startup"),
             startBG, "autologinCB");
     autopowerCB = new QCheckBox(tr("&Autostart voltage on layout"),
             startBG, "autopowerCB");
+    autosendallCB = new QCheckBox(tr("Send all s&olenoid states after"
+                " power on"),
+            startBG, "autosendallCB");
 
     // line with OK/Cancel buttons
     QHBoxLayout* buttonLayout = new QHBoxLayout(0, 0, 6);
@@ -212,6 +215,12 @@ bool newLayoutDialog::getAutoPower()
 }
 
 
+bool newLayoutDialog::getAutoSendAll()
+{
+    return autosendallCB->isChecked();
+}
+
+
 void newLayoutDialog::setAutoLogin(bool login)
 {
     autologinCB->setChecked(login);
@@ -221,5 +230,11 @@ void newLayoutDialog::setAutoLogin(bool login)
 void newLayoutDialog::setAutoPower(bool power)
 {
     autopowerCB->setChecked(power);
+}
+
+
+void newLayoutDialog::setAutoSendAll(bool power)
+{
+    autosendallCB->setChecked(power);
 }
 

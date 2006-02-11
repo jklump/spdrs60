@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.64 $
+                           version 0.5.0 $Revision: 1.65 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-10 19:23:12 $
+    last modified        : $Date: 2006-02-11 20:42:04 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -98,6 +98,7 @@ MainWindow::MainWindow()
     fbPort = 12346;
     cmdAutoLogin = false;
     cmdAutoPower = false;
+    cmdAutoSendAll = true;
     fbLogin = false;
     CommandPortIsConnected = false;
     FeedbackPortIsConnected = false;
@@ -1002,8 +1003,8 @@ void MainWindow::initMainWindow()
                                 "switchable elements to SRCP server"), 
             tr("Send &all"), Key_F11, this, "layoutSendAll" );
 #endif
-    connect(actionLayoutSendAll, SIGNAL(activated()), gbs,
-            SLOT(slotSendAll()));
+    connect(actionLayoutSendAll, SIGNAL(activated()), this,
+            SLOT(layoutSendAll()));
     actionLayoutSendAll->addTo(layoutmenu);
     //actionLayoutSendAll->addTo(layouttb);
 
@@ -1357,6 +1358,7 @@ void MainWindow::newFile()
     nlDlg->setPort(cmdPort);
     nlDlg->setAutoLogin(cmdAutoLogin);
     nlDlg->setAutoPower(cmdAutoPower);
+    nlDlg->setAutoSendAll(cmdAutoSendAll);
     
     if (nlDlg->exec() != QDialog::Accepted) {
         delete nlDlg;
@@ -1368,6 +1370,7 @@ void MainWindow::newFile()
     cmdPort = nlDlg->getPort();
     cmdAutoLogin = nlDlg->getAutoLogin();
     cmdAutoPower = nlDlg->getAutoPower();
+    cmdAutoSendAll = nlDlg->getAutoSendAll();
     delete nlDlg;
     
     CloseSRCPServerConnection();
@@ -1443,7 +1446,8 @@ bool MainWindow::saveFile()
        << "# last modified=" << dt.toString(Qt::ISODate) << endl
        << GF_FORMATVERSION << DS << GF_FV << endl
        << GF_CMDHOST << DS << cmdHost << DS << cmdPort <<
-                        DS << cmdAutoLogin <<DS << cmdAutoPower << endl
+                        DS << cmdAutoLogin << DS << cmdAutoPower <<
+                        DS << cmdAutoSendAll << endl
        << GF_FBHOST << DS << fbHost << DS << fbPort << DS << fbLogin <<
        endl;
 
@@ -1596,6 +1600,8 @@ void MainWindow::openFile(const QString& fn)
                 cmdAutoLogin = value.toInt() == 1;
                 value = s.section(DS, 4, 4).stripWhiteSpace();
                 cmdAutoPower = value.toInt() == 1;
+                value = s.section(DS, 5, 5).stripWhiteSpace();
+                cmdAutoSendAll = value.toInt() == 1;
             }
             else if (key.compare(GF_FBHOST) == 0){
                 fbHost = value;
@@ -1773,6 +1779,8 @@ void MainWindow::CommandSocketReadyRead()
             if (ServerInfo.contains("POWER ON")) {
                 LayoutPowerIsOn = true;
                 updateLayoutPowerAction();
+                if (cmdAutoSendAll)
+                    layoutSendAll();
             }
             else {
                 if (cmdAutoPower) {
@@ -1897,6 +1905,8 @@ void MainWindow::CommandSocketReadyRead()
                                 LayoutPowerIsOn = true;
                                 updateLayoutPowerAction();
                                 SRCPCommandState = srcpConnected;
+                                if (cmdAutoSendAll)
+                                    layoutSendAll();
                             }
                         }
                         else
@@ -1923,6 +1933,8 @@ void MainWindow::CommandSocketReadyRead()
 			    LayoutPowerIsOn = true;
                             updateLayoutPowerAction();
                             SRCPCommandState = srcpConnected;
+                            if (cmdAutoSendAll)
+                                layoutSendAll();
 			}
 		    }
 		    else
@@ -1944,6 +1956,8 @@ void MainWindow::CommandSocketReadyRead()
 			LayoutPowerIsOn = true;
                         updateLayoutPowerAction();
                         SRCPCommandState = srcpConnected;
+                        if (cmdAutoSendAll)
+                            layoutSendAll();
 		    }
 		}
 		else
@@ -1955,8 +1969,11 @@ void MainWindow::CommandSocketReadyRead()
 	     * walk through bus list step by step
 	     * keep SRCPCommandState while power switching is not finished
 	     */
-	    if (!gbs->setSRCP08BusPower(LayoutPowerIsOn))
+	    if (!gbs->setSRCP08BusPower(LayoutPowerIsOn)) {
                 SRCPCommandState = srcpConnected;
+                if (LayoutPowerIsOn && cmdAutoSendAll)
+                    layoutSendAll();
+            }
         }
 
         else if (SRCPCommandState == srcp08GetBusPower) {
@@ -1990,6 +2007,8 @@ void MainWindow::CommandSocketReadyRead()
 		    LayoutPowerIsOn = true;
                     updateLayoutPowerAction();
                     SRCPCommandState = srcpConnected;
+                    if (cmdAutoSendAll)
+                        layoutSendAll();
 		}
         }
 
@@ -2559,13 +2578,19 @@ void MainWindow::slotToggleLayoutPower()
 {
     LayoutPowerIsOn = !LayoutPowerIsOn;
 
-    if (srcpVersion == 7)
+    if (srcpVersion == 7) {
         SendCommandToSRCPServer(
                 LayoutPowerIsOn ? "SET POWER ON" : "SET POWER OFF");
+        if (LayoutPowerIsOn && cmdAutoSendAll)
+            layoutSendAll();
+    }
     else if (srcpVersion == 8) {
         SRCPCommandState = srcp08SetBusPower;
-        if (!gbs->setSRCP08BusPower(LayoutPowerIsOn))
+        if (!gbs->setSRCP08BusPower(LayoutPowerIsOn)) {
             SRCPCommandState = srcpConnected;
+            if (LayoutPowerIsOn && cmdAutoSendAll)
+                layoutSendAll();
+        }
     }
     updateLayoutPowerAction();
 }
@@ -2680,7 +2705,7 @@ void MainWindow::slotAbout()
     QMessageBox::information(this, QString(tr("About ")) + APP_NAME,
       QString(APP_NAME) + " " + VERSION + "\n" +
       tr("(C) 1999-2003 by Stefan Preis\n"
-         "(C) 2004-2005 by Guido Scholz\n"
+         "(C) 2004-2006 by Guido Scholz\n"
          "with the gorgeous help of:\n"
 	 " Ruediger Seidel\n"
 	 " Dirk Armbrust\n"
@@ -3023,6 +3048,7 @@ void MainWindow::layoutChangeSize()
     nlDlg->setPort(cmdPort);
     nlDlg->setAutoLogin(cmdAutoLogin);
     nlDlg->setAutoPower(cmdAutoPower);
+    nlDlg->setAutoSendAll(cmdAutoSendAll);
     
     if (nlDlg->exec() == QDialog::Accepted) {
         int iNewCols = nlDlg->getColumns();
@@ -3032,6 +3058,7 @@ void MainWindow::layoutChangeSize()
         cmdPort = nlDlg->getPort();
         cmdAutoLogin = nlDlg->getAutoLogin();
         cmdAutoPower = nlDlg->getAutoPower();
+        cmdAutoSendAll = nlDlg->getAutoSendAll();
         //TODO:
         //srcpCom->setCmdHost(cmdHost, cmdPort);
         gbs->setModified(true);
@@ -3040,6 +3067,12 @@ void MainWindow::layoutChangeSize()
 
     bool im = isModified();
     actionFileSave->setEnabled(im);
+}
+
+
+void MainWindow::layoutSendAll()
+{
+    gbs->slotSendAll();
 }
 
 

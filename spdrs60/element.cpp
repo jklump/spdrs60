@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.54 $
+                           version 0.5.0 $Revision: 1.55 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-08 20:22:40 $
+    last modified        : $Date: 2006-02-11 20:42:04 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -466,15 +466,11 @@ void element::createPopupMenus()
 }
 
 
-void element::slotSwitchIt(int newdir, int lockcount)
+void element::switchToDir(int newdir)
 {
     // quit if element contains no solenoid
     if (!switchable)
         return;
-
-    // add an other locked state because a solenoid can belong to more
-    // than one route
-    lockCounter += lockcount;
 
     // Repainting the element is only done when new direction differs
     // from the old one.
@@ -496,10 +492,6 @@ void element::slotSwitchIt(int newdir, int lockcount)
     else {
         //if (!is2StateDKW()) 
             //updateCtxNorm();
-        
-        // repaint if lockstate changes
-        if (lockcount != 0) 
-            setupElementIcon(iSoldLEDstate, "");
         
         // Switch command is send to SRCP server if forced.
         if (pref.sendstate)
@@ -1042,27 +1034,27 @@ void element::slotToggle()
     if (sSoldIcon == SYM_DRW ||
         sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR) {
         if (iSoldDirection < 2)
-            slotSwitchIt(iSoldDirection + 1, UNLOCKED);
+            switchToDir(iSoldDirection + 1);
         else
-            slotSwitchIt(0, UNLOCKED);
+            switchToDir(0);
     }
 
     else if (sSoldIcon == SYM_HS || sSoldIcon == SYM_VS) {
         switch (iSoldDirection) {
             case 0:
                 if (iSoldSubType != 6)
-                    slotSwitchIt(1, UNLOCKED);
+                    switchToDir(1);
                 else 
-                    slotSwitchIt(2, UNLOCKED);
+                    switchToDir(2);
                 break;
             case 1:
                 if (iSoldSubType == 0)
-                    slotSwitchIt(0, UNLOCKED);
+                    switchToDir(0);
                 else
-                    slotSwitchIt(2, UNLOCKED);
+                    switchToDir(2);
                 break;
             case 2:
-                slotSwitchIt(0, UNLOCKED);
+                switchToDir(0);
                 break;
         } 
     }
@@ -1071,21 +1063,21 @@ void element::slotToggle()
         switch (iSoldDirection) {
             case 0:
                 if (iSoldSubType < 6)
-                    slotSwitchIt(1, UNLOCKED);
+                    switchToDir(1);
                 else 
-                    slotSwitchIt(2, UNLOCKED);
+                    switchToDir(2);
                 break;
             case 1:
                 if (iSoldSubType == 1)
-                    slotSwitchIt(3, UNLOCKED);
+                    switchToDir(3);
                 else
-                    slotSwitchIt(2, UNLOCKED);
+                    switchToDir(2);
                 break;
             case 2:
-                slotSwitchIt(3, UNLOCKED);
+                switchToDir(3);
                 break;
             case 3:
-                slotSwitchIt(0, UNLOCKED);
+                switchToDir(0);
                 break;
         } 
     }
@@ -1094,14 +1086,14 @@ void element::slotToggle()
     else if ((sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR)
              && iSoldSubType == 1) {
         if (iSoldDirection < 3)
-            slotSwitchIt(iSoldDirection + 1, UNLOCKED);
+            switchToDir(iSoldDirection + 1);
         else
-            slotSwitchIt(0, UNLOCKED);
+            switchToDir(0);
     }
 
     // toggles cyclic for 2-state-solenoids
     else
-        slotSwitchIt(!iSoldDirection, UNLOCKED);
+        switchToDir(!iSoldDirection);
 }
 
 

@@ -505,7 +505,7 @@ SRCP-Versionsnummer:
     </message>
     <message>
         <source>(C) 1999-2003 by Stefan Preis
-(C) 2004-2005 by Guido Scholz
+(C) 2004-2006 by Guido Scholz
 with the gorgeous help of:
  Ruediger Seidel
  Dirk Armbrust
@@ -516,8 +516,8 @@ documentation (see Help menu or press F1).
 
 Please report ANY bugs, hints and thanks to:
 </source>
-        <translation>(c) 1999 - 2003 Stefan Preis,
-(c) 2004 - 2005 Guido Scholz
+        <translation>(c) 1999-2003 Stefan Preis,
+(c) 2004-2006 Guido Scholz
 mit kräftiger Unterstützung durch:
  Ruediger Seidel
  Dirk Armbrust
@@ -1566,6 +1566,10 @@ das neue Gleisbild eingeben</translation>
     <message>
         <source>Start options</source>
         <translation>Programmstart</translation>
+    </message>
+    <message>
+        <source>Send all s&amp;olenoid states after power on</source>
+        <translation>&amp;Magnetartikelstellungen automatisch senden</translation>
     </message>
 </context>
 <context>
