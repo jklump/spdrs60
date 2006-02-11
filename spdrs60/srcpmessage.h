@@ -1,10 +1,10 @@
 /***************************************************************************
                            srcpmessage.h
-                           version 0.5.0 $Revision: 1.6 $
+                           version 0.5.0 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-08 20:22:40 $
+    last modified        : $Date: 2006-02-11 20:38:10 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -34,12 +34,15 @@ class SrcpMessage
             msgServerShutdown, msgServerLogout,
             msgPowerInit, msgPowerSet, msgPowerGet, msgPowerTerm,
             msgPowerInfo,
+            msgLockSet, msgLockGet, msgLockTerm, msgLockInfo,
             msgFbInit, msgFbGet, msgFbTerm, msgFbInfo,
             msgGaInit, msgGaSet, msgGaGet, msgGaInfo,
             msgGlInit, msgGlSet, msgGlGet, msgGlTerm, msgGlInfo};
        
         // only GA protocols
         enum Protocol {proMM = 0, proDCC, proServ};
+
+        enum DeviceGroup {dgGA = 0, dgGL};
 
         enum Feedback {fbS88 = 0, fbI8255, fbM6051, fbPS};
 
@@ -51,12 +54,14 @@ class SrcpMessage
         void setGaData(Protocol, unsigned int, unsigned int,
                 unsigned int, int);
         //TODO: void setGlData();
+        void setLockData(unsigned int, DeviceGroup, unsigned int);
         void setPowerData(unsigned int, bool);
 
     private:
         Message message;
         Protocol protocol;
         Feedback fbtype;
+        DeviceGroup devicegroup;
         bool power;
         int delay;
         unsigned int address;
@@ -64,6 +69,7 @@ class SrcpMessage
         unsigned int port;
         unsigned int srcpbus;
         QString getProtocolStr(Protocol pro = proMM) const;
+        QString getDeviceGroupStr(DeviceGroup dg = dgGA) const;
 };
 #endif
 

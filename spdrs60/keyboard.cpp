@@ -1,11 +1,11 @@
 /***************************************************************************
                            keyboard.cpp
-                           version 0.5.0 $Revision: 1.13 $
+                           version 0.5.0 $Revision: 1.14 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-02-10 19:23:11 $
+    last modified        : $Date: 2006-02-11 20:38:10 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -34,7 +34,7 @@
 
 
 keyboard::keyboard(QWidget* parent, unsigned int srcpv): QDialog(parent,
-        "keyboard", false)
+        "keyboard")
 {
     setCaption(tr("Keyboard"));
     srcpVersion = srcpv;

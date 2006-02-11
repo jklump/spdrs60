@@ -1,10 +1,10 @@
 /***************************************************************************
                            srcpmessage.cpp
-                           version 0.5.0 $Revision: 1.8 $
+                           version 0.5.0 $Revision: 1.9 $
                            -------------------------------
     copyright            : (C) 2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-08 20:22:40 $
+    last modified        : $Date: 2006-02-11 20:38:10 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -127,6 +127,19 @@ QString SrcpMessage::getSrcpMessageStr(unsigned int version) const
                     .arg(srcpbus).arg(address).arg(port).arg(delay);
                 break;
                 //TODO: msgGl...
+                //TODO: flexible lock duration
+            case msgLockSet:
+                cmdStr = QString("SET %1 LOCK %2 %3 0").arg(srcpbus)
+                    .arg(getDeviceGroupStr(devicegroup)).arg(address);
+                break;
+            case msgLockGet:
+                cmdStr = QString("GET %1 LOCK %2 %3").arg(srcpbus)
+                    .arg(getDeviceGroupStr(devicegroup)).arg(address);
+                break;
+            case msgLockTerm:
+                cmdStr = QString("TERM %1 LOCK %2 %3").arg(srcpbus)
+                    .arg(getDeviceGroupStr(devicegroup)).arg(address);
+                break;
             case msgPowerInit:
                 cmdStr = QString("INIT %1 POWER").arg(srcpbus);
                 break;
@@ -177,6 +190,22 @@ QString SrcpMessage::getProtocolStr(Protocol pro) const
 }
 
 
+QString SrcpMessage::getDeviceGroupStr(DeviceGroup dg)  const
+{
+    QString dgStr = "";
+    
+    switch (dg) {
+        case dgGA:
+            dgStr = "GA";
+            break;
+        case dgGL:
+            dgStr = "GL";
+            break;
+    }
+    return dgStr;
+}
+
+
 void SrcpMessage::setBus(unsigned int bus)
 {
     srcpbus = bus;
@@ -202,6 +231,15 @@ void SrcpMessage::setGaData(Protocol pro, unsigned int bus,
 }
 
 //TODO: void SrcpMessage::setGlData()
+
+void SrcpMessage::setLockData(unsigned int bus, DeviceGroup dg,
+        unsigned int adr)
+{
+    srcpbus = bus;
+    devicegroup = dg;
+    address = adr;
+}
+
 
 void SrcpMessage::setPowerData(unsigned int bus, bool pwr)
 {
