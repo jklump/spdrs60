@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.0 $Revision: 1.40 $
+                           version 0.5.0 $Revision: 1.41 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-02-11 20:42:04 $
+    last modified        : $Date: 2006-02-14 21:54:24 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -149,21 +149,23 @@ public:
     bool hasDifferentDirection(int);
     bool hasFfMLock();
     bool hasLEDsOn();
+    bool is2StateDKW();
     bool isEmpty();
     bool isLocked();
     bool isOccupied();
-    bool isSignal();
-    bool isTurnout();
     bool isRoutable();
-    bool isSwitchable();
-    bool is2StateDKW();
+    bool isSignal();
     bool isSimpleGA();
+    bool isSwitchable();
+    bool isSwitched();
+    bool isTurnout();
     bool hasThreeStates();
     void showElementState(int, elemSelectionMode);
     void sendSrcpState();
     bool sendSRCP08InitGA(unsigned int gano = 1);
     void setIndexNo(unsigned int);
     void setLocked(bool);
+    void setSwitched(bool);
     unsigned int getIndexNo();
     void getStateData(stateElement& se);
     elemSelectionMode getSelectionMode();
@@ -197,16 +199,19 @@ private:
     int      iSoldLEDoff;
     int      iSoldLEDstate;
     int      lockCounter;
+    int      blinkcounter;
+    int      newdir;
     bool     ffm;
     bool     ffmactive;
     bool     occupied;
     bool     routable;
     bool     routed;
     bool     signal;
+    bool     simplega;
     bool     state2dkw;
     bool     switchable;
+    bool     switched;
     bool     turnout;
-    bool     simplega;
     QString  sRepeatIcon;
     QString  sSoldDecoder;
     QString  sSoldProtocol;
@@ -219,6 +224,7 @@ private:
     void showPropertyDlg();
     void rotate();
     void setupElementIcon(int, QString);
+    void switchToDirBlinking(int);
     void updateProperties();
     void updateCtxNorm();
     void updateLEDState();
@@ -228,6 +234,8 @@ private:
     void updateFeedbackState();
 
 public slots:
+    void runTurnoutBlinkTimer();
+    void repaintTimeOutEnk();
     void switchToDir(int);
     void slotToggle();
     void slotOccupyElement(unsigned int, unsigned int, bool);
@@ -236,7 +244,6 @@ public slots:
     void slotRepeatIcon(const QString&);
     void slotShowElement(int, int, elemSelectionMode);
     void slotRepaintLayout();
-    void repaintTimeOutEnk();
 
 private slots:
     void slotLocateTimerTimeout();
@@ -254,6 +261,7 @@ signals:
     void setRepeatIcon(const QString&);
     void sigElementClickedRecord(int, int);
     void sigShowFBmodules();
+    void turnoutIsSwitched();
     void recordElement(element*, elemRecordType);
 
 protected:

@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.0 $Revision: 1.38 $
+                           version 0.5.0 $Revision: 1.39 $
                            -------------------------------
     copyright            : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-11 20:42:04 $
+    last modified        : $Date: 2006-02-14 21:54:24 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -37,7 +37,10 @@ Route::Route(TypeOfRoute arouteType,
         unsigned int adetourLevel,
         const QPtrList<stateElement>& swis)
 {
-    locked = false;
+    routestate = rsUnlocked;
+    turnouts = 0;
+    tocounter = 0;
+    triggerto = NULL;
     switchItems.setAutoDelete(true);
 
     routeType = arouteType;
@@ -94,7 +97,10 @@ Route::Route(TypeOfRoute arouteType,
 
 Route::Route(element* startEl)
 {
-    locked = false;
+    routestate = rsUnlocked;
+    turnouts = 0;
+    tocounter = 0;
+    triggerto = NULL;
     switchItems.setAutoDelete(true);
 
     exitSignal.state = 0;
@@ -140,7 +146,10 @@ Route::Route(element* startEl)
 
 Route::Route(QTextStream& ts, bool isNewFormat)
 {
-    locked = false;
+    routestate = rsUnlocked;
+    turnouts = 0;
+    tocounter = 0;
+    triggerto = NULL;
     switchItems.setAutoDelete(true);
 
     /*exit signals are red by default*/
@@ -161,7 +170,10 @@ Route::Route(QTextStream& ts, bool isNewFormat)
 
 Route::Route(const QString& aName)
 {
-    locked = false;
+    routestate = rsUnlocked;
+    turnouts = 0;
+    tocounter = 0;
+    triggerto = NULL;
     switchItems.setAutoDelete(true);
 
     routeType = RZS;
@@ -446,9 +458,9 @@ Route* Route::getClone()
 }
 
 
-bool Route::isLocked()
+int Route::getState()
 {
-    return locked;
+    return routestate;
 }
 
 
@@ -535,6 +547,9 @@ int Route::startRouting()
                 exitSignal.elemPtr2->hasDifferentDirection(exitSignal.state))
                return 0;
 
+    turnouts = 0;
+    tocounter = 0;
+
     QPtrListIterator<stateElement> it(switchItems);
     stateElement* se;
     while ((se = it.current()) != 0) {
@@ -543,14 +558,24 @@ int Route::startRouting()
         if (el != NULL && el->isLocked() &&
                 (el->hasDifferentDirection(se->state) ||
                  el->is2StateDKW()))
-               return 0;
+            return 0;
+        // count turnouts for timer activation
+        if (el != NULL && el->isTurnout() &&
+                el->hasDifferentDirection(se->state)) {
+            ++turnouts;
+            el->setSwitched(false);
+            if (el->isOccupied())
+                return -2;
 
         el = se->elemPtr2;
         if (el != NULL && el->isLocked() &&
                 (el->hasDifferentDirection(se->state) ||
                  el->is2StateDKW()))
-               return 0;
+            return 0;
+
+        }
     }
+    //fprintf(stderr, "counter: %d  turnouts: %d\n", tocounter, turnouts);
 
     /*
      * 2) switch route elements but without locking
@@ -564,36 +589,71 @@ int Route::startRouting()
            exitSignal.elemPtr2->switchToDir(exitSignal.state);
            exitSignal.elemPtr2->repaint();
     }
-    
-    it.toFirst();
-    while ((se = it.current()) != 0) {
-        ++it;
-        element* el = se->elemPtr;
+    // start timer controlled turnout switching
+    switchTurnouts();
+}
 
-        /* The original SpDr waits 250 ms until next turnout is
-         * switched to avoid high power consumption. Signals on
-         * route path are switched after "Fahrstrassenfestlegemelder".
-         * Option to force turnout switching: prf.sendstate
-         */
-        if (el != NULL && el->isTurnout() && (pref.sendstate ||
-                    el->hasDifferentDirection(se->state))) {
+/* 
+ * Timer controlled loop over all turnouts.
+ * The original SpDr waits 250 ms until next turnout is
+ * switched to avoid high power consumption. Signals on
+ * route path are switched after "Fahrstrassenfestlegemelder".
+ * Option to force turnout switching: prf.sendstate
+ */
+void Route::switchTurnouts()
+{
+    if (turnouts > 0) {
+        QPtrListIterator<stateElement> it(switchItems);
+        stateElement* se;
+        while ((se = it.current()) != 0) {
+            ++it;
+            element* el = se->elemPtr;
 
-            // turnout can not be switched if is occupied
-            if (el->isOccupied())
-                return -2;
+            if (el != NULL && el->isTurnout() && !el->isSwitched())
+                if (el->hasDifferentDirection(se->state)) {
 
-            /* force repainting of element to get visual layout update*/
-            /*TODO: use a nonblocking timer event */
-            usleep(250 * 1000);
-            el->switchToDir(se->state);
-            el->repaint();
+                    ++tocounter;
+                    // last turnout will trigger route path highlighting
+                    if (tocounter == turnouts) {
+                        triggerto = el;
+                        connect(el, SIGNAL(turnoutIsSwitched()),
+                                this, SLOT(showRoutePath()));
+                    }
 
-            el = se->elemPtr2;
-            if (el != NULL) {
-                el->switchToDir(se->state);
-                el->repaint();
-            }
+                    el->switchToDir(se->state);
+                    el->repaint();
+                    el->setSwitched(true);
+                    el = se->elemPtr2;
+                    
+                    if (el != NULL) {
+                        el->switchToDir(se->state);
+                        el->repaint();
+                    }
+                    
+                    //fprintf(stderr, "counter: %d  turnouts: %d\n",
+                    //        tocounter, turnouts);
+                    if (tocounter < turnouts) {
+                        QTimer::singleShot(250, this, SLOT(switchTurnouts()));
+                    }
+                }
+                // no blink animation but command sending necessary
+                else if (pref.sendstate)
+                    el->sendSrcpState();
         }
+    }
+    // if there is no single turnout go ahead anyway
+    else
+        showRoutePath();
+}
+
+
+void Route::showRoutePath()
+{
+    // clean up
+    if (triggerto != NULL) {
+        disconnect(triggerto, SIGNAL(turnoutIsSwitched()),
+                this, SLOT(showRoutePath()));
+        triggerto = NULL;
     }
 
     /*
@@ -616,8 +676,9 @@ int Route::startRouting()
     //   rsUnlocked -> rsWfLock -> rsLocked 
     //   rsLocked -> rsWfUnlock -> rsUnlocked 
     if (krouteReset == rsa) {
-        locked = true;
-        return -1;
+        routestate = rsWfLock;
+        emit stateChanged(this, routestate);
+        return;
     }
 
     /* 
@@ -634,7 +695,8 @@ int Route::startRouting()
 
     /*exit signal does not need locking*/
     
-    it.toFirst();
+    QPtrListIterator<stateElement> it(switchItems);
+    stateElement* se;
     while ((se = it.current()) != 0) {
         ++it;
         element* el = se->elemPtr;
@@ -686,8 +748,8 @@ int Route::startRouting()
     if (entrySignal.elemPtr2 != NULL)
         entrySignal.elemPtr2->switchToDir(entrySignal.state);
 
-    locked = true;
-    return 1;
+    routestate = rsLocked;
+    emit stateChanged(this, routestate);
 }
 
 
@@ -736,7 +798,8 @@ void Route::stopRouting()
     RouteSetAction rsa = krouteReset;
     emit updateRoutePathLEDs(entrySignal, exitSignal, rsa);
 
-    locked = false;
+    routestate = rsUnlocked;
+    emit stateChanged(this, routestate);
 }
 
 
@@ -934,7 +997,8 @@ bool Route::hasThisExitSignal(element* el)
 
 bool Route::isLockedWithEntrySignal(element* el)
 {
-    return locked && (entrySignal.elemPtr == el || entrySignal.elemPtr2 == el);
+    return routestate != rsUnlocked &&
+        (entrySignal.elemPtr == el || entrySignal.elemPtr2 == el);
 }
 
 
@@ -953,7 +1017,7 @@ bool Route::isUnlockedWithEntrySignalType(element* el, GbsButtonState cb,
           URS       kRfsClicked   kUfgtClicked
        ----------------------------------------
     */
-    if (!locked && (entrySignal.elemPtr == el || 
+    if (routestate == rsUnlocked && (entrySignal.elemPtr == el || 
                 entrySignal.elemPtr2 == el)) {
         
         bool returnvalue = false;
@@ -999,7 +1063,7 @@ bool Route::isUnlockedType(element* fel, element* tel, GbsButtonState cb,
           URS       kRfsClicked   kUfgtClicked
        ----------------------------------------
     */
-    if (!locked && (entrySignal.elemPtr == fel || 
+    if (routestate == rsUnlocked && (entrySignal.elemPtr == fel || 
                 entrySignal.elemPtr2 == fel) && (exitSignal.elemPtr == tel || 
                     exitSignal.elemPtr2 == tel)) {
         
@@ -1045,7 +1109,7 @@ bool Route::isUnlockedType(element* fel, element* tel, GbsButtonState cb,
 bool Route::canActivateByFeedbackPort(unsigned int bus,
         unsigned int port, bool ison)
 {
-    return (!locked && acPort.used && acPort.bus == bus &&
+    return (routestate == rsUnlocked && acPort.used && acPort.bus == bus &&
         acPort.address == port && acPort.switchtooff != ison);
 }
 
@@ -1053,7 +1117,7 @@ bool Route::canActivateByFeedbackPort(unsigned int bus,
 bool Route::canReleaseByFeedbackPort(unsigned int bus,
         unsigned int port, bool ison)
 {
-    return (locked && rePort.used && rePort.bus == bus &&
+    return (routestate != rsUnlocked && rePort.used && rePort.bus == bus &&
         rePort.address == port && rePort.switchtooff != ison);
 }
 

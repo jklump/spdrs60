@@ -1,10 +1,10 @@
 /***************************************************************************
                            routingtable.h
-                           version 0.4.8 $Revision: 1.2 $
+                           version 0.5.0 $Revision: 1.3 $
                            -------------------------------
-    copyright            : (C) 2004-2005 by Guido Scholz
+    copyright            : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-10-22 05:43:44 $
+    last modified        : $Date: 2006-02-14 21:54:24 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -25,6 +25,8 @@
 
 #include <qtable.h>
 
+#include "route.h"
+
 
 class RoutingTable: public QTable
 {
@@ -33,6 +35,8 @@ class RoutingTable: public QTable
 private:
     QPixmap pLocked;
     QPixmap pUnlocked;
+    QPixmap pWfLock;
+    QPixmap pWfUnlock;
 
 protected:
     virtual void keyPressEvent(QKeyEvent *e);
@@ -42,8 +46,8 @@ public:
     void sortColumn(int, bool, bool);
     
 public slots:
-    void updateLockStateIcon(int, bool);
-    void updateCurrentRowLockStateIcon(bool);
+    void updateLockStateIcon(int, int);
+    void updateCurrentRowLockStateIcon(int);
     
 signals:
     void toggleRouteState(int);

@@ -1,10 +1,10 @@
 /***************************************************************************
                            routingviewer.cpp
-                           version 0.4.8 $Revision: 1.17 $
+                           version 0.4.8 $Revision: 1.18 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-02 21:04:37 $
+    last modified        : $Date: 2006-02-14 21:54:24 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -62,14 +62,14 @@ void RoutingViewer::updateRouteAt(int row)
 }
 
 
-void RoutingViewer::updateRouteStateAt(int row, bool state)
+void RoutingViewer::updateRouteStateAt(int row, int rs)
 {
     /*security checks*/
     if (row >= 0 && row < rTable->numRows()) {
-        rTable->updateLockStateIcon(row, state);
+        rTable->updateLockStateIcon(row, rs);
         // if row is selected also update menu buttons
         if (rTable->currentRow() == row)
-            emit selectedRouteIsLocked(state);
+            emit selectedRouteIsLocked(rs == Route::rsLocked);
     }
 }
 
@@ -108,7 +108,7 @@ void RoutingViewer::populateTableRow(unsigned int row)
         return;
 
     /*LockState*/
-    rTable->updateLockStateIcon(row, rowRoute->isLocked());
+    rTable->updateLockStateIcon(row, rowRoute->getState());
     /*fromeName*/
     rTable->setItem(row, 1, new QTableItem(
                 rTable, QTableItem::Never,
@@ -143,7 +143,7 @@ void RoutingViewer::slotToggleRouteState(int routeidx)
         return;
 
     Route* selectedRoute = gbsRouter->getRouteAt(routeidx);
-    if (selectedRoute->isLocked())
+    if (selectedRoute->getState() == Route::rsLocked)
          slotStopRouteNo(routeidx);
     else
          slotStartRouteNo(routeidx);
@@ -256,7 +256,7 @@ void RoutingViewer::selectedRouteChanged(int row, int col)
             if (selectedRoute != NULL)
                 // send message to mainwindow to update toolbar and menu
                 // items
-                emit selectedRouteIsLocked(selectedRoute->isLocked());
+                emit selectedRouteIsLocked(selectedRoute->getState());
             gbsRouter->selectedRouteChanged(lastrow, row);
         }
         lastrow = row;
@@ -278,7 +278,7 @@ void RoutingViewer::switchVisualMode(elemVisualMode vm)
             Route* sr = gbsRouter->getRouteAt(row);
             // send message to mainwindow to update toolbar and menu items
             if (sr != NULL)
-                emit selectedRouteIsLocked(sr->isLocked());
+                emit selectedRouteIsLocked(sr->getState());
         }
     }
 }

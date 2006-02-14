@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.h
-                           version 0.4.8 $Revision: 1.13 $
+                           version 0.4.8 $Revision: 1.14 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@ bayernline.de
-    last modified        : $Date: 2005-12-31 18:48:15 $
+    last modified        : $Date: 2006-02-14 21:54:24 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -56,13 +56,14 @@ public:
     void selectedRouteChanged(int, int);
     void showRouteAt(int);
     void startRecordModeAt(unsigned int);
-    bool activateRoute(Route*);
-    bool activateRouteAt(unsigned int);
+    void activateRoute(Route*);
+    void activateRouteAt(unsigned int);
     void releaseRoute(Route*);
     void releaseRouteAt(unsigned int);
 
 public slots:
     void clearRoutes();
+    void processRouteState(Route*, int);
     void recordElement(element*, elemRecordType);
     void resetRoute(element*, GbsButtonState);
     void resetSelectedSignal();
@@ -93,7 +94,7 @@ signals:
     void updateRoutingViewer();
     void updateRoutingViewerAt(int);
     void routeFunctionFinished();
-    void routeStateChanged(int, bool);
+    void routeStateChanged(int, int);
     void showLogMessage(const QString&, int, int);
     void startRouteTimer(TypeOfRoute);
     void updateRoutePathLEDs(const stateElement&, const stateElement&,

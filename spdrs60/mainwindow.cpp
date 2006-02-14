@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.65 $
+                           version 0.5.0 $Revision: 1.66 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-11 20:42:04 $
+    last modified        : $Date: 2006-02-14 21:54:24 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -443,8 +443,8 @@ void MainWindow::initMainWindow()
             rtViewer, SLOT(updateRoutes()));
     connect(rtController, SIGNAL(updateRoutingViewerAt(int)),
             rtViewer, SLOT(updateRouteAt(int)));
-    connect(rtController, SIGNAL(routeStateChanged(int, bool)),
-            rtViewer, SLOT(updateRouteStateAt(int, bool)));
+    connect(rtController, SIGNAL(routeStateChanged(int, int)),
+            rtViewer, SLOT(updateRouteStateAt(int, int)));
     connect(rtController, SIGNAL(getElementByAddress(const int, const int,
                     element**)), gbs,
             SLOT(getElementByAddress(const int, const int, element**)));

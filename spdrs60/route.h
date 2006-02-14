@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.4.8 $Revision: 1.19 $
+                           version 0.4.8 $Revision: 1.20 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-12-31 18:48:15 $
+    last modified        : $Date: 2006-02-14 21:54:24 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -75,6 +75,9 @@ class Route: public QObject
     Q_OBJECT
         
 public:
+    enum RouteState {rsUnlocked = 0, rsLocked, rsWfLock, rsWfUnlock,
+        rsLocking};
+        
     Route(TypeOfRoute arouteType,
           const QString& aName,
           const stateElement& aexitSignal,
@@ -94,7 +97,7 @@ public:
     void readOldFileTextFromStream(QTextStream&);
     void writeFileTextToStream(QTextStream&);
     Route* getClone();
-    bool isLocked();
+    int getState();
     QString getName() const;
     QString getFromSignalName() const;
     QString getToSignalName() const;
@@ -123,11 +126,16 @@ public:
     bool canReleaseByFeedbackPort(unsigned int, unsigned int, bool);
     
 signals:
+    void stateChanged(Route*, int);
     void showElement(int, int, int);
     void updateRoutePathLEDs(const stateElement&, const stateElement&,
             RouteSetAction&);
     void getElementByAddress(const int, const int, element**);
 
+public slots:
+    void switchTurnouts();
+    void showRoutePath();
+    
 private:
     QString Name;
     stateElement exitSignal, entrySignal;
@@ -135,7 +143,10 @@ private:
     PortState acPort, rePort;
     Loco acLoco;
     unsigned int detourLevel;
-    bool locked;
+    RouteState routestate;
+    int turnouts;
+    int tocounter;
+    element* triggerto;
 
     /*list with raw item data*/
     QPtrList<stateElement> switchItems;

@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.55 $
+                           version 0.5.0 $Revision: 1.56 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-11 20:42:04 $
+    last modified        : $Date: 2006-02-14 21:54:24 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -92,6 +92,7 @@ element::element(QWidget* parent): QWidget(parent)
     signal = false;
     state2dkw = false;
     switchable = false;
+    switched = false;
     simplega = false;
     turnout = false;
     iGA1BusNo = iGA2BusNo = iFBBusNo = 1;
@@ -125,6 +126,7 @@ element::element(QWidget* parent): QWidget(parent)
     sSaveReplaceIcon = "";
     sRepeatIcon = SYM_LEE;
     lockCounter = 0;
+    blinkcounter = 0;
 
     elementPropertyDlg = NULL;
     turntableProperties = NULL;
@@ -149,6 +151,7 @@ element::element(QTextStream& ats, QWidget* parent, bool isNewFormat)
     signal = false;
     state2dkw = false;
     switchable = false;
+    switched = false;
     simplega = false;
     turnout = false;
     iGA1BusNo = iGA2BusNo = iFBBusNo = 1;
@@ -163,6 +166,7 @@ element::element(QTextStream& ats, QWidget* parent, bool isNewFormat)
     sSaveReplaceIcon = "";
     sRepeatIcon = SYM_LEE;
     lockCounter = 0;
+    blinkcounter = 0;
     iSoldLEDstate = LED_OFF;
 
     elementPropertyDlg = NULL;
@@ -472,30 +476,34 @@ void element::switchToDir(int newdir)
     if (!switchable)
         return;
 
-    // Repainting the element is only done when new direction differs
-    // from the old one.
-    // Momentary couplers are exceptional: they only use one connector e.g. one
-    // direction which is activated or deactivated, these are treated the same
-    // TODO: option to repaint only when INFO messages came back from
-    // srcp server
-    if (newdir != iSoldDirection || sSoldIcon == SYM_ENK) {
-        iSoldDirection = newdir;
-        setupElementIcon(iSoldLEDstate, "");
-        sendSrcpState();
-    }
-
-    // if the new direction equals the old one just setup the element to ensure
-    // that the contextmenu and the lock variable are correct set
-    // exception: 2-state-DKW, they would show a momentary false LED state
-    //else if (!((sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR)
-    //           && iSoldSubType == 0))
+    if (turnout)
+        switchToDirBlinking(newdir);
     else {
-        //if (!is2StateDKW()) 
-            //updateCtxNorm();
-        
-        // Switch command is send to SRCP server if forced.
-        if (pref.sendstate)
+        // Repainting the element is only done when new direction differs
+        // from the old one. Momentary couplers are exceptional: they
+        // only use one connector e.g. one direction which is activated
+        // or deactivated, these are treated the same
+        // TODO: option to repaint only when INFO messages came back from
+        // srcp server
+        if (newdir != iSoldDirection || sSoldIcon == SYM_ENK) {
+            iSoldDirection = newdir;
+            setupElementIcon(iSoldLEDstate, "");
             sendSrcpState();
+        }
+
+        // if the new direction equals the old one just setup the element
+        // to ensure that the contextmenu and the lock variable are correct set
+        // exception: 2-state-DKW, they would show a momentary false LED state
+        //else if (!((sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR)
+        //           && iSoldSubType == 0))
+        else {
+            //if (!is2StateDKW()) 
+            //updateCtxNorm();
+
+            // Switch command is send to SRCP server if forced.
+            if (pref.sendstate)
+                sendSrcpState();
+        }
     }
 }
 
@@ -893,6 +901,9 @@ void element::processInfoPortMessage(unsigned int bus,
         unsigned int addr, unsigned int port)
 {
     if (!switchable)
+        return;
+
+    if (blinkcounter !=0)
         return;
     
     if (sSoldIcon == SYM_ENK && iSoldSubType != -1)
@@ -2562,3 +2573,71 @@ bool element::hasThreeStates()
     return (sSoldIcon == SYM_HS || sSoldIcon == SYM_VS) &&
         iSoldSubType == 6;
 }
+
+
+bool element::isSwitched()
+{
+    return switched;
+}
+
+
+void element::setSwitched(bool sw)
+{
+    switched = sw;
+}
+
+
+/*
+ * Blinking in original is one time in old direction and five times in new
+direction
+ * resulting in 14 switch cycles.
+ *
+ * dir old ->| |<- new
+ * on  --+ +-+ +-+ +-+ +-+ +-+ +-+ +--
+ *       | |1| |2| |3| |4| |5| |6| |
+ * off   +-+ +-+ +-+ +-+ +-+ +-+ +-+
+ *       ^     ^
+ *       |     |
+ *       |     change visible direction
+ *       send SRCP command
+*/
+void element::switchToDirBlinking(int ndir)
+{
+    //TODO: check what should happen if turnout is switched during
+    // blinking
+    if (blinkcounter != 0)
+       return;
+
+    blinkcounter = 1;
+    newdir = ndir;
+    runTurnoutBlinkTimer();
+}
+
+
+void element::runTurnoutBlinkTimer()
+{
+    if (blinkcounter == 1) {
+         int olddir = iSoldDirection;
+         iSoldDirection = newdir;
+         sendSrcpState();
+         iSoldDirection = olddir;
+    }
+    if (blinkcounter % 2 == 1) {
+        setupElementIcon(LED_YEL, ""); // OFF
+        repaint();
+    }
+    else {
+        if (blinkcounter == 4)
+            iSoldDirection = newdir;
+        setupElementIcon(LED_OFF, "");  //YEL
+        repaint();
+    }
+    ++blinkcounter;   
+    if (blinkcounter < 11) // 13
+        QTimer::singleShot(500, this, SLOT(runTurnoutBlinkTimer()));
+    else {
+        blinkcounter = 0;
+        emit turnoutIsSwitched();
+    }
+} 
+

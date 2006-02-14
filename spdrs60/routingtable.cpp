@@ -1,10 +1,10 @@
 /***************************************************************************
                            routingtable.cpp
-                           version 0.4.8 $Revision: 1.3 $
+                           version 0.5.0 $Revision: 1.4 $
                            -------------------------------
-    copyright            : (C) 2004-2005 by Guido Scholz
+    copyright            : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2005-12-09 18:07:08 $
+    last modified        : $Date: 2006-02-14 21:54:24 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -24,6 +24,8 @@
 
 #include "pixmaps/route_locked.xpm"
 #include "pixmaps/route_unlocked.xpm"
+#include "pixmaps/route_wflock.xpm"
+#include "pixmaps/route_wfunlock.xpm"
 
 
 RoutingTable::RoutingTable(QWidget* parent) :
@@ -48,6 +50,8 @@ RoutingTable::RoutingTable(QWidget* parent) :
     setColumnStretchable(1, true);
     pLocked = QPixmap(route_locked_xpm);
     pUnlocked = QPixmap(route_unlocked_xpm);
+    pWfLock = QPixmap(route_wflock_xpm);
+    pWfUnlock = QPixmap(route_wfunlock_xpm);
 }
 
 /* sorting is allways done for the whole row */
@@ -57,16 +61,32 @@ void RoutingTable::sortColumn(int col, bool ascending, bool /*wholeRows*/)
 }
 
 
-void RoutingTable::updateLockStateIcon(int row, bool isLocked)
+void RoutingTable::updateLockStateIcon(int row, int rs)
 {
-    setItem(row, 0, new QTableItem(this, QTableItem::Never, "",
-            isLocked ? pLocked : pUnlocked));
+    switch ((Route::RouteState)rs) {
+        case Route::rsUnlocked:
+            setItem(row, 0, new QTableItem(this, QTableItem::Never, "",
+                        pUnlocked));
+            break;
+        case Route::rsLocked:
+            setItem(row, 0, new QTableItem(this, QTableItem::Never, "",
+                        pLocked));
+            break;
+        case Route::rsWfLock:
+            setItem(row, 0, new QTableItem(this, QTableItem::Never, "",
+                        pWfLock));
+            break;
+        case Route::rsWfUnlock:
+            setItem(row, 0, new QTableItem(this, QTableItem::Never, "",
+                        pWfUnlock));
+            break;
+    }
 }
 
 
-void RoutingTable::updateCurrentRowLockStateIcon(bool isLocked)
+void RoutingTable::updateCurrentRowLockStateIcon(int rs)
 {
-    updateLockStateIcon(currentRow(), isLocked);
+    updateLockStateIcon(currentRow(), rs);
 }
 
 

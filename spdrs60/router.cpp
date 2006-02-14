@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.0 $Revision: 1.29 $
+                           version 0.5.0 $Revision: 1.30 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-08 20:19:37 $
+    last modified        : $Date: 2006-02-14 21:54:24 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -124,6 +124,8 @@ void Router::setupRouteElements()
     while ((sr = routeit.current()) != 0 ) {
         ++routeit;
         sr->setupElementLists(gbsElements);
+        connect(sr, SIGNAL(stateChanged(Route*, int)),
+                this, SLOT(processRouteState(Route*, int)));
         connect(sr, SIGNAL(updateRoutePathLEDs(const stateElement&,
                         const stateElement&, RouteSetAction&)),
                 this, SIGNAL(updateRoutePathLEDs(const stateElement&,
@@ -145,6 +147,8 @@ void Router::copyRouteAt(unsigned int index)
         Route* nr = selectedRoute->getClone();
         if (nr != NULL) {
             routeList.insert(index, nr);
+            connect(nr, SIGNAL(stateChanged(Route*, int)),
+                    this, SLOT(processRouteState(Route*, int)));
             connect(nr, SIGNAL(updateRoutePathLEDs(const stateElement&,
                             const stateElement&, RouteSetAction&)),
                     this, SIGNAL(updateRoutePathLEDs(const stateElement&,
@@ -159,13 +163,15 @@ void Router::deleteRouteAt(unsigned int index)
 {
     Route* dr = routeList.at(index);
     if (dr != NULL) { 
-        if (dr->isLocked())
+        if (dr->getState() != Route::rsUnlocked)
             dr->stopRouting();
         dr->hideRoute();
         disconnect(dr, SIGNAL(updateRoutePathLEDs(const stateElement&,
                         const stateElement&, RouteSetAction&)),
                 this, SIGNAL(updateRoutePathLEDs(const stateElement&,
                         const stateElement&, RouteSetAction&)));
+        disconnect(dr, SIGNAL(stateChanged(Route*, int)),
+                this, SLOT(processRouteState(Route*, int)));
         routeList.remove(index);
         modified = true;
     }
@@ -298,6 +304,8 @@ unsigned int Router::addNewRoute()
     if (nr != NULL) {
         routeList.append(nr);
 
+        connect(nr, SIGNAL(stateChanged(Route*, int)),
+                this, SLOT(processRouteState(Route*, int)));
         connect(nr, SIGNAL(updateRoutePathLEDs(const stateElement&,
                         const stateElement&, RouteSetAction&)),
                 this, SIGNAL(updateRoutePathLEDs(const stateElement&,
@@ -314,30 +322,53 @@ void Router::startRecordModeAt(unsigned int index)
 }
 
 
-bool Router::activateRouteAt(unsigned int index)
+void Router::processRouteState(Route* rt, int rs)
 {
-    Route* rt = getRouteAt(index);
-    return activateRoute(rt);
+    int index = 0;
+    
+    index = routeList.find(rt);
+    emit routeStateChanged(index, rs);
+
+    switch ((Route::RouteState)rs) {
+        case Route::rsUnlocked:
+            // send signal to routing viewer to update state icon
+            emit showLogMessage(tr("Route '%1' released")
+                    .arg(rt->getName()), MT_INFO, HL_HINT);
+            break;
+        case Route::rsLocked:
+            // send signal to routing viewer to update state icon
+            emit showLogMessage(tr("Route '%1' activated")
+                    .arg(rt->getName()), MT_INFO, HL_HINT);
+            break;
+        case Route::rsWfLock:
+            emit showLogMessage(tr("Route '%1' waiting for activation")
+                    .arg(rt->getName()), MT_INFO, HL_HINT);
+            break;
+        case Route::rsWfUnlock:
+            emit showLogMessage(tr("Route '%1' waiting for release")
+                    .arg(rt->getName()), MT_INFO, HL_HINT);
+            break;
+    }
 }
 
 
-bool Router::activateRoute(Route* rt)
+void Router::activateRouteAt(unsigned int index)
+{
+    Route* rt = getRouteAt(index);
+    activateRoute(rt);
+}
+
+
+void Router::activateRoute(Route* rt)
 {
     if (rt == NULL)
-        return false;
+        return;
 
-    bool returnvalue = false;
-    int index = 0;
 
     int result = rt->startRouting();
     switch (result) {
         case 1:
-            index = routeList.find(rt);
-            // send signal to routing viewer to update state icon
-            returnvalue = true;
-            emit routeStateChanged(index, true);
-            emit showLogMessage(tr("Route '%1' activated")
-                    .arg(rt->getName()), MT_INFO, HL_HINT);
+            processRouteState(rt, Route::rsLocked);
             break;
         case 0: 
             QApplication::beep();
@@ -358,7 +389,6 @@ bool Router::activateRoute(Route* rt)
                     .arg(rt->getName()), MT_INFO, HL_HINT);
             break;
     }
-    return returnvalue;
 }
 
 
@@ -374,14 +404,8 @@ void Router::releaseRoute(Route* rt)
     if (rt == NULL)
         return;
 
-    int index = 0;
-
     rt->stopRouting();
-    index = routeList.find(rt);
-    // send signal to routing viewer to update state icon
-    emit routeStateChanged(index, false);
-    emit showLogMessage(tr("Route '%1' released")
-            .arg(rt->getName()), MT_INFO, HL_HINT);
+    processRouteState(rt, Route::rsUnlocked);
 }
 
 
@@ -479,7 +503,7 @@ void Router::resetRoute(element* el, GbsButtonState cb)
                 resetRt->stopRouting();
                 int index = routeList.find(resetRt);
                 // send signal to routing viewer to update state icon
-                emit routeStateChanged(index, false);
+                emit routeStateChanged(index, resetRt->getState());
                 emit showLogMessage(tr("Route '%1' released")
                         .arg(resetRt->getName()), MT_INFO, HL_HINT);
             }
@@ -555,10 +579,10 @@ void Router::unlockAllLockedRoutes()
     int index = 0;
     while ((rt = routeit.current()) != 0 ) {
         ++routeit;
-        if (rt->isLocked()) {
+        if (rt->getState() != Route::rsUnlocked) {
             rt->stopRouting();
             // send signal to routing viewer to update state icon
-            emit routeStateChanged(index, false);
+            emit routeStateChanged(index, rt->getState());
         }
         ++index;
     }
