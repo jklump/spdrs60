@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.56 $
+                           version 0.5.0 $Revision: 1.57 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-14 21:54:24 $
+    last modified        : $Date: 2006-02-16 20:49:34 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -29,7 +29,7 @@
 #include "element.h"
 #include "preferences.h"
 
-/*menu icons*/
+/* popup menu icons */
 #include "pixmaps/ctx_rota.xpm"
 #include "pixmaps/ctx_straight.xpm"
 #include "pixmaps/ctx_clear.xpm"
@@ -39,6 +39,11 @@
 #include "pixmaps/ctx_r_curve.xpm"
 #include "pixmaps/ctx_r_diag.xpm"
 #include "pixmaps/ctx_r_turn.xpm"
+
+/* track buttons */
+#include "pixmaps/button-red.xpm"
+#include "pixmaps/button-gray.xpm"
+#include "pixmaps/button-black.xpm"
 
 static const char* leer_xpm[]={
 "56 35 1 1",
@@ -1242,6 +1247,250 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
     if (isSwitchable())
         updateCtxNorm();
 
+    /*
+     * new painting code
+     * will replace code for each single element step by step
+     */
+
+    // empty symbol
+    if (sSoldIcon == SYM_LEE) {
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+            
+        // paint track
+        if (iSoldInvert == 1) {
+            p.fillRect(0, 0, width() - 1, height() - 1,
+                    QBrush(QColor(darkGray), SolidPattern));
+        }
+
+        // paint text
+        if (sSoldText != "-1" && !sSoldText.isEmpty()) {
+            QFont f("Helvetica");
+            f.setPointSize(QApplication::font().pointSize() - 1);
+            p.setFont(f);
+
+            p.drawText(pm.rect(), Qt::AlignCenter | Qt::SingleLine |
+                    Qt::DontClip, sSoldText);
+        }
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+   
+    // straight track
+    else if (sSoldIcon == SYM_GER){
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+        
+        p.fillRect(0, pm.height()/2 - 3, width() - 1, 7,
+                QBrush(QColor(black)));
+        
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 7; ++i)
+            p.fillRect(4 + 7 * i, pm.height()/2 - 2, 5, 5,
+                    QBrush(QColor(lightGray)));
+        }
+        else {
+            QColor c;
+            if (occupied)
+                c = QColor(red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(darkGray);
+            }
+            p.fillRect(width() / 3, pm.height() / 2 - 1, width() / 3, 3,
+                    QBrush(c, SolidPattern));
+        }
+
+        // paint text
+        if (sSoldText != "-1" && !sSoldText.isEmpty()) {
+            QFont f("Helvetica");
+            f.setPointSize(QApplication::font().pointSize() - 1);
+            p.setFont(f);
+
+            QRect br = pm.rect();
+            br.setHeight(pm.height() / 2 - 7);
+            if (iSoldRotate == 1)
+                br.moveBottom(pm.height() - 4);
+            else
+                br.moveTop(1);
+            
+            p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
+                    Qt::DontClip, sSoldText);
+        }
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+
+    // track with normal route button
+    else if (sSoldIcon == SYM_NRB){
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+        
+        // paint track
+        p.fillRect(0, pm.height()/2 - 3, width() - 1, 7,
+                QBrush(QColor(black)));
+        
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 7; ++i)
+            p.fillRect(4 + 7 * i, pm.height()/2 - 2, 5, 5,
+                    QBrush(QColor(lightGray)));
+        }
+        else {
+            QColor c;
+            if (occupied)
+                c = QColor(red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(darkGray);
+            }
+            p.fillRect(width() / 3, pm.height() / 2 - 1, width() / 3, 3,
+                    QBrush(c, SolidPattern));
+        }
+
+        // paint track button
+        if (iSoldRotate == 1) {
+            p.drawPixmap(width() / 6  - 4, height() / 2 - 3,
+                    QPixmap(button_red_xpm));
+        }
+        else {
+            p.drawPixmap(5 * width() / 6 - 4 , height() / 2 - 3, 
+                    QPixmap(button_red_xpm));
+        }
+
+        // paint text
+        if (sSoldText != "-1" && !sSoldText.isEmpty()) {
+            QFont f("Helvetica");
+            f.setPointSize(QApplication::font().pointSize() - 3);
+            p.setFont(f);
+            QFontMetrics fm(f);
+            QString s;
+
+            if (pref.addresslabeling)
+                s.setNum(iSoldAddress_1);
+            else
+                s = sSoldText;
+
+            QRect br = fm.boundingRect(s);
+            br.setWidth(br.width() + 4);
+            br.setHeight(br.height() + 2);
+
+            if (iSoldRotate == 1)
+                br.moveTopLeft(QPoint(5, 2));
+            else
+                br.moveBottomRight(QPoint(pm.width() - 6, pm.height() -
+                            3));
+
+            p.fillRect(br, QBrush(white));
+            p.setBrush(white);
+            br.setX(br.x() + 1);
+            br.setY(br.y() + 1);
+            br.setHeight(br.height() - 2);
+            
+            p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
+                    Qt::DontClip, s);
+        }
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+
+    // track with shunting route button
+    else if (sSoldIcon == SYM_SRB){
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+        
+        // paint track
+        p.fillRect(0, pm.height()/2 - 3, width() - 1, 7,
+                QBrush(QColor(black)));
+        
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 7; ++i)
+            p.fillRect(4 + 7 * i, pm.height()/2 - 2, 5, 5,
+                    QBrush(QColor(lightGray)));
+        }
+        else {
+            QColor c;
+            if (occupied)
+                c = QColor(red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(darkGray);
+            }
+            p.fillRect(width() / 3, pm.height() / 2 - 1, width() / 3, 3,
+                    QBrush(c, SolidPattern));
+        }
+
+        // paint track button
+        if (iSoldRotate == 1) {
+            p.drawPixmap(width() / 6  - 4, height() / 2 - 3,
+                    QPixmap(button_gray_xpm));
+        }
+        else {
+            p.drawPixmap(5 * width() / 6 - 4 , height() / 2 - 3, 
+                    QPixmap(button_gray_xpm));
+        }
+
+        // paint text
+        if (sSoldText != "-1" && !sSoldText.isEmpty()) {
+            QFont f("Helvetica");
+            f.setPointSize(QApplication::font().pointSize() - 3);
+            p.setFont(f);
+            QFontMetrics fm(f);
+            QString s;
+
+            if (pref.addresslabeling)
+                s.setNum(iSoldAddress_1);
+            else
+                s = sSoldText;
+
+            QRect br = fm.boundingRect(s);
+            br.setWidth(br.width() + 4);
+            br.setHeight(br.height() + 2);
+
+            if (iSoldRotate == 1)
+                br.moveTopLeft(QPoint(5, 2));
+            else
+                br.moveBottomRight(QPoint(pm.width() - 6, pm.height() -
+                            3));
+
+            p.fillRect(br, QBrush(white));
+            p.setBrush(white);
+            br.setX(br.x() + 1);
+            br.setY(br.y() + 1);
+            br.setHeight(br.height() - 2);
+            
+            p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
+                    Qt::DontClip, s);
+        }
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+
+    //else if (sSoldIcon == SYM_GER){
+    //}
+
+    else {
+    
+    /*
+     * old painting code
+     * will be replaced step by step
+     */
+
     // translate icon name and direction into binary-coded integers
     int iIconByte = 0;
     int iDirByte = 0;
@@ -1853,6 +2102,8 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
 
     // at least show previously painted element in layout and add data tooltip
     setPaletteBackgroundPixmap(pixRotatedIcon);
+    }
+    // end of old painting code
     addTooltip();
 }
 

@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60, pixmaps included by cpp-files
 # (c) Guido Scholz
-# version: $Revision: 1.6 $
-# last update: $Date: 2006-02-14 21:54:47 $
+# version: $Revision: 1.7 $
+# last update: $Date: 2006-02-16 20:49:35 $
 
 EXTRA_DIST = filenew.xpm filesave.xpm fileopen.xpm \
     fileclose.xpm fileimport.xpm filenewwindow.xpm \
@@ -41,5 +41,6 @@ EXTRA_DIST = filenew.xpm filesave.xpm fileopen.xpm \
     signal_hs_st1.xpm signal_hs_st2.xpm signal_hs_st3.xpm \
     signal_vs_st1.xpm signal_vs_st2.xpm signal_vs_st3.xpm \
     elemcom_down.xpm elemcom_up.xpm \
-    drehscheibe_st2.xpm drehscheibe_st3.xpm tt_tracks.xpm
+    drehscheibe_st2.xpm drehscheibe_st3.xpm tt_tracks.xpm \
+    button-black.xpm button-gray.xpm button-red.xpm
 

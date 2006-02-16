@@ -1145,6 +1145,14 @@ Wollen Sie sie überschreiben?</translation>
         <source>Route &apos;%1&apos; released</source>
         <translation>Fahrstraße &apos;%1&apos; zurückgenommen</translation>
     </message>
+    <message>
+        <source>Route &apos;%1&apos; waiting for activation</source>
+        <translation>Fahrstraße &apos;%1&apos; wartet auf Einstellen</translation>
+    </message>
+    <message>
+        <source>Route &apos;%1&apos; waiting for release</source>
+        <translation>Fahrstraße &apos;%1&apos; wartet auf Auflösen</translation>
+    </message>
 </context>
 <context>
     <name>RoutingTable</name>
