@@ -1,12 +1,12 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.58 $
+                           version 0.5.0 $Revision: 1.59 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 Guido Scholz
     email                : stefan.preis@wdr.de
                          : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-17 22:05:29 $
+    last modified        : $Date: 2006-02-21 20:29:29 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -44,6 +44,7 @@
 #include "pixmaps/button-red.xpm"
 #include "pixmaps/button-gray.xpm"
 #include "pixmaps/button-black.xpm"
+
 
 static const char* leer_xpm[]={
 "56 35 1 1",
@@ -100,6 +101,7 @@ element::element(QWidget* parent): QWidget(parent)
     switched = false;
     simplega = false;
     turnout = false;
+    lightson = true;
     iGA1BusNo = iGA2BusNo = iFBBusNo = 1;
 
     setMaximumSize(sizeHint());
@@ -159,6 +161,7 @@ element::element(QTextStream& ats, QWidget* parent, bool isNewFormat)
     switched = false;
     simplega = false;
     turnout = false;
+    lightson = true;
     iGA1BusNo = iGA2BusNo = iFBBusNo = 1;
 
     setMaximumSize(sizeHint());
@@ -1563,6 +1566,161 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         setPaletteBackgroundPixmap(pm);
     }
 
+    // turnout left or turnout right
+    else if (sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER){
+        bool left = sSoldIcon == SYM_WEL;
+        
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+        
+        // paint track
+        p.fillRect(0, pm.height()/2 - 3, pm.width() - 1, 7,
+                QBrush(QColor(black)));
+        
+        p.save();
+        p.translate(pm.width() / 2, pm.height() / 2);
+
+        if (iSoldRotate == 1)
+            if (left)
+                p.rotate(149.0);
+            else
+                p.rotate(-149.0);
+        else
+            if (left)
+                p.rotate(-32.0);
+            else
+                p.rotate(32.0);
+
+        p.setPen(QPen(QColor(black), 7));
+        p.drawLine(0, 0, pm.width() / 2 + 5, 0);
+        p.restore();
+
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 7; ++i)
+            p.fillRect(4 + 7 * i, pm.height()/2 - 2, 5, 5,
+                    QBrush(QColor(lightGray)));
+            // TODO: short track
+        }
+        else {
+            // first light
+            QColor c;
+            if (occupied)
+                c = QColor(red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(darkGray);
+            }
+            p.setPen(QPen(c, 3));
+
+            if (iSoldRotate == 1)
+                p.drawLine(pm.width() - 5, pm.height() / 2 ,
+                        pm.width() - 19,  pm.height() / 2);
+            else
+                p.drawLine(5, pm.height() / 2 , 19,  pm.height() / 2);
+
+            // second light
+            if (iSoldDirection == 0 && lightson)
+                c = QColor(255, 225, 0);
+            else
+                c = QColor(darkGray);
+
+            p.setPen(QPen(c, 3));
+
+            if (iSoldRotate == 1)
+                p.drawLine(5, pm.height() / 2 , 19,  pm.height() / 2);
+            else
+                p.drawLine(pm.width() - 5, pm.height() / 2 ,
+                        pm.width() - 19,  pm.height() / 2);
+
+            // third light
+            if (iSoldDirection == 1 && lightson)
+                c = QColor(255, 225, 0);
+            else
+                c = QColor(darkGray);
+
+            p.setPen(QPen(c, 3));
+
+            p.save();
+            p.translate(pm.width() / 2, pm.height() / 2);
+
+            if (iSoldRotate == 1)
+                if (left)
+                    p.rotate(149.0);
+                else
+                    p.rotate(-149.0);
+            else
+                if (left)
+                    p.rotate(-32.0);
+                else
+                    p.rotate(32.0);
+
+            p.drawLine(11, 0, 11 + 14, 0);
+            p.restore();
+            
+            p.setPen(QPen(QColor(black)));
+        }
+
+        // paint track button
+        p.drawPixmap(pm.width() / 2 - 4, pm.height() / 2 - 3,
+                QPixmap(button_black_xpm));
+        
+        // paint lock light
+        if (lockCounter == 0)
+            p.setBrush(darkGray);
+        else
+            p.setBrush(QColor(255, 225, 0));
+
+        if (iSoldRotate == 1 && left || iSoldRotate == 0 && !left)
+            p.drawEllipse(pm.width() / 2 - 2, 6, 5, 5);
+        else
+            p.drawEllipse(pm.width() / 2 - 2, pm.height() - 11, 5, 5);
+
+        // paint text label
+        if (sSoldText != "-1" && !sSoldText.isEmpty()) {
+            QFont f("Helvetica");
+            f.setPointSize(QApplication::font().pointSize() - 3);
+            p.setFont(f);
+            QFontMetrics fm(f);
+            QString s;
+
+            if (pref.addresslabeling)
+                s.setNum(iSoldAddress_1);
+            else
+                s = sSoldText;
+
+            QRect br = fm.boundingRect(s);
+            br.setWidth(br.width() + 4);
+            br.setHeight(br.height() + 2);
+
+            if (iSoldRotate == 1)
+                if (left)
+                    br.moveTopRight(QPoint(pm.width() - 3, 2));
+                else
+                    br.moveBottomRight(QPoint(pm.width() - 3,
+                                pm.height() - 3));
+            else
+                if (left)
+                    br.moveBottomLeft(QPoint(2, pm.height() - 3));
+                else
+                    br.moveTopLeft(QPoint(2, 2));
+
+            p.fillRect(br, QBrush(white));
+            p.setBrush(white);
+            br.setX(br.x() + 1);
+            br.setY(br.y() + 1);
+            br.setHeight(br.height() - 2);
+            
+            p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
+                    Qt::DontClip, s);
+        }
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+
     //else if (sSoldIcon == SYM_GER){
     //}
 
@@ -2922,8 +3080,7 @@ void element::setSwitched(bool sw)
 
 /*
  * Blinking in original is one time in old direction and five times in new
-direction
- * resulting in 14 switch cycles.
+ * direction resulting in 14 switch cycles.
  *
  * dir old ->| |<- new
  * on  --+ +-+ +-+ +-+ +-+ +-+ +-+ +--
@@ -2955,18 +3112,15 @@ void element::runTurnoutBlinkTimer()
          sendSrcpState();
          iSoldDirection = olddir;
     }
-    if (blinkcounter % 2 == 1) {
-        setupElementIcon(LED_YEL, ""); // OFF
-        repaint();
-    }
+    if (blinkcounter % 2 == 1)
+        setLightsOn(false);
     else {
         if (blinkcounter == 4)
             iSoldDirection = newdir;
-        setupElementIcon(LED_OFF, "");  //YEL
-        repaint();
+        setLightsOn(true);
     }
     ++blinkcounter;   
-    if (blinkcounter < 11) // 13
+    if (blinkcounter < 13)
         QTimer::singleShot(500, this, SLOT(runTurnoutBlinkTimer()));
     else {
         blinkcounter = 0;
@@ -2974,3 +3128,12 @@ void element::runTurnoutBlinkTimer()
     }
 } 
 
+
+void element::setLightsOn(bool ison)
+{
+    if (ison != lightson) {
+        lightson = ison;
+        setupElementIcon(iSoldLEDstate, "");
+        repaint();
+    }
+}

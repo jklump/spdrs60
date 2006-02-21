@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.0 $Revision: 1.41 $
+                           version 0.5.0 $Revision: 1.42 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-02-14 21:54:24 $
+    last modified        : $Date: 2006-02-21 20:29:29 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -212,6 +212,7 @@ private:
     bool     switchable;
     bool     switched;
     bool     turnout;
+    bool     lightson;
     QString  sRepeatIcon;
     QString  sSoldDecoder;
     QString  sSoldProtocol;
@@ -224,6 +225,7 @@ private:
     void showPropertyDlg();
     void rotate();
     void setupElementIcon(int, QString);
+    void setLightsOn(bool);
     void switchToDirBlinking(int);
     void updateProperties();
     void updateCtxNorm();
