@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.cpp
-                           version 0.4.8 $Revision: 1.11 $
+                           version 0.4.8 $Revision: 1.12 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-01-24 20:38:33 $
+    last modified        : $Date: 2006-02-26 19:34:57 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -685,7 +685,10 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
         sSoldIcon == SYM_GER || sSoldIcon == SYM_RI1 ||
         sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB ||
         sSoldIcon == SYM_RI2 || sSoldIcon == SYM_KRH ||
-        sSoldIcon == SYM_KRL || sSoldIcon == SYM_KRR;
+        sSoldIcon == SYM_KRL || sSoldIcon == SYM_KRR ||
+        sSoldIcon == SYM_SS || sSoldIcon == SYM_SSH ||
+        sSoldIcon == SYM_SSS || sSoldIcon == SYM_WEL || 
+        sSoldIcon == SYM_WER;
 
     cbLEDoff->setEnabled(enabled);
 

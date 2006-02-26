@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.0 $Revision: 1.42 $
+                           version 0.5.0 $Revision: 1.43 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-                         : (C) 2004-2005 by Guido Scholz
-    email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-02-21 20:29:29 $
+                         : (C) 2004-2006 by Guido Scholz
+    email                : guido.scholz@bayernline.de
+    last modified        : $Date: 2006-02-26 19:34:57 $
 ****************************************************************************/
 
 /***************************************************************************

@@ -1,12 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.59 $
+                           version 0.5.0 $Revision: 1.60 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-                         : (C) 2004-2005 Guido Scholz
-    email                : stefan.preis@wdr.de
-                         : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-21 20:29:29 $
+                         : (C) 2004-2006 Guido Scholz
+    email                : guido.scholz@bayernline.de
+    last modified        : $Date: 2006-02-26 19:34:57 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -23,7 +22,7 @@
    of the switch command to the erddcd daemon
  ***************************************************************************/
 
-#include <unistd.h>             // for write()
+#include <unistd.h>             // for usleep()
 #include <stdio.h>              // for sprintf()
 
 #include "element.h"
@@ -871,6 +870,7 @@ void element::sendSrcpState()
         while (sendRepeatCounter > 0) {
             emit sendSrcpMessage(sm);
             sendRepeatCounter--;
+            // TODO: timer controlled repeat
             if (sendRepeatCounter > 0)
                 usleep(500 * 1000);
         }
@@ -1331,6 +1331,125 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         p.end();
         setPaletteBackgroundPixmap(pm);
     }
+    
+    // track turn right and left
+    else if (sSoldIcon == SYM_KUR || sSoldIcon == SYM_KUL){
+        bool left = (sSoldIcon == SYM_KUL);
+
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+        
+        // paint track
+        if (iSoldRotate == 1) {
+            p.fillRect(pm.width() / 2 - 1, pm.height() / 2 - 3,
+                    pm.width() - 1, 7, QBrush(QColor(black)));
+        }
+        else {
+            p.fillRect(0, pm.height() / 2 - 3, pm.width() / 2 + 2, 7,
+                    QBrush(QColor(black)));
+        }
+
+        p.save();
+        p.translate(pm.width() / 2, pm.height() / 2);
+
+        if (iSoldRotate == 1)
+            if (left)
+                p.rotate(149.0);
+            else
+                p.rotate(-149.0);
+        else
+            if (left)
+                p.rotate(-32.0);
+            else
+                p.rotate(32.0);
+
+        p.setPen(QPen(QColor(black), 7));
+        p.drawLine(0, 0, pm.width() / 2 + 5, 0);
+        p.restore();
+
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            if (iSoldRotate == 1) {
+                for (int i = 4; i < 7; ++i)
+                    p.fillRect(4 + 7 * i, pm.height() / 2 - 2, 5, 5,
+                            QBrush(QColor(lightGray)));
+                
+                p.save();
+                p.translate(pm.width() / 2, pm.height() / 2);
+
+                if (left)
+                    p.rotate(149.0);
+                else
+                    p.rotate(-149.0);
+
+                for (int i = 0; i < 3; ++i)
+                    p.fillRect(5 + 7 * i, -2, 5, 5, QBrush(QColor(lightGray)));
+                p.restore();
+            }
+            else {
+                for (int i = 0; i < 3; ++i)
+                    p.fillRect(4 + 7 * i, pm.height() / 2 - 2, 5, 5,
+                            QBrush(QColor(lightGray)));
+                p.save();
+                p.translate(pm.width() / 2, pm.height() / 2);
+
+                if (left)
+                    p.rotate(-32.0);
+                else
+                    p.rotate(32.0);
+
+                for (int i = 0; i < 3; ++i)
+                    p.fillRect(5 + 7 * i, -2, 5, 5, QBrush(QColor(lightGray)));
+                p.restore();
+            }
+        }
+        else {
+            QColor c;
+            if (occupied)
+                c = QColor(red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(darkGray);
+            }
+            if (iSoldRotate == 1) {
+                p.fillRect(pm.width() / 2, pm.height() / 2 - 1,
+                        pm.width() / 5 , 3, QBrush(c, SolidPattern));
+                p.save();
+                p.translate(pm.width() / 2, pm.height() / 2);
+
+                if (left)
+                    p.rotate(149.0);
+                else
+                    p.rotate(-149.0);
+
+                p.setPen(QPen(c, 3));
+                p.drawLine(0, 0, pm.width() / 5, 0);
+                p.restore();
+            }
+            else {
+                p.fillRect(pm.width() / 3, pm.height() / 2 - 1,
+                        pm.width() / 5 , 3, QBrush(c, SolidPattern));
+                p.save();
+                p.translate(pm.width() / 2, pm.height() / 2);
+
+                if (left)
+                    p.rotate(-32.0);
+                else
+                    p.rotate(32.0);
+
+                p.setPen(QPen(c, 3));
+                p.drawLine(0, 0, pm.width() / 5, 0);
+                p.restore();
+            }
+        }
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+
 
     // track with normal route button
     else if (sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB){
@@ -1601,7 +1720,25 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             for (int i = 0; i < 7; ++i)
             p.fillRect(4 + 7 * i, pm.height()/2 - 2, 5, 5,
                     QBrush(QColor(lightGray)));
-            // TODO: short track
+            // short track
+            p.save();
+            p.translate(pm.width() / 2, pm.height() / 2);
+
+            if (iSoldRotate == 1)
+                if (left)
+                    p.rotate(149.0);
+                else
+                    p.rotate(-149.0);
+            else
+                if (left)
+                    p.rotate(-32.0);
+                else
+                    p.rotate(32.0);
+
+            for (int i = 0; i < 3; ++i)
+                p.fillRect(6 + 7 * i, -2, 5, 5, QBrush(QColor(lightGray)));
+            p.restore();
+
         }
         else {
             // first light
@@ -3094,7 +3231,7 @@ void element::setSwitched(bool sw)
 void element::switchToDirBlinking(int ndir)
 {
     //TODO: check what should happen if turnout is switched during
-    // blinking
+    // blinking, e.g. error message
     if (blinkcounter != 0)
        return;
 

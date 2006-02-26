@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.cpp
-                           version 0.4.8 $Revision: 1.12 $
+                           version 0.4.8 $Revision: 1.13 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-02-05 20:18:31 $
+    last modified        : $Date: 2006-02-26 19:34:57 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -184,7 +184,6 @@ void optionsDialog::setupElementTab()
             generalBG, "bubbleCB");
     cbDataBubble = new QCheckBox(tr("Show bubblehelp for element &data"),
             generalBG, "databubbleCB");
-    //connect(cbDataBubble, SIGNAL(pressed()), this, SLOT(slotSetRepaint()));
 
     
     // text groupbox
@@ -195,8 +194,6 @@ void optionsDialog::setupElementTab()
             soladdrBG);
     rbShowTxt = new QRadioButton(
             tr("Show &text (turnout or signal name)"), soladdrBG);
-    //connect(rbShowAddr, SIGNAL(pressed()), this, SLOT(slotSetRepaint()));
-    //connect(rbShowTxt, SIGNAL(pressed()), this, SLOT(slotSetRepaint()));
 
 
     // init groupbox
