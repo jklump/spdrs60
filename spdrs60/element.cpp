@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.60 $
+                           version 0.5.0 $Revision: 1.61 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-26 19:34:57 $
+    last modified        : $Date: 2006-02-26 19:42:33 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1761,7 +1761,10 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
 
             // second light
             if (iSoldDirection == 0 && lightson)
-                c = QColor(255, 225, 0);
+                if (occupied)
+                    c = QColor(red);
+                else
+                    c = QColor(255, 225, 0);
             else
                 c = QColor(darkGray);
 
@@ -1775,7 +1778,10 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
 
             // third light
             if (iSoldDirection == 1 && lightson)
-                c = QColor(255, 225, 0);
+                if (occupied)
+                    c = QColor(red);
+                else
+                    c = QColor(255, 225, 0);
             else
                 c = QColor(darkGray);
 
