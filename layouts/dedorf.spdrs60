@@ -1,14 +1,48 @@
 # spdrs60 data file
-# version=0.5.0_beta2
-# last modified=2006-02-04T18:24:27
+# version=0.5.0_beta5
+# last modified=2006-02-26T14:00:52
 formatversion;1
-cmdhost;localhost;12345;0;0
+cmdhost;localhost;12345;0;0;0
 fbhost;localhost;12346;0
 # start of layout section
 %% layout
 # layout dimensions=columns;rows
 dimensions;19;8
 # start of element section
+%% element 0
+index;0
+icon;panel_grey
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;0
+%% element 1
+index;1
+icon;panel_grey
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;0
 %% element 2
 index;2
 icon;leer
@@ -60,6 +94,40 @@ text;von
 active time;-1
 feedback port;1;0
 hide LEDs;-1
+%% element 8
+index;8
+icon;panel_grey
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;0
+%% element 9
+index;9
+icon;panel_grey
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;0
 %% element 11
 index;11
 icon;gerade
@@ -94,6 +162,40 @@ text;a
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%% element 16
+index;16
+icon;panel_grey
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;0
+%% element 17
+index;17
+icon;panel_grey
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;0
 %% element 19
 index;19
 icon;signal_ssh
@@ -128,6 +230,40 @@ text;A/n
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%% element 24
+index;24
+icon;panel_grey
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;0
+%% element 25
+index;25
+icon;panel_grey
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;0
 %% element 27
 index;27
 icon;signal_nrb
@@ -162,6 +298,40 @@ text;n. Ld
 active time;-1
 feedback port;1;1
 hide LEDs;0
+%% element 32
+index;32
+icon;panel_grey
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;0
+%% element 33
+index;33
+icon;panel_grey
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;0
 %% element 35
 index;35
 icon;signal_sss
@@ -195,6 +365,40 @@ subtype;-1
 text;-1
 active time;-1
 feedback port;1;1
+hide LEDs;0
+%% element 40
+index;40
+icon;panel_grey
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;0
+%% element 41
+index;41
+icon;panel_grey
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
 hide LEDs;0
 %% element 43
 index;43
@@ -247,6 +451,40 @@ text;
 active time;-1
 feedback port;1;0
 hide LEDs;1
+%% element 48
+index;48
+icon;panel_grey
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 49
+index;49
+icon;panel_grey
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;0
 %% element 51
 index;51
 icon;signal_hss
@@ -297,7 +535,7 @@ subtype;-1
 text;Ls 3 I
 active time;50
 feedback port;1;1
-hide LEDs;-1
+hide LEDs;1
 %% element 56
 index;56
 icon;taste_sgt
@@ -315,6 +553,23 @@ text;-1
 active time;-1
 feedback port;1;1
 hide LEDs;-1
+%% element 57
+index;57
+icon;panel_red
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;0
 %% element 59
 index;59
 icon;gerade
@@ -366,6 +621,40 @@ text;3
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%% element 64
+index;64
+icon;panel_red
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
+%% element 65
+index;65
+icon;panel_red
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;0
 %% element 67
 index;67
 icon;gerade
@@ -417,6 +706,40 @@ text;P 3
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%% element 72
+index;72
+icon;panel_red
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;0
+%% element 73
+index;73
+icon;panel_red
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;0
 %% element 75
 index;75
 icon;gerade
@@ -485,6 +808,23 @@ text;-1
 active time;-1
 feedback port;1;0
 hide LEDs;-1
+%% element 81
+index;81
+icon;panel_blue
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
 %% element 83
 index;83
 icon;gerade
@@ -536,6 +876,40 @@ text;N 3
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%% element 88
+index;88
+icon;panel_blue
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;0
+%% element 89
+index;89
+icon;panel_blue
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;0
 %% element 91
 index;91
 icon;gerade
@@ -587,6 +961,23 @@ text;4
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%% element 96
+index;96
+icon;panel_blue
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;0
 %% element 97
 index;97
 icon;panel_blue
@@ -632,7 +1023,7 @@ address_1;1;5
 address_2;1;105
 change conn 1;0
 change conn 2;0
-direction;0
+direction;3
 subtype;1
 text;5
 active time;50
@@ -655,6 +1046,40 @@ text;Ls 3 II
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%% element 104
+index;104
+icon;panel_blue
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;0
+%% element 105
+index;105
+icon;panel_blue
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;0
 %% element 107
 index;107
 icon;weiche_links
@@ -706,6 +1131,23 @@ text;-1
 active time;-1
 feedback port;1;1
 hide LEDs;0
+%% element 112
+index;112
+icon;panel_green
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;-1
 %% element 113
 index;113
 icon;taste_fht
@@ -791,6 +1233,23 @@ text;-1
 active time;-1
 feedback port;1;0
 hide LEDs;-1
+%% element 121
+index;121
+icon;panel_green
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;0
 %% element 123
 index;123
 icon;signal_nrb
@@ -842,6 +1301,40 @@ text;7
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%% element 128
+index;128
+icon;panel_green
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;0
+%% element 129
+index;129
+icon;panel_green
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;0
 %% element 131
 index;131
 icon;signal_hs
@@ -892,7 +1385,7 @@ subtype;-1
 text;Ls 3 III
 active time;50
 feedback port;1;1
-hide LEDs;-1
+hide LEDs;1
 %% element 134
 index;134
 icon;kurve_rechts
@@ -909,6 +1402,40 @@ subtype;-1
 text;-1
 active time;-1
 feedback port;1;1
+hide LEDs;0
+%% element 136
+index;136
+icon;panel_green
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
+hide LEDs;0
+%% element 137
+index;137
+icon;panel_green
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
 hide LEDs;0
 %% element 139
 index;139
@@ -977,6 +1504,23 @@ subtype;-1
 text;LS 4 I
 active time;50
 feedback port;1;51
+hide LEDs;1
+%% element 144
+index;144
+icon;panel_brown
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1
+address_2;1;-1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;0
 hide LEDs;-1
 %% element 146
 index;146
@@ -1164,9 +1708,9 @@ switch x to y;1;23;0
 switch x to y;1;3;1
 switch x to y;1;30;0
 %% route 11
-name;Y - P3
+name;Y - P 3
 to signal;1;31
-from signal;1;26;0
+from signal;1;26;2
 release port;1;0;0;0
 activate port;1;0;0;0
 active by loco;1;0
