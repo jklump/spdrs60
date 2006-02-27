@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.61 $
+                           version 0.5.0 $Revision: 1.62 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-26 19:42:33 $
+    last modified        : $Date: 2006-02-27 21:23:44 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -84,6 +84,9 @@ static const char* leer_xpm[]={
 "........................................................",
 "........................................................"};
 
+
+#define SANGLE 31.264         // small angle
+#define WANGLE (180.0 - SANGLE) // wide angle
 
 
 element::element(QWidget* parent): QWidget(parent)
@@ -1307,8 +1310,10 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                 else
                     c = QColor(darkGray);
             }
-            p.fillRect(pm.width() / 3, pm.height() / 2 - 1, pm.width() / 3, 3,
-                    QBrush(c, SolidPattern));
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+            p.drawLine(pm.width() / 3, pm.height() / 2,
+                    2 * pm.width() / 3, pm.height() / 2);
+            p.setPen(QPen(black));
         }
 
         // paint text label
@@ -1355,14 +1360,14 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
 
         if (iSoldRotate == 1)
             if (left)
-                p.rotate(149.0);
+                p.rotate(WANGLE);
             else
-                p.rotate(-149.0);
+                p.rotate(-WANGLE);
         else
             if (left)
-                p.rotate(-32.0);
+                p.rotate(-SANGLE);
             else
-                p.rotate(32.0);
+                p.rotate(SANGLE);
 
         p.setPen(QPen(QColor(black), 7));
         p.drawLine(0, 0, pm.width() / 2 + 5, 0);
@@ -1379,9 +1384,9 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                 p.translate(pm.width() / 2, pm.height() / 2);
 
                 if (left)
-                    p.rotate(149.0);
+                    p.rotate(WANGLE);
                 else
-                    p.rotate(-149.0);
+                    p.rotate(-WANGLE);
 
                 for (int i = 0; i < 3; ++i)
                     p.fillRect(5 + 7 * i, -2, 5, 5, QBrush(QColor(lightGray)));
@@ -1395,9 +1400,9 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                 p.translate(pm.width() / 2, pm.height() / 2);
 
                 if (left)
-                    p.rotate(-32.0);
+                    p.rotate(-SANGLE);
                 else
-                    p.rotate(32.0);
+                    p.rotate(SANGLE);
 
                 for (int i = 0; i < 3; ++i)
                     p.fillRect(5 + 7 * i, -2, 5, 5, QBrush(QColor(lightGray)));
@@ -1421,11 +1426,11 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                 p.translate(pm.width() / 2, pm.height() / 2);
 
                 if (left)
-                    p.rotate(149.0);
+                    p.rotate(WANGLE);
                 else
-                    p.rotate(-149.0);
+                    p.rotate(-WANGLE);
 
-                p.setPen(QPen(c, 3));
+                p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
                 p.drawLine(0, 0, pm.width() / 5, 0);
                 p.restore();
             }
@@ -1436,11 +1441,11 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                 p.translate(pm.width() / 2, pm.height() / 2);
 
                 if (left)
-                    p.rotate(-32.0);
+                    p.rotate(-SANGLE);
                 else
-                    p.rotate(32.0);
+                    p.rotate(SANGLE);
 
-                p.setPen(QPen(c, 3));
+                p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
                 p.drawLine(0, 0, pm.width() / 5, 0);
                 p.restore();
             }
@@ -1450,6 +1455,62 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         setPaletteBackgroundPixmap(pm);
     }
 
+    // diagonal track right and left
+    else if (sSoldIcon == SYM_DIR || sSoldIcon == SYM_DIL){
+        bool left = (sSoldIcon == SYM_DIL);
+
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+        
+        // paint track
+        p.setPen(QPen(QColor(black), 7));
+        if (left)
+            p.drawLine(0, pm.height() - 1, pm.width() - 1, 0);
+        else
+            p.drawLine(0, 0, pm.width() - 1, pm.height() - 1);
+
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            p.save();
+            p.translate(pm.width() / 2, pm.height() / 2);
+
+            if (left)
+                p.rotate(-SANGLE);
+            else
+                p.rotate(SANGLE);
+
+            for (int i = -3; i < 4; ++i)
+                p.fillRect(-3 + 7 * i, -2, 5, 5, QBrush(QColor(lightGray)));
+
+            p.restore();
+        }
+        else {
+            QColor c;
+            if (occupied)
+                c = QColor(red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(darkGray);
+            }
+            p.save();
+            p.translate(pm.width() / 2, pm.height() / 2);
+
+            if (left)
+                p.rotate(-SANGLE);
+            else
+                p.rotate(SANGLE);
+
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+            p.drawLine(-pm.width() / 6, 0, pm.width() / 6, 0);
+
+            p.restore();
+        }
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
 
     // track with normal route button
     else if (sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB){
@@ -1702,14 +1763,14 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
 
         if (iSoldRotate == 1)
             if (left)
-                p.rotate(149.0);
+                p.rotate(WANGLE);
             else
-                p.rotate(-149.0);
+                p.rotate(-WANGLE);
         else
             if (left)
-                p.rotate(-32.0);
+                p.rotate(-SANGLE);
             else
-                p.rotate(32.0);
+                p.rotate(SANGLE);
 
         p.setPen(QPen(QColor(black), 7));
         p.drawLine(0, 0, pm.width() / 2 + 5, 0);
@@ -1726,14 +1787,14 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
 
             if (iSoldRotate == 1)
                 if (left)
-                    p.rotate(149.0);
+                    p.rotate(WANGLE);
                 else
-                    p.rotate(-149.0);
+                    p.rotate(-WANGLE);
             else
                 if (left)
-                    p.rotate(-32.0);
+                    p.rotate(-SANGLE);
                 else
-                    p.rotate(32.0);
+                    p.rotate(SANGLE);
 
             for (int i = 0; i < 3; ++i)
                 p.fillRect(6 + 7 * i, -2, 5, 5, QBrush(QColor(lightGray)));
@@ -1751,7 +1812,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                 else
                     c = QColor(darkGray);
             }
-            p.setPen(QPen(c, 3));
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
 
             if (iSoldRotate == 1)
                 p.drawLine(pm.width() - 5, pm.height() / 2 ,
@@ -1768,7 +1829,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             else
                 c = QColor(darkGray);
 
-            p.setPen(QPen(c, 3));
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
 
             if (iSoldRotate == 1)
                 p.drawLine(5, pm.height() / 2 , 19,  pm.height() / 2);
@@ -1785,21 +1846,21 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             else
                 c = QColor(darkGray);
 
-            p.setPen(QPen(c, 3));
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
 
             p.save();
             p.translate(pm.width() / 2, pm.height() / 2);
 
             if (iSoldRotate == 1)
                 if (left)
-                    p.rotate(149.0);
+                    p.rotate(WANGLE);
                 else
-                    p.rotate(-149.0);
+                    p.rotate(-WANGLE);
             else
                 if (left)
-                    p.rotate(-32.0);
+                    p.rotate(-SANGLE);
                 else
-                    p.rotate(32.0);
+                    p.rotate(SANGLE);
 
             p.drawLine(11, 0, 11 + 14, 0);
             p.restore();

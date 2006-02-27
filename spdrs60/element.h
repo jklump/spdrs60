@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.0 $Revision: 1.43 $
+                           version 0.5.0 $Revision: 1.44 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-26 19:34:57 $
+    last modified        : $Date: 2006-02-27 21:23:44 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -101,11 +101,14 @@ enum elemRecordType {
 #define GF_FBPORT     "feedback port"
 #define GF_HIDELEDS   "hide LEDs"
 
-#define DS            ";"     // data separator in spdrs60 files
-#define IDS           ":"     // data separator in imported files
-#define EL_WIDTH      56      // width of an element in pixels
-#define EL_HEIGHT     35      // height of an element in pixels
-#define XPM_SUFFIX    ".xpm"  // file appendix for bitmap files
+#define DS            ";"    // data separator in spdrs60 files
+#define IDS           ":"    // data separator in imported files
+#define XPM_SUFFIX    ".xpm" // file appendix for bitmap files
+#define EL_WIDTH      56     // width of an element in pixels (orig: 54 mm)
+#define EL_HEIGHT     35     // height of an element in pixels (orig: 34 mm)
+                             // diagonale: 65.513 pixels (63.812)
+                             // alpha: 31.264° (32.196°)
+                             // beta: 58.736°  (57.804°)
 
 // forward declaration
 class element;
