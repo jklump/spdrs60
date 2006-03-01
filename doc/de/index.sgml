@@ -2296,6 +2296,56 @@ auszuführen sind. Für besondere Elemente wie die Drehscheibe wird auf
       <entry>&nbsp;</entry>
     </row>
     <row>
+      <entry><graphic fileref="../commonimages/kreuzung-hose.png"></entry>
+      <entry>kreuzung_hose</entry>
+      <entry>Hosenträgerverbindung</entry>
+      <entry>nein</entry>
+      <entry>ja</entry>
+      <entry>0</entry>
+      <entry>&nbsp;</entry>
+      <entry>&nbsp;</entry>
+    </row>
+    <row>
+      <entry><graphic fileref="../commonimages/kreuzung-links.png"></entry>
+      <entry>kreuzung_links</entry>
+      <entry>Normale Kreuzung links</entry>
+      <entry>nein</entry>
+      <entry>ja</entry>
+      <entry>0</entry>
+      <entry>&nbsp;</entry>
+      <entry>&nbsp;</entry>
+    </row>
+    <row>
+      <entry><graphic fileref="../commonimages/kreuzung-rechts.png"></entry>
+      <entry>kreuzung_rechts</entry>
+      <entry>Normale Kreuzung rechts</entry>
+      <entry>nein</entry>
+      <entry>ja</entry>
+      <entry>0</entry>
+      <entry>&nbsp;</entry>
+      <entry>&nbsp;</entry>
+    </row>
+    <row>
+      <entry><graphic fileref="../commonimages/richtung-1.png"></entry>
+      <entry>richtung_1</entry>
+      <entry>ein Richtungspfeil</entry>
+      <entry>ja</entry>
+      <entry>ja</entry>
+      <entry>0</entry>
+      <entry>&nbsp;</entry>
+      <entry>&nbsp;</entry>
+    </row>
+    <row>
+      <entry><graphic fileref="../commonimages/richtung-2.png"></entry>
+      <entry>richtung_2</entry>
+      <entry>Doppelter Richtungspfeil</entry>
+      <entry>nein</entry>
+      <entry>ja</entry>
+      <entry>0</entry>
+      <entry>&nbsp;</entry>
+      <entry>&nbsp;</entry>
+    </row>
+    <row>
       <entry><graphic fileref="../commonimages/weiche-links-0.png"></entry>
       <entry>weiche_links</entry>
       <entry>Linke Weiche</entry>
@@ -2336,7 +2386,7 @@ auszuführen sind. Für besondere Elemente wie die Drehscheibe wird auf
       <entry>0 = gerade (Diagonale), 1 = abzweig</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/dkw-links-0.png"></entry>
+      <entry morerows="1" valign="middle"><graphic fileref="../commonimages/dkw-links-0.png"></entry>
       <entry>dkw_links</entry>
       <entry>Doppelte Kreuzungsweiche links</entry>
       <entry>nein</entry>
@@ -2348,7 +2398,6 @@ auszuführen sind. Für besondere Elemente wie die Drehscheibe wird auf
       <entry>0 = gerade Gleisführung, 1 = abzweigende Führung</entry>
     </row>
     <row>
-      <entry>&nbsp;</entry>
       <entry>dkw_links</entry>
       <entry>Doppelte Kreuzungsweiche links</entry>
       <entry>nein</entry>
@@ -2359,7 +2408,7 @@ auszuführen sind. Für besondere Elemente wie die Drehscheibe wird auf
       Quergleis, 3 = abzweigen unten</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/dkw-rechts-0.png"></entry>
+      <entry morerows="1" valign="middle"><graphic fileref="../commonimages/dkw-rechts-0.png"></entry>
       <entry>dkw_rechts</entry>
       <entry>Doppelte Kreuzungsweiche links</entry>
       <entry>nein</entry>
@@ -2369,7 +2418,6 @@ auszuführen sind. Für besondere Elemente wie die Drehscheibe wird auf
       <entry>0 = gerade Gleisführung, 1 = abzweigende Führung</entry>
     </row>
     <row>
-      <entry>&nbsp;</entry>
       <entry>dkw_rechts</entry>
       <entry>Doppelte Kreuzungsweiche links</entry>
       <entry>nein</entry>
@@ -2411,36 +2459,6 @@ auszuführen sind. Für besondere Elemente wie die Drehscheibe wird auf
       <entry>&nbsp;</entry>
       <entry>0 = gerade Stammgleis, 1 = abzweigen, 2 = gerade
       Diagonalgleis</entry>
-    </row>
-    <row>
-      <entry><graphic fileref="../commonimages/kreuzung-hose.png"></entry>
-      <entry>kreuzung_hose</entry>
-      <entry>Hosenträgerverbindung</entry>
-      <entry>nein</entry>
-      <entry>ja</entry>
-      <entry>0</entry>
-      <entry>&nbsp;</entry>
-      <entry>&nbsp;</entry>
-    </row>
-    <row>
-      <entry><graphic fileref="../commonimages/kreuzung-links.png"></entry>
-      <entry>kreuzung_links</entry>
-      <entry>Normale Kreuzung links</entry>
-      <entry>nein</entry>
-      <entry>ja</entry>
-      <entry>0</entry>
-      <entry>&nbsp;</entry>
-      <entry>&nbsp;</entry>
-    </row>
-    <row>
-      <entry><graphic fileref="../commonimages/kreuzung-rechts.png"></entry>
-      <entry>kreuzung_rechts</entry>
-      <entry>Normale Kreuzung rechts</entry>
-      <entry>nein</entry>
-      <entry>ja</entry>
-      <entry>0</entry>
-      <entry>&nbsp;</entry>
-      <entry>&nbsp;</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/signal-hs-0.png"></entry>
@@ -2551,7 +2569,7 @@ auszuführen sind. Für besondere Elemente wie die Drehscheibe wird auf
       <entry>&nbsp;</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/entkoppler.png"></entry>
+      <entry morerows="1" valign="middle"><graphic fileref="../commonimages/entkoppler.png"></entry>
       <entry>entkoppler</entry>
       <entry>Entkupplungsgleis</entry>
       <entry>nein</entry>
@@ -2561,7 +2579,6 @@ auszuführen sind. Für besondere Elemente wie die Drehscheibe wird auf
       <entry><para>0 = Koppler aus</para><para>1 = Koppler an</para></entry>
     </row>
     <row>
-      <entry>&nbsp;</entry>
       <entry>entkoppler</entry>
       <entry>Entkupplungsgleis</entry>
       <entry>nein</entry>
@@ -2572,24 +2589,15 @@ auszuführen sind. Für besondere Elemente wie die Drehscheibe wird auf
       <entry>&nbsp;</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/prellbock.png"></entry>
-      <entry>prellbock</entry>
-      <entry>Puffergleisstück</entry>
-      <entry>ja</entry>
-      <entry>nein</entry>
-      <entry>0</entry>
-      <entry>&nbsp;</entry>
-      <entry>&nbsp;</entry>
-    </row>
-    <row>
-      <entry><graphic fileref="../commonimages/relais.png"></entry>
-      <entry>relais</entry>
-      <entry>Relais</entry>
+      <entry><graphic fileref="../commonimages/blind-0.png"></entry>
+      <entry>blind</entry>
+      <entry>Blindschaltelement</entry>
       <entry>nein</entry>
       <entry>nein</entry>
       <entry>1</entry>
-      <entry>Die Anzahl der schaltbaren Kontakte ist unerheblich</entry>
-      <entry>0 = Relais aus, 1 = Relais an</entry>
+      <entry>&nbsp;</entry>
+      <entry>Dient zur Anzeige von versteckten Bahnstromrelais zum
+      Rückwärtsbefahren von Signalen</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/adresse.png"></entry>
@@ -2602,15 +2610,14 @@ auszuführen sind. Für besondere Elemente wie die Drehscheibe wird auf
       <entry>Nur mit einem EDiTS-Pro Adressrückmeldemodul anwendbar</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/blind-0.png"></entry>
-      <entry>blind</entry>
-      <entry>Blindschaltelement</entry>
+      <entry><graphic fileref="../commonimages/uebergang.png"></entry>
+      <entry>uebergang</entry>
+      <entry>Bahnübergang</entry>
+      <entry>ja</entry>
       <entry>nein</entry>
-      <entry>nein</entry>
-      <entry>1</entry>
+      <entry>0</entry>
+      <entry>Eventuell in Zukunft einmal fernsteuerbar</entry>
       <entry>&nbsp;</entry>
-      <entry>Dient zur Anzeige von versteckten Bahnstromrelais zum
-      Rückwärtsbefahren von Signalen</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/drehscheibe.png"></entry>
@@ -2634,31 +2641,21 @@ auszuführen sind. Für besondere Elemente wie die Drehscheibe wird auf
       <entry>Eigener Schiebebühnen-Commander</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/uebergang.png"></entry>
-      <entry>uebergang</entry>
-      <entry>Bahnübergang</entry>
-      <entry>ja</entry>
+      <entry><graphic fileref="../commonimages/relais.png"></entry>
+      <entry>relais</entry>
+      <entry>Relais</entry>
       <entry>nein</entry>
-      <entry>0</entry>
-      <entry>Eventuell in Zukunft einmal fernsteuerbar</entry>
-      <entry>&nbsp;</entry>
+      <entry>nein</entry>
+      <entry>1</entry>
+      <entry>Die Anzahl der schaltbaren Kontakte ist unerheblich</entry>
+      <entry>0 = Relais aus, 1 = Relais an</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/richtung-1.png"></entry>
-      <entry>richtung_1</entry>
-      <entry>ein Richtungspfeil</entry>
+      <entry><graphic fileref="../commonimages/prellbock.png"></entry>
+      <entry>prellbock</entry>
+      <entry>Puffergleisstück</entry>
       <entry>ja</entry>
-      <entry>ja</entry>
-      <entry>0</entry>
-      <entry>&nbsp;</entry>
-      <entry>&nbsp;</entry>
-    </row>
-    <row>
-      <entry><graphic fileref="../commonimages/richtung-2.png"></entry>
-      <entry>richtung_2</entry>
-      <entry>Doppelter Richtungspfeil</entry>
       <entry>nein</entry>
-      <entry>ja</entry>
       <entry>0</entry>
       <entry>&nbsp;</entry>
       <entry>&nbsp;</entry>
@@ -2687,7 +2684,7 @@ auszuführen sind. Für besondere Elemente wie die Drehscheibe wird auf
       <entry><graphic fileref="../commonimages/gerade-tl.png"></entry>
       <entry>gerade_tl</entry>
       <entry>Gerade in Tunnel</entry>
-      <entry>nein</entry>
+      <entry>ja</entry>
       <entry>nein</entry>
       <entry>0</entry>
       <entry>&nbsp;</entry>
@@ -3032,6 +3029,28 @@ wie vorhanden):</para>
     </row>
     
     <row>
+      <entry morerows="2" valign="middle">Vorsignal</entry>
+      <entry><inlinemediaobject><imageobject>
+        <imagedata fileref="../commonimages/signal-vs-0.png">
+      </imageobject></inlinemediaobject></entry>
+      <entry>0 = Vr0</entry>
+      <entry morerows="2" valign="middle"><footnoteref
+      linkend="fntabpos3"/></entry>
+    </row>
+    <row>
+      <entry><inlinemediaobject><imageobject>
+        <imagedata fileref="../commonimages/signal-vs-1.png">
+      </imageobject></inlinemediaobject></entry>
+      <entry>1 = Vr1</entry>
+    </row>
+    <row>
+      <entry><inlinemediaobject><imageobject>
+        <imagedata fileref="../commonimages/signal-vs-2.png">
+      </imageobject></inlinemediaobject></entry>
+      <entry>2 = Vr2</entry>
+    </row>
+    
+    <row>
       <entry morerows="1" valign="middle">Sperrsignal, Rangiersignal</entry>
       <entry><inlinemediaobject><imageobject>
         <imagedata fileref="../commonimages/signal-ss-0.png">
@@ -3091,28 +3110,6 @@ wie vorhanden):</para>
         <imagedata fileref="../commonimages/blind-1.png">
       </imageobject></inlinemediaobject></entry>
       <entry>1 = An</entry>
-    </row>
-    
-    <row>
-      <entry morerows="2" valign="middle">Vorsignal</entry>
-      <entry><inlinemediaobject><imageobject>
-        <imagedata fileref="../commonimages/signal-vs-0.png">
-      </imageobject></inlinemediaobject></entry>
-      <entry>0 = Vr0</entry>
-      <entry morerows="2" valign="middle"><footnoteref
-      linkend="fntabpos3"/></entry>
-    </row>
-    <row>
-      <entry><inlinemediaobject><imageobject>
-        <imagedata fileref="../commonimages/signal-vs-1.png">
-      </imageobject></inlinemediaobject></entry>
-      <entry>1 = Vr1</entry>
-    </row>
-    <row>
-      <entry><inlinemediaobject><imageobject>
-        <imagedata fileref="../commonimages/signal-vs-2.png">
-      </imageobject></inlinemediaobject></entry>
-      <entry>2 = Vr2</entry>
     </row>
     
   </tbody>
