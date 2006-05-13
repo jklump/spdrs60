@@ -1448,7 +1448,7 @@ Controlled via keyboard #14</source>
     </message>
     <message>
         <source>C&amp;ontact (1 - 496):</source>
-        <translation>K&amp;ontact (1 - 496):</translation>
+        <translation>K&amp;ontakt (1 - 496):</translation>
     </message>
     <message>
         <source>Module (1 - %1):</source>
