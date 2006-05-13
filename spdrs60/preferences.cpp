@@ -1,10 +1,10 @@
 /***************************************************************************
                            preferences.cpp
-                           version 0.5.0 $Revision: 1.2 $
+                           version 0.5.0 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-05 20:18:31 $
+    last modified        : $Date: 2006-05-13 05:54:59 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -37,7 +37,7 @@ Preferences pref = {
     "",
     "kwrite",
     "firefox",
-    true,
+    1,
     "Märklin k83 WD (M)",
     true,
     50,

@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.66 $
+                           version 0.5.0 $Revision: 1.67 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-14 21:54:24 $
+    last modified        : $Date: 2006-05-13 05:54:59 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -181,7 +181,12 @@ void MainWindow::readConfigFile()
     for (i = 0; i < 3; i++)     // omit three section description lines
         s = ts.readLine();
 
-    pref.protocolmm = (ts.readLine().remove(0, 16) == "Motorola");
+    pref.protocol = 2;
+    if (ts.readLine().remove(0, 16) == "DCC")
+        pref.protocol = 0;
+    else if (ts.readLine().remove(0, 16) == "Motorola")
+        pref.protocol = 1;
+        
     pref.decoder = ts.readLine().remove(0, 16);
     pref.activetime = ts.readLine().remove(0, 16).toInt();
     pref.autottdir = ts.readLine().remove(0, 16).toInt();
@@ -245,8 +250,9 @@ void MainWindow::writeConfigFile()
         << "#" << endl
         << "# DATA SECTION" << endl
         << "#" << endl
-        << "def protocol:   " << ((pref.protocolmm) ?
-                                  "Motorola" : "DCC") << endl
+        << "def protocol:   " <<
+            ((pref.protocol == 1) ?  "Motorola" 
+            : (pref.protocol == 0) ?  "DCC" : "Server") << endl
         << "def decoder:    " << pref.decoder << endl
         << "activation time:" << pref.activetime << endl
         << "auto tt direct.:" << (int) pref.autottdir << endl

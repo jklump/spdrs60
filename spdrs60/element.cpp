@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.62 $
+                           version 0.5.0 $Revision: 1.63 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-27 21:23:44 $
+    last modified        : $Date: 2006-05-13 05:54:59 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -866,9 +866,14 @@ void element::sendSrcpState()
         if (sm == NULL)
             return;
 
-        sm->setGaData((sSoldProtocol == "M") ? SrcpMessage::proMM :
-                SrcpMessage::proDCC, iRealBus, iRealAddress, port,
-                iSoldActiveTime);
+        SrcpMessage::Protocol prtc = SrcpMessage::proServ;
+
+        if (sSoldProtocol == "M")
+            prtc = SrcpMessage::proMM;
+        else if (sSoldProtocol == "N")
+            prtc = SrcpMessage::proDCC;
+
+        sm->setGaData(prtc, iRealBus, iRealAddress, port, iSoldActiveTime);
         
         while (sendRepeatCounter > 0) {
             emit sendSrcpMessage(sm);
@@ -2652,7 +2657,8 @@ void element::addTooltip()
                      sSoldDecoder == "-1" ?  "N/A (=-1)" 
                          : sSoldDecoder.data(),
                      sSoldProtocol == "-1" ? "N/A (=-1)"
-                         : (sSoldProtocol == "M" ? "Motorola" : "NMRA/DCC"),
+                         : (sSoldProtocol == "M" ? "Motorola"
+                         : (sSoldProtocol == "N" ? "NMRA/DCC" : "Server")),
                      iSoldAddress_1 == -1 ?  "N/A (=-1)" : a1.data());
 
         tip2.sprintf("adress 2 : %s\n"
@@ -3216,13 +3222,18 @@ bool element::sendSRCP08InitGA(unsigned int gano)
         SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgGaInit);
         if (sm == NULL)
             return returnvalue;
+        
+        SrcpMessage::Protocol prtc = SrcpMessage::proServ;
+
+        if (sSoldProtocol == "M")
+            prtc = SrcpMessage::proMM;
+        else if (sSoldProtocol == "N")
+            prtc = SrcpMessage::proDCC;
 
         if (gano == 1)
-            sm->setGaData((sSoldProtocol == "M") ? SrcpMessage::proMM :
-                    SrcpMessage::proDCC, iGA1BusNo, iSoldAddress_1, 0, 0);
+            sm->setGaData(prtc, iGA1BusNo, iSoldAddress_1, 0, 0);
         else
-            sm->setGaData((sSoldProtocol == "M") ? SrcpMessage::proMM :
-                    SrcpMessage::proDCC, iGA2BusNo, iSoldAddress_2, 0, 0);
+            sm->setGaData(prtc, iGA2BusNo, iSoldAddress_2, 0, 0);
 
         emit sendSrcpMessage(sm);
         delete sm;

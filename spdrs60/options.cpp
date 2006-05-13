@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.cpp
-                           version 0.4.8 $Revision: 1.13 $
+                           version 0.4.8 $Revision: 1.14 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-02-26 19:34:57 $
+    last modified        : $Date: 2006-05-13 05:54:59 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -221,11 +221,12 @@ void optionsDialog::setupDigitalTab()
     
     
     // protocol groupbox
-    QButtonGroup *protocolBG = new QButtonGroup(2, Vertical,
+    QButtonGroup *protocolBG = new QButtonGroup(3, Vertical,
             tr("Default protocol"), w);
     tabL->addWidget(protocolBG);
     rbProtMS = new QRadioButton("Märklin/M&otorola", protocolBG);
     rbProtNA = new QRadioButton("&NMRA/DCC", protocolBG);
+    rbProtPS = new QRadioButton("&Protocol by Server", protocolBG);
     connect(protocolBG, SIGNAL(clicked(int)),
             this, SLOT(slotProtChanged(int)));
 
@@ -264,6 +265,7 @@ void optionsDialog::setupDigitalTab()
     coboDecoder->insertItem("Lenz LS 100 WD (D)");
     coboDecoder->insertItem("Lenz LS 110 WD (D)");
     coboDecoder->insertItem("Lenz LS 130 SD (D)");
+    coboDecoder->insertItem("Generic Decoder (P)");
     decoderLayout->addWidget(coboDecoder);
     connect(coboDecoder, SIGNAL(activated(int)), this,
             SLOT(slotDecoderChanged(int)));
@@ -468,13 +470,22 @@ void optionsDialog::slotDecoderChanged(int)
         rbProtMS->setChecked(true);
     else if (sText.right(3) == "(D)")
         rbProtNA->setChecked(true);
+    else
+        rbProtPS->setChecked(true);
 }
 
 
 void optionsDialog::slotProtChanged(int)
 {
-    QString sProt = (rbProtMS->isChecked() == 1) ? "(M)" : "(D)";
+    QString sProt;
     QString sText;
+
+    if (rbProtMS->isChecked())
+        sProt = "(M)";
+    else if (rbProtNA->isChecked())
+        sProt = "(D)";
+    else
+        sProt = "(P)";
 
     // default protocol has changed -> set the appropriate default decoder
     for (int i = 0; i < coboDecoder->count(); i++) {
@@ -589,7 +600,12 @@ void optionsDialog::getPreferences(Preferences& prf)
     prf.autolayout = leAutoload->text();
     prf.editor = coboEditor->currentText();
     prf.browser = coboBrowser->currentText();
-    prf.protocolmm = rbProtMS->isChecked();
+    if (rbProtMS->isChecked())
+        prf.protocol = 1;
+    else if (rbProtNA->isChecked())
+        prf.protocol = 0;
+    else
+        prf.protocol = 2;
     prf.decoder = coboDecoder->currentText();
     prf.autottdir = cbAutoTTDir->isChecked();
     prf.activetime = sbActiveTime->value();
@@ -667,10 +683,17 @@ void optionsDialog::setPreferences(const Preferences& prf)
         coboBrowser->setCurrentItem(coboBrowser->count() - 1);
     }
 
-    if (prf.protocolmm)
-        rbProtMS->setChecked(true);
-    else
-        rbProtNA->setChecked(true);
+    switch (prf.protocol) {
+        case 0:
+            rbProtNA->setChecked(true);
+            break;
+        case 1:
+            rbProtMS->setChecked(true);
+            break;
+        case 2:
+            rbProtPS->setChecked(true);
+            break;
+    }
 
     found = false;
     for (int i = 0; i < coboDecoder->count(); i++) {

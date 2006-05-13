@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.h
-                           version 0.4.3 $Revision: 1.8 $
+                           version 0.4.3 $Revision: 1.9 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-02-05 20:18:31 $
+    last modified        : $Date: 2006-05-13 05:54:59 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -89,6 +89,7 @@ private:
    QRadioButton *flexBusesRB;
    QRadioButton *rbProtMS;             // default protocol selector
    QRadioButton *rbProtNA;
+   QRadioButton *rbProtPS;
    QRadioButton *rbSignalRed;          // init signals always red or as saved
    QRadioButton *rbSignalLay;
 

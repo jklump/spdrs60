@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.cpp
-                           version 0.4.8 $Revision: 1.12 $
+                           version 0.4.8 $Revision: 1.13 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-26 19:34:57 $
+    last modified        : $Date: 2006-05-13 05:54:59 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -237,12 +237,13 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     
     /*right side with logic data*/
     /*groupbox with protocol data*/
-    QButtonGroup* protocolBG = new QButtonGroup(2, Horizontal,
+    QButtonGroup* protocolBG = new QButtonGroup(3, Vertical,
                         tr("Protocol"), this, "protocolBG");
     rightColumnLayout->addWidget(protocolBG);
     protocolBG->setExclusive(true);
     rbProtocol_MS = new QRadioButton("&Maerklin/Motorola", protocolBG);
     rbProtocol_NA = new QRadioButton("&NMRA/DCC", protocolBG);
+    rbProtocol_PS = new QRadioButton("&Protocol by Server", protocolBG);
     connect(protocolBG, SIGNAL(clicked(int)),
             this, SLOT(slotProtChanged(int)));
 
@@ -285,6 +286,7 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     coboDecoder->insertItem("Lenz LS 100 WD (D)");
     coboDecoder->insertItem("Lenz LS 110 WD (D)");
     coboDecoder->insertItem("Lenz LS 130 SD (D)");
+    coboDecoder->insertItem("Generic Decoder (P)");
     coboDecoder->insertItem("-1");
     decoderLayout->addWidget(coboDecoder);
 
@@ -530,8 +532,10 @@ void elementDialog::slotDecoderChanged(int index)
     // autoset protocol type after choosing a decoder
     if (decoder.right(3) == "(M)")
         rbProtocol_MS->setChecked(true);
-    else
+    else if (decoder.right(3) == "(N)")
         rbProtocol_NA->setChecked(true);
+    else if (decoder.right(3) == "(P)")
+        rbProtocol_PS->setChecked(true);
 
     updateValidators();
 }
@@ -539,9 +543,15 @@ void elementDialog::slotDecoderChanged(int index)
 
 void elementDialog::slotProtChanged(int)
 {
-    bool isMM = (rbProtocol_MS->isChecked());
-    QString sProt = (isMM) ? "(M)" : "(D)";
+    QString sProt;
     QString sText;
+    
+    if (rbProtocol_MS->isChecked())
+      sProt = "(M)";
+    else if (rbProtocol_NA->isChecked())
+      sProt = "(D)";
+    else
+      sProt = "(P)";
 
     // find first decoder which support the chosen protocol
     for (int i = 0; i < coboDecoder->count(); i++) {
@@ -1345,8 +1355,14 @@ void elementDialog::setDecoder(const QString& decoder)
 
 QString elementDialog::getProtocol()
 {
-    return rbProtocol_MS->isEnabled() ?
-        (rbProtocol_MS->isChecked()? "M" : "N") : "-1";
+    if (!rbProtocol_MS->isEnabled())
+        return "-1";
+    else if (rbProtocol_MS->isChecked())
+        return "M";
+    else if (rbProtocol_NA->isChecked())
+        return "N";
+    else
+        return "P";
 };
 
 
@@ -1355,12 +1371,15 @@ void elementDialog::setProtocol(const QString& protocol)
     if (protocol == "-1") {
         rbProtocol_MS->setEnabled(false);
         rbProtocol_NA->setEnabled(false);
+        rbProtocol_PS->setEnabled(false);
     }
     else {
         if (protocol == "M")
             rbProtocol_MS->setChecked(true);
-        else
+        else if (protocol == "N")
             rbProtocol_NA->setChecked(true);
+        else
+            rbProtocol_PS->setChecked(true);
     }
 }
 

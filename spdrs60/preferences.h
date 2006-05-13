@@ -1,10 +1,10 @@
 /***************************************************************************
                            preferences.h
-                           version 0.5.0 $Revision: 1.2 $
+                           version 0.5.0 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-05 20:18:31 $
+    last modified        : $Date: 2006-05-13 05:54:59 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -43,7 +43,7 @@ struct Preferences {
     QString autolayout;
     QString editor;
     QString browser;
-    bool protocolmm;
+    unsigned int protocol;
     QString decoder;
     bool autottdir;
     unsigned int activetime;
