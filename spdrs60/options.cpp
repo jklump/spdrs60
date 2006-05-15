@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.cpp
-                           version 0.4.8 $Revision: 1.14 $
+                           version 0.4.8 $Revision: 1.15 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-05-13 05:54:59 $
+    last modified        : $Date: 2006-05-15 19:58:50 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -221,12 +221,13 @@ void optionsDialog::setupDigitalTab()
     
     
     // protocol groupbox
-    QButtonGroup *protocolBG = new QButtonGroup(3, Vertical,
+    QButtonGroup *protocolBG = new QButtonGroup(4, Vertical,
             tr("Default protocol"), w);
     tabL->addWidget(protocolBG);
     rbProtMS = new QRadioButton("Märklin/M&otorola", protocolBG);
     rbProtNA = new QRadioButton("&NMRA/DCC", protocolBG);
     rbProtPS = new QRadioButton("&Protocol by Server", protocolBG);
+    rbProtSE = new QRadioButton("Selectri&x", protocolBG);
     connect(protocolBG, SIGNAL(clicked(int)),
             this, SLOT(slotProtChanged(int)));
 
@@ -266,6 +267,7 @@ void optionsDialog::setupDigitalTab()
     coboDecoder->insertItem("Lenz LS 110 WD (D)");
     coboDecoder->insertItem("Lenz LS 130 SD (D)");
     coboDecoder->insertItem("Generic Decoder (P)");
+    coboDecoder->insertItem("Generic Decoder (S)");
     decoderLayout->addWidget(coboDecoder);
     connect(coboDecoder, SIGNAL(activated(int)), this,
             SLOT(slotDecoderChanged(int)));
@@ -463,13 +465,15 @@ void optionsDialog::slotAutoload(bool load)
 
 void optionsDialog::slotDecoderChanged(int)
 {
-    QString sText = coboDecoder->currentText();
+    QString sText = coboDecoder->currentText().right(3);
 
     // default decoder has changed -> set the appropriate default protocol
-    if (sText.right(3) == "(M)")
+    if (sText == "(M)")
         rbProtMS->setChecked(true);
-    else if (sText.right(3) == "(D)")
+    else if (sText == "(D)")
         rbProtNA->setChecked(true);
+    else if (sText == "(S)")
+        rbProtSE->setChecked(true);
     else
         rbProtPS->setChecked(true);
 }
@@ -484,6 +488,8 @@ void optionsDialog::slotProtChanged(int)
         sProt = "(M)";
     else if (rbProtNA->isChecked())
         sProt = "(D)";
+    else if (rbProtSE->isChecked())
+        sProt = "(S)";
     else
         sProt = "(P)";
 
@@ -604,6 +610,8 @@ void optionsDialog::getPreferences(Preferences& prf)
         prf.protocol = 1;
     else if (rbProtNA->isChecked())
         prf.protocol = 0;
+    else if (rbProtSE->isChecked())
+        prf.protocol = 3;
     else
         prf.protocol = 2;
     prf.decoder = coboDecoder->currentText();
@@ -692,6 +700,9 @@ void optionsDialog::setPreferences(const Preferences& prf)
             break;
         case 2:
             rbProtPS->setChecked(true);
+            break;
+        case 3:
+            rbProtSE->setChecked(true);
             break;
     }
 

@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.63 $
+                           version 0.5.0 $Revision: 1.64 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-05-13 05:54:59 $
+    last modified        : $Date: 2006-05-15 19:58:50 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -855,6 +855,7 @@ void element::sendSrcpState()
                 iRealDirection = iRealDirection ^ iSoldChangeConn[1];
         }
 
+        // TODO: handle 8 ports for selectrix
         unsigned int port = (sSoldProtocol == "M") ? iRealDirection
             : !iRealDirection;
 
@@ -866,12 +867,14 @@ void element::sendSrcpState()
         if (sm == NULL)
             return;
 
-        SrcpMessage::Protocol prtc = SrcpMessage::proServ;
+        SrcpMessage::Protocol prtc = SrcpMessage::proServer;
 
         if (sSoldProtocol == "M")
             prtc = SrcpMessage::proMM;
         else if (sSoldProtocol == "N")
             prtc = SrcpMessage::proDCC;
+        else if (sSoldProtocol == "S")
+            prtc = SrcpMessage::proSelectrix;
 
         sm->setGaData(prtc, iRealBus, iRealAddress, port, iSoldActiveTime);
         
@@ -3223,12 +3226,14 @@ bool element::sendSRCP08InitGA(unsigned int gano)
         if (sm == NULL)
             return returnvalue;
         
-        SrcpMessage::Protocol prtc = SrcpMessage::proServ;
+        SrcpMessage::Protocol prtc = SrcpMessage::proServer;
 
         if (sSoldProtocol == "M")
             prtc = SrcpMessage::proMM;
         else if (sSoldProtocol == "N")
             prtc = SrcpMessage::proDCC;
+        else if (sSoldProtocol == "S")
+            prtc = SrcpMessage::proSelectrix;
 
         if (gano == 1)
             sm->setGaData(prtc, iGA1BusNo, iSoldAddress_1, 0, 0);

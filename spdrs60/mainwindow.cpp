@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.67 $
+                           version 0.5.0 $Revision: 1.68 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-05-13 05:54:59 $
+    last modified        : $Date: 2006-05-15 19:58:50 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -186,6 +186,8 @@ void MainWindow::readConfigFile()
         pref.protocol = 0;
     else if (ts.readLine().remove(0, 16) == "Motorola")
         pref.protocol = 1;
+    else if (ts.readLine().remove(0, 16) == "Selectrix")
+        pref.protocol = 3;
         
     pref.decoder = ts.readLine().remove(0, 16);
     pref.activetime = ts.readLine().remove(0, 16).toInt();
@@ -251,8 +253,9 @@ void MainWindow::writeConfigFile()
         << "# DATA SECTION" << endl
         << "#" << endl
         << "def protocol:   " <<
-            ((pref.protocol == 1) ?  "Motorola" 
-            : (pref.protocol == 0) ?  "DCC" : "Server") << endl
+            ((pref.protocol == 1) ? "Motorola" 
+            : (pref.protocol == 0) ? "DCC"
+            : (pref.protocol == 3) ? "Selectrix" : "Server") << endl
         << "def decoder:    " << pref.decoder << endl
         << "activation time:" << pref.activetime << endl
         << "auto tt direct.:" << (int) pref.autottdir << endl

@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.cpp
-                           version 0.4.8 $Revision: 1.13 $
+                           version 0.4.8 $Revision: 1.14 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-05-13 05:54:59 $
+    last modified        : $Date: 2006-05-15 19:58:50 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -237,13 +237,14 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     
     /*right side with logic data*/
     /*groupbox with protocol data*/
-    QButtonGroup* protocolBG = new QButtonGroup(3, Vertical,
+    QButtonGroup* protocolBG = new QButtonGroup(4, Vertical,
                         tr("Protocol"), this, "protocolBG");
     rightColumnLayout->addWidget(protocolBG);
     protocolBG->setExclusive(true);
     rbProtocol_MS = new QRadioButton("&Maerklin/Motorola", protocolBG);
     rbProtocol_NA = new QRadioButton("&NMRA/DCC", protocolBG);
     rbProtocol_PS = new QRadioButton("&Protocol by Server", protocolBG);
+    rbProtocol_SE = new QRadioButton("Selectri&x", protocolBG);
     connect(protocolBG, SIGNAL(clicked(int)),
             this, SLOT(slotProtChanged(int)));
 
@@ -287,6 +288,7 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     coboDecoder->insertItem("Lenz LS 110 WD (D)");
     coboDecoder->insertItem("Lenz LS 130 SD (D)");
     coboDecoder->insertItem("Generic Decoder (P)");
+    coboDecoder->insertItem("Generic Decoder (S)");
     coboDecoder->insertItem("-1");
     decoderLayout->addWidget(coboDecoder);
 
@@ -321,6 +323,7 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     labelAddress_1->setBuddy(leAddress_1);
     cbChaConn1 = new QCheckBox(tr("&Exch. conn."), decoderGB, "xch1");
     decdataLayout->addWidget(cbChaConn1, 1, 2);
+    //TODO: add port selector
 
     /*line with srcp bus 2 */
     srcpBus2Label = new QLabel(tr("SR&CP-Bus 2:"), decoderGB);
@@ -343,6 +346,7 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     labelAddress_2->setBuddy(leAddress_2);
     cbChaConn2 = new QCheckBox(tr("E&xch. conn."), decoderGB, "xch2");
     decdataLayout->addWidget(cbChaConn2, 3, 2);
+    //TODO: add port selector
 
     /*line with resettime */
     QHBoxLayout* resetLayout = new QHBoxLayout(decoderGBL, 6);
@@ -515,6 +519,7 @@ void elementDialog::updateValidators()
             if (leAddress_2->text().toInt() > MAX_GAMM)
                 leAddress_2->setText(QString::number(MAX_GAMM));
         }
+        // TODO: Validators for Selectrix and Protocol by Server
         else {
             a1Validator->setTop(MAX_GADCC);
             a2Validator->setTop(MAX_GADCC);
@@ -525,17 +530,19 @@ void elementDialog::updateValidators()
 
 void elementDialog::slotDecoderChanged(int index)
 {
-    QString decoder = coboDecoder->text(index);
-    if (decoder == QString::null)
+    QString sProt = coboDecoder->text(index).right(3);
+    if (sProt == QString::null)
         return;
 
-    // autoset protocol type after choosing a decoder
-    if (decoder.right(3) == "(M)")
+    // autoset protocol type after choosing a sProt
+    if (sProt == "(M)")
         rbProtocol_MS->setChecked(true);
-    else if (decoder.right(3) == "(N)")
+    else if (sProt == "(N)")
         rbProtocol_NA->setChecked(true);
-    else if (decoder.right(3) == "(P)")
+    else if (sProt == "(P)")
         rbProtocol_PS->setChecked(true);
+    else if (sProt == "(S)")
+        rbProtocol_SE->setChecked(true);
 
     updateValidators();
 }
@@ -550,6 +557,8 @@ void elementDialog::slotProtChanged(int)
       sProt = "(M)";
     else if (rbProtocol_NA->isChecked())
       sProt = "(D)";
+    else if (rbProtocol_SE->isChecked())
+      sProt = "(S)";
     else
       sProt = "(P)";
 
@@ -1361,6 +1370,8 @@ QString elementDialog::getProtocol()
         return "M";
     else if (rbProtocol_NA->isChecked())
         return "N";
+    else if (rbProtocol_SE->isChecked())
+        return "S";
     else
         return "P";
 };
@@ -1372,12 +1383,15 @@ void elementDialog::setProtocol(const QString& protocol)
         rbProtocol_MS->setEnabled(false);
         rbProtocol_NA->setEnabled(false);
         rbProtocol_PS->setEnabled(false);
+        rbProtocol_SE->setEnabled(false);
     }
     else {
         if (protocol == "M")
             rbProtocol_MS->setChecked(true);
         else if (protocol == "N")
             rbProtocol_NA->setChecked(true);
+        else if (protocol == "S")
+            rbProtocol_SE->setChecked(true);
         else
             rbProtocol_PS->setChecked(true);
     }

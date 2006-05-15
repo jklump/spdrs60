@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.h
-                           version 0.4.8 $Revision: 1.9 $
+                           version 0.4.8 $Revision: 1.10 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-05-13 05:54:59 $
+    last modified        : $Date: 2006-05-15 19:58:50 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -126,6 +126,7 @@ private:
    QRadioButton *rbProtocol_MS;
    QRadioButton *rbProtocol_NA;
    QRadioButton *rbProtocol_PS;
+   QRadioButton *rbProtocol_SE;
 
    QComboBox    *IconComboBox;
    QComboBox    *coboDecoder;

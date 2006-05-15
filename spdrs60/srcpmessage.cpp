@@ -1,10 +1,10 @@
 /***************************************************************************
                            srcpmessage.cpp
-                           version 0.5.0 $Revision: 1.9 $
+                           version 0.5.0 $Revision: 1.10 $
                            -------------------------------
     copyright            : (C) 2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-11 20:38:10 $
+    last modified        : $Date: 2006-05-15 19:58:50 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -182,8 +182,11 @@ QString SrcpMessage::getProtocolStr(Protocol pro) const
         case proDCC:
             proStr = "N";
             break;
-        case proServ:
+        case proServer:
             proStr = "P";
+            break;
+        case proSelectrix:
+            proStr = "S";
             break;
     }
     return proStr;
