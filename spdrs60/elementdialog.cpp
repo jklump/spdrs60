@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.cpp
-                           version 0.4.8 $Revision: 1.14 $
+                           version 0.4.8 $Revision: 1.15 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-05-15 19:58:50 $
+    last modified        : $Date: 2006-05-28 12:57:49 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -49,7 +49,14 @@
 #include "pixmaps/entkoppler_st2.xpm"
 #include "pixmaps/entkoppler_st3.xpm"
 
-
+#define MINMMPORT 0
+#define MAXMMPORT 1
+#define MINDCCPORT 0
+#define MAXDCCPORT 1
+#define MINSVPORT 0
+#define MAXSVPORT 64535 // no limits
+#define MINSXPORT 1
+#define MAXSXPORT 8
 
 elementDialog::elementDialog(QWidget* parent, int idx):
     QDialog(parent, "elementDialog", true)
@@ -57,6 +64,7 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     setCaption(tr("Properties of Element #%1").arg(idx));
     gaSubType = 0;
     gaDirection = 0;
+    addresscount = 0;
 
     /*Layout to separate OK Cancel buttons from the upper rest*/
     QBoxLayout* baseLayout = new QVBoxLayout(this, 12, 12);
@@ -188,11 +196,6 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     cbRotate = new QCheckBox(tr("&Rotation"), frData, "rotateCB");
     rfDataGBLayout->addWidget(cbRotate);
 
-    /* line with LED off checkbox*/
-    cbLEDoff = new QCheckBox(tr("&LEDs off"), frData, "LEDsCB");
-    rfDataGBLayout->addWidget(cbLEDoff);
-    connect(cbLEDoff, SIGNAL(clicked()), this, SLOT(slotEnable_LED_FB()));
-
     /* line with invert checkbox*/
     cbInvert = new QCheckBox(tr("&Inverted use"), frData, "invertCB");
     rfDataGBLayout->addWidget(cbInvert);
@@ -208,12 +211,6 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     leftColumnLayout->addWidget(variantGB);
     QVBoxLayout* variantGBLayout = new
         QVBoxLayout(variantGB->layout(), 6);
-
-    /*line with text*/
-    subtypeLabel = new QLabel(tr("Choose appropriate variant"),
-            variantGB, "subType");
-    subtypeLabel->setAlignment(AlignLeft | AlignTop | WordBreak);
-    variantGBLayout->addWidget(subtypeLabel);
 
     /*group of three buttons*/
     bgSubType = new QButtonGroup(0, Horizontal, "", variantGB, "bgSubType");
@@ -234,19 +231,20 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     connect(bgSubType, SIGNAL(clicked(int)),
             this, SLOT(slotSubTypeClicked(int)));
 
-    
-    /*right side with logic data*/
     /*groupbox with protocol data*/
-    QButtonGroup* protocolBG = new QButtonGroup(4, Vertical,
+    protocolBG = new QButtonGroup(4, Vertical,
                         tr("Protocol"), this, "protocolBG");
-    rightColumnLayout->addWidget(protocolBG);
+    //rightColumnLayout->addWidget(protocolBG);
+    leftColumnLayout->addWidget(protocolBG);
     protocolBG->setExclusive(true);
     rbProtocol_MS = new QRadioButton("&Maerklin/Motorola", protocolBG);
     rbProtocol_NA = new QRadioButton("&NMRA/DCC", protocolBG);
-    rbProtocol_PS = new QRadioButton("&Protocol by Server", protocolBG);
+    rbProtocol_PS = new QRadioButton("Protocol by Ser&ver", protocolBG);
     rbProtocol_SE = new QRadioButton("Selectri&x", protocolBG);
     connect(protocolBG, SIGNAL(clicked(int)),
-            this, SLOT(slotProtChanged(int)));
+            this, SLOT(slotProtocolChanged(int)));
+    
+    /*right side with logic data*/
 
     /*decoder data group box*/
     QGroupBox* decoderGB = new QGroupBox(0, Horizontal,
@@ -297,7 +295,20 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     connect(coboDecoder, SIGNAL(activated(int)),
             this, SLOT(slotDecoderChanged(int)));
     
-    QGridLayout* decdataLayout = new QGridLayout(decoderGBL, 4, 3, 10,
+    /*line with resettime */
+    QHBoxLayout* resetLayout = new QHBoxLayout(decoderGBL, 6);
+    labelTime = new QLabel(tr("Reset &after (ms):"), decoderGB);
+    resetLayout->addWidget(labelTime);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    resetLayout->addItem(spacer);
+
+    activeTimeSB = new QSpinBox(50, 2000, 50, decoderGB, "");
+    activeTimeSB->setWrapping(true);
+    resetLayout->addWidget(activeTimeSB);
+    labelTime->setBuddy(activeTimeSB);
+
+    QGridLayout* decdataLayout = new QGridLayout(decoderGBL, 6, 3, 10,
             "decdataLayout");
     
     /*line with srcp bus 1 */
@@ -321,52 +332,70 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     a1Validator = new QIntValidator(-1, MAX_GADCC, this);
     leAddress_1->setValidator(a1Validator);
     labelAddress_1->setBuddy(leAddress_1);
-    cbChaConn1 = new QCheckBox(tr("&Exch. conn."), decoderGB, "xch1");
-    decdataLayout->addWidget(cbChaConn1, 1, 2);
-    //TODO: add port selector
+
+    /*line with port 1 spinbox */
+    port1Label = new QLabel(tr("&Port 1:"), decoderGB);
+    decdataLayout->addWidget(port1Label, 2, 0);
+
+    port1SB = new QSpinBox(0, 1, 1, decoderGB, "port1SB");
+    port1SB->setWrapping(true);
+    decdataLayout->addWidget(port1SB, 2, 1);
+    port1Label->setBuddy(port1SB);
+
+    xchConn1CB = new QCheckBox(tr("&Exch. conn."), decoderGB, "xch1");
+    connect(xchConn1CB, SIGNAL(toggled(bool)), this,
+            SLOT(xchConn1IsToggled(bool)));
+    decdataLayout->addWidget(xchConn1CB, 2, 2);
 
     /*line with srcp bus 2 */
     srcpBus2Label = new QLabel(tr("SR&CP-Bus 2:"), decoderGB);
-    decdataLayout->addWidget(srcpBus2Label, 2, 0);
+    decdataLayout->addWidget(srcpBus2Label, 3, 0);
     srcpBus2LE = new QLineEdit(decoderGB, "srcpBus2LE");
     srcpBus2LE->setMaxLength(4);
     srcpBus2LE->setMaximumWidth(LEMAXWIDTH);
-    decdataLayout->addWidget(srcpBus2LE, 2, 1);
+    decdataLayout->addWidget(srcpBus2LE, 3, 1);
     srcpBus2Label->setBuddy(srcpBus2LE);
     
     /*line with address 2 */
     labelAddress_2 = new QLabel(tr("Address &2:"), decoderGB);
-    decdataLayout->addWidget(labelAddress_2, 3, 0);
+    decdataLayout->addWidget(labelAddress_2, 4, 0);
     leAddress_2 = new QLineEdit(decoderGB, "address_2");
-    decdataLayout->addWidget(leAddress_2, 3, 1);
+    decdataLayout->addWidget(leAddress_2, 4, 1);
     leAddress_2->setMaxLength(4);
     leAddress_2->setMaximumWidth(LEMAXWIDTH);
     a2Validator = new QIntValidator(-1, MAX_GADCC, this);
     leAddress_2->setValidator(a2Validator);
     labelAddress_2->setBuddy(leAddress_2);
-    cbChaConn2 = new QCheckBox(tr("E&xch. conn."), decoderGB, "xch2");
-    decdataLayout->addWidget(cbChaConn2, 3, 2);
-    //TODO: add port selector
 
-    /*line with resettime */
-    QHBoxLayout* resetLayout = new QHBoxLayout(decoderGBL, 6);
-    labelTime = new QLabel(tr("Reset &after (ms):"), decoderGB);
-    resetLayout->addWidget(labelTime);
+    /*line with port 1 spinbox */
+    port2Label = new QLabel(tr("&Port 2:"), decoderGB);
+    decdataLayout->addWidget(port2Label, 5, 0);
+
+    port2SB = new QSpinBox(0, 1, 1, decoderGB, "port2SB");
+    port2SB->setWrapping(true);
+    decdataLayout->addWidget(port2SB, 5, 1);
+    port2Label->setBuddy(port2SB);
+
+    xchConn2CB = new QCheckBox(tr("E&xch. conn."), decoderGB, "xch2");
+    connect(xchConn2CB, SIGNAL(toggled(bool)), this,
+            SLOT(xchConn2IsToggled(bool)));
+    decdataLayout->addWidget(xchConn2CB, 5, 2);
+
+    /*spacer to push contents of box to top */
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
-    resetLayout->addItem(spacer);
-
-    activeTimeSB = new QSpinBox(50, 2000, 50, decoderGB, ""); // 20 ms steps
-    activeTimeSB->setWrapping(true);    // enables to spin "over" the limits
-    resetLayout->addWidget(activeTimeSB);
-    labelTime->setBuddy(activeTimeSB);
-
+    decoderGBL->addItem(spacer);
 
     /*feedback LED data group box*/
-    feedbackGB = new QGroupBox(0, Horizontal,
+    QGroupBox* feedbackGB = new QGroupBox(0, Horizontal,
             tr("Feedback for track LEDs"), this, "feedbackGB");
     rightColumnLayout->addWidget(feedbackGB);
     QVBoxLayout* feedbackGBL = new QVBoxLayout(feedbackGB->layout(), 6);
+
+    /* line with LED off checkbox*/
+    cbLEDoff = new QCheckBox(tr("&LEDs off"), feedbackGB, "LEDsCB");
+    feedbackGBL->addWidget(cbLEDoff);
+    connect(cbLEDoff, SIGNAL(clicked()), this, SLOT(slotEnable_LED_FB()));
 
     /*line with bus*/
     QHBoxLayout* busLayout = new QHBoxLayout(feedbackGBL, 6);
@@ -384,13 +413,13 @@ elementDialog::elementDialog(QWidget* parent, int idx):
 
     /*line with contact*/
     QHBoxLayout* feedbackLayout = new QHBoxLayout(feedbackGBL, 6);
-    labelFBport = new QLabel(tr("C&ontact (1 - 496):"), feedbackGB);
-    feedbackLayout->addWidget(labelFBport);
+    labelFBContact = new QLabel(tr("C&ontact (1 - 496):"), feedbackGB);
+    feedbackLayout->addWidget(labelFBContact);
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
     feedbackLayout->addItem(spacer);
     contactSB = new QSpinBox(0, 496, 1, feedbackGB, "contactSB");
-    labelFBport->setBuddy(contactSB);
+    labelFBContact->setBuddy(contactSB);
     feedbackLayout->addWidget(contactSB);
     connect(contactSB, SIGNAL(valueChanged(int)),
             this, SLOT(contactSBChanged(int)));
@@ -410,9 +439,9 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     
     /*line with port*/
     QHBoxLayout* portLayout = new QHBoxLayout(feedbackGBL, 6);
-    QLabel* portLabel = new QLabel(tr("Port (1 - %1):")
+    labelFBport = new QLabel(tr("Port (1 - %1):")
             .arg(pref.fbfactor == 0 ? 16 : 8), feedbackGB);
-    portLayout->addWidget(portLabel);
+    portLayout->addWidget(labelFBport);
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
     portLayout->addItem(spacer);
@@ -437,6 +466,11 @@ elementDialog::elementDialog(QWidget* parent, int idx):
             SLOT(slotShowFBmodules()));
     if (pref.tooltips == true)
         QToolTip::add(buttFBmodules, tr("Show feedback module window"));
+
+    /*spacer to push contents of box to top */
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    feedbackGBL->addItem(spacer);
 
     
     /*layout with OK and Cancel buttons*/
@@ -501,28 +535,180 @@ void elementDialog::letteringChanged(bool takeaddr)
 
 void elementDialog::updateValidators()
 {
-    bool isMM = (rbProtocol_MS->isChecked());
+    /*
+     *  id  protocol
+     *  -------------
+     *  -1  none
+     *   0  MM
+     *   1  DCC
+     *   2  Server
+     *   3  Selectrix
+     *  -------------
+     */
+    
     QString icon = IconNameList->at(IconComboBox->currentItem());
     
     if (icon == SYM_NRB || icon == SYM_SRB) {
         a1Validator->setTop(MAX_RB);
         a2Validator->setTop(MAX_RB);
     }
-    else { 
-        if (isMM) {
-            a1Validator->setTop(MAX_GAMM);
-            a2Validator->setTop(MAX_GAMM);
-            
-            if (leAddress_1->text().toInt() > MAX_GAMM)
-                leAddress_1->setText(QString::number(MAX_GAMM));
 
-            if (leAddress_2->text().toInt() > MAX_GAMM)
-                leAddress_2->setText(QString::number(MAX_GAMM));
-        }
-        // TODO: Validators for Selectrix and Protocol by Server
-        else {
-            a1Validator->setTop(MAX_GADCC);
-            a2Validator->setTop(MAX_GADCC);
+    else { 
+        int prot = protocolBG->selectedId();
+        switch (prot) {
+            case 0:
+                // MM
+                a1Validator->setTop(MAX_GAMM);
+                a2Validator->setTop(MAX_GAMM);
+                
+                port1Label->setEnabled(false);
+                port2Label->setEnabled(false);
+                port1SB->setEnabled(false);
+                port2SB->setEnabled(false);
+                // new range for port spinboxes
+                port1SB->setMinValue(MINMMPORT);
+                port1SB->setMaxValue(MAXMMPORT);
+                port2SB->setMinValue(MINMMPORT);
+                port2SB->setMaxValue(MAXMMPORT);
+
+                xchConn1IsToggled(xchConn1CB->isChecked());
+                xchConn2IsToggled(xchConn2CB->isChecked());
+
+                switch (addresscount) {
+                    case 0:
+                        xchConn1CB->setEnabled(false);
+                        xchConn2CB->setEnabled(false);
+                        break;
+                    case 1:
+                        xchConn1CB->setEnabled(true);
+                        xchConn2CB->setEnabled(false);
+                        break;
+                    case 2:
+                        xchConn1CB->setEnabled(true);
+                        xchConn2CB->setEnabled(true);
+                        break;
+                }
+                
+                if (leAddress_1->text().toInt() > MAX_GAMM)
+                    leAddress_1->setText(QString::number(MAX_GAMM));
+
+                if (leAddress_2->text().toInt() > MAX_GAMM)
+                    leAddress_2->setText(QString::number(MAX_GAMM));
+                break;
+
+            case 1:
+                //DCC
+                a1Validator->setTop(MAX_GADCC);
+                a2Validator->setTop(MAX_GADCC);
+                
+                port1Label->setEnabled(false);
+                port2Label->setEnabled(false);
+                port1SB->setEnabled(false);
+                port2SB->setEnabled(false);
+                // new range for port spinboxes
+                port1SB->setMinValue(MINDCCPORT);
+                port1SB->setMaxValue(MAXDCCPORT);
+                port2SB->setMinValue(MINDCCPORT);
+                port2SB->setMaxValue(MAXDCCPORT);
+
+                xchConn1IsToggled(xchConn1CB->isChecked());
+                xchConn2IsToggled(xchConn2CB->isChecked());
+                
+                switch (addresscount) {
+                    case 0:
+                        xchConn1CB->setEnabled(false);
+                        xchConn2CB->setEnabled(false);
+                        break;
+                    case 1:
+                        xchConn1CB->setEnabled(true);
+                        xchConn2CB->setEnabled(false);
+                        break;
+                    case 2:
+                        xchConn1CB->setEnabled(true);
+                        xchConn2CB->setEnabled(true);
+                        break;
+                }
+                
+                break;
+                
+            case 2:
+                // Server
+                // MAGIC: Validator limits for Protocol by Server
+                a1Validator->setTop(9999);
+                a2Validator->setTop(9999);
+                
+                // new range for port spinboxes
+                port1SB->setMinValue(MINSVPORT);
+                port1SB->setMaxValue(MAXSVPORT);
+                port2SB->setMinValue(MINSVPORT);
+                port2SB->setMaxValue(MAXSVPORT);
+
+                xchConn1CB->setEnabled(false);
+                xchConn2CB->setEnabled(false);
+
+                switch (addresscount) {
+                    case 0:
+                        port1Label->setEnabled(false);
+                        port2Label->setEnabled(false);
+                        port1SB->setEnabled(false);
+                        port2SB->setEnabled(false);
+                        break;
+                    case 1:
+                        port1Label->setEnabled(true);
+                        port2Label->setEnabled(false);
+                        port1SB->setEnabled(true);
+                        port2SB->setEnabled(false);
+                        break;
+                    case 2:
+                        port1Label->setEnabled(true);
+                        port2Label->setEnabled(true);
+                        port1SB->setEnabled(true);
+                        port2SB->setEnabled(true);
+                        break;
+                }
+                
+                break;
+                
+            case 3:
+                //Selectrix
+                a1Validator->setTop(MAX_GASX);
+                a2Validator->setTop(MAX_GASX);
+                
+                // new range for port spinboxes
+                port1SB->setMinValue(MINSXPORT);
+                port1SB->setMaxValue(MAXSXPORT);
+                port2SB->setMinValue(MINSXPORT);
+                port2SB->setMaxValue(MAXSXPORT);
+
+                xchConn1CB->setEnabled(false);
+                xchConn2CB->setEnabled(false);
+
+                switch (addresscount) {
+                    case 0:
+                        port1Label->setEnabled(false);
+                        port2Label->setEnabled(false);
+                        port1SB->setEnabled(false);
+                        port2SB->setEnabled(false);
+                        break;
+                    case 1:
+                        port1Label->setEnabled(true);
+                        port2Label->setEnabled(false);
+                        port1SB->setEnabled(true);
+                        port2SB->setEnabled(false);
+                        break;
+                    case 2:
+                        port1Label->setEnabled(true);
+                        port2Label->setEnabled(true);
+                        port1SB->setEnabled(true);
+                        port2SB->setEnabled(true);
+                        break;
+                }
+                
+                break;
+                
+            default:
+                // undefined protocol
+                break;
         }
     }
 }
@@ -548,7 +734,7 @@ void elementDialog::slotDecoderChanged(int index)
 }
 
 
-void elementDialog::slotProtChanged(int)
+void elementDialog::slotProtocolChanged(int)
 {
     QString sProt;
     QString sText;
@@ -606,6 +792,8 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
 
     rbProtocol_MS->setEnabled(enabled || sSoldIcon == SYM_DRE);
     rbProtocol_NA->setEnabled(enabled);
+    rbProtocol_PS->setEnabled(enabled);
+    rbProtocol_SE->setEnabled(enabled);
 
     // show address_1 data, but take enabled value from above
     enabled = enabled && sSoldIcon != SYM_SBN && sSoldIcon != SYM_MDC;
@@ -613,16 +801,21 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
         // set direction to 0 if it was -1 before and address_1 is now enabled
         if (gaDirection == -1)
             gaDirection = 0;
+        addresscount = 1;
     }
-    else
+    else {
         leAddress_1->setText("-1");
+        addresscount = 0;
+    }
 
     srcpBus1Label->setEnabled(enabled);
     srcpBus1LE->setEnabled(enabled);
     leAddress_1->setEnabled(enabled);
     cbAddrLabeling->setEnabled(enabled);
     labelAddress_1->setEnabled(enabled);
-    cbChaConn1->setEnabled(enabled);
+    port1Label->setEnabled(rbProtocol_SE->isChecked());
+    port1SB->setEnabled(rbProtocol_SE->isChecked());
+    xchConn1CB->setEnabled(enabled);
 
     // show text data
     enabled = sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
@@ -660,8 +853,9 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
         /*
         if (sSoldIcon != SYM_DRE && sSoldIcon != SYM_SBN) {
             sListText = listElementData->at(LIST_ID_CHACONN_2);
-            cbChaConn2->setChecked(sListText == "1");
+            xchConn2CB->setChecked(sListText == "1");
         }*/
+        addresscount = 2;
     }
     else
         leAddress_2->setText("-1");
@@ -670,8 +864,10 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
     srcpBus2LE->setEnabled(enabled);
     leAddress_2->setEnabled(enabled);
     labelAddress_2->setEnabled(enabled);
+    port2Label->setEnabled(rbProtocol_SE->isChecked());
+    port2SB->setEnabled(rbProtocol_SE->isChecked());
 
-    cbChaConn2->setEnabled(enabled && sSoldIcon != SYM_DRE
+    xchConn2CB->setEnabled(enabled && sSoldIcon != SYM_DRE
                            && sSoldIcon != SYM_SBN
                            && sSoldIcon != SYM_MDC);
  
@@ -745,7 +941,6 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
           sSoldIcon == SYM_KRL || sSoldIcon == SYM_KRR) &&
          !cbLEDoff->isChecked());
 
-    feedbackGB->setEnabled(enabled);
     buttFBmodules->setEnabled(enabled);
 
     if (sSoldIcon == SYM_ADR) {
@@ -759,12 +954,14 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
         //contactSBChanged(sListText.toInt() + 1);
     }
 
-    moduleLE->setEnabled(enabled);
-    labelFBmodule->setEnabled(enabled);
-    contactSB->setEnabled(enabled);
-    labelFBport->setEnabled(enabled);
     fbBusLE->setEnabled(enabled);
     labelFBBus->setEnabled(enabled);
+    contactSB->setEnabled(enabled);
+    labelFBContact->setEnabled(enabled);
+    moduleLE->setEnabled(enabled);
+    labelFBmodule->setEnabled(enabled);
+    portLE->setEnabled(enabled);
+    labelFBport->setEnabled(enabled);
 
     // show active time
     enabled = sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
@@ -832,18 +1029,20 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
 
 void elementDialog::slotEnable_LED_FB()
 {
-    feedbackGB->setEnabled(!cbLEDoff->isChecked());
-    //labelAdrMod->setEnabled(!cbLEDoff->isChecked());
-    buttFBmodules->setEnabled(!cbLEDoff->isChecked());
+    fbBusLE->setEnabled(!cbLEDoff->isChecked());
+    labelFBBus->setEnabled(!cbLEDoff->isChecked());
+
+    contactSB->setEnabled(!cbLEDoff->isChecked());
+    labelFBContact->setEnabled(!cbLEDoff->isChecked());
 
     moduleLE->setEnabled(!cbLEDoff->isChecked());
     labelFBmodule->setEnabled(!cbLEDoff->isChecked());
 
-    contactSB->setEnabled(!cbLEDoff->isChecked());
+    portLE->setEnabled(!cbLEDoff->isChecked());
     labelFBport->setEnabled(!cbLEDoff->isChecked());
 
-    fbBusLE->setEnabled(!cbLEDoff->isChecked());
-    labelFBBus->setEnabled(!cbLEDoff->isChecked());
+    //labelAdrMod->setEnabled(!cbLEDoff->isChecked());
+    buttFBmodules->setEnabled(!cbLEDoff->isChecked());
 }
 
 
@@ -853,7 +1052,6 @@ void elementDialog::showSubTypes(int iShow_)
 
     // remove text field and hide buttons
     if (!iShow_) {
-        subtypeLabel->hide();
         for (i = 0; i < 3; i++) {
             QToolTip::remove(buttSubType[i]);
             buttSubType[i]->hide();
@@ -905,7 +1103,6 @@ void elementDialog::showSubTypes(int iShow_)
         buttSubType[1]->setPixmap(QPixmap(drehscheibe_st2_xpm));
         buttSubType[2]->setPixmap(QPixmap(drehscheibe_st3_xpm));
     }
-    subtypeLabel->show();
 
 
     // activate the subtype dependant button
@@ -1050,7 +1247,9 @@ void elementDialog::slotSubTypeClicked(int stBtn)
                 srcpBus2LE->setEnabled(false);
                 leAddress_2->setEnabled(false);
                 labelAddress_2->setEnabled(false);
-                cbChaConn2->setEnabled(false);
+                port2Label->setEnabled(false);
+                port2SB->setEnabled(false);
+                xchConn2CB->setEnabled(false);
 
                 leAddress_2->setText("-1");
                 gaSubType = 0;
@@ -1065,7 +1264,9 @@ void elementDialog::slotSubTypeClicked(int stBtn)
                 srcpBus2LE->setEnabled(false);
                 leAddress_2->setEnabled(false);
                 labelAddress_2->setEnabled(false);
-                cbChaConn2->setEnabled(false);
+                port2Label->setEnabled(false);
+                port2SB->setEnabled(false);
+                xchConn2CB->setEnabled(false);
 
                 gaSubType = -1;
             }
@@ -1077,7 +1278,9 @@ void elementDialog::slotSubTypeClicked(int stBtn)
                 srcpBus2LE->setEnabled(false);
                 leAddress_2->setEnabled(false);
                 labelAddress_2->setEnabled(false);
-                cbChaConn2->setEnabled(false);
+                port2Label->setEnabled(false);
+                port2SB->setEnabled(false);
+                xchConn2CB->setEnabled(false);
                 leAddress_2->setText("-1");
                 gaSubType = 6;
             }
@@ -1087,7 +1290,9 @@ void elementDialog::slotSubTypeClicked(int stBtn)
                 srcpBus2LE->setEnabled(false);
                 leAddress_2->setEnabled(false);
                 labelAddress_2->setEnabled(false);
-                cbChaConn2->setEnabled(false);
+                port2Label->setEnabled(false);
+                port2SB->setEnabled(false);
+                xchConn2CB->setEnabled(false);
                 gaSubType = 0;
             }
 
@@ -1108,7 +1313,9 @@ void elementDialog::slotSubTypeClicked(int stBtn)
                 srcpBus2LE->setEnabled(true);
                 leAddress_2->setEnabled(true);
                 labelAddress_2->setEnabled(true);
-                cbChaConn2->setEnabled(true);
+                port2Label->setEnabled(true);
+                port2SB->setEnabled(true);
+                xchConn2CB->setEnabled(true);
                 gaSubType = 4;
             }
 
@@ -1117,7 +1324,9 @@ void elementDialog::slotSubTypeClicked(int stBtn)
                 srcpBus2LE->setEnabled(true);
                 leAddress_2->setEnabled(true);
                 labelAddress_2->setEnabled(true);
-                cbChaConn2->setEnabled(true);
+                port2Label->setEnabled(true);
+                port2SB->setEnabled(true);
+                xchConn2CB->setEnabled(true);
                 gaSubType = 1;
             }
 
@@ -1422,35 +1631,59 @@ void elementDialog::setAddress2(int addr)
 }
 
 
+void elementDialog::setPort1(int aport)
+{
+    port1SB->setValue(aport);
+}
+
+
+int elementDialog::getPort1()
+{
+    port1SB->value();
+}
+
+
+void elementDialog::setPort2(int aport)
+{
+    port2SB->setValue(aport);
+}
+
+
+int elementDialog::getPort2()
+{
+    port2SB->value();
+}
+
+
 int elementDialog::getXChangeConn1()
 {
-    return cbChaConn1->isEnabled() ?
-        (cbChaConn1->isChecked() ? 1 : 0) : -1;
+    return xchConn1CB->isEnabled() ?
+        (xchConn1CB->isChecked() ? 1 : 0) : -1;
 };
 
 
 void elementDialog::setXChangeConn1(int xch)
 {
     if (xch == -1)
-        cbChaConn1->setChecked(false);
+        xchConn1CB->setChecked(false);
     else
-        cbChaConn1->setChecked(xch);
+        xchConn1CB->setChecked(xch);
 }
 
 
 int elementDialog::getXChangeConn2()
 {
-    return cbChaConn2->isEnabled() ?
-        (cbChaConn2->isChecked() ? 1 : 0) : -1;
+    return xchConn2CB->isEnabled() ?
+        (xchConn2CB->isChecked() ? 1 : 0) : -1;
 };
 
 
 void elementDialog::setXChangeConn2(int xch)
 {
     if (xch == -1)
-        cbChaConn2->setChecked(false);
+        xchConn2CB->setChecked(false);
     else
-        cbChaConn2->setChecked(xch);
+        xchConn2CB->setChecked(xch);
 }
 
 
@@ -1482,7 +1715,7 @@ void elementDialog::setSymbolText(const QString& text)
 int elementDialog::getActiveTime()
 {
     return activeTimeSB->isEnabled() ?
-        activeTimeSB->text().toInt() : -1;
+        activeTimeSB->value() : -1;
 };
 
 
@@ -1493,6 +1726,7 @@ void elementDialog::setActiveTime(int atime)
     else
         activeTimeSB->setValue(pref.activetime);
 }
+
 
 
 int elementDialog::getFBBus()
@@ -1519,3 +1753,22 @@ void elementDialog::setFBContact(int contact)
     contactSBChanged(contact);
 };
 
+
+/* port connector exchange is only used for MM and DCC */
+void elementDialog::xchConn1IsToggled(bool ison)
+{
+    if (ison)
+        port1SB->setValue(1);
+    else 
+        port1SB->setValue(0);
+};
+
+
+/* port connector exchange is only used for MM and DCC */
+void elementDialog::xchConn2IsToggled(bool ison)
+{
+    if (ison)
+        port2SB->setValue(1);
+    else 
+        port2SB->setValue(0);
+};

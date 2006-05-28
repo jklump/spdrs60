@@ -31,6 +31,7 @@
 #define MAX_FB         1984    // number of total s88 feedback ports
 #define MAX_GAMM       324     // max number of motorola addresses
 #define MAX_GADCC      4096    // max number of DCC addresses
+#define MAX_GASX       114     // max value of Selectrix addresses
 #define MAX_RB         6000    // max value of route button addresses
 
 /*maximal length of an address edit line in dialogs*/

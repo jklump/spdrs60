@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.h
-                           version 0.4.8 $Revision: 1.10 $
+                           version 0.4.8 $Revision: 1.11 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-05-15 19:58:50 $
+    last modified        : $Date: 2006-05-28 12:57:49 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -70,6 +70,10 @@ public:
    void setAddress1(int);
    int getAddress2();
    void setAddress2(int);
+   int getPort1();
+   void setPort1(int);
+   int getPort2();
+   void setPort2(int);
    int getXChangeConn1();
    void setXChangeConn1(int);
    int getXChangeConn2();
@@ -96,11 +100,13 @@ private slots:
    void slotSymbolChanged(int);
    void slotSubTypeClicked(int);
    void slotDecoderChanged(int);
-   void slotProtChanged(int);
+   void slotProtocolChanged(int);
    void slotShowFBmodules();
    void slotEnable_LED_FB();
    void contactSBChanged(int);
    void letteringChanged(bool);
+   void xchConn1IsToggled(bool);
+   void xchConn2IsToggled(bool);
 
 signals:
    void sigShowFBmodules();
@@ -119,8 +125,8 @@ private:
    QCheckBox    *cbRotate;
    QCheckBox    *cbInvert;
    QCheckBox    *cbLEDoff;
-   QCheckBox    *cbChaConn1;
-   QCheckBox    *cbChaConn2;
+   QCheckBox    *xchConn1CB;
+   QCheckBox    *xchConn2CB;
    QCheckBox    *cbAdrMod;
 
    QRadioButton *rbProtocol_MS;
@@ -137,22 +143,26 @@ private:
    QLabel       *srcpBus2Label;
    QLabel       *labelAddress_1;
    QLabel       *labelAddress_2;
-   QLabel       *subtypeLabel;
+   QLabel       *port1Label;
+   QLabel       *port2Label;
    QLabel       *labelText;
    QLabel       *labelDecoder;
    QLabel       *labelTime;
+   QLabel       *labelFBBus;
+   QLabel       *labelFBContact;
    QLabel       *labelFBmodule;
    QLabel       *labelFBport;
-   QLabel       *labelFBBus;
 
    QPushButton  *buttOK;
    QPushButton  *buttSubType[3];
    QPushButton  *buttFBmodules;
-   QButtonGroup *bgSubType;
-   QGroupBox*    feedbackGB;
+   QButtonGroup* bgSubType;
+   QButtonGroup* protocolBG;
 
    QSpinBox     *activeTimeSB;
    QSpinBox     *contactSB;
+   QSpinBox     *port1SB;
+   QSpinBox     *port2SB;
 
    QString      sSoldIcon;
    QIntValidator* a1Validator;
@@ -160,6 +170,7 @@ private:
 
    int          gaSubType;
    int          gaDirection;
+   int          addresscount;
    QString      lastDecoder;
 };
 
