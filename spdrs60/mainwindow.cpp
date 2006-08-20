@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.68 $
+                           version 0.5.0 $Revision: 1.69 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-05-15 19:58:50 $
+    last modified        : $Date: 2006-08-20 19:15:57 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -182,11 +182,12 @@ void MainWindow::readConfigFile()
         s = ts.readLine();
 
     pref.protocol = 2;
-    if (ts.readLine().remove(0, 16) == "DCC")
+    s = ts.readLine().remove(0, 16);
+    if (s == "DCC")
         pref.protocol = 0;
-    else if (ts.readLine().remove(0, 16) == "Motorola")
+    else if (s == "Motorola")
         pref.protocol = 1;
-    else if (ts.readLine().remove(0, 16) == "Selectrix")
+    else if (s == "Selectrix")
         pref.protocol = 3;
         
     pref.decoder = ts.readLine().remove(0, 16);
