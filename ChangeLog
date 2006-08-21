@@ -1,3 +1,7 @@
+2006-08-21 Guido Scholz <guido.scholz@bayernline.de>
+	* feedbackmodule.*, feedbacklistbox.* feedbackviewer.*,
+	main.cpp, mainwindow.*: new feedback module window
+
 2006-05-10 Guido Scholz <guido.scholz@bayernline.de>
 	* element.cpp, elementdialog.*, mainwindow.cpp,
 	options.*, preferences.cpp: protocol by server added
