@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.12 $
-# last update: $Date: 2006-01-24 20:38:33 $
+# version: $Revision: 1.13 $
+# last update: $Date: 2006-08-21 16:21:38 $
 
 SUBDIRS = pixmaps
 
@@ -12,8 +12,8 @@ nodist_spdrs60_SOURCES = \
 	elementcommander.moc.cpp \
 	elementdialog.moc.cpp \
 	element.moc.cpp \
-	fbmodule.moc.cpp \
-	feedback.moc.cpp \
+	feedbacklistbox.moc.cpp \
+	feedbackviewer.moc.cpp \
 	finder.moc.cpp \
 	gbsarea.moc.cpp \
 	gbsscrollview.moc.cpp \
@@ -34,8 +34,9 @@ spdrs60_SOURCES = main.cpp resources.h \
 	elementcommander.cpp elementcommander.h \
 	element.cpp element.h \
 	elementdialog.cpp elementdialog.h \
-	fbmodule.cpp fbmodule.h \
-	feedback.cpp feedback.h \
+	feedbacklistbox.cpp feedbacklistbox.h \
+	feedbackmodule.cpp feedbackmodule.h \
+	feedbackviewer.cpp feedbackviewer.h \
 	finder.cpp finder.h \
 	gbsarea.cpp gbsarea.h \
 	gbsscrollview.cpp gbsscrollview.h  \

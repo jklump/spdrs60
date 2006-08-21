@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.69 $
+                           version 0.5.0 $Revision: 1.70 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-08-20 19:15:57 $
+    last modified        : $Date: 2006-08-21 16:21:56 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -84,11 +84,9 @@
 #define GF_FORMATVERSION "formatversion"
 #define GF_FV            "1"
 
-extern bool bFBport[MAX_FB];
 
-
-MainWindow::MainWindow()
-: QMainWindow(NULL, "SpDrS60", WDestructiveClose | WGroupLeader)
+MainWindow::MainWindow() : QMainWindow(NULL, "SpDrS60",
+        WDestructiveClose | WGroupLeader)
 {
     setIcon(QPixmap(spdrs60_32));
     /*Networking */
@@ -110,7 +108,6 @@ MainWindow::MainWindow()
     srcpInfoSessionID = 0;
     LayoutPowerIsOn = false;
 
-    modulesWindow = NULL;
     keybWindow = NULL;
     CurrentHL = HL_HINT;            // default debug window ist HISTORY
     isFBInitMode = true;            // var to avoid all startup feedback
@@ -196,24 +193,32 @@ void MainWindow::readConfigFile()
     pref.ttroundtime = ts.readLine().remove(0, 16).toDouble();
     s = ts.readLine();// autozp9
     pref.routingtime = ts.readLine().remove(0, 16).toInt();
-    pref.fbfactor = (ts.readLine().remove(0, 16) == "S88_16") ? 0 : 1;
+
+    s = ts.readLine().section(":", 1, 1).stripWhiteSpace();
+    if (s.compare("S88_16") == 0)
+        pref.fbfactor = 0;
+    else
+        pref.fbfactor = 1;
 
     pref.fbbus1.modules = ts.readLine().remove(0, 16).toInt();
     pref.fbbus2.modules = ts.readLine().remove(0, 16).toInt();
     pref.fbbus3.modules = ts.readLine().remove(0, 16).toInt();
     pref.fbbus4.modules = ts.readLine().remove(0, 16).toInt();
 
+    /*temporary solution*/
     pref.fbbus1.number = 1;
     pref.fbbus2.number = 2;
     pref.fbbus3.number = 3;
     pref.fbbus4.number = 4;
 
     file.close();
+    //tell the feedback viewer about changed feedback module layout
+    fbViewer->updateBusAndModuleStructure();
 }
 
 /**
  * write application settings to user config file, this is typicaly
- * done if application window is closed
+ * done when application window is closed
  */
 void MainWindow::writeConfigFile()
 {
@@ -402,6 +407,16 @@ void MainWindow::initMainWindow()
 
     setCentralWidget(vBox);
 
+    /*feedback module viewer*/
+    fbViewer = new FeedbackViewer(this, "feedbackviewer");
+    Q_CHECK_PTR(fbViewer);
+    moveDockWindow(fbViewer, Left);
+    connect(this, SIGNAL(sendFBChangeLayout(unsigned int, unsigned int,
+                    bool)),
+            fbViewer, SLOT(feedbackPortChanged(unsigned int, unsigned int,
+                    bool)));
+    fbViewer->hide();
+    
     /*route controller*/
     rtController = new Router(this, gbs->getGbsElementListPtr(),
             "rtController");
@@ -436,7 +451,7 @@ void MainWindow::initMainWindow()
                     const stateElement&, RouteSetAction&)));
     
     /*route viewer*/
-    rtViewer = new RoutingViewer(this, "Routings", rtController);
+    rtViewer = new RoutingViewer(this, "routingviewer", rtController);
     Q_CHECK_PTR(rtViewer);
     rtViewer->setFixedExtentWidth(360);
     moveDockWindow(rtViewer, Right);
@@ -733,7 +748,6 @@ void MainWindow::initMainWindow()
             SLOT(slotShowModules()));
     actionViewFBModules->addTo(viewmenu);
     actionViewFBModules->addTo(viewtb);
-    actionViewFBModules->setEnabled(false);
 
 #if QT_VERSION >= 0x030200
     actionViewClock = new QAction(QPixmap(viewclock_xpm),
@@ -1832,7 +1846,6 @@ void MainWindow::CommandSocketReadyRead()
 
                     for (unsigned int port = 0; port < limit; port++) {
                         fbstate = allstates[port].digitValue();
-                        bFBport[port] = (fbstate == 1);
                         fbcontact = port % 496 + 1;
                         fbbus = port / 496 + 1;
 
@@ -2137,14 +2150,6 @@ void MainWindow::FeedbackSocketReadyRead()
         fbcontact = (fbport - 1) % 496 + 1;
         fbbus = (fbport - 1) / 496 + 1;
 
-        /*
-         * this feedback buffer will be removed in next release, it is
-         * left here only for feedback module window 
-         */
-        // check address range just for case 
-        if (fbport > 0 && fbport <= MAX_FB)
-            bFBport[fbport - 1] = fbstate;
-
         /* switch on port change messages after initialization */
         if (isFBInitMode) {
             if (fbport == MAX_FB)
@@ -2171,11 +2176,6 @@ void MainWindow::FeedbackSocketConnected()
     FeedbackPortIsConnected = true;
     // flag to avoid history line flooding by startup feedback
     isFBInitMode = true;
-    updateFeedbackMenu();
-
-    // on startup init ports
-    for (int i = 0; i < MAX_FB; i++)
-        bFBport[i] = 0;
 
     /*may be this makes only sense when a layout is loaded: */
     //TODO: FB_TYPE
@@ -2195,7 +2195,6 @@ void MainWindow::FeedbackSocketConnectionClosedByServer()
     }
     cmdToDebug(tr("Feedback port closed by foreign host!"), MT_INFO, HL_HINT);
     FeedbackPortIsConnected = false;
-    updateFeedbackMenu();
 }
 
 
@@ -2203,7 +2202,6 @@ void MainWindow::FeedbackSocketConnectionClosed()
 {
     cmdToDebug(tr("Feedback port closed!"), MT_INFO, HL_HINT);
     FeedbackPortIsConnected = false;
-    updateFeedbackMenu();
 }
 
 
@@ -2256,10 +2254,6 @@ void MainWindow::InfoSocketReadyRead()
                 fbcontact = (fbport - 1) % 496 + 1;
                 fbbus = (fbport - 1) / 496 + 1;
 
-                // just for case 
-                if (fbport > 0 && fbport <= MAX_FB)
-                    bFBport[fbport - 1] = fbstate;
-
                 // send updates to:
                 // 1. module window
                 // 2. all elements via gbs
@@ -2298,7 +2292,6 @@ void MainWindow::InfoSocketReadyRead()
                 if (sInfo.contains("OK GO"))
                     srcpInfoSessionID = sInfo.section(" ", 4, 4).toInt();
                 SRCPInfoState = srcp08RunInfoMode;
-                updateFeedbackMenu();
             }
 
             /* respond to incomming info messages */
@@ -2635,6 +2628,7 @@ void MainWindow::slotDaemonReset()
 }
 
 
+/*send shut down SRCP server message*/
 void MainWindow::slotDaemonKill()
 {
     int choice = QMessageBox::warning(this, tr("Kill SRCP daemon"),
@@ -2662,6 +2656,7 @@ void MainWindow::slotDaemonKill()
 }
 
 
+/*show SRCP server info window*/
 void MainWindow::slotDaemonInfo()
 {
     int iSep = sWelcome.find(';', 0, 0);
@@ -2675,6 +2670,7 @@ void MainWindow::slotDaemonInfo()
 }
 
 
+/*update state of daemon/server menu items*/
 void MainWindow::updateDaemonMenu()
 {
     if (!CommandPortIsConnected)
@@ -2700,16 +2696,7 @@ void MainWindow::updateDaemonMenu()
 }
 
 
-void MainWindow::updateFeedbackMenu()
-{
-    if (srcpVersion == 7)
-        actionViewFBModules->setEnabled(FeedbackPortIsConnected);
-    else
-        actionViewFBModules->setEnabled(InfoPortIsConnected);
-}
-
-
-/*Help menu slots*/
+/*show spdrs60 copyright message window*/
 void MainWindow::slotAbout()
 {
     QMessageBox::information(this, QString(tr("About ")) + APP_NAME,
@@ -2728,20 +2715,28 @@ void MainWindow::slotAbout()
 }
 
 
+/*show Qt copyright window*/
 void MainWindow::slotAboutQt()
 {
     QMessageBox::aboutQt(this, tr("About Qt"));
 }
 
 
+/*show/hide route list window*/
 void MainWindow::slotShowRoutes()
 {
     if (rtViewer!= NULL)
-        rtViewer->show();
+        if (rtViewer->isVisible())
+            rtViewer->hide();
+        else {
+            rtViewer->show();
+            rtViewer->setActiveWindow();
+            rtViewer->raise();
+        }
 }
 
 
-// edit layout file with editor program
+/* edit layout file with external editor*/
 void MainWindow::slotEditGBSFiles()
 {
     QString sCommand = pref.editor;
@@ -2753,6 +2748,7 @@ void MainWindow::slotEditGBSFiles()
 }
 
 
+/*open config file with external editor*/
 void MainWindow::slotEditConfigFile()
 {
     // edit program´s config file with editor program
@@ -2762,6 +2758,7 @@ void MainWindow::slotEditConfigFile()
 }
 
 
+/*switch edit modes of layout area*/
 void MainWindow::slotViewSwitchMode(QAction* ac)
 {
     bool rtvIsVisible = rtViewer->isVisible();
@@ -2828,6 +2825,7 @@ void MainWindow::updateRouteMenu(bool rtvIsVisible)
 }
 
 
+/*update state of route menu items*/
 void MainWindow::updateRouteMenuActivateItems(bool isLocked)
 {
     if (rtViewer->isVisible() && visualMode == kvmNormal) {
@@ -2841,6 +2839,7 @@ void MainWindow::updateRouteMenuActivateItems(bool isLocked)
 }
 
 
+/* open handbook in external browser*/
 void MainWindow::slotAboutHelp()
 {
     QString langenv, sURL;
@@ -2869,7 +2868,7 @@ void MainWindow::slotAboutHelp()
 }
 
 
-// open SpDrS60 web resources
+/* open SpDrS60 web resources with external browser */
 void MainWindow::slotAboutWeb()
 {    
     QString sURL = QString("http://spdrs60.sourceforge.net/");
@@ -2895,27 +2894,18 @@ void MainWindow::slotShowClock()
 // show feedback module window
 void MainWindow::slotShowModules()
 {
-    if (modulesWindow != NULL) {
-        if (modulesWindow->isVisible())
-            modulesWindow->hide();
+    if (fbViewer != NULL)
+        if (fbViewer->isVisible())
+            fbViewer->hide();
         else {
-            modulesWindow->show();
-            modulesWindow->setActiveWindow();
-            modulesWindow->raise();
+            fbViewer->show();
+            fbViewer->setActiveWindow();
+            fbViewer->raise();
         }
-    }
-    else {
-        modulesWindow = new feedback(this);
-        connect(this, SIGNAL(sendFBChangeModule(unsigned int, unsigned int,
-                        unsigned int)),
-                modulesWindow, SLOT(slotUpdateModules(unsigned int,
-                        unsigned int, unsigned int)));
-        modulesWindow->show();
-    }
 }
 
 
-// show a simple keyboard
+/* show a simple keyboard */
 void MainWindow::slotViewKeyboard()
 {
     if (keybWindow != NULL) {
@@ -2937,7 +2927,7 @@ void MainWindow::slotViewKeyboard()
     }
 }
 
-
+/* display message at bottom of main window */
 void MainWindow::cmdToDebug(const QString& hl_message, int m_type,
                             int hl_type)
 {
@@ -2997,6 +2987,7 @@ void MainWindow::slotEditOptions()
         bool al = pref.addresslabeling;
         optDlg->getPreferences(pref);
         writeConfigFile();
+        fbViewer->updateBusAndModuleStructure();
         if (al != pref.addresslabeling)
             emit repaintLayout();
     }
@@ -3086,12 +3077,14 @@ void MainWindow::layoutSendAll()
 }
 
 
+/*check for changed file data*/
 bool MainWindow::isModified()
 {
     return (gbs->isModified() || rtController->isModified());
 }
 
 
+/*add a route*/
 void MainWindow::slotRouteAdd()
 {
     if (rtViewer != NULL)
@@ -3102,6 +3095,7 @@ void MainWindow::slotRouteAdd()
 }
 
 
+/*delete a route*/
 void MainWindow::slotRouteDelete()
 {
     if (rtViewer != NULL) {

@@ -1,9 +1,9 @@
 /***************************************************************************
-                           preferences.cpp
-                           version 0.5.0 $Revision: 1.4 $
+                           feedbackviewer.h
+                           version 0.5.0 $Revision: 1.1 $
                            -------------------------------
-    copyright            : (C) 2006 Guido Scholz
-    email                : guido.scholz@bayernline.de
+    copyright            : (C) 2006 by Guido Scholz
+    email                : guido.scholz@ bayernline.de
     last modified        : $Date: 2006-08-21 16:21:56 $
 ***************************************************************************/
 
@@ -17,37 +17,45 @@
  **************************************************************************/
 
 /**************************************************************************
-   this file defines the global preferences for the main application
+   header file for feedbackviewer.cpp 
  **************************************************************************/
 
+#ifndef FEEDBACKVIEWER_H
+#define FEEDBACKVIEWER_H
 
-#include "preferences.h"
+#include <qdockwindow.h>
+#include <qtabwidget.h>
 
+#include "feedbacklistbox.h"
 
-Preferences pref = {
-    12,
-    12,
-    true,
-    false,
-    true,
-    false,
-    true,
-    true,
-    false,
-    "",
-    "kwrite",
-    "firefox",
-    1,
-    "Märklin k83 WD (M)",
-    true,
-    50,
-    100,
-    20.0,
-    0,
-    true,
-    {1, 0},
-    {2, 0},
-    {3, 0},
-    {4, 0}
+class FeedbackViewer: public QDockWindow
+{
+    Q_OBJECT
+        
+public:
+    FeedbackViewer(QWidget* parent=0, const char* name=0);
+    void updateBusAndModuleStructure();
+    
+public slots:
+    //void processSrcpMessage();
+    void feedbackPortChanged(unsigned int, unsigned int, bool);
+
+signals:
+    
+private:
+    QTabWidget* fbTW;
+    FeedbackListBox* fbLB1;
+    FeedbackListBox* fbLB2;
+    FeedbackListBox* fbLB3;
+    FeedbackListBox* fbLB4;
+
+    void addTab1();
+    void addTab2();
+    void addTab3();
+    void addTab4();
+    void removeTab2();
+    void removeTab3();
+    void removeTab4();
 };
+#endif // FEEDBACKVIEWER_H
 

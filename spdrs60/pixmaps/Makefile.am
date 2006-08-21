@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60, pixmaps included by cpp-files
 # (c) Guido Scholz
-# version: $Revision: 1.7 $
-# last update: $Date: 2006-02-16 20:49:35 $
+# version: $Revision: 1.8 $
+# last update: $Date: 2006-08-21 16:21:56 $
 
 EXTRA_DIST = filenew.xpm filesave.xpm fileopen.xpm \
     fileclose.xpm fileimport.xpm filenewwindow.xpm \
@@ -31,7 +31,6 @@ EXTRA_DIST = filenew.xpm filesave.xpm fileopen.xpm \
     cursor_urs_b.xpm cursor_urs_m.xpm \
     tt_goto.xpm tt_left_step.xpm tt_left.xpm tt_prog.xpm \
     tt_right_step.xpm tt_right.xpm tt_stop.xpm tt_turn180.xpm \
-    fb_nextpage.xpm fb_prevpage.xpm fb_s44.xpm fb_s88.xpm \
     ctx_clear.xpm ctx_l_curve.xpm ctx_l_diag.xpm ctx_l_turn.xpm \
     ctx_r_curve.xpm ctx_r_diag.xpm ctx_rota.xpm ctx_r_turn.xpm \
     ctx_straight.xpm entkoppler_st1.xpm entkoppler_st2.xpm \

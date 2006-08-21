@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.5.0 $Revision: 1.31 $
+                           version 0.5.0 $Revision: 1.32 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-11 20:42:04 $
+    last modified        : $Date: 2006-08-21 16:21:56 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -36,9 +36,9 @@
 #include <qwidgetstack.h>
 
 #include "gbsarea.h"
+#include "feedbackviewer.h"
 #include "routingviewer.h"
 #include "newlayoutdialog.h"
-#include "feedback.h"
 #include "keyboard.h"
 
 
@@ -141,9 +141,9 @@ private:
    QComboBox       *FeedBackCB;
 
    GBSArea         *gbs;
+   FeedbackViewer  *fbViewer;
    RoutingViewer   *rtViewer;
    Router          *rtController;
-   feedback        *modulesWindow;
    keyboard        *keybWindow;
 
    /*SRCP Networking (srcpCom)*/
@@ -169,7 +169,6 @@ private:
 
    void initMainWindow();
    void updateDaemonMenu();
-   void updateFeedbackMenu();
    void updateLayoutPowerAction();
    void importFile(const QString&);
    void resetMenu();           //dirk

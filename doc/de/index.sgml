@@ -141,6 +141,10 @@ empfehlenswert, diese Dokumentation durchzuarbeiten.
 Veröffentlicht am xx.xx.2006
 </para>
 <itemizedlist mark="bullet">
+  <listitem><para>Der Programmcode für das Übersichtsfenster der
+  Rückmeldemodule wurde komplett neugeschrieben. Es verhält sich nun
+  ähnlich dem Fenster für die Fahrstraßenliste.
+  </para></listitem>
   <listitem><para>Die Fähigkeiten der Netzwerkkommunikation wurde um
   die Protokollversion SRCP 0.8 ergänzt. Damit ist nun auch die
   aktuelle Version des &raquo;srcpd&laquo; als SRCP-Server ansprechbar.

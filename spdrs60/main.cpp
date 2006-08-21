@@ -1,11 +1,11 @@
 /***************************************************************************
                            main.cpp
-                           version 0.5.0 $Revision: 1.6 $
+                           version 0.5.0 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-01-24 20:38:33 $
+    last modified        : $Date: 2006-08-21 16:21:56 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -31,9 +31,6 @@
 
 #include "config.h"
 #include "mainwindow.h"
-
-/* configuration variables with default setup */
-bool bFBport[MAX_FB];            // status of each feedback port, only
 
 
 int main(int argc, char* argv[])

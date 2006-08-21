@@ -1,9 +1,9 @@
 /***************************************************************************
-                           preferences.cpp
-                           version 0.5.0 $Revision: 1.4 $
+                           feedbacklistbox.h
+                           version 0.5.0 $Revision: 1.1 $
                            -------------------------------
-    copyright            : (C) 2006 Guido Scholz
-    email                : guido.scholz@bayernline.de
+    copyright            : (C) 2006 by Guido Scholz
+    email                : guido.scholz@ bayernline.de
     last modified        : $Date: 2006-08-21 16:21:56 $
 ***************************************************************************/
 
@@ -17,37 +17,36 @@
  **************************************************************************/
 
 /**************************************************************************
-   this file defines the global preferences for the main application
+   header file for feedbacklistbox.cpp 
  **************************************************************************/
 
+#ifndef FEEDBACKLISTBOX_H
+#define FEEDBACKLISTBOX_H
 
-#include "preferences.h"
+#include <qlistbox.h>
+
+#include "feedbackmodule.h"
 
 
-Preferences pref = {
-    12,
-    12,
-    true,
-    false,
-    true,
-    false,
-    true,
-    true,
-    false,
-    "",
-    "kwrite",
-    "firefox",
-    1,
-    "Märklin k83 WD (M)",
-    true,
-    50,
-    100,
-    20.0,
-    0,
-    true,
-    {1, 0},
-    {2, 0},
-    {3, 0},
-    {4, 0}
+class FeedbackListBox: public QListBox
+{
+    Q_OBJECT
+        
+public:
+    FeedbackListBox(QWidget* parent=0, const char* name=0);
+    void updateModuleSetup(unsigned int, unsigned int);
+    
+public slots:
+    void updateFeedbackPortState(unsigned int, bool);
+    //void processSrcpMessage();
+
+signals:
+    
+private:
+    FeedbackModule::ModuleType moduleType;
+    void updateModuleNumber(unsigned int);
+    void updateModulesType();
+
 };
+#endif // FEEDBACKLISTBOX_H
 
