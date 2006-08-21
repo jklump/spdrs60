@@ -1,9 +1,6 @@
 SOURCES = elementcommander.cpp \
           element.cpp \
           elementdialog.cpp \
-          element.moc.cpp \
-          fbmodule.cpp \
-          feedback.cpp \
           feedbacklistbox.cpp \
           feedbackviewer.cpp \
           finder.cpp \
