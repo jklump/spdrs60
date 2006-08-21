@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.70 $
+                           version 0.5.0 $Revision: 1.71 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-08-21 16:21:56 $
+    last modified        : $Date: 2006-08-21 19:38:13 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -84,6 +84,33 @@
 #define GF_FORMATVERSION "formatversion"
 #define GF_FV            "1"
 
+/*string constants for personal config file*/
+#define CF_SHOWHP2      "showhp2"
+#define CF_TOOLTIPS     "tooltips"
+#define CF_DATATOOLTIPS "datatooltips"
+#define CF_ADDRESSLABEL "addresslabel"
+#define CF_INITSIGNALS  "initsignals"
+#define CF_LAYOUTCOLS   "layoutcolumns"
+#define CF_LAYOUTROWS   "layoutrows"
+#define CF_SENDSTATE    "sendstate"
+#define CF_AUTOLOAD     "autoload"
+#define CF_AUTOLAYOUT   "autolayout"
+#define CF_EDITOR       "editor"
+#define CF_BROWSER      "browser"
+#define CF_PROTOCOL     "protocol"
+#define CF_DECODER      "decoder"
+#define CF_ACTIVETIME   "activationtime"
+#define CF_AUTOTTDIR    "autoturntabledir"
+#define CF_TTROUNDTIME  "turntableroundtime"
+#define CF_ROUTINGTIME  "routingtime"
+#define CF_FEEDBACKTYPE "feedbacktype"
+#define CF_FIXEDBUSNUM  "fixedbusnumbers"
+#define CF_FBBUS1       "fbbus1"
+#define CF_FBBUS2       "fbbus2"
+#define CF_FBBUS3       "fbbus3"
+#define CF_FBBUS4       "fbbus4"
+#define CF_LASTDIR      "lastdir"
+
 
 MainWindow::MainWindow() : QMainWindow(NULL, "SpDrS60",
         WDestructiveClose | WGroupLeader)
@@ -145,11 +172,123 @@ void MainWindow::readConfigFile()
         return;
     }
     QTextStream ts(&file);
+    QString s, key, value;
+
+    /*first check for file format*/
+    s = ts.readLine();
+    if (s.startsWith("# SpDrS60"))
+        readOldStyleConfigFile(ts);
+    else {
+        while (!ts.eof()) {
+            s = ts.readLine();
+            if (!s.startsWith("#")) {
+                key = s.section("=", 0, 0);
+                value = s.section("=", 1, 1).stripWhiteSpace();
+                
+                if (key.compare(CF_SHOWHP2) == 0){
+                    pref.hp2 = value.stripWhiteSpace();
+                }
+                else if (key.compare(CF_TOOLTIPS) == 0){
+                    pref.tooltips = value.toInt();
+                }
+                else if (key.compare(CF_DATATOOLTIPS) == 0){
+                    pref.datatooltips = value.toInt();
+                }
+                else if (key.compare(CF_ADDRESSLABEL) == 0){
+                    pref.addresslabeling = value;
+                }
+                else if (key.compare(CF_INITSIGNALS) == 0){
+                    pref.initsignalsred = value;
+                }
+                else if (key.compare(CF_LAYOUTCOLS) == 0){
+                    pref.layoutcols = value.toUInt();
+                }
+                else if (key.compare(CF_LAYOUTROWS) == 0){
+                    pref.layoutrows = value.toUInt();
+                }
+                else if (key.compare(CF_SENDSTATE) == 0){
+                    pref.sendstate = value.toInt();
+                }
+                else if (key.compare(CF_AUTOLOAD) == 0){
+                    pref.autoload = value.toInt();
+                }
+                else if (key.compare(CF_AUTOLAYOUT) == 0){
+                    pref.autolayout = value;
+                }
+                else if (key.compare(CF_EDITOR) == 0){
+                    pref.editor = value;
+                }
+                else if (key.compare(CF_BROWSER) == 0){
+                    pref.browser = value;
+                }
+                else if (key.compare(CF_PROTOCOL) == 0){
+                    pref.protocol = 2;
+                    if (value == "DCC")
+                        pref.protocol = 0;
+                    else if (value == "Motorola")
+                        pref.protocol = 1;
+                    else if (value == "Selectrix")
+                        pref.protocol = 3;
+                }
+                else if (key.compare(CF_DECODER) == 0){
+                    pref.decoder = value;
+                }
+                else if (key.compare(CF_ACTIVETIME) == 0){
+                    pref.activetime = value.toInt();
+                }
+                else if (key.compare(CF_AUTOTTDIR) == 0){
+                    pref.autottdir = value.toInt();
+                }
+                else if (key.compare(CF_TTROUNDTIME) == 0){
+                    pref.ttroundtime = value.toDouble();
+                }
+                else if (key.compare(CF_ROUTINGTIME) == 0){
+                    pref.routingtime = value.toInt();
+                }
+                else if (key.compare(CF_FEEDBACKTYPE) == 0){
+                    pref.fbfactor = value.toInt();
+                }
+                else if (key.compare(CF_FIXEDBUSNUM) == 0){
+                    pref.fixedbusnum = value.toInt();
+                }
+                else if (key.compare(CF_FBBUS1) == 0){
+                    pref.fbbus1.number = value.section(":", 0, 0).toInt();
+                    pref.fbbus1.modules = value.section(":", 1, 1).toInt();;
+                }
+                else if (key.compare(CF_FBBUS2) == 0){
+                    pref.fbbus2.number = value.section(":", 0, 0).toInt();
+                    pref.fbbus2.modules = value.section(":", 1, 1).toInt();;
+                }
+                else if (key.compare(CF_FBBUS3) == 0){
+                    pref.fbbus3.number = value.section(":", 0, 0).toInt();
+                    pref.fbbus3.modules = value.section(":", 1, 1).toInt();;
+                }
+                else if (key.compare(CF_FBBUS4) == 0){
+                    pref.fbbus4.number = value.section(":", 0, 0).toInt();
+                    pref.fbbus4.modules = value.section(":", 1, 1).toInt();;
+                }
+                else if (key.compare(CF_LASTDIR) == 0){
+                    lastDir = value.stripWhiteSpace();
+                }
+            }
+        }
+    }
+    file.close();
+    //tell the feedback viewer about changed feedback module layout
+    fbViewer->updateBusAndModuleStructure();
+}
+
+/**
+ * read old style (<= 0.4.8) application settings from config file
+ */
+void MainWindow::readOldStyleConfigFile(QTextStream& ts)
+{
     QString s, key;
+    int i;
 
     // layout section
     // first omit four section description lines
-    for (i = 0; i < 4; i++)
+    for (i = 0; i < 3; i++)
         s = ts.readLine();
 
     /*
@@ -175,7 +314,8 @@ void MainWindow::readConfigFile()
     pref.browser = ts.readLine().remove(0, 16);
 
     // data section
-    for (i = 0; i < 3; i++)     // omit three section description lines
+    // first omit three section description lines
+    for (i = 0; i < 3; i++)
         s = ts.readLine();
 
     pref.protocol = 2;
@@ -191,7 +331,8 @@ void MainWindow::readConfigFile()
     pref.activetime = ts.readLine().remove(0, 16).toInt();
     pref.autottdir = ts.readLine().remove(0, 16).toInt();
     pref.ttroundtime = ts.readLine().remove(0, 16).toDouble();
-    s = ts.readLine();// autozp9
+    // ignore autozp9
+    s = ts.readLine();
     pref.routingtime = ts.readLine().remove(0, 16).toInt();
 
     s = ts.readLine().section(":", 1, 1).stripWhiteSpace();
@@ -210,10 +351,6 @@ void MainWindow::readConfigFile()
     pref.fbbus2.number = 2;
     pref.fbbus3.number = 3;
     pref.fbbus4.number = 4;
-
-    file.close();
-    //tell the feedback viewer about changed feedback module layout
-    fbViewer->updateBusAndModuleStructure();
 }
 
 /**
@@ -238,43 +375,43 @@ void MainWindow::writeConfigFile()
     QString rtstr;
     rtstr.sprintf("%.2f", pref.ttroundtime);
 
-    ts  << "# SpDrS60 for Linux config file" << endl
+    ts  << "# spdrs60 configuration file" << endl
         << "# last modified: " << dt.toString(Qt::ISODate) << endl
         << "#" << endl
-        << "# LAYOUT SECTION" << endl
-        << "#" << endl
-        << "show hp2:       " << (int) pref.hp2 << endl
-        << "show gen bubb:  " << (int) pref.tooltips << endl
-        << "show data bubb: " << (int) pref.datatooltips << endl
-        << "in text fields: " << ((pref.addresslabeling) ?
+        << CF_SHOWHP2      << "=" << (int) pref.hp2 << endl
+        << CF_TOOLTIPS     << "=" << (int) pref.tooltips << endl
+        << CF_DATATOOLTIPS << "=" << (int) pref.datatooltips << endl
+        << CF_ADDRESSLABEL    "=" << ((pref.addresslabeling) ?
                                   "address" : "text") << endl
-        << "init signals as:" << ((pref.initsignalsred) ?
+        << CF_INITSIGNALS  << "=" << ((pref.initsignalsred) ?
                                   "red" : "saved") << endl
-        << "def new cols:   " << pref.layoutcols << endl
-        << "autoloader:     " << (int) pref.autoload << endl
-        << "autoload file:  " << pref.autolayout << endl
-        << "editor name:    " << pref.editor << endl
-        << "browser name:   " << pref.browser << endl
-        << "#" << endl
-        << "# DATA SECTION" << endl
-        << "#" << endl
-        << "def protocol:   " <<
+        << CF_LAYOUTCOLS   << "=" << pref.layoutcols << endl
+        << CF_LAYOUTROWS   << "=" << pref.layoutrows << endl
+        << CF_SENDSTATE    << "=" << pref.sendstate << endl
+        << CF_AUTOLOAD     << "=" << (int) pref.autoload << endl
+        << CF_AUTOLAYOUT   << "=" << pref.autolayout << endl
+        << CF_EDITOR       << "=" << pref.editor << endl
+        << CF_BROWSER      << "=" << pref.browser << endl
+        << CF_PROTOCOL     << "=" <<
             ((pref.protocol == 1) ? "Motorola" 
             : (pref.protocol == 0) ? "DCC"
             : (pref.protocol == 3) ? "Selectrix" : "Server") << endl
-        << "def decoder:    " << pref.decoder << endl
-        << "activation time:" << pref.activetime << endl
-        << "auto tt direct.:" << (int) pref.autottdir << endl
-        << "tt round time:  " << rtstr << endl
-        << "auto ZP 9:      " << 0 << endl
-        << "routing delay:  " << pref.routingtime << endl
-        << "feedback type:  " <<
-          ((pref.fbfactor == 0) ? "S88_16" : "S88_8") << endl
-        //TODO: i8255
-        << "modules bus #1: " << pref.fbbus1.modules << endl
-        << "modules bus #2: " << pref.fbbus2.modules << endl
-        << "modules bus #3: " << pref.fbbus3.modules << endl
-        << "modules bus #4: " << pref.fbbus4.modules << endl;
+        << CF_DECODER      << "=" << pref.decoder << endl
+        << CF_ACTIVETIME   << "=" << pref.activetime << endl
+        << CF_AUTOTTDIR    << "=" << (int) pref.autottdir << endl
+        << CF_TTROUNDTIME  << "=" << rtstr << endl
+        << CF_ROUTINGTIME  << "=" << pref.routingtime << endl
+        << CF_FEEDBACKTYPE << "=" << pref.fbfactor << endl
+        << CF_FIXEDBUSNUM  << "=" << pref.fixedbusnum << endl
+        << CF_FBBUS1       << "=" << pref.fbbus1.number
+                           << ":" << pref.fbbus1.modules << endl
+        << CF_FBBUS2       << "=" << pref.fbbus2.number
+                           << ":" << pref.fbbus2.modules << endl
+        << CF_FBBUS3       << "=" << pref.fbbus3.number
+                           << ":" << pref.fbbus3.modules << endl
+        << CF_FBBUS4       << "=" << pref.fbbus4.number
+                           << ":" << pref.fbbus4.modules << endl
+        << CF_LASTDIR      << "=" << lastDir << endl;
 
     file.close();
 }

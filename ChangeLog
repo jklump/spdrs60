@@ -1,4 +1,7 @@
 2006-08-21 Guido Scholz <guido.scholz@bayernline.de>
+	* mainwindow.cpp: new config file format
+
+2006-08-21 Guido Scholz <guido.scholz@bayernline.de>
 	* feedbackmodule.*, feedbacklistbox.* feedbackviewer.*,
 	main.cpp, mainwindow.*: new feedback module window
 

@@ -141,6 +141,10 @@ empfehlenswert, diese Dokumentation durchzuarbeiten.
 Veröffentlicht am xx.xx.2006
 </para>
 <itemizedlist mark="bullet">
+  <listitem><para>Das Format für die benutzerspezifische
+  Konfigurationsdatei &raquo;~/.spdrs60rc&laquo; wurde geändert. Sie ist
+  nun kompakter, einfacher zu bearbeiten und flexibler für Änderungen.
+  </para></listitem>
   <listitem><para>Der Programmcode für das Übersichtsfenster der
   Rückmeldemodule wurde komplett neugeschrieben. Es verhält sich nun
   ähnlich dem Fenster für die Fahrstraßenliste.

@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.5.0 $Revision: 1.32 $
+                           version 0.5.0 $Revision: 1.33 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-08-21 16:21:56 $
+    last modified        : $Date: 2006-08-21 19:38:13 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -189,6 +189,7 @@ private:
    bool isValidSRCP07Version(const QString&);
    bool isValidSRCP08Version(const QString&);
    QString GetSocketErrorString(int e);
+   void readOldStyleConfigFile(QTextStream&);
 
 public slots:
    void cmdToDebug(const QString&, int, int);
