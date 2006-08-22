@@ -1,10 +1,10 @@
 /***************************************************************************
                            feedbackmodule.cpp
-                           version 0.5.0 $Revision: 1.1 $
+                           version 0.5.0 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-08-21 16:21:56 $
+    last modified        : $Date: 2006-08-22 18:53:29 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -27,7 +27,7 @@
 
 #define FBM16WIDTH 140
 #define FBM8WIDTH 80
-#define FBMHEIGHT 90
+#define FBMHEIGHT 80
 
 
 FeedbackModule::FeedbackModule(QListBox* listbox): QListBoxItem(listbox)
@@ -191,29 +191,28 @@ bool FeedbackModule::changeFeedbackState(unsigned int contact, bool state)
 {
     unsigned int targetmod = 0;
     unsigned int address = 0;
-    bool returnvalue = false;
     
     if (moduleType == fbm16)
         targetmod = (contact - 1) / 16 + 1;
     else
         targetmod = (contact - 1) / 8 + 1;
     
-    if (targetmod == id) {
-        if (moduleType == fbm16)
-            address = (contact - 1) & 15u;
-        else
-            address = (contact - 1) & 7u;
-        
-        unsigned int bit = 1u << address;
+    if (targetmod != id)
+        return false;
 
-        if (state)
-            ocstate = ocstate | bit;
-        else
-            ocstate = ocstate & ~bit;
+    if (moduleType == fbm16)
+        address = (contact - 1) & 15u;
+    else
+        address = (contact - 1) & 7u;
 
-        returnvalue = true;
-    }
-    return returnvalue;
+    unsigned int bit = 1u << address;
+
+    if (state)
+        ocstate = ocstate | bit;
+    else
+        ocstate = ocstate & ~bit;
+
+    return true;
 }
 
 /*
