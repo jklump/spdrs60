@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.64 $
+                           version 0.5.0 $Revision: 1.65 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-05-15 19:58:50 $
+    last modified        : $Date: 2006-08-22 17:23:11 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2060,6 +2060,9 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         // load basic icon
         sPixMapName = QString(RES_DIR_ELEM + sSoldIcon + XPM_SUFFIX);
         pixBasicIcon = QPixmap(sPixMapName);
+        /*if file is not found finish painting*/
+        if (pixBasicIcon.isNull())
+            return;
     }
     /*TODO: what about symbols with "taste"-name?*/
     if (iSoldLEDoff == 1 || sSoldIcon == SYM_LEE)
