@@ -1,3 +1,7 @@
+2006-08-22 Guido Scholz <guido.scholz@bayernline.de>
+	* preferences.*, mainwindow.cpp, options.*: new config option
+	for automatical layout file saving
+
 2006-08-21 Guido Scholz <guido.scholz@bayernline.de>
 	* mainwindow.cpp: new config file format
 

@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.h
-                           version 0.4.3 $Revision: 1.10 $
+                           version 0.4.3 $Revision: 1.11 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-05-15 19:58:50 $
+    last modified        : $Date: 2006-08-23 18:10:09 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -78,6 +78,7 @@ private:
    QCheckBox    *cbGenBubble;          // show general bubble help
    QCheckBox    *cbDataBubble;         // show element data as bubblehelp
    QCheckBox    *cbAutoload;           // activate autoloader
+   QCheckBox    *cbAutosave;           // activate autosaver
    QCheckBox    *cbAutoTTDir;          // auto-select turn dir of turntable
 
    QRadioButton *rbShowAddr;           // show element's address or full text

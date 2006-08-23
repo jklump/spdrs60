@@ -1,10 +1,10 @@
 /***************************************************************************
                            preferences.cpp
-                           version 0.5.0 $Revision: 1.4 $
+                           version 0.5.0 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-08-21 16:21:56 $
+    last modified        : $Date: 2006-08-23 18:10:09 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -35,6 +35,7 @@ Preferences pref = {
     true,
     false,
     "",
+    false,
     "kwrite",
     "firefox",
     1,

@@ -2,12 +2,13 @@ Source: spdrs60
 Section: x11
 Priority: optional
 Maintainer: Guido Scholz <guido.scholz@bayernline.de>
-Build-Depends: debhelper (>= 4.0.0)
+Build-Depends: debhelper (>= 4.0.0), libqt3-mt-dev, openjade, docbook-dsssl
 Standards-Version: 3.6.0
 
 Package: spdrs60
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${shlibs:Depends}, ${misc:Depends}, libqt3-mt 
+Recommends: libqt3-i18n, qt3-qtconfig
 Description: SpDrS60, Controlcenter for digital model railroads
  Graphical program to comfortably control a digital model railroad.
  Visual appearance and usage comply to the SpDr of the german national

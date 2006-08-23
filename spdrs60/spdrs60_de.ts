@@ -1,5 +1,16 @@
 <!DOCTYPE TS><TS>
 <context>
+    <name>FeedbackViewer</name>
+    <message>
+        <source>Feedback Modules</source>
+        <translation>Rückmeldemodule</translation>
+    </message>
+    <message>
+        <source>Bus &amp;%1</source>
+        <translation>Bus &amp;%1</translation>
+    </message>
+</context>
+<context>
     <name>Finder</name>
     <message>
         <source>Element locator</source>
@@ -1411,10 +1422,6 @@ Controlled via keyboard #14</source>
         <translation>Symbolvarianten</translation>
     </message>
     <message>
-        <source>Choose appropriate variant</source>
-        <translation>Passende Variante wählen</translation>
-    </message>
-    <message>
         <source>Protocol</source>
         <translation>Protokoll</translation>
     </message>
@@ -1466,24 +1473,13 @@ Controlled via keyboard #14</source>
         <source>Address for la&amp;beling</source>
         <translation>Mit Adresse &amp;beschriften</translation>
     </message>
-</context>
-<context>
-    <name>feedback</name>
     <message>
-        <source>Overview of feedback modules</source>
-        <translation>Rückmeldemodulübersicht</translation>
+        <source>&amp;Port 1:</source>
+        <translation>&amp;Anschluß 1:</translation>
     </message>
     <message>
-        <source>Next Page</source>
-        <translation>Nächste Seite</translation>
-    </message>
-    <message>
-        <source>Show next page</source>
-        <translation>Nächste Seite</translation>
-    </message>
-    <message>
-        <source>Prev Page</source>
-        <translation>Vorhergehende Seite</translation>
+        <source>&amp;Port 2:</source>
+        <translation>&amp;Anschluß 2:</translation>
     </message>
 </context>
 <context>
@@ -1667,14 +1663,6 @@ ein Modul an Bus Nr. 1 angeschlossen ist.</translation>
         <translation>&amp;Browser für die Dokumentation:</translation>
     </message>
     <message>
-        <source>Autoload layout</source>
-        <translation>Gleisbild automatisch laden</translation>
-    </message>
-    <message>
-        <source>Autoload this la&amp;yout on startup:</source>
-        <translation>Gleisbild beim &amp;Programmstart laden:</translation>
-    </message>
-    <message>
         <source>General options</source>
         <translation>Allgemeine Einstellungen</translation>
     </message>
@@ -1801,6 +1789,18 @@ ein Modul an Bus Nr. 1 angeschlossen ist.</translation>
     <message>
         <source>A&amp;llways send solenoid states on routing</source>
         <translation>Beim Stellen von Fahrstraßen immer &amp;Magnetartikelstatus senden</translation>
+    </message>
+    <message>
+        <source>Automatical layout loading and saving</source>
+        <translation>Gleisbilder automatisch öffnen und speichern</translation>
+    </message>
+    <message>
+        <source>&amp;Load this layout on program startup:</source>
+        <translation>Gleisbild beim &amp;Programmstart laden:</translation>
+    </message>
+    <message>
+        <source>&amp;Save active layout on program exit</source>
+        <translation>Bei Programmbeendung aktives Gleisbild &amp;speichern</translation>
     </message>
 </context>
 <context>

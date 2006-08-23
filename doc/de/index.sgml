@@ -141,6 +141,12 @@ empfehlenswert, diese Dokumentation durchzuarbeiten.
 Veröffentlicht am xx.xx.2006
 </para>
 <itemizedlist mark="bullet">
+  <listitem><para>Eine benutzerspezifische Einstellung zum automatischen
+  Speichern von Gleisbilddateien beim Beenden des Programms wurde
+  hinzugefügt. Damit kann der Status der Modellbahnanlage beim Beenden
+  des Betriebs bis zum nächsten Betriebsbeginn einfacher konserviert
+  werden.
+  </para></listitem>
   <listitem><para>Das Format für die benutzerspezifische
   Konfigurationsdatei &raquo;~/.spdrs60rc&laquo; wurde geändert. Sie ist
   nun kompakter, einfacher zu bearbeiten und flexibler für Änderungen.

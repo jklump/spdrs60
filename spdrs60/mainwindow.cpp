@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.71 $
+                           version 0.5.0 $Revision: 1.72 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-08-21 19:38:13 $
+    last modified        : $Date: 2006-08-23 18:10:09 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -95,6 +95,7 @@
 #define CF_SENDSTATE    "sendstate"
 #define CF_AUTOLOAD     "autoload"
 #define CF_AUTOLAYOUT   "autolayout"
+#define CF_AUTOSAVE     "autosave"
 #define CF_EDITOR       "editor"
 #define CF_BROWSER      "browser"
 #define CF_PROTOCOL     "protocol"
@@ -214,6 +215,9 @@ void MainWindow::readConfigFile()
                 }
                 else if (key.compare(CF_AUTOLAYOUT) == 0){
                     pref.autolayout = value;
+                }
+                else if (key.compare(CF_AUTOSAVE) == 0){
+                    pref.autosave = value.toInt();
                 }
                 else if (key.compare(CF_EDITOR) == 0){
                     pref.editor = value;
@@ -390,6 +394,7 @@ void MainWindow::writeConfigFile()
         << CF_SENDSTATE    << "=" << pref.sendstate << endl
         << CF_AUTOLOAD     << "=" << (int) pref.autoload << endl
         << CF_AUTOLAYOUT   << "=" << pref.autolayout << endl
+        << CF_AUTOSAVE     << "=" << (int) pref.autosave << endl
         << CF_EDITOR       << "=" << pref.editor << endl
         << CF_BROWSER      << "=" << pref.browser << endl
         << CF_PROTOCOL     << "=" <<
@@ -1380,9 +1385,9 @@ void MainWindow::slotEditPaste()
 }
 
 
+// circular toggle through all three history lines
 void MainWindow::slotViewDebug()
 {
-    // circular toggle through all three history lines
     CurrentHL += 1;
     if (CurrentHL > HL_FEED)
         CurrentHL = HL_HINT;
@@ -1443,10 +1448,17 @@ void MainWindow::readAutoloadFile()
 
 void MainWindow::closeEvent(QCloseEvent* e)
 {
-
     if (!isModified()) {
 	e->accept();
 	return;
+    }
+
+    if (pref.autosave) {
+        if (saveFile())
+            e->accept();
+        else 
+            e->ignore();
+        return;
     }
 
     int choice = querySaveChanges();

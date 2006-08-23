@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.cpp
-                           version 0.4.8 $Revision: 1.15 $
+                           version 0.4.8 $Revision: 1.16 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-05-15 19:58:50 $
+    last modified        : $Date: 2006-08-23 18:10:09 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -131,14 +131,14 @@ void optionsDialog::setupLayoutTab()
 
     // autoload groupbox
     QGroupBox* autolayoutGB = new QGroupBox(0, Horizontal,
-            tr("Autoload layout"), w, "autolayoutGB");
+            tr("Automatical layout loading and saving"), w, "autolayoutGB");
     tabL->addWidget(autolayoutGB);
     QVBoxLayout* autoGBLayout = new
         QVBoxLayout(autolayoutGB->layout(), 6);
     
     // line with radiobutton and choose button
     QHBoxLayout* chooseLayout = new QHBoxLayout(autoGBLayout);
-    cbAutoload = new QCheckBox(tr("Autoload this la&yout on startup:"),
+    cbAutoload = new QCheckBox(tr("&Load this layout on program startup:"),
             autolayoutGB, "autoloadCB");
     chooseLayout->addWidget(cbAutoload);
     connect(cbAutoload, SIGNAL(toggled(bool)),
@@ -156,6 +156,10 @@ void optionsDialog::setupLayoutTab()
     leAutoload = new QLineEdit(autolayoutGB, "autoloadLE");
     autoGBLayout->addWidget(leAutoload);
 
+    // line with autosave option
+    cbAutosave = new QCheckBox(tr("&Save active layout on program exit"),
+            autolayoutGB, "autosaveCB");
+    autoGBLayout->addWidget(cbAutosave);
 
     // spacer to push group boxes to top
     spacer = new QSpacerItem(0, 0,
@@ -603,6 +607,7 @@ void optionsDialog::getPreferences(Preferences& prf)
     prf.addresslabeling = rbShowAddr->isChecked();
     prf.initsignalsred = rbSignalRed->isChecked();
     prf.autoload = cbAutoload->isChecked();
+    prf.autosave = cbAutosave->isChecked();
     prf.autolayout = leAutoload->text();
     prf.editor = coboEditor->currentText();
     prf.browser = coboBrowser->currentText();
@@ -662,6 +667,9 @@ void optionsDialog::setPreferences(const Preferences& prf)
         rbSignalLay->setChecked(false);
 
     slotAutoload(prf.autoload);
+
+    if (prf.autosave)
+        cbAutosave->setChecked(true);
 
     bool found = false;
     for (int i = 0; i < coboEditor->count(); i++) {

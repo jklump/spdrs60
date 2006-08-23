@@ -1,10 +1,10 @@
 /***************************************************************************
                            preferences.h
-                           version 0.5.0 $Revision: 1.3 $
+                           version 0.5.0 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-05-13 05:54:59 $
+    last modified        : $Date: 2006-08-23 18:10:09 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -41,6 +41,7 @@ struct Preferences {
     bool initsignalsred;
     bool autoload;
     QString autolayout;
+    bool autosave;
     QString editor;
     QString browser;
     unsigned int protocol;
