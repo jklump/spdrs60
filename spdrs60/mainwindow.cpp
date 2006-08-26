@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.72 $
+                           version 0.5.0 $Revision: 1.73 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-08-23 18:10:09 $
+    last modified        : $Date: 2006-08-26 19:22:25 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -196,10 +196,10 @@ void MainWindow::readConfigFile()
                     pref.datatooltips = value.toInt();
                 }
                 else if (key.compare(CF_ADDRESSLABEL) == 0){
-                    pref.addresslabeling = value;
+                    pref.addresslabeling = (value == "address");
                 }
                 else if (key.compare(CF_INITSIGNALS) == 0){
-                    pref.initsignalsred = value;
+                    pref.initsignalsred = (value == "red");
                 }
                 else if (key.compare(CF_LAYOUTCOLS) == 0){
                     pref.layoutcols = value.toUInt();
