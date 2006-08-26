@@ -1,10 +1,10 @@
 /***************************************************************************
                            srcpmessage.cpp
-                           version 0.5.0 $Revision: 1.10 $
+                           version 0.5.0 $Revision: 1.11 $
                            -------------------------------
     copyright            : (C) 2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-05-15 19:58:50 $
+    last modified        : $Date: 2006-08-26 03:49:59 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -77,6 +77,7 @@ QString SrcpMessage::getSrcpMessageStr(unsigned int version) const
                     .arg(getProtocolStr(protocol)).arg(address).arg(port);
                 break;
             case msgGaSet:
+                // TODO: add value
                 cmdStr = QString("SET GA %1 %2 %3 1 %4")
                     .arg(getProtocolStr(protocol)).arg(address)
                     .arg(port).arg(delay);

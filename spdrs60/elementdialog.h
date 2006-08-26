@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.h
-                           version 0.4.8 $Revision: 1.11 $
+                           version 0.4.8 $Revision: 1.12 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-05-28 12:57:49 $
+    last modified        : $Date: 2006-08-26 03:49:58 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -64,8 +64,8 @@ public:
    void setLEDsAreOff(int);
    QString getDecoder();
    void setDecoder(const QString&);
-   QString getProtocol();
-   void setProtocol(const QString&);
+   int getProtocol();
+   void setProtocol(int);
    int getAddress1();
    void setAddress1(int);
    int getAddress2();

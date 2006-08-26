@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.66 $
+                           version 0.5.0 $Revision: 1.67 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-08-23 18:10:09 $
+    last modified        : $Date: 2006-08-26 03:49:58 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -117,7 +117,7 @@ element::element(QWidget* parent): QWidget(parent)
     iSoldRotate = -1;
     iSoldInvert = -1;
     sSoldDecoder = "-1";
-    sSoldProtocol = "-1";
+    protocol = SrcpMessage::proNone;
     iSoldAddress_1 = -1;
     iSoldAddress_2 = -1;
     iSoldChangeConn[0] = -1;
@@ -222,7 +222,16 @@ void element::readFileTextFromStream(QTextStream& ats)
                 sSoldDecoder = value;
             }
             else if (key.compare(GF_PROTOCOL) == 0){
-                sSoldProtocol = value;
+                if (value == "M")
+                    protocol = SrcpMessage::proMM;
+                else if (value == "N")
+                    protocol = SrcpMessage::proDCC;
+                else if (value == "P")
+                    protocol = SrcpMessage::proServer;
+                else if (value == "S")
+                    protocol = SrcpMessage::proSelectrix;
+                else
+                    protocol = SrcpMessage::proNone;
             }
             else if (key.compare(GF_ADDRESS1) == 0){
                 iGA1BusNo = value.toInt();
@@ -291,7 +300,16 @@ void element::readOldFileTextFromStream(QTextStream& ats)
                 sSoldDecoder = value;
             }
             else if (key.compare(GF_PROTOCOL) == 0){
-                sSoldProtocol = value;
+                if (value == "M")
+                    protocol = SrcpMessage::proMM;
+                else if (value == "N")
+                    protocol = SrcpMessage::proDCC;
+                else if (value == "P")
+                    protocol = SrcpMessage::proServer;
+                else if (value == "S")
+                    protocol = SrcpMessage::proSelectrix;
+                else
+                    protocol = SrcpMessage::proNone;
             }
             else if (key.compare(GF_ADDRESS1) == 0){
                 iSoldAddress_1 = value.toInt();
@@ -844,7 +862,7 @@ void element::sendSrcpState()
         }
     }
 
-    if (sSoldProtocol != "-1") {
+    if (protocol != SrcpMessage::proNone) {
 
         if (sSoldIcon != SYM_DRE) {
             // the calculated real direction to be sent is modified again if you
@@ -856,8 +874,8 @@ void element::sendSrcpState()
         }
 
         // TODO: handle 8 ports for selectrix
-        unsigned int port = (sSoldProtocol == "M") ? iRealDirection
-            : !iRealDirection;
+        unsigned int port = (protocol == SrcpMessage::proMM) ?
+            iRealDirection : !iRealDirection;
 
         /*
          * serd: Viessman Formsignale often need several attempts
@@ -867,16 +885,8 @@ void element::sendSrcpState()
         if (sm == NULL)
             return;
 
-        SrcpMessage::Protocol prtc = SrcpMessage::proServer;
-
-        if (sSoldProtocol == "M")
-            prtc = SrcpMessage::proMM;
-        else if (sSoldProtocol == "N")
-            prtc = SrcpMessage::proDCC;
-        else if (sSoldProtocol == "S")
-            prtc = SrcpMessage::proSelectrix;
-
-        sm->setGaData(prtc, iRealBus, iRealAddress, port, iSoldActiveTime);
+        sm->setGaData(protocol, iRealBus, iRealAddress, port,
+                iSoldActiveTime);
         
         while (sendRepeatCounter > 0) {
             emit sendSrcpMessage(sm);
@@ -940,7 +950,7 @@ void element::processInfoPortMessage(unsigned int bus,
     if (realDir == 2) //Hp0-Hp2-Type (iSoldSubType == 6)
         realDir = 1;
     
-    bool isDCC = (sSoldProtocol == "N");
+    bool isDCC = (protocol == SrcpMessage::proDCC);
     if (isDCC)
         realDir = !realDir;
 
@@ -985,7 +995,7 @@ void element::showPropertyDlg()
         elementPropertyDlg->setInverted(iSoldInvert);
         elementPropertyDlg->setLEDsAreOff(iSoldLEDoff);
         elementPropertyDlg->setGASubType(iSoldSubType);
-        elementPropertyDlg->setProtocol(sSoldProtocol);
+        elementPropertyDlg->setProtocol((int) protocol);
         elementPropertyDlg->setDecoder(sSoldDecoder);
         elementPropertyDlg->setSRCPBus1(iGA1BusNo);
         elementPropertyDlg->setAddress1(iSoldAddress_1);
@@ -1012,7 +1022,8 @@ void element::showPropertyDlg()
             iSoldInvert = elementPropertyDlg->getInverted();
             iSoldLEDoff = elementPropertyDlg->getLEDsAreOff();
             iSoldSubType = elementPropertyDlg->getGASubType();
-            sSoldProtocol = elementPropertyDlg->getProtocol();
+            protocol =
+                (SrcpMessage::Protocol) elementPropertyDlg->getProtocol();
             sSoldDecoder = elementPropertyDlg->getDecoder();
             iGA1BusNo = elementPropertyDlg->getSRCPBus1();
             iSoldAddress_1 = elementPropertyDlg->getAddress1();
@@ -1234,7 +1245,7 @@ void element::clear()
     iSoldAddress_2 = -1;
     sSoldDecoder = "-1";
     sSoldIcon = SYM_LEE;        // reset all solenoid data to empty
-    sSoldProtocol = "-1";
+    protocol = SrcpMessage::proNone;
     sSoldText = "-1";
     updateProperties();
 }
@@ -2662,9 +2673,12 @@ void element::addTooltip()
                      iSoldInvert,
                      sSoldDecoder == "-1" ?  "N/A (=-1)" 
                          : sSoldDecoder.data(),
-                     sSoldProtocol == "-1" ? "N/A (=-1)"
-                         : (sSoldProtocol == "M" ? "Motorola"
-                         : (sSoldProtocol == "N" ? "NMRA/DCC" : "Server")),
+                     protocol == SrcpMessage::proNone ? "N/A (=-1)"
+                         : (protocol == SrcpMessage::proMM ? "Motorola"
+                         : (protocol == SrcpMessage::proDCC ? "NMRA/DCC"
+                         : (protocol == SrcpMessage::proSelectrix ?
+                             "Selectrix"
+                         : "Server"))),
                      iSoldAddress_1 == -1 ?  "N/A (=-1)" : a1.data());
 
         tip2.sprintf("adress 2 : %s\n"
@@ -3051,7 +3065,12 @@ void element::writeFileTextToStream(QTextStream& ts)
     ts << GF_ROTATE    << DS << iSoldRotate << endl;
     ts << GF_INVERSTO  << DS << iSoldInvert << endl;
     ts << GF_DECODER   << DS << sSoldDecoder << endl;
-    ts << GF_PROTOCOL  << DS << sSoldProtocol << endl;
+    ts << GF_PROTOCOL  << DS << 
+        ((protocol == SrcpMessage::proMM) ? "M" :
+         (protocol == SrcpMessage::proDCC) ? "N" :
+         (protocol == SrcpMessage::proServer) ? "P" :
+         (protocol == SrcpMessage::proSelectrix) ? "S" : "-1"
+         ) << endl;
     ts << GF_ADDRESS1  << DS << iGA1BusNo << DS << iSoldAddress_1 << endl;
     ts << GF_ADDRESS2  << DS << iGA2BusNo << DS << iSoldAddress_2 << endl;
     ts << GF_XCHCONN1  << DS << iSoldChangeConn[0] << endl;
@@ -3229,19 +3248,10 @@ bool element::sendSRCP08InitGA(unsigned int gano)
         if (sm == NULL)
             return returnvalue;
         
-        SrcpMessage::Protocol prtc = SrcpMessage::proServer;
-
-        if (sSoldProtocol == "M")
-            prtc = SrcpMessage::proMM;
-        else if (sSoldProtocol == "N")
-            prtc = SrcpMessage::proDCC;
-        else if (sSoldProtocol == "S")
-            prtc = SrcpMessage::proSelectrix;
-
         if (gano == 1)
-            sm->setGaData(prtc, iGA1BusNo, iSoldAddress_1, 0, 0);
+            sm->setGaData(protocol, iGA1BusNo, iSoldAddress_1, 0, 0);
         else
-            sm->setGaData(prtc, iGA2BusNo, iSoldAddress_2, 0, 0);
+            sm->setGaData(protocol, iGA2BusNo, iSoldAddress_2, 0, 0);
 
         emit sendSrcpMessage(sm);
         delete sm;

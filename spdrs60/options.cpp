@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.cpp
-                           version 0.4.8 $Revision: 1.16 $
+                           version 0.4.8 $Revision: 1.17 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-08-23 18:10:09 $
+    last modified        : $Date: 2006-08-26 03:49:58 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -136,6 +136,11 @@ void optionsDialog::setupLayoutTab()
     QVBoxLayout* autoGBLayout = new
         QVBoxLayout(autolayoutGB->layout(), 6);
     
+    // line with autosave option
+    cbAutosave = new QCheckBox(tr("&Save active layout on program exit"),
+            autolayoutGB, "autosaveCB");
+    autoGBLayout->addWidget(cbAutosave);
+
     // line with radiobutton and choose button
     QHBoxLayout* chooseLayout = new QHBoxLayout(autoGBLayout);
     cbAutoload = new QCheckBox(tr("&Load this layout on program startup:"),
@@ -155,11 +160,6 @@ void optionsDialog::setupLayoutTab()
     // line with lineedit
     leAutoload = new QLineEdit(autolayoutGB, "autoloadLE");
     autoGBLayout->addWidget(leAutoload);
-
-    // line with autosave option
-    cbAutosave = new QCheckBox(tr("&Save active layout on program exit"),
-            autolayoutGB, "autosaveCB");
-    autoGBLayout->addWidget(cbAutosave);
 
     // spacer to push group boxes to top
     spacer = new QSpacerItem(0, 0,

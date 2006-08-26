@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.cpp
-                           version 0.4.8 $Revision: 1.15 $
+                           version 0.4.8 $Revision: 1.16 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-05-28 12:57:49 $
+    last modified        : $Date: 2006-08-26 03:49:58 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1571,35 +1571,35 @@ void elementDialog::setDecoder(const QString& decoder)
 }   
 
 
-QString elementDialog::getProtocol()
+int elementDialog::getProtocol()
 {
     if (!rbProtocol_MS->isEnabled())
-        return "-1";
+        return SrcpMessage::proNone;
     else if (rbProtocol_MS->isChecked())
-        return "M";
+        return SrcpMessage::proMM;
     else if (rbProtocol_NA->isChecked())
-        return "N";
+        return SrcpMessage::proDCC;
     else if (rbProtocol_SE->isChecked())
-        return "S";
+        return SrcpMessage::proSelectrix;
     else
-        return "P";
+        return SrcpMessage::proServer;
 };
 
 
-void elementDialog::setProtocol(const QString& protocol)
+void elementDialog::setProtocol(int protocol)
 {
-    if (protocol == "-1") {
+    if (protocol == SrcpMessage::proNone) {
         rbProtocol_MS->setEnabled(false);
         rbProtocol_NA->setEnabled(false);
         rbProtocol_PS->setEnabled(false);
         rbProtocol_SE->setEnabled(false);
     }
     else {
-        if (protocol == "M")
+        if (protocol == SrcpMessage::proMM)
             rbProtocol_MS->setChecked(true);
-        else if (protocol == "N")
+        else if (protocol == SrcpMessage::proDCC)
             rbProtocol_NA->setChecked(true);
-        else if (protocol == "S")
+        else if (protocol == SrcpMessage::proSelectrix)
             rbProtocol_SE->setChecked(true);
         else
             rbProtocol_PS->setChecked(true);

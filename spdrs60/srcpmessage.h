@@ -1,10 +1,10 @@
 /***************************************************************************
                            srcpmessage.h
-                           version 0.5.0 $Revision: 1.8 $
+                           version 0.5.0 $Revision: 1.9 $
                            -------------------------------
     copyright            : (C) 2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-05-15 19:58:50 $
+    last modified        : $Date: 2006-08-26 03:49:59 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -39,8 +39,8 @@ class SrcpMessage
             msgGaInit, msgGaSet, msgGaGet, msgGaInfo,
             msgGlInit, msgGlSet, msgGlGet, msgGlTerm, msgGlInfo};
        
-        // only GA protocols
-        enum Protocol {proMM = 0, proDCC, proServer, proSelectrix};
+        // only GA protocols, FIXME: proNone is a temporary solution
+        enum Protocol {proMM = 0, proDCC, proServer, proSelectrix, proNone};
 
         enum DeviceGroup {dgGA = 0, dgGL};
 

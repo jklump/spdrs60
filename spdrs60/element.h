@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.0 $Revision: 1.44 $
+                           version 0.5.0 $Revision: 1.45 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-27 21:23:44 $
+    last modified        : $Date: 2006-08-26 03:49:58 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -218,7 +218,7 @@ private:
     bool     lightson;
     QString  sRepeatIcon;
     QString  sSoldDecoder;
-    QString  sSoldProtocol;
+    SrcpMessage::Protocol protocol;
     QString  sSaveReplaceIcon;
     QTimer*  locateTimer;
 

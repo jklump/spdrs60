@@ -1800,7 +1800,7 @@ ein Modul an Bus Nr. 1 angeschlossen ist.</translation>
     </message>
     <message>
         <source>&amp;Save active layout on program exit</source>
-        <translation>Bei Programmbeendung aktives Gleisbild &amp;speichern</translation>
+        <translation>Bei Programmbeendung &amp;aktives Gleisbild speichern</translation>
     </message>
 </context>
 <context>
