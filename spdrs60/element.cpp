@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.67 $
+                           version 0.5.0 $Revision: 1.68 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-08-26 03:49:58 $
+    last modified        : $Date: 2006-08-27 18:31:56 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -3115,7 +3115,7 @@ void element::setLocked(bool lock)
         if (lockCounter == 1)
             setupElementIcon(iSoldLEDstate, "");
     }
-    else {
+    else if (lockCounter > 0) {
         --lockCounter;
         if (lockCounter == 0)
             setupElementIcon(iSoldLEDstate, "");
