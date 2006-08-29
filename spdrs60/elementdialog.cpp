@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.cpp
-                           version 0.4.8 $Revision: 1.16 $
+                           version 0.4.8 $Revision: 1.17 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-08-26 03:49:58 $
+    last modified        : $Date: 2006-08-29 18:04:39 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -554,7 +554,11 @@ void elementDialog::updateValidators()
     }
 
     else { 
+#if QT_VERSION >= 0x030300
         int prot = protocolBG->selectedId();
+#else
+        int prot = protocolBG->id(protocolBG->selected());
+#endif
         switch (prot) {
             case 0:
                 // MM
