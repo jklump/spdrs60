@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.0 $Revision: 1.39 $
+                           version 0.5.0 $Revision: 1.40 $
                            -------------------------------
     copyright            : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-14 21:54:24 $
+    last modified        : $Date: 2006-08-30 17:25:02 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -682,6 +682,7 @@ void Route::showRoutePath()
     }
 
     /* 
+     * FIXME:
      * 4) lock all switchable elements; in original SpDr this is done
      * with step 3) but is too complicated to implement respecting
      * interruption by occupied elements for "Zugfahrstrassen" and the
@@ -761,15 +762,20 @@ void Route::showRoutePath()
 void Route::stopRouting()
 {
     if (entrySignal.elemPtr != NULL) {
-           entrySignal.elemPtr->activateFfM(false);
-           entrySignal.elemPtr->switchToDir(0);
-           entrySignal.elemPtr->setLocked(false);
+        entrySignal.elemPtr->activateFfM(false);
+        entrySignal.elemPtr->switchToDir(0);
+        //FIXME: temporary solution
+        if (routestate == rsLocked)
+            entrySignal.elemPtr->setLocked(false);
     }
 
     if (entrySignal.elemPtr2 != NULL) {
-           entrySignal.elemPtr2->activateFfM(false);
-           entrySignal.elemPtr2->switchToDir(0);
-           entrySignal.elemPtr2->setLocked(false);
+        entrySignal.elemPtr2->activateFfM(false);
+        entrySignal.elemPtr2->switchToDir(0);
+        entrySignal.elemPtr2->switchToDir(0);
+        //FIXME: temporary solution
+        if (routestate == rsLocked)
+            entrySignal.elemPtr2->setLocked(false);
     }
 
     QPtrListIterator<stateElement> it(switchItems);
@@ -780,14 +786,18 @@ void Route::stopRouting()
         if (el != NULL) {
             if (el->isSignal())
                 el->switchToDir(0);
-            el->setLocked(false);
+            //FIXME: temporary solution
+            if (routestate == rsLocked)
+                el->setLocked(false);
         }
 
         el = se->elemPtr2;
         if (el != NULL) {
             if (el->isSignal())
                 el->switchToDir(0);
-            el->setLocked(false);
+            //FIXME: temporary solution
+            if (routestate == rsLocked)
+                el->setLocked(false);
         }
     }
 
