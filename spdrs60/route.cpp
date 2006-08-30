@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.0 $Revision: 1.40 $
+                           version 0.5.0 $Revision: 1.41 $
                            -------------------------------
     copyright            : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-08-30 17:25:02 $
+    last modified        : $Date: 2006-08-30 17:40:39 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -771,7 +771,6 @@ void Route::stopRouting()
 
     if (entrySignal.elemPtr2 != NULL) {
         entrySignal.elemPtr2->activateFfM(false);
-        entrySignal.elemPtr2->switchToDir(0);
         entrySignal.elemPtr2->switchToDir(0);
         //FIXME: temporary solution
         if (routestate == rsLocked)
