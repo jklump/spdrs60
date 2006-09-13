@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.68 $
+                           version 0.5.0 $Revision: 1.69 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-08-27 18:31:56 $
+    last modified        : $Date: 2006-09-13 16:27:16 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -3317,7 +3317,7 @@ void element::setSwitched(bool sw)
  *
  * dir old ->| |<- new
  * on  --+ +-+ +-+ +-+ +-+ +-+ +-+ +--
- *       | |1| |2| |3| |4| |5| |6| |
+ *      0| |1| |2| |3| |4| |5| |6| |7
  * off   +-+ +-+ +-+ +-+ +-+ +-+ +-+
  *       ^     ^
  *       |     |
@@ -3326,14 +3326,15 @@ void element::setSwitched(bool sw)
 */
 void element::switchToDirBlinking(int ndir)
 {
-    //TODO: check what should happen if turnout is switched during
-    // blinking, e.g. error message
-    if (blinkcounter != 0)
-       return;
-
-    blinkcounter = 1;
-    newdir = ndir;
-    runTurnoutBlinkTimer();
+    if (blinkcounter != 0) {
+        blinkcounter = 1;
+        newdir = ndir;
+    }
+    else {
+        blinkcounter = 1;
+        newdir = ndir;
+        runTurnoutBlinkTimer();
+    }
 }
 
 
