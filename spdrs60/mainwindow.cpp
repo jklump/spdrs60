@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.73 $
+                           version 0.5.0 $Revision: 1.74 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-08-26 19:22:25 $
+    last modified        : $Date: 2006-09-13 16:31:40 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1448,16 +1448,16 @@ void MainWindow::readAutoloadFile()
 
 void MainWindow::closeEvent(QCloseEvent* e)
 {
-    if (!isModified()) {
-	e->accept();
-	return;
-    }
-
     if (pref.autosave) {
         if (saveFile())
             e->accept();
         else 
             e->ignore();
+        return;
+    }
+
+    if (!isModified()) {
+        e->accept();
         return;
     }
 
