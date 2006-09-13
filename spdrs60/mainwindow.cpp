@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.74 $
+                           version 0.5.0 $Revision: 1.75 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-09-13 16:31:40 $
+    last modified        : $Date: 2006-09-13 16:50:25 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -187,7 +187,7 @@ void MainWindow::readConfigFile()
                 value = s.section("=", 1, 1).stripWhiteSpace();
                 
                 if (key.compare(CF_SHOWHP2) == 0){
-                    pref.hp2 = value.stripWhiteSpace();
+                    pref.hp2 = value.toInt();
                 }
                 else if (key.compare(CF_TOOLTIPS) == 0){
                     pref.tooltips = value.toInt();
@@ -196,10 +196,10 @@ void MainWindow::readConfigFile()
                     pref.datatooltips = value.toInt();
                 }
                 else if (key.compare(CF_ADDRESSLABEL) == 0){
-                    pref.addresslabeling = (value == "address");
+                    pref.addresslabeling = value.toInt();
                 }
                 else if (key.compare(CF_INITSIGNALS) == 0){
-                    pref.initsignalsred = (value == "red");
+                    pref.initsignalsred = value.toInt();
                 }
                 else if (key.compare(CF_LAYOUTCOLS) == 0){
                     pref.layoutcols = value.toUInt();
@@ -385,10 +385,8 @@ void MainWindow::writeConfigFile()
         << CF_SHOWHP2      << "=" << (int) pref.hp2 << endl
         << CF_TOOLTIPS     << "=" << (int) pref.tooltips << endl
         << CF_DATATOOLTIPS << "=" << (int) pref.datatooltips << endl
-        << CF_ADDRESSLABEL    "=" << ((pref.addresslabeling) ?
-                                  "address" : "text") << endl
-        << CF_INITSIGNALS  << "=" << ((pref.initsignalsred) ?
-                                  "red" : "saved") << endl
+        << CF_ADDRESSLABEL    "=" << (int) pref.addresslabeling << endl
+        << CF_INITSIGNALS  << "=" << (int) pref.initsignalsred << endl
         << CF_LAYOUTCOLS   << "=" << pref.layoutcols << endl
         << CF_LAYOUTROWS   << "=" << pref.layoutrows << endl
         << CF_SENDSTATE    << "=" << pref.sendstate << endl
