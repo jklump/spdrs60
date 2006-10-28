@@ -1,10 +1,10 @@
 /***************************************************************************
                            srcpmessage.h
-                           version 0.5.0 $Revision: 1.9 $
+                           version 0.5.0 $Revision: 1.10 $
                            -------------------------------
-    copyright            : (C) 2005 by Guido Scholz
+    copyright            : (C) 2005-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-08-26 03:49:59 $
+    last modified        : $Date: 2006-10-28 18:46:29 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -39,37 +39,48 @@ class SrcpMessage
             msgGaInit, msgGaSet, msgGaGet, msgGaInfo,
             msgGlInit, msgGlSet, msgGlGet, msgGlTerm, msgGlInfo};
        
+        enum DeviceGroup {dgGA = 0, dgGL, dgFB, dgSM, dgTime, dgPower,
+            dgServer, dgSession, dgLock, dgDescription};
+
+        enum Action {acInit = 0, acSet, acGet, acCheck, acTerm, acWait,
+            acReset, acVerify};
+
         // only GA protocols, FIXME: proNone is a temporary solution
         enum Protocol {proMM = 0, proDCC, proServer, proSelectrix, proNone};
 
-        enum DeviceGroup {dgGA = 0, dgGL};
-
-        enum Feedback {fbS88 = 0, fbI8255, fbM6051, fbPS};
+        enum Feedback {fbS88 = 0, fbI8255, fbM6051, fbPS, fbSelectrix};
 
         SrcpMessage(Message = msgNoMsg);
+        //SrcpMessage(DeviceGroup = dgServer, Action = dgInit,
+        //unsigned int bus = 0);
         virtual QString getSrcpMessageStr(unsigned int version = 7) const;
         int getMessage();
+        //int getDeviceGroup();
+        //int getAction();
         void setBus(unsigned int);
         void setFbData(unsigned int, Feedback, unsigned int);
         void setGaData(Protocol, unsigned int, unsigned int,
-                unsigned int, int);
+                unsigned int, unsigned int, int);
         //TODO: void setGlData();
         void setLockData(unsigned int, DeviceGroup, unsigned int);
         void setPowerData(unsigned int, bool);
 
     private:
         Message message;
+        DeviceGroup devicegroup;
+        Action action;
         Protocol protocol;
         Feedback fbtype;
-        DeviceGroup devicegroup;
         bool power;
         int delay;
         unsigned int address;
         unsigned int fbport;
         unsigned int port;
+        unsigned int value;
         unsigned int srcpbus;
         QString getProtocolStr(Protocol pro = proMM) const;
         QString getDeviceGroupStr(DeviceGroup dg = dgGA) const;
+        QString getActionStr(Action ac = acInit) const;
 };
 #endif
 

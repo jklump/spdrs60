@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.69 $
+                           version 0.5.0 $Revision: 1.70 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-09-13 16:27:16 $
+    last modified        : $Date: 2006-10-28 18:46:28 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -105,6 +105,8 @@ element::element(QWidget* parent): QWidget(parent)
     turnout = false;
     lightson = true;
     iGA1BusNo = iGA2BusNo = iFBBusNo = 1;
+    port1 = 1;
+    port2 = 1;
 
     setMaximumSize(sizeHint());
     setMinimumSize(sizeHint());
@@ -165,6 +167,8 @@ element::element(QTextStream& ats, QWidget* parent, bool isNewFormat)
     turnout = false;
     lightson = true;
     iGA1BusNo = iGA2BusNo = iFBBusNo = 1;
+    port1 = 1;
+    port2 = 1;
 
     setMaximumSize(sizeHint());
     setMinimumSize(sizeHint());
@@ -237,11 +241,15 @@ void element::readFileTextFromStream(QTextStream& ats)
                 iGA1BusNo = value.toInt();
                 value = s.section(DS, 2, 2).stripWhiteSpace();
                 iSoldAddress_1 = value.toInt();
+                value = s.section(DS, 3, 3).stripWhiteSpace();
+                port1 = value.toUInt();
             }
             else if (key.compare(GF_ADDRESS2) == 0){
                 iGA2BusNo = value.toInt();
                 value = s.section(DS, 2, 2).stripWhiteSpace();
                 iSoldAddress_2 = value.toInt();
+                value = s.section(DS, 3, 3).stripWhiteSpace();
+                port2 = value.toUInt();
             }
             else if (key.compare(GF_XCHCONN1) == 0){
                 iSoldChangeConn[0] = value.toInt();
@@ -314,10 +322,12 @@ void element::readOldFileTextFromStream(QTextStream& ats)
             else if (key.compare(GF_ADDRESS1) == 0){
                 iSoldAddress_1 = value.toInt();
                 iGA1BusNo = 1;
+                port1 = 1;
             }
             else if (key.compare(GF_ADDRESS2) == 0){
                 iSoldAddress_2 = value.toInt();
                 iGA2BusNo = 1;
+                port2 = 1;
             }
             else if (key.compare(GF_XCHCONN1) == 0){
                 iSoldChangeConn[0] = value.toInt();
@@ -809,40 +819,40 @@ void element::sendSrcpState()
 
         // Hp0+Hp1 not considered, is done by default copy
         switch (iSoldSubType) {
-        case 6:                // Hp0+Hp2,     --> iSoldDirection = 2
-        case 7:                // Hp0+Hp2+Sh1, --> iSoldDirection = 2 or 3
-            iRealDirection = 1;
-            // Sh1, case 7, HSS
-            if (iSoldDirection == 3) {
+            case 6:            // Hp0+Hp2,     --> iSoldDirection = 2
+            case 7:            // Hp0+Hp2+Sh1, --> iSoldDirection = 2 or 3
+                iRealDirection = 1;
+                // Sh1, case 7, HSS
+                if (iSoldDirection == 3) {
+                    iRealAddress = iSoldAddress_2;
+                    iRealBus = iGA2BusNo;
+                }
+                break;
+            case 4:            // Hp0+Hp1+Hp2, --> iSoldDirection = 2
+                iRealDirection = 0;
                 iRealAddress = iSoldAddress_2;
                 iRealBus = iGA2BusNo;
-            }
-            break;
-        case 4:                // Hp0+Hp1+Hp2, --> iSoldDirection = 2
-            iRealDirection = 0;
-            iRealAddress = iSoldAddress_2;
-            iRealBus = iGA2BusNo;
-            break;
-        case 1:                // Hp0+Hp1+Sh1, --> iSoldDirection = 3
-        case 5:                // Hp0+Hp1+Hp2+Sh1, --> iSoldDirection = 2 or 3
-            iRealDirection = iSoldDirection - 2;
-            iRealAddress = iSoldAddress_2;
-            iRealBus = iGA2BusNo;
-            break;
+                break;
+            case 1:            // Hp0+Hp1+Sh1, --> iSoldDirection = 3
+            case 5:            // Hp0+Hp1+Hp2+Sh1, --> iSoldDirection = 2 or 3
+                iRealDirection = iSoldDirection - 2;
+                iRealAddress = iSoldAddress_2;
+                iRealBus = iGA2BusNo;
+                break;
         }
     }
 
     // element contains a 3-way-turnout
     else if (sSoldIcon == SYM_DRW) {
         switch (bSwitchSecondAddress) {
-        case false:            // send first address data
-            iRealDirection = iSoldDirection % 2;
-            break;
-        case true:             // send second address data
-            iRealDirection = (iSoldDirection > 1);
-            iRealAddress = iSoldAddress_2;
-            iRealBus = iGA2BusNo;
-            break;
+            case false:            // send first address data
+                iRealDirection = iSoldDirection % 2;
+                break;
+            case true:             // send second address data
+                iRealDirection = (iSoldDirection > 1);
+                iRealAddress = iSoldAddress_2;
+                iRealBus = iGA2BusNo;
+                break;
         }
     }
 
@@ -851,31 +861,52 @@ void element::sendSrcpState()
              ((sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) &&
               iSoldSubType == 1)) {
         switch (bSwitchSecondAddress) {
-        case false:            // send first address data
-            iRealDirection = (iSoldDirection >= 2);
-            break;
-        case true:             // send second address data
-            iRealDirection = (iSoldDirection == 1 || iSoldDirection == 2);
-            iRealAddress = iSoldAddress_2;
-            iRealBus = iGA2BusNo;
-            break;
+            case false:            // send first address data
+                iRealDirection = (iSoldDirection >= 2);
+                break;
+            case true:             // send second address data
+                iRealDirection = (iSoldDirection == 1 || iSoldDirection == 2);
+                iRealAddress = iSoldAddress_2;
+                iRealBus = iGA2BusNo;
+                break;
         }
     }
 
     if (protocol != SrcpMessage::proNone) {
 
+        /*
+         * The calculated real direction to be sent is modified
+         * again if you electronically changed your decoder
+         * outputs of one address.
+         */
         if (sSoldIcon != SYM_DRE) {
-            // the calculated real direction to be sent is modified again if you
-            // electronically changed your decoder outputs of one address
             if (iRealAddress == iSoldAddress_1)
                 iRealDirection = iRealDirection ^ iSoldChangeConn[0];
             if (iRealAddress == iSoldAddress_2)
                 iRealDirection = iRealDirection ^ iSoldChangeConn[1];
         }
 
-        // TODO: handle 8 ports for selectrix
-        unsigned int port = (protocol == SrcpMessage::proMM) ?
-            iRealDirection : !iRealDirection;
+        int port = 0;
+        int value = 0;
+            
+        switch (protocol) {
+            case SrcpMessage::proMM:
+                port = iRealDirection;
+                value = 1;
+                break; 
+            case SrcpMessage::proDCC: 
+                port = !iRealDirection;
+                value = 1;
+                break;
+            default:
+                if (iRealAddress == iSoldAddress_1)
+                    port = port1;
+                else
+                    port = port2;
+
+                value = iRealDirection;
+                break;
+        }
 
         /*
          * serd: Viessman Formsignale often need several attempts
@@ -886,7 +917,7 @@ void element::sendSrcpState()
             return;
 
         sm->setGaData(protocol, iRealBus, iRealAddress, port,
-                iSoldActiveTime);
+                value, iSoldActiveTime);
         
         while (sendRepeatCounter > 0) {
             emit sendSrcpMessage(sm);
@@ -927,12 +958,13 @@ void element::repaintTimeOutEnk()
  * this is the reverse case of "sendSrcpState()"
  */
 void element::processInfoPortMessage(unsigned int bus,
-        unsigned int addr, unsigned int port)
+        unsigned int addr, unsigned int port, unsigned int value)
 {
+    //TODO: respect "value"
     if (!switchable)
         return;
 
-    if (blinkcounter !=0)
+    if (blinkcounter != 0)
         return;
     
     if (sSoldIcon == SYM_ENK && iSoldSubType != -1)
@@ -944,6 +976,10 @@ void element::processInfoPortMessage(unsigned int bus,
     
     /*TODO: add elements with two addresses*/
     if (iSoldAddress_2 != -1 || iSoldDirection > 2)
+        return;
+
+    //FIXME: only MM and DCC is accepted
+    if (protocol != SrcpMessage::proDCC && protocol != SrcpMessage::proMM)
         return;
 
     int realDir = iSoldDirection;
@@ -999,9 +1035,9 @@ void element::showPropertyDlg()
         elementPropertyDlg->setDecoder(sSoldDecoder);
         elementPropertyDlg->setSRCPBus1(iGA1BusNo);
         elementPropertyDlg->setAddress1(iSoldAddress_1);
+        elementPropertyDlg->setXChangeConn1(iSoldChangeConn[0]);
         elementPropertyDlg->setSRCPBus2(iGA2BusNo);
         elementPropertyDlg->setAddress2(iSoldAddress_2);
-        elementPropertyDlg->setXChangeConn1(iSoldChangeConn[0]);
         elementPropertyDlg->setXChangeConn2(iSoldChangeConn[1]);
         elementPropertyDlg->setDirection(iSoldDirection);
         elementPropertyDlg->setActiveTime(iSoldActiveTime);
@@ -1010,6 +1046,9 @@ void element::showPropertyDlg()
         // this must be the last one, because it tiggers enabling and
         // disabling of all element dependend widgets
         elementPropertyDlg->setSymbolName(sSoldIcon);
+        //FIXME: minvalues and maxvalues of port spinboxes are set to late
+        elementPropertyDlg->setPort1(port1);
+        elementPropertyDlg->setPort2(port2);
 
         connect(elementPropertyDlg, SIGNAL(sigShowFBmodules()),
                 this, SIGNAL(sigShowFBmodules()));
@@ -1027,10 +1066,12 @@ void element::showPropertyDlg()
             sSoldDecoder = elementPropertyDlg->getDecoder();
             iGA1BusNo = elementPropertyDlg->getSRCPBus1();
             iSoldAddress_1 = elementPropertyDlg->getAddress1();
+            iSoldChangeConn[0] = elementPropertyDlg->getXChangeConn1();
+            port1 = elementPropertyDlg->getPort1();
             iGA2BusNo = elementPropertyDlg->getSRCPBus2();
             iSoldAddress_2 = elementPropertyDlg->getAddress2();
-            iSoldChangeConn[0] = elementPropertyDlg->getXChangeConn1();
             iSoldChangeConn[1] = elementPropertyDlg->getXChangeConn2();
+            port2 = elementPropertyDlg->getPort2();
             iSoldDirection = elementPropertyDlg->getDirection();
             iSoldActiveTime = elementPropertyDlg->getActiveTime();
             iFBBusNo = elementPropertyDlg->getFBBus();
@@ -2689,8 +2730,7 @@ void element::addTooltip()
                      "text     : %s\n"
                      "lock     : %s (=%1d)\n"
                      "time (ms): %d\n"
-                     "FB module: %d\n"
-                     "FB port  : %d",
+                     "FB contact: %d\n",
                      iSoldAddress_2 == -1 ? "N/A (=-1)" : a2.data(),
                      iSoldChangeConn[0] ==
                      -1 ? "N/A" : (iSoldChangeConn[0] == 0 ? "No" : "Yes"),
@@ -2700,9 +2740,7 @@ void element::addTooltip()
                      iSoldChangeConn[1], iSoldDirection, iSoldSubType,
                      sSoldText == "-1" ? "N/A (=-1)" : sSoldText.data(),
                      lockCounter == -1 ? "N/A" : (isLocked() ? "No" : "Yes"),
-                     lockCounter, iSoldActiveTime,
-                     iFBContact / (16 - pref.fbfactor * 8) + 1,
-                     iFBContact % (16 - pref.fbfactor * 8) + 1);
+                     lockCounter, iSoldActiveTime, iFBContact);
 
         tip1.append(tip2);
 
@@ -3071,8 +3109,10 @@ void element::writeFileTextToStream(QTextStream& ts)
          (protocol == SrcpMessage::proServer) ? "P" :
          (protocol == SrcpMessage::proSelectrix) ? "S" : "-1"
          ) << endl;
-    ts << GF_ADDRESS1  << DS << iGA1BusNo << DS << iSoldAddress_1 << endl;
-    ts << GF_ADDRESS2  << DS << iGA2BusNo << DS << iSoldAddress_2 << endl;
+    ts << GF_ADDRESS1  << DS << iGA1BusNo << DS << iSoldAddress_1 <<
+        DS << port1 << endl;
+    ts << GF_ADDRESS2  << DS << iGA2BusNo << DS << iSoldAddress_2 <<
+        DS << port2 << endl;
     ts << GF_XCHCONN1  << DS << iSoldChangeConn[0] << endl;
     ts << GF_XCHCONN2  << DS << iSoldChangeConn[1] << endl;
     ts << GF_DIRECTION << DS << iSoldDirection << endl;
@@ -3213,10 +3253,9 @@ void element::updateFeedbackState()
         SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgFbGet);
         if (sm == NULL)
             return;
-        //TODO: FB_TYPE 
-        //sm->setFbData(iFBBusNo, (FEEDBACK <= 1) ? SrcpMessage::fbS88 :
-        //        SrcpMessage::fbI8255, iFBContact);
-        sm->setFbData(iFBBusNo, SrcpMessage::fbS88, iFBContact);
+
+        sm->setFbData(iFBBusNo,
+                (SrcpMessage::Feedback) pref.fbmoduletype, iFBContact);
         
         emit sendSrcpMessage(sm);
 
@@ -3249,9 +3288,9 @@ bool element::sendSRCP08InitGA(unsigned int gano)
             return returnvalue;
         
         if (gano == 1)
-            sm->setGaData(protocol, iGA1BusNo, iSoldAddress_1, 0, 0);
+            sm->setGaData(protocol, iGA1BusNo, iSoldAddress_1, 0, 0, 0);
         else
-            sm->setGaData(protocol, iGA2BusNo, iSoldAddress_2, 0, 0);
+            sm->setGaData(protocol, iGA2BusNo, iSoldAddress_2, 0, 0, 0);
 
         emit sendSrcpMessage(sm);
         delete sm;

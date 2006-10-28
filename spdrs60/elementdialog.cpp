@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.cpp
-                           version 0.4.8 $Revision: 1.18 $
+                           version 0.4.8 $Revision: 1.19 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-10-28 07:06:42 $
+    last modified        : $Date: 2006-10-28 18:46:28 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -343,8 +343,6 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     port1Label->setBuddy(port1SB);
 
     xchConn1CB = new QCheckBox(tr("&Exch. conn."), decoderGB, "xch1");
-    connect(xchConn1CB, SIGNAL(toggled(bool)), this,
-            SLOT(xchConn1IsToggled(bool)));
     decdataLayout->addWidget(xchConn1CB, 2, 2);
 
     /*line with srcp bus 2 */
@@ -377,8 +375,8 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     port2Label->setBuddy(port2SB);
 
     xchConn2CB = new QCheckBox(tr("E&xch. conn."), decoderGB, "xch2");
-    connect(xchConn2CB, SIGNAL(toggled(bool)), this,
-            SLOT(xchConn2IsToggled(bool)));
+    //connect(xchConn2CB, SIGNAL(toggled(bool)), this,
+    //        SLOT(xchConn2IsToggled(bool)));
     decdataLayout->addWidget(xchConn2CB, 5, 2);
 
     /*spacer to push contents of box to top */
@@ -575,9 +573,6 @@ void elementDialog::updateValidators()
                 port2SB->setMinValue(MINMMPORT);
                 port2SB->setMaxValue(MAXMMPORT);
 
-                xchConn1IsToggled(xchConn1CB->isChecked());
-                xchConn2IsToggled(xchConn2CB->isChecked());
-
                 switch (addresscount) {
                     case 0:
                         xchConn1CB->setEnabled(false);
@@ -615,9 +610,6 @@ void elementDialog::updateValidators()
                 port2SB->setMinValue(MINDCCPORT);
                 port2SB->setMaxValue(MAXDCCPORT);
 
-                xchConn1IsToggled(xchConn1CB->isChecked());
-                xchConn2IsToggled(xchConn2CB->isChecked());
-                
                 switch (addresscount) {
                     case 0:
                         xchConn1CB->setEnabled(false);
@@ -647,8 +639,8 @@ void elementDialog::updateValidators()
                 port2SB->setMinValue(MINSVPORT);
                 port2SB->setMaxValue(MAXSVPORT);
 
-                xchConn1CB->setEnabled(false);
-                xchConn2CB->setEnabled(false);
+                //xchConn1CB->setEnabled(false);
+                //xchConn2CB->setEnabled(false);
 
                 switch (addresscount) {
                     case 0:
@@ -684,8 +676,8 @@ void elementDialog::updateValidators()
                 port2SB->setMinValue(MINSXPORT);
                 port2SB->setMaxValue(MAXSXPORT);
 
-                xchConn1CB->setEnabled(false);
-                xchConn2CB->setEnabled(false);
+                //xchConn1CB->setEnabled(false);
+                //xchConn2CB->setEnabled(false);
 
                 switch (addresscount) {
                     case 0:
@@ -775,7 +767,7 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
 {
     int enabled;
     QString sListText;
-
+    
     // store the name of current pixmap in a special variable -> faster access
     sSoldIcon = IconNameList->at(iCoboIconID);
 
@@ -1757,22 +1749,3 @@ void elementDialog::setFBContact(int contact)
     contactSBChanged(contact);
 };
 
-
-/* port connector exchange is only used for MM and DCC */
-void elementDialog::xchConn1IsToggled(bool ison)
-{
-    if (ison)
-        port1SB->setValue(1);
-    else 
-        port1SB->setValue(0);
-};
-
-
-/* port connector exchange is only used for MM and DCC */
-void elementDialog::xchConn2IsToggled(bool ison)
-{
-    if (ison)
-        port2SB->setValue(1);
-    else 
-        port2SB->setValue(0);
-};

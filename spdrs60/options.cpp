@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.cpp
-                           version 0.4.8 $Revision: 1.17 $
+                           version 0.4.8 $Revision: 1.18 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-08-26 03:49:58 $
+    last modified        : $Date: 2006-10-28 18:46:29 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -23,8 +23,10 @@
 
 #include <qhbox.h>
 #include <qlayout.h>
+#include <qlistview.h>
 #include <qvbox.h>
 #include <qvgroupbox.h>
+#include <qstringlist.h>
 
 #include "options.h"
 #include "gbsarea.h"
@@ -38,6 +40,7 @@ optionsDialog::optionsDialog(QWidget* parent)
     setupElementTab();
     setupDigitalTab();
     setupFeedbackTab();
+    setupFeedbackTypeTab();
 
     setCaption(tr("User preferences"));
     setOKButton();
@@ -47,7 +50,7 @@ optionsDialog::optionsDialog(QWidget* parent)
 
 void optionsDialog::setupLayoutTab()
 {
-    QWidget *w = new QWidget(this, "tabpageone");
+    QWidget *w = new QWidget(this, "tabPageOne");
     QVBoxLayout* tabL = new QVBoxLayout(w, 10);
     
     // new layout groupbox
@@ -171,12 +174,12 @@ void optionsDialog::setupLayoutTab()
 
 void optionsDialog::setupElementTab()
 {
-    QWidget *w = new QWidget(this, "tabpagetwo");
+    QWidget *w = new QWidget(this, "tabPageTwo");
     QVBoxLayout* tabL = new QVBoxLayout(w, 10);
     
          
     // elements groupbox
-    QButtonGroup* generalBG = new QButtonGroup(4, Qt::Vertical,
+    QButtonGroup* generalBG = new QButtonGroup(5, Qt::Vertical,
             tr("General options"), w, "generalBG");
     tabL->addWidget(generalBG);
     cbShowHp2 = new QCheckBox(tr("Show &orange light for signals"
@@ -188,6 +191,9 @@ void optionsDialog::setupElementTab()
             generalBG, "bubbleCB");
     cbDataBubble = new QCheckBox(tr("Show bubblehelp for element &data"),
             generalBG, "databubbleCB");
+    cbConvertTime = new QCheckBox(tr("&Convert SRCP 0.8 server time "
+                "human readable"),
+            generalBG, "converttimeCB");
 
     
     // text groupbox
@@ -205,7 +211,7 @@ void optionsDialog::setupElementTab()
             tr("Initialize signals on startup"), w, "initsigBG");
     tabL->addWidget(initsigBG);
     rbSignalRed =
-        new QRadioButton(tr("A&lways on Halt (Hp0/Hp00/Sh0)"), initsigBG);
+        new QRadioButton(tr("Always on &Halt (Hp0/Hp00/Sh0)"), initsigBG);
     rbSignalLay =
         new QRadioButton(tr("As &saved from previous session"), initsigBG);
    
@@ -220,12 +226,12 @@ void optionsDialog::setupElementTab()
 
 void optionsDialog::setupDigitalTab()
 {
-    QWidget *w = new QWidget(this, "tabpagethree");
+    QWidget *w = new QWidget(this, "tabPageThree");
     QVBoxLayout* tabL = new QVBoxLayout(w, 10);
     
     
     // protocol groupbox
-    QButtonGroup *protocolBG = new QButtonGroup(4, Vertical,
+    QButtonGroup *protocolBG = new QButtonGroup(2, Vertical,
             tr("Default protocol"), w);
     tabL->addWidget(protocolBG);
     rbProtMS = new QRadioButton("Märklin/M&otorola", protocolBG);
@@ -332,30 +338,32 @@ void optionsDialog::setupDigitalTab()
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
     tabL->addItem(spacer);
+
     addTab(w, tr("&Digital Data"));
 }
 
 
 void optionsDialog::setupFeedbackTab()
 {
-    QVBox *tab = new QVBox(this, "tapPageFour");
-    tab->setMargin(10);
-    tab->setSpacing(10);
-    
-    // feedback module groupbox
-    QButtonGroup* grpBox = new QButtonGroup(2, Vertical,
-            tr("Feedback type"), tab);
+    QWidget *w = new QWidget(this, "tabPageFour");
+    QVBoxLayout* tabL = new QVBoxLayout(w, 10);
+   
+    // left column
+    // 1. feedback module groupbox
+    QButtonGroup* inputsGB = new QButtonGroup(1, Vertical,
+            tr("Module size"), w);
+    tabL->addWidget(inputsGB);
 
-    rbS88_16 = new QRadioButton(tr("s88 with 1&6 inputs per module"), grpBox);
-    rbS88_8 = new QRadioButton(tr("s88 with &8 inputs per module"), grpBox);
-    //rbI8255 = new QRadioButton(tr("i8255 IO-Ca&rd"), grpBox);
+    rb16inputs = new QRadioButton(tr("1&6 Inputs"), inputsGB);
+    rb8inputs = new QRadioButton(tr("&8 Inputs"), inputsGB);
 
-    connect(grpBox, SIGNAL(clicked(int)),
+    connect(inputsGB, SIGNAL(clicked(int)),
             this, SLOT(slotLimitModules(int)));
 
-    // bus numbering groupbox
-    QButtonGroup* busnoGB = new QButtonGroup(2, Vertical,
-            tr("Feedback bus numbering"), tab);
+    // 2. bus numbering groupbox
+    QButtonGroup* busnoGB = new QButtonGroup(1, Vertical,
+            tr("Bus numbering"), w);
+    tabL->addWidget(busnoGB);
 
     fixedBusesRB = new QRadioButton(tr("Fi&xed "
                 "(SRCP 0.7)"), busnoGB);
@@ -364,20 +372,20 @@ void optionsDialog::setupFeedbackTab()
 
     connect(busnoGB, SIGNAL(clicked(int)),
             this, SLOT(fixFBBusNumbers(int)));
-
+    
     // Feedback bus numbering
     // * SRCP 0.7 -> number is fixed
     // * SRCP 0.8 -> number is variable
-
+    // 3. modules per bus groupbox
     QGroupBox* busGB = new QGroupBox(0, Vertical,
-            tr("Connected modules per feedback bus"), tab, "busGB");
+            tr("Connected modules per bus"), w, "busGB");
+    tabL->addWidget(busGB);
     QHBoxLayout* busGBL = new QHBoxLayout(busGB->layout(), 6);
-
 
     //Rows, Columns 
     QGridLayout* busLayout = new QGridLayout(busGBL, 4, 5, 10,
             "busLayout");
-    busLayout->addColSpacing(2, 40);
+    busLayout->addColSpacing(2, 10);
     
     QSpacerItem* spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -387,63 +395,149 @@ void optionsDialog::setupFeedbackTab()
     QLabel* label = new QLabel(tr("&Bus:"), busGB);
     busLayout->addWidget(label, 0, 0);
     bus1LE = new QLineEdit("1", busGB, "bus1LE");
-    bus1LE->setMaximumWidth(40);
+    bus1LE->setMaximumWidth(30);
+    bus1LE->setMaxLength(3);
     busLayout->addWidget(bus1LE, 0, 1);
     label->setBuddy(bus1LE);
+    
     label = new QLabel(tr("&Modules:"), busGB);
     busLayout->addWidget(label, 0, 3);
-    sbFBmod_1 = new QSpinBox(0, 31, 1, busGB, "");
+    sbFBmod_1 = new QSpinBox(0, 31, 1, busGB, "sbfbmod1");
     busLayout->addWidget(sbFBmod_1, 0, 4);
     label->setBuddy(sbFBmod_1);
-    sbFBmod_1->setMaximumWidth(60); //MAGIC
+    sbFBmod_1->setMaximumWidth(38); //MAGIC
     sbFBmod_1->setWrapping(true);
     
     // 2. line
     label = new QLabel(tr("&Bus:"), busGB);
     busLayout->addWidget(label, 1, 0);
     bus2LE = new QLineEdit("2", busGB, "bus2LE");
-    bus2LE->setMaximumWidth(40);
+    bus2LE->setMaximumWidth(30);
+    bus2LE->setMaxLength(3);
     busLayout->addWidget(bus2LE, 1, 1);
     label->setBuddy(bus2LE);
+
     label = new QLabel(tr("&Modules:"), busGB);
     busLayout->addWidget(label, 1, 3);
-    sbFBmod_2 = new QSpinBox(0, 31, 1, busGB, "");
+    sbFBmod_2 = new QSpinBox(0, 31, 1, busGB, "sbfbmod2");
     busLayout->addWidget(sbFBmod_2, 1, 4);
     label->setBuddy(sbFBmod_2);
-    sbFBmod_2->setMaximumWidth(60); //MAGIC
+    sbFBmod_2->setMaximumWidth(38); //MAGIC
     sbFBmod_2->setWrapping(true);
-
+    
     // 3. line
     label = new QLabel(tr("&Bus:"), busGB);
     busLayout->addWidget(label, 2, 0);
     bus3LE = new QLineEdit("3", busGB, "bus3LE");
-    bus3LE->setMaximumWidth(40);
+    bus3LE->setMaximumWidth(30);
+    bus3LE->setMaxLength(3);
     busLayout->addWidget(bus3LE, 2, 1);
     label->setBuddy(bus3LE);
+    
     label = new QLabel(tr("&Modules:"), busGB);
     busLayout->addWidget(label, 2, 3);
-    sbFBmod_3 = new QSpinBox(0, 31, 1, busGB, "");
+    sbFBmod_3 = new QSpinBox(0, 31, 1, busGB, "sbfbmod3");
     busLayout->addWidget(sbFBmod_3, 2, 4);
     label->setBuddy(sbFBmod_3);
-    sbFBmod_3->setMaximumWidth(60); //MAGIC
+    sbFBmod_3->setMaximumWidth(38); //MAGIC
     sbFBmod_3->setWrapping(true);
-
+    
     // 4. line
     label = new QLabel(tr("&Bus:"), busGB);
     busLayout->addWidget(label, 3, 0);
     bus4LE = new QLineEdit("4", busGB, "bus4LE");
-    bus4LE->setMaximumWidth(40);
+    bus4LE->setMaximumWidth(30);
+    bus4LE->setMaxLength(3);
     busLayout->addWidget(bus4LE, 3, 1);
     label->setBuddy(bus4LE);
+    
     label = new QLabel(tr("&Modules:"), busGB);
     busLayout->addWidget(label, 3, 3);
-    sbFBmod_4 = new QSpinBox(0, 31, 1, busGB, "");
+    sbFBmod_4 = new QSpinBox(0, 31, 1, busGB, "sbfbmod4");
     busLayout->addWidget(sbFBmod_4, 3, 4);
     label->setBuddy(sbFBmod_4);
-    sbFBmod_4->setMaximumWidth(60); //MAGIC
+    sbFBmod_4->setMaximumWidth(38); //MAGIC
     sbFBmod_4->setWrapping(true);
+    
+    // spacer to push group boxes to top
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    tabL->addItem(spacer);
 
-    addTab(tab, tr("&Feedback"));
+    addTab(w, tr("&Feedback modules"));
+}
+
+
+void optionsDialog::setupFeedbackTypeTab()
+{
+    QVBox *tab = new QVBox(this, "tapPageFive");
+    tab->setMargin(10);
+    tab->setSpacing(10);
+   
+    // 1. feedback module type groupbox
+    feedbackTypeGB = new QButtonGroup(3, Vertical,
+            tr("Module type"), tab);
+
+    QRadioButton* fbtRB = new QRadioButton(tr("S88 via &DDL"), feedbackTypeGB);
+    fbtRB = new QRadioButton(tr("i8&255-Card"), feedbackTypeGB);
+    fbtRB = new QRadioButton(tr("S88 via M60&15"), feedbackTypeGB);
+    fbtRB = new QRadioButton(tr("&Protocol by server"), feedbackTypeGB);
+    fbtRB = new QRadioButton(tr("&Selectrix"), feedbackTypeGB);
+
+    connect(feedbackTypeGB, SIGNAL(clicked(int)),
+            this, SLOT(selectFbModuleType(int)));
+
+    // 2. selectrix init parameters groupbox
+    selectrixGB = new QGroupBox(0, Horizontal,
+            tr("Selectrix Initialization"), tab, "selectrixGB");
+    QHBoxLayout* sxinitGBL = new QHBoxLayout(selectrixGB->layout(), 10);
+
+    // 2a: parameter list
+    QListView* selectrixLV = new QListView(selectrixGB, "selectrixLB");
+    sxinitGBL->addWidget(selectrixLV);
+    selectrixLV->setAllColumnsShowFocus(true);
+    selectrixLV->addColumn(tr("Bus"));
+    selectrixLV->addColumn(tr("Address"));
+    selectrixLV->addColumn(tr("Number"));
+    
+    // 2b: vertical box layout container for buttons 
+    QVBoxLayout* sxinitBtnLayout = new QVBoxLayout(sxinitGBL, 6);
+
+    QSpacerItem* spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    sxinitBtnLayout->addItem(spacer);
+
+    QPushButton* upPB = new QPushButton(tr("&Up"), selectrixGB,
+            "upPB");
+    sxinitBtnLayout->addWidget(upPB);
+    upPB->setEnabled(false);
+    
+    QPushButton* downPB = new QPushButton(tr("&Down"), selectrixGB,
+            "downPB");
+    sxinitBtnLayout->addWidget(downPB);
+    downPB->setEnabled(false);
+    
+    QPushButton* editPB = new QPushButton(tr("&Edit..."), selectrixGB,
+            "editPB");
+    sxinitBtnLayout->addWidget(editPB);
+    editPB->setEnabled(false);
+    
+    QPushButton* addPB = new QPushButton(tr("&Add..."), selectrixGB,
+            "addPB");
+    sxinitBtnLayout->addWidget(addPB);
+    
+    QPushButton* removePB = new QPushButton(tr("&Remove"), selectrixGB,
+            "removePB");
+    sxinitBtnLayout->addWidget(removePB);
+    removePB->setEnabled(false);
+
+    // spacer to push buttons to left
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    sxinitGBL->addItem(spacer);
+
+
+    addTab(tab, tr("Feedback &type"));
 }
 
 
@@ -517,6 +611,15 @@ void optionsDialog::slotLimitModules(int iType_)
     sbFBmod_2->setRange(0, 31 + iType_ * 31);
     sbFBmod_3->setRange(0, 31 + iType_ * 31);
     sbFBmod_4->setRange(0, 31 + iType_ * 31);
+}
+
+/* enable Selectrix configuration if choosen */
+void optionsDialog::selectFbModuleType(int no)
+{
+    if (no == 4) 
+        selectrixGB->setEnabled(true);
+    else
+        selectrixGB->setEnabled(false);
 }
 
 // TODO: remove this
@@ -604,6 +707,7 @@ void optionsDialog::getPreferences(Preferences& prf)
     prf.sendstate = allwaysSendState->isChecked();
     prf.tooltips = cbGenBubble->isChecked();
     prf.datatooltips = cbDataBubble->isChecked();
+    prf.converttime = cbConvertTime->isChecked();
     prf.addresslabeling = rbShowAddr->isChecked();
     prf.initsignalsred = rbSignalRed->isChecked();
     prf.autoload = cbAutoload->isChecked();
@@ -624,10 +728,15 @@ void optionsDialog::getPreferences(Preferences& prf)
     prf.activetime = sbActiveTime->value();
     prf.routingtime = sbRoutingTime->value();
     prf.ttroundtime = leTTRoundTime->text().toDouble();
-    if (rbS88_16->isChecked())
+    if (rb16inputs->isChecked())
         prf.fbfactor = 0;
     else 
         prf.fbfactor = 1;
+#if QT_VERSION >= 0x030300
+    prf.fbmoduletype = feedbackTypeGB->selectedId();
+#else
+    prf.fbmoduletype = feedbackTypeGB->id(feedbackTypeGB->selected());
+#endif
     prf.fixedbusnum = fixedBusesRB->isChecked();
     prf.fbbus1.modules = sbFBmod_1->value();
     prf.fbbus2.modules = sbFBmod_2->value();
@@ -648,6 +757,7 @@ void optionsDialog::setPreferences(const Preferences& prf)
     allwaysSendState->setChecked(prf.sendstate);
     cbGenBubble->setChecked(prf.tooltips);
     cbDataBubble->setChecked(prf.datatooltips);
+    cbConvertTime->setChecked(prf.converttime);
     
     if (prf.addresslabeling)
         rbShowAddr->setChecked(true);
@@ -735,11 +845,11 @@ void optionsDialog::setPreferences(const Preferences& prf)
     leTTRoundTime->setText(t);
 
     if (prf.fbfactor == 0) {
-        rbS88_16->setChecked(true);
+        rb16inputs->setChecked(true);
         slotLimitModules(0);
     }
     else {
-        rbS88_8->setChecked(true);
+        rb8inputs->setChecked(true);
         slotLimitModules(1);
     }
 
@@ -751,7 +861,7 @@ void optionsDialog::setPreferences(const Preferences& prf)
         flexBusesRB->setChecked(true);
         fixFBBusNumbers(1);
     }
-
+    
     bus1LE->setText(QString::number(prf.fbbus1.number));
     sbFBmod_1->setValue(prf.fbbus1.modules);
     bus2LE->setText(QString::number(prf.fbbus2.number));
@@ -760,5 +870,8 @@ void optionsDialog::setPreferences(const Preferences& prf)
     sbFBmod_3->setValue(prf.fbbus3.modules);
     bus4LE->setText(QString::number(prf.fbbus4.number));
     sbFBmod_4->setValue(prf.fbbus4.modules);
+    
+    feedbackTypeGB->setButton(prf.fbmoduletype);
+    selectFbModuleType(prf.fbmoduletype);
 }
 

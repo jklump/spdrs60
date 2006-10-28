@@ -1,10 +1,10 @@
 /***************************************************************************
                            preferences.h
-                           version 0.5.0 $Revision: 1.4 $
+                           version 0.5.0 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-08-23 18:10:09 $
+    last modified        : $Date: 2006-10-28 18:46:29 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -39,6 +39,7 @@ struct Preferences {
     bool datatooltips;
     bool addresslabeling;
     bool initsignalsred;
+    bool converttime;
     bool autoload;
     QString autolayout;
     bool autosave;
@@ -51,6 +52,7 @@ struct Preferences {
     unsigned int routingtime;
     double ttroundtime;
     unsigned int fbfactor;
+    int fbmoduletype;
     bool fixedbusnum;
     BusModules fbbus1;
     BusModules fbbus2;

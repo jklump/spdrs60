@@ -1,10 +1,10 @@
 /***************************************************************************
                            feedbackviewer.cpp
-                           version 0.5.0 $Revision: 1.1 $
+                           version 0.5.0 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-08-21 16:21:56 $
+    last modified        : $Date: 2006-10-28 18:46:28 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -72,7 +72,7 @@ void FeedbackViewer::updateBusAndModuleStructure()
     // first module list
     fbTW->setTabLabel(fbLB1, tr("Bus &%1").arg(pref.fbbus1.number));
     fbLB1->updateModuleSetup(pref.fbfactor, pref.fbbus1.modules);
-    //pref.fbfactor
+
     // second module list
     // create missing listbox or remove obsolete listbox
     if (fbLB2 == NULL) {

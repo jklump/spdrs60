@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.5.0 $Revision: 1.28 $
+                           version 0.5.0 $Revision: 1.29 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-02-08 20:19:37 $
+    last modified        : $Date: 2006-10-28 18:46:29 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -66,7 +66,7 @@ public:
    element* item(int row, int col) const;
    QPtrVector<element>* getGbsElementListPtr();
    void sendInfoPortMessage(unsigned int bus,
-        unsigned int addr, unsigned int port);
+        unsigned int addr, unsigned int port, unsigned int value);
    bool sendSRCP08BusMessage(SrcpMessage::Message);
    bool setSRCP08BusPower(bool);
    //bool switchSRCP08FBBusState(bool);
@@ -170,7 +170,7 @@ signals:
     void clearRoutes();
     void recordElement(element*, elemRecordType);
     void processInfoPortMessage(unsigned int bus,
-            unsigned int addr, unsigned int port);
+            unsigned int addr, unsigned int port, unsigned int value);
 };
 
 #endif  //GBSAREA_H

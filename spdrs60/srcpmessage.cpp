@@ -1,10 +1,10 @@
 /***************************************************************************
                            srcpmessage.cpp
-                           version 0.5.0 $Revision: 1.11 $
+                           version 0.5.0 $Revision: 1.12 $
                            -------------------------------
     copyright            : (C) 2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-08-26 03:49:59 $
+    last modified        : $Date: 2006-10-28 18:46:29 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -77,10 +77,9 @@ QString SrcpMessage::getSrcpMessageStr(unsigned int version) const
                     .arg(getProtocolStr(protocol)).arg(address).arg(port);
                 break;
             case msgGaSet:
-                // TODO: add value
-                cmdStr = QString("SET GA %1 %2 %3 1 %4")
+                cmdStr = QString("SET GA %1 %2 %3 %4 %5")
                     .arg(getProtocolStr(protocol)).arg(address)
-                    .arg(port).arg(delay);
+                    .arg(port).arg(value).arg(delay);
                 break;
                 //TODO: msgGl...
             case msgPowerGet:
@@ -124,8 +123,8 @@ QString SrcpMessage::getSrcpMessageStr(unsigned int version) const
                     .arg(srcpbus).arg(address).arg(getProtocolStr(protocol));
                 break;
             case msgGaSet:
-                cmdStr = QString("SET %1 GA %2 %3 1 %4")
-                    .arg(srcpbus).arg(address).arg(port).arg(delay);
+                cmdStr = QString("SET %1 GA %2 %3 %4 %5")
+                    .arg(srcpbus).arg(address).arg(port).arg(value).arg(delay);
                 break;
                 //TODO: msgGl...
                 //TODO: flexible lock duration
@@ -150,6 +149,9 @@ QString SrcpMessage::getSrcpMessageStr(unsigned int version) const
             case msgPowerSet:
                 cmdStr = QString("SET %1 POWER %2").arg(srcpbus)
                     .arg(power ? "ON" :"OFF");
+                break;
+            case msgServerLogout:
+                cmdStr = "TERM 0 SESSION";
                 break;
             case msgServerReset:
                 cmdStr = "RESET 0 SERVER";
@@ -194,7 +196,7 @@ QString SrcpMessage::getProtocolStr(Protocol pro) const
 }
 
 
-QString SrcpMessage::getDeviceGroupStr(DeviceGroup dg)  const
+QString SrcpMessage::getDeviceGroupStr(DeviceGroup dg) const
 {
     QString dgStr = "";
     
@@ -205,8 +207,66 @@ QString SrcpMessage::getDeviceGroupStr(DeviceGroup dg)  const
         case dgGL:
             dgStr = "GL";
             break;
+        case dgFB:
+            dgStr = "FB";
+            break;
+        case dgSM:
+            dgStr = "SM";
+            break;
+        case dgTime:
+            dgStr = "TIME";
+            break;
+        case dgPower:
+            dgStr = "POWER";
+            break;
+        case dgServer:
+            dgStr = "SERVER";
+            break;
+        case dgSession:
+            dgStr = "SESSION";
+            break;
+        case dgLock:
+            dgStr = "LOCK";
+            break;
+        case dgDescription:
+            dgStr = "DESCRIPTION";
+            break;
     }
     return dgStr;
+}
+
+
+QString SrcpMessage::getActionStr(Action ac) const
+{
+    QString acStr = "";
+    
+    switch (ac) {
+        case acInit:
+            acStr = "INIT";
+            break;
+        case acSet:
+            acStr = "SET";
+            break;
+        case acGet:
+            acStr = "GET";
+            break;
+        case acCheck:
+            acStr = "CHECK";
+            break;
+        case acTerm:
+            acStr = "TERM";
+            break;
+        case acWait:
+            acStr = "WAIT";
+            break;
+        case acReset:
+            acStr = "RESET";
+            break;
+        case acVerify:
+            acStr = "VERIFY";
+            break;
+    }
+    return acStr;
 }
 
 
@@ -225,12 +285,13 @@ void SrcpMessage::setFbData(unsigned int bus, Feedback fbt, unsigned int prt)
 
 
 void SrcpMessage::setGaData(Protocol pro, unsigned int bus,
-        unsigned int adr, unsigned int prt, int dly)
+        unsigned int adr, unsigned int prt, unsigned int val, int dly)
 {
     protocol = pro;
     srcpbus = bus;
     address = adr;
     port = prt;
+    value = val;
     delay = dly;
 }
 

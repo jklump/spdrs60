@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.5.0 $Revision: 1.28 $
+                           version 0.5.0 $Revision: 1.29 $
                            -------------------------------
     copyright            : (C) 2005-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-01-30 20:06:43 $
+    last modified        : $Date: 2006-10-28 18:46:29 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -42,7 +42,7 @@ RouteDialog::RouteDialog(QWidget* parent)
     /*Layout to separate OK Cancel Button form the upper rest*/
     QBoxLayout* baseLayout = new QVBoxLayout(this, 12, 12);
     
-    /*Layout to separate left and right groupboxest*/
+    /*Layout to separate left and right groupboxes*/
     QBoxLayout* leftRightLayout = new QHBoxLayout(baseLayout, 12);
     
     /*line with OK and Cancel buttons*/

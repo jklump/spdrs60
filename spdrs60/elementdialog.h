@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.h
-                           version 0.4.8 $Revision: 1.12 $
+                           version 0.4.8 $Revision: 1.13 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-08-26 03:49:58 $
+    last modified        : $Date: 2006-10-28 18:46:28 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -105,8 +105,6 @@ private slots:
    void slotEnable_LED_FB();
    void contactSBChanged(int);
    void letteringChanged(bool);
-   void xchConn1IsToggled(bool);
-   void xchConn2IsToggled(bool);
 
 signals:
    void sigShowFBmodules();

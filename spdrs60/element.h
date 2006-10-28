@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.0 $Revision: 1.45 $
+                           version 0.5.0 $Revision: 1.46 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-08-26 03:49:58 $
+    last modified        : $Date: 2006-10-28 18:46:28 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -194,6 +194,8 @@ private:
     unsigned int editsAddress;
     int      iGA1BusNo;
     int      iGA2BusNo;
+    int      port1;
+    int      port2;
     int      iSoldActiveTime;
     int      iSoldAddress_1;
     int      iSoldChangeConn[2];
@@ -256,7 +258,7 @@ private slots:
     void slotCopyAvailTracks(const QString&);
     void slotCtxEdit(int);
     void processInfoPortMessage(unsigned int bus,
-            unsigned int addr, unsigned int port);
+            unsigned int addr, unsigned int port, unsigned int value);
 
 signals:
     void cmdToDebug(const QString&);

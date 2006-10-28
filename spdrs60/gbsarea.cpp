@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.0 $Revision: 1.48 $
+                           version 0.5.0 $Revision: 1.49 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-02-11 20:42:04 $
+    last modified        : $Date: 2006-10-28 18:46:28 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -886,9 +886,9 @@ void GBSArea::setupElements()
                     this, SIGNAL(recordElement(element*, elemRecordType)));
             //if (el->isSwitchable()) {
             connect(this, SIGNAL(processInfoPortMessage(unsigned int,
-                            unsigned int, unsigned int)),
+                            unsigned int, unsigned int, unsigned int)),
                     el, SLOT(processInfoPortMessage(unsigned int,
-                            unsigned int, unsigned int)));
+                            unsigned int, unsigned int, unsigned int)));
             connect(el, SIGNAL(sendSrcpMessage(SrcpMessage*)),
                     this, SIGNAL(sendSrcpMessage(SrcpMessage*)));
             //}
@@ -987,9 +987,9 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
                         this, SIGNAL(recordElement(element*, elemRecordType)));
                 //if (el->isSwitchable()) {
                 connect(this, SIGNAL(processInfoPortMessage(unsigned int,
-                                unsigned int, unsigned int)),
+                                unsigned int, unsigned int, unsigned int)),
                         el, SLOT(processInfoPortMessage(unsigned int,
-                                unsigned int, unsigned int)));
+                                unsigned int, unsigned int, unsigned int)));
                 connect(el, SIGNAL(sendSrcpMessage(SrcpMessage*)),
                         this, SIGNAL(sendSrcpMessage(SrcpMessage*)));
                 //}
@@ -1064,10 +1064,10 @@ QPtrVector<element>* GBSArea::getGbsElementListPtr()
 
 
 void GBSArea::sendInfoPortMessage(unsigned int bus,
-        unsigned int addr, unsigned int port)
+        unsigned int addr, unsigned int port, unsigned int value)
 {
     /* send incomming GA actions to all elements*/
-    emit processInfoPortMessage(bus, addr, port);
+    emit processInfoPortMessage(bus, addr, port, value);
 }
 
 
@@ -1155,6 +1155,7 @@ bool GBSArea::switchSRCP08FBBusState(bool setInitOn)
     if ((SRCP08FBBusCount > 0)
         && (SRCP08FBBusWalker < SRCP08FBBusCount)) {
 
+        //TODO: (SrcpMessage::Feedback) pref.fbmoduletype
         SrcpMessage* sm = new SrcpMessage(setInitOn ?
                 SrcpMessage::msgFbInit : SrcpMessage::msgFbTerm);
         if (sm == NULL)

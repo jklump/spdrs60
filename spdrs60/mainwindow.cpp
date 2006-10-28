@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.75 $
+                           version 0.5.0 $Revision: 1.76 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-09-13 16:50:25 $
+    last modified        : $Date: 2006-10-28 18:46:29 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -93,6 +93,7 @@
 #define CF_LAYOUTCOLS   "layoutcolumns"
 #define CF_LAYOUTROWS   "layoutrows"
 #define CF_SENDSTATE    "sendstate"
+#define CF_CONVERTTIME  "converttime"
 #define CF_AUTOLOAD     "autoload"
 #define CF_AUTOLAYOUT   "autolayout"
 #define CF_AUTOSAVE     "autosave"
@@ -105,6 +106,8 @@
 #define CF_TTROUNDTIME  "turntableroundtime"
 #define CF_ROUTINGTIME  "routingtime"
 #define CF_FEEDBACKTYPE "feedbacktype"
+#define CF_FBMODSIZE    "feedbackmodulesize"
+#define CF_FBMODTYPE    "feedbackmoduletype"
 #define CF_FIXEDBUSNUM  "fixedbusnumbers"
 #define CF_FBBUS1       "fbbus1"
 #define CF_FBBUS2       "fbbus2"
@@ -210,6 +213,9 @@ void MainWindow::readConfigFile()
                 else if (key.compare(CF_SENDSTATE) == 0){
                     pref.sendstate = value.toInt();
                 }
+                else if (key.compare(CF_CONVERTTIME) == 0){
+                    pref.converttime = value.toInt();
+                }
                 else if (key.compare(CF_AUTOLOAD) == 0){
                     pref.autoload = value.toInt();
                 }
@@ -249,27 +255,34 @@ void MainWindow::readConfigFile()
                 else if (key.compare(CF_ROUTINGTIME) == 0){
                     pref.routingtime = value.toInt();
                 }
+                //TODO: remove before release
                 else if (key.compare(CF_FEEDBACKTYPE) == 0){
                     pref.fbfactor = value.toInt();
+                }
+                else if (key.compare(CF_FBMODSIZE) == 0){
+                    pref.fbfactor = value.toInt();
+                }
+                else if (key.compare(CF_FBMODTYPE) == 0){
+                    pref.fbmoduletype = value.toInt();
                 }
                 else if (key.compare(CF_FIXEDBUSNUM) == 0){
                     pref.fixedbusnum = value.toInt();
                 }
                 else if (key.compare(CF_FBBUS1) == 0){
-                    pref.fbbus1.number = value.section(":", 0, 0).toInt();
-                    pref.fbbus1.modules = value.section(":", 1, 1).toInt();;
+                    pref.fbbus1.number = value.section(":", 0, 0).toUInt();
+                    pref.fbbus1.modules = value.section(":", 1, 1).toUInt();
                 }
                 else if (key.compare(CF_FBBUS2) == 0){
-                    pref.fbbus2.number = value.section(":", 0, 0).toInt();
-                    pref.fbbus2.modules = value.section(":", 1, 1).toInt();;
+                    pref.fbbus2.number = value.section(":", 0, 0).toUInt();
+                    pref.fbbus2.modules = value.section(":", 1, 1).toUInt();
                 }
                 else if (key.compare(CF_FBBUS3) == 0){
-                    pref.fbbus3.number = value.section(":", 0, 0).toInt();
-                    pref.fbbus3.modules = value.section(":", 1, 1).toInt();;
+                    pref.fbbus3.number = value.section(":", 0, 0).toUInt();
+                    pref.fbbus3.modules = value.section(":", 1, 1).toUInt();
                 }
                 else if (key.compare(CF_FBBUS4) == 0){
-                    pref.fbbus4.number = value.section(":", 0, 0).toInt();
-                    pref.fbbus4.modules = value.section(":", 1, 1).toInt();;
+                    pref.fbbus4.number = value.section(":", 0, 0).toUInt();
+                    pref.fbbus4.modules = value.section(":", 1, 1).toUInt();
                 }
                 else if (key.compare(CF_LASTDIR) == 0){
                     lastDir = value.stripWhiteSpace();
@@ -345,10 +358,10 @@ void MainWindow::readOldStyleConfigFile(QTextStream& ts)
     else
         pref.fbfactor = 1;
 
-    pref.fbbus1.modules = ts.readLine().remove(0, 16).toInt();
-    pref.fbbus2.modules = ts.readLine().remove(0, 16).toInt();
-    pref.fbbus3.modules = ts.readLine().remove(0, 16).toInt();
-    pref.fbbus4.modules = ts.readLine().remove(0, 16).toInt();
+    pref.fbbus1.modules = ts.readLine().remove(0, 16).toUInt();
+    pref.fbbus2.modules = ts.readLine().remove(0, 16).toUInt();
+    pref.fbbus3.modules = ts.readLine().remove(0, 16).toUInt();
+    pref.fbbus4.modules = ts.readLine().remove(0, 16).toUInt();
 
     /*temporary solution*/
     pref.fbbus1.number = 1;
@@ -390,6 +403,7 @@ void MainWindow::writeConfigFile()
         << CF_LAYOUTCOLS   << "=" << pref.layoutcols << endl
         << CF_LAYOUTROWS   << "=" << pref.layoutrows << endl
         << CF_SENDSTATE    << "=" << pref.sendstate << endl
+        << CF_CONVERTTIME  << "=" << pref.converttime << endl
         << CF_AUTOLOAD     << "=" << (int) pref.autoload << endl
         << CF_AUTOLAYOUT   << "=" << pref.autolayout << endl
         << CF_AUTOSAVE     << "=" << (int) pref.autosave << endl
@@ -404,7 +418,8 @@ void MainWindow::writeConfigFile()
         << CF_AUTOTTDIR    << "=" << (int) pref.autottdir << endl
         << CF_TTROUNDTIME  << "=" << rtstr << endl
         << CF_ROUTINGTIME  << "=" << pref.routingtime << endl
-        << CF_FEEDBACKTYPE << "=" << pref.fbfactor << endl
+        << CF_FBMODSIZE    << "=" << pref.fbfactor << endl
+        << CF_FBMODTYPE    << "=" << pref.fbmoduletype << endl
         << CF_FIXEDBUSNUM  << "=" << pref.fixedbusnum << endl
         << CF_FBBUS1       << "=" << pref.fbbus1.number
                            << ":" << pref.fbbus1.modules << endl
@@ -1595,7 +1610,6 @@ bool MainWindow::saveFile()
 {
     if (fileName.isEmpty()){
         slotFileSaveAs();
-        /*TODO: check this*/
         return true;
     }
 
@@ -1883,7 +1897,7 @@ void MainWindow::initAllSockets()
 
 void MainWindow::CommandSocketHostFound()
 {
-    cmdToDebug(tr("Command port: Host '%1' found.").arg(cmdHost), MT_INFO,
+    cmdToDebug(tr("Command socket: Host '%1' found.").arg(cmdHost), MT_INFO,
             HL_HINT);
 }
 
@@ -1894,7 +1908,13 @@ void MainWindow::CommandSocketReadyRead()
 
     while (CommandSocket->canReadLine()) {
         ServerInfo = CommandSocket->readLine();
-        cmdToDebug(ServerInfo, MT_INFO, HL_CMND);
+
+        if (pref.converttime) {
+            QString msgstr = ConvertMessageTime(ServerInfo);
+            cmdToDebug(msgstr, MT_INFO, HL_CMND);
+        }
+        else
+            cmdToDebug(ServerInfo, MT_INFO, HL_CMND);
         
         if (SRCPCommandState == srcpLogin) {
             sWelcome = ServerInfo;
@@ -2201,9 +2221,12 @@ void MainWindow::CommandSocketReadyRead()
 
 void MainWindow::CommandSocketConnected()
 {
-    cmdToDebug(tr("Command port connected!"), MT_INFO, HL_HINT);
+    cmdToDebug(tr("Command socket connected!"), MT_INFO, HL_HINT);
     CommandPortIsConnected = true;
     updateDaemonMenu();
+    // layout area is set modified to make changes of GA directions saveable
+    gbs->setModified(true);
+    actionFileSave->setEnabled(true);
 }
 
 
@@ -2212,7 +2235,7 @@ void MainWindow::CommandSocketConnectionClosedByServer()
     if (CommandSocket->isOpen()) {
         CommandSocket->close();
     }
-    cmdToDebug(tr("Command port closed by foreign host!"), MT_INFO, HL_HINT);
+    cmdToDebug(tr("Command socket closed by foreign host!"), MT_INFO, HL_HINT);
     CommandPortIsConnected = false;
     SRCPCommandState = srcpUndefined;
     updateDaemonMenu();
@@ -2221,7 +2244,7 @@ void MainWindow::CommandSocketConnectionClosedByServer()
 
 void MainWindow::CommandSocketConnectionClosed()
 {
-    cmdToDebug(tr("Command port closed!"), MT_INFO, HL_HINT);
+    cmdToDebug(tr("Command socket closed!"), MT_INFO, HL_HINT);
     CommandPortIsConnected = false;
     updateDaemonMenu();
 }
@@ -2230,7 +2253,7 @@ void MainWindow::CommandSocketConnectionClosed()
 void MainWindow::CommandSocketError(int e)
 {
     QString ErrMessage = GetSocketErrorString(e);
-    cmdToDebug(tr("Command port: Error number %1 occurred (%2)")
+    cmdToDebug(tr("Command socket: Error number %1 occurred (%2)")
                .arg(e).arg(ErrMessage), MT_INFO, HL_HINT);
 }
 
@@ -2319,19 +2342,21 @@ void MainWindow::FeedbackSocketReadyRead()
 
 void MainWindow::FeedbackSocketConnected()
 {
-    cmdToDebug(tr("Feedback port connected!"), MT_INFO, HL_HINT);
+    cmdToDebug(tr("Feedback socket connected!"), MT_INFO, HL_HINT);
     FeedbackPortIsConnected = true;
     // flag to avoid history line flooding by startup feedback
     isFBInitMode = true;
 
-    /*may be this makes only sense when a layout is loaded: */
-    //TODO: FB_TYPE
-    //SendCommandToSRCPServer((FEEDBACK <=
-    //                         1) ? "INIT FB S88" : "INIT FB I8255");
-    SendCommandToSRCPServer("INIT FB S88");
-    cmdToDebug(tr
-               ("Feedback port changes are omitted while initialization"),
-               MT_INFO, HL_FEED);
+    SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgFbInit);
+    if (sm == NULL)
+        return;
+
+    sm->setFbData(0, (SrcpMessage::Feedback) pref.fbmoduletype, 0);
+    sendSrcpMessage(sm);
+    delete sm;
+
+    cmdToDebug(tr("Feedback port changes should be avoided during "
+             "initialization"), MT_INFO, HL_FEED);
 }
 
 
@@ -2340,14 +2365,14 @@ void MainWindow::FeedbackSocketConnectionClosedByServer()
     if (FeedbackSocket->isOpen()) {
         FeedbackSocket->close();
     }
-    cmdToDebug(tr("Feedback port closed by foreign host!"), MT_INFO, HL_HINT);
+    cmdToDebug(tr("Feedback socket closed by foreign host!"), MT_INFO, HL_HINT);
     FeedbackPortIsConnected = false;
 }
 
 
 void MainWindow::FeedbackSocketConnectionClosed()
 {
-    cmdToDebug(tr("Feedback port closed!"), MT_INFO, HL_HINT);
+    cmdToDebug(tr("Feedback socket closed!"), MT_INFO, HL_HINT);
     FeedbackPortIsConnected = false;
 }
 
@@ -2355,8 +2380,29 @@ void MainWindow::FeedbackSocketConnectionClosed()
 void MainWindow::FeedbackSocketError(int e)
 {
     QString ErrMessage = GetSocketErrorString(e);
-    cmdToDebug(tr("Feedback port: Error number %1 occurred (%2)")
+    cmdToDebug(tr("Feedback socket: Error number %1 occurred (%2)")
                .arg(e).arg(ErrMessage), MT_INFO, HL_HINT);
+}
+
+
+QString MainWindow::ConvertMessageTime(const QString& msg)
+{
+    QString msgstr;
+    QString timestr = msg.section(" ", 0, 0);
+    if (!timestr.startsWith("0.")) {
+        QDateTime srvtime = QDateTime();
+        srvtime.setTime_t(timestr.section(".", 0 , 0).toUInt());
+        QTime msgtime = srvtime.time();
+        msgstr = msgtime.toString("[hh:mm:ss.");
+
+        msgstr.append(timestr.section(".", 1 , 1));
+        msgstr.append("] ");
+    }
+    else
+        msgstr = "[--:--:--.---] ";
+
+    msgstr.append(msg.section(" ", 1));
+    return msgstr;
 }
 
 
@@ -2369,10 +2415,10 @@ void MainWindow::InfoSocketReadyRead()
 
     while (InfoSocket->canReadLine()) {
         sInfo = InfoSocket->readLine();
-        cmdToDebug(sInfo, MT_CMD, HL_INFO);
 
         /* reaktions to SRCP 0.7 commands */
         if (srcpVersion == 7) {
+            cmdToDebug(sInfo, MT_CMD, HL_INFO);
             QString device = sInfo.section(" ", 1, 1);
             /*
              * check for incomming GA actions and send them to gbs
@@ -2380,10 +2426,10 @@ void MainWindow::InfoSocketReadyRead()
              *   0   1     2        3      4       5
              */
             if ("GA" == device && sInfo.section(" ", 5, 5).toUInt() == 1) {
-                gbs->sendInfoPortMessage(
-                        1,
+                gbs->sendInfoPortMessage(1,
                         sInfo.section(" ", 3, 3).toUInt(),
-                        sInfo.section(" ", 4, 4).toUInt());
+                        sInfo.section(" ", 4, 4).toUInt(),
+                        sInfo.section(" ", 5, 5).toUInt());
             }
             /*
              * check for requested FB states and send them to gbs, module
@@ -2414,6 +2460,13 @@ void MainWindow::InfoSocketReadyRead()
 
         /* respond to SRCP 0.8 messages */
         else {
+            if (pref.converttime) {
+                QString msgstr = ConvertMessageTime(sInfo);
+                cmdToDebug(msgstr, MT_CMD, HL_INFO);
+            }
+            else
+                cmdToDebug(sInfo, MT_CMD, HL_INFO);
+ 
             if (SRCPInfoState == srcpLogin) {
                 /*
                  * version verification is neglected here, because this
@@ -2432,6 +2485,7 @@ void MainWindow::InfoSocketReadyRead()
                     SRCPInfoState = srcp08ServerError;
                     cmdToDebug("Server communication error!", MT_INFO,
                             HL_INFO);
+                    // TODO: What to do now? Close info socket?
                 }
             }
 
@@ -2439,6 +2493,7 @@ void MainWindow::InfoSocketReadyRead()
                 if (sInfo.contains("OK GO"))
                     srcpInfoSessionID = sInfo.section(" ", 4, 4).toInt();
                 SRCPInfoState = srcp08RunInfoMode;
+                //TODO: else communication error
             }
 
             /* respond to incomming info messages */
@@ -2477,14 +2532,13 @@ void MainWindow::InfoSocketReadyRead()
                  *   0     1   2     3   4    5       6     7: Qstring sections
                  */
                 else if (devGroup == "GA") {
-                    /* respond only if state == 1 */
-                    if (sInfo.section(" ", 1, 1).toUInt() == 100 &&
-                       sInfo.section(" ", 7, 7).toUInt() == 1)
-                        // (bus, addr, port)
+                    if (sInfo.section(" ", 1, 1).toUInt() == 100)
+                        // (bus, addr, port, value)
                         gbs->sendInfoPortMessage(
                                 sInfo.section(" ", 3, 3).toUInt(),
                                 sInfo.section(" ", 5, 5).toUInt(),
-                                sInfo.section(" ", 6, 6).toUInt());
+                                sInfo.section(" ", 6, 6).toUInt(),
+                                sInfo.section(" ", 7, 7).toUInt());
                 }
                 
                 /*
@@ -2506,6 +2560,11 @@ void MainWindow::InfoSocketReadyRead()
                             }
                     }
                 }
+                /**
+                 * add other device groups here (ECHO, MACRO)
+                 * <time> 100 INFO <bus=0> ECHO <echo message>
+                 * <time> 100 INFO <bus=0> MACRO <macro message>
+                 **/
             }
         }
     }
@@ -2514,7 +2573,7 @@ void MainWindow::InfoSocketReadyRead()
 
 void MainWindow::InfoSocketConnected()
 {
-    cmdToDebug(tr("Info port connected!"), MT_INFO, HL_HINT);
+    cmdToDebug(tr("Info socket connected!"), MT_INFO, HL_HINT);
     InfoPortIsConnected = true;
 }
 
@@ -2524,14 +2583,14 @@ void MainWindow::InfoSocketConnectionClosedByServer()
     if (InfoSocket->isOpen()) {
         InfoSocket->close();
     }
-    cmdToDebug(tr("Info port closed by foreign host!"), MT_INFO, HL_HINT);
+    cmdToDebug(tr("Info socket closed by foreign host!"), MT_INFO, HL_HINT);
     InfoPortIsConnected = false;
 }
 
 
 void MainWindow::InfoSocketConnectionClosed()
 {
-    cmdToDebug(tr("Info port closed!"), MT_INFO, HL_HINT);
+    cmdToDebug(tr("Info socket closed!"), MT_INFO, HL_HINT);
     InfoPortIsConnected = false;
 }
 
@@ -2539,7 +2598,7 @@ void MainWindow::InfoSocketConnectionClosed()
 void MainWindow::InfoSocketError(int e)
 {
     QString ErrMessage = GetSocketErrorString(e);
-    cmdToDebug(tr("Info port: Error number %1 occurred (%2)")
+    cmdToDebug(tr("Info socket: Error number %1 occurred (%2)")
                .arg(e).arg(ErrMessage), MT_INFO, HL_HINT);
 }
 
@@ -2549,15 +2608,15 @@ QString MainWindow::GetSocketErrorString(int e)
     QString ErrMessage = "";
 
     switch (e) {
-    case (QSocket::ErrConnectionRefused):
-        ErrMessage = tr("connection refused");
-        break;
-    case (QSocket::ErrHostNotFound):
-        ErrMessage = tr("host not found");
-        break;
-    case (QSocket::ErrSocketRead):
-        ErrMessage = tr("socket read error");
-        break;
+        case (QSocket::ErrConnectionRefused):
+            ErrMessage = tr("connection refused");
+            break;
+        case (QSocket::ErrHostNotFound):
+            ErrMessage = tr("host not found");
+            break;
+        case (QSocket::ErrSocketRead):
+            ErrMessage = tr("socket read error");
+            break;
     }
     return ErrMessage;
 }
@@ -2596,6 +2655,8 @@ bool MainWindow::isValidSRCP08Version(const QString& SRCPVerStr)
 
 void MainWindow::ConnectCommandPort()
 {
+    cmdToDebug(tr("Command socket: Try to connect host \"%1\" on port \"%2\"")
+            .arg(cmdHost).arg(cmdPort), MT_INFO, HL_HINT);
     SRCPCommandState = srcpLogin;
     CommandSocket->connectToHost(cmdHost, cmdPort);   /*e.g.: 12345 */
 }
@@ -2603,6 +2664,8 @@ void MainWindow::ConnectCommandPort()
 
 void MainWindow::ConnectFeedbackPort()
 {
+    cmdToDebug(tr("Feedback socket: Try to connect host \"%1\" on port \"%2\"")
+            .arg(cmdHost).arg(cmdPort + 1), MT_INFO, HL_HINT);
     FeedbackSocket->connectToHost(cmdHost, cmdPort + 1);      /*e.g.: 12346 */
 }
 
@@ -2615,9 +2678,14 @@ void MainWindow::ConnectInfoPort()
      * in SRCP 0.8 mode connection is established to same port as
      * command channel, but other login type
      */
-    if (srcpVersion == 7)
+    if (srcpVersion == 7) {
+        cmdToDebug(tr("Info socket: Try to connect host \"%1\" on port \"%2\"")
+                .arg(cmdHost).arg(cmdPort + 2), MT_INFO, HL_HINT);
         InfoSocket->connectToHost(cmdHost, cmdPort + 2);
+    }
     else {
+        cmdToDebug(tr("Info socket: Try to connect host \"%1\" on port \"%2\"")
+                .arg(cmdHost).arg(cmdPort), MT_INFO, HL_HINT);
         SRCPInfoState = srcpLogin;
         InfoSocket->connectToHost(cmdHost, cmdPort);
     }
@@ -2632,6 +2700,7 @@ void MainWindow::CloseSRCPServerConnection()
     
     /* In SRCP 0.8 command port is closed by "active close" */
     else if (srcpVersion == 8) {
+        //TODO: SendCommandToSRCPServer("TERM 0 SESSION");
         CommandSocket->close();
         if (CommandSocket->state() == QSocket::Closing) {
             // We have a delayed close.
@@ -2658,6 +2727,7 @@ void MainWindow::CloseSRCPServerConnection()
 
     /* SRCP 0.7 and 0.8: Info port is closed by "active close" */
     if (InfoSocket->isOpen()) {
+        //TODO: SendInfoCommandToSRCPServer("TERM 0 SESSION"")
         InfoSocket->close();
         if (InfoSocket->state() == QSocket::Closing) {
             // We have a delayed close.
@@ -2693,7 +2763,7 @@ void MainWindow::SendInfoCommandToSRCPServer(const QString& cmdstr)
         if (!cmdstr.endsWith("\n"))
             cmd.append("\n");
         InfoSocket->writeBlock(cmd, (unsigned long) cmd.length());
-        InfoSocket->flush();
+        //InfoSocket->flush();
         cmdToDebug(cmdstr, MT_CMD, HL_INFO);
     }
 }
@@ -2729,6 +2799,7 @@ void MainWindow::slotToggleLayoutPower()
     LayoutPowerIsOn = !LayoutPowerIsOn;
 
     if (srcpVersion == 7) {
+        //TODO: change to send SrcpMessage
         SendCommandToSRCPServer(
                 LayoutPowerIsOn ? "SET POWER ON" : "SET POWER OFF");
         if (LayoutPowerIsOn && cmdAutoSendAll)
@@ -2768,6 +2839,7 @@ void MainWindow::updateLayoutPowerAction()
 // reset the daemon
 void MainWindow::slotDaemonReset()
 {
+    //TODO: change to send SrcpMessage
     if (srcpVersion == 7)
         SendCommandToSRCPServer("RESET");
     else if (srcpVersion == 8)
@@ -3078,11 +3150,8 @@ void MainWindow::slotViewKeyboard()
 void MainWindow::cmdToDebug(const QString& hl_message, int m_type,
                             int hl_type)
 {
-    QString t;
-
     QTime cmdTime = QTime::currentTime();
-    t.sprintf("%02d:%02d:%02d ", cmdTime.hour(), cmdTime.minute(),
-              cmdTime.second());
+    QString t = cmdTime.toString("hh:mm:ss.zzz");
 
     if (m_type == MT_INFO)
         t.append("> ");         // == an info line
@@ -3174,11 +3243,14 @@ void MainWindow::slotEditFind()
 void MainWindow::layoutUpdateFB()
 {
     if (srcpVersion == 7) {
-        //TODO: FB_TYPE
-        //SendCommandToSRCPServer((FEEDBACK <=
-        //            1) ? "GET FB S88 *" : "GET FB I8255 *");
-        SendCommandToSRCPServer("GET FB S88 *");
         SRCPCommandState = srcp07GetFBStates;
+        SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgFbGet);
+        if (sm == NULL)
+            return;
+
+        sm->setFbData(0, (SrcpMessage::Feedback) pref.fbmoduletype, 0);
+        sendSrcpMessage(sm);
+        delete sm;
     }
 }
 

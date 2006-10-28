@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.h
-                           version 0.4.3 $Revision: 1.11 $
+                           version 0.4.3 $Revision: 1.12 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-08-23 18:10:09 $
+    last modified        : $Date: 2006-10-28 18:46:29 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -62,6 +62,7 @@ private:
    void setupLayoutTab();              // creates the tab with layout specs
    void setupDigitalTab();                // creates the tab with data specs
    void setupFeedbackTab();                // creates the tab with data specs
+   void setupFeedbackTypeTab();                // creates the tab with data specs
    bool valuesAreValid();              // check if any user entry is wrong
 
 private slots:
@@ -71,6 +72,7 @@ private slots:
    void slotProtChanged(int);          // selects new dec if protocol changed
    void slotLimitModules(int);         // limits no of fb moduls on each bus
    void fixFBBusNumbers(int);
+   void selectFbModuleType(int);
 
 private:
    QCheckBox    *cbShowHp2;            // layout shows orange light for Hp2
@@ -80,11 +82,12 @@ private:
    QCheckBox    *cbAutoload;           // activate autoloader
    QCheckBox    *cbAutosave;           // activate autosaver
    QCheckBox    *cbAutoTTDir;          // auto-select turn dir of turntable
+   QCheckBox    *cbConvertTime;        // convert SRCP time string
 
    QRadioButton *rbShowAddr;           // show element's address or full text
    QRadioButton *rbShowTxt;
-   QRadioButton *rbS88_16;             // user has 16 or 8 port feedback mods
-   QRadioButton *rbS88_8;
+   QRadioButton *rb16inputs;           // user has feedback modules with
+   QRadioButton *rb8inputs;            // 16 or 8 inputs
    //QRadioButton *rbI8255;
    QRadioButton *fixedBusesRB;
    QRadioButton *flexBusesRB;
@@ -100,7 +103,7 @@ private:
    QSpinBox     *sbDefaultRows;        // no of default new rows
    QSpinBox     *sbRoutingTime;        // default delay between to elements in
                                        // a route
-   QSpinBox     *sbFBmod_1;            // no of fb mods on bus 1 ... 4
+   QSpinBox     *sbFBmod_1;
    QSpinBox     *sbFBmod_2;
    QSpinBox     *sbFBmod_3;
    QSpinBox     *sbFBmod_4;
@@ -117,6 +120,9 @@ private:
    QLineEdit*    bus4LE;
 
    QPushButton  *buttGetAutofile;      // button to select autoload file
+
+   QButtonGroup* feedbackTypeGB;
+   QGroupBox*    selectrixGB;
 };
 
 #endif    //OPTIONSDIALOG_H

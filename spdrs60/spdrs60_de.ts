@@ -355,10 +355,6 @@ verwenden, starten sie erst den Daemon, dann dieses Programm).</translation>
         <translation>&amp;Über</translation>
     </message>
     <message>
-        <source>Feedback port changes are omitted while initialization</source>
-        <translation>Änderungen an Rückmeldeeingängen sind bei der Initialisierung nicht erlaubt</translation>
-    </message>
-    <message>
         <source>Personal config file not found</source>
         <translation>Persönliche Konfigurationsdatei nicht gefunden</translation>
     </message>
@@ -375,48 +371,32 @@ verwenden, starten sie erst den Daemon, dann dieses Programm).</translation>
         <translation>Verbindung &amp;trennen</translation>
     </message>
     <message>
-        <source>Command port: Host &apos;%1&apos; found.</source>
-        <translation>Kommando-Port: Host &apos;%1&apos; gefunden.</translation>
-    </message>
-    <message>
         <source>SRCP: %1 ===&gt; PASS</source>
         <translation>SRCP: %1 ===&gt; PASSIERT</translation>
     </message>
     <message>
-        <source>Command port connected!</source>
-        <translation>Kommando-Port ist verbunden!</translation>
+        <source>Command socket connected!</source>
+        <translation>Kommando-Socket ist verbunden!</translation>
     </message>
     <message>
-        <source>Command port closed!</source>
-        <translation>Kommando-Port ist geschlossen!</translation>
+        <source>Command socket closed!</source>
+        <translation>Kommando-Socket ist geschlossen!</translation>
     </message>
     <message>
-        <source>Command port: Error number %1 occurred (%2)</source>
-        <translation>Kommando-Port: Fehlernummer %1 ist aufgetreten (%2)</translation>
+        <source>Feedback socket connected!</source>
+        <translation>Rückmelde-Socket ist verbunden!</translation>
     </message>
     <message>
-        <source>Feedback port connected!</source>
-        <translation>Rückmelde-Port ist verbunden!</translation>
+        <source>Feedback socket closed!</source>
+        <translation>Rückmelde-Socket geschlossen!</translation>
     </message>
     <message>
-        <source>Feedback port closed!</source>
-        <translation>Rückmelde-Port geschlossen!</translation>
+        <source>Info socket connected!</source>
+        <translation>Info-Socket ist verbunden!</translation>
     </message>
     <message>
-        <source>Feedback port: Error number %1 occurred (%2)</source>
-        <translation>Rückmelde-Port: Fehlernummer %1 ist aufgetreten (%2)</translation>
-    </message>
-    <message>
-        <source>Info port connected!</source>
-        <translation>Info-Port ist verbunden!</translation>
-    </message>
-    <message>
-        <source>Info port closed!</source>
-        <translation>Info-Port ist geschlossen!</translation>
-    </message>
-    <message>
-        <source>Info port: Error number %1 occurred (%2)</source>
-        <translation>Info-Port: Fehlernummer %1 ist aufgetreten (%2)</translation>
+        <source>Info socket closed!</source>
+        <translation>Info-Socket ist geschlossen!</translation>
     </message>
     <message>
         <source>connection refused</source>
@@ -451,16 +431,16 @@ SRCP-Versionsnummer:
 %s</translation>
     </message>
     <message>
-        <source>Command port closed by foreign host!</source>
-        <translation>Kommando-Port durch Server geschlossen!</translation>
+        <source>Command socket closed by foreign host!</source>
+        <translation>Kommando-Socket durch Server geschlossen!</translation>
     </message>
     <message>
-        <source>Feedback port closed by foreign host!</source>
-        <translation>Rückmelde-Port durch Server geschlossen!</translation>
+        <source>Feedback socket closed by foreign host!</source>
+        <translation>Rückmelde-Socket durch Server geschlossen!</translation>
     </message>
     <message>
-        <source>Info port closed by foreign host!</source>
-        <translation>Info-Port durch Server geschlossen!</translation>
+        <source>Info socket closed by foreign host!</source>
+        <translation>Info-Socket durch Server geschlossen!</translation>
     </message>
     <message>
         <source>Layouts</source>
@@ -844,6 +824,38 @@ Wollen Sie sie überschreiben?</translation>
     <message>
         <source>Hints</source>
         <translation>Hinweise</translation>
+    </message>
+    <message>
+        <source>Command socket: Host &apos;%1&apos; found.</source>
+        <translation>Kommando-Socket: Host &apos;%1&apos; gefunden.</translation>
+    </message>
+    <message>
+        <source>Command socket: Error number %1 occurred (%2)</source>
+        <translation>Kommando Socket: Fehler Nummer %1 ist aufgetreten (%2)</translation>
+    </message>
+    <message>
+        <source>Feedback port changes should be avoided during initialization</source>
+        <translation>Während der Initialisierung sollten Änderungen der Rückmelder vermieden werden</translation>
+    </message>
+    <message>
+        <source>Feedback socket: Error number %1 occurred (%2)</source>
+        <translation>Rückmelde-Socket: Fehler Nummer %1 ist aufgetreten (%2)</translation>
+    </message>
+    <message>
+        <source>Info socket: Error number %1 occurred (%2)</source>
+        <translation>Info-Socket: Fehler Nummer %1 ist aufgetreten (%2)</translation>
+    </message>
+    <message>
+        <source>Command socket: Try to connect host &quot;%1&quot; on port &quot;%2&quot;</source>
+        <translation>Kommando-Socket: Versuche Verbindung zu Host &quot;%1&quot; auf Port &quot;%2&quot; herzustellen</translation>
+    </message>
+    <message>
+        <source>Feedback socket: Try to connect host &quot;%1&quot; on port &quot;%2&quot;</source>
+        <translation>Rückmelde-Socket: Versuche Verbindung zu Host &quot;%1&quot; auf Port &quot;%2&quot; herzustellen</translation>
+    </message>
+    <message>
+        <source>Info socket: Try to connect host &quot;%1&quot; on port &quot;%2&quot;</source>
+        <translation>Info-Socket: Versuche Verbindung zu Host &quot;%1&quot; auf Port &quot;%2&quot; herzustellen</translation>
     </message>
 </context>
 <context>
@@ -1399,7 +1411,7 @@ Controlled via keyboard #14</source>
     </message>
     <message>
         <source>&amp;LEDs off</source>
-        <translation>&amp;LEDs aus</translation>
+        <translation>&amp;Gleismelder aus</translation>
     </message>
     <message>
         <source>&amp;Inverted use</source>
@@ -1447,7 +1459,7 @@ Controlled via keyboard #14</source>
     </message>
     <message>
         <source>Feedback for track LEDs</source>
-        <translation>Rückmeldung für Strecken-LEDs</translation>
+        <translation>Rückmeldung für Gleismelder</translation>
     </message>
     <message>
         <source>Bus (s&amp;88/SRCP):</source>
@@ -1695,7 +1707,7 @@ ein Modul an Bus Nr. 1 angeschlossen ist.</translation>
         <translation>Signalinitialisierung</translation>
     </message>
     <message>
-        <source>A&amp;lways on Halt (Hp0/Hp00/Sh0)</source>
+        <source>Always on &amp;Halt (Hp0/Hp00/Sh0)</source>
         <translation>Immer auf &amp;Halt (Hp0/Hp00/Sh0)</translation>
     </message>
     <message>
@@ -1731,14 +1743,6 @@ ein Modul an Bus Nr. 1 angeschlossen ist.</translation>
         <translation>&amp;Zeit für eine 360° Drehung (s.ms):</translation>
     </message>
     <message>
-        <source>s88 with 1&amp;6 inputs per module</source>
-        <translation>s88 mit 1&amp;6 Eingängen pro Modul</translation>
-    </message>
-    <message>
-        <source>s88 with &amp;8 inputs per module</source>
-        <translation>s88 mit &amp;8 Eingängen pro Modul</translation>
-    </message>
-    <message>
         <source>Fi&amp;xed (SRCP 0.7)</source>
         <translation>Fe&amp;ste Zuordnung (SRCP 0.7)</translation>
     </message>
@@ -1753,10 +1757,6 @@ ein Modul an Bus Nr. 1 angeschlossen ist.</translation>
     <message>
         <source>&amp;Modules:</source>
         <translation>&amp;Module:</translation>
-    </message>
-    <message>
-        <source>&amp;Feedback</source>
-        <translation>&amp;Rückmeldungen</translation>
     </message>
     <message>
         <source>&amp;Layout</source>
@@ -1775,16 +1775,12 @@ ein Modul an Bus Nr. 1 angeschlossen ist.</translation>
         <translation>Standardprotokoll</translation>
     </message>
     <message>
-        <source>Feedback type</source>
-        <translation>Rückmeldetyp</translation>
-    </message>
-    <message>
-        <source>Feedback bus numbering</source>
+        <source>Bus numbering</source>
         <translation>Nummerierung der Rückmeldebusse</translation>
     </message>
     <message>
-        <source>Connected modules per feedback bus</source>
-        <translation>Angeschlossene Module pro Rückmeldebus</translation>
+        <source>Connected modules per bus</source>
+        <translation>Angeschlossene Module pro Bus</translation>
     </message>
     <message>
         <source>A&amp;llways send solenoid states on routing</source>
@@ -1801,6 +1797,90 @@ ein Modul an Bus Nr. 1 angeschlossen ist.</translation>
     <message>
         <source>&amp;Save active layout on program exit</source>
         <translation>Bei Programmbeendung &amp;aktives Gleisbild speichern</translation>
+    </message>
+    <message>
+        <source>&amp;Convert SRCP 0.8 server time human readable</source>
+        <translation>&amp;Serverzeitangabe bei SRCP 0.8-Meldungen lesbar darstellen</translation>
+    </message>
+    <message>
+        <source>Module size</source>
+        <translation>Modulgröße</translation>
+    </message>
+    <message>
+        <source>1&amp;6 Inputs</source>
+        <translation>1&amp;6 Anschlüsse</translation>
+    </message>
+    <message>
+        <source>&amp;8 Inputs</source>
+        <translation>&amp;8 Anschlüsse</translation>
+    </message>
+    <message>
+        <source>&amp;Feedback modules</source>
+        <translation>&amp;Rückmeldemodule</translation>
+    </message>
+    <message>
+        <source>Module type</source>
+        <translation>Modultyp</translation>
+    </message>
+    <message>
+        <source>S88 via &amp;DDL</source>
+        <translation>S88 über &amp;DDL</translation>
+    </message>
+    <message>
+        <source>i8&amp;255-Card</source>
+        <translation>i8&amp;255-IO-Karte</translation>
+    </message>
+    <message>
+        <source>S88 via M60&amp;15</source>
+        <translation>S88 über M60&amp;15</translation>
+    </message>
+    <message>
+        <source>&amp;Protocol by server</source>
+        <translation>&amp;Protokoll durch Server</translation>
+    </message>
+    <message>
+        <source>&amp;Selectrix</source>
+        <translation>&amp;Selectrix</translation>
+    </message>
+    <message>
+        <source>Selectrix Initialization</source>
+        <translation>Selectrix Initialisierung</translation>
+    </message>
+    <message>
+        <source>Bus</source>
+        <translation>Bus</translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Adresse</translation>
+    </message>
+    <message>
+        <source>Number</source>
+        <translation>Nummer</translation>
+    </message>
+    <message>
+        <source>&amp;Up</source>
+        <translation>A&amp;uf</translation>
+    </message>
+    <message>
+        <source>&amp;Down</source>
+        <translation>&amp;Ab</translation>
+    </message>
+    <message>
+        <source>&amp;Edit...</source>
+        <translation>&amp;Bearbeiten...</translation>
+    </message>
+    <message>
+        <source>&amp;Add...</source>
+        <translation>&amp;Hinzufügen...</translation>
+    </message>
+    <message>
+        <source>&amp;Remove</source>
+        <translation>&amp;Entfernen</translation>
+    </message>
+    <message>
+        <source>Feedback &amp;type</source>
+        <translation>Rückmelde&amp;typ</translation>
     </message>
 </context>
 <context>
