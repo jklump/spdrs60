@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.cpp
-                           version 0.4.8 $Revision: 1.17 $
+                           version 0.4.8 $Revision: 1.18 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-08-29 18:04:39 $
+    last modified        : $Date: 2006-10-28 07:06:42 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -727,7 +727,7 @@ void elementDialog::slotDecoderChanged(int index)
     // autoset protocol type after choosing a sProt
     if (sProt == "(M)")
         rbProtocol_MS->setChecked(true);
-    else if (sProt == "(N)")
+    else if (sProt == "(D)")
         rbProtocol_NA->setChecked(true);
     else if (sProt == "(P)")
         rbProtocol_PS->setChecked(true);
