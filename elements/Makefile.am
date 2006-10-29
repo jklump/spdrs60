@@ -2,7 +2,7 @@
 
 elementsdatadir = $(pkgdatadir)/elements
 
-dist_elementsdata_DATA = adresse.xpm blind_0.xpm blind_1.xpm \
+dist_elementsdata_DATA = adresse.xpm \
     blind.xpm diagonale_links_tl.xpm \
     diagonale_links.xpm diagonale_rechts_tl.xpm \
     diagonale_rechts.xpm dkw_links.xpm \

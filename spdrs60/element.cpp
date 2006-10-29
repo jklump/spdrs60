@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.72 $
+                           version 0.5.0 $Revision: 1.73 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-10-29 13:57:22 $
+    last modified        : $Date: 2006-10-29 19:24:00 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1532,7 +1532,51 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         setPaletteBackgroundPixmap(pm);
     }
     
-    // uebergang
+    // address
+    else if (sSoldIcon == SYM_ADR){
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+        
+        // paint track
+        p.fillRect(0, pm.height() / 2 - 3, 3, 7,
+                QBrush(QColor(black)));
+        p.fillRect(pm.width() - 4, pm.height() / 2 - 3, 3, 7,
+                QBrush(QColor(black)));
+
+        // paint address field
+        p.setPen(QPen(darkGray, 2));
+        
+        if (iSoldRotate == 1)
+            p.setBrush(QColor(black));
+        else
+            p.setBrush(QColor(220, 220, 220));
+        
+        p.drawRect(4, 7, pm.width() - 8, pm.height() - 14);
+
+        // paint address value
+        if (iSoldRotate == 1)
+            p.setPen(QPen(red));
+        else
+            p.setPen(QPen(black));
+
+        QFont f("Helvetica");
+        f.setPointSize(QApplication::font().pointSize() + 2);
+        f.setWeight(QFont::DemiBold);
+        p.setFont(f);
+        sSoldText.sprintf("%05d", editsAddress);
+        QFontMetrics fm(f);
+        QRect br = fm.boundingRect(sSoldText);
+        br.moveTopLeft(QPoint(pm.width() / 2 - br.width() / 2 - 1,
+                    pm.height() / 2 - br.height() / 2));
+	p.drawText(br, Qt::AlignCenter | Qt::SingleLine | Qt::DontClip,
+                sSoldText);
+        
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+    
+    // level crossing
     else if (sSoldIcon == SYM_BUE){
         QPixmap pm = QPixmap(leer_xpm);
         QPainter p;
@@ -1555,6 +1599,74 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         p.drawEllipse(6, 4, 6, 6);
         p.drawEllipse(pm.width() - 12, 4, 6, 6);
         //p.drawRect(pm.width()/2 - 3, 4, 6, 6);
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+    
+    // blind element
+    else if (sSoldIcon == SYM_BLD){
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+        
+        // paint track
+        p.fillRect(0, pm.height() / 2 - 3, pm.width() - 1, 7,
+                QBrush(QColor(black)));
+        
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 7; ++i)
+            p.fillRect(4 + 7 * i, pm.height() / 2 - 2, 5, 5,
+                    QBrush(QColor(lightGray)));
+        }
+        else {
+            QColor c;
+            if (occupied)
+                c = QColor(red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(darkGray);
+            }
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+            p.drawLine(pm.width() / 3, pm.height() / 2,
+                    2 * pm.width() / 3, pm.height() / 2);
+            p.setPen(QPen(black));
+        }
+
+        // paint text label
+        if (sSoldText != "-1" && !sSoldText.isEmpty()) {
+            QFont f("Helvetica");
+            f.setPointSize(QApplication::font().pointSize() - 3);
+            p.setFont(f);
+            QFontMetrics fm(f);
+            QRect br = fm.boundingRect(sSoldText);
+            br.setWidth(br.width() + 4);
+            br.setHeight(br.height() + 2);
+
+            if (iSoldRotate == 1)
+                br.moveBottomRight(QPoint(pm.width()/2 + br.width()/2,
+                            pm.height() - 3));
+            else
+                br.moveTopLeft(QPoint(pm.width()/2 - br.width()/2, 2));
+            
+            p.fillRect(br, QBrush(white));
+            p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
+                    Qt::DontClip, sSoldText);
+        }
+
+        // paint signalization
+        if (iSoldDirection == 1)
+            p.setPen(QPen(green));
+        else
+            p.setPen(QPen(red));
+        
+        p.drawLine(19, 12, 19 + 17, 12);
+        p.drawLine(18, 13, 18 + 19, 13);
+        p.drawLine(18, 21, 18 + 19, 21);
+        p.drawLine(19, 22, 19 + 17, 22);
 
         p.end();
         setPaletteBackgroundPixmap(pm);
@@ -2201,9 +2313,6 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         setPaletteBackgroundPixmap(pm);
     }
 
-    //else if (sSoldIcon == SYM_GER){
-    //}
-
     else {
     
     /*
@@ -2232,14 +2341,10 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
     else if (sSoldIcon == SYM_KURR || sReplaceIcon == SYM_KURR)
         iIconByte = 10;
     else if (sSoldIcon == SYM_GER || sSoldIcon == SYM_ENK
-             || sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB
              || sSoldIcon == SYM_BUE || sSoldIcon == SYM_HS
-             || sSoldIcon == SYM_HSS || sSoldIcon == SYM_SS
-             || sSoldIcon == SYM_SSH || sSoldIcon == SYM_SSS
+             || sSoldIcon == SYM_HSS
              || sSoldIcon == SYM_WS || sSoldIcon == SYM_ZP
-             || sSoldIcon == SYM_BLD || sSoldIcon == SYM_RI1
-             || sSoldIcon == SYM_RI2 || sReplaceIcon == SYM_GER
-             || sSoldIcon == SYM_VS
+             || sReplaceIcon == SYM_GER || sSoldIcon == SYM_VS
              || ((sSoldIcon == SYM_KRL || sSoldIcon == SYM_KRR)
                  && sReplaceIcon == "")) {
         iIconByte = 18;
@@ -2333,7 +2438,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             return;
     }
     /*TODO: what about symbols with "taste"-name?*/
-    if (iSoldLEDoff == 1 || sSoldIcon == SYM_LEE)
+    if (iSoldLEDoff == 1)
         goto LEDOFF;
         /*TODO: show white pattern on rail */
 
@@ -2557,10 +2662,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                 break;
         }
 
-    else if (sSoldIcon == SYM_SS || sSoldIcon == SYM_ZP
-             || sSoldIcon == SYM_WS || sSoldIcon == SYM_BLD
-             || sSoldIcon == SYM_SSH || sSoldIcon == SYM_SSS
-             )
+    else if (sSoldIcon == SYM_ZP || sSoldIcon == SYM_WS)
         switch (iSoldDirection) {
             case DIR_0:              // 0
                 sStateIcon = sSoldIcon + "_0";
@@ -2660,13 +2762,6 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             s = sSoldText;
         }
         
-        // address element
-        else if (sSoldIcon == SYM_ADR) {
-            f.setPointSize(QApplication::font().pointSize() + 1);
-            f.setWeight(QFont::DemiBold);
-            s.sprintf("%04d", editsAddress);
-        }
-        
         // turntable
         else if (sSoldIcon == SYM_DRE) {
             f.setPointSize(QApplication::font().pointSize() - 3);
@@ -2704,8 +2799,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         else if ((sSoldIcon.startsWith("signal") && iSoldRotate == 1) ||
                  (sSoldIcon == SYM_WEL && iSoldRotate == 0) ||
                  (sSoldIcon == SYM_WER && iSoldRotate == 1) ||
-                 (sSoldIcon == SYM_ENK) ||
-                 (sSoldIcon == SYM_REL) || (sSoldIcon == SYM_BLD))
+                 (sSoldIcon == SYM_ENK) || (sSoldIcon == SYM_REL))
             br.moveTopLeft(QPoint
                            (EL_WIDTH / 2 - br.width() / 2,
                             EL_HEIGHT - br.height() - 2));
@@ -2739,11 +2833,6 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                            (EL_WIDTH / 2 - br.width() / 2,
                             EL_HEIGHT / 2 - br.height() / 2));
         
-        else if (sSoldIcon == SYM_LEE || sSoldIcon == SYM_ADR)
-            br.moveTopLeft(QPoint
-                           (EL_WIDTH / 2 - br.width() / 2 - 2,
-                            EL_HEIGHT / 2 - br.height() / 2));
-
         // paint text on background rectangle
         if (sSoldIcon == SYM_SBN)
             p.fillRect(br, QBrush(QColor("grey86")));
@@ -2752,7 +2841,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             p.fillRect(br, QBrush(yellow));
         
         else if (sSoldIcon != SYM_LEE && sSoldIcon != SYM_GER
-                 && sSoldIcon != SYM_ADR && !sSoldText.isEmpty())
+                 && !sSoldText.isEmpty())
             p.fillRect(br, QBrush(white));
 
         // adjust text area position
@@ -2812,8 +2901,6 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         if (iSoldAddress_1 != -1 && sSoldIcon != SYM_ENK
                 && sSoldIcon != SYM_REL && sSoldIcon != SYM_SBN
                 && sSoldIcon != SYM_MDC && sSoldIcon != SYM_DRE
-                && sSoldIcon != SYM_ADR && sSoldIcon != SYM_BLD
-                && sSoldIcon != SYM_SRB && sSoldIcon != SYM_NRB
                 && sSoldIcon != SYM_VS) {
             p.setPen(black);
             p.setBrush(isLocked() ? yellow : darkGray);
