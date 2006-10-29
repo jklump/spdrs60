@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.70 $
+                           version 0.5.0 $Revision: 1.71 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-10-28 18:46:28 $
+    last modified        : $Date: 2006-10-29 09:21:55 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1344,6 +1344,193 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         setPaletteBackgroundPixmap(pm);
     }
    
+    // blue panel
+    if (sSoldIcon == SYM_FEB) {
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+            
+        // paint panel
+        p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
+                QBrush(QColor(0, 0, 192), SolidPattern));
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+   
+    // green panel
+    if (sSoldIcon == SYM_FEG) {
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+            
+        // paint panel
+        p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
+                QBrush(QColor(0, 160, 0), SolidPattern));
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+   
+    // red panel
+    if (sSoldIcon == SYM_FER) {
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+            
+        // paint panel
+        p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
+                QBrush(QColor(221, 0, 0), SolidPattern));
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+   
+    // yellow panel
+    if (sSoldIcon == SYM_FEY) {
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+            
+        // paint panel
+        p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
+                QBrush(QColor(224, 224, 0), SolidPattern));
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+   
+    // brown panel
+    if (sSoldIcon == SYM_FEN) {
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+            
+        // paint panel
+        p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
+                QBrush(QColor(112, 48, 0), SolidPattern));
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+   
+    // grey panel
+    if (sSoldIcon == SYM_FEE) {
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+            
+        // paint panel
+        p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
+                QBrush(QColor(128, 128, 128), SolidPattern));
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+   
+    // prellbock
+    if (sSoldIcon == SYM_PRE) {
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+            
+        // paint panel
+        if (iSoldRotate == 1)
+            p.fillRect(0, pm.height() / 2 - 6, 5, 13,
+                    QBrush(QColor(black)));
+        else
+            p.fillRect(pm.width() - 5, pm.height() / 2 - 6, pm.width(),
+                    13, QBrush(QColor(black)));
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+   
+    // direction arrows
+    else if (sSoldIcon == SYM_RI1 || sSoldIcon == SYM_RI2){
+        bool isri2 = (sSoldIcon == SYM_RI2);
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+        
+        // paint track
+        p.fillRect(0, pm.height() / 2 - 3, pm.width() - 1, 7,
+                QBrush(QColor(black)));
+
+        // paint arrows
+        /**
+         * isri2  rotated  rightarrow  leftarrow
+         * -------------------------------------
+         *  0       0         1            0
+         *  0       1         0            1
+         *  1       0         1            1
+         *  1       1         1            1
+         * -------------------------------------
+         **/
+
+        p.setBrush(QBrush(QColor(black)));
+
+        if (isri2 || iSoldRotate == 1) {
+            QPointArray leftarrow = QPointArray(4);
+            leftarrow.putPoints(0, 4, pm.width()*3/4, pm.height()/2,
+                    pm.width() - 1, 1, pm.width()/2 - 6, pm.height()/2,
+                    pm.width() - 1, pm.height() - 1);
+            p.drawPolygon(leftarrow);
+        }
+        if (isri2 || iSoldRotate != 1) {
+            QPointArray rightarrow = QPointArray(4);
+            rightarrow.putPoints(0, 4, pm.width()/4, pm.height()/2, 1, 1,
+                    pm.width()/2 + 6, pm.height()/2, 1, pm.height() - 1);
+            p.drawPolygon(rightarrow);
+        }
+        
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 7; ++i)
+            p.fillRect(4 + 7 * i, pm.height() / 2 - 2, 5, 5,
+                    QBrush(QColor(lightGray)));
+        }
+        else {
+            QColor c;
+            if (occupied)
+                c = QColor(red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(darkGray);
+            }
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+            p.drawLine(pm.width() / 3, pm.height() / 2,
+                    2 * pm.width() / 3, pm.height() / 2);
+            p.setPen(QPen(black));
+        }
+
+        // paint text label
+        if (sSoldText != "-1" && !sSoldText.isEmpty()) {
+            QFont f("Helvetica");
+            f.setPointSize(QApplication::font().pointSize() - 3);
+            p.setFont(f);
+            QFontMetrics fm(f);
+            QRect br = fm.boundingRect(sSoldText);
+            br.setWidth(br.width() + 4);
+            br.setHeight(br.height() + 2);
+
+            if (iSoldRotate == 1)
+                br.moveBottomRight(QPoint(pm.width()/2 + br.width()/2,
+                            pm.height() - 3));
+            else
+                br.moveTopLeft(QPoint(pm.width()/2 - br.width()/2, 2));
+            
+            p.fillRect(br, QBrush(white));
+            p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
+                    Qt::DontClip, sSoldText);
+        }
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+    
     // straight track
     else if (sSoldIcon == SYM_GER){
         QPixmap pm = QPixmap(leer_xpm);

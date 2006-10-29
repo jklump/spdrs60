@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.cpp
-                           version 0.4.8 $Revision: 1.19 $
+                           version 0.4.8 $Revision: 1.20 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-10-28 18:46:28 $
+    last modified        : $Date: 2006-10-29 09:21:55 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -827,6 +827,7 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
         sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB ||
         sSoldIcon == SYM_WEY || sSoldIcon == SYM_MDC ||
         sSoldIcon == SYM_SBN || sSoldIcon == SYM_ADR ||
+        sSoldIcon == SYM_RI1 || sSoldIcon == SYM_RI2 ||
         sSoldIcon == SYM_BLD || sSoldIcon == SYM_ZP;
 
     if (!enabled)
