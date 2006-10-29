@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.71 $
+                           version 0.5.0 $Revision: 1.72 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-10-29 09:21:55 $
+    last modified        : $Date: 2006-10-29 13:57:22 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -43,6 +43,7 @@
 #include "pixmaps/button-red.xpm"
 #include "pixmaps/button-gray.xpm"
 #include "pixmaps/button-black.xpm"
+#include "pixmaps/button-yellow.xpm"
 
 
 static const char* leer_xpm[]={
@@ -1526,6 +1527,34 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, sSoldText);
         }
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+    
+    // uebergang
+    else if (sSoldIcon == SYM_BUE){
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+        
+        // paint road
+        p.fillRect(pm.width() / 2 - 7, 0, 15, pm.height(),
+                QBrush(QColor(darkGray)));
+
+        // paint track
+        p.fillRect(0, pm.height() / 2 - 3, pm.width() - 1, 7,
+                QBrush(QColor(black)));
+
+        // paint track button
+        p.drawPixmap(pm.width() / 2  - 4, pm.height() / 2 - 3,
+                QPixmap(button_yellow_xpm));
+        
+        // paint lights
+        p.setBrush(darkGray);
+        p.drawEllipse(6, 4, 6, 6);
+        p.drawEllipse(pm.width() - 12, 4, 6, 6);
+        //p.drawRect(pm.width()/2 - 3, 4, 6, 6);
 
         p.end();
         setPaletteBackgroundPixmap(pm);

@@ -124,8 +124,8 @@
 #define   SYM_DIR          "diagonale_rechts"
 #define   SYM_DIL          "diagonale_links"
 #define   SYM_DRW          "dreier_weiche"
-#define   SYM_PRE          "prellbock"
-#define   SYM_BUE          "uebergang"
+#define   SYM_PRE          "prellbock"  // buffer-stop
+#define   SYM_BUE          "uebergang"  // level crossing
 #define   SYM_KUR          "kurve_rechts"
 #define   SYM_KUL          "kurve_links"
 #define   SYM_KRH          "kreuzung_hose"

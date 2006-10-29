@@ -23,11 +23,9 @@ dist_elementsdata_DATA = adresse.xpm blind_0.xpm blind_1.xpm \
     richtung_2.xpm schiebebuehne.xpm \
     schuppen_m.xpm schuppen_o.xpm schuppen_u.xpm \
     signal_hss.xpm signal_hs.xpm signal_vs.xpm \
-    signal_ss_0.xpm signal_ss_1.xpm signal_ss.xpm \
+    signal_ss.xpm signal_ssh.xpm signal_sss.xpm \
     signal_ws_0.xpm signal_ws_1.xpm signal_ws.xpm \
     signal_zp_0.xpm signal_zp_1.xpm signal_zp.xpm \
-    signal_ssh.xpm signal_ssh_0.xpm signal_ssh_1.xpm \
-    signal_sss.xpm signal_sss_0.xpm signal_sss_1.xpm \
     signal_nrb.xpm signal_srb.xpm \
     taste_fht.xpm taste_ufgt.xpm \
     taste_sgt.xpm taste_wgt.xpm \
