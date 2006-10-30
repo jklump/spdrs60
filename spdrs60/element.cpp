@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.74 $
+                           version 0.5.0 $Revision: 1.75 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-10-30 06:40:13 $
+    last modified        : $Date: 2006-10-30 20:45:27 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -143,6 +143,8 @@ element::element(QWidget* parent): QWidget(parent)
     elementPropertyDlg = NULL;
     turntableProperties = NULL;
     ttComm = NULL;
+    ctxNorm = NULL;
+    ctxEdit = NULL;
 
     createPopupMenus();
     updateProperties();
@@ -187,6 +189,8 @@ element::element(QTextStream& ats, QWidget* parent, bool isNewFormat)
     elementPropertyDlg = NULL;
     turntableProperties = NULL;
     ttComm = NULL;
+    ctxNorm = NULL;
+    ctxEdit = NULL;
 
     if (isNewFormat)
         readFileTextFromStream(ats);
@@ -1099,6 +1103,9 @@ void element::showPropertyDlg()
 
 void element::slotRepeatIcon(const QString& ri)
 {
+    if (ctxEdit == NULL)
+        return;
+
     if (sRepeatIcon != ri) {
         sRepeatIcon = ri;
         if (sRepeatIcon.isEmpty())
@@ -1299,7 +1306,8 @@ void element::updateCtxNorm()
         (!isOccupied() || sSoldIcon == SYM_ENK || signal) &&
         (visualMode == kvmNormal || visualMode == kvmEditRoute);
 
-    ctxNorm->setItemEnabled(CTX_ID_TOGGLE, enableCtxN);
+    if (ctxNorm != NULL)
+        ctxNorm->setItemEnabled(CTX_ID_TOGGLE, enableCtxN);
 }
 
 /**
@@ -1309,8 +1317,10 @@ void element::updateCtxNorm()
 void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
 {
     // update the contextmenus
-    ctxEdit->setItemEnabled(CTX_ID_CLEAR, !isEmpty());
-    ctxEdit->setItemEnabled(CTX_ID_ROTATE, iSoldRotate != -1);
+    if (ctxEdit != NULL) {
+        ctxEdit->setItemEnabled(CTX_ID_CLEAR, !isEmpty());
+        ctxEdit->setItemEnabled(CTX_ID_ROTATE, iSoldRotate != -1);
+    }
     if (isSwitchable())
         updateCtxNorm();
 
@@ -1733,6 +1743,92 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         p.drawLine(18, 13, 18 + 19, 13);
         p.drawLine(18, 21, 18 + 19, 21);
         p.drawLine(19, 22, 19 + 17, 22);
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+    
+    // signal ZP
+    else if (sSoldIcon == SYM_ZP){
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+        
+        // paint track
+        p.fillRect(0, pm.height() / 2 - 3, pm.width() - 1, 7,
+                QBrush(QColor(black)));
+        
+        // paint signal icon
+        if (iSoldRotate == 1) {
+            p.fillRect(32, 5, 2, 5, QBrush(QColor(black)));
+            p.fillRect(16, 2, 11, 11, QBrush(QColor(black)));
+            p.drawLine(27, 7, 31, 7);
+        }
+        else {
+            p.fillRect(22, 25, 2, 5, QBrush(QColor(black)));
+            p.fillRect(29, 22, 11, 11, QBrush(QColor(black)));
+            p.drawLine(24, 27, 28, 27);
+        }
+ 
+        // paint signal light
+        QPointArray lights = QPointArray(12);
+        lights.putPoints(0, 12, 3, 0, 5, 0, 1, 1, 7, 1, 0, 3, 8, 3,
+                0, 5, 8, 5, 1, 7, 7, 7, 3, 8, 5, 8);
+
+        if (iSoldRotate == 1)
+            lights.translate(17, 3);
+        else
+            lights.translate(30, 23);
+
+        if (iSoldDirection == 1)
+            p.setPen(QPen(green));
+        else
+            p.setPen(QPen(darkGray));
+
+        p.drawPoints(lights);
+        
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 7; ++i)
+            p.fillRect(4 + 7 * i, pm.height() / 2 - 2, 5, 5,
+                    QBrush(QColor(lightGray)));
+        }
+        else {
+            QColor c;
+            if (occupied)
+                c = QColor(red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(darkGray);
+            }
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+            p.drawLine(pm.width() / 3, pm.height() / 2,
+                    2 * pm.width() / 3, pm.height() / 2);
+            p.setPen(QPen(black));
+        }
+
+        // paint text label
+        if (sSoldText != "-1" && !sSoldText.isEmpty()) {
+            QFont f("Helvetica");
+            f.setPointSize(QApplication::font().pointSize() - 3);
+            p.setFont(f);
+            QFontMetrics fm(f);
+            QRect br = fm.boundingRect(sSoldText);
+            br.setWidth(br.width() + 4);
+            br.setHeight(br.height() + 2);
+
+            if (iSoldRotate == 1)
+                br.moveBottomRight(QPoint(pm.width()/2 + br.width()/2,
+                            pm.height() - 3));
+            else
+                br.moveTopLeft(QPoint(pm.width()/2 - br.width()/2, 2));
+            
+            p.fillRect(br, QBrush(white));
+            p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
+                    Qt::DontClip, sSoldText);
+        }
 
         p.end();
         setPaletteBackgroundPixmap(pm);
@@ -2483,7 +2579,6 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
     }
 
     QPixmap pixLED;
-    QString sPixMapName;
     QWMatrix mx;
     const char *cLEDcol[3] = { "_weiss.xpm", "_gelb.xpm", "_rot.xpm" };
     const char *cLEDpos[3] = { "LED_unten", "LED_mitte", "LED_oben" };
@@ -2491,22 +2586,17 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
     int i;
     int bHaveJumped = 0;
 
-    QPixmap pixBasicIcon;
-    if (sSoldIcon == SYM_LEE){
-        pixBasicIcon = QPixmap(leer_xpm);
-    }
-    else {
-        // load basic icon
-        sPixMapName = QString(RES_DIR_ELEM + sSoldIcon + XPM_SUFFIX);
-        pixBasicIcon = QPixmap(sPixMapName);
-        /*if file is not found finish painting*/
-        if (pixBasicIcon.isNull())
-            return;
-    }
+    // load basic icon
+    QString sPixMapName = QString(RES_DIR_ELEM + sSoldIcon + XPM_SUFFIX);
+    QPixmap pixBasicIcon = QPixmap(sPixMapName);
+
+    /*if file is not found finish painting*/
+    if (pixBasicIcon.isNull())
+        return;
+
     /*TODO: what about symbols with "taste"-name?*/
     if (iSoldLEDoff == 1)
         goto LEDOFF;
-        /*TODO: show white pattern on rail */
 
     // solenoid icons -> cross-sum of right half of iIconByte > 1
     if ((((iIconByte & 0x04) >> 2) + ((iIconByte & 0x02) >> 1) +
@@ -2790,11 +2880,6 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
     QPainter p;
     p.begin(&pixRotatedIcon);
 
-    // paint darkgray background if empty element in inverted use
-    if (sSoldIcon == SYM_LEE && iSoldInvert == 1)
-        p.fillRect(0, 0, width() - 1, height() - 1,
-                QBrush(QColor(darkGray), SolidPattern));
-
     // setup adress/text and locked symbol
     // no text if we have a "-1"-entry
     if (sSoldText != "-1" && !sSoldText.isEmpty()) {
@@ -2805,14 +2890,8 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         QFont f("Helvetica");
         QString s = "";
 
-	// empty and straight elements
-        if (sSoldIcon == SYM_LEE || sSoldIcon == SYM_GER) {
-            f.setPointSize(QApplication::font().pointSize() - 1);
-            s = sSoldText;
-        }
-        
         // turntable
-        else if (sSoldIcon == SYM_DRE) {
+        if (sSoldIcon == SYM_DRE) {
             f.setPointSize(QApplication::font().pointSize() - 3);
             s.setNum(iSoldSubType);
         }
@@ -2834,12 +2913,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         br.setHeight(br.height() + 2);
 
         // calculate matching textframe position
-        if (sSoldIcon == SYM_GER)
-            br.moveTopLeft(QPoint(EL_WIDTH / 2 - br.width() / 2,
-                                  (EL_HEIGHT - br.height() -
-                                   2) * iSoldRotate + !iSoldRotate * 2));
-        
-        else if ((sSoldIcon.startsWith("signal") && iSoldRotate == 0)
+        if ((sSoldIcon.startsWith("signal") && iSoldRotate == 0)
                  || (sSoldIcon == SYM_WEL && iSoldRotate == 1)
                  || (sSoldIcon == SYM_WER && iSoldRotate == 0)
                  || (sSoldIcon == SYM_MDC))
@@ -2889,8 +2963,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         else if (sSoldIcon == SYM_DRE)
             p.fillRect(br, QBrush(yellow));
         
-        else if (sSoldIcon != SYM_LEE && sSoldIcon != SYM_GER
-                 && !sSoldText.isEmpty())
+        else if (!sSoldText.isEmpty())
             p.fillRect(br, QBrush(white));
 
         // adjust text area position

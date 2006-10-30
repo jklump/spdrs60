@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.cpp
-                           version 0.4.8 $Revision: 1.20 $
+                           version 0.4.8 $Revision: 1.21 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-10-29 09:21:55 $
+    last modified        : $Date: 2006-10-30 20:45:27 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -390,7 +390,7 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     rightColumnLayout->addWidget(feedbackGB);
     QVBoxLayout* feedbackGBL = new QVBoxLayout(feedbackGB->layout(), 6);
 
-    /* line with LED off checkbox*/
+    /* line with LED off (Gleismelder) checkbox*/
     cbLEDoff = new QCheckBox(tr("&LEDs off"), feedbackGB, "LEDsCB");
     feedbackGBL->addWidget(cbLEDoff);
     connect(cbLEDoff, SIGNAL(clicked()), this, SLOT(slotEnable_LED_FB()));
@@ -900,6 +900,7 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
         sSoldIcon == SYM_KRL || sSoldIcon == SYM_KRR ||
         sSoldIcon == SYM_SS || sSoldIcon == SYM_SSH ||
         sSoldIcon == SYM_SSS || sSoldIcon == SYM_WEL || 
+        sSoldIcon == SYM_ENK || sSoldIcon == SYM_BLD ||
         sSoldIcon == SYM_WER;
 
     cbLEDoff->setEnabled(enabled);

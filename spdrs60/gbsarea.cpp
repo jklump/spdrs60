@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.0 $Revision: 1.49 $
+                           version 0.5.0 $Revision: 1.50 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-10-28 18:46:28 $
+    last modified        : $Date: 2006-10-30 20:45:27 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1051,7 +1051,7 @@ element* GBSArea::item(int row, int col) const
 {
     if (row < 0 || col < 0 || row > this->rows ||
             col > this->cols || row * col >= (int)elements.size())
-        return 0;
+        return NULL;
 
     return elements[indexOf(row, col)];
 }
