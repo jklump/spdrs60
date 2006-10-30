@@ -8,8 +8,7 @@ dist_elementsdata_DATA = adresse.xpm \
     diagonale_rechts.xpm dkw_links.xpm \
     dkw_rechts.xpm drehscheibe.xpm \
     dreier_weiche.xpm ekw_links.xpm \
-    ekw_rechts.xpm entkoppler_1.xpm \
-    entkoppler.xpm gerade_tl.xpm \
+    ekw_rechts.xpm entkoppler.xpm gerade_tl.xpm \
     gerade.xpm haus_1.xpm haus_2.xpm kreuzung_hose.xpm \
     kreuzung_links.xpm kreuzung_rechts.xpm \
     kurve_links.xpm kurve_rechts.xpm \

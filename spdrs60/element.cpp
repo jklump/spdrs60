@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.73 $
+                           version 0.5.0 $Revision: 1.74 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-10-29 19:24:00 $
+    last modified        : $Date: 2006-10-30 06:40:13 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1604,6 +1604,72 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         setPaletteBackgroundPixmap(pm);
     }
     
+    // decoupler
+    else if (sSoldIcon == SYM_ENK){
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+        
+        // paint track
+        p.fillRect(0, pm.height() / 2 - 3, pm.width() - 1, 7,
+                QBrush(QColor(black)));
+        
+        // paint symbol
+        p.fillRect(21, 10, 14, 3, QBrush(QColor(black)));
+        
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 7; ++i)
+            p.fillRect(4 + 7 * i, pm.height() / 2 - 2, 5, 5,
+                    QBrush(QColor(lightGray)));
+        }
+        else {
+            QColor c;
+            if (occupied)
+                c = QColor(red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(darkGray);
+            }
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+            p.drawLine(pm.width() / 3, pm.height() / 2,
+                    2 * pm.width() / 3, pm.height() / 2);
+            p.setPen(QPen(black));
+        }
+
+        // paint text label
+        if (sSoldText != "-1" && !sSoldText.isEmpty()) {
+            QFont f("Helvetica");
+            f.setPointSize(QApplication::font().pointSize() - 3);
+            p.setFont(f);
+            QFontMetrics fm(f);
+            QRect br = fm.boundingRect(sSoldText);
+            br.setWidth(br.width() + 4);
+            br.setHeight(br.height() + 2);
+
+            br.moveBottomRight(QPoint(pm.width()/2 + br.width()/2,
+                        pm.height() - 3));
+            
+            p.fillRect(br, QBrush(white));
+            p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
+                    Qt::DontClip, sSoldText);
+        }
+
+        // paint signalization (white triagle)
+        if (iSoldDirection == 1) {
+            p.setPen(QPen(white));
+            p.setBrush(QColor(white));
+            QPointArray triangle = QPointArray(4);
+            triangle.putPoints(0, 4, 21, 9, 27, 3, 28, 3, 34, 9);
+            p.drawPolygon(triangle);
+        }
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+    
     // blind element
     else if (sSoldIcon == SYM_BLD){
         QPixmap pm = QPixmap(leer_xpm);
@@ -2340,7 +2406,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         iIconByte = 17;
     else if (sSoldIcon == SYM_KURR || sReplaceIcon == SYM_KURR)
         iIconByte = 10;
-    else if (sSoldIcon == SYM_GER || sSoldIcon == SYM_ENK
+    else if (sSoldIcon == SYM_GER
              || sSoldIcon == SYM_BUE || sSoldIcon == SYM_HS
              || sSoldIcon == SYM_HSS
              || sSoldIcon == SYM_WS || sSoldIcon == SYM_ZP
@@ -2692,23 +2758,6 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         }
     }
 
-    // in a coupler element, iSoldDirection is only used as a directional
-    // value if it´s a bistable coupler. Otherwise the value of iSold-
-    // Direction is only used to setup the right icon on screen. The sent
-    // direction is either 0 if we use the left decoder connector or 1 if
-    // we use the right one. The right value to send is then obtained by
-    // copying iSoldSubType value into iRealDirection (see "sendSrcpState")
-    else if (sSoldIcon == SYM_ENK) {
-        switch (iSoldDirection) {
-            case DIR_ENK_DW:              // 0
-                sStateIcon = sSoldIcon;
-                break;
-            case DIR_ENK_UP:              // 1
-                sStateIcon = sSoldIcon + "_1";
-                break;
-        }
-    }
-
     else if (sSoldIcon == SYM_REL)
         switch (iSoldDirection) {
             case DIR_REL0:              // 0
@@ -2799,7 +2848,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         else if ((sSoldIcon.startsWith("signal") && iSoldRotate == 1) ||
                  (sSoldIcon == SYM_WEL && iSoldRotate == 0) ||
                  (sSoldIcon == SYM_WER && iSoldRotate == 1) ||
-                 (sSoldIcon == SYM_ENK) || (sSoldIcon == SYM_REL))
+                 (sSoldIcon == SYM_REL))
             br.moveTopLeft(QPoint
                            (EL_WIDTH / 2 - br.width() / 2,
                             EL_HEIGHT - br.height() - 2));
@@ -2898,10 +2947,9 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             }
         }
 
-        if (iSoldAddress_1 != -1 && sSoldIcon != SYM_ENK
-                && sSoldIcon != SYM_REL && sSoldIcon != SYM_SBN
-                && sSoldIcon != SYM_MDC && sSoldIcon != SYM_DRE
-                && sSoldIcon != SYM_VS) {
+        if (iSoldAddress_1 != -1 && sSoldIcon != SYM_REL
+                && sSoldIcon != SYM_SBN && sSoldIcon != SYM_MDC
+                && sSoldIcon != SYM_DRE && sSoldIcon != SYM_VS) {
             p.setPen(black);
             p.setBrush(isLocked() ? yellow : darkGray);
             p.drawEllipse(xyLocked.x(), xyLocked.y(), 5, 5);
