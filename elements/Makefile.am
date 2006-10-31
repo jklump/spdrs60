@@ -24,7 +24,7 @@ dist_elementsdata_DATA = adresse.xpm \
     signal_hss.xpm signal_hs.xpm signal_vs.xpm \
     signal_ss.xpm signal_ssh.xpm signal_sss.xpm \
     signal_ws_0.xpm signal_ws_1.xpm signal_ws.xpm \
-    signal_zp_0.xpm signal_zp_1.xpm signal_zp.xpm \
+    signal_zp.xpm \
     signal_nrb.xpm signal_srb.xpm \
     taste_fht.xpm taste_ufgt.xpm \
     taste_sgt.xpm taste_wgt.xpm \

@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.0 $Revision: 1.46 $
+                           version 0.5.0 $Revision: 1.47 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-10-28 18:46:28 $
+    last modified        : $Date: 2006-10-31 18:20:41 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -192,6 +192,7 @@ private:
     unsigned int iFBBusNo;
     unsigned int iFBContact;
     unsigned int editsAddress;
+    unsigned int countervalue;
     int      iGA1BusNo;
     int      iGA2BusNo;
     int      port1;

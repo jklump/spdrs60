@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.0 $Revision: 1.50 $
+                           version 0.5.0 $Revision: 1.51 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-10-30 20:45:27 $
+    last modified        : $Date: 2006-10-31 18:20:41 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -816,7 +816,6 @@ void GBSArea::slotToggleAll()
             elements[j]->sSoldIcon != SYM_SBN &&
             elements[j]->sSoldIcon != SYM_DRE)
             elements[j]->slotToggle();
-    QApplication::beep();
 }
 
 
@@ -832,7 +831,6 @@ void GBSArea::slotSendAll()
                     elements[j]->sSoldIcon != SYM_SBN &&
                     elements[j]->sSoldIcon != SYM_DRE)
                 elements[j]->sendSrcpState();
-    QApplication::beep();
 }
 
 

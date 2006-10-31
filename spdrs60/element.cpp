@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.75 $
+                           version 0.5.0 $Revision: 1.76 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-10-30 20:45:27 $
+    last modified        : $Date: 2006-10-31 18:20:41 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -45,6 +45,13 @@
 #include "pixmaps/button-black.xpm"
 #include "pixmaps/button-yellow.xpm"
 
+/* labels for external group buttons */
+#include "pixmaps/label-fht.xpm"
+#include "pixmaps/label-hagt.xpm"
+#include "pixmaps/label-mgt.xpm"
+#include "pixmaps/label-sgt.xpm"
+#include "pixmaps/label-ufgt.xpm"
+#include "pixmaps/label-wgt.xpm"
 
 static const char* leer_xpm[]={
 "56 35 1 1",
@@ -93,6 +100,7 @@ static const char* leer_xpm[]={
 element::element(QWidget* parent): QWidget(parent)
 {
     editsAddress = 0;
+    countervalue = 0;
     ffmactive = false;
     ffm = false;
     occupied = false;
@@ -157,6 +165,7 @@ element::element(QTextStream& ats, QWidget* parent, bool isNewFormat)
 {
     /*set all variables which are not read from file*/
     editsAddress = 0;
+    countervalue = 0;
     ffmactive = false;
     ffm = false;
     occupied = false;
@@ -616,8 +625,18 @@ void element::mousePressEvent(QMouseEvent* e)
                 if (sSoldIcon == SYM_TAW)
                     ctrlButton = kWgtClicked;
 
-                else if (sSoldIcon == SYM_TAF)
+                else if (sSoldIcon == SYM_TAF) {
                     ctrlButton = kFhtClicked;
+
+                    /*
+                     * increment counter and repaint symbol, if value
+                     * has more than four digits, reset to zero
+                     */
+                    ++countervalue;
+                    if (countervalue == 10000)
+                        countervalue = 0;
+                    setupElementIcon(0, "");
+                }
 
                 else if (sSoldIcon == SYM_TAU) {
                     if (CursorPos.x() < (EL_WIDTH >> 1))
@@ -1356,7 +1375,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
     }
    
     // blue panel
-    if (sSoldIcon == SYM_FEB) {
+    else if (sSoldIcon == SYM_FEB) {
         QPixmap pm = QPixmap(leer_xpm);
         QPainter p;
         p.begin(&pm);
@@ -1369,8 +1388,33 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         setPaletteBackgroundPixmap(pm);
     }
    
+    // blue panel with wgt button
+    else if (sSoldIcon == SYM_TAW) {
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+            
+        // paint panel
+        p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
+                QBrush(QColor(0, 0, 192), SolidPattern));
+
+        // paint red light
+        p.setBrush(red);
+        p.drawEllipse(pm.width() / 2 - 2, pm.height() / 4 - 3, 5, 5);
+        
+        // paint button
+        p.setBrush(darkGray);
+        p.drawEllipse(pm.width() / 2 - 4, pm.height() / 2 - 4, 9, 9);
+        
+        // paint button label
+        p.drawPixmap(18, 24, QPixmap(label_wgt_xpm));
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+   
     // green panel
-    if (sSoldIcon == SYM_FEG) {
+    else if (sSoldIcon == SYM_FEG) {
         QPixmap pm = QPixmap(leer_xpm);
         QPainter p;
         p.begin(&pm);
@@ -1383,8 +1427,64 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         setPaletteBackgroundPixmap(pm);
     }
    
+    // green panel with FHT button and counter
+    else if (sSoldIcon == SYM_TAF) {
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+            
+        // paint panel
+        p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
+                QBrush(QColor(0, 160, 0), SolidPattern));
+        
+        // paint button
+        p.setBrush(darkGray);
+        p.drawEllipse(7, pm.height() / 2 - 4, 9, 9);
+        
+        // paint button label
+        p.drawPixmap(2, 24, QPixmap(label_fht_xpm));
+
+        // paint counter
+        p.setBrush(white);
+        p.drawRect(pm.width() / 2 , pm.height() / 2 - 5, 24, 11);
+        sSoldText.sprintf("%04d", countervalue);
+        QFont f("Helvetica");
+        f.setPointSize(7);
+        p.setFont(f);
+        QRect br = p.fontMetrics().boundingRect(sSoldText);
+        br.moveTopRight(QPoint(pm.width() / 2 + 21, pm.height() / 2 - 3));
+        p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
+                Qt::DontClip, sSoldText);
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+   
+    // green panel with ufgt and mgt buttons
+    else if (sSoldIcon == SYM_TAU) {
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+            
+        // paint panel
+        p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
+                QBrush(QColor(0, 160, 0), SolidPattern));
+        
+        // paint buttons
+        p.setBrush(darkGray);
+        p.drawEllipse(7, pm.height() / 2 - 4, 9, 9);
+        p.drawEllipse(pm.width() - 16, pm.height() / 2 - 4, 9, 9);
+        
+        // paint button labels
+        p.drawPixmap(2, 24, QPixmap(label_ufgt_xpm));
+        p.drawPixmap(34, 24, QPixmap(label_mgt_xpm));
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+   
     // red panel
-    if (sSoldIcon == SYM_FER) {
+    else if (sSoldIcon == SYM_FER) {
         QPixmap pm = QPixmap(leer_xpm);
         QPainter p;
         p.begin(&pm);
@@ -1397,8 +1497,31 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         setPaletteBackgroundPixmap(pm);
     }
    
+    // red panel with sgt and hagt buttons
+    else if (sSoldIcon == SYM_TAS) {
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+            
+        // paint panel
+        p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
+                QBrush(QColor(221, 0, 0), SolidPattern));
+
+        // paint buttons
+        p.setBrush(darkGray);
+        p.drawEllipse(7, pm.height() / 2 - 4, 9, 9);
+        p.drawEllipse(pm.width() - 16, pm.height() / 2 - 4, 9, 9);
+        
+        // paint button labels
+        p.drawPixmap(2, 24, QPixmap(label_sgt_xpm));
+        p.drawPixmap(31, 24, QPixmap(label_hagt_xpm));
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+   
     // yellow panel
-    if (sSoldIcon == SYM_FEY) {
+    else if (sSoldIcon == SYM_FEY) {
         QPixmap pm = QPixmap(leer_xpm);
         QPainter p;
         p.begin(&pm);
@@ -1412,7 +1535,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
     }
    
     // brown panel
-    if (sSoldIcon == SYM_FEN) {
+    else if (sSoldIcon == SYM_FEN) {
         QPixmap pm = QPixmap(leer_xpm);
         QPainter p;
         p.begin(&pm);
@@ -1426,7 +1549,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
     }
    
     // grey panel
-    if (sSoldIcon == SYM_FEE) {
+    else if (sSoldIcon == SYM_FEE) {
         QPixmap pm = QPixmap(leer_xpm);
         QPainter p;
         p.begin(&pm);
@@ -1439,8 +1562,8 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         setPaletteBackgroundPixmap(pm);
     }
    
-    // prellbock
-    if (sSoldIcon == SYM_PRE) {
+    // buffer stop (prellbock)
+    else if (sSoldIcon == SYM_PRE) {
         QPixmap pm = QPixmap(leer_xpm);
         QPainter p;
         p.begin(&pm);
