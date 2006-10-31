@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.76 $
+                           version 0.5.0 $Revision: 1.77 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-10-31 18:20:41 $
+    last modified        : $Date: 2006-10-31 21:18:33 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -741,23 +741,23 @@ void element::mouseReleaseEvent(QMouseEvent* e)
 }
 
 
-void element::slotShowElement(int iShowElemAddr_, int iShowElemStat_,
+void element::slotShowElement(int address, int state,
                               elemSelectionMode sm)
 {
-    if (iShowElemAddr_ == iSoldAddress_1) {
+    if (address == iSoldAddress_1) {
         selectionMode = sm;
-        if (iShowElemStat_ != -1)
-            iSoldDirection = iShowElemStat_;
+        if (state != -1)
+            iSoldDirection = state;
         setupElementIcon(iSoldLEDstate, "");
     }
 }
 
 
-void element::showElementState(int iShowElemStat_, elemSelectionMode sm)
+void element::showElementState(int state, elemSelectionMode sm)
 {
     selectionMode = sm;
-    if (iShowElemStat_ != -1)
-        iSoldDirection = iShowElemStat_;
+    if (state != -1)
+        iSoldDirection = state;
     setupElementIcon(iSoldLEDstate, "");
 }
 
@@ -2597,6 +2597,47 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         p.end();
         setPaletteBackgroundPixmap(pm);
     }
+
+    // house 1 (train station middle section)
+    else if (sSoldIcon == SYM_HS1) {
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+
+        // paint house
+        p.setBrush(QColor(192, 0 ,0));
+        p.drawRect(0, 9, pm.width() - 1, 17);
+        p.drawLine(0, pm.height() / 2, pm.width(), pm.height() / 2);
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+
+    // house 2 (train station side section)
+    else if (sSoldIcon == SYM_HS2) {
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+
+        // paint house
+        p.setBrush(QColor(192, 0 ,0));
+        if (iSoldRotate == 1) {
+            p.drawRect(4, 5, 25, 25);
+            p.drawLine(4, 5, 28, 29);
+            p.drawLine(4, 29, 28, 5);
+            p.drawRect(0, 9, 5, 17);
+        }
+        else {
+            p.drawRect(26, 5, 25, 25);
+            p.drawLine(26, 5, 50, 29);
+            p.drawLine(26, 29, 50, 5);
+            p.drawRect(50, 9, 5, 17);
+        }
+        
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+   
 
     else {
     
