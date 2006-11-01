@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.77 $
+                           version 0.5.0 $Revision: 1.78 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-10-31 21:18:33 $
+    last modified        : $Date: 2006-11-01 17:42:11 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1318,7 +1318,9 @@ void element::clear()
     updateProperties();
 }
 
-
+/**
+ * update context menu for normal visual mode
+ */
 void element::updateCtxNorm()
 {
     bool enableCtxN = (!isLocked()) &&
@@ -1329,13 +1331,31 @@ void element::updateCtxNorm()
         ctxNorm->setItemEnabled(CTX_ID_TOGGLE, enableCtxN);
 }
 
+/* update the context menus for edit mode and normal mode,
+ * used after element name has changed
+element::updateContextMenus()
+{
+    if (ctxEdit != NULL) {
+        ctxEdit->setItemEnabled(CTX_ID_CLEAR, !isEmpty());
+        ctxEdit->setItemEnabled(CTX_ID_ROTATE, iSoldRotate != -1);
+    }
+    if (isSwitchable())
+        updateCtxNorm();
+}
+
+*/
 /**
  * paint element icon
  * TODO: this should completely be rewritten due to performance flaws
  */
+
+// element::pixmap();
+// static element::getPixmap(const QString& name);
+// setPaletteBackgroundPixmap(pixmap());
+//
 void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
 {
-    // update the contextmenus
+    // update the contextmenus -> element::updateContextMenus();
     if (ctxEdit != NULL) {
         ctxEdit->setItemEnabled(CTX_ID_CLEAR, !isEmpty());
         ctxEdit->setItemEnabled(CTX_ID_ROTATE, iSoldRotate != -1);
@@ -2537,14 +2557,14 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
 
             p.drawLine(11, 0, 11 + 14, 0);
             p.restore();
-            
+
             p.setPen(QPen(QColor(black)));
         }
 
         // paint track button
         p.drawPixmap(pm.width() / 2 - 4, pm.height() / 2 - 3,
                 QPixmap(button_black_xpm));
-        
+
         // paint lock light
         if (lockCounter == 0)
             p.setBrush(darkGray);
@@ -2590,7 +2610,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             br.setX(br.x() + 1);
             br.setY(br.y() + 1);
             br.setHeight(br.height() - 2);
-            
+
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, s);
         }
@@ -2638,11 +2658,117 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         setPaletteBackgroundPixmap(pm);
     }
    
+    // straight track with tunnel
+    else if (sSoldIcon == SYM_GET || sSoldIcon == SYM_DLT ||
+            sSoldIcon == SYM_DRT) {
+
+        bool isleft = (sSoldIcon == SYM_DLT);
+        bool isright = (sSoldIcon == SYM_DRT);
+        
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+
+        // translate origin to center of pixmap
+        p.translate(pm.width()/2, pm.height()/2);
+
+        int tracklen = pm.width() / 2 - 5;
+
+        if (isleft) {
+            tracklen += 5;
+            if (iSoldRotate == 1) 
+                p.rotate(WANGLE);
+            else 
+                p.rotate(-SANGLE);
+        }
+        else if (isright) {
+            tracklen += 5;
+            if (iSoldRotate == 1) 
+                p.rotate(SANGLE);
+            else 
+                p.rotate(-WANGLE);
+        }
+        else {
+            if (iSoldRotate == 1)
+                p.rotate(180.0);
+        }
+        
+        // paint track
+        p.fillRect(-5, -3, -tracklen, 7, QBrush(QColor(black)));
+        
+        // paint tunnel entry
+        QPointArray tunnel = QPointArray(4);
+        tunnel.putPoints(0, 4, -8, -14, 0, -6, 0, 6, -8, 14);
+        p.setPen(QPen(darkGray, 2));
+        p.drawPolyline(tunnel);
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+
+    // track with loco shed (lokschuppen)
+    else if (sSoldIcon == SYM_SHO || sSoldIcon == SYM_SHM ||
+            sSoldIcon == SYM_SHU) {
+
+        bool istop = (sSoldIcon == SYM_SHO);
+        bool isbottom = (sSoldIcon == SYM_SHU);
+        
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+
+        // translate origin to center of pixmap
+        p.translate(pm.width()/2, pm.height()/2);
+
+        int tracklen = pm.width() / 2;
+        int shedwidth = pm.height();
+        int shedxoffset = 0;
+        int shedyoffset = 0;
+
+        if (istop) {
+            tracklen += 5;
+            shedwidth += 8;
+            shedxoffset += 9;
+            shedyoffset += 8;
+            if (iSoldRotate == 1) 
+                p.rotate(WANGLE);
+            else 
+                p.rotate(-SANGLE);
+        }
+        else if (isbottom) {
+            tracklen += 5;
+            shedwidth += 8;
+            shedxoffset += 9;
+            shedyoffset -= 8;
+            if (iSoldRotate == 1) 
+                p.rotate(-WANGLE);
+            else 
+                p.rotate(SANGLE);
+        }
+        else {
+            if (iSoldRotate == 1)
+                p.rotate(180.0);
+        }
+        
+        // paint track
+        p.fillRect(0, -3, -tracklen, 7, QBrush(QColor(black)));
+        
+        // paint schuppen
+        p.setBrush(QColor(192, 0 ,0));
+        p.drawRect(0 - shedxoffset, -shedwidth/2 + shedyoffset,
+                pm.width()/2, shedwidth);
+        p.drawLine(pm.width() / 4 - shedxoffset, -shedwidth / 2 + shedyoffset,
+                pm.width() / 4 - shedxoffset, shedwidth / 2 + shedyoffset);
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+
 
     else {
     
     /*
-     * old painting code
+     * rest of old painting code
      * will be replaced step by step
      */
 

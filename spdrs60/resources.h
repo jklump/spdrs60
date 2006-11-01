@@ -137,11 +137,11 @@
 #define   SYM_DLT          "diagonale_links_tl"
 #define   SYM_DRT          "diagonale_rechts_tl"
 #define   SYM_REL          "relais"
-#define   SYM_DRE          "drehscheibe"
+#define   SYM_DRE          "drehscheibe" // turntable
 #define   SYM_SBN          "schiebebuehne"
 #define   SYM_HS1          "haus_1"
 #define   SYM_HS2          "haus_2"
-#define   SYM_SHO          "schuppen_o"
+#define   SYM_SHO          "schuppen_o" // loco shed
 #define   SYM_SHM          "schuppen_m"
 #define   SYM_SHU          "schuppen_u"
 #define   SYM_MDC          "motor_dc"
