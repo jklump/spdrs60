@@ -124,7 +124,7 @@
 #define   SYM_DIR          "diagonale_rechts"
 #define   SYM_DIL          "diagonale_links"
 #define   SYM_DRW          "dreier_weiche"
-#define   SYM_PRE          "prellbock"  // buffer-stop
+#define   SYM_PRE          "prellbock"  // buffer stop
 #define   SYM_BUE          "uebergang"  // level crossing
 #define   SYM_KUR          "kurve_rechts"
 #define   SYM_KUL          "kurve_links"
@@ -138,14 +138,13 @@
 #define   SYM_DRT          "diagonale_rechts_tl"
 #define   SYM_REL          "relais"
 #define   SYM_DRE          "drehscheibe" // turntable
-#define   SYM_SBN          "schiebebuehne"
+#define   SYM_SBN          "schiebebuehne" // transfer table
 #define   SYM_HS1          "haus_1"
 #define   SYM_HS2          "haus_2"
 #define   SYM_SHO          "schuppen_o" // loco shed
 #define   SYM_SHM          "schuppen_m"
 #define   SYM_SHU          "schuppen_u"
 #define   SYM_MDC          "motor_dc"
-#define   SYM_UHR          "uhr"
 
 #define   SYM_TAF          "taste_fht"
 #define   SYM_TAU          "taste_ufgt" // combination with MGT

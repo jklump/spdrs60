@@ -1,10 +1,10 @@
 /***************************************************************************
                            feedbackmodule.h
-                           version 0.5.0 $Revision: 1.1 $
+                           version 0.5.0 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 2006 by Guido Scholz
-    email                : guido.scholz@ bayernline.de
-    last modified        : $Date: 2006-08-21 16:21:56 $
+    email                : guido.scholz@bayernline.de
+    last modified        : $Date: 2006-11-02 16:54:32 $
 ***************************************************************************/
 
 /**************************************************************************

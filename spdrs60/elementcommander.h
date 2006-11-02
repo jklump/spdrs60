@@ -1,10 +1,11 @@
 /***************************************************************************
                            elementcommander.h
-                           version 0.4.3 $Revision: 1.2 $
+                           version 0.5.0 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-    email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-05-07 12:22:43 $
+                         : (C) 2004-2006 Guido Scholz
+    email                : guido.scholz@bayernline.de
+    last modified        : $Date: 2006-11-02 16:54:32 $
 ***************************************************************************/
 
 /**************************************************************************

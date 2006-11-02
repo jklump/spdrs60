@@ -1,11 +1,11 @@
 /***************************************************************************
                            routedialog.h
-                           version 0.4.7 $Revision: 1.16 $
+                           version 0.5.0 $Revision: 1.17 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-                         : (C) 2004-2005 by Guido Scholz
-    email                : stefan.preis@wdr.de
-    last modified        : $Date: 2005-12-31 18:48:15 $
+                         : (C) 2004-2006 by Guido Scholz
+    email                : guido.scholz@bayernline.de
+    last modified        : $Date: 2006-11-02 16:54:32 $
 ***************************************************************************/
 
 /***************************************************************************

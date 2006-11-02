@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.h
-                           version 0.4.8 $Revision: 1.14 $
+                           version 0.5.0 $Revision: 1.15 $
                            -------------------------------
-    copyright            : (C) 2004-2005 by Guido Scholz
-    email                : guido.scholz@ bayernline.de
-    last modified        : $Date: 2006-02-14 21:54:24 $
+    copyright            : (C) 2004-2006 by Guido Scholz
+    email                : guido.scholz@bayernline.de
+    last modified        : $Date: 2006-11-02 16:54:32 $
 ***************************************************************************/
 
 /***************************************************************************

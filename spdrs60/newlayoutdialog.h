@@ -1,11 +1,11 @@
 /***************************************************************************
                            newLayoutDialog.h
-                           version 0.4.3 $Revision: 1.4 $
+                           version 0.5.0 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-                           (C) 2004-2005 by Guido Scholz
-    email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-02-11 20:42:04 $
+                           (C) 2004-2006 by Guido Scholz
+    email                : guido.scholz@bayernline.de
+    last modified        : $Date: 2006-11-02 16:54:32 $
 ***************************************************************************/
 
 /***************************************************************************
