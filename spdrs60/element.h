@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.0 $Revision: 1.47 $
+                           version 0.5.0 $Revision: 1.48 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-10-31 18:20:41 $
+    last modified        : $Date: 2006-11-03 08:56:12 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -228,6 +228,7 @@ private:
     void addTooltip();
     void clear();
     void createPopupMenus();
+    void initVariables();
     void showPropertyDlg();
     void rotate();
     void setupElementIcon(int, QString);
@@ -235,6 +236,7 @@ private:
     void switchToDirBlinking(int);
     void updateProperties();
     void updateCtxNorm();
+    void updateContextMenus();
     void updateLEDState();
     void setOccupied(bool);
     void setRouted(bool);

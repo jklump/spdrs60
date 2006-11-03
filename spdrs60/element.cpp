@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.79 $
+                           version 0.5.0 $Revision: 1.80 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-02 16:54:32 $
+    last modified        : $Date: 2006-11-03 08:56:11 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -100,30 +100,8 @@ static const char* leer_xpm[]={
 
 element::element(QWidget* parent): QWidget(parent)
 {
-    editsAddress = 0;
-    countervalue = 0;
-    ffmactive = false;
-    ffm = false;
-    occupied = false;
-    routable = false;
-    routed = false;
-    signal = false;
-    state2dkw = false;
-    switchable = false;
-    switched = false;
-    simplega = false;
-    turnout = false;
-    lightson = true;
-    iGA1BusNo = iGA2BusNo = iFBBusNo = 1;
-    port1 = 1;
-    port2 = 1;
+    initVariables();
 
-    setMaximumSize(sizeHint());
-    setMinimumSize(sizeHint());
-    setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed,
-                false));
-
-    // init variables from copyData(elementData_)
     iSoldIndex = 0;
     sSoldIcon = SYM_LEE;
     iSoldRotate = -1;
@@ -136,27 +114,14 @@ element::element(QWidget* parent): QWidget(parent)
     iSoldChangeConn[1] = -1;
     iSoldDirection = -1;
     iSoldSubType = -1;
-    sSoldText = "-1"; // for test cases : "test"
+    sSoldText = "-1"; // for test cases: "test"
     iSoldActiveTime = -1;
     iFBContact = 0;
     iSoldLEDoff = 1;
-    iSoldLEDstate = LED_OFF;
-    selectionMode = ksmNormal;
-    visualMode = kvmNormal;
-
-    sSaveReplaceIcon = "";
-    sRepeatIcon = SYM_LEE;
-    lockCounter = 0;
-    blinkcounter = 0;
-
-    elementPropertyDlg = NULL;
-    turntableProperties = NULL;
-    ttComm = NULL;
-    ctxNorm = NULL;
-    ctxEdit = NULL;
 
     createPopupMenus();
     updateProperties();
+    updateContextMenus();
     setupElementIcon(iSoldLEDstate, sSaveReplaceIcon);
 }
     
@@ -164,7 +129,23 @@ element::element(QWidget* parent): QWidget(parent)
 element::element(QTextStream& ats, QWidget* parent, bool isNewFormat)
 : QWidget(parent)
 {
-    /*set all variables which are not read from file*/
+    initVariables();
+
+    if (isNewFormat)
+        readFileTextFromStream(ats);
+    else
+        readOldFileTextFromStream(ats);
+
+    createPopupMenus();
+    updateProperties();
+    updateContextMenus();
+    setupElementIcon(iSoldLEDstate, sSaveReplaceIcon);
+}
+
+
+/*set all variables which are not read from file*/
+void element::initVariables()
+{
     editsAddress = 0;
     countervalue = 0;
     ffmactive = false;
@@ -201,15 +182,6 @@ element::element(QTextStream& ats, QWidget* parent, bool isNewFormat)
     ttComm = NULL;
     ctxNorm = NULL;
     ctxEdit = NULL;
-
-    if (isNewFormat)
-        readFileTextFromStream(ats);
-    else
-        readOldFileTextFromStream(ats);
-    /*setup some flags*/
-    createPopupMenus();
-    updateProperties();
-    setupElementIcon(iSoldLEDstate, sSaveReplaceIcon);
 }
 
 
@@ -384,7 +356,9 @@ void element::readOldFileTextFromStream(QTextStream& ats)
     }
 }
 
-
+/**
+ * update element type dependend property values
+ */
 void element::updateProperties()
 {
     /* initialize standard properties of this special symbol to avoid
@@ -480,14 +454,14 @@ bool element::isTurnout()
     return turnout;
 }
 
-
+/**
+ * create context popup menus
+ *
+ * Every single element gets its own toggle and edit popupmenu!
+ * TODO: Move this to gbsarea and use only one popup for all elements
+ */
 void element::createPopupMenus()
 {
-    /*
-     * Every single element gets its own toggle and edit popupmenu!
-     * TODO: Move this to gbsarea and use only one popup for all elements
-     */
-
     // context menu with "toggle" for normal mode
     ctxNorm = new QPopupMenu(this, "ctxNormPM");
     ctxNorm->insertItem(tr("&Toggle"), this, SLOT(slotToggle()),
@@ -524,7 +498,9 @@ void element::createPopupMenus()
     connect(ctxEdit, SIGNAL(activated(int)), this, SLOT(slotCtxEdit(int)));
 }
 
-
+/**
+ * switch element to new direction
+ */
 void element::switchToDir(int newdir)
 {
     // quit if element contains no solenoid
@@ -562,7 +538,9 @@ void element::switchToDir(int newdir)
     }
 }
 
-
+/**
+ * react to mouse press events
+ */
 void element::mousePressEvent(QMouseEvent* e)
 {
     /*normal mode*/
@@ -673,7 +651,9 @@ void element::mousePressEvent(QMouseEvent* e)
     }
 }
 
-
+/**
+ * react to mouse release events
+ */
 void element::mouseReleaseEvent(QMouseEvent* e)
 {
     /*normal mode*/
@@ -1039,7 +1019,9 @@ void element::processInfoPortMessage(unsigned int bus,
     }
 }
 
-
+/**
+ * show element property dialog
+ */
 void element::showPropertyDlg()
 {
     /* when dialog is allready open just bring it to front
@@ -1112,6 +1094,7 @@ void element::showPropertyDlg()
             // TODO: ask server for current occupation state
             //iSoldLEDstate = bFBport[iFBContact] << 1;
             updateLEDState();
+            updateContextMenus();
             setupElementIcon(iSoldLEDstate, "");
         }
         disconnect(elementPropertyDlg, SIGNAL(sigShowFBmodules()),
@@ -1122,7 +1105,9 @@ void element::showPropertyDlg()
     }
 }
 
-
+/**
+ * set repeaticon to new value and update edit mode context menu
+ **/
 void element::slotRepeatIcon(const QString& ri)
 {
     if (ctxEdit == NULL)
@@ -1139,7 +1124,9 @@ void element::slotRepeatIcon(const QString& ri)
     }
 }
 
-
+/**
+ * toggle through element direction states
+ */
 void element::slotToggle()
 {
     // toggles cyclic for 3-state-solenoids
@@ -1208,9 +1195,12 @@ void element::slotToggle()
         switchToDir(!iSoldDirection);
 }
 
-
-// this method has some inherent errors due to missing property
-// settings, especially when sRepeatIcon is used
+/**
+ * react to actions of the edit context menu
+ * 
+ * this method has some inherent errors due to missing property
+ * settings, especially when sRepeatIcon is used
+ */
 void element::slotCtxEdit(int ctxID)
 {
     switch (ctxID) {
@@ -1283,22 +1273,28 @@ void element::slotCtxEdit(int ctxID)
             updateProperties();
             break;
     }
-    //TODO: get current occupation state
+    //TODO: get current occupation state if information is relevant for
+    //this element
     //iSoldLEDstate = bFBport[iFBContact] << 1;
-    sRepeatIcon = sSoldIcon;
     //send new icon name to all other elements
-    emit setRepeatIcon(sRepeatIcon);
+    slotRepeatIcon(sSoldIcon);
+    emit setRepeatIcon(sSoldIcon);
     updateLEDState();
+    updateContextMenus();
     setupElementIcon(iSoldLEDstate, "");
 }
 
-
+/*
+ * rotate element
+ */
 void element::rotate()
 {
-    iSoldRotate = !iSoldRotate; // rotates the icon
+    iSoldRotate = !iSoldRotate;
 }
 
-
+/**
+ * reset all element data to an empty element
+ */
 void element::clear()
 {
     iSoldActiveTime = -1;
@@ -1315,7 +1311,7 @@ void element::clear()
     iSoldAddress_1 = -1;
     iSoldAddress_2 = -1;
     sSoldDecoder = "-1";
-    sSoldIcon = SYM_LEE;        // reset all solenoid data to empty
+    sSoldIcon = SYM_LEE;
     protocol = SrcpMessage::proNone;
     sSoldText = "-1";
     updateProperties();
@@ -1334,9 +1330,11 @@ void element::updateCtxNorm()
         ctxNorm->setItemEnabled(CTX_ID_TOGGLE, enableCtxN);
 }
 
-/* update the context menus for edit mode and normal mode,
+/**
+ * update the context menus for edit mode and normal mode,
  * used after element name has changed
-element::updateContextMenus()
+ */
+void element::updateContextMenus()
 {
     if (ctxEdit != NULL) {
         ctxEdit->setItemEnabled(CTX_ID_CLEAR, !isEmpty());
@@ -1346,7 +1344,6 @@ element::updateContextMenus()
         updateCtxNorm();
 }
 
-*/
 /**
  * paint element icon
  * TODO: this should completely be rewritten due to performance flaws
@@ -1358,15 +1355,7 @@ element::updateContextMenus()
 //
 void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
 {
-    // update the contextmenus -> element::updateContextMenus();
-    if (ctxEdit != NULL) {
-        ctxEdit->setItemEnabled(CTX_ID_CLEAR, !isEmpty());
-        ctxEdit->setItemEnabled(CTX_ID_ROTATE, iSoldRotate != -1);
-    }
-    if (isSwitchable())
-        updateCtxNorm();
-
-    /*
+    /**
      * new painting code
      * will replace code for each single element step by step
      */
