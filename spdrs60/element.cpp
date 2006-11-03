@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.80 $
+                           version 0.5.0 $Revision: 1.81 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-03 08:56:11 $
+    last modified        : $Date: 2006-11-03 22:03:13 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1744,6 +1744,65 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         p.drawEllipse(6, 4, 6, 6);
         p.drawEllipse(pm.width() - 12, 4, 6, 6);
         //p.drawRect(pm.width()/2 - 3, 4, 6, 6);
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+    
+    // relay
+    else if (sSoldIcon == SYM_REL){
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+
+        int w = pm.width();
+        int h = pm.height();
+        
+        // paint symbol
+        p.drawLine(1, h / 8, w / 6 + 3, h / 8);
+        p.drawLine(w / 6 + 3, h / 8, w / 6 + 3, h / 4);
+        
+        p.drawLine(1, h * 7 / 8, w / 6 + 3, h * 7 / 8);
+        p.drawLine(w / 6 + 3, h * 7 / 8, w / 6 + 3, h * 3 / 4);
+
+        p.drawRect(w / 6, h / 4 + 1, w / 8, h / 2);
+        p.drawLine(w / 6, h / 4 + 1, w * 7 / 24 - 1, h * 3 / 4 - 1);
+        
+        p.setPen(QPen(Qt::DotLine));
+        p.drawLine(w / 4 + 3, h / 2, w * 3 / 4, h / 2);
+        p.setPen(QPen(Qt::SolidLine));
+        
+        // paint text label
+        if (sSoldText != "-1" && !sSoldText.isEmpty()) {
+            QFont f("Helvetica");
+            f.setPointSize(QApplication::font().pointSize() - 3);
+            p.setFont(f);
+            QFontMetrics fm(f);
+            QString s;
+            
+            if (pref.addresslabeling)
+                s.setNum(iSoldAddress_1);
+            else
+                s = sSoldText;
+
+            QRect br = fm.boundingRect(s);
+            br.setWidth(br.width() + 4);
+            br.setHeight(br.height() + 2);
+
+            br.moveBottomRight(QPoint(w / 2 + br.width() / 2, h - 3));
+            
+            p.fillRect(br, QBrush(white));
+            p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
+                    Qt::DontClip, s);
+        }
+
+        // paint signalization (black or yellow filled circle)
+        if (iSoldDirection == 1)
+            p.setBrush(QColor(yellow));
+        else
+            p.setBrush(QColor(black));
+
+        p.drawEllipse(w * 3 / 4 - 3, h / 2 - 5, 11, 11);
 
         p.end();
         setPaletteBackgroundPixmap(pm);
