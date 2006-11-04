@@ -18,14 +18,11 @@ dist_elementsdata_DATA = adresse.xpm \
     LED_unten_gelb.xpm LED_unten_rot.xpm LED_unten_weiss.xpm \
     LED_sh1.xpm LED_vs0.xpm LED_vs1.xpm LED_vs2.xpm \
     leer.xpm motor_dc.xpm prellbock.xpm relais_1.xpm \
-    relais.xpm richtung_1.xpm \
-    richtung_2.xpm schiebebuehne.xpm \
+    relais.xpm richtung_1.xpm richtung_2.xpm schiebebuehne.xpm \
     schuppen_m.xpm schuppen_o.xpm schuppen_u.xpm \
     signal_hss.xpm signal_hs.xpm signal_vs.xpm \
     signal_ss.xpm signal_ssh.xpm signal_sss.xpm \
-    signal_ws_0.xpm signal_ws_1.xpm signal_ws.xpm \
-    signal_zp.xpm \
-    signal_nrb.xpm signal_srb.xpm \
+    signal_ws.xpm signal_zp.xpm signal_nrb.xpm signal_srb.xpm \
     taste_fht.xpm taste_ufgt.xpm \
     taste_sgt.xpm taste_wgt.xpm \
     panel_blue.xpm panel_brown.xpm panel_yellow.xpm \

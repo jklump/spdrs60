@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.83 $
+                           version 0.5.0 $Revision: 1.84 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-04 15:10:54 $
+    last modified        : $Date: 2006-11-04 20:08:30 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -54,6 +54,8 @@
 #include "pixmaps/label-ufgt.xpm"
 #include "pixmaps/label-wgt.xpm"
 #include "pixmaps/transfertable.xpm"
+#include "pixmaps/signal-w.xpm"
+#include "pixmaps/signal-wr.xpm"
 
 static const char* leer_xpm[]={
 "56 35 1 1",
@@ -1631,9 +1633,11 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         QPainter p;
         p.begin(&pm);
         
+        int w = pm.width();
+        int h = pm.height();
+        
         // paint track
-        p.fillRect(0, pm.height() / 2 - 3, pm.width() - 1, 7,
-                QBrush(black));
+        p.fillRect(0, h / 2 - 3, w - 1, 7, QBrush(black));
 
         // paint arrows
         /**
@@ -1650,23 +1654,22 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
 
         if (isri2 || iSoldRotate == 1) {
             QPointArray leftarrow = QPointArray(4);
-            leftarrow.putPoints(0, 4, pm.width()*3/4, pm.height()/2,
-                    pm.width() - 1, 1, pm.width()/2 - 6, pm.height()/2,
-                    pm.width() - 1, pm.height() - 1);
+            leftarrow.putPoints(0, 4, w * 3 /4, h / 2,
+                    w - 1, 1, w / 2 - 6, h / 2, w - 1, h - 1);
             p.drawPolygon(leftarrow);
         }
         if (isri2 || iSoldRotate != 1) {
             QPointArray rightarrow = QPointArray(4);
-            rightarrow.putPoints(0, 4, pm.width()/4, pm.height()/2, 1, 1,
-                    pm.width()/2 + 6, pm.height()/2, 1, pm.height() - 1);
+            rightarrow.putPoints(0, 4, w / 4, h / 2, 1, 1,
+                    w / 2 + 6, h / 2, 1, h - 1);
             p.drawPolygon(rightarrow);
         }
         
         // paint track lights
         if (iSoldLEDoff == 1) {
             for (int i = 0; i < 7; ++i)
-            p.fillRect(4 + 7 * i, pm.height() / 2 - 2, 5, 5,
-                    QBrush(lightGray));
+                p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
+                        QBrush(lightGray));
         }
         else {
             QColor c;
@@ -1679,8 +1682,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                     c = QColor(darkGray);
             }
             p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
-            p.drawLine(pm.width() / 3, pm.height() / 2,
-                    2 * pm.width() / 3, pm.height() / 2);
+            p.drawLine(w / 3, h / 2, 2 * w / 3, h / 2);
             p.setPen(QPen(black));
         }
 
@@ -1695,10 +1697,10 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             br.setHeight(br.height() + 2);
 
             if (iSoldRotate == 1)
-                br.moveBottomRight(QPoint(pm.width()/2 + br.width()/2,
-                            pm.height() - 3));
+                br.moveBottomRight(QPoint(w / 2 + br.width() / 2,
+                            h - 3));
             else
-                br.moveTopLeft(QPoint(pm.width()/2 - br.width()/2, 2));
+                br.moveTopLeft(QPoint(w / 2 - br.width() / 2, 2));
             
             p.fillRect(br, QBrush(white));
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
@@ -1859,7 +1861,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
 
         // paint symbol
         // red connector left
-        p.setPen(QPen(red));
+        p.setPen(red);
         p.drawLine(3, h - 9 - 2, w / 2 - 10, h - 9 - 2);
         p.drawLine(w / 2 - 11, h - 9 - 3, w / 2 - 10, h - 9 - 3);
         p.drawLine(w / 2 - 11, h - 9 - 1, w / 2 - 10, h - 9 - 1);
@@ -1868,7 +1870,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         p.drawLine(5, h - 9 - 8, 5, h - 9 - 4);
         
         // blue connector right
-        p.setPen(QPen(blue));
+        p.setPen(blue);
         p.drawLine(w - 5, h - 9 - 2, w / 2 + 8, h - 9 - 2);
         p.drawLine(w / 2 + 9, h - 9 - 3, w / 2 + 8, h - 9 - 3);
         p.drawLine(w / 2 + 9, h - 9 - 1, w / 2 + 8, h - 9 - 1);
@@ -1876,7 +1878,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         p.drawLine(w - 5, h - 9 - 6, w - 9, h - 9 - 6);
 
         // motor labels
-        p.setPen(QPen(black));
+        p.setPen(black);
         p.drawLine(w / 2 - 3, h - 9, w / 2 + 1, h - 9);
         p.drawPoint(w / 2 - 3, h - 7);
         p.drawPoint(w / 2 - 1, h - 7);
@@ -1931,8 +1933,8 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         // paint track lights
         if (iSoldLEDoff == 1) {
             for (int i = 0; i < 7; ++i)
-            p.fillRect(4 + 7 * i, pm.height() / 2 - 2, 5, 5,
-                    QBrush(lightGray));
+                p.fillRect(4 + 7 * i, pm.height() / 2 - 2, 5, 5,
+                        QBrush(lightGray));
         }
         else {
             QColor c;
@@ -1947,7 +1949,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
             p.drawLine(pm.width() / 3, pm.height() / 2,
                     2 * pm.width() / 3, pm.height() / 2);
-            p.setPen(QPen(black));
+            p.setPen(black);
         }
 
         // paint text label
@@ -1977,7 +1979,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
 
         // paint signalization (white triagle)
         if (iSoldDirection == 1) {
-            p.setPen(QPen(white));
+            p.setPen(white);
             p.setBrush(QColor(white));
             QPointArray triangle = QPointArray(4);
             triangle.putPoints(0, 4, 21, 9, 27, 3, 28, 3, 34, 9);
@@ -2018,7 +2020,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             }
             p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
             p.drawLine(w / 3, h / 2, 2 * w / 3, h / 2);
-            p.setPen(QPen(black));
+            p.setPen(black);
         }
 
         // paint text label
@@ -2050,14 +2052,126 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
 
         // paint signalization
         if (iSoldDirection == 1)
-            p.setPen(QPen(green));
+            p.setPen(green);
         else
-            p.setPen(QPen(red));
+            p.setPen(red);
         
         p.drawLine(19, 12, 19 + 17, 12);
         p.drawLine(18, 13, 18 + 19, 13);
         p.drawLine(18, 21, 18 + 19, 21);
         p.drawLine(19, 22, 19 + 17, 22);
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+    
+    // shunt wait signal
+    else if (sSoldIcon == SYM_WS){
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+        
+        int w = pm.width();
+        int h = pm.height();
+        
+        // paint track
+        p.fillRect(0, h / 2 - 3, w - 1, 7, QBrush(black));
+        
+        // paint track button
+        if (iSoldRotate == 1)
+            p.drawPixmap(w / 6  - 4, h / 2 - 3,
+                    QPixmap(button_gray_xpm));
+        else
+            p.drawPixmap(5 * w / 6 - 4 , h / 2 - 3, 
+                    QPixmap(button_gray_xpm));
+
+        // paint lock light
+        if (lockCounter == 0)
+            p.setBrush(darkGray);
+        else
+            p.setBrush(QColor(255, 225, 0));
+
+        if (iSoldRotate == 1)
+            p.drawEllipse(w / 2 - 1, 5, 5, 5);
+        else
+            p.drawEllipse(w / 2 - 5, h - 10, 5, 5);
+
+        // paint signal icon
+        if (iSoldRotate == 1) {
+            p.drawPixmap(6, 2, QPixmap(signal_wr_xpm));
+            p.fillRect(22, 5, 2, 5, QBrush(black));
+            p.drawLine(13, 7, 21, 7);
+        }
+        else {
+            p.drawPixmap(w - 16 , h / 2 + 5, QPixmap(signal_w_xpm));
+            p.fillRect(w - 25, 25, 2, 5, QBrush(black));
+            p.drawLine(w - 15, 27, w - 23, 27);
+        }
+ 
+        // paint signal light
+        if (iSoldDirection == 1) {
+            p.setPen(QPen(white));
+            p.setBrush(white);
+        }
+        else
+            p.setBrush(darkGray);
+
+        if (iSoldRotate == 1) {
+            p.drawRect(4, 2, 3, 3);
+            p.drawRect(14, 9, 3, 3);
+        }
+        else {
+            p.drawRect(w - 18, h / 2 + 6, 3, 3);
+            p.drawRect(w - 8, h / 2 + 13, 3, 3);
+        }
+
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 7; ++i)
+                p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(lightGray));
+        }
+        else {
+            QColor c;
+            if (occupied)
+                c = QColor(red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(darkGray);
+            }
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+            p.drawLine(w / 3, h / 2, 2 * w / 3, h / 2);
+            p.setPen(QPen(black));
+        }
+
+        // paint text label
+        if (sSoldText != "-1" && !sSoldText.isEmpty()) {
+            QFont f("Helvetica");
+            f.setPointSize(QApplication::font().pointSize() - 3);
+            p.setFont(f);
+            QFontMetrics fm(f);
+            QString s;
+            
+            if (pref.addresslabeling)
+                s.setNum(iSoldAddress_1);
+            else
+                s = sSoldText;
+
+            QRect br = fm.boundingRect(s);
+            br.setWidth(br.width() + 4);
+            br.setHeight(br.height() + 2);
+
+            if (iSoldRotate == 1)
+                br.moveBottomRight(QPoint(w/2 + br.width()/2,
+                            h - 3));
+            else
+                br.moveTopLeft(QPoint(w/2 - br.width()/2, 2));
+            
+            p.fillRect(br, QBrush(white));
+            p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
+                    Qt::DontClip, s);
+        }
 
         p.end();
         setPaletteBackgroundPixmap(pm);
@@ -3070,7 +3184,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
     else if (sSoldIcon == SYM_KURR || sReplaceIcon == SYM_KURR)
         iIconByte = 10;
     else if (sSoldIcon == SYM_BUE || sSoldIcon == SYM_HS
-             || sSoldIcon == SYM_HSS || sSoldIcon == SYM_WS
+             || sSoldIcon == SYM_HSS
              || sReplaceIcon == SYM_GER || sSoldIcon == SYM_VS
              || ((sSoldIcon == SYM_KRL || sSoldIcon == SYM_KRR)
                  && sReplaceIcon == "")) {
@@ -3270,8 +3384,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                     || sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB
                     || sSoldIcon == SYM_VS || sSoldIcon == SYM_SS
                     || sSoldIcon == SYM_SSH || sSoldIcon == SYM_SSS
-                    || sSoldIcon == SYM_RI1 || sSoldIcon == SYM_RI2
-                    || sSoldIcon == SYM_WS) {
+                    || sSoldIcon == SYM_RI1 || sSoldIcon == SYM_RI2) {
                     bitBlt(&pixBasicIcon, 14, 0, &pixLED, 0, 0, 28, 35,
                            OrROP, false);
                     break;
@@ -3373,16 +3486,6 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                 break;
             case DIR_SH1:              // 3
                 sStateIcon = "LED_sh1";
-                break;
-        }
-
-    else if (sSoldIcon == SYM_WS)
-        switch (iSoldDirection) {
-            case DIR_0:              // 0
-                sStateIcon = sSoldIcon + "_0";
-                break;
-            case DIR_1:              // 1
-                sStateIcon = sSoldIcon + "_1";
                 break;
         }
 
@@ -3635,73 +3738,75 @@ void element::paintEvent(QPaintEvent*)
 }
 
 
+/**
+ * remove every tooltip and if configured add new one
+ * with current element data
+ */
 void element::addTooltip()
 {
+    if (!pref.datatooltips)
+        return;
+
     QToolTip::remove(this);
-    // remove every tooltip and if wished add new one
-    // setup element's tooltip
-    // with all information of the member variables
-    if (pref.datatooltips) {
-        QString a1, a2;
-        a1 = QString::number(iSoldAddress_1);
-        a2 = QString::number(iSoldAddress_2);
-    
-        QString tip1, tip2;
+    QString a1, a2;
+    a1 = QString::number(iSoldAddress_1);
+    a2 = QString::number(iSoldAddress_2);
 
-        tip1.sprintf("ELEMENT  # %03d\n"
-                     "icon     : %s\n"
-                     "rotate   : %s (=%1d)\n"
-                     "hide LEDs: %s (=%1d)\n"
-                     "invers   : %s (=%1d)\n"
-                     "decoder  : %s\n"
-                     "protocol : %s\n"
-                     "adress 1 : %s\n",
-                     iSoldIndex,
-                     sSoldIcon.data(),
-                     iSoldRotate == -1 ? "N/A" : (iSoldRotate ==
-                                                  0 ? "No" : "Yes"),
-                     iSoldRotate,
-                     iSoldLEDoff == -1 ? "N/A" : (iSoldLEDoff ==
-                                                  0 ? "No" : "Yes"),
-                     iSoldLEDoff,
-                     iSoldInvert == -1 ? "N/A" : (iSoldInvert ==
-                                                  0 ? "No" : "Yes"),
-                     iSoldInvert,
-                     sSoldDecoder == "-1" ?  "N/A (=-1)" 
-                         : sSoldDecoder.data(),
-                     protocol == SrcpMessage::proNone ? "N/A (=-1)"
-                         : (protocol == SrcpMessage::proMM ? "Motorola"
-                         : (protocol == SrcpMessage::proDCC ? "NMRA/DCC"
-                         : (protocol == SrcpMessage::proSelectrix ?
-                             "Selectrix"
-                         : "Server"))),
-                     iSoldAddress_1 == -1 ?  "N/A (=-1)" : a1.data());
+    QString tip1, tip2;
 
-        tip2.sprintf("adress 2 : %s\n"
-                     "c conn 1 : %s (=%1d)\n"
-                     "c conn 2 : %s (=%1d)\n"
-                     "direction: %d\n"
-                     "subtype  : %d\n"
-                     "text     : %s\n"
-                     "lock     : %s (=%1d)\n"
-                     "time (ms): %d\n"
-                     "FB contact: %d\n",
-                     iSoldAddress_2 == -1 ? "N/A (=-1)" : a2.data(),
-                     iSoldChangeConn[0] ==
-                     -1 ? "N/A" : (iSoldChangeConn[0] == 0 ? "No" : "Yes"),
-                     iSoldChangeConn[0],
-                     iSoldChangeConn[1] ==
-                     -1 ? "N/A" : (iSoldChangeConn[1] == 0 ? "No" : "Yes"),
-                     iSoldChangeConn[1], iSoldDirection, iSoldSubType,
-                     sSoldText == "-1" ? "N/A (=-1)" : sSoldText.data(),
-                     lockCounter == -1 ? "N/A" : (isLocked() ? "No" : "Yes"),
-                     lockCounter, iSoldActiveTime, iFBContact);
+    tip1.sprintf("ELEMENT  # %03d\n"
+            "icon     : %s\n"
+            "rotate   : %s (=%1d)\n"
+            "hide LEDs: %s (=%1d)\n"
+            "invers   : %s (=%1d)\n"
+            "decoder  : %s\n"
+            "protocol : %s\n"
+            "adress 1 : %s\n",
+            iSoldIndex,
+            sSoldIcon.data(),
+            iSoldRotate == -1 ? "N/A" : (iSoldRotate ==
+                0 ? "No" : "Yes"),
+            iSoldRotate,
+            iSoldLEDoff == -1 ? "N/A" : (iSoldLEDoff ==
+                0 ? "No" : "Yes"),
+            iSoldLEDoff,
+            iSoldInvert == -1 ? "N/A" : (iSoldInvert ==
+                0 ? "No" : "Yes"),
+            iSoldInvert,
+            sSoldDecoder == "-1" ?  "N/A (=-1)" 
+            : sSoldDecoder.data(),
+            protocol == SrcpMessage::proNone ? "N/A (=-1)"
+                : (protocol == SrcpMessage::proMM ? "Motorola"
+                        : (protocol == SrcpMessage::proDCC ? "NMRA/DCC"
+                            : (protocol == SrcpMessage::proSelectrix ?
+                                "Selectrix"
+                                : "Server"))),
+            iSoldAddress_1 == -1 ?  "N/A (=-1)" : a1.data());
 
-        tip1.append(tip2);
+    tip2.sprintf("adress 2 : %s\n"
+            "c conn 1 : %s (=%1d)\n"
+            "c conn 2 : %s (=%1d)\n"
+            "direction: %d\n"
+            "subtype  : %d\n"
+            "text     : %s\n"
+            "lock     : %s (=%1d)\n"
+            "time (ms): %d\n"
+            "FB contact: %d\n",
+            iSoldAddress_2 == -1 ? "N/A (=-1)" : a2.data(),
+            iSoldChangeConn[0] ==
+            -1 ? "N/A" : (iSoldChangeConn[0] == 0 ? "No" : "Yes"),
+            iSoldChangeConn[0],
+            iSoldChangeConn[1] ==
+            -1 ? "N/A" : (iSoldChangeConn[1] == 0 ? "No" : "Yes"),
+            iSoldChangeConn[1], iSoldDirection, iSoldSubType,
+            sSoldText == "-1" ? "N/A (=-1)" : sSoldText.data(),
+            lockCounter == -1 ? "N/A" : (isLocked() ? "No" : "Yes"),
+            lockCounter, iSoldActiveTime, iFBContact);
 
-        QToolTip::setFont((QFont) "Courier");   //serd
-        QToolTip::add(this, tip1);
-    }
+    tip1.append(tip2);
+
+    QToolTip::setFont((QFont) "Courier");   //serd
+    QToolTip::add(this, tip1);
 }
 
 
