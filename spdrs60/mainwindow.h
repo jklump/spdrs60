@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.5.0 $Revision: 1.34 $
+                           version 0.5.0 $Revision: 1.35 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-10-28 18:46:29 $
+    last modified        : $Date: 2006-11-04 15:10:54 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -41,6 +41,7 @@
 #include "newlayoutdialog.h"
 #include "keyboard.h"
 
+#define APP_NAME       "SpDrS60"
 
 enum SRCPMode {    
     srcpUndefined = 0,
@@ -76,7 +77,7 @@ private:
    bool            LayoutPowerIsOn;
    bool            isFBInitMode;
    int             CurrentHL;
-   QString         fileName;  //serd
+   QString         fileName;
    QString         lastDir;
    elemVisualMode  visualMode;
 

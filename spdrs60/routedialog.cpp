@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.5.0 $Revision: 1.29 $
+                           version 0.5.0 $Revision: 1.30 $
                            -------------------------------
     copyright            : (C) 2005-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-10-28 18:46:29 $
+    last modified        : $Date: 2006-11-04 15:10:55 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -25,10 +25,11 @@
 #include <qlayout.h>
 #include <qvalidator.h>
 
-#include "routedialog.h"
-#include "routeelementlvi.h"
-#include "routeelementdialog.h"
 #include "preferences.h"
+#include "resources.h"
+#include "routedialog.h"
+#include "routeelementdialog.h"
+#include "routeelementlvi.h"
 
 
 

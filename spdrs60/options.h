@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.h
-                           version 0.5.0 $Revision: 1.13 $
+                           version 0.5.0 $Revision: 1.14 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-02 16:54:32 $
+    last modified        : $Date: 2006-11-04 15:10:55 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -42,9 +42,7 @@
 #include <qtabdialog.h>
 #include <qtextstream.h>
   	
-#include "resources.h"
 #include "preferences.h"
-
 
 
 class optionsDialog: public QTabDialog
@@ -60,9 +58,9 @@ public:
 private:
    void setupElementTab();
    void setupLayoutTab();              // creates the tab with layout specs
-   void setupDigitalTab();                // creates the tab with data specs
-   void setupFeedbackTab();                // creates the tab with data specs
-   void setupFeedbackTypeTab();                // creates the tab with data specs
+   void setupDigitalTab();             // creates the tab with data specs
+   void setupFeedbackTab();            // creates the tab with data specs
+   void setupFeedbackTypeTab();        // creates the tab with data specs
    bool valuesAreValid();              // check if any user entry is wrong
 
 private slots:
@@ -88,7 +86,6 @@ private:
    QRadioButton *rbShowTxt;
    QRadioButton *rb16inputs;           // user has feedback modules with
    QRadioButton *rb8inputs;            // 16 or 8 inputs
-   //QRadioButton *rbI8255;
    QRadioButton *fixedBusesRB;
    QRadioButton *flexBusesRB;
    QRadioButton *rbProtMS;             // default protocol selector

@@ -1,10 +1,10 @@
 /***************************************************************************
                            routeelementdialog.cpp
-                           version 0.5.0 $Revision: 1.7 $
+                           version 0.5.0 $Revision: 1.8 $
                            -------------------------------
     copyright            : (C) 2005-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-02 16:54:32 $
+    last modified        : $Date: 2006-11-04 15:10:55 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -23,6 +23,7 @@
 #include <qhbox.h>
 #include <qlayout.h>
 
+#include "resources.h"
 #include "routeelementdialog.h"
 
 

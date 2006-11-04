@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementcommander.cpp
-                           version 0.5.0 $Revision: 1.4 $
+                           version 0.5.0 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-11-02 16:54:32 $ 
+    last modified        : $Date: 2006-11-04 15:10:54 $ 
 ***************************************************************************/
 
 /***************************************************************************
@@ -22,6 +22,7 @@
 ****************************************************************************/
 #include "elementcommander.h"
 #include "preferences.h"
+#include "element.h"
 
 /*button icons*/
 #include "pixmaps/tt_stop.xpm"
@@ -34,13 +35,15 @@
 
 elementCommander::elementCommander(QWidget * parent, QString sSoldIcon_)
 :  QDialog(0, "elementCommander", false)
-                                        // true, parent window not
-{                               // usable until this closed
-    if (parent);                // dummy command to avoid compiler warning
+{
+    // true, parent window not usable until this closed
+    // dummy command to avoid compiler warning
+    if (parent);
     sSoldIcon = sSoldIcon_;
 
-    bgButton = new QButtonGroup(this, "");      // create a button group for
-    bgButton->move(0, 0);       // standard buttons ...
+    // create a button group for standard buttons ...
+    bgButton = new QButtonGroup(this, "commandBG");
+    bgButton->move(0, 0);
     bgButton->resize(60, 30);
     bgButton->setExclusive(true);
     bgButton->setFrameStyle(QFrame::NoFrame);

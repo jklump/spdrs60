@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.5.0 $Revision: 1.29 $
+                           version 0.5.0 $Revision: 1.30 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-10-28 18:46:29 $
+    last modified        : $Date: 2006-11-04 15:10:54 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -32,7 +32,6 @@
 #include <qtextstream.h>
 #include <qtimer.h>
 
-#include "resources.h"
 #include "element.h"
 #include "route.h"
 

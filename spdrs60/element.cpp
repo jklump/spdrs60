@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.82 $
+                           version 0.5.0 $Revision: 1.83 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-04 11:34:51 $
+    last modified        : $Date: 2006-11-04 15:10:54 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -27,6 +27,7 @@
 
 #include "element.h"
 #include "preferences.h"
+#include "resources.h"
 
 /* popup menu icons */
 #include "pixmaps/ctx_rota.xpm"
@@ -93,6 +94,37 @@ static const char* leer_xpm[]={
 "........................................................",
 "........................................................"};
 
+// Element directions
+#define   DIR_HP0          0
+#define   DIR_HP1          1
+#define   DIR_HP2          2
+#define   DIR_SH1          3
+#define   DIR_Sh0          0  // bei Sperrsignalen, die Hauptsignalvarianten
+#define   DIR_Sh1          1  // können nicht benutzt werden, da mit anderen
+                              // Richtungswerten gearbeitet wird
+#define   DIR_ENK_DW       0  // Entkuppler aus
+#define   DIR_ENK_UP       1  // Entkuppler an
+#define   DIR_REL0         0  // Relais aus
+#define   DIR_REL1         1  // Relais an
+#define   DIR_0            0
+#define   DIR_1            1
+
+// constants for context menu
+#define   CTX_ID_REP       901
+#define   CTX_ID_TOGGLE    902
+#define   CTX_ID_CLEAR     903
+#define   CTX_ID_ROTATE    904
+
+#define   LED_OFF          0   // LED states of an element = off
+#define   LED_YEL          1   // route selected
+#define   LED_RED          2   // occupied
+
+// delay for edit mode after element locating
+#define   LOCATE_TIMER     5000
+
+// serd: Viessman Signale often need several attempts for reaching
+// their correct position
+#define   cNumRepeatCommands 3
 
 #define SANGLE 31.264         // small angle
 #define WANGLE (180.0 - SANGLE) // wide angle
@@ -1369,7 +1401,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         // paint panel
         if (iSoldInvert == 1) {
             p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
-                    QBrush(QColor(darkGray), SolidPattern));
+                    QBrush(darkGray));
         }
 
         // paint text
@@ -1394,7 +1426,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             
         // paint panel
         p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
-                QBrush(QColor(0, 0, 192), SolidPattern));
+                QBrush(QColor(0, 0, 192)));
 
         p.end();
         setPaletteBackgroundPixmap(pm);
@@ -1408,7 +1440,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             
         // paint panel
         p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
-                QBrush(QColor(0, 0, 192), SolidPattern));
+                QBrush(QColor(0, 0, 192)));
 
         // paint red light
         p.setBrush(red);
@@ -1433,7 +1465,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             
         // paint panel
         p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
-                QBrush(QColor(0, 160, 0), SolidPattern));
+                QBrush(QColor(0, 160, 0)));
 
         p.end();
         setPaletteBackgroundPixmap(pm);
@@ -1447,7 +1479,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             
         // paint panel
         p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
-                QBrush(QColor(0, 160, 0), SolidPattern));
+                QBrush(QColor(0, 160, 0)));
         
         // paint button
         p.setBrush(darkGray);
@@ -1480,7 +1512,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             
         // paint panel
         p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
-                QBrush(QColor(0, 160, 0), SolidPattern));
+                QBrush(QColor(0, 160, 0)));
         
         // paint buttons
         p.setBrush(darkGray);
@@ -1503,7 +1535,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             
         // paint panel
         p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
-                QBrush(QColor(221, 0, 0), SolidPattern));
+                QBrush(QColor(221, 0, 0)));
 
         p.end();
         setPaletteBackgroundPixmap(pm);
@@ -1517,7 +1549,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             
         // paint panel
         p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
-                QBrush(QColor(221, 0, 0), SolidPattern));
+                QBrush(QColor(221, 0, 0)));
 
         // paint buttons
         p.setBrush(darkGray);
@@ -1540,7 +1572,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             
         // paint panel
         p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
-                QBrush(QColor(224, 224, 0), SolidPattern));
+                QBrush(QColor(224, 224, 0)));
 
         p.end();
         setPaletteBackgroundPixmap(pm);
@@ -1554,7 +1586,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             
         // paint panel
         p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
-                QBrush(QColor(112, 48, 0), SolidPattern));
+                QBrush(QColor(112, 48, 0)));
 
         p.end();
         setPaletteBackgroundPixmap(pm);
@@ -1568,7 +1600,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             
         // paint panel
         p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
-                QBrush(QColor(128, 128, 128), SolidPattern));
+                QBrush(QColor(128, 128, 128)));
 
         p.end();
         setPaletteBackgroundPixmap(pm);
@@ -1583,10 +1615,10 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         // paint panel
         if (iSoldRotate == 1)
             p.fillRect(0, pm.height() / 2 - 6, 5, 13,
-                    QBrush(QColor(black)));
+                    QBrush(black));
         else
             p.fillRect(pm.width() - 5, pm.height() / 2 - 6, pm.width(),
-                    13, QBrush(QColor(black)));
+                    13, QBrush(black));
 
         p.end();
         setPaletteBackgroundPixmap(pm);
@@ -1601,7 +1633,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         
         // paint track
         p.fillRect(0, pm.height() / 2 - 3, pm.width() - 1, 7,
-                QBrush(QColor(black)));
+                QBrush(black));
 
         // paint arrows
         /**
@@ -1614,7 +1646,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
          * -------------------------------------
          **/
 
-        p.setBrush(QBrush(QColor(black)));
+        p.setBrush(QBrush(black));
 
         if (isri2 || iSoldRotate == 1) {
             QPointArray leftarrow = QPointArray(4);
@@ -1634,7 +1666,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         if (iSoldLEDoff == 1) {
             for (int i = 0; i < 7; ++i)
             p.fillRect(4 + 7 * i, pm.height() / 2 - 2, 5, 5,
-                    QBrush(QColor(lightGray)));
+                    QBrush(lightGray));
         }
         else {
             QColor c;
@@ -1685,9 +1717,9 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         
         // paint track
         p.fillRect(0, pm.height() / 2 - 3, 3, 7,
-                QBrush(QColor(black)));
+                QBrush(black));
         p.fillRect(pm.width() - 4, pm.height() / 2 - 3, 3, 7,
-                QBrush(QColor(black)));
+                QBrush(black));
 
         // paint address field
         p.setPen(QPen(darkGray, 2));
@@ -1729,11 +1761,11 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         
         // paint road
         p.fillRect(pm.width() / 2 - 7, 0, 15, pm.height(),
-                QBrush(QColor(darkGray)));
+                QBrush(darkGray));
 
         // paint track
         p.fillRect(0, pm.height() / 2 - 3, pm.width() - 1, 7,
-                QBrush(QColor(black)));
+                QBrush(black));
 
         // paint track button
         p.drawPixmap(pm.width() / 2  - 4, pm.height() / 2 - 3,
@@ -1891,16 +1923,16 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         
         // paint track
         p.fillRect(0, pm.height() / 2 - 3, pm.width() - 1, 7,
-                QBrush(QColor(black)));
+                QBrush(black));
         
         // paint symbol
-        p.fillRect(21, 10, 14, 3, QBrush(QColor(black)));
+        p.fillRect(21, 10, 14, 3, QBrush(black));
         
         // paint track lights
         if (iSoldLEDoff == 1) {
             for (int i = 0; i < 7; ++i)
             p.fillRect(4 + 7 * i, pm.height() / 2 - 2, 5, 5,
-                    QBrush(QColor(lightGray)));
+                    QBrush(lightGray));
         }
         else {
             QColor c;
@@ -1962,15 +1994,17 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         QPainter p;
         p.begin(&pm);
         
+        int w = pm.width();
+        int h = pm.height();
+        
         // paint track
-        p.fillRect(0, pm.height() / 2 - 3, pm.width() - 1, 7,
-                QBrush(QColor(black)));
+        p.fillRect(0, h / 2 - 3, w - 1, 7, QBrush(black));
         
         // paint track lights
         if (iSoldLEDoff == 1) {
             for (int i = 0; i < 7; ++i)
-            p.fillRect(4 + 7 * i, pm.height() / 2 - 2, 5, 5,
-                    QBrush(QColor(lightGray)));
+                p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
+                        QBrush(lightGray));
         }
         else {
             QColor c;
@@ -1983,8 +2017,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                     c = QColor(darkGray);
             }
             p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
-            p.drawLine(pm.width() / 3, pm.height() / 2,
-                    2 * pm.width() / 3, pm.height() / 2);
+            p.drawLine(w / 3, h / 2, 2 * w / 3, h / 2);
             p.setPen(QPen(black));
         }
 
@@ -2006,10 +2039,9 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             br.setHeight(br.height() + 2);
 
             if (iSoldRotate == 1)
-                br.moveTopLeft(QPoint(pm.width()/2 - br.width()/2, 2));
+                br.moveTopLeft(QPoint(w/2 - br.width()/2, 2));
             else
-                br.moveBottomRight(QPoint(pm.width()/2 + br.width()/2,
-                            pm.height() - 3));
+                br.moveBottomRight(QPoint(w/2 + br.width()/2, h - 3));
             
             p.fillRect(br, QBrush(white));
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
@@ -2037,20 +2069,33 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         QPainter p;
         p.begin(&pm);
         
-        // paint track
-        p.fillRect(0, pm.height() / 2 - 3, pm.width() - 1, 7,
-                QBrush(QColor(black)));
+        int w = pm.width();
+        int h = pm.height();
         
+        // paint track
+        p.fillRect(0, h / 2 - 3, w - 1, 7, QBrush(black));
+        
+        // paint lock light
+        if (lockCounter == 0)
+            p.setBrush(darkGray);
+        else
+            p.setBrush(QColor(255, 225, 0));
+
+        if (iSoldRotate == 1)
+            p.drawEllipse(w / 2 - 2, 5, 5, 5);
+        else
+            p.drawEllipse(w / 2 - 3, h - 10, 5, 5);
+
         // paint signal icon
         if (iSoldRotate == 1) {
-            p.fillRect(32, 5, 2, 5, QBrush(QColor(black)));
-            p.fillRect(16, 2, 11, 11, QBrush(QColor(black)));
-            p.drawLine(27, 7, 31, 7);
+            p.fillRect(21, 5, 2, 5, QBrush(black));
+            p.fillRect(5, 2, 11, 11, QBrush(black));
+            p.drawLine(16, 7, 20, 7);
         }
         else {
-            p.fillRect(22, 25, 2, 5, QBrush(QColor(black)));
-            p.fillRect(29, 22, 11, 11, QBrush(QColor(black)));
-            p.drawLine(24, 27, 28, 27);
+            p.fillRect(w - 23, 25, 2, 5, QBrush(black));
+            p.fillRect(w - 16, 22, 11, 11, QBrush(black));
+            p.drawLine(w - 17, 27, w - 21, 27);
         }
  
         // paint signal light
@@ -2059,9 +2104,9 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                 0, 5, 8, 5, 1, 7, 7, 7, 3, 8, 5, 8);
 
         if (iSoldRotate == 1)
-            lights.translate(17, 3);
+            lights.translate(6, 3);
         else
-            lights.translate(30, 23);
+            lights.translate(w - 15, 23);
 
         if (iSoldDirection == 1)
             p.setPen(QPen(green));
@@ -2073,8 +2118,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         // paint track lights
         if (iSoldLEDoff == 1) {
             for (int i = 0; i < 7; ++i)
-            p.fillRect(4 + 7 * i, pm.height() / 2 - 2, 5, 5,
-                    QBrush(QColor(lightGray)));
+                p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(lightGray));
         }
         else {
             QColor c;
@@ -2087,8 +2131,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                     c = QColor(darkGray);
             }
             p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
-            p.drawLine(pm.width() / 3, pm.height() / 2,
-                    2 * pm.width() / 3, pm.height() / 2);
+            p.drawLine(w / 3, h / 2, 2 * w / 3, h / 2);
             p.setPen(QPen(black));
         }
 
@@ -2110,10 +2153,10 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             br.setHeight(br.height() + 2);
 
             if (iSoldRotate == 1)
-                br.moveBottomRight(QPoint(pm.width()/2 + br.width()/2,
-                            pm.height() - 3));
+                br.moveBottomRight(QPoint(w/2 + br.width()/2,
+                            h - 3));
             else
-                br.moveTopLeft(QPoint(pm.width()/2 - br.width()/2, 2));
+                br.moveTopLeft(QPoint(w/2 - br.width()/2, 2));
             
             p.fillRect(br, QBrush(white));
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
@@ -2130,15 +2173,17 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         QPainter p;
         p.begin(&pm);
         
+        int w = pm.width();
+        int h = pm.height();
+        
         // paint track
-        p.fillRect(0, pm.height() / 2 - 3, pm.width() - 1, 7,
-                QBrush(QColor(black)));
+        p.fillRect(0, h / 2 - 3, w - 1, 7, QBrush(black));
         
         // paint track lights
         if (iSoldLEDoff == 1) {
             for (int i = 0; i < 7; ++i)
-            p.fillRect(4 + 7 * i, pm.height() / 2 - 2, 5, 5,
-                    QBrush(QColor(lightGray)));
+                p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
+                        QBrush(lightGray));
         }
         else {
             QColor c;
@@ -2151,8 +2196,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                     c = QColor(darkGray);
             }
             p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
-            p.drawLine(pm.width() / 3, pm.height() / 2,
-                    2 * pm.width() / 3, pm.height() / 2);
+            p.drawLine(w / 3, h / 2, 2 * w / 3, h / 2);
             p.setPen(QPen(black));
         }
 
@@ -2163,9 +2207,9 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             p.setFont(f);
 
             QRect br = pm.rect();
-            br.setHeight(pm.height() / 2 - 7);
+            br.setHeight(h / 2 - 7);
             if (iSoldRotate == 1)
-                br.moveBottom(pm.height() - 4);
+                br.moveBottom(h - 4);
             else
                 br.moveTop(1);
             
@@ -2185,18 +2229,17 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         QPainter p;
         p.begin(&pm);
         
+        int w = pm.width();
+        int h = pm.height();
+        
         // paint track
-        if (iSoldRotate == 1) {
-            p.fillRect(pm.width() / 2 - 1, pm.height() / 2 - 3,
-                    pm.width() - 1, 7, QBrush(QColor(black)));
-        }
-        else {
-            p.fillRect(0, pm.height() / 2 - 3, pm.width() / 2 + 2, 7,
-                    QBrush(QColor(black)));
-        }
+        if (iSoldRotate == 1)
+            p.fillRect(w / 2 - 1, h / 2 - 3, w - 1, 7, QBrush(black));
+        else
+            p.fillRect(0, h / 2 - 3, w / 2 + 2, 7, QBrush(black));
 
         p.save();
-        p.translate(pm.width() / 2, pm.height() / 2);
+        p.translate(w / 2, h / 2);
 
         if (iSoldRotate == 1)
             if (left)
@@ -2209,19 +2252,19 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             else
                 p.rotate(SANGLE);
 
-        p.setPen(QPen(QColor(black), 7));
-        p.drawLine(0, 0, pm.width() / 2 + 5, 0);
+        p.setPen(QPen(black, 7));
+        p.drawLine(0, 0, w / 2 + 5, 0);
         p.restore();
 
         // paint track lights
         if (iSoldLEDoff == 1) {
             if (iSoldRotate == 1) {
                 for (int i = 4; i < 7; ++i)
-                    p.fillRect(4 + 7 * i, pm.height() / 2 - 2, 5, 5,
-                            QBrush(QColor(lightGray)));
+                    p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
+                            QBrush(lightGray));
                 
                 p.save();
-                p.translate(pm.width() / 2, pm.height() / 2);
+                p.translate(w / 2, h / 2);
 
                 if (left)
                     p.rotate(WANGLE);
@@ -2229,15 +2272,15 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                     p.rotate(-WANGLE);
 
                 for (int i = 0; i < 3; ++i)
-                    p.fillRect(5 + 7 * i, -2, 5, 5, QBrush(QColor(lightGray)));
+                    p.fillRect(5 + 7 * i, -2, 5, 5, QBrush(lightGray));
                 p.restore();
             }
             else {
                 for (int i = 0; i < 3; ++i)
-                    p.fillRect(4 + 7 * i, pm.height() / 2 - 2, 5, 5,
-                            QBrush(QColor(lightGray)));
+                    p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
+                            QBrush(lightGray));
                 p.save();
-                p.translate(pm.width() / 2, pm.height() / 2);
+                p.translate(w / 2, h / 2);
 
                 if (left)
                     p.rotate(-SANGLE);
@@ -2245,7 +2288,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                     p.rotate(SANGLE);
 
                 for (int i = 0; i < 3; ++i)
-                    p.fillRect(5 + 7 * i, -2, 5, 5, QBrush(QColor(lightGray)));
+                    p.fillRect(5 + 7 * i, -2, 5, 5, QBrush(lightGray));
                 p.restore();
             }
         }
@@ -2260,10 +2303,9 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                     c = QColor(darkGray);
             }
             if (iSoldRotate == 1) {
-                p.fillRect(pm.width() / 2, pm.height() / 2 - 1,
-                        pm.width() / 5 , 3, QBrush(c, SolidPattern));
+                p.fillRect(w / 2, h / 2 - 1, w / 5 , 3, QBrush(c));
                 p.save();
-                p.translate(pm.width() / 2, pm.height() / 2);
+                p.translate(w / 2, h / 2);
 
                 if (left)
                     p.rotate(WANGLE);
@@ -2271,14 +2313,13 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                     p.rotate(-WANGLE);
 
                 p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
-                p.drawLine(0, 0, pm.width() / 5, 0);
+                p.drawLine(0, 0, w / 5, 0);
                 p.restore();
             }
             else {
-                p.fillRect(pm.width() / 3, pm.height() / 2 - 1,
-                        pm.width() / 5 , 3, QBrush(c, SolidPattern));
+                p.fillRect(w / 3, h / 2 - 1, w / 5 , 3, QBrush(c));
                 p.save();
-                p.translate(pm.width() / 2, pm.height() / 2);
+                p.translate(w / 2, h / 2);
 
                 if (left)
                     p.rotate(-SANGLE);
@@ -2286,7 +2327,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                     p.rotate(SANGLE);
 
                 p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
-                p.drawLine(0, 0, pm.width() / 5, 0);
+                p.drawLine(0, 0, w / 5, 0);
                 p.restore();
             }
         }
@@ -2303,17 +2344,20 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         QPainter p;
         p.begin(&pm);
         
+        int w = pm.width();
+        int h = pm.height();
+        
         // paint track
-        p.setPen(QPen(QColor(black), 7));
+        p.setPen(QPen(black, 7));
         if (left)
-            p.drawLine(0, pm.height() - 1, pm.width() - 1, 0);
+            p.drawLine(0, h - 1, w - 1, 0);
         else
-            p.drawLine(0, 0, pm.width() - 1, pm.height() - 1);
+            p.drawLine(0, 0, w - 1, h - 1);
 
         // paint track lights
         if (iSoldLEDoff == 1) {
             p.save();
-            p.translate(pm.width() / 2, pm.height() / 2);
+            p.translate(w / 2, h / 2);
 
             if (left)
                 p.rotate(-SANGLE);
@@ -2321,7 +2365,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                 p.rotate(SANGLE);
 
             for (int i = -3; i < 4; ++i)
-                p.fillRect(-3 + 7 * i, -2, 5, 5, QBrush(QColor(lightGray)));
+                p.fillRect(-3 + 7 * i, -2, 5, 5, QBrush(lightGray));
 
             p.restore();
         }
@@ -2336,7 +2380,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                     c = QColor(darkGray);
             }
             p.save();
-            p.translate(pm.width() / 2, pm.height() / 2);
+            p.translate(w / 2, h / 2);
 
             if (left)
                 p.rotate(-SANGLE);
@@ -2344,7 +2388,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                 p.rotate(SANGLE);
 
             p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
-            p.drawLine(-pm.width() / 6, 0, pm.width() / 6, 0);
+            p.drawLine(-w / 6, 0, w / 6, 0);
 
             p.restore();
         }
@@ -2358,15 +2402,17 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         QPainter p;
         p.begin(&pm);
         
+        int w = pm.width();
+        int h = pm.height();
+        
         // paint track
-        p.fillRect(0, pm.height()/2 - 3, pm.width() - 1, 7,
-                QBrush(QColor(black)));
+        p.fillRect(0, h/2 - 3, w - 1, 7, QBrush(black));
         
         // paint track lights
         if (iSoldLEDoff == 1) {
             for (int i = 0; i < 7; ++i)
-            p.fillRect(4 + 7 * i, pm.height()/2 - 2, 5, 5,
-                    QBrush(QColor(lightGray)));
+                p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
+                        QBrush(lightGray));
         }
         else {
             QColor c;
@@ -2378,25 +2424,24 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                 else
                     c = QColor(darkGray);
             }
-            p.fillRect(pm.width() / 3, pm.height() / 2 - 1, pm.width() / 3, 3,
-                    QBrush(c, SolidPattern));
+            p.fillRect(w / 3, h / 2 - 1, w / 3, 3, QBrush(c));
         }
 
         // paint track button
         if (iSoldRotate == 1) {
             if (sSoldIcon == SYM_NRB)
-                p.drawPixmap(pm.width() / 6  - 4, pm.height() / 2 - 3,
+                p.drawPixmap(w / 6  - 4, h / 2 - 3,
                         QPixmap(button_red_xpm));
             else
-                p.drawPixmap(pm.width() / 6  - 4, pm.height() / 2 - 3,
+                p.drawPixmap(w / 6  - 4, h / 2 - 3,
                         QPixmap(button_gray_xpm));
         }
         else {
             if (sSoldIcon == SYM_NRB)
-                p.drawPixmap(5 * pm.width() / 6 - 4 , pm.height() / 2 - 3, 
+                p.drawPixmap(5 * w / 6 - 4 , h / 2 - 3, 
                         QPixmap(button_red_xpm));
             else
-                p.drawPixmap(5 * pm.width() / 6 - 4 , pm.height() / 2 - 3, 
+                p.drawPixmap(5 * w / 6 - 4 , h / 2 - 3, 
                         QPixmap(button_gray_xpm));
         }
 
@@ -2418,10 +2463,10 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             br.setHeight(br.height() + 2);
 
             if (iSoldRotate == 1)
-                br.moveTopLeft(QPoint(pm.width()/2 - br.width()/2, 2));
+                br.moveTopLeft(QPoint(w/2 - br.width()/2, 2));
             else
-                br.moveBottomRight(QPoint(pm.width()/2 + br.width()/2,
-                            pm.height() - 3));
+                br.moveBottomRight(QPoint(w/2 + br.width()/2,
+                            h - 3));
 
             p.fillRect(br, QBrush(white));
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
@@ -2439,15 +2484,16 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         QPainter p;
         p.begin(&pm);
         
+        int w = pm.width();
+        int h = pm.height();
+        
         // paint track
-        p.fillRect(0, pm.height()/2 - 3, pm.width() - 1, 7,
-                QBrush(QColor(black)));
+        p.fillRect(0, h/2 - 3, w - 1, 7, QBrush(black));
         
         // paint track lights
         if (iSoldLEDoff == 1) {
             for (int i = 0; i < 7; ++i)
-            p.fillRect(4 + 7 * i, pm.height()/2 - 2, 5, 5,
-                    QBrush(QColor(lightGray)));
+                p.fillRect(4 + 7 * i, h/2 - 2, 5, 5, QBrush(lightGray));
         }
         else {
             QColor c;
@@ -2459,31 +2505,26 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                 else
                     c = QColor(darkGray);
             }
-            p.fillRect(pm.width() / 3, pm.height() / 2 - 1, pm.width() / 3, 3,
-                    QBrush(c, SolidPattern));
+            p.fillRect(w / 3, h / 2 - 1, w / 3, 3, QBrush(c));
         }
 
         // paint track button
-        int xpos1 = pm.width() / 6  - 4;
-        int xpos2 = 5 * pm.width() / 6 - 4;
+        int xpos1 = w / 6  - 4;
+        int xpos2 = 5 * w / 6 - 4;
 
         if (sSoldIcon == SYM_SSS) {
-            p.drawPixmap(xpos1, pm.height() / 2 - 3,
-                    QPixmap(button_gray_xpm));
-            p.drawPixmap(xpos2, pm.height() / 2 - 3,
-                    QPixmap(button_gray_xpm));
+            p.drawPixmap(xpos1, h / 2 - 3, QPixmap(button_gray_xpm));
+            p.drawPixmap(xpos2, h / 2 - 3, QPixmap(button_gray_xpm));
         }
 
         if (iSoldRotate != 1)
         xpos1 = xpos2;
 
         if (sSoldIcon == SYM_SSH)
-            p.drawPixmap(xpos1, pm.height() / 2 - 3,
-                    QPixmap(button_red_xpm));
+            p.drawPixmap(xpos1, h / 2 - 3, QPixmap(button_red_xpm));
 
         else if (sSoldIcon == SYM_SS) {
-            p.drawPixmap(xpos1, pm.height() / 2 - 3,
-                    QPixmap(button_gray_xpm));
+            p.drawPixmap(xpos1, h / 2 - 3, QPixmap(button_gray_xpm));
         }
 
         // paint signal icon
@@ -2491,7 +2532,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
 
         if (iSoldRotate != 1) {
             p.save();
-            p.translate(pm.width() - 1, pm.height() - 1);
+            p.translate(w - 1, h - 1);
             p.rotate(180.0);
         }
         p.drawRect(5, 5, 15, 5);
@@ -2531,17 +2572,17 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             p.setBrush(QColor(255, 225, 0));
 
         if (iSoldRotate == 1)
-            p.drawEllipse(pm.width() / 2 - 2, 5, 5, 5);
+            p.drawEllipse(w / 2 - 2, 5, 5, 5);
         else
-            p.drawEllipse(pm.width() / 2 - 4, pm.height() - 10, 5, 5);
+            p.drawEllipse(w / 2 - 4, h - 10, 5, 5);
 
         // paint FfM
         if (ffm) {
             p.setBrush(ffmactive ? yellow : darkGray);
             if (iSoldRotate == 1)
-                p.drawRect(5, pm.height() - 10, 6, 6);
+                p.drawRect(5, h - 10, 6, 6);
             else
-                p.drawRect(pm.width() - 11, 4, 6, 6);
+                p.drawRect(w - 11, 4, 6, 6);
         }
 
         // paint text label
@@ -2562,10 +2603,9 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             br.setHeight(br.height() + 2);
 
             if (iSoldRotate == 1)
-                br.moveBottomRight(QPoint(pm.width()/2 + br.width()/2,
-                            pm.height() - 3));
+                br.moveBottomRight(QPoint(w/2 + br.width()/2, h - 3));
             else
-                br.moveTopLeft(QPoint(pm.width()/2 - br.width()/2, 2));
+                br.moveTopLeft(QPoint(w/2 - br.width()/2, 2));
 
             p.fillRect(br, QBrush(white));
             p.setBrush(white);
@@ -2589,9 +2629,12 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         QPainter p;
         p.begin(&pm);
         
+        int w = pm.width();
+        int h = pm.height();
+        
         // paint track
         p.fillRect(0, pm.height()/2 - 3, pm.width() - 1, 7,
-                QBrush(QColor(black)));
+                QBrush(black));
         
         p.save();
         p.translate(pm.width() / 2, pm.height() / 2);
@@ -2607,7 +2650,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             else
                 p.rotate(SANGLE);
 
-        p.setPen(QPen(QColor(black), 7));
+        p.setPen(QPen(black, 7));
         p.drawLine(0, 0, pm.width() / 2 + 5, 0);
         p.restore();
 
@@ -2615,7 +2658,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         if (iSoldLEDoff == 1) {
             for (int i = 0; i < 7; ++i)
             p.fillRect(4 + 7 * i, pm.height()/2 - 2, 5, 5,
-                    QBrush(QColor(lightGray)));
+                    QBrush(lightGray));
             // short track
             p.save();
             p.translate(pm.width() / 2, pm.height() / 2);
@@ -2632,7 +2675,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                     p.rotate(SANGLE);
 
             for (int i = 0; i < 3; ++i)
-                p.fillRect(6 + 7 * i, -2, 5, 5, QBrush(QColor(lightGray)));
+                p.fillRect(6 + 7 * i, -2, 5, 5, QBrush(lightGray));
             p.restore();
 
         }
@@ -2700,7 +2743,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             p.drawLine(11, 0, 11 + 14, 0);
             p.restore();
 
-            p.setPen(QPen(QColor(black)));
+            p.setPen(QPen(black));
         }
 
         // paint track button
@@ -2836,7 +2879,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         }
         
         // paint track
-        p.fillRect(-5, -3, -tracklen, 7, QBrush(QColor(black)));
+        p.fillRect(-5, -3, -tracklen, 7, QBrush(black));
         
         // paint tunnel entry
         QPointArray tunnel = QPointArray(4);
@@ -2893,7 +2936,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         }
         
         // paint track
-        p.fillRect(0, -3, -tracklen, 7, QBrush(QColor(black)));
+        p.fillRect(0, -3, -tracklen, 7, QBrush(black));
         
         // paint schuppen
         p.setBrush(QColor(192, 0 ,0));
@@ -2913,10 +2956,9 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         p.begin(&pm);
         
         // paint track
-        p.fillRect(0, pm.height() / 2 - 3, 4, 7,
-                QBrush(QColor(black)));
+        p.fillRect(0, pm.height() / 2 - 3, 4, 7, QBrush(black));
         p.fillRect(pm.width() - 4, pm.height() / 2 - 3, 3, 7,
-                QBrush(QColor(black)));
+                QBrush(black));
 
         // paint table icon
         p.drawPixmap(4, 4, QPixmap(transfertable_xpm));
@@ -2953,17 +2995,17 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         // paint track s
         int tracklen = pm.width() / 4;
         int startx = -pm.height() / 2;
-        p.fillRect(startx, -3, -tracklen, 7, QBrush(QColor(black)));
+        p.fillRect(startx, -3, -tracklen, 7, QBrush(black));
         p.rotate(SANGLE);
-        p.fillRect(startx, -3, -tracklen - 1, 7, QBrush(QColor(black)));
+        p.fillRect(startx, -3, -tracklen - 1, 7, QBrush(black));
         p.rotate(-2 * SANGLE);
-        p.fillRect(startx, -3, -tracklen - 1, 7, QBrush(QColor(black)));
+        p.fillRect(startx, -3, -tracklen - 1, 7, QBrush(black));
         p.rotate(180.0);
-        p.fillRect(startx, -3, -tracklen - 1, 7, QBrush(QColor(black)));
+        p.fillRect(startx, -3, -tracklen - 1, 7, QBrush(black));
         p.rotate(SANGLE);
-        p.fillRect(startx, -3, -tracklen, 7, QBrush(QColor(black)));
+        p.fillRect(startx, -3, -tracklen, 7, QBrush(black));
         p.rotate(SANGLE);
-        p.fillRect(startx, -3, -tracklen - 1, 7, QBrush(QColor(black)));
+        p.fillRect(startx, -3, -tracklen - 1, 7, QBrush(black));
 
         // paint icon
         p.setBrush(darkGray);

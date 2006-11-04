@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.76 $
+                           version 0.5.0 $Revision: 1.77 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-10-28 18:46:29 $
+    last modified        : $Date: 2006-11-04 15:10:54 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -28,11 +28,12 @@
 #include <qmenubar.h>
 #include <qvbox.h>
 
+#include "finder.h"
 #include "gbsscrollview.h"
 #include "mainwindow.h"
-#include "preferences.h"
 #include "options.h"
-#include "finder.h"
+#include "preferences.h"
+#include "resources.h"
 
 #include "../icons/spdrs60_32.xpm"
 /*toolbar icons*/
@@ -114,6 +115,9 @@
 #define CF_FBBUS3       "fbbus3"
 #define CF_FBBUS4       "fbbus4"
 #define CF_LASTDIR      "lastdir"
+
+#define SPDRS60_INIT   ".spdrs60rc" // program init filename
+#define MAX_HISTORY    100 // max lines in debugging history
 
 
 MainWindow::MainWindow() : QMainWindow(NULL, "SpDrS60",

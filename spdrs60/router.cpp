@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.0 $Revision: 1.30 $
+                           version 0.5.0 $Revision: 1.31 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-02-14 21:54:24 $
+    last modified        : $Date: 2006-11-04 15:10:55 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -24,8 +24,8 @@
 #include <qfile.h>
 #include <qdatetime.h>
 
+#include "resources.h"
 #include "router.h"
-#include "config.h" //for VERSION
 
 
 Router::Router(QObject* parent, const char* name):

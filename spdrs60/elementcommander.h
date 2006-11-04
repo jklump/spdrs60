@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementcommander.h
-                           version 0.5.0 $Revision: 1.3 $
+                           version 0.5.0 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-02 16:54:32 $
+    last modified        : $Date: 2006-11-04 15:10:54 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -31,15 +31,13 @@
 #include <qpushbutton.h>
 #include <qtooltip.h>
 
-#include "resources.h"
-
 
 class elementCommander: public QDialog
 {
    Q_OBJECT
 
 public:
-   elementCommander(QWidget* parent=0, QString sType_="" ); // creator of  gui
+   elementCommander(QWidget* parent = 0, QString sType_ =""); // creator of  gui
 
 private:
    void buildCommand(int, int);       // creates and sends the "keys"
@@ -54,7 +52,7 @@ private slots:
    void slotStop();                   // stop any movements
 
 signals:
-   void applyPressed( QPoint );       // sends keys to element
+   void applyPressed(QPoint);       // sends keys to element
 
 private:
    QPushButton*  buttMoveUp;          // button for moving a bridge up

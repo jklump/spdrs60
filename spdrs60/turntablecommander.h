@@ -1,11 +1,11 @@
 /***************************************************************************
                            turntablecommander.h
-                           version 0.5.0 $Revision: 1.4 $
+                           version 0.5.0 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-02 16:54:32 $
+    last modified        : $Date: 2006-11-04 15:10:55 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -32,8 +32,6 @@
 #include <qpushbutton.h>
 #include <qtimer.h>
 #include <qtooltip.h>
-
-#include "resources.h"
 
 // shortcuts for commands equal keys on maerklin keyboard
 // key numbers from 1 to 24, 0 is red button, 1 is green button

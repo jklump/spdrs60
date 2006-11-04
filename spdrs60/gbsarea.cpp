@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.0 $Revision: 1.51 $
+                           version 0.5.0 $Revision: 1.52 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-10-31 18:20:41 $
+    last modified        : $Date: 2006-11-04 15:10:54 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -55,6 +55,11 @@
 #include "pixmaps/cursor_urs_m.xpm"
 
 #define OLD_MAX_ROWS 18;
+
+// search options
+#define SRCH_TX 0   // search string should be in text field
+#define SRCH_A1 1   // search string should be in address 1 field
+#define SRCH_A2 2   // search string should be in address 2 field
 
 
 
