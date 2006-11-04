@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.81 $
+                           version 0.5.0 $Revision: 1.82 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-03 22:03:13 $
+    last modified        : $Date: 2006-11-04 11:34:51 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1789,7 +1789,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             br.setWidth(br.width() + 4);
             br.setHeight(br.height() + 2);
 
-            br.moveBottomRight(QPoint(w / 2 + br.width() / 2, h - 3));
+            br.moveBottomRight(QPoint(w - 3, h - 3));
             
             p.fillRect(br, QBrush(white));
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
@@ -1803,6 +1803,81 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             p.setBrush(QColor(black));
 
         p.drawEllipse(w * 3 / 4 - 3, h / 2 - 5, 11, 11);
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+    
+    // motor
+    else if (sSoldIcon == SYM_MDC){
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+
+        int w = pm.width();
+        int h = pm.height();
+        
+        // paint signalization (black or yellow filled circle)
+        p.setPen(QPen(black, 2));
+
+        if (iSoldDirection == 1)
+            p.setBrush(QColor(yellow));
+
+        p.drawEllipse(w / 2 - 9, h - 18 - 1, 17, 17);
+
+        // paint symbol
+        // red connector left
+        p.setPen(QPen(red));
+        p.drawLine(3, h - 9 - 2, w / 2 - 10, h - 9 - 2);
+        p.drawLine(w / 2 - 11, h - 9 - 3, w / 2 - 10, h - 9 - 3);
+        p.drawLine(w / 2 - 11, h - 9 - 1, w / 2 - 10, h - 9 - 1);
+        // plus sign
+        p.drawLine(3, h - 9 - 6, 7, h - 9 - 6);
+        p.drawLine(5, h - 9 - 8, 5, h - 9 - 4);
+        
+        // blue connector right
+        p.setPen(QPen(blue));
+        p.drawLine(w - 5, h - 9 - 2, w / 2 + 8, h - 9 - 2);
+        p.drawLine(w / 2 + 9, h - 9 - 3, w / 2 + 8, h - 9 - 3);
+        p.drawLine(w / 2 + 9, h - 9 - 1, w / 2 + 8, h - 9 - 1);
+        // minus sign
+        p.drawLine(w - 5, h - 9 - 6, w - 9, h - 9 - 6);
+
+        // motor labels
+        p.setPen(QPen(black));
+        p.drawLine(w / 2 - 3, h - 9, w / 2 + 1, h - 9);
+        p.drawPoint(w / 2 - 3, h - 7);
+        p.drawPoint(w / 2 - 1, h - 7);
+        p.drawPoint(w / 2 + 1, h - 7);
+
+        QPointArray motor = QPointArray(5);
+        motor.putPoints(0, 5, 0, 3, 0, 0, 2, 2, 4, 0, 4, 3);
+        motor.translate(w / 2 - 3, h - 14);
+        p.drawPolyline(motor);
+        
+        // paint text label
+        if (sSoldText != "-1" && !sSoldText.isEmpty()) {
+            QFont f("Helvetica");
+            f.setPointSize(QApplication::font().pointSize() - 3);
+            p.setFont(f);
+            QFontMetrics fm(f);
+            QString s;
+            
+            if (pref.addresslabeling)
+                s.setNum(iSoldAddress_2);
+            else
+                s = sSoldText;
+
+            QRect br = fm.boundingRect(s);
+            br.setWidth(br.width() + 4);
+            br.setHeight(br.height() + 2);
+
+            br.moveTopLeft(QPoint(w / 2 - br.width() / 2, 2));
+            
+            p.fillRect(br, QBrush(white));
+            p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
+                    Qt::DontClip, s);
+        }
 
         p.end();
         setPaletteBackgroundPixmap(pm);
