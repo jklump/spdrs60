@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.84 $
+                           version 0.5.0 $Revision: 1.85 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-04 20:08:30 $
+    last modified        : $Date: 2006-11-05 16:44:25 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -856,7 +856,12 @@ void element::sendSrcpState()
     else if ((sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
               sSoldIcon == SYM_VS) && iSoldDirection >= 2) {
 
-        sendRepeatCounter = cNumRepeatCommands;
+        /*
+         * serd: Viessman Formsignale often need several attempts
+         * wait only if command for signal is repeated
+         */
+        if (sSoldDecoder.startsWith("Vi"))
+            sendRepeatCounter = cNumRepeatCommands;
 
         // Hp0+Hp1 not considered, is done by default copy
         switch (iSoldSubType) {
@@ -949,10 +954,6 @@ void element::sendSrcpState()
                 break;
         }
 
-        /*
-         * serd: Viessman Formsignale often need several attempts
-         * wait 500 ms only if repeating command for signal
-         */
         SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgGaSet);
         if (sm == NULL)
             return;
@@ -962,10 +963,11 @@ void element::sendSrcpState()
         
         while (sendRepeatCounter > 0) {
             emit sendSrcpMessage(sm);
-            sendRepeatCounter--;
-            // TODO: timer controlled repeat
+            --sendRepeatCounter;
+            // TODO: timer controlled repeat, this delay also suspends
+            // redrawing of element icons
             if (sendRepeatCounter > 0)
-                usleep(500 * 1000);
+                usleep(iSoldActiveTime * 1000);
         }
         delete sm;
 
@@ -2177,6 +2179,155 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         setPaletteBackgroundPixmap(pm);
     }
     
+    // signal VS
+    else if (sSoldIcon == SYM_VS){
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+        
+        int w = pm.width();
+        int h = pm.height();
+        
+        // paint track
+        p.fillRect(0, h / 2 - 3, w - 1, 7, QBrush(black));
+        
+        // paint signal icon
+        QPointArray icon = QPointArray(6);
+        icon.putPoints(0, 6, 0, 0, 0, 3, 3, 6, 12, 6, 12, 3, 9, 0);
+        p.setBrush(black);
+
+        if (iSoldRotate == 1) {
+            icon.translate(4, 4);
+            p.drawPolygon(icon);
+            p.fillRect(20, 5, 2, 5, QBrush(black));
+            p.drawLine(17, 7, 20, 7);
+        }
+        else {
+            icon.translate(w - 18, h - 11);
+            p.drawPolygon(icon);
+            p.fillRect(w - 23, 25, 2, 5, QBrush(black));
+            p.drawLine(w - 18, 27, w - 21, 27);
+        }
+
+        /**
+         * direction subtype bottom-left bottom-right top-left top-right
+         * -------------------------------------------------------------
+         *     0       0          y           y
+         *     1       0                                 g        g
+         *     0       6          y           y
+         *     2       6          y                               g
+         *     0       4          y           y
+         *     1       4                                 g        g
+         *     2       4          y                               g
+         * -------------------------------------------------------------
+         **/
+ 
+        // fprintf(stderr, "dir: %d type: %d\n", iSoldDirection, iSoldSubType);
+
+        // paint signal light
+        // fix potential wrong direction value
+        if (iSoldSubType == 6 && iSoldDirection == DIR_HP1)
+            iSoldDirection = DIR_HP2;
+
+        switch (iSoldDirection) {
+            case DIR_HP0:              // VS0 => 0
+                if (iSoldRotate == 1) {
+                    // bottom left
+                    p.fillRect(14, 8, 2, 2, QBrush(yellow));
+                    // bottom right
+                    p.fillRect(12, 5, 2, 2, QBrush(yellow));
+                }
+                else {
+                    // bottom left
+                    p.fillRect(w - 17, h - 10, 2, 2, QBrush(yellow));
+                    // bottom right
+                    p.fillRect(w - 15, h - 7, 2, 2, QBrush(yellow));
+                }
+                break;
+            case DIR_HP2:              // VS2 => 2
+                if (pref.hp2) {
+                    if (iSoldRotate == 1) {
+                        // bottom left
+                        p.fillRect(14, 8, 2, 2, QBrush(yellow));
+                        //top right
+                        p.fillRect(5, 5, 2, 2, QBrush(green));
+                    }
+                    else {
+                        // bottom left
+                        p.fillRect(w - 17, h - 10, 2, 2, QBrush(yellow));
+                        //top right
+                        p.fillRect(w - 8, h - 7, 2, 2, QBrush(green));
+                    }
+                    break;
+                }
+            case DIR_HP1:              // VS1 => 1
+                if (iSoldRotate == 1) {
+                    //top left
+                    p.fillRect(7, 8, 2, 2, QBrush(green));
+                    //top right
+                    p.fillRect(5, 5, 2, 2, QBrush(green));
+                }
+                else {
+                    //top left
+                    p.fillRect(w - 10, h - 10, 2, 2, QBrush(green));
+                    //top right
+                    p.fillRect(w - 8, h - 7, 2, 2, QBrush(green));
+                }
+                break;
+        }
+
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 7; ++i)
+                p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(lightGray));
+        }
+        else {
+            QColor c;
+            if (occupied)
+                c = QColor(red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(darkGray);
+            }
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+            p.drawLine(w / 3, h / 2, 2 * w / 3, h / 2);
+            p.setPen(QPen(black));
+        }
+
+        // paint text label
+        if (sSoldText != "-1" && !sSoldText.isEmpty()) {
+            QFont f("Helvetica");
+            f.setPointSize(QApplication::font().pointSize() - 3);
+            p.setFont(f);
+            QFontMetrics fm(f);
+            QString s;
+            
+            if (pref.addresslabeling)
+                s.setNum(iSoldAddress_1);
+            else
+                s = sSoldText;
+
+            QRect br = fm.boundingRect(s);
+            br.setWidth(br.width() + 4);
+            br.setHeight(br.height() + 2);
+
+            if (iSoldRotate == 1)
+                br.moveBottomRight(QPoint(w/2 + br.width()/2,
+                            h - 3));
+            else
+                br.moveTopLeft(QPoint(w/2 - br.width()/2, 2));
+            
+            p.fillRect(br, QBrush(white));
+            p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
+                    Qt::DontClip, s);
+        }
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+    
     // signal ZP
     else if (sSoldIcon == SYM_ZP){
         QPixmap pm = QPixmap(leer_xpm);
@@ -3184,8 +3335,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
     else if (sSoldIcon == SYM_KURR || sReplaceIcon == SYM_KURR)
         iIconByte = 10;
     else if (sSoldIcon == SYM_BUE || sSoldIcon == SYM_HS
-             || sSoldIcon == SYM_HSS
-             || sReplaceIcon == SYM_GER || sSoldIcon == SYM_VS
+             || sSoldIcon == SYM_HSS || sReplaceIcon == SYM_GER
              || ((sSoldIcon == SYM_KRL || sSoldIcon == SYM_KRR)
                  && sReplaceIcon == "")) {
         iIconByte = 18;
@@ -3381,10 +3531,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                 pixLED = pixLED.xForm(mx);
                 // one LED elements: put in middle of basicIcon
                 if (sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS
-                    || sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB
-                    || sSoldIcon == SYM_VS || sSoldIcon == SYM_SS
-                    || sSoldIcon == SYM_SSH || sSoldIcon == SYM_SSS
-                    || sSoldIcon == SYM_RI1 || sSoldIcon == SYM_RI2) {
+                    || sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB) {
                     bitBlt(&pixBasicIcon, 14, 0, &pixLED, 0, 0, 28, 35,
                            OrROP, false);
                     break;
@@ -3488,7 +3635,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                 sStateIcon = "LED_sh1";
                 break;
         }
-
+/*
     else if (sSoldIcon == SYM_VS) {
         // fix wrong direction if hp2-subtype
         if (iSoldSubType == 6 && iSoldDirection == DIR_HP1)
@@ -3508,7 +3655,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                 break;
         }
     }
-
+*/
     else if (sSoldIcon == SYM_REL)
         switch (iSoldDirection) {
             case DIR_REL0:              // 0
