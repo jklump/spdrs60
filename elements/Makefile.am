@@ -12,7 +12,7 @@ dist_elementsdata_DATA = adresse.xpm \
     gerade.xpm haus_1.xpm haus_2.xpm kreuzung_hose.xpm \
     kreuzung_links.xpm kreuzung_rechts.xpm \
     kurve_links.xpm kurve_rechts.xpm \
-    LED_hp0.xpm LED_hp1.xpm LED_hp2.xpm LED_sh1.xpm  \
+    LED_hp0.xpm LED_hp1.xpm LED_hp2.xpm LED_sh1.xpm \
     LED_mitte_gelb.xpm LED_mitte_rot.xpm LED_mitte_weiss.xpm \
     LED_oben_gelb.xpm LED_oben_rot.xpm LED_oben_weiss.xpm \
     LED_unten_gelb.xpm LED_unten_rot.xpm LED_unten_weiss.xpm \
