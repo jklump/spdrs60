@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.86 $
+                           version 0.5.0 $Revision: 1.87 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-05 19:24:54 $
+    last modified        : $Date: 2006-11-06 15:40:15 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -733,13 +733,15 @@ void element::mouseReleaseEvent(QMouseEvent* e)
             /*select/unselect switchable element*/
             if (sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER ||
                 sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR || 
-                sSoldIcon == SYM_WEY || sSoldIcon == SYM_EKR || 
-                sSoldIcon == SYM_EKL || sSoldIcon == SYM_DKR || 
+                sSoldIcon == SYM_WEY || sSoldIcon == SYM_DKR || 
+                sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR || 
                 sSoldIcon == SYM_DKL || sSoldIcon == SYM_DRW || 
                 sSoldIcon == SYM_REL || sSoldIcon == SYM_ZP  || 
                 sSoldIcon == SYM_HS  || sSoldIcon == SYM_HSS ||
                 sSoldIcon == SYM_SS  || sSoldIcon == SYM_SSS ||
-                sSoldIcon == SYM_SSH || sSoldIcon == SYM_BLD) {
+                sSoldIcon == SYM_SSH || sSoldIcon == SYM_BLD ||
+                sSoldIcon == SYM_VS  || sSoldIcon == SYM_WS  ||
+                sSoldIcon == SYM_MDC) {
                 /*send record signal to router*/
                 if (ksmNormal == selectionMode)
                     emit recordElement(this, krecNormal);
@@ -2142,9 +2144,217 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                 else
                     c = QColor(darkGray);
             }
-            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
-            p.drawLine(w / 3, h / 2, 2 * w / 3, h / 2);
+            p.fillRect(w / 3 + 1, h / 2 - 1, w / 3, 3, QBrush(c));
             p.setPen(QPen(black));
+        }
+
+        // paint text label
+        if (sSoldText != "-1" && !sSoldText.isEmpty()) {
+            QFont f("Helvetica");
+            f.setPointSize(QApplication::font().pointSize() - 3);
+            p.setFont(f);
+            QFontMetrics fm(f);
+            QString s;
+            
+            if (pref.addresslabeling)
+                s.setNum(iSoldAddress_1);
+            else
+                s = sSoldText;
+
+            QRect br = fm.boundingRect(s);
+            br.setWidth(br.width() + 4);
+            br.setHeight(br.height() + 2);
+
+            if (iSoldRotate == 1)
+                br.moveBottomRight(QPoint(w/2 + br.width()/2,
+                            h - 3));
+            else
+                br.moveTopLeft(QPoint(w/2 - br.width()/2, 2));
+            
+            p.fillRect(br, QBrush(white));
+            p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
+                    Qt::DontClip, s);
+        }
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+    
+    // signal HSS
+    else if (sSoldIcon == SYM_HSS){
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+        
+        int w = pm.width();
+        int h = pm.height();
+        
+        // paint track
+        p.fillRect(0, h / 2 - 3, w - 1, 7, QBrush(black));
+        
+        // paint track button
+        if (iSoldRotate == 1) {
+            p.drawPixmap(w / 6  - 4, h / 2 - 3,
+                    QPixmap(button_red_xpm));
+            p.drawPixmap(5 * w / 6  - 4, h / 2 - 3,
+                    QPixmap(button_gray_xpm));
+        }
+        else {
+            p.drawPixmap(5 * w / 6 - 4 , h / 2 - 3, 
+                    QPixmap(button_red_xpm));
+            p.drawPixmap(w / 6  - 4, h / 2 - 3,
+                    QPixmap(button_gray_xpm));
+        }
+
+        // paint signal icon
+        p.setBrush(black);
+        if (iSoldRotate == 1) {
+            p.drawEllipse(31, 4, 7, 7);
+            p.fillRect(9, 4, 24, 7, QBrush(black));
+            p.fillRect(41, 5, 2, 5, QBrush(black));
+            p.drawLine(38, 7, 40, 7);
+        }
+        else {
+            p.drawEllipse(17, h - 11, 7, 7);
+            p.fillRect(22, h - 11, 24, 7, QBrush(black));
+            p.fillRect(12, 25, 2, 5, QBrush(black));
+            p.drawLine(14, 27, 16, 27);
+        }
+
+        /**
+         * direction subtype bottom-left bottom-right top-left top-right
+         * -------------------------------------------------------------
+         *     0       0          y           y
+         *     1       0                                 g        g
+         *     0       6          y           y
+         *     2       6          y                               g
+         *     0       4          y           y
+         *     1       4                                 g        g
+         *     2       4          y                               g
+         * -------------------------------------------------------------
+         **/
+ 
+        // fprintf(stderr, "dir: %d type: %d\n", iSoldDirection, iSoldSubType);
+
+        // paint signal light
+        // fix potential wrong direction value
+        if (iSoldSubType == 6 && iSoldDirection == DIR_HP1)
+            iSoldDirection = DIR_HP2;
+
+        switch (iSoldDirection) {
+            case DIR_HP0:              // HP0 => 0
+                p.setBrush(red);
+                if (iSoldRotate == 1) {
+                    // bottom
+                    p.drawEllipse(14, 4, 7, 7);
+                    // top
+                    p.setBrush(black);
+                    p.drawEllipse(4, 4, 7, 7);
+                }
+                else {
+                    // bottom
+                    p.drawEllipse(w - 22, h - 11, 7, 7);
+                    // top
+                    p.setBrush(black);
+                    p.drawEllipse(w - 12, h - 11, 7, 7);
+                }
+                break;
+            case DIR_HP2:              // HP2 => 2
+                if (pref.hp2) {
+                    p.setBrush(yellow);
+                    if (iSoldRotate == 1) {
+                        // top
+                        p.drawEllipse(4, 4, 7, 7);
+                        // bottom
+                        p.setBrush(black);
+                        p.drawEllipse(14, 4, 7, 7);
+                    }
+                    else {
+                        // top
+                        p.drawEllipse(w - 12, h - 11, 7, 7);
+                        // bottom
+                        p.setBrush(black);
+                        p.drawEllipse(w - 22, h - 11, 7, 7);
+                    }
+                    break;
+                }
+            case DIR_HP1:              // HP1 => 1
+                p.setBrush(green);
+                if (iSoldRotate == 1) {
+                    // top
+                    p.drawEllipse(4, 4, 7, 7);
+                    // bottom
+                    p.setBrush(black);
+                    p.drawEllipse(14, 4, 7, 7);
+                }
+                else {
+                    // top
+                    p.drawEllipse(w - 12, h - 11, 7, 7);
+                    // bottom
+                    p.setBrush(black);
+                    p.drawEllipse(w - 22, h - 11, 7, 7);
+                }
+                break;
+            case DIR_SH1:              // SH1 => 3
+                p.setBrush(black);
+                if (iSoldRotate == 1) {
+                    // top light position
+                    p.drawEllipse(4, 4, 7, 7);
+                    // shunt light
+                    int startx = w - 22;
+                    p.setPen(yellow);
+                    p.drawLine(startx, 9, startx - 4, 5);
+                    p.drawLine(startx + 1, 9, startx - 3, 5);
+                }
+                else {
+                    // top light position
+                    p.drawEllipse(w - 12, h - 11, 7, 7);
+                    // shunt light
+                    int startx = 19;
+                    p.setPen(yellow);
+                    p.drawLine(startx, h - 10, startx + 4, h - 6);
+                    p.drawLine(startx + 1, h - 10, startx + 5, h - 6);
+                }
+                break;
+        }
+
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 7; ++i)
+                p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(lightGray));
+        }
+        else {
+            QColor c;
+            if (occupied)
+                c = QColor(red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(darkGray);
+            }
+            p.fillRect(w / 3 + 1, h / 2 - 1, w / 3, 3, QBrush(c));
+            p.setPen(QPen(black));
+        }
+
+        // paint lock light
+        if (lockCounter == 0)
+            p.setBrush(darkGray);
+        else
+            p.setBrush(QColor(255, 225, 0));
+
+        if (iSoldRotate == 1)
+            p.drawEllipse(w - 11, 5, 5, 5);
+        else
+            p.drawEllipse(5, h - 10, 5, 5);
+
+        // paint FfM
+        if (ffm) {
+            p.setBrush(ffmactive ? yellow : darkGray);
+            if (iSoldRotate == 1)
+                p.drawRect(5, h - 10, 6, 6);
+            else
+                p.drawRect(w - 11, 4, 6, 6);
         }
 
         // paint text label
@@ -2303,8 +2513,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                 else
                     c = QColor(darkGray);
             }
-            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
-            p.drawLine(w / 3, h / 2, 2 * w / 3, h / 2);
+            p.fillRect(w / 3 + 1, h / 2 - 1, w / 3, 3, QBrush(c));
             p.setPen(QPen(black));
         }
 
@@ -2472,8 +2681,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                 else
                     c = QColor(darkGray);
             }
-            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
-            p.drawLine(w / 3, h / 2, 2 * w / 3, h / 2);
+            p.fillRect(w / 3 + 1, h / 2 - 1, w / 3, 3, QBrush(c));
             p.setPen(QPen(black));
         }
 
@@ -2576,8 +2784,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                 else
                     c = QColor(darkGray);
             }
-            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
-            p.drawLine(w / 3, h / 2, 2 * w / 3, h / 2);
+            p.fillRect(w / 3 + 1, h / 2 - 1, w / 3, 3, QBrush(c));
             p.setPen(QPen(black));
         }
 
@@ -2951,7 +3158,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                 else
                     c = QColor(darkGray);
             }
-            p.fillRect(w / 3, h / 2 - 1, w / 3, 3, QBrush(c));
+            p.fillRect(w / 3 + 1, h / 2 - 1, w / 3, 3, QBrush(c));
         }
 
         // paint track button
@@ -2984,27 +3191,22 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         p.drawRect(5, 5, 15, 5);
         p.drawLine(6, 4, 18, 4);
         p.drawLine(6, 10, 18, 10);
-        p.drawLine(5 + 15, 7, 6 + 15, 7);
-        p.drawLine(7 + 15, 5, 7 + 15, 9);
-        p.setPen(QPen(darkGray));
+        p.drawLine(5 + 15, 7, 6 + 16, 7);
         p.drawLine(7 + 16, 5, 7 + 16, 9);
-        p.drawLine(5 + 15, 6, 6 + 15, 6);
-        p.drawLine(5 + 15, 8, 6 + 15, 8);
+        p.drawLine(7 + 17, 5, 7 + 17, 9);
 
         // paint signal light
+        // SH0
         if (iSoldDirection == 0) {
             p.setPen(QPen(red));
             p.drawLine(7, 5, 7, 9);
             p.drawLine(8, 5, 8, 9);
         }
+        // SH1
         else {
-            p.setPen(QPen(QColor(255, 225, 0)));
-            p.drawLine(15, 6, 17, 8);
-            p.drawLine(14, 6, 16, 8);
-            p.setPen(QPen(QColor(128, 122, 0)));
-            p.drawLine(13, 5, 14, 5);
-            p.drawLine(17, 9, 18, 9);
-            p.drawLine(13, 6, 16, 9);
+            p.setPen(yellow);
+            p.drawLine(14, 5, 18, 9);
+            p.drawLine(13, 5, 17, 9);
         }
         p.setPen(QPen(black));
         
@@ -3018,7 +3220,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             p.setBrush(QColor(255, 225, 0));
 
         if (iSoldRotate == 1)
-            p.drawEllipse(w / 2 - 2, 5, 5, 5);
+            p.drawEllipse(w / 2 - 1, 5, 5, 5);
         else
             p.drawEllipse(w / 2 - 4, h - 10, 5, 5);
 
@@ -3776,43 +3978,6 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
 
   LEDOFF:;
     // now in addition: setup other LEDs like signal or relais lamps
-
-    QString sStateIcon;
-    if (sSoldIcon == SYM_HSS)
-        switch (iSoldDirection) {
-            case DIR_HP0:              // 0
-                sStateIcon = "LED_hp0";
-                break;
-            case DIR_HP2:              // 2
-                if (pref.hp2) {
-                    sStateIcon = "LED_hp2";
-                    break;
-                }
-            case DIR_HP1:              // 1
-                sStateIcon = "LED_hp1";
-                break;
-            case DIR_SH1:              // 3
-                sStateIcon = "LED_sh1";
-                break;
-        }
-
-    else if (sSoldIcon == SYM_REL)
-        switch (iSoldDirection) {
-            case DIR_REL0:              // 0
-                sStateIcon = sSoldIcon;
-                break;
-            case DIR_REL1:              // 1
-                sStateIcon = sSoldIcon + "_1";
-                break;
-        }
-
-    // copy the additional LED pixmaps to basic icon
-    if (sSoldIcon != SYM_LEE) {
-        sPixMapName = QString(RES_DIR_ELEM) + sStateIcon + XPM_SUFFIX;
-        QPixmap pixStateIcon = QPixmap(sPixMapName);
-        bitBlt(&pixBasicIcon, 0, 0, &pixStateIcon, 0, 0,
-                EL_WIDTH, EL_HEIGHT, OrROP, false);
-    }
     // rotate the icon if necessary, but without text 
     // (it would be rotated, too!)
     QPixmap pixRotatedIcon;
@@ -3852,17 +4017,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         br.setHeight(br.height() + 2);
 
         // calculate matching textframe position
-        if ((sSoldIcon.startsWith("signal") && iSoldRotate == 0)
-                 || (sSoldIcon == SYM_MDC))
-            br.moveTopLeft(QPoint(EL_WIDTH / 2 - br.width() / 2, 2));
-        
-        else if ((sSoldIcon.startsWith("signal") && iSoldRotate == 1) ||
-                 (sSoldIcon == SYM_REL))
-            br.moveTopLeft(QPoint
-                           (EL_WIDTH / 2 - br.width() / 2,
-                            EL_HEIGHT - br.height() - 2));
-        
-        else if ((sSoldIcon == SYM_DRW && iSoldRotate == 0)
+        if ((sSoldIcon == SYM_DRW && iSoldRotate == 0)
                  || (sSoldIcon == SYM_WEY && iSoldRotate == 0)
                  || (sSoldIcon == SYM_DWL && iSoldRotate == 0)
                  || (sSoldIcon == SYM_EKR && iSoldRotate == 0)
@@ -3884,10 +4039,6 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                  (sSoldIcon == SYM_DKL))
             br.moveTopLeft(QPoint(EL_WIDTH - br.width() - 4,
                             EL_HEIGHT - br.height() - 2));
-        
-        // paint text on background rectangle
-        if (sSoldIcon == SYM_SBN)
-            p.fillRect(br, QBrush(QColor("grey86")));
         
         else if (!sSoldText.isEmpty())
             p.fillRect(br, QBrush(white));
@@ -3924,23 +4075,6 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         else if ((sSoldIcon == SYM_DWL && iSoldRotate == 1) ||
                 (sSoldIcon == SYM_EKR && iSoldRotate == 1))
             xyLocked = QPoint(10, 23);
-
-        else if (signal && sSoldIcon != SYM_VS) {
-            // 5 or 46, 25 or 5
-            xyLocked = QPoint(5 + iSoldRotate * 41, 25 - iSoldRotate * 20);
-
-            if (ffm) {
-                // paint FfM
-                br.setWidth(6);
-                br.setHeight(6);
-                if (iSoldRotate == 0)
-                    br.moveTopLeft(QPoint(EL_WIDTH - 11, 4));
-                else
-                    br.moveTopLeft(QPoint(4, EL_HEIGHT - 10));
-                p.setBrush(ffmactive ? yellow : darkGray);
-                p.drawRect(br);
-            }
-        }
 
         if (iSoldAddress_1 != -1 && sSoldIcon != SYM_REL
                 && sSoldIcon != SYM_MDC && sSoldIcon != SYM_VS) {
