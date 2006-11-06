@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.87 $
+                           version 0.5.0 $Revision: 1.88 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-06 15:40:15 $
+    last modified        : $Date: 2006-11-06 21:06:25 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -4253,13 +4253,10 @@ int element::routeElement(int S, bool setroute, int vertcorr)
         || sSoldIcon == SYM_RI2 || sSoldIcon == SYM_WS
         || sSoldIcon == SYM_ZP || sSoldIcon == SYM_BLD
         || sSoldIcon == SYM_ADR || sSoldIcon == SYM_VS) {
-        setupElementIcon(iSoldLEDstate, "");
         return 0;
     }
 
-    // NEW ICON
     else if (sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER) {
-        setupElementIcon(iSoldLEDstate, "");
         if (D == 0 || !(R ^ S))
             return 0;
         if (D == 1
@@ -4270,18 +4267,14 @@ int element::routeElement(int S, bool setroute, int vertcorr)
             return +1;
     }
 
-    // NEW ICON
     else if (sSoldIcon == SYM_DIL || sSoldIcon == SYM_DIR) {
-        setupElementIcon(iSoldLEDstate, "");
         if (S ^ I)
             return -1;
         if (!(S ^ I))
             return +1;
     }
 
-    // NEW ICON
     else if (sSoldIcon == SYM_KUL || sSoldIcon == SYM_KUR) {
-        setupElementIcon(iSoldLEDstate, "");
         if (!(R ^ S))
             return 0;
         if (R == 1 && S == 0 && I == 1 || R == 0 && S == 1 && I == 0)
@@ -4290,7 +4283,6 @@ int element::routeElement(int S, bool setroute, int vertcorr)
             return +1;
     }
 
-    // NEW ICON
     else if (sSoldIcon == SYM_DRW) {
         setupElementIcon(iSoldLEDstate, "");
         if (!(R ^ S) || D == 0)
@@ -4301,9 +4293,7 @@ int element::routeElement(int S, bool setroute, int vertcorr)
             return +1;
     }
 
-    // NEW ICON
     else if (sSoldIcon == SYM_WEY) {
-        setupElementIcon(iSoldLEDstate, "");
         if (!(R ^ S))
             return 0;
         if (R == 0 && S == 1 && D == 1 || R == 1 && S == 0 && D == 0)
@@ -4312,9 +4302,7 @@ int element::routeElement(int S, bool setroute, int vertcorr)
             return +1;
     }
 
-    // NEW ICON
     else if (sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR) {
-        setupElementIcon(iSoldLEDstate, "");
         if ((R ^ S) && D == 1)
             return 0;
         if (S == 0 && I == 0 && (R == 0 || D == 0) || S == 1 && I == 1
@@ -4325,9 +4313,7 @@ int element::routeElement(int S, bool setroute, int vertcorr)
             return +1;
     }
 
-    // no new icon necessary
     else if (sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR) {
-        setupElementIcon(iSoldLEDstate, "");
         if (D == 0 || D == 1 && (!(R ^ I) && S == 0 || (R ^ I) && S == 1))
             return 0;
         if ((S ^ I)
@@ -4341,7 +4327,6 @@ int element::routeElement(int S, bool setroute, int vertcorr)
     // 4-state-DKWs
     else if ((sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) &&
              iSoldSubType == 1) {
-        setupElementIcon(iSoldLEDstate, "");
         if (D == 0 || S == 0 && (D == 1 && I == 0 || D == 3 && I == 1) ||
             S == 1 && (D == 3 && I == 0 || D == 1 && I == 1))
             return 0;
