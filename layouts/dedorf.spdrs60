@@ -1,6 +1,6 @@
 # spdrs60 data file
-# version=0.5.0_beta5
-# last modified=2006-02-26T14:00:52
+# version=0.5.0
+# last modified=2006-11-06T16:28:33
 formatversion;1
 cmdhost;localhost;12345;0;0;0
 fbhost;localhost;12346;0
@@ -16,8 +16,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -33,8 +33,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -50,8 +50,8 @@ rotate;-1
 invers turnout;0
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -67,8 +67,8 @@ rotate;-1
 invers turnout;0
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -84,8 +84,8 @@ rotate;-1
 invers turnout;0
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -101,8 +101,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -118,8 +118,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -135,8 +135,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -152,12 +152,12 @@ rotate;0
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
-address_1;1;20
-address_2;1;-1
+address_1;1;20;0
+address_2;1;220;0
 change conn 1;0
-change conn 2;-1
+change conn 2;0
 direction;0
-subtype;6
+subtype;4
 text;a
 active time;50
 feedback port;1;1
@@ -169,8 +169,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -186,8 +186,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -203,8 +203,8 @@ rotate;0
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
-address_1;1;10
-address_2;1;-1
+address_1;1;10;0
+address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
 direction;0
@@ -220,8 +220,8 @@ rotate;0
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
-address_1;1;21
-address_2;1;221
+address_1;1;21;0
+address_2;1;221;0
 change conn 1;0
 change conn 2;0
 direction;0
@@ -237,8 +237,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -254,8 +254,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -271,8 +271,8 @@ rotate;1
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;300
-address_2;1;-1
+address_1;1;300;0
+address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
 direction;0
@@ -288,8 +288,8 @@ rotate;1
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;301
-address_2;1;-1
+address_1;1;301;0
+address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
 direction;0
@@ -305,8 +305,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -322,8 +322,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -339,8 +339,8 @@ rotate;0
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
-address_1;1;11
-address_2;1;-1
+address_1;1;11;0
+address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
 direction;0
@@ -356,8 +356,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -373,8 +373,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -390,8 +390,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -407,8 +407,8 @@ rotate;0
 invers turnout;0
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
-address_1;1;1
-address_2;1;-1
+address_1;1;1;0
+address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
 direction;0
@@ -424,8 +424,8 @@ rotate;0
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
-address_1;1;22
-address_2;1;-1
+address_1;1;22;0
+address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
 direction;0
@@ -441,8 +441,8 @@ rotate;1
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;305
-address_2;1;-1
+address_1;1;305;0
+address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
 direction;0
@@ -458,8 +458,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -475,8 +475,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -492,8 +492,8 @@ rotate;1
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
-address_1;1;12
-address_2;1;112
+address_1;1;12;0
+address_2;1;112;0
 change conn 1;0
 change conn 2;0
 direction;0
@@ -509,11 +509,11 @@ rotate;-1
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
-address_1;1;2
-address_2;1;102
+address_1;1;2;0
+address_2;1;102;0
 change conn 1;0
 change conn 2;0
-direction;3
+direction;1
 subtype;1
 text;2
 active time;50
@@ -526,8 +526,8 @@ rotate;0
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
-address_1;1;30
-address_2;1;-1
+address_1;1;30;0
+address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
 direction;0
@@ -543,8 +543,8 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -560,8 +560,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -577,8 +577,8 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -594,8 +594,8 @@ rotate;1
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
-address_1;1;23
-address_2;1;-1
+address_1;1;23;0
+address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
 direction;0
@@ -611,11 +611,11 @@ rotate;1
 invers turnout;0
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
-address_1;1;3
-address_2;1;-1
+address_1;1;3;0
+address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
-direction;1
+direction;0
 subtype;-1
 text;3
 active time;50
@@ -628,8 +628,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -645,8 +645,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -662,8 +662,8 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -679,8 +679,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -696,8 +696,8 @@ rotate;1
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
-address_1;1;31
-address_2;1;32
+address_1;1;31;0
+address_2;1;32;0
 change conn 1;0
 change conn 2;0
 direction;0
@@ -713,8 +713,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -730,8 +730,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -747,8 +747,8 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -764,8 +764,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -781,8 +781,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -798,8 +798,8 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -815,8 +815,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -832,8 +832,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -849,8 +849,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -866,8 +866,8 @@ rotate;0
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
-address_1;1;32
-address_2;1;-1
+address_1;1;32;0
+address_2;1;-1;0
 change conn 1;0
 change conn 2;0
 direction;0
@@ -883,8 +883,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -900,8 +900,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -917,8 +917,8 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -934,8 +934,8 @@ rotate;0
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
-address_1;1;24
-address_2;1;224
+address_1;1;24;0
+address_2;1;224;0
 change conn 1;0
 change conn 2;0
 direction;0
@@ -951,11 +951,11 @@ rotate;0
 invers turnout;0
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
-address_1;1;4
-address_2;1;-1
+address_1;1;4;0
+address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
-direction;1
+direction;0
 subtype;-1
 text;4
 active time;50
@@ -968,8 +968,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -985,8 +985,8 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -1002,8 +1002,8 @@ rotate;0
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
-address_1;1;13
-address_2;1;-1
+address_1;1;13;0
+address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
 direction;0
@@ -1019,8 +1019,8 @@ rotate;0
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
-address_1;1;5
-address_2;1;105
+address_1;1;5;0
+address_2;1;105;0
 change conn 1;0
 change conn 2;0
 direction;3
@@ -1036,8 +1036,8 @@ rotate;1
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
-address_1;1;33
-address_2;1;-1
+address_1;1;33;0
+address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
 direction;0
@@ -1053,8 +1053,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -1070,8 +1070,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -1087,8 +1087,8 @@ rotate;1
 invers turnout;0
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
-address_1;1;6
-address_2;1;-1
+address_1;1;6;0
+address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
 direction;0
@@ -1104,8 +1104,8 @@ rotate;1
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
-address_1;1;25
-address_2;1;-1
+address_1;1;25;0
+address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
 direction;0
@@ -1121,8 +1121,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -1138,8 +1138,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -1155,13 +1155,13 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
-text;-1
+text;0007
 active time;-1
 feedback port;1;0
 hide LEDs;-1
@@ -1172,8 +1172,8 @@ rotate;1
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
-address_1;1;14
-address_2;1;-1
+address_1;1;14;0
+address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
 direction;0
@@ -1189,8 +1189,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -1206,8 +1206,8 @@ rotate;0
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
-address_1;1;34
-address_2;1;-1
+address_1;1;34;0
+address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
 direction;0
@@ -1223,8 +1223,8 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -1240,8 +1240,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -1257,8 +1257,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;302
-address_2;1;-1
+address_1;1;302;0
+address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
 direction;0
@@ -1274,8 +1274,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;304
-address_2;1;-1
+address_1;1;304;0
+address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
 direction;0
@@ -1291,8 +1291,8 @@ rotate;0
 invers turnout;0
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
-address_1;1;7
-address_2;1;-1
+address_1;1;7;0
+address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
 direction;1
@@ -1308,8 +1308,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -1325,8 +1325,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -1342,8 +1342,8 @@ rotate;1
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
-address_1;1;15
-address_2;1;115
+address_1;1;15;0
+address_2;1;115;0
 change conn 1;0
 change conn 2;0
 direction;0
@@ -1359,8 +1359,8 @@ rotate;1
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
-address_1;1;26
-address_2;1;-1
+address_1;1;26;0
+address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
 direction;0
@@ -1376,8 +1376,8 @@ rotate;1
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
-address_1;1;35
-address_2;1;-1
+address_1;1;35;0
+address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
 direction;0
@@ -1393,8 +1393,8 @@ rotate;1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -1410,8 +1410,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -1427,8 +1427,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -1444,12 +1444,12 @@ rotate;1
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
-address_1;1;16
-address_2;1;-1
+address_1;1;16;0
+address_2;1;116;0
 change conn 1;0
-change conn 2;-1
+change conn 2;0
 direction;0
-subtype;6
+subtype;4
 text;f
 active time;50
 feedback port;1;1
@@ -1461,8 +1461,8 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -1478,8 +1478,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;306
-address_2;1;-1
+address_1;1;306;0
+address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
 direction;0
@@ -1495,8 +1495,8 @@ rotate;1
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
-address_1;1;40
-address_2;1;-1
+address_1;1;40;0
+address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
 direction;0
@@ -1512,8 +1512,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -1529,8 +1529,8 @@ rotate;-1
 invers turnout;0
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -1546,8 +1546,8 @@ rotate;-1
 invers turnout;0
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -1563,8 +1563,8 @@ rotate;-1
 invers turnout;0
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -1589,6 +1589,7 @@ switch x to y;1;2;3
 switch x to y;1;1;0
 switch x to y;1;23;0
 switch x to y;1;30;0
+switch x to y;1;20;2
 %% route 2
 name;f3
 to signal;1;31
@@ -1605,6 +1606,7 @@ switch x to y;1;24;0
 switch x to y;1;25;0
 switch x to y;1;33;0
 switch x to y;1;13;0
+switch x to y;1;16;2
 %% route 3
 name;f
 to signal;1;12
@@ -1616,6 +1618,7 @@ type;0;0
 switch x to y;1;6;0
 switch x to y;1;5;0
 switch x to y;1;14;1
+switch x to y;1;16;1
 %% route 4
 name;a
 to signal;1;24
@@ -1628,6 +1631,7 @@ switch x to y;1;2;0
 switch x to y;1;22;1
 switch x to y;1;1;0
 switch x to y;1;3;0
+switch x to y;1;20;1
 %% route 5
 name;n 2
 to signal;1;304
@@ -1762,8 +1766,7 @@ switch x to y;1;30;0
 switch x to y;1;2;3
 switch x to y;1;23;0
 switch x to y;1;22;0
-switch x to y;1;1;1
-switch x to y;1;12;0
+switch x to y;1;1;0
 %% route 15
 name;LsW1 - Ls1I
 to signal;1;13
@@ -1784,6 +1787,8 @@ type;3;0
 switch x to y;1;2;1
 switch x to y;1;1;1
 switch x to y;1;3;0
+switch x to y;1;22;0
+switch x to y;1;12;0
 %% route 17
 name;LsW1 - N3
 to signal;1;32
@@ -1795,6 +1800,9 @@ type;3;0
 switch x to y;1;3;1
 switch x to y;1;2;2
 switch x to y;1;1;1
+switch x to y;1;22;0
+switch x to y;1;12;0
+switch x to y;1;23;0
 %% route 18
 name;LsW2 - N2
 to signal;1;24
@@ -1817,6 +1825,7 @@ type;3;0
 switch x to y;1;3;1
 switch x to y;1;2;3
 switch x to y;1;1;0
+switch x to y;1;23;0
 %% route 20
 name;Ls3I - N3
 to signal;1;32
@@ -1846,6 +1855,7 @@ type;3;0
 switch x to y;1;7;0
 switch x to y;1;4;0
 switch x to y;1;34;1
+switch x to y;1;40;0
 %% route 23
 name;N3 - Ls4I
 to signal;1;40
@@ -1857,6 +1867,7 @@ type;3;0
 switch x to y;1;7;1
 switch x to y;1;4;0
 switch x to y;1;34;1
+switch x to y;1;35;0
 %% route 24
 name;N3 - LsW5
 to signal;1;25
@@ -1868,6 +1879,8 @@ type;3;0
 switch x to y;1;5;3
 switch x to y;1;4;1
 switch x to y;1;6;0
+switch x to y;1;33;0
+switch x to y;1;24;0
 %% route 25
 name;N3 - LsW6
 to signal;1;14
@@ -1879,6 +1892,10 @@ type;3;0
 switch x to y;1;6;1
 switch x to y;1;5;2
 switch x to y;1;4;1
+switch x to y;1;33;0
+switch x to y;1;24;0
+switch x to y;1;25;0
+switch x to y;1;13;0
 %% route 26
 name;N2 - LsW5
 to signal;1;25
@@ -1901,6 +1918,8 @@ type;3;0
 switch x to y;1;6;1
 switch x to y;1;5;1
 switch x to y;1;4;0
+switch x to y;1;25;0
+switch x to y;1;13;0
 %% route 28
 name;LsW7 - Ls3III
 to signal;1;306
@@ -1910,6 +1929,7 @@ activate port;1;0;0;0
 active by loco;1;0
 type;3;0
 switch x to y;1;7;0
+switch x to y;1;40;0
 %% route 29
 name;LsW7 - Ls4I
 to signal;1;40
@@ -1919,6 +1939,7 @@ activate port;1;0;0;0
 active by loco;1;0
 type;3;0
 switch x to y;1;7;1
+switch x to y;1;35;0
 %% route 30
 name;Ls3III - Ls3II
 to signal;1;33
@@ -1928,6 +1949,7 @@ activate port;1;0;0;0
 active by loco;1;0
 type;3;0
 switch x to y;1;7;0
+switch x to y;1;40;0
 %% route 31
 name;Ls3III - P3
 to signal;1;31
@@ -1948,6 +1970,7 @@ activate port;1;0;0;0
 active by loco;1;0
 type;3;0
 switch x to y;1;7;1
+switch x to y;1;35;0
 %% route 33
 name;Ls4I - P3
 to signal;1;31
@@ -1959,6 +1982,7 @@ type;3;0
 switch x to y;1;4;0
 switch x to y;1;7;1
 switch x to y;1;33;1
+switch x to y;1;35;0
 %% route 34
 name;LsW6 - P1
 to signal;1;12
@@ -1978,6 +2002,8 @@ active by loco;1;0
 type;3;0
 switch x to y;1;5;1
 switch x to y;1;6;1
+switch x to y;1;25;0
+switch x to y;1;13;0
 %% route 36
 name;LsW6 - LsW1
 to signal;1;11
@@ -2000,6 +2026,8 @@ type;3;0
 switch x to y;1;4;1
 switch x to y;1;5;2
 switch x to y;1;6;1
+switch x to y;1;24;3
+switch x to y;1;25;0
 %% route 38
 name;LsW5 - Ls2I
 to signal;1;23
@@ -2021,6 +2049,8 @@ switch x to y;1;1;1
 switch x to y;1;2;1
 switch x to y;1;5;0
 switch x to y;1;23;1
+switch x to y;1;22;0
+switch x to y;1;12;0
 %% route 40
 name;LsW5 - P3
 to signal;1;31
@@ -2031,6 +2061,8 @@ active by loco;1;0
 type;3;0
 switch x to y;1;4;1
 switch x to y;1;5;3
+switch x to y;1;24;0
+switch x to y;1;33;0
 %% route 41
 name;Ls3II - P3
 to signal;1;31
@@ -2060,6 +2092,9 @@ type;3;0
 switch x to y;1;1;1
 switch x to y;1;2;2
 switch x to y;1;3;1
+switch x to y;1;23;0
+switch x to y;1;22;0
+switch x to y;1;12;0
 %% route 44
 name;P3 - LsW2
 to signal;1;22
@@ -2070,6 +2105,8 @@ active by loco;1;0
 type;3;0
 switch x to y;1;2;3
 switch x to y;1;3;1
+switch x to y;1;30;0
+switch x to y;1;23;0
 %% route 45
 name;Ls2I - LsW2
 to signal;1;22
@@ -2079,6 +2116,8 @@ activate port;1;0;0;0
 active by loco;1;0
 type;3;0
 switch x to y;1;2;0
+switch x to y;1;3;0
+switch x to y;1;1;0
 %% route 46
 name;Ls2I - LsW1
 to signal;1;11
@@ -2089,6 +2128,8 @@ active by loco;1;0
 type;3;0
 switch x to y;1;1;1
 switch x to y;1;2;1
+switch x to y;1;22;0
+switch x to y;1;12;0
 %% route 47
 name;P1 - LsW1
 to signal;1;11
