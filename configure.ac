@@ -1,7 +1,7 @@
 dnl configure.ac for spdrs60
 dnl Guido Scholz
-dnl last update: $Date: 2006-01-08 15:44:03 $
-dnl version: $Revision: 1.12 $
+dnl last update: $Date: 2006-11-08 18:26:54 $
+dnl version: $Revision: 1.13 $
 dnl Process this file with autoconf to produce a configure script.
 
 AC_INIT([spdrs60],[0.5.0],[Guido Scholz <guido.scholz@bayernline.de>])
@@ -172,7 +172,14 @@ AC_ARG_WITH(icon-dir,
 AC_SUBST(ICONDIR)
 AC_DEFINE_UNQUOTED([ICONDIR], ["$ICONDIR"], [directory for icons])
 
-RES_DIR_ELEM="${prefix}/share/$PACKAGE/elements/"
+AC_ARG_WITH(element-dir,
+  [AC_HELP_STRING([--with-element-dir=DIR],
+    [directory for element icons])],
+  [ if test "x$withval" != "x" ; then
+     RES_DIR_ELEM="$withval/"
+    fi ],
+  [RES_DIR_ELEM="${prefix}/share/$PACKAGE/elements/"])
+dnl RES_DIR_ELEM="${prefix}/share/$PACKAGE/elements/"
 AC_SUBST(RES_DIR_ELEM)
 AC_DEFINE_UNQUOTED([RES_DIR_ELEM], ["$RES_DIR_ELEM"], \
   [directory for elements])
