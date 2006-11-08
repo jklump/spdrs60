@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.89 $
+                           version 0.5.0 $Revision: 1.90 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-08 18:26:54 $
+    last modified        : $Date: 2006-11-08 19:29:45 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -3624,6 +3624,181 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                 if (left)
                     br.moveBottomLeft(QPoint(2, h - 3));
                 else
+                    br.moveTopLeft(QPoint(2, 2));
+
+            p.fillRect(br, QBrush(white));
+            p.setBrush(white);
+            br.setX(br.x() + 1);
+            br.setY(br.y() + 1);
+            br.setHeight(br.height() - 2);
+
+            p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
+                    Qt::DontClip, s);
+        }
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+
+    // y-turnout
+    else if (sSoldIcon == SYM_WEY){
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+        
+        int w = pm.width();
+        int h = pm.height();
+        
+        // paint track
+        p.save();
+        p.translate(w / 2, h / 2);
+        p.setPen(QPen(black, 7));
+
+
+        if (iSoldRotate == 1) {
+            p.drawLine(0, 0, w / 2, 0);
+            p.rotate(WANGLE);
+            p.drawLine(0, 0, w / 2 + 5, 0);
+            p.rotate(-WANGLE * 2);
+            p.drawLine(0, 0, w / 2 + 5, 0);
+        }
+        else {
+            p.drawLine(-w / 2, 0, 0, 0);
+            p.rotate(-SANGLE);
+            p.drawLine(0, 0, w / 2 + 5, 0);
+            p.rotate(SANGLE * 2);
+            p.drawLine(0, 0, w / 2 + 5, 0);
+        }
+
+        p.restore();
+
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            // short track
+            p.save();
+            p.translate(w / 2, h / 2);
+
+            if (iSoldRotate == 1) {
+                for (int i = 0; i < 3; ++i)
+                    p.fillRect(6 + 7 * i, -2, 5, 5, QBrush(lightGray));
+                p.rotate(WANGLE);
+                for (int i = 0; i < 3; ++i)
+                    p.fillRect(7 + 7 * i, -2, 5, 5, QBrush(lightGray));
+                p.rotate(-WANGLE * 2);
+                for (int i = 0; i < 3; ++i)
+                    p.fillRect(7 + 7 * i, -2, 5, 5, QBrush(lightGray));
+            }
+            else {
+                for (int i = 0; i < 3; ++i)
+                    p.fillRect(-11 - 7 * i, -2, 5, 5, QBrush(lightGray));
+                p.rotate(-SANGLE);
+                for (int i = 0; i < 3; ++i)
+                    p.fillRect(7 + 7 * i, -2, 5, 5, QBrush(lightGray));
+                p.rotate(SANGLE * 2);
+                for (int i = 0; i < 3; ++i)
+                    p.fillRect(7 + 7 * i, -2, 5, 5, QBrush(lightGray));
+            }
+            p.restore();
+
+        }
+        else {
+            // first light
+            QColor c;
+            if (occupied)
+                c = QColor(red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(darkGray);
+            }
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+
+            if (iSoldRotate == 1)
+                p.drawLine(w - 5, h / 2 , w - 19,  h / 2);
+            else
+                p.drawLine(5, h / 2 , 19,  h / 2);
+
+            // second light
+            if (iSoldDirection == 0 && lightson)
+                if (occupied)
+                    c = QColor(red);
+                else
+                    c = QColor(255, 225, 0);
+            else
+                c = QColor(darkGray);
+
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+
+            p.save();
+            p.translate(w / 2, h / 2);
+            
+            if (iSoldRotate == 1)
+                p.rotate(-WANGLE);
+            else
+                p.rotate(SANGLE);
+
+            p.drawLine(11, 0, 11 + 14, 0);
+            p.restore();
+
+            // third light
+            if (iSoldDirection == 1 && lightson)
+                if (occupied)
+                    c = QColor(red);
+                else
+                    c = QColor(255, 225, 0);
+            else
+                c = QColor(darkGray);
+
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+
+            p.save();
+            p.translate(w / 2, h / 2);
+
+            if (iSoldRotate == 1)
+                p.rotate(WANGLE);
+            else
+                p.rotate(-SANGLE);
+
+            p.drawLine(11, 0, 11 + 14, 0);
+            p.restore();
+
+            p.setPen(QPen(black));
+        }
+
+        // paint track button
+        p.drawPixmap(w / 2 - 4, h / 2 - 3, QPixmap(button_black_xpm));
+
+        // paint lock light
+        if (lockCounter == 0)
+            p.setBrush(darkGray);
+        else
+            p.setBrush(QColor(255, 225, 0));
+
+        if (iSoldRotate == 1)
+            p.drawEllipse(w / 2, 6, 5, 5);
+        else
+            p.drawEllipse(w / 2 - 4, h - 11, 5, 5);
+
+        // paint text label
+        if (sSoldText != "-1" && !sSoldText.isEmpty()) {
+            QFont f("Helvetica");
+            f.setPointSize(QApplication::font().pointSize() - 3);
+            p.setFont(f);
+            QFontMetrics fm(f);
+            QString s;
+
+            if (pref.addresslabeling)
+                s.setNum(iSoldAddress_1);
+            else
+                s = sSoldText;
+
+            QRect br = fm.boundingRect(s);
+            br.setWidth(br.width() + 4);
+            br.setHeight(br.height() + 2);
+
+            if (iSoldRotate == 1)
+                    br.moveBottomRight(QPoint(w - 3, h - 3));
+            else
                     br.moveTopLeft(QPoint(2, 2));
 
             p.fillRect(br, QBrush(white));

@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.cpp
-                           version 0.5.0 $Revision: 1.25 $
+                           version 0.5.0 $Revision: 1.26 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-08 18:26:54 $
+    last modified        : $Date: 2006-11-08 19:29:45 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -107,12 +107,25 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     setupElement(SYM_KUR);
     setupElement(SYM_DIL);
     setupElement(SYM_DIR);
+    setupElement(SYM_KRH);
+    setupElement(SYM_KRL);
+    setupElement(SYM_KRR);
+    setupElement(SYM_RI1);
+    setupElement(SYM_RI2);
+
     setupElement(SYM_WEL);
     setupElement(SYM_WER);
     setupElement(SYM_DWL);
     setupElement(SYM_DWR);
     setupElement(SYM_WEY);
+    setupElement(SYM_DRW);
     
+    setupElement(SYM_EKL);
+    setupElement(SYM_EKR);
+    setupElement(SYM_DKL);
+    setupElement(SYM_DKR);
+
+    /*rails with buttons*/
     setupElement(SYM_HS);
     setupElement(SYM_HSS);
     setupElement(SYM_SS);
@@ -124,24 +137,14 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     setupElement(SYM_NRB);
     setupElement(SYM_SRB);
 
-    setupElement(SYM_EKL);
-    setupElement(SYM_EKR);
-    setupElement(SYM_DKL);
-    setupElement(SYM_DKR);
-    setupElement(SYM_DRW);
-    setupElement(SYM_KRH);
-    setupElement(SYM_KRL);
-    setupElement(SYM_KRR);
     setupElement(SYM_ENK);
+    setupElement(SYM_BLD);
+    setupElement(SYM_BUE);
+    setupElement(SYM_ADR);
     setupElement(SYM_PRE);
-    setupElement(SYM_RI1);
-    setupElement(SYM_RI2);
     setupElement(SYM_DLT);
     setupElement(SYM_DRT);
     setupElement(SYM_GET);
-    setupElement(SYM_BUE);
-    setupElement(SYM_ADR);
-    setupElement(SYM_BLD);
     setupElement(SYM_DRE);
     setupElement(SYM_SBN);
     setupElement(SYM_REL);
@@ -905,6 +908,7 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
         sSoldIcon == SYM_SS || sSoldIcon == SYM_SSH ||
         sSoldIcon == SYM_SSS ||
         sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER ||
+        sSoldIcon == SYM_WEY ||
         sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR ||
         sSoldIcon == SYM_ENK || sSoldIcon == SYM_BLD;
 
