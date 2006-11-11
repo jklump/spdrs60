@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=SpDrS60
+GenericName=Digital Model Railway Switchbox
+GenericName[de]=Digitales Modellbahnstellwerk
+Type=Application
+Icon=spdrs60_32.xpm
+TryExec=spdrs60
+Exec=spdrs60 %f
+Terminal=0
+Categories=Game;Simulation
+
