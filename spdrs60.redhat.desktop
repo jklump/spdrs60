@@ -2,8 +2,8 @@
 Version=1.0
 Encoding=UTF-8
 Name=SpDrS60
-GenericName=Digital Model Railroad Switchbox
-GenericName[de]=Digitales Modelbahnstellwerk
+GenericName=Digital Model Railway Switchbox
+GenericName[de]=Digitales Modellbahnstellwerk
 Type=Application
 Icon=spdrs60_32.xpm
 TryExec=spdrs60

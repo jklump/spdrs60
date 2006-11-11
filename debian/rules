@@ -79,7 +79,7 @@ binary-arch: build install
 	dh_installchangelogs ChangeLog
 	dh_installdocs
 	dh_installexamples
-#	dh_install
+	dh_install -pspdrs60 debian/spdrs60.desktop usr/share/applications
 	dh_installmenu
 #	dh_installdebconf	
 #	dh_installlogrotate
@@ -91,6 +91,7 @@ binary-arch: build install
 #	dh_installinfo
 	dh_installman
 	dh_link
+	dh_desktop
 	dh_strip
 	dh_compress
 	dh_fixperms

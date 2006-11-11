@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.90 $
+                           version 0.5.0 $Revision: 1.91 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-08 19:29:45 $
+    last modified        : $Date: 2006-11-11 14:00:37 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -4087,11 +4087,6 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         sReplaceIcon = SYM_GER;
     }
 
-    else if (sSoldIcon == SYM_WEY) {
-        iIconByte = 21;
-        iDirByte = 1 << (iSoldDirection * 2);   // dir 0 -> byte 1; 1 -> 4
-    }
-
     else if (sSoldIcon == SYM_DRW) {
         iIconByte = 23;
         // 0->2;1->4;2->1
@@ -4373,13 +4368,11 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
 
         // calculate matching textframe position
         if ((sSoldIcon == SYM_DRW && iSoldRotate == 0)
-                 || (sSoldIcon == SYM_WEY && iSoldRotate == 0)
                  || (sSoldIcon == SYM_EKR && iSoldRotate == 0)
                  || (sSoldIcon == SYM_DKR))
             br.moveTopLeft(QPoint(4, EL_HEIGHT - br.height() - 2));
         
         else if ((sSoldIcon == SYM_DRW && iSoldRotate == 1) ||
-                 (sSoldIcon == SYM_WEY && iSoldRotate == 1) ||
                  (sSoldIcon == SYM_EKR && iSoldRotate == 1))
             br.moveTopLeft(QPoint(EL_WIDTH - br.width() - 4, 2));
         
@@ -4406,7 +4399,6 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         QPoint xyLocked;
 
         if ((sSoldIcon == SYM_DRW && iSoldRotate == 1) ||
-                (sSoldIcon == SYM_WEY && iSoldRotate == 1) ||
                 (sSoldIcon == SYM_EKL && iSoldRotate == 1))
             xyLocked = QPoint(42, 23);
 
@@ -4415,7 +4407,6 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
             xyLocked = QPoint(42, 7);
 
         else if ((sSoldIcon == SYM_DRW && iSoldRotate == 0) ||
-                (sSoldIcon == SYM_WEY && iSoldRotate == 0) ||
                 (sSoldIcon == SYM_EKL && iSoldRotate == 0) ||
                 (sSoldIcon == SYM_DKL))
             xyLocked = QPoint(10, 7);
