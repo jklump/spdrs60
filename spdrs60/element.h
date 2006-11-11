@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.0 $Revision: 1.50 $
+                           version 0.5.0 $Revision: 1.51 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-04 20:08:30 $
+    last modified        : $Date: 2006-11-11 22:15:10 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -40,7 +40,8 @@
 #include "srcpmessage.h"
 #include "turntablecommander.h"
 
-// Symbol names, do NOT edit
+// symbol names
+// signals
 #define SYM_HS   "signal_hs"
 #define SYM_HSS  "signal_hss"
 #define SYM_SS   "signal_ss"
@@ -52,36 +53,44 @@
 #define SYM_NRB  "signal_nrb" // not realy signals but rails
 #define SYM_SRB  "signal_srb" // with a routing button
 
+// turnouts
 #define SYM_WEL  "weiche_links"
 #define SYM_WER  "weiche_rechts"
 #define SYM_DWL  "weiche_diag_links"
 #define SYM_DWR  "weiche_diag_rechts"
 #define SYM_WEY  "weiche_y"
-#define SYM_GER  "gerade"
-#define SYM_GET  "gerade_tl"
-#define SYM_BLD  "blind"           // Blindelement schaltbar
-#define SYM_ADR  "adresse"
-#define SYM_LEE  "leer"
+#define SYM_DRW  "dreier_weiche"
 #define SYM_EKR  "ekw_rechts"
 #define SYM_EKL  "ekw_links"
 #define SYM_DKR  "dkw_rechts"
 #define SYM_DKL  "dkw_links"
+
+// route tracks
+#define SYM_GER  "gerade"
 #define SYM_DIR  "diagonale_rechts"
 #define SYM_DIL  "diagonale_links"
-#define SYM_DRW  "dreier_weiche"
-#define SYM_PRE  "prellbock"  // buffer stop
-#define SYM_BUE  "uebergang"  // level crossing
 #define SYM_KUR  "kurve_rechts"
 #define SYM_KUL  "kurve_links"
 #define SYM_KRH  "kreuzung_hose"
 #define SYM_KRR  "kreuzung_rechts"
 #define SYM_KRL  "kreuzung_links"
-#define SYM_ENK  "entkoppler"
 #define SYM_RI1  "richtung_1"
 #define SYM_RI2  "richtung_2"
+#define SYM_ENK  "entkoppler"
+#define SYM_BLD  "blind"      // blind item, switchable
+#define SYM_ADR  "adresse"
+#define SYM_BUE  "uebergang"  // level crossing
+
+// non route tracks
+#define SYM_PRE  "prellbock"  // buffer stop
+#define SYM_GET  "gerade_tl"
 #define SYM_DLT  "diagonale_links_tl"
 #define SYM_DRT  "diagonale_rechts_tl"
+
+// miscellaneous
+#define SYM_LEE  "leer"
 #define SYM_REL  "relais"
+#define SYM_MDC  "motor_dc"
 #define SYM_DRE  "drehscheibe" // turntable
 #define SYM_SBN  "schiebebuehne" // transfer table
 #define SYM_HS1  "haus_1"
@@ -89,8 +98,8 @@
 #define SYM_SHO  "schuppen_o" // loco shed
 #define SYM_SHM  "schuppen_m"
 #define SYM_SHU  "schuppen_u"
-#define SYM_MDC  "motor_dc"
 
+// external group buttons
 #define SYM_TAF  "taste_fht"
 #define SYM_TAU  "taste_ufgt" // combination with MGT
 #define SYM_TAW  "taste_wgt"
@@ -103,7 +112,7 @@
 #define SYM_FEE  "panel_grey"
 #define SYM_FEN  "panel_brown"
 
-//   speal symbolo NOT edit
+// special symbol, do NOT edit
 #define SYM_KURR "kurr"
 #define SYM_KULR "kulr"
 
