@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.0 $Revision: 1.51 $
+                           version 0.5.0 $Revision: 1.52 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-11 22:15:10 $
+    last modified        : $Date: 2006-11-13 21:38:17 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -213,6 +213,7 @@ public:
     int      iSoldAddress_2;
     int      iSoldRotate;
     int      iSoldSubType;
+    unsigned int routedtrack;
 
     void activateFfM(bool);
     void readFileTextFromStream(QTextStream&);

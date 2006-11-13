@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.92 $
+                           version 0.5.0 $Revision: 1.93 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-11 22:15:10 $
+    last modified        : $Date: 2006-11-13 21:38:17 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -101,13 +101,16 @@ static const char* leer_xpm[]={
 #define   DIR_HP1          1
 #define   DIR_HP2          2
 #define   DIR_SH1          3
-#define   DIR_Sh0          0  // bei Sperrsignalen, die Hauptsignalvarianten
-#define   DIR_Sh1          1  // können nicht benutzt werden, da mit anderen
-                              // Richtungswerten gearbeitet wird
-#define   DIR_ENK_DW       0  // Entkuppler aus
-#define   DIR_ENK_UP       1  // Entkuppler an
-#define   DIR_REL0         0  // Relais aus
-#define   DIR_REL1         1  // Relais an
+
+#define   DIR_Sh0          0  // for shunt signals, main signal variants
+#define   DIR_Sh1          1  // are not applicable
+
+#define   DIR_ENK_DW       0  // decoupler off
+#define   DIR_ENK_UP       1  // decoupler on
+
+#define   DIR_REL0         0  // relay off
+#define   DIR_REL1         1  // relay on
+
 #define   DIR_0            0
 #define   DIR_1            1
 
@@ -197,6 +200,9 @@ void element::initVariables()
     iGA1BusNo = iGA2BusNo = iFBBusNo = 1;
     port1 = 1;
     port2 = 1;
+
+    // this is only used for crossings to choose the routed track
+    routedtrack = 0;
 
     setMaximumSize(sizeHint());
     setMinimumSize(sizeHint());
@@ -3049,6 +3055,96 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         setPaletteBackgroundPixmap(pm);
     }
 
+    // diagonal crossing (hosentraeger)
+    else if (sSoldIcon == SYM_KRH){
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+        
+        int w = pm.width();
+        int h = pm.height();
+        
+        // paint track
+        p.setPen(QPen(black, 7));
+        p.drawLine(0, 0, w - 1, h - 1);
+        p.drawLine(0, h - 1, w - 1, 0);
+        
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            p.save();
+            p.translate(w / 2, h / 2);
+
+            p.rotate(-SANGLE);
+            for (int i = 0; i < 7; ++i)
+                p.fillRect(-23 + 7 * i, -2, 5, 5, QBrush(lightGray));
+            p.rotate(2 * SANGLE);
+            for (int i = 0; i < 7; ++i)
+                p.fillRect(-23 + 7 * i, -2, 5, 5, QBrush(lightGray));
+            p.restore();
+        }
+
+        /**
+         * routedtrack routed occupied track1 track2
+         * -----------------------------------------
+         *      0        0       0       g      g
+         *      1        1       0       y      g 
+         *      2        1       0       g      y
+         *      0        0       1       r      r
+         *      1        1       1       r      g
+         *      2        1       1       g      r
+         * -----------------------------------------
+         **/
+        else {
+            QColor c1, c2;
+            if (occupied)
+                if (routedtrack == 1) {
+                    c1 = QColor(red);
+                    c2 = QColor(darkGray);
+                }
+                else if (routedtrack == 2) {
+                    c1 = QColor(darkGray);
+                    c2 = QColor(red);
+                }
+                else {
+                    c1 = QColor(red);
+                    c2 = QColor(red);
+                }
+            else {
+                if (routed)
+                    if (routedtrack == 1) {
+                        c1 = QColor(255, 225, 0);
+                        c2 = QColor(darkGray);
+                    }
+                    else {
+                        c1 = QColor(darkGray);
+                        c2 = QColor(255, 225, 0);
+                    }
+                else {
+                    c1 = QColor(darkGray);
+                    c2 = QColor(darkGray);
+                }
+            }
+            int startx = w / 5 - 2;
+            int stopx = 2 * w / 5 - 4;
+            int starty = h / 5 - 2;
+            int stopy = 2 * h / 5 - 3;
+
+            // track 1
+            p.setPen(QPen(c1, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+            p.drawLine(startx, h - starty - 1, stopx, h - stopy - 1);
+            p.drawLine(w - startx - 1, starty, w - stopx - 1, stopy);
+
+            // track 2
+            p.setPen(QPen(c2, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+            p.drawLine(startx, starty, stopx, stopy);
+            p.drawLine(w - startx - 1, h - starty - 1, w - stopx - 1,
+                    h - stopy - 1);
+        }
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+    
     // track with normal route button
     else if (sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB){
         QPixmap pm = QPixmap(leer_xpm);
@@ -4257,8 +4353,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
     int iIconByte = 0;
     int iDirByte = 0;
 
-    if (sSoldIcon == SYM_DIL || sReplaceIcon == SYM_DIL ||
-        (sSoldIcon == SYM_KRH && sReplaceIcon == "")) {
+    if (sSoldIcon == SYM_DIL || sReplaceIcon == SYM_DIL) {
         iIconByte = 36;
         sReplaceIcon = SYM_DIL;
     }
@@ -4468,19 +4563,15 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                     j = 3;
                 }               // do the other track in crossings or DKW/EKW
                 else if (k == 1 && bHaveJumped == 0 &&
-                         (sSoldIcon == SYM_KRH || sSoldIcon == SYM_KRR ||
-                          sSoldIcon == SYM_KRL || (iSoldSubType == 0 &&
-                                                   (sSoldIcon == SYM_DKR
-                                                    || sSoldIcon ==
-                                                    SYM_DKL)))) {
-                    if ((sSoldIcon == SYM_KRH && sReplaceIcon == SYM_DIL)
-                        || (sSoldIcon == SYM_KRR
+                         (sSoldIcon == SYM_KRR || sSoldIcon == SYM_KRL ||
+                          (iSoldSubType == 0 &&
+                           (sSoldIcon == SYM_DKR || sSoldIcon == SYM_DKL)))) {
+                    if ((sSoldIcon == SYM_KRR
                             && sReplaceIcon == SYM_GER)
                         || (sSoldIcon == SYM_DKR
                             && sReplaceIcon == SYM_GER))
                         iIconByte = 9;  // SYM_DIR
-                    if ((sSoldIcon == SYM_KRH && sReplaceIcon == SYM_DIR)
-                        || (sSoldIcon == SYM_KRL
+                    if ((sSoldIcon == SYM_KRL
                             && sReplaceIcon == SYM_GER)
                         || (sSoldIcon == SYM_DKL
                             && sReplaceIcon == SYM_GER))
@@ -4763,6 +4854,7 @@ int element::routeElement(int S, bool setroute, int vertcorr)
     int I = sSoldIcon.contains("links", 1) ? 0 : 1;
 
     // repaint element according to new routing state
+    // TODO: move to bottom and replace "return" by "returnvalue"
     setRouted(setroute);
 
     // immediate return if track is straightforward
@@ -4927,13 +5019,16 @@ int element::routeElement(int S, bool setroute, int vertcorr)
 
         if (vertcorr == 0)
             sReplaceIcon = SYM_GER;
-        else if (S == 0 && vertcorr == +1 || S == 1 && vertcorr == -1)
+        else if (S == 0 && vertcorr == +1 || S == 1 && vertcorr == -1) {
             sReplaceIcon = SYM_DIL;
-        else if (S == 0 && vertcorr == -1 || S == 1 && vertcorr == +1)
+            routedtrack = 1;
+        }
+        else if (S == 0 && vertcorr == -1 || S == 1 && vertcorr == +1) {
             sReplaceIcon = SYM_DIR;
-
-        //TODO: check this integer/bool mixture
-        lockCounter = !(iSoldLEDstate == LED_OFF);
+            routedtrack = 2;
+        }
+        if (!setroute)
+            routedtrack = 0;
 
         sSaveReplaceIcon = sReplaceIcon;
         setupElementIcon(iSoldLEDstate, sReplaceIcon);
@@ -5038,8 +5133,7 @@ void element::updateLEDState()
     if (iSoldLEDstate != newLEDState) {
         iSoldLEDstate = newLEDState;
         
-        if (sSoldIcon == SYM_KRL || sSoldIcon == SYM_KRR
-                || sSoldIcon == SYM_KRH)
+        if (sSoldIcon == SYM_KRL || sSoldIcon == SYM_KRR)
             setupElementIcon(iSoldLEDstate, sSaveReplaceIcon);
         else
             setupElementIcon(iSoldLEDstate, "");
@@ -5152,7 +5246,7 @@ void element::setLocked(bool lock)
 
 
 /**
- * switch "Fahrstraßenfestlegemelder" on or off;
+ * switch "Fahrstrassenfestlegemelder" on or off;
  */
 void element::activateFfM(bool active)
 {
@@ -5165,7 +5259,7 @@ void element::activateFfM(bool active)
 
 
 /**
- * test if "Fahrstraßenfestlegemelder" is switched on
+ * test if "Fahrstrassenfestlegemelder" is switched on
  */
 bool element::hasFfMLock()
 {
