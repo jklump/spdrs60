@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.0 $Revision: 1.52 $
+                           version 0.5.0 $Revision: 1.53 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-13 21:38:17 $
+    last modified        : $Date: 2006-11-14 20:17:59 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -220,7 +220,7 @@ public:
     void readOldFileTextFromStream(QTextStream&);
     void writeFileTextToStream(QTextStream&);
     QSize sizeHint() const;
-    int  routeElement(int, bool, int);
+    int  routeElement(bool, bool, int);
     void locateMe();
     QString getName() const;
     bool hasSameAddress(int, int);
@@ -295,6 +295,7 @@ private:
     bool     switched;
     bool     turnout;
     bool     lightson;
+    bool     isright;
     QString  sRepeatIcon;
     QString  sSoldDecoder;
     SrcpMessage::Protocol protocol;

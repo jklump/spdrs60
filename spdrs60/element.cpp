@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.93 $
+                           version 0.5.0 $Revision: 1.94 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-13 21:38:17 $
+    last modified        : $Date: 2006-11-14 20:17:59 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -448,6 +448,8 @@ void element::updateProperties()
 
     state2dkw = (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR)
         && iSoldSubType == 0;
+
+    isright = sSoldIcon.contains("links", 1) ? 0 : 1;
 }
 
 
@@ -3145,6 +3147,185 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         setPaletteBackgroundPixmap(pm);
     }
     
+    // left crossing
+    else if (sSoldIcon == SYM_KRL){
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+        
+        int w = pm.width();
+        int h = pm.height();
+        
+        // paint track
+        p.setPen(QPen(black, 7));
+        p.drawLine(0, h / 2, w - 1, h / 2);
+        p.drawLine(0, h - 1, w - 1, 0);
+        
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 7; ++i)
+                p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
+                        QBrush(lightGray));
+            p.save();
+            p.translate(w / 2, h / 2);
+
+            p.rotate(-SANGLE);
+            for (int i = 0; i < 7; ++i)
+                p.fillRect(-23 + 7 * i, -2, 5, 5, QBrush(lightGray));
+            p.restore();
+        }
+
+        /**
+         * routedtrack routed occupied track1 track2
+         * -----------------------------------------
+         *      0        0       0       g      g
+         *      1        1       0       y      g 
+         *      2        1       0       g      y
+         *      0        0       1       r      r
+         *      1        1       1       r      g
+         *      2        1       1       g      r
+         * -----------------------------------------
+         **/
+        else {
+            QColor c1, c2;
+            if (occupied)
+                if (routedtrack == 1) {
+                    c1 = QColor(red);
+                    c2 = QColor(darkGray);
+                }
+                else if (routedtrack == 2) {
+                    c1 = QColor(darkGray);
+                    c2 = QColor(red);
+                }
+                else {
+                    c1 = QColor(red);
+                    c2 = QColor(red);
+                }
+            else {
+                if (routed)
+                    if (routedtrack == 1) {
+                        c1 = QColor(255, 225, 0);
+                        c2 = QColor(darkGray);
+                    }
+                    else {
+                        c1 = QColor(darkGray);
+                        c2 = QColor(255, 225, 0);
+                    }
+                else {
+                    c1 = QColor(darkGray);
+                    c2 = QColor(darkGray);
+                }
+            }
+            int startx = w / 5 - 2;
+            int stopx = 2 * w / 5 - 4;
+            int starty = h / 5 - 2;
+            int stopy = 2 * h / 5 - 3;
+
+            // diagonal track (1)
+            p.setPen(QPen(c1, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+            p.drawLine(startx, h - starty - 1, stopx, h - stopy - 1);
+            p.drawLine(w - startx - 1, starty, w - stopx - 1, stopy);
+
+            // straight track (2)
+            p.setPen(QPen(c2, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+            p.drawLine(startx, h /2, stopx, h / 2);
+            p.drawLine(w - startx - 1, h / 2, w - stopx - 1, h / 2);
+        }
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+    
+    // right crossing
+    else if (sSoldIcon == SYM_KRR){
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+        
+        int w = pm.width();
+        int h = pm.height();
+        
+        // paint track
+        p.setPen(QPen(black, 7));
+        p.drawLine(0, h / 2, w - 1, h / 2);
+        p.drawLine(0, 0, w - 1, h - 1);
+        
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 7; ++i)
+                p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
+                        QBrush(lightGray));
+            p.save();
+            p.translate(w / 2, h / 2);
+
+            p.rotate(SANGLE);
+            for (int i = 0; i < 7; ++i)
+                p.fillRect(-23 + 7 * i, -2, 5, 5, QBrush(lightGray));
+            p.restore();
+        }
+
+        /**
+         * routedtrack routed occupied track1 track2
+         * -----------------------------------------
+         *      0        0       0       g      g
+         *      1        1       0       y      g 
+         *      2        1       0       g      y
+         *      0        0       1       r      r
+         *      1        1       1       r      g
+         *      2        1       1       g      r
+         * -----------------------------------------
+         **/
+        else {
+            QColor c1, c2;
+            if (occupied)
+                if (routedtrack == 1) {
+                    c1 = QColor(red);
+                    c2 = QColor(darkGray);
+                }
+                else if (routedtrack == 2) {
+                    c1 = QColor(darkGray);
+                    c2 = QColor(red);
+                }
+                else {
+                    c1 = QColor(red);
+                    c2 = QColor(red);
+                }
+            else {
+                if (routed)
+                    if (routedtrack == 1) {
+                        c1 = QColor(255, 225, 0);
+                        c2 = QColor(darkGray);
+                    }
+                    else {
+                        c1 = QColor(darkGray);
+                        c2 = QColor(255, 225, 0);
+                    }
+                else {
+                    c1 = QColor(darkGray);
+                    c2 = QColor(darkGray);
+                }
+            }
+            int startx = w / 5 - 2;
+            int stopx = 2 * w / 5 - 4;
+            int starty = h / 5 - 2;
+            int stopy = 2 * h / 5 - 3;
+
+            // diagonal track (1)
+            p.setPen(QPen(c1, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+            p.drawLine(startx, starty, stopx, stopy);
+            p.drawLine(w - startx - 1, h - starty - 1, w - stopx - 1,
+                    h - stopy - 1);
+
+            // straight track (2)
+            p.setPen(QPen(c2, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+            p.drawLine(startx, h / 2, stopx, h / 2);
+            p.drawLine(w - startx - 1, h / 2, w - stopx - 1, h / 2);
+        }
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+    
     // track with normal route button
     else if (sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB){
         QPixmap pm = QPixmap(leer_xpm);
@@ -4367,9 +4548,7 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         iIconByte = 17;
     else if (sSoldIcon == SYM_KURR || sReplaceIcon == SYM_KURR)
         iIconByte = 10;
-    else if (sReplaceIcon == SYM_GER ||
-            ((sSoldIcon == SYM_KRL || sSoldIcon == SYM_KRR)
-                 && sReplaceIcon == "")) {
+    else if (sReplaceIcon == SYM_GER) {
         iIconByte = 18;
         sReplaceIcon = SYM_GER;
     }
@@ -4563,23 +4742,15 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
                     j = 3;
                 }               // do the other track in crossings or DKW/EKW
                 else if (k == 1 && bHaveJumped == 0 &&
-                         (sSoldIcon == SYM_KRR || sSoldIcon == SYM_KRL ||
-                          (iSoldSubType == 0 &&
+                         ((iSoldSubType == 0 &&
                            (sSoldIcon == SYM_DKR || sSoldIcon == SYM_DKL)))) {
-                    if ((sSoldIcon == SYM_KRR
-                            && sReplaceIcon == SYM_GER)
-                        || (sSoldIcon == SYM_DKR
+                    if ((sSoldIcon == SYM_DKR
                             && sReplaceIcon == SYM_GER))
                         iIconByte = 9;  // SYM_DIR
-                    if ((sSoldIcon == SYM_KRL
-                            && sReplaceIcon == SYM_GER)
-                        || (sSoldIcon == SYM_DKL
+                    if ((sSoldIcon == SYM_DKL
                             && sReplaceIcon == SYM_GER))
                         iIconByte = 36; // SYM_DIL
-                    if ((sSoldIcon == SYM_KRR && sReplaceIcon == SYM_DIR)
-                        || (sSoldIcon == SYM_KRL
-                            && sReplaceIcon == SYM_DIL)
-                        || (sSoldIcon == SYM_DKR
+                    if ((sSoldIcon == SYM_DKR
                             && sReplaceIcon == SYM_DIR)
                         || (sSoldIcon == SYM_DKL
                             && sReplaceIcon == SYM_DIL))
@@ -4844,18 +5015,28 @@ void element::addTooltip()
 
 /**
  * paint yellow track and return vertical correction value
- * S = routing direction (bool: to right is true)
+ * to_r = routing direction to right layout side
  * C = correction for index
  */
-int element::routeElement(int S, bool setroute, int vertcorr)
+
+// FIXME: routing should stop if track is not continued
+
+/* TODO: two dimensional routing:
+ *       entry -> exit (rdC, rdN, rdS, rdW, rdE, rdNW, rdNE, ...)
+ *
+ *                                 vertcorr
+ *  rdNW | rdN  | rdNE      !to_r |  +1    | to_r
+ * ------+------+------    -------+--------+-------
+ *  rdW  | rdC  | rdE             |   0    |
+ * ------+------+------    -------+--------+-------
+ *  rdSW | rdS  | rdSE            |  -1    |
+ *
+ */
+int element::routeElement(bool to_r, bool setroute, int vertcorr)
 {
     int D = iSoldDirection;
-    int R = iSoldRotate;
-    int I = sSoldIcon.contains("links", 1) ? 0 : 1;
-
-    // repaint element according to new routing state
-    // TODO: move to bottom and replace "return" by "returnvalue"
-    setRouted(setroute);
+    bool rotate = iSoldRotate == 1;
+    int returnvalue = vertcorr;
 
     // immediate return if track is straightforward
     if (sSoldIcon == SYM_GER || sSoldIcon == SYM_ENK || sSoldIcon == SYM_HS
@@ -4866,89 +5047,90 @@ int element::routeElement(int S, bool setroute, int vertcorr)
         || sSoldIcon == SYM_RI2 || sSoldIcon == SYM_WS
         || sSoldIcon == SYM_ZP || sSoldIcon == SYM_BLD
         || sSoldIcon == SYM_ADR || sSoldIcon == SYM_VS) {
-        return 0;
+        returnvalue = 0;
     }
 
     else if (sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER) {
-        if (D == 0 || !(R ^ S))
-            return 0;
+        if (D == 0 || !(rotate ^ to_r))
+            returnvalue = 0;
         if (D == 1
-            && (R == 1 && S == 0 && I == 1 || R == 0 && S == 1 && I == 0))
-            return -1;
+            && (rotate && !to_r && isright || !rotate && to_r && !isright))
+            returnvalue = -1;
         if (D == 1
-            && (R == 1 && S == 0 && I == 0 || R == 0 && S == 1 && I == 1))
-            return +1;
+            && (rotate && !to_r && !isright || !rotate && to_r && isright))
+            returnvalue = +1;
     }
 
     else if (sSoldIcon == SYM_DIL || sSoldIcon == SYM_DIR) {
-        if (S ^ I)
-            return -1;
-        if (!(S ^ I))
-            return +1;
+        if (to_r ^ isright)
+            returnvalue = -1;
+        if (!(to_r ^ isright))
+            returnvalue = +1;
     }
 
     else if (sSoldIcon == SYM_KUL || sSoldIcon == SYM_KUR) {
-        if (!(R ^ S))
-            return 0;
-        if (R == 1 && S == 0 && I == 1 || R == 0 && S == 1 && I == 0)
-            return -1;
-        if (R == 1 && S == 0 && I == 0 || R == 0 && S == 1 && I == 1)
-            return +1;
+        if (!(rotate ^ to_r))
+            returnvalue = 0;
+        if (rotate && !to_r && isright || !rotate && to_r && !isright)
+            returnvalue = -1;
+        if (rotate && !to_r && !isright || !rotate && to_r && isright)
+            returnvalue = +1;
     }
 
     else if (sSoldIcon == SYM_DRW) {
-        if (!(R ^ S) || D == 0)
-            return 0;
-        if (R == 0 && S == 1 && D == 1 || R == 1 && S == 0 && D == 2)
-            return -1;
-        if (R == 0 && S == 1 && D == 2 || R == 1 && S == 0 && D == 1)
-            return +1;
+        if (!(rotate ^ to_r) || D == 0)
+            returnvalue = 0;
+        if (!rotate && to_r && D == 1 || rotate && !to_r && D == 2)
+            returnvalue = -1;
+        if (!rotate && to_r && D == 2 || rotate && !to_r && D == 1)
+            returnvalue = +1;
     }
 
     else if (sSoldIcon == SYM_WEY) {
-        if (!(R ^ S))
-            return 0;
-        if (R == 0 && S == 1 && D == 1 || R == 1 && S == 0 && D == 0)
-            return -1;
-        if (R == 0 && S == 1 && D == 0 || R == 1 && S == 0 && D == 1)
-            return +1;
+        if (!(rotate ^ to_r))
+            returnvalue = 0;
+        if (!rotate && to_r && D == 1 || rotate && !to_r && D == 0)
+            returnvalue = -1;
+        if (!rotate && to_r && D == 0 || rotate && !to_r && D == 1)
+            returnvalue = +1;
     }
 
     else if (sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR) {
-        if ((R ^ S) && D == 1)
-            return 0;
-        if (S == 0 && I == 0 && (R == 0 || D == 0) || S == 1 && I == 1
-            && (R == 1 || D == 0))
-            return -1;
-        if (S == 0 && I == 1 && (R == 0 || D == 0) || S == 1 && I == 0
-            && (R == 1 || D == 0))
-            return +1;
+        if ((rotate ^ to_r) && D == 1)
+            returnvalue = 0;
+        if (!to_r && !isright && (!rotate || D == 0) || to_r && isright
+            && (rotate || D == 0))
+            returnvalue = -1;
+        if (!to_r && isright && (!rotate || D == 0) || to_r && !isright
+            && (rotate || D == 0))
+            returnvalue = +1;
     }
 
     else if (sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR) {
-        if (D == 0 || D == 1 && (!(R ^ I) && S == 0 || (R ^ I) && S == 1))
-            return 0;
-        if ((S ^ I)
-            && (R == 0 && D == 1 || R == 0 && D == 2 || R == 1 && D == 2))
-            return -1;
-        if (!(S ^ I)
-            && (R == 1 && D == 1 || R == 0 && D == 2 || R == 1 && D == 2))
-            return +1;
+        if (D == 0 || D == 1 &&
+                (!(rotate ^ isright) && !to_r || (rotate ^ isright) && to_r))
+            returnvalue = 0;
+        if ((to_r ^ isright)
+            && (!rotate && D == 1 || !rotate && D == 2 || rotate && D == 2))
+            returnvalue = -1;
+        if (!(to_r ^ isright)
+            && (rotate && D == 1 || !rotate && D == 2 || rotate && D == 2))
+            returnvalue = +1;
     }
 
     // 4-state-DKWs
     else if ((sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) &&
              iSoldSubType == 1) {
-        if (D == 0 || S == 0 && (D == 1 && I == 0 || D == 3 && I == 1) ||
-            S == 1 && (D == 3 && I == 0 || D == 1 && I == 1))
-            return 0;
-        if ((S ^ I) && (D == 1 || D == 2))
-            return -1;
-        if (!(S ^ I) && (D == 2 || D == 3))
-            return +1;
+        if (D == 0 || !to_r && (D == 1 && !isright || D == 3 && isright) ||
+            to_r && (D == 3 && !isright || D == 1 && isright))
+            returnvalue = 0;
+        if ((to_r ^ isright) && (D == 1 || D == 2))
+            returnvalue = -1;
+        if (!(to_r ^ isright) && (D == 2 || D == 3))
+            returnvalue = +1;
     }
 
-    // 2-state-DKWs, FIXME: doubled icon painting
+    // 2-state-DKWs
     else if ((sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) &&
              iSoldSubType == 0) {
         QString sReplaceIcon;
@@ -4959,20 +5141,20 @@ int element::routeElement(int S, bool setroute, int vertcorr)
             C = vertcorr;         // == 0
         }
         
-        else if (D == 0 && I == 0
-            && (vertcorr == +1 && S == 0 || vertcorr == -1 && S == 1)) {
+        else if (D == 0 && !isright
+            && (vertcorr == +1 && !to_r || vertcorr == -1 && to_r)) {
             sReplaceIcon = SYM_DIL;
             C = vertcorr;         // == +-1
         }
         
-        else if (D == 0 && I == 1
-            && (vertcorr == -1 && S == 0 || vertcorr == +1 && S == 1)) {
+        else if (D == 0 && isright
+            && (vertcorr == -1 && !to_r || vertcorr == +1 && to_r)) {
             sReplaceIcon = SYM_DIR;
             C = vertcorr;         // == +-1
         }
 
-        else if (D == 1 && I == 0
-            && (vertcorr == +1 && S == 0 || vertcorr == 0 && S == 1)) {
+        else if (D == 1 && !isright
+            && (vertcorr == +1 && !to_r || vertcorr == 0 && to_r)) {
             sReplaceIcon = SYM_KUL;
             if (vertcorr != 0)
                 C = 0;
@@ -4980,8 +5162,8 @@ int element::routeElement(int S, bool setroute, int vertcorr)
                 C = -1;
         }
 
-        else if (D == 1 && I == 1
-            && (vertcorr == -1 && S == 0 || vertcorr == 0 && S == 1)) {
+        else if (D == 1 && isright
+            && (vertcorr == -1 && !to_r || vertcorr == 0 && to_r)) {
             sReplaceIcon = SYM_KUR;
             if (vertcorr != 0)
                 C = 0;
@@ -4989,16 +5171,16 @@ int element::routeElement(int S, bool setroute, int vertcorr)
                 C = +1;
         }
 
-        else if (D == 1 && I == 0
-            && (vertcorr == -1 && S == 1 || vertcorr == 0 && S == 0)) {
+        else if (D == 1 && !isright
+            && (vertcorr == -1 && to_r || vertcorr == 0 && !to_r)) {
             sReplaceIcon = SYM_KULR;
             if (vertcorr != 0)
                 C = 0;
             else
                 C = +1;
         }
-        else if (D == 1 && I == 1
-            && (vertcorr == +1 && S == 1 || vertcorr == 0 && S == 0)) {
+        else if (D == 1 && isright
+            && (vertcorr == +1 && to_r || vertcorr == 0 && !to_r)) {
             sReplaceIcon = SYM_KURR;
             if (vertcorr != 0)
                 C = 0;
@@ -5011,31 +5193,42 @@ int element::routeElement(int S, bool setroute, int vertcorr)
     }
 
     // rail crossings
-    // FIXME: doubled icon painting, missing route locking
-    else if (sSoldIcon == SYM_KRL || sSoldIcon == SYM_KRR
-        || sSoldIcon == SYM_KRH) {
-        QString sReplaceIcon;
-        // routedtrack = 0, 1, 2 (straight, left, right)
-
-        if (vertcorr == 0)
-            sReplaceIcon = SYM_GER;
-        else if (S == 0 && vertcorr == +1 || S == 1 && vertcorr == -1) {
-            sReplaceIcon = SYM_DIL;
-            routedtrack = 1;
+    else if (sSoldIcon == SYM_KRH) {
+        if (setroute) {
+            if (!to_r && vertcorr == +1 || to_r && vertcorr == -1)
+                routedtrack = 1;
+            else if (!to_r && vertcorr == -1 || to_r && vertcorr == +1)
+                routedtrack = 2;
         }
-        else if (S == 0 && vertcorr == -1 || S == 1 && vertcorr == +1) {
-            sReplaceIcon = SYM_DIR;
-            routedtrack = 2;
-        }
-        if (!setroute)
+        else
             routedtrack = 0;
-
-        sSaveReplaceIcon = sReplaceIcon;
-        setupElementIcon(iSoldLEDstate, sReplaceIcon);
-        // return the same correctional value as obtained before
-        return vertcorr;
     }
-    return vertcorr;              // this line should never be reached!
+
+    else if (sSoldIcon == SYM_KRL) {
+        if (setroute) {
+            if (vertcorr == 0)
+                routedtrack = 2;
+            else
+                routedtrack = 1;
+        }
+        else
+            routedtrack = 0;
+    }
+    
+    else if (sSoldIcon == SYM_KRR) {
+        if (setroute) {
+            if (vertcorr == 0)
+                routedtrack = 2;
+            else
+                routedtrack = 1;
+        }
+        else
+            routedtrack = 0;
+    }
+
+    // repaint element according to new routing state
+    setRouted(setroute);
+    return returnvalue;
 }
 
 
@@ -5076,9 +5269,6 @@ void element::updateEDiTSAddress(unsigned int contact, bool state)
     else
         editsAddress = editsAddress & ~bit;
 
-    // evtl. Dauer der Anzeige einstellbar? Nein, eine zweite
-    // als Belegtmeldung konfigurierte Rueckmeldung triggert das
-    // Abschalten (und Einschalten?) der Anzeige.
     /*
      * Most probably this is done eight times, due to eight feedback
      * address bits. If this eight feedback states are send in a fixed
@@ -5101,7 +5291,7 @@ void element::setOccupied(bool ostate)
 
 void element::setRouted(bool rstate)
 {
-    if (routed != rstate) {
+    if (routed != rstate || routedtrack != 0) {
         routed = rstate;
         updateLEDState();
     }
@@ -5130,13 +5320,9 @@ void element::updateLEDState()
             newLEDState = LED_OFF;
     }
 
-    if (iSoldLEDstate != newLEDState) {
+    if (iSoldLEDstate != newLEDState || routedtrack != 0) {
         iSoldLEDstate = newLEDState;
-        
-        if (sSoldIcon == SYM_KRL || sSoldIcon == SYM_KRR)
-            setupElementIcon(iSoldLEDstate, sSaveReplaceIcon);
-        else
-            setupElementIcon(iSoldLEDstate, "");
+        setupElementIcon(iSoldLEDstate, "");
     }
 }
 
