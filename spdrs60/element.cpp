@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.94 $
+                           version 0.5.0 $Revision: 1.95 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-14 20:17:59 $
+    last modified        : $Date: 2006-11-17 12:28:19 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -197,6 +197,8 @@ void element::initVariables()
     simplega = false;
     turnout = false;
     lightson = true;
+    lastdir = 0;
+    newdir = 0;
     iGA1BusNo = iGA2BusNo = iFBBusNo = 1;
     port1 = 1;
     port2 = 1;
@@ -3326,6 +3328,244 @@ void element::setupElementIcon(int iLEDstate_, QString sReplaceIcon)
         setPaletteBackgroundPixmap(pm);
     }
     
+    // single slip switch left
+    else if (sSoldIcon == SYM_EKL){
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+        
+        int w = pm.width();
+        int h = pm.height();
+        
+        // paint track
+        p.setPen(QPen(black, 7));
+        p.drawLine(0, h / 2, w - 1, h / 2);
+        p.drawLine(0, h - 1, w - 1, 0);
+        
+        // paint drive symbol
+            p.setPen(QPen(black, 1));
+        if (iSoldRotate == 1) {
+            p.drawLine(w / 2 + 1, h / 2 + 5, w / 2 + 7, h / 2 + 5);
+            p.drawLine(w / 2 + 2, h / 2 + 5, w / 2 - 3, h / 2 + 7);
+        }
+        else {
+            p.drawLine(w / 2 - 7, h / 2 - 5, w / 2 - 2, h / 2 - 5);
+            p.drawLine(w / 2 - 2, h / 2 - 5, w / 2 + 3, h / 2 - 8);
+        }
+
+        // paint lock light
+        if (lockCounter == 0)
+            p.setBrush(darkGray);
+        else
+            p.setBrush(QColor(255, 225, 0));
+
+        if (iSoldRotate == 1)
+            p.drawEllipse(3 * w / 4, h - 11, 5, 5);
+        else
+            p.drawEllipse(w / 4, 6, 5, 5);
+
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 7; ++i)
+                p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
+                        QBrush(lightGray));
+            p.save();
+            p.translate(w / 2, h / 2);
+
+            p.rotate(-SANGLE);
+            for (int i = 0; i < 7; ++i)
+                p.fillRect(-23 + 7 * i, -2, 5, 5, QBrush(lightGray));
+            p.restore();
+        }
+
+        /**
+         * lastdir  currentdir  newdir  c1  c2  c3  c4
+         * -------------------------------------------
+         *     0       0/0        0     -   -   -   -
+         *     0       0/1        1     -   1   -   2 
+         *     0       0/2        2     1   1   2   2
+         *                   
+         *     1       1/0        0     2   -   -   1
+         *     1       1/1        1     -   -   -   -
+         *     1       1/2        2     1   -   2   -
+         *                   
+         *     2       2/0        0     2   2   1   1
+         *     2       2/1        1     2   -   1   -
+         *     2       2/2        2     -   -   -   -
+         * -------------------------------------------
+         **/
+        else {
+            QColor c1, c2, c3, c4;
+            if (occupied) {
+                if (iSoldDirection == 0) {
+                    c1 = QColor(red);
+                    c2 = QColor(red);
+                    c3 = QColor(darkGray);
+                    c4 = QColor(darkGray);
+                }
+                else if (iSoldDirection == 1) {
+                    c1 = QColor(red);
+                    c2 = QColor(darkGray);
+                    c3 = QColor(darkGray);
+                    c4 = QColor(red);
+                }
+                else if (iSoldDirection == 2) {
+                    c1 = QColor(darkGray);
+                    c2 = QColor(darkGray);
+                    c3 = QColor(red);
+                    c4 = QColor(red);
+                }
+                // error indication
+                else {
+                    c1 = QColor(red);
+                    c2 = QColor(red);
+                    c3 = QColor(red);
+                    c4 = QColor(red);
+                }
+            }
+            else {
+                if (iSoldDirection == 0) {
+                    if (!lightson && ((lastdir == 0 && newdir == 2) ||
+                            (lastdir != 0 && newdir == 0)))
+                        c1 = QColor(darkGray);
+                    else
+                        c1 = QColor(255, 225, 0);
+                    
+                    if (!lightson && ((lastdir == 0 && newdir != 0) ||
+                            (lastdir != 0 && newdir == 0)))
+                        c2 = QColor(darkGray);
+                    else
+                        c2 = QColor(255, 225, 0);
+                    
+                    c3 = QColor(darkGray);
+                    c4 = QColor(darkGray);
+                }
+                else if (iSoldDirection == 1) {
+                    if (!lightson && ((lastdir == 1 && newdir == 2) ||
+                        (lastdir == 2 && newdir == 1)))
+                        c1 = QColor(darkGray);
+                    else
+                        c1 = QColor(255, 225, 0);
+                    
+                    c2 = QColor(darkGray);
+                    c3 = QColor(darkGray);
+                    
+                    if (!lightson && ((lastdir == 1 && newdir == 0) ||
+                                (lastdir == 0 && newdir == 1)))
+                        c4 = QColor(darkGray);
+                    else
+                        c4 = QColor(255, 225, 0);
+                }
+                else if (iSoldDirection == 2) {
+                    c1 = QColor(darkGray);
+                    c2 = QColor(darkGray);
+                    
+                    if (!lightson && ((lastdir == 2 && newdir != 2) ||
+                                (lastdir != 2 && newdir == 2)))
+                        c3 = QColor(darkGray);
+                    else
+                        c3 = QColor(255, 225, 0);
+                    
+                    if (!lightson && ((lastdir == 2 && newdir == 0) ||
+                                (lastdir == 0 && newdir == 2)))
+                        c4 = QColor(darkGray);
+                    else
+                        c4 = QColor(255, 225, 0);
+                }
+                // error indication
+                else {
+                    c1 = QColor(255, 225, 0);
+                    c2 = QColor(255, 225, 0);
+                    c3 = QColor(255, 225, 0);
+                    c4 = QColor(255, 225, 0);
+                }
+            }
+            int startx = w / 5 - 2;
+            int stopx = 2 * w / 5 - 4;
+            int starty = h / 5 - 2;
+            int stopy = 2 * h / 5 - 3;
+
+            // swap track indicator assignment if element is rotated
+            if (iSoldRotate == 1) {
+                // straight track (1)
+                p.setPen(QPen(c1, 3, Qt::SolidLine, Qt::RoundCap,
+                            Qt::MiterJoin));
+                p.drawLine(w - startx - 1, h / 2, w - stopx - 1, h / 2);
+                // straight track (2)
+                p.setPen(QPen(c2, 3, Qt::SolidLine, Qt::RoundCap,
+                            Qt::MiterJoin));
+                p.drawLine(startx, h /2, stopx, h / 2);
+                // diagonal track (3)
+                p.setPen(QPen(c3, 3, Qt::SolidLine, Qt::RoundCap,
+                            Qt::MiterJoin));
+                p.drawLine(w - startx - 1, starty, w - stopx - 1, stopy);
+                // diagonal track (4)
+                p.setPen(QPen(c4, 3, Qt::SolidLine, Qt::RoundCap,
+                            Qt::MiterJoin));
+                p.drawLine(startx, h - starty - 1, stopx, h - stopy - 1);
+            }
+            else {
+                // straight track (1)
+                p.setPen(QPen(c1, 3, Qt::SolidLine, Qt::RoundCap,
+                            Qt::MiterJoin));
+                p.drawLine(startx, h /2, stopx, h / 2);
+                // straight track (2)
+                p.setPen(QPen(c2, 3, Qt::SolidLine, Qt::RoundCap,
+                            Qt::MiterJoin));
+                p.drawLine(w - startx - 1, h / 2, w - stopx - 1, h / 2);
+                // diagonal track (3)
+                p.setPen(QPen(c3, 3, Qt::SolidLine, Qt::RoundCap,
+                            Qt::MiterJoin));
+                p.drawLine(startx, h - starty - 1, stopx, h - stopy - 1);
+                // diagonal track (4)
+                p.setPen(QPen(c4, 3, Qt::SolidLine, Qt::RoundCap,
+                            Qt::MiterJoin));
+                p.drawLine(w - startx - 1, starty, w - stopx - 1, stopy);
+            }
+
+            p.setPen(QPen(black, 1));
+        }
+
+        // paint track button
+        p.drawPixmap(w / 2 - 4, h / 2 - 3, QPixmap(button_black_xpm));
+        
+        // paint text label
+        p.setPen(black);
+        if (sSoldText != "-1" && !sSoldText.isEmpty()) {
+            QFont f("Helvetica");
+            f.setPointSize(QApplication::font().pointSize() - 3);
+            p.setFont(f);
+            QFontMetrics fm(f);
+            QString s;
+
+            if (pref.addresslabeling)
+                s.setNum(iSoldAddress_1);
+            else
+                s = sSoldText;
+
+            QRect br = fm.boundingRect(s);
+            br.setWidth(br.width() + 4);
+            br.setHeight(br.height() + 2);
+
+            if (iSoldRotate == 1)
+                br.moveTopLeft(QPoint(2, 2));
+            else
+                br.moveBottomRight(QPoint(w - 3, h - 3));
+
+            p.fillRect(br, QBrush(white));
+            p.setBrush(white);
+            br.setX(br.x() + 1);
+            br.setY(br.y() + 1);
+            br.setHeight(br.height() - 2);
+
+            p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
+                    Qt::DontClip, s);
+        }
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+    
     // track with normal route button
     else if (sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB){
         QPixmap pm = QPixmap(leer_xpm);
@@ -5032,6 +5272,8 @@ void element::addTooltip()
  *  rdSW | rdS  | rdSE            |  -1    |
  *
  */
+//int element::getRouteExit(int entrypos, bool setroute)
+
 int element::routeElement(bool to_r, bool setroute, int vertcorr)
 {
     int D = iSoldDirection;
@@ -5633,6 +5875,9 @@ void element::setSwitched(bool sw)
 */
 void element::switchToDirBlinking(int ndir)
 {
+    // save last state for single-slip and double-slip switches
+    lastdir = iSoldDirection;
+
     if (blinkcounter != 0) {
         blinkcounter = 1;
         newdir = ndir;

@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.0 $Revision: 1.53 $
+                           version 0.5.0 $Revision: 1.54 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-14 20:17:59 $
+    last modified        : $Date: 2006-11-17 12:28:19 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -60,10 +60,10 @@
 #define SYM_DWR  "weiche_diag_rechts"
 #define SYM_WEY  "weiche_y"
 #define SYM_DRW  "dreier_weiche"
-#define SYM_EKR  "ekw_rechts"
-#define SYM_EKL  "ekw_links"
-#define SYM_DKR  "dkw_rechts"
-#define SYM_DKL  "dkw_links"
+#define SYM_EKL  "ekw_links"  // singel-slip switch left
+#define SYM_EKR  "ekw_rechts" // single-slip switch right
+#define SYM_DKL  "dkw_links"  // double-slip switch left
+#define SYM_DKR  "dkw_rechts" // double-slip switch right
 
 // route tracks
 #define SYM_GER  "gerade"
@@ -158,6 +158,20 @@ enum elemRecordType {
     krecClear
 };
 
+/*element route directions for 2D-routing*/
+/*
+enum elemRouteDirection {
+    rdCenter = 0,
+    rdN = 2,
+    rdS = 4,
+    rdW = 8,
+    rdE = 16,
+    rdNW = rdN & rdW,
+    rdNE = rdN & rdE,
+    rdSW = rdS & rdW,
+    rdSE = rdS & rdE
+};
+*/
 /*some magic strings for reading and writing layout files*/
 #define GF_INDEX      "index"
 #define GF_NAME       "icon"
@@ -282,6 +296,7 @@ private:
     int      iSoldLEDstate;
     int      lockCounter;
     int      blinkcounter;
+    int      lastdir;
     int      newdir;
     bool     ffm;
     bool     ffmactive;

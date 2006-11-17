@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.77 $
+                           version 0.5.0 $Revision: 1.78 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-04 15:10:54 $
+    last modified        : $Date: 2006-11-17 12:28:19 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -881,20 +881,6 @@ void MainWindow::initMainWindow()
     menuBar()->insertItem(tr("&View"), viewmenu);
 
 #if QT_VERSION >= 0x030200
-    actionViewRoutes = new QAction(QPixmap(viewroute_xpm),
-            tr("Routing &table"), CTRL + Key_R, this, "viewRoutes" );
-    actionViewRoutes->setToolTip(tr("Show routing table"));
-#else
-    actionViewRoutes = new QAction(tr("Show routing table"),
-            QPixmap(viewroute_xpm),
-            tr("Routing &table"), CTRL + Key_R, this, "viewRoutes" );
-#endif
-    connect(actionViewRoutes, SIGNAL(activated()), this,
-            SLOT(slotShowRoutes()));
-    actionViewRoutes->addTo(viewmenu);
-    actionViewRoutes->addTo(viewtb);
-
-#if QT_VERSION >= 0x030200
     actionViewFBModules = new QAction(QPixmap(viewfeedback_xpm),
             tr("&Feedback modules"), CTRL + Key_M, this, "viewFBModules" );
     actionViewFBModules->setToolTip(tr("Show feedback module window"));
@@ -907,6 +893,20 @@ void MainWindow::initMainWindow()
             SLOT(slotShowModules()));
     actionViewFBModules->addTo(viewmenu);
     actionViewFBModules->addTo(viewtb);
+
+#if QT_VERSION >= 0x030200
+    actionViewRoutes = new QAction(QPixmap(viewroute_xpm),
+            tr("Routing &table"), CTRL + Key_R, this, "viewRoutes" );
+    actionViewRoutes->setToolTip(tr("Show routing table"));
+#else
+    actionViewRoutes = new QAction(tr("Show routing table"),
+            QPixmap(viewroute_xpm),
+            tr("Routing &table"), CTRL + Key_R, this, "viewRoutes" );
+#endif
+    connect(actionViewRoutes, SIGNAL(activated()), this,
+            SLOT(slotShowRoutes()));
+    actionViewRoutes->addTo(viewmenu);
+    actionViewRoutes->addTo(viewtb);
 
 #if QT_VERSION >= 0x030200
     actionViewClock = new QAction(QPixmap(viewclock_xpm),
@@ -1575,7 +1575,7 @@ void MainWindow::newFile()
 
 void MainWindow::updateFileMenuItems()
 {
-    actionFileSave->setEnabled(isModified());
+    actionFileSave->setEnabled(true);
     actionFileSaveAs->setEnabled(true);
 
     if (fileName.isEmpty()){
@@ -2230,7 +2230,6 @@ void MainWindow::CommandSocketConnected()
     updateDaemonMenu();
     // layout area is set modified to make changes of GA directions saveable
     gbs->setModified(true);
-    actionFileSave->setEnabled(true);
 }
 
 
@@ -2965,9 +2964,6 @@ void MainWindow::slotEditGBSFiles()
     QString sCommand = pref.editor;
     sCommand.append(" " + fileName + (" &"));
     system(sCommand.data());
-    // if the user edited the stored file there must be a chance to
-    // overwrite these changes again with the loaded file
-    actionFileSave->setEnabled(true);
 }
 
 
@@ -3010,8 +3006,7 @@ void MainWindow::slotViewSwitchMode(QAction* ac)
     // change edit related menus
     actionFileNew->setEnabled(visualMode == kvmNormal);
     actionFileOpen->setEnabled(visualMode == kvmNormal);
-    actionFileSave->setEnabled(isModified());
-    actionFileSaveAs->setEnabled(isModified());
+    actionFileSaveAs->setEnabled(true);
     actionFileImport->setEnabled(visualMode == kvmNormal);
 }
 
@@ -3288,9 +3283,6 @@ void MainWindow::layoutChangeSize()
         gbs->setModified(true);
     }
     delete nlDlg;
-
-    bool im = isModified();
-    actionFileSave->setEnabled(im);
 }
 
 

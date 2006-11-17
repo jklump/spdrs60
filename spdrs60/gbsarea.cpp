@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.0 $Revision: 1.52 $
+                           version 0.5.0 $Revision: 1.53 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2005 by Guido Scholz
     email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-11-04 15:10:54 $
+    last modified        : $Date: 2006-11-17 12:28:19 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -683,9 +683,24 @@ void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
 
         finished = (rel == endPtr);
 
+        //TODO: real two dimensional routing
+        //exitpos = rel->routeElement(exitpos, setrt);
+        //
         // paint yellow track and get back vertical correction value
         iCorr = rel->routeElement(toRight, setrt, iCorr);
 
+        //TODO:
+        //if (exitpos == rdC)
+        //  break; // rien ne vas plus, error message
+        //if (exitpos & rdN)
+        // --idx;
+        //else if (exitpos & rdS)
+        //  ++idx;
+        //if (exitpos & rdW)
+        //  idx -= rows;
+        //else if (exitpos & rdE)
+        //  idx += rows;
+        //  
         // calculate column of next element
         if (toRight)
             idx += rows + iCorr;
