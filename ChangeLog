@@ -1,3 +1,10 @@
+2006-11-19 Guido Scholz <guido.scholz@bayernline.de>
+	* router.cpp: fixed activation of help routes
+
+2006-11-19 Guido Scholz <guido.scholz@bayernline.de>
+	* element.*, elementdialog.cpp: completely rewritten painting
+	code for all layout elements, working counter for FHT
+
 2006-08-22 Guido Scholz <guido.scholz@bayernline.de>
 	* preferences.*, mainwindow.cpp, options.*: new config option
 	for automatical layout file saving

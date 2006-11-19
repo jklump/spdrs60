@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.0 $Revision: 1.31 $
+                           version 0.5.0 $Revision: 1.32 $
                            -------------------------------
     copyright            : (C) 2004-2005 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-04 15:10:55 $
+    last modified        : $Date: 2006-11-19 10:37:21 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -447,7 +447,8 @@ void Router::setRoute(element* el, GbsButtonState cb, GbsButtonState sb)
     }
     /*exit signal button is pressed*/
     else {
-        if (lastcb != cb) {
+        if (lastcb != cb && !((lastcb == kZhsClicked && cb == kZfsClicked)
+                    || (cb == kZhsClicked && lastcb == kZfsClicked))) {
             QApplication::beep();
             emit showLogMessage(tr("Mixing signal buttons of different"
                         " type is not allowed."), MT_INFO, HL_HINT);

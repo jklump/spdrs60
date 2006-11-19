@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.97 $
+                           version 0.5.0 $Revision: 1.98 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-18 21:25:15 $
+    last modified        : $Date: 2006-11-19 10:37:21 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -3846,21 +3846,32 @@ void element::setupElementIcon()
             p.restore();
         }
 
+        //TODO: optimize, color selection is the same for DKL and DKR
         /**
          * lastdir  currentdir  newdir  c1  c2  c3  c4
          * -------------------------------------------
          *     0       0/0        0     -   -   -   -
          *     1       1/1        1     -   -   -   -
          *     2       2/2        2     -   -   -   -
+         *     3       3/3        3     -   -   -   -
          *                   
          *     0       0/1        1     -   1   -   2 
          *     1       1/0        0     -   2   -   1
+         *                   
+         *     0       0/2        2     1   1   2   2
+         *     2       2/0        0     2   2   1   1
+         *                   
+         *     0       0/3        3     1   -   2   -
+         *     3       3/0        0     2   -   1   -
          *     
          *     1       1/2        2     1   -   2   -
          *     2       2/1        1     2   -   1   -
+         *     
+         *     1       1/3        3     1   2   2   1
+         *     3       3/1        1     2   1   1   2
          *                   
-         *     2       2/0        0     2   2   1   1
-         *     0       0/2        2     1   1   2   2
+         *     2       2/3        3     -   2   -   1
+         *     3       3/2        2     -   1   -   2
          * -------------------------------------------
          **/
         else {
@@ -3900,14 +3911,15 @@ void element::setupElementIcon()
             }
             else {
                 if (iSoldDirection == 0) {
-                    if (!lightson && ((lastdir == 0 && newdir == 2) ||
-                            (lastdir == 2 && newdir == 0)))
+                    if (!lightson && ((lastdir == 0 && newdir >= 2) ||
+                            (lastdir >= 2 && newdir == 0)))
                         c1 = QColor(darkGray);
                     else
                         c1 = QColor(255, 225, 0);
                     
-                    if (!lightson && ((lastdir != 0 && newdir == 0) ||
-                            (lastdir == 0 && newdir != 0)))
+                    if (!lightson && (((lastdir == 1 || lastdir == 2) &&
+                                    newdir == 0) ||
+                            (lastdir == 0 && (newdir == 1 || newdir == 2))))
                         c2 = QColor(darkGray);
                     else
                         c2 = QColor(255, 225, 0);
@@ -3916,8 +3928,10 @@ void element::setupElementIcon()
                     c4 = QColor(darkGray);
                 }
                 else if (iSoldDirection == 1) {
-                    if (!lightson && ((lastdir == 1 && newdir == 2) ||
-                        (lastdir == 2 && newdir == 1)))
+                    if (!lightson && ((lastdir == 1 &&
+                                    (newdir == 2) || newdir == 3) ||
+                                ((lastdir == 2 || newdir == 3) &&
+                                 newdir == 1)))
                         c1 = QColor(darkGray);
                     else
                         c1 = QColor(255, 225, 0);
@@ -3925,8 +3939,10 @@ void element::setupElementIcon()
                     c2 = QColor(darkGray);
                     c3 = QColor(darkGray);
                     
-                    if (!lightson && ((lastdir == 1 && newdir == 0) ||
-                                (lastdir == 0 && newdir == 1)))
+                    if (!lightson && ((lastdir == 1 &&
+                                    (newdir == 0) || newdir == 3) ||
+                                ((lastdir == 0 || lastdir == 3) &&
+                                 newdir == 1)))
                         c4 = QColor(darkGray);
                     else
                         c4 = QColor(255, 225, 0);
@@ -3935,22 +3951,41 @@ void element::setupElementIcon()
                     c1 = QColor(darkGray);
                     c2 = QColor(darkGray);
                     
-                    if (!lightson && ((lastdir == 2 && newdir != 2) ||
-                                (lastdir != 2 && newdir == 2)))
+                    if (!lightson && ((lastdir == 2 &&
+                                    (newdir == 0 || newdir == 1)) ||
+                                ((lastdir == 0 || lastdir == 1) &&
+                                 newdir == 2)))
                         c3 = QColor(darkGray);
                     else
                         c3 = QColor(255, 225, 0);
                     
-                    if (!lightson && ((lastdir == 2 && newdir == 0) ||
-                                (lastdir == 0 && newdir == 2)))
+                    if (!lightson && ((lastdir == 2 &&
+                                    (newdir == 0 || newdir == 3)) ||
+                                ((lastdir == 0 || lastdir == 3) &&
+                                 newdir == 2)))
                         c4 = QColor(darkGray);
                     else
                         c4 = QColor(255, 225, 0);
                 }
                 else if (iSoldDirection == 3) {
                     c1 = QColor(darkGray);
-                    c2 = QColor(255, 225, 0);
-                    c3 = QColor(255, 225, 0);
+                    
+                    if (!lightson && ((lastdir == 3 &&
+                                    (newdir == 1 || newdir == 2)) ||
+                                ((lastdir == 1 || lastdir == 2) &&
+                                 newdir == 3)))
+                        c2 = QColor(darkGray);
+                    else
+                        c2 = QColor(255, 225, 0);
+                    
+                    if (!lightson && ((lastdir == 3 &&
+                                    (newdir == 0 || newdir == 1)) ||
+                                ((lastdir == 0 || lastdir == 1) &&
+                                 newdir == 3)))
+                        c3 = QColor(darkGray);
+                    else
+                        c3 = QColor(255, 225, 0);
+
                     c4 = QColor(darkGray);
                 }
                 // error indication
@@ -3961,6 +3996,7 @@ void element::setupElementIcon()
                     c4 = QColor(255, 225, 0);
                 }
             }
+
             int startx = w / 5 - 2;
             int stopx = 2 * w / 5 - 4;
             int starty = h / 5 - 2;
@@ -4071,15 +4107,25 @@ void element::setupElementIcon()
          *     0       0/0        0     -   -   -   -
          *     1       1/1        1     -   -   -   -
          *     2       2/2        2     -   -   -   -
+         *     3       3/3        3     -   -   -   -
          *                   
          *     0       0/1        1     -   1   -   2 
          *     1       1/0        0     -   2   -   1
+         *                   
+         *     0       0/2        2     1   1   2   2
+         *     2       2/0        0     2   2   1   1
+         *                   
+         *     0       0/3        3     1   -   2   -
+         *     3       3/0        0     2   -   1   -
          *     
          *     1       1/2        2     1   -   2   -
          *     2       2/1        1     2   -   1   -
+         *     
+         *     1       1/3        3     1   2   2   1
+         *     3       3/1        1     2   1   1   2
          *                   
-         *     2       2/0        0     2   2   1   1
-         *     0       0/2        2     1   1   2   2
+         *     2       2/3        3     -   2   -   1
+         *     3       3/2        2     -   1   -   2
          * -------------------------------------------
          **/
         else {
@@ -4119,14 +4165,15 @@ void element::setupElementIcon()
             }
             else {
                 if (iSoldDirection == 0) {
-                    if (!lightson && ((lastdir == 0 && newdir == 2) ||
-                            (lastdir == 2 && newdir == 0)))
+                    if (!lightson && ((lastdir == 0 && newdir >= 2) ||
+                            (lastdir >= 2 && newdir == 0)))
                         c1 = QColor(darkGray);
                     else
                         c1 = QColor(255, 225, 0);
                     
-                    if (!lightson && ((lastdir == 0 && newdir != 0) ||
-                            (lastdir != 0 && newdir == 0)))
+                    if (!lightson && (((lastdir == 1 || lastdir == 2) &&
+                                    newdir == 0) ||
+                            (lastdir == 0 && (newdir == 1 || newdir == 2))))
                         c2 = QColor(darkGray);
                     else
                         c2 = QColor(255, 225, 0);
@@ -4135,8 +4182,10 @@ void element::setupElementIcon()
                     c4 = QColor(darkGray);
                 }
                 else if (iSoldDirection == 1) {
-                    if (!lightson && ((lastdir == 1 && newdir == 2) ||
-                        (lastdir == 2 && newdir == 1)))
+                    if (!lightson && ((lastdir == 1 &&
+                                    (newdir == 2) || newdir == 3) ||
+                                ((lastdir == 2 || newdir == 3) &&
+                                 newdir == 1)))
                         c1 = QColor(darkGray);
                     else
                         c1 = QColor(255, 225, 0);
@@ -4144,8 +4193,10 @@ void element::setupElementIcon()
                     c2 = QColor(darkGray);
                     c3 = QColor(darkGray);
                     
-                    if (!lightson && ((lastdir == 1 && newdir == 0) ||
-                                (lastdir == 0 && newdir == 1)))
+                    if (!lightson && ((lastdir == 1 &&
+                                    (newdir == 0) || newdir == 3) ||
+                                ((lastdir == 0 || lastdir == 3) &&
+                                 newdir == 1)))
                         c4 = QColor(darkGray);
                     else
                         c4 = QColor(255, 225, 0);
@@ -4154,22 +4205,41 @@ void element::setupElementIcon()
                     c1 = QColor(darkGray);
                     c2 = QColor(darkGray);
                     
-                    if (!lightson && ((lastdir == 2 && newdir != 2) ||
-                                (lastdir != 2 && newdir == 2)))
+                    if (!lightson && ((lastdir == 2 &&
+                                    (newdir == 0 || newdir == 1)) ||
+                                ((lastdir == 0 || lastdir == 1) &&
+                                 newdir == 2)))
                         c3 = QColor(darkGray);
                     else
                         c3 = QColor(255, 225, 0);
                     
-                    if (!lightson && ((lastdir == 2 && newdir == 0) ||
-                                (lastdir == 0 && newdir == 2)))
+                    if (!lightson && ((lastdir == 2 &&
+                                    (newdir == 0 || newdir == 3)) ||
+                                ((lastdir == 0 || lastdir == 3) &&
+                                 newdir == 2)))
                         c4 = QColor(darkGray);
                     else
                         c4 = QColor(255, 225, 0);
                 }
                 else if (iSoldDirection == 3) {
                     c1 = QColor(darkGray);
-                    c2 = QColor(255, 225, 0);
-                    c3 = QColor(255, 225, 0);
+                    
+                    if (!lightson && ((lastdir == 3 &&
+                                    (newdir == 1 || newdir == 2)) ||
+                                ((lastdir == 1 || lastdir == 2) &&
+                                 newdir == 3)))
+                        c2 = QColor(darkGray);
+                    else
+                        c2 = QColor(255, 225, 0);
+                    
+                    if (!lightson && ((lastdir == 3 &&
+                                    (newdir == 0 || newdir == 1)) ||
+                                ((lastdir == 0 || lastdir == 1) &&
+                                 newdir == 3)))
+                        c3 = QColor(darkGray);
+                    else
+                        c3 = QColor(255, 225, 0);
+
                     c4 = QColor(darkGray);
                 }
                 // error indication
@@ -4180,6 +4250,7 @@ void element::setupElementIcon()
                     c4 = QColor(255, 225, 0);
                 }
             }
+
             int startx = w / 5 - 2;
             int stopx = 2 * w / 5 - 4;
             int starty = h / 5 - 2;
@@ -5516,9 +5587,8 @@ void element::addTooltip()
         return;
 
     QToolTip::remove(this);
-    QString a1, a2;
-    a1 = QString::number(iSoldAddress_1);
-    a2 = QString::number(iSoldAddress_2);
+    QString a1 = QString::number(iSoldAddress_1);
+    QString a2 = QString::number(iSoldAddress_2);
 
     QString tip1, tip2;
 
@@ -5683,6 +5753,10 @@ int element::routeElement(bool to_r, bool setroute, int vertcorr)
         if (!(to_r ^ isright)
             && (rotate && D == 1 || !rotate && D == 2 || rotate && D == 2))
             returnvalue = +1;
+
+        // shortcut to avoid double painting
+        setupElementIcon();
+        return returnvalue;
     }
 
     // 4-state-DKWs
@@ -5695,6 +5769,10 @@ int element::routeElement(bool to_r, bool setroute, int vertcorr)
             returnvalue = -1;
         if (!(to_r ^ isright) && (D == 2 || D == 3))
             returnvalue = +1;
+
+        // shortcut to avoid double painting
+        setupElementIcon();
+        return returnvalue;
     }
 
     // 2-state-DKWs
@@ -5732,6 +5810,7 @@ int element::routeElement(bool to_r, bool setroute, int vertcorr)
                 returnvalue = -1;
         }
 
+        // shortcut to avoid double painting
         setupElementIcon();
         return returnvalue;
     }

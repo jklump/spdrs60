@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.cpp
-                           version 0.5.0 $Revision: 1.20 $
+                           version 0.5.0 $Revision: 1.21 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-04 15:10:55 $
+    last modified        : $Date: 2006-11-19 10:37:21 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -483,6 +483,7 @@ void optionsDialog::setupFeedbackTypeTab()
     fbtRB = new QRadioButton(tr("S88 via M60&15"), feedbackTypeGB);
     fbtRB = new QRadioButton(tr("&Protocol by server"), feedbackTypeGB);
     fbtRB = new QRadioButton(tr("&Selectrix"), feedbackTypeGB);
+    fbtRB->setEnabled(false);
 
     connect(feedbackTypeGB, SIGNAL(clicked(int)),
             this, SLOT(selectFbModuleType(int)));
