@@ -1,7 +1,7 @@
 dnl configure.ac for spdrs60
 dnl Guido Scholz
-dnl last update: $Date: 2006-11-08 18:26:54 $
-dnl version: $Revision: 1.13 $
+dnl last update: $Date: 2006-11-20 20:34:31 $
+dnl version: $Revision: 1.14 $
 dnl Process this file with autoconf to produce a configure script.
 
 AC_INIT([spdrs60],[0.5.0],[Guido Scholz <guido.scholz@bayernline.de>])
@@ -21,9 +21,6 @@ AC_CONFIG_HEADERS([spdrs60/config.h])
 
 dnl Checks for programs
 AC_PROG_CXX
-AC_ENABLE_SHARED(yes)
-AC_ENABLE_STATIC(no)
-
 
 dnl skip html doc generation 
 AC_ARG_ENABLE(html-doc, AC_HELP_STRING([--disable-html-doc],
@@ -50,7 +47,7 @@ all_includes="$all_includes $USER_INCLUDES"
 AC_SUBST(all_includes)
 AC_SUBST(all_libraries)
 
-
+AC_PATH_X
 KDE_USE_QT(3.0)
 AC_PATH_QT
 
