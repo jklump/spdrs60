@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.78 $
+                           version 0.5.0 $Revision: 1.79 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-17 12:28:19 $
+    last modified        : $Date: 2006-11-20 20:36:13 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2836,6 +2836,8 @@ void MainWindow::updateLayoutPowerAction()
     actionLayoutSendAll->setEnabled(LayoutPowerIsOn);
     actionLayoutUpdateFB->setEnabled(LayoutPowerIsOn &&
                 srcpVersion == 7);
+    
+    //fprintf(stderr, "Power: %d  SrcpV: %d\n", LayoutPowerIsOn, srcpVersion);
 }
 
 

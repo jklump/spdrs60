@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.0 $Revision: 1.54 $
+                           version 0.5.0 $Revision: 1.55 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-19 10:37:21 $
+    last modified        : $Date: 2006-11-20 20:36:12 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1039,6 +1039,7 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
 void GBSArea::removeColumnElements(int col)
 {
     for (int r = 1; r <= rows; r++) {
+        //TODO: disconnect elements
         elements.remove(indexOf(r, col));
     }
 }
@@ -1047,6 +1048,7 @@ void GBSArea::removeColumnElements(int col)
 void GBSArea::removeRowElements(int row)
 {
     for (int c = 1; c <= cols; c++) {
+        //TODO: disconnect elements
         elements.remove(indexOf(row, c));
     }
 }

@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.98 $
+                           version 0.5.0 $Revision: 1.99 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-19 10:37:21 $
+    last modified        : $Date: 2006-11-20 20:36:12 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -57,44 +57,8 @@
 #include "pixmaps/signal-w.xpm"
 #include "pixmaps/signal-wr.xpm"
 
-static const char* leer_xpm[]={
-"56 35 1 1",
-". c None",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................",
-"........................................................"};
+#include "../elements/leer.xpm"
+
 
 // Element directions
 #define   DIR_HP0          0
@@ -563,16 +527,7 @@ void element::switchToDir(int newdir)
             setupElementIcon();
             sendSrcpState();
         }
-
-        // if the new direction equals the old one just setup the element
-        // to ensure that the contextmenu and the lock variable are correct set
-        // exception: 2-state-DKW, they would show a momentary false LED state
-        //else if (!((sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR)
-        //           && iSoldSubType == 0))
         else {
-            //if (!is2StateDKW()) 
-            //updateCtxNorm();
-
             // Switch command is send to SRCP server if forced.
             if (pref.sendstate)
                 sendSrcpState();
@@ -1138,11 +1093,11 @@ void element::showPropertyDlg()
             emit setRepeatIcon(sRepeatIcon);
 
             updateProperties();
-            // TODO: ask server for current occupation state
-            //iSoldLEDstate = bFBport[iFBContact] << 1;
-            updateLEDState();
+            //updateLEDState();
             updateContextMenus();
             setupElementIcon();
+            // ask server for current occupation state
+            updateFeedbackState();
         }
         disconnect(elementPropertyDlg, SIGNAL(sigShowFBmodules()),
                 this, SIGNAL(sigShowFBmodules()));
@@ -1393,13 +1348,7 @@ void element::updateContextMenus()
 
 /**
  * paint element icon
- * TODO: this should completely be rewritten due to performance flaws
  */
-
-// element::pixmap();
-// static element::getPixmap(const QString& name);
-// setPaletteBackgroundPixmap(pixmap());
-//
 void element::setupElementIcon()
 {
     // empty symbol
@@ -6051,6 +6000,7 @@ void element::setLocked(bool lock)
         if (lockCounter == 0)
             setupElementIcon();
     }
+    updateCtxNorm();
 }
 
 
