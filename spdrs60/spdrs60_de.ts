@@ -218,7 +218,7 @@ den Suchkriterien entspricht.</translation>
     </message>
     <message>
         <source>&amp;Toggle all</source>
-        <translation>&amp;Alles umschalten</translation>
+        <translation>Alles u&amp;mschalten</translation>
     </message>
     <message>
         <source>Send &amp;all</source>
@@ -856,6 +856,14 @@ Wollen Sie sie überschreiben?</translation>
     <message>
         <source>Info socket: Try to connect host &quot;%1&quot; on port &quot;%2&quot;</source>
         <translation>Info-Socket: Versuche Verbindung zu Host &quot;%1&quot; auf Port &quot;%2&quot; herzustellen</translation>
+    </message>
+    <message>
+        <source>Use H&amp;aGT</source>
+        <translation>H&amp;aGT benutzen</translation>
+    </message>
+    <message>
+        <source>Use signal halt group button</source>
+        <translation>Haltgruppentaste benutzen</translation>
     </message>
 </context>
 <context>

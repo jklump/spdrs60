@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.5.0 $Revision: 1.35 $
+                           version 0.5.0 $Revision: 1.36 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-04 15:10:54 $
+    last modified        : $Date: 2006-11-22 21:19:49 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -115,6 +115,7 @@ private:
    
    QAction         *actionLayoutPower;
    QAction         *actionLayoutFht;
+   QAction         *actionLayoutHagt;
    QAction         *actionLayoutWgt;
    QAction         *actionLayoutSgt;
    QAction         *actionLayoutUfgt;

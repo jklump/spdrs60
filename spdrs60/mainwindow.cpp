@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.79 $
+                           version 0.5.0 $Revision: 1.80 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-20 20:36:13 $
+    last modified        : $Date: 2006-11-22 21:19:49 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1109,12 +1109,25 @@ void MainWindow::initMainWindow()
     //actionLayoutFht->addTo(layouttb);
 
 #if QT_VERSION >= 0x030200
+    actionLayoutUfgt = new QAction(NULL,
+            tr("Use &UfGT"), Key_F6, this, "layoutUfgt" );
+    actionLayoutUfgt->setToolTip(tr("Use detour group button"));
+#else
+    actionLayoutUfgt = new QAction(tr("Use detour group button"),
+            tr("Use &UfGT"), Key_F6, this, "layoutUfgt" );
+#endif
+    connect(actionLayoutUfgt, SIGNAL(activated()), gbs,
+            SLOT(slotUfGTclicked()));
+    actionLayoutUfgt->addTo(layoutmenu);
+    //actionLayoutUfgt->addTo(layouttb);
+
+#if QT_VERSION >= 0x030200
     actionLayoutWgt = new QAction(NULL,
-            tr("Use &WGT"), Key_F6, this, "layoutWgt" );
+            tr("Use &WGT"), Key_F7, this, "layoutWgt" );
     actionLayoutWgt->setToolTip(tr("Use turnout group button"));
 #else
     actionLayoutWgt = new QAction(tr("Use turnout group button"),
-            tr("Use &WGT"), Key_F6, this, "layoutWgt" );
+            tr("Use &WGT"), Key_F7, this, "layoutWgt" );
 #endif
     connect(actionLayoutWgt, SIGNAL(activated()), gbs,
             SLOT(slotWGTclicked()));
@@ -1123,11 +1136,11 @@ void MainWindow::initMainWindow()
 
 #if QT_VERSION >= 0x030200
     actionLayoutSgt = new QAction(NULL,
-            tr("Use &SGT"), Key_F7, this, "layoutSgt" );
+            tr("Use &SGT"), Key_F8, this, "layoutSgt" );
     actionLayoutSgt->setToolTip(tr("Use signal group button"));
 #else
     actionLayoutSgt = new QAction(tr("Use signal group button"),
-            tr("Use &SGT"), Key_F7, this, "layoutSgt" );
+            tr("Use &SGT"), Key_F8, this, "layoutSgt" );
 #endif
     connect(actionLayoutSgt, SIGNAL(activated()), gbs,
             SLOT(slotSGTclicked()));
@@ -1135,17 +1148,17 @@ void MainWindow::initMainWindow()
     //actionLayoutSgt->addTo(layouttb);
 
 #if QT_VERSION >= 0x030200
-    actionLayoutUfgt = new QAction(NULL,
-            tr("Use &UfGT"), Key_F8, this, "layoutUfgt" );
-    actionLayoutUfgt->setToolTip(tr("Use detour group button"));
+    actionLayoutHagt = new QAction(NULL,
+            tr("Use H&aGT"), Key_F9, this, "layoutHagt" );
+    actionLayoutHagt->setToolTip(tr("Use signal halt group button"));
 #else
-    actionLayoutUfgt = new QAction(tr("Use detour group button"),
-            tr("Use &UfGT"), Key_F8, this, "layoutUfgt" );
+    actionLayoutHagt = new QAction(tr("Use signal halt group button"),
+            tr("Use H&aGT"), Key_F9, this, "layoutHagt" );
 #endif
-    connect(actionLayoutUfgt, SIGNAL(activated()), gbs,
-            SLOT(slotUfGTclicked()));
-    actionLayoutUfgt->addTo(layoutmenu);
-    //actionLayoutUfgt->addTo(layouttb);
+    connect(actionLayoutHagt, SIGNAL(activated()), gbs,
+            SLOT(slotHaGTclicked()));
+    actionLayoutHagt->addTo(layoutmenu);
+    //actionLayoutHagt->addTo(layouttb);
 
     layoutmenu->insertSeparator();
 
