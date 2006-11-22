@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.13 $
-# last update: $Date: 2006-08-21 16:21:38 $
+# version: $Revision: 1.14 $
+# last update: $Date: 2006-11-22 16:46:33 $
 
 SUBDIRS = pixmaps
 
@@ -62,6 +62,12 @@ spdrs60_LDFLAGS = $(all_libraries)
 
 # set the include path for X, qt and KDE
 INCLUDES= $(all_includes)
+
+# define path to Qt translations if configure found it
+if TRANSLATE_QT
+TRANSLATE_DEF = -DQT_TRANSLATIONS_DIR=\"@QT_TRANSLATIONS_DIR@\"
+endif
+AM_CXXFLAGS = $(TRANSLATE_DEF)
 
 EXTRA_DIST = spdrs60_de.ts spdrs60.pro
 

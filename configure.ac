@@ -1,10 +1,10 @@
 dnl configure.ac for spdrs60
 dnl Guido Scholz
-dnl last update: $Date: 2006-11-20 20:34:31 $
-dnl version: $Revision: 1.14 $
+dnl last update: $Date: 2006-11-22 16:46:33 $
+dnl version: $Revision: 1.15 $
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT([spdrs60],[0.5.0],[Guido Scholz <guido.scholz@bayernline.de>])
+AC_INIT([spdrs60],[0.5.0_beta9],[Guido Scholz <guido.scholz@bayernline.de>])
 AC_CONFIG_SRCDIR([spdrs60/main.cpp])
 AC_CANONICAL_TARGET
 AM_INIT_AUTOMAKE([dist-bzip2])
@@ -21,6 +21,7 @@ AC_CONFIG_HEADERS([spdrs60/config.h])
 
 dnl Checks for programs
 AC_PROG_CXX
+AC_PROG_AWK
 
 dnl skip html doc generation 
 AC_ARG_ENABLE(html-doc, AC_HELP_STRING([--disable-html-doc],
@@ -51,6 +52,8 @@ AC_PATH_X
 KDE_USE_QT(3.0)
 AC_PATH_QT
 
+dnl TODO: check for QTDIR
+
 dnl check for lupdate
 AC_PATH_PROG(LUPDATE, lupdate, no, [$PATH:$QTDIR/bin])
 if test "$LUPDATE" = "no" ; then
@@ -79,6 +82,28 @@ else
   AC_MSG_RESULT([$lrelease_qm])
 fi
 AM_CONDITIONAL(LRELEASE_QM, test x$lrelease_qm = xyes)
+
+
+AC_MSG_CHECKING([for Qt translations])
+    qt_dirs="$QTDIR /usr/lib/qt3 /usr/lib/qt /usr/share/qt3"
+    for dir in $qt_dirs
+    do
+       if test -d "$dir/translations"; then
+          qt_translations_dir="$dir/translations"
+          translate_qt=yes
+          break
+       else
+          translate_qt=no
+       fi
+    done
+    if test x$translate_qt = xyes; then
+       AC_MSG_RESULT([$qt_translations_dir])
+       QT_TRANSLATIONS_DIR=$qt_translations_dir
+       AC_SUBST(QT_TRANSLATIONS_DIR)
+    else
+       AC_MSG_WARN([no translations available])
+    fi
+AM_CONDITIONAL(TRANSLATE_QT, test x${translate_qt} = xyes)
 
 
 AC_CHECK_LIB(m, roundf,,AC_MSG_ERROR([required library missing]))
