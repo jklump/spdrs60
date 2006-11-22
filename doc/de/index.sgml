@@ -1080,6 +1080,7 @@ häufigsten verwendet werden. Die Leiste ist in
 einzelne Funktionsgruppen untergliedert, die der Menüeinteilung genau
 entsprechen. Diese Werkzeuggruppen lassen sich einzeln verschieben und
 rund um das angezeigte Gleisbild nach persönlichem Geschmack platzieren.
+Nicht benötigte Werkzeuggruppen lassen sich bedarfsweise ausblenden.
 Die in der Leiste verwendeten Symbole finden sich auch in den
 Menüeinträgen wieder, so dass eine einfache Wiedererkennung
 gewährleistet ist. Bewegt man die Maus über einen Schaltknopf, erscheint
@@ -1103,28 +1104,65 @@ Rückmeldeunterstützung, dann erscheint das Rückmeldesymbol ausgegraut.
 </sect3>
 
 <sect3>
-  <title>Debugging-Anzeige</title>
+  <title>Meldefenster</title>
 <para>
-Am unteren Rand findet man das Debugging-Fenster. Es ist umschaltbar in
-den Anzeigenarten &raquo;Kommandos&laquo;, &raquo;Infoport&laquo; und
-&raquo;Rückmeldung&laquo; (dies kann durch Drücken von
-<keycap>Strg-D</keycap> bzw. durch Wählen des Menüeintrages
-&raquo;Ansicht -&gt; Statuszeile umschalten&laquo; geschehen). Diese
+Am unteren Rand findet man ein Fenster für unterschiedliche Meldungen.
+Es kann zwischen den vier verschiedenen Anzeigenarten
+&raquo;Hinweise&laquo;, &raquo;Kommandos&laquo;, &raquo;Infoport&laquo; und
+&raquo;Rückmeldung&laquo; umgeschaltet werden. Ermöglicht wird das durch
+Drücken von <keycap>Strg-D</keycap> bzw. durch Wählen des Menüeintrages
+&raquo;Ansicht/Statuszeile umschalten&laquo;. Diese
 Anzeigen sind programmtechnisch als &raquo;Dropdown&laquo;-Listen
 implementiert, in denen eine festgelegte Anzahl aufgelaufener Meldungen
 chronologisch sortiert zwischengespeichert werden.
 </para>
 
 <sect4>
+  <title>Hinweisanzeige</title>
+<para>
+In der in <xref linkend="abb-hint"> gezeigten Zeile erscheinen
+allgemeine Meldungen des Programms. Hierzu gehören verschiedenste
+Statusmeldungen, die die letzte Aktion quittieren, oder auch
+Fehlermeldungen, die aus einer falschen Bedienung des Programms
+resultieren.
+</para>
+
+<para>
+<figure id="abb-hint">
+  <title>Hinweishistorie</title>
+  <mediaobject><imageobject>
+    <imagedata fileref="schnapp-hint.png">
+  </imageobject></mediaobject>
+</figure>
+</para>
+
+<para>
+Die <xref linkend="abb-debhint"> zeigt beispielhaft die Historie von
+aufgelaufenen Hinweismeldungen im Detail.
+</para>
+<para>
+
+<figure id="abb-debhint">
+  <title>Hinweishistorienliste</title>
+  <mediaobject><imageobject>
+    <imagedata fileref="schnapp-deb-hint2.png">
+  </imageobject></mediaobject>
+</figure>
+</para>
+</sect4>
+
+<sect4>
   <title>Kommandoanzeige</title>
 <para>
-In der in <xref linkend="abb-history"> gezeigten Kommandozeile
-erscheint alles, was mit der eigentlichen Programmaufgabe zu tun
-hat. Befehle, die an den SRCP-Server geschickt werden, sind durch ein
-&apos;#&apos; hinter der Uhrzeit gekennzeichnet; es folgt der genaue
-gesendete Befehl. Ein &apos;&gt;&apos; dagegen zeigt an, dass es sich
-lediglich um eine Information des Programms handelt, also z.B. ob eine
-Gleisbild-Datei erfolgreich gespeichert wurde.
+In der in <xref linkend="abb-history"> gezeigten Zeile erscheinen alle
+SRCP-Meldungen, die über den Kommandomodus mit dem verbundenen Server
+ausgetauscht werden. Befehle, die an den SRCP-Server geschickt werden,
+sind durch ein &apos;#&apos; hinter der Uhrzeit gekennzeichnet; es
+folgt der genaue gesendete Befehl. Ein &apos;&gt;&apos; dagegen zeigt an,
+dass es sich um eine SRCP-Meldung vom Server handelt. Wird das
+Programm als Client mit einem SRCP&nbsp;0.8-fähigen Server betrieben,
+erscheinen die Zeitagaben der Serverbefehle je nach persönlicher
+Einstellung als dezimaler Zahlenwert oder interpretierte Uhrzeit.
 </para>
 
 <para>
@@ -1156,10 +1194,13 @@ aufgelaufenen Kommandomeldungen im Detail.
 <para>
 In dieser in <xref linkend="abb-historyinf"> gezeigten Auflistung
 erscheinen alle Meldungen vom SRCP-Server, die das Programm über den
-sogenannten Infoport
-erreichen. Alle Angaben erhalten, weil es SRCP-konforme Daten
-sind, ebenfalls ein &apos;#&apos; nach der Uhrzeit. Damit kann ermittelt
-werden, welche Befehle andere SRCP-Programme an den Server geschickt haben.
+sogenannten Infoport bzw. im Infomodus erreichen. Alle Angaben
+erhalten, weil es SRCP-konforme Daten sind, ebenfalls ein &apos;#&apos;
+nach der Uhrzeit. Damit kann ermittelt werden, welche Befehle andere
+SRCP-Programme an den Server geschickt haben. Auch hier kann beim
+Betrieb mit einem SRCP&nbsp;0.8-Server über die persönlichen
+Einstellungen die Zeitinformation des Servers als dezimaler Zahlenwert
+oder als interpretierte Uhrzeit dargestellt werden.
 </para>
 <para>
 <figure id="abb-historyinf">
@@ -1170,7 +1211,8 @@ werden, welche Befehle andere SRCP-Programme an den Server geschickt haben.
 </figure>
 </para>
 <para>
-Zur Zeit werden diese Daten nur für Magnetartikel mit einem Antrieb
+Zur Zeit werden die Info-Meldungen zu angesteuerten Magnetartikel nur
+für solche mit einem Antrieb
 ausgewertet. In Zukunft sollen alle Änderungen von Elementzuständen,
 wie sie z.B. durch eine zweite Instanz von SpDrS60 für Linux oder durch
 andere SRCP-Clients erzeugt werden, über die Auswertung dieser
@@ -1188,10 +1230,10 @@ tatsächlichen Zustand der Anlage abweichen können.
 Die dritte Anzeigeart (<xref linkend="abb-historyfb">) enthält
 Informationen zu den Rückmeldemodulen. Ein &apos;&gt;&apos; bedeutet
 dabei wiederum, dass es sich um Informationen an den Benutzer, diesmal
-bezogen auf die Rückmeldefunktionen, handelt. Ein &apos;#&apos; bedeutet
-eine Zustandsänderung eines Rückmeldeanschlusses, wie es vom SRCP-Server
-gemeldet wurde (es wird die Modulnummer sowie der Anschluß inklusive
-neuem Zustand angezeigt).
+bezogen auf die Rückmeldefunktionen, handelt. Ein &apos;#&apos;
+signalisiert die Zustandsänderung eines Rückmeldeanschlusses, die vom
+SRCP-Server gemeldet wurde. Diese Informationszeile wird nur bei
+SRCP&nbsp;0.7-Betrieb genutzt.
 </para>
 
 <para>
@@ -1243,20 +1285,15 @@ Namen</para></listitem>
 Über den Punkt &raquo;Datei/Neues Fenster&laquo; kann ganz einfach eine
 neue Instanz von &raquo;SpDrS60
 für Linux&laquo; gestartet werden. Auch dort gelten die Parameter,
-die über den Einstellungsdialog gemacht wurden; d.h. unter anderem, dass die
-Netzwerkverbindung mit dem selben SRCP-Server hergestellt wird, wie beim
-ersten Programmfenster.
+die über den Einstellungsdialog gemacht wurden.
 </para>
 <para>
 <emphasis>Aber Achtung:</emphasis>
 </para>
 <para>
 Ändert man während der Laufzeit die eine oder andere Programmoption, so
-greifen zwar alle Instanzen darauf zurück, es kann allerdings zu
-ungewollten Komplikationen kommen. In diesem Fall ist es besser, alle
-Instanzen bis auf eine zu schlie&szlig;en, und dort die notwendigen
-Einstellungen durchzuführen. Im Allgemeinen ändert man die einmal
-eingestellten Optionen aber eher selten.
+läßt sich zwar jede Instanz einzeln konfigurieren, auf der Festplatte
+gespeichert wird jedoch immer nur die letzte Änderung.
 </para>
 </sect3>
 
@@ -1281,7 +1318,7 @@ Die Bedeutung der Einträge im Einzelnen von oben nach unten:
 
   <listitem><para>Untermenü &raquo;Datendateien&laquo;: Editieren der
   Gleisbilddatei sowie der Datei mit den persönlichen Einstellungen
-  durch einen voreingestellten ASCII-Editor</para></listitem>
+  durch einen voreingestellten Texteditor</para></listitem>
   <listitem><para>Suchen und Finden von Elementen</para></listitem>
   <listitem><para>Ändern der Programmeinstellungen</para></listitem>
 </itemizedlist>
@@ -1312,8 +1349,8 @@ Antrieben</para></listitem>
   Gleisbildbearbeitungsmodus</para></listitem>
   <listitem><para>Umschalten der Gleisbildansicht in den
   Fahrstraßenbearbeitungsmodus</para></listitem>
-  <listitem><para>Weiterschalten der verschiedenen Debugging-Anzeigen
-am Fu&szlig; des Progammfensters</para></listitem>
+  <listitem><para>Weiterschalten der verschiedenen Meldezeilen am
+  Fu&szlig; des Progammfensters</para></listitem>
 </itemizedlist>
 </para>
 </sect3>
@@ -1369,11 +1406,13 @@ Die Bedeutung der Einträge im Einzelnen von oben nach unten:
   <listitem><para>Benutzt die Fahrstra&szlig;enhilfstaste zum Auflösen von
 Fahrstra&szlig;en, auch wenn diese nicht als Symbol mit im Gleisbild
 liegt</para></listitem>
-  <listitem><para>Benutzt die Weichengruppentaste, auch wenn diese nicht
-als Symbol mit im Gleisbild liegt</para></listitem>
   <listitem><para>Benutzt die Umfahrgruppentaste, auch wenn diese nicht
 als Symbol mit im Gleisbild liegt</para></listitem>
+  <listitem><para>Benutzt die Weichengruppentaste, auch wenn diese nicht
+als Symbol mit im Gleisbild liegt</para></listitem>
   <listitem><para>Benutzt die Signalgruppentaste, auch wenn diese nicht
+als Symbol mit im Gleisbild liegt</para></listitem>
+  <listitem><para>Benutzt die Haltgruppentaste, auch wenn diese nicht
 als Symbol mit im Gleisbild liegt</para></listitem>
   <listitem><para>Setzt alle von Halt verschiedenen Signale auf
 Halt/Hp0/Sh0... (Nothalt)</para></listitem>
@@ -1385,7 +1424,7 @@ herbeiführen)</para></listitem>
   <listitem><para>Alle aktiven Fahrstra&szlig;en werden zurückgenommen und
 deren Startsignale auf Rot gestellt</para></listitem>
   <listitem><para>Fragt den aktuellen Zustand aller Rückmeldemodule beim Server ab</para></listitem>
-  <listitem><para>Zeigt ein Dialogfenster zum Anpassen der Abmessungen
+  <listitem><para>Zeigt ein Dialogfenster zum Anpassen der Einstellungen
   des dargestellten Gleisbilds</para></listitem>
 
 </itemizedlist>
@@ -1402,7 +1441,9 @@ deren Startsignale auf Rot gestellt</para></listitem>
 </figure>
 </para>
 <para>
-Die Bedeutung der Einträge im Einzelnen von oben nach unten:
+Die Bedeutung der Einträge, die in Abhängigkeit vom aktuellen
+Gleisbildmodus aktivierbar sind, ist im Einzelnen von oben nach unten
+folgende:
 
 <itemizedlist mark="bullet">
   <listitem><para>Ausgewählte Fahrstraße einstellen</para></listitem>
@@ -1436,7 +1477,7 @@ Die Bedeutung der Einträge im Einzelnen von oben nach unten:
 Internet-Zugang)</para></listitem>
   <listitem><para>Über dieses Programm</para></listitem>
   <listitem><para>Über das in diesem Programm verwendete
-GUI-Toolkit</para></listitem>
+Qt-Grafikbibliothek</para></listitem>
 </itemizedlist>
 </para>
 </sect3>
@@ -1450,24 +1491,25 @@ GUI-Toolkit</para></listitem>
 <para>
 Ein neues Gleisbild erstellt man mit dem Menüpunkt
 &raquo;Datei/Neu...&laquo;. Es erscheint dann ein Dialogfenster, in
-welchem man die gewünschte Größe - Anzahl der Spalten und Zeilen -
-eingeben kann. Das neu erzeugte, leere Gleisbild befindet sich zunächst
-im Betriebsmodus und muß zur weiteren Bearbeitung erst in den
-Gleisbildbearbeitungsmodus
+welchem man die gewünschte Größe (Anzahl der Spalten und Zeilen), sowie
+verschiedene weitere gleisbildspezifische Daten eingeben kann. Das neu
+erzeugte, leere Gleisbild befindet sich zunächst im Betriebsmodus und
+muß zur weiteren Bearbeitung erst in den Gleisbildbearbeitungsmodus
 umgeschaltet werden. Das erreicht man über das Tastaturkürzel
-<keycap>Strg-E</keycap>, den Menüpunkt &raquo;Ansicht -&gt;
-Gleisbildbearbeitungsmodus&laquo; oder über den entsprechenden
+<keycap>Strg-E</keycap>, den Menüpunkt
+&raquo;Ansicht/Gleisbildbearbeitungsmodus&laquo; oder über den entsprechenden
 Schaltknopf in der Werkzeugleiste (rotes Gitter auf grauem Grund).
 Man erkennt diesen Modus an den roten Linien zwischen den Elementen.
 Durch Klicken mit der rechten Maustaste auf die einzelnen Elemente
 bekommt man in diesem Modus einen Eigenschaftsdialog angezeigt, in
 dem sich der Elementtyp und dessen Einstellungen auswählen bzw. verändern
-lassen.
+lassen. Mit der mittleren Maustaste erscheint ein Popup-Menü, das ein
+rasches Zeichnen von Gleisstrecken ermöglicht.
 </para>
 <para>Ist man mit der Bearbeitung des Gleisbilds fertig, wechselt man
 zurück in den Betriebsmodus (<keycap>Strg-L</keycap>) und speichert die
 Datei unter einem geeigneten Namen. Eine weitergehende Beschreibung
-zum Erstellen von eigenen Gleisbildern findet man im
+zum Erstellen von eigenen Gleisbildern befindet im
 <xref linkend="sect-symboleedit">.
 </para>
 </sect3>
@@ -1480,16 +1522,17 @@ eine gültige Adresse haben, kann man mit der Erstellung der Fahrstraßen
 beginnen. Um diese zu bearbeiten, muß man zunächst in den
 Fahrstraßenbearbeitungsmodus wechseln. Das erreicht man über das
 Tastaturkürzel <keycap>Strg-B</keycap>, den Menüpunkt
-&raquo;Ansicht -&gt; Fahrstra&szlig;enbearbeitungsmodus&laquo; oder über
+&raquo;Ansicht/Fahrstra&szlig;enbearbeitungsmodus&laquo; oder über
 den entsprechenden Schaltknopf in der Werkzeugleiste (blaues Gitter
 auf grauem Grund). Man erkennt diesen Modus an den blauen Linien
 zwischen den Elementen. Zusätzlich benötigt man die Fahrstraßentabelle,
-die durch Aktivieren des Menüpunktes &raquo;Ansicht -&gt;
-Fahrstra&szlig;entabelle&laquo; sichtbar wird.
+die durch Aktivieren des Menüpunktes
+&raquo;Ansicht/Fahrstra&szlig;entabelle&laquo; sichtbar wird.
 </para>
 <para>
 Eine neue Fahrstraße kann man nun durch das Menü
-&raquo;Fahrstraße -&gt; Hinzufügen&laquo; in der Tabelle anlegen. Die
+&raquo;Fahrstraße/Hinzufügen&laquo; in der Tabelle anlegen, alternativ
+über das Plus-Symbol in der Werkzeugleiste. Die
 einzelnen Elemente werden anschließend durch Anklicken mit
 der Maus hinzugefügt bzw. auch wieder von ihr entfernt. Mit der linken
 Maustaste bearbeitet man die Start- und Zielsignale, mit der mittleren
@@ -1499,7 +1542,7 @@ Startsignal grün, beim Zielsignal rot und für die übrigen Elemente gelb.
 Weitere Details einer Fahrstraße, wie den Namen, Typ und die
 Einstellungen zum automatischen Betrieb, lassen sich über den
 Fahrstraßendialog ändern. Diesen erreicht man über das Menü
-&raquo;Fahrstraße -&gt; Bearbeiten&laquo;, oder das entsprechende Symbol
+&raquo;Fahrstraße/Bearbeiten&laquo;, oder das entsprechende Symbol
 in der Werkzeugleiste.
 </para>
 <para>Hat man alle gewünschten Fahrstraßen erstellt, wechselt man wieder
@@ -1514,9 +1557,9 @@ erneut. Weitere, ausführliche Informationen zu diesem Thema findet man im
 <para>
 Sollte man mal in die Notwendigkeit kommen, die dem Gleisbild
 zugrundeliegende Datei editieren zu wollen, so kann man das über den
-Punkt &raquo;Bearbeiten -&gt; Datendateien -&gt; &lt;Dateiname&gt;&laquo;
+Punkt &raquo;Bearbeiten/Datendateien/&lt;Dateiname&gt;&laquo;
 erreichen. Das Programm öffnet dann den über den Einstellungsdialog
-konfigurierten Texteditor mit der entsprechenden ASCII-Datei.
+konfigurierten Texteditor mit der entsprechenden Datei.
 Zur Auswahl stehen hierbei die gerade aktive Gleisbilddatei und die
 Datei mit den persönlichen Einstellungen (<command>~/.spdrs60rc</command>).
 </para>
@@ -1532,8 +1575,8 @@ beim Speichern aus dem Programm heraus wieder überschrieben.</para>
   <title>Suchen von Elementen</title>
 <para>
 Zum Suchen von Elementen z.B. in größeren Gleisbildern gibt es den
-Elementefinder. Durch Auswahl des Menüpunktes &raquo;Bearbeiten -&gt;
-Suchen&laquo; oder Drücken des Tastaturkürzel <keycap>Strg-F</keycap>
+Elementefinder. Durch Auswahl des Menüpunktes
+&raquo;Bearbeiten/Suchen&laquo; oder Drücken des Tastaturkürzel <keycap>Strg-F</keycap>
 öffnet sich der in <xref linkend="abb-find"> gezeigte Suchdialog.
 </para>
 <para>
@@ -1581,47 +1624,41 @@ Rahmen angezeigt (<xref linkend="abb-found">).
 </para>
 
 <para>
-Dieser rote Rahmen steht symbolisch für den Gleisbildbearbeitungsmodus.
-Ein Linksklick auf das gefundene Element öffnet demnach sofort das
-Eigenschaftenfenster zu diesem Element; gewünschte Änderungen können so
-direkt und komfortabel durchgeführt werden. Nach einem erfolgreichen
-Fund wird der Editiermodus für die gefundenen Elemente nur für fünf
-Sekunden eingeschaltet (denn eventuell will man ja
-nur wissen, wo das Element ist). Kommt keine Negativmeldung, aber es ist
-auch kein roter Rahmen sichtbar, so liegt das gefundene Element
-eventuell im nicht sichtbaren Bereich des Gleisbilds. Bitte dann mit der
-unten liegenden Schiebeleiste in den versteckten Bereich rollen und
-eventuell den Suchvorgang wiederholen. Der roten Rahmen sollte dann um ein
-Element sichtbar werden.
+Nach einer erfolgreichen Suche wird die farbliche Hervorhebung für die
+gefundenen Elemente nur für fünf Sekunden eingeschaltet. Erscheint
+keine Negativmeldung, obwohl kein roter Rahmen sichtbar ist, so liegt
+das gefundene Element eventuell im nicht sichtbaren Bereich des
+Gleisbilds.
 </para>
 </sect3>
 
 <sect3>
   <title>Ändern der Programmoptionen</title>
 <para>
-Die persönlichen Einstellungen des Programms lassen sich über das Menü
-&raquo;Bearbeiten/Einstellungen...&laquo; ändern. Weitere Details sind
-im <xref linkend="sect-optionen"> beschrieben.
+Die benutzerspezifischen Einstellungen des Programms lassen sich über
+das Menü &raquo;Bearbeiten/Einstellungen...&laquo; ändern. Diese Daten
+werden in der Datei <command>.spdrs60rc</command> im Heimatverzeichnis
+des Benutzers gespeichert. Weitere Details sind im
+<xref linkend="sect-optionen"> beschrieben.
 </para>
 </sect3>
 
 <sect3>
   <title>Daemon</title>
 <para>
-Der Kommunikation mit dem SRCP-Daemon widmet sich ein eigenes Menü. Hier
+Der Kommunikation mit dem SRCP-Server widmet sich ein eigenes Menü. Hier
 kann man z. B. die Netzwerkverbindung manuell starten oder beenden.
-Weiterhin kann man den Daemon zurücksetzen, oder auch komplett
-abschalten (&raquo;Daemon -&gt; Beenden&laquo;). Danach ist das
-Versenden von Befehlen an den
-Daemon selbstverständlich nicht mehr möglich. Gleichwohl kann man die
-grafische Oberfläche weiterhin wie gewohnt
+Weiterhin kann man den Server zurücksetzen, oder auch komplett
+abschalten (&raquo;Daemon/Beenden&laquo;). Danach ist ein Versenden von
+Befehlen an den Daemon selbstverständlich nicht mehr möglich. Gleichwohl
+kann man die grafische Oberfläche weiterhin wie gewohnt
 bedienen, es werden nur keine Befehle mehr geschickt. Ein einmal
 heruntergefahrener Daemon kann aus dem Programm nicht wieder neu
 gestartet werden.</para>
 <para>
-Das automatische Anmelden beim Daemon während des Programmstarts, sowie
-die Auswahl des SRCP-Servers selbst, sind im Dialog für die persönlichen
-Einstellungen konfigurierbar.
+Das automatische Anmelden beim Daemon beim Laden einer Gleisbilddatei,
+sowie die Auswahl des SRCP-Servers selbst, sind im Dialog für die
+Gleisbildeinstellungen konfigurierbar.
 </para>
 
 </sect3>
@@ -1629,16 +1666,16 @@ Einstellungen konfigurierbar.
 <sect3>
   <title>Anlage starten</title>
 <para>
-Bevor man damit beginnt, Fahrstra&szlig;en zu stellen oder andere
-Aktionen auf der Anlage zu veranlassen, muß man den Digitalstrom auf der
-Anlage einschalten. Erst dann sendet der SRCP-Daemon Befehle an die
-Hardware. Dies geschieht am einfachsten durch das
-Zp 9-Symbol in der Werkzeugleiste. Analog kann man über das Symbol für die
+Bevor es möglich ist, Fahrstra&szlig;en zu stellen oder andere Aktionen
+auf der Anlage zu veranlassen, muß der Digitalstrom auf der Anlage
+eingeschaltet werden. Erst dann sendet der SRCP-Daemon Befehle an die
+Hardware. Dies geschieht am einfachsten durch das Zp&nbsp;9-Symbol in
+der Werkzeugleiste. Analog kann man über das Symbol für die
 Notbremse die Anlage strommä&szlig;ig wieder abschalten. Zur einfachen
 Bedienung dieser Funktion ohne Maus existiert das
 Tastaturkürzel <keycap>F4</keycap>. Auch das automatische Einschalten
-des Anlagenstroms beim Starten des Programms läßt sich über die
-Einstellungen konfigurieren.
+des Anlagenstroms nach dem Laden der Gleisbilddatei läßt sich über die
+Gleisbildeinstellungen konfigurieren.
 </para>
 </sect3>
 
@@ -1646,11 +1683,10 @@ Einstellungen konfigurieren.
   <title>Übersicht der Rückmeldemodule</title>
 <para>
 Die Rückmeldeübersicht ist durch <keycap>Strg-M</keycap> oder das Menü
-&raquo;Ansicht -&gt; Rückmeldemodule&laquo; erreichbar.
-Die Funktionalität beschränkt sich zum einen auf die Anzeige der gerade
-aktiven Rückmeldeanschlüsse und zum anderen auf die Darstellung der
-Adressen aller Module. Mehr dazu erfahren Sie im
-<xref linkend="sect-rueckmeldung">.
+&raquo;Ansicht/Rückmeldemodule&laquo; erreichbar. Es erscheint dann ein
+Fenster mit der vorkonfigurierten Anzahl an Rückmeldemodulen, die
+jeweils den aktuellen Zustand der Kontakte farblich anzeigen. Weitere
+Details sind im <xref linkend="sect-rueckmeldung"> beschrieben.
 </para>
 </sect3>
 
@@ -1685,7 +1721,7 @@ Einzelne Antriebe kann man - nicht originalgetreu - über das Kontextmenü
 &raquo;Umschalten&laquo; eines schaltbaren Elements ansprechen. Dieser
 Eintrag ist nur aktiv bei nicht durch Fahrstra&szlig;en benutzen
 Antrieben und wenn die Weichen o.ä. nicht durch ein Fahrzeug besetzt
-sind, was an der roten Element-LED erkennbar ist. Dabei wird
+sind, was am rot leuchtenden Gleismelder erkennbar ist. Dabei wird
 &raquo;im Kreis&laquo; umgeschaltet; d.h. bei mehr als zwei möglichen
 Elementstellungen wird bei jeder Benutzung von &raquo;Umschalten&laquo;
 die nächste mögliche Stellung angezeigt. Alternativ - und vorbildgetreuer -
@@ -1707,12 +1743,13 @@ Haltgruppentaste (HaGT). Diese sind in <xref linkend="abb-wgt"> dargestellt.
 <para>
 Zunächst klickt man auf die WGT und dann innerhalb eines
 5-Sekunden-Zeitraums auf die Weiche, welche gestellt werden soll.
-Auch das vorherige Drücken der Taste <keycap>F6</keycap>
+Auch das vorherige Drücken der Taste <keycap>F7</keycap>
 auf der Tastatur aktiviert im Hintergrund die WGT, das erspart eventuell
 einiges an Wegstrecke mit der Maus. Auch hier wird &raquo;im Kreis&laquo;
 umgeschaltet, was leider nicht ganz vorbildgetreu ist. Analog verläuft
 das Schalten der Signale mit der SGT und der Funktionstaste
-<keycap>F7</keycap>.
+<keycap>F8</keycap> bzw. das Schalten eines Signals auf Halt mit der HaGT
+und der Funktionstaste <keycap>F9</keycap>.
 </para>
 </sect3>
 
@@ -1731,20 +1768,19 @@ wird.
 <sect3>
   <title>Alle Antriebe schalten</title>
 <para>
-Möchte man aus Testgründen einmal ALLE Elemente schalten, benutzt man
-den Menüpunkt &raquo;Gleisbild-&gt;Alles umschalten&laquo; oder
-<keycap>F10</keycap>. Dies sieht bei Gleisbildern mit vielen Elementen
-besonders beeindruckend aus. Einfach mal ausprobieren.
+Möchte man aus Testgründen einmal alle Elemente schalten, benutzt man
+den Menüpunkt &raquo;Gleisbild/Alles umschalten&laquo; oder die
+Funktionstaste <keycap>F10</keycap>.
 </para>
 </sect3>
 
 <sect3>
   <title>Den aktuellen Zustand übermitteln</title>
 <para>
-Um den aktuell im Gleisbild angezeigten Zustand an die Anlage zu übermitteln,
-benutzt man den Menüpunkt &raquo;Gleisbild-&gt;Alles senden&laquo; oder
-<keycap>F11</keycap>. Dabei ändert sich an der Gleisbildvisualisierung
-nichts; der Abschluß der Aktion wird durch ein akustisches Signal mitgeteilt.
+Um den aktuell im Gleisbild angezeigten Zustand z. B. nach
+Handeingriffen an die Anlage zu übermitteln, benutzt man den Menüpunkt
+&raquo;Gleisbild/Alles senden&laquo; oder <keycap>F11</keycap>. Dabei
+ ändert sich an der Gleisbildvisualisierung nichts.
 </para>
 </sect3>
 
@@ -1752,10 +1788,11 @@ nichts; der Abschluß der Aktion wird durch ein akustisches Signal mitgeteilt.
   <title>Bahnhofsuhr starten</title>
 <para>
 Durch Klick auf das Uhr-Symbol der Werkzeugleiste oder über das Menü
-&raquo;Ansicht-&gt;Bahnhofsuhr&laquo; erhält man eine Uhr im Stil der
+&raquo;Ansicht/Bahnhofsuhr&laquo; erhält man eine Uhr im Stil der
 Deutschen Bahn AG. Sie weist zudem den originalgetreuen Minutensprung
-auf. Die Uhr kann z.Zt. noch nicht langsamer oder schneller geschaltet
-werden.
+auf. Die Uhr kann z. Zt. noch nicht langsamer oder schneller geschaltet
+werden und ermöglicht auch keine Koppelung mit der Modellzeit des
+SRCP-Servers.
 </para>
 <para>
 <figure id="abb-uhr">
@@ -1813,10 +1850,7 @@ Durch die Taste <keycap>F1</keycap> oder den Menüpunkt
 &raquo;Hilfe-&gt;Hilfe&laquo; öffnet der über die persönlichen
 Einstellungen gewählte Browser diese Hilfedokumentation. Bei Mozilla
 und Firefox wird, wenn schon eine Programminstanz läuft, ein neues
-Tab-Fenster geöffnet. Beim Netscape-Browser, gibt es eine Fehlermeldung,
-wenn bereits eine Instanz von Netscape geöffnet ist. Man wählt dann
-einfach &raquo;Abbrechen&laquo; im erscheinenden Warnmeldungsfenster; es
-öffnet sich anschließend ein neues Fenster mit dem Hilfetext.
+Tab-Fenster geöffnet.
 </para>
 </sect3>
 </sect2>
@@ -1907,20 +1941,23 @@ Startsignale auf Rot stellen</entry>
     </row>
     <row>
       <entry><keycap>F5</keycap></entry>
-      <entry>Aktivieren der Fahrstra&szlig;enauflösehilfstaste
-FHT</entry>
+      <entry>Aktivieren der Fahrstra&szlig;enauflösehilfstaste FHT</entry>
     </row>
     <row>
       <entry><keycap>F6</keycap></entry>
-      <entry>Aktivieren der Weichengruppentaste WGT</entry>
+      <entry>Aktivieren der Umfahrgruppentaste UfGT</entry>
     </row>
     <row>
       <entry><keycap>F7</keycap></entry>
-      <entry>Aktivieren der Signalgruppentaste SGT</entry>
+      <entry>Aktivieren der Weichengruppentaste WGT</entry>
     </row>
     <row>
       <entry><keycap>F8</keycap></entry>
-      <entry>Aktivieren der Umfahrgruppentaste UfGT</entry>
+      <entry>Aktivieren der Signalgruppentaste SGT</entry>
+    </row>
+    <row>
+      <entry><keycap>F9</keycap></entry>
+      <entry>Aktivieren der Haltgruppentaste HaGT</entry>
     </row>
     <row>
       <entry><keycap>F10</keycap></entry>
@@ -2026,9 +2063,9 @@ Gleisbild&laquo;</para></listitem>
 
 <para>
 Über alle Bedienvarianten erscheint zunächst das in
-<xref linkend="abb-newlayout"> dargestellte kleine Dialogfenster,
-in dem der Benutzer aufgefordert wird, die Abmessungen des neuen
-Gleisbilds (Anzahl der Spalten und Zeilen) einzugeben.
+<xref linkend="abb-newlayout"> dargestellte Dialogfenster, in dem der
+Benutzer aufgefordert wird, die Abmessungen des neuen Gleisbilds (Anzahl
+der Spalten und Zeilen) sowie weitere Einstellungen einzugeben.
 </para>
 <para>
 <figure id="abb-newlayout">
@@ -2040,9 +2077,7 @@ Gleisbilds (Anzahl der Spalten und Zeilen) einzugeben.
 </para>
 
 <para>
-Dazu benutzt man entweder die Pfeiltasten neben der Ziffernanzeige oder
-markiert zunächst den Text in der Ziffernanzeige, um dann die neue Zahl
-einzutippen. Der gültige Bereich liegt für die Spaltenanzahl zwischen
+Der gültige Wertebereich liegt für die Spaltenanzahl zwischen
 minimal vier und maximal 120; für die Zeilenanzahl zwischen minimal vier
 und maximal 30, was der maximalen Höhe einer originalen SpDrS60-Stelltafel
 entspricht. Dieses Beschränkung ergibt sich zum einen durch das
@@ -2086,8 +2121,7 @@ Gleisbildbearbeitungsmodus umschaltet.
 <itemizedlist mark="bullet">
   <listitem><para>Über das Tastaturkürzel
 <keycap>Strg-O</keycap></para></listitem>
-  <listitem><para>Über die Menüleiste &raquo;Datei -&gt;
-Öffnen&laquo;</para></listitem>
+  <listitem><para>Über die Menüleiste &raquo;Datei/Öffnen&laquo;</para></listitem>
   <listitem><para>Über den entsprechenden Schalter in der
   Werkzeugleiste</para></listitem>
 </itemizedlist>
@@ -2126,13 +2160,13 @@ Gleisbild-Daten mit der Anlage.
 </para>
 
 <para>
-Für das Programm gibt es keine Möglichkeit, den wirklich aktuellen
+Für das Programm gibt es derzeit keine Möglichkeit, den wirklich aktuellen
 Zustand einer Anlage einzulesen. Im Unterschied zum Original melden
-die Weichen oder Signale ihren Zustand nicht an den
-Daemon und damit weiter an dieses Programm. Man könnte zwar an
-jeden Antrieb einen Rückmeldebaustein anschlie&szlig;en, was
-wirklichkeitsgetreuer wäre, preislich wäre das aber sehr aufwändig;
-softwaretechnisch ist es zudem noch nicht realisiert.
+die Weichen oder Signale ihren Zustand nicht an den SRCP-Server
+und damit weiter an dieses Programm. Je nach Ausführung der
+Weichenantriebe wäre es zwar möglich Rückmeldekontakte
+anzuschlie&szlig;en, was wirklichkeitsgetreuer wäre, softwaretechnisch
+das jedoch noch nicht realisiert.
 Die hier praktizierte Methode ist einfacher, da die
 Anlage auf den gespeicherten Zustand der Gleisbilddatei eingestellt wird.
 Für jedes schaltbare Element (Ausnahmen: Entkoppler, Drehscheibe und
@@ -2184,9 +2218,9 @@ im <xref linkend="sect-symbole">.
 
 <para>
 Das Speichern eines Gleisbilds geschieht im Allgemeinen über
-den Menüpunkt &raquo;Datei -&gt; Speichern&laquo; oder <keycap>Strg-S</keycap>.
+den Menüpunkt &raquo;Datei/Speichern&laquo; oder <keycap>Strg-S</keycap>.
 Soll das Gleisbild unter einem anderen Namen gespeichert werden, nutzt
-man den Menüpunkt &raquo;Datei -&gt; Speichern unter&laquo;.
+man den Menüpunkt &raquo;Datei/Speichern unter&laquo;.
 Ist das aktuelle Gleisbild noch nicht unter einem eigenen Namen
 gespeichert, erscheint ebenfalls vor Programmende oder dem Laden eines
 neuen Gleisbilds das
@@ -2204,10 +2238,9 @@ in <xref linkend="abb-savelayout"> gezeigte Fenster.
 
 <para>
 Bei der Namensvergabe ist es nicht unbedingt notwendig, die
-Dateierweiterung (.spdrs60), welche die Gleisbilddateien kenntlich
-macht, mit einzugeben. Enthält der eingegebene Dateiname die
-Erweiterung nicht, wird sie beim Speichern
-automatisch angehängt.
+Dateierweiterung (.spdrs60), welche die Gleisbilddateien identifiziert,
+mit einzugeben. Enthält der eingegebene Dateiname die Erweiterung
+nicht, wird sie beim Speichern automatisch angehängt.
 </para>
 </sect3>
 </sect2>
