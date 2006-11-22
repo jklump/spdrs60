@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.0 $Revision: 1.55 $
+                           version 0.5.0 $Revision: 1.56 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-20 20:36:12 $
+    last modified        : $Date: 2006-11-22 16:45:04 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -512,7 +512,7 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
                     QApplication::beep();
                     emit showLogMessage(tr("No switching possible, "
                                 "signal '%1' is locked by an active route.")
-                            .arg(el->getName()), MT_INFO, HL_HINT);
+                            .arg(el->getLabelText()), MT_INFO, HL_HINT);
                 }
                 else
                     if (kSgtClicked == gkbState)
@@ -533,7 +533,7 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
                     QApplication::beep();
                     emit showLogMessage(tr("No routing possible; signal '%1'"
                                 " is allready locked by an active route.")
-                            .arg(el->getName()), MT_INFO, HL_HINT);
+                            .arg(el->getLabelText()), MT_INFO, HL_HINT);
                     slotElementClickedTimeout();
                 }
                 else {
@@ -564,7 +564,7 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
                     QApplication::beep();
                     emit showLogMessage(tr("No switching possible, "
                                 "solenoid '%1' is locked by an active route.")
-                            .arg(el->getName()), MT_INFO, HL_HINT);
+                            .arg(el->getLabelText()), MT_INFO, HL_HINT);
                 }
                 else if (el->isOccupied()) {
                     QApplication::beep();
@@ -773,10 +773,11 @@ void GBSArea::slotEditFind(const QString& ftext, int type, int multiple)
 }
 
 
+/**
+ * Search all elements for a matching address or text label
+ */
 bool GBSArea::findElement(const QString& ftext, int ftype, int fmulti)
 {
-    // search all elements for the desired addresses or text and
-    // return its index
     QString s = "";
     unsigned int idx;
     bool returnvalue = false;
@@ -826,10 +827,12 @@ bool GBSArea::findElement(const QString& ftext, int ftype, int fmulti)
 }
 
 
+/**
+ * Toggle all elements but no couplers, motors no shifting bridges,
+ * no turntables
+ **/
 void GBSArea::slotToggleAll()
 {
-    // toggles all elements but no couplers, motors no shifting bridges,
-    // no turntables
     for (unsigned int j = 0; j < elements.size(); j++)
         if (elements[j]->sSoldIcon != SYM_ENK &&
             elements[j]->sSoldIcon != SYM_MDC &&
@@ -839,9 +842,11 @@ void GBSArea::slotToggleAll()
 }
 
 
+/**
+ *  Send current state off all element to SRCP server
+ **/
 void GBSArea::slotSendAll()
 {
-    // send current element states to SRCP server
     for (unsigned int j = 0; j < elements.size(); j++)
         if (elements[j] != NULL)
             if (!(elements[j]->sSoldIcon == SYM_ENK
@@ -854,12 +859,15 @@ void GBSArea::slotSendAll()
 }
 
 
+/**
+ * set all signals to red state
+ * */
 void GBSArea::slotNotrot()
 {
-    // sets all signals to red state
     for (unsigned int j = 0; j < elements.size(); j++)
         if (elements[j]->isSignal())
             elements[j]->switchToDir(0);
+    
     emit showLogMessage(tr("Switched all signals to halt/stop"),
             MT_INFO, HL_HINT);
 }
@@ -869,10 +877,91 @@ void GBSArea::deleteElements()
 {
     /* send signal to router */
     emit clearRoutes();
-    //TODO: disconnect all elements
+
+    //disconnect all elements
+    for (unsigned int j = 0; j < elements.size(); j++)
+        if (elements[j] != NULL)
+            disconnectElement(elements[j]);
+
     elements.clear();
     move(0, 0);
     updateGeometry();
+}
+
+
+void GBSArea::connectElement(element* el)
+{
+    if (el == NULL)
+        return;
+
+    connect(el, SIGNAL(elementClicked(element*, GbsButtonState)),
+            this, SLOT(slotElementClicked(element*, GbsButtonState)));
+    connect(el, SIGNAL(setRepeatIcon(const QString&)),
+            this, SIGNAL(setRepeatIcon(const QString&)));
+    connect(el, SIGNAL(sigShowFBmodules()),
+            this, SIGNAL(sigShowFBmodules()));
+
+    connect(this, SIGNAL(switchVisualMode(elemVisualMode)),
+            el, SLOT(switchVisualMode(elemVisualMode)));
+    connect(this, SIGNAL(sigShowElement(int, int,
+                    elemSelectionMode)),
+            el, SLOT(slotShowElement(int, int,
+                    elemSelectionMode)));
+    connect(this, SIGNAL(setRepeatIcon(const QString&)),
+            el, SLOT(slotRepeatIcon(const QString&)));
+    connect(this, SIGNAL(sigRepaintLayout()),
+            el, SLOT(slotRepaintLayout()));
+    connect(el, SIGNAL(recordElement(element*,
+                    elemRecordType)),
+            this, SIGNAL(recordElement(element*, elemRecordType)));
+    connect(this, SIGNAL(processInfoPortMessage(unsigned int,
+                    unsigned int, unsigned int, unsigned int)),
+            el, SLOT(processInfoPortMessage(unsigned int,
+                    unsigned int, unsigned int, unsigned int)));
+    connect(el, SIGNAL(sendSrcpMessage(SrcpMessage*)),
+            this, SIGNAL(sendSrcpMessage(SrcpMessage*)));
+    connect(this, SIGNAL(feedbackPortChanged(unsigned int,
+                    unsigned int, bool)),
+            el, SLOT(slotOccupyElement(unsigned int,
+                    unsigned int, bool)));
+}
+
+
+void GBSArea::disconnectElement(element* el)
+{
+    if (el == NULL)
+        return;
+
+    disconnect(el, SIGNAL(elementClicked(element*, GbsButtonState)),
+            this, SLOT(slotElementClicked(element*, GbsButtonState)));
+    disconnect(el, SIGNAL(setRepeatIcon(const QString&)),
+            this, SIGNAL(setRepeatIcon(const QString&)));
+    disconnect(el, SIGNAL(sigShowFBmodules()),
+            this, SIGNAL(sigShowFBmodules()));
+
+    disconnect(this, SIGNAL(switchVisualMode(elemVisualMode)),
+            el, SLOT(switchVisualMode(elemVisualMode)));
+    disconnect(this, SIGNAL(sigShowElement(int, int,
+                    elemSelectionMode)),
+            el, SLOT(slotShowElement(int, int,
+                    elemSelectionMode)));
+    disconnect(this, SIGNAL(setRepeatIcon(const QString&)),
+            el, SLOT(slotRepeatIcon(const QString&)));
+    disconnect(this, SIGNAL(sigRepaintLayout()),
+            el, SLOT(slotRepaintLayout()));
+    disconnect(el, SIGNAL(recordElement(element*,
+                    elemRecordType)),
+            this, SIGNAL(recordElement(element*, elemRecordType)));
+    disconnect(this, SIGNAL(processInfoPortMessage(unsigned int,
+                    unsigned int, unsigned int, unsigned int)),
+            el, SLOT(processInfoPortMessage(unsigned int,
+                    unsigned int, unsigned int, unsigned int)));
+    disconnect(el, SIGNAL(sendSrcpMessage(SrcpMessage*)),
+            this, SIGNAL(sendSrcpMessage(SrcpMessage*)));
+    disconnect(this, SIGNAL(feedbackPortChanged(unsigned int,
+                    unsigned int, bool)),
+            el, SLOT(slotOccupyElement(unsigned int,
+                    unsigned int, bool)));
 }
 
 
@@ -881,41 +970,8 @@ void GBSArea::setupElements()
     for (unsigned int j = 0; j < elements.size(); j++) {
         element* el = elements[j];
         if (el != NULL) {
-            el->show();  // now show the element
-            connect(el, SIGNAL(elementClicked(element*, GbsButtonState)),
-                    this, SLOT(slotElementClicked(element*, GbsButtonState)));
-            connect(el, SIGNAL(setRepeatIcon(const QString&)),
-                    this, SIGNAL(setRepeatIcon(const QString&)));
-            connect(el, SIGNAL(sigShowFBmodules()),
-                    this, SIGNAL(sigShowFBmodules()));
-
-            connect(this, SIGNAL(switchVisualMode(elemVisualMode)),
-                    el, SLOT(switchVisualMode(elemVisualMode)));
-            connect(this, SIGNAL(sigShowElement(int, int,
-                            elemSelectionMode)),
-                    el, SLOT(slotShowElement(int, int,
-                            elemSelectionMode)));
-            connect(this, SIGNAL(setRepeatIcon(const QString&)),
-                    el, SLOT(slotRepeatIcon(const QString&)));
-            connect(this, SIGNAL(sigRepaintLayout()),
-                    el, SLOT(slotRepaintLayout()));
-            connect(el, SIGNAL(recordElement(element*,
-                            elemRecordType)),
-                    this, SIGNAL(recordElement(element*, elemRecordType)));
-            //if (el->isSwitchable()) {
-            connect(this, SIGNAL(processInfoPortMessage(unsigned int,
-                            unsigned int, unsigned int, unsigned int)),
-                    el, SLOT(processInfoPortMessage(unsigned int,
-                            unsigned int, unsigned int, unsigned int)));
-            connect(el, SIGNAL(sendSrcpMessage(SrcpMessage*)),
-                    this, SIGNAL(sendSrcpMessage(SrcpMessage*)));
-            //}
-            //if (el->hasLEDsOn())
-            connect(this, SIGNAL(feedbackPortChanged(unsigned int,
-                            unsigned int, bool)),
-                    el, SLOT(slotOccupyElement(unsigned int,
-                            unsigned int, bool)));
-            //TODO: el->updateFeedbackState();
+            el->show();
+            connectElement(el);
         }
     }
     move(0, 0);
@@ -929,6 +985,7 @@ bool GBSArea::isModified() const
 {
     return modified;
 }
+
 
 void GBSArea::setModified(bool m)
 {
@@ -953,7 +1010,6 @@ int GBSArea::getRows()
 
 void GBSArea::setLayoutSize(int newcols, int newrows)
 {
-
     QPtrVector<element> tmpelements;
 
     tmpelements.resize(newcols * newrows);
@@ -984,38 +1040,7 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
                 el = new element(this);
                 el->move((c - 1) * EL_WIDTH, (r - 1) * EL_HEIGHT);
                 el->show();
-                connect(el, SIGNAL(elementClicked(element*, GbsButtonState)),
-                        this, SLOT(slotElementClicked(element*,
-                                GbsButtonState)));
-                connect(el, SIGNAL(setRepeatIcon(const QString&)),
-                        this, SIGNAL(setRepeatIcon(const QString&)));
-                connect(el, SIGNAL(sigShowFBmodules()),
-                        this, SIGNAL(sigShowFBmodules()));
-                connect(this, SIGNAL(switchVisualMode(elemVisualMode)),
-                        el, SLOT(switchVisualMode(elemVisualMode)));
-                connect(this, SIGNAL(sigShowElement(int, int,
-                                elemSelectionMode)),
-                        el, SLOT(slotShowElement(int, int,
-                                elemSelectionMode)));
-                connect(this, SIGNAL(setRepeatIcon(const QString&)),
-                        el, SLOT(slotRepeatIcon(const QString&)));
-                connect(this, SIGNAL(sigRepaintLayout()),
-                        el, SLOT(slotRepaintLayout()));
-                connect(el, SIGNAL(recordElement(element*, elemRecordType)),
-                        this, SIGNAL(recordElement(element*, elemRecordType)));
-                //if (el->isSwitchable()) {
-                connect(this, SIGNAL(processInfoPortMessage(unsigned int,
-                                unsigned int, unsigned int, unsigned int)),
-                        el, SLOT(processInfoPortMessage(unsigned int,
-                                unsigned int, unsigned int, unsigned int)));
-                connect(el, SIGNAL(sendSrcpMessage(SrcpMessage*)),
-                        this, SIGNAL(sendSrcpMessage(SrcpMessage*)));
-                //}
-                //if (el->hasLEDsOn())
-                connect(this, SIGNAL(feedbackPortChanged(unsigned int,
-                                unsigned int, bool)),
-                        el, SLOT(slotOccupyElement(unsigned int,
-                                unsigned int, bool)));
+                connectElement(el);
             }
             el->setIndexNo(idx);
             /*TODO: set current visual mode */
@@ -1038,18 +1063,28 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
 /*remove all elements of a single column*/
 void GBSArea::removeColumnElements(int col)
 {
+    element* el;
+
     for (int r = 1; r <= rows; r++) {
-        //TODO: disconnect elements
-        elements.remove(indexOf(r, col));
+        el = item(r, col);
+        if (el != NULL) {
+            disconnectElement(el);
+            elements.remove(indexOf(r, col));
+        }
     }
 }
 
 /*remove all elements of a single row*/
 void GBSArea::removeRowElements(int row)
 {
+    element* el;
+
     for (int c = 1; c <= cols; c++) {
-        //TODO: disconnect elements
-        elements.remove(indexOf(row, c));
+        el = item(row, c);
+        if (el != NULL) {
+            disconnectElement(el);
+            elements.remove(indexOf(row, c));
+        }
     }
 }
 

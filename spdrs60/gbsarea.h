@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.5.0 $Revision: 1.30 $
+                           version 0.5.0 $Revision: 1.31 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-                         : (C) 2004-2005 by Guido Scholz
-    email                : stefan.preis@wdr.de
-    last modified        : $Date: 2006-11-04 15:10:54 $
+                         : (C) 2004-2006 by Guido Scholz
+    email                : guido.scholz@bayernline.de
+    last modified        : $Date: 2006-11-22 16:45:04 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -117,6 +117,8 @@ private:
    void updateSRCP08GABusList();
    void updateSRCP08FBBusList();
    void updateSRCP08BusLists();
+   void connectElement(element*);
+   void disconnectElement(element*);
    
 /*
 void savePixmaps(int ID)

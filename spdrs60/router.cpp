@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.0 $Revision: 1.32 $
+                           version 0.5.0 $Revision: 1.33 $
                            -------------------------------
-    copyright            : (C) 2004-2005 by Guido Scholz
+    copyright            : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-19 10:37:21 $
+    last modified        : $Date: 2006-11-22 16:45:04 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -442,7 +442,7 @@ void Router::setRoute(element* el, GbsButtonState cb, GbsButtonState sb)
             /*send cursor time out to gbs*/
             emit routeFunctionFinished();
             emit showLogMessage(tr("No matching route found for entry "
-                        "signal '%1'").arg(el->getName()), MT_INFO, HL_HINT);
+                        "signal '%1'").arg(el->getLabelText()), MT_INFO, HL_HINT);
         }
     }
     /*exit signal button is pressed*/
@@ -460,8 +460,8 @@ void Router::setRoute(element* el, GbsButtonState cb, GbsButtonState sb)
             else {
                 QApplication::beep();
                 emit showLogMessage(tr("No matching route found from '%1'"
-                            " to '%2'").arg(selectedStartSig->getName())
-                                .arg(el->getName()), MT_INFO, HL_HINT);
+                            " to '%2'").arg(selectedStartSig->getLabelText())
+                                .arg(el->getLabelText()), MT_INFO, HL_HINT);
             }
         }
         selectedStartSig = NULL;
@@ -488,7 +488,7 @@ void Router::resetRoute(element* el, GbsButtonState cb)
         else {
             QApplication::beep();
             emit showLogMessage(tr("No active route found for entry "
-                        "signal '%1'").arg(el->getName()), MT_INFO, HL_HINT);
+                        "signal '%1'").arg(el->getLabelText()), MT_INFO, HL_HINT);
             emit routeFunctionFinished();
         }
     }
@@ -513,7 +513,7 @@ void Router::resetRoute(element* el, GbsButtonState cb)
                 if (selectedStartSig != NULL)
                     emit showLogMessage(tr("No active route found from "
                                 "entry signal '%1' to exit signal '%2'")
-                            .arg(selectedStartSig->getName()).arg(el->getName()),
+                            .arg(selectedStartSig->getLabelText()).arg(el->getLabelText()),
                             MT_INFO, HL_HINT);
             }
         }

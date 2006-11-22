@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.0 $Revision: 1.41 $
+                           version 0.5.0 $Revision: 1.42 $
                            -------------------------------
     copyright            : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-08-30 17:40:39 $
+    last modified        : $Date: 2006-11-22 16:45:04 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -128,7 +128,7 @@ Route::Route(element* startEl)
 
     Name = tr("New route");
     if (startEl != NULL) {
-        Name.append(startEl->getName());
+        Name.append(startEl->getLabelText());
         startEl->getStateData(entrySignal);
         //select route type element name dependent
         if (startEl->hasShuntingRouteButtonOnly())
@@ -231,7 +231,7 @@ void Route::setupElementLists(QPtrVector<element>* elements)
         
             if ((gbse != 0) && gbse->hasSameAddress(swElement->bus,
                         swElement->address)) {
-                swElement->name = gbse->getName();
+                swElement->name = gbse->getLabelText();
                 if (swElement->elemPtr == NULL)
                     swElement->elemPtr = gbse;
                 else {
@@ -246,7 +246,7 @@ void Route::setupElementLists(QPtrVector<element>* elements)
         if ((gbse != 0) && gbse->hasSameAddress(exitSignal.bus,
                     exitSignal.address)) {
             //routePathItems.append(gbse);
-            exitSignal.name = gbse->getName();
+            exitSignal.name = gbse->getLabelText();
             if (exitSignal.elemPtr == NULL)
                 exitSignal.elemPtr = gbse;
             else {
@@ -259,7 +259,7 @@ void Route::setupElementLists(QPtrVector<element>* elements)
         if ((gbse != 0) && gbse->hasSameAddress(entrySignal.bus,
                     entrySignal.address)) {
             //routePathItems.append(gbse);
-            entrySignal.name = gbse->getName();
+            entrySignal.name = gbse->getLabelText();
             if (entrySignal.elemPtr == NULL)
                 entrySignal.elemPtr = gbse;
             else {

@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.99 $
+                           version 0.5.0 $Revision: 1.100 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-20 20:36:12 $
+    last modified        : $Date: 2006-11-22 16:45:04 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -5964,7 +5964,7 @@ void element::writeFileTextToStream(QTextStream& ts)
 }
 
 
-QString element::getName() const
+QString element::getLabelText() const
 {
     return sSoldText;
 }

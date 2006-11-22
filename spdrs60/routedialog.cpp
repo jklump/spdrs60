@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.5.0 $Revision: 1.30 $
+                           version 0.5.0 $Revision: 1.31 $
                            -------------------------------
     copyright            : (C) 2005-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-04 15:10:55 $
+    last modified        : $Date: 2006-11-22 16:45:04 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -806,7 +806,7 @@ void RouteDialog::updateEntrySignalName(int bus, int address)
     if (el == NULL)
         startSignalNameLE->setText(tr("Error"));
     else {
-        startSignalNameLE->setText(el->getName());
+        startSignalNameLE->setText(el->getLabelText());
         int ac = el->getAddressCount();
         if (ac == 1) {
             if (el->hasThreeStates())
@@ -850,7 +850,7 @@ void RouteDialog::updateExitSignalName(int bus, int address)
     if (el == NULL)
         stopSignalNameLE->setText(tr("Error"));
     else
-        stopSignalNameLE->setText(el->getName());
+        stopSignalNameLE->setText(el->getLabelText());
 }
 
 

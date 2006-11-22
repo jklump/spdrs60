@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.0 $Revision: 1.55 $
+                           version 0.5.0 $Revision: 1.56 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-18 21:25:15 $
+    last modified        : $Date: 2006-11-22 16:45:04 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -236,7 +236,7 @@ public:
     QSize sizeHint() const;
     int  routeElement(bool, bool, int);
     void locateMe();
-    QString getName() const;
+    QString getLabelText() const;
     bool hasSameAddress(int, int);
     bool hasShuntingRouteButtonOnly();
     bool hasDifferentDirection(int);
