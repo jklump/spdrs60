@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.100 $
+                           version 0.5.0 $Revision: 1.101 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-22 16:45:04 $
+    last modified        : $Date: 2006-11-22 16:47:50 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2195,23 +2195,6 @@ void element::setupElementIcon()
             iSoldDirection = DIR_HP2;
 
         switch (iSoldDirection) {
-            case DIR_HP0:              // HP0 => 0
-                p.setBrush(red);
-                if (iSoldRotate == 1) {
-                    // bottom
-                    p.drawEllipse(14, 4, 7, 7);
-                    // top
-                    p.setBrush(black);
-                    p.drawEllipse(4, 4, 7, 7);
-                }
-                else {
-                    // bottom
-                    p.drawEllipse(w - 22, h - 11, 7, 7);
-                    // top
-                    p.setBrush(black);
-                    p.drawEllipse(w - 12, h - 11, 7, 7);
-                }
-                break;
             case DIR_HP2:              // HP2 => 2
                 if (pref.hp2) {
                     p.setBrush(yellow);
@@ -2249,24 +2232,34 @@ void element::setupElementIcon()
                 }
                 break;
             case DIR_SH1:              // SH1 => 3
-                p.setBrush(black);
+                p.setPen(yellow);
+                // paint only shunt light
                 if (iSoldRotate == 1) {
-                    // top light position
-                    p.drawEllipse(4, 4, 7, 7);
-                    // shunt light
                     int startx = w - 22;
-                    p.setPen(yellow);
                     p.drawLine(startx, 9, startx - 4, 5);
                     p.drawLine(startx + 1, 9, startx - 3, 5);
                 }
                 else {
-                    // top light position
-                    p.drawEllipse(w - 12, h - 11, 7, 7);
-                    // shunt light
                     int startx = 19;
-                    p.setPen(yellow);
                     p.drawLine(startx, h - 10, startx + 4, h - 6);
                     p.drawLine(startx + 1, h - 10, startx + 5, h - 6);
+                }
+                p.setPen(black);
+            case DIR_HP0:              // HP0 => 0
+                p.setBrush(red);
+                if (iSoldRotate == 1) {
+                    // bottom
+                    p.drawEllipse(14, 4, 7, 7);
+                    // top
+                    p.setBrush(black);
+                    p.drawEllipse(4, 4, 7, 7);
+                }
+                else {
+                    // bottom
+                    p.drawEllipse(w - 22, h - 11, 7, 7);
+                    // top
+                    p.setBrush(black);
+                    p.drawEllipse(w - 12, h - 11, 7, 7);
                 }
                 break;
         }
