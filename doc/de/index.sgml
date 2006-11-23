@@ -138,7 +138,7 @@ empfehlenswert, diese Dokumentation durchzuarbeiten.
 <sect2 id="ver-0.5.0">
   <title>Version 0.5.0</title>
 <para>
-Veröffentlicht am xx.xx.2006
+Veröffentlicht am xx.12.2006
 </para>
 <itemizedlist mark="bullet">
   <listitem><para>Eine benutzerspezifische Einstellung zum automatischen
@@ -742,7 +742,7 @@ Die Heimat dieses Projektes ist folgende Internetadresse:
 http://spdrs60.sourceforge.net/</ulink>
 </para>
 <para>
-Dort kann man den Quellcode der Version &ver;, sowie Pakete für
+Dort kann man den Quellcode der aktuellen Version, sowie fertige Pakete für
 verschiedene Linux-Distributionen herunterladen. Die alte Projektseite
 von Stefan Preis existiert ebenfalls noch, wird aber nicht mehr aktuell
 gehalten:
@@ -768,20 +768,24 @@ richtet sich weitgehend nach den eigenen Ansprüchen. Kleinere
 Gleisbilder finden noch vollständig auf 800x600 Pixeln Platz, für größere
 können sogar 1280x1024 schon knapp werden.</para></listitem>
   <listitem><para>Für die aktuelle Qt3-Version mu&szlig; die
-Qt-Laufzeit-Bibliothek installiert sein (unter SuSE Paket
-&raquo;qt3&laquo; oder unter Fedora Paket &raquo;qt&laquo;). Überprüfen
-kann man das bei rpm-basierten
-Distributionen z.B. durch die Eingabe des Kommandos: <userinput>rpm -qi
-qt3</userinput></para></listitem>
-  <listitem><para>Zum Kompilieren benötigt man einen C++-Compiler (z.B.
-          g++).</para></listitem>
-  <listitem><para>Einen Browser zum Anzeigen der Hilfedateien aus dem
-Programm heraus (z.B. Firefox, Netscape, Mozilla, Konqueror,
+Qt-Laufzeit-Bibliothek installiert sein (SuSE Paket
+&raquo;qt3&laquo;, Fedora Paket &raquo;qt&laquo;, Debian/Ubuntu Paket
+&raquo;libqt3-mt&laquo;).</para></listitem>
+  <listitem><para>Soll das Programm nicht über ein fertiges Paket
+  installiert, sondern aus dem Quellcode kompiliert werden,
+  benötigt man einen C++-Compiler (z.B.  g++), sowie verschiedene
+  Entwickler-Pakete für das X-Window-System und die Qt-Bibliothek. Da
+  beim Kompilieren auch dieses HTML-Handbuch erzeugt wird, sind
+  zusätzlich noch die dafür notwendigen Werkzeuge (openjade, docbook,
+  docbook-dsssl) zu installieren.</para></listitem>
+  <listitem><para>Zum Anzeigen dieses Handbuchs aus dem Programm
+  heraus wird ein Webbrowser benötigt (z.B. Firefox, Mozilla, Konqueror,
 Opera)</para></listitem>
-  <listitem><para>Einen Text-Editor (z.B. &raquo;kwrite&laquo;); dieser
+  <listitem><para>Optional ein Text-Editor (z.B. &raquo;kwrite&laquo;),
+  der ein Bearbeiten oder Betrachten der Datendateien erlaubt. Dieser
   ist mit beschränkter Auswahl über das Dialogfenster für die
   persönlichen Einstellungen konfigurierbar.</para></listitem>
-  <listitem><para>Ganz wichtig: Damit die Befehle überhaupt auf der Anlage
+  <listitem><para>Damit die Befehle überhaupt auf der Anlage
 ankommen, braucht man einen SRCP-Server, wie den Daemon &raquo;erddcd&laquo;
 aus dem <ulink url="http://www.vogt-it.com/OpenSource/DDL/">DDL-Paket</ulink>
 von Torsten Vogt. Alternativ funktioniert SpDrS60 auch mit dem
@@ -799,13 +803,8 @@ Allgemein gilt, dass die Version des vom Server angebotenen SRCP-Protokolls
 
 <para>SpDrS60 läuft unter den verschiedensten Linux-Distributionen,
 solange diese die Qt-Bibliothek in der Version 3.x mitliefern.
-Getestet wurde diese Version unter Qt 3.0.5 bis 3.3.4 mit SuSE, Fedora
-und Debian in unterschiedlichen Versionsständen.
-Problematisch kann der Betrieb des erddcd-Daemons in Kombination mit dem
-Kernel der Versionsreihe 2.6.x sein. Hierzu gibt es eine ganze Reihe
-Fehlermeldungen, die ihre Ursache in Problemen mit der Ansteuerung der
-seriellen Schnittstelle haben. Näheres hierzu kann man in der Newsgroup
-&raquo;de.rec.modelle.bahn&laquo; erfahren.
+Getestet wurde diese Version unter Qt 3.0.5 bis 3.3.6 mit SuSE, Fedora,
+Debian und Ubuntu in unterschiedlichen Versionsständen.
 </para>
 </sect3>
 
@@ -825,11 +824,54 @@ anderen Rechner läuft, als die SRCP-Clients.
 </sect3>
 </sect2>
 
-<sect2 id="sect-kompilieren">
-  <title>Kompilieren und Installieren</title>
+
+<sect2 id="sect-installieren">
+  <title>Installation fertiger Softwarepakete</title>
 <para>
-Um SpDrS60 auf Ihrem System zu kompilieren und zu installieren, müssen
-Sie als normaler Benutzer zunächst das Programmpaket auspacken:
+Die Installation eines fertigen Paketes ist die einfachste Möglichkeit,
+zu einem lauffähigen Programm zu kommen. Vor allem für Linux-Anfänger
+sei diese empfohlen. Die Abhängigkeit von anderen Softwarepaketen
+wird dabei automatisch berücksichtigt. Auch eine Deinstallation ist
+über diesen Weg sehr einfach und sauber zu handhaben. Über die
+Projektseite gibt
+es Zugriff auf Softwarepakete für verschiedene Distributionen und
+Distributionsversionen. Sollte die von Ihnen benötigte Version nicht
+darunter sein, wenden Sie sich bitte an die User-Mailingliste.
+</para>
+<para>
+Bei rpm-basierten Distributionen (SuSE, Redhat, Fedora etc.) läßt sich
+ein Softwarepaket mit root-Rechten am einfachsten mit folgender
+Kommandozeile installieren:
+</para>
+<screen>
+$ rpm -i &lt;paketname&gt;.rpm
+</screen>
+<para>
+Handelt es sich bei dem zu installierenden Paket um ein Update zu einem
+schon installierten Paket, läßt sich das Einspielen mit folgender
+Kommadozeile bewerkstelligen:
+</para>
+<screen>
+$ rpm -Uhv &lt;paketname&gt;.rpm
+</screen>
+<para>
+Bei Debian-basierten Distributionen (Debian, (K)Ubuntu etc.) erfolgt die
+Installation des Paketes mit Administrationsrechten durch folgende
+Kommandozeile:
+</para>
+<screen>
+$ dpkg -i &lt;paketname&gt;.deb
+</screen>
+
+</sect2>
+
+
+<sect2 id="sect-kompilieren">
+  <title>Quellcode kompilieren</title>
+<para>
+Um SpDrS60 auf Ihrem System aus dem Quellcode zu kompilieren und
+anschließend zu installieren, müssen Sie als normaler Benutzer zunächst
+das Programmpaket auspacken:
 <screen>
 $ tar -xvjf spdrs60-&ver;.tar.bz2
 </screen>
@@ -864,10 +906,11 @@ $ su -c "make install"
 Da SpDrS60 das Konfigurationstool <command>autoconf</command> benutzt,
 sollten Sie keine Probleme beim Kompilieren haben. Voraussetzung ist
 natürlich, Sie haben alle notwendigen Bibliotheken (Qt3) bzw. die
-entsprechenden Entwicklerpakete (qt3-devel bzw. qt-devel) installiert. Da die
-HTML-Dateien dieser Dokumentation ebenfalls beim Aufrufen von
+entsprechenden Entwicklerpakete (qt3-devel bzw. qt-devel) installiert.
+Da die HTML-Dateien dieser Dokumentation ebenfalls beim Aufrufen von
 &raquo;make&laquo; erstellt werden, benötigen Sie außerdem noch das
-Programmpaket &raquo;jade&laquo; bzw. &raquo;openjade&laquo; sowie die
+Programmpaket &raquo;jade&laquo; bzw. &raquo;openjade&laquo; sowie
+&raquo;docbook&laquo; und die
 DSSSL-Stylesheets. Das Vorhandensein dieser Pakete wird bereits beim
 Aufruf von &raquo;./configure&laquo; überprüft und das Fehlen gegebenenfalls
 bemängelt.
@@ -898,8 +941,16 @@ class="directory">/usr/share/spdrs60</filename>.
 Dem Paket liegen einige sehenswerte Beispiel-Gleisbilddateien (<xref
 linkend="tabelle-layoutdateien">) bei, die nach der Installation z.B.
 unter folgendem Verzeichnis zu finden sind: <filename class="directory">
-/usr/share/spdrs60/layouts </filename>
+/usr/share/spdrs60/layouts</filename>. Insbesondere das Gleisbild mit
+dem Dateinamen <filename>dedorf.spdrs60</filename> sei als Vorlage für
+eigene Versuche empfohlen, da es einem offiziellen DB-Lehrbuch entnommen
+ist. Es zeigt originalgetreue Lösungen für die Gestaltung von
+Bahnhofseinfahrten und -ausfahrten sowie angeschlossene Rangierbereiche.
+Eigene Gleisbilddateien müssen unterhalb des persönlichen Verzeichnisses
+abgelegt werden.
+</para>
 
+<para>
 <table frame="topbot" id="tabelle-layoutdateien">
   <title>Auflistung der mitgelieferten Beispiel-Gleisbilddateien</title>
 <tgroup cols="2" align="left" colsep="1" rowsep="1">   
@@ -946,35 +997,11 @@ unter folgendem Verzeichnis zu finden sind: <filename class="directory">
   </tbody>
 </tgroup>
 </table>
-
-</para>
-
-<para>
-Eigene Gleisbild-Dateien müssen unterhalb des persönlichen Verzeichnisses
-abgelegt werden.
 </para>
 </sect2>
 
 <sect2 id="sect-starten">
   <title>Starten des Programms</title>
-<para>
-Zum Starten gibt man in einem Terminalfenster oder in einem Dialog zum
-Starten von Programmen (z.B. unter KDE mit <keycap>Alt-F2</keycap>) das
-Kommando <command>spdrs60</command> ein. Daraufhin startet das Programm,
-und es erscheint das Programmfenster (<xref linkend="abb-startansicht">).
-</para>
-<para>
-
-<figure id="abb-startansicht">
-  <title>Leeres Programmfenster nach dem
-Start</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="schnapp-prog-empty.de.png">
-  </imageobject></mediaobject>
-</figure>
-
-</para>
-
 <para>
 Bei den fertigen Softwarepaketen von der
 <ulink url="http://spdrs60.sourceforge.net/">Sourceforge-Projektseite</ulink>
@@ -985,18 +1012,34 @@ Distribution ist SpDrS60 unter der Rubrik &raquo;Spiele&laquo; oder
 &raquo;Spiele/Simulationsspiele&laquo; eingeordnet.
 </para>
 <para>
-
 <figure id="abb-kdemenu">
   <title>SpDrS60 im KDE-Menü eingebunden</title>
   <mediaobject><imageobject>
     <imagedata fileref="schnapp-kdemenu.png">
   </imageobject></mediaobject>
 </figure>
+</para>
 
+<para>
+Alternativ kann das Programm auch gestartet werden, in dem man in einem
+Terminalfenster oder in einem Dialog zum Starten von Programmen (z.B.
+ unter KDE mit <keycap>Alt-F2</keycap>) das Kommando
+<command>spdrs60</command> eingibt. Daraufhin wird das Programm geladen
+und es erscheint das Programmfenster (<xref linkend="abb-startansicht">).
+</para>
+<para>
+<figure id="abb-startansicht">
+  <title>Leeres Programmfenster nach dem
+Start</title>
+  <mediaobject><imageobject>
+    <imagedata fileref="schnapp-prog-empty.de.png">
+  </imageobject></mediaobject>
+</figure>
 </para>
 
 </sect2>
 </sect1>
+
 
 <sect1 id="sect-bedienung">
   <title>Bedienung</title>
@@ -1808,7 +1851,7 @@ SRCP-Servers.
   <title>Einfaches Schaltpult</title>
 <para>
 Durch Drücken der Tasten <keycap>Strg-K</keycap> bzw. Auswahl im Menü
-&raquo;Ansicht-&gt;Schaltpult&laquo; erscheint das in
+&raquo;Ansicht/Schaltpult&laquo; erscheint das in
 <xref linkend="abb-viewkeyboard"> dargestellte Fenster zum Schalten
 einzelner Antriebe.
 </para>
@@ -1847,7 +1890,7 @@ dieser Grenze nur im DCC-Format gesendet.
   <title>Hilfe</title>
 <para>
 Durch die Taste <keycap>F1</keycap> oder den Menüpunkt
-&raquo;Hilfe-&gt;Hilfe&laquo; öffnet der über die persönlichen
+&raquo;Hilfe/Hilfe&laquo; öffnet der über die persönlichen
 Einstellungen gewählte Browser diese Hilfedokumentation. Bei Mozilla
 und Firefox wird, wenn schon eine Programminstanz läuft, ein neues
 Tab-Fenster geöffnet.
@@ -2054,8 +2097,7 @@ Ein neues, leeres Gleisbild kann auf drei Arten angelegt werden:
 <itemizedlist mark="bullet">
   <listitem><para>Über den Tastaturkürzel
 <keycap>Strg-N</keycap></para></listitem>
-  <listitem><para>Über die Menüleiste &raquo;Datei -&gt;
-Neu...&laquo;</para></listitem>
+  <listitem><para>Über die Menüleiste &raquo;Datei/Neu...&laquo;</para></listitem>
   <listitem><para>Über den Schalter in der Werkzeugleiste &raquo;Neues
 Gleisbild&laquo;</para></listitem>
 </itemizedlist>
@@ -2255,10 +2297,10 @@ nicht, wird sie beim Speichern automatisch angehängt.
 
 <para>Die folgende Tabelle bietet eine Übersicht der im Programm zur
 Verfügung stehenden Symbole und deren Eigenschaften. Für Signale bzw.
-Weichen wird in  <xref linkend="sect-anschluesse"> zusätzlich
-beschrieben, wie Anschlüsse
-auszuführen sind. Für besondere Elemente wie die Drehscheibe wird auf
-<xref linkend="sect-drehscheibe"> verwiesen.
+Weichen wird in <xref linkend="sect-anschluesse"> zusätzlich
+beschrieben, wie Anschlüsse auszuführen sind. Auf besondere Elemente
+wie die Drehscheibe wird im <xref linkend="sect-drehscheibe"> näher
+eingegangen.
 </para>
 
 <para>
@@ -2271,7 +2313,7 @@ auszuführen sind. Für besondere Elemente wie die Drehscheibe wird auf
       <entry>Dateiname</entry>
       <entry>Beschreibung</entry>
       <entry>Drehbar</entry>
-      <entry>LEDs schaltbar</entry>
+      <entry>Gleismelder</entry>
       <entry>Adressen</entry>
       <entry>Bemerkung</entry>
       <entry>Richtungswerte <footnote id="fntabsym1"><para>Diese Werte
@@ -3169,7 +3211,7 @@ wie vorhanden):</para>
 
 <para>
 Durch Drücken von <keycap>Strg-E</keycap> bzw. Auswahl des Menüpunktes
-&raquo;Ansicht -&gt; Gleisbildbearbeitungsmodus&laquo; wird das Programm
+&raquo;Ansicht/Gleisbildbearbeitungsmodus&laquo; wird das Programm
 in einen Modus geschaltet, in dem sich Gleisbilder bearbeiten lassen.
 Ab sofort schalten einzelne Mausklicks nicht
 mehr die Antriebe, sondern werden als Editierkommandos interpretiert.
@@ -3842,8 +3884,7 @@ In der normalen Gleisbild-Darstellung erkennt man nicht,
 welche Fahrstra&szlig;en schon existieren. Man kann solch eine Anzeige
 (<xref linkend="abb-routing6">) aber durch das
 Fahrstra&szlig;en-Symbol in der Werkzeugleiste, die Tasten
-<keycap>Strg-R</keycap> oder den Menüpunkt &raquo;Ansicht -&gt;
-Fahrstraßentabelle&laquo; aktivieren.
+<keycap>Strg-R</keycap> oder den Menüpunkt &raquo;Ansicht/Fahrstraßentabelle&laquo; aktivieren.
 </para>
 <para>
 <figure id="abb-routing6">
@@ -3881,7 +3922,7 @@ hätte man die Kombination FHT + Start- + Zielsignal benutzt.
 Unter Umständen kann es nötig sein, alle eingestellten Fahrstra&szlig;en
 zurückzunehmen. Bei einer oder zwei eingestellten Straßen ist dies noch
 bequem über die FHT zu schaffen, für eine flächendeckende Anwendung
-steht der Menübefehl &raquo;Fahrstraße -&gt; Alle zurücknehmen&laquo;
+steht der Menübefehl &raquo;Fahrstraße/Alle zurücknehmen&laquo;
 (<keycap>Strg-U</keycap>) zur Verfügung.
 </para>
 </sect3>
@@ -3892,8 +3933,7 @@ steht der Menübefehl &raquo;Fahrstraße -&gt; Alle zurücknehmen&laquo;
   <title>Verwaltung von Fahrstra&szlig;en</title>
 <para>
 Eine Übersicht über die schon vorhandenen Fahrstraßen erhält man
-jederzeit durch die Fahrstraßentabelle (&raquo;Ansicht -&gt;
-Fahrstraßentabelle&laquo; oder <keycap>Strg-R</keycap>). Diese kann
+jederzeit durch die Fahrstraßentabelle (&raquo;Ansicht/Fahrstraßentabelle&laquo; oder <keycap>Strg-R</keycap>). Diese kann
 unabhängig vom aktuellen Anzeigemodus des Gleisbilds eingesetzt werden.
 </para>
 <para>
@@ -3921,7 +3961,7 @@ und die übrigen schaltenden Elemente gelb. In
 <para>
 Wenn sich das Gleisbild im Fahrstraßenbearbeitungsmodus befindet und in
 der Fahrstraßentabelle eine Fahrstraße ausgewählt ist, kann man über das
-Menü &raquo;Fahrstraße -&gt; Bearbeiten&laquo; oder durch Drücken der
+Menü &raquo;Fahrstraße/Bearbeiten&laquo; oder durch Drücken der
 Enter-Taste das in <xref linkend="abb-routing8"> dargestellte Fenster
 öffnen.
 </para>
@@ -4013,7 +4053,7 @@ z.B. des Automatikbetriebs, nur über das Dialogfenster erfolgen kann.
 </figure>
 </para>
 <para>
-Über das Menü &raquo;Fahrstraße -&gt; Hinzufügen&laquo; oder über das
+Über das Menü &raquo;Fahrstraße/Hinzufügen&laquo; oder über das
 Plus-Symbol in der Werkzeugleiste wird eine neue Fahrstraße als
 unterster Eintrag in der Tabelle angelegt (<xref linkend="abb-routing7">).
 Diesen wählt man anschließend mit einem Mausklick aus
@@ -4035,7 +4075,7 @@ Kontextmenü der rechten Maustaste.
 </para>
 <para>
 Hat man alle gewünschten Elemente zusammengestellt, kann man über das
-Menü &raquo;Fahrstraße -&gt; Bearbeiten&laquo; oder einfach über das
+Menü &raquo;Fahrstraße/Bearbeiten&laquo; oder einfach über das
 Drücken der Enter-Taste das in <xref linkend="abb-routing8">
 dargestellte Fahrstraßenbearbeitungsfenster öffnen und
 dort weitere Einstellungen an der Fahrstraße vornehmen. Dazu gehört
@@ -4175,12 +4215,12 @@ mit ihrem neuen Namen, sowie den Start- und Zielsignalen in der
 Fahrstraßentabelle. Sie kann sofort
 über die Signalschalter eingestellt und zurückgenommen werden. Nach
 wechseln in den Betriebsmodus können die neu erstellten Fahrstraßen mit
-dem Menü &raquo;Datei -&gt; Speichern&laquo; gespeichert werden.
+dem Menü &raquo;Datei/Speichern&laquo; gespeichert werden.
 </para>
 <para>
 Wenn für ein Gleisbild eine weitere Fahrstra&szlig;e erstellt werden
 soll, für die es schon eine ähnliche Vorlage gibt, kann man das
-Menü &raquo;Fahrstraße -&gt; Duplizieren&laquo; nutzen. Damit wird eine
+Menü &raquo;Fahrstraße/Duplizieren&laquo; nutzen. Damit wird eine
 exakte Kopie der gewählten Fahrstraße erstellt. Die Anpassungen
 beschränken sich dann auf die anders geschalteten Elemente der Kopie.
 </para>
@@ -5012,28 +5052,15 @@ Man wähle hier zwischen Links- und Rechtslauf oder Anhalten.
   Kreuzungen manchmal nicht?
   </emphasis></term>
   <listitem><para>
-  Auch hier zeigen sich die DKWs mit nur einem Antrieb
-  als die problematischeren Kandidaten für eine Gleisbild-Programmierung. Für
-  jedes Element ist nur ein Rückmeldekontakt einstellbar, obwohl hierfür
-  eigentlich 2 passender wären. Aber dafür müßte man die
-  Datenstruktur für alle Elemente ergänzen, was nicht besonders
-  ökonomisch wäre. Bei besetztem Gleis nimmt daher das Element immer an,
+  Auch hier zeigen sich die DKWs mit nur einem Antrieb als die
+  problematischeren Kandidaten für eine Gleisbild-Programmierung. Für
+  jedes Element ist derzeit nur ein Rückmeldekontakt einstellbar, obwohl
+  hierfür eigentlich zwei notwendig wären. Bei besetztem Gleis nimmt
+  daher das Element immer an,
   dass sich der Zug auf dem waagerechten Gleis bei Kreuzung links oder
   rechts oder auf dem links-diagonalen Gleis bei Hosenträgerkreuzungenn
   befindet. In 50% der Fälle wird also das falsche Gleis angezeigt.
-  Abhilfe: Bitte die LED-Anzeige für derartige Elemente ausschalten
-  (Elementeigenschaften -&gt; LEDs aus).
-  </para></listitem>
-  </varlistentry>
-  <varlistentry>
-  <term><emphasis>
-  Warum zeigen alle S88-Module in der Modulübersicht
-  eine Lok-&raquo;Adresse&laquo; an?
-  </emphasis></term>
-  <listitem><para>
-  Es gibt bisher keine Möglichkeit, den Anzeigemodus für
-  S88-Rückmeldemodule zu konfigurieren. Zur Zeit wird daher sowohl die
-  EDiTS-Adresse als auch der Belegtstatus der Anschlüsse wiedergegeben.
+  Abhilfe: Bitte den Gleismelder für derartige Elemente ausschalten.
   </para></listitem>
   </varlistentry>
   <varlistentry>

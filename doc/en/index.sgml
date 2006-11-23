@@ -1,93 +1,119 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.2//EN" [
-<!-- current version: --> <!ENTITY ver "0.4.8">
+<!-- current version: --> <!ENTITY ver "0.5.0">
 ]>
 
 <article lang="en">
 
 <articleinfo>
-	<title>The SpDrS60 Handbook</title>
-	<author>
-		<firstname>Stefan</firstname>
-		<surname>Preis</surname>
-		<affiliation>
-			<address>
-				<email>info@linux-modellbahn.de</email>
-			</address>
-		</affiliation>
-	</author>
-	<author>
-		<firstname>Guido</firstname>
-		<surname>Scholz</surname>
-		<affiliation>
-			<address>
-				<email>guido.scholz@bayernline.de</email>
-			</address>
-		</affiliation>
-	</author>
-	<author>
-		<firstname>Björn</firstname>
-		<surname>Schlie&szlig;mann</surname>
-		<affiliation>
-			<address>
-				<email>chr0n0ss@despammed.com</email>
-			</address>
-		</affiliation>
-	</author>
+<title>The SpDrS60 Handbook</title>
 
-	<revhistory>
-		<revision>
-			<revnumber>0.4</revnumber>
-			<date>Fri Dec 31 19:36:00 CET 2004</date>
-		</revision>
-		<revision>
-			<revnumber>0.5</revnumber>
-			<date><emphasis>Sat Dec 12 15:17:00 CET 2005</emphasis></date>
-		</revision>
-	</revhistory>
+<author>
+<firstname>Stefan</firstname>
+<surname>Preis</surname>
+<affiliation>
+<address>
+<email>info@linux-modellbahn.de</email>
+</address>
+</affiliation>
+</author>
+
+<author>
+<firstname>Guido</firstname>
+<surname>Scholz</surname>
+<affiliation>
+<address>
+<email>guido.scholz@bayernline.de</email>
+</address>
+</affiliation>
+</author>
+
+<author>
+<firstname>Björn</firstname>
+<surname>Schlie&szlig;mann</surname>
+<affiliation>
+<address>
+<email>chr0n0ss@despammed.com</email>
+</address>
+</affiliation>
+</author>
+
+<revhistory>
+  <revision>
+    <revnumber>0.4</revnumber>
+    <date>Fri Dec 31 19:36:00 CET 2004</date>
+    </revision>
+  <revision>
+    <revnumber>0.5</revnumber>
+    <date><emphasis>Sat Dec 12 15:17:00 CET 2005</emphasis></date>
+  </revision>
+</revhistory>
+
 <abstract>
 <para>This handbook describes SRCP client SpDrS60 version &ver; for Qt3.</para>
 </abstract>
+
 </articleinfo>
 
 <sect1 id="sect-introduction"><title>Introduction</title>
 <para>
-This is a short introduction into a program which
-makes it comfortable to control your digital model railroad under a
-linux OS. It has been designed for use with a SRCP server as provided by
-the DDL project. It is the first graphical program available for any
-unix system. This program is still being developed, but has already
-reached a very usable state. A lot of changes for an even better use
-will be made in the future, though. It gives the user the opportunity to
-control his model railroad as the big German Railway does in their
-switchboxes. This program works in many ways different from all other
-controlling software because it has been designed close to the German
-Railway&apos;s original switchbox.
+Spdrs60 for Linux is a program to comfortably control a digital model
+railway under a UNIX-like operating system. It has been designed to be
+used in combination with a SRCP server as provided by
+the DDL project. It is the first graphical model railway control program
+available for any UNIX-like system. This program is still under
+development, but has already reached a very usable state. A lot of changes
+for an even better use will be implemented in the future, though.
+Spdrs60 for Linux offers the user the opportunity to
+control his model railway like the original German Federal Railway
+Company does in their
+switchboxes. This program differs in many ways from all other
+controlling software because it has been designed close to the original German
+Railway&apos;s control center.
 </para>
 <para>
 Here&apos;s a review of the features which are available right now:</para>
 <itemizedlist mark="bullet">
-<listitem><para>easy-to-create layout</para></listitem>
-<listitem><para>use of routes by serialclicking on start- and aimsignal</para></listitem>
-<listitem><para>automatically reset of routings by feedback contacts</para></listitem>
-<listitem><para>switch single turnouts etc. by use with a security button WGT</para></listitem>
-<listitem><para>control your digital turntable or shifting bridge</para></listitem>
-<listitem><para>review of all feedback contacts, easy-to-understand data structur</para></listitem>
-<listitem><para>in simple ASCII format - everyone can read or change it without</para></listitem>
-<listitem><para>any specialized editor.</para></listitem>
+<listitem><para>Easy-to-create layout</para></listitem>
+<listitem><para>Use of routes by serialclicking on entry- and exitsignal</para></listitem>
+<listitem><para>Automatically release of routings by feedback contacts</para></listitem>
+<listitem><para>Switch single turnouts etc. by use with a security button WGT</para></listitem>
+<listitem><para>Control your digital turntable or shifting bridge</para></listitem>
+<listitem><para>Review of all feedback contacts
+</para></listitem>
+<listitem><para>
+All data is stored in simple text format, everyone can read or change it without
+a specialized editor.</para></listitem>
 </itemizedlist>
-<para>This program can not be used as a standalone. It needs communication to
-a SRCP server (such as "erddcd" or "srcpd"), which gives the link
-between your computer and the physical layout. The goal is a senseful
+
+<para>This program can not be used as a standalone controller. It needs
+communication to a SRCP server (such as &raquo;erddcd&laquo; or
+&raquo;srcpd&laquo;), to get a link
+between computer and the physical model railway layout. The goal is a senseful
 combination of easy-to-use and well-ordered arrangement of dialogs, data
-entries etc. Please read these pages careful to learn more about all
-features. Look at some screenshots, or even download the online-help
-file for this program to see it&apos;s power before downloading and
-installing the program itself.</para>
+entries etc. Please read these handbook carefuly to learn more about all
+features.</para>
 </sect1>
 
 <sect1 id="sect-changes"><title>Changes</title>
 
-<sect2 id="ver-0.4.8"><title>11.12.2005 New version 0.4.8 with following changes:</title>
+<sect2 id="ver-0.5.0">
+<title>Version 0.5.0</title>
+<para>
+Release date: 2006-12-xx
+</para>
+
+<itemizedlist mark="bullet">
+<listitem><para>
+</para></listitem>
+</itemizedlist>
+</sect2>
+
+<sect2 id="ver-0.4.8">
+<title>Version 0.4.8</title>
+<para>
+Release date: 2005-12-11
+</para>
+
 <itemizedlist mark="bullet">
 <listitem><para>Program logic for file open/save/close completely was
 rewritten. Forced file saving on program exit is gone now.</para></listitem>
@@ -155,7 +181,12 @@ lines for SRCP 0.8 bus data.</para></listitem>
 </itemizedlist>
 </sect2>
 
-<sect2 id="ver-0.4.7"><title>31.01.2005 New version 0.4.7 with following changes:</title>
+<sect2 id="ver-0.4.7">
+<title>Version 0.4.7</title>
+<para>
+Release date: 2005-01-31
+</para>
+
 <itemizedlist mark="bullet">
 <listitem><para>Some memory leaks in gbsarea.cpp and
   routingdialog.cpp are removed.</para></listitem>
@@ -180,7 +211,12 @@ documentation all icons used are staticaly linked to the program binary.</para><
 </itemizedlist>
 </sect2>
 
-<sect2 id="ver-0.4.6"><title>31.12.2004 New version 0.4.6 with following changes:</title>
+<sect2 id="ver-0.4.6">
+<title>Version 0.4.6</title>
+<para>
+Release date: 2004-12-31
+</para>
+
 <itemizedlist mark="bullet">
 <listitem><para>Bug fix for wrong routing after loading an other layout
 file.</para></listitem>
@@ -192,7 +228,12 @@ icons.</para></listitem>
 </itemizedlist>
 </sect2>
 
-<sect2 id="ver-0.4.5"><title>11.12.2004 New version 0.4.5 with following changes:</title>
+<sect2 id="ver-0.4.5">
+<title>Version 0.4.5</title>
+<para>
+Release date: 2004-12-11
+</para>
+
 <itemizedlist mark="bullet">
 <listitem><para>Bug fix for wrong routing calculation.</para></listitem>
 <listitem><para>Activation of routings now is possible by incomming feddback
@@ -201,15 +242,23 @@ signals. </para></listitem>
 </itemizedlist>
 </sect2>
 
-<sect2 id="ver-0.4.4"><title>18.11.2004 New version 0.4.4 with following changes:</title>
+<sect2 id="ver-0.4.4">
+<title>Version 0.4.4</title>
+<para>
+Release date: 2004-11-18
+</para>
+
 <itemizedlist mark="bullet">
 <listitem><para>Bug fix for feedback visualisation.</para></listitem>
 <listitem><para>Package now is maintained by Guido Scholz.</para></listitem>
 </itemizedlist>
 </sect2>
 
-<sect2 id="ver-0.4.3-qt3"><title>Since Feb 2004 version 0.4.3-qt3
-subreleases</title>
+<sect2 id="ver-0.4.3-qt3"><title>Version 0.4.3-qt3</title>
+<para>
+Several releases since Feb 2004
+</para>
+
 <para>
 <itemizedlist mark="bullet">
 <listitem><para>A lot of bugfixes and improvements, see german 
@@ -218,7 +267,11 @@ documentation.</para></listitem>
 </para>
 </sect2>
 
-<sect2 id="ver-0.4.3"><title>03.03.2003 New version 0.4.3 with following changes:</title>
+<sect2 id="ver-0.4.3"><title>Version 0.4.3</title>
+<para>
+Release date: 2003-03-03
+</para>
+
 <para>
 Thanks to the great help of Rüdiger Seidel a new version 0.4.3 could be
 published. The permanent work on my new home lasts longer than planned,
@@ -235,8 +288,11 @@ Changes in detail:</para>
 </itemizedlist>
 </sect2>
 
-<sect2 id="ver-0.4.2"><title>26.05.2002 New version 0.4.2 with following
-changes:</title>
+<sect2 id="ver-0.4.2"><title>Version 0.4.2</title>
+<para>
+Release date: 2002-05-26
+</para>
+
 <para>
 Some users send me reports about a non-working Maerklin digital
 turntable. So I created this new version with 2 bugs less in it:</para>
@@ -250,8 +306,8 @@ used in conjunction with the WGT button - the Go Slowly light
 </para></listitem>
 </itemizedlist>
 </para>
-<para>
-ATTENTION:</para>
+
+<para>ATTENTION:</para>
 
 <para>
 Please open the layout file *.dat.gbs, where an element for a turntable
@@ -268,10 +324,14 @@ What&apos;s happening else:</para>
 <para>
 Work for a new version 0.5.0 is on the run, but slowly. The reason is
 simple: building of our new home has just begun.</para>
+
 </sect2>
 
-<sect2 id="ver-0.4.1"><title>21.02.2002 New version 0.4.1 with following
-changes:</title>
+<sect2 id="ver-0.4.1"><title>Version 0.4.1</title>
+<para>
+Release date: 2002-02-21
+</para>
+
 <para>
 I had a lot of feedbacks concerning instabilities of the 0.4.0 version.
 I could not understand how that came &apos;cause I could not discover such
@@ -315,8 +375,7 @@ able to answer any question without several days of delay. Work on a new
 version has not yet begun.</para>
 
 <para>
-28.11.2001
-DDL-Meeting in Ruedesheim:</para>
+28.11.2001, DDL-Meeting in Ruedesheim:</para>
 
 <para>
 The meeting was a full success. A number of client and server
@@ -374,7 +433,11 @@ concerning SpDrS60 for Linux is in preparation and will be published
 within the next week.</para>
 </sect2>
 
-<sect2><title>New version 0.4.0 with following changes:</title>
+<sect2><title>Version 0.4.0</title>
+<para>
+Release date: ?
+</para>
+
 <itemizedlist mark="bullet">
 <listitem><para>New added graphical user interface for maintaining of routes: adding, changing of switched elements or deleting of routes are only a few of the numerous features. Also a graphical check of a route&apos;s elements is now possible. That means: no more adding and changing of routes with an ASCII editor!</para></listitem>
 <listitem><para>Automatically created routing files if there are none for a chosen layout, even a converting from older routing file versions is now available</para></listitem>
@@ -394,54 +457,239 @@ within the next week.</para>
 <listitem><para>New webpages, now also available in English</para></listitem>
 <listitem><para>Questionnaire about this program for a better user feedback</para></listitem>
 </itemizedlist>
+
 </sect2>
 </sect1>
 
-<sect1 id="sect-install"><title>Installation</title>
-<para></para>
-</sect1>
 
-<sect1 id="sect-obtain"><title>How to obtain SpDrS60</title> 
+<sect1 id="sect-install">
+<title>Installation</title>
 <para></para>
-</sect1>
 
-<sect1 id="sect-require"><title>Requirements</title>
-<para></para>
-</sect1>
 
-<sect1 id="sect-compile"><title>Compilation and installation</title>
+<sect2 id="sect-obtain">
+<title>How to obtain SpDrS60</title> 
+<para>
+Home of this project is this internet site:
+</para>
+<para>
+<ulink url="http://spdrs60.sourceforge.net/">
+http://spdrs60.sourceforge.net/</ulink>
+</para>
+<para>
+There you can get the source code of the current release and also ready
+to install software packages for different Linux distributions.
+The old project internet site managed by Stefan Preis is also still
+available but currently unmaintained:
+</para>
+<para>
+<ulink url="http://www.linux-modellbahn.de/">
+http://www.linux-modellbahn.de/
+</ulink>
+</para>
+</sect2>
+
+
+<sect2 id="sect-require">
+<title>Requirements</title>
+
+<sect3>
+  <title>Hardware</title>
+<para>
+A more or less outdated computer should fit the needs for a model
+railway controller running a SRCP-server and some SRCP-clients like
+&raquo;spdrs60&laquo;. Small layouts will be depictable on a screen with
+800x600 pixels resolution, bigger layouts may even be jam-packed on a
+1200x1024 pixel screen.
+</para>
+</sect3>
+
+<sect3>
+  <title>Software</title>
+<para>Spdrs60 runs with different Linux distributions as far as they
+include the Qt-library version 3.x. The current &raquo;spdrs60&laquo;
+version was hot tested against Qt 3.0.5 to 3.3.6 under SuSE, Fedora,
+Debian and Ubuntu considering different distribution releases.</para>
+
+<para>Because &raquo;spdrs60&laquo; is a SRCP-client the programm itself
+can not contol the model railway on its own. To get a link to model
+railway hardware there must be a SRCP-server configured like
+&raquo;erddcd&laquo; or &raquo;srcpd&laquo; running on the same or a
+network connected computer.</para>
+</sect3>
+</sect2>
+
+<sect2 id="sect-installieren">
+  <title>Installation of Software Packages</title>
+<para>
+Installing a ready made software package is the most simple option to
+get &raquo;spdrs60&laquo; running. Especially Linux beginners should
+seize this opportunity with both hands. Package dependencies are
+respected automatically and do not need increased care. Also
+deinstallation runs smooth and without irritation using appropriate
+packages. You will find packages for different distributions and
+distribution versions at the download section of the project
+pages. If there is no matching package for your special distribution,
+please contact the user-mailinglist.
+</para>
+<para>
+On rpm-based distributions (SuSE, Redhat, Fedora etc.) a package can be
+easily installed with administrator rights using a command line as
+follows:
+</para>
+<screen>
+$ rpm -i &lt;paketname&gt;.rpm
+</screen>
+<para>
+If the package to be installed is an update of an allready installed
+version, applying the update can be done using this command line:
+</para>
+<screen>
+$ rpm -Uhv &lt;paketname&gt;.rpm
+</screen>
+<para>
+On Debian based distributions (Debian, (K)Ubuntu etc.) installation can
+be achieved using this command line:
+</para>
+<screen>
+$ dpkg -i &lt;paketname&gt;.deb
+</screen>
+
+</sect2>
+
+
+<sect2 id="sect-compile">
+<title>Compilation from Source</title>
+
+<para>
+The first step to compile and install your software from source code,
+which is not recommended for beginners, is to unpack the tar-ball as
+normal user:
+</para>
+<screen>
+$ tar -xvjf spdrs60-&ver;.tar.bz2
+</screen>
+
 <para>
 In order to compile and install SpDrS60 on your system, type the
-following in the base directory of the SpDrS60 distribution:</para>
+following in the base directory of the SpDrS60 distribution:
+</para>
 
 <screen>
 % ./configure
 % make
-% make install
+% su -c "make install"
 </screen>
 
 <para>
 Since SpDrS60 uses <filename class="directory">autoconf</filename> you
-should have not trouble compiling it.
-Should you run into problems please report them to the the author at 
-<ulink url="mailto:info@linux-modellbahn.de">Stefan Preis</ulink>
-</para>
-</sect1>
+should not have trouble compiling it, assumed the required development
+packages are installed. Also the HTML-documentation like this handbook
+is build during compile time. So you will also need
+&raquo;openjade&laquo;, &raquo;docbook&laquo; and the set of
+&raquo;dsssl-stylesheets&laquo;. &raquo;./configure&laquo; will check
+for this software and find fault with missing packages.
 
-<sect1 id="sect-usage"><title>Usage</title>
-<para></para>
-<sect2 id="sect-generalusage"><title>General Usage</title>
-<para></para>
+</para>
 </sect2>
 </sect1>
 
-<sect1 id="sect-faq"><title>Questions and Answers</title>
+
+<sect1 id="sect-usage">
+<title>Usage</title>
+<para></para>
+
+<sect2 id="sect-generalusage">
+<title>General Usage</title>
+<para></para>
+</sect2>
+
+</sect1>
+
+
+<sect1 id="sect-symbols">
+<title>Symbols</title>
 <para></para>
 </sect1>
 
-<sect1 id="sect-copyright"><title>Copyright</title>
+
+<sect1 id="sect-routes">
+<title>Routes</title>
+<para></para>
+</sect1>
+
+
+<sect1 id="sect-feedback">
+<title>Feedback</title>
+<para></para>
+</sect1>
+
+
+<sect1 id="sect-connections">
+<title>Connections</title>
+<para></para>
+
+<sect2 id="sect-switches">
+<title>Switches</title>
+<para></para>
+</sect2>
+
+<sect2 id="sect-signals">
+<title>Signals</title>
+<para></para>
+</sect2>
+
+<sect2 id="sect-turntable">
+<title>Turntable</title>
+<para></para>
+</sect2>
+
+<sect2 id="sect-transfertable">
+<title>Transfer Table</title>
+<para></para>
+</sect2>
+
+<sect2 id="sect-dcmotors">
+<title>DC-Motors</title>
+<para></para>
+</sect2>
+
+</sect1>
+
+
+<sect1 id="sect-faq">
+<title>Questions and Answers</title>
+<para></para>
+</sect1>
+
+
+<sect1 id="sect-misc">
+<title>Miscellanious</title>
+
+<sect2 id="sect-options">
+<title>User Options</title>
+<para></para>
+</sect2>
+
+<sect2 id="sect-bugs">
+<title>Known Bugs</title>
+<para></para>
+</sect2>
+
+<sect2 id="sect-fileformat">
+<title>Layout Fileformat</title>
+<para></para>
+</sect2>
+
+<sect2 id="sect-literature">
+<title>Literature</title>
+<para></para>
+</sect2>
+
+<sect2 id="sect-copyright">
+<title>Copyright</title>
 <para>
-SpDrs60 Copyright 2002 Stefan Preis, 
+SpDrs60 Copyright 2002 Stefan Preis, 2004-2006 Guido Scholz
 </para>
 <para>
 This program is free software; you can redistribute it and/or modify
@@ -460,5 +708,6 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 </para>
+</sect2>
 </sect1>
 </article>

@@ -44,7 +44,23 @@ p {
     margin-bottom: 2em;
 }
 
-.figure {
+table {
+    margin-bottom: 1em;
+}
+
+td {
+    line-height: 1.4em;
+    margin: 0 0 0.7em 0;
+}
+
+hr {
+  height: 1px;
+  border: none;
+  color: black;
+  background-color: black;
+}
+
+.FIGURE {
     margin-top: 2em;
     margin-bottom: 2em;
 }

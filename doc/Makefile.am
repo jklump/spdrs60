@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60 documentation
 # last changes by: Guido Scholz
-# Version: $Revision: 1.9 $
-# last update: $Date: 2006-01-16 14:51:32 $
+# Version: $Revision: 1.10 $
+# last update: $Date: 2006-11-23 21:28:14 $
 
 # HTML_DOC_DIR is defined in configure.ac
 htmldir = @HTML_DOC_DIR@
@@ -241,16 +241,17 @@ dist_html_DATA = spdrs60.css
 # enHTMLFILES =
 enhtml_DATA = \
 	en/index.html \
-        en/sect-changes.html \
-	en/sect-compile.html \
-	en/sect-copyright.html \
+	en/sect-changes.html \
+	en/sect-connections.html \
 	en/sect-faq.html \
+	en/sect-feedback.html \
 	en/sect-install.html \
 	en/sect-introduction.html \
-	en/sect-obtain.html \
-	en/sect-require.html \
-        en/sect-usage.html
-
+	en/sect-misc.html \
+	en/sect-routes.html \
+	en/sect-symbols.html \
+	en/sect-usage.html
+	
 #deHTMLFILES = 
 dehtml_DATA = \
 	de/index.html \
