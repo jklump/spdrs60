@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.101 $
+                           version 0.5.0 $Revision: 1.102 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-22 16:47:50 $
+    last modified        : $Date: 2006-11-24 21:00:52 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -363,12 +363,13 @@ void element::readOldFileTextFromStream(QTextStream& ats)
 
 /**
  * update element type dependend property values
- */
+ *
+ * initialize standard properties of this special symbol to avoid
+ * recalculation in several procedures by expensive string
+ * comparations
+ * */
 void element::updateProperties()
 {
-    /* initialize standard properties of this special symbol to avoid
-     * recalculation in several procedures by expensive string
-     * comparations*/
     // init signals as they were saved in layout file or with red state
     if ((sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
          sSoldIcon == SYM_SS || sSoldIcon == SYM_SSH ||
@@ -378,8 +379,9 @@ void element::updateProperties()
          (pref.initsignalsred))
         iSoldDirection = 0;
 
-    if (sSoldIcon == SYM_ENK)   // couplers get the non-active direction
-        iSoldDirection = 0;     // on setup
+    // couplers get the non-active direction on setup
+    if (sSoldIcon == SYM_ENK)
+        iSoldDirection = 0; 
 
     signal = sSoldIcon.startsWith("signal");
 

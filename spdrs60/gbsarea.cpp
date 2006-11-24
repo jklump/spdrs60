@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.0 $Revision: 1.56 $
+                           version 0.5.0 $Revision: 1.57 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-22 16:45:04 $
+    last modified        : $Date: 2006-11-24 21:00:52 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -683,13 +683,12 @@ void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
 
         finished = (rel == endPtr);
 
-        //TODO: real two dimensional routing
-        //exitpos = rel->routeElement(exitpos, setrt);
-        //
         // paint yellow track and get back vertical correction value
         iCorr = rel->routeElement(toRight, setrt, iCorr);
 
-        //TODO:
+        //TODO: real two dimensional routing
+        //exitpos = rel->routeElement(exitpos, setrt);
+        //
         //if (exitpos == rdC)
         //  break; // rien ne vas plus, error message
         //if (exitpos & rdN)
@@ -700,7 +699,7 @@ void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
         //  idx -= rows;
         //else if (exitpos & rdE)
         //  idx += rows;
-        //  
+ 
         // calculate column of next element
         if (toRight)
             idx += rows + iCorr;
@@ -714,7 +713,11 @@ void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
     // 3) start1 -> stop2
     // 4) start2 -> stop2
     if (layoutEdge) {
+        emit showLogMessage(tr("Route found end of track at element %1")
+                .arg(idx), MT_INFO, HL_HINT);
+
         bool secondRun = false;
+
         if (fSig.elemPtr2 != NULL) {
             idx = fSig.elemPtr2->getIndexNo();
             secondRun = true;
@@ -877,18 +880,18 @@ void GBSArea::deleteElements()
 {
     /* send signal to router */
     emit clearRoutes();
-
-    //disconnect all elements
-    for (unsigned int j = 0; j < elements.size(); j++)
-        if (elements[j] != NULL)
-            disconnectElement(elements[j]);
-
     elements.clear();
     move(0, 0);
     updateGeometry();
 }
 
 
+/**
+ * connect element to gbs events
+ * 
+ * disconnect is done automatically by the Qt library when element
+ * is deleted
+ */
 void GBSArea::connectElement(element* el)
 {
     if (el == NULL)
@@ -921,44 +924,6 @@ void GBSArea::connectElement(element* el)
     connect(el, SIGNAL(sendSrcpMessage(SrcpMessage*)),
             this, SIGNAL(sendSrcpMessage(SrcpMessage*)));
     connect(this, SIGNAL(feedbackPortChanged(unsigned int,
-                    unsigned int, bool)),
-            el, SLOT(slotOccupyElement(unsigned int,
-                    unsigned int, bool)));
-}
-
-
-void GBSArea::disconnectElement(element* el)
-{
-    if (el == NULL)
-        return;
-
-    disconnect(el, SIGNAL(elementClicked(element*, GbsButtonState)),
-            this, SLOT(slotElementClicked(element*, GbsButtonState)));
-    disconnect(el, SIGNAL(setRepeatIcon(const QString&)),
-            this, SIGNAL(setRepeatIcon(const QString&)));
-    disconnect(el, SIGNAL(sigShowFBmodules()),
-            this, SIGNAL(sigShowFBmodules()));
-
-    disconnect(this, SIGNAL(switchVisualMode(elemVisualMode)),
-            el, SLOT(switchVisualMode(elemVisualMode)));
-    disconnect(this, SIGNAL(sigShowElement(int, int,
-                    elemSelectionMode)),
-            el, SLOT(slotShowElement(int, int,
-                    elemSelectionMode)));
-    disconnect(this, SIGNAL(setRepeatIcon(const QString&)),
-            el, SLOT(slotRepeatIcon(const QString&)));
-    disconnect(this, SIGNAL(sigRepaintLayout()),
-            el, SLOT(slotRepaintLayout()));
-    disconnect(el, SIGNAL(recordElement(element*,
-                    elemRecordType)),
-            this, SIGNAL(recordElement(element*, elemRecordType)));
-    disconnect(this, SIGNAL(processInfoPortMessage(unsigned int,
-                    unsigned int, unsigned int, unsigned int)),
-            el, SLOT(processInfoPortMessage(unsigned int,
-                    unsigned int, unsigned int, unsigned int)));
-    disconnect(el, SIGNAL(sendSrcpMessage(SrcpMessage*)),
-            this, SIGNAL(sendSrcpMessage(SrcpMessage*)));
-    disconnect(this, SIGNAL(feedbackPortChanged(unsigned int,
                     unsigned int, bool)),
             el, SLOT(slotOccupyElement(unsigned int,
                     unsigned int, bool)));
@@ -1063,29 +1028,15 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
 /*remove all elements of a single column*/
 void GBSArea::removeColumnElements(int col)
 {
-    element* el;
-
-    for (int r = 1; r <= rows; r++) {
-        el = item(r, col);
-        if (el != NULL) {
-            disconnectElement(el);
-            elements.remove(indexOf(r, col));
-        }
-    }
+    for (int r = 1; r <= rows; r++)
+        elements.remove(indexOf(r, col));
 }
 
 /*remove all elements of a single row*/
 void GBSArea::removeRowElements(int row)
 {
-    element* el;
-
-    for (int c = 1; c <= cols; c++) {
-        el = item(row, c);
-        if (el != NULL) {
-            disconnectElement(el);
+    for (int c = 1; c <= cols; c++)
             elements.remove(indexOf(row, c));
-        }
-    }
 }
 
 /* 
