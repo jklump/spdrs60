@@ -133,13 +133,13 @@ for this signal.</para></listitem>
 blue lines around each symbol. Users can easily assemble new routes or
 edit allready configured routes by clicking on layout elements. Mouse
 behavior has changed here. A single click with left mouse button selects
-or deselects start and stop signals; a single click with middle button
+or deselects entry and exit signals; a single click with middle button
 does the same for other switchable route elements.</para></listitem>
 <listitem><para>The route edit dialog window has completely been
 rewritten respecting new data fields for SRCP 0.8.</para></listitem>
-<listitem><para>Routing beond layout edges is possible now if a start or
-stop signal is doubled. At a minimum there must be one continuous track
-from start do stop signal. The sample file &raquo;bahnhof_klein&laquo;
+<listitem><para>Routing beond layout edges is possible now if a entry or
+exit signal is doubled. At a minimum there must be one continuous track
+from entry do exit signal. The sample file &raquo;bahnhof_klein&laquo;
 shows how is works.</para></listitem>
 <listitem><para>The main menu got a new entry for user interaction with
 routes.</para></listitem>
@@ -277,8 +277,7 @@ Thanks to the great help of Rüdiger Seidel a new version 0.4.3 could be
 published. The permanent work on my new home lasts longer than planned,
 so this offer came just to the right time.</para>
 
-<para>
-Changes in detail:</para>
+<para>Changes in detail:</para>
 
 <itemizedlist mark="bullet">
 <listitem><para>Whole program has been ported to Qt libs v2.x; the old libs don&apos;t</para></listitem>
@@ -318,12 +317,11 @@ turntable) or 209 (if you use a [secondary] specially ordered turntable
 with another address range. Save file and open it normally under
 SpDrS60.</para>
 
-<para>
-What&apos;s happening else:</para>
+<para>What&apos;s happening else:</para>
 
 <para>
 Work for a new version 0.5.0 is on the run, but slowly. The reason is
-simple: building of our new home has just begun.</para>
+simple: Building of our new home has just begun.</para>
 
 </sect2>
 
@@ -338,8 +336,7 @@ I could not understand how that came &apos;cause I could not discover such
 problems. Fortunately Jörg Stolzenberg was able to locate the bug. This
 one is fixed in the new version. Just download it.</para>
 
-<para>
-ATTENTION:</para>
+<para>ATTENTION:</para>
 
 <para>
 Alle users who created layouts with the 0.4.0 version and run into
@@ -348,8 +345,7 @@ the layouts ANEW! I only changed the code to prevent FUTURE problems.
 Due to too much work I was not able to provide code that old layout can
 be translated into correct versions. I hope you&apos;ll understand that.</para>
 
-<para>
-Workaround:</para>
+<para>Workaround:</para>
 
 <para>Open your layout file with a normal editor. Then change the following
 entries for all elements containing LEDs in the track segment as
@@ -365,17 +361,15 @@ What&apos;s happening:</para>
 Work for a new version 0.5.0 have begun recently. First I&apos;ll develop the
 basic program functionality, afterwards the layout controling functions
 are inserted.</para>
-<para>25.01.2002
 
-What&apos;s up:</para>
+<para>25.01.2002, What&apos;s up:</para>
 
 <para>
 Due to forced planning of building our new home I&apos;m unfortunately not
 able to answer any question without several days of delay. Work on a new
 version has not yet begun.</para>
 
-<para>
-28.11.2001, DDL-Meeting in Ruedesheim:</para>
+<para>28.11.2001, DDL-Meeting in Ruedesheim:</para>
 
 <para>
 The meeting was a full success. A number of client and server
@@ -384,16 +378,15 @@ of a SRCP controlling system. Everything worked: linux client with
 windows server and vice versa. Those who want to see some pictures
 follow this link.</para>
 
-<para>
-There are some consequences to SpDrS60:</para>
+<para>There are some consequences to SpDrS60:</para>
 
 <itemizedlist mark="bullet">
-<listitem><para>a new SRCP protocol will be published (v 0.8.0) which is NOT</para></listitem>
-<listitem><para>compatible to the old one; so all clients and servers have to be</para></listitem>
-<listitem><para>reprogrammed</para></listitem>
-<listitem><para>unfortunately the code of this programm is sometimes disgusting,</para></listitem>
-<listitem><para>this has to be changed to provide a better code for more stability</para></listitem>
-<listitem><para>and usability</para></listitem>
+<listitem><para>A new SRCP protocol will be published (v 0.8.0) which is
+NOT compatible to the old one; so all clients and servers have to be
+reprogrammed.</para></listitem>
+<listitem><para>Unfortunately the code of this programm is sometimes
+disgusting, this has to be changed to provide a better code for more
+stability and usability.</para></listitem>
 </itemizedlist>
 
 <para>
@@ -412,9 +405,7 @@ there won&apos;t be a release of the new version until summer 2002. A book is
 also under writing to provide more information about a complete SRCP
 environment. This book will be for sale in autumn 2002.</para>
 
-<para>25.11.2001
-
-Big news:</para>
+<para>25.11.2001, Big news:</para>
 
 <para>
 A lot of changes have been done on these websides: use the links to
@@ -528,7 +519,7 @@ seize this opportunity with both hands. Package dependencies are
 respected automatically and do not need increased care. Also
 deinstallation runs smooth and without irritation using appropriate
 packages. You will find packages for different distributions and
-distribution versions at the download section of the project
+distribution releases at the download section of the project
 pages. If there is no matching package for your special distribution,
 please contact the user-mailinglist.
 </para>
@@ -538,31 +529,31 @@ easily installed with administrator rights using a command line as
 follows:
 </para>
 <screen>
-$ rpm -i &lt;paketname&gt;.rpm
+$ rpm -i &lt;packagename&gt;.rpm
 </screen>
 <para>
 If the package to be installed is an update of an allready installed
 version, applying the update can be done using this command line:
 </para>
 <screen>
-$ rpm -Uhv &lt;paketname&gt;.rpm
+$ rpm -Uhv &lt;packagename&gt;.rpm
 </screen>
 <para>
 On Debian based distributions (Debian, (K)Ubuntu etc.) installation can
 be achieved using this command line:
 </para>
 <screen>
-$ dpkg -i &lt;paketname&gt;.deb
+$ dpkg -i &lt;packagename&gt;.deb
 </screen>
 
 </sect2>
 
 
 <sect2 id="sect-compile">
-<title>Compilation from Source</title>
+<title>Building from Source</title>
 
 <para>
-The first step to compile and install your software from source code,
+The first step to build and install your software from source code,
 which is not recommended for beginners, is to unpack the tar-ball as
 normal user:
 </para>
