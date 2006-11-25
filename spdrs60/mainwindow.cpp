@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.80 $
+                           version 0.5.0 $Revision: 1.81 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-22 21:19:49 $
+    last modified        : $Date: 2006-11-25 17:54:11 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -290,6 +290,9 @@ void MainWindow::readConfigFile()
                 }
                 else if (key.compare(CF_LASTDIR) == 0){
                     lastDir = value.stripWhiteSpace();
+                    // check if directory is valid
+                    if (!QFile::exists(lastDir))
+                        lastDir = QDir::homeDirPath();
                 }
             }
         }
@@ -776,7 +779,8 @@ void MainWindow::initMainWindow()
     actionEditFileOptions->setToolTip(tr(
                 "Edit config file with external editor"));
 #else
-    actionEditFileOptions = new QAction(tr("Edit config file with external editor"),
+    actionEditFileOptions = new QAction(tr("Edit config file with "
+                "external editor"),
             QDir::homeDirPath() + "/" + SPDRS60_INIT, 0, this,
             "editFileOptions" );
 #endif
