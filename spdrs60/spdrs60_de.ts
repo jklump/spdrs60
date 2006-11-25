@@ -161,6 +161,10 @@ den Suchkriterien entspricht.</translation>
         <source>Turnouts can not be switched using UfGT</source>
         <translation>Weichen können mit einer UfGT nicht gestellt werden</translation>
     </message>
+    <message>
+        <source>Route found end of track at element %1</source>
+        <translation>Fahrstraße ist bei Element %1 auf Ende der Gleisstrecke getroffen</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>

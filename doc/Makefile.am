@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60 documentation
 # last changes by: Guido Scholz
-# Version: $Revision: 1.10 $
-# last update: $Date: 2006-11-23 21:28:14 $
+# Version: $Revision: 1.11 $
+# last update: $Date: 2006-11-25 14:39:32 $
 
 # HTML_DOC_DIR is defined in configure.ac
 htmldir = @HTML_DOC_DIR@
@@ -56,14 +56,9 @@ dist_enimages_DATA = \
 	en/schnapp-prop-signal-2.png \
 	en/schnapp-prop-signal-3.png \
 	en/schnapp-route-adderror1.png \
-	en/schnapp-route-adderror2.png \
 	en/schnapp-route-add.png \
-	en/schnapp-route-convert.png \
-	en/schnapp-route-copy.png \
-	en/schnapp-route-del.png \
 	en/schnapp-route-rec1.png \
 	en/schnapp-route-rec6.png \
-	en/schnapp-route-saveerror.png \
 	en/schnapp-routing-table2-all.png \
 	en/schnapp-routing-table-all.png \
 	en/schnapp-routing-table.png \
@@ -87,6 +82,8 @@ dist_deimages_DATA = \
 	de/schnapp-findnone.png \
 	de/schnapp-find.png \
 	de/schnapp-helpmenu.png \
+	de/schnapp-hints.png \
+	de/schnapp-historyhints.png \
 	de/schnapp-historyfb.png \
 	de/schnapp-historyinf.png \
 	de/schnapp-history.png \
@@ -103,8 +100,6 @@ dist_deimages_DATA = \
 	de/schnapp-pref-inter.png \
 	de/schnapp-pref-layout-err1.png \
 	de/schnapp-pref-layout.png \
-	de/schnapp-pref-server-err1.png \
-	de/schnapp-pref-server-err2.png \
 	de/schnapp-prog-empty.de.png \
 	de/schnapp-prop-adr.png \
 	de/schnapp-prop-antrieb.png \
@@ -116,23 +111,20 @@ dist_deimages_DATA = \
 	de/schnapp-prop-signal-2.png \
 	de/schnapp-prop-signal-3.png \
 	de/schnapp-route-adderror1.png \
-	de/schnapp-route-adderror2.png \
 	de/schnapp-route-add.png \
-	de/schnapp-route-convert.png \
-	de/schnapp-route-copy.png \
-	de/schnapp-route-del.png \
 	de/schnapp-route-rec1.png \
 	de/schnapp-route-rec6.png \
-	de/schnapp-route-saveerror.png \
         de/schnapp-routemenu.png \
-	de/schnapp-routing-table2-all.png \
 	de/schnapp-routing-table-all.png \
 	de/schnapp-routing-table.png \
 	de/schnapp-save.png \
 	de/schnapp-sbn-comm.png \
 	de/schnapp-tt-comm.png \
 	de/schnapp-tt-comm-prog.png \
-	de/schnapp-viewmenu.png
+	de/schnapp-viewmenu.png \
+	de/shot-pref-elements.png \
+	de/shot-pref-feedback.png \
+	de/shot-pref-feedbacktype.png
 
 
 dist_commonimages_DATA = \

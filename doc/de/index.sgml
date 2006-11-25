@@ -245,6 +245,11 @@ Veröffentlicht am xx.12.2006
   vorerst nur eingeschränkt möglich.
   </para></listitem>
 
+  <listitem><para>Das Einbinden der Übersetzungen der Qt-Bibliothek
+  ist nun so gelöst, dass diese auch dann gefunden werden, wenn die
+  Umgebungsvariable QTDIR nicht explizit gesetzt ist.
+  </para></listitem>
+
 </itemizedlist>
 </sect2>
 
@@ -392,32 +397,43 @@ Veröffentlicht am 11.12.2005
 <para>
 Veröffentlicht am 23.01.2005
 <itemizedlist mark="bullet">
+
   <listitem><para>Bereinigung einiger Speicherlecks in gbsarea.cpp und
   routingdialog.cpp.</para></listitem>
+
   <listitem><para>Umstellung der Online-Dokumentation von Linuxdoc auf
   Docbook/SGML; Überarbeitung der Dokumentation.</para></listitem>
+
   <listitem><para>Ein Fehler im Fahrstraßeneditor, durch den Daten beim
   Bearbeiten von bereits vorhandenen Fahrstraßen falsch angezeigt wurden,
   wurde behoben.</para></listitem>
+
   <listitem><para>Verschiedene organisatorische Änderungen im
   Quellcode.</para></listitem>
+
   <listitem><para>Zu den Beispielgleisbildern gesellen sich das
   Schulungsbeispiel &raquo;dedorf&laquo; aus dem Buch
   &raquo;Sp Dr S60-Stellwerke bedienen&laquo; von F. Hein, der im
   Original als DrS2-Stellwerk existierende Bahnhof
   &raquo;Flandersbach&laquo; und der Bahnhof &raquo;Lintorf&laquo;.
   </para></listitem>
+
   <listitem><para>Angeregt durch das Buch von F. Hein, wurden elf neue
   Gleisbildsymbole aufgenommen.</para></listitem>
+
   <listitem><para>Bei den Fahrstraßen werden nun alle fünf
   vorbildgerechten Varianten unterschieden. Bei Aktivierung über Tasten
   sind diese durch unterschiedliche Cursor erkennbar.</para></listitem>
+
   <listitem><para>Bei den Bedientasten im Gleisbild wird nun zwischen
   Tasten für Zug- und Rangierfahrstraßen unterschieden.</para></listitem>
+
   <listitem><para>Überarbeitung einiger Symbole.</para></listitem>
+
   <listitem><para>Abgesehen von den Symbolen für die Gleisbildelemente
   und die HTML-Dokumentation, werden nun alle Grafiksymbole statisch im
   Programm vorgehalten.</para></listitem>
+
 </itemizedlist>
 </para>
 </sect2>
@@ -427,15 +443,19 @@ Veröffentlicht am 23.01.2005
 <para>
 Veröffentlicht am 01.01.2005
 <itemizedlist mark="bullet">
+
   <listitem><para>Ein Fehler, der nach dem Wechseln zu einem anderen
 Gleisbild ein Schalten von Fahrstra&szlig;en verhinderte, wurde
 beseitigt.</para></listitem>
+
   <listitem><para>Das Aktivieren und Deaktivieren von Fahrstra&szlig;en
 wird nun optisch durch ein wechselndes Cursor-Design angezeigt. Die
 Zeitspanne für die Schaltvorgänge wurde von 3&nbsp;s auf vorbildgerechte
 5&nbsp;s verlängert.</para></listitem>
+
   <listitem><para>Kleinere organisatorische Änderungen im Quellcode sowie
 im Gebrauch von Symbolen wurden vorgenommen.</para></listitem>
+
 </itemizedlist>
 </para>
 </sect2>
@@ -445,13 +465,17 @@ im Gebrauch von Symbolen wurden vorgenommen.</para></listitem>
 <para>
 Veröffentlicht am 11.12.2004
 <itemizedlist mark="bullet">
+
   <listitem><para>Ein Fehler, der zum Absturz des Programms bei
 fehlerhafter Fahrstra&szlig;eneingabe führen konnte, wurde
 beseitigt.</para></listitem>
+
   <listitem><para>Fahrstra&szlig;en lassen sich nun auch durch eingehende
 Rückmeldungen aktivieren.</para></listitem>
+
   <listitem><para>Dem Paket liegt nun auch eine spec-Datei für
 Redhat-basierte Distributionen (z.B. Fedora) bei.</para></listitem>
+
 </itemizedlist>
 </para>
 </sect2>
@@ -460,11 +484,15 @@ Redhat-basierte Distributionen (z.B. Fedora) bei.</para></listitem>
   <title>Version 0.4.4</title>
 <para>
 Veröffentlicht am 18.11.2004
+
 <itemizedlist mark="bullet">
+
   <listitem><para>Offizielle Übernahme der Programmpflege durch Guido
 Scholz</para></listitem>
+
   <listitem><para>Beseitigung eines Fehlers in der Bearbeitung von
 Rückmeldungen</para></listitem>
+
 </itemizedlist>
 </para>
 </sect2>
@@ -477,30 +505,41 @@ Armbrust Verantwortung.
 </para>
 <para>
 <itemizedlist mark="bullet">
+
   <listitem><para>Umstellung auf die Qt-Bibliothek in der Version
 3.x</para></listitem>
+
   <listitem><para>Anpassung des Programms an UNIX- und Linux-Standards
 (Speichern der persönlichen Konfiguration, Ablage von programmgebundenen
 Datendateien)</para></listitem>
+
   <listitem><para>Beseitigung vieler kleinerer Fehler, im wesentlichen zur
 Erhöhung der Programmstabilität u.a beim Speichern und Laden von
 Gleisbildern</para></listitem>
+
   <listitem><para>Übersetzung der Programmtexte ins
 Deutsche</para></listitem>
+
   <listitem><para>Integration der Kommandohistorie als dynamisch sich der
 Fenstergrö&szlig;e anpassende Fu&szlig;leiste, dadurch lä&szlig;t sich
 nun auch die Toolbar beliebig platzieren</para></listitem>
+
   <listitem><para>Überarbeitung des Dialogs zur
 Fahrstra&szlig;enkonfiguration in ein kompakteres
 Format</para></listitem>
+
   <listitem><para>Integration des Handbuchs in die
 Online-Hilfe</para></listitem>
+
   <listitem><para>Überarbeitung des Handbuchs</para></listitem>
+
   <listitem><para>Sauberes, "autotools"-konformes Buildsystem und
 Entfernung der Kdevelop-Spuren</para></listitem>
+
   <listitem><para>Komplette Renovierung des Netzwerkcodes; dieser ist nun
 ereignisgesteuert. An- und Abmelden am Server kann nun bei laufendem
 Programm geschehen.</para></listitem>
+
 </itemizedlist>
 </para>
 </sect2>
@@ -510,12 +549,17 @@ Programm geschehen.</para></listitem>
 <para>
 Veröffentlicht am 03.03.2003
 <itemizedlist mark="bullet">
+
   <listitem><para>Umstellung auf Qt-Bibliotheken 2.x</para></listitem>
+
   <listitem><para>Konvertierung in ein KDevelop-Projekt, dadurch viele
 ...(?)</para></listitem>
+
   <listitem><para>Deutlich erhöhte Stabilität</para></listitem>
+
   <listitem><para>Korrigierte Rotausleuchtung der Fahrstra&szlig;en bei
 besetzten Gleisen</para></listitem>
+
 </itemizedlist>
 </para>
 <para>
@@ -543,6 +587,7 @@ Hier wurde leider die Historie nicht gepflegt...
 <para>
 Veröffentlicht am 25.11.2001
 <itemizedlist mark="bullet">
+
   <listitem><para>Komplett neu erstellt wurde eine grafische Oberfläche
 zum Verwalten von Fahrstra&szlig;en: Neu anlegen, Ändern der
 geschalteten Elemente oder löschen von Fahrstra&szlig;en sind nur die
@@ -550,47 +595,63 @@ Basis der neuen Funktionen. Auch eine Anzeige, der in einer
 Fahrstra&szlig;e eingebundenen Elemente im Gleisbild selber ist möglich.
 Damit ist jetzt die Bedienung des Programms in einem soliden Grundstück
 komplett grafisch möglich.</para></listitem>
+
   <listitem><para>Automatisches Erstellen von Fahrstra&szlig;en-Dateien,
 wenn diese nicht vorhanden sind; Konvertierung von
 Fahrstra&szlig;en-Dateien, die bis zur Version 0.3.4 benutzt
 wurden.</para></listitem>
+
   <listitem><para>Korrektur in der Scrolleiste des Hauptfensters: ab
 sofort kann wieder die gesamte Fläche benutzt werden.</para></listitem>
+
   <listitem><para>Überarbeitete Speicherprozedur inklusive Anpassung
 der beteiligten Menüeinträge.</para></listitem>
+
   <listitem><para>Überarbeitete Programmoptionen-Verwaltung: bessere
 Ergonomie, vorbereite Config für Ansteuerung von seriellen Interfaces,
 direkte Umsetzung auf das Aussehen des Gleisbilds beim Ändern der
 Anzeige zwischen Text und Adresse. Bei Verlust einer Optionendatei wird
 automatisch eine Standarddatei eingespielt.</para></listitem>
+
   <listitem><para>Suchmöglichkeit von: Texten, Haupt- und Nebenadressen im
 gesamten Gleisbild zum schnellen Auffinden von bestimmten
 Elementen</para></listitem>
+
   <listitem><para>Überarbeitete Eingabe der Besetztmeldekontakt-Eingabe im
 Element-Eigenschaftendialog, ab sofort bleiben die gemachten Eingaben
 auch bestehen!</para></listitem>
-  <listitem><para>Verbesserte Ergonomie beim Auswählen von Rückmeldeanschlüssen
-und -Modulen unter Berücksichtigung von eventuell fehlenden Modulen an
-einem oder mehreren Buszweigen.</para></listitem>
+
+  <listitem><para>Verbesserte Ergonomie beim Auswählen von
+  Rückmeldeanschlüssen und -Modulen unter Berücksichtigung von eventuell
+ fehlenden Modulen an einem oder mehreren Buszweigen.</para></listitem>
+
   <listitem><para>Möglichkeit der Ausblendung der LED-Anzeigen in
 bestimmten Elementen; damit ist z.B. der unschöne Fehler, dass normale
 Kreuzungen manchmal etwas komisch als besetzt gemeldet wurden,
 kosmetisch beseitigt.</para></listitem>
+
   <listitem><para>Neue Elemente: Vorsignalelement (noch OHNE Steuerung
 durch ein Hauptsignal), Schuppenelemente.</para></listitem>
+
   <listitem><para>Anzeige des aktuell angefahrenen Anschlussgleises im
 Drehscheibenelement; korrekte Anzeige des Decoders zur digitalen
 Drehscheibe.</para></listitem>
+
   <listitem><para>In weiteren zahlreichen Klassen wurde der Code
 überarbeitet und komplett dokumentiert.</para></listitem>
+
   <listitem><para>Komplett überarbeitete und neu strukturierte
 Online-Hilfe.</para></listitem>
+
   <listitem><para>Starten einer neuen SpDrS60 für Linux-Instanz aus dem
 Programm heraus.</para></listitem>
+
   <listitem><para>Neue Webseiten, auch in Englisch
 verfügbar</para></listitem>
+
   <listitem><para>Beigelegter Fragebogen zum besseren Feedback der
 User</para></listitem>
+
 </itemizedlist>
 </para>
 </sect2>
@@ -699,9 +760,9 @@ Fahrstra&szlig;en-Datei, wenn ein Rückmeldekontakt sich
 Veröffentlicht am 31.05.2000
 <itemizedlist mark="bullet">
   <listitem><para>Die mit der Version &lt;= 0.2.1 erzeugten
-  Gleisbild-Dateien können mit dieser Version NICHT mehr benutzt werden (das letzte Mal,
-dass es keine Abwärtskompatibilität gibt,
-versprochen!)</para></listitem>
+  Gleisbild-Dateien können mit dieser Version NICHT mehr benutzt werden
+  (das letzte Mal, dass es keine Abwärtskompatibilität gibt, versprochen!)
+  </para></listitem>
   <listitem><para>Die vorliegende Dokumentation ist noch in vielen zentralen
 Punkten nicht auf die v0.3 aktualisiert, das werde ich in den nächsten
 Tagen nachreichen.</para></listitem>
@@ -773,10 +834,9 @@ Y-Weiche, Drehscheibe, Häuser, Schiebebühne</para></listitem>
   <listitem><para>Möglichkeit zum Schalten von verschiedenen Antrieben mit
 gleicher Adresse</para></listitem>
   <listitem><para>Aufrufmöglichkeit einer Bahnhofsuhr mit
-Minutensprung(!)</para></listitem>
+Minutensprung.</para></listitem>
   <listitem><para>Geändertes User-Interface beim Editieren der einzelnen
-Elemente (z.B. Grafiken statt Text in der
-Elementauswahl)</para></listitem>
+Elemente (z.B. Grafiken statt Text in der Elementauswahl)</para></listitem>
   <listitem><para>Editieren der Gleisbild- und Fahrstraßen-Dateien aus
   dem Programm heraus möglich mit externem Editor kwrite</para></listitem>
   <listitem><para>Beim Erstellen eines leeren Gleisbilds
@@ -1239,7 +1299,9 @@ Drücken von <keycap>Strg-D</keycap> bzw. durch Wählen des Menüeintrages
 &raquo;Ansicht/Statuszeile umschalten&laquo;. Diese
 Anzeigen sind programmtechnisch als &raquo;Dropdown&laquo;-Listen
 implementiert, in denen eine festgelegte Anzahl aufgelaufener Meldungen
-chronologisch sortiert zwischengespeichert werden.
+chronologisch sortiert zwischengespeichert werden. Die Meldungen werden
+jeweils mit Uhrzeit protokolliert, so dass eine Millisekunden genaue
+Zuordnung möglich ist.
 </para>
 
 <sect4>
@@ -1254,9 +1316,9 @@ resultieren.
 
 <para>
 <figure id="abb-hint">
-  <title>Hinweishistorie</title>
+  <title>Hinweiszeile</title>
   <mediaobject><imageobject>
-    <imagedata fileref="schnapp-hint.png">
+    <imagedata fileref="schnapp-hints.png">
   </imageobject></mediaobject>
 </figure>
 </para>
@@ -1270,7 +1332,7 @@ aufgelaufenen Hinweismeldungen im Detail.
 <figure id="abb-debhint">
   <title>Hinweishistorienliste</title>
   <mediaobject><imageobject>
-    <imagedata fileref="schnapp-deb-hint2.png">
+    <imagedata fileref="schnapp-historyhints.png">
   </imageobject></mediaobject>
 </figure>
 </para>
@@ -1325,7 +1387,9 @@ nach der Uhrzeit. Damit kann ermittelt werden, welche Befehle andere
 SRCP-Programme an den Server geschickt haben. Auch hier kann beim
 Betrieb mit einem SRCP&nbsp;0.8-Server über die persönlichen
 Einstellungen die Zeitinformation des Servers als dezimaler Zahlenwert
-oder als interpretierte Uhrzeit dargestellt werden.
+oder als interpretierte Uhrzeit dargestellt werden. Bei
+SRCP&nbsp;0.8-Betrieb laufen auch die Statusänderungen der Rückmeldungen
+hier ein.
 </para>
 <para>
 <figure id="abb-historyinf">
@@ -1464,8 +1528,8 @@ Die Bedeutung der Einträge im Einzelnen von oben nach unten:
 Die Bedeutung der Einträge im Einzelnen von oben nach unten:
 
 <itemizedlist mark="bullet">
-  <listitem><para>Zeigt die Fahrstra&szlig;entabelle an</para></listitem>
   <listitem><para>Zeigt die Rückmeldemodule an</para></listitem>
+  <listitem><para>Zeigt die Fahrstra&szlig;entabelle an</para></listitem>
   <listitem><para>Zeigt die Bahnhofsuhr an</para></listitem>
   <listitem><para>Öffnet ein einfaches Schaltpult zum Testen von
 Antrieben</para></listitem>
@@ -1528,27 +1592,39 @@ Die Bedeutung der Einträge im Einzelnen von oben nach unten:
 
 <itemizedlist mark="bullet">
   <listitem><para>An- und Ausschalten des Anlagenstroms</para></listitem>
-  <listitem><para>Benutzt die Fahrstra&szlig;enhilfstaste zum Auflösen von
-Fahrstra&szlig;en, auch wenn diese nicht als Symbol mit im Gleisbild
-liegt</para></listitem>
+  
+  <listitem><para>Benutzt die Fahrstra&szlig;enhilfsauflösetaste zum
+  Auflösen von Fahrstra&szlig;en, auch wenn diese nicht als Symbol mit
+  im Gleisbild liegt</para></listitem>
+  
   <listitem><para>Benutzt die Umfahrgruppentaste, auch wenn diese nicht
 als Symbol mit im Gleisbild liegt</para></listitem>
+
   <listitem><para>Benutzt die Weichengruppentaste, auch wenn diese nicht
 als Symbol mit im Gleisbild liegt</para></listitem>
+
   <listitem><para>Benutzt die Signalgruppentaste, auch wenn diese nicht
 als Symbol mit im Gleisbild liegt</para></listitem>
+
   <listitem><para>Benutzt die Haltgruppentaste, auch wenn diese nicht
 als Symbol mit im Gleisbild liegt</para></listitem>
+
   <listitem><para>Setzt alle von Halt verschiedenen Signale auf
 Halt/Hp0/Sh0... (Nothalt)</para></listitem>
+
   <listitem><para>Schaltet alle Antriebe einen Zustand
 weiter</para></listitem>
+
   <listitem><para>Sendet den aktuellen Zustand des grafischen Gleisbilds
 an die Anlage (so kann man nach Handstellungen wieder einen Abgleich
 herbeiführen)</para></listitem>
+
   <listitem><para>Alle aktiven Fahrstra&szlig;en werden zurückgenommen und
 deren Startsignale auf Rot gestellt</para></listitem>
-  <listitem><para>Fragt den aktuellen Zustand aller Rückmeldemodule beim Server ab</para></listitem>
+
+  <listitem><para>Fragt den aktuellen Zustand aller Rückmeldemodule beim
+  Server ab (nur unter SRCP&nbsp;0.7)</para></listitem>
+  
   <listitem><para>Zeigt ein Dialogfenster zum Anpassen der Einstellungen
   des dargestellten Gleisbilds</para></listitem>
 
@@ -4317,7 +4393,7 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
 <sect1 id="sect-rueckmeldung">
   <title>Rückmeldung</title>
 <para>
-Rückmeldungen werden im Programm sowohl für die Visualisierung von
+Rückmeldungen werden in SpDrS60 für Linux sowohl für die Visualisierung von
 Anlagenzuständen, als auch zum Auslösen von Schaltvorgängen genutzt.
 Die Bearbeitung eingehender Rückmeldungen erfolgt programmintern mit
 folgender Reihenfolge:
@@ -4342,7 +4418,8 @@ Ziehen mit der Maus vom Hauptfenster der Anwendung abgetrennt werden.
 Die Liste der Module ordnet sich abhängig von den Dimensionen des
 Fensters automatisch vertikal oder horizontal an. Die Anzahl der
 dargestellten Module und Busse (<xref linkend="abb-feedbacks">) richtet
-sich nach der Konfiguration bei den persönlichen Einstellungen. Auch die
+sich nach der Konfiguration der persönlichen Einstellungen (siehe
+<xref linkend="sect-opt-feedback">). Auch die
 Bauform der Module (8 oder 16 Eingänge) ist dort einzustellen.
 </para>
 <para>
@@ -5185,12 +5262,65 @@ Das Fenster ist über Reiter in mehrere Bereiche untergliedert.
 </figure>
 </para>
 <para>
-Am ersten Punkt kann man wählen, ob die Signale mit
-Begriff Hp 2 DB-konform in grün (wie Hp 1-Signale auch), oder für den
+Legt man ein neues Gleisbild an, so erlauben die hier konfigurierbaren
+Werte für die Geisbildabmessungen eine Voreinstellung für die
+Größe neuer Gleisbilder. Sie kann in dem Dialogfenster beim Neuerstellen oder
+später über die Gleisbildeinstellungen selbstverständlich geändert werden.
+</para>
+<para>
+In den nächsten zwei Einträgen wählt man das Programm zum Lesen der
+Online-Hilfe (Möglich sind: Firefox, Netscape, Opera und Konqueror) und zum
+hilfsweisen Editieren der Datendateien (möglich sind: kwrite, kedit, nedit
+und vim) aus.
+</para>
+<para>
+Im unteren Bereich läßt sich einstellen, ob der &raquo;Spielstand&laquo;
+der Modellbahn beim Beenden von SpDrS60 für Linux automatisch
+gespeichert werden soll. Besonders wertvoll ist das für Gleisstellungen,
+die sich dann beim nächsten Programmstart von vornherein im richtigen
+Zustand befinden.
+</para>
+<para>
+Als letztes folgt noch eine Auswahlmöglichkeit für ein Gleisbild, das
+automatisch beim Programmstart aufgerufen werden soll. Wenn man das genaue
+Verzeichnis nicht kennt, kann man diese Datei über den Schalter
+&raquo;Wählen...&laquo; aussuchen. Aktiviert man mit einem Haken den
+Autolade-Mechnanismus, vergißt dann aber, einen Dateinamen anzugeben, so
+ führt das beim Schlie&szlig;en des Dialogs zu folgender Fehlermeldung:
+</para>
+<para>
+<figure id="abb-optlayouterr">
+  <title>Gleisbild-Fehlermeldung</title>
+  <mediaobject><imageobject>
+    <imagedata fileref="schnapp-pref-layout-err1.png">
+  </imageobject></mediaobject>
+</figure>
+</para>
+</sect3>
+
+<sect3>
+  <title>Elemente-Karteikarte</title>
+<para>
+<figure id="abb-optelements">
+  <title>Elemente-Karteikarte</title>
+  <mediaobject><imageobject>
+    <imagedata fileref="shot-pref-elements.png">
+  </imageobject></mediaobject>
+</figure>
+</para>
+<para>
+Durch die erste Option (<xref linkend="abb-optelements">) läßt sich
+einstellen, ob die Signale mit Begriff Hp&nbsp;2 DB-konform in grün
+(wie Hp&nbsp;1-Signale auch), oder für den
 Benutzer leichter zu unterscheiden eben in Orange angezeigt werden. Man
 kann au&szlig;erdem wählen, ob es zu den einzelnen Bedienelementen einen
 Kurzhilfe gibt und ob die aktuellen Daten jedes Elements als Kurzhilfe
 angezeigt werden sollen (letzteres nur im Fehlersuchfall zu empfehlen!)
+</para>
+<para>
+Benutzt man SpDrs60 mit eimen SRCP&nbsp;0.8-Server, so kann man hier
+festlegen, ob die vom Server gelieferten Zeitangaben als numerischer
+Wert oder lesbare Uhrzeit in der Meldezeile angezeigt werden.
 </para>
 <para>
 Schaltbare Elemente haben ein Beschriftungsfeld, welches im Vorbild z.B.
@@ -5210,48 +5340,21 @@ man sicher sein, dass beim Anlagenstart kein Unfall wegen grüner Signale
 passiert, wählt man eine weitere Option: Alle Signal beim Laden auf
 &raquo;Rot&laquo; initialisieren.
 </para>
-<para>
-Legt man ein neues Gleisbild an, so erlauben die folgenden Werte die
-per Voreinstellung angegebene Zahl an Zeilen und Spalten für dieses
-neue Gleisbild. Sie kann in dem Dialogfenster beim Neuerstellen oder
-später über die Gleisbildeinstellunge selbstverständlich geändert werden.
-</para>
-<para>
-In den nächsten zwei Einträgen wähle man das Programm zum Lesen der
-Online-Hilfe (Möglich sind: Firefox, Netscape, Opera und Konqueror) und zum
-hilfsweisen Editieren der Datendateien (möglich sind: kwrite, kedit und
-kword aus dem koffice-Paket) aus.
-</para>
-<para>
-Als letztes folgt noch die Auswahl eines Gleisbilds, das automatisch
-beim Programmstart aufgerufen werden soll. Wenn man das genaue
-Verzeichnis nicht wei&szlig;, kann man diese Datei über den Schalter
-&raquo;Wählen...&laquo; aussuchen. Aktiviert man mit einem Haken den
-Autoloader, vergißt dann aber, einen Dateinamen anzugeben, so führt das
-beim Schlie&szlig;en des Dialogs zu folgender Fehlermeldung:
-</para>
-<para>
-<figure id="abb-optlayouterr">
-  <title>Gleisbild-Fehlermeldung</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="schnapp-pref-layout-err1.png">
-  </imageobject></mediaobject>
-</figure>
-</para>
 </sect3>
     
 <sect3>
-  <title>Daten-Karteikarte</title>
+  <title>Digitale-Daten-Karteikarte</title>
 <para>
 <figure id="abb-optdata">
-  <title>Daten-Karteikarte</title>
+  <title>Digitale-Daten-Karteikarte</title>
   <mediaobject><imageobject>
     <imagedata fileref="schnapp-pref-data.png">
   </imageobject></mediaobject>
 </figure>
 </para>
 <para>
-Im obersten Bereich kann man das Protokoll wählen,
+Im obersten Bereich dieser in <xref linkend="abb-optdata"> dargestellen
+Seite kann man das Protokoll wählen,
 welches man standardmä&szlig;ig bei den Elementeigenschaften
 eingeblendet haben will. Auch der entsprechende Decoder ist hier
 voreinstellbar. Zweckmä&szlig;igerweise wählt man an beiden Punkten
@@ -5267,7 +5370,8 @@ muß man angeben, wie lange eine komplette 360°-Drehung der Bühne
 dauert. Damit ist gewährleistet, dass die grafische Anzeige in etwa
 während des Drehvorgangs mit dem realen Stand der Bühne übereinstimmt.
 Wird keine Zeit eingeben, so erhält man beim Schlie&szlig;en der
-Optionen folgende Fehlermeldung (eine Eingabe ist immer nötig, auch wenn
+Optionen die in <xref linkend="abb-optdataerr2"> dargestellte
+Fehlermeldung (eine Eingabe ist immer nötig, auch wenn
 man gar keine Drehscheibe hat):
 </para>
 <para>
@@ -5278,29 +5382,27 @@ man gar keine Drehscheibe hat):
   </imageobject></mediaobject>
 </figure>
 </para>
+</sect3>
+
+<sect3 id="sect-opt-feedback">
+  <title>Rückmeldemodule-Karteikarte</title>
 <para>
-&raquo;Autostart voltage&laquo; sagt bei Aktivierung aus, dass
-die Versorgungsspannung der Anlage automatisch nach dem Programmstart
-eingeschaltet wird.
+<figure id="abb-optfeedback">
+  <title>Rückmeldemodule-Karteikarte</title>
+  <mediaobject><imageobject>
+    <imagedata fileref="shot-pref-feedback.png">
+  </imageobject></mediaobject>
+</figure>
 </para>
 <para>
-Damit man bei der Aktivierung von Fahrstra&szlig;en nicht dieselbe ad
-hoc aufleuchten sieht, sondern die Weichen nacheinander einlaufen, kann
-durch Anpassung der Zeit im Fahrstraßen delay die Zeit zwischen den
-Schaltvorgängen bei zwei Elementen innerhalb einer Fahrstra&szlig;e
-beeinflußt werden.
-</para>
-<para>
-Im unteren Bereich wählt man die Art der Rückmeldekontakte aus. Die
-Unterscheidung dient lediglich der genauen Anzeige, die eigentliche
-Funktionen wie Schalten von Fahrstra&szlig;en etc. ist davon nicht
-beeinflußt, wenn die Daten zu den einzelnen Kontakten in den
-Elementeigenschaften stimmig sind. Setzt man auf der Anlage s88-Module
-ein, dann kann man au&szlig;erdem je anschlie&szlig;baren Modulstrang
-die dort vorhandene Anzahl an Module eingeben. Dies erleichtert in der
-Modulübersicht das Auffinden der wichtigen Module. Sollte man aus
-Versehen einmal an allen Bussen keine Module zulassen, so meldet sich
-folgender Fehler:
+Auf dieser in <xref linkend="abb-optfeedback"> dargestellen Seite wird
+konfiguriert, wie die in <xref linkend="sect-rueckmeldung"> beschriebene
+Ansicht der Rückmeldemodule im Detail dargestellt wird. Es gibt dazu
+Einstellmöglichkeiten für die Anzahl der Eingänge der Module, der
+Anzahl der Rückmeldebusse (maximal vier Busse mit je 31 Modulen zu
+16 Anschlüssen sind möglich) und der Nummerierung der Busse. Letztere
+ist Abhängig davon, ob die Rückmeldungen über einen SRCP&nbsp;0.7- oder
+einen SRCP&nbsp;08.-Server laufen.
 </para>
 <para>
 <figure id="abb-optdataerr1">
@@ -5312,51 +5414,34 @@ folgender Fehler:
   </mediaobject>
 </figure>
 </para>
+</sect3>
+
+<sect3>
+  <title>Rückmeldetyp-Karteikarte</title>
+<para>
+<figure id="abb-optfeedbacktype">
+  <title>Rückmeldetyp-Karteikarte</title>
+  <mediaobject><imageobject>
+    <imagedata fileref="shot-pref-feedbacktype.png">
+  </imageobject></mediaobject>
+</figure>
+</para>
+<para>
+Auf dieser in <xref linkend="abb-optfeedbacktype"> dargestellen Seite
+läßt sich die Art der Rückmeldung einstellen. Diese Angabe wird nur bei
+einem SRCP&nbsp;0.7-Server verwendet. Eine Initialisierung von
+Selektrix-Modulen (SRCP&nbsp;0.8) ist hier schon vorbereitet,
+funktioniert aber noch nicht.
+</para>
 <para>Zu genaueren Informationen zur Beschaltung des S88-Busses an den
 SRCP-Server siehe den Link zu Martin Wolf auf den Linkseiten unter
 <ulink url="http://www.linux-modellbahn.de/">
 http://www.linux-modellbahn.de/</ulink>.</para>
 </sect3>
 
-<sect3>
-  <title>Interface-Karteikarte</title>
-<para>
-<figure id="abb-optinterface">
-  <title>Interface-Karteikarte</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="schnapp-pref-inter.png">
-  </imageobject></mediaobject>
-</figure>
-</para>
-<para>
-Auf dieser Seite sind Eingabezeilen für den Namen des SRCP-Servers und
-die Portnummer für die Netzwerkverbindung dorthin vorhanden.
-</para>
-<para>
-Bei fehlenden Eingaben im Bereich SRCP-Server erhält der Benutzer eine
-der folgenden Fehlermeldungen:
-</para>
-<para>
-<figure id="abb-optservererr1">
-  <title>Fehlermeldung Hostname</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="schnapp-pref-server-err1.png">
-  </imageobject></mediaobject>
-</figure>
-<figure id="abb-optservererr2">
-  <title>Fehlermeldung Port</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="schnapp-pref-server-err2.png">
-  </imageobject></mediaobject>
-</figure>
-</para>
-<para>
-<emphasis>ACHTUNG:</emphasis> Eine Prüfung auf korrekte
-Eintragung einer IP-Adresse wurde hier verzichtet.
-</para>
-</sect3>
 </sect2>
-  
+
+
 <sect2 id="sect-bugs">
   <title>Bekannte Programmfehler</title>
 <para>
