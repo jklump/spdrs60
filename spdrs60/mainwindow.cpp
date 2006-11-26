@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.81 $
+                           version 0.5.0 $Revision: 1.82 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-25 17:54:11 $
+    last modified        : $Date: 2006-11-26 21:27:44 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1790,6 +1790,7 @@ void MainWindow::openFile(const QString& fn)
     ts.setEncoding(QTextStream::UnicodeUTF8);
     
     QString s, key, value;
+    int fversion = 0;
     while (!ts.eof()) {
         s = ts.readLine();
         
@@ -1816,10 +1817,14 @@ void MainWindow::openFile(const QString& fn)
                 value = s.section(DS, 3, 3).stripWhiteSpace();
                 fbLogin = value.toInt() == 1;
             }
+            else if (key.compare(GF_FORMATVERSION) == 0){
+                fversion = value.toInt();
+            }
             else if (s.startsWith("%% layout"))
                 break;
         }
     }
+    // TODO: add format version
     /*TODO: srcpCom->readFileTextFromStream(ts);*/
     gbs->readFileTextFromStream(ts);
     rtController->readFileTextFromStream(ts);
@@ -2714,13 +2719,14 @@ void MainWindow::ConnectInfoPort()
 
 void MainWindow::CloseSRCPServerConnection()
 {
-    /* In SRCP 0.7 command port is closed by "passive close" */
-    if (srcpVersion == 7)
-        SendCommandToSRCPServer("LOGOUT");
-    
-    /* In SRCP 0.8 command port is closed by "active close" */
-    else if (srcpVersion == 8) {
-        //TODO: SendCommandToSRCPServer("TERM 0 SESSION");
+    /* 1. Command socket */
+    if (CommandSocket->isOpen()) {
+        
+        if (srcpVersion == 7)
+            SendCommandToSRCPServer("LOGOUT");
+        else if (srcpVersion == 8)
+            SendCommandToSRCPServer("TERM 0 SESSION");
+
         CommandSocket->close();
         if (CommandSocket->state() == QSocket::Closing) {
             // We have a delayed close.
@@ -2732,8 +2738,9 @@ void MainWindow::CloseSRCPServerConnection()
             CommandSocketConnectionClosed();
     }        
 
-    /* Only SRCP 0.7: Feedback port is closed by "active close" */
+    /* 2. Feedback socket, but only in SRCP 0.7 mode */
     if (srcpVersion == 7 && FeedbackSocket->isOpen()) {
+
         FeedbackSocket->close();
         if (FeedbackSocket->state() == QSocket::Closing) {
             // We have a delayed close.
@@ -2745,9 +2752,12 @@ void MainWindow::CloseSRCPServerConnection()
             FeedbackSocketConnectionClosed();
     }
 
-    /* SRCP 0.7 and 0.8: Info port is closed by "active close" */
+    /* 3. Info socket */
     if (InfoSocket->isOpen()) {
-        //TODO: SendInfoCommandToSRCPServer("TERM 0 SESSION"")
+        
+        if (srcpVersion == 8)
+            SendInfoCommandToSRCPServer("TERM 0 SESSION");
+        
         InfoSocket->close();
         if (InfoSocket->state() == QSocket::Closing) {
             // We have a delayed close.
