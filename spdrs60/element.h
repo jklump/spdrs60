@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.0 $Revision: 1.56 $
+                           version 0.5.0 $Revision: 1.57 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-22 16:45:04 $
+    last modified        : $Date: 2006-11-27 21:38:11 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -280,7 +280,7 @@ private:
     elemVisualMode visualMode;
     unsigned int iSoldIndex;
     unsigned int iFBBusNo;
-    unsigned int iFBContact;
+    int iFBContact;
     unsigned int editsAddress;
     unsigned int countervalue;
     int      iGA1BusNo;

@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.cpp
-                           version 0.5.0 $Revision: 1.28 $
+                           version 0.5.0 $Revision: 1.29 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-17 12:28:19 $
+    last modified        : $Date: 2006-11-27 21:38:11 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -420,7 +420,7 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
     feedbackLayout->addItem(spacer);
-    contactSB = new QSpinBox(0, 496, 1, feedbackGB, "contactSB");
+    contactSB = new QSpinBox(1, 496, 1, feedbackGB, "contactSB");
     labelFBContact->setBuddy(contactSB);
     feedbackLayout->addWidget(contactSB);
     connect(contactSB, SIGNAL(valueChanged(int)),

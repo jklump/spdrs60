@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.102 $
+                           version 0.5.0 $Revision: 1.103 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-24 21:00:52 $
+    last modified        : $Date: 2006-11-27 21:38:11 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -117,7 +117,7 @@ element::element(QWidget* parent): QWidget(parent)
     iSoldSubType = -1;
     sSoldText = "-1"; // for test cases: "test"
     iSoldActiveTime = -1;
-    iFBContact = 0;
+    iFBContact = 1;
     iSoldLEDoff = 1;
 
     createPopupMenus();
@@ -265,7 +265,9 @@ void element::readFileTextFromStream(QTextStream& ats)
             else if (key.compare(GF_FBPORT) == 0){
                 iFBBusNo = value.toUInt();
                 value = s.section(DS, 2, 2).stripWhiteSpace();
-                iFBContact = value.toUInt();
+                iFBContact = value.toInt();
+                if (iFBContact <= 0)
+                    iFBContact = 1;
             }
             else if (key.compare(GF_HIDELEDS) == 0){
                 iSoldLEDoff = value.toInt();
@@ -344,11 +346,14 @@ void element::readOldFileTextFromStream(QTextStream& ats)
             else if (key.compare(GF_FBPORT) == 0){
                 int tempport = value.toInt();
                 if (tempport <= -1) {
-                    iFBContact = 0;
+                    iFBContact = 1;
                     iFBBusNo = 1;
                 }
                 else {
                     iFBContact = tempport % 496 + 1;
+                    if (iFBContact <= 0)
+                        iFBContact = 1;
+                        
                     iFBBusNo = tempport / 496 + 1;
                 }
             }
@@ -1213,7 +1218,7 @@ void element::slotCtxEdit(int ctxID)
             sSoldIcon = sRepeatIcon;
             iSoldRotate = 0;        // all symbols are rotatable
             iSoldLEDoff = 0;
-            iFBContact = 0;
+            iFBContact = 1;
             updateProperties();
             break;
         case CTX_ID_ROTATE:
@@ -1227,7 +1232,7 @@ void element::slotCtxEdit(int ctxID)
             sSoldIcon = SYM_GER;    // straight
             iSoldRotate = 0;        // all symbols are rotatable
             iSoldLEDoff = 0;
-            iFBContact = 0;
+            iFBContact = 1;
             updateProperties();
             break;
         case 6:
@@ -1235,7 +1240,7 @@ void element::slotCtxEdit(int ctxID)
             sSoldIcon = SYM_KUL;    // left curve
             iSoldRotate = 0;        // all symbols are rotatable
             iSoldLEDoff = 0;
-            iFBContact = 0;
+            iFBContact = 1;
             updateProperties();
             break;
         case 7:
@@ -1243,21 +1248,21 @@ void element::slotCtxEdit(int ctxID)
             sSoldIcon = SYM_KUR;    // right "
             iSoldRotate = 0;        // all symbols are rotatable
             iSoldLEDoff = 0;
-            iFBContact = 0;
+            iFBContact = 1;
             updateProperties();
             break;
         case 8:
             clear();
             sSoldIcon = SYM_DIL;    // left diagonal
             iSoldLEDoff = 0;
-            iFBContact = 0;
+            iFBContact = 1;
             updateProperties();
             break;
         case 9:
             clear();
             sSoldIcon = SYM_DIR;    // right "
             iSoldLEDoff = 0;
-            iFBContact = 0;
+            iFBContact = 1;
             updateProperties();
             break;
         case 10:
@@ -1265,7 +1270,7 @@ void element::slotCtxEdit(int ctxID)
             sSoldIcon = SYM_WEL;    // left turnout
             iSoldRotate = 0;        // all symbols are rotatable
             iSoldLEDoff = 0;
-            iFBContact = 0;
+            iFBContact = 1;
             updateProperties();
             break;
         case 11:
@@ -1273,19 +1278,17 @@ void element::slotCtxEdit(int ctxID)
             sSoldIcon = SYM_WER;    // right "
             iSoldRotate = 0;        // all symbols are rotatable
             iSoldLEDoff = 0;
-            iFBContact = 0;
+            iFBContact = 1;
             updateProperties();
             break;
     }
-    //TODO: get current occupation state if information is relevant for
-    //this element
-    //iSoldLEDstate = bFBport[iFBContact] << 1;
     //send new icon name to all other elements
     slotRepeatIcon(sSoldIcon);
     emit setRepeatIcon(sSoldIcon);
     updateLEDState();
     updateContextMenus();
     setupElementIcon();
+    updateFeedbackState();
 }
 
 /*
@@ -1305,7 +1308,7 @@ void element::clear()
     iSoldChangeConn[0] = -1;
     iSoldChangeConn[1] = -1;
     iSoldDirection = -1;
-    iFBContact = 0;
+    iFBContact = 1;
     iSoldInvert = -1;
     iSoldLEDoff = 1;
     iSoldLEDstate = LED_OFF;
@@ -6084,7 +6087,7 @@ int element::getAddressCount()
 void element::updateFeedbackState()
 {
     // get current feedback status from server to update LEDstate
-    if ((iSoldLEDoff != 1) && (iFBContact >= 0)) {
+    if ((iSoldLEDoff != 1) && (iFBContact > 0)) {
         
         SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgFbGet);
         if (sm == NULL)

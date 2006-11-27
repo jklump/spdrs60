@@ -174,7 +174,7 @@ it is mainly vector based and much more flexilbe for further
 optimizations. Appearance of some elements is closer to the original
 than before. All switches now blink when they are switched. The FHT
 panel has got a efficient working counter; but without any consequences
-for the operator. Track indicators now can be switches off to visualize
+for the operator. Track indicators now can be switched off to visualize
 track sections without occupancy monitoring.
 </para></listitem>
 
