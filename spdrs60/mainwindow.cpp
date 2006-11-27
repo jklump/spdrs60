@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.82 $
+                           version 0.5.0 $Revision: 1.83 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-26 21:27:44 $
+    last modified        : $Date: 2006-11-27 18:06:39 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1243,6 +1243,10 @@ void MainWindow::initMainWindow()
     QToolBar* routetb = new QToolBar(this, "routetb");
     Q_CHECK_PTR(routetb);
     routetb->setLabel(tr("Route operations"));
+    routetb->hide();
+    //connect visibility of toolbar to visibility of routingviewer
+    connect(rtViewer, SIGNAL(visibilityChanged(bool)),
+               routetb, SLOT(setShown(bool)));
 
     /*Route menu*/
     QPopupMenu* routemenu = new QPopupMenu(this);

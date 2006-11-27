@@ -1,4 +1,4 @@
 * Translation of online documentation to english.
 * Make elements with buttons activatable by feedback messages
-* Change element painting to vector based drawing
+* Rewrite routing algorithm to do real two dimensional routing
 * Release routes by occupy sections

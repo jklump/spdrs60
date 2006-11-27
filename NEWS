@@ -1,3 +1,65 @@
+spdrs60-0.5.0 (2005-12-??)
+  o A user option to automatically save the layout on program exit was
+    added. This facilitates storing the last achieved game positions.
+
+  o The file format for user preferences (~/.spdrs60rc) was changed. Now
+    it is more compact and more flexilbe for future changes.
+
+  o The code for the feedback module window has been rewritten completely.
+    Now this window behaves similar to the route list window; it is
+    resizeable and much less cumbersome than the old one.
+
+  o Support for SRCP protocol version 0.8 hase been added. Now also the
+    current version of "srcpd" can be used as controlling server.
+
+  o Simple solenoids like relays now again can be switched by routes.
+    This ability was lost during changes from version 0.4.7 to 0.4.8.
+
+  o Routes now can be lead over decouplers and blind elements.
+
+  o The dialog window for user preferences has completely been
+    redesigned. It is now more compact and uses automatical layout
+    management. Quantity and numbering of feedback busses now is
+    configurable more flexible.
+
+  o The dialog window for finding elements has been redesigned to use
+    automatical layout management.
+
+  o The dialog window for route editing was optimized to sort more than
+    nine route elements correctly. The corresponding list edit buttons
+    were placed more space-saving. 
+
+  o Connection data for the the SRCP server now are no more user
+    settings but layout specific settings. The configuration can be
+    changed using the new menu item "Layout/Settings...". As a further
+    conclusion a user can now handle different layouts connected to
+    different SRCP servers at the same time.
+
+  o Signals can now be switched to red light by pressing the button
+    HaGT.
+
+  o The code painting the layout elements completely has been rewritten.
+    Now it is mainly vector based and much more flexilbe for further
+    optimizations. Appearance of some elements is closer to the original
+    than before. All switches now blink when they are switched. The FHT
+    panel has got a efficient working counter; but without any
+    consequences for the operator. Track indicators now can be switches
+    off to visualize track sections without occupancy monitoring.
+
+  o The message line at the bottom of layout window now has four history
+    categories. Message hints for program users now are separated from
+    pure SRCP messages.
+
+  o For elements connected to a digital decoder now also protocol
+    versions for server and Selectrix are selectable. Due to the
+    segmented addressing of this protocol variants at this time this
+    protocols are not well suited to be used in routes.
+
+  o Usage of Qt library translations now is optimized and preselectad at
+    compile time. Usage at runtime now does not depend on whether QTDIR
+    is set or not.
+
+
 spdrs60-0.4.8 (2005-12-11)
   o Program logic for file open/save/close completely was rewritten 
   o Usage of routes also completely has been rewritten.
@@ -6,7 +68,7 @@ spdrs60-0.4.8 (2005-12-11)
     format (»dat.gbs«) can easily be imported.
   o Like in the original switchbox now normal train routes can not be
     routed over occupied tracks.
-  o Start signals of normal train routes now have a
+  o Entry signals of normal train routes now have a
     »Fahrstraßenfestlegemelder« (FfM) indicating an active route for this
     signal.
   o For route editing there is a new edit mode indicated by blue lines

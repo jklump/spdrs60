@@ -197,6 +197,15 @@ compile time. Usage at runtime now does not depend on whether QTDIR is set
 or not.
 </para></listitem>
 
+<listitem><para>
+German and english handbooks were updated.
+</para></listitem>
+
+<listitem><para>
+The route toolbar now is shown and hidden together with the route list
+window.
+</para></listitem>
+
 </itemizedlist>
 </sect2>
 
@@ -218,7 +227,7 @@ information together was created. The suffix for this format is
 easily be imported.</para></listitem>
 <listitem><para>Like in the original switchbox now normal train routes
 can not be routed over occupied tracks.</para></listitem>
-<listitem><para>Start signals of normal train routes now have a
+<listitem><para>Entry signals of normal train routes now have a
 &raquo;Fahrstraﬂenfestlegemelder&laquo; (FfM) indicating an active route
 for this signal.</para></listitem>
 <listitem><para>For route editing there is a new edit mode indicated by

@@ -254,6 +254,13 @@ Veröffentlicht am xx.12.2006
   Umgebungsvariable QTDIR nicht explizit gesetzt ist.
   </para></listitem>
 
+  <listitem><para>Deutsches und englisches Handbuch wurden überarbeitet.
+  </para></listitem>
+
+  <listitem><para>Die Werkzeugleiste für das Fahrstraßenfenster wird nun
+  mit dem Fahrstraßenfenster ein- und ausgeblendet.
+  </para></listitem>
+
 </itemizedlist>
 </sect2>
 
@@ -1293,17 +1300,17 @@ Rückmeldeunterstützung, dann erscheint das Rückmeldesymbol ausgegraut.
 </sect3>
 
 <sect3>
-  <title>Meldefenster</title>
+  <title>Statuszeile</title>
 <para>
-Am unteren Rand findet man ein Fenster für unterschiedliche Meldungen.
-Es kann zwischen den vier verschiedenen Anzeigenarten
+Am unteren Rand des Anwendungsfensters befindet sich eine Statuszeile
+für unterschiedliche Meldungen. Sie kann zwischen den vier Anzeigenarten
 &raquo;Hinweise&laquo;, &raquo;Kommandos&laquo;, &raquo;Infoport&laquo; und
-&raquo;Rückmeldung&laquo; umgeschaltet werden. Ermöglicht wird das durch
+&raquo;Rückmeldung&laquo; umgeschaltet werden. Erreichen kann man das durch
 Drücken von <keycap>Strg-D</keycap> bzw. durch Wählen des Menüeintrages
 &raquo;Ansicht/Statuszeile umschalten&laquo;. Diese
 Anzeigen sind programmtechnisch als &raquo;Dropdown&laquo;-Listen
 implementiert, in denen eine festgelegte Anzahl aufgelaufener Meldungen
-chronologisch sortiert zwischengespeichert werden. Die Meldungen werden
+chronologisch sortiert zwischengespeichert wird. Die Meldungen werden
 jeweils mit Uhrzeit protokolliert, so dass eine Millisekunden genaue
 Zuordnung möglich ist.
 </para>
@@ -1311,7 +1318,7 @@ Zuordnung möglich ist.
 <sect4>
   <title>Hinweisanzeige</title>
 <para>
-In der in <xref linkend="abb-hint"> gezeigten Zeile erscheinen
+In der in <xref linkend="abb-hint"> gezeigten Hinweiszeile erscheinen
 allgemeine Meldungen des Programms. Hierzu gehören verschiedenste
 Statusmeldungen, die die letzte Aktion quittieren, oder auch
 Fehlermeldungen, die aus einer falschen Bedienung des Programms
