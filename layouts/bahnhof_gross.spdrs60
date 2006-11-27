@@ -1,8 +1,8 @@
 # spdrs60 data file
-# version=0.4.8
-# last modified=2005-12-01T22:08:55
+# version=0.5.0_beta10
+# last modified=2006-11-27T22:46:25
 formatversion;1
-cmdhost;localhost;12345;0
+cmdhost;localhost;12345;0;0;0
 fbhost;localhost;12346;0
 # start of layout section
 %% layout
@@ -16,15 +16,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;Ahrtal
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 4
 index;4
@@ -33,15 +33,15 @@ rotate;1
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;1
-address_2;1;-1
+address_1;1;1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;0
 text;001
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 7
 index;7
@@ -50,15 +50,15 @@ rotate;1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 8
 index;8
@@ -67,15 +67,15 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 9
 index;9
@@ -84,15 +84,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;Koblenz
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 18
 index;18
@@ -101,15 +101,15 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;2
-address_2;1;102
+address_1;1;2;0
+address_2;1;102;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;4
 text;002
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 21
 index;21
@@ -118,15 +118,15 @@ rotate;1
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;11
-address_2;1;-1
+address_1;1;11;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;0
 text;011
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 22
 index;22
@@ -135,15 +135,15 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;16
-address_2;1;116
+address_1;1;16;0
+address_2;1;116;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;4
 text;016
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 29
 index;29
@@ -152,15 +152,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 32
 index;32
@@ -169,15 +169,15 @@ rotate;0
 invers turnout;0
 decoder;-1
 protocol;M
-address_1;1;3
-address_2;1;-1
+address_1;1;3;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;-1
 text;003
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 35
 index;35
@@ -186,15 +186,15 @@ rotate;0
 invers turnout;0
 decoder;-1
 protocol;M
-address_1;1;12
-address_2;1;-1
+address_1;1;12;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;1
 subtype;-1
 text;012
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 36
 index;36
@@ -203,15 +203,15 @@ rotate;0
 invers turnout;0
 decoder;-1
 protocol;M
-address_1;1;17
-address_2;1;-1
+address_1;1;17;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;1
 subtype;-1
 text;017
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 38
 index;38
@@ -220,15 +220,15 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 40
 index;40
@@ -237,15 +237,15 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 43
 index;43
@@ -254,15 +254,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 46
 index;46
@@ -271,8 +271,8 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -288,15 +288,15 @@ rotate;1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 48
 index;48
@@ -305,15 +305,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 49
 index;49
@@ -322,8 +322,8 @@ rotate;-1
 invers turnout;-1
 decoder;Maerklin k83       WD (M)
 protocol;M
-address_1;1;13
-address_2;1;113
+address_1;1;13;0
+address_2;1;113;0
 change conn 1;0
 change conn 2;0
 direction;2
@@ -339,15 +339,15 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;N
-address_1;1;18
-address_2;1;-1
+address_1;1;18;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;-1
 text;0018
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 52
 index;52
@@ -356,15 +356,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;21
-address_2;1;0
+address_1;1;21;0
+address_2;1;0;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;-1
 text;-1
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 54
 index;54
@@ -373,15 +373,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 57
 index;57
@@ -390,15 +390,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
-text;-1
+text;0000
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 60
 index;60
@@ -407,15 +407,15 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;4
-address_2;1;-1
+address_1;1;4;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;-1
 text;004
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 61
 index;61
@@ -424,8 +424,8 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -441,15 +441,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 63
 index;63
@@ -458,15 +458,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 64
 index;64
@@ -475,8 +475,8 @@ rotate;-1
 invers turnout;-1
 decoder;Maerklin k83       WD (M)
 protocol;M
-address_1;1;100
-address_2;1;-1
+address_1;1;100;0
+address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
 direction;0
@@ -492,15 +492,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 66
 index;66
@@ -509,15 +509,15 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;22
-address_2;1;-1
+address_1;1;22;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;-1
 text;022
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 68
 index;68
@@ -526,15 +526,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
-text;-1
+text;0000
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 71
 index;71
@@ -543,15 +543,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 74
 index;74
@@ -560,15 +560,15 @@ rotate;1
 invers turnout;0
 decoder;-1
 protocol;M
-address_1;1;5
-address_2;1;-1
+address_1;1;5;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;1
 subtype;-1
 text;005
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 75
 index;75
@@ -577,15 +577,15 @@ rotate;1
 invers turnout;0
 decoder;-1
 protocol;M
-address_1;1;8
-address_2;1;-1
+address_1;1;8;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;1
 subtype;-1
 text;008
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 77
 index;77
@@ -594,15 +594,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 78
 index;78
@@ -611,15 +611,15 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 80
 index;80
@@ -628,15 +628,15 @@ rotate;1
 invers turnout;-1
 decoder;-1
 protocol;N
-address_1;1;23
-address_2;1;-1
+address_1;1;23;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;1
 subtype;-1
 text;0023
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 82
 index;82
@@ -645,15 +645,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 86
 index;86
@@ -662,15 +662,15 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 87
 index;87
@@ -679,15 +679,15 @@ rotate;-1
 invers turnout;1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 88
 index;88
@@ -696,15 +696,15 @@ rotate;1
 invers turnout;-1
 decoder;-1
 protocol;N
-address_1;1;6
-address_2;1;106
+address_1;1;6;0
+address_2;1;106;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;5
 text;0006
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 89
 index;89
@@ -713,15 +713,15 @@ rotate;1
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;9
-address_2;1;109
+address_1;1;9;0
+address_2;1;109;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;7
 text;009
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 90
 index;90
@@ -730,15 +730,15 @@ rotate;-1
 invers turnout;1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 91
 index;91
@@ -747,15 +747,15 @@ rotate;1
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;14
-address_2;1;114
+address_1;1;14;0
+address_2;1;114;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;5
 text;014
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 92
 index;92
@@ -764,15 +764,15 @@ rotate;1
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;19
-address_2;1;119
+address_1;1;19;0
+address_2;1;119;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;1
 text;019
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 93
 index;93
@@ -781,15 +781,15 @@ rotate;-1
 invers turnout;1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 94
 index;94
@@ -798,15 +798,15 @@ rotate;1
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;24
-address_2;1;124
+address_1;1;24;0
+address_2;1;124;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;7
 text;024
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 100
 index;100
@@ -815,15 +815,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 101
 index;101
@@ -832,15 +832,15 @@ rotate;-1
 invers turnout;1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 102
 index;102
@@ -849,8 +849,8 @@ rotate;-1
 invers turnout;-1
 decoder;Maerklin k83 (M)
 protocol;M
-address_1;1;7
-address_2;1;-1
+address_1;1;7;0
+address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
 direction;0
@@ -866,8 +866,8 @@ rotate;-1
 invers turnout;-1
 decoder;Littfinsky (D)
 protocol;N
-address_1;1;10
-address_2;1;-1
+address_1;1;10;0
+address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
 direction;0
@@ -883,15 +883,15 @@ rotate;-1
 invers turnout;1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 105
 index;105
@@ -900,15 +900,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;15
-address_2;1;-1
+address_1;1;15;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;-1
 text;015
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 106
 index;106
@@ -917,15 +917,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;20
-address_2;1;-1
+address_1;1;20;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;-1
 text;020
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 107
 index;107
@@ -934,15 +934,15 @@ rotate;-1
 invers turnout;1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 108
 index;108
@@ -951,15 +951,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;25
-address_2;1;-1
+address_1;1;25;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;-1
 text;025
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 114
 index;114
@@ -968,15 +968,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 115
 index;115
@@ -985,15 +985,15 @@ rotate;-1
 invers turnout;1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 116
 index;116
@@ -1002,15 +1002,15 @@ rotate;1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;Gleis 1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 117
 index;117
@@ -1019,15 +1019,15 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;Gleis 2
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 118
 index;118
@@ -1036,15 +1036,15 @@ rotate;-1
 invers turnout;1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 119
 index;119
@@ -1053,15 +1053,15 @@ rotate;1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;Gleis 3
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 120
 index;120
@@ -1070,15 +1070,15 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;Gleis 4
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 121
 index;121
@@ -1087,15 +1087,15 @@ rotate;-1
 invers turnout;1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 122
 index;122
@@ -1104,15 +1104,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;30
-address_2;1;-1
+address_1;1;30;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;-1
 text;030
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 123
 index;123
@@ -1121,15 +1121,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;Gleis 5
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 128
 index;128
@@ -1138,15 +1138,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 129
 index;129
@@ -1155,15 +1155,15 @@ rotate;-1
 invers turnout;1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 130
 index;130
@@ -1172,15 +1172,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;26
-address_2;1;-1
+address_1;1;26;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;-1
 text;026
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 131
 index;131
@@ -1189,15 +1189,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;27
-address_2;1;-1
+address_1;1;27;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;-1
 text;027
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 132
 index;132
@@ -1206,15 +1206,15 @@ rotate;-1
 invers turnout;1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 133
 index;133
@@ -1223,15 +1223,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;28
-address_2;1;-1
+address_1;1;28;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;-1
 text;028
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 134
 index;134
@@ -1240,15 +1240,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;29
-address_2;1;-1
+address_1;1;29;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;-1
 text;029
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 135
 index;135
@@ -1257,15 +1257,15 @@ rotate;-1
 invers turnout;1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 136
 index;136
@@ -1274,15 +1274,15 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;35
-address_2;1;135
+address_1;1;35;0
+address_2;1;135;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;7
 text;035
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 142
 index;142
@@ -1291,15 +1291,15 @@ rotate;1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 143
 index;143
@@ -1308,15 +1308,15 @@ rotate;-1
 invers turnout;1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 144
 index;144
@@ -1325,15 +1325,15 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;31
-address_2;1;131
+address_1;1;31;0
+address_2;1;131;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;1
 text;031
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 145
 index;145
@@ -1342,15 +1342,15 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;32
-address_2;1;132
+address_1;1;32;0
+address_2;1;132;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;1
 text;032
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 146
 index;146
@@ -1359,15 +1359,15 @@ rotate;-1
 invers turnout;1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 147
 index;147
@@ -1376,15 +1376,15 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;33
-address_2;1;133
+address_1;1;33;0
+address_2;1;133;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;7
 text;033
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 148
 index;148
@@ -1393,15 +1393,15 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;34
-address_2;1;134
+address_1;1;34;0
+address_2;1;134;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;1
 text;034
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 150
 index;150
@@ -1410,15 +1410,15 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;0
+address_1;1;-1;0
+address_2;1;0;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 155
 index;155
@@ -1427,15 +1427,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 158
 index;158
@@ -1444,15 +1444,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 159
 index;159
@@ -1461,15 +1461,15 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;36
-address_2;1;-1
+address_1;1;36;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;1
 subtype;-1
 text;036
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 161
 index;161
@@ -1478,15 +1478,15 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;37
-address_2;1;-1
+address_1;1;37;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;-1
 text;037
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 162
 index;162
@@ -1495,15 +1495,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 163
 index;163
@@ -1512,15 +1512,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 166
 index;166
@@ -1529,15 +1529,15 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 169
 index;169
@@ -1546,15 +1546,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 172
 index;172
@@ -1563,15 +1563,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 173
 index;173
@@ -1580,15 +1580,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 174
 index;174
@@ -1597,8 +1597,8 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
@@ -1614,15 +1614,15 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;38
-address_2;1;-1
+address_1;1;38;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;1
 subtype;-1
 text;038
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 176
 index;176
@@ -1631,15 +1631,15 @@ rotate;1
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;39
-address_2;1;-1
+address_1;1;39;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;-1
 text;039
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 180
 index;180
@@ -1648,15 +1648,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 183
 index;183
@@ -1665,15 +1665,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
-text;-1
+text;0000
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 186
 index;186
@@ -1682,15 +1682,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 187
 index;187
@@ -1699,15 +1699,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;40
-address_2;1;140
+address_1;1;40;0
+address_2;1;140;0
 change conn 1;-1
 change conn 2;-1
 direction;2
 subtype;1
 text;040
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 189
 index;189
@@ -1716,15 +1716,15 @@ rotate;1
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;41
-address_2;1;-1
+address_1;1;41;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;1
 subtype;-1
 text;041
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 190
 index;190
@@ -1733,15 +1733,15 @@ rotate;1
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;42
-address_2;1;-1
+address_1;1;42;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;1
 subtype;-1
 text;042
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 194
 index;194
@@ -1750,15 +1750,15 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
-text;-1
+text;0000
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 197
 index;197
@@ -1767,15 +1767,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 200
 index;200
@@ -1784,15 +1784,15 @@ rotate;1
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;43
-address_2;1;-1
+address_1;1;43;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;-1
 text;043
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 201
 index;201
@@ -1801,15 +1801,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 203
 index;203
@@ -1818,15 +1818,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 204
 index;204
@@ -1835,15 +1835,15 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;44
-address_2;1;-1
+address_1;1;44;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;-1
 text;044
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 208
 index;208
@@ -1852,15 +1852,15 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 214
 index;214
@@ -1869,15 +1869,15 @@ rotate;1
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;45
-address_2;1;145
+address_1;1;45;0
+address_2;1;145;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;4
 text;045
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 215
 index;215
@@ -1886,15 +1886,15 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;46
-address_2;1;-1
+address_1;1;46;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;0
 text;046
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 217
 index;217
@@ -1903,15 +1903,15 @@ rotate;1
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;47
-address_2;1;-1
+address_1;1;47;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;-1
 text;047
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 218
 index;218
@@ -1920,15 +1920,15 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;48
-address_2;1;-1
+address_1;1;48;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;0
 text;048
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 227
 index;227
@@ -1937,15 +1937,15 @@ rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;Euskirchen
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 228
 index;228
@@ -1954,15 +1954,15 @@ rotate;1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 229
 index;229
@@ -1971,15 +1971,15 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 231
 index;231
@@ -1988,15 +1988,15 @@ rotate;1
 invers turnout;-1
 decoder;-1
 protocol;M
-address_1;1;49
-address_2;1;149
+address_1;1;49;0
+address_2;1;149;0
 change conn 1;-1
 change conn 2;-1
 direction;0
 subtype;4
 text;049
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 232
 index;232
@@ -2005,32 +2005,32 @@ rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 233
 index;233
 icon;leer
 rotate;-1
-invers turnout;-1
+invers turnout;0
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
+address_2;1;-1;0
 change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
-text;Köln
+text;KÃ¶ln
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 # start of route section
 # routes=12
@@ -2153,7 +2153,7 @@ switch x to y;1;43;1
 switch x to y;1;40;2
 switch x to y;1;37;1
 %% route 12
-name;Gleis 4-> Köln
+name;Gleis 4-> Kï¿½n
 to signal;1;48
 from signal;1;34;1
 release port;1;0;0;0

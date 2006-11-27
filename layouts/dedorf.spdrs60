@@ -1,6 +1,6 @@
 # spdrs60 data file
-# version=0.5.0
-# last modified=2006-11-06T16:28:33
+# version=0.5.0_beta10
+# last modified=2006-11-27T22:43:03
 formatversion;1
 cmdhost;localhost;12345;0;0;0
 fbhost;localhost;12346;0
@@ -24,7 +24,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 1
 index;1
@@ -41,7 +41,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 2
 index;2
@@ -58,7 +58,7 @@ direction;-1
 subtype;-1
 text;Linksd.
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 3
 index;3
@@ -75,7 +75,7 @@ direction;-1
 subtype;-1
 text;nach
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 4
 index;4
@@ -92,7 +92,7 @@ direction;-1
 subtype;-1
 text;von
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 8
 index;8
@@ -109,7 +109,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 9
 index;9
@@ -126,7 +126,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 11
 index;11
@@ -143,7 +143,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;2
+feedback port;1;1
 hide LEDs;0
 %% element 12
 index;12
@@ -160,7 +160,7 @@ direction;0
 subtype;4
 text;a
 active time;50
-feedback port;1;1
+feedback port;1;7
 hide LEDs;-1
 %% element 16
 index;16
@@ -177,7 +177,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 17
 index;17
@@ -194,7 +194,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 19
 index;19
@@ -211,7 +211,7 @@ direction;0
 subtype;-1
 text;Lsf A
 active time;50
-feedback port;1;51
+feedback port;1;1
 hide LEDs;-1
 %% element 20
 index;20
@@ -228,7 +228,7 @@ direction;0
 subtype;4
 text;A/n
 active time;50
-feedback port;1;1
+feedback port;1;7
 hide LEDs;-1
 %% element 24
 index;24
@@ -245,7 +245,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 25
 index;25
@@ -262,7 +262,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 27
 index;27
@@ -279,7 +279,7 @@ direction;0
 subtype;-1
 text;n. Ld
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 28
 index;28
@@ -296,7 +296,7 @@ direction;0
 subtype;-1
 text;n. Ld
 active time;-1
-feedback port;1;1
+feedback port;1;8
 hide LEDs;0
 %% element 32
 index;32
@@ -313,7 +313,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 33
 index;33
@@ -330,7 +330,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 35
 index;35
@@ -347,7 +347,7 @@ direction;0
 subtype;-1
 text;Ls W 1
 active time;50
-feedback port;1;51
+feedback port;1;1
 hide LEDs;-1
 %% element 36
 index;36
@@ -364,7 +364,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;1
+feedback port;1;8
 hide LEDs;0
 %% element 40
 index;40
@@ -381,7 +381,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 41
 index;41
@@ -398,7 +398,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 43
 index;43
@@ -415,7 +415,7 @@ direction;0
 subtype;-1
 text;1
 active time;50
-feedback port;1;3
+feedback port;1;2
 hide LEDs;-1
 %% element 44
 index;44
@@ -432,7 +432,7 @@ direction;0
 subtype;-1
 text;Ls W 2
 active time;50
-feedback port;1;0
+feedback port;1;8
 hide LEDs;-1
 %% element 45
 index;45
@@ -449,7 +449,7 @@ direction;0
 subtype;-1
 text;
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;1
 %% element 48
 index;48
@@ -466,7 +466,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 49
 index;49
@@ -483,7 +483,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 51
 index;51
@@ -500,12 +500,12 @@ direction;0
 subtype;1
 text;P 1
 active time;50
-feedback port;1;1
+feedback port;1;3
 hide LEDs;-1
 %% element 52
 index;52
 icon;dkw_rechts
-rotate;-1
+rotate;0
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
@@ -513,11 +513,11 @@ address_1;1;2;0
 address_2;1;102;0
 change conn 1;0
 change conn 2;0
-direction;1
+direction;3
 subtype;1
 text;2
 active time;50
-feedback port;1;1
+feedback port;1;2
 hide LEDs;-1
 %% element 53
 index;53
@@ -568,12 +568,12 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 59
 index;59
 icon;gerade
-rotate;-1
+rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
@@ -585,7 +585,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;1
+feedback port;1;3
 hide LEDs;0
 %% element 60
 index;60
@@ -602,7 +602,7 @@ direction;0
 subtype;-1
 text;Ls 2 I
 active time;50
-feedback port;1;1
+feedback port;1;9
 hide LEDs;-1
 %% element 61
 index;61
@@ -615,11 +615,11 @@ address_1;1;3;0
 address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
-direction;0
+direction;1
 subtype;-1
 text;3
 active time;50
-feedback port;1;1
+feedback port;1;2
 hide LEDs;-1
 %% element 64
 index;64
@@ -636,7 +636,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 65
 index;65
@@ -653,12 +653,12 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 67
 index;67
 icon;gerade
-rotate;-1
+rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
@@ -670,7 +670,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;1
+feedback port;1;3
 hide LEDs;0
 %% element 68
 index;68
@@ -687,7 +687,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;1
+feedback port;1;9
 hide LEDs;0
 %% element 69
 index;69
@@ -704,7 +704,7 @@ direction;0
 subtype;7
 text;P 3
 active time;50
-feedback port;1;1
+feedback port;1;13
 hide LEDs;-1
 %% element 72
 index;72
@@ -721,7 +721,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 73
 index;73
@@ -738,12 +738,12 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 75
 index;75
 icon;gerade
-rotate;-1
+rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
@@ -755,7 +755,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;1
+feedback port;1;3
 hide LEDs;0
 %% element 76
 index;76
@@ -772,7 +772,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;1
+feedback port;1;9
 hide LEDs;0
 %% element 77
 index;77
@@ -789,7 +789,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;1
+feedback port;1;13
 hide LEDs;0
 %% element 80
 index;80
@@ -806,7 +806,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 81
 index;81
@@ -823,7 +823,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 83
 index;83
@@ -840,7 +840,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;1
+feedback port;1;3
 hide LEDs;0
 %% element 84
 index;84
@@ -857,7 +857,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;1
+feedback port;1;9
 hide LEDs;0
 %% element 85
 index;85
@@ -874,7 +874,7 @@ direction;0
 subtype;7
 text;N 3
 active time;50
-feedback port;1;1
+feedback port;1;13
 hide LEDs;-1
 %% element 88
 index;88
@@ -891,7 +891,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 89
 index;89
@@ -908,12 +908,12 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 91
 index;91
 icon;gerade
-rotate;-1
+rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
@@ -925,7 +925,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;1
+feedback port;1;3
 hide LEDs;0
 %% element 92
 index;92
@@ -939,10 +939,10 @@ address_2;1;224;0
 change conn 1;0
 change conn 2;0
 direction;0
-subtype;1
+subtype;5
 text;N 2
 active time;50
-feedback port;1;1
+feedback port;1;9
 hide LEDs;-1
 %% element 93
 index;93
@@ -959,7 +959,7 @@ direction;0
 subtype;-1
 text;4
 active time;50
-feedback port;1;1
+feedback port;1;14
 hide LEDs;-1
 %% element 96
 index;96
@@ -976,7 +976,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 97
 index;97
@@ -993,7 +993,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 99
 index;99
@@ -1010,7 +1010,7 @@ direction;0
 subtype;-1
 text;Ls 1 I
 active time;50
-feedback port;1;1
+feedback port;1;3
 hide LEDs;-1
 %% element 100
 index;100
@@ -1023,11 +1023,11 @@ address_1;1;5;0
 address_2;1;105;0
 change conn 1;0
 change conn 2;0
-direction;3
+direction;0
 subtype;1
 text;5
 active time;50
-feedback port;1;1
+feedback port;1;10
 hide LEDs;-1
 %% element 101
 index;101
@@ -1044,7 +1044,7 @@ direction;0
 subtype;-1
 text;Ls 3 II
 active time;50
-feedback port;1;1
+feedback port;1;15
 hide LEDs;-1
 %% element 104
 index;104
@@ -1061,7 +1061,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 105
 index;105
@@ -1078,7 +1078,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 107
 index;107
@@ -1095,7 +1095,7 @@ direction;0
 subtype;-1
 text;6
 active time;50
-feedback port;1;1
+feedback port;1;4
 hide LEDs;-1
 %% element 108
 index;108
@@ -1112,7 +1112,7 @@ direction;0
 subtype;-1
 text;Ls W 5
 active time;50
-feedback port;1;51
+feedback port;1;11
 hide LEDs;-1
 %% element 109
 index;109
@@ -1129,7 +1129,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;1
+feedback port;1;15
 hide LEDs;0
 %% element 112
 index;112
@@ -1146,7 +1146,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 113
 index;113
@@ -1161,9 +1161,9 @@ change conn 1;-1
 change conn 2;-1
 direction;-1
 subtype;-1
-text;0007
+text;0000
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 115
 index;115
@@ -1180,7 +1180,7 @@ direction;0
 subtype;-1
 text;Ls W 6
 active time;50
-feedback port;1;51
+feedback port;1;5
 hide LEDs;-1
 %% element 116
 index;116
@@ -1197,7 +1197,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;1
+feedback port;1;11
 hide LEDs;0
 %% element 117
 index;117
@@ -1214,7 +1214,7 @@ direction;0
 subtype;-1
 text;Ls W 7
 active time;50
-feedback port;1;1
+feedback port;1;15
 hide LEDs;-1
 %% element 120
 index;120
@@ -1231,7 +1231,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 121
 index;121
@@ -1248,7 +1248,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 123
 index;123
@@ -1265,7 +1265,7 @@ direction;0
 subtype;-1
 text;n. Rh
 active time;-1
-feedback port;1;0
+feedback port;1;5
 hide LEDs;0
 %% element 124
 index;124
@@ -1282,7 +1282,7 @@ direction;0
 subtype;-1
 text;n. Rh
 active time;-1
-feedback port;1;1
+feedback port;1;11
 hide LEDs;0
 %% element 125
 index;125
@@ -1299,7 +1299,7 @@ direction;1
 subtype;-1
 text;7
 active time;50
-feedback port;1;1
+feedback port;1;16
 hide LEDs;-1
 %% element 128
 index;128
@@ -1316,7 +1316,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 129
 index;129
@@ -1333,7 +1333,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 131
 index;131
@@ -1350,7 +1350,7 @@ direction;0
 subtype;4
 text;F/p
 active time;50
-feedback port;1;1
+feedback port;1;6
 hide LEDs;-1
 %% element 132
 index;132
@@ -1367,7 +1367,7 @@ direction;0
 subtype;6
 text;Y
 active time;50
-feedback port;1;1
+feedback port;1;12
 hide LEDs;-1
 %% element 133
 index;133
@@ -1401,7 +1401,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;1
+feedback port;1;16
 hide LEDs;0
 %% element 136
 index;136
@@ -1418,7 +1418,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 137
 index;137
@@ -1435,7 +1435,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
 %% element 139
 index;139
@@ -1452,12 +1452,12 @@ direction;0
 subtype;4
 text;f
 active time;50
-feedback port;1;1
+feedback port;1;6
 hide LEDs;-1
 %% element 140
 index;140
 icon;gerade
-rotate;-1
+rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
@@ -1469,7 +1469,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;1
+feedback port;1;12
 hide LEDs;0
 %% element 141
 index;141
@@ -1486,7 +1486,7 @@ direction;0
 subtype;-1
 text;
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;1
 %% element 142
 index;142
@@ -1520,7 +1520,7 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 146
 index;146
@@ -1537,7 +1537,7 @@ direction;-1
 subtype;-1
 text;Rechtsh.
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 147
 index;147
@@ -1554,7 +1554,7 @@ direction;-1
 subtype;-1
 text;von
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 %% element 148
 index;148
@@ -1571,7 +1571,7 @@ direction;-1
 subtype;-1
 text;nach
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
 # start of route section
 # routes=48
@@ -1579,8 +1579,8 @@ hide LEDs;-1
 name;a3
 to signal;1;32
 from signal;1;21;2
-release port;1;0;0;0
-activate port;1;0;0;0
+release port;1;18;1;0
+activate port;1;17;1;0
 active by loco;1;0
 type;0;0
 switch x to y;1;3;1
@@ -1726,9 +1726,9 @@ switch x to y;1;24;0
 switch x to y;1;4;1
 switch x to y;1;33;0
 %% route 12
-name;N2 - v. Rh
+name;N 2 - n. Rh
 to signal;1;302
-from signal;1;24;0
+from signal;1;24;2
 release port;1;0;0;0
 activate port;1;0;0;0
 active by loco;1;0
@@ -1739,9 +1739,9 @@ switch x to y;1;4;0
 switch x to y;1;6;1
 switch x to y;1;13;0
 %% route 13
-name;N3 - v. Rh
+name;N 3 - n. Rh
 to signal;1;302
-from signal;1;32;0
+from signal;1;32;2
 release port;1;0;0;0
 activate port;1;0;0;0
 active by loco;1;0
@@ -1754,9 +1754,9 @@ switch x to y;1;25;0
 switch x to y;1;6;1
 switch x to y;1;13;0
 %% route 14
-name;P3 - v. Ld
+name;P 3 - n. Ld
 to signal;1;301
-from signal;1;31;0
+from signal;1;31;2
 release port;1;0;0;0
 activate port;1;0;0;0
 active by loco;1;0
@@ -2139,6 +2139,7 @@ activate port;1;0;0;0
 active by loco;1;0
 type;3;0
 switch x to y;1;1;0
+switch x to y;1;2;0
 %% route 48
 name;Ls1I - Ls W6
 to signal;1;14
@@ -2148,3 +2149,4 @@ activate port;1;0;0;0
 active by loco;1;0
 type;3;0
 switch x to y;1;6;0
+switch x to y;1;5;0
