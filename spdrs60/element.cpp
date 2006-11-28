@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.103 $
+                           version 0.5.0 $Revision: 1.104 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-27 21:38:11 $
+    last modified        : $Date: 2006-11-28 19:17:56 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2812,10 +2812,17 @@ void element::setupElementIcon()
 
             QRect br = pm.rect();
             br.setHeight(h / 2 - 7);
+
             if (iSoldRotate == 1)
+#if QT_VERSION >= 0x030100
                 br.moveBottom(h - 4);
             else
                 br.moveTop(1);
+#else
+                br.moveBottomLeft(QPoint(br.x(), h - 4));
+            else
+                br.moveTopLeft(QPoint(br.x(), 1));
+#endif
             
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, sSoldText);
