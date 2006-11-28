@@ -1,4 +1,4 @@
-spdrs60-0.5.0 (2005-12-??)
+spdrs60-0.5.0 (2005-12-02)
   o A user option to automatically save the layout on program exit was
     added. This facilitates storing the last achieved game positions.
 
@@ -58,6 +58,11 @@ spdrs60-0.5.0 (2005-12-??)
   o Usage of Qt library translations now is optimized and preselectad at
     compile time. Usage at runtime now does not depend on whether QTDIR
     is set or not.
+
+  o German and english handbooks were updated.
+
+  o The route toolbar now is shown and hidden together with the route
+    list window.
 
 
 spdrs60-0.4.8 (2005-12-11)
