@@ -12,7 +12,7 @@ dist_elementsdata_DATA = adresse.xpm \
     gerade.xpm haus_1.xpm haus_2.xpm kreuzung_hose.xpm \
     kreuzung_links.xpm kreuzung_rechts.xpm \
     kurve_links.xpm kurve_rechts.xpm \
-    leer.xpm motor_dc.xpm prellbock.xpm relais_1.xpm \
+    leer.xpm motor_dc.xpm prellbock.xpm \
     relais.xpm richtung_1.xpm richtung_2.xpm schiebebuehne.xpm \
     schuppen_m.xpm schuppen_o.xpm schuppen_u.xpm \
     signal_hss.xpm signal_hs.xpm signal_vs.xpm \

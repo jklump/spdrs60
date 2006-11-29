@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.83 $
+                           version 0.5.0 $Revision: 1.84 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-27 18:06:39 $
+    last modified        : $Date: 2006-11-29 22:19:31 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -83,7 +83,7 @@
 #define GF_CMDHOST       "cmdhost"
 #define GF_FBHOST        "fbhost"
 #define GF_FORMATVERSION "formatversion"
-#define GF_FV            "1"
+#define GF_FV            "2"
 
 /*string constants for personal config file*/
 #define CF_SHOWHP2      "showhp2"
