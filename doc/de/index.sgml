@@ -40,10 +40,6 @@
       <date>Di Nov 28 17:53:00 CET 2006</date>
     </revision>
     <revision>
-      <revnumber>0.7</revnumber>
-      <date>So Feb 05 11:18:00 CET 2006</date>
-    </revision>
-    <revision>
       <revnumber>0.6</revnumber>
       <date>Sa Dez 10 15:16:00 CET 2005</date>
     </revision>
@@ -5458,19 +5454,16 @@ http://www.linux-modellbahn.de/</ulink>.</para>
 <para>
 Die folgenden Fehler sind bekannt:
 <itemizedlist mark="bullet">
-  <listitem><para>Liegt auf einer Fahrstraße eine Kreuzung,
+
+<listitem><para>Liegt auf einer Fahrstraße eine Kreuzung,
 dann können über diese Kreuzung zwei Fahrstraßen aktiviert werden (von denen
 jedoch immer die zuletzt aktivierte die Kreuzung selbst grafisch
 routet). Es findet bei den Kreuzungen (die ja nicht schaltbar sind)
 keine Prüfung statt, ob sie schon durch andere Fahrstraßen benutzt werden.
 Eventuell muß dies bis auf weiteres durch Aktivieren von (Flankenschutz-)
 Weichen in der Umgebung der Kreuzung verhindert werden.</para></listitem>
-  <listitem><para>Wird eine Fahrstraße aktiviert, die als
-Flankenschutzweiche eine Weiche enthält, welche zum Aktivierungszeitpunkt
-bereits in einer anderen aktiven Fahrstraße enthalten ist, dann wird diese
-Flankenschutzweiche grafisch de-routed, d.h. die LED in der
-Weichenwurzel wird dadurch deaktiviert.</para></listitem>
-  <listitem><para>Wenn man mit dem Schnelleditor ein
+
+<listitem><para>Wenn man mit dem Schnelleditor ein
 Element über den Wiederhol-Modus einfügt, welches drehbar sein sollte, dann
 ist es nicht über das Kontextmenü drehbar. Man sollte dann einmal auf das
 Element linksklicken und direkt danach Okay im Eigenschaften-Fenster,
@@ -5478,10 +5471,12 @@ dann werden die entsprechenden Bits richtig gesetzt und es kann danach
 gedreht werden. Da man aber im Normalfall sowieso noch Rückmeldekontakte
 eintragen muß, wird diese Notwendigkeit kaum ins Gewicht
 fallen.</para></listitem>
-  <listitem><para>Der Rückmeldemodul-Melder in den
-Element-Eigenschaften kann alle Module auswählbar machen, auch solche,
-welche laut Optionen eigentlich an einem Bus nicht vorhanden
-sind.</para></listitem>
+
+<listitem><para>Die Auswahl für die Rückmeldekontakte in den
+Element-Eigenschaften berücksichtigt nicht, dass gemäß der
+Benutzereinstellungen nur eine beschränkte Anzahl an Modulen
+angeschlossen ist.</para></listitem>
+
 </itemizedlist>
 </para>
 </sect2>
