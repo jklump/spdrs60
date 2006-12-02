@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.0 $Revision: 1.58 $
+                           version 0.5.0 $Revision: 1.59 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-12-02 08:16:31 $
+    last modified        : $Date: 2006-12-02 14:16:56 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -71,6 +71,11 @@
 #define SYM_DIL  "diagonale_links"
 #define SYM_KUR  "kurve_rechts"
 #define SYM_KUL  "kurve_links"
+#define SYM_TTL  "turn_topvert_left"
+#define SYM_TTR  "turn_topvert_right"
+#define SYM_TBL  "turn_botvert_left"
+#define SYM_TBR  "turn_botvert_right"
+#define SYM_TRV  "trackvertical"
 #define SYM_KRH  "kreuzung_hose"
 #define SYM_KRR  "kreuzung_rechts"
 #define SYM_KRL  "kreuzung_links"
@@ -159,19 +164,6 @@ enum elemRecordType {
 };
 
 /*element route directions for 2D-routing*/
-/*
-enum elemRouteDirection {
-    rdCenter = 0,
-    rdN = 2,
-    rdS = 4,
-    rdW = 8,
-    rdE = 16,
-    rdNW = rdN & rdW,
-    rdNE = rdN & rdE,
-    rdSW = rdS & rdW,
-    rdSE = rdS & rdE
-};
-*/
 
 const unsigned int rdCenter = 0u;
 const unsigned int rdN = 2u;
@@ -203,7 +195,6 @@ const unsigned int rdSE = rdS | rdE;
 
 #define DS            ";"    // data separator in spdrs60 files
 #define IDS           ":"    // data separator in imported files
-#define XPM_SUFFIX    ".xpm" // file appendix for bitmap files
 #define EL_WIDTH      56     // width of an element in pixels (orig: 54 mm)
 #define EL_HEIGHT     35     // height of an element in pixels (orig: 34 mm)
                              // diagonale: 65.513 pixels (63.812)

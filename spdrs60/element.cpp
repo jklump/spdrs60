@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.105 $
+                           version 0.5.0 $Revision: 1.106 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-12-02 08:16:31 $
+    last modified        : $Date: 2006-12-02 14:16:56 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -409,6 +409,8 @@ void element::updateProperties()
         sSoldIcon.startsWith("diagonale") ||
         sSoldIcon.startsWith("kreuzung") ||
         sSoldIcon.startsWith("kurve") ||
+        sSoldIcon.startsWith("turn") ||
+        sSoldIcon.startsWith("track") ||
         sSoldIcon.startsWith("richtung") ||
         sSoldIcon.startsWith("gerade") || sSoldIcon == SYM_BUE ||
         sSoldIcon == SYM_ADR || sSoldIcon == SYM_BLD ||
@@ -2826,6 +2828,267 @@ void element::setupElementIcon()
             
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, sSoldText);
+        }
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+    
+    // vertical track
+    else if (sSoldIcon == SYM_TRV){
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+        
+        int w = pm.width();
+        int h = pm.height();
+        
+        // paint track
+        p.fillRect(w / 2 - 3, 0, 7, h - 1, QBrush(black));
+        
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 4; ++i)
+                p.fillRect(w / 2 - 2 , 4 + 7 * i, 5, 5,
+                        QBrush(lightGray));
+        }
+        else {
+            QColor c;
+            if (occupied)
+                c = QColor(red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(darkGray);
+            }
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+            p.drawLine(w / 2, h / 3, w / 2, 2 * h / 3);
+            p.setPen(QPen(black));
+        }
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+    
+    // vertical turn top left
+    else if (sSoldIcon == SYM_TTL){
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+        
+        int w = pm.width();
+        int h = pm.height();
+        
+        // paint track
+        p.fillRect(w / 2 - 3, h / 2 - 1, 7, h  - 1, QBrush(black));
+
+        p.save();
+        p.translate(w / 2, h / 2);
+        p.rotate(-WANGLE);
+        p.setPen(QPen(black, 7));
+        p.drawLine(-1, 0, w / 2 + 5, 0);
+        p.restore();
+        
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 2; ++i)
+                p.fillRect(w / 2 - 2 , h / 2 + 2 + 7 * i, 5, 5,
+                        QBrush(lightGray));
+            p.save();
+            p.translate(w / 2, h / 2);
+            p.rotate(-WANGLE);
+            for (int i = 0; i < 3; ++i)
+                p.fillRect(5 + 7 * i, -2, 5, 5,
+                        QBrush(lightGray));
+            p.restore();
+        }
+        else {
+            QColor c;
+            if (occupied)
+                c = QColor(red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(darkGray);
+            }
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+            p.drawLine(w / 2, h / 2 + 2, w / 2, 2 * h / 3);
+            p.save();
+            p.translate(w / 2, h / 2);
+            p.rotate(-WANGLE);
+            p.drawLine(0, 0, w / 5, 0);
+            p.restore();
+            p.setPen(QPen(black));
+        }
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+    
+    // vertical turn top right
+    else if (sSoldIcon == SYM_TTR){
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+        
+        int w = pm.width();
+        int h = pm.height();
+        
+        // paint track
+        p.fillRect(w / 2 - 3, h / 2 - 1, 7, h  - 1, QBrush(black));
+
+        p.save();
+        p.translate(w / 2, h / 2);
+        p.rotate(-SANGLE);
+        p.setPen(QPen(black, 7));
+        p.drawLine(-1, 0, w / 2 + 5, 0);
+        p.restore();
+        
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 2; ++i)
+                p.fillRect(w / 2 - 2 , h / 2 + 2 + 7 * i, 5, 5,
+                        QBrush(lightGray));
+            p.save();
+            p.translate(w / 2, h / 2);
+            p.rotate(-SANGLE);
+            for (int i = 0; i < 3; ++i)
+                p.fillRect(5 + 7 * i, -2, 5, 5,
+                        QBrush(lightGray));
+            p.restore();
+        }
+        else {
+            QColor c;
+            if (occupied)
+                c = QColor(red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(darkGray);
+            }
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+            p.drawLine(w / 2, h / 2 + 2, w / 2, 2 * h / 3);
+            p.save();
+            p.translate(w / 2, h / 2);
+            p.rotate(-SANGLE);
+            p.drawLine(0, 0, w / 5, 0);
+            p.restore();
+            p.setPen(QPen(black));
+        }
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+    
+    // vertical turn bottom left
+    else if (sSoldIcon == SYM_TBL){
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+        
+        int w = pm.width();
+        int h = pm.height();
+        
+        // paint track
+        p.fillRect(w / 2 - 3, 0, 7, h / 2 + 2, QBrush(black));
+
+        p.save();
+        p.translate(w / 2, h / 2);
+        p.rotate(SANGLE);
+        p.setPen(QPen(black, 7));
+        p.drawLine(-1, 0, w / 2 + 5, 0);
+        p.restore();
+        
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 2; ++i)
+                p.fillRect(w / 2 - 2 , 4 + 7 * i, 5, 5,
+                        QBrush(lightGray));
+            p.save();
+            p.translate(w / 2, h / 2 - 1);
+            p.rotate(SANGLE);
+            for (int i = 0; i < 3; ++i)
+                p.fillRect(5 + 7 * i, -2, 5, 5,
+                        QBrush(lightGray));
+            p.restore();
+        }
+        else {
+            QColor c;
+            if (occupied)
+                c = QColor(red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(darkGray);
+            }
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+            p.drawLine(w / 2, h / 3, w / 2, h / 2 - 2);
+            p.save();
+            p.translate(w / 2, h / 2 - 1);
+            p.rotate(SANGLE);
+            p.drawLine(0, 0, w / 5, 0);
+            p.restore();
+            p.setPen(QPen(black));
+        }
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+    
+    // vertical turn bottom right
+    else if (sSoldIcon == SYM_TBR){
+        QPixmap pm = QPixmap(leer_xpm);
+        QPainter p;
+        p.begin(&pm);
+        
+        int w = pm.width();
+        int h = pm.height();
+        
+        // paint track
+        p.fillRect(w / 2 - 3, 0, 7, h / 2 + 2, QBrush(black));
+
+        p.save();
+        p.translate(w / 2, h / 2);
+        p.rotate(WANGLE);
+        p.setPen(QPen(black, 7));
+        p.drawLine(-1, 0, w / 2 + 5, 0);
+        p.restore();
+        
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 2; ++i)
+                p.fillRect(w / 2 - 2 , 4 + 7 * i, 5, 5,
+                        QBrush(lightGray));
+            p.save();
+            p.translate(w / 2, h / 2);
+            p.rotate(WANGLE);
+            for (int i = 0; i < 3; ++i)
+                p.fillRect(5 + 7 * i, -2, 5, 5,
+                        QBrush(lightGray));
+            p.restore();
+        }
+        else {
+            QColor c;
+            if (occupied)
+                c = QColor(red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(darkGray);
+            }
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+            p.drawLine(w / 2, h / 3, w / 2, h / 2 - 2);
+            p.save();
+            p.translate(w / 2, h / 2 - 1);
+            p.rotate(WANGLE);
+            p.drawLine(0, 0, w / 5, 0);
+            p.restore();
+            p.setPen(QPen(black));
         }
 
         p.end();
@@ -5608,20 +5871,17 @@ void element::addTooltip()
  * C = correction for index
  */
 
-// FIXME: routing should stop if track is not continued
-
-/* TODO: two dimensional routing:
+/* two dimensional routing:
  *       entry -> exit (rdC, rdN, rdS, rdW, rdE, rdNW, rdNE, ...)
  *
- *                                 vertcorr
- *  rdNW | rdN  | rdNE      !to_r |  +1    | to_r
- * ------+------+------    -------+--------+-------
- *  rdW  | rdC  | rdE             |   0    |
- * ------+------+------    -------+--------+-------
- *  rdSW | rdS  | rdSE            |  -1    |
+ *
+ *  rdNW | rdN  | rdNE
+ * ------+------+------
+ *  rdW  | rdC  | rdE
+ * ------+------+------
+ *  rdSW | rdS  | rdSE
  *
  */
-//int element::getRouteExit(int entrypos, bool setroute)
 
 unsigned int element::routeElement(unsigned int entrydir, bool setroute)
 {
@@ -5644,6 +5904,49 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
             returnvalue = rdW;
     }
 
+    else if (sSoldIcon == SYM_TRV) {
+            if (entrydir == rdN)
+                returnvalue = rdS;
+            else if (entrydir == rdS)
+                returnvalue = rdN;
+    }
+    
+    /* \
+       |  */
+    else if (sSoldIcon == SYM_TTL) {
+            if (entrydir == rdNW)
+                returnvalue = rdS;
+            else if (entrydir == rdS)
+                returnvalue = rdNW;
+    }
+    
+    /* /
+       | */
+    else if (sSoldIcon == SYM_TTR) {
+            if (entrydir == rdNE)
+                returnvalue = rdS;
+            else if (entrydir == rdS)
+                returnvalue = rdNE;
+    }
+    
+    /* |
+       \  */
+    else if (sSoldIcon == SYM_TBL) {
+            if (entrydir == rdN)
+                returnvalue = rdSE;
+            else if (entrydir == rdSE)
+                returnvalue = rdN;
+    }
+    
+    /* |
+       / */
+    else if (sSoldIcon == SYM_TBR) {
+            if (entrydir == rdN)
+                returnvalue = rdSW;
+            else if (entrydir == rdSW)
+                returnvalue = rdN;
+    }
+    
     else if (sSoldIcon == SYM_WEL) {
         // --
         if (iSoldDirection == 0) {

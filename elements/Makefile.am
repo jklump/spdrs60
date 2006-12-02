@@ -24,5 +24,7 @@ dist_elementsdata_DATA = adresse.xpm \
     panel_grey.xpm panel_green.xpm panel_red.xpm \
     uebergang.xpm weiche_y.xpm \
     weiche_diag_links.xpm weiche_diag_rechts.xpm \
-    weiche_links.xpm weiche_rechts.xpm
+    weiche_links.xpm weiche_rechts.xpm \
+    trackvertical.xpm turn_topvert_left.xpm turn_topvert_right.xpm \
+    turn_botvert_left.xpm turn_botvert_right.xpm
 

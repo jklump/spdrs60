@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.cpp
-                           version 0.5.0 $Revision: 1.29 $
+                           version 0.5.0 $Revision: 1.30 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-27 21:38:11 $
+    last modified        : $Date: 2006-12-02 14:16:56 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -112,6 +112,13 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     setupElement(SYM_KRR);
     setupElement(SYM_RI1);
     setupElement(SYM_RI2);
+
+    // vertical elements
+    setupElement(SYM_TRV);
+    setupElement(SYM_TTL);
+    setupElement(SYM_TTR);
+    setupElement(SYM_TBR);
+    setupElement(SYM_TBL);
 
     setupElement(SYM_WEL);
     setupElement(SYM_WER);
@@ -512,7 +519,7 @@ void elementDialog::setupElement(const char *eName)
     IconNameList->append(eName);
     QString sPixmapName = RES_DIR_ELEM;
     sPixmapName += eName;
-    sPixmapName += XPM_SUFFIX;
+    sPixmapName += ".xpm";
     IconComboBox->insertItem(QPixmap(sPixmapName));
 }
 
@@ -898,7 +905,7 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
 
     cbRotate->setEnabled(enabled);
 
-    // show LEDoff data
+    // show LEDoff data (Gleismelder)
     enabled = sSoldIcon == SYM_KUL || sSoldIcon == SYM_KUR ||
         sSoldIcon == SYM_DIL || sSoldIcon == SYM_DIR ||
         sSoldIcon == SYM_GER || sSoldIcon == SYM_RI1 ||
@@ -906,7 +913,9 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
         sSoldIcon == SYM_RI2 || sSoldIcon == SYM_KRH ||
         sSoldIcon == SYM_KRL || sSoldIcon == SYM_KRR ||
         sSoldIcon == SYM_SS || sSoldIcon == SYM_SSH ||
-        sSoldIcon == SYM_SSS ||
+        sSoldIcon == SYM_SSS || sSoldIcon == SYM_TRV ||
+        sSoldIcon == SYM_TTL || sSoldIcon == SYM_TTR ||
+        sSoldIcon == SYM_TBL || sSoldIcon == SYM_TBR ||
         sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER ||
         sSoldIcon == SYM_WEY || sSoldIcon == SYM_DRW ||
         sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR ||
@@ -945,6 +954,9 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
         ((sSoldIcon == SYM_KUL || sSoldIcon == SYM_KUR ||
           sSoldIcon == SYM_DIL || sSoldIcon == SYM_DIR ||
           sSoldIcon == SYM_GER || sSoldIcon == SYM_RI1 ||
+          sSoldIcon == SYM_TRV ||
+          sSoldIcon == SYM_TTL || sSoldIcon == SYM_TTR ||
+          sSoldIcon == SYM_TBL || sSoldIcon == SYM_TBR ||
           sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB ||
           sSoldIcon == SYM_RI2 || sSoldIcon == SYM_KRH ||
           sSoldIcon == SYM_KRL || sSoldIcon == SYM_KRR) &&
