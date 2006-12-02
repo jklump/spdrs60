@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.104 $
+                           version 0.5.0 $Revision: 1.105 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-28 19:17:56 $
+    last modified        : $Date: 2006-12-02 08:16:31 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -5623,90 +5623,336 @@ void element::addTooltip()
  */
 //int element::getRouteExit(int entrypos, bool setroute)
 
-int element::routeElement(bool to_r, bool setroute, int vertcorr)
+unsigned int element::routeElement(unsigned int entrydir, bool setroute)
 {
-    int D = iSoldDirection;
-    bool rotate = iSoldRotate == 1;
-    int returnvalue = vertcorr;
+
+    unsigned int returnvalue = rdCenter;
 
     // immediate return if track is straightforward
     if (sSoldIcon == SYM_GER || sSoldIcon == SYM_ENK || sSoldIcon == SYM_HS
-        || sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB
-        || sSoldIcon == SYM_HSS || sSoldIcon == SYM_SS
-        || sSoldIcon == SYM_SSH || sSoldIcon == SYM_SSS
-        || sSoldIcon == SYM_BUE || sSoldIcon == SYM_RI1
-        || sSoldIcon == SYM_RI2 || sSoldIcon == SYM_WS
-        || sSoldIcon == SYM_ZP || sSoldIcon == SYM_BLD
-        || sSoldIcon == SYM_ADR || sSoldIcon == SYM_VS) {
-        returnvalue = 0;
+            || sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB
+            || sSoldIcon == SYM_HSS || sSoldIcon == SYM_SS
+            || sSoldIcon == SYM_SSH || sSoldIcon == SYM_SSS
+            || sSoldIcon == SYM_BUE || sSoldIcon == SYM_RI1
+            || sSoldIcon == SYM_RI2 || sSoldIcon == SYM_WS
+            || sSoldIcon == SYM_ZP || sSoldIcon == SYM_BLD
+            || sSoldIcon == SYM_ADR || sSoldIcon == SYM_VS) {
+
+        if (entrydir == rdW)
+            returnvalue = rdE;
+        else if (entrydir == rdE)
+            returnvalue = rdW;
     }
 
-    else if (sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER) {
-        if (D == 0 || !(rotate ^ to_r))
-            returnvalue = 0;
-        if (D == 1
-            && (rotate && !to_r && isright || !rotate && to_r && !isright))
-            returnvalue = -1;
-        if (D == 1
-            && (rotate && !to_r && !isright || !rotate && to_r && isright))
-            returnvalue = +1;
+    else if (sSoldIcon == SYM_WEL) {
+        // --
+        if (iSoldDirection == 0) {
+            if (entrydir == rdW)
+                returnvalue = rdE;
+            else if (entrydir == rdE)
+                returnvalue = rdW;
+        }
+        else {
+            // /-
+            if (iSoldRotate == 1) {
+                if (entrydir == rdE)
+                    returnvalue = rdSW;
+                else if (entrydir == rdSW)
+                    returnvalue = rdE;
+            }
+            // -/
+            else {
+                if (entrydir == rdW)
+                    returnvalue = rdNE;
+                else if (entrydir == rdNE)
+                    returnvalue = rdW;
+            }
+        }
     }
 
-    else if (sSoldIcon == SYM_DIL || sSoldIcon == SYM_DIR) {
-        if (to_r ^ isright)
-            returnvalue = -1;
-        if (!(to_r ^ isright))
-            returnvalue = +1;
+    else if (sSoldIcon == SYM_WER) {
+        // --
+        if (iSoldDirection == 0) {
+            if (entrydir == rdW)
+                returnvalue = rdE;
+            else if (entrydir == rdE)
+                returnvalue = rdW;
+        }
+        else {
+            // \-
+            if (iSoldRotate == 1) {
+                if (entrydir == rdE)
+                    returnvalue = rdNW;
+                else if (entrydir == rdNW)
+                    returnvalue = rdE;
+            }
+            /* -\ */
+            else {
+                if (entrydir == rdW)
+                    returnvalue = rdSE;
+                else if (entrydir == rdSE)
+                    returnvalue = rdW;
+            }
+        }
     }
 
-    else if (sSoldIcon == SYM_KUL || sSoldIcon == SYM_KUR) {
-        if (!(rotate ^ to_r))
-            returnvalue = 0;
-        if (rotate && !to_r && isright || !rotate && to_r && !isright)
-            returnvalue = -1;
-        if (rotate && !to_r && !isright || !rotate && to_r && isright)
-            returnvalue = +1;
+    /* / */
+    else if (sSoldIcon == SYM_DIL) {
+        if (entrydir == rdSW)
+            returnvalue = rdNE;
+        else if (entrydir == rdNE)
+            returnvalue = rdSW;
+    }
+
+    /* \ */
+    else if (sSoldIcon == SYM_DIR) {
+        if (entrydir == rdNW)
+            returnvalue = rdSE;
+        else if (entrydir == rdSE)
+            returnvalue = rdNW;
+    }
+
+    else if (sSoldIcon == SYM_KUL) {
+        /* /- */
+        if (iSoldRotate == 1) {
+            if (entrydir == rdE)
+                returnvalue = rdSW;
+            else if (entrydir == rdSW)
+                returnvalue = rdE;
+        }
+        /* -/ */
+        else {
+            if (entrydir == rdW)
+                returnvalue = rdNE;
+            else if (entrydir == rdNE)
+                returnvalue = rdW;
+        }
+    }
+
+    else if (sSoldIcon == SYM_KUR) {
+        /* \- */
+        if (iSoldRotate == 1) {
+            if (entrydir == rdE)
+                returnvalue = rdNW;
+            else if (entrydir == rdNW)
+                returnvalue = rdE;
+        }
+        /* -\ */
+        else {
+            if (entrydir == rdW)
+                returnvalue = rdSE;
+            else if (entrydir == rdSE)
+                returnvalue = rdW;
+        }
     }
 
     else if (sSoldIcon == SYM_DRW) {
-        if (!(rotate ^ to_r) || D == 0)
-            returnvalue = 0;
-        if (!rotate && to_r && D == 1 || rotate && !to_r && D == 2)
-            returnvalue = -1;
-        if (!rotate && to_r && D == 2 || rotate && !to_r && D == 1)
-            returnvalue = +1;
+        // --
+        if (iSoldDirection == 0) {
+            if (entrydir == rdW)
+                returnvalue = rdE;
+            else if (entrydir == rdE)
+                returnvalue = rdW;
+        }
+        else {
+            if (iSoldRotate == 1) {
+                /* /- */
+                if (iSoldDirection == 0) {
+                    if (entrydir == rdE)
+                        returnvalue = rdSW;
+                    else if (entrydir == rdSW)
+                        returnvalue = rdE;
+                }
+                /* \- */
+                else {
+                    if (entrydir == rdE)
+                        returnvalue = rdNW;
+                    else if (entrydir == rdNW)
+                        returnvalue = rdE;
+                }
+            }
+            else {
+                /* -/ */
+                if (iSoldDirection == 1) {
+                    if (entrydir == rdW)
+                        returnvalue = rdNE;
+                    else if (entrydir == rdNE)
+                        returnvalue = rdW;
+                }
+                /* -\ */
+                else {
+                    if (entrydir == rdW)
+                        returnvalue = rdSE;
+                    else if (entrydir == rdSE)
+                        returnvalue = rdW;
+                }
+            }
+        }
     }
 
     else if (sSoldIcon == SYM_WEY) {
-        if (!(rotate ^ to_r))
-            returnvalue = 0;
-        if (!rotate && to_r && D == 1 || rotate && !to_r && D == 0)
-            returnvalue = -1;
-        if (!rotate && to_r && D == 0 || rotate && !to_r && D == 1)
-            returnvalue = +1;
+        if (iSoldRotate == 1) {
+            /* /- */
+            if (iSoldDirection == 0) {
+                if (entrydir == rdE)
+                    returnvalue = rdSW;
+                else if (entrydir == rdSW)
+                    returnvalue = rdE;
+            }
+            /* \- */
+            else {
+                if (entrydir == rdE)
+                    returnvalue = rdNW;
+                else if (entrydir == rdNW)
+                    returnvalue = rdE;
+            }
+        }
+        else {
+            /* -/ */
+            if (iSoldDirection == 0) {
+                if (entrydir == rdW)
+                    returnvalue = rdNE;
+                else if (entrydir == rdNE)
+                    returnvalue = rdW;
+            }
+            /* -\ */
+            else {
+                if (entrydir == rdW)
+                    returnvalue = rdSE;
+                else if (entrydir == rdSE)
+                    returnvalue = rdW;
+            }
+        }
     }
 
-    else if (sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR) {
-        if ((rotate ^ to_r) && D == 1)
-            returnvalue = 0;
-        if (!to_r && !isright && (!rotate || D == 0) || to_r && isright
-            && (rotate || D == 0))
-            returnvalue = -1;
-        if (!to_r && isright && (!rotate || D == 0) || to_r && !isright
-            && (rotate || D == 0))
-            returnvalue = +1;
+    else if (sSoldIcon == SYM_DWL) {
+        /* \
+            \ */
+        if (iSoldDirection == 0) {
+            if (entrydir == rdNW)
+                returnvalue = rdSE;
+            else if (entrydir == rdSE)
+                returnvalue = rdNW;
+        }
+        else {
+            /* _
+                \ */
+            if (iSoldRotate == 1) {
+                if (entrydir == rdW)
+                    returnvalue = rdSE;
+                else if (entrydir == rdSE)
+                    returnvalue = rdW;
+            }
+            // \_
+            else {
+                if (entrydir == rdNW)
+                    returnvalue = rdE;
+                else if (entrydir == rdE)
+                    returnvalue = rdNW;
+            }
+        }
     }
 
-    else if (sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR) {
-        if (D == 0 || D == 1 &&
-                (!(rotate ^ isright) && !to_r || (rotate ^ isright) && to_r))
-            returnvalue = 0;
-        if ((to_r ^ isright)
-            && (!rotate && D == 1 || !rotate && D == 2 || rotate && D == 2))
-            returnvalue = -1;
-        if (!(to_r ^ isright)
-            && (rotate && D == 1 || !rotate && D == 2 || rotate && D == 2))
-            returnvalue = +1;
+    else if (sSoldIcon == SYM_DWR) {
+        /*  /
+           / */
+        if (iSoldDirection == 0) {
+            if (entrydir == rdNE)
+                returnvalue = rdSW;
+            else if (entrydir == rdSW)
+                returnvalue = rdNE;
+        }
+        else {
+            /*  _
+               /  */
+            if (iSoldRotate == 1) {
+                if (entrydir == rdSW)
+                    returnvalue = rdE;
+                else if (entrydir == rdE)
+                    returnvalue = rdSW;
+            }
+            // _/
+            else {
+                if (entrydir == rdNE)
+                    returnvalue = rdW;
+                else if (entrydir == rdW)
+                    returnvalue = rdNE;
+            }
+        }
+    }
+
+    else if (sSoldIcon == SYM_EKL) {
+        // --
+        if (iSoldDirection == 0) {
+            if (entrydir == rdE)
+                returnvalue = rdW;
+            else if (entrydir == rdW)
+                returnvalue = rdE;
+        }
+        //  /
+        // /
+        else if (iSoldDirection == 2) {
+            if (entrydir == rdNE)
+                returnvalue = rdSW;
+            else if (entrydir == rdSW)
+                returnvalue = rdNE;
+        }
+        else {
+            // _/
+            if (iSoldRotate == 1) {
+                if (entrydir == rdNE)
+                    returnvalue = rdW;
+                else if (entrydir == rdW)
+                    returnvalue = rdNE;
+            }
+            /*  _
+               /  */
+            else {
+                if (entrydir == rdSW)
+                    returnvalue = rdE;
+                else if (entrydir == rdE)
+                    returnvalue = rdSW;
+            }
+        }
+
+        // shortcut to avoid double painting
+        setupElementIcon();
+        return returnvalue;
+    }
+
+    else if (sSoldIcon == SYM_EKR) {
+        // --
+        if (iSoldDirection == 0) {
+            if (entrydir == rdE)
+                returnvalue = rdW;
+            else if (entrydir == rdW)
+                returnvalue = rdE;
+        }
+        /* \
+            \ */
+        else if (iSoldDirection == 2) {
+            if (entrydir == rdNW)
+                returnvalue = rdSE;
+            else if (entrydir == rdSE)
+                returnvalue = rdNW;
+        }
+        else {
+            // \_
+            if (iSoldRotate == 1) {
+                if (entrydir == rdNW)
+                    returnvalue = rdE;
+                else if (entrydir == rdE)
+                    returnvalue = rdNW;
+            }
+            /* _
+                \ */
+            else {
+                if (entrydir == rdW)
+                    returnvalue = rdSE;
+                else if (entrydir == rdSE)
+                    returnvalue = rdW;
+            }
+        }
 
         // shortcut to avoid double painting
         setupElementIcon();
@@ -5714,54 +5960,129 @@ int element::routeElement(bool to_r, bool setroute, int vertcorr)
     }
 
     // 4-state-DKWs
-    else if ((sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) &&
-             iSoldSubType == 1) {
-        if (D == 0 || !to_r && (D == 1 && !isright || D == 3 && isright) ||
-            to_r && (D == 3 && !isright || D == 1 && isright))
-            returnvalue = 0;
-        if ((to_r ^ isright) && (D == 1 || D == 2))
-            returnvalue = -1;
-        if (!(to_r ^ isright) && (D == 2 || D == 3))
-            returnvalue = +1;
+    else if (sSoldIcon == SYM_DKL && iSoldSubType == 1) {
+        // --
+        if (iSoldDirection == 0) {
+            if (entrydir == rdE)
+                returnvalue = rdW;
+            else if (entrydir == rdW)
+                returnvalue = rdE;
+        }
+        // _/
+        else if (iSoldDirection == 1) {
+            if (entrydir == rdNE)
+                returnvalue = rdW;
+            else if (entrydir == rdW)
+                returnvalue = rdNE;
+        }
+        //  /
+        // /
+        else if (iSoldDirection == 2) {
+            if (entrydir == rdNE)
+                returnvalue = rdSW;
+            else if (entrydir == rdSW)
+                returnvalue = rdNE;
+        }
+        /*  _
+           /  */
+        else if (iSoldDirection == 3) {
+            if (entrydir == rdSW)
+                returnvalue = rdE;
+            else if (entrydir == rdE)
+                returnvalue = rdSW;
+        }
 
         // shortcut to avoid double painting
         setupElementIcon();
         return returnvalue;
     }
 
+    else if (sSoldIcon == SYM_DKR && iSoldSubType == 1) {
+        // --
+        if (iSoldDirection == 0) {
+            if (entrydir == rdE)
+                returnvalue = rdW;
+            else if (entrydir == rdW)
+                returnvalue = rdE;
+        }
+        // \_
+        else if (iSoldDirection == 1) {
+            if (entrydir == rdE)
+                returnvalue = rdNW;
+            else if (entrydir == rdNW)
+                returnvalue = rdE;
+        }
+        /* \
+            \ */
+        else if (iSoldDirection == 2) {
+            if (entrydir == rdNW)
+                returnvalue = rdSE;
+            else if (entrydir == rdSE)
+                returnvalue = rdNW;
+        }
+        /* _
+            \ */
+        else if (iSoldDirection == 3) {
+            if (entrydir == rdW)
+                returnvalue = rdSE;
+            else if (entrydir == rdSE)
+                returnvalue = rdW;
+        }
+
+        // shortcut to avoid double painting
+        setupElementIcon();
+        return returnvalue;
+    }
+
+
     // 2-state-DKWs
-    else if ((sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) &&
-             iSoldSubType == 0) {
-
-        if (D == 1 && !isright
-            && (vertcorr == +1 && !to_r || vertcorr == 0 && to_r)) {
-            if (vertcorr != 0)
-                returnvalue = 0;
-            else
-                returnvalue = -1;
+    else if (sSoldIcon == SYM_DKL && iSoldSubType == 0) {
+        // --
+        if (iSoldDirection == 0) {
+            if (entrydir == rdE)
+                returnvalue = rdW;
+            else if (entrydir == rdW)
+                returnvalue = rdE;
+        }
+        /* _/
+            _
+           /  */
+        else if (iSoldDirection == 1) {
+            if (entrydir == rdW)
+                returnvalue = rdNE;
+            else if (entrydir == rdNE)
+                returnvalue = rdW;
+            else if (entrydir == rdE)
+                returnvalue = rdSW;
+            else if (entrydir == rdSW)
+                returnvalue = rdE;
         }
 
-        else if (D == 1 && isright
-            && (vertcorr == -1 && !to_r || vertcorr == 0 && to_r)) {
-            if (vertcorr != 0)
-                returnvalue = 0;
-            else
-                returnvalue = +1;
-        }
+        // shortcut to avoid double painting
+        setupElementIcon();
+        return returnvalue;
+    }
 
-        else if (D == 1 && !isright
-            && (vertcorr == -1 && to_r || vertcorr == 0 && !to_r)) {
-            if (vertcorr != 0)
-                returnvalue = 0;
-            else
-                returnvalue = +1;
+    else if (sSoldIcon == SYM_DKR && iSoldSubType == 0) {
+        // --
+        if (iSoldDirection == 0) {
+            if (entrydir == rdE)
+                returnvalue = rdW;
+            else if (entrydir == rdW)
+                returnvalue = rdE;
         }
-        else if (D == 1 && isright
-            && (vertcorr == +1 && to_r || vertcorr == 0 && !to_r)) {
-            if (vertcorr != 0)
-                returnvalue = 0;
-            else
-                returnvalue = -1;
+        /* \_
+           _
+           \ */
+        else if (iSoldDirection == 1) {
+            if (entrydir == rdNW)
+                returnvalue = rdE;
+            else if (entrydir == rdE)
+                returnvalue = rdNW;
+            else if (entrydir == rdSE)
+                returnvalue = rdW;
+            else if (entrydir == rdW)
+                returnvalue = rdSE;
         }
 
         // shortcut to avoid double painting
@@ -5771,43 +6092,93 @@ int element::routeElement(bool to_r, bool setroute, int vertcorr)
 
     // rail crossings
     else if (sSoldIcon == SYM_KRH) {
-        if (setroute) {
-            if (!to_r && vertcorr == +1 || to_r && vertcorr == -1)
-                routedtrack = 1;
-            else if (!to_r && vertcorr == -1 || to_r && vertcorr == +1)
-                routedtrack = 2;
+
+        //  /
+        // /
+        if (entrydir == rdSW) {
+            returnvalue = rdNE;
+            routedtrack = 1;
         }
-        else
+        else if (entrydir == rdNE) {
+            returnvalue = rdSW;
+            routedtrack = 1;
+        }
+
+        /* \
+            \ */
+        else if (entrydir == rdNW) {
+            returnvalue = rdSE;
+            routedtrack = 2;
+        }
+        else if (entrydir == rdSE) {
+            returnvalue = rdNW;
+            routedtrack = 2;
+        }
+
+        if (!setroute) 
             routedtrack = 0;
     }
 
     else if (sSoldIcon == SYM_KRL) {
-        if (setroute) {
-            if (vertcorr == 0)
-                routedtrack = 2;
-            else
-                routedtrack = 1;
+        // --
+        if (entrydir == rdW) {
+            returnvalue = rdE;
+            routedtrack = 2;
         }
-        else
+        else if (entrydir == rdE) {
+            returnvalue = rdW;
+            routedtrack = 2;
+        }
+
+        //  /
+        // /
+        else if (entrydir == rdSW) {
+            returnvalue = rdNE;
+            routedtrack = 1;
+        }
+        else if (entrydir == rdNE) {
+            returnvalue = rdSW;
+            routedtrack = 1;
+        }
+
+
+        if (!setroute) {
             routedtrack = 0;
+        }
     }
-    
+
     else if (sSoldIcon == SYM_KRR) {
-        if (setroute) {
-            if (vertcorr == 0)
-                routedtrack = 2;
-            else
-                routedtrack = 1;
+        // --
+        if (entrydir == rdW) {
+            returnvalue = rdE;
+            routedtrack = 2;
         }
-        else
+        else if (entrydir == rdE) {
+            returnvalue = rdW;
+            routedtrack = 2;
+        }
+        /* \
+            \ */
+        else if (entrydir == rdNW) {
+            returnvalue = rdSE;
+            routedtrack = 1;
+        }
+        else if (entrydir == rdSE) {
+            returnvalue = rdNW;
+            routedtrack = 1;
+        }
+
+        if (!setroute) 
             routedtrack = 0;
+
     }
 
     // repaint element according to new routing state
-    setRouted(setroute);
+    if (returnvalue != rdCenter)
+        setRouted(setroute);
+
     return returnvalue;
 }
-
 
 /**
  * This slot is always called if a feedback port toggles.
@@ -6050,7 +6421,6 @@ void element::getStateData(stateElement& se)
     se.address = iSoldAddress_1;
     se.state = iSoldDirection;
     se.elemPtr = this;
-    se.elemPtr2 = NULL;
 }
 
 

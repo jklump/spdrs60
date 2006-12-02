@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.5.0 $Revision: 1.31 $
+                           version 0.5.0 $Revision: 1.32 $
                            -------------------------------
     copyright            : (C) 2005-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-22 16:45:04 $
+    last modified        : $Date: 2006-12-02 08:16:31 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -529,7 +529,6 @@ void RouteDialog::getEntrySignalData(stateElement& signal)
     signal.state = startSignalStateSB->value();
     if (signal.elemPtr != startSignalElPtr) {
         signal.elemPtr = startSignalElPtr;
-        signal.elemPtr2 = NULL;
     }
 }
 
@@ -552,7 +551,6 @@ void RouteDialog::getExitSignalData(stateElement& signal)
     signal.address = stopSignalAddressLE->text().toUInt();
     if (signal.elemPtr != stopSignalElPtr) {
         signal.elemPtr = stopSignalElPtr;
-        signal.elemPtr2 = NULL;
     }
 }
 
@@ -946,7 +944,6 @@ void RouteDialog::addElementToList()
         se->address = 0;
         se->state = 0;
         se->elemPtr = NULL;
-        se->elemPtr2 = NULL;
         rteDlg->setStateElementData(se);
         
         if (rteDlg->exec() == QDialog::Accepted) {

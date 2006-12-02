@@ -1,10 +1,10 @@
 /***************************************************************************
                            routeelementlvi.cpp
-                           version 0.5.0 $Revision: 1.5 $
+                           version 0.5.0 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 2005-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-02 16:54:32 $
+    last modified        : $Date: 2006-12-02 08:16:31 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -32,7 +32,6 @@ RouteElementLVI::RouteElementLVI(QListView* parent, int index,
        routeElement.address = se->address;
        routeElement.state = se->state;
        routeElement.elemPtr = se->elemPtr;
-       routeElement.elemPtr2 = se->elemPtr2;
    }
    else {
        routeElement.name = "";
@@ -40,7 +39,6 @@ RouteElementLVI::RouteElementLVI(QListView* parent, int index,
        routeElement.address = 0;
        routeElement.state = 0;
        routeElement.elemPtr = NULL;
-       routeElement.elemPtr2 = NULL;
    }
 
    setText(0, QString::number(index));  
@@ -61,7 +59,6 @@ void RouteElementLVI::setStateElementData(const stateElement* se)
    routeElement.address = se->address;
    routeElement.state = se->state;
    routeElement.elemPtr = se->elemPtr;
-   routeElement.elemPtr2 = se->elemPtr2;
      
    setText(1, routeElement.name);  
    setText(2, QString::number(routeElement.bus));  
@@ -80,7 +77,6 @@ void RouteElementLVI::getStateElementData(stateElement* se)
    se->address = routeElement.address;
    se->state = routeElement.state;
    se->elemPtr = routeElement.elemPtr;  
-   se->elemPtr2 = routeElement.elemPtr2;
 }
 
 

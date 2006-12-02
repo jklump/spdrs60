@@ -1,10 +1,10 @@
 /***************************************************************************
                            routeelementdialog.cpp
-                           version 0.5.0 $Revision: 1.9 $
+                           version 0.5.0 $Revision: 1.10 $
                            -------------------------------
     copyright            : (C) 2005-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-22 16:45:04 $
+    last modified        : $Date: 2006-12-02 08:16:31 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -143,7 +143,6 @@ void RouteElementDialog::getStateElementData(stateElement* se)
     se->state = reStateSB->value();
     if (se->elemPtr != rePtr1) {
         se->elemPtr = rePtr1;
-        se->elemPtr2 = NULL;
     }
 }
 

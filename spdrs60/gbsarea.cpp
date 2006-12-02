@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.0 $Revision: 1.57 $
+                           version 0.5.0 $Revision: 1.58 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-24 21:00:52 $
+    last modified        : $Date: 2006-12-02 08:16:31 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -646,120 +646,77 @@ void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
     if (rows <= 1)
         return;
 
-    int iCorr = 0;
     int idx = fSig.elemPtr->getIndexNo();
     int maxIdx = (int) elements.size();
     element* endPtr = tSig.elemPtr;
-    bool layoutEdge = false;
     bool finished = false;
-    bool toRight = !fSig.elemPtr->iSoldRotate;
     bool setrt = (krouteReset != setRoute);
+    
+    unsigned int entrydir;
+    unsigned int exitdir;
+
+    if (fSig.elemPtr->iSoldRotate == 1)
+        entrydir = rdE;
+    else
+        entrydir = rdW;
 
     while (!finished) {
         if ((idx < 0) || (idx >= maxIdx)) {
-            layoutEdge = true;
+            emit showLogMessage(tr("Route hit layout edge at element %1")
+                    .arg(idx), MT_INFO, HL_HINT);
             break;
         }
         
         element* rel = elements[idx];
         if (rel == NULL) {
-            layoutEdge = true;
+            emit showLogMessage(tr("Route end at empty element %1")
+                    .arg(idx), MT_INFO, HL_HINT);
             break;
         }
 
         if (!rel->isRoutable()) {
-            layoutEdge = true;
+            emit showLogMessage(tr("Route end at not routable element %1")
+                    .arg(idx), MT_INFO, HL_HINT);
             break;
         }
 
         // interrupt operation when normal route meets occupied element
         // start signal is allowed to be occupied
+        // give also feedback for caller
         if ((krouteZfs == setRoute) && rel->isOccupied() &&
                 rel != fSig.elemPtr) {
-            // feedback for caller
             setRoute = krouteReset;
             return;
         }
 
         finished = (rel == endPtr);
 
-        // paint yellow track and get back vertical correction value
-        iCorr = rel->routeElement(toRight, setrt, iCorr);
-
-        //TODO: real two dimensional routing
-        //exitpos = rel->routeElement(exitpos, setrt);
-        //
-        //if (exitpos == rdC)
-        //  break; // rien ne vas plus, error message
-        //if (exitpos & rdN)
-        // --idx;
-        //else if (exitpos & rdS)
-        //  ++idx;
-        //if (exitpos & rdW)
-        //  idx -= rows;
-        //else if (exitpos & rdE)
-        //  idx += rows;
+        // paint yellow track and get back new route direction
+        exitdir = rel->routeElement(entrydir, setrt);
+        entrydir = rdCenter;
+        
+        if (exitdir == rdCenter) {
+            emit showLogMessage(tr("Route found dead end at element %1")
+                    .arg(idx), MT_INFO, HL_HINT);
+            break;
+        }
+        if (exitdir & rdN) {
+            --idx;
+            entrydir = entrydir | rdS;
+        }
+        else if (exitdir & rdS) {
+            ++idx;
+            entrydir = entrydir | rdN;
+        }
+        if (exitdir & rdW) {
+            idx -= rows;
+            entrydir = entrydir | rdE;
+        }
+        else if (exitdir & rdE) {
+            idx += rows;
+            entrydir = entrydir | rdW;
+        }
  
-        // calculate column of next element
-        if (toRight)
-            idx += rows + iCorr;
-        else
-            idx += -rows + iCorr;
-    }
-
-    // Routing over layout edges:
-    // 1) start1 -> stop1 (normal)
-    // 2) start2 -> stop1
-    // 3) start1 -> stop2
-    // 4) start2 -> stop2
-    if (layoutEdge) {
-        emit showLogMessage(tr("Route found end of track at element %1")
-                .arg(idx), MT_INFO, HL_HINT);
-
-        bool secondRun = false;
-
-        if (fSig.elemPtr2 != NULL) {
-            idx = fSig.elemPtr2->getIndexNo();
-            secondRun = true;
-        }
-        else if (tSig.elemPtr2 != NULL) {
-            endPtr = tSig.elemPtr2;
-            secondRun = true;
-        }
-        else if (fSig.elemPtr2 != NULL && tSig.elemPtr2 != NULL) {
-            idx = fSig.elemPtr2->getIndexNo();
-            endPtr = tSig.elemPtr2;
-            secondRun = true;
-        }
-
-        if (!secondRun)
-            return;
-
-        iCorr = 0;
-        finished = false;
-        /*second run*/
-        while (!finished) {
-            if ((idx < 0) || (idx >= maxIdx)) {
-                break;
-            }
-
-            element* rel = elements[idx];
-            if (rel == NULL) {
-                break;
-            }
-
-            if (!rel->isRoutable()) {
-                break;
-            }
-            finished = (rel == endPtr);
-
-            iCorr = rel->routeElement(toRight, setrt, iCorr);
-
-            if (toRight)
-                idx += rows + iCorr;
-            else
-                idx += -rows + iCorr;
-        }
     }
 }
 

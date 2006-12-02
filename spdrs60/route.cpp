@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.0 $Revision: 1.42 $
+                           version 0.5.0 $Revision: 1.43 $
                            -------------------------------
     copyright            : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-22 16:45:04 $
+    last modified        : $Date: 2006-12-02 08:16:31 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -51,14 +51,12 @@ Route::Route(TypeOfRoute arouteType,
     exitSignal.address = aexitSignal.address;
     exitSignal.state = aexitSignal.state;
     exitSignal.elemPtr = aexitSignal.elemPtr;
-    exitSignal.elemPtr2 = aexitSignal.elemPtr2;
     
     entrySignal.name = aentrySignal.name;
     entrySignal.bus = aentrySignal.bus;
     entrySignal.address = aentrySignal.address;
     entrySignal.state = aentrySignal.state;
     entrySignal.elemPtr = aentrySignal.elemPtr;
-    entrySignal.elemPtr2 = aentrySignal.elemPtr2;
     
     rePort.used = arePort.used;
     rePort.switchtooff = arePort.switchtooff;
@@ -87,7 +85,6 @@ Route::Route(TypeOfRoute arouteType,
             el->address = swElement->address;
             el->state = swElement->state;
             el->elemPtr = swElement->elemPtr;
-            el->elemPtr2 = swElement->elemPtr2;
 
             switchItems.append(el);
         }
@@ -108,7 +105,6 @@ Route::Route(element* startEl)
     exitSignal.bus = 0;
     exitSignal.name = "";
     exitSignal.elemPtr = NULL;
-    exitSignal.elemPtr2 = NULL;
     
     routeType = RZS;
 
@@ -140,7 +136,6 @@ Route::Route(element* startEl)
         entrySignal.bus = 0;
         entrySignal.name = "";
         entrySignal.elemPtr = NULL;
-        entrySignal.elemPtr2 = NULL;
     }
 }
 
@@ -156,10 +151,8 @@ Route::Route(QTextStream& ts, bool isNewFormat)
     exitSignal.state = 0;
     exitSignal.name = "";
     exitSignal.elemPtr = NULL;
-    exitSignal.elemPtr2 = NULL;
     entrySignal.name = "";
     entrySignal.elemPtr = NULL;
-    entrySignal.elemPtr2 = NULL;
 
     if (isNewFormat)
         readFileTextFromStream(ts);
@@ -184,14 +177,12 @@ Route::Route(const QString& aName)
     exitSignal.address = 0;
     exitSignal.state = 0;
     exitSignal.elemPtr = NULL;
-    exitSignal.elemPtr2 = NULL;
     
     entrySignal.name = "";
     entrySignal.bus = 1;
     entrySignal.address = 0;
     entrySignal.state = 0;
     entrySignal.elemPtr = NULL;
-    entrySignal.elemPtr2 = NULL;
     
     rePort.used = false;
     rePort.switchtooff = false;
@@ -234,13 +225,9 @@ void Route::setupElementLists(QPtrVector<element>* elements)
                 swElement->name = gbse->getLabelText();
                 if (swElement->elemPtr == NULL)
                     swElement->elemPtr = gbse;
-                else {
-                    /*may be this element is twice on layout*/
-                    swElement->elemPtr2 = gbse;
                     break;
                 }
             }
-        }
 
         /*add exit signal*/
         if ((gbse != 0) && gbse->hasSameAddress(exitSignal.bus,
@@ -249,10 +236,6 @@ void Route::setupElementLists(QPtrVector<element>* elements)
             exitSignal.name = gbse->getLabelText();
             if (exitSignal.elemPtr == NULL)
                 exitSignal.elemPtr = gbse;
-            else {
-                /*may be this signal is twice on layout*/
-                exitSignal.elemPtr2 = gbse;
-            }
         }
 
         /*add entry signal*/
@@ -262,10 +245,6 @@ void Route::setupElementLists(QPtrVector<element>* elements)
             entrySignal.name = gbse->getLabelText();
             if (entrySignal.elemPtr == NULL)
                 entrySignal.elemPtr = gbse;
-            else {
-                /*may be this signal is twice on layout*/
-                entrySignal.elemPtr2 = gbse;
-            }
         }
     }
 }
@@ -295,7 +274,6 @@ void Route::readFileTextFromStream(QTextStream& ts)
                     switchElement->address = s.section(DS, 2, 2).toUInt();
                     switchElement->state = s.section(DS, 3, 3).toUInt();
                     switchElement->elemPtr = NULL;
-                    switchElement->elemPtr2 = NULL;
                     switchElement->name = "";
 
                     switchItems.append(switchElement);
@@ -360,7 +338,6 @@ void Route::readOldFileTextFromStream(QTextStream& ts)
                 switchElement->address = value.section(" ", 0, 0).toUInt();
                 switchElement->state = value.section(" ", 1, 1).toUInt();
                 switchElement->elemPtr = NULL;
-                switchElement->elemPtr2 = NULL;
                 switchElement->name = "";
                 
                 switchItems.append(switchElement);
@@ -536,15 +513,8 @@ int Route::startRouting()
     if (entrySignal.elemPtr != NULL && entrySignal.elemPtr->isLocked())
                return 0;
 
-    if (entrySignal.elemPtr2 != NULL && entrySignal.elemPtr2->isLocked())
-               return 0;
-
     if (exitSignal.elemPtr != NULL && exitSignal.elemPtr->isLocked() &&
                 exitSignal.elemPtr->hasDifferentDirection(exitSignal.state))
-               return 0;
-
-    if (exitSignal.elemPtr2 != NULL && exitSignal.elemPtr2->isLocked() &&
-                exitSignal.elemPtr2->hasDifferentDirection(exitSignal.state))
                return 0;
 
     turnouts = 0;
@@ -566,13 +536,6 @@ int Route::startRouting()
             el->setSwitched(false);
             if (el->isOccupied())
                 return -2;
-
-        el = se->elemPtr2;
-        if (el != NULL && el->isLocked() &&
-                (el->hasDifferentDirection(se->state) ||
-                 el->is2StateDKW()))
-            return 0;
-
         }
     }
     //fprintf(stderr, "counter: %d  turnouts: %d\n", tocounter, turnouts);
@@ -585,10 +548,6 @@ int Route::startRouting()
            exitSignal.elemPtr->repaint();
     }
 
-    if (exitSignal.elemPtr2 != NULL) {
-           exitSignal.elemPtr2->switchToDir(exitSignal.state);
-           exitSignal.elemPtr2->repaint();
-    }
     // start timer controlled turnout switching
     switchTurnouts();
 }
@@ -623,12 +582,6 @@ void Route::switchTurnouts()
                     el->switchToDir(se->state);
                     el->repaint();
                     el->setSwitched(true);
-                    el = se->elemPtr2;
-                    
-                    if (el != NULL) {
-                        el->switchToDir(se->state);
-                        el->repaint();
-                    }
                     
                     //fprintf(stderr, "counter: %d  turnouts: %d\n",
                     //        tocounter, turnouts);
@@ -691,9 +644,6 @@ void Route::showRoutePath()
     if (entrySignal.elemPtr != NULL)
         entrySignal.elemPtr->setLocked(true);
 
-    if (entrySignal.elemPtr2 != NULL)
-        entrySignal.elemPtr2->setLocked(true);
-
     /*exit signal does not need locking*/
     
     QPtrListIterator<stateElement> it(switchItems);
@@ -701,9 +651,6 @@ void Route::showRoutePath()
     while ((se = it.current()) != 0) {
         ++it;
         element* el = se->elemPtr;
-        if (el != NULL)
-            el->setLocked(true);
-        el = se->elemPtr2;
         if (el != NULL)
             el->setLocked(true);
     }
@@ -715,10 +662,6 @@ void Route::showRoutePath()
     if (entrySignal.elemPtr != NULL)
            entrySignal.elemPtr->activateFfM((routeType != RRS &&
                        routeType != URS));
-
-    if (entrySignal.elemPtr2 != NULL)
-           entrySignal.elemPtr2->activateFfM(routeType != RRS &&
-                       routeType != URS);
 
     /*
      * 6) switch signals on route path to Sh1 (Siemens Type)
@@ -733,21 +676,12 @@ void Route::showRoutePath()
             if (el->isSignal() || el->isSimpleGA()) {
                 el->switchToDir(se->state);
                 el->repaint();
-
-                el = se->elemPtr2;
-                if (el != NULL) {
-                    el->switchToDir(se->state);
-                    el->repaint();
-                }
             }
     }
 
     /* 7) at last switch entry signal to Hp1/Sh1 etc.*/
     if (entrySignal.elemPtr != NULL)
         entrySignal.elemPtr->switchToDir(entrySignal.state);
-
-    if (entrySignal.elemPtr2 != NULL)
-        entrySignal.elemPtr2->switchToDir(entrySignal.state);
 
     routestate = rsLocked;
     emit stateChanged(this, routestate);
@@ -769,28 +703,11 @@ void Route::stopRouting()
             entrySignal.elemPtr->setLocked(false);
     }
 
-    if (entrySignal.elemPtr2 != NULL) {
-        entrySignal.elemPtr2->activateFfM(false);
-        entrySignal.elemPtr2->switchToDir(0);
-        //FIXME: temporary solution
-        if (routestate == rsLocked)
-            entrySignal.elemPtr2->setLocked(false);
-    }
-
     QPtrListIterator<stateElement> it(switchItems);
     stateElement* se;
     while ((se = it.current()) != 0) {
         ++it;
         element* el = se->elemPtr;
-        if (el != NULL) {
-            if (el->isSignal())
-                el->switchToDir(0);
-            //FIXME: temporary solution
-            if (routestate == rsLocked)
-                el->setLocked(false);
-        }
-
-        el = se->elemPtr2;
         if (el != NULL) {
             if (el->isSignal())
                 el->switchToDir(0);
@@ -817,14 +734,8 @@ void Route::hideRoute()
     if (exitSignal.elemPtr != NULL)
            exitSignal.elemPtr->switchSelectionMode(ksmNormal);
 
-    if (exitSignal.elemPtr2 != NULL)
-           exitSignal.elemPtr2->switchSelectionMode(ksmNormal);
-
     if (entrySignal.elemPtr != NULL)
            entrySignal.elemPtr->switchSelectionMode(ksmNormal);
-
-    if (entrySignal.elemPtr2 != NULL)
-           entrySignal.elemPtr2->switchSelectionMode(ksmNormal);
 
     QPtrListIterator<stateElement> it(switchItems);
     stateElement* swe;
@@ -833,8 +744,6 @@ void Route::hideRoute()
         ++it;
         if (swe->elemPtr != NULL)
             swe->elemPtr->switchSelectionMode(ksmNormal);
-        if (swe->elemPtr2 != NULL)
-            swe->elemPtr2->switchSelectionMode(ksmNormal);
     }
 }
 
@@ -845,16 +754,8 @@ void Route::showRoute()
            exitSignal.elemPtr->showElementState(exitSignal.state,
                    ksmStopSig);
 
-    if (exitSignal.elemPtr2 != NULL)
-           exitSignal.elemPtr2->showElementState(exitSignal.state,
-                   ksmStopSig);
-
     if (entrySignal.elemPtr != NULL)
            entrySignal.elemPtr->showElementState(entrySignal.state,
-                   ksmStartSig);
-
-    if (entrySignal.elemPtr2 != NULL)
-           entrySignal.elemPtr2->showElementState(entrySignal.state,
                    ksmStartSig);
 
     QPtrListIterator<stateElement> it(switchItems);
@@ -864,8 +765,6 @@ void Route::showRoute()
         ++it;
         if (swe->elemPtr != NULL)
             swe->elemPtr->showElementState(swe->state, ksmSwitchEl);
-        if (swe->elemPtr2 != NULL)
-            swe->elemPtr2->showElementState(swe->state, ksmSwitchEl);
     }
 }
 
@@ -947,7 +846,6 @@ void Route::removeElement(element* el)
             entrySignal.bus = 0;
             entrySignal.name = "";
             entrySignal.elemPtr = NULL;
-            entrySignal.elemPtr2 = NULL;
             updateRouteName();
             break;
         case (ksmStopSig):
@@ -956,7 +854,6 @@ void Route::removeElement(element* el)
             exitSignal.bus = 0;
             exitSignal.name = "";
             exitSignal.elemPtr = NULL;
-            exitSignal.elemPtr2 = NULL;
             updateRouteName();
             break;
         case (ksmSwitchEl):
@@ -1000,14 +897,14 @@ bool Route::hasExitSignal()
 
 bool Route::hasThisExitSignal(element* el)
 {
-    return (exitSignal.elemPtr == el || exitSignal.elemPtr2 == el);
+    return (exitSignal.elemPtr == el);
 }
 
 
 bool Route::isLockedWithEntrySignal(element* el)
 {
     return routestate != rsUnlocked &&
-        (entrySignal.elemPtr == el || entrySignal.elemPtr2 == el);
+        (entrySignal.elemPtr == el);
 }
 
 
@@ -1026,8 +923,7 @@ bool Route::isUnlockedWithEntrySignalType(element* el, GbsButtonState cb,
           URS       kRfsClicked   kUfgtClicked
        ----------------------------------------
     */
-    if (routestate == rsUnlocked && (entrySignal.elemPtr == el || 
-                entrySignal.elemPtr2 == el)) {
+    if (routestate == rsUnlocked && (entrySignal.elemPtr == el)) {
         
         bool returnvalue = false;
         switch (routeType){
@@ -1072,9 +968,8 @@ bool Route::isUnlockedType(element* fel, element* tel, GbsButtonState cb,
           URS       kRfsClicked   kUfgtClicked
        ----------------------------------------
     */
-    if (routestate == rsUnlocked && (entrySignal.elemPtr == fel || 
-                entrySignal.elemPtr2 == fel) && (exitSignal.elemPtr == tel || 
-                    exitSignal.elemPtr2 == tel)) {
+    if (routestate == rsUnlocked && (entrySignal.elemPtr == fel) &&
+            (exitSignal.elemPtr == tel)) {
         
         bool returnvalue = false;
         switch (routeType){

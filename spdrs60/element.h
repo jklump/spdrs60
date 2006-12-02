@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.0 $Revision: 1.57 $
+                           version 0.5.0 $Revision: 1.58 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-27 21:38:11 $
+    last modified        : $Date: 2006-12-02 08:16:31 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -172,6 +172,17 @@ enum elemRouteDirection {
     rdSE = rdS & rdE
 };
 */
+
+const unsigned int rdCenter = 0u;
+const unsigned int rdN = 2u;
+const unsigned int rdS = 4u;
+const unsigned int rdW = 8u;
+const unsigned int rdE = 16u;
+const unsigned int rdNW = rdN | rdW;
+const unsigned int rdNE = rdN | rdE;
+const unsigned int rdSW = rdS | rdW;
+const unsigned int rdSE = rdS | rdE;
+
 /*some magic strings for reading and writing layout files*/
 #define GF_INDEX      "index"
 #define GF_NAME       "icon"
@@ -206,9 +217,6 @@ class element;
 struct stateElement {
     unsigned int bus, address, state;
     element* elemPtr;
-    element* elemPtr2;
-    /* may be there should be an element list if gbs contains more than
-     * one element with same address*/
     QString name;
 };
 
@@ -234,7 +242,8 @@ public:
     void readOldFileTextFromStream(QTextStream&);
     void writeFileTextToStream(QTextStream&);
     QSize sizeHint() const;
-    int  routeElement(bool, bool, int);
+    //int  routeElement(bool, bool, int);
+    unsigned int routeElement(unsigned int, bool);
     void locateMe();
     QString getLabelText() const;
     bool hasSameAddress(int, int);
