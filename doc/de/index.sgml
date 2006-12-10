@@ -1,5 +1,5 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.2//EN" [
-<!-- Aktuelle Version: --> <!ENTITY ver "0.5.0">
+<!-- Aktuelle Version: --> <!ENTITY ver "0.5.1">
 ]>
 
 <article lang="de">
@@ -35,6 +35,10 @@
   </author>
 
   <revhistory>
+    <revision>
+      <revnumber>0.8</revnumber>
+      <date>Sa Dez 02 19:53:00 CET 2006</date>
+    </revision>
     <revision>
       <revnumber>0.7</revnumber>
       <date>Di Nov 28 17:53:00 CET 2006</date>
@@ -150,10 +154,36 @@ empfehlenswert, diese Dokumentation durchzuarbeiten.
 <sect1 id="sect-aenderungen">
   <title>Änderungen</title>
 
+<sect2 id="ver-0.5.1">
+  <title>Version 0.5.1</title>
+<para>
+Veröffentlicht am 02.12.2006
+</para>
+<itemizedlist mark="bullet">
+
+  <listitem><para>
+  Der alte Fahrstraßenberechnungsalgorithmus wurde durch einen
+  neuen ersetzt, der mit der Zweidimensionalität des Gleisbilds
+  inklusive Fahrtrichtungswechseln zurecht kommt. Fünf neue
+  Gleisbildelemente, mit denen sich nun auch vertikale
+  Streckenverläufe realisieren lassen, ermöglichen die Nutzung dieser
+  neuen Fähigkeit. Letztendlich kann man nun erstmalig innerhalb
+  eines Gleisbilds im Kreis fahren oder beliebige Bögen schlagen.
+  </para></listitem>
+  
+  <listitem><para>
+  Beim Einstellen von fehlkonfigurierten Fahrstraßen werden nun
+  differenzierte Fehlermeldungen ausgegeben. Falsches Abbiegen oder
+  Überspringen von Spurunterbrechungen findet nun nicht mehr statt.
+  </para></listitem>
+
+</itemizedlist>
+</sect2>
+
 <sect2 id="ver-0.5.0">
   <title>Version 0.5.0</title>
 <para>
-Veröffentlicht am 02.12.2006
+Veröffentlicht am 30.11.2006
 </para>
 <itemizedlist mark="bullet">
 
@@ -1959,6 +1989,18 @@ das Schalten der Signale mit der SGT und der Funktionstaste
 <keycap>F8</keycap> bzw. das Schalten eines Signals auf Halt mit der HaGT
 und der Funktionstaste <keycap>F9</keycap>.
 </para>
+<para>
+Die WGT besitzt oberhalb der Bedientaste den &raquo;Weichenlaufmelder
+für Umformerbetrieb&laquo; (WLU) mit rotem Ruhelicht. Er zeigt im
+Original an, ob sich die Stromversorgungsanlage des Stellwerks im
+Umformerbetrieb befindet und damit immer nur ein Weichenantrieb zur Zeit
+angesprochen werden kann. Ein gleichzeitiges Umlaufen mehrerer Weichen
+ist wegen des erhöhten Stromverbrauches dann nicht möglich. In spdrs60
+für Linux erfüllt dieser Melder bislang nur einen dekorativen Zweck. Die
+Anzahl der gleichzeitig angetriebenen Weichen ist unbeschränkt und
+wird nur über zeitliche Verzögerungen des SRCP-Servers von vollkommener
+Synchnonität abgehalten.
+</para>
 </sect3>
 
 <sect3>
@@ -3114,8 +3156,11 @@ vorhanden).</para>
         <imagedata fileref="../commonimages/weiche-diag-rechts-0.png">
       </imageobject></inlinemediaobject></entry>
       <entry>0 = gerader Gleisstrang (diagonal)</entry>
-      <entry morerows="1" valign="middle"><footnoteref linkend="fntabpos1"/></entry>
+      <entry morerows="1" valign="middle">
+        <footnoteref linkend="fntabpos1"/>
+      </entry>
     </row>
+    
     <row>
       <entry><inlinemediaobject><imageobject>
         <imagedata fileref="../commonimages/weiche-diag-links-1.png">
@@ -3144,6 +3189,7 @@ vorhanden).</para>
       </imageobject></inlinemediaobject></entry>
       <entry>1 = abzweigender Gleisstrang links</entry>
     </row>
+
     <row>
       <entry><inlinemediaobject><imageobject>
         <imagedata fileref="../commonimages/dreier-weiche-2.png">
@@ -5127,31 +5173,6 @@ Man wähle hier zwischen Links- und Rechtslauf oder Anhalten.
   <variablelist>
   <varlistentry>
   <term><emphasis>
-  Warum gibt es keine senkrechten Elemente?
-  </emphasis></term>
-  <listitem><para>
-  Das Aussehen dieses Programms lehnt sich sehr stark
-  an das Vorbild an, wie es bei der Deutschen Bahn AG noch immer weit
-  verbreitet ist. Dort ist es üblich, den Streckenverlauf waagerecht
-  darzustellen, auch wenn sich Strecken teilen und diese z.B. in einem
-  90-Grad-Winkel zueinander verlaufen. Ein Stellwerk bildet die
-  vorbeilaufende Strecke ab, und die bildet nun mal keinen Kreis wie auf
-  der Modellbahn. So gibt es mehr Ordnung auf dem Stelltisch und
-  das Auge kann die Anzeigen besser und schneller erkennen.
-  </para></listitem>
-  </varlistentry>
-  <varlistentry>
-  <term><emphasis>
-  Wird es dennoch eine Modellbahn-Anpassung durch
-  senkrechte Elemente geben?
-  </emphasis></term>
-  <listitem><para>
-  Aller Wahrscheinlichkeit nach wird dieses Feature in der Version 0.5.1
-  realisiert.
-  </para></listitem>
-  </varlistentry>
-  <varlistentry>
-  <term><emphasis>
   Wie erfahre ich, ob es eine neue Version von
   &raquo;SpDrS60 für Linux&laquo; gibt?
   </emphasis></term>
@@ -5176,8 +5197,8 @@ Man wähle hier zwischen Links- und Rechtslauf oder Anhalten.
   </varlistentry>
   <varlistentry>
   <term><emphasis>
-  Warum stimmt die Gleisbesetztmeldung bei einfachen
-  Kreuzungen manchmal nicht?
+  Warum stimmt die Gleisbesetztmeldung bei einfachen Kreuzungen manchmal
+  nicht?
   </emphasis></term>
   <listitem><para>
   Auch hier zeigen sich die DKWs mit nur einem Antrieb als die
@@ -5207,8 +5228,8 @@ Man wähle hier zwischen Links- und Rechtslauf oder Anhalten.
   </varlistentry>
   <varlistentry>
   <term><emphasis>
-  Wieso werden Vorsignale einzeln, statt zusammen
-  mit ihren Hauptsignalen angesteuert?
+  Wieso werden Vorsignale einzeln, statt zusammen mit ihren
+  Hauptsignalen angesteuert?
   </emphasis></term>
   <listitem><para>
   Die Verbesserung dieser Funktion ist als weitere Entwicklung eingeplant,
