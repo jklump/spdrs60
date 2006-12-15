@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.107 $
+                           version 0.5.0 $Revision: 1.108 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-12-13 21:38:24 $
+    last modified        : $Date: 2006-12-15 16:44:02 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1332,7 +1332,7 @@ void element::clear()
 void element::updateCtxNorm()
 {
     bool enableCtxN = (!isLocked()) &&
-        (!isOccupied() || sSoldIcon == SYM_ENK || signal) &&
+        (!isOccupied() || simplega || signal) &&
         (visualMode == kvmNormal || visualMode == kvmEditRoute);
 
     if (ctxNorm != NULL)
