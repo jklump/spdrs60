@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.109 $
+                           version 0.5.0 $Revision: 1.110 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-12-16 16:56:17 $
+    last modified        : $Date: 2006-12-16 17:18:44 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -6167,20 +6167,20 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
                 returnvalue = rdNE;
         }
         else {
-            /*  _
-               /  */
-            if (iSoldRotate == 1) {
-                if (entrydir == rdSW)
-                    returnvalue = rdE;
-                else if (entrydir == rdE)
-                    returnvalue = rdSW;
-            }
             // _/
-            else {
+            if (iSoldRotate == 1) {
                 if (entrydir == rdNE)
                     returnvalue = rdW;
                 else if (entrydir == rdW)
                     returnvalue = rdNE;
+            }
+            /*  _
+               /  */
+            else {
+                if (entrydir == rdSW)
+                    returnvalue = rdE;
+                else if (entrydir == rdE)
+                    returnvalue = rdSW;
             }
         }
     }
