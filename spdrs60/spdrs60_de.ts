@@ -162,8 +162,20 @@ den Suchkriterien entspricht.</translation>
         <translation>Weichen können mit einer UfGT nicht gestellt werden</translation>
     </message>
     <message>
-        <source>Route found end of track at element %1</source>
-        <translation>Fahrstraße ist bei Element %1 auf Ende der Gleisstrecke getroffen</translation>
+        <source>Route hit layout edge at element %1</source>
+        <translation>Fahrstraße endet bei Element %1 am Gleisbildrand</translation>
+    </message>
+    <message>
+        <source>Route end at empty element %1</source>
+        <translation>Ende der Fahrstraße bei leerem Element %1</translation>
+    </message>
+    <message>
+        <source>Route end at not routable element %1</source>
+        <translation>Ende der Fahrstraße bei gleislosem Element %1</translation>
+    </message>
+    <message>
+        <source>Route found dead end at element %1</source>
+        <translation>Fahrstraße mit Sackgasse bei Element %1</translation>
     </message>
 </context>
 <context>

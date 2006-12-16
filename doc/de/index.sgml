@@ -37,7 +37,7 @@
   <revhistory>
     <revision>
       <revnumber>0.8</revnumber>
-      <date>Sa Dez 02 19:53:00 CET 2006</date>
+      <date>Sa Dez 16 16:53:00 CET 2006</date>
     </revision>
     <revision>
       <revnumber>0.7</revnumber>
@@ -157,7 +157,7 @@ empfehlenswert, diese Dokumentation durchzuarbeiten.
 <sect2 id="ver-0.5.1">
   <title>Version 0.5.1</title>
 <para>
-Veröffentlicht am 02.12.2006
+Veröffentlicht am xx.12.2006
 </para>
 <itemizedlist mark="bullet">
 
@@ -174,7 +174,13 @@ Veröffentlicht am 02.12.2006
   <listitem><para>
   Beim Einstellen von fehlkonfigurierten Fahrstraßen werden nun
   differenzierte Fehlermeldungen ausgegeben. Falsches Abbiegen oder
-  Überspringen von Spurunterbrechungen findet nun nicht mehr statt.
+  Überspringen von Fahrspurunterbrechungen ist nun nicht mehr möglich.
+  </para></listitem>
+
+  <listitem><para>
+  Ein Fehler bei der Aktualisierung des Kontextmenüs zum Umschalten der
+  Gleisbildelemente Relais, Blindelement und Gleichstrommotor wurde
+  beseitigt.
   </para></listitem>
 
 </itemizedlist>
@@ -2592,6 +2598,56 @@ eingegangen.
       <entry>&nbsp;</entry>
     </row>
     <row>
+      <entry><graphic fileref="../commonimages/trackvertical.png"></entry>
+      <entry>trackvertical</entry>
+      <entry>Gerade Strecke vertikal</entry>
+      <entry>nein</entry>
+      <entry>ja</entry>
+      <entry>0</entry>
+      <entry>&nbsp;</entry>
+      <entry>&nbsp;</entry>
+    </row>
+    <row>
+      <entry><graphic fileref="../commonimages/turn_topvert_left.png"></entry>
+      <entry>turn_topvert_left</entry>
+      <entry>Linkskurve vertikal oben</entry>
+      <entry>nein</entry>
+      <entry>ja</entry>
+      <entry>0</entry>
+      <entry>&nbsp;</entry>
+      <entry>&nbsp;</entry>
+    </row>
+    <row>
+      <entry><graphic fileref="../commonimages/turn_topvert_right.png"></entry>
+      <entry>turn_topvert_right</entry>
+      <entry>Rechtskurve vertikal oben</entry>
+      <entry>nein</entry>
+      <entry>ja</entry>
+      <entry>0</entry>
+      <entry>&nbsp;</entry>
+      <entry>&nbsp;</entry>
+    </row>
+    <row>
+      <entry><graphic fileref="../commonimages/turn_botvert_left.png"></entry>
+      <entry>turn_botvert_left</entry>
+      <entry>Linkskurve vertikal unten</entry>
+      <entry>nein</entry>
+      <entry>ja</entry>
+      <entry>0</entry>
+      <entry>&nbsp;</entry>
+      <entry>&nbsp;</entry>
+    </row>
+    <row>
+      <entry><graphic fileref="../commonimages/turn_botvert_right.png"></entry>
+      <entry>turn_botvert_right</entry>
+      <entry>Rechtskurve vertikal unten</entry>
+      <entry>nein</entry>
+      <entry>ja</entry>
+      <entry>0</entry>
+      <entry>&nbsp;</entry>
+      <entry>&nbsp;</entry>
+    </row>
+    <row>
       <entry><graphic fileref="../commonimages/kreuzung-hose.png"></entry>
       <entry>kreuzung_hose</entry>
       <entry>Hosenträgerverbindung</entry>
@@ -2682,6 +2738,27 @@ eingegangen.
       <entry>0 = gerade (Diagonale), 1 = abzweig</entry>
     </row>
     <row>
+      <entry><graphic fileref="../commonimages/switch-y-0.png"></entry>
+      <entry>weiche_y</entry>
+      <entry>Y-Weiche</entry>
+      <entry>ja</entry>
+      <entry>nein</entry>
+      <entry>1</entry>
+      <entry>&nbsp;</entry>
+      <entry>0 = rechts, 1 = links</entry>
+    </row>
+    <row>
+      <entry><graphic fileref="../commonimages/dreier-weiche-0.png"></entry>
+      <entry>dreier_weiche</entry>
+      <entry>Dreiwegweiche</entry>
+      <entry>ja</entry>
+      <entry>nein</entry>
+      <entry>2</entry>
+      <entry>in der Realität nicht vorhanden (dort immer zwei normale
+              Weichen)</entry>
+      <entry>0 = gerade, 1 = abzweigen links, 2 = abzweigen rechts</entry>
+    </row>
+    <row>
       <entry morerows="1" valign="middle"><graphic fileref="../commonimages/dkw-links-0.png"></entry>
       <entry>dkw_links</entry>
       <entry>Doppelte Kreuzungsweiche links</entry>
@@ -2722,17 +2799,6 @@ eingegangen.
       <entry><footnoteref linkend="fntabsym2"/> Subtyp = 1</entry>
       <entry>0 = gerades Stammgleis, 1 = abzweigen oben, 2 = gerade
       Quergleis, 3 = abzweigen unten</entry>
-    </row>
-    <row>
-      <entry><graphic fileref="../commonimages/dreier-weiche-0.png"></entry>
-      <entry>dreier_weiche</entry>
-      <entry>Dreiwegweiche</entry>
-      <entry>ja</entry>
-      <entry>nein</entry>
-      <entry>2</entry>
-      <entry>in der Realität nicht vorhanden (dort immer zwei normale
-              Weichen)</entry>
-      <entry>0 = gerade, 1 = abzweigen links, 2 = abzweigen rechts</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/ekw-links-0.png"></entry>
@@ -3170,6 +3236,21 @@ vorhanden).</para>
       <entry>1 = abzweigender Gleisstrang</entry>
     </row>
     
+    <row>
+      <entry morerows="1" valign="middle">Y-Weiche</entry>
+      <entry><inlinemediaobject><imageobject>
+        <imagedata fileref="../commonimages/switch-y-0.png">
+      </imageobject></inlinemediaobject></entry>
+      <entry>0 = abzweigender Gleisstrang rechts</entry>
+      <entry morerows="1">&nbsp;</entry>
+    </row>
+    <row>
+      <entry><inlinemediaobject><imageobject>
+        <imagedata fileref="../commonimages/switch-y-1.png">
+      </imageobject></inlinemediaobject></entry>
+      <entry>1 = abzweigender Gleisstrang links</entry>
+    </row>
+
     <row>
       <entry morerows="2" valign="middle">Dreier-Weiche</entry>
       <entry><inlinemediaobject><imageobject>

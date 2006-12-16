@@ -1,3 +1,7 @@
+2006-12-02 Guido Scholz <guido.scholz@bayernline.de>
+	* element.*: two dimensional routing algorithm, five new
+	vertical elements added
+
 2006-11-27 Guido Scholz <guido.scholz@bayernline.de>
 	* mainwindow.cpp: visibility of route toolbar is connected to
 	visibility of route list window
