@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.84 $
+                           version 0.5.0 $Revision: 1.85 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-29 22:19:31 $
+    last modified        : $Date: 2007-01-09 20:58:24 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -3041,6 +3041,7 @@ void MainWindow::slotViewSwitchMode(QAction* ac)
     actionFileOpen->setEnabled(visualMode == kvmNormal);
     actionFileSaveAs->setEnabled(true);
     actionFileImport->setEnabled(visualMode == kvmNormal);
+    actionLayoutChangeSize->setEnabled(visualMode == kvmNormal);
 }
 
 /*
@@ -3249,6 +3250,16 @@ void MainWindow::slotFileNewWin()
     MainWindow *sw = new MainWindow();
     sw->resize(740, 480);
     sw->show();
+}
+
+
+/*create new application window and open file*/
+void MainWindow::openFileWindow(const QString& fn)
+{
+    MainWindow *sw = new MainWindow();
+    sw->resize(740, 480);
+    sw->show();
+    sw->openFile(fn);
 }
 
 

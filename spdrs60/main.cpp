@@ -1,11 +1,11 @@
 /***************************************************************************
                            main.cpp
-                           version 0.5.0 $Revision: 1.9 $
+                           version 0.5.0 $Revision: 1.10 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-26 21:27:44 $
+    last modified        : $Date: 2007-01-09 20:58:24 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -67,12 +67,17 @@ int main(int argc, char* argv[])
    spdrs60Window->show();
 
    /*only the first application window autoloads a layoutfile*/
-   if (qApp->argc() == 1) {
+   int ac = qApp->argc();
+
+   if (ac == 1)
            spdrs60Window->readAutoloadFile();
-   }
-   else
-       //TODO: loop over all arguments -> open more application windows
+   else {
        spdrs60Window->openFile(qApp->argv()[1]);
+       // loop over all arguments -> open more application windows
+       if (ac > 2)
+           for (int i = 2; i < ac; i++)
+               spdrs60Window->openFileWindow(qApp->argv()[i]);
+   }
    
    return a.exec();                                     
 }

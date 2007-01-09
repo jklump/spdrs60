@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.5.0 $Revision: 1.36 $
+                           version 0.5.0 $Revision: 1.37 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-22 21:19:49 $
+    last modified        : $Date: 2007-01-09 20:58:24 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -72,6 +72,7 @@ public:
    virtual ~MainWindow();
    void readAutoloadFile();
    void openFile(const QString&);
+   void openFileWindow(const QString&);
 
 private:
    bool            LayoutPowerIsOn;
