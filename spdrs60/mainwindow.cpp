@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.85 $
+                           version 0.5.0 $Revision: 1.86 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-09 20:58:24 $
+    last modified        : $Date: 2007-01-10 17:45:25 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1759,11 +1759,21 @@ void MainWindow::slotFileImport()
 
 void MainWindow::chooseFile()
 {
-    QString fn = QFileDialog::getOpenFileName(lastDir,
-        QString(tr("Layouts")) + " (*" + GF_GBSEXT + ")", this);
-    if (fn.isEmpty())
+    QStringList fnl = QFileDialog::getOpenFileNames(
+        QString(tr("Layouts")) + " (*" + GF_GBSEXT + ")", lastDir, this);
+
+    if (fnl.isEmpty())
         return;
-    openFile(fn);
+    else {
+        openFile(fnl.first());
+        fnl.pop_front();
+
+        QStringList::Iterator it = fnl.begin();
+        while (it != fnl.end()) {
+                openFileWindow(*it);
+                ++it;
+            }
+    }
 }
 
 

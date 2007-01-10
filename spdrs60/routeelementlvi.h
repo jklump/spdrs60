@@ -1,10 +1,10 @@
 /***************************************************************************
                            routeelementlvi.h
-                           version 0.5.0 $Revision: 1.4 $
+                           version 0.5.0 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 2005-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-02 16:54:32 $
+    last modified        : $Date: 2007-01-10 17:45:25 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -30,8 +30,7 @@
 
 class RouteElementLVI: public QListViewItem
 {
-//    Q_OBJECT
-        
+
 private:
     stateElement routeElement;
 
