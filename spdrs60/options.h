@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.h
-                           version 0.5.0 $Revision: 1.14 $
+                           version 0.5.0 $Revision: 1.15 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-04 15:10:55 $
+    last modified        : $Date: 2007-01-20 13:40:59 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -73,14 +73,15 @@ private slots:
    void selectFbModuleType(int);
 
 private:
-   QCheckBox    *cbShowHp2;            // layout shows orange light for Hp2
-   QCheckBox*   allwaysSendState;      // send solenoid state on routing
-   QCheckBox    *cbGenBubble;          // show general bubble help
-   QCheckBox    *cbDataBubble;         // show element data as bubblehelp
-   QCheckBox    *cbAutoload;           // activate autoloader
-   QCheckBox    *cbAutosave;           // activate autosaver
-   QCheckBox    *cbAutoTTDir;          // auto-select turn dir of turntable
-   QCheckBox    *cbConvertTime;        // convert SRCP time string
+   QCheckBox* cbShowHp2;            // layout shows orange light for Hp2
+   QCheckBox* cbShowBlinkingTurnouts;
+   QCheckBox* allwaysSendState;     // send solenoid state on routing
+   QCheckBox* cbGenBubble;          // show general bubble help
+   QCheckBox* cbDataBubble;         // show element data as bubblehelp
+   QCheckBox* cbAutoload;           // activate autoloader
+   QCheckBox* cbAutosave;           // activate autosaver
+   QCheckBox* cbAutoTTDir;          // auto-select turn dir of turntable
+   QCheckBox* cbConvertTime;        // convert SRCP time string
 
    QRadioButton *rbShowAddr;           // show element's address or full text
    QRadioButton *rbShowTxt;

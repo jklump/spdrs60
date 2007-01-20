@@ -1,3 +1,7 @@
+2007-01-20 Guido Scholz <guido.scholz@bayernline.de>
+	* mainwindow.cpp, element.cpp, options.*: option to disable
+	blinking turnouts added
+
 2007-01-10 Guido Scholz <guido.scholz@bayernline.de>
 	* mainwindow.cpp: modified file open window to choose more
 	than one file

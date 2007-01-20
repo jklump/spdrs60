@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.0 $Revision: 1.110 $
+                           version 0.5.0 $Revision: 1.111 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-12-16 17:18:44 $
+    last modified        : $Date: 2007-01-20 13:40:56 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -375,20 +375,18 @@ void element::readOldFileTextFromStream(QTextStream& ats)
  * */
 void element::updateProperties()
 {
-    // init signals as they were saved in layout file or with red state
-    if ((sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
-         sSoldIcon == SYM_SS || sSoldIcon == SYM_SSH ||
-         sSoldIcon == SYM_SSS || sSoldIcon == SYM_REL ||
-         sSoldIcon == SYM_WS || sSoldIcon == SYM_ZP ||
-         sSoldIcon == SYM_BLD || sSoldIcon == SYM_VS) &&
-         (pref.initsignalsred))
-        iSoldDirection = 0;
-
     // couplers get the non-active direction on setup
     if (sSoldIcon == SYM_ENK)
         iSoldDirection = 0; 
 
     signal = sSoldIcon.startsWith("signal");
+
+    // init signals as they were saved in layout file or with red state
+    // FIXME: handle HSS
+    if (pref.initsignalsred) {
+        if (signal || sSoldIcon == SYM_REL || sSoldIcon == SYM_BLD)
+            iSoldDirection = 0;
+    }
 
     if (signal)
         ffm = (sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
@@ -6906,7 +6904,13 @@ void element::runTurnoutBlinkTimer()
          int olddir = iSoldDirection;
          iSoldDirection = newdir;
          sendSrcpState();
-         iSoldDirection = olddir;
+         // shortcut to prevent blinking
+         if (!pref.blinkingturnouts) {
+             blinkcounter = 14;
+             setLightsOn(false);
+         }
+         else
+             iSoldDirection = olddir;
     }
     if (blinkcounter % 2 == 1)
         setLightsOn(false);

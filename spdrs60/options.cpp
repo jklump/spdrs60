@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.cpp
-                           version 0.5.0 $Revision: 1.21 $
+                           version 0.5.0 $Revision: 1.22 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-19 10:37:21 $
+    last modified        : $Date: 2007-01-20 13:40:59 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -179,11 +179,13 @@ void optionsDialog::setupElementTab()
     
          
     // elements groupbox
-    QButtonGroup* generalBG = new QButtonGroup(5, Qt::Vertical,
+    QButtonGroup* generalBG = new QButtonGroup(6, Qt::Vertical,
             tr("General options"), w, "generalBG");
     tabL->addWidget(generalBG);
     cbShowHp2 = new QCheckBox(tr("Show &orange light for signals"
                 " switched to Hp2"), generalBG, "Hp2CB");
+    cbShowBlinkingTurnouts = new QCheckBox(tr("Show &blinking turnouts"),
+                generalBG, "Hp2CB");
     allwaysSendState = new QCheckBox(tr("A&llways send solenoid states"
                 " on routing"), generalBG, "sendStateCB");
     cbGenBubble = new QCheckBox(tr("Show &general bubblehelp "
@@ -705,6 +707,7 @@ void optionsDialog::getPreferences(Preferences& prf)
     prf.layoutcols = sbDefaultCols->value();
     prf.layoutrows = sbDefaultRows->value();
     prf.hp2 = cbShowHp2->isChecked();
+    prf.blinkingturnouts = cbShowBlinkingTurnouts->isChecked();
     prf.sendstate = allwaysSendState->isChecked();
     prf.tooltips = cbGenBubble->isChecked();
     prf.datatooltips = cbDataBubble->isChecked();
@@ -755,6 +758,7 @@ void optionsDialog::setPreferences(const Preferences& prf)
     sbDefaultCols->setValue(prf.layoutcols);
     sbDefaultRows->setValue(prf.layoutrows);
     cbShowHp2->setChecked(prf.hp2);
+    cbShowBlinkingTurnouts->setChecked(prf.blinkingturnouts);
     allwaysSendState->setChecked(prf.sendstate);
     cbGenBubble->setChecked(prf.tooltips);
     cbDataBubble->setChecked(prf.datatooltips);

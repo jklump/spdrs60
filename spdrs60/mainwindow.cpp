@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.86 $
+                           version 0.5.0 $Revision: 1.87 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-10 17:45:25 $
+    last modified        : $Date: 2007-01-20 13:40:59 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -87,6 +87,7 @@
 
 /*string constants for personal config file*/
 #define CF_SHOWHP2      "showhp2"
+#define CF_BLINKINGTURNOUTS "blinkingturnouts"
 #define CF_TOOLTIPS     "tooltips"
 #define CF_DATATOOLTIPS "datatooltips"
 #define CF_ADDRESSLABEL "addresslabel"
@@ -195,6 +196,9 @@ void MainWindow::readConfigFile()
                 
                 if (key.compare(CF_SHOWHP2) == 0){
                     pref.hp2 = value.toInt();
+                }
+                else if (key.compare(CF_BLINKINGTURNOUTS) == 0){
+                    pref.blinkingturnouts = value.toInt();
                 }
                 else if (key.compare(CF_TOOLTIPS) == 0){
                     pref.tooltips = value.toInt();
@@ -403,6 +407,7 @@ void MainWindow::writeConfigFile()
         << "# last modified: " << dt.toString(Qt::ISODate) << endl
         << "#" << endl
         << CF_SHOWHP2      << "=" << (int) pref.hp2 << endl
+        << CF_BLINKINGTURNOUTS << "=" << (int) pref.blinkingturnouts << endl
         << CF_TOOLTIPS     << "=" << (int) pref.tooltips << endl
         << CF_DATATOOLTIPS << "=" << (int) pref.datatooltips << endl
         << CF_ADDRESSLABEL    "=" << (int) pref.addresslabeling << endl

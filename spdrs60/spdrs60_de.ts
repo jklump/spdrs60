@@ -1824,7 +1824,7 @@ ein Modul an Bus Nr. 1 angeschlossen ist.</translation>
     </message>
     <message>
         <source>&amp;Convert SRCP 0.8 server time human readable</source>
-        <translation>&amp;Serverzeitangabe bei SRCP 0.8-Meldungen lesbar darstellen</translation>
+        <translation>Server&amp;zeitangabe bei SRCP 0.8-Meldungen lesbar darstellen</translation>
     </message>
     <message>
         <source>Module size</source>
@@ -1905,6 +1905,10 @@ ein Modul an Bus Nr. 1 angeschlossen ist.</translation>
     <message>
         <source>Feedback &amp;type</source>
         <translation>Rückmelde&amp;typ</translation>
+    </message>
+    <message>
+        <source>Show &amp;blinking turnouts</source>
+        <translation>Weichen &amp;blinkend umschalten</translation>
     </message>
 </context>
 <context>
