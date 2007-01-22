@@ -1,3 +1,7 @@
+2007-01-22 Guido Scholz <guido.scholz@bayernline.de>
+	* mainwindow.cpp, newlayoutdialog.cpp, doc/de/index.sgml,
+	layouts/*: changed server portnumber to value assigned by IANA
+
 2007-01-20 Guido Scholz <guido.scholz@bayernline.de>
 	* mainwindow.cpp, element.cpp, options.*: option to disable
 	blinking turnouts added

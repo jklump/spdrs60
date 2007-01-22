@@ -1,11 +1,11 @@
 /***************************************************************************
                            newlayoutdialog.cpp
-                           version 0.5.0 $Revision: 1.10 $
+                           version 0.5.0 $Revision: 1.11 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-04 15:10:55 $
+    last modified        : $Date: 2007-01-22 17:49:51 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -186,7 +186,7 @@ int newLayoutDialog::getPort()
         return portLE->text().toInt();
 #if QT_VERSION >= 0x030200
     else
-        return 12345;  //FIXME
+        return 4303;  //FIXME
 #endif
 }
 

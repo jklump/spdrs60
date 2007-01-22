@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.87 $
+                           version 0.5.0 $Revision: 1.88 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-20 13:40:59 $
+    last modified        : $Date: 2007-01-22 17:49:50 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -128,8 +128,8 @@ MainWindow::MainWindow() : QMainWindow(NULL, "SpDrS60",
     /*Networking */
     cmdHost = "localhost";
     fbHost = "localhost";
-    cmdPort = 12345;
-    fbPort = 12346;
+    cmdPort = 4303;
+    fbPort = 4303;
     cmdAutoLogin = false;
     cmdAutoPower = false;
     cmdAutoSendAll = true;
@@ -2702,7 +2702,7 @@ void MainWindow::ConnectCommandPort()
     cmdToDebug(tr("Command socket: Try to connect host \"%1\" on port \"%2\"")
             .arg(cmdHost).arg(cmdPort), MT_INFO, HL_HINT);
     SRCPCommandState = srcpLogin;
-    CommandSocket->connectToHost(cmdHost, cmdPort);   /*e.g.: 12345 */
+    CommandSocket->connectToHost(cmdHost, cmdPort);   /*e.g.: 4303 */
 }
 
 
@@ -2710,7 +2710,7 @@ void MainWindow::ConnectFeedbackPort()
 {
     cmdToDebug(tr("Feedback socket: Try to connect host \"%1\" on port \"%2\"")
             .arg(cmdHost).arg(cmdPort + 1), MT_INFO, HL_HINT);
-    FeedbackSocket->connectToHost(cmdHost, cmdPort + 1);      /*e.g.: 12346 */
+    FeedbackSocket->connectToHost(cmdHost, cmdPort + 1);     /*e.g.: 4303 + 1*/
 }
 
 
@@ -2718,7 +2718,7 @@ void MainWindow::ConnectInfoPort()
 {
     /*
      * in SRCP 0.7 mode connection is established to second port
-     * e.g.: 12347
+     * e.g.: 4303 + 2
      * in SRCP 0.8 mode connection is established to same port as
      * command channel, but other login type
      */

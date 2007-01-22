@@ -2,8 +2,8 @@
 # version=0.5.0_beta10
 # last modified=2006-11-27T22:43:03
 formatversion;1
-cmdhost;localhost;12345;0;0;0
-fbhost;localhost;12346;0
+cmdhost;localhost;4303;0;0;0
+fbhost;localhost;4303;0
 # start of layout section
 %% layout
 # layout dimensions=columns;rows
