@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.89 $
+                           version 0.5.1 $Revision: 1.90 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-                         : (C) 2004-2006 Guido Scholz
+                         : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-28 15:40:57 $
+    last modified        : $Date: 2007-01-28 16:25:48 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -617,11 +617,9 @@ void MainWindow::initMainWindow()
             gbs, SLOT(updateRoutePathLEDs(const stateElement&,
                     const stateElement&, RouteSetAction&)));
     
-    /*route viewer*/
-    //rtViewer = new RoutingViewer(this, "routingviewer", rtController);
+    /*route list window*/
     rtViewer = new RouteListWindow(this, "routeListWindow", rtController);
     Q_CHECK_PTR(rtViewer);
-    //rtViewer->setFixedExtentWidth(360);
     moveDockWindow(rtViewer, Right);
     rtViewer->hide();
     connect(this, SIGNAL(switchedVisualMode(elemVisualMode)),

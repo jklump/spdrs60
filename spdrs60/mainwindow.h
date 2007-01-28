@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.5.0 $Revision: 1.38 $
+                           version 0.5.1 $Revision: 1.39 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-    copyright            : (C) 2004-2006 by Guido Scholz
+    copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-28 15:40:57 $
+    last modified        : $Date: 2007-01-28 16:25:48 $
 ****************************************************************************/
 
 /***************************************************************************
