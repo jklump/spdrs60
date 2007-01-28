@@ -5441,7 +5441,12 @@ Autolade-Mechnanismus, vergißt dann aber, einen Dateinamen anzugeben, so
   </imageobject></mediaobject>
 </figure>
 </para>
-<para>
+
+<variablelist>
+  <varlistentry>
+      <term><emphasis>Orangefarbenes Licht für Hp2-Signale anzeigen
+      </emphasis></term>
+  <listitem><para>
 Durch die erste Option (<xref linkend="abb-optelements">) läßt sich
 einstellen, ob die Signale mit Begriff Hp&nbsp;2 DB-konform in grün
 (wie Hp&nbsp;1-Signale auch), oder für den
@@ -5449,21 +5454,73 @@ Benutzer leichter zu unterscheiden eben in Orange angezeigt werden. Man
 kann au&szlig;erdem wählen, ob es zu den einzelnen Bedienelementen einen
 Kurzhilfe gibt und ob die aktuellen Daten jedes Elements als Kurzhilfe
 angezeigt werden sollen (letzteres nur im Fehlersuchfall zu empfehlen!)
-</para>
-<para>
+  </para></listitem>
+  </varlistentry>
+  
+  <varlistentry>
+      <term><emphasis>Weichen blinkend umschalten</emphasis></term>
+  <listitem><para>
+    Über diese Option läßt sich das Blinken der Weichen beim
+    umschalten abschalten. Das Einstellen der Fahrstraße erfolgt dadurch
+    schneller.
+  </para></listitem>
+  </varlistentry>
+
+  <varlistentry>
+      <term><emphasis>Beim Stellen von Fahrstraßen immer Magnetartikelstatus
+              senden</emphasis></term>
+  <listitem><para>
+    Ist diese Option aktiviert, dann wird der aktuelle Status des
+    Magnetartikels auch dann als SRCP-Befehl gesendet, wenn wer sich in
+    der Darstellung schon in der Soll-Stellung befindet. Damit lassen
+    sich potentielle Fehlstellungen, die z.B. über Handbedienung
+    entstehen, vermeiden.
+  </para></listitem>
+  </varlistentry>
+
+  <varlistentry>
+      <term><emphasis>Allgemeine Tooltip-Hilfe (benötigt Programmneustart)
+      </emphasis></term>
+      <listitem><para>
+              Erweiterte, kontextsensitive Hilfe.
+  </para></listitem>
+  </varlistentry>
+
+  <varlistentry>
+  <term><emphasis>Tooltip-Hilfe für Elementdaten</emphasis></term>
+  <listitem><para>
+          Mit dieser Option wird das Einblenden von Hilfefenstern für die
+          Daten der Gleisbildelemente eingeschaltet. Der Gebrauch
+          empfiehlt sich hauptsächlich zu Überprüfungszwecken, nicht für
+          den Normalbetrieb.
+  </para></listitem>
+  </varlistentry>
+
+  <varlistentry>
+  <term><emphasis>Serverzeitangabe bei SRCP 0.8-Meldungen lesbar
+          darstellen</emphasis></term>
+  <listitem><para>
 Benutzt man SpDrs60 mit eimen SRCP&nbsp;0.8-Server, so kann man hier
 festlegen, ob die vom Server gelieferten Zeitangaben als numerischer
 Wert oder lesbare Uhrzeit in der Meldezeile angezeigt werden.
-</para>
-<para>
+  </para></listitem>
+  </varlistentry>
+
+  <varlistentry>
+  <term><emphasis>Magnetartikelbeschriftung</emphasis></term>
+  <listitem><para>
 Schaltbare Elemente haben ein Beschriftungsfeld, welches im Vorbild z.B.
 für die Weichennummer (W001) oder die Signalbezeichnung (P1) genutzt
 wird. Man kann hier zwischen der Darstellung dieser vorbildnahen
 Einträge (sofern sie im Textfeld der Elementeigenschaften eingetragen
 wurden) oder der Decoderadresse, an dem der Antrieb
 angeschlossen ist, wählen.
-</para>
-<para>
+  </para></listitem>
+  </varlistentry>
+
+  <varlistentry>
+  <term><emphasis>Signalinitialisierung</emphasis></term>
+  <listitem><para>
 Die Zustände der Signale werden beim Beenden des Programms wie vorhanden
 gespeichert. Möchte man diesen Zustand genau wieder nach einem erneuten
 Laden erhalten, so wählt man &raquo;Wie von der letzten Sitzung
@@ -5472,7 +5529,11 @@ stehen haben und möchte
 man sicher sein, dass beim Anlagenstart kein Unfall wegen grüner Signale
 passiert, wählt man eine weitere Option: Alle Signal beim Laden auf
 &raquo;Rot&laquo; initialisieren.
-</para>
+  </para></listitem>
+  </varlistentry>
+
+</variablelist>
+
 </sect3>
     
 <sect3>
@@ -5912,8 +5973,8 @@ original SpDr-Stellwerken, sondern auch theoretisches zur
 <sect2 id="sect-copyright">
   <title>Copyright</title>
 <para>
-Copyright 2000-2003 Stefan Preis.
-Copyright 2004-2006 Guido Scholz.
+Copyright 2000-2003 Stefan Preis,
+Copyright 2004-2007 Guido Scholz.
 </para>
 <para>
 This program is free software; you can redistribute it
