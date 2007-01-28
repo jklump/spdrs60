@@ -1,10 +1,10 @@
 /***************************************************************************
-                           routingviewer.h
-                           version 0.5.0 $Revision: 1.13 $
+                           routelistwindow.h
+                           version 0.5.1 $Revision: 1.1 $
                            -------------------------------
-    copyright            : (C) 2004-2006 by Guido Scholz
+    copyright            : (C) 2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-22 16:46:33 $
+    last modified        : $Date: 2007-01-28 15:40:59 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -17,53 +17,52 @@
  **************************************************************************/
 
 /**************************************************************************
-   header file for routingviewer.cpp 
+   header file for routelistwindow.cpp 
  **************************************************************************/
 
-#ifndef ROUTINGVIEWER_H
-#define ROUTINGVIEWER_H
+#ifndef ROUTELISTWINDOW_H
+#define ROUTELISTWINDOW_H
 
 #include <qlayout.h>
 #include <qdockwindow.h>
 
-#include "routingtable.h"
+#include "routelistview.h"
 #include "router.h"
 #include "element.h"
 
-class RoutingViewer: public QDockWindow
+class RouteListWindow: public QDockWindow
 {
     Q_OBJECT
         
 public:
-    RoutingViewer(QWidget* parent=0, const char* name=0,
+    RouteListWindow(QWidget* parent=0, const char* name=0,
             Router* router=0);
     
 public slots:
-    void updateRoutes();
-    void updateRouteAt(int);
-    void updateRouteStateAt(int, int);
-    void selectedRouteChanged(int, int);
-    void slotEditRouteNo(int);
-    void slotRouteDelete();
-    void slotRouteCopy();
-    void slotRouteEdit();
+    void selectedRouteChanged(QListViewItem*);
+    void slotEditRouteAt(QListViewItem*, const QPoint &, int);
+    void slotEditRoute(QListViewItem*);
     void slotRouteAdd();
+    void slotRouteCopy();
+    void slotRouteDelete();
+    void slotRouteEdit();
     void slotRouteStart();
     void slotRouteStop();
-    void slotStartRouteNo(int);
-    void slotStopRouteNo(int);
-    void slotToggleRouteState(int);
+    void slotStartRoute(Route*);
+    void slotStopRoute(Route*);
+    void slotToggleRouteState(QListViewItem*);
     void switchVisualMode(elemVisualMode);
+    void updateRouteData(Route*);
+    void updateRouteList();
+    void updateRouteState(Route*);
 
 signals:
     void selectedRouteIsLocked(bool);
     void showLogMessage(const QString&, int, int);
     
 private:
-    int lastrow;
-    RoutingTable* rTable;
+    RouteListView* routeLV;
     Router* gbsRouter;
-    void populateTableRow(unsigned int);
 };
-#endif // ROUTINGVIEWER_H
+#endif // ROUTELISTWINDOW_H
 

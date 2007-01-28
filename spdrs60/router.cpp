@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.0 $Revision: 1.33 $
+                           version 0.5.0 $Revision: 1.34 $
                            -------------------------------
     copyright            : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-22 16:45:04 $
+    last modified        : $Date: 2007-01-28 15:41:01 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -32,7 +32,7 @@ Router::Router(QObject* parent, const char* name):
     QObject(parent, name)
 {
     gbsElements = NULL;
-    recordRt = NULL;
+    selectedRoute = NULL;
     resetRt = NULL;
     selectedStartSig = NULL;
     routeList.setAutoDelete(true);
@@ -44,7 +44,7 @@ Router::Router(QObject* parent, const char* name):
 Router::Router(QObject* parent, QPtrVector<element>* elPtr, const char* name):
     QObject(parent, name)
 {
-    recordRt = NULL;
+    selectedRoute = NULL;
     resetRt = NULL;
     selectedStartSig = NULL;
     gbsElements = elPtr;
@@ -72,7 +72,7 @@ void Router::readFileTextFromStream(QTextStream& ts)
     modified = false;
     setupRouteElements();
     /*send update signal to routing viewer*/
-    emit updateRoutingViewer();
+    emit routeListChanged();
 }
 
 
@@ -110,7 +110,7 @@ void Router::importFile(const QString& fn)
     modified = true;
     setupRouteElements();
     /*send update signal to routing viewer*/
-    emit updateRoutingViewer();
+    emit routeListChanged();
 }
 
 
@@ -142,11 +142,18 @@ unsigned int Router::getRouteCount()
 
 void Router::copyRouteAt(unsigned int index)
 {
-    Route* selectedRoute = getRouteAt(index);
-    if (selectedRoute != NULL) {
-        Route* nr = selectedRoute->getClone();
+    copyRoute(getRouteAt(index));
+}
+
+
+Route* Router::copyRoute(Route* cr)
+{
+    Route* nr = NULL;
+
+    if (cr != NULL) {
+        nr = cr->getClone();
         if (nr != NULL) {
-            routeList.insert(index, nr);
+            routeList.insert(routeList.find(cr), nr);
             connect(nr, SIGNAL(stateChanged(Route*, int)),
                     this, SLOT(processRouteState(Route*, int)));
             connect(nr, SIGNAL(updateRoutePathLEDs(const stateElement&,
@@ -156,12 +163,21 @@ void Router::copyRouteAt(unsigned int index)
             modified = true;
         }
     }
+    return nr;
 }
 
 
 void Router::deleteRouteAt(unsigned int index)
 {
-    Route* dr = routeList.at(index);
+    deleteRoute(routeList.at(index));
+}
+
+
+void Router::deleteRoute(Route* dr)
+{
+    if (selectedRoute == dr)
+        selectedRoute = NULL;
+
     if (dr != NULL) { 
         if (dr->getState() != Route::rsUnlocked)
             dr->stopRouting();
@@ -172,7 +188,7 @@ void Router::deleteRouteAt(unsigned int index)
                         const stateElement&, RouteSetAction&)));
         disconnect(dr, SIGNAL(stateChanged(Route*, int)),
                 this, SLOT(processRouteState(Route*, int)));
-        routeList.remove(index);
+        routeList.remove(dr);
         modified = true;
     }
 }
@@ -221,7 +237,7 @@ void Router::clearRoutes()
 {
     clear();
     /*send update signal to routingviewer*/
-    emit updateRoutingViewer();
+    emit routeListChanged();
 }
 
 
@@ -230,20 +246,20 @@ void Router::setElementListPtr(QPtrVector<element>* elp)
     gbsElements = elp;
 }
 
-
-void Router::selectedRouteChanged(int last, int current)
+/**
+ * update route element highlighting in route edit mode
+ * first hide last selected route then show current selected one
+ */
+void Router::selectedRouteChanged(Route* currentRoute)
 {
     if (visualmode == kvmEditRoute) {
-        Route* cr = getRouteAt(last);
-        if (cr != NULL)
-            cr->hideRoute();
+        if (selectedRoute != NULL)
+            selectedRoute->hideRoute();
 
-        cr = getRouteAt(current);
-        if (cr != NULL) {
-            cr->showRoute();
-        }
-        recordRt = cr;
+        if (currentRoute != NULL)
+            currentRoute->showRoute();
     }
+    selectedRoute = currentRoute;
 }
 
 
@@ -261,34 +277,34 @@ void Router::switchVisualMode(elemVisualMode vm)
 {
     visualmode = vm;
     if (vm != kvmEditRoute)
-        recordRt = NULL;
+        selectedRoute = NULL;
 }
 
 
 void Router::recordElement(element* el, elemRecordType rtype)
 {
-    if (visualmode == kvmEditRoute && recordRt != NULL) {
+    if (visualmode == kvmEditRoute && selectedRoute != NULL) {
         switch (rtype) {
             case (krecStartStop):
-                if (!recordRt->hasEntrySignal())
-                    recordRt->setEntrySignal(el);
-                else if (!recordRt->hasExitSignal())
-                    recordRt->setExitSignal(el);
+                if (!selectedRoute->hasEntrySignal())
+                    selectedRoute->setEntrySignal(el);
+                else if (!selectedRoute->hasExitSignal())
+                    selectedRoute->setExitSignal(el);
                
                 /*send update signal to routingviewer to show changed
                   route name*/
-                emit updateRoutingViewerAt(routeList.find(recordRt));
+                emit routeDataChanged(selectedRoute);
                 modified = true;
                 break;
             case (krecNormal):
-                recordRt->addSwitchElement(el);
+                selectedRoute->addSwitchElement(el);
                 modified = true;
                 break;
             case (krecClear):
-                recordRt->removeElement(el);
+                selectedRoute->removeElement(el);
                 /*send update signal to routingviewer to show changed
                   route name if changed element was entry or exit signal*/
-                emit updateRoutingViewerAt(routeList.find(recordRt));
+                emit routeDataChanged(selectedRoute);
                 modified = true;
                 break;
             default:
@@ -298,7 +314,7 @@ void Router::recordElement(element* el, elemRecordType rtype)
 }
 
 
-unsigned int Router::addNewRoute()
+Route* Router::addNewRoute()
 {
     Route* nr = new Route(tr("New route"));
     if (nr != NULL) {
@@ -311,13 +327,13 @@ unsigned int Router::addNewRoute()
                 this, SIGNAL(updateRoutePathLEDs(const stateElement&,
                         const stateElement&, RouteSetAction&)));
     }
-    return routeList.count();
+    return nr;
 }
 
 
 void Router::startRecordModeAt(unsigned int index)
 {
-    recordRt = getRouteAt(index);
+    selectedRoute = getRouteAt(index);
     showRouteAt(index);
 }
 
@@ -327,7 +343,7 @@ void Router::processRouteState(Route* rt, int rs)
     int index = 0;
     
     index = routeList.find(rt);
-    emit routeStateChanged(index, rs);
+    emit routeStateChanged(rt);
 
     switch ((Route::RouteState)rs) {
         case Route::rsUnlocked:
@@ -504,7 +520,7 @@ void Router::resetRoute(element* el, GbsButtonState cb)
                 resetRt->stopRouting();
                 int index = routeList.find(resetRt);
                 // send signal to routing viewer to update state icon
-                emit routeStateChanged(index, resetRt->getState());
+                emit routeStateChanged(resetRt);
                 emit showLogMessage(tr("Route '%1' released")
                         .arg(resetRt->getName()), MT_INFO, HL_HINT);
             }
@@ -583,7 +599,7 @@ void Router::unlockAllLockedRoutes()
         if (rt->getState() != Route::rsUnlocked) {
             rt->stopRouting();
             // send signal to routing viewer to update state icon
-            emit routeStateChanged(index, rt->getState());
+            emit routeStateChanged(rt);
         }
         ++index;
     }
@@ -616,9 +632,14 @@ void Router::feedbackPortChanged(unsigned int bus, unsigned int port,
 
 bool Router::editRouteAt(QWidget* owner, int index)
 {
+    return editRoute(owner, routeList.at(index));
+}
+
+
+bool Router::editRoute(QWidget* owner, Route* er)
+{
     bool isEdited = false;
     
-    Route* er = routeList.at(index);
     if (er != NULL) {
         connect(er, SIGNAL(getElementByAddress(const int, const int,
                         element**)), this,

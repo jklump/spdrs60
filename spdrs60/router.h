@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.h
-                           version 0.5.0 $Revision: 1.15 $
+                           version 0.5.0 $Revision: 1.16 $
                            -------------------------------
     copyright            : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-11-02 16:54:32 $
+    last modified        : $Date: 2007-01-28 15:41:01 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -45,15 +45,18 @@ public:
     void readFileTextFromStream(QTextStream&);
     void writeFileTextToStream(QTextStream&);
     unsigned int getRouteCount();
-    unsigned int addNewRoute();
+    Route* addNewRoute();
     Route* getRouteAt(unsigned int);
     void deleteRouteAt(unsigned int);
+    void deleteRoute(Route*);
     void copyRouteAt(unsigned int);
+    Route* copyRoute(Route*);
     bool editRouteAt(QWidget*, int);
+    bool editRoute(QWidget*, Route*);
     bool isModified();
     void clear();
     void setElementListPtr(QPtrVector<element>*);
-    void selectedRouteChanged(int, int);
+    void selectedRouteChanged(Route*);
     void showRouteAt(int);
     void startRecordModeAt(unsigned int);
     void activateRoute(Route*);
@@ -75,7 +78,7 @@ public slots:
 private:
     QPtrVector<element>* gbsElements;
     QPtrList<Route> routeList;
-    Route* recordRt;
+    Route* selectedRoute;
     Route* resetRt;
     element* selectedStartSig;
     bool modified;
@@ -91,10 +94,10 @@ private:
     
 signals:
     void getElementByAddress(const int, const int, element**);
-    void updateRoutingViewer();
-    void updateRoutingViewerAt(int);
     void routeFunctionFinished();
-    void routeStateChanged(int, int);
+    void routeDataChanged(Route*);
+    void routeListChanged();
+    void routeStateChanged(Route*);
     void showLogMessage(const QString&, int, int);
     void startRouteTimer(TypeOfRoute);
     void updateRoutePathLEDs(const stateElement&, const stateElement&,

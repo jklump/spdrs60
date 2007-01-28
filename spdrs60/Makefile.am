@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.14 $
-# last update: $Date: 2006-11-22 16:46:33 $
+# version: $Revision: 1.15 $
+# last update: $Date: 2007-01-28 15:40:52 $
 
 SUBDIRS = pixmaps
 
@@ -25,8 +25,8 @@ nodist_spdrs60_SOURCES = \
 	routedialog.moc.cpp \
 	routeelementdialog.moc.cpp \
         router.moc.cpp \
-        routingtable.moc.cpp \
-        routingviewer.moc.cpp \
+        routelistview.moc.cpp \
+        routelistwindow.moc.cpp \
 	turntablecommander.moc.cpp
 
 # list of all sources and headers
@@ -49,9 +49,10 @@ spdrs60_SOURCES = main.cpp resources.h \
 	routedialog.cpp routedialog.h \
 	routeelementdialog.cpp routeelementdialog.h \
 	routeelementlvi.cpp routeelementlvi.h \
+	routelvi.cpp routelvi.h \
+	routelistview.cpp routelistview.h \
+	routelistwindow.cpp routelistwindow.h \
         router.cpp router.h \
-        routingtable.cpp routingtable.h \
-        routingviewer.cpp routingviewer.h \
         srcpmessage.cpp srcpmessage.h \
 	turntablecommander.cpp turntablecommander.h
 	

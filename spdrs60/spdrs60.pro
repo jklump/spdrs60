@@ -16,8 +16,8 @@ SOURCES = elementcommander.cpp \
           routeelementlvi.cpp \
           route.cpp \
           router.cpp \
-          routingtable.cpp \
-          routingviewer.cpp \
+          routelistview.cpp \
+          routelistwindow.cpp \
           turntablecommander.cpp
 
 TRANSLATIONS = spdrs60_de.ts

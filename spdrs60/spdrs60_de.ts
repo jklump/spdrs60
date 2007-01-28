@@ -1143,6 +1143,36 @@ Wollen Sie sie überschreiben?</translation>
     </message>
 </context>
 <context>
+    <name>RouteListView</name>
+    <message>
+        <source>S</source>
+        <translation>S</translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Name</translation>
+    </message>
+    <message>
+        <source>From</source>
+        <translation>Von</translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation>Nach</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Typ</translation>
+    </message>
+</context>
+<context>
+    <name>RouteListWindow</name>
+    <message>
+        <source>Routes</source>
+        <translation>Fahrstraßen</translation>
+    </message>
+</context>
+<context>
     <name>Router</name>
     <message>
         <source>New route</source>
@@ -1199,36 +1229,6 @@ Wollen Sie sie überschreiben?</translation>
     <message>
         <source>Route &apos;%1&apos; waiting for release</source>
         <translation>Fahrstraße &apos;%1&apos; wartet auf Auflösen</translation>
-    </message>
-</context>
-<context>
-    <name>RoutingTable</name>
-    <message>
-        <source>S</source>
-        <translation>S</translation>
-    </message>
-    <message>
-        <source>Name</source>
-        <translation>Name</translation>
-    </message>
-    <message>
-        <source>From</source>
-        <translation>Von</translation>
-    </message>
-    <message>
-        <source>To</source>
-        <translation>Nach</translation>
-    </message>
-    <message>
-        <source>Type</source>
-        <translation>Typ</translation>
-    </message>
-</context>
-<context>
-    <name>RoutingViewer</name>
-    <message>
-        <source>Routings</source>
-        <translation>Fahrstraßen</translation>
     </message>
 </context>
 <context>

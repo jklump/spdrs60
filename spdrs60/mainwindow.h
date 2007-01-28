@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.5.0 $Revision: 1.37 $
+                           version 0.5.0 $Revision: 1.38 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-09 20:58:24 $
+    last modified        : $Date: 2007-01-28 15:40:57 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -37,7 +37,7 @@
 
 #include "gbsarea.h"
 #include "feedbackviewer.h"
-#include "routingviewer.h"
+#include "routelistwindow.h"
 #include "newlayoutdialog.h"
 #include "keyboard.h"
 
@@ -145,7 +145,7 @@ private:
 
    GBSArea         *gbs;
    FeedbackViewer  *fbViewer;
-   RoutingViewer   *rtViewer;
+   RouteListWindow *rtViewer;
    Router          *rtController;
    keyboard        *keybWindow;
 

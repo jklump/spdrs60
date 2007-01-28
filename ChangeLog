@@ -1,10 +1,11 @@
-2007-01-22 Guido Scholz <guido.scholz@bayernline.de>
-	* mainwindow.cpp, newlayoutdialog.cpp, doc/de/index.sgml,
-	layouts/*: changed server portnumber to value assigned by IANA
+2007-01-28 Guido Scholz <guido.scholz@bayernline.de>
+	* mainwindow.*, routelvi.*, routelistview.*, router.*,
+	routelistwindow.*: route list window now is based on QListView,
+	columns are sortable
 
 2007-01-20 Guido Scholz <guido.scholz@bayernline.de>
-	* mainwindow.cpp, element.cpp, options.*: option to disable
-	blinking turnouts added
+	* mainwindow.cpp, element.cpp, options.*, preferences.*: option
+	to disable blinking turnouts added
 
 2007-01-10 Guido Scholz <guido.scholz@bayernline.de>
 	* mainwindow.cpp: modified file open window to choose more

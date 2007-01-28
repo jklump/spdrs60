@@ -37,7 +37,7 @@
   <revhistory>
     <revision>
       <revnumber>0.8</revnumber>
-      <date>Sa Dez 16 16:53:00 CET 2006</date>
+      <date>So Jan 28 14:04:00 CET 2007</date>
     </revision>
     <revision>
       <revnumber>0.7</revnumber>
@@ -157,7 +157,7 @@ empfehlenswert, diese Dokumentation durchzuarbeiten.
 <sect2 id="ver-0.5.1">
   <title>Version 0.5.1</title>
 <para>
-Veröffentlicht am xx.12.2006
+Veröffentlicht am xx.02.2007
 </para>
 <itemizedlist mark="bullet">
 
@@ -181,6 +181,30 @@ Veröffentlicht am xx.12.2006
   Ein Fehler bei der Aktualisierung des Kontextmenüs zum Umschalten der
   Gleisbildelemente Relais, Blindelement und Gleichstrommotor wurde
   beseitigt.
+  </para></listitem>
+  
+  <listitem><para>
+  Das Programm wertet nun mehrere über die Kommandozeile übergebene
+  Argumente aus und erlaubt damit das gleichzeitige Öffnen mehrerer
+  Dateien. Auch der Datei/Öffen-Dialog erlaubt nun die Auswahl mehrerer
+  Dateien, um diese gleichzeitig zu öffnen.
+  </para></listitem>
+
+  <listitem><para>
+  Die Voreinstellung für die Portnummer des SRCP-Servers wurde von 12345
+  zu 4303 geändert. Der neue Wert wurde am 19.01.2007 von der IANA
+  offiziell für SRCP vergeben.
+  </para></listitem>
+
+  <listitem><para>
+  Eine zusätzliche benutzerspezifische Konfigurationsoption wurde
+  ergänzt, die das Blinken der Weichen beim Umschalten abschaltet.
+  </para></listitem>
+
+  <listitem><para>
+  Das Fenster mit der Fahrstraßenübersicht wurde überarbeitet. Die
+  Fahrstraßen werden nun nicht mehr in einer Tabelle, sondern in einer
+  Liste dargestellt, deren Spalten sortierbar sind.
   </para></listitem>
 
 </itemizedlist>

@@ -28,7 +28,7 @@
 </author>
 
 <author>
-<firstname>Björn</firstname>
+<firstname>Bj&ouml;rn</firstname>
 <surname>Schlie&szlig;mann</surname>
 <affiliation>
 <address>
@@ -40,7 +40,7 @@
 <revhistory>
   <revision>
     <revnumber>0.6</revnumber>
-    <date><emphasis>Sat Dec 16 17:51:00 CET 2006</emphasis></date>
+    <date><emphasis>Sun Jan 28 14:23:48 CET 2007</emphasis></date>
   </revision>
   <revision>
     <revnumber>0.6</revnumber>
@@ -107,7 +107,7 @@ features.</para>
 <sect2 id="ver-0.5.1">
 <title>Version 0.5.1</title>
 <para>
-Release date: 2006-12-xx
+Release date: 2007-02-xx
 </para>
 
 <itemizedlist mark="bullet">
@@ -127,6 +127,27 @@ Release date: 2006-12-xx
   <listitem><para>
   An error upon updating the context menu of relais, blind element and DC
   motor was fixed.
+  </para></listitem>
+
+  <listitem><para>
+  The program now interprets the command line to open more than one file
+  at the same time. Also the file/open-dialog allows to choose several
+  files to be opened at the same time.
+  </para></listitem>
+
+  <listitem><para>
+  The default value for the SRCP server network port was changed from
+  12345 to 4303. Tha later number was assigned by IANA officially at
+  2007-01-19.
+  </para></listitem>
+
+  <listitem><para>
+  A new user option was added to disable blinking for switched turnouts.
+  </para></listitem>
+
+  <listitem><para>
+  The route overview window was rewritten to display the available
+  routes in a list with sortable columns.
   </para></listitem>
 
 </itemizedlist>

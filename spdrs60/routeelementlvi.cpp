@@ -1,10 +1,10 @@
 /***************************************************************************
                            routeelementlvi.cpp
-                           version 0.5.0 $Revision: 1.6 $
+                           version 0.5.0 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 2005-2006 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2006-12-02 08:16:31 $
+    last modified        : $Date: 2007-01-28 15:40:57 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -115,7 +115,8 @@ int RouteElementLVI::compare(QListViewItem* i, int col,
                 returnvalue *= -1;
             break;
         case 1:
-            returnvalue = key(col, ascending).compare(i->key(col, ascending));
+            returnvalue = key(col,
+                    ascending).localeAwareCompare(i->key(col, ascending));
             break;
         case 2:
             if (routeElement.bus > ce->bus)

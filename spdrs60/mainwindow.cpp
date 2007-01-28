@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.0 $Revision: 1.88 $
+                           version 0.5.0 $Revision: 1.89 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2006 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-22 17:49:50 $
+    last modified        : $Date: 2007-01-28 15:40:57 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -618,9 +618,10 @@ void MainWindow::initMainWindow()
                     const stateElement&, RouteSetAction&)));
     
     /*route viewer*/
-    rtViewer = new RoutingViewer(this, "routingviewer", rtController);
+    //rtViewer = new RoutingViewer(this, "routingviewer", rtController);
+    rtViewer = new RouteListWindow(this, "routeListWindow", rtController);
     Q_CHECK_PTR(rtViewer);
-    rtViewer->setFixedExtentWidth(360);
+    //rtViewer->setFixedExtentWidth(360);
     moveDockWindow(rtViewer, Right);
     rtViewer->hide();
     connect(this, SIGNAL(switchedVisualMode(elemVisualMode)),
@@ -631,12 +632,12 @@ void MainWindow::initMainWindow()
             this, SLOT(updateRouteMenuActivateItems(bool)));
     connect(rtViewer, SIGNAL(showLogMessage(const QString&, int, int)),
             this, SLOT(cmdToDebug(const QString&, int, int)));
-    connect(rtController, SIGNAL(updateRoutingViewer()),
-            rtViewer, SLOT(updateRoutes()));
-    connect(rtController, SIGNAL(updateRoutingViewerAt(int)),
-            rtViewer, SLOT(updateRouteAt(int)));
-    connect(rtController, SIGNAL(routeStateChanged(int, int)),
-            rtViewer, SLOT(updateRouteStateAt(int, int)));
+    connect(rtController, SIGNAL(routeListChanged()),
+            rtViewer, SLOT(updateRouteList()));
+    connect(rtController, SIGNAL(routeDataChanged(Route*)),
+            rtViewer, SLOT(updateRouteData(Route*)));
+    connect(rtController, SIGNAL(routeStateChanged(Route*)),
+            rtViewer, SLOT(updateRouteState(Route*)));
     connect(rtController, SIGNAL(getElementByAddress(const int, const int,
                     element**)), gbs,
             SLOT(getElementByAddress(const int, const int, element**)));
@@ -2710,7 +2711,7 @@ void MainWindow::ConnectFeedbackPort()
 {
     cmdToDebug(tr("Feedback socket: Try to connect host \"%1\" on port \"%2\"")
             .arg(cmdHost).arg(cmdPort + 1), MT_INFO, HL_HINT);
-    FeedbackSocket->connectToHost(cmdHost, cmdPort + 1);     /*e.g.: 4303 + 1*/
+    FeedbackSocket->connectToHost(cmdHost, cmdPort + 1);    /*e.g.: 4303 + 1 */
 }
 
 
