@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.1 $Revision: 1.90 $
+                           version 0.5.1 $Revision: 1.91 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-28 16:25:48 $
+    last modified        : $Date: 2007-01-30 20:01:33 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -626,10 +626,12 @@ void MainWindow::initMainWindow()
             rtViewer, SLOT(switchVisualMode(elemVisualMode)));
     connect(rtViewer, SIGNAL(visibilityChanged(bool)),
             this, SLOT(updateRouteMenu(bool)));
-    connect(rtViewer, SIGNAL(selectedRouteIsLocked(bool)),
-            this, SLOT(updateRouteMenuActivateItems(bool)));
+    connect(rtViewer, SIGNAL(selectedRouteChangedState()),
+            this, SLOT(updateRouteMenuActivateItems()));
     connect(rtViewer, SIGNAL(showLogMessage(const QString&, int, int)),
             this, SLOT(cmdToDebug(const QString&, int, int)));
+    connect(rtViewer, SIGNAL(routeListIsEmpty()),
+            this, SLOT(updateRouteListMenuItems()));
     connect(rtController, SIGNAL(routeListChanged()),
             rtViewer, SLOT(updateRouteList()));
     connect(rtController, SIGNAL(routeDataChanged(Route*)),
@@ -3049,6 +3051,7 @@ void MainWindow::slotViewSwitchMode(QAction* ac)
         }
     // send new visual mode to router and gbs
     emit switchedVisualMode(visualMode);
+    rtViewer->switchVisualMode(visualMode);
 
     // change edit related menus
     actionFileNew->setEnabled(visualMode == kvmNormal);
@@ -3059,49 +3062,73 @@ void MainWindow::slotViewSwitchMode(QAction* ac)
 }
 
 /*
- * called when layout viewmode is changed, visibility of routingviewer
- * changes and activity state of a selected route changes
+ * called when layout viewmode is changed, visibility of route list
+ * window changes and activity state of a selected route changes
  */
 void MainWindow::updateRouteMenu(bool rtvIsVisible)
 {
-     //activate rtviewer to update route visibility
-     if (rtvIsVisible)
-         rtViewer->switchVisualMode(visualMode);
+    if (!rtvIsVisible) {
+        actionRouteStart->setEnabled(false);
+        actionRouteStop->setEnabled(false);
+        actionRouteAdd->setEnabled(false);
+        actionRouteEdit->setEnabled(false);
+        actionRouteCopy->setEnabled(false);
+        actionRouteDelete->setEnabled(false);
+    }
+    else {
+        updateRouteMenuActivateItems();
 
-     if (!rtvIsVisible) {
-         actionRouteStart->setEnabled(false);
-         actionRouteStop->setEnabled(false);
-     }
-     else if (visualMode != kvmNormal) {
-         actionRouteStart->setEnabled(false);
-         actionRouteStop->setEnabled(false);
-     }
-     actionRouteAdd->setEnabled(rtvIsVisible &&
-             visualMode == kvmEditRoute);
-     // the next three items should only be enabled when route list
-     // count > 0
-     bool hasroutes = (rtController->getRouteCount() > 0);
-     
-     actionRouteEdit->setEnabled(rtvIsVisible &&
-             visualMode == kvmEditRoute && hasroutes);
-     actionRouteCopy->setEnabled(rtvIsVisible &&
-             visualMode == kvmEditRoute && hasroutes);
-     actionRouteDelete->setEnabled(rtvIsVisible &&
-             visualMode == kvmEditRoute && hasroutes);
+        if (visualMode == kvmEditRoute) {
+            actionRouteAdd->setEnabled(true);
+
+            bool hasitem = rtViewer->hasCurrentItem();
+            actionRouteEdit->setEnabled(hasitem);
+            actionRouteCopy->setEnabled(hasitem);
+            actionRouteDelete->setEnabled(hasitem);
+        }
+        else {
+            actionRouteAdd->setEnabled(false);
+            actionRouteEdit->setEnabled(false);
+            actionRouteCopy->setEnabled(false);
+            actionRouteDelete->setEnabled(false);
+        }
+    }
 }
 
 
-/*update state of route menu items*/
-void MainWindow::updateRouteMenuActivateItems(bool isLocked)
+/*update state of route activate menu items*/
+void MainWindow::updateRouteMenuActivateItems()
 {
-    if (rtViewer->isVisible() && visualMode == kvmNormal) {
-        actionRouteStart->setEnabled(!isLocked);
-        actionRouteStop->setEnabled(isLocked);
+    if (rtViewer->isVisible()) {
+
+        int state = rtViewer->getCurrentItemState();
+
+        switch (state) {
+            case -1:
+                actionRouteStart->setEnabled(false);
+                actionRouteStop->setEnabled(false);
+                break;
+            case 0:
+                actionRouteStart->setEnabled(true);
+                actionRouteStop->setEnabled(false);
+                break;
+            default:
+                actionRouteStart->setEnabled(false);
+                actionRouteStop->setEnabled(true);
+                break;
+        }
     }
     else {
         actionRouteStart->setEnabled(false);
         actionRouteStop->setEnabled(false);
     }
+}
+
+
+/* update menu items if route list gets empty*/
+void MainWindow::updateRouteListMenuItems()
+{
+    updateRouteMenu(rtViewer->isVisible());
 }
 
 
@@ -3362,19 +3389,12 @@ void MainWindow::slotRouteAdd()
 {
     if (rtViewer != NULL)
         rtViewer->slotRouteAdd();
-        bool rtvIsVisible = rtViewer->isVisible();
-        /*update rootingtoolbar buttons*/
-        updateRouteMenu(rtvIsVisible);
 }
 
 
 /*delete a route*/
 void MainWindow::slotRouteDelete()
 {
-    if (rtViewer != NULL) {
+    if (rtViewer != NULL)
         rtViewer->slotRouteDelete();
-        bool rtvIsVisible = rtViewer->isVisible();
-        /*update rootingtoolbar buttons*/
-        updateRouteMenu(rtvIsVisible);
-    }
 }

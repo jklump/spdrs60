@@ -1,10 +1,10 @@
 /***************************************************************************
                            routelistwindow.cpp
-                           version 0.5.1 $Revision: 1.1 $
+                           version 0.5.1 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-28 15:40:58 $
+    last modified        : $Date: 2007-01-30 20:01:33 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -40,8 +40,8 @@ RouteListWindow::RouteListWindow(QWidget* parent, const char* name,
     Q_CHECK_PTR(routeLV);
     boxLayout()->addWidget(routeLV);
 
-    connect(routeLV, SIGNAL(selectionChanged(QListViewItem *)),
-            this, SLOT(selectedRouteChanged(QListViewItem *)));
+    connect(routeLV, SIGNAL(currentChanged(QListViewItem *)),
+            this, SLOT(currentRouteChanged(QListViewItem *)));
 
     connect(routeLV, SIGNAL(doubleClicked(QListViewItem *,
                     const QPoint &, int)),
@@ -54,7 +54,14 @@ RouteListWindow::RouteListWindow(QWidget* parent, const char* name,
     connect(routeLV, SIGNAL(spacePressed(QListViewItem *)),
            this, SLOT(slotToggleRouteState(QListViewItem *)));
     
+    connect(routeLV, SIGNAL(deletePressed(QListViewItem *)),
+           this, SLOT(slotDeleteRoute(QListViewItem *)));
+    
+    connect(routeLV, SIGNAL(insertPressed()),
+            this, SLOT(slotRouteAdd()));
+
     gbsRouter = router;
+    visualMode = kvmNormal;
 }
 
 
@@ -89,8 +96,8 @@ void RouteListWindow::updateRouteState(Route* rt)
         lvi->updateRouteStatePixmap();
 
         // if row is selected also update menu buttons
-        if (routeLV->isSelected(lvi))
-            emit selectedRouteIsLocked(rt->getState() == Route::rsLocked);
+        if (lvi == routeLV->currentItem())
+            emit selectedRouteChangedState();
     }
 }
 
@@ -105,16 +112,19 @@ void RouteListWindow::updateRouteList()
         return;
 
     Route* rt = NULL;
-
     routeLV->clear();
+    emit routeListIsEmpty();
 
-    /*same as in updateRoutesFromFile*/
     unsigned int routecount = gbsRouter->getRouteCount();
 
     for (unsigned int row = 0; row < routecount; row++) {
         rt = gbsRouter->getRouteAt(row);
         if (rt != NULL)
             RouteLVI* nlvi = new RouteLVI(routeLV, rt);
+    }
+    if (routecount > 0) {
+        routeLV->setCurrentItem(routeLV->firstChild());
+        currentRouteChanged(routeLV->firstChild());
     }
 }
 
@@ -127,7 +137,7 @@ void RouteListWindow::slotRouteStart()
     if (gbsRouter == NULL)
         return;
     
-    RouteLVI* lvi = (RouteLVI*) routeLV->selectedItem();
+    RouteLVI* lvi = (RouteLVI*) routeLV->currentItem();
 
     if (lvi != NULL)
         gbsRouter->activateRoute(lvi->getRoute());
@@ -173,7 +183,7 @@ void RouteListWindow::slotRouteStop()
     if (gbsRouter == NULL)
         return;
 
-    RouteLVI* lvi = (RouteLVI*) routeLV->selectedItem();
+    RouteLVI* lvi = (RouteLVI*) routeLV->currentItem();
 
     if (lvi != NULL)
         slotStopRoute(lvi->getRoute());
@@ -197,11 +207,18 @@ void RouteListWindow::slotStopRoute(Route* sr)
  * */
 void RouteListWindow::slotRouteAdd()
 {
-    Route* nr = gbsRouter->addNewRoute();
+    if (visualMode == kvmEditRoute) {
+        Route* nr = gbsRouter->addNewRoute();
 
-    if (nr != NULL) {
-        RouteLVI* nlvi = new RouteLVI(routeLV, nr);
-        routeLV->setSelected(nlvi, true);
+        if (nr != NULL) {
+            RouteLVI* nlvi = new RouteLVI(routeLV, nr);
+            routeLV->setCurrentItem(nlvi);
+            currentRouteChanged(nlvi);
+
+            // tell main window that list now is _not_ empty
+            if (routeLV->childCount() == 1)
+                emit routeListIsEmpty();
+        }
     }
 }
 
@@ -211,8 +228,8 @@ void RouteListWindow::slotRouteAdd()
  * */
 void RouteListWindow::slotRouteEdit()
 {
-    //TODO: only in edit mode;  if (kvmEditRoute == vm) {
-    slotEditRoute(routeLV->selectedItem());
+    if (visualMode == kvmEditRoute)
+        slotEditRoute(routeLV->currentItem());
 }
 
 
@@ -223,12 +240,14 @@ void RouteListWindow::slotRouteEdit()
  * */
 void RouteListWindow::slotEditRoute(QListViewItem* lvi)
 {
-    if (lvi == NULL)
-        return;
-    
-    if (gbsRouter->editRoute(this,
-                static_cast<RouteLVI*>(lvi)->getRoute()))
-        static_cast<RouteLVI*>(lvi)->updateRouteData();
+    if (visualMode == kvmEditRoute) {
+        if (lvi == NULL)
+            return;
+
+        if (gbsRouter->editRoute(this,
+                    static_cast<RouteLVI*>(lvi)->getRoute()))
+            static_cast<RouteLVI*>(lvi)->updateRouteData();
+    }
 }
 
 
@@ -243,14 +262,16 @@ void RouteListWindow::slotEditRouteAt(QListViewItem* lvi,
  * */
 void RouteListWindow::slotRouteCopy()
 {
-    RouteLVI* lvi = (RouteLVI*) routeLV->selectedItem();
-    if (lvi != NULL) {
-        Route* cr = lvi->getRoute();
-        if (cr != NULL) {
-            Route* nr = gbsRouter->copyRoute(cr);
-            if (nr != NULL) {
-                RouteLVI* nlvi = new RouteLVI(routeLV, nr);
-                routeLV->setSelected(nlvi, true);
+    if (visualMode == kvmEditRoute) {
+        RouteLVI* lvi = (RouteLVI*) routeLV->currentItem();
+        if (lvi != NULL) {
+            Route* cr = lvi->getRoute();
+            if (cr != NULL) {
+                Route* nr = gbsRouter->copyRoute(cr);
+                if (nr != NULL) {
+                    RouteLVI* nlvi = new RouteLVI(routeLV, nr);
+                    routeLV->setSelected(nlvi, true);
+                }
             }
         }
     }
@@ -258,20 +279,31 @@ void RouteListWindow::slotRouteCopy()
 
 
 /**
- * Triggered by main window when the user deletes the selected route.
+ * Triggered by main window when the user deletes the current route.
  * */
 void RouteListWindow::slotRouteDelete()
 {
-    /*TODO: ask for "Do you realy want to delete this route?*/
-    RouteLVI* lvi = (RouteLVI*) routeLV->selectedItem();
-
-    if (lvi != NULL) {
-        gbsRouter->deleteRoute(lvi->getRoute());
-        routeLV->takeItem(lvi);
-        delete lvi;
-    }
+    slotDeleteRoute(routeLV->currentItem());
 }
 
+
+void RouteListWindow::slotDeleteRoute(QListViewItem * lvi)
+{
+    if (visualMode == kvmEditRoute) {
+        /*TODO: ask for "Do you realy want to delete this route?*/
+
+        if (lvi != NULL) {
+            gbsRouter->deleteRoute(static_cast<RouteLVI*>(lvi)->getRoute());
+            routeLV->takeItem(lvi);
+            delete lvi;
+
+            // if number of routes is null send signal to main window
+            // to update edit button states
+            if (routeLV->childCount() == 0)
+                emit routeListIsEmpty();
+        }
+    }
+}
 
 /**
  * QListview emits this signal for every list selection change:
@@ -280,14 +312,14 @@ void RouteListWindow::slotRouteDelete()
  *   - send current route state to main window to
  *     update toolbar and menu items
  */
-void RouteListWindow::selectedRouteChanged(QListViewItem* lvi)
+void RouteListWindow::currentRouteChanged(QListViewItem* lvi)
 {
     if (lvi != NULL) {
         Route* cr = static_cast<RouteLVI*>(lvi)->getRoute();
 
         if (cr != NULL) {
             // send route state to main window
-            emit selectedRouteIsLocked(cr->getState());
+            emit selectedRouteChangedState();
 
             // tell router to clear highlighting of last selected route
             gbsRouter->selectedRouteChanged(cr);
@@ -301,8 +333,31 @@ void RouteListWindow::selectedRouteChanged(QListViewItem* lvi)
  * */
 void RouteListWindow::switchVisualMode(elemVisualMode vm)
 {
-    // TODO: store mode to disable route editing by keystroke
-    if (isVisible())
-        selectedRouteChanged(routeLV->selectedItem());
+    if (visualMode != vm) {
+        visualMode = vm;
+        if (visualMode == kvmEditRoute)
+            currentRouteChanged(routeLV->currentItem());
+    }
+}
+
+
+bool RouteListWindow::hasCurrentItem()
+{
+    return (routeLV->currentItem() != NULL);
+}
+
+
+int RouteListWindow::getCurrentItemState()
+{
+    int returnvalue = -1;
+    
+    RouteLVI* lvi = (RouteLVI*) routeLV->currentItem();
+    if (lvi != NULL) {
+        Route* cr = lvi->getRoute();
+        if (cr != NULL)
+            returnvalue = cr->getState();
+    }
+        
+    return returnvalue;
 }
 

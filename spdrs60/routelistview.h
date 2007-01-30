@@ -1,10 +1,10 @@
 /***************************************************************************
                            routelistview.h
-                           version 0.5.1 $Revision: 1.1 $
+                           version 0.5.1 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-28 15:40:58 $
+    last modified        : $Date: 2007-01-30 20:01:33 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -33,11 +33,16 @@ class RouteListView: public QListView
 {
     Q_OBJECT
 
-private:
-
 public:
     RouteListView(QWidget* parent = 0, const char* name = 0);
     RouteLVI* getRouteLVIByRoute(Route*);
+    
+protected:
+    virtual void keyPressEvent(QKeyEvent *e);
+
+signals:
+    void insertPressed();
+    void deletePressed(QListViewItem *);
 };
 #endif // ROUTELISTVIEW_H
 

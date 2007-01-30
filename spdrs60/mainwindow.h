@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.5.1 $Revision: 1.39 $
+                           version 0.5.1 $Revision: 1.40 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-28 16:25:48 $
+    last modified        : $Date: 2007-01-30 20:01:33 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -197,8 +197,9 @@ private:
 
 public slots:
    void cmdToDebug(const QString&, int, int);
+   void updateRouteListMenuItems();
    void updateRouteMenu(bool);
-   void updateRouteMenuActivateItems(bool);
+   void updateRouteMenuActivateItems();
 
 private slots:
    void slotAbout();

@@ -1,10 +1,10 @@
 /***************************************************************************
                            routelistview.cpp
-                           version 0.5.1 $Revision: 1.1 $
+                           version 0.5.1 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-28 15:40:57 $
+    last modified        : $Date: 2007-01-30 20:01:33 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -54,6 +54,24 @@ RouteLVI* RouteListView::getRouteLVIByRoute(Route* sr)
             return lvi;
         }
         ++it;
+    }
+}
+
+
+void RouteListView::keyPressEvent(QKeyEvent* e)
+{
+    switch (e->key()) {
+        case Key_Insert:
+            emit insertPressed();
+            e->accept();
+            break;
+        case Key_Delete:
+            if (currentItem() != NULL)
+                emit deletePressed(currentItem());
+            e->accept();
+            break;
+        default:
+            QListView::keyPressEvent(e);
     }
 }
 

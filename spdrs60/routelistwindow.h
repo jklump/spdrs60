@@ -1,10 +1,10 @@
 /***************************************************************************
                            routelistwindow.h
-                           version 0.5.1 $Revision: 1.1 $
+                           version 0.5.1 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-28 15:40:59 $
+    last modified        : $Date: 2007-01-30 20:01:33 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -37,11 +37,14 @@ class RouteListWindow: public QDockWindow
 public:
     RouteListWindow(QWidget* parent=0, const char* name=0,
             Router* router=0);
+    bool hasCurrentItem();
+    int getCurrentItemState();
     
 public slots:
-    void selectedRouteChanged(QListViewItem*);
-    void slotEditRouteAt(QListViewItem*, const QPoint &, int);
+    void currentRouteChanged(QListViewItem*);
+    void slotEditRouteAt(QListViewItem*, const QPoint&, int);
     void slotEditRoute(QListViewItem*);
+    void slotDeleteRoute(QListViewItem*);
     void slotRouteAdd();
     void slotRouteCopy();
     void slotRouteDelete();
@@ -57,12 +60,14 @@ public slots:
     void updateRouteState(Route*);
 
 signals:
-    void selectedRouteIsLocked(bool);
+    void routeListIsEmpty();
+    void selectedRouteChangedState();
     void showLogMessage(const QString&, int, int);
     
 private:
     RouteListView* routeLV;
     Router* gbsRouter;
+    elemVisualMode  visualMode;
 };
 #endif // ROUTELISTWINDOW_H
 

@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.1 $Revision: 1.35 $
+                           version 0.5.1 $Revision: 1.36 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-28 16:25:50 $
+    last modified        : $Date: 2007-01-30 20:01:33 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -318,6 +318,7 @@ Route* Router::addNewRoute()
 {
     Route* nr = new Route(tr("New route"));
     if (nr != NULL) {
+        selectedRouteChanged(nr);
         routeList.append(nr);
 
         connect(nr, SIGNAL(stateChanged(Route*, int)),
