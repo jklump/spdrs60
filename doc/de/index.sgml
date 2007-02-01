@@ -1800,7 +1800,7 @@ die durch Aktivieren des Menüpunktes
 <para>
 Eine neue Fahrstraße kann man nun durch das Menü
 &raquo;Fahrstraße/Hinzufügen&laquo; in der Tabelle anlegen, alternativ
-über das Plus-Symbol in der Werkzeugleiste. Die
+über das Plus-Symbol in der Werkzeugleiste oder die Einfg-Taste. Die
 einzelnen Elemente werden anschließend durch Anklicken mit
 der Maus hinzugefügt bzw. auch wieder von ihr entfernt. Mit der linken
 Maustaste bearbeitet man die Start- und Zielsignale, mit der mittleren
@@ -4368,12 +4368,12 @@ z.B. des Automatikbetriebs, nur über das Dialogfenster erfolgen kann.
 </figure>
 </para>
 <para>
-Über das Menü &raquo;Fahrstraße/Hinzufügen&laquo; oder über das
-Plus-Symbol in der Werkzeugleiste wird eine neue Fahrstraße als
-unterster Eintrag in der Tabelle angelegt (<xref linkend="abb-routing7">).
-Diesen wählt man anschließend mit einem Mausklick aus
-und kann dann die Elemente durch Anklicken im Gleisbild
-hinzufügen. Mit der linken Maustaste lassen sich die Start- und
+Über das Menü &raquo;Fahrstraße/Hinzufügen&laquo;, über das Plus-Symbol
+in der Werkzeugleiste oder die Einfg-Taste wird eine neue Fahrstraße als
+automatisch markierter Eintrag in der Tabelle angelegt
+(<xref linkend="abb-routing7">).
+Durch Anklicken der Elemente im Gleisbild, werden diese der Fahrstraße
+hinzugefügt. Mit der linken Maustaste lassen sich die Start- und
 Zielsignale festlegen, mit der mittleren Maustaste die übrigen Elemente.
 Das erste Signal, auf das man klickt, wird zum Startsignal, das zweite
 gewählte Signal zum Zielsignal. Das Startsignal bekommt eine grüne
@@ -4384,7 +4384,7 @@ Fahrstraße bekommen eine gelbe Umrandung. Durch erneutes Anklicken eines
 gewählten Elements wird es wieder von der Fahrstraße entfernt.
 </para>
 <para>
-Die Weichen im Fahrweg bzw. für den Flankenschutz sollten vor dem
+Die Weichen im Fahrweg bzw. für den Flankenschutz müssen vor dem
 Hinzufügen in der richtigen Stellung sein und können auch nur vor dem
 Hinzufügen umgestellt werden. Das geschieht am einfachsten über das
 Kontextmenü der rechten Maustaste.
@@ -4489,7 +4489,8 @@ editierbar. Es reicht, im Adressfeld eine Eingabe zu machen, da der Name
 sofort aus den im Gleisbild vorhandenen Elementen ermittelt wird. Sollte
 unter der eingegebenen
 Adresse kein Element vorhanden sein, wird das als Fehler angezeigt
-(<xref linkend="abb-routing11">). Im Feld Status wählt man anschließend
+(<xref linkend="abb-routing11">). Im Feld &raquo;Status&laquo; wählt man
+anschließend
 den gewünschten Schaltzustand. Hier wird die Auswahl der möglichen
 Zustände automatisch aus dem Elementtyp ermittelt; je nach Anzahl der
 Antriebe stehen zwei oder vier verschiedene Zustände zur Auswahl (siehe

@@ -112,15 +112,15 @@ spdrs60-0.4.8 (2005-12-11)
     around each symbol. Users can easily assemble new routes or edit
     allready configured routes by clicking on layout elements. Mouse
     behavior has changed here. A single click with left mouse button
-    selects or deselects start and stop signals; a single click with
+    selects or deselects entry and exit signals; a single click with
     middle button does the same for other switchable route elements.
 
   o The route edit dialog window has completely been rewritten
     respecting new data fields for SRCP 0.8.
 
-  o Routing beond layout edges is possible now if a start or stop signal
-    is doubled. At a minimum there must be one continuous track from start
-    to stop signal. The sample file »bahnhof_klein« shows how is works.
+  o Routing beond layout edges is possible now if a entry or exit signal
+    is doubled. At a minimum there must be one continuous track from entry
+    to exit signal. The sample file »bahnhof_klein« shows how is works.
 
   o The main menu got a new entry for user interaction with routes.
 
