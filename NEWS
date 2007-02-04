@@ -1,4 +1,4 @@
-spdrs60-0.5.1 (2007-02-0x)
+spdrs60-0.5.1 (2007-02-04)
   o The routing algorithm was rewritten to follow real 2-dimensional
     courses covering the whole layout. Five new layout elements enabling
     vertical tracks are added to give the user profit from the new
