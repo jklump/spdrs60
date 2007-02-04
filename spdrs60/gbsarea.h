@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.5.1 $Revision: 1.34 $
+                           version 0.5.1 $Revision: 1.35 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-04 17:58:48 $
+    last modified        : $Date: 2007-02-04 21:20:30 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -83,12 +83,6 @@ private:
    QCursor     UZSCursor;
    QCursor     WGTCursor;
    QCursor     ZHSCursor;
-   QStrList    *listOfActivatePorts;
-   QStrList    *listOfFromSignals;
-   QStrList    *listOfLockedRoutes;
-   QStrList    *listOfReleasePorts;
-   QStrList    *listOfRouteTypes;
-   QStrList    *listOfToSignals;
    QTimer      *delayTimer;
 
    QPtrVector<element> elements;
