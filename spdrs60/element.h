@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.1 $Revision: 1.60 $
+                           version 0.5.1 $Revision: 1.61 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-28 16:25:41 $
+    last modified        : $Date: 2007-02-04 17:58:48 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -218,7 +218,7 @@ class element: public QWidget
 
 public:
     element(QWidget* parent=0);
-    element(QTextStream&, QWidget* parent=0, bool isNewFormat = false);
+    element(QTextStream&, QWidget* parent=0);
 
     /*this variables should also be private*/
     QString  sSoldIcon;
@@ -230,7 +230,6 @@ public:
 
     void activateFfM(bool);
     void readFileTextFromStream(QTextStream&);
-    void readOldFileTextFromStream(QTextStream&);
     void writeFileTextToStream(QTextStream&);
     QSize sizeHint() const;
     //int  routeElement(bool, bool, int);

@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.5.1 $Revision: 1.33 $
+                           version 0.5.1 $Revision: 1.34 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-28 16:25:47 $
+    last modified        : $Date: 2007-02-04 17:58:48 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -56,7 +56,6 @@ public:
    QSize sizeHint() const;
    void writeFileTextToStream(QTextStream& ts);
    void readFileTextFromStream(QTextStream& ts);
-   void readOldFileTextFromStream(QTextStream& ts);
    void setLayoutSize(int, int);
    int getColumns();
    int getRows();

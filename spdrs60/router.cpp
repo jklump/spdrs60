@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.1 $Revision: 1.36 $
+                           version 0.5.1 $Revision: 1.37 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-30 20:01:33 $
+    last modified        : $Date: 2007-02-04 17:58:49 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -70,44 +70,6 @@ void Router::readFileTextFromStream(QTextStream& ts)
         routeList.append(new Route(ts, true));
 
     modified = false;
-    setupRouteElements();
-    /*send update signal to routing viewer*/
-    emit routeListChanged();
-}
-
-
-void Router::importFile(const QString& fn)
-{
-    /*clear old list*/
-    if (!routeList.isEmpty())
-        routeList.clear();
-    
-    QFile routingfile(fn);
-    if (!routingfile.exists()) {
-        /*TODO: show error message "Route file '%1' not found"*/
-        return;
-    }
-
-    if (!routingfile.open(IO_ReadOnly)) {
-        /*TODO: show error message "Error reading route file '%1'"*/
-        return;
-    }
-
-    QString s;
-    QTextStream ts(&routingfile);
-
-    while (!ts.eof()) {
-        s = ts.readLine();
-        /* ignore comment lines */
-        if (!s.startsWith("#")) {
-            /*here we read allways up to start marker of a new route*/
-            if (s.startsWith("ROUTE"))
-                routeList.append(new Route(ts, false));
-        }
-    }
-    routingfile.close();
-    /*if loaded from old file format, data is defined as "modified"*/
-    modified = true;
     setupRouteElements();
     /*send update signal to routing viewer*/
     emit routeListChanged();

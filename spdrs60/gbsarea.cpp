@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.1 $Revision: 1.59 $
+                           version 0.5.1 $Revision: 1.60 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-28 16:25:47 $
+    last modified        : $Date: 2007-02-04 17:58:48 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -53,8 +53,6 @@
 #include "pixmaps/cursor_rrs_m.xpm"
 #include "pixmaps/cursor_urs_b.xpm"
 #include "pixmaps/cursor_urs_m.xpm"
-
-#define OLD_MAX_ROWS 18;
 
 // search options
 #define SRCH_TX 0   // search string should be in text field
@@ -270,7 +268,7 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
             /*here we read allways up to start marker of a new route*/
             else if (s.startsWith("%% element")) {
                 
-                element* fe = new element(ts, this, true);
+                element* fe = new element(ts, this);
                 if (fe != NULL) {
                     unsigned int idx = fe->getIndexNo();
                     if ((idx % 10) == 0)
@@ -329,72 +327,6 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
     adjustSize();
     setModified(false);
     
-    // now setup and show elements, send element states to SRCP-server
-    // and load routes
-    setupElements();
-    slotSendAll();
-}
-
-
-void GBSArea::readOldFileTextFromStream(QTextStream& ts)
-{
-    /*clear old element list and old routes*/
-    if (!elements.isEmpty())
-        deleteElements();
-    
-    QString s, key, value;
-    unsigned int ecount = 0;
-
-    s = ts.readLine();
-    key = s.section(":", 0, 0);
-    value = s.section(":", 1, 1).stripWhiteSpace();
-
-    if (key.compare("Symbols total #") == 0){
-        ecount = value.toUInt();
-        elements.resize(ecount);
-        cols = ecount/OLD_MAX_ROWS;
-        rows = OLD_MAX_ROWS;
-    }
-    QProgressDialog progress(tr("Loading layout file"),
-                             tr("Abort"), ecount,
-                             this, "progress", TRUE);
-    progress.show();
-
-    s = ts.readLine(); // modify date
-    s = ts.readLine(); // version
-    s = ts.readLine(); // empty line
-    /*here we read allways up to start marker of a new route*/
-    while (!ts.eof()) {
-        s = ts.readLine(); // SYMBOL
-        if (s.startsWith("SYMBOL")) {
-            value = s.section(" ", 2, 2).stripWhiteSpace();
-            unsigned int idx = value.toUInt();
-            /* contructor with old file format*/
-            element* fe = new element(ts, this, false);
-            if (fe != NULL) {
-                fe->move((idx / rows) * EL_WIDTH,
-                        (idx % rows) * EL_HEIGHT);
-                fe->setIndexNo(idx);
-                elements.insert(idx, fe);
-                if ((idx % 10) == 0)
-                    progress.setProgress(idx);
-                qApp->processEvents();
-            }
-#if QT_VERSION >= 0x030200
-            if (progress.wasCanceled()) {
-#else
-            if (progress.wasCancelled()) {
-#endif
-                deleteElements();
-                break;
-            }
-        }
-    }
-    /* files of old format must be saved later*/
-    progress.setProgress(ecount);
-    adjustSize();
-    setModified(true);
-
     // now setup and show elements, send element states to SRCP-server
     // and load routes
     setupElements();

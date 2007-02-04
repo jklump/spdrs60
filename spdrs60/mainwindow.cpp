@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.1 $Revision: 1.91 $
+                           version 0.5.1 $Revision: 1.92 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-30 20:01:33 $
+    last modified        : $Date: 2007-02-04 17:58:48 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -41,7 +41,6 @@
 #include "pixmaps/fileopen.xpm"
 #include "pixmaps/filesave.xpm"
 #include "pixmaps/filesaveas.xpm"
-#include "pixmaps/fileimport.xpm"
 #include "pixmaps/filenewwindow.xpm"
 #include "pixmaps/fileclose.xpm"
 #include "pixmaps/filequit.xpm"
@@ -77,8 +76,6 @@
 #include "pixmaps/route_copy.xpm"
 #include "pixmaps/route_clear.xpm"
 
-#define GF_OLDGBSEXT     ".dat.gbs"
-#define GF_OLDRTSEXT     ".dat.rts"
 /*for srcpCom*/
 #define GF_CMDHOST       "cmdhost"
 #define GF_FBHOST        "fbhost"
@@ -183,121 +180,115 @@ void MainWindow::readConfigFile()
     QTextStream ts(&file);
     QString s, key, value;
 
-    /*first check for file format*/
-    s = ts.readLine();
-    if (s.startsWith("# SpDrS60"))
-        readOldStyleConfigFile(ts);
-    else {
-        while (!ts.eof()) {
-            s = ts.readLine();
-            if (!s.startsWith("#")) {
-                key = s.section("=", 0, 0);
-                value = s.section("=", 1, 1).stripWhiteSpace();
-                
-                if (key.compare(CF_SHOWHP2) == 0){
-                    pref.hp2 = value.toInt();
-                }
-                else if (key.compare(CF_BLINKINGTURNOUTS) == 0){
-                    pref.blinkingturnouts = value.toInt();
-                }
-                else if (key.compare(CF_TOOLTIPS) == 0){
-                    pref.tooltips = value.toInt();
-                }
-                else if (key.compare(CF_DATATOOLTIPS) == 0){
-                    pref.datatooltips = value.toInt();
-                }
-                else if (key.compare(CF_ADDRESSLABEL) == 0){
-                    pref.addresslabeling = value.toInt();
-                }
-                else if (key.compare(CF_INITSIGNALS) == 0){
-                    pref.initsignalsred = value.toInt();
-                }
-                else if (key.compare(CF_LAYOUTCOLS) == 0){
-                    pref.layoutcols = value.toUInt();
-                }
-                else if (key.compare(CF_LAYOUTROWS) == 0){
-                    pref.layoutrows = value.toUInt();
-                }
-                else if (key.compare(CF_SENDSTATE) == 0){
-                    pref.sendstate = value.toInt();
-                }
-                else if (key.compare(CF_CONVERTTIME) == 0){
-                    pref.converttime = value.toInt();
-                }
-                else if (key.compare(CF_AUTOLOAD) == 0){
-                    pref.autoload = value.toInt();
-                }
-                else if (key.compare(CF_AUTOLAYOUT) == 0){
-                    pref.autolayout = value;
-                }
-                else if (key.compare(CF_AUTOSAVE) == 0){
-                    pref.autosave = value.toInt();
-                }
-                else if (key.compare(CF_EDITOR) == 0){
-                    pref.editor = value;
-                }
-                else if (key.compare(CF_BROWSER) == 0){
-                    pref.browser = value;
-                }
-                else if (key.compare(CF_PROTOCOL) == 0){
-                    pref.protocol = 2;
-                    if (value == "DCC")
-                        pref.protocol = 0;
-                    else if (value == "Motorola")
-                        pref.protocol = 1;
-                    else if (value == "Selectrix")
-                        pref.protocol = 3;
-                }
-                else if (key.compare(CF_DECODER) == 0){
-                    pref.decoder = value;
-                }
-                else if (key.compare(CF_ACTIVETIME) == 0){
-                    pref.activetime = value.toInt();
-                }
-                else if (key.compare(CF_AUTOTTDIR) == 0){
-                    pref.autottdir = value.toInt();
-                }
-                else if (key.compare(CF_TTROUNDTIME) == 0){
-                    pref.ttroundtime = value.toDouble();
-                }
-                else if (key.compare(CF_ROUTINGTIME) == 0){
-                    pref.routingtime = value.toInt();
-                }
-                //TODO: remove before release
-                else if (key.compare(CF_FEEDBACKTYPE) == 0){
-                    pref.fbfactor = value.toInt();
-                }
-                else if (key.compare(CF_FBMODSIZE) == 0){
-                    pref.fbfactor = value.toInt();
-                }
-                else if (key.compare(CF_FBMODTYPE) == 0){
-                    pref.fbmoduletype = value.toInt();
-                }
-                else if (key.compare(CF_FIXEDBUSNUM) == 0){
-                    pref.fixedbusnum = value.toInt();
-                }
-                else if (key.compare(CF_FBBUS1) == 0){
-                    pref.fbbus1.number = value.section(":", 0, 0).toUInt();
-                    pref.fbbus1.modules = value.section(":", 1, 1).toUInt();
-                }
-                else if (key.compare(CF_FBBUS2) == 0){
-                    pref.fbbus2.number = value.section(":", 0, 0).toUInt();
-                    pref.fbbus2.modules = value.section(":", 1, 1).toUInt();
-                }
-                else if (key.compare(CF_FBBUS3) == 0){
-                    pref.fbbus3.number = value.section(":", 0, 0).toUInt();
-                    pref.fbbus3.modules = value.section(":", 1, 1).toUInt();
-                }
-                else if (key.compare(CF_FBBUS4) == 0){
-                    pref.fbbus4.number = value.section(":", 0, 0).toUInt();
-                    pref.fbbus4.modules = value.section(":", 1, 1).toUInt();
-                }
-                else if (key.compare(CF_LASTDIR) == 0){
-                    lastDir = value.stripWhiteSpace();
-                    // check if directory is valid
-                    if (!QFile::exists(lastDir))
-                        lastDir = QDir::homeDirPath();
-                }
+    while (!ts.eof()) {
+        s = ts.readLine();
+        if (!s.startsWith("#")) {
+            key = s.section("=", 0, 0);
+            value = s.section("=", 1, 1).stripWhiteSpace();
+
+            if (key.compare(CF_SHOWHP2) == 0){
+                pref.hp2 = value.toInt();
+            }
+            else if (key.compare(CF_BLINKINGTURNOUTS) == 0){
+                pref.blinkingturnouts = value.toInt();
+            }
+            else if (key.compare(CF_TOOLTIPS) == 0){
+                pref.tooltips = value.toInt();
+            }
+            else if (key.compare(CF_DATATOOLTIPS) == 0){
+                pref.datatooltips = value.toInt();
+            }
+            else if (key.compare(CF_ADDRESSLABEL) == 0){
+                pref.addresslabeling = value.toInt();
+            }
+            else if (key.compare(CF_INITSIGNALS) == 0){
+                pref.initsignalsred = value.toInt();
+            }
+            else if (key.compare(CF_LAYOUTCOLS) == 0){
+                pref.layoutcols = value.toUInt();
+            }
+            else if (key.compare(CF_LAYOUTROWS) == 0){
+                pref.layoutrows = value.toUInt();
+            }
+            else if (key.compare(CF_SENDSTATE) == 0){
+                pref.sendstate = value.toInt();
+            }
+            else if (key.compare(CF_CONVERTTIME) == 0){
+                pref.converttime = value.toInt();
+            }
+            else if (key.compare(CF_AUTOLOAD) == 0){
+                pref.autoload = value.toInt();
+            }
+            else if (key.compare(CF_AUTOLAYOUT) == 0){
+                pref.autolayout = value;
+            }
+            else if (key.compare(CF_AUTOSAVE) == 0){
+                pref.autosave = value.toInt();
+            }
+            else if (key.compare(CF_EDITOR) == 0){
+                pref.editor = value;
+            }
+            else if (key.compare(CF_BROWSER) == 0){
+                pref.browser = value;
+            }
+            else if (key.compare(CF_PROTOCOL) == 0){
+                pref.protocol = 2;
+                if (value == "DCC")
+                    pref.protocol = 0;
+                else if (value == "Motorola")
+                    pref.protocol = 1;
+                else if (value == "Selectrix")
+                    pref.protocol = 3;
+            }
+            else if (key.compare(CF_DECODER) == 0){
+                pref.decoder = value;
+            }
+            else if (key.compare(CF_ACTIVETIME) == 0){
+                pref.activetime = value.toInt();
+            }
+            else if (key.compare(CF_AUTOTTDIR) == 0){
+                pref.autottdir = value.toInt();
+            }
+            else if (key.compare(CF_TTROUNDTIME) == 0){
+                pref.ttroundtime = value.toDouble();
+            }
+            else if (key.compare(CF_ROUTINGTIME) == 0){
+                pref.routingtime = value.toInt();
+            }
+            //TODO: remove before release
+            else if (key.compare(CF_FEEDBACKTYPE) == 0){
+                pref.fbfactor = value.toInt();
+            }
+            else if (key.compare(CF_FBMODSIZE) == 0){
+                pref.fbfactor = value.toInt();
+            }
+            else if (key.compare(CF_FBMODTYPE) == 0){
+                pref.fbmoduletype = value.toInt();
+            }
+            else if (key.compare(CF_FIXEDBUSNUM) == 0){
+                pref.fixedbusnum = value.toInt();
+            }
+            else if (key.compare(CF_FBBUS1) == 0){
+                pref.fbbus1.number = value.section(":", 0, 0).toUInt();
+                pref.fbbus1.modules = value.section(":", 1, 1).toUInt();
+            }
+            else if (key.compare(CF_FBBUS2) == 0){
+                pref.fbbus2.number = value.section(":", 0, 0).toUInt();
+                pref.fbbus2.modules = value.section(":", 1, 1).toUInt();
+            }
+            else if (key.compare(CF_FBBUS3) == 0){
+                pref.fbbus3.number = value.section(":", 0, 0).toUInt();
+                pref.fbbus3.modules = value.section(":", 1, 1).toUInt();
+            }
+            else if (key.compare(CF_FBBUS4) == 0){
+                pref.fbbus4.number = value.section(":", 0, 0).toUInt();
+                pref.fbbus4.modules = value.section(":", 1, 1).toUInt();
+            }
+            else if (key.compare(CF_LASTDIR) == 0){
+                lastDir = value.stripWhiteSpace();
+                // check if directory is valid
+                if (!QFile::exists(lastDir))
+                    lastDir = QDir::homeDirPath();
             }
         }
     }
@@ -306,80 +297,6 @@ void MainWindow::readConfigFile()
     fbViewer->updateBusAndModuleStructure();
 }
 
-/**
- * read old style (<= 0.4.8) application settings from config file
- */
-void MainWindow::readOldStyleConfigFile(QTextStream& ts)
-{
-    QString s, key;
-    int i;
-
-    // layout section
-    // first omit four section description lines
-    for (i = 0; i < 3; i++)
-        s = ts.readLine();
-
-    /*
-     * read "lastDir" value, was first defined in version 0.4.5, older
-     * versions show "#"
-     */
-    s = ts.readLine();
-    if (!s.startsWith("#")){
-        key = s.section("=", 0, 0);
-        if (key.compare("lastdir") == 0)
-            lastDir = s.section("=", 1, 1);
-    }
-
-    pref.hp2 = (ts.readLine().remove(0, 16) == "1");
-    pref.tooltips = (ts.readLine().remove(0, 16) == "1");
-    pref.datatooltips = (ts.readLine().remove(0, 16) == "1");
-    pref.addresslabeling = (ts.readLine().remove(0, 16) == "address");
-    pref.initsignalsred = (ts.readLine().remove(0, 16) == "red");
-    pref.layoutcols = ts.readLine().remove(0, 16).toInt();
-    pref.autoload = (ts.readLine().remove(0, 16) == "1");
-    pref.autolayout = ts.readLine().remove(0, 16);
-    pref.editor = ts.readLine().remove(0, 16);
-    pref.browser = ts.readLine().remove(0, 16);
-
-    // data section
-    // first omit three section description lines
-    for (i = 0; i < 3; i++)
-        s = ts.readLine();
-
-    pref.protocol = 2;
-    s = ts.readLine().remove(0, 16);
-    if (s == "DCC")
-        pref.protocol = 0;
-    else if (s == "Motorola")
-        pref.protocol = 1;
-    else if (s == "Selectrix")
-        pref.protocol = 3;
-        
-    pref.decoder = ts.readLine().remove(0, 16);
-    pref.activetime = ts.readLine().remove(0, 16).toInt();
-    pref.autottdir = ts.readLine().remove(0, 16).toInt();
-    pref.ttroundtime = ts.readLine().remove(0, 16).toDouble();
-    // ignore autozp9
-    s = ts.readLine();
-    pref.routingtime = ts.readLine().remove(0, 16).toInt();
-
-    s = ts.readLine().section(":", 1, 1).stripWhiteSpace();
-    if (s.compare("S88_16") == 0)
-        pref.fbfactor = 0;
-    else
-        pref.fbfactor = 1;
-
-    pref.fbbus1.modules = ts.readLine().remove(0, 16).toUInt();
-    pref.fbbus2.modules = ts.readLine().remove(0, 16).toUInt();
-    pref.fbbus3.modules = ts.readLine().remove(0, 16).toUInt();
-    pref.fbbus4.modules = ts.readLine().remove(0, 16).toUInt();
-
-    /*temporary solution*/
-    pref.fbbus1.number = 1;
-    pref.fbbus2.number = 2;
-    pref.fbbus3.number = 3;
-    pref.fbbus4.number = 4;
-}
 
 /**
  * write application settings to user config file, this is typicaly
@@ -704,18 +621,6 @@ void MainWindow::initMainWindow()
             SLOT(slotFileSaveAs()));
     actionFileSaveAs->addTo(filemenu);
     //actionFileSaveAs->addTo(filetb);
-
-#if QT_VERSION >= 0x030200
-    actionFileImport = new QAction(QPixmap(fileimport_xpm), tr("&Import..."),
-            CTRL+Key_I, this, "fileImport" );
-#else
-    actionFileImport = new QAction("", QPixmap(fileimport_xpm), tr("&Import..."),
-            CTRL+Key_I, this, "fileImport" );
-#endif
-    connect(actionFileImport, SIGNAL(activated()), this,
-            SLOT(slotFileImport()));
-    actionFileImport->addTo(filemenu);
-    //actionFileImport->addTo(filetb);
 
     filemenu->insertSeparator();
     //filetb->addSeparator();
@@ -1465,13 +1370,6 @@ void MainWindow::readAutoloadFile()
     // if autoload file from config data does
     // not exist ask user to change options
 
-    bool oldFileFormat = false;
-    /* check for file extension, compatible to version <= 0.4.7*/
-    if (pref.autolayout.findRev(GF_GBSEXT) == -1) {
-        oldFileFormat = true;
-        pref.autolayout.append(GF_OLDGBSEXT);
-    }
-    
     if (!QFile::exists(pref.autolayout)) {                           
         qApp->beep();
         int choice = QMessageBox::warning(this, tr("Autoloader failed"),
@@ -1483,10 +1381,7 @@ void MainWindow::readAutoloadFile()
             slotEditOptions();
     }
     else
-        if (oldFileFormat)
-            importFile(pref.autolayout);
-        else
-            openFile(pref.autolayout);
+        openFile(pref.autolayout);
 }
 
 
@@ -1740,29 +1635,6 @@ void MainWindow::slotFileOpen()
 }
 
 
-void MainWindow::slotFileImport()
-{
-    if (isModified()) {
-        int choice = querySaveChanges();
-        switch (choice) {
-            case 0:
-                if (saveFile())
-                    chooseImportFile();
-                break;
-            case 1:
-                chooseImportFile();
-                break;
-            case 2:
-            default:
-                break;
-        }
-    }
-    else {
-        chooseImportFile();
-    }
-}
-
-
 void MainWindow::chooseFile()
 {
     QStringList fnl = QFileDialog::getOpenFileNames(
@@ -1780,16 +1652,6 @@ void MainWindow::chooseFile()
                 ++it;
             }
     }
-}
-
-
-void MainWindow::chooseImportFile()
-{
-    QString fn = QFileDialog::getOpenFileName(lastDir,
-        QString(tr("Layouts")) + " (*" GF_OLDGBSEXT + ")", this);
-    if (fn.isEmpty())
-        return;
-    importFile(fn);
 }
 
 
@@ -1858,38 +1720,6 @@ void MainWindow::openFile(const QString& fn)
     layoutUpdateFB();
     if (cmdAutoLogin)
         ConnectToSRCPServer();
-}
-
-
-void MainWindow::importFile(const QString& fn)
-{
-    if (gbs == NULL || rtController == NULL)
-        return;
-
-    /*remember last directory we used*/
-    lastDir = fn.left(fn.findRev('/'));
-
-    QFile f(fn);
-    if (!f.open(IO_ReadOnly)){
-        cmdToDebug(tr("Could not read file '%1'").arg(fn), MT_INFO, HL_HINT);
-        return;
-    }
-    CloseSRCPServerConnection();
-    fileName = "";
-
-    QTextStream ts(&f);
-    gbs->readOldFileTextFromStream(ts);
-    f.close();
-
-    /*now read old routes file*/
-    int pos = fn.findRev(GF_OLDGBSEXT);
-    QString rfn = fn.left(pos);
-    rfn.append(GF_OLDRTSEXT);
-    rtController->importFile(rfn);
-
-    cmdToDebug(tr("Layout file '%1' imported").arg(fn), MT_INFO, HL_HINT);
-    updateCaption();
-    updateFileMenuItems();
 }
 
 
@@ -3057,7 +2887,6 @@ void MainWindow::slotViewSwitchMode(QAction* ac)
     actionFileNew->setEnabled(visualMode == kvmNormal);
     actionFileOpen->setEnabled(visualMode == kvmNormal);
     actionFileSaveAs->setEnabled(true);
-    actionFileImport->setEnabled(visualMode == kvmNormal);
     actionLayoutChangeSize->setEnabled(visualMode == kvmNormal);
 }
 

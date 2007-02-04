@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.h
-                           version 0.5.1 $Revision: 1.17 $
+                           version 0.5.1 $Revision: 1.18 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-28 16:25:50 $
+    last modified        : $Date: 2007-02-04 17:58:49 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -41,7 +41,6 @@ public:
     Router(QObject* parent=0, const char* name=0);
     Router(QObject* parent=0, QPtrVector<element>* elPtr=0, const char* name=0);
     ~Router();
-    void importFile(const QString&);
     void readFileTextFromStream(QTextStream&);
     void writeFileTextToStream(QTextStream&);
     unsigned int getRouteCount();

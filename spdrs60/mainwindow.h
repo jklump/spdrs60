@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.5.1 $Revision: 1.40 $
+                           version 0.5.1 $Revision: 1.41 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-30 20:01:33 $
+    last modified        : $Date: 2007-02-04 17:58:49 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -86,7 +86,6 @@ private:
    QAction         *actionFileOpen;
    QAction         *actionFileSave;
    QAction         *actionFileSaveAs;
-   QAction         *actionFileImport;
    QAction         *actionFileNewWindow;
    QAction         *actionFileClose;
    QAction         *actionFileQuit;
@@ -178,7 +177,6 @@ private:
    bool saveFile();
    void newFile();
    void chooseFile();
-   void chooseImportFile();
    int querySaveChanges();
    bool isModified();
    void writeConfigFile();
@@ -192,7 +190,6 @@ private:
    bool isValidSRCP07Version(const QString&);
    bool isValidSRCP08Version(const QString&);
    QString GetSocketErrorString(int e);
-   void readOldStyleConfigFile(QTextStream&);
    QString ConvertMessageTime(const QString&);
 
 public slots:
@@ -218,7 +215,6 @@ private slots:
    void slotFileOpen();
    void slotFileSave();
    void slotFileSaveAs();
-   void slotFileImport();
    void slotRouteAdd();
    void slotRouteDelete();
    void slotDaemonReset();

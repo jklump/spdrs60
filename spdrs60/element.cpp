@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.1 $Revision: 1.112 $
+                           version 0.5.1 $Revision: 1.113 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-28 16:25:40 $
+    last modified        : $Date: 2007-02-04 17:58:48 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -127,16 +127,11 @@ element::element(QWidget* parent): QWidget(parent)
 }
     
 
-element::element(QTextStream& ats, QWidget* parent, bool isNewFormat)
+element::element(QTextStream& ats, QWidget* parent)
 : QWidget(parent)
 {
     initVariables();
-
-    if (isNewFormat)
-        readFileTextFromStream(ats);
-    else
-        readOldFileTextFromStream(ats);
-
+    readFileTextFromStream(ats);
     createPopupMenus();
     updateProperties();
     updateContextMenus();
@@ -268,94 +263,6 @@ void element::readFileTextFromStream(QTextStream& ats)
                 iFBContact = value.toInt();
                 if (iFBContact <= 0)
                     iFBContact = 1;
-            }
-            else if (key.compare(GF_HIDELEDS) == 0){
-                iSoldLEDoff = value.toInt();
-                /*this is the last parameter, now exit while loop*/
-                break;
-            }
-        }
-    }
-}
-
-/* code for old file format up to spdrs60 0.4.7 */
-void element::readOldFileTextFromStream(QTextStream& ats)
-{
-    QString s, key, value;
-
-    while (!ats.eof()) {
-        s = ats.readLine();
-        if (!s.startsWith("#")) {
-            key = s.section(IDS, 0, 0);
-            value = s.section(IDS, 1, 1).stripWhiteSpace();
-            /* key/value pairs are read sequence independent */
-            if (key.compare(GF_NAME) == 0){
-                  sSoldIcon = value.stripWhiteSpace();
-                  //fprintf(stderr, "Old-Icon: %s\n", sSoldIcon.data());
-            }
-            else if (key.compare(GF_ROTATE) == 0){
-                iSoldRotate = value.toInt();
-            }
-            else if (key.compare(GF_INVERSTO) == 0){
-                iSoldInvert = value.toInt();
-            }
-            else if (key.compare(GF_DECODER) == 0){
-                sSoldDecoder = value;
-            }
-            else if (key.compare(GF_PROTOCOL) == 0){
-                if (value == "M")
-                    protocol = SrcpMessage::proMM;
-                else if (value == "N")
-                    protocol = SrcpMessage::proDCC;
-                else if (value == "P")
-                    protocol = SrcpMessage::proServer;
-                else if (value == "S")
-                    protocol = SrcpMessage::proSelectrix;
-                else
-                    protocol = SrcpMessage::proNone;
-            }
-            else if (key.compare(GF_ADDRESS1) == 0){
-                iSoldAddress_1 = value.toInt();
-                iGA1BusNo = 1;
-                port1 = 1;
-            }
-            else if (key.compare(GF_ADDRESS2) == 0){
-                iSoldAddress_2 = value.toInt();
-                iGA2BusNo = 1;
-                port2 = 1;
-            }
-            else if (key.compare(GF_XCHCONN1) == 0){
-                iSoldChangeConn[0] = value.toInt();
-            }
-            else if (key.compare(GF_XCHCONN2) == 0){
-                iSoldChangeConn[1] = value.toInt();
-            }
-            else if (key.compare(GF_DIRECTION) == 0){
-                iSoldDirection = value.toInt();
-            }
-            else if (key.compare(GF_SUBTYPE) == 0){
-                iSoldSubType = value.toInt();
-            }
-            else if (key.compare(GF_TEXT) == 0){
-                //sSoldText = value;
-                sSoldText = s.section(IDS, 1, 1).stripWhiteSpace();
-            }
-            else if (key.compare(GF_ACTTIME) == 0){
-                iSoldActiveTime = value.toInt();
-            }
-            else if (key.compare(GF_FBPORT) == 0){
-                int tempport = value.toInt();
-                if (tempport <= -1) {
-                    iFBContact = 1;
-                    iFBBusNo = 1;
-                }
-                else {
-                    iFBContact = tempport % 496 + 1;
-                    if (iFBContact <= 0)
-                        iFBContact = 1;
-                        
-                    iFBBusNo = tempport / 496 + 1;
-                }
             }
             else if (key.compare(GF_HIDELEDS) == 0){
                 iSoldLEDoff = value.toInt();

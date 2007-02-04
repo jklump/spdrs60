@@ -1,10 +1,10 @@
 # Makefile.am for spdrs60, pixmaps included by cpp-files
 # (c) Guido Scholz
-# version: $Revision: 1.12 $
-# last update: $Date: 2006-11-04 20:08:31 $
+# version: $Revision: 1.13 $
+# last update: $Date: 2007-02-04 17:58:49 $
 
 EXTRA_DIST = filenew.xpm filesave.xpm fileopen.xpm \
-    fileclose.xpm fileimport.xpm filenewwindow.xpm \
+    fileclose.xpm filenewwindow.xpm \
     filequit.xpm filesaveas.xpm \
     editcut.xpm editcopy.xpm editpaste.xpm \
     editfind.xpm editoptions.xpm \
