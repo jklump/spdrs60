@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.1 $Revision: 1.92 $
+                           version 0.5.1 $Revision: 1.93 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-04 17:58:48 $
+    last modified        : $Date: 2007-02-05 18:10:46 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2879,9 +2879,8 @@ void MainWindow::slotViewSwitchMode(QAction* ac)
             updateRouteMenu(rtvIsVisible);
             cmdToDebug(tr("Entering route edit mode"), MT_INFO, HL_HINT);
         }
-    // send new visual mode to router and gbs
+    // send new visual mode to router, gbs and route list window
     emit switchedVisualMode(visualMode);
-    rtViewer->switchVisualMode(visualMode);
 
     // change edit related menus
     actionFileNew->setEnabled(visualMode == kvmNormal);
