@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.1 $Revision: 1.37 $
+                           version 0.5.1 $Revision: 1.38 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-04 17:58:49 $
+    last modified        : $Date: 2007-02-06 20:49:15 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -75,7 +75,6 @@ void Router::readFileTextFromStream(QTextStream& ts)
     emit routeListChanged();
 }
 
-
 void Router::setupRouteElements()
 {
     if (gbsElements == NULL)
@@ -92,6 +91,22 @@ void Router::setupRouteElements()
                         const stateElement&, RouteSetAction&)),
                 this, SIGNAL(updateRoutePathLEDs(const stateElement&,
                         const stateElement&, RouteSetAction&)));
+    }
+}
+
+
+void Router::updateRouteElements()
+{
+    if (gbsElements == NULL)
+        return;
+
+    QPtrListIterator<Route> routeit(routeList);
+    Route* sr;
+    while ((sr = routeit.current()) != 0 ) {
+        ++routeit;
+        sr->updateElementLists(gbsElements);
+        // tell route list window about changed data
+        emit routeDataChanged(sr);
     }
 }
 
@@ -237,6 +252,11 @@ void Router::showRouteAt(int idx)
 
 void Router::switchVisualMode(elemVisualMode vm)
 {
+    // if layout was in edit mode update route data to make shure
+    // that changed elements are found at the right place
+    if (visualmode == kvmEditLayout)
+        updateRouteElements();
+
     visualmode = vm;
     if (vm != kvmEditRoute)
         selectedRoute = NULL;
@@ -340,7 +360,7 @@ void Router::activateRouteAt(unsigned int index)
 
 void Router::activateRoute(Route* rt)
 {
-    if (rt == NULL)
+    if (rt == NULL || visualmode == kvmEditLayout)
         return;
 
 
@@ -380,7 +400,7 @@ void Router::releaseRouteAt(unsigned int index)
 
 void Router::releaseRoute(Route* rt)
 {
-    if (rt == NULL)
+    if (rt == NULL || visualmode == kvmEditLayout)
         return;
 
     rt->stopRouting();

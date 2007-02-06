@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.5.1 $Revision: 1.36 $
+                           version 0.5.1 $Revision: 1.37 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-06 05:44:46 $
+    last modified        : $Date: 2007-02-06 20:49:15 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -152,6 +152,7 @@ public slots:
 
 protected:
     int indexOf(int row, int col) const;
+    int indexOf(QPoint) const;
     void mouseReleaseEvent(QMouseEvent *);
 
 signals:

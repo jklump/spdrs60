@@ -177,6 +177,26 @@ den Suchkriterien entspricht.</translation>
         <source>Route found dead end at element %1</source>
         <translation>Fahrstraße mit Sackgasse bei Element %1</translation>
     </message>
+    <message>
+        <source>&amp;Toggle</source>
+        <translation>&amp;Umschalten</translation>
+    </message>
+    <message>
+        <source>&amp;Repeat</source>
+        <translation>&amp;Wiederholen</translation>
+    </message>
+    <message>
+        <source>R&amp;otate</source>
+        <translation>&amp;Rotieren</translation>
+    </message>
+    <message>
+        <source>&amp;Clear</source>
+        <translation>&amp;Löschen</translation>
+    </message>
+    <message>
+        <source>&amp;Repeat: %1</source>
+        <translation>&amp;Wiederholen: %1</translation>
+    </message>
 </context>
 <context>
     <name>MainWindow</name>
@@ -604,14 +624,6 @@ Wollen Sie sie überschreiben?</translation>
     <message>
         <source>Cannot read server welcome message!</source>
         <translation>Kann Begrüßungsmeldung des Servers nicht lesen!</translation>
-    </message>
-    <message>
-        <source>&amp;Import...</source>
-        <translation>&amp;Importieren...</translation>
-    </message>
-    <message>
-        <source>Layout file &apos;%1&apos; imported</source>
-        <translation>Gleisbilddatei &apos;%1&apos; importiert</translation>
     </message>
     <message>
         <source>Save &amp;as...</source>
@@ -1229,29 +1241,6 @@ Wollen Sie sie überschreiben?</translation>
     <message>
         <source>Route &apos;%1&apos; waiting for release</source>
         <translation>Fahrstraße &apos;%1&apos; wartet auf Auflösen</translation>
-    </message>
-</context>
-<context>
-    <name>element</name>
-    <message>
-        <source>&amp;Toggle</source>
-        <translation>&amp;Umschalten</translation>
-    </message>
-    <message>
-        <source>&amp;Repeat</source>
-        <translation>&amp;Wiederholen</translation>
-    </message>
-    <message>
-        <source>R&amp;otate</source>
-        <translation>&amp;Rotieren</translation>
-    </message>
-    <message>
-        <source>&amp;Clear</source>
-        <translation>&amp;Löschen</translation>
-    </message>
-    <message>
-        <source>&amp;Repeat: %1</source>
-        <translation>&amp;Wiederholen: %1</translation>
     </message>
 </context>
 <context>

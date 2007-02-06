@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.1 $Revision: 1.94 $
+                           version 0.5.1 $Revision: 1.95 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-06 05:44:46 $
+    last modified        : $Date: 2007-02-06 20:49:15 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2871,12 +2871,14 @@ void MainWindow::slotViewSwitchMode(QAction* ac)
             // when layout was in edit mode, it is
             // assumed to be modified
             gbs->setModified(true);
-            updateRouteMenu(rtvIsVisible);
+            rtViewer->hide();
+            updateRouteMenu(false);
             cmdToDebug(tr("Entering layout edit mode"), MT_INFO, HL_HINT);
     }
     else if (ac == actionViewRouteEditMode) {
             visualMode = kvmEditRoute;
-            updateRouteMenu(rtvIsVisible);
+            rtViewer->show();
+            updateRouteMenu(true);
             cmdToDebug(tr("Entering route edit mode"), MT_INFO, HL_HINT);
         }
     // send new visual mode to router, gbs and route list window
@@ -2927,7 +2929,8 @@ void MainWindow::updateRouteMenu(bool rtvIsVisible)
 /*update state of route activate menu items*/
 void MainWindow::updateRouteMenuActivateItems()
 {
-    if (rtViewer->isVisible()) {
+    // disable route switching while element pointers are not valid
+    if (rtViewer->isVisible() && visualMode != kvmEditLayout) {
 
         int state = rtViewer->getCurrentItemState();
 

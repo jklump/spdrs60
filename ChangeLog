@@ -1,6 +1,7 @@
 2007-02-06 Guido Scholz <guido.scholz@bayernline.de>
-	* gbsarea.*, element.*: popup menues are moved to gbsarea to
-	improve memory consumtion and file loading time a lot
+	* mainwindow.cpp, gbsarea.*, element.*: popup menues are moved
+	from element to gbsarea improving memory consumtion and file
+	loading time a lot
 
 2007-02-04 Guido Scholz <guido.scholz@bayernline.de>
 	* mainwindow.*, router.*, gbsarea.*, element.*: support for old

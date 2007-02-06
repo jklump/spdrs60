@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.5.1 $Revision: 1.23 $
+                           version 0.5.1 $Revision: 1.24 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-28 16:25:49 $
+    last modified        : $Date: 2007-02-06 20:49:15 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -110,6 +110,7 @@ public:
     void viewRoute();
     bool runEditRouteDialog(QWidget*);
     void setupElementLists(QPtrVector<element>*);
+    void updateElementLists(QPtrVector<element>*);
     bool isLockedWithEntrySignal(element*);
     bool isUnlockedWithEntrySignalType(element*, GbsButtonState,
             GbsButtonState);

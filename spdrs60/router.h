@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.h
-                           version 0.5.1 $Revision: 1.18 $
+                           version 0.5.1 $Revision: 1.19 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-04 17:58:49 $
+    last modified        : $Date: 2007-02-06 20:49:15 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -85,6 +85,7 @@ private:
     GbsButtonState lastcb;
 
     void setupRouteElements();
+    void updateRouteElements();
     Route* getLockedRouteWithEntrySignal(element*);
     Route* getUnlockedRouteWithEntrySignal(element*, GbsButtonState,
             GbsButtonState);

@@ -1,10 +1,10 @@
 /***************************************************************************
                            routelistwindow.cpp
-                           version 0.5.1 $Revision: 1.2 $
+                           version 0.5.1 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-30 20:01:33 $
+    last modified        : $Date: 2007-02-06 20:49:15 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -134,7 +134,7 @@ void RouteListWindow::updateRouteList()
  * */
 void RouteListWindow::slotRouteStart()
 {
-    if (gbsRouter == NULL)
+    if (gbsRouter == NULL || visualMode == kvmEditLayout)
         return;
     
     RouteLVI* lvi = (RouteLVI*) routeLV->currentItem();
@@ -149,7 +149,7 @@ void RouteListWindow::slotRouteStart()
  * */
 void RouteListWindow::slotToggleRouteState(QListViewItem * lvi)
 {
-    if (gbsRouter == NULL)
+    if (gbsRouter == NULL || visualMode == kvmEditLayout)
         return;
 
     Route* sr = static_cast<RouteLVI*>(lvi)->getRoute();
@@ -168,7 +168,7 @@ void RouteListWindow::slotToggleRouteState(QListViewItem * lvi)
  */
 void RouteListWindow::slotStartRoute(Route* sr)
 {
-    if (gbsRouter == NULL)
+    if (gbsRouter == NULL || visualMode == kvmEditLayout)
         return;
 
     gbsRouter->activateRoute(sr);
@@ -180,7 +180,7 @@ void RouteListWindow::slotStartRoute(Route* sr)
  * */
 void RouteListWindow::slotRouteStop()
 {
-    if (gbsRouter == NULL)
+    if (gbsRouter == NULL || visualMode == kvmEditLayout)
         return;
 
     RouteLVI* lvi = (RouteLVI*) routeLV->currentItem();
@@ -195,7 +195,7 @@ void RouteListWindow::slotRouteStop()
  */
 void RouteListWindow::slotStopRoute(Route* sr)
 {
-    if (gbsRouter == NULL)
+    if (gbsRouter == NULL || visualMode == kvmEditLayout)
         return;
 
     gbsRouter->releaseRoute(sr);

@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.1 $Revision: 1.62 $
+                           version 0.5.1 $Revision: 1.63 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-06 16:54:24 $
+    last modified        : $Date: 2007-02-06 20:49:15 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -987,6 +987,16 @@ int GBSArea::indexOf(int row, int col) const
 
 
 // *INDENT-OFF*
+int GBSArea::indexOf(QPoint ep) const
+{
+    int row = ep.y() / EL_HEIGHT + 1;
+    int col = ep.x() / EL_WIDTH + 1;
+    return (rows * (col - 1) + row - 1); 
+}
+// *INDENT-ON*
+
+
+// *INDENT-OFF*
 element* GBSArea::item(int row, int col) const
 // *INDENT-ON*
 {
@@ -1413,6 +1423,7 @@ bool GBSArea::hasSrcp08GaBus(unsigned int bus)
     return returnvalue;
 }
 
+
 void GBSArea::mouseReleaseEvent(QMouseEvent* e)
 {
     /*normal mode*/
@@ -1441,6 +1452,7 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
             element* el = (element*)childAt(e->pos());
             if (el != NULL) {
                 //fprintf(stderr, "element: %s\n", el->sSoldIcon.data());
+                int idx = indexOf(e->pos());
 
                 // first update name of last edited element
                 ctxEdit->setItemEnabled(CTX_ID_REP,
@@ -1461,7 +1473,6 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
                             el->rotate();
                             break;
                         case CTX_ID_CLEAR:
-                            //dispose el;
                             el->setElementName(SYM_LEE);
                             lastElementName = "";
                             break;

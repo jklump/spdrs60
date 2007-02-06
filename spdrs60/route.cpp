@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.1 $Revision: 1.44 $
+                           version 0.5.1 $Revision: 1.45 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-28 16:25:49 $
+    last modified        : $Date: 2007-02-06 20:49:15 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -203,6 +203,33 @@ Route::Route(const QString& aName)
 Route::~Route()
 {
     switchItems.clear();
+}
+
+/* 
+ * Update route element names and pointers when layout was edited
+ */
+void Route::updateElementLists(QPtrVector<element>* elements)
+{
+    if (elements == NULL)
+        return;
+
+    // first clear all element names and pointers
+    entrySignal.name = tr("Error");
+    entrySignal.elemPtr = NULL;
+    exitSignal.name = tr("Error");
+    exitSignal.elemPtr = NULL;
+
+    QPtrListIterator<stateElement> it(switchItems);
+    stateElement* swElement;
+    while ((swElement = it.current()) != 0) {
+        ++it;
+
+        swElement->name = tr("Error");
+        swElement->elemPtr = NULL;
+    }
+
+    // now assign the right values
+    setupElementLists(elements);
 }
 
 
