@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.1 $Revision: 1.114 $
+                           version 0.5.1 $Revision: 1.115 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-06 05:44:46 $
+    last modified        : $Date: 2007-02-06 17:14:03 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -6669,7 +6669,7 @@ void element::setElementName(const QString& n)
 
     sSoldIcon = n;
     
-    if (sSoldIcon = SYM_LEE)
+    if (sSoldIcon == SYM_LEE)
         clear();
     else  
         updateProperties();
