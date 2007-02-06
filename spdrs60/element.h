@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.1 $Revision: 1.61 $
+                           version 0.5.1 $Revision: 1.62 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-04 17:58:48 $
+    last modified        : $Date: 2007-02-06 05:44:46 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -29,7 +29,6 @@
 #include <qpainter.h>
 #include <qpixmap.h>
 #include <qpoint.h>
-#include <qpopupmenu.h>
 #include <qrect.h>
 #include <qstring.h>
 #include <qtooltip.h>
@@ -211,7 +210,6 @@ struct stateElement {
     QString name;
 };
 
-
 class element: public QWidget
 {
     Q_OBJECT
@@ -232,7 +230,6 @@ public:
     void readFileTextFromStream(QTextStream&);
     void writeFileTextToStream(QTextStream&);
     QSize sizeHint() const;
-    //int  routeElement(bool, bool, int);
     unsigned int routeElement(unsigned int, bool);
     void locateMe();
     QString getLabelText() const;
@@ -256,6 +253,7 @@ public:
     void sendSrcpState();
     bool sendSRCP08InitGA(unsigned int gano = 1);
     void setIndexNo(unsigned int);
+    void setElementName(const QString&);
     void setLocked(bool);
     void setSwitched(bool);
     unsigned int getIndexNo();
@@ -267,14 +265,16 @@ public:
     int getFBBusNo();
     int getGA1BusNo();
     int getGA2BusNo();
+    void rotate();
+    void toggle();
+    bool isRotatable();
+    bool ctxCanSwitch();
 
 private:
     elementDialog*      elementPropertyDlg;
     elementCommander*   turntableProperties;
     turntableCommander* ttComm;
 
-    QPopupMenu* ctxNorm;
-    QPopupMenu* ctxEdit;
     elemSelectionMode selectionMode;
     elemVisualMode visualMode;
     unsigned int iSoldIndex;
@@ -310,23 +310,18 @@ private:
     bool     turnout;
     bool     lightson;
     bool     isright;
-    QString  sRepeatIcon;
     QString  sSoldDecoder;
     SrcpMessage::Protocol protocol;
     QTimer*  locateTimer;
 
     void addTooltip();
     void clear();
-    void createPopupMenus();
     void initVariables();
     void showPropertyDlg();
-    void rotate();
     void setupElementIcon();
     void setLightsOn(bool);
     void switchToDirBlinking(int);
     void updateProperties();
-    void updateCtxNorm();
-    void updateContextMenus();
     void updateLEDState();
     void setOccupied(bool);
     void setRouted(bool);
@@ -337,11 +332,9 @@ public slots:
     void runTurnoutBlinkTimer();
     void repaintTimeOutEnk();
     void switchToDir(int);
-    void slotToggle();
     void slotOccupyElement(unsigned int, unsigned int, bool);
     void switchSelectionMode(elemSelectionMode);
     void switchVisualMode(elemVisualMode);
-    void slotRepeatIcon(const QString&);
     void slotShowElement(int, int, elemSelectionMode);
     void slotRepaintLayout();
 
@@ -349,7 +342,6 @@ private slots:
     void slotLocateTimerTimeout();
     void slotUpdateTurntableData(QPoint);
     void slotCopyAvailTracks(const QString&);
-    void slotCtxEdit(int);
     void processInfoPortMessage(unsigned int bus,
             unsigned int addr, unsigned int port, unsigned int value);
 
@@ -358,7 +350,6 @@ signals:
     void elementClicked(int, GbsButtonState);
     void elementClicked(element*, GbsButtonState);
     void sendSrcpMessage(SrcpMessage*);
-    void setRepeatIcon(const QString&);
     void sigElementClickedRecord(int, int);
     void sigShowFBmodules();
     void turnoutIsSwitched();

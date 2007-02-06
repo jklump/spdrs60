@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.5.1 $Revision: 1.35 $
+                           version 0.5.1 $Revision: 1.36 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-04 21:20:30 $
+    last modified        : $Date: 2007-02-06 05:44:46 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -28,6 +28,7 @@
 #include <qdatetime.h>
 #include <qfile.h>
 #include <qmessagebox.h>
+#include <qpopupmenu.h>
 #include <qptrvector.h>
 #include <qtextstream.h>
 #include <qtimer.h>
@@ -83,8 +84,12 @@ private:
    QCursor     UZSCursor;
    QCursor     WGTCursor;
    QCursor     ZHSCursor;
-   QTimer      *delayTimer;
+   QTimer*     delayTimer;
 
+   QPopupMenu* ctxNorm;
+   QPopupMenu* ctxEdit;
+   QString     lastElementName;
+   
    QPtrVector<element> elements;
 
    int         cols;
@@ -92,6 +97,7 @@ private:
 
    bool        modified: 1;
    GbsButtonState  gkbState;
+   elemVisualMode visualMode;
 
    // for SRCP 0.8
    int         SRCP08GA1InitWalker;
@@ -142,16 +148,17 @@ public slots:
     void updateRoutePathLEDs(const stateElement&, const stateElement&,
             RouteSetAction&);
     void getElementByAddress(const int, const int, element**);
+    void switchVisualMode(elemVisualMode);
 
 protected:
     int indexOf(int row, int col) const;
+    void mouseReleaseEvent(QMouseEvent *);
 
 signals:
     void showLogMessage(const QString&, int, int);
-    void switchVisualMode(elemVisualMode);
+    void switchedVisualMode(elemVisualMode);
     void feedbackPortChanged(unsigned int, unsigned int, bool);
     void sendSrcpMessage(SrcpMessage*);
-    void setRepeatIcon(const QString&);
     void setRoute(element*, GbsButtonState, GbsButtonState);
     void resetRoute(element*, GbsButtonState);
     void resetSelectedSignal();

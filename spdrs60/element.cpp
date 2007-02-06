@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.1 $Revision: 1.113 $
+                           version 0.5.1 $Revision: 1.114 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-04 17:58:48 $
+    last modified        : $Date: 2007-02-06 05:44:46 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -28,17 +28,6 @@
 #include "element.h"
 #include "preferences.h"
 #include "resources.h"
-
-/* popup menu icons */
-#include "pixmaps/ctx_rota.xpm"
-#include "pixmaps/ctx_straight.xpm"
-#include "pixmaps/ctx_clear.xpm"
-#include "pixmaps/ctx_l_curve.xpm"
-#include "pixmaps/ctx_l_diag.xpm"
-#include "pixmaps/ctx_l_turn.xpm"
-#include "pixmaps/ctx_r_curve.xpm"
-#include "pixmaps/ctx_r_diag.xpm"
-#include "pixmaps/ctx_r_turn.xpm"
 
 /* track buttons */
 #include "pixmaps/button-red.xpm"
@@ -78,12 +67,6 @@
 #define   DIR_0            0
 #define   DIR_1            1
 
-// constants for context menu
-#define   CTX_ID_REP       901
-#define   CTX_ID_TOGGLE    902
-#define   CTX_ID_CLEAR     903
-#define   CTX_ID_ROTATE    904
-
 #define   LED_OFF          0   // LED states of an element = off
 #define   LED_YEL          1   // route selected
 #define   LED_RED          2   // occupied
@@ -120,9 +103,7 @@ element::element(QWidget* parent): QWidget(parent)
     iFBContact = 1;
     iSoldLEDoff = 1;
 
-    createPopupMenus();
     updateProperties();
-    updateContextMenus();
     setupElementIcon();
 }
     
@@ -132,9 +113,7 @@ element::element(QTextStream& ats, QWidget* parent)
 {
     initVariables();
     readFileTextFromStream(ats);
-    createPopupMenus();
     updateProperties();
-    updateContextMenus();
     setupElementIcon();
 }
 
@@ -172,7 +151,6 @@ void element::initVariables()
     selectionMode = ksmNormal;
     visualMode = kvmNormal;
 
-    sRepeatIcon = SYM_LEE;
     lockCounter = 0;
     blinkcounter = 0;
     iSoldLEDstate = LED_OFF;
@@ -180,8 +158,6 @@ void element::initVariables()
     elementPropertyDlg = NULL;
     turntableProperties = NULL;
     ttComm = NULL;
-    ctxNorm = NULL;
-    ctxEdit = NULL;
 }
 
 
@@ -329,6 +305,21 @@ void element::updateProperties()
         && iSoldSubType == 0;
 
     isright = sSoldIcon.contains("links", 1) ? 0 : 1;
+
+    bool enabled = (signal ||
+            sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER ||
+            sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR ||
+            sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR ||
+            sSoldIcon == SYM_KUL || sSoldIcon == SYM_KUR ||
+            sSoldIcon == SYM_DRW || sSoldIcon == SYM_SHU ||
+            sSoldIcon == SYM_PRE || sSoldIcon == SYM_RI1 ||
+            sSoldIcon == SYM_GER || sSoldIcon == SYM_WEY ||
+            sSoldIcon == SYM_HS2 || sSoldIcon == SYM_DLT ||
+            sSoldIcon == SYM_DRT || sSoldIcon == SYM_GET ||
+            sSoldIcon == SYM_SHM || sSoldIcon == SYM_SHO);
+
+    if (!enabled)
+        iSoldRotate = -1;
 }
 
 
@@ -374,50 +365,6 @@ bool element::isTurnout()
     return turnout;
 }
 
-/**
- * create context popup menus
- *
- * Every single element gets its own toggle and edit popupmenu!
- * TODO: Move this to gbsarea and use only one popup for all elements
- */
-void element::createPopupMenus()
-{
-    // context menu with "toggle" for normal mode
-    ctxNorm = new QPopupMenu(this, "ctxNormPM");
-    ctxNorm->insertItem(tr("&Toggle"), this, SLOT(slotToggle()),
-                        0, CTX_ID_TOGGLE);
-
-    QPixmap p;
-    // context menu with entries for edit mode
-    ctxEdit = new QPopupMenu(this, "ctxEditPM");
-    ctxEdit->insertItem(tr("&Repeat"), CTX_ID_REP);
-    ctxEdit->setItemEnabled(CTX_ID_REP, false);
-    ctxEdit->insertSeparator();
-
-    p = QPixmap(ctx_rota_xpm);
-    ctxEdit->insertItem(p, tr("R&otate"), CTX_ID_ROTATE);
-    p = QPixmap(ctx_clear_xpm);
-    ctxEdit->insertItem(p, tr("&Clear"), CTX_ID_CLEAR);
-    ctxEdit->insertSeparator();
-
-    //TODO: make element names translatable
-    p = QPixmap(ctx_straight_xpm);
-    ctxEdit->insertItem(p, SYM_GER, 5);
-    p = QPixmap(ctx_l_curve_xpm);
-    ctxEdit->insertItem(p, SYM_KUL, 6);
-    p = QPixmap(ctx_r_curve_xpm);
-    ctxEdit->insertItem(p, SYM_KUR, 7);
-    p = QPixmap(ctx_l_diag_xpm);
-    ctxEdit->insertItem(p, SYM_DIL, 8);
-    p = QPixmap(ctx_r_diag_xpm);
-    ctxEdit->insertItem(p, SYM_DIR, 9);
-    p = QPixmap(ctx_l_turn_xpm);
-    ctxEdit->insertItem(p, SYM_WEL, 10);
-    p = QPixmap(ctx_r_turn_xpm);
-    ctxEdit->insertItem(p, SYM_WER, 11);
-
-    connect(ctxEdit, SIGNAL(activated(int)), this, SLOT(slotCtxEdit(int)));
-}
 
 /**
  * switch element to new direction
@@ -571,20 +518,19 @@ void element::mouseReleaseEvent(QMouseEvent* e)
     /*normal mode*/
     if (visualMode == kvmNormal) {
         if (e->button() == RightButton){
-            if (isSwitchable())
-                ctxNorm->exec(QCursor::pos());
-            e->accept();
+            // handled by gbsarea
+            e->ignore();
         }
     }
     /*layout edit mode*/
     else if (visualMode == kvmEditLayout) {
         if (e->button() == LeftButton) {
-            /*TODO: handle drop action*/
-            e->accept();
+            // handled by gbsarea
+            e->ignore();
         }
         else if (e->button() == MidButton) {
-            ctxEdit->exec(QCursor::pos());
-            e->accept();
+            // handled by gbsarea
+            e->ignore();
         }
         else if (e->button() == RightButton){
             showPropertyDlg();
@@ -629,10 +575,8 @@ void element::mouseReleaseEvent(QMouseEvent* e)
             }
         }
         else if (e->button() == RightButton){
-            /*show context menu to switch element only without selection*/
-            if (ksmNormal == selectionMode && isSwitchable())
-                ctxNorm->exec(QCursor::pos());
-            e->accept();
+            // handled by gbsarea
+            e->ignore();
         }
     }
 }
@@ -686,10 +630,6 @@ void element::switchSelectionMode(elemSelectionMode sm)
 {
     if (selectionMode != sm) {
         selectionMode = sm;
-
-        if (isSwitchable())
-            updateCtxNorm();
-
         update();
     }
 }
@@ -703,9 +643,6 @@ void element::switchVisualMode(elemVisualMode vm)
      */
     if (selectionMode != ksmNormal)
         selectionMode = ksmNormal;
-
-    if (isSwitchable())
-        updateCtxNorm();
 
     update();
 }
@@ -955,7 +892,6 @@ void element::showPropertyDlg()
         elementPropertyDlg->setSymbolText(sSoldText);
         elementPropertyDlg->setRotated(iSoldRotate);
         elementPropertyDlg->setInverted(iSoldInvert);
-        elementPropertyDlg->setLEDsAreOff(iSoldLEDoff);
         elementPropertyDlg->setGASubType(iSoldSubType);
         elementPropertyDlg->setProtocol((int) protocol);
         elementPropertyDlg->setDecoder(sSoldDecoder);
@@ -967,6 +903,7 @@ void element::showPropertyDlg()
         elementPropertyDlg->setXChangeConn2(iSoldChangeConn[1]);
         elementPropertyDlg->setDirection(iSoldDirection);
         elementPropertyDlg->setActiveTime(iSoldActiveTime);
+        elementPropertyDlg->setLEDsAreOff(iSoldLEDoff);
         elementPropertyDlg->setFBBus(iFBBusNo);
         elementPropertyDlg->setFBContact(iFBContact);
         // this must be the last one, because it tiggers enabling and
@@ -1003,13 +940,8 @@ void element::showPropertyDlg()
             iFBBusNo = elementPropertyDlg->getFBBus();
             iFBContact = elementPropertyDlg->getFBContact();
             
-            //set new repeat icon and send new name to all other elements
-            slotRepeatIcon(sSoldIcon);
-            emit setRepeatIcon(sRepeatIcon);
-
             updateProperties();
             //updateLEDState();
-            updateContextMenus();
             setupElementIcon();
             // ask server for current occupation state
             updateFeedbackState();
@@ -1022,29 +954,11 @@ void element::showPropertyDlg()
     }
 }
 
-/**
- * set repeaticon to new value and update edit mode context menu
- **/
-void element::slotRepeatIcon(const QString& ri)
-{
-    if (ctxEdit == NULL)
-        return;
-
-    if (sRepeatIcon != ri) {
-        sRepeatIcon = ri;
-        if (sRepeatIcon.isEmpty())
-            ctxEdit->setItemEnabled(CTX_ID_REP, false);
-        else
-            ctxEdit->setItemEnabled(CTX_ID_REP, true);
-        QString s = QString(tr("&Repeat: %1")).arg(sRepeatIcon);
-        ctxEdit->changeItem(s, CTX_ID_REP);
-    }
-}
 
 /**
  * toggle through element direction states
  */
-void element::slotToggle()
+void element::toggle()
 {
     // toggles cyclic for 3-state-solenoids
     if (sSoldIcon == SYM_DRW ||
@@ -1112,99 +1026,16 @@ void element::slotToggle()
         switchToDir(!iSoldDirection);
 }
 
-/**
- * react to actions of the edit context menu
- * 
- * this method has some inherent errors due to missing property
- * settings, especially when sRepeatIcon is used
- */
-void element::slotCtxEdit(int ctxID)
-{
-    switch (ctxID) {
-        case CTX_ID_REP:
-            clear();
-            sSoldIcon = sRepeatIcon;
-            iSoldRotate = 0;        // all symbols are rotatable
-            iSoldLEDoff = 0;
-            iFBContact = 1;
-            updateProperties();
-            break;
-        case CTX_ID_ROTATE:
-            rotate();
-            break;
-        case CTX_ID_CLEAR:
-            clear();
-            break;
-        case 5:
-            clear();
-            sSoldIcon = SYM_GER;    // straight
-            iSoldRotate = 0;        // all symbols are rotatable
-            iSoldLEDoff = 0;
-            iFBContact = 1;
-            updateProperties();
-            break;
-        case 6:
-            clear();
-            sSoldIcon = SYM_KUL;    // left curve
-            iSoldRotate = 0;        // all symbols are rotatable
-            iSoldLEDoff = 0;
-            iFBContact = 1;
-            updateProperties();
-            break;
-        case 7:
-            clear();
-            sSoldIcon = SYM_KUR;    // right "
-            iSoldRotate = 0;        // all symbols are rotatable
-            iSoldLEDoff = 0;
-            iFBContact = 1;
-            updateProperties();
-            break;
-        case 8:
-            clear();
-            sSoldIcon = SYM_DIL;    // left diagonal
-            iSoldLEDoff = 0;
-            iFBContact = 1;
-            updateProperties();
-            break;
-        case 9:
-            clear();
-            sSoldIcon = SYM_DIR;    // right "
-            iSoldLEDoff = 0;
-            iFBContact = 1;
-            updateProperties();
-            break;
-        case 10:
-            clear();
-            sSoldIcon = SYM_WEL;    // left turnout
-            iSoldRotate = 0;        // all symbols are rotatable
-            iSoldLEDoff = 0;
-            iFBContact = 1;
-            updateProperties();
-            break;
-        case 11:
-            clear();
-            sSoldIcon = SYM_WER;    // right "
-            iSoldRotate = 0;        // all symbols are rotatable
-            iSoldLEDoff = 0;
-            iFBContact = 1;
-            updateProperties();
-            break;
-    }
-    //send new icon name to all other elements
-    slotRepeatIcon(sSoldIcon);
-    emit setRepeatIcon(sSoldIcon);
-    updateLEDState();
-    updateContextMenus();
-    setupElementIcon();
-    updateFeedbackState();
-}
 
 /*
  * rotate element
  */
 void element::rotate()
 {
-    iSoldRotate = !iSoldRotate;
+    if (iSoldRotate != -1) {
+        iSoldRotate = !iSoldRotate;
+        setupElementIcon();
+    }
 }
 
 /**
@@ -1212,6 +1043,7 @@ void element::rotate()
  */
 void element::clear()
 {
+    sSoldIcon = SYM_LEE;
     iSoldActiveTime = -1;
     iSoldChangeConn[0] = -1;
     iSoldChangeConn[1] = -1;
@@ -1226,38 +1058,23 @@ void element::clear()
     iSoldAddress_1 = -1;
     iSoldAddress_2 = -1;
     sSoldDecoder = "-1";
-    sSoldIcon = SYM_LEE;
     protocol = SrcpMessage::proNone;
     sSoldText = "-1";
     updateProperties();
 }
 
 /**
- * update context menu for normal visual mode
+ * get conditions for context menu in normal visual mode and route edit
+ * mode
  */
-void element::updateCtxNorm()
+bool element::ctxCanSwitch()
 {
-    bool enableCtxN = (!isLocked()) &&
+    return (!isLocked()) &&
         (!isOccupied() || simplega || signal) &&
-        (visualMode == kvmNormal || visualMode == kvmEditRoute);
-
-    if (ctxNorm != NULL)
-        ctxNorm->setItemEnabled(CTX_ID_TOGGLE, enableCtxN);
+        (visualMode == kvmNormal ||
+         (visualMode == kvmEditRoute && ksmNormal == selectionMode));
 }
 
-/**
- * update the context menus for edit mode and normal mode,
- * used after element name has changed
- */
-void element::updateContextMenus()
-{
-    if (ctxEdit != NULL) {
-        ctxEdit->setItemEnabled(CTX_ID_CLEAR, !isEmpty());
-        ctxEdit->setItemEnabled(CTX_ID_ROTATE, iSoldRotate != -1);
-    }
-    if (isSwitchable())
-        updateCtxNorm();
-}
 
 /**
  * paint element icon
@@ -6585,7 +6402,6 @@ void element::setLocked(bool lock)
         if (lockCounter == 0)
             setupElementIcon();
     }
-    updateCtxNorm();
 }
 
 
@@ -6843,4 +6659,27 @@ void element::setLightsOn(bool ison)
         setupElementIcon();
         repaint();
     }
+}
+
+
+void element::setElementName(const QString& n)
+{
+    if (n == sSoldIcon)
+        return;
+
+    sSoldIcon = n;
+    
+    if (sSoldIcon = SYM_LEE)
+        clear();
+    else  
+        updateProperties();
+
+    setupElementIcon();
+    updateFeedbackState();
+}
+
+
+bool element::isRotatable()
+{
+   return (iSoldRotate != -1);
 }

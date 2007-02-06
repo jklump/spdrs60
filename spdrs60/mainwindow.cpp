@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.1 $Revision: 1.93 $
+                           version 0.5.1 $Revision: 1.94 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-05 18:10:46 $
+    last modified        : $Date: 2007-02-06 05:44:46 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -419,7 +419,7 @@ void MainWindow::initMainWindow()
             gbs, SIGNAL(feedbackPortChanged(unsigned int, unsigned int,
                     bool)));
     connect(this, SIGNAL(switchedVisualMode(elemVisualMode)),
-            gbs, SIGNAL(switchVisualMode(elemVisualMode)));
+            gbs, SLOT(switchVisualMode(elemVisualMode)));
     connect(gbs, SIGNAL(showLogMessage(const QString&, int, int)),
             this, SLOT(cmdToDebug(const QString&, int, int)));
     connect(gbs, SIGNAL(sendSrcpMessage(SrcpMessage*)),

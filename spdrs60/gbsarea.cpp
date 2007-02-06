@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.1 $Revision: 1.60 $
+                           version 0.5.1 $Revision: 1.61 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-04 17:58:48 $
+    last modified        : $Date: 2007-02-06 05:44:46 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -54,11 +54,27 @@
 #include "pixmaps/cursor_urs_b.xpm"
 #include "pixmaps/cursor_urs_m.xpm"
 
+/* popup menu icons */
+#include "pixmaps/ctx_rota.xpm"
+#include "pixmaps/ctx_straight.xpm"
+#include "pixmaps/ctx_clear.xpm"
+#include "pixmaps/ctx_l_curve.xpm"
+#include "pixmaps/ctx_l_diag.xpm"
+#include "pixmaps/ctx_l_turn.xpm"
+#include "pixmaps/ctx_r_curve.xpm"
+#include "pixmaps/ctx_r_diag.xpm"
+#include "pixmaps/ctx_r_turn.xpm"
+
 // search options
 #define SRCH_TX 0   // search string should be in text field
 #define SRCH_A1 1   // search string should be in address 1 field
 #define SRCH_A2 2   // search string should be in address 2 field
 
+// constants for context menu
+#define   CTX_ID_REP       901
+#define   CTX_ID_TOGGLE    902
+#define   CTX_ID_CLEAR     903
+#define   CTX_ID_ROTATE    904
 
 
 GBSArea::GBSArea(QWidget* parent, const char* name)
@@ -66,9 +82,10 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
 {
     // set all global layout variables
     gkbState = kNoneClicked;
+    visualMode = kvmNormal;
     modified = false;
     cols = 0;
-    rows = 0;
+    lastElementName = "";
 
     elements.setAutoDelete(true);
 
@@ -141,6 +158,38 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
     delayTimer = new QTimer(this);
     connect(delayTimer, SIGNAL(timeout()),
             this, SLOT(slotElementClickedTimeout()));
+
+    ctxNorm = new QPopupMenu(this, "ctxNormPM");
+    ctxNorm->insertItem(tr("&Toggle"), CTX_ID_TOGGLE);
+    
+    QPixmap p;
+    // context menu with entries for edit mode
+    ctxEdit = new QPopupMenu(this, "ctxEditPM");
+    ctxEdit->insertItem(tr("&Repeat"), CTX_ID_REP);
+    ctxEdit->setItemEnabled(CTX_ID_REP, false);
+    ctxEdit->insertSeparator();
+
+    p = QPixmap(ctx_rota_xpm);
+    ctxEdit->insertItem(p, tr("R&otate"), CTX_ID_ROTATE);
+    p = QPixmap(ctx_clear_xpm);
+    ctxEdit->insertItem(p, tr("&Clear"), CTX_ID_CLEAR);
+    ctxEdit->insertSeparator();
+
+    //TODO: make element names translatable
+    p = QPixmap(ctx_straight_xpm);
+    ctxEdit->insertItem(p, SYM_GER, 5);
+    p = QPixmap(ctx_l_curve_xpm);
+    ctxEdit->insertItem(p, SYM_KUL, 6);
+    p = QPixmap(ctx_r_curve_xpm);
+    ctxEdit->insertItem(p, SYM_KUR, 7);
+    p = QPixmap(ctx_l_diag_xpm);
+    ctxEdit->insertItem(p, SYM_DIL, 8);
+    p = QPixmap(ctx_r_diag_xpm);
+    ctxEdit->insertItem(p, SYM_DIR, 9);
+    p = QPixmap(ctx_l_turn_xpm);
+    ctxEdit->insertItem(p, SYM_WEL, 10);
+    p = QPixmap(ctx_r_turn_xpm);
+    ctxEdit->insertItem(p, SYM_WER, 11);
 }
 
 
@@ -193,7 +242,7 @@ void GBSArea::newFile(int iColumns, int iRows)
         anElement->move((i / iRows) * EL_WIDTH,
                         (i % iRows) * EL_HEIGHT);
 
-        if ((i % 10) == 0)
+        if ((i % 20) == 0)
             progress.setProgress(i);
         qApp->processEvents();
 
@@ -271,7 +320,7 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
                 element* fe = new element(ts, this);
                 if (fe != NULL) {
                     unsigned int idx = fe->getIndexNo();
-                    if ((idx % 10) == 0)
+                    if ((idx % 20) == 0)
                         progress.setProgress(idx);
                     qApp->processEvents();
 
@@ -309,7 +358,7 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
             elements.insert(i, ee);
             ee->move((i / rows) * EL_WIDTH,
                     (i % rows) * EL_HEIGHT);
-            if ((i % 10) == 0)
+            if ((i % 20) == 0)
                 progress.setProgress(i);
             qApp->processEvents();
 
@@ -448,7 +497,7 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
                 }
                 else
                     if (kSgtClicked == gkbState)
-                        el->slotToggle();
+                        el->toggle();
                     else
                         el->switchToDir(0);
                 slotElementClickedTimeout();
@@ -504,7 +553,7 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
                                 "turnout is occupied"), MT_INFO, HL_HINT);
                 }
                 else
-                    el->slotToggle();
+                    el->toggle();
             }
             else if (kFhtClicked == gkbState){
                 QApplication::beep();
@@ -730,7 +779,7 @@ void GBSArea::slotToggleAll()
             elements[j]->sSoldIcon != SYM_MDC &&
             elements[j]->sSoldIcon != SYM_SBN &&
             elements[j]->sSoldIcon != SYM_DRE)
-            elements[j]->slotToggle();
+            elements[j]->toggle();
 }
 
 
@@ -788,19 +837,15 @@ void GBSArea::connectElement(element* el)
 
     connect(el, SIGNAL(elementClicked(element*, GbsButtonState)),
             this, SLOT(slotElementClicked(element*, GbsButtonState)));
-    connect(el, SIGNAL(setRepeatIcon(const QString&)),
-            this, SIGNAL(setRepeatIcon(const QString&)));
     connect(el, SIGNAL(sigShowFBmodules()),
             this, SIGNAL(sigShowFBmodules()));
 
-    connect(this, SIGNAL(switchVisualMode(elemVisualMode)),
+    connect(this, SIGNAL(switchedVisualMode(elemVisualMode)),
             el, SLOT(switchVisualMode(elemVisualMode)));
     connect(this, SIGNAL(sigShowElement(int, int,
                     elemSelectionMode)),
             el, SLOT(slotShowElement(int, int,
                     elemSelectionMode)));
-    connect(this, SIGNAL(setRepeatIcon(const QString&)),
-            el, SLOT(slotRepeatIcon(const QString&)));
     connect(this, SIGNAL(sigRepaintLayout()),
             el, SLOT(slotRepaintLayout()));
     connect(el, SIGNAL(recordElement(element*,
@@ -1367,3 +1412,120 @@ bool GBSArea::hasSrcp08GaBus(unsigned int bus)
     return returnvalue;
 }
 
+void GBSArea::mouseReleaseEvent(QMouseEvent* e)
+{
+    /*normal mode*/
+    if (visualMode == kvmNormal) {
+        if (e->button() == RightButton){
+            element* el = (element*)childAt(e->pos());
+
+            if (el != NULL && el->isSwitchable()) {
+                ctxNorm->setItemEnabled(CTX_ID_TOGGLE,
+                        el->ctxCanSwitch());
+
+                if (ctxNorm->exec(QCursor::pos()) != -1)
+                    el->toggle();
+            }
+            e->accept();
+        }
+    }
+
+    /*layout edit mode*/
+    else if (visualMode == kvmEditLayout) {
+        if (e->button() == LeftButton) {
+            /*TODO: handle drop action*/
+            e->accept();
+        }
+        else if (e->button() == MidButton) {
+            element* el = (element*)childAt(e->pos());
+            if (el != NULL) {
+                //fprintf(stderr, "element: %s\n", el->sSoldIcon.data());
+
+                // first update name of last edited element
+                ctxEdit->setItemEnabled(CTX_ID_REP,
+                        !lastElementName.isEmpty());
+
+                QString s = QString(tr("&Repeat: %1")).arg(lastElementName);
+                ctxEdit->changeItem(s, CTX_ID_REP);
+                ctxEdit->setItemEnabled(CTX_ID_CLEAR, true);
+                ctxEdit->setItemEnabled(CTX_ID_ROTATE, el->isRotatable());
+                int value = ctxEdit->exec(QCursor::pos());
+
+                if (value != -1) {
+                    switch (value) {
+                        case CTX_ID_REP:
+                            el->setElementName(lastElementName);
+                            break;
+                        case CTX_ID_ROTATE:
+                            el->rotate();
+                            break;
+                        case CTX_ID_CLEAR:
+                            //dispose el;
+                            el->setElementName(SYM_LEE);
+                            lastElementName = "";
+                            break;
+                        case 5:
+                            el->setElementName(SYM_GER);
+                            lastElementName = SYM_GER;
+                            break;
+                        case 6:
+                            el->setElementName(SYM_KUL);
+                            lastElementName = SYM_KUL;
+                            break;
+                        case 7:
+                            el->setElementName(SYM_KUR);
+                            lastElementName = SYM_KUR;
+                            break;
+                        case 8:
+                            el->setElementName(SYM_DIL);
+                            lastElementName = SYM_DIL;
+                            break;
+                        case 9:
+                            el->setElementName(SYM_DIR);
+                            lastElementName = SYM_DIR;
+                            break;
+                        case 10:
+                            el->setElementName(SYM_WEL);
+                            lastElementName = SYM_WEL;
+                            break;
+                        case 11:
+                            el->setElementName(SYM_WER);
+                            lastElementName = SYM_WER;
+                            break;
+                    }
+                    modified = true;
+                }
+            }
+            e->accept();
+        }
+        else if (e->button() == RightButton){
+            //showPropertyDlg();
+            e->accept();
+        }
+    }
+
+    /*route edit mode*/
+    else if (visualMode == kvmEditRoute) {
+        /*show context menu to switch element only without selection*/
+        if (e->button() == RightButton){
+            element* el = (element*)childAt(e->pos());
+            if (el != NULL && el->isSwitchable()) {
+                ctxNorm->setItemEnabled(CTX_ID_TOGGLE,
+                        el->ctxCanSwitch());
+
+                if (ctxNorm->exec(QCursor::pos()) != -1)
+                    el->toggle();
+            }
+            e->accept();
+        }
+    }
+}
+
+
+void GBSArea::switchVisualMode(elemVisualMode vm)
+{
+    if (vm != visualMode) {
+        visualMode = vm;
+        emit switchedVisualMode(vm);
+    }
+}

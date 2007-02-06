@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.cpp
-                           version 0.5.1 $Revision: 1.31 $
+                           version 0.5.1 $Revision: 1.32 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-28 16:25:41 $
+    last modified        : $Date: 2007-02-06 05:44:46 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -941,17 +941,17 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
 */
     // show feedback data =>element->hasFBContact()
     enabled = sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
-        sSoldIcon == SYM_WS || sSoldIcon == SYM_VS ||
-        sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER ||
-        sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR ||
-        sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR ||
-        sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR ||
-        sSoldIcon == SYM_DRW || sSoldIcon == SYM_SS ||
         sSoldIcon == SYM_SSH || sSoldIcon == SYM_SSS ||
-        sSoldIcon == SYM_ENK || sSoldIcon == SYM_WEY ||
         sSoldIcon == SYM_BUE || sSoldIcon == SYM_ADR ||
-        sSoldIcon == SYM_BLD || sSoldIcon == SYM_ZP ||
+        sSoldIcon == SYM_WS || sSoldIcon == SYM_VS ||
+        sSoldIcon == SYM_SS || sSoldIcon == SYM_ZP ||
         ((sSoldIcon == SYM_KUL || sSoldIcon == SYM_KUR ||
+          sSoldIcon == SYM_ENK || sSoldIcon == SYM_BLD || 
+          sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR ||
+          sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR ||
+          sSoldIcon == SYM_DRW || sSoldIcon == SYM_WEY ||
+          sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER ||
+          sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR ||
           sSoldIcon == SYM_DIL || sSoldIcon == SYM_DIR ||
           sSoldIcon == SYM_GER || sSoldIcon == SYM_RI1 ||
           sSoldIcon == SYM_TRV ||
@@ -1564,6 +1564,8 @@ void elementDialog::setLEDsAreOff(int off)
         cbLEDoff->setEnabled(false);
     else
         cbLEDoff->setChecked(off);
+
+    slotEnable_LED_FB();
 }
 
 
