@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.1 $Revision: 1.61 $
+                           version 0.5.1 $Revision: 1.62 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-06 05:44:46 $
+    last modified        : $Date: 2007-02-06 16:54:24 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -85,6 +85,7 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
     visualMode = kvmNormal;
     modified = false;
     cols = 0;
+    rows = 0;
     lastElementName = "";
 
     elements.setAutoDelete(true);
