@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.1 $Revision: 1.63 $
+                           version 0.5.1 $Revision: 1.64 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-06 20:49:15 $
+    last modified        : $Date: 2007-02-07 22:08:52 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -87,6 +87,7 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
     cols = 0;
     rows = 0;
     lastElementName = "";
+    setPaletteBackgroundColor(QColor(lightGray));
 
     elements.setAutoDelete(true);
 
@@ -214,7 +215,7 @@ QSize GBSArea::sizeHint() const
     if (elements.count() == 0)
         return QSize(0, 0);
     else
-        return QSize(cols * EL_WIDTH, rows * EL_HEIGHT);
+        return QSize(1 + cols * (EL_WIDTH + 1), 1 + rows * (EL_HEIGHT + 1));
 }
 // *INDENT-ON*
 
@@ -237,11 +238,14 @@ void GBSArea::newFile(int iColumns, int iRows)
 
     for (int i = 0; i < (iRows * iColumns); i++) {
         // now create the new elements (but do not show them yet)
-        element* anElement = new element(this);
-        anElement->setIndexNo(i);
-        elements.insert(i, anElement);
-        anElement->move((i / iRows) * EL_WIDTH,
-                        (i % iRows) * EL_HEIGHT);
+        element* el = new element(this);
+        el->setIndexNo(i);
+        elements.insert(i, el);
+        moveElementToIndexPos(el, i);
+        /*
+        anElement->move(1 + (i / iRows) * EL_WIDTH,
+                        1 + (i % iRows) * EL_HEIGHT);
+                        */
 
         if ((i % 20) == 0)
             progress.setProgress(i);
@@ -273,10 +277,10 @@ void GBSArea::writeFileTextToStream(QTextStream& ts)
        //<< "# elements=" << elements.count() << endl;
     
     for (unsigned int i = 0; i < elements.size(); i++) {
-        element* e = elements[i];
-        if (e != NULL && !e->isEmpty()) {
+        element* el = elements[i];
+        if (el != NULL && !el->isEmpty()) {
             ts << "%% element " << i << endl;
-            e->writeFileTextToStream(ts);
+            el->writeFileTextToStream(ts);
         }
     }
     setModified(false);
@@ -326,8 +330,11 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
                     qApp->processEvents();
 
                     if (idx < ecount) {
-                        fe->move((idx / rows) * EL_WIDTH,
-                                 (idx % rows) * EL_HEIGHT);
+                        moveElementToIndexPos(fe, idx);
+                        /*
+                        fe->move(1 + (idx / rows) * EL_WIDTH,
+                                 1 + (idx % rows) * EL_HEIGHT);
+                                 */
                         elements.insert(idx, fe);
                     }
                 }
@@ -345,22 +352,27 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
                 break;
         }
     }
+    //TODO: remove this
     /*
      * may be this some time can be removed when empty elements are
      * handled in an other way by gbsarea
      */
+        /*
     progress.setLabelText(tr("Adding empty elements"));
     progress.setTotalSteps(ecount);
-    /*add mising empty elements*/
+
+    //add mising empty elements
     for (unsigned int i = 0; i < ecount; i++) {
         if (elements[i] == NULL){
             element* ee = new element(this);
             ee->setIndexNo(i);
             elements.insert(i, ee);
-            ee->move((i / rows) * EL_WIDTH,
-                    (i % rows) * EL_HEIGHT);
+            //elements[i] = ee;
+            ee->move((i / rows) * EL_WIDTH, (i % rows) * EL_HEIGHT);
+            
             if ((i % 20) == 0)
                 progress.setProgress(i);
+
             qApp->processEvents();
 
 #if QT_VERSION >= 0x030200
@@ -373,6 +385,7 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
             }
         }
     }
+    */
     progress.setProgress(ecount);
     adjustSize();
     setModified(false);
@@ -698,7 +711,6 @@ void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
             idx += rows;
             entrydir = entrydir | rdW;
         }
- 
     }
 }
 
@@ -776,10 +788,11 @@ bool GBSArea::findElement(const QString& ftext, int ftype, int fmulti)
 void GBSArea::slotToggleAll()
 {
     for (unsigned int j = 0; j < elements.size(); j++)
-        if (elements[j]->sSoldIcon != SYM_ENK &&
-            elements[j]->sSoldIcon != SYM_MDC &&
-            elements[j]->sSoldIcon != SYM_SBN &&
-            elements[j]->sSoldIcon != SYM_DRE)
+        if (elements[j] != NULL && 
+                elements[j]->sSoldIcon != SYM_ENK &&
+                elements[j]->sSoldIcon != SYM_MDC &&
+                elements[j]->sSoldIcon != SYM_SBN &&
+                elements[j]->sSoldIcon != SYM_DRE)
             elements[j]->toggle();
 }
 
@@ -790,14 +803,13 @@ void GBSArea::slotToggleAll()
 void GBSArea::slotSendAll()
 {
     for (unsigned int j = 0; j < elements.size(); j++)
-        if (elements[j] != NULL)
-            if (!(elements[j]->sSoldIcon == SYM_ENK
-                        && elements[j]->iSoldSubType != -1) &&
-                    //GBSElement[j]->sSoldIcon != SYM_ENK &&
-                    elements[j]->sSoldIcon != SYM_MDC &&
-                    elements[j]->sSoldIcon != SYM_SBN &&
-                    elements[j]->sSoldIcon != SYM_DRE)
-                elements[j]->sendSrcpState();
+        if (elements[j] != NULL && !(elements[j]->sSoldIcon == SYM_ENK
+                    && elements[j]->iSoldSubType != -1) &&
+                //GBSElement[j]->sSoldIcon != SYM_ENK &&
+                elements[j]->sSoldIcon != SYM_MDC &&
+                elements[j]->sSoldIcon != SYM_SBN &&
+                elements[j]->sSoldIcon != SYM_DRE)
+            elements[j]->sendSrcpState();
 }
 
 
@@ -807,7 +819,7 @@ void GBSArea::slotSendAll()
 void GBSArea::slotNotrot()
 {
     for (unsigned int j = 0; j < elements.size(); j++)
-        if (elements[j]->isSignal())
+        if (elements[j] != NULL && elements[j]->isSignal())
             elements[j]->switchToDir(0);
     
     emit showLogMessage(tr("Switched all signals to halt/stop"),
@@ -935,10 +947,15 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
         for (int r = 1; r <= newrows; r++) {
             element* el = item(r, c);
             unsigned int idx = newrows * (c - 1) + r - 1;
+            // TODO: remove this
             if (el == NULL) {
                 /* insert empty element to unoccupied position */
                 el = new element(this);
-                el->move((c - 1) * EL_WIDTH, (r - 1) * EL_HEIGHT);
+                moveElementToIndexPos(el, idx);
+                /*
+                el->move(1 + (c - 1) * EL_WIDTH,
+                        1 + (r - 1) * EL_HEIGHT);
+                        */
                 el->show();
                 connectElement(el);
             }
@@ -989,11 +1006,19 @@ int GBSArea::indexOf(int row, int col) const
 // *INDENT-OFF*
 int GBSArea::indexOf(QPoint ep) const
 {
-    int row = ep.y() / EL_HEIGHT + 1;
-    int col = ep.x() / EL_WIDTH + 1;
+    int row = ep.y() / (EL_HEIGHT + 1) + 1;
+    int col = ep.x() / (EL_WIDTH + 1) + 1;
     return (rows * (col - 1) + row - 1); 
 }
 // *INDENT-ON*
+
+
+void GBSArea::moveElementToIndexPos(element* el, int idx)
+{
+    if (el != NULL && idx >= 0 && idx < elements.size())
+        el->move(1 + (idx / rows) * (EL_WIDTH + 1),
+                1 + (idx % rows) * (EL_HEIGHT + 1));
+}
 
 
 // *INDENT-OFF*
@@ -1026,10 +1051,10 @@ void GBSArea::getElementByAddress(const int bus, const int address,
         element** el)
 {
     for (unsigned int i = 0; i < elements.size(); i++) {
-        element* gbse = elements.at(i);
+        element* gbse = elements[i];
 
         //TODO: search also bus
-        if ((gbse != 0) && gbse->hasSameAddress(bus, address)) {
+        if (gbse != NULL && gbse->hasSameAddress(bus, address)) {
             *el = gbse;
             break;
         }
@@ -1352,7 +1377,7 @@ void GBSArea::updateSRCP08FBBusList()
         if (!el->isSwitchable())
             continue;
 
-        busno = elements[i]->getFBBusNo();
+        busno = el->getFBBusNo();
 
         if (busno > 0) {
             if (count == 0) {
@@ -1450,68 +1475,92 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
         }
         else if (e->button() == MidButton) {
             element* el = (element*)childAt(e->pos());
-            if (el != NULL) {
-                //fprintf(stderr, "element: %s\n", el->sSoldIcon.data());
-                int idx = indexOf(e->pos());
+            int idx = indexOf(e->pos());
 
-                // first update name of last edited element
-                ctxEdit->setItemEnabled(CTX_ID_REP,
-                        !lastElementName.isEmpty());
+            // add new empty element
+            if (el == NULL) {
+                el = new element(this);
+                el->setIndexNo(idx);
+                el->switchVisualMode(visualMode);
+                moveElementToIndexPos(el, idx);
+                el->show();
+                connectElement(el);
+                elements.insert(idx, el);
+            }
 
-                QString s = QString(tr("&Repeat: %1")).arg(lastElementName);
-                ctxEdit->changeItem(s, CTX_ID_REP);
-                ctxEdit->setItemEnabled(CTX_ID_CLEAR, true);
-                ctxEdit->setItemEnabled(CTX_ID_ROTATE, el->isRotatable());
-                int value = ctxEdit->exec(QCursor::pos());
+            // first update name of last edited element
+            ctxEdit->setItemEnabled(CTX_ID_REP,
+                    !lastElementName.isEmpty());
 
-                if (value != -1) {
-                    switch (value) {
-                        case CTX_ID_REP:
-                            el->setElementName(lastElementName);
-                            break;
-                        case CTX_ID_ROTATE:
-                            el->rotate();
-                            break;
-                        case CTX_ID_CLEAR:
-                            el->setElementName(SYM_LEE);
-                            lastElementName = "";
-                            break;
-                        case 5:
-                            el->setElementName(SYM_GER);
-                            lastElementName = SYM_GER;
-                            break;
-                        case 6:
-                            el->setElementName(SYM_KUL);
-                            lastElementName = SYM_KUL;
-                            break;
-                        case 7:
-                            el->setElementName(SYM_KUR);
-                            lastElementName = SYM_KUR;
-                            break;
-                        case 8:
-                            el->setElementName(SYM_DIL);
-                            lastElementName = SYM_DIL;
-                            break;
-                        case 9:
-                            el->setElementName(SYM_DIR);
-                            lastElementName = SYM_DIR;
-                            break;
-                        case 10:
-                            el->setElementName(SYM_WEL);
-                            lastElementName = SYM_WEL;
-                            break;
-                        case 11:
-                            el->setElementName(SYM_WER);
-                            lastElementName = SYM_WER;
-                            break;
-                    }
-                    modified = true;
+            QString s = QString(tr("&Repeat: %1")).arg(lastElementName);
+            ctxEdit->changeItem(s, CTX_ID_REP);
+            ctxEdit->setItemEnabled(CTX_ID_CLEAR, true);
+            ctxEdit->setItemEnabled(CTX_ID_ROTATE, el->isRotatable());
+            int value = ctxEdit->exec(QCursor::pos());
+
+            if (value != -1) {
+                switch (value) {
+                    case CTX_ID_REP:
+                        el->setElementName(lastElementName);
+                        break;
+                    case CTX_ID_ROTATE:
+                        el->rotate();
+                        break;
+                    case CTX_ID_CLEAR:
+                        //TODO: update route data
+                        elements.remove(idx);
+                        //el->setElementName(SYM_LEE);
+                        lastElementName = "";
+                        break;
+                    case 5:
+                        el->setElementName(SYM_GER);
+                        lastElementName = SYM_GER;
+                        break;
+                    case 6:
+                        el->setElementName(SYM_KUL);
+                        lastElementName = SYM_KUL;
+                        break;
+                    case 7:
+                        el->setElementName(SYM_KUR);
+                        lastElementName = SYM_KUR;
+                        break;
+                    case 8:
+                        el->setElementName(SYM_DIL);
+                        lastElementName = SYM_DIL;
+                        break;
+                    case 9:
+                        el->setElementName(SYM_DIR);
+                        lastElementName = SYM_DIR;
+                        break;
+                    case 10:
+                        el->setElementName(SYM_WEL);
+                        lastElementName = SYM_WEL;
+                        break;
+                    case 11:
+                        el->setElementName(SYM_WER);
+                        lastElementName = SYM_WER;
+                        break;
                 }
+                modified = true;
             }
             e->accept();
         }
         else if (e->button() == RightButton){
-            //showPropertyDlg();
+            element* el = (element*)childAt(e->pos());
+            int idx = indexOf(e->pos());
+
+            // add new empty element
+            if (el == NULL) {
+                el = new element(this);
+                el->setIndexNo(idx);
+                el->switchVisualMode(visualMode);
+                moveElementToIndexPos(el, idx);
+                el->show();
+                connectElement(el);
+                elements.insert(idx, el);
+            }
+
+            el->showPropertyDlg();
             e->accept();
         }
     }
@@ -1538,6 +1587,41 @@ void GBSArea::switchVisualMode(elemVisualMode vm)
 {
     if (vm != visualMode) {
         visualMode = vm;
+        //TODO: check this
         emit switchedVisualMode(vm);
+        update();
     }
+}
+
+/* paint colored lines */
+void GBSArea::paintEvent(QPaintEvent*)
+{
+    QPainter p(this);
+    QColor c;
+
+    /* 1) paint visual mode lines*/
+    switch (visualMode) {
+        case kvmEditLayout:
+            // edit mode: red
+            c = QColor(red);
+            break;
+        case kvmEditRoute:
+            // show route mode: blue
+            c = QColor(blue);
+            break;
+        default:
+            // normal mode: grey
+            c = QColor(gray);
+            break;
+    }
+    
+    p.setPen(c);
+    int h = height();
+    int w = width();
+    
+    for (int x = 0; x < w; x += (EL_WIDTH + 1))
+        p.drawLine(x, 0, x, h - 1);
+    
+    for (int y = 0; y < h; y += (EL_HEIGHT + 1))
+        p.drawLine(0, y, w - 1, y);
 }

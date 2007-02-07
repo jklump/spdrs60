@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.1 $Revision: 1.115 $
+                           version 0.5.1 $Revision: 1.116 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-06 17:14:03 $
+    last modified        : $Date: 2007-02-07 22:08:52 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -45,8 +45,6 @@
 #include "pixmaps/transfertable.xpm"
 #include "pixmaps/signal-w.xpm"
 #include "pixmaps/signal-wr.xpm"
-
-#include "../elements/leer.xpm"
 
 
 // Element directions
@@ -148,6 +146,7 @@ void element::initVariables()
     setMinimumSize(sizeHint());
     setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed,
                 false));
+    setPaletteBackgroundColor(QColor(lightGray));
     selectionMode = ksmNormal;
     visualMode = kvmNormal;
 
@@ -524,18 +523,8 @@ void element::mouseReleaseEvent(QMouseEvent* e)
     }
     /*layout edit mode*/
     else if (visualMode == kvmEditLayout) {
-        if (e->button() == LeftButton) {
-            // handled by gbsarea
-            e->ignore();
-        }
-        else if (e->button() == MidButton) {
-            // handled by gbsarea
-            e->ignore();
-        }
-        else if (e->button() == RightButton){
-            showPropertyDlg();
-            e->accept();
-        }
+        // handled by gbsarea
+        e->ignore();
     }
     /*route edit mode*/
     else if (visualMode == kvmEditRoute) {
@@ -1083,17 +1072,16 @@ void element::setupElementIcon()
 {
     // empty symbol
     if (sSoldIcon == SYM_LEE) {
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+
+        if (iSoldInvert == 1) 
+            pm.fill(QColor(darkGray));
+        else
+            pm.fill(QColor(lightGray));
+            
         QPainter p;
         p.begin(&pm);
             
-        // paint panel
-        if (iSoldInvert == 1) {
-            p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
-                    QBrush(darkGray));
-        }
-
-        // paint text
         // paint text label
         if (sSoldText != "-1" && !sSoldText.isEmpty()) {
             QFont f("Helvetica");
@@ -1109,28 +1097,18 @@ void element::setupElementIcon()
    
     // blue panel
     else if (sSoldIcon == SYM_FEB) {
-        QPixmap pm = QPixmap(leer_xpm);
-        QPainter p;
-        p.begin(&pm);
-            
-        // paint panel
-        p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
-                QBrush(QColor(0, 0, 192)));
-
-        p.end();
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(0, 0, 192));
         setPaletteBackgroundPixmap(pm);
     }
    
     // blue panel with wgt button
     else if (sSoldIcon == SYM_TAW) {
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(0, 0, 192));
         QPainter p;
         p.begin(&pm);
             
-        // paint panel
-        p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
-                QBrush(QColor(0, 0, 192)));
-
         // paint red light
         p.setBrush(red);
         p.drawEllipse(pm.width() / 2 - 2, pm.height() / 4 - 3, 5, 5);
@@ -1148,28 +1126,18 @@ void element::setupElementIcon()
    
     // green panel
     else if (sSoldIcon == SYM_FEG) {
-        QPixmap pm = QPixmap(leer_xpm);
-        QPainter p;
-        p.begin(&pm);
-            
-        // paint panel
-        p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
-                QBrush(QColor(0, 160, 0)));
-
-        p.end();
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(0, 160, 0));
         setPaletteBackgroundPixmap(pm);
     }
    
     // green panel with FHT button and counter
     else if (sSoldIcon == SYM_TAF) {
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(0, 160, 0));
         QPainter p;
         p.begin(&pm);
             
-        // paint panel
-        p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
-                QBrush(QColor(0, 160, 0)));
-        
         // paint button
         p.setBrush(darkGray);
         p.drawEllipse(7, pm.height() / 2 - 4, 9, 9);
@@ -1195,14 +1163,11 @@ void element::setupElementIcon()
    
     // green panel with ufgt and mgt buttons
     else if (sSoldIcon == SYM_TAU) {
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(0, 160, 0));
         QPainter p;
         p.begin(&pm);
             
-        // paint panel
-        p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
-                QBrush(QColor(0, 160, 0)));
-        
         // paint buttons
         p.setBrush(darkGray);
         p.drawEllipse(7, pm.height() / 2 - 4, 9, 9);
@@ -1218,28 +1183,18 @@ void element::setupElementIcon()
    
     // red panel
     else if (sSoldIcon == SYM_FER) {
-        QPixmap pm = QPixmap(leer_xpm);
-        QPainter p;
-        p.begin(&pm);
-            
-        // paint panel
-        p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
-                QBrush(QColor(221, 0, 0)));
-
-        p.end();
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(221, 0, 0));
         setPaletteBackgroundPixmap(pm);
     }
    
     // red panel with sgt and hagt buttons
     else if (sSoldIcon == SYM_TAS) {
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(221, 0, 0));
         QPainter p;
         p.begin(&pm);
             
-        // paint panel
-        p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
-                QBrush(QColor(221, 0, 0)));
-
         // paint buttons
         p.setBrush(darkGray);
         p.drawEllipse(7, pm.height() / 2 - 4, 9, 9);
@@ -1255,49 +1210,29 @@ void element::setupElementIcon()
    
     // yellow panel
     else if (sSoldIcon == SYM_FEY) {
-        QPixmap pm = QPixmap(leer_xpm);
-        QPainter p;
-        p.begin(&pm);
-            
-        // paint panel
-        p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
-                QBrush(QColor(224, 224, 0)));
-
-        p.end();
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(224, 224, 0));
         setPaletteBackgroundPixmap(pm);
     }
    
     // brown panel
     else if (sSoldIcon == SYM_FEN) {
-        QPixmap pm = QPixmap(leer_xpm);
-        QPainter p;
-        p.begin(&pm);
-            
-        // paint panel
-        p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
-                QBrush(QColor(112, 48, 0)));
-
-        p.end();
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(112, 48, 0));
         setPaletteBackgroundPixmap(pm);
     }
    
     // grey panel
     else if (sSoldIcon == SYM_FEE) {
-        QPixmap pm = QPixmap(leer_xpm);
-        QPainter p;
-        p.begin(&pm);
-            
-        // paint panel
-        p.fillRect(0, 0, pm.width() - 1, pm.height() - 1,
-                QBrush(QColor(128, 128, 128)));
-
-        p.end();
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(128, 128, 128));
         setPaletteBackgroundPixmap(pm);
     }
    
     // buffer stop (prellbock)
     else if (sSoldIcon == SYM_PRE) {
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
             
@@ -1316,7 +1251,8 @@ void element::setupElementIcon()
     // direction arrows
     else if (sSoldIcon == SYM_RI1 || sSoldIcon == SYM_RI2){
         bool isri2 = (sSoldIcon == SYM_RI2);
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -1324,7 +1260,7 @@ void element::setupElementIcon()
         int h = pm.height();
         
         // paint track
-        p.fillRect(0, h / 2 - 3, w - 1, 7, QBrush(black));
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(black));
 
         // paint arrows
         /**
@@ -1400,14 +1336,15 @@ void element::setupElementIcon()
     
     // address
     else if (sSoldIcon == SYM_ADR){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
         // paint track
         p.fillRect(0, pm.height() / 2 - 3, 3, 7,
                 QBrush(black));
-        p.fillRect(pm.width() - 4, pm.height() / 2 - 3, 3, 7,
+        p.fillRect(pm.width() - 4, pm.height() / 2 - 3, 4, 7,
                 QBrush(black));
 
         // paint address field
@@ -1444,7 +1381,8 @@ void element::setupElementIcon()
     
     // level crossing
     else if (sSoldIcon == SYM_BUE){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -1453,7 +1391,7 @@ void element::setupElementIcon()
                 QBrush(darkGray));
 
         // paint track
-        p.fillRect(0, pm.height() / 2 - 3, pm.width() - 1, 7,
+        p.fillRect(0, pm.height() / 2 - 3, pm.width(), 7,
                 QBrush(black));
 
         // paint track button
@@ -1472,7 +1410,8 @@ void element::setupElementIcon()
     
     // relay
     else if (sSoldIcon == SYM_REL){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
 
@@ -1531,7 +1470,8 @@ void element::setupElementIcon()
     
     // motor
     else if (sSoldIcon == SYM_MDC){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
 
@@ -1606,12 +1546,13 @@ void element::setupElementIcon()
     
     // decoupler
     else if (sSoldIcon == SYM_ENK){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
         // paint track
-        p.fillRect(0, pm.height() / 2 - 3, pm.width() - 1, 7,
+        p.fillRect(0, pm.height() / 2 - 3, pm.width(), 7,
                 QBrush(black));
         
         // paint symbol
@@ -1679,7 +1620,8 @@ void element::setupElementIcon()
     
     // blind element
     else if (sSoldIcon == SYM_BLD){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -1687,7 +1629,7 @@ void element::setupElementIcon()
         int h = pm.height();
         
         // paint track
-        p.fillRect(0, h / 2 - 3, w - 1, 7, QBrush(black));
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(black));
         
         // paint track lights
         if (iSoldLEDoff == 1) {
@@ -1754,7 +1696,8 @@ void element::setupElementIcon()
     
     // shunt wait signal
     else if (sSoldIcon == SYM_WS){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -1762,7 +1705,7 @@ void element::setupElementIcon()
         int h = pm.height();
         
         // paint track
-        p.fillRect(0, h / 2 - 3, w - 1, 7, QBrush(black));
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(black));
         
         // paint track button
         if (iSoldRotate == 1)
@@ -1865,7 +1808,8 @@ void element::setupElementIcon()
     
     // signal HSS
     else if (sSoldIcon == SYM_HSS){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -1873,7 +1817,7 @@ void element::setupElementIcon()
         int h = pm.height();
         
         // paint track
-        p.fillRect(0, h / 2 - 3, w - 1, 7, QBrush(black));
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(black));
         
         // paint track button
         if (iSoldRotate == 1) {
@@ -2067,7 +2011,8 @@ void element::setupElementIcon()
     
     // signal HS
     else if (sSoldIcon == SYM_HS){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -2075,7 +2020,7 @@ void element::setupElementIcon()
         int h = pm.height();
         
         // paint track
-        p.fillRect(0, h / 2 - 3, w - 1, 7, QBrush(black));
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(black));
         
         // paint track button
         if (iSoldRotate == 1)
@@ -2247,7 +2192,8 @@ void element::setupElementIcon()
     
     // signal VS
     else if (sSoldIcon == SYM_VS){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -2255,7 +2201,7 @@ void element::setupElementIcon()
         int h = pm.height();
         
         // paint track
-        p.fillRect(0, h / 2 - 3, w - 1, 7, QBrush(black));
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(black));
         
         // paint signal icon
         QPointArray icon = QPointArray(6);
@@ -2395,7 +2341,8 @@ void element::setupElementIcon()
     
     // signal ZP
     else if (sSoldIcon == SYM_ZP){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -2403,7 +2350,7 @@ void element::setupElementIcon()
         int h = pm.height();
         
         // paint track
-        p.fillRect(0, h / 2 - 3, w - 1, 7, QBrush(black));
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(black));
         
         // paint lock light
         if (lockCounter == 0)
@@ -2498,7 +2445,8 @@ void element::setupElementIcon()
     
     // straight track
     else if (sSoldIcon == SYM_GER){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -2506,7 +2454,7 @@ void element::setupElementIcon()
         int h = pm.height();
         
         // paint track
-        p.fillRect(0, h / 2 - 3, w - 1, 7, QBrush(black));
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(black));
         
         // paint track lights
         if (iSoldLEDoff == 1) {
@@ -2559,7 +2507,8 @@ void element::setupElementIcon()
     
     // vertical track
     else if (sSoldIcon == SYM_TRV){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -2596,7 +2545,8 @@ void element::setupElementIcon()
     
     // vertical turn top left
     else if (sSoldIcon == SYM_TTL){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -2652,7 +2602,8 @@ void element::setupElementIcon()
     
     // vertical turn top right
     else if (sSoldIcon == SYM_TTR){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -2708,7 +2659,8 @@ void element::setupElementIcon()
     
     // vertical turn bottom left
     else if (sSoldIcon == SYM_TBL){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -2764,7 +2716,8 @@ void element::setupElementIcon()
     
     // vertical turn bottom right
     else if (sSoldIcon == SYM_TBR){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -2822,7 +2775,8 @@ void element::setupElementIcon()
     else if (sSoldIcon == SYM_KUR || sSoldIcon == SYM_KUL){
         bool left = (sSoldIcon == SYM_KUL);
 
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -2831,7 +2785,7 @@ void element::setupElementIcon()
         
         // paint track
         if (iSoldRotate == 1)
-            p.fillRect(w / 2 - 1, h / 2 - 3, w - 1, 7, QBrush(black));
+            p.fillRect(w / 2 - 1, h / 2 - 3, w, 7, QBrush(black));
         else
             p.fillRect(0, h / 2 - 3, w / 2 + 2, 7, QBrush(black));
 
@@ -2937,7 +2891,8 @@ void element::setupElementIcon()
     else if (sSoldIcon == SYM_DIR || sSoldIcon == SYM_DIL){
         bool left = (sSoldIcon == SYM_DIL);
 
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -2947,9 +2902,9 @@ void element::setupElementIcon()
         // paint track
         p.setPen(QPen(black, 7));
         if (left)
-            p.drawLine(0, h - 1, w - 1, 0);
+            p.drawLine(0, h - 1, w, 0);
         else
-            p.drawLine(0, 0, w - 1, h - 1);
+            p.drawLine(0, 0, w, h - 1);
 
         // paint track lights
         if (iSoldLEDoff == 1) {
@@ -2995,7 +2950,8 @@ void element::setupElementIcon()
 
     // diagonal crossing (hosentraeger)
     else if (sSoldIcon == SYM_KRH){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -3004,8 +2960,8 @@ void element::setupElementIcon()
         
         // paint track
         p.setPen(QPen(black, 7));
-        p.drawLine(0, 0, w - 1, h - 1);
-        p.drawLine(0, h - 1, w - 1, 0);
+        p.drawLine(0, 0, w, h - 1);
+        p.drawLine(0, h - 1, w, 0);
         
         // paint track lights
         if (iSoldLEDoff == 1) {
@@ -3085,7 +3041,8 @@ void element::setupElementIcon()
     
     // left crossing
     else if (sSoldIcon == SYM_KRL){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -3094,8 +3051,8 @@ void element::setupElementIcon()
         
         // paint track
         p.setPen(QPen(black, 7));
-        p.drawLine(0, h / 2, w - 1, h / 2);
-        p.drawLine(0, h - 1, w - 1, 0);
+        p.drawLine(0, h / 2, w, h / 2);
+        p.drawLine(0, h - 1, w, 0);
         
         // paint track lights
         if (iSoldLEDoff == 1) {
@@ -3174,7 +3131,8 @@ void element::setupElementIcon()
     
     // right crossing
     else if (sSoldIcon == SYM_KRR){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -3183,8 +3141,8 @@ void element::setupElementIcon()
         
         // paint track
         p.setPen(QPen(black, 7));
-        p.drawLine(0, h / 2, w - 1, h / 2);
-        p.drawLine(0, 0, w - 1, h - 1);
+        p.drawLine(0, h / 2, w, h / 2);
+        p.drawLine(0, 0, w, h - 1);
         
         // paint track lights
         if (iSoldLEDoff == 1) {
@@ -3264,7 +3222,8 @@ void element::setupElementIcon()
     
     // single slip switch left
     else if (sSoldIcon == SYM_EKL){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -3273,8 +3232,8 @@ void element::setupElementIcon()
         
         // paint track
         p.setPen(QPen(black, 7));
-        p.drawLine(0, h / 2, w - 1, h / 2);
-        p.drawLine(0, h - 1, w - 1, 0);
+        p.drawLine(0, h / 2, w, h / 2);
+        p.drawLine(0, h - 1, w, 0);
         
         // paint drive symbol
         p.setPen(QPen(black, 1));
@@ -3503,7 +3462,8 @@ void element::setupElementIcon()
     
     // single slip switch right
     else if (sSoldIcon == SYM_EKR){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -3512,8 +3472,8 @@ void element::setupElementIcon()
         
         // paint track
         p.setPen(QPen(black, 7));
-        p.drawLine(0, h / 2, w - 1, h / 2);
-        p.drawLine(0, 0, w - 1, h - 1);
+        p.drawLine(0, h / 2, w, h / 2);
+        p.drawLine(0, 0, w, h - 1);
         
         // paint drive symbol
         p.setPen(QPen(black, 1));
@@ -3744,7 +3704,8 @@ void element::setupElementIcon()
     
     // double slip switch left
     else if (sSoldIcon == SYM_DKL){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -3753,8 +3714,8 @@ void element::setupElementIcon()
         
         // paint track
         p.setPen(QPen(black, 7));
-        p.drawLine(0, h / 2, w - 1, h / 2);
-        p.drawLine(0, h - 1, w - 1, 0);
+        p.drawLine(0, h / 2, w, h / 2);
+        p.drawLine(0, h - 1, w, 0);
         
         // paint drive symbol
         p.setPen(QPen(black, 1));
@@ -3999,7 +3960,8 @@ void element::setupElementIcon()
     
     // double slip switch right
     else if (sSoldIcon == SYM_DKR){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -4008,8 +3970,8 @@ void element::setupElementIcon()
         
         // paint track
         p.setPen(QPen(black, 7));
-        p.drawLine(0, h / 2, w - 1, h / 2);
-        p.drawLine(0, 0, w - 1, h - 1);
+        p.drawLine(0, h / 2, w, h / 2);
+        p.drawLine(0, 0, w, h - 1);
         
         // paint drive symbol
         p.setPen(QPen(black, 1));
@@ -4254,7 +4216,8 @@ void element::setupElementIcon()
     
     // track with normal route button
     else if (sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -4262,7 +4225,7 @@ void element::setupElementIcon()
         int h = pm.height();
         
         // paint track
-        p.fillRect(0, h/2 - 3, w - 1, 7, QBrush(black));
+        p.fillRect(0, h/2 - 3, w, 7, QBrush(black));
         
         // paint track lights
         if (iSoldLEDoff == 1) {
@@ -4336,7 +4299,8 @@ void element::setupElementIcon()
     // shunting signals SS, SSH, SSS
     else if (sSoldIcon == SYM_SS || sSoldIcon == SYM_SSH ||
             sSoldIcon == SYM_SSS){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -4344,7 +4308,7 @@ void element::setupElementIcon()
         int h = pm.height();
         
         // paint track
-        p.fillRect(0, h/2 - 3, w - 1, 7, QBrush(black));
+        p.fillRect(0, h/2 - 3, w, 7, QBrush(black));
         
         // paint track lights
         if (iSoldLEDoff == 1) {
@@ -4476,7 +4440,8 @@ void element::setupElementIcon()
     else if (sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER){
         bool left = sSoldIcon == SYM_WEL;
         
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -4484,7 +4449,7 @@ void element::setupElementIcon()
         int h = pm.height();
         
         // paint track
-        p.fillRect(0, h/2 - 3, w - 1, 7, QBrush(black));
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(black));
         
         p.save();
         p.translate(w / 2, h / 2);
@@ -4652,7 +4617,8 @@ void element::setupElementIcon()
     else if (sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR){
         bool left = sSoldIcon == SYM_DWL;
         
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -4663,7 +4629,7 @@ void element::setupElementIcon()
         if (iSoldRotate == 1)
             p.fillRect(0, h / 2 - 3, w / 2, 7, QBrush(black));
         else
-            p.fillRect(w / 2, h / 2 - 3, w - 1, 7, QBrush(black));
+            p.fillRect(w / 2, h / 2 - 3, w, 7, QBrush(black));
  
         p.save();
         p.translate(w / 2, h / 2);
@@ -4843,7 +4809,8 @@ void element::setupElementIcon()
 
     // y-turnout
     else if (sSoldIcon == SYM_WEY){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -5018,7 +4985,8 @@ void element::setupElementIcon()
 
     // 3-way turnout
     else if (sSoldIcon == SYM_DRW){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -5026,7 +4994,7 @@ void element::setupElementIcon()
         int h = pm.height();
         
         // paint track
-        p.fillRect(0, h/2 - 3, w - 1, 7, QBrush(black));
+        p.fillRect(0, h/2 - 3, w, 7, QBrush(black));
         
         p.save();
         p.translate(w / 2, h / 2);
@@ -5212,13 +5180,14 @@ void element::setupElementIcon()
 
     // house 1 (train station middle section)
     else if (sSoldIcon == SYM_HS1) {
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
 
         // paint house
         p.setBrush(QColor(192, 0 ,0));
-        p.drawRect(0, 9, pm.width() - 1, 17);
+        p.drawRect(0, 9, pm.width(), 17);
         p.drawLine(0, pm.height() / 2, pm.width(), pm.height() / 2);
 
         p.end();
@@ -5227,7 +5196,8 @@ void element::setupElementIcon()
 
     // house 2 (train station side section)
     else if (sSoldIcon == SYM_HS2) {
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
 
@@ -5243,7 +5213,7 @@ void element::setupElementIcon()
             p.drawRect(26, 5, 25, 25);
             p.drawLine(26, 5, 50, 29);
             p.drawLine(26, 29, 50, 5);
-            p.drawRect(50, 9, 5, 17);
+            p.drawRect(50, 9, 6, 17);
         }
         
         p.end();
@@ -5257,7 +5227,8 @@ void element::setupElementIcon()
         bool isleft = (sSoldIcon == SYM_DLT);
         bool isright = (sSoldIcon == SYM_DRT);
         
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
 
@@ -5305,7 +5276,8 @@ void element::setupElementIcon()
         bool istop = (sSoldIcon == SYM_SHO);
         bool isbottom = (sSoldIcon == SYM_SHU);
         
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
 
@@ -5358,13 +5330,14 @@ void element::setupElementIcon()
 
     // transfer table
     else if (sSoldIcon == SYM_SBN){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
         // paint track
         p.fillRect(0, pm.height() / 2 - 3, 4, 7, QBrush(black));
-        p.fillRect(pm.width() - 4, pm.height() / 2 - 3, 3, 7,
+        p.fillRect(pm.width() - 4, pm.height() / 2 - 3, 4, 7,
                 QBrush(black));
 
         // paint table icon
@@ -5392,7 +5365,8 @@ void element::setupElementIcon()
     
     // turntable
     else if (sSoldIcon == SYM_DRE){
-        QPixmap pm = QPixmap(leer_xpm);
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(lightGray));
         QPainter p;
         p.begin(&pm);
         
@@ -5458,33 +5432,7 @@ void element::paintEvent(QPaintEvent*)
     QPainter p(this);
     QColor c;
 
-    /* 1) paint visual mode lines*/
-    switch (visualMode) {
-        case kvmNormal:
-            // normal mode: grey
-            c = QColor(gray);
-            break;
-        case kvmEditLayout:
-            // edit mode: red
-            c = QColor(red);
-            break;
-        case kvmEditRoute:
-            // show route mode: blue
-            c = QColor(blue);
-            break;
-        default:
-            // normal mode: grey
-            c = QColor(gray);
-            break;
-    }
-    
-    p.setPen(c);
-    int h = height();
-    int w = width();
-    p.drawLine(0, h - 1, w - 1, h - 1);
-    p.drawLine(w - 1, h - 1, w - 1, 0);
-
-    /* 2) paint optional selection rectangle*/
+    /* paint optional selection rectangle*/
     if (selectionMode != ksmNormal) {
         switch (selectionMode) {
             case ksmStopSig:
@@ -5508,11 +5456,14 @@ void element::paintEvent(QPaintEvent*)
                 break;
         }
 
+        int h = height();
+        int w = width();
+
         p.setPen(QPen(c, 2, SolidLine));
-        p.drawLine(0, h - 2, w - 1, h - 2);
-        p.drawLine(w - 2, h - 2, w - 2, 0);
-        p.drawLine(w - 2, 1, 0, 0);
-        p.drawLine(1, 1, 1, h - 2);
+        p.drawLine(0, h - 1, w, h - 1);
+        p.drawLine(w - 1, h - 1, w - 1, 0);
+        p.drawLine(w - 1, 1, 0, 0);
+        p.drawLine(1, 1, 1, h - 1);
     }
 }
 

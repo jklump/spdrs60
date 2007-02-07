@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.5.1 $Revision: 1.37 $
+                           version 0.5.1 $Revision: 1.38 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-06 20:49:15 $
+    last modified        : $Date: 2007-02-07 22:08:52 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -109,14 +109,15 @@ private:
    int         SRCP08FBBusWalker;
    int         *pSRCP08FBBusList;
 
+   void connectElement(element*);
    void deleteElements();
    void externalButtonClicked(GbsButtonState);
    bool findElement(const QString&, int, int);
+   void moveElementToIndexPos(element*, int);
    void setupElements();
    void updateSRCP08GABusList();
    void updateSRCP08FBBusList();
    void updateSRCP08BusLists();
-   void connectElement(element*);
    
 /*
 void savePixmaps(int ID)
@@ -154,6 +155,7 @@ protected:
     int indexOf(int row, int col) const;
     int indexOf(QPoint) const;
     void mouseReleaseEvent(QMouseEvent *);
+    void paintEvent(QPaintEvent*);
 
 signals:
     void showLogMessage(const QString&, int, int);

@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.1 $Revision: 1.45 $
+                           version 0.5.1 $Revision: 1.46 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-06 20:49:15 $
+    last modified        : $Date: 2007-02-07 22:08:52 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -241,28 +241,29 @@ void Route::setupElementLists(QPtrVector<element>* elements)
     for (unsigned int i = 0; i < elements->size(); i++) {
         element* gbse = elements->at(i);
 
+        if (gbse == NULL)
+            continue;
+
         /*first add switchable elements "between" entry and exit signals*/
         QPtrListIterator<stateElement> it(switchItems);
         stateElement* swElement;
         while ((swElement = it.current()) != 0) {
             ++it;
         
-            if ((gbse != 0) && gbse->hasSameAddress(swElement->bus,
+            if ((gbse != NULL) && gbse->hasSameAddress(swElement->bus,
                         swElement->address)) {
                 swElement->name = gbse->getLabelText();
-                if (swElement->elemPtr == NULL)
-                    swElement->elemPtr = gbse;
-                    break;
-                }
+                swElement->elemPtr = gbse;
+                break;
             }
+        }
 
         /*add exit signal*/
         if ((gbse != 0) && gbse->hasSameAddress(exitSignal.bus,
                     exitSignal.address)) {
             //routePathItems.append(gbse);
             exitSignal.name = gbse->getLabelText();
-            if (exitSignal.elemPtr == NULL)
-                exitSignal.elemPtr = gbse;
+            exitSignal.elemPtr = gbse;
         }
 
         /*add entry signal*/
@@ -270,8 +271,7 @@ void Route::setupElementLists(QPtrVector<element>* elements)
                     entrySignal.address)) {
             //routePathItems.append(gbse);
             entrySignal.name = gbse->getLabelText();
-            if (entrySignal.elemPtr == NULL)
-                entrySignal.elemPtr = gbse;
+            entrySignal.elemPtr = gbse;
         }
     }
 }

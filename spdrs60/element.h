@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.1 $Revision: 1.62 $
+                           version 0.5.1 $Revision: 1.63 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-06 05:44:46 $
+    last modified        : $Date: 2007-02-07 22:08:52 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -250,6 +250,7 @@ public:
     bool isTurnout();
     bool hasThreeStates();
     void showElementState(int, elemSelectionMode);
+    void showPropertyDlg();
     void sendSrcpState();
     bool sendSRCP08InitGA(unsigned int gano = 1);
     void setIndexNo(unsigned int);
@@ -317,7 +318,6 @@ private:
     void addTooltip();
     void clear();
     void initVariables();
-    void showPropertyDlg();
     void setupElementIcon();
     void setLightsOn(bool);
     void switchToDirBlinking(int);
