@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.1 $Revision: 1.64 $
+                           version 0.5.1 $Revision: 1.65 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-07 22:08:52 $
+    last modified        : $Date: 2007-02-08 18:59:57 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -24,7 +24,6 @@
  ***************************************************************************/
 
 #include <stdlib.h>            //for free, calloc, realloc
-#include <qprogressdialog.h>
 
 #include "resources.h"
 #include "gbsarea.h"
@@ -211,11 +210,7 @@ GBSArea::~GBSArea()
 // *INDENT-OFF*
 QSize GBSArea::sizeHint() const
 {
-    // Size of GBSArea: columns * element width, rows * element height
-    if (elements.count() == 0)
-        return QSize(0, 0);
-    else
-        return QSize(1 + cols * (EL_WIDTH + 1), 1 + rows * (EL_HEIGHT + 1));
+    return QSize(1 + cols * (EL_WIDTH + 1), 1 + rows * (EL_HEIGHT + 1));
 }
 // *INDENT-ON*
 
@@ -227,42 +222,8 @@ void GBSArea::newFile(int iColumns, int iRows)
 
     // delete a possibly shown old layout
     deleteElements();
-    elements.resize(iRows * iColumns);
-
-    QProgressDialog progress(tr("Creating empty layout file"),
-                             tr("Abort"), iRows * iColumns,
-                             this, "progress", true);
-    progress.show();
-
-    QString sData;
-
-    for (int i = 0; i < (iRows * iColumns); i++) {
-        // now create the new elements (but do not show them yet)
-        element* el = new element(this);
-        el->setIndexNo(i);
-        elements.insert(i, el);
-        moveElementToIndexPos(el, i);
-        /*
-        anElement->move(1 + (i / iRows) * EL_WIDTH,
-                        1 + (i % iRows) * EL_HEIGHT);
-                        */
-
-        if ((i % 20) == 0)
-            progress.setProgress(i);
-        qApp->processEvents();
-
-#if QT_VERSION >= 0x030200
-        if (progress.wasCanceled()) {
-#else
-        if (progress.wasCancelled()) {
-#endif
-            deleteElements();
-            return;
-        }
-    }
-    progress.setProgress(iRows * iColumns);
-    // now setup and show elements
-    setupElements();
+    elements.resize(rows * cols);
+    updateGeometry();
     emit updateRoutingViewer("");
 }
         
@@ -293,10 +254,6 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
     if (!elements.isEmpty())
         deleteElements();
     
-    QProgressDialog progress(tr("Loading layout file"),
-                             tr("Abort"), 0, this, "progress", true);
-    progress.show();
-    
     QString s, key, value;
     unsigned int ecount = 0;
 
@@ -304,95 +261,40 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
         s = ts.readLine();
         
         /* ignore comment lines */
-        if (!s.startsWith("#")) {
-            /*TODO: read layout dimensions */ 
-            key = s.section(DS, 0, 0);
-            value = s.section(DS, 1, 1).stripWhiteSpace();
-            /* key/value pairs are read sequence independent */
-            if (key.compare(GF_DIMENSIONS) == 0){
-                cols = value.toInt();
-                value = s.section(DS, 2, 2).stripWhiteSpace();
-                rows = value.toInt();
-                ecount = cols * rows;
-                elements.resize(ecount);
+        if (s.startsWith("#"))
+            continue;
 
-                /* setup progress dialog */
-                progress.setTotalSteps(ecount);
-            }
-            /*here we read allways up to start marker of a new route*/
-            else if (s.startsWith("%% element")) {
-                
-                element* fe = new element(ts, this);
-                if (fe != NULL) {
-                    unsigned int idx = fe->getIndexNo();
-                    if ((idx % 20) == 0)
-                        progress.setProgress(idx);
-                    qApp->processEvents();
+        /*TODO: read layout dimensions */ 
+        key = s.section(DS, 0, 0);
+        value = s.section(DS, 1, 1).stripWhiteSpace();
+        /* key/value pairs are read sequence independent */
+        if (key.compare(GF_DIMENSIONS) == 0){
+            cols = value.toInt();
+            value = s.section(DS, 2, 2).stripWhiteSpace();
+            rows = value.toInt();
+            ecount = cols * rows;
+            elements.resize(ecount);
+            updateGeometry();
+        }
+        /*here we read allways up to start marker of a new route*/
+        else if (s.startsWith("%% element")) {
 
-                    if (idx < ecount) {
-                        moveElementToIndexPos(fe, idx);
-                        /*
-                        fe->move(1 + (idx / rows) * EL_WIDTH,
-                                 1 + (idx % rows) * EL_HEIGHT);
-                                 */
-                        elements.insert(idx, fe);
-                    }
-                }
-#if QT_VERSION >= 0x030200
-                if (progress.wasCanceled()) {
-#else
-                if (progress.wasCancelled()) {
-#endif
-                    deleteElements();
-                    ecount = 0;
-                    break;
+            element* el = new element(ts, this);
+            if (el != NULL) {
+                unsigned int idx = el->getIndexNo();
+
+                if (idx < ecount) {
+                    elements.insert(idx, el);
+                    moveElementToIndexPos(el, idx);
+                    connectElement(el);
+                    el->show();
                 }
             }
-            else if (s.startsWith("%% route"))
-                break;
         }
-    }
-    //TODO: remove this
-    /*
-     * may be this some time can be removed when empty elements are
-     * handled in an other way by gbsarea
-     */
-        /*
-    progress.setLabelText(tr("Adding empty elements"));
-    progress.setTotalSteps(ecount);
-
-    //add mising empty elements
-    for (unsigned int i = 0; i < ecount; i++) {
-        if (elements[i] == NULL){
-            element* ee = new element(this);
-            ee->setIndexNo(i);
-            elements.insert(i, ee);
-            //elements[i] = ee;
-            ee->move((i / rows) * EL_WIDTH, (i % rows) * EL_HEIGHT);
-            
-            if ((i % 20) == 0)
-                progress.setProgress(i);
-
-            qApp->processEvents();
-
-#if QT_VERSION >= 0x030200
-            if (progress.wasCanceled()) {
-#else
-            if (progress.wasCancelled()) {
-#endif
-                deleteElements();
-                break;
-            }
+        else if (s.startsWith("%% route"))
+            break;
         }
-    }
-    */
-    progress.setProgress(ecount);
-    adjustSize();
     setModified(false);
-    
-    // now setup and show elements, send element states to SRCP-server
-    // and load routes
-    setupElements();
     slotSendAll();
 }
 
@@ -877,20 +779,6 @@ void GBSArea::connectElement(element* el)
 }
 
 
-void GBSArea::setupElements()
-{
-    for (unsigned int j = 0; j < elements.size(); j++) {
-        element* el = elements[j];
-        if (el != NULL) {
-            el->show();
-            connectElement(el);
-        }
-    }
-    move(0, 0);
-    updateGeometry();
-}
-
-
 // *INDENT-OFF*
 bool GBSArea::isModified() const
 // *INDENT-ON*
@@ -946,22 +834,13 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
     for (int c = 1; c <= newcols; c++) {
         for (int r = 1; r <= newrows; r++) {
             element* el = item(r, c);
-            unsigned int idx = newrows * (c - 1) + r - 1;
-            // TODO: remove this
-            if (el == NULL) {
-                /* insert empty element to unoccupied position */
-                el = new element(this);
-                moveElementToIndexPos(el, idx);
-                /*
-                el->move(1 + (c - 1) * EL_WIDTH,
-                        1 + (r - 1) * EL_HEIGHT);
-                        */
-                el->show();
-                connectElement(el);
+
+            if (el != NULL) {
+                unsigned int idx = newrows * (c - 1) + r - 1;
+                el->setIndexNo(idx);
+                /*TODO: set current visual mode */
+                tmpelements.insert(idx, el);
             }
-            el->setIndexNo(idx);
-            /*TODO: set current visual mode */
-            tmpelements.insert(idx, el);
         }
     }
 
@@ -972,7 +851,7 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
     cols = newcols;
     rows = newrows;
 
-    adjustSize();
+    updateGeometry();
     setModified(true);
 }
 
@@ -1053,7 +932,6 @@ void GBSArea::getElementByAddress(const int bus, const int address,
     for (unsigned int i = 0; i < elements.size(); i++) {
         element* gbse = elements[i];
 
-        //TODO: search also bus
         if (gbse != NULL && gbse->hasSameAddress(bus, address)) {
             *el = gbse;
             break;
@@ -1509,7 +1387,6 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
                     case CTX_ID_CLEAR:
                         //TODO: update route data
                         elements.remove(idx);
-                        //el->setElementName(SYM_LEE);
                         lastElementName = "";
                         break;
                     case 5:
@@ -1555,12 +1432,13 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
                 el->setIndexNo(idx);
                 el->switchVisualMode(visualMode);
                 moveElementToIndexPos(el, idx);
-                el->show();
                 connectElement(el);
                 elements.insert(idx, el);
+                el->show();
             }
 
             el->showPropertyDlg();
+            lastElementName = el->sSoldIcon;
             e->accept();
         }
     }
@@ -1570,6 +1448,7 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
         /*show context menu to switch element only without selection*/
         if (e->button() == RightButton){
             element* el = (element*)childAt(e->pos());
+
             if (el != NULL && el->isSwitchable()) {
                 ctxNorm->setItemEnabled(CTX_ID_TOGGLE,
                         el->ctxCanSwitch());

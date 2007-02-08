@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.1 $Revision: 1.116 $
+                           version 0.5.1 $Revision: 1.117 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-07 22:08:52 $
+    last modified        : $Date: 2007-02-08 18:59:57 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -626,14 +626,12 @@ void element::switchSelectionMode(elemSelectionMode sm)
 
 void element::switchVisualMode(elemVisualMode vm)
 {
-    visualMode = vm;
-    /* send element state when visual mode is switched to normal mode
-     * and selection mode is not normal; typicaly after view route mode
-     */
-    if (selectionMode != ksmNormal)
-        selectionMode = ksmNormal;
+    if (visualMode != vm) {
+        visualMode = vm;
 
-    update();
+        if (selectionMode != ksmNormal)
+            switchSelectionMode(ksmNormal);
+    }
 }
 
 
@@ -2516,7 +2514,7 @@ void element::setupElementIcon()
         int h = pm.height();
         
         // paint track
-        p.fillRect(w / 2 - 3, 0, 7, h - 1, QBrush(black));
+        p.fillRect(w / 2 - 3, 0, 7, h, QBrush(black));
         
         // paint track lights
         if (iSoldLEDoff == 1) {

@@ -1,5 +1,5 @@
 2007-02-07 Guido Scholz <guido.scholz@bayernline.de>
-	* gbsarea.*, element.*: handling of empty elements improved,
+	* gbsarea.*, element.*, route.cpp: handling of empty elements improved,
 	loading files is much faster now, memory consumtion is much
 	lower than before
 
