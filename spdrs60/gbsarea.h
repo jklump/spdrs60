@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.5.1 $Revision: 1.39 $
+                           version 0.5.1 $Revision: 1.40 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-08 18:59:57 $
+    last modified        : $Date: 2007-02-09 18:07:25 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -110,7 +110,6 @@ private:
    int         *pSRCP08FBBusList;
 
    void connectElement(element*);
-   void deleteElements();
    void externalButtonClicked(GbsButtonState);
    bool findElement(const QString&, int, int);
    void moveElementToIndexPos(element*, int);

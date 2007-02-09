@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.1 $Revision: 1.65 $
+                           version 0.5.1 $Revision: 1.66 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-08 18:59:57 $
+    last modified        : $Date: 2007-02-09 18:07:25 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -221,9 +221,10 @@ void GBSArea::newFile(int iColumns, int iRows)
     rows = iRows;
 
     // delete a possibly shown old layout
-    deleteElements();
+    emit clearRoutes();
+    elements.clear();
     elements.resize(rows * cols);
-    updateGeometry();
+    adjustSize();
     emit updateRoutingViewer("");
 }
         
@@ -251,8 +252,10 @@ void GBSArea::writeFileTextToStream(QTextStream& ts)
 void GBSArea::readFileTextFromStream(QTextStream& ts)
 {
     /*clear old element list*/
-    if (!elements.isEmpty())
-        deleteElements();
+    if (!elements.isEmpty()) {
+        emit clearRoutes();
+        elements.clear();
+    }
     
     QString s, key, value;
     unsigned int ecount = 0;
@@ -274,7 +277,7 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
             rows = value.toInt();
             ecount = cols * rows;
             elements.resize(ecount);
-            updateGeometry();
+            adjustSize();
         }
         /*here we read allways up to start marker of a new route*/
         else if (s.startsWith("%% element")) {
@@ -704,14 +707,17 @@ void GBSArea::slotToggleAll()
  **/
 void GBSArea::slotSendAll()
 {
-    for (unsigned int j = 0; j < elements.size(); j++)
-        if (elements[j] != NULL && !(elements[j]->sSoldIcon == SYM_ENK
-                    && elements[j]->iSoldSubType != -1) &&
-                //GBSElement[j]->sSoldIcon != SYM_ENK &&
-                elements[j]->sSoldIcon != SYM_MDC &&
-                elements[j]->sSoldIcon != SYM_SBN &&
-                elements[j]->sSoldIcon != SYM_DRE)
-            elements[j]->sendSrcpState();
+    for (unsigned int j = 0; j < elements.size(); j++) {
+        element* el = elements[j];
+
+        if (el != NULL && !(el->sSoldIcon == SYM_ENK
+                    && el->iSoldSubType != -1) &&
+                //el->sSoldIcon != SYM_ENK &&
+                el->sSoldIcon != SYM_MDC &&
+                el->sSoldIcon != SYM_SBN &&
+                el->sSoldIcon != SYM_DRE)
+            el->sendSrcpState();
+    }
 }
 
 
@@ -720,22 +726,15 @@ void GBSArea::slotSendAll()
  * */
 void GBSArea::slotNotrot()
 {
-    for (unsigned int j = 0; j < elements.size(); j++)
-        if (elements[j] != NULL && elements[j]->isSignal())
-            elements[j]->switchToDir(0);
+    for (unsigned int j = 0; j < elements.size(); j++) {
+        element* el = elements[j];
+
+        if (el != NULL && el->isSignal())
+            el->switchToDir(0);
+    }
     
     emit showLogMessage(tr("Switched all signals to halt/stop"),
             MT_INFO, HL_HINT);
-}
-
-
-void GBSArea::deleteElements()
-{
-    /* send signal to router */
-    emit clearRoutes();
-    elements.clear();
-    move(0, 0);
-    updateGeometry();
 }
 
 
@@ -810,13 +809,13 @@ int GBSArea::getRows()
 
 void GBSArea::setLayoutSize(int newcols, int newrows)
 {
+    if (newcols < 1 || newrows < 1)
+        return;
+
     QPtrVector<element> tmpelements;
 
     tmpelements.resize(newcols * newrows);
     
-    if (newcols < 1 || newrows < 1)
-        return;
-
     /* delete elements outside new gbs area */
     if (newcols < cols) {
         for (int i = 0; i < (cols - newcols); i++) {
@@ -838,7 +837,6 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
             if (el != NULL) {
                 unsigned int idx = newrows * (c - 1) + r - 1;
                 el->setIndexNo(idx);
-                /*TODO: set current visual mode */
                 tmpelements.insert(idx, el);
             }
         }
@@ -851,7 +849,7 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
     cols = newcols;
     rows = newrows;
 
-    updateGeometry();
+    adjustSize();
     setModified(true);
 }
 
@@ -925,7 +923,7 @@ void GBSArea::sendInfoPortMessage(unsigned int bus,
     emit processInfoPortMessage(bus, addr, port, value);
 }
 
-
+/*used by route dialog to look for element names*/
 void GBSArea::getElementByAddress(const int bus, const int address,
         element** el)
 {
@@ -1466,7 +1464,6 @@ void GBSArea::switchVisualMode(elemVisualMode vm)
 {
     if (vm != visualMode) {
         visualMode = vm;
-        //TODO: check this
         emit switchedVisualMode(vm);
         update();
     }
@@ -1478,7 +1475,7 @@ void GBSArea::paintEvent(QPaintEvent*)
     QPainter p(this);
     QColor c;
 
-    /* 1) paint visual mode lines*/
+    /* paint visual mode lines*/
     switch (visualMode) {
         case kvmEditLayout:
             // edit mode: red

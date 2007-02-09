@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.1 $Revision: 1.117 $
+                           version 0.5.1 $Revision: 1.118 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-08 18:59:57 $
+    last modified        : $Date: 2007-02-09 18:07:24 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -6620,8 +6620,10 @@ void element::setElementName(const QString& n)
     
     if (sSoldIcon == SYM_LEE)
         clear();
-    else  
+    else {
+        iSoldRotate = 0; 
         updateProperties();
+    }
 
     setupElementIcon();
     updateFeedbackState();

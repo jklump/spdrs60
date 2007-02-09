@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.1 $Revision: 1.95 $
+                           version 0.5.1 $Revision: 1.96 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-06 20:49:15 $
+    last modified        : $Date: 2007-02-09 18:07:25 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1661,13 +1661,18 @@ void MainWindow::openFile(const QString& fn)
     lastDir = fn.left(fn.findRev('/'));
 
     QFile f(fn);
+
     if (!f.open(IO_ReadOnly)){
         cmdToDebug(tr("Could not read file '%1'").arg(fn), MT_INFO, HL_HINT);
         return;
     }
     CloseSRCPServerConnection();
-    fileName = fn;
 
+    // give application some time to handle socket closing and toolbar
+    // painting
+    qApp->processEvents();
+
+    fileName = fn;
     QTextStream ts(&f);
     ts.setEncoding(QTextStream::UnicodeUTF8);
     
@@ -1706,9 +1711,10 @@ void MainWindow::openFile(const QString& fn)
                 break;
         }
     }
-    // TODO: add format version
+
     /*TODO: srcpCom->readFileTextFromStream(ts);*/
     gbs->readFileTextFromStream(ts);
+    qApp->processEvents();
     rtController->readFileTextFromStream(ts);
 
     f.close();
@@ -1716,10 +1722,13 @@ void MainWindow::openFile(const QString& fn)
     cmdToDebug(tr("Layout file '%1' opened").arg(fn), MT_INFO, HL_HINT);
     updateCaption();
     updateFileMenuItems();
-    // update feedback states
-    layoutUpdateFB();
-    if (cmdAutoLogin)
+
+    if (cmdAutoLogin) {
         ConnectToSRCPServer();
+
+        // update feedback states
+        layoutUpdateFB();
+    }
 }
 
 
@@ -2499,7 +2508,6 @@ QString MainWindow::GetSocketErrorString(int e)
 
 void MainWindow::ConnectToSRCPServer()
 {
-    //LoginIsRunning = true;
     ConnectCommandPort();
 }
 
@@ -2888,7 +2896,6 @@ void MainWindow::slotViewSwitchMode(QAction* ac)
     actionFileNew->setEnabled(visualMode == kvmNormal);
     actionFileOpen->setEnabled(visualMode == kvmNormal);
     actionFileSaveAs->setEnabled(true);
-    actionLayoutChangeSize->setEnabled(visualMode == kvmNormal);
 }
 
 /*
