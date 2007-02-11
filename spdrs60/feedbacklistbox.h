@@ -1,10 +1,10 @@
 /***************************************************************************
                            feedbacklistbox.h
-                           version 0.5.1 $Revision: 1.3 $
+                           version 0.5.1 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 2006-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-28 16:25:42 $
+    last modified        : $Date: 2007-02-11 16:59:04 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -34,7 +34,7 @@ class FeedbackListBox: public QListBox
         
 public:
     FeedbackListBox(QWidget* parent=0, const char* name=0);
-    void updateModuleSetup(unsigned int, unsigned int);
+    void updateModuleSetup(int, unsigned int);
     
 public slots:
     void updateFeedbackPortState(unsigned int, bool);

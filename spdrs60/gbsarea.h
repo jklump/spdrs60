@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.5.1 $Revision: 1.41 $
+                           version 0.5.1 $Revision: 1.42 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-11 09:38:10 $
+    last modified        : $Date: 2007-02-11 16:59:10 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -100,14 +100,14 @@ private:
    elemVisualMode visualMode;
 
    // for SRCP 0.8
-   int         SRCP08GA1InitWalker;
-   int         SRCP08GA2InitWalker;
-   int         SRCP08GABusCount;
-   int         SRCP08GABusWalker;
-   int         *pSRCP08GABusList;
-   int         SRCP08FBBusCount;
-   int         SRCP08FBBusWalker;
-   int         *pSRCP08FBBusList;
+   unsigned int SRCP08GA1InitWalker;
+   unsigned int SRCP08GA2InitWalker;
+   unsigned int SRCP08GABusCount;
+   unsigned int SRCP08GABusWalker;
+   unsigned int *pSRCP08GABusList;
+   unsigned int SRCP08FBBusCount;
+   unsigned int SRCP08FBBusWalker;
+   unsigned int *pSRCP08FBBusList;
 
    void connectElement(element*);
    void externalButtonClicked(GbsButtonState);

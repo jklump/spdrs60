@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.1 $Revision: 1.97 $
+                           version 0.5.1 $Revision: 1.98 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-11 09:38:10 $
+    last modified        : $Date: 2007-02-11 16:59:11 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -168,8 +168,6 @@ MainWindow::~MainWindow()
  */
 void MainWindow::readConfigFile()
 {
-    int i;
-
     QFile file(QDir::homeDirPath() + "/" + SPDRS60_INIT);
     if (!file.open(IO_ReadOnly)) {
         /* if no configuration file is found, just keep defaults */

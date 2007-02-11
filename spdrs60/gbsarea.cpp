@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.1 $Revision: 1.67 $
+                           version 0.5.1 $Revision: 1.68 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-11 09:38:10 $
+    last modified        : $Date: 2007-02-11 16:59:10 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -295,8 +295,8 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
                 unsigned int idx = el->getIndexNo();
 
                 if (idx < ecount) {
-                    elements.insert(idx, el);
                     moveElementToIndexPos(el, idx);
+                    elements.insert(idx, el);
                     connectElement(el);
                     el->show();
                 }
@@ -950,7 +950,7 @@ bool GBSArea::runSRCP08GAInitSequence()
     bool returnvalue = false;
     bool CounterChanged = false;
 
-    for (int i = SRCP08GA1InitWalker; i < elements.size(); i++) {
+    for (unsigned int i = SRCP08GA1InitWalker; i < elements.size(); i++) {
 
         element* el = elements[i];
         if (el == NULL)
@@ -969,7 +969,7 @@ bool GBSArea::runSRCP08GAInitSequence()
     }
 
     if (!returnvalue && !CounterChanged)
-        for (int i = SRCP08GA2InitWalker; i < elements.size(); i++) {
+        for (unsigned int i = SRCP08GA2InitWalker; i < elements.size(); i++) {
 
             element* el = elements[i];
             if (el == NULL)
@@ -1160,12 +1160,12 @@ void GBSArea::updateSRCP08BusLists()
 
 void GBSArea::updateSRCP08GABusList()
 {
-    int count = 0, busno = 0;
+    unsigned int count = 0, busno = 0;
     bool busNoIsKnown;
-    int *tempbuslist;
+    unsigned int *tempbuslist;
 
     /*how many different GA busses do we have? */
-    for (int i = 0; i < elements.size(); i++) {
+    for (unsigned int i = 0; i < elements.size(); i++) {
 
         element* el = elements[i];
         if (el == NULL)
@@ -1188,7 +1188,7 @@ void GBSArea::updateSRCP08GABusList()
                 if (count == 0) {
                     count++;
 
-                    pSRCP08GABusList = (int *) calloc(count, sizeof(int));
+                    pSRCP08GABusList = (unsigned int *) calloc(count, sizeof(unsigned int));
                     if (pSRCP08GABusList == NULL) {
                         fprintf(stderr, "Memory allocation error!");
                         SRCP08GABusCount = count - 1;
@@ -1199,7 +1199,7 @@ void GBSArea::updateSRCP08GABusList()
                 /*count > 0 */
                 else {
                     busNoIsKnown = false;
-                    for (int j = 0; j < count; j++) {
+                    for (unsigned int j = 0; j < count; j++) {
                         if (pSRCP08GABusList[j] == busno) {
                             busNoIsKnown = true;
                             break;
@@ -1209,8 +1209,8 @@ void GBSArea::updateSRCP08GABusList()
                         count++;
 
                         tempbuslist =
-                            (int *) realloc(pSRCP08GABusList,
-                                            sizeof(int[count]));
+                            (unsigned int *) realloc(pSRCP08GABusList,
+                                            sizeof(unsigned int[count]));
 
                         if (tempbuslist == NULL) {
                             fprintf(stderr, "Memory allocation error!");
@@ -1241,9 +1241,9 @@ void GBSArea::updateSRCP08GABusList()
 
 void GBSArea::updateSRCP08FBBusList()
 {
-    int count = 0, busno = 0;
+    unsigned int count = 0, busno = 0;
     bool busNoIsKnown;
-    int *tempbuslist;
+    unsigned int *tempbuslist;
 
     if (pSRCP08FBBusList != NULL) {
         free(pSRCP08FBBusList);
@@ -1251,7 +1251,7 @@ void GBSArea::updateSRCP08FBBusList()
     }
 
     /*how many different FB busses do we have? */
-    for (int i = 0; i < elements.size(); i++) {
+    for (unsigned int i = 0; i < elements.size(); i++) {
 
         element* el = elements[i];
         if (el == NULL)
@@ -1265,7 +1265,7 @@ void GBSArea::updateSRCP08FBBusList()
         if (busno > 0) {
             if (count == 0) {
                 count++;
-                pSRCP08FBBusList = (int *) calloc(count,
+                pSRCP08FBBusList = (unsigned int *) calloc(count,
                         sizeof(busno));
                 if (pSRCP08FBBusList == NULL) {
                     fprintf(stderr, "Memory allocation error!");
@@ -1278,7 +1278,7 @@ void GBSArea::updateSRCP08FBBusList()
             /*count > 0 */
             else {
                 busNoIsKnown = false;
-                for (int j = 0; j < count; j++) {
+                for (unsigned int j = 0; j < count; j++) {
                     if (pSRCP08FBBusList[j] == busno) {
                         busNoIsKnown = true;
                         break;
@@ -1286,7 +1286,7 @@ void GBSArea::updateSRCP08FBBusList()
                 }
                 if (!busNoIsKnown) {
                     count++;
-                    tempbuslist = (int *) realloc(pSRCP08FBBusList,
+                    tempbuslist = (unsigned int *) realloc(pSRCP08FBBusList,
                                               sizeof(busno) * count);
                     if (tempbuslist == NULL) {
                         fprintf(stderr, "Memory allocation error!");
@@ -1322,7 +1322,7 @@ bool GBSArea::hasSrcp08GaBus(unsigned int bus)
     bool returnvalue = false;
 
     if (SRCP08GABusCount > 0) 
-        for (int i = 0; i < SRCP08GABusCount; i++)
+        for (unsigned int i = 0; i < SRCP08GABusCount; i++)
             if (bus == pSRCP08GABusList[i]){
                 returnvalue = true;
                 break;
@@ -1366,9 +1366,9 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
                 el->setIndexNo(idx);
                 el->switchVisualMode(visualMode);
                 moveElementToIndexPos(el, idx);
+                elements.insert(idx, el);
                 el->show();
                 connectElement(el);
-                elements.insert(idx, el);
             }
 
             // first update name of last edited element
@@ -1437,8 +1437,8 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
                 el->setIndexNo(idx);
                 el->switchVisualMode(visualMode);
                 moveElementToIndexPos(el, idx);
-                connectElement(el);
                 elements.insert(idx, el);
+                connectElement(el);
                 el->show();
             }
 
@@ -1472,7 +1472,9 @@ void GBSArea::mousePressEvent(QMouseEvent* e)
     /*layout edit mode*/
     if (visualMode == kvmEditLayout) {
         if (e->button() == LeftButton) {
-            dragging = true;
+            element* el = (element*)childAt(e->pos());
+            if (el != NULL)
+                dragging = true;
         }
     }
 }
@@ -1490,15 +1492,10 @@ void GBSArea::mouseMoveEvent(QMouseEvent* e)
                 QByteArray data(sizeof(idx));
                 memcpy(data.data(), &idx, sizeof(idx));
                 
-                QStoredDrag* d = new QStoredDrag(MIME_LE, this);
+                QStoredDrag* d = new QStoredDrag(MIME_LE, this, "spdrs60-le");
                 d->setEncodedData(data);
                 d->dragMove();
                 
-                /*
-                QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
-                pm.fill(QColor(lightGray));
-                d->setPixmap(pm, QPoint(pm.width()/2, pm.height()/2));
-                */
                 // FIXME: no pixmap visible
                 d->setPixmap(*el->paletteBackgroundPixmap());
                 dragging = false;
@@ -1532,8 +1529,13 @@ void GBSArea::dropEvent(QDropEvent *e)
         memcpy(&idx, data.data(), sizeof(idx));
 
         // move element from old position to new position
-        element* el = elements[idx];
-        moveElementToIndexPos(el, indexOf(e->pos()));
+        element* el = elements.take(idx);
+        if (el != NULL) {
+            unsigned int pidx = indexOf(e->pos());
+            el->setIndexNo(pidx);
+            moveElementToIndexPos(el, pidx);
+            elements.insert(pidx, el);
+        }
     }
 }
 

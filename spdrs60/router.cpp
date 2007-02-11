@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.1 $Revision: 1.38 $
+                           version 0.5.1 $Revision: 1.39 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-06 20:49:15 $
+    last modified        : $Date: 2007-02-11 16:59:13 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -347,6 +347,10 @@ void Router::processRouteState(Route* rt, int rs)
             emit showLogMessage(tr("Route '%1' waiting for release")
                     .arg(rt->getName()), MT_INFO, HL_HINT);
             break;
+        case Route::rsLocking:
+            emit showLogMessage(tr("Route '%1' is in activating state")
+                    .arg(rt->getName()), MT_INFO, HL_HINT);
+            break;
     }
 }
 
@@ -501,7 +505,6 @@ void Router::resetRoute(element* el, GbsButtonState cb)
             //check if selected route has same exit signal
             if (resetRt->hasThisExitSignal(el)) {
                 resetRt->stopRouting();
-                int index = routeList.find(resetRt);
                 // send signal to routing viewer to update state icon
                 emit routeStateChanged(resetRt);
                 emit showLogMessage(tr("Route '%1' released")

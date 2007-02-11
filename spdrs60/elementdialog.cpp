@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.cpp
-                           version 0.5.1 $Revision: 1.32 $
+                           version 0.5.1 $Revision: 1.33 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-06 05:44:46 $
+    last modified        : $Date: 2007-02-11 16:59:04 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1662,7 +1662,7 @@ void elementDialog::setPort1(int aport)
 
 int elementDialog::getPort1()
 {
-    port1SB->value();
+    return port1SB->value();
 }
 
 
@@ -1674,7 +1674,7 @@ void elementDialog::setPort2(int aport)
 
 int elementDialog::getPort2()
 {
-    port2SB->value();
+    return port2SB->value();
 }
 
 

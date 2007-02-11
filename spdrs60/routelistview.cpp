@@ -1,10 +1,10 @@
 /***************************************************************************
                            routelistview.cpp
-                           version 0.5.1 $Revision: 1.2 $
+                           version 0.5.1 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-30 20:01:33 $
+    last modified        : $Date: 2007-02-11 16:59:13 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -55,6 +55,7 @@ RouteLVI* RouteListView::getRouteLVIByRoute(Route* sr)
         }
         ++it;
     }
+    return NULL;
 }
 
 

@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.1 $Revision: 1.46 $
+                           version 0.5.1 $Revision: 1.47 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-07 22:08:52 $
+    last modified        : $Date: 2007-02-11 16:59:11 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -577,6 +577,7 @@ int Route::startRouting()
 
     // start timer controlled turnout switching
     switchTurnouts();
+    return 1;
 }
 
 /* 

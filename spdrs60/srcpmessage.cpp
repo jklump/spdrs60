@@ -1,10 +1,10 @@
 /***************************************************************************
                            srcpmessage.cpp
-                           version 0.5.1 $Revision: 1.14 $
+                           version 0.5.1 $Revision: 1.15 $
                            -------------------------------
     copyright            : (C) 2005-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-28 16:25:50 $
+    last modified        : $Date: 2007-02-11 16:59:13 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -41,6 +41,12 @@ SrcpMessage::SrcpMessage(Message msg)
 }
 
 
+// just to avoid compiler warnings
+SrcpMessage::~SrcpMessage()
+{           
+}
+
+
 QString SrcpMessage::getSrcpMessageStr(unsigned int version) const
 {
     QString cmdStr = "";
@@ -69,6 +75,9 @@ QString SrcpMessage::getSrcpMessageStr(unsigned int version) const
                         break;
                     case fbPS:
                         cmdStr = "INIT FB PS";
+                        break;
+                    default:
+                        cmdStr = "INIT FB";
                         break;
                 }
                 break;
@@ -190,6 +199,9 @@ QString SrcpMessage::getProtocolStr(Protocol pro) const
             break;
         case proSelectrix:
             proStr = "S";
+            break;
+        default:
+            proStr = "";
             break;
     }
     return proStr;

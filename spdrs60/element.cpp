@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.1 $Revision: 1.119 $
+                           version 0.5.1 $Revision: 1.120 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-11 09:38:10 $
+    last modified        : $Date: 2007-02-11 16:59:02 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -819,8 +819,8 @@ void element::processInfoPortMessage(unsigned int bus,
     if (sSoldIcon == SYM_ENK && iSoldSubType != -1)
         return;
     
-    if (!(bus == iGA1BusNo && addr == iSoldAddress_1) ||
-       (bus == iGA2BusNo && addr == iSoldAddress_2))
+    if (!(bus == (unsigned int)iGA1BusNo && addr == (unsigned int)iSoldAddress_1) ||
+       (bus == (unsigned int)iGA2BusNo && addr == (unsigned int)iSoldAddress_2))
         return;
     
     /*TODO: add elements with two addresses*/
@@ -842,7 +842,7 @@ void element::processInfoPortMessage(unsigned int bus,
     /*invert direction if connectors are exchanged*/
     realDir = realDir ^ iSoldChangeConn[0];
         
-    if (port != realDir) {
+    if (port != (unsigned int)realDir) {
         realDir = port;
 
         /*again invert direction if connectors are exchanged*/
@@ -6170,7 +6170,7 @@ void element::slotOccupyElement(unsigned int bus, unsigned int contact,
             if (targetmod == selfmod)
                 updateEDiTSAddress(contact, state);
         }
-        else if (contact == iFBContact)
+        else if (contact == (unsigned int)iFBContact)
             setOccupied(state);
     }
 }

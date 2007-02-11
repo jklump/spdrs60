@@ -1,10 +1,10 @@
 /***************************************************************************
                            feedbacklistbox.cpp
-                           version 0.5.1 $Revision: 1.2 $
+                           version 0.5.1 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 2006-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-28 16:25:42 $
+    last modified        : $Date: 2007-02-11 16:59:04 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -33,7 +33,7 @@ FeedbackListBox::FeedbackListBox(QWidget* parent,
     moduleType = FeedbackModule::fbm16;
 }
 
-void FeedbackListBox::updateModuleSetup(unsigned int mt, unsigned int mc)
+void FeedbackListBox::updateModuleSetup(int mt, unsigned int mc)
 {
     if (mt != moduleType) {
         moduleType = (FeedbackModule::ModuleType) mt;

@@ -1,11 +1,11 @@
 /***************************************************************************
                            finder.cpp
-                           version 0.5.1 $Revision: 1.9 $
+                           version 0.5.1 $Revision: 1.10 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-28 16:25:46 $
+    last modified        : $Date: 2007-02-11 16:59:08 $
 ***************************************************************************/
 
 /*****************************************************************************
@@ -54,9 +54,9 @@ Finder::Finder(QWidget* parent): QDialog(parent, "Finder", false)
     baseLayout->addWidget(dataBG);
     QRadioButton *rbSearchText =
         new QRadioButton(tr("&Text fields"), dataBG);
-    QRadioButton *rbSearchAdr1 =
+    //QRadioButton *rbSearchAdr1 =
         new QRadioButton(tr("Decoder address &1"), dataBG);
-    QRadioButton *rbSearchAdr2 =
+    //QRadioButton *rbSearchAdr2 =
         new QRadioButton(tr("Decoder address &2"),
                          dataBG);
     rbSearchText->setChecked(true);
@@ -68,7 +68,7 @@ Finder::Finder(QWidget* parent): QDialog(parent, "Finder", false)
     baseLayout->addWidget(matchBG);
     QRadioButton *rbSearchSingle =
         new QRadioButton(tr("&First/only one match"), matchBG);
-    QRadioButton *rbSearchMulti =
+    //QRadioButton *rbSearchMulti =
         new QRadioButton(tr("&All matches"), matchBG);
     rbSearchSingle->setChecked(true);
 

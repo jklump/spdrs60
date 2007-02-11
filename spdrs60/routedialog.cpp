@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.5.1 $Revision: 1.33 $
+                           version 0.5.1 $Revision: 1.34 $
                            -------------------------------
     copyright            : (C) 2005-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-28 16:25:49 $
+    last modified        : $Date: 2007-02-11 16:59:12 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -397,8 +397,9 @@ RouteDialog::RouteDialog(QWidget* parent)
             QSizePolicy::Expanding, QSizePolicy::Minimum);
     uzsLayout->addItem(spacer);
     
-    /*sublayout for label ans spinbox*/
-    QBoxLayout* uzsLevelLayout = new QHBoxLayout(uzsLayout, 6);
+    /*sublayout for label and spinbox*/
+    //TODO: check this
+    //QBoxLayout* uzsLevelLayout = new QHBoxLayout(uzsLayout, 6);
     
     QLabel* label = new QLabel(tr("&Level:"), typeBG);
     uzsLayout->addWidget(label);
@@ -427,7 +428,8 @@ RouteDialog::RouteDialog(QWidget* parent)
     ursLayout->addItem(spacer);
     
     /*sublayout for label ans spinbox*/
-    QBoxLayout* ursLevelLayout = new QHBoxLayout(ursLayout, 6);
+    //TODO: check this
+    // QBoxLayout* ursLevelLayout = new QHBoxLayout(ursLayout, 6);
     
     label = new QLabel(tr("Le&vel:"), typeBG);
     ursLayout->addWidget(label);
@@ -577,7 +579,6 @@ void RouteDialog::getActivateData(PortState& port)
 #endif
     port.bus = activateSrcpBusLE->text().toUInt();
     port.address = activateContactSB->value();
-    port.address;
 }
 
 
@@ -603,7 +604,6 @@ void RouteDialog::getReleaseData(PortState& port)
 #endif
     port.bus = releaseSrcpBusLE->text().toUInt();
     port.address = releaseContactSB->value();
-    port.address;
 }
 
 

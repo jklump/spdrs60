@@ -1,10 +1,10 @@
 /***************************************************************************
                            routelistwindow.cpp
-                           version 0.5.1 $Revision: 1.3 $
+                           version 0.5.1 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-06 20:49:15 $
+    last modified        : $Date: 2007-02-11 16:59:13 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -120,7 +120,8 @@ void RouteListWindow::updateRouteList()
     for (unsigned int row = 0; row < routecount; row++) {
         rt = gbsRouter->getRouteAt(row);
         if (rt != NULL)
-            RouteLVI* nlvi = new RouteLVI(routeLV, rt);
+            //RouteLVI* nlvi = new RouteLVI(routeLV, rt);
+            new RouteLVI(routeLV, rt);
     }
     if (routecount > 0) {
         routeLV->setCurrentItem(routeLV->firstChild());

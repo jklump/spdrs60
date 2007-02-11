@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.15 $
-# last update: $Date: 2007-01-28 15:40:52 $
+# version: $Revision: 1.16 $
+# last update: $Date: 2007-02-11 16:59:01 $
 
 SUBDIRS = pixmaps
 
@@ -68,7 +68,7 @@ INCLUDES= $(all_includes)
 if TRANSLATE_QT
 TRANSLATE_DEF = -DQT_TRANSLATIONS_DIR=\"@QT_TRANSLATIONS_DIR@\"
 endif
-AM_CXXFLAGS = $(TRANSLATE_DEF)
+AM_CXXFLAGS = $(TRANSLATE_DEF) -Wall
 
 EXTRA_DIST = spdrs60_de.ts spdrs60.pro
 
