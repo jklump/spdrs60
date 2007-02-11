@@ -1,10 +1,10 @@
 /***************************************************************************
                            gbsscrollview.h
-                           version 0.5.1 $Revision: 1.4 $
+                           version 0.5.1 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-28 16:25:47 $
+    last modified        : $Date: 2007-02-11 09:38:10 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -23,7 +23,7 @@
 #ifndef GBSSCROLLVIEW_H
 #define GBSSCROLLVIEW_H
 
-#include "qscrollview.h"
+#include <qscrollview.h>
 
 class GBSScrollView: public QScrollView
 {

@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.1 $Revision: 1.96 $
+                           version 0.5.1 $Revision: 1.97 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-09 18:07:25 $
+    last modified        : $Date: 2007-02-11 09:38:10 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1725,6 +1725,7 @@ void MainWindow::openFile(const QString& fn)
 
     if (cmdAutoLogin) {
         ConnectToSRCPServer();
+        qApp->processEvents();
 
         // update feedback states
         layoutUpdateFB();
@@ -3211,6 +3212,7 @@ void MainWindow::layoutChangeSize()
 
 void MainWindow::layoutSendAll()
 {
+    qApp->processEvents();
     gbs->slotSendAll();
 }
 

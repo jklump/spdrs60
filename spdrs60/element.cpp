@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.1 $Revision: 1.118 $
+                           version 0.5.1 $Revision: 1.119 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-09 18:07:24 $
+    last modified        : $Date: 2007-02-11 09:38:10 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -498,8 +498,8 @@ void element::mousePressEvent(QMouseEvent* e)
     /*layout edit mode*/
     else if (visualMode == kvmEditLayout) {
         if (e->button() == LeftButton) {
-            /*TODO: select element*/
-            e->accept();
+            /*handled by gbsarea*/
+            e->ignore();
         }
     }
     /*route edit mode*/
@@ -792,6 +792,7 @@ void element::sendSrcpState()
             QTimer::singleShot(iSoldActiveTime, this,
                     SLOT(repaintTimeOutEnk()));
     }
+    qApp->processEvents();
 }
 
 

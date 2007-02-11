@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.1 $Revision: 1.66 $
+                           version 0.5.1 $Revision: 1.67 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-09 18:07:25 $
+    last modified        : $Date: 2007-02-11 09:38:10 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -24,6 +24,8 @@
  ***************************************************************************/
 
 #include <stdlib.h>            //for free, calloc, realloc
+
+#include <qdragobject.h>
 
 #include "resources.h"
 #include "gbsarea.h"
@@ -75,6 +77,9 @@
 #define   CTX_ID_CLEAR     903
 #define   CTX_ID_ROTATE    904
 
+// mime type for layout elements
+#define MIME_LE "application/x-spdrs60-le"
+
 
 GBSArea::GBSArea(QWidget* parent, const char* name)
 : QWidget(parent, name)
@@ -87,6 +92,9 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
     rows = 0;
     lastElementName = "";
     setPaletteBackgroundColor(QColor(lightGray));
+     
+    setAcceptDrops(true);
+    dragging = false;
 
     elements.setAutoDelete(true);
 
@@ -710,9 +718,8 @@ void GBSArea::slotSendAll()
     for (unsigned int j = 0; j < elements.size(); j++) {
         element* el = elements[j];
 
-        if (el != NULL && !(el->sSoldIcon == SYM_ENK
-                    && el->iSoldSubType != -1) &&
-                //el->sSoldIcon != SYM_ENK &&
+        if (el != NULL &&
+                el->sSoldIcon != SYM_ENK &&
                 el->sSoldIcon != SYM_MDC &&
                 el->sSoldIcon != SYM_SBN &&
                 el->sSoldIcon != SYM_DRE)
@@ -873,7 +880,7 @@ void GBSArea::removeRowElements(int row)
  *  col is defined from 1 to cols
  */
 // *INDENT-OFF*
-int GBSArea::indexOf(int row, int col) const
+unsigned int GBSArea::indexOf(int row, int col) const
 {
     return (rows * (col - 1) + row - 1); 
 }
@@ -881,7 +888,7 @@ int GBSArea::indexOf(int row, int col) const
 
 
 // *INDENT-OFF*
-int GBSArea::indexOf(QPoint ep) const
+unsigned int GBSArea::indexOf(QPoint ep) const
 {
     int row = ep.y() / (EL_HEIGHT + 1) + 1;
     int col = ep.x() / (EL_WIDTH + 1) + 1;
@@ -890,7 +897,7 @@ int GBSArea::indexOf(QPoint ep) const
 // *INDENT-ON*
 
 
-void GBSArea::moveElementToIndexPos(element* el, int idx)
+void GBSArea::moveElementToIndexPos(element* el, unsigned int idx)
 {
     if (el != NULL && idx >= 0 && idx < elements.size())
         el->move(1 + (idx / rows) * (EL_WIDTH + 1),
@@ -1351,7 +1358,7 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
         }
         else if (e->button() == MidButton) {
             element* el = (element*)childAt(e->pos());
-            int idx = indexOf(e->pos());
+            unsigned int idx = indexOf(e->pos());
 
             // add new empty element
             if (el == NULL) {
@@ -1422,7 +1429,7 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
         }
         else if (e->button() == RightButton){
             element* el = (element*)childAt(e->pos());
-            int idx = indexOf(e->pos());
+            unsigned int idx = indexOf(e->pos());
 
             // add new empty element
             if (el == NULL) {
@@ -1456,6 +1463,77 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
             }
             e->accept();
         }
+    }
+}
+
+
+void GBSArea::mousePressEvent(QMouseEvent* e)
+{
+    /*layout edit mode*/
+    if (visualMode == kvmEditLayout) {
+        if (e->button() == LeftButton) {
+            dragging = true;
+        }
+    }
+}
+
+
+void GBSArea::mouseMoveEvent(QMouseEvent* e)
+{
+    /*layout edit mode*/
+    if (visualMode == kvmEditLayout) {
+        if (dragging) {
+            element* el = (element*)childAt(e->pos());
+            if (el != NULL) {
+                unsigned int idx = el->getIndexNo();
+
+                QByteArray data(sizeof(idx));
+                memcpy(data.data(), &idx, sizeof(idx));
+                
+                QStoredDrag* d = new QStoredDrag(MIME_LE, this);
+                d->setEncodedData(data);
+                d->dragMove();
+                
+                /*
+                QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+                pm.fill(QColor(lightGray));
+                d->setPixmap(pm, QPoint(pm.width()/2, pm.height()/2));
+                */
+                // FIXME: no pixmap visible
+                d->setPixmap(*el->paletteBackgroundPixmap());
+                dragging = false;
+            }
+        }
+    }
+}
+
+
+void GBSArea::dragEnterEvent(QDragEnterEvent* e)
+{
+    if (visualMode == kvmEditLayout) {
+        if (e->provides(MIME_LE)) {
+            e->accept();
+        }
+    }
+}
+
+
+void GBSArea::dropEvent(QDropEvent *e)
+{
+    if (visualMode == kvmEditLayout) {
+
+        // decode data and insert element
+        QByteArray data = e->encodedData(MIME_LE);
+        unsigned int idx = 0;
+
+        if (data.size() != sizeof(idx))
+            return;
+        
+        memcpy(&idx, data.data(), sizeof(idx));
+
+        // move element from old position to new position
+        element* el = elements[idx];
+        moveElementToIndexPos(el, indexOf(e->pos()));
     }
 }
 

@@ -1,11 +1,11 @@
 /***************************************************************************
                            newlayoutdialog.cpp
-                           version 0.5.1 $Revision: 1.12 $
+                           version 0.5.1 $Revision: 1.13 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-28 16:25:48 $
+    last modified        : $Date: 2007-02-11 09:38:11 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -201,6 +201,7 @@ void newLayoutDialog::setPort(int port)
 {
     portLE->setText(QString::number(port));
 }
+
 
 bool newLayoutDialog::getAutoLogin()
 {

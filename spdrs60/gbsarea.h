@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.5.1 $Revision: 1.40 $
+                           version 0.5.1 $Revision: 1.41 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-09 18:07:25 $
+    last modified        : $Date: 2007-02-11 09:38:10 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -112,7 +112,7 @@ private:
    void connectElement(element*);
    void externalButtonClicked(GbsButtonState);
    bool findElement(const QString&, int, int);
-   void moveElementToIndexPos(element*, int);
+   void moveElementToIndexPos(element*, unsigned int);
    void updateSRCP08GABusList();
    void updateSRCP08FBBusList();
    void updateSRCP08BusLists();
@@ -150,10 +150,15 @@ public slots:
     void switchVisualMode(elemVisualMode);
 
 protected:
-    int indexOf(int row, int col) const;
-    int indexOf(QPoint) const;
+    bool dragging;
+    unsigned int indexOf(int row, int col) const;
+    unsigned int indexOf(QPoint) const;
+    void mousePressEvent(QMouseEvent *);
+    void mouseMoveEvent(QMouseEvent *);
     void mouseReleaseEvent(QMouseEvent *);
     void paintEvent(QPaintEvent*);
+    void dragEnterEvent(QDragEnterEvent* e);
+    void dropEvent(QDropEvent *);
 
 signals:
     void showLogMessage(const QString&, int, int);
