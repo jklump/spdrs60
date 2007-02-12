@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.1 $Revision: 1.69 $
+                           version 0.5.1 $Revision: 1.70 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-12 19:36:47 $
+    last modified        : $Date: 2007-02-12 21:51:36 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1505,7 +1505,8 @@ void GBSArea::mouseMoveEvent(QMouseEvent* e)
 void GBSArea::dragEnterEvent(QDragEnterEvent* e)
 {
     if (visualMode == kvmEditLayout) {
-        if (e->provides(MIME_LE)) {
+        //TODO: enable DnD between different windows
+        if (e->provides(MIME_LE) && e->source() == this) {
             e->accept();
         }
     }
