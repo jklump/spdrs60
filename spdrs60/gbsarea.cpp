@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.1 $Revision: 1.68 $
+                           version 0.5.1 $Revision: 1.69 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-11 16:59:10 $
+    last modified        : $Date: 2007-02-12 19:36:47 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1367,8 +1367,8 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
                 el->switchVisualMode(visualMode);
                 moveElementToIndexPos(el, idx);
                 elements.insert(idx, el);
-                el->show();
                 connectElement(el);
+                el->show();
             }
 
             // first update name of last edited element
@@ -1488,16 +1488,13 @@ void GBSArea::mouseMoveEvent(QMouseEvent* e)
             element* el = (element*)childAt(e->pos());
             if (el != NULL) {
                 unsigned int idx = el->getIndexNo();
-
                 QByteArray data(sizeof(idx));
                 memcpy(data.data(), &idx, sizeof(idx));
-                
                 QStoredDrag* d = new QStoredDrag(MIME_LE, this, "spdrs60-le");
                 d->setEncodedData(data);
+                d->setPixmap(*el->paletteBackgroundPixmap(),
+                        QPoint(EL_WIDTH / 2, EL_HEIGHT / 2));
                 d->dragMove();
-                
-                // FIXME: no pixmap visible
-                d->setPixmap(*el->paletteBackgroundPixmap());
                 dragging = false;
             }
         }
@@ -1527,7 +1524,7 @@ void GBSArea::dropEvent(QDropEvent *e)
             return;
         
         memcpy(&idx, data.data(), sizeof(idx));
-
+        
         // move element from old position to new position
         element* el = elements.take(idx);
         if (el != NULL) {
