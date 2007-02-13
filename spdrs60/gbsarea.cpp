@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.1 $Revision: 1.70 $
+                           version 0.5.1 $Revision: 1.71 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-12 21:51:36 $
+    last modified        : $Date: 2007-02-13 05:35:01 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -650,12 +650,16 @@ bool GBSArea::findElement(const QString& ftext, int ftype, int fmulti)
     bool returnvalue = false;
 
     // locate element with certain address 1
-    if (ftype == SRCH_A1) 
+    if (ftype == SRCH_A1)
         for (idx = 0; idx < elements.size(); idx++) {
-            if (ftext.toInt() ==
-                    elements[idx]->getAddress1()) {
+            element* el = elements[idx];
+
+            if (el == NULL)
+                continue;
+
+            if (ftext.toInt() == el->getAddress1()) {
                 returnvalue = true;
-                elements[idx]->locateMe();
+                el->locateMe();
                 if (fmulti == 1)
                     continue;
                 else
@@ -664,12 +668,16 @@ bool GBSArea::findElement(const QString& ftext, int ftype, int fmulti)
         }
 
     // locate element with certain address 2
-    else if (ftype == SRCH_A2) 
+    else if (ftype == SRCH_A2)
         for (idx = 0; idx < elements.size(); idx++) {
-            if (ftext.toInt() ==
-                    elements[idx]->getAddress2()) {
+            element* el = elements[idx];
+
+            if (el == NULL)
+                continue;
+
+            if (ftext.toInt() == el->getAddress2()) {
                 returnvalue = true;
-                elements[idx]->locateMe();
+                el->locateMe();
                 if (fmulti == 1)
                     continue;
                 else
@@ -678,12 +686,17 @@ bool GBSArea::findElement(const QString& ftext, int ftype, int fmulti)
         }
 
     // locate element with certain textfield
-    else if (ftype == SRCH_TX) 
+    else if (ftype == SRCH_TX)
         for (idx = 0; idx < elements.size(); idx++) {
-            s = elements[idx]->sSoldText;
+            element* el = elements[idx];
+
+            if (el == NULL)
+                continue;
+
+            s = el->sSoldText;
             if (s.contains(ftext, 0)) {
                 returnvalue = true;
-                elements[idx]->locateMe();
+                el->locateMe();
                 if (fmulti == 1)
                     continue;
                 else
