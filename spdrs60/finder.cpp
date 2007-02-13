@@ -1,11 +1,11 @@
 /***************************************************************************
                            finder.cpp
-                           version 0.5.1 $Revision: 1.10 $
+                           version 0.5.1 $Revision: 1.11 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-11 16:59:08 $
+    last modified        : $Date: 2007-02-13 19:45:11 $
 ***************************************************************************/
 
 /*****************************************************************************
@@ -48,7 +48,7 @@ Finder::Finder(QWidget* parent): QDialog(parent, "Finder", false)
             this, SLOT(slotActivateSearchButt(const QString&)));
 
     /*group box to choose data field*/
-    dataBG = new QButtonGroup(3, Vertical,
+    dataBG = new QButtonGroup(3, Qt::Vertical,
             tr("Data fields"), this, "dataBG");
     dataBG->setExclusive(true);
     baseLayout->addWidget(dataBG);
@@ -62,7 +62,7 @@ Finder::Finder(QWidget* parent): QDialog(parent, "Finder", false)
     rbSearchText->setChecked(true);
 
     /*group box to choose find count*/
-    matchBG = new QButtonGroup(2, Vertical,
+    matchBG = new QButtonGroup(2, Qt::Vertical,
             tr("Match counter"), this, "foundGB");
     matchBG->setExclusive(true);
     baseLayout->addWidget(matchBG);

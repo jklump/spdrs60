@@ -1,10 +1,10 @@
 /***************************************************************************
                            routeelementdialog.cpp
-                           version 0.5.1 $Revision: 1.11 $
+                           version 0.5.1 $Revision: 1.12 $
                            -------------------------------
     copyright            : (C) 2005-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-28 16:25:49 $
+    last modified        : $Date: 2007-02-13 19:45:11 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -38,7 +38,7 @@ RouteElementDialog::RouteElementDialog(QWidget* parent)
     QVBoxLayout* baseLayout = new QVBoxLayout(this, 12, 12);
     
     /*element data group box*/
-    QGroupBox* elDataGB = new QGroupBox(0, Horizontal,
+    QGroupBox* elDataGB = new QGroupBox(0, Qt::Horizontal,
             tr("Route element"), this, "elDataGB");
     baseLayout->addWidget(elDataGB);
     QVBoxLayout* routeElGBLayout = new QVBoxLayout(elDataGB->layout(), 6);

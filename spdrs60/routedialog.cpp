@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.5.1 $Revision: 1.34 $
+                           version 0.5.1 $Revision: 1.35 $
                            -------------------------------
     copyright            : (C) 2005-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-11 16:59:12 $
+    last modified        : $Date: 2007-02-13 19:45:11 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -84,7 +84,7 @@ RouteDialog::RouteDialog(QWidget* parent)
     /*horizontal layout for start and stop signal data group boxes*/
     QHBoxLayout* signalStaStoLayout = new QHBoxLayout(leftColumnLayout, 6);
     /*start signal group box*/
-    QGroupBox* startsignalGB = new QGroupBox(0, Horizontal,
+    QGroupBox* startsignalGB = new QGroupBox(0, Qt::Horizontal,
             tr("Start signal"), this, "startsignalGB");
     signalStaStoLayout->addWidget(startsignalGB);
     QVBoxLayout* startSigGBLayout = new QVBoxLayout(startsignalGB->layout(), 6);
@@ -151,7 +151,7 @@ RouteDialog::RouteDialog(QWidget* parent)
 
 
     /*stop signal group box*/
-    QGroupBox* stopSignalGB = new QGroupBox(0, Horizontal,
+    QGroupBox* stopSignalGB = new QGroupBox(0, Qt::Horizontal,
             tr("Stop signal"), this, "stopSignalGB");
     signalStaStoLayout->addWidget(stopSignalGB);
     QVBoxLayout* stopSigGBLayout = new QVBoxLayout(stopSignalGB->layout(), 6);
@@ -207,7 +207,7 @@ RouteDialog::RouteDialog(QWidget* parent)
     /*horizontal layout for route activation and release group boxes*/
     QHBoxLayout* routeAcReLayout = new QHBoxLayout(leftColumnLayout, 6);
     /*activate route group box*/
-    QGroupBox* activateGB = new QGroupBox(0, Horizontal,
+    QGroupBox* activateGB = new QGroupBox(0, Qt::Horizontal,
             tr("Activate route"), this, "activateGB");
     routeAcReLayout->addWidget(activateGB);
     QVBoxLayout* activateGBL = new QVBoxLayout(activateGB->layout(), 6);
@@ -220,7 +220,7 @@ RouteDialog::RouteDialog(QWidget* parent)
             this, SLOT(activateCBchanged(bool)));
     
     /*two lines with radio buttons to choose feedback signal direction*/
-    activateRouteBG = new QButtonGroup(0, Horizontal,
+    activateRouteBG = new QButtonGroup(0, Qt::Horizontal,
             tr("Switch on feedback response"), activateGB, "activateRouteBG");
     activateGBL->addWidget(activateRouteBG);
     QVBoxLayout* activateFBL = new QVBoxLayout(activateRouteBG->layout(), 6);
@@ -292,7 +292,7 @@ RouteDialog::RouteDialog(QWidget* parent)
 
 
     /*release route group box*/
-    QGroupBox* releaseGB = new QGroupBox(0, Horizontal,
+    QGroupBox* releaseGB = new QGroupBox(0, Qt::Horizontal,
             tr("Release route"), this, "releaseGB");
     routeAcReLayout->addWidget(releaseGB);
     QVBoxLayout* releaseGBL = new QVBoxLayout(releaseGB->layout(), 6);
@@ -305,7 +305,7 @@ RouteDialog::RouteDialog(QWidget* parent)
             this, SLOT(releaseCBchanged(bool)));
     
     /*two lines with radio buttons to choose feedback signal direction*/
-    releaseRouteBG = new QButtonGroup(0, Horizontal,
+    releaseRouteBG = new QButtonGroup(0, Qt::Horizontal,
             tr("Switch on feedback response"), releaseGB, "releaseRouteBG");
     releaseGBL->addWidget(releaseRouteBG);
     QVBoxLayout* releaseFBL = new QVBoxLayout(releaseRouteBG->layout(), 6);
@@ -376,7 +376,7 @@ RouteDialog::RouteDialog(QWidget* parent)
 
     /*right column*/
     /*route type group box*/
-    typeBG = new QButtonGroup(0, Horizontal,
+    typeBG = new QButtonGroup(0, Qt::Horizontal,
             tr("Type"), this, "typeBG");
     rightColumnLayout->addWidget(typeBG);
     QVBoxLayout* typeL = new QVBoxLayout(typeBG->layout(), 6);
@@ -441,7 +441,7 @@ RouteDialog::RouteDialog(QWidget* parent)
 
 
     /*route elements group box*/
-    QGroupBox* routeElementsGB = new QGroupBox(0, Horizontal,
+    QGroupBox* routeElementsGB = new QGroupBox(0, Qt::Horizontal,
             tr("Route elements"), this, "routeElementsGB");
     rightColumnLayout->addWidget(routeElementsGB);
     QHBoxLayout* routeElL = new QHBoxLayout(routeElementsGB->layout(), 10);

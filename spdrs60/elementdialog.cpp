@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.cpp
-                           version 0.5.1 $Revision: 1.33 $
+                           version 0.5.1 $Revision: 1.34 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-11 16:59:04 $
+    last modified        : $Date: 2007-02-13 19:45:11 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -81,7 +81,7 @@ elementDialog::elementDialog(QWidget* parent, int idx):
 
 
     /*left column*/
-    QGroupBox* frData = new QGroupBox(0, Horizontal, tr("Data"), this,
+    QGroupBox* frData = new QGroupBox(0, Qt::Horizontal, tr("Data"), this,
             "dataGroupBox");
     leftColumnLayout->addWidget(frData);
     QVBoxLayout* rfDataGBLayout = new QVBoxLayout(frData->layout(), 6);
@@ -217,14 +217,14 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     rfDataGBLayout->addItem(spacer);
 
     /*group box for symbol variants*/
-    QGroupBox* variantGB = new QGroupBox(0, Horizontal,
+    QGroupBox* variantGB = new QGroupBox(0, Qt::Horizontal,
             tr("Symbol variants"), this, "variantsGB");
     leftColumnLayout->addWidget(variantGB);
     QVBoxLayout* variantGBLayout = new
         QVBoxLayout(variantGB->layout(), 6);
 
     /*group of three buttons*/
-    bgSubType = new QButtonGroup(0, Horizontal, "", variantGB, "bgSubType");
+    bgSubType = new QButtonGroup(0, Qt::Horizontal, "", variantGB, "bgSubType");
     variantGBLayout->addWidget(bgSubType);
     QVBoxLayout* subtypeBGL = new QVBoxLayout(bgSubType->layout(), 6);
     bgSubType->setFrameStyle(QFrame::NoFrame);  // buttongroup not visible
@@ -243,7 +243,7 @@ elementDialog::elementDialog(QWidget* parent, int idx):
             this, SLOT(slotSubTypeClicked(int)));
 
     /*groupbox with protocol data*/
-    protocolBG = new QButtonGroup(4, Vertical,
+    protocolBG = new QButtonGroup(4, Qt::Vertical,
                         tr("Protocol"), this, "protocolBG");
     //rightColumnLayout->addWidget(protocolBG);
     leftColumnLayout->addWidget(protocolBG);
@@ -258,7 +258,7 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     /*right side with logic data*/
 
     /*decoder data group box*/
-    QGroupBox* decoderGB = new QGroupBox(0, Horizontal,
+    QGroupBox* decoderGB = new QGroupBox(0, Qt::Horizontal,
             tr("Decoder"), this, "decoderGB");
     rightColumnLayout->addWidget(decoderGB);
     QVBoxLayout* decoderGBL = new QVBoxLayout(decoderGB->layout(), 6);
@@ -396,7 +396,7 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     decoderGBL->addItem(spacer);
 
     /*feedback LED data group box*/
-    QGroupBox* feedbackGB = new QGroupBox(0, Horizontal,
+    QGroupBox* feedbackGB = new QGroupBox(0, Qt::Horizontal,
             tr("Feedback for track LEDs"), this, "feedbackGB");
     rightColumnLayout->addWidget(feedbackGB);
     QVBoxLayout* feedbackGBL = new QVBoxLayout(feedbackGB->layout(), 6);

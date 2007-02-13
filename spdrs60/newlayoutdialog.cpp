@@ -1,11 +1,11 @@
 /***************************************************************************
                            newlayoutdialog.cpp
-                           version 0.5.1 $Revision: 1.13 $
+                           version 0.5.1 $Revision: 1.14 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-11 09:38:11 $
+    last modified        : $Date: 2007-02-13 19:45:11 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -39,7 +39,7 @@ newLayoutDialog::newLayoutDialog(QWidget* parent)
     QVBoxLayout* baseLayout = new QVBoxLayout(this, 10, 6);
 
     // layout dimensions group box
-    QGroupBox* dimensionsGB = new QGroupBox(0, Horizontal,
+    QGroupBox* dimensionsGB = new QGroupBox(0, Qt::Horizontal,
             tr("Layout dimensions"), this, "dimensionsGB");
     baseLayout->addWidget(dimensionsGB);
     QVBoxLayout* boxL = new QVBoxLayout(dimensionsGB->layout(), 6);
@@ -77,7 +77,7 @@ newLayoutDialog::newLayoutDialog(QWidget* parent)
                                       "rows for an empty layout"));
 
     // server group box
-    QGroupBox *serverGB = new QGroupBox(0, Horizontal, "SRCP-Server",
+    QGroupBox *serverGB = new QGroupBox(0, Qt::Horizontal, "SRCP-Server",
             this, "serverGB");
     baseLayout->addWidget(serverGB);
     QVBoxLayout* serverGBL = new QVBoxLayout(serverGB->layout(), 6);
@@ -115,7 +115,7 @@ newLayoutDialog::newLayoutDialog(QWidget* parent)
     serverGBL->addItem(spacer);
 
     // start options group box
-    QButtonGroup *startBG = new QButtonGroup(3, Vertical,
+    QButtonGroup *startBG = new QButtonGroup(3, Qt::Vertical,
             tr("Start options"), this);
     baseLayout->addWidget(startBG);
     autologinCB = new QCheckBox(tr("&Server login on startup"),

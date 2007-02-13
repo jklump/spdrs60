@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.cpp
-                           version 0.5.1 $Revision: 1.23 $
+                           version 0.5.1 $Revision: 1.24 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-28 16:25:48 $
+    last modified        : $Date: 2007-02-13 19:45:11 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -54,7 +54,7 @@ void optionsDialog::setupLayoutTab()
     QVBoxLayout* tabL = new QVBoxLayout(w, 10);
     
     // new layout groupbox
-    QGroupBox* newlayoutGB = new QGroupBox(0, Horizontal,
+    QGroupBox* newlayoutGB = new QGroupBox(0, Qt::Horizontal,
             tr("Default dimensions for new layouts"), w, "newlayoutGB");
     QVBoxLayout* newlayoutGBL = new QVBoxLayout(newlayoutGB->layout(), 6);
     tabL->addWidget(newlayoutGB);
@@ -89,7 +89,7 @@ void optionsDialog::setupLayoutTab()
 
 
     // external program groupbox
-    QGroupBox* extprogGB = new QGroupBox(0, Horizontal,
+    QGroupBox* extprogGB = new QGroupBox(0, Qt::Horizontal,
             tr("External programms"), w, "extprogGB");
     QVBoxLayout* extprogGBL = new QVBoxLayout(extprogGB->layout(), 6);
     tabL->addWidget(extprogGB);
@@ -133,7 +133,7 @@ void optionsDialog::setupLayoutTab()
 
 
     // autoload groupbox
-    QGroupBox* autolayoutGB = new QGroupBox(0, Horizontal,
+    QGroupBox* autolayoutGB = new QGroupBox(0, Qt::Horizontal,
             tr("Automatical layout loading and saving"), w, "autolayoutGB");
     tabL->addWidget(autolayoutGB);
     QVBoxLayout* autoGBLayout = new
@@ -233,7 +233,7 @@ void optionsDialog::setupDigitalTab()
     
     
     // protocol groupbox
-    QButtonGroup *protocolBG = new QButtonGroup(2, Vertical,
+    QButtonGroup *protocolBG = new QButtonGroup(2, Qt::Vertical,
             tr("Default protocol"), w);
     tabL->addWidget(protocolBG);
     rbProtMS = new QRadioButton("Märklin/M&otorola", protocolBG);
@@ -244,7 +244,7 @@ void optionsDialog::setupDigitalTab()
             this, SLOT(slotProtChanged(int)));
 
     // solenoid groupbox
-    QGroupBox* solenoidGB = new QGroupBox(0, Horizontal,
+    QGroupBox* solenoidGB = new QGroupBox(0, Qt::Horizontal,
             tr("Solenoid defaults"), w, "solenoidGB");
     tabL->addWidget(solenoidGB);
     QVBoxLayout* solenoidGBL = new QVBoxLayout(solenoidGB->layout(), 6);
@@ -313,7 +313,7 @@ void optionsDialog::setupDigitalTab()
 
 
     // turntable groupbox
-    QGroupBox* ttGB = new QGroupBox(0, Vertical,
+    QGroupBox* ttGB = new QGroupBox(0, Qt::Vertical,
             tr("Turntable defaults"), w, "ttGB");
     tabL->addWidget(ttGB);
     QVBoxLayout* ttGBL = new QVBoxLayout(ttGB->layout(), 6);
@@ -352,7 +352,7 @@ void optionsDialog::setupFeedbackTab()
    
     // left column
     // 1. feedback module groupbox
-    QButtonGroup* inputsGB = new QButtonGroup(1, Vertical,
+    QButtonGroup* inputsGB = new QButtonGroup(1, Qt::Vertical,
             tr("Module size"), w);
     tabL->addWidget(inputsGB);
 
@@ -363,7 +363,7 @@ void optionsDialog::setupFeedbackTab()
             this, SLOT(slotLimitModules(int)));
 
     // 2. bus numbering groupbox
-    QButtonGroup* busnoGB = new QButtonGroup(1, Vertical,
+    QButtonGroup* busnoGB = new QButtonGroup(1, Qt::Vertical,
             tr("Bus numbering"), w);
     tabL->addWidget(busnoGB);
 
@@ -379,7 +379,7 @@ void optionsDialog::setupFeedbackTab()
     // * SRCP 0.7 -> number is fixed
     // * SRCP 0.8 -> number is variable
     // 3. modules per bus groupbox
-    QGroupBox* busGB = new QGroupBox(0, Vertical,
+    QGroupBox* busGB = new QGroupBox(0, Qt::Vertical,
             tr("Connected modules per bus"), w, "busGB");
     tabL->addWidget(busGB);
     QHBoxLayout* busGBL = new QHBoxLayout(busGB->layout(), 6);
@@ -477,7 +477,7 @@ void optionsDialog::setupFeedbackTypeTab()
     tab->setSpacing(10);
    
     // 1. feedback module type groupbox
-    feedbackTypeGB = new QButtonGroup(3, Vertical,
+    feedbackTypeGB = new QButtonGroup(3, Qt::Vertical,
             tr("Module type"), tab);
 
     QRadioButton* fbtRB = new QRadioButton(tr("S88 via &DDL"), feedbackTypeGB);
@@ -491,7 +491,7 @@ void optionsDialog::setupFeedbackTypeTab()
             this, SLOT(selectFbModuleType(int)));
 
     // 2. selectrix init parameters groupbox
-    selectrixGB = new QGroupBox(0, Horizontal,
+    selectrixGB = new QGroupBox(0, Qt::Horizontal,
             tr("Selectrix Initialization"), tab, "selectrixGB");
     QHBoxLayout* sxinitGBL = new QHBoxLayout(selectrixGB->layout(), 10);
 

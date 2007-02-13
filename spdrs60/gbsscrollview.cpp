@@ -1,10 +1,10 @@
 /***************************************************************************
                            gbsscrollview.cpp
-                           version 0.5.1 $Revision: 1.4 $
+                           version 0.5.1 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-28 16:25:47 $
+    last modified        : $Date: 2007-02-13 19:45:11 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -21,7 +21,7 @@
 
 #include "gbsscrollview.h"
 GBSScrollView::GBSScrollView(QWidget* parent, const char* name,
-                             WFlags f): QScrollView(parent, name, f)
+                             Qt::WFlags f): QScrollView(parent, name, f)
 {
     setFocusPolicy(QWidget::StrongFocus);
 }
@@ -30,36 +30,29 @@ GBSScrollView::GBSScrollView(QWidget* parent, const char* name,
 void GBSScrollView::keyPressEvent(QKeyEvent* e)
 {
     switch (e->key()) {
-        case Key_Down:
+        case Qt::Key_Down:
             setContentsPos(contentsX(), contentsY() + 10);
             break;
-        case Key_Up:
+        case Qt::Key_Up:
             setContentsPos(contentsX(), contentsY() - 10);
-            //e->accept();
             break;
-        case Key_Left:
+        case Qt::Key_Left:
             setContentsPos(contentsX() - 10, contentsY());
-            //e->accept();
             break;
-        case Key_Right:
+        case Qt::Key_Right:
             setContentsPos(contentsX() + 10, contentsY());
-            //e->accept();
             break;
-        case Key_PageUp:
+        case Qt::Key_PageUp:
             setContentsPos(contentsX(), contentsY() - visibleHeight());
-            //e->accept();
             break;
-        case Key_PageDown:
+        case Qt::Key_PageDown:
             setContentsPos(contentsX(), contentsY() + visibleHeight());
-            //e->accept();
             break;
-        case Key_Home:
+        case Qt::Key_Home:
             setContentsPos(contentsX(), 0);
-            //e->accept();
             break;
-        case Key_End:
+        case Qt::Key_End:
             setContentsPos(contentsX(), contentsHeight() - visibleHeight());
-            //e->accept();
             break;
         default:
             QScrollView::keyPressEvent(e);

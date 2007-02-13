@@ -1,10 +1,10 @@
 /***************************************************************************
                            gbsscrollview.h
-                           version 0.5.1 $Revision: 1.5 $
+                           version 0.5.1 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-11 09:38:10 $
+    last modified        : $Date: 2007-02-13 19:45:11 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -29,7 +29,7 @@ class GBSScrollView: public QScrollView
 {
     Q_OBJECT
 public:
-    GBSScrollView(QWidget* parent=0, const char* name=0, WFlags f=0);
+    GBSScrollView(QWidget* parent=0, const char* name=0, Qt::WFlags f=0);
 
 protected:
     virtual void keyPressEvent(QKeyEvent *e);

@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.1 $Revision: 1.71 $
+                           version 0.5.1 $Revision: 1.72 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-13 05:35:01 $
+    last modified        : $Date: 2007-02-13 19:45:11 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -431,7 +431,7 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
             }
             else if (kFhtClicked == gkbState) {
                 // give direct button pressed feedback to user
-                setCursor(ArrowCursor);
+                setCursor(Qt::ArrowCursor);
                 /* send signal to route controller*/
                 emit resetRoute(el, gbsButton);
             }
@@ -446,7 +446,7 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
                 }
                 else {
                     // give button pressed feedback to user
-                    setCursor(ArrowCursor);
+                    setCursor(Qt::ArrowCursor);
                     /* send signal to route controller*/
                     emit setRoute(el, gbsButton, gkbState);
                 }
@@ -541,7 +541,7 @@ void GBSArea::slotElementClickedTimeout()
 {
     emit resetSelectedSignal();
     gkbState = kNoneClicked;
-    setCursor(ArrowCursor);
+    setCursor(Qt::ArrowCursor);
 }
 
 
@@ -1223,7 +1223,7 @@ void GBSArea::updateSRCP08GABusList()
 
                         tempbuslist =
                             (unsigned int *) realloc(pSRCP08GABusList,
-                                            sizeof(unsigned int[count]));
+                                            sizeof(unsigned int) * count);
 
                         if (tempbuslist == NULL) {
                             fprintf(stderr, "Memory allocation error!");

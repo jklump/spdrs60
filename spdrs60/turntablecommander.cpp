@@ -1,11 +1,11 @@
 /***************************************************************************
                            turntablecommander.cpp
-                           version 0.5.1 $Revision: 1.7 $
+                           version 0.5.1 $Revision: 1.8 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-01-28 16:25:51 $
+    last modified        : $Date: 2007-02-13 19:45:11 $
 ***************************************************************************/
 
 /******************************************************************************
@@ -67,7 +67,7 @@ turntableCommander::turntableCommander(QWidget * parent, int iActiveTrack_,
     // save all available tracks from element
     // data in combined format with ;'s
 
-    int trackcount = tracks.contains(";");
+    int trackcount = tracks.contains(";") ? 1 : 0;
     if (tracks.length() > 0)
         ++trackcount;
    
@@ -164,7 +164,7 @@ turntableCommander::turntableCommander(QWidget * parent, int iActiveTrack_,
     for (int i = 0; i < 24; i++) {
         labelTracks[i] = new QLabel("", this, 0, 0);
         labelTracks[i]->setGeometry(0, 0, 0, 0);
-        labelTracks[i]->setAlignment(AlignCenter);
+        labelTracks[i]->setAlignment(Qt::AlignCenter);
     }
 
     // create a dropdown list with all available tracks
@@ -403,7 +403,7 @@ void turntableCommander::displayTracks()
         // ... normal style if not available
         if (iTracks[i] == 0 || bStepMode == PROG) {
             labelTracks[i]->setFont(QFont("Helvetica", 10, QFont::Normal));
-            labelTracks[i]->setBackgroundColor(lightGray);
+            labelTracks[i]->setBackgroundColor(Qt::lightGray);
         }
         // ... bold style and green background if available
         else {
