@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.1 $Revision: 1.72 $
+                           version 0.5.1 $Revision: 1.73 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-13 19:45:11 $
+    last modified        : $Date: 2007-02-14 20:31:01 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -306,7 +306,6 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
             break;
         }
     setModified(false);
-    slotSendAll();
 }
 
 
@@ -713,13 +712,16 @@ bool GBSArea::findElement(const QString& ftext, int ftype, int fmulti)
  **/
 void GBSArea::slotToggleAll()
 {
-    for (unsigned int j = 0; j < elements.size(); j++)
-        if (elements[j] != NULL && 
-                elements[j]->sSoldIcon != SYM_ENK &&
-                elements[j]->sSoldIcon != SYM_MDC &&
-                elements[j]->sSoldIcon != SYM_SBN &&
-                elements[j]->sSoldIcon != SYM_DRE)
-            elements[j]->toggle();
+    for (unsigned int i = 0; i < elements.size(); i++) {
+        element* el = elements[i];
+
+        if (el != NULL &&
+                el->sSoldIcon != SYM_ENK &&
+                el->sSoldIcon != SYM_MDC &&
+                el->sSoldIcon != SYM_SBN &&
+                el->sSoldIcon != SYM_DRE)
+            el->toggle();
+    }
 }
 
 
@@ -728,8 +730,8 @@ void GBSArea::slotToggleAll()
  **/
 void GBSArea::slotSendAll()
 {
-    for (unsigned int j = 0; j < elements.size(); j++) {
-        element* el = elements[j];
+    for (unsigned int i = 0; i < elements.size(); i++) {
+        element* el = elements[i];
 
         if (el != NULL &&
                 el->sSoldIcon != SYM_ENK &&
@@ -746,8 +748,8 @@ void GBSArea::slotSendAll()
  * */
 void GBSArea::slotNotrot()
 {
-    for (unsigned int j = 0; j < elements.size(); j++) {
-        element* el = elements[j];
+    for (unsigned int i = 0; i < elements.size(); i++) {
+        element* el = elements[i];
 
         if (el != NULL && el->isSignal())
             el->switchToDir(0);
@@ -922,8 +924,8 @@ void GBSArea::moveElementToIndexPos(element* el, unsigned int idx)
 element* GBSArea::item(int row, int col) const
 // *INDENT-ON*
 {
-    if (row < 0 || col < 0 || row > this->rows ||
-            col > this->cols || row * col >= (int)elements.size())
+    if (row < 0 || col < 0 || row > rows ||
+            col > cols || (unsigned int)row * col >= elements.size())
         return NULL;
 
     return elements[indexOf(row, col)];
@@ -1255,8 +1257,8 @@ void GBSArea::updateSRCP08GABusList()
 void GBSArea::updateSRCP08FBBusList()
 {
     unsigned int count = 0, busno = 0;
-    bool busNoIsKnown;
     unsigned int *tempbuslist;
+    bool busNoIsKnown;
 
     if (pSRCP08FBBusList != NULL) {
         free(pSRCP08FBBusList);
@@ -1403,7 +1405,7 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
                         el->rotate();
                         break;
                     case CTX_ID_CLEAR:
-                        //TODO: update route data
+                        //route data is updated when edit mode is left
                         elements.remove(idx);
                         lastElementName = "";
                         break;
@@ -1442,11 +1444,11 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
         }
         else if (e->button() == RightButton){
             element* el = (element*)childAt(e->pos());
-            unsigned int idx = indexOf(e->pos());
 
             // add new empty element
             if (el == NULL) {
                 el = new element(this);
+                unsigned int idx = indexOf(e->pos());
                 el->setIndexNo(idx);
                 el->switchVisualMode(visualMode);
                 moveElementToIndexPos(el, idx);
@@ -1479,7 +1481,9 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
     }
 }
 
-
+/**
+ * start dragging of an element
+ * */
 void GBSArea::mousePressEvent(QMouseEvent* e)
 {
     /*layout edit mode*/
@@ -1492,7 +1496,9 @@ void GBSArea::mousePressEvent(QMouseEvent* e)
     }
 }
 
-
+/**
+ * take element icon and its date, move it around
+ */
 void GBSArea::mouseMoveEvent(QMouseEvent* e)
 {
     /*layout edit mode*/
@@ -1514,7 +1520,9 @@ void GBSArea::mouseMoveEvent(QMouseEvent* e)
     }
 }
 
-
+/**
+ * give feedback if this widget cares about the offered data
+ * */
 void GBSArea::dragEnterEvent(QDragEnterEvent* e)
 {
     if (visualMode == kvmEditLayout) {
@@ -1525,7 +1533,9 @@ void GBSArea::dragEnterEvent(QDragEnterEvent* e)
     }
 }
 
-
+/**
+ * take the dropped data and do something usefull with it
+ * */
 void GBSArea::dropEvent(QDropEvent *e)
 {
     if (visualMode == kvmEditLayout) {
