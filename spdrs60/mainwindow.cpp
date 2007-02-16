@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.1 $Revision: 1.99 $
+                           version 0.5.1 $Revision: 1.100 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-13 19:45:11 $
+    last modified        : $Date: 2007-02-16 18:36:54 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2415,7 +2415,8 @@ void MainWindow::InfoSocketReadyRead()
                  *   0     1   2     3   4    5       6     7: Qstring sections
                  */
                 else if (devGroup == "GA") {
-                    if (sInfo.section(" ", 1, 1).toUInt() == 100)
+                    if (sInfo.section(" ", 1, 1).toUInt() == 100 &&
+                                    sInfo.section(" ", 0, 0) != "0.0")
                         // (bus, addr, port, value)
                         gbs->sendInfoPortMessage(
                                 sInfo.section(" ", 3, 3).toUInt(),
