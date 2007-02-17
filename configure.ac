@@ -1,7 +1,7 @@
 dnl configure.ac for spdrs60
 dnl Guido Scholz
-dnl last update: $Date: 2007-02-04 17:58:48 $
-dnl version: $Revision: 1.18 $
+dnl last update: $Date: 2007-02-17 07:23:32 $
+dnl version: $Revision: 1.19 $
 dnl Process this file with autoconf to produce a configure script.
 
 AC_INIT([spdrs60],[0.5.2],[Guido Scholz <guido.scholz@bayernline.de>])
@@ -18,6 +18,8 @@ fi
 
 dnl generate the config header
 AC_CONFIG_HEADERS([spdrs60/config.h])
+
+dnl if test "x$CFLAGS" = "x"; then CFLAGS="-Wall"; fi
 
 dnl Checks for programs
 AC_PROG_CXX
