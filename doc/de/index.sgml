@@ -1812,6 +1812,12 @@ dem sich der Elementtyp und dessen Einstellungen auswählen bzw. verändern
 lassen. Mit der mittleren Maustaste erscheint ein Popup-Menü, das ein
 rasches Zeichnen von Gleisstrecken ermöglicht.
 </para>
+<para>
+Durch Anfassen mit der Maus lassen sich einzelne Gleisbildelemente
+innerhalb des Gleisbilds verschieben. Wird ein Element auf einem bereits
+belegten Feld abgelegt, so wird das alte Element des Zielfeldes
+automatisch gelöscht.
+</para>
 <para>Ist man mit der Bearbeitung des Gleisbilds fertig, wechselt man
 zurück in den Betriebsmodus (<keycap>Strg-L</keycap>) und speichert die
 Datei unter einem geeigneten Namen. Eine weitergehende Beschreibung
