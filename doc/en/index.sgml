@@ -1,5 +1,5 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.2//EN" [
-<!-- current version: --> <!ENTITY ver "0.5.1">
+<!-- current version: --> <!ENTITY ver "0.5.2">
 ]>
 
 <article lang="en">
@@ -39,8 +39,12 @@
 
 <revhistory>
   <revision>
-    <revnumber>0.6</revnumber>
-    <date><emphasis>Sun Jan 28 14:23:48 CET 2007</emphasis></date>
+    <revnumber>0.8</revnumber>
+    <date><emphasis>Sat Jan 17 08:49:55 CET 2007</emphasis></date>
+  </revision>
+  <revision>
+    <revnumber>0.7</revnumber>
+    <date>Sun Jan 28 14:23:48 CET 2007</date>
   </revision>
   <revision>
     <revnumber>0.6</revnumber>
@@ -103,6 +107,37 @@ features.</para>
 </sect1>
 
 <sect1 id="sect-changes"><title>Changes</title>
+
+<sect2 id="ver-0.5.2">
+<title>Version 0.5.2</title>
+<para>
+Release date: 2007-02-17
+</para>
+
+<itemizedlist mark="bullet">
+
+  <listitem><para>
+  A basic support for Drag-and-Drop was added. Single elements can now
+  be moved by mouse in layout edit mode.
+  </para></listitem>
+
+  <listitem><para>
+  Internal management of popupmenues and empty elements was
+  reorganzied to improve memory consumption and file loading a lot.
+  </para></listitem>
+
+  <listitem><para>
+  Route data ist automatically updated when layout edit mode is left.
+  Errors in route elements are shown if address values are no longer
+  valid.
+  </para></listitem>
+
+  <listitem><para>
+  Support for the old file format of spdrs60 up to 0.4.7 was removed.
+  </para></listitem>
+
+</itemizedlist>
+</sect2>
 
 <sect2 id="ver-0.5.1">
 <title>Version 0.5.1</title>

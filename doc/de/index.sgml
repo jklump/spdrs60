@@ -1,5 +1,5 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.2//EN" [
-<!-- Aktuelle Version: --> <!ENTITY ver "0.5.1">
+<!-- Aktuelle Version: --> <!ENTITY ver "0.5.2">
 ]>
 
 <article lang="de">
@@ -35,6 +35,10 @@
   </author>
 
   <revhistory>
+    <revision>
+      <revnumber>0.9</revnumber>
+      <date>Sa Feb 17 08:32:45 CET 2007</date>
+    </revision>
     <revision>
       <revnumber>0.8</revnumber>
       <date>So Jan 28 14:04:00 CET 2007</date>
@@ -153,6 +157,40 @@ empfehlenswert, diese Dokumentation durchzuarbeiten.
 
 <sect1 id="sect-aenderungen">
   <title>Änderungen</title>
+
+<sect2 id="ver-0.5.2">
+  <title>Version 0.5.2</title>
+<para>
+Veröffentlicht am 17.02.2007
+</para>
+<itemizedlist mark="bullet">
+
+  <listitem><para>
+  Im Gleisbildbearbeitungsmodus lassen sich nun einzelne Gleisbildelemente
+  durch Anfassen mit der Maus (Drag-and-Drop) verschieben.                      
+  </para></listitem>
+  
+  <listitem><para>
+  Die programminterne Handhabung von kontextsensitiven Menüs und leeren
+  Gleisbildelementen wurde stark überarbeitet. Der Speicherverbrauch ist
+  dadurch auf einen Bruchteil der alten Versionen zurückgegangen, das
+  Laden von Dateien und die allgemeine Reaktionsfähigkeit der
+  Bedienoberfläche wurden ebenso deutlich beschleunigt.
+  </para></listitem>
+
+  <listitem><para>
+  Beim Verlassen des Gleisbildbearbeitungsmodus werden die Daten der
+  Fahrstraßen nun automatisch aktualisiert. Ungültige Adressangaben
+  werden bei den betroffenen Fahrstraßenelementen als Fehler angezeigt.
+  </para></listitem>
+  
+  <listitem><para>
+  Die Importfunktion für das alte Dateiformat (bis Version 0.4.7) wurde
+  entfernt.
+  </para></listitem>
+
+</itemizedlist>
+</sect2>
 
 <sect2 id="ver-0.5.1">
   <title>Version 0.5.1</title>
