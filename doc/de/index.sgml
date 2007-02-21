@@ -5813,15 +5813,13 @@ hide LEDs;-1
 Charakter und wird beim Lesen der Datei nicht ausgewertet. Die folgenden
 Zeilen enthalten die Daten der Gleisbildelemente in der Form:
 </para>
-<para>
 <screen>
 schlüssel;wert1;wert2;wert3
 </screen>
-</para>
 <para>
 Die Anzahl der Wertangaben pro Schlüssel ist dabei variabel und abhängig
 von der Art des Schlüssels. Die Reihenfolge der Schlüssel ist beliebig,
-ein und der selbe Schlüssel darf aber pro Fahrstraßenabschnitt nur
+ein und der selbe Schlüssel darf aber pro Gleisbildelement nur
 einmal genutzt werden.
 </para>
 <para>
