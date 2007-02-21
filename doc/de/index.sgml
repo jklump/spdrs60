@@ -173,7 +173,7 @@ Veröffentlicht am 17.02.2007
   <listitem><para>
   Die programminterne Handhabung von kontextsensitiven Menüs und leeren
   Gleisbildelementen wurde stark überarbeitet. Der Speicherverbrauch ist
-  dadurch auf einen Bruchteil der alten Versionen zurückgegangen, das
+  dadurch auf einen Bruchteil der alten Versionen zurückgegangen; das
   Laden von Dateien und die allgemeine Reaktionsfähigkeit der
   Bedienoberfläche wurden ebenso deutlich beschleunigt.
   </para></listitem>
@@ -777,13 +777,13 @@ Rückmeldebus wurde aufgegeben :-((</para></listitem>
 Standard-S88Bus zur Anzeige von Lokdecoderadressen im
 Gleisbild</para></listitem>
   <listitem><para>Dafür neues Element: Adressanzeige, zeigt fünfstellig
-die rückgemeldete Lokdecoder-Adresse</para></listitem>
+die rückgemeldete Adresse des Lokdecoders an</para></listitem>
   <listitem><para>Weiteres Element: Blindmodul zur Zustands-Anzeige von
 versteckten Fahrspannungseinspeisungen (z.B. bei
 Signalhalteabschnitten)</para></listitem>
   <listitem><para>Bugfixes für den Schiebebühnen- und den
 Motorcommander</para></listitem>
-  <listitem><para>Überarbeitung verschiedener. Symbolanzeigen</para></listitem>
+  <listitem><para>Überarbeitung verschiedener Symbolanzeigen</para></listitem>
 </itemizedlist>
 </para>
 </sect2>
@@ -4547,8 +4547,9 @@ kann. Die Eingabe weiterer Elemente ist optional.
 </para>
 <para>
 Das Hinzufügen von zusätzlichen geschalteten Elementen, wie den Weichen
-im Fahrweg erfolgt mit Hilfe der im Fahrstraßendialog
-(<xref linkend="abb-routing8">) rechts unten sichtbare Liste. Über
+im Fahrweg oder Flankenschutzweichen erfolgt mit Hilfe der im
+Fahrstraßendialog (<xref linkend="abb-routing8">) rechts unten sichtbare
+Liste. Über
 den Schaltknopf &raquo;Hinzufügen&laquo; erscheint ein kleines
 Dialogfenster (<xref linkend="abb-routing22">), das Eingaben ähnlich
 wie beim Startsignal erlaubt. Auch hier wird der Name des
@@ -4565,10 +4566,10 @@ automatisch ermittelt.
 </para>
 <para>
 Wurden alle Fahrstraßenelemente hinzugefügt, kann das Dialogfenster
-über OK geschlossen werden. Die Fahrstra&szlig;e erscheint dann sofort
-mit ihrem neuen Namen, sowie den Start- und Zielsignalen in der
-Fahrstraßentabelle. Sie kann sofort
-über die Signalschalter eingestellt und zurückgenommen werden. Nach
+über &raquo;OK&laquo; geschlossen werden. Die Fahrstra&szlig;e
+erscheint dann sofort mit ihrem neuen Namen, sowie den Start- und
+Zielsignalen in der Fahrstraßentabelle. Sie kann sofort
+über die Signaltasten eingestellt und zurückgenommen werden. Nach
 wechseln in den Betriebsmodus können die neu erstellten Fahrstraßen mit
 dem Menü &raquo;Datei/Speichern&laquo; gespeichert werden.
 </para>
@@ -4587,7 +4588,7 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
 </sect1>
 
 <sect1 id="sect-rueckmeldung">
-  <title>Rückmeldung</title>
+  <title>Rückmeldungen</title>
 <para>
 Rückmeldungen werden in SpDrS60 für Linux sowohl für die Visualisierung von
 Anlagenzuständen, als auch zum Auslösen von Schaltvorgängen genutzt.
@@ -4599,7 +4600,7 @@ folgender Reihenfolge:
   Rückmeldemodulfenster.
 </para></listitem>
   <listitem><para>Darstellung der belegten Gleisabschnitte im Gleisbild
-  und Ansteuerung der EDiTS-Lokadress-Anzeigeelemente.
+  und Ansteuerung der Anzeigeelemente für EDiTS-Lokadressen.
   </para></listitem>
   <listitem><para>Auflösen einer angesteuerten Fahrstraße.
 </para></listitem>
