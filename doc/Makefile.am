@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60 documentation
 # last changes by: Guido Scholz
-# Version: $Revision: 1.12 $
-# last update: $Date: 2006-12-16 16:56:17 $
+# Version: $Revision: 1.13 $
+# last update: $Date: 2007-02-21 05:42:31 $
 
 # HTML_DOC_DIR is defined in configure.ac
 htmldir = @HTML_DOC_DIR@
@@ -70,7 +70,7 @@ dist_enimages_DATA = \
 
 
 dist_deimages_DATA = \
-	de/schnapp-bhf-klein.de.png \
+	de/schnapp-bhf-klein.png \
 	de/schnapp-daemoninfo.png \
 	de/schnapp-daemonmenu.png \
 	de/schnapp-deb-cmd2.png \
@@ -97,10 +97,9 @@ dist_deimages_DATA = \
 	de/schnapp-pref-data-err1.png \
 	de/schnapp-pref-data-err2.png \
 	de/schnapp-pref-data.png \
-	de/schnapp-pref-inter.png \
 	de/schnapp-pref-layout-err1.png \
 	de/schnapp-pref-layout.png \
-	de/schnapp-prog-empty.de.png \
+	de/schnapp-prog-empty.png \
 	de/schnapp-prop-adr.png \
 	de/schnapp-prop-antrieb.png \
 	de/schnapp-prop-dkw.png \
@@ -294,7 +293,9 @@ en/index.html: en/index.sgml $(dist_commonimages_DATA) $(dist_enimages_DATA) spd
 de/index.html: de/index.sgml $(dist_commonimages_DATA) $(dist_deimages_DATA) spdrs60.dsl
 	cd de; $(JADE) -b ISO-8859-1 -t sgml -i html -d "../spdrs60.dsl#html" index.sgml; cd ..
 
-#de/index.tex: de/index.sgml $(dist_commonimages_DATA) $(dist_deimages_DATA) spdrs60.dsl
-#	cd de; $(JADE) -b ISO-8859-1 -t tex -d "../spdrs60.dsl#print" index.sgml; cd ..
+de/index.tex: de/index.sgml $(dist_commonimages_DATA) $(dist_deimages_DATA) spdrs60.dsl
+	cd de; $(JADE) -b ISO-8859-1 -t tex -d "../spdrs60.dsl#print" index.sgml; cd ..
 
-
+# tis is not complete, just a shortcut to generate a pdf handbook
+pdf: de/index.tex
+	cd de; pdfjadetex index.tex; cd ..

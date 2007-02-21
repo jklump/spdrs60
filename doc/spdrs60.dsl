@@ -73,6 +73,27 @@
   (make formatting-instruction
     data: (string-append "\\path{" (data-of (current-node)) "}")))
 
+;; customize the print stylesheet
+(define %paper-type%
+  ;; Name of paper type
+  "A4")
+
+(define %two-side% #t)
+
+;; center images
+(element imagedata
+  (if (have-ancestor? (normalize "mediaobject"))
+    ($img$ (current-node) #t)                 
+    ($img$ (current-node) #f)))
+
+;; set font-size to 11pt
+(define %bf-size%
+  (case %visual-acuity%
+        (("normal") 11pt)
+        (("presbyopic") 13pt)
+        (("large-type") 24pt)))
+(define-unit em %bf-size%)
+
 </style-specification-body>
 </style-specification>
 

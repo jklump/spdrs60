@@ -395,8 +395,8 @@ Veröffentlicht am 11.12.2005
   </para></listitem>
 
   <listitem><para>Die Fahrstraßen können nun über einen neu geschaffenen
-  Fahrstraßenbearbeitungsmodus (blaue Hervorhebung) weitestgehend grafisch
-  zusammengestellt werden. Start- und Zielsignale einer in der
+  Fahrstraßenbearbeitungsmodus mit blauer Hervorhebung weitestgehend
+  grafisch zusammengestellt werden. Start- und Zielsignale einer in der
   Fahrstraßenliste ausgewählten Fahrstraße lassen sich mit der
   linken Maustaste, die übrigen Fahrstraßenelemente mit der mittleren
   Maustaste auswählen. Durch erneutes Anklicken lassen sich allgemein
@@ -722,8 +722,8 @@ automatisch eine Standarddatei eingespielt.</para></listitem>
 gesamten Gleisbild zum schnellen Auffinden von bestimmten
 Elementen</para></listitem>
 
-  <listitem><para>Überarbeitete Eingabe der Besetztmeldekontakt-Eingabe im
-Element-Eigenschaftendialog, ab sofort bleiben die gemachten Eingaben
+  <listitem><para>Überarbeitete Eingabe der Besetztmeldekontakte im
+Eigenschaftendialog der Elemente; ab sofort bleiben die gemachten Eingaben
 auch bestehen!</para></listitem>
 
   <listitem><para>Verbesserte Ergonomie beim Auswählen von
@@ -846,7 +846,7 @@ Veröffentlicht am 10.01.2001
 <itemizedlist mark="bullet">
   <listitem><para>Korrektur der Speicherung von vorhandenen Gleisstutzen
 bei der Drehscheibe</para></listitem>
-  <listitem><para>Unterstützung des 4fach-Rückmeldebusses inkl. Anzeige
+  <listitem><para>Unterstützung des 4fach-Rückmeldebusses inklusive Anzeige
 der Module</para></listitem>
   <listitem><para>Bugfix beim Welcome-String</para></listitem>
   <listitem><para>neue oder geänderte Elemente, zu denen ein aktiver
@@ -912,7 +912,7 @@ NMRA-/DCC-Decoder</para></listitem>
   <listitem><para>Wartezeit zum Schalten (= Aktivierung eines Ausgangs)
 auch für andere Elemente als Entkoppler</para></listitem>
   <listitem><para>Aufbau des Programms auf die Shell-Variable $DDLAPPS
-bzw. das Benutzer-Heimat-Verzeichnis</para></listitem>
+bzw. das Heimatverzeichnis des Benutzers</para></listitem>
   <listitem><para>Bugfix beim Abbruch von
 Gleisbild-Ladevorgängen</para></listitem>
   <listitem><para>Neues Dokumentations-Kapitel <xref
@@ -960,7 +960,7 @@ Bildschirmauflösungen</para></listitem>
   <listitem><para>Schnelles &raquo;leeren&laquo; eines Elements durch
 Kontextmenü (&raquo;Clear&laquo;)</para></listitem>
   <listitem><para>Sicherstellung einer richtigen Adresseneingabe im
-Eigenschafts-Menü inkl. automatischem Einfügen führender
+Eigenschafts-Menü inklusive automatischem Einfügen führender
 Nullen</para></listitem>
   <listitem><para>Autoloading des letzten bzw. voreingestellten
 Gleisbilds</para></listitem>
@@ -1013,14 +1013,14 @@ generelle Voraussetzungen erfüllt sein:
 Windowmanager. Die für die grafische Oberfläche notwendige Auflösung
 richtet sich weitgehend nach den eigenen Ansprüchen. Kleinere
 Gleisbilder finden noch vollständig auf 800x600 Pixeln Platz, für größere
-können sogar 1280x1024 schon knapp werden.</para></listitem>
+können sogar 1280x1024 Pixel schon knapp werden.</para></listitem>
   <listitem><para>Für die aktuelle Qt3-Version mu&szlig; die
 Qt-Laufzeit-Bibliothek installiert sein (SuSE Paket
 &raquo;qt3&laquo;, Fedora Paket &raquo;qt&laquo;, Debian/Ubuntu Paket
 &raquo;libqt3-mt&laquo;).</para></listitem>
   <listitem><para>Soll das Programm nicht über ein fertiges Paket
   installiert, sondern aus dem Quellcode kompiliert werden,
-  benötigt man einen C++-Compiler (z.B.  g++), sowie verschiedene
+  benötigt man einen C++-Compiler (z.B. g++), sowie verschiedene
   Entwickler-Pakete für das X-Window-System und die Qt-Bibliothek. Da
   beim Kompilieren auch dieses HTML-Handbuch erzeugt wird, sind
   zusätzlich noch die dafür notwendigen Werkzeuge (openjade, docbook,
@@ -1033,7 +1033,7 @@ Opera)</para></listitem>
   ist mit beschränkter Auswahl über das Dialogfenster für die
   persönlichen Einstellungen konfigurierbar.</para></listitem>
   <listitem><para>Damit die Befehle überhaupt auf der Anlage
-ankommen, braucht man einen SRCP-Server, wie den Daemon &raquo;erddcd&laquo;
+ankommen, benötigt man einen SRCP-Server, wie den Daemon &raquo;erddcd&laquo;
 aus dem <ulink url="http://www.vogt-it.com/OpenSource/DDL/">DDL-Paket</ulink>
 von Torsten Vogt. Alternativ funktioniert SpDrS60 auch mit dem
 Übersetzer-Server &raquo;m6051d&laquo; bzw. dessen Nachfolger
@@ -1083,7 +1083,7 @@ wird dabei automatisch berücksichtigt. Auch eine Deinstallation ist
 Projektseite gibt
 es Zugriff auf Softwarepakete für verschiedene Distributionen und
 Distributionsversionen. Sollte die von Ihnen benötigte Version nicht
-darunter sein, wenden Sie sich bitte an die User-Mailingliste.
+darunter sein, wenden Sie sich bitte an die Benutzer-Mailingliste.
 </para>
 <para>
 Bei rpm-basierten Distributionen (SuSE, Redhat, Fedora etc.) läßt sich
@@ -1119,21 +1119,20 @@ $ dpkg -i &lt;paketname&gt;.deb
 Um SpDrS60 auf Ihrem System aus dem Quellcode zu kompilieren und
 anschließend zu installieren, müssen Sie als normaler Benutzer zunächst
 das Programmpaket auspacken:
+</para>
 <screen>
 $ tar -xvjf spdrs60-&ver;.tar.bz2
 </screen>
-</para>
 
 <para>
 Anschlie&szlig;end ist ins Basisverzeichnis des Paketes zu wechseln und
 folgendes einzugeben:
-
+</para>
 <screen>
 $ ./configure
 $ make
 $ su -c "make install"
 </screen>
-</para>
 
 <para>
 Nach Eingabe des root-Passworts werden die Programmdateien
@@ -1142,7 +1141,6 @@ class="directory">/usr/local</filename> installiert. Alternativ kann man
 das Paket auch unter <filename class="directory">/usr</filename>
 installieren:
 </para>
-
 <screen>
 $ ./configure --prefix=/usr
 $ make
@@ -1165,8 +1163,8 @@ bemängelt.
 
 <para>
 Bei Problemen und Fragestellungen zur Installation oder zu speziellen
-Programmfunktionen kontaktieren Sie bitte die User-Mailingliste des
-Projektes:
+Programmfunktionen kontaktieren Sie bitte die Benutzer-Mailingliste des
+Projektes unter dem folgenden URL:
 <ulink url="http://spdrs60.sourceforge.net/">http://spdrs60.sourceforge.net/</ulink>
 </para>
 </sect2>
@@ -1276,10 +1274,9 @@ und es erscheint das Programmfenster (<xref linkend="abb-startansicht">).
 </para>
 <para>
 <figure id="abb-startansicht">
-  <title>Leeres Programmfenster nach dem
-Start</title>
+  <title>Leeres Programmfenster nach dem Start</title>
   <mediaobject><imageobject>
-    <imagedata fileref="schnapp-prog-empty.de.png">
+    <imagedata fileref="schnapp-prog-empty.png">
   </imageobject></mediaobject>
 </figure>
 </para>
@@ -1868,7 +1865,7 @@ erneut. Weitere, ausführliche Informationen zu diesem Thema findet man im
   <title>Bearbeiten von Datendateien</title>
 <para>
 Sollte man mal in die Notwendigkeit kommen, die dem Gleisbild
-zugrundeliegende Datei editieren zu wollen, so kann man das über den
+zugrundeliegende Datei bearbeiten zu wollen, so kann man das über den
 Punkt &raquo;Bearbeiten/Datendateien/&lt;Dateiname&gt;&laquo;
 erreichen. Das Programm öffnet dann den über den Einstellungsdialog
 konfigurierten Texteditor mit der entsprechenden Datei.
@@ -1948,7 +1945,7 @@ Gleisbilds.
   <title>Ändern der Programmoptionen</title>
 <para>
 Die benutzerspezifischen Einstellungen des Programms lassen sich über
-das Menü &raquo;Bearbeiten/Einstellungen...&laquo; ändern. Diese Daten
+dem Menüpunkt &raquo;Bearbeiten/Einstellungen...&laquo; ändern. Diese Daten
 werden in der Datei <command>.spdrs60rc</command> im Heimatverzeichnis
 des Benutzers gespeichert. Weitere Details sind im
 <xref linkend="sect-optionen"> beschrieben.
@@ -2021,8 +2018,9 @@ Fahrstra&szlig;enauflösehilfstaste (FHT) zur Anwendung.
 <para>
 Entweder man klickt diese im Gleisbild an, sofern man eine mit eingebunden
 hat, oder man erspart sich die Mausbewegung und drückt das
-Tastaturkürzel <keycap>F5</keycap>. Mehr dazu im <xref
-linkend="sect-fahrstrassen-allg">.
+Tastaturkürzel <keycap>F5</keycap>. Anschließend betätigt man die
+Gleistasten des Start- und des Zielsignals. Mehr zu diesem Thema finden
+Sie im <xref linkend="sect-fahrstrassen-allg">.
 </para>
 </sect3>
 
@@ -2073,7 +2071,7 @@ ist wegen des erhöhten Stromverbrauches dann nicht möglich. In spdrs60
 für Linux erfüllt dieser Melder bislang nur einen dekorativen Zweck. Die
 Anzahl der gleichzeitig angetriebenen Weichen ist unbeschränkt und
 wird nur über zeitliche Verzögerungen des SRCP-Servers von vollkommener
-Synchnonität abgehalten.
+Synchronität abgehalten.
 </para>
 </sect3>
 
@@ -2406,8 +2404,6 @@ und maximal 30, was der maximalen Höhe einer originalen SpDrS60-Stelltafel
 entspricht. Dieses Beschränkung ergibt sich zum einen durch das
 zugrundeliegende X-Window-System und zum anderen durch die
 programmtechnisch zur Anzeige des Gleisbilds genutzten Softwaremodule.
-Der Speicherbedarf des Programms liegt unter Ausreizung dieser
-Grenzenwerte bei knapp. 60&nbsp;MB.
 Jedes Element benötigt 56 x 35 Pixel (im Original 54 x 34&nbsp;mm),
 so dass mit diesen Grenzwerten im Verhältnis zu gängigen
 Bildschirmgrößen schon recht stattliche Abbildungen entstehen. Für die
@@ -2417,9 +2413,8 @@ belegt, richtet sich also nach der tatsächlichen Größe der Darstellung.
 </para>
 
 <para>
-Nach Bestätigung der Eingabe entsteht eine kurze Wartezeit, die durch
-eine Balkenanzeige dargestellt wird. Anschließend erscheint ein leeres
-Gleisbild in den gewünschten Dimensionen.
+Nach Bestätigung der Eingabe erscheint ein leeres Gleisbild in den
+gewünschten Dimensionen.
 Der Übersichtlichkeit wegen sollte man die Abmessungen nicht zu weit
 über die Fähigkeiten des Bildschirms hinaus dehnen, da sonst die
 Bedienung durch das notwendige Hin- und
@@ -2452,9 +2447,10 @@ Gleisbildbearbeitungsmodus umschaltet.
 
 <para>
 Es erscheint jeweils zunächst das in <xref linkend="abb-openlayout">
-dargestellte kleine Datei-Dialogfenster, mit dem der Benutzer
+dargestellte Dialogfenster, mit dem der Benutzer
 aufgefordert wird, die gewünschte Gleisbilddatei durch Doppelklicken
-auszuwählen.
+auszuwählen. In dieder Liste können ein oder auch mehrere Dateinamen
+gleichzeitig zum Öffnen ausgewählt werden.
 </para>
     
 <para>
@@ -2489,14 +2485,11 @@ die Weichen oder Signale ihren Zustand nicht an den SRCP-Server
 und damit weiter an dieses Programm. Je nach Ausführung der
 Weichenantriebe wäre es zwar möglich Rückmeldekontakte
 anzuschlie&szlig;en, was wirklichkeitsgetreuer wäre, softwaretechnisch
-das jedoch noch nicht realisiert.
+ist das jedoch noch nicht realisiert.
 Die hier praktizierte Methode ist einfacher, da die
 Anlage auf den gespeicherten Zustand der Gleisbilddatei eingestellt wird.
 Für jedes schaltbare Element (Ausnahmen: Entkoppler, Drehscheibe und
 Schiebebühne) wird ein entsprechendes SRCP-Steuerkommando generiert.
-Auch wenn der Daemon nicht läuft, erscheinen in der Kommandohistorie
-die entsprechenden Befehle; es entfällt dabei lediglich das Senden an
-die Netzwerkschnittstelle.
 </para>
 
 <para>
@@ -2511,7 +2504,7 @@ basiert.
   <title>SpDrS60 mit dem Beispiellayout
 &raquo;<filename>bahnhof_klein.spdrs60</filename>&laquo;</title>
   <mediaobject><imageobject>
-    <imagedata fileref="schnapp-bhf-klein.de.png">
+    <imagedata fileref="schnapp-bhf-klein.png">
   </imageobject></mediaobject>
 </figure>
 </para>
@@ -2521,10 +2514,10 @@ Bereits in diesem kleinen Beispiel erkennt man das
 typische Aussehen eines SpDrS60-Stelltisches:
 <itemizedlist mark="bullet">
   <listitem><para>Im oberen Bereich befinden sich die Außentasten
-  (Gruppentasten), ihrer Funktion nach in farblich abgesetzten Blöcken
-  gruppiert (Gruppentastenblöcke)</para></listitem>
-  <listitem><para>Darunter das eigentliche Gleisbild mit den
-  Innentasten und den Symbolen für Signale, Gleise und Weichen
+  (Gruppentasten), die ihrer Funktion nach in farblich abgesetzten Blöcken
+  gruppiert sind (Gruppentastenblöcke).</para></listitem>
+  <listitem><para>Darunter liegt das eigentliche Gleisbild mit den
+  Innentasten und den Symbolen für Signale, Gleise und Weichen.
 </para></listitem>
 </itemizedlist>
 </para>
@@ -3239,10 +3232,10 @@ vorhanden).</para>
 <table frame="topbot" id="tabelle-positions">
   <title>Auflistung aller Element-Stellungen</title>
   <tgroup cols="4" align="left" colsep="1" rowsep="1">
-  <colspec colname="c1">
-  <colspec colname="c2">
-  <colspec colname="c3">
-  <colspec colname="c4" colwidth="1.5*">
+  <colspec colnum="0" colname="c1" colwidth="3cm">
+  <colspec colnum="1" colname="c2" colwidth="3cm">
+  <colspec colnum="2" colname="c3" colwidth="4cm">
+  <colspec colnum="3" colname="c4" colwidth="4cm">
   <thead>
     <row>
       <entry>Name</entry>
