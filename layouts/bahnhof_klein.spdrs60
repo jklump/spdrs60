@@ -1,35 +1,35 @@
 # spdrs60 data file
-# version=0.5.0_beta10
-# last modified=2006-11-27T22:50:02
-formatversion;1
+# version=0.5.2
+# last modified=2007-02-21T20:14:51
+formatversion;2
 cmdhost;localhost;4303;0;0;0
 fbhost;localhost;4303;0
 # start of layout section
 %% layout
 # layout dimensions=columns;rows
-dimensions;10;11
+dimensions;15;11
 # start of element section
-%% element 4
-index;4
-icon;signal_hs
-rotate;1
+%% element 5
+index;5
+icon;turn_topvert_right
+rotate;-1
 invers turnout;-1
-decoder;Maerklin k83 (M)
-protocol;M
-address_1;1;1;0
-address_2;1;-1;0
-change conn 1;0
+decoder;-1
+protocol;-1
+address_1;1;-1;1
+address_2;1;-1;1
+change conn 1;-1
 change conn 2;-1
-direction;0
-subtype;0
-text;001
-active time;50
-feedback port;1;12
-hide LEDs;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;0
 %% element 6
 index;6
-icon;prellbock
-rotate;0
+icon;trackvertical
+rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
@@ -43,6 +43,40 @@ text;-1
 active time;-1
 feedback port;1;1
 hide LEDs;-1
+%% element 7
+index;7
+icon;trackvertical
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1;1
+address_2;1;-1;1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;0
+%% element 8
+index;8
+icon;turn_botvert_left
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1;1
+address_2;1;-1;1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;0
 %% element 14
 index;14
 icon;prellbock
@@ -62,42 +96,25 @@ feedback port;1;1
 hide LEDs;-1
 %% element 15
 index;15
-icon;signal_hs
-rotate;0
-invers turnout;-1
-decoder;Maerklin k83 (M)
-protocol;M
-address_1;1;2;0
-address_2;1;-1;0
-change conn 1;0
-change conn 2;0
-direction;0
-subtype;4
-text;002
-active time;50
-feedback port;1;11
-hide LEDs;-1
-%% element 17
-index;17
-icon;drehscheibe
-rotate;-1
+icon;kurve_links
+rotate;1
 invers turnout;-1
 decoder;-1
-protocol;M
-address_1;1;246;0
-address_2;1;240;0
+protocol;-1
+address_1;1;-1;1
+address_2;1;-1;1
 change conn 1;-1
 change conn 2;-1
-direction;0
-subtype;5
-text;1
+direction;-1
+subtype;-1
+text;-1
 active time;-1
 feedback port;1;1
-hide LEDs;-1
+hide LEDs;0
 %% element 20
 index;20
-icon;richtung_2
-rotate;-1
+icon;kurve_rechts
+rotate;1
 invers turnout;-1
 decoder;-1
 protocol;-1
@@ -113,40 +130,159 @@ feedback port;1;1
 hide LEDs;-1
 %% element 25
 index;25
-icon;signal_ss
-rotate;0
+icon;signal_srb
+rotate;1
 invers turnout;-1
-decoder;EDiTS Schaltdek. (M)
-protocol;M
-address_1;1;13;0
-address_2;1;-1;0
+decoder;-1
+protocol;P
+address_1;1;5007;1
+address_2;1;-1;1
 change conn 1;0
 change conn 2;-1
 direction;0
 subtype;-1
-text;Sh I
+text;Lg
+active time;-1
+feedback port;1;1
+hide LEDs;0
+%% element 26
+index;26
+icon;signal_hs
+rotate;0
+invers turnout;-1
+decoder;Maerklin k83 WD (M)
+protocol;M
+address_1;1;6;0
+address_2;1;106;0
+change conn 1;0
+change conn 2;0
+direction;0
+subtype;4
+text;A
+active time;50
+feedback port;1;11
+hide LEDs;-1
+%% element 31
+index;31
+icon;signal_hs
+rotate;0
+invers turnout;-1
+decoder;Littf. S-DEC-4 WD (D)
+protocol;P
+address_1;1;48;1
+address_2;1;-1;1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;0
+text;10
+active time;100
+feedback port;1;1
+hide LEDs;-1
+%% element 36
+index;36
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1;1
+address_2;1;-1;1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;0
+%% element 37
+index;37
+icon;signal_nrb
+rotate;1
+invers turnout;-1
+decoder;-1
+protocol;P
+address_1;1;5006;1
+address_2;1;-1;1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;n.L.
+active time;-1
+feedback port;1;1
+hide LEDs;0
+%% element 39
+index;39
+icon;drehscheibe
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;M
+address_1;1;246;0
+address_2;1;240;0
+change conn 1;-1
+change conn 2;-1
+direction;0
+subtype;5
+text;1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 42
+index;42
+icon;signal_hs
+rotate;1
+invers turnout;-1
+decoder;Littf. S-DEC-4 WD (D)
+protocol;M
+address_1;1;11;0
+address_2;1;-1;0
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;0
+text;11
 active time;50
 feedback port;1;1
 hide LEDs;-1
-%% element 26
-index;26
-icon;weiche_links
+%% element 47
+index;47
+icon;signal_ss
 rotate;0
-invers turnout;0
-decoder;Maerklin k83 (M)
+invers turnout;-1
+decoder;Maerklin k83 WD (M)
 protocol;M
-address_1;1;3;0
+address_1;1;20;0
 address_2;1;-1;0
 change conn 1;0
 change conn 2;-1
 direction;0
 subtype;-1
-text;003
+text;Ls W2
+active time;50
+feedback port;1;1
+hide LEDs;0
+%% element 48
+index;48
+icon;weiche_links
+rotate;0
+invers turnout;0
+decoder;Maerklin k83 WD (M)
+protocol;M
+address_1;1;1;0
+address_2;1;-1;0
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;1
 active time;50
 feedback port;1;10
-hide LEDs;-1
-%% element 27
-index;27
+hide LEDs;0
+%% element 49
+index;49
 icon;diagonale_links
 rotate;-1
 invers turnout;-1
@@ -162,197 +298,10 @@ text;-1
 active time;-1
 feedback port;1;14
 hide LEDs;-1
-%% element 28
-index;28
-icon;prellbock
-rotate;1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;1
-hide LEDs;-1
-%% element 31
-index;31
-icon;signal_hs
-rotate;1
-invers turnout;-1
-decoder;-1
-protocol;M
-address_1;1;15;0
-address_2;1;-1;0
-change conn 1;0
-change conn 2;-1
-direction;0
-subtype;0
-text;015
-active time;50
-feedback port;1;1
-hide LEDs;-1
-%% element 33
-index;33
-icon;taste_sgt
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;1
-hide LEDs;-1
-%% element 36
-index;36
-icon;weiche_links
-rotate;1
-invers turnout;0
-decoder;Maerklin k83 (M)
-protocol;M
-address_1;1;4;0
-address_2;1;-1;0
-change conn 1;0
-change conn 2;-1
-direction;0
-subtype;-1
-text;004
-active time;50
-feedback port;1;10
-hide LEDs;-1
-%% element 37
-index;37
-icon;weiche_links
-rotate;1
-invers turnout;-1
-decoder;-1
-protocol;M
-address_1;1;14;0
-address_2;1;-1;0
-change conn 1;0
-change conn 2;-1
-direction;0
-subtype;-1
-text;014
-active time;50
-feedback port;1;1
-hide LEDs;-1
-%% element 42
-index;42
-icon;gerade
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;1
-hide LEDs;-1
-%% element 44
-index;44
-icon;taste_wgt
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;1
-hide LEDs;-1
-%% element 46
-index;46
-icon;leer
-rotate;-1
-invers turnout;1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;1
-hide LEDs;-1
-%% element 47
-index;47
-icon;signal_hss
-rotate;1
-invers turnout;-1
-decoder;EDiTS Schaltdek. (M)
-protocol;M
-address_1;1;5;0
-address_2;1;105;0
-change conn 1;0
-change conn 2;0
-direction;0
-subtype;7
-text;B
-active time;50
-feedback port;1;9
-hide LEDs;-1
-%% element 48
-index;48
-icon;signal_hss
-rotate;1
-invers turnout;-1
-decoder;EDiTS Schaltdek. (M)
-protocol;M
-address_1;1;6;0
-address_2;1;206;0
-change conn 1;0
-change conn 2;0
-direction;0
-subtype;1
-text;A
-active time;50
-feedback port;1;1
-hide LEDs;-1
-%% element 49
-index;49
-icon;leer
-rotate;-1
-invers turnout;1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;1
-hide LEDs;-1
 %% element 50
 index;50
-icon;haus_2
-rotate;0
+icon;prellbock
+rotate;1
 invers turnout;-1
 decoder;-1
 protocol;-1
@@ -385,93 +334,8 @@ feedback port;1;1
 hide LEDs;-1
 %% element 55
 index;55
-icon;taste_fht
+icon;taste_sgt
 rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;0000
-active time;-1
-feedback port;1;1
-hide LEDs;-1
-%% element 57
-index;57
-icon;leer
-rotate;-1
-invers turnout;1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;Gleis 2
-active time;-1
-feedback port;1;1
-hide LEDs;-1
-%% element 58
-index;58
-icon;signal_hss
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;M
-address_1;1;7;0
-address_2;1;207;0
-change conn 1;0
-change conn 2;0
-direction;0
-subtype;7
-text;007
-active time;50
-feedback port;1;1
-hide LEDs;-1
-%% element 59
-index;59
-icon;signal_hss
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;M
-address_1;1;8;0
-address_2;1;208;0
-change conn 1;0
-change conn 2;0
-direction;0
-subtype;1
-text;008
-active time;50
-feedback port;1;1
-hide LEDs;-1
-%% element 60
-index;60
-icon;leer
-rotate;-1
-invers turnout;1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;Gleis 1
-active time;-1
-feedback port;1;1
-hide LEDs;-1
-%% element 61
-index;61
-icon;haus_2
-rotate;1
 invers turnout;-1
 decoder;-1
 protocol;-1
@@ -485,6 +349,40 @@ text;-1
 active time;-1
 feedback port;1;1
 hide LEDs;-1
+%% element 58
+index;58
+icon;weiche_links
+rotate;1
+invers turnout;0
+decoder;Maerklin k83 WD (M)
+protocol;M
+address_1;1;2;0
+address_2;1;-1;0
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;2
+active time;50
+feedback port;1;10
+hide LEDs;0
+%% element 59
+index;59
+icon;weiche_links
+rotate;1
+invers turnout;0
+decoder;Littf. S-DEC-4 WD (D)
+protocol;M
+address_1;1;5;0
+address_2;1;-1;0
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;5
+active time;50
+feedback port;1;1
+hide LEDs;0
 %% element 64
 index;64
 icon;gerade
@@ -504,7 +402,7 @@ feedback port;1;1
 hide LEDs;-1
 %% element 66
 index;66
-icon;taste_ufgt
+icon;taste_wgt
 rotate;-1
 invers turnout;-1
 decoder;-1
@@ -538,26 +436,43 @@ feedback port;1;1
 hide LEDs;-1
 %% element 69
 index;69
-icon;weiche_rechts
-rotate;0
-invers turnout;0
-decoder;Littfinsky (D)
+icon;signal_hss
+rotate;1
+invers turnout;-1
+decoder;Maerklin k83 WD (M)
 protocol;M
-address_1;1;9;0
-address_2;1;-1;0
+address_1;1;21;0
+address_2;1;121;0
 change conn 1;0
-change conn 2;-1
+change conn 2;0
 direction;0
-subtype;-1
-text;009
+subtype;7
+text;P2
 active time;50
-feedback port;1;4
+feedback port;1;9
 hide LEDs;-1
 %% element 70
 index;70
-icon;gerade
-rotate;0
+icon;signal_hss
+rotate;1
 invers turnout;-1
+decoder;Maerklin k83 WD (M)
+protocol;M
+address_1;1;7;0
+address_2;1;107;0
+change conn 1;0
+change conn 2;0
+direction;0
+subtype;1
+text;P1
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 71
+index;71
+icon;leer
+rotate;-1
+invers turnout;1
 decoder;-1
 protocol;-1
 address_1;1;-1;0
@@ -570,11 +485,11 @@ text;-1
 active time;-1
 feedback port;1;1
 hide LEDs;-1
-%% element 71
-index;71
-icon;leer
-rotate;-1
-invers turnout;1
+%% element 72
+index;72
+icon;haus_2
+rotate;0
+invers turnout;-1
 decoder;-1
 protocol;-1
 address_1;1;-1;0
@@ -604,9 +519,94 @@ text;-1
 active time;-1
 feedback port;1;1
 hide LEDs;-1
+%% element 77
+index;77
+icon;taste_fht
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1;0
+address_2;1;-1;0
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;0000
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 79
+index;79
+icon;leer
+rotate;-1
+invers turnout;1
+decoder;-1
+protocol;-1
+address_1;1;-1;0
+address_2;1;-1;0
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;Gleis 2
+active time;-1
+feedback port;1;1
+hide LEDs;-1
 %% element 80
 index;80
 icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1;1
+address_2;1;-1;1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;0
+%% element 81
+index;81
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1;1
+address_2;1;-1;1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;0
+%% element 82
+index;82
+icon;leer
+rotate;-1
+invers turnout;1
+decoder;-1
+protocol;-1
+address_1;1;-1;0
+address_2;1;-1;0
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;Gleis 1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 83
+index;83
+icon;haus_2
 rotate;1
 invers turnout;-1
 decoder;-1
@@ -619,79 +619,28 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;51
-hide LEDs;-1
-%% element 81
-index;81
-icon;weiche_rechts
-rotate;1
-invers turnout;0
-decoder;Littfinsky (D)
-protocol;M
-address_1;1;10;0
-address_2;1;-1;0
-change conn 1;0
-change conn 2;-1
-direction;0
-subtype;-1
-text;010
-active time;50
-feedback port;1;13
+feedback port;1;1
 hide LEDs;-1
 %% element 86
 index;86
-icon;signal_hs
-rotate;1
-invers turnout;-1
-decoder;-1
-protocol;M
-address_1;1;1;0
-address_2;1;-1;0
-change conn 1;0
-change conn 2;-1
-direction;0
-subtype;0
-text;001
-active time;50
-feedback port;1;1
-hide LEDs;-1
-%% element 91
-index;91
-icon;signal_hs
-rotate;1
-invers turnout;-1
-decoder;-1
-protocol;M
-address_1;1;11;0
-address_2;1;-1;0
-change conn 1;0
-change conn 2;-1
-direction;0
-subtype;0
-text;011
-active time;50
-feedback port;1;1
-hide LEDs;-1
-%% element 92
-index;92
-icon;signal_hs
+icon;gerade
 rotate;0
 invers turnout;-1
 decoder;-1
-protocol;M
-address_1;1;12;0
-address_2;1;-1;0
-change conn 1;0
+protocol;-1
+address_1;1;-1;1
+address_2;1;-1;1
+change conn 1;-1
 change conn 2;-1
-direction;0
-subtype;0
-text;012
-active time;50
+direction;-1
+subtype;-1
+text;-1
+active time;-1
 feedback port;1;1
-hide LEDs;-1
-%% element 97
-index;97
-icon;richtung_2
+hide LEDs;0
+%% element 88
+index;88
+icon;taste_ufgt
 rotate;-1
 invers turnout;-1
 decoder;-1
@@ -706,11 +655,11 @@ text;-1
 active time;-1
 feedback port;1;1
 hide LEDs;-1
-%% element 102
-index;102
-icon;richtung_1
-rotate;1
-invers turnout;-1
+%% element 90
+index;90
+icon;leer
+rotate;-1
+invers turnout;1
 decoder;-1
 protocol;-1
 address_1;1;-1;0
@@ -721,11 +670,300 @@ direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;51
+feedback port;1;1
 hide LEDs;-1
+%% element 91
+index;91
+icon;signal_hss
+rotate;0
+invers turnout;-1
+decoder;Littf. S-DEC-4 WD (D)
+protocol;M
+address_1;1;22;0
+address_2;1;122;0
+change conn 1;0
+change conn 2;0
+direction;0
+subtype;5
+text;N2
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 92
+index;92
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1;1
+address_2;1;-1;1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;0
+%% element 93
+index;93
+icon;leer
+rotate;-1
+invers turnout;1
+decoder;-1
+protocol;-1
+address_1;1;-1;0
+address_2;1;-1;0
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;-1
+%% element 97
+index;97
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1;1
+address_2;1;-1;1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;0
+%% element 102
+index;102
+icon;weiche_rechts
+rotate;0
+invers turnout;0
+decoder;Maerklin k83 WD (M)
+protocol;M
+address_1;1;3;0
+address_2;1;-1;0
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;3
+active time;50
+feedback port;1;4
+hide LEDs;0
 %% element 103
 index;103
-icon;richtung_1
+icon;signal_hss
+rotate;0
+invers turnout;-1
+decoder;Littf. S-DEC-4 WD (D)
+protocol;M
+address_1;1;8;0
+address_2;1;108;0
+change conn 1;0
+change conn 2;0
+direction;0
+subtype;1
+text;N1
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 108
+index;108
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1;1
+address_2;1;-1;1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;0
+%% element 113
+index;113
+icon;signal_sss
+rotate;1
+invers turnout;-1
+decoder;Littf. S-DEC-4 WD (D)
+protocol;P
+address_1;1;23;0
+address_2;1;-1;0
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;Ls W3
+active time;100
+feedback port;1;51
+hide LEDs;0
+%% element 114
+index;114
+icon;weiche_rechts
+rotate;1
+invers turnout;0
+decoder;Maerklin k83 WD (M)
+protocol;M
+address_1;1;4;0
+address_2;1;-1;0
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;4
+active time;50
+feedback port;1;13
+hide LEDs;0
+%% element 119
+index;119
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1;1
+address_2;1;-1;1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;0
+%% element 124
+index;124
+icon;signal_nrb
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;P
+address_1;1;5003;1
+address_2;1;-1;1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;n.Ro.
+active time;-1
+feedback port;1;1
+hide LEDs;0
+%% element 125
+index;125
+icon;signal_nrb
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;P
+address_1;1;5005;1
+address_2;1;-1;1
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;-1
+text;n.R.
+active time;-1
+feedback port;1;1
+hide LEDs;0
+%% element 130
+index;130
+icon;signal_hs
+rotate;0
+invers turnout;-1
+decoder;Maerklin k83 WD (M)
+protocol;M
+address_1;1;12;0
+address_2;1;-1;0
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;0
+text;12
+active time;50
+feedback port;1;12
+hide LEDs;-1
+%% element 135
+index;135
+icon;signal_hs
+rotate;1
+invers turnout;-1
+decoder;Littf. S-DEC-4 WD (D)
+protocol;M
+address_1;1;24;0
+address_2;1;-1;0
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;0
+text;F2
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 136
+index;136
+icon;signal_hs
+rotate;1
+invers turnout;-1
+decoder;Littf. S-DEC-4 WD (D)
+protocol;M
+address_1;1;9;0
+address_2;1;109;0
+change conn 1;0
+change conn 2;0
+direction;0
+subtype;4
+text;F1
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 141
+index;141
+icon;signal_hs
+rotate;1
+invers turnout;-1
+decoder;Littf. S-DEC-4 WD (D)
+protocol;M
+address_1;1;13;0
+address_2;1;-1;0
+change conn 1;0
+change conn 2;-1
+direction;0
+subtype;0
+text;13
+active time;50
+feedback port;1;1
+hide LEDs;-1
+%% element 146
+index;146
+icon;gerade
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1;1
+address_2;1;-1;1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;0
+%% element 147
+index;147
+icon;kurve_rechts
 rotate;0
 invers turnout;-1
 decoder;-1
@@ -740,111 +978,291 @@ text;-1
 active time;-1
 feedback port;1;1
 hide LEDs;-1
+%% element 152
+index;152
+icon;kurve_links
+rotate;0
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1;1
+address_2;1;-1;1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;0
+%% element 157
+index;157
+icon;richtung_2
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1;0
+address_2;1;-1;0
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;n.u.v.Ro.
+active time;-1
+feedback port;1;1
+hide LEDs;0
+%% element 159
+index;159
+icon;turn_topvert_left
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1;1
+address_2;1;-1;1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;0
+%% element 160
+index;160
+icon;trackvertical
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1;1
+address_2;1;-1;1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;0
+%% element 161
+index;161
+icon;trackvertical
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1;1
+address_2;1;-1;1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;0
+%% element 162
+index;162
+icon;turn_botvert_right
+rotate;-1
+invers turnout;-1
+decoder;-1
+protocol;-1
+address_1;1;-1;1
+address_2;1;-1;1
+change conn 1;-1
+change conn 2;-1
+direction;-1
+subtype;-1
+text;-1
+active time;-1
+feedback port;1;1
+hide LEDs;0
 # start of route section
-# routes=10
+# routes=17
 %% route 1
-name;Gleis 1 -> rechts
-to signal;1;12
-from signal;1;8;1
-release port;1;4;1;0
+name;P1 - n.L.
+to signal;1;5006
+from signal;1;7;1
+release port;1;0;0;0
 activate port;1;0;0;0
 active by loco;1;0
 type;0;0
-switch x to y;1;10;0
-switch x to y;1;9;0
+switch x to y;1;5;0
+switch x to y;1;1;0
+switch x to y;1;2;0
+switch x to y;1;6;0
 %% route 2
-name;Gleis 1 -> links
-to signal;1;1
-from signal;1;6;1
-release port;1;1;1;0
+name;N1 - n.R.
+to signal;1;5005
+from signal;1;8;1
+release port;1;0;0;0
+activate port;1;0;0;0
+active by loco;1;0
+type;0;0
+switch x to y;1;4;0
+switch x to y;1;3;0
+switch x to y;1;9;0
+%% route 3
+name;P2 - n.L.
+to signal;1;5006
+from signal;1;21;2
+release port;1;0;0;0
+activate port;1;0;0;0
+active by loco;1;0
+type;0;0
+switch x to y;1;2;1
+switch x to y;1;1;1
+switch x to y;1;7;0
+switch x to y;1;20;0
+switch x to y;1;6;0
+%% route 4
+name;N2 - n.R.
+to signal;1;5005
+from signal;1;22;2
+release port;1;0;0;0
+activate port;1;0;0;0
+active by loco;1;0
+type;0;0
+switch x to y;1;3;1
+switch x to y;1;4;1
+switch x to y;1;8;0
+switch x to y;1;23;0
+switch x to y;1;9;0
+%% route 5
+name;N2 - n.Ro.
+to signal;1;5003
+from signal;1;22;1
+release port;1;0;0;0
 activate port;1;0;0;0
 active by loco;1;0
 type;0;0
 switch x to y;1;3;0
 switch x to y;1;4;0
-switch x to y;1;14;0
-%% route 3
-name;Gleis 2 -> links
-to signal;1;1
-from signal;1;5;2
-release port;1;5;1;0
+switch x to y;1;23;0
+switch x to y;1;24;0
+%% route 6
+name;Ls W2 - P2
+to signal;1;21
+from signal;1;20;0
+release port;1;0;0;0
+activate port;1;0;0;0
+active by loco;1;0
+type;3;0
+switch x to y;1;2;0
+switch x to y;1;1;0
+%% route 7
+name;N2 - Ls W3
+to signal;1;23
+from signal;1;22;3
+release port;1;0;0;0
+activate port;1;0;0;0
+active by loco;1;0
+type;3;0
+switch x to y;1;3;0
+switch x to y;1;4;0
+switch x to y;1;24;0
+%% route 8
+name;F1 - P1
+to signal;1;7
+from signal;1;9;1
+release port;1;0;0;0
+activate port;1;0;0;0
+active by loco;1;0
+type;0;0
+switch x to y;1;4;0
+switch x to y;1;3;0
+%% route 9
+name;F1 - P2
+to signal;1;21
+from signal;1;9;2
+release port;1;0;0;0
 activate port;1;0;0;0
 active by loco;1;0
 type;0;0
 switch x to y;1;4;1
 switch x to y;1;3;1
-switch x to y;1;2;0
-switch x to y;1;14;1
-switch x to y;1;13;0
-%% route 4
-name;Gleis 2 -> rechts
-to signal;1;12
-from signal;1;7;2
-release port;1;129;1;0
-activate port;1;0;0;0
-active by loco;1;0
-type;0;0
-switch x to y;1;9;1
-switch x to y;1;10;1
-switch x to y;1;11;0
+switch x to y;1;23;0
 switch x to y;1;8;0
-%% route 5
-name;rechts -> Gleis 2
-to signal;1;5
-from signal;1;11;1
-release port;1;358;1;0
-activate port;1;0;0;0
-active by loco;1;0
-type;0;0
-switch x to y;1;9;0
-switch x to y;1;10;0
-switch x to y;1;200;1
-%% route 6
-name;links -> Gleis 1
-to signal;1;8
-from signal;1;2;1
-release port;1;100;1;0
-activate port;1;0;0;0
-active by loco;1;0
-type;0;0
-switch x to y;1;3;0
-switch x to y;1;4;0
-switch x to y;1;14;0
-%% route 7
-name;Gbhf -> Gleis 2
-to signal;1;7
-from signal;1;13;1
-release port;3;9;1;0
-activate port;1;0;0;0
-active by loco;1;0
-type;0;0
-switch x to y;1;3;0
-switch x to y;1;4;0
-%% route 8
-name;Gleis 2 -> Gbhf
-to signal;1;13
-from signal;1;5;3
-release port;1;0;0;0
-activate port;1;0;0;0
-active by loco;1;0
-type;0;0
-switch x to y;1;3;0
-switch x to y;1;4;0
-%% route 9
-name;Streckengleis
-to signal;1;15
-from signal;1;1;1
-release port;1;0;0;0
-activate port;1;0;0;0
-active by loco;1;0
-type;0;0
 %% route 10
-name;Sh I - B
-to signal;1;5
-from signal;1;13;0
+name;A - N2
+to signal;1;22
+from signal;1;6;2
+release port;1;0;0;0
+activate port;1;0;0;0
+active by loco;1;0
+type;0;0
+switch x to y;1;1;1
+switch x to y;1;2;1
+switch x to y;1;20;0
+switch x to y;1;7;0
+%% route 11
+name;A - N1
+to signal;1;8
+from signal;1;6;1
+release port;1;0;0;0
+activate port;1;0;0;0
+active by loco;1;0
+type;0;0
+switch x to y;1;1;0
+switch x to y;1;5;0
+switch x to y;1;2;0
+%% route 12
+name;10 - 12
+to signal;1;12
+from signal;1;48;1
+release port;1;0;0;0
+activate port;1;0;0;0
+active by loco;1;0
+type;0;0
+switch x to y;1;13;0
+%% route 13
+name;12 - F1
+to signal;1;9
+from signal;1;12;1
+release port;1;0;0;0
+activate port;1;0;0;0
+active by loco;1;0
+type;0;0
+%% route 14
+name;13 - 11
+to signal;1;11
+from signal;1;13;1
+release port;1;0;0;0
+activate port;1;0;0;0
+active by loco;1;0
+type;0;0
+switch x to y;1;48;0
+%% route 15
+name;F2 - P2
+to signal;1;21
+from signal;1;24;1
+release port;1;0;0;0
+activate port;1;0;0;0
+active by loco;1;0
+type;0;0
+switch x to y;1;23;1
+switch x to y;1;3;0
+switch x to y;1;4;0
+%% route 16
+name;Ls W3 - N2
+to signal;1;22
+from signal;1;23;1
 release port;1;0;0;0
 activate port;1;0;0;0
 active by loco;1;0
 type;3;0
-switch x to y;1;4;0
 switch x to y;1;3;0
+switch x to y;1;4;0
+%% route 17
+name;P2 - Lg
+to signal;1;5007
+from signal;1;21;3
+release port;1;0;0;0
+activate port;1;0;0;0
+active by loco;1;0
+type;3;0
+switch x to y;1;2;0
+switch x to y;1;1;0
