@@ -80,7 +80,7 @@
 
 (define %two-side% #t)
 
-;; center images
+;; center images, does not work!
 (element imagedata
   (if (have-ancestor? (normalize "mediaobject"))
     ($img$ (current-node) #t)                 
@@ -90,9 +90,63 @@
 (define %bf-size%
   (case %visual-acuity%
         (("normal") 11pt)
-        (("presbyopic") 13pt)
+        (("presbyopic") 12pt)
         (("large-type") 24pt)))
 (define-unit em %bf-size%)
+
+(define %section-autolabel% 
+  ;; Are sections enumerated?
+  #t)
+
+;; Taken from David Mason posting on DB list Mar 2, 2000
+;; This puts figure titles below the figure. The default
+;; is to put them above.
+(define ($object-titles-after$)
+  (list (normalize "figure")))
+
+;; This centers figure titles.
+;;(mode formal-object-title-mode
+;;  (element title
+;;    (let* ((object (parent (current-node)))
+;;           (nsep   (gentext-label-title-sep (gi object))))
+;;      (make paragraph
+;;        font-weight: 'bold
+;;        quadding: 'center
+;;        space-before: (if (object-title-after (parent (current-node)))
+;;                          (* %para-sep% .3)
+;;                          0pt)
+;;        space-after: (if (object-title-after (parent (current-node)))
+;;                         0pt
+;;                         %para-sep%)
+;;        start-indent: (+ %block-start-indent% (inherited-start-indent))
+;;        keep-with-next?: (not (object-title-after (parent
+;;(current-node))))
+;;        (if (member (gi object) (named-formal-objects))
+;;            (make sequence
+;;              (literal (gentext-element-name object))
+;;              (if (string=? (element-label object) "")
+;;                  (literal nsep)
+;;                  (literal " " (element-label object) nsep)))
+;;            (empty-sosofo))
+;;        (process-children))))
+;;)
+
+
+(define %chap-app-running-heads% 
+  ;; Generate running headers and footers on chapter-level elements?
+  #t)
+
+(define %chap-app-running-head-autolabel% 
+  ;; Put chapter labels in running heads?
+  #t)
+
+;; Indent lines in a 'Screen'?
+;; This is a string of characters used to indent every line of
+;; a screen. 
+(define %indent-screen-lines%
+  "   ")
+
+
 
 </style-specification-body>
 </style-specification>
