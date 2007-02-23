@@ -1202,10 +1202,12 @@ abgelegt werden.
 <para>
 <table frame="topbot" id="tabelle-layoutdateien">
   <title>Auflistung der mitgelieferten Beispiel-Gleisbilddateien</title>
-<tgroup cols="2" align="left" colsep="1" rowsep="1">   
+<tgroup cols="2" align="left" colsep="0" rowsep="0">   
+  <colspec colname="c1" colwidth="1*">
+  <colspec colname="c2" colwidth="2*">
   <thead>
-    <row>
-      <entry>Gleisbild-Datei</entry>
+    <row rowsep="1">
+      <entry>Gleisbilddatei</entry>
       <entry>Beschreibung</entry>
     </row>
   </thead>
@@ -1536,12 +1538,14 @@ wird im folgenden näher eingegangen.
 </para>
 <sect2>
   <title>Datei</title>
-<figure id="abb-menuefile">
-  <title>Datei-Menü</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="schnapp-filemenu.png">
-  </imageobject></mediaobject>
-</figure>
+  
+  <figure id="abb-menuefile">
+      <title>Datei-Menü</title>
+      <mediaobject><imageobject>
+           <imagedata fileref="schnapp-filemenu.png">
+      </imageobject></mediaobject>
+  </figure>
+
 <para>
 Die Bedeutung der Einträge im Einzelnen von oben nach unten:
 </para>
@@ -1552,20 +1556,22 @@ Die Bedeutung der Einträge im Einzelnen von oben nach unten:
   <listitem><para>Speichern des aktiven Gleisbilds</para></listitem>
   <listitem><para>Speichern des aktiven Gleisbilds unter einem anderen
 Namen</para></listitem>
-  <listitem><para>Importieren einer Gleisbilddatei im alten Format</para></listitem>
   <listitem><para>Ein neues Programmfenster öffnen</para></listitem>
   <listitem><para>Schließen des aktuellen Programmfensters</para></listitem>
   <listitem><para>Beenden des Programms</para></listitem>
 </itemizedlist>
+
 <para>
 Über den Punkt &raquo;Datei/Neues Fenster&laquo; kann ganz einfach eine
 neue Instanz von &raquo;SpDrS60
 für Linux&laquo; gestartet werden. Auch dort gelten die Parameter,
 die über den Einstellungsdialog gemacht wurden.
 </para>
+
 <para>
 <emphasis>Aber Achtung:</emphasis>
 </para>
+
 <para>
 Ändert man während der Laufzeit die eine oder andere Programmoption, so
 läßt sich zwar jede Instanz einzeln konfigurieren, auf der Festplatte
@@ -1582,6 +1588,7 @@ gespeichert wird jedoch immer nur die letzte Änderung.
     <imagedata fileref="schnapp-editmenu.png">
   </imageobject></mediaobject>
 </figure>
+
 <para>
 Die Bedeutung der Einträge im Einzelnen von oben nach unten:
 </para>

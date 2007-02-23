@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60 documentation
 # last changes by: Guido Scholz
-# Version: $Revision: 1.13 $
-# last update: $Date: 2007-02-21 05:42:31 $
+# Version: $Revision: 1.14 $
+# last update: $Date: 2007-02-23 16:40:01 $
 
 # HTML_DOC_DIR is defined in configure.ac
 htmldir = @HTML_DOC_DIR@
@@ -233,10 +233,11 @@ dist_commonimages_DATA = \
 	commonimages/weiche-links-1.png \
 	commonimages/weiche-rechts-0.png \
 	commonimages/weiche-rechts-1.png
-        
+
+
 dist_html_DATA = spdrs60.css 
 
-# enHTMLFILES =
+
 enhtml_DATA = \
 	en/index.html \
 	en/sect-changes.html \
@@ -249,24 +250,77 @@ enhtml_DATA = \
 	en/sect-routes.html \
 	en/sect-symbols.html \
 	en/sect-usage.html
-	
-#deHTMLFILES = 
+
+
 dehtml_DATA = \
 	de/index.html \
-        de/sect-aenderungen.html \
-        de/sect-anschluesse.html \
-        de/sect-bedienung.html \
-        de/sect-einfuehrung.html \
-        de/sect-fahrstrassen-allg.html \
-        de/sect-faq.html \
-        de/sect-installation.html \
-        de/sect-rueckmeldung.html \
-        de/sect-sonstiges.html \
-        de/sect-symbole.html
+	de/sect-aenderungen.html \
+	de/sect-anschluesse.html \
+	de/sect-anschluesse-weichen.html \
+	de/sect-bedienelemente.html \
+	de/sect-bedienung.html \
+	de/sect-bezugsquellen.html \
+	de/sect-bugs.html \
+	de/sect-copyright.html \
+	de/sect-dateien.html \
+	de/sect-drehscheibe.html \
+	de/sect-einfuehrung.html \
+	de/sect-elementstellungen.html \
+	de/sect-erzeugen.html \
+	de/sect-fahrstrassen-allg.html \
+	de/sect-fahrstrassen-bedienung.html \
+	de/sect-fahrstrassen.html \
+	de/sect-fahrstrassen-vorwort.html \
+	de/sect-faq.html \
+	de/sect-filestructure.html \
+	de/sect-gleichstrommotoren.html \
+	de/sect-grundlegende-bedienung.html \
+	de/sect-installation.html \
+	de/sect-installieren.html \
+	de/sect-kompilieren.html \
+	de/sect-layout-ladenspeichern.html \
+	de/sect-literatur.html \
+	de/sect-menuepunkte.html \
+	de/sect-optionen.html \
+	de/sect-rueckmeldung.html \
+	de/sect-schiebebuehne.html \
+	de/sect-signale.html \
+	de/sect-sonstiges.html \
+	de/sect-starten.html \
+	de/sect-symboleedit.html \
+	de/sect-symbole.html \
+	de/sect-symboleigenschaften.html \
+	de/sect-symbole-uebersicht.html \
+	de/sect-tastaturkuerzel.html \
+	de/sect-voraussetzungen.html \
+	de/v0.2.1.html \
+	de/v0.2.html \
+	de/v0.3.1.html \
+	de/v0.3.2.html \
+	de/v0.3.3.html \
+	de/v0.3.4.html \
+	de/v0.3.html \
+	de/v0.4.0.html \
+	de/v0.4.1.html \
+	de/v0.4.2.html \
+	de/v0.4.3.html \
+	de/v0.4.3-qt3.html \
+	de/ver-0.4.4.html \
+	de/ver-0.4.5.html \
+	de/ver-0.4.6.html \
+	de/ver-0.4.7.html \
+	de/ver-0.4.8.html \
+	de/ver-0.5.0.html \
+	de/ver-0.5.1.html \
+	de/ver-0.5.2.html
 
+
+tex_files = \
+    de/index.tex de/index.dvi de/index.out de/index.log \
+    de/index.aux de/index.pdf
 
 CLEANFILES = \
-	$(enhtml_DATA) $(dehtml_DATA)
+	$(enhtml_DATA) $(dehtml_DATA) $(tex_files)
 
 # distributed with package but not installed
 EXTRA_DIST = en/index.sgml de/index.sgml \
