@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.101 $
+                           version 0.5.2 $Revision: 1.102 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2007-08-02 18:55:29 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2687,16 +2687,24 @@ void MainWindow::slotToggleLayoutPower()
     LayoutPowerIsOn = !LayoutPowerIsOn;
 
     if (srcpVersion == 7) {
-        //TODO: change to send SrcpMessage
-        SendCommandToSRCPServer(
-                LayoutPowerIsOn ? "SET POWER ON" : "SET POWER OFF");
+        SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgPowerSet);
+
+        if (sm == NULL)
+            return;
+
+        sm->setPowerData(0, LayoutPowerIsOn);
+        sendSrcpMessage(sm);
+        delete sm;
+
         if (LayoutPowerIsOn && cmdAutoSendAll)
             layoutSendAll();
     }
     else if (srcpVersion == 8) {
         SRCPCommandState = srcp08SetBusPower;
+
         if (!gbs->setSRCP08BusPower(LayoutPowerIsOn)) {
             SRCPCommandState = srcpConnected;
+
             if (LayoutPowerIsOn && cmdAutoSendAll)
                 layoutSendAll();
         }
@@ -2729,27 +2737,39 @@ void MainWindow::updateLayoutPowerAction()
 // reset the daemon
 void MainWindow::slotDaemonReset()
 {
-    //TODO: change to send SrcpMessage
-    if (srcpVersion == 7)
-        SendCommandToSRCPServer("RESET");
-    else if (srcpVersion == 8)
-        SendCommandToSRCPServer("RESET 0 SERVER");
+    SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgServerReset);
+
+    if (sm == NULL)
+        return;
+
+    sendSrcpMessage(sm);
+    delete sm;
 }
 
 
 /*send shut down SRCP server message*/
 void MainWindow::slotDaemonKill()
 {
-    int choice = QMessageBox::warning(this, tr("Kill SRCP daemon"),
-                     tr("You are about to kill the daemon forever.\n\n"
-                        "If you really want to do it, click \"Kill\".\n\n"
-                        "(Note: if you plan to use this program again\n"
-                        "please restart daemon first, then this program)."),
-                        tr("&Kill"), tr("Cancel"), 0, 1, 1);
-    // do not kill daemon -> return
+    int choice = QMessageBox::warning(this, tr("Shutdown SRCP server"),
+                     tr("You are about to shutdown the SRCP server.\n"
+                        "Do you really want to proceed?\n"
+                        "(Note: To continue using this program, restart\n"
+                        "the server daemon after shutdown has finished)"),
+                        tr("&Shutdown"), tr("Cancel"), 0, 1, 1);
+
+    // do not shutdown server -> return
     if (choice == 1)
         return;
 
+    /*TODO:
+    SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgServerShutdown);
+
+    if (sm == NULL)
+        return;
+
+    sendSrcpMessage(sm);
+    delete sm;
+    */
     if (srcpVersion == 7) {
         SendCommandToSRCPServer("SHUTDOWN");
         CloseSRCPServerConnection();
@@ -2759,8 +2779,8 @@ void MainWindow::slotDaemonKill()
         SendCommandToSRCPServer("TERM 0 SERVER");
     }
 
-    cmdToDebug(tr("Daemon has been killed. Restart server, "
-             "then reconnect \"SpDrS60 for Linux\""),
+    cmdToDebug(tr("Server was shutdown. Restart server to "
+             "reconnect with \"SpDrS60 for Linux\""),
             MT_INFO, HL_HINT);
 }
 
@@ -2775,7 +2795,7 @@ void MainWindow::slotDaemonInfo()
     sInfo.sprintf(tr("Server name and version number:\n%s\n"
                      "\nSRCP version number:\n%s"),
                      sServer.data(), sSRCP.data());
-    QMessageBox::information(this, tr("Daemon info"), sInfo);
+    QMessageBox::information(this, tr("Server information"), sInfo);
 }
 
 
@@ -2811,7 +2831,7 @@ void MainWindow::slotAbout()
     QMessageBox::information(this, QString(tr("About ")) + APP_NAME,
       QString(APP_NAME) + " " + VERSION + "\n" +
       tr("(C) 1999-2003 by Stefan Preis\n"
-         "(C) 2004-2006 by Guido Scholz\n"
+         "(C) 2004-2007 by Guido Scholz\n"
          "with the gorgeous help of:\n"
 	 " Ruediger Seidel\n"
 	 " Dirk Armbrust\n"

@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.2 $Revision: 1.123 $
+                           version 0.5.2 $Revision: 1.124 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2007-08-02 18:55:28 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -80,7 +80,7 @@
 #define WANGLE (180.0 - SANGLE) // wide angle
 
 
-element::element(QWidget* parent): QWidget(parent)
+element::element(QWidget* parent): QWidget(parent, "gbselement")
 {
     initVariables();
 
@@ -107,7 +107,7 @@ element::element(QWidget* parent): QWidget(parent)
     
 
 element::element(QTextStream& ats, QWidget* parent)
-: QWidget(parent)
+: QWidget(parent, "gbselement")
 {
     initVariables();
     readFileTextFromStream(ats);
@@ -249,11 +249,11 @@ void element::readFileTextFromStream(QTextStream& ats)
 }
 
 /**
- * update element type dependend property values
+ * update element type dependent property values
  *
  * initialize standard properties of this special symbol to avoid
  * recalculation in several procedures by expensive string
- * comparations
+ * comparisons
  * */
 void element::updateProperties()
 {
@@ -430,7 +430,7 @@ void element::mousePressEvent(QMouseEvent* e)
             }
 
             /* determine what type of button was pressed an send the
-             * correspondig value to GBSArea to change cursor shape etc.*/
+             * corresponding value to GBSArea to change cursor shape etc.*/
             // if element contains a solenoid or is a external button
             else if (iSoldAddress_1 != -1){
 
@@ -529,7 +529,7 @@ void element::mouseReleaseEvent(QMouseEvent* e)
     /*route edit mode*/
     else if (visualMode == kvmEditRoute) {
         if (e->button() == LeftButton) {
-            /*select/unselect start or stop signal*/
+            /*select/deselect start or stop signal*/
             if ((sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
                  sSoldIcon == SYM_SS || 
                  sSoldIcon == SYM_SSH || sSoldIcon == SYM_SSS ||
@@ -543,7 +543,7 @@ void element::mouseReleaseEvent(QMouseEvent* e)
             }
         }
         else if (e->button() == MidButton) {
-            /*select/unselect switchable element*/
+            /*select/deselect switchable element*/
             if (sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER ||
                 sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR || 
                 sSoldIcon == SYM_WEY || sSoldIcon == SYM_DKR || 
@@ -871,7 +871,7 @@ void element::processInfoPortMessage(unsigned int bus,
  */
 void element::showPropertyDlg()
 {
-    /* when dialog is allready open just bring it to front
+    /* when dialog is already open just bring it to front
        else create new dialog */
     if (elementPropertyDlg != NULL) {
         elementPropertyDlg->setActiveWindow();
@@ -899,10 +899,10 @@ void element::showPropertyDlg()
         elementPropertyDlg->setLEDsAreOff(iSoldLEDoff);
         elementPropertyDlg->setFBBus(iFBBusNo);
         elementPropertyDlg->setFBContact(iFBContact);
-        // this must be the last one, because it tiggers enabling and
-        // disabling of all element dependend widgets
+        // this must be the last one, because it triggers enabling and
+        // disabling of all element dependent widgets
         elementPropertyDlg->setSymbolName(sSoldIcon);
-        //FIXME: minvalues and maxvalues of port spinboxes are set to late
+        //FIXME: minvalues and maxvalues of port spin boxes are set to late
         elementPropertyDlg->setPort1(port1);
         elementPropertyDlg->setPort2(port2);
 
@@ -1226,7 +1226,7 @@ void element::setupElementIcon()
         setPaletteBackgroundPixmap(pm);
     }
    
-    // grey panel
+    // gray panel
     else if (sSoldIcon == SYM_FEE) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(128, 128, 128));
@@ -1609,7 +1609,7 @@ void element::setupElementIcon()
                     Qt::DontClip, s);
         }
 
-        // paint signalization (white triagle)
+        // paint signalization (white triangle)
         if (iSoldDirection == 1) {
             p.setPen(Qt::white);
             p.setBrush(QColor(Qt::white));
@@ -5473,7 +5473,7 @@ void element::paintEvent(QPaintEvent*)
 
 
 /**
- * remove every tooltip and if configured add new one
+ * remove every tool tip and if configured add new one
  * with current element data
  */
 void element::addTooltip()
@@ -6271,7 +6271,7 @@ void element::slotUpdateTurntableData(QPoint newCmd_)
 
 /*
  * copy all available tracks at turntable into element's text
- * field, update tooltip
+ * field, update tool tip
  */
 void element::slotCopyAvailTracks(const QString& trackstr)
 {

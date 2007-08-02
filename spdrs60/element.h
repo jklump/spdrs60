@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.2 $Revision: 1.64 $
+                           version 0.5.2 $Revision: 1.65 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2007-08-02 18:55:29 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -49,47 +49,47 @@
 #define SYM_WS   "signal_ws"
 #define SYM_VS   "signal_vs"
 #define SYM_ZP   "signal_zp"
-#define SYM_NRB  "signal_nrb" // not realy signals but rails
+#define SYM_NRB  "signal_nrb" // not really signals but rails
 #define SYM_SRB  "signal_srb" // with a routing button
 
 // turnouts
-#define SYM_WEL  "weiche_links"
-#define SYM_WER  "weiche_rechts"
-#define SYM_DWL  "weiche_diag_links"
-#define SYM_DWR  "weiche_diag_rechts"
+#define SYM_WEL  "weiche_links" //turnout left
+#define SYM_WER  "weiche_rechts" //turnout right
+#define SYM_DWL  "weiche_diag_links" //turnoutdiagonalleft
+#define SYM_DWR  "weiche_diag_rechts" //turnoutdiagonalright
 #define SYM_WEY  "weiche_y"
-#define SYM_DRW  "dreier_weiche"
-#define SYM_EKL  "ekw_links"  // singel-slip switch left
+#define SYM_DRW  "dreier_weiche" //3-way turnout
+#define SYM_EKL  "ekw_links"  // single-slip switch left
 #define SYM_EKR  "ekw_rechts" // single-slip switch right
 #define SYM_DKL  "dkw_links"  // double-slip switch left
 #define SYM_DKR  "dkw_rechts" // double-slip switch right
 
 // route tracks
-#define SYM_GER  "gerade"
+#define SYM_GER  "gerade" // straight track horizontal
 #define SYM_DIR  "diagonale_rechts"
 #define SYM_DIL  "diagonale_links"
-#define SYM_KUR  "kurve_rechts"
+#define SYM_KUR  "kurve_rechts" //curved track right
 #define SYM_KUL  "kurve_links"
 #define SYM_TTL  "turn_topvert_left"
 #define SYM_TTR  "turn_topvert_right"
 #define SYM_TBL  "turn_botvert_left"
 #define SYM_TBR  "turn_botvert_right"
 #define SYM_TRV  "trackvertical"
-#define SYM_KRH  "kreuzung_hose"
-#define SYM_KRR  "kreuzung_rechts"
-#define SYM_KRL  "kreuzung_links"
-#define SYM_RI1  "richtung_1"
-#define SYM_RI2  "richtung_2"
-#define SYM_ENK  "entkoppler"
+#define SYM_KRH  "kreuzung_hose"   //crossing
+#define SYM_KRR  "kreuzung_rechts" //crossing right
+#define SYM_KRL  "kreuzung_links"  //crossing left
+#define SYM_RI1  "richtung_1" //trackonedirection
+#define SYM_RI2  "richtung_2" //tracktwodirections
+#define SYM_ENK  "entkoppler" // decoupler
 #define SYM_BLD  "blind"      // blind item, switchable
-#define SYM_ADR  "adresse"
+#define SYM_ADR  "adresse"    //trackaddressindicator
 #define SYM_BUE  "uebergang"  // level crossing
 
 // non route tracks
-#define SYM_PRE  "prellbock"  // buffer stop
-#define SYM_GET  "gerade_tl"
-#define SYM_DLT  "diagonale_links_tl"
-#define SYM_DRT  "diagonale_rechts_tl"
+#define SYM_PRE  "prellbock"  // buffer stop, bumper
+#define SYM_GET  "gerade_tl"  //tunnel straight left/right
+#define SYM_DLT  "diagonale_links_tl" //tunnelbottomleft /top left
+#define SYM_DRT  "diagonale_rechts_tl" // right
 
 // miscellaneous
 #define SYM_LEE  "leer"
@@ -109,12 +109,12 @@
 #define SYM_TAW  "taste_wgt"
 #define SYM_TAS  "taste_sgt"  // combination with HaGT
 
-#define SYM_FEG  "panel_green"
-#define SYM_FEB  "panel_blue"
-#define SYM_FER  "panel_red"
-#define SYM_FEY  "panel_yellow"
-#define SYM_FEE  "panel_grey"
-#define SYM_FEN  "panel_brown"
+#define SYM_FEG  "panel_green" // route group
+#define SYM_FEB  "panel_blue"  // turnout group
+#define SYM_FER  "panel_red"   // signal group
+#define SYM_FEY  "panel_yellow"// level crossing group
+#define SYM_FEE  "panel_grey"  // power supply
+#define SYM_FEN  "panel_brown" // axle counter
 
 // special symbol, do NOT edit
 #define SYM_KURR "kurr"
@@ -196,7 +196,8 @@ const unsigned int rdSE = rdS | rdE;
 #define IDS           ":"    // data separator in imported files
 #define EL_WIDTH      56     // width of an element in pixels (orig: 54 mm)
 #define EL_HEIGHT     35     // height of an element in pixels (orig: 34 mm)
-                             // diagonale: 65.513 pixels (63.812)
+                             // 8 * H = 5 * W = 280
+                             // diagonal: 65.513 pixels (63.812)
                              // alpha: 31.264° (32.196°)
                              // beta: 58.736°  (57.804°)
 
