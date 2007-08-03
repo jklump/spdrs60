@@ -1,3 +1,7 @@
+2007-08-03 Guido Scholz <guido.scholz@bayernline.de>
+	* newlayoutdialog.*: auto-options enable/disable depending
+	options
+
 2007-02-12 Guido Scholz <guido.scholz@bayernline.de>
 	* gbsarea.*: basic drag-and-drop support for a single element
 	added

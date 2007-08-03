@@ -82,28 +82,12 @@ matches your search criteria.</source>
 den Suchkriterien entspricht.</translation>
     </message>
     <message>
-        <source>Creating empty layout file</source>
-        <translation>Erzeuge leere Gleisbilddatei</translation>
-    </message>
-    <message>
-        <source>Abort</source>
-        <translation>Abbrechen</translation>
-    </message>
-    <message>
         <source>MGT-Function not supported.</source>
         <translation>Die MGT-Funktion wird noch nicht unterstützt.</translation>
     </message>
     <message>
         <source>No switching possible, solenoid &apos;%1&apos; is locked by an active route.</source>
         <translation>Kein Schalten möglich, Magnetartikel &apos;%1&apos; ist durch eine aktive Fahrstraße gesperrt.</translation>
-    </message>
-    <message>
-        <source>Loading layout file</source>
-        <translation>Lesen der Gleisbilddatei</translation>
-    </message>
-    <message>
-        <source>Adding empty elements</source>
-        <translation>Hinzufügen der leeren Elemente</translation>
     </message>
     <message>
         <source>No switching possible, signal &apos;%1&apos; is locked by an active route.</source>
@@ -341,24 +325,6 @@ den Suchkriterien entspricht.</translation>
         <translation>SRCP Daemon beenden</translation>
     </message>
     <message>
-        <source>You are about to kill the daemon forever.
-
-If you really want to do it, click &quot;Kill&quot;.
-
-(Note: if you plan to use this program again
-please restart daemon first, then this program).</source>
-        <translation>Sie sind dabei, den Daemon unwiederruflich zubeenden.
-
-Wenn Sie das wirklich wollen, klicken Sie &quot;Beenden&quot;.
-
-(Anmerkung: Wenn die planen, dieses Programm weiter zu
-verwenden, starten sie erst den Daemon, dann dieses Programm).</translation>
-    </message>
-    <message>
-        <source>Daemon info</source>
-        <translation>Informationen zum Daemon</translation>
-    </message>
-    <message>
         <source>About Qt</source>
         <translation>Über QT</translation>
     </message>
@@ -451,10 +417,6 @@ verwenden, starten sie erst den Daemon, dann dieses Programm).</translation>
         <translation>Digital&amp;strom aus</translation>
     </message>
     <message>
-        <source>Daemon has been killed. Restart server, then reconnect &quot;SpDrS60 for Linux&quot;</source>
-        <translation>Daemon wurde beendet. Starten Sie den Server neu, dann die Verbindung mit SpDrS60 herstellen</translation>
-    </message>
-    <message>
         <source>Server name and version number:
 %s
 
@@ -529,33 +491,6 @@ SRCP-Versionsnummer:
     <message>
         <source>Show central clock</source>
         <translation>Bahnhofsuhr anzeigen</translation>
-    </message>
-    <message>
-        <source>(C) 1999-2003 by Stefan Preis
-(C) 2004-2006 by Guido Scholz
-with the gorgeous help of:
- Ruediger Seidel
- Dirk Armbrust
- Bj&#xf6;rn Schlie&#xdf;mann
- Dietmar Toelg
-For more information please have a look at the
-documentation (see Help menu or press F1).
-
-Please report ANY bugs, hints and thanks to:
-</source>
-        <translation>(c) 1999-2003 Stefan Preis,
-(c) 2004-2006 Guido Scholz
-mit kräftiger Unterstützung durch:
- Ruediger Seidel
- Dirk Armbrust
- Björn Schließmann
- Dietmar Toelg
-Für mehr Informationen schlagen Sie bitte in
-der Dokumentation nach (Menü &quot;Hilfe&quot; oder F1).
-
-Bitte senden Sie Fehlermeldungen, Hinweise
-und sonstige Kommentare an:
-</translation>
     </message>
     <message>
         <source>Use &amp;UfGT</source>
@@ -893,6 +828,59 @@ Wollen Sie sie überschreiben?</translation>
         <source>Use signal halt group button</source>
         <translation>Haltgruppentaste benutzen</translation>
     </message>
+    <message>
+        <source>Shutdown SRCP server</source>
+        <translation>SRCP-Server herunterfahren</translation>
+    </message>
+    <message>
+        <source>You are about to shutdown the SRCP server.
+Do you really want to proceed?
+(Note: To continue using this program, restart
+the server daemon after shutdown has finished)</source>
+        <translation>Sie sind dabei, den SRCP-Server herunterzufahren.
+Wollen damit fortfahren?
+(Anmerkung: Um dieses Programm anschließend weiter
+zu benutzen, starten Sie bitte den Server neu)</translation>
+    </message>
+    <message>
+        <source>&amp;Shutdown</source>
+        <translation>&amp;Herunterfahren</translation>
+    </message>
+    <message>
+        <source>Daemon has been killed. Restart server to reconnect &quot;SpDrS60 for Linux&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server information</source>
+        <translation>Informationen zum Server</translation>
+    </message>
+    <message>
+        <source>(C) 1999-2003 by Stefan Preis
+(C) 2004-2007 by Guido Scholz
+with the gorgeous help of:
+ Ruediger Seidel
+ Dirk Armbrust
+ Bj&#xf6;rn Schlie&#xdf;mann
+ Dietmar Toelg
+For more information please have a look at the
+documentation (see Help menu or press F1).
+
+Please report ANY bugs, hints and thanks to:
+</source>
+        <translation type="unfinished">(c) 1999-2003 Stefan Preis,
+(c) 2004-2007 Guido Scholz
+mit kräftiger Unterstützung durch:
+ Ruediger Seidel
+ Dirk Armbrust
+ Björn Schließmann
+ Dietmar Toelg
+Für mehr Informationen schlagen Sie bitte in
+der Dokumentation nach (Menü &quot;Hilfe&quot; oder F1).
+
+Bitte senden Sie Fehlermeldungen, Hinweise
+und sonstige Kommentare an:
+</translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -930,6 +918,10 @@ Wollen Sie sie überschreiben?</translation>
     <message>
         <source>New route to %1</source>
         <translation>Neue Fahrstraße nach %1</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Fehler</translation>
     </message>
 </context>
 <context>
@@ -1241,6 +1233,10 @@ Wollen Sie sie überschreiben?</translation>
     <message>
         <source>Route &apos;%1&apos; waiting for release</source>
         <translation>Fahrstraße &apos;%1&apos; wartet auf Auflösen</translation>
+    </message>
+    <message>
+        <source>Route &apos;%1&apos; is in activating state</source>
+        <translation>Fahrstraße &apos;%1&apos; ist reserviert</translation>
     </message>
 </context>
 <context>
@@ -1585,19 +1581,19 @@ das neue Gleisbild eingeben</translation>
         <translation>&amp;Portnummer:</translation>
     </message>
     <message>
-        <source>&amp;Server login on startup</source>
+        <source>Actions on file loading</source>
+        <translation>Aktionen nach dem Laden der Datei</translation>
+    </message>
+    <message>
+        <source>Autoconnect to &amp;server</source>
         <translation>Automatisch mit Server &amp;verbinden</translation>
     </message>
     <message>
-        <source>&amp;Autostart voltage on layout</source>
+        <source>Autostart &amp;voltage on layout</source>
         <translation>Spannung &amp;automatisch aktivieren</translation>
     </message>
     <message>
-        <source>Start options</source>
-        <translation>Programmstart</translation>
-    </message>
-    <message>
-        <source>Send all s&amp;olenoid states after power on</source>
+        <source>Send all &amp;solenoid states after power on</source>
         <translation>&amp;Magnetartikelstellungen automatisch senden</translation>
     </message>
 </context>

@@ -1,11 +1,11 @@
 /***************************************************************************
                            newLayoutDialog.h
-                           version 0.5.2 $Revision: 1.8 $
+                           version 0.5.2 $Revision: 1.9 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2007-08-03 19:40:48 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -63,6 +63,11 @@ private:
     QCheckBox* autologinCB;
     QCheckBox* autopowerCB;
     QCheckBox* autosendallCB;
+
+private slots:
+    void autologinChanged(int);
+    void autopowerChanged(int);
+
 };
 
-#endif
+#endif // NEWLAYOUTDIALOG_H
