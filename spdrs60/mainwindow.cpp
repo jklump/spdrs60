@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.102 $
+                           version 0.5.2 $Revision: 1.103 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-02 18:55:29 $
+    last modified        : $Date: 2007-08-16 16:43:38 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1793,7 +1793,7 @@ void MainWindow::CommandSocketReadyRead()
     while (CommandSocket->canReadLine()) {
         ServerInfo = CommandSocket->readLine();
 
-        if (pref.converttime) {
+        if ((srcpVersion == 8) && pref.converttime) {
             QString msgstr = ConvertMessageTime(ServerInfo);
             cmdToDebug(msgstr, MT_INFO, HL_CMND);
         }
