@@ -1,11 +1,11 @@
 /***************************************************************************
                            newlayoutdialog.cpp
-                           version 0.5.2 $Revision: 1.16 $
+                           version 0.5.2 $Revision: 1.17 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-03 19:40:46 $
+    last modified        : $Date: 2007-08-26 15:08:12 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -123,7 +123,7 @@ newLayoutDialog::newLayoutDialog(QWidget* parent)
     connect(autologinCB, SIGNAL(stateChanged(int)), this,
             SLOT(autologinChanged(int)));
 
-    autopowerCB = new QCheckBox(tr("Autostart &voltage on layout"),
+    autopowerCB = new QCheckBox(tr("Autostart layout &voltage"),
             startBG, "autopowerCB");
     connect(autopowerCB, SIGNAL(stateChanged(int)), this,
             SLOT(autopowerChanged(int)));

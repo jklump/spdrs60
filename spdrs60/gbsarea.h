@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.5.2 $Revision: 1.43 $
+                           version 0.5.2 $Revision: 1.44 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2007-08-26 15:08:11 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -57,6 +57,7 @@ public:
    QSize sizeHint() const;
    void writeFileTextToStream(QTextStream& ts);
    void readFileTextFromStream(QTextStream& ts);
+   // void readOldElements(QTextStream&);
    void setLayoutSize(int, int);
    int getColumns();
    int getRows();
@@ -143,9 +144,9 @@ public slots:
     void slotElementClicked(element*, GbsButtonState);
     void slotNotrot();
     void slotEditFind(const QString&, int, int);
-    void startRouteTimer(TypeOfRoute);
+    void startRouteTimer(Route::RouteType);
     void updateRoutePathLEDs(const stateElement&, const stateElement&,
-            RouteSetAction&);
+            Route::RouteSetAction&);
     void getElementByAddress(const int, const int, element**);
     void switchVisualMode(elemVisualMode);
 

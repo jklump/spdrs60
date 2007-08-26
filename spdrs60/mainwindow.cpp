@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.103 $
+                           version 0.5.2 $Revision: 1.104 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-16 16:43:38 $
+    last modified        : $Date: 2007-08-26 15:08:12 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1648,7 +1648,7 @@ void MainWindow::chooseFile()
         while (it != fnl.end()) {
                 openFileWindow(*it);
                 ++it;
-            }
+        }
     }
 }
 
@@ -1801,6 +1801,12 @@ void MainWindow::CommandSocketReadyRead()
             cmdToDebug(ServerInfo, MT_INFO, HL_CMND);
         
         if (SRCPCommandState == srcpLogin) {
+            //TODO: split welcome message with:
+            //QStringList tokens = QStringList::split(";", line);
+            //for (QStringList::Iterator it = tokens.begin(); it != tokens.end(); ++it) {
+            //  *it.stripWhitespace();
+            //  split tokes by " "
+            //  }
             sWelcome = ServerInfo;
             sSRCPVer = sWelcome.mid(sWelcome.find("SRCP ", 0, 0) + 5, 5);
 

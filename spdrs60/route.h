@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.5.2 $Revision: 1.25 $
+                           version 0.5.2 $Revision: 1.26 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2007-08-26 15:08:12 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -30,6 +30,7 @@
 #include "element.h"
 
 /*some magic strings for reading and writing routing files*/
+#define RF_ID           "id"
 #define RF_NAME         "name"
 #define RF_FROMSIGNAL   "from signal"
 #define RF_TOSIGNAL     "to signal"
@@ -65,11 +66,6 @@ struct Loco {
  *
  */
 
-enum TypeOfRoute {RZS = 0, UZS, ZHS, RRS, URS};
-
-/* Type of routing action for route path highlighting */
-enum RouteSetAction {krouteReset = 0, krouteZfs, krouteRfs};
-
 class Route: public QObject
 {
     Q_OBJECT
@@ -77,8 +73,14 @@ class Route: public QObject
 public:
     enum RouteState {rsUnlocked = 0, rsLocked, rsWfLock, rsWfUnlock,
         rsLocking};
+
+    enum RouteType {RZS = 0, UZS, ZHS, RRS, URS};
+
+    /* Type of routing action for route path highlighting */
+    enum RouteSetAction {krouteReset = 0, krouteZfs, krouteRfs};
         
-    Route(TypeOfRoute arouteType,
+    Route(unsigned int anid,
+          RouteType arouteType,
           const QString& aName,
           const stateElement& aexitSignal,
           const stateElement& aentrySignal,
@@ -98,10 +100,11 @@ public:
     void writeFileTextToStream(QTextStream&);
     Route* getClone();
     int getState();
+    unsigned int getId();
     QString getName() const;
     QString getFromSignalName() const;
     QString getToSignalName() const;
-    TypeOfRoute getType();
+    int getType() const;
     QString getTypeStr() const;
     int startRouting();
     void stopRouting();
@@ -140,9 +143,10 @@ public slots:
 private:
     QString Name;
     stateElement exitSignal, entrySignal;
-    TypeOfRoute routeType;
+    RouteType routeType;
     PortState acPort, rePort;
     Loco acLoco;
+    unsigned int idnumber;
     unsigned int detourLevel;
     RouteState routestate;
     int turnouts;

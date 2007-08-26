@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.h
-                           version 0.5.2 $Revision: 1.20 $
+                           version 0.5.2 $Revision: 1.21 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2007-08-26 15:08:12 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -99,9 +99,9 @@ signals:
     void routeListChanged();
     void routeStateChanged(Route*);
     void showLogMessage(const QString&, int, int);
-    void startRouteTimer(TypeOfRoute);
+    void startRouteTimer(Route::RouteType);
     void updateRoutePathLEDs(const stateElement&, const stateElement&,
-            RouteSetAction&);
+            Route::RouteSetAction&);
 };
 #endif // ROUTER_H
 

@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.2 $Revision: 1.74 $
+                           version 0.5.2 $Revision: 1.75 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2007-08-26 15:08:11 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -513,22 +513,22 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
 }
 
 
-void GBSArea::startRouteTimer(TypeOfRoute tor)
+void GBSArea::startRouteTimer(Route::RouteType tor)
 {
     switch (tor) {
-        case RZS:
+        case Route::RZS:
             setCursor(RZSCursor);
             break;
-        case UZS:
+        case Route::UZS:
             setCursor(UZSCursor);
             break;
-        case ZHS:
+        case Route::ZHS:
             setCursor(ZHSCursor);
             break;
-        case RRS:
+        case Route::RRS:
             setCursor(RRSCursor);
             break;
-        case URS:
+        case Route::URS:
             setCursor(URSCursor);
             break;
     }
@@ -545,7 +545,7 @@ void GBSArea::slotElementClickedTimeout()
 
 
 void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
-        const stateElement& tSig, RouteSetAction& setRoute)
+        const stateElement& tSig, Route::RouteSetAction& setRoute)
 {
     if (fSig.elemPtr == NULL || tSig.elemPtr == NULL)
         return;
@@ -557,7 +557,7 @@ void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
     int maxIdx = (int) elements.size();
     element* endPtr = tSig.elemPtr;
     bool finished = false;
-    bool setrt = (krouteReset != setRoute);
+    bool setrt = (Route::krouteReset != setRoute);
     
     unsigned int entrydir;
     unsigned int exitdir;
@@ -590,9 +590,9 @@ void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
         // interrupt operation when normal route meets occupied element
         // start signal is allowed to be occupied
         // give also feedback for caller
-        if ((krouteZfs == setRoute) && rel->isOccupied() &&
+        if ((Route::krouteZfs == setRoute) && rel->isOccupied() &&
                 rel != fSig.elemPtr) {
-            setRoute = krouteReset;
+            setRoute = Route::krouteReset;
             return;
         }
 

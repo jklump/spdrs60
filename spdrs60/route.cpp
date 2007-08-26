@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.48 $
+                           version 0.5.2 $Revision: 1.49 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2007-08-26 15:08:12 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -27,7 +27,8 @@
 #include "route.h"
 #include "routedialog.h"
 
-Route::Route(TypeOfRoute arouteType,
+Route::Route(unsigned int anid,
+        RouteType arouteType,
         const QString& aName,
         const stateElement& aexitSignal,
         const stateElement& aentrySignal,
@@ -44,6 +45,7 @@ Route::Route(TypeOfRoute arouteType,
     switchItems.setAutoDelete(true);
 
     routeType = arouteType;
+    idnumber = anid;
     Name = aName;
 
     exitSignal.name = aexitSignal.name;
@@ -122,6 +124,7 @@ Route::Route(element* startEl)
     acLoco.address = 0;
     detourLevel = 0;
 
+    idnumber = 0;
     Name = tr("New route");
     if (startEl != NULL) {
         Name.append(startEl->getLabelText());
@@ -147,6 +150,7 @@ Route::Route(QTextStream& ts, bool isNewFormat)
     triggerto = NULL;
     switchItems.setAutoDelete(true);
 
+    idnumber = 0;
     /*exit signals are red by default*/
     exitSignal.state = 0;
     exitSignal.name = "";
@@ -170,6 +174,7 @@ Route::Route(const QString& aName)
     switchItems.setAutoDelete(true);
 
     routeType = RZS;
+    idnumber = 0;
     Name = aName;
 
     exitSignal.name = "";
@@ -286,7 +291,10 @@ void Route::readFileTextFromStream(QTextStream& ts)
         if (!s.startsWith("#")) {
             key = s.section(DS, 0, 0);
             /* key/value pairs are read sequence independent */
-            if (key.compare(RF_NAME) == 0){
+            if (key.compare(RF_ID) == 0){
+                idnumber = s.section(DS, 1, 1).toUInt();
+            }
+            else if (key.compare(RF_NAME) == 0){
                 Name = s.section(DS, 1, 1);
             }
             else if (key.compare(RF_TOSIGNAL) == 0){
@@ -329,7 +337,7 @@ void Route::readFileTextFromStream(QTextStream& ts)
                 acLoco.address = s.section(DS, 2, 2).toUInt();
             }
             else if (key.compare(RF_TYPE) == 0){
-                routeType = (TypeOfRoute)s.section(DS, 1, 1).toUInt();
+                routeType = (RouteType)s.section(DS, 1, 1).toUInt();
                 detourLevel = s.section(DS, 2, 2).toUInt();
             }
             /*end of route data*/
@@ -411,7 +419,7 @@ void Route::readOldFileTextFromStream(QTextStream& ts)
                     acLoco.address = (unsigned int)intvalue;
             }
             else if (key.compare(RF_TYPE) == 0){
-                routeType = (TypeOfRoute)value.toUInt();
+                routeType = (RouteType)value.toUInt();
             }
             else if (key.compare(RF_DETOURLEVEL) == 0){
                 intvalue = value.toInt();
@@ -431,6 +439,7 @@ void Route::readOldFileTextFromStream(QTextStream& ts)
 void Route::writeFileTextToStream(QTextStream& ts)
 {
     ts
+        << RF_ID << DS << idnumber << endl
         << RF_NAME << DS << Name << endl
         << RF_TOSIGNAL << DS << exitSignal.bus << DS << exitSignal.address << endl
         << RF_FROMSIGNAL << DS << entrySignal.bus << DS
@@ -457,7 +466,7 @@ void Route::writeFileTextToStream(QTextStream& ts)
 
 Route* Route::getClone()
 {
-    return new Route(routeType, Name, exitSignal, entrySignal,
+    return new Route(idnumber, routeType, Name, exitSignal, entrySignal,
             rePort, acPort, acLoco, detourLevel, switchItems);
 }
 
@@ -465,6 +474,12 @@ Route* Route::getClone()
 int Route::getState()
 {
     return routestate;
+}
+
+
+unsigned int Route::getId()
+{
+    return idnumber;
 }
 
 
@@ -492,7 +507,7 @@ QString Route::getToSignalName() const
 }
 
 
-TypeOfRoute Route::getType()
+int Route::getType() const
 {
     return routeType;
 }
@@ -1067,6 +1082,7 @@ bool Route::runEditRouteDialog(QWidget* dlgparent)
                     element**)), this,
             SIGNAL(getElementByAddress(const int, const int,
                     element**)));
+    rtDlg->setRouteNumber(idnumber);
     rtDlg->setRouteName(Name);
     rtDlg->setEntrySignalData(entrySignal);
     rtDlg->setExitSignalData(exitSignal);
@@ -1077,12 +1093,13 @@ bool Route::runEditRouteDialog(QWidget* dlgparent)
     if (rtDlg->exec() == QDialog::Accepted) {
         // update gbs: 1) hide old route 2) show new route
         hideRoute();
+        idnumber = rtDlg->getRouteNumber();
         Name = rtDlg->getRouteName();
         rtDlg->getEntrySignalData(entrySignal);
         rtDlg->getExitSignalData(exitSignal);
         rtDlg->getActivateData(acPort);
         rtDlg->getReleaseData(rePort);
-        routeType = (TypeOfRoute) rtDlg->getRouteType();
+        routeType = (RouteType) rtDlg->getRouteType();
         detourLevel = rtDlg->getDetourLevel();
         switchItems.clear();
         rtDlg->getRouteElements(switchItems);

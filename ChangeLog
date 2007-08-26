@@ -1,3 +1,9 @@
+2007-08-26 Guido Scholz <guido.scholz@bayernline.de>
+	* routedialog.*: redesigned to a much more compact tabbed dialog,
+	input line for route id number added
+	* route.*, routelvi.*, routelistview.c: route id number added
+	* pixmaps/route_*.xpm: background changed to transparent 
+
 2007-08-03 Guido Scholz <guido.scholz@bayernline.de>
 	* newlayoutdialog.*: auto-options enable/disable depending
 	options

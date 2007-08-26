@@ -1589,7 +1589,7 @@ das neue Gleisbild eingeben</translation>
         <translation>Automatisch mit Server &amp;verbinden</translation>
     </message>
     <message>
-        <source>Autostart &amp;voltage on layout</source>
+        <source>Autostart layout &amp;voltage</source>
         <translation>Spannung &amp;automatisch aktivieren</translation>
     </message>
     <message>

@@ -1,11 +1,11 @@
 /***************************************************************************
                            routedialog.h
-                           version 0.5.2 $Revision: 1.19 $
+                           version 0.5.2 $Revision: 1.20 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2007-08-26 15:08:12 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -29,7 +29,9 @@
 #include <qlistview.h>
 #include <qstring.h>
 #include <qspinbox.h>
+#include <qtabwidget.h>
 #include <qtooltip.h>
+#include <qvalidator.h>
 
 #include "element.h"
 #include "route.h"
@@ -50,12 +52,14 @@ class RouteDialog: public QDialog
 public:
     RouteDialog(QWidget* parent = 0);
     void setRouteName(const QString&);
+    void setRouteNumber(unsigned int);
     void setRouteType(int, unsigned int);
     void setEntrySignalData(const stateElement&);
     void setExitSignalData(const stateElement&);
     void setActivateData(const PortState&);
     void setReleaseData(const PortState&);
     QString getRouteName();
+    unsigned int getRouteNumber();
     void getEntrySignalData(stateElement&);
     void getExitSignalData(stateElement&);
     void getActivateData(PortState&);
@@ -95,6 +99,7 @@ private:
    element* stopSignalElPtr;
     
    QLineEdit*    routeNameLE;
+   QLineEdit*    routeNumberLE;
 
    QLineEdit*    startSignalNameLE;
    QLineEdit*    startSignalSrcpBusLE;
@@ -139,7 +144,14 @@ private:
 
    QSpinBox*     uzsLevelSB;
    QSpinBox*     ursLevelSB;
+
+   QTabWidget*   tabs;
+   QValidator*   busValidator;
    
+   void addIdentificationTab();
+   void addElementsTab();
+   void addRouteTypeTab();
+   void addAutomaticTab();
    void updateEntrySignalName(int, int);
    void updateExitSignalName(int, int);
    void updateListIndexNumbersFrom(QListViewItem*);
