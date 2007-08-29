@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.2 $Revision: 1.75 $
+                           version 0.5.2 $Revision: 1.76 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-26 15:08:11 $
+    last modified        : $Date: 2007-08-29 18:12:11 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -516,19 +516,19 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
 void GBSArea::startRouteTimer(Route::RouteType tor)
 {
     switch (tor) {
-        case Route::RZS:
+        case Route::rtRZS:
             setCursor(RZSCursor);
             break;
-        case Route::UZS:
+        case Route::rtUZS:
             setCursor(UZSCursor);
             break;
-        case Route::ZHS:
+        case Route::rtZHS:
             setCursor(ZHSCursor);
             break;
-        case Route::RRS:
+        case Route::rtRRS:
             setCursor(RRSCursor);
             break;
-        case Route::URS:
+        case Route::rtURS:
             setCursor(URSCursor);
             break;
     }
@@ -557,7 +557,7 @@ void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
     int maxIdx = (int) elements.size();
     element* endPtr = tSig.elemPtr;
     bool finished = false;
-    bool setrt = (Route::krouteReset != setRoute);
+    bool setrt = (Route::rsaReset != setRoute);
     
     unsigned int entrydir;
     unsigned int exitdir;
@@ -590,9 +590,9 @@ void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
         // interrupt operation when normal route meets occupied element
         // start signal is allowed to be occupied
         // give also feedback for caller
-        if ((Route::krouteZfs == setRoute) && rel->isOccupied() &&
+        if ((Route::rsaZfs == setRoute) && rel->isOccupied() &&
                 rel != fSig.elemPtr) {
-            setRoute = Route::krouteReset;
+            setRoute = Route::rsaReset;
             return;
         }
 

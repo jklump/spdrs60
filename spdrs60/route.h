@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.5.2 $Revision: 1.27 $
+                           version 0.5.2 $Revision: 1.28 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-29 17:09:30 $
+    last modified        : $Date: 2007-08-29 18:12:11 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -29,28 +29,10 @@
 
 #include "element.h"
 
-/*some magic strings for reading and writing routing files*/
-#define RF_ID           "id"
-#define RF_NAME         "name"
-#define RF_TRAIN        "train"
-#define RF_FROMSIGNAL   "from signal"
-#define RF_TOSIGNAL     "to signal"
-#define RF_SWITCHXTOY   "switch x to y"
-#define RF_ACTIVATEPORT "activate port"
-#define RF_RELEASEPORT  "release port"
-#define RF_ACTIVATEPORT "activate port"
-#define RF_ACTIVATELOCO "active by loco"
-#define RF_TYPE         "type"
-#define RF_DETOURLEVEL  "level"
-
 
 struct PortState {
     bool used;
     bool switchtooff;
-    unsigned int bus, address;
-};
-
-struct Loco {
     unsigned int bus, address;
 };
 
@@ -75,10 +57,10 @@ public:
     enum RouteState {rsUnlocked = 0, rsLocked, rsWfLock, rsWfUnlock,
         rsLocking};
 
-    enum RouteType {RZS = 0, UZS, ZHS, RRS, URS};
+    enum RouteType {rtRZS = 0, rtUZS, rtZHS, rtRRS, rtURS};
 
     /* Type of routing action for route path highlighting */
-    enum RouteSetAction {krouteReset = 0, krouteZfs, krouteRfs};
+    enum RouteSetAction {rsaReset = 0, rsaZfs, rsaRfs};
         
     Route(unsigned int anid,
           RouteType arouteType,
@@ -87,7 +69,6 @@ public:
           const stateElement& aentrySignal,
           const PortState& arePort,
           const PortState& aacPort,
-          const Loco& aacLoco,
           unsigned int adetourLevel,
           const QPtrList<stateElement>& swis);
     
@@ -150,7 +131,6 @@ private:
     stateElement exitSignal, entrySignal;
     RouteType routeType;
     PortState acPort, rePort;
-    Loco acLoco;
     unsigned int idnumber;
     unsigned int train;
     unsigned int detourLevel;

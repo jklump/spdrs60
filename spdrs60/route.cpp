@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.50 $
+                           version 0.5.2 $Revision: 1.51 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-29 17:09:30 $
+    last modified        : $Date: 2007-08-29 18:12:11 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -20,12 +20,23 @@
    This code implements the route object.
  ***************************************************************************/
 
-#include <stdlib.h> // for abs()
-#include <unistd.h> // for usleep()
-
 #include "preferences.h"
 #include "route.h"
 #include "routedialog.h"
+
+/*some magic strings for reading and writing route data to files*/
+#define RF_ID           "id"
+#define RF_NAME         "name"
+#define RF_TRAIN        "train"
+#define RF_FROMSIGNAL   "from signal"
+#define RF_TOSIGNAL     "to signal"
+#define RF_SWITCHXTOY   "switch x to y"
+#define RF_ACTIVATEPORT "activate port"
+#define RF_RELEASEPORT  "release port"
+#define RF_ACTIVATEPORT "activate port"
+#define RF_TYPE         "type"
+#define RF_DETOURLEVEL  "level"
+
 
 Route::Route(unsigned int anid,
         RouteType arouteType,
@@ -34,7 +45,6 @@ Route::Route(unsigned int anid,
         const stateElement& aentrySignal,
         const PortState& arePort,
         const PortState& aacPort,
-        const Loco& aacLoco,
         unsigned int adetourLevel,
         const QPtrList<stateElement>& swis)
 {
@@ -70,8 +80,6 @@ Route::Route(unsigned int anid,
     acPort.bus = aacPort.bus;
     acPort.address = aacPort.address;
     
-    acLoco.bus = aacLoco.bus;
-    acLoco.address = aacLoco.address;
     detourLevel = adetourLevel;
 
     /*copy switchitem list*/
@@ -108,7 +116,7 @@ Route::Route(element* startEl)
     exitSignal.name = "";
     exitSignal.elemPtr = NULL;
     
-    routeType = RZS;
+    routeType = rtRZS;
 
     rePort.used = false;
     rePort.switchtooff = false;
@@ -120,8 +128,6 @@ Route::Route(element* startEl)
     acPort.bus = 1;
     acPort.address = 0;
     
-    acLoco.bus = 0;
-    acLoco.address = 0;
     detourLevel = 0;
     idnumber = 0;
     train = 0;
@@ -132,7 +138,7 @@ Route::Route(element* startEl)
         startEl->getStateData(entrySignal);
         //select route type element name dependent
         if (startEl->hasShuntingRouteButtonOnly())
-            routeType = RRS;
+            routeType = rtRRS;
     }
     else {
         entrySignal.state = 0;
@@ -175,7 +181,7 @@ Route::Route(const QString& aName)
     triggerto = NULL;
     switchItems.setAutoDelete(true);
 
-    routeType = RZS;
+    routeType = rtRZS;
     idnumber = 0;
     train = 0;
     Name = aName;
@@ -202,8 +208,6 @@ Route::Route(const QString& aName)
     acPort.bus = 1;
     acPort.address = 0;
     
-    acLoco.bus = 1;
-    acLoco.address = 0;
     detourLevel = 0;
 }
 
@@ -338,10 +342,6 @@ void Route::readFileTextFromStream(QTextStream& ts)
                 acPort.used = (s.section(DS, 3, 3).toInt() == 1);
                 acPort.switchtooff = (s.section(DS, 4, 4).toInt() == 1);
             }
-            else if (key.compare(RF_ACTIVATELOCO) == 0){
-                acLoco.bus = s.section(DS, 1, 1).toUInt();
-                acLoco.address = s.section(DS, 2, 2).toUInt();
-            }
             else if (key.compare(RF_TYPE) == 0){
                 routeType = (RouteType)s.section(DS, 1, 1).toUInt();
                 detourLevel = s.section(DS, 2, 2).toUInt();
@@ -416,14 +416,6 @@ void Route::readOldFileTextFromStream(QTextStream& ts)
                     acPort.used = true;
                 }
             }
-            else if (key.compare(RF_ACTIVATELOCO) == 0){
-                acLoco.bus = 1;
-                intvalue = value.toInt();
-                if (intvalue == -1)
-                    acLoco.address = 0;
-                else
-                    acLoco.address = (unsigned int)intvalue;
-            }
             else if (key.compare(RF_TYPE) == 0){
                 routeType = (RouteType)value.toUInt();
             }
@@ -455,7 +447,6 @@ void Route::writeFileTextToStream(QTextStream& ts)
         << DS << rePort.used << DS << rePort.switchtooff << endl
         << RF_ACTIVATEPORT << DS << acPort.bus << DS << acPort.address
         << DS << acPort.used << DS << acPort.switchtooff << endl
-        << RF_ACTIVATELOCO << DS << acLoco.bus << DS << acLoco.address << endl
         << RF_TYPE << DS << routeType << DS << detourLevel << endl;
 
     QPtrListIterator<stateElement> it(switchItems);
@@ -474,7 +465,7 @@ void Route::writeFileTextToStream(QTextStream& ts)
 Route* Route::getClone()
 {
     return new Route(idnumber, routeType, Name, exitSignal, entrySignal,
-            rePort, acPort, acLoco, detourLevel, switchItems);
+            rePort, acPort, detourLevel, switchItems);
 }
 
 
@@ -526,19 +517,19 @@ QString Route::getTypeStr() const
 
     /*returns decoded route type */
     switch (routeType){
-        case RZS:
+        case rtRZS:
             typeStr = QString(QObject::tr("NR")); // normal route
             break;
-        case UZS:                                 // detour route
+        case rtUZS:                                 // detour route
             typeStr = QString(QObject::tr("DR%1").arg(detourLevel));
             break;
-        case ZHS:
+        case rtZHS:
             typeStr = QString(QObject::tr("HR")); // help route
             break;
-        case RRS:
+        case rtRRS:
             typeStr = QString(QObject::tr("NS")); // normal shunting
             break;
-        case URS:                                 // detour shunting
+        case rtURS:                                 // detour shunting
             typeStr = QString(QObject::tr("DS%1").arg(detourLevel));
             break;
     }
@@ -663,9 +654,9 @@ void Route::showRoutePath()
      * 3) switch route path element LEDs to yellow,
      *    check for occupied elements if not shunting route
      */
-    RouteSetAction rsa = krouteZfs;
-    if (routeType == RRS || routeType == URS) {
-        rsa = krouteRfs;
+    RouteSetAction rsa = rsaZfs;
+    if (routeType == rtRRS || routeType == rtURS) {
+        rsa = rsaRfs;
     }
     // send signal to gbs to change route path LEDs
     emit updateRoutePathLEDs(entrySignal, exitSignal, rsa);
@@ -678,7 +669,7 @@ void Route::showRoutePath()
     // occupied tracks go this ways:
     //   rsUnlocked -> rsWfLock -> rsLocked 
     //   rsLocked -> rsWfUnlock -> rsUnlocked 
-    if (krouteReset == rsa) {
+    if (rsaReset == rsa) {
         routestate = rsWfLock;
         emit stateChanged(this, routestate);
         return;
@@ -710,8 +701,8 @@ void Route::showRoutePath()
      *    shunting routes do not have an active FfM
      */
     if (entrySignal.elemPtr != NULL)
-           entrySignal.elemPtr->activateFfM((routeType != RRS &&
-                       routeType != URS));
+           entrySignal.elemPtr->activateFfM((routeType != rtRRS &&
+                       routeType != rtURS));
 
     /*
      * 6) switch signals on route path to Sh1 (Siemens Type)
@@ -771,7 +762,7 @@ void Route::stopRouting()
      * update route path element LEDs and
      * send signal to gbs to change route path LEDs
      */
-    RouteSetAction rsa = krouteReset;
+    RouteSetAction rsa = rsaReset;
     emit updateRoutePathLEDs(entrySignal, exitSignal, rsa);
 
     routestate = rsUnlocked;
@@ -855,22 +846,22 @@ void Route::updateRouteName()
 
 /* 
  * In route edit mode try to guess what type of route is recorded,
- * but only respecting changes from default RZS to new RRS.
+ * but only respecting changes from default rtRZS to new rtRRS.
  */
 void Route::updateRouteType()
 {
-    if (RZS != routeType)
+    if (rtRZS != routeType)
         return;
     
     if (hasEntrySignal() &&
             entrySignal.elemPtr->hasShuntingRouteButtonOnly()) {
-        routeType = RRS;
+        routeType = rtRRS;
         return;
     }
     
     if (hasExitSignal() &&
             exitSignal.elemPtr->hasShuntingRouteButtonOnly())
-        routeType = RRS;
+        routeType = rtRRS;
 }
 
 
@@ -964,33 +955,33 @@ bool Route::isUnlockedWithEntrySignalType(element* el, GbsButtonState cb,
     /* Function matrix
 
        route type    c-button       s-button
-       ----------------------------------------
-          RZS       kZfsClicked   kNoneClicked 
-          UZS       kZfsClicked   kUfgtClicked
-          ZHS       kZhsClicked   kNoneClicked
+       ---------------------------------------
+         rtRZS      kZfsClicked   kNoneClicked 
+         rtUZS      kZfsClicked   kUfgtClicked
+         rtZHS      kZhsClicked   kNoneClicked
                     kZfsClicked   kNoneClicked
-          RRS       kRfsClicked   kNoneClicked
-          URS       kRfsClicked   kUfgtClicked
-       ----------------------------------------
+         rtRRS      kRfsClicked   kNoneClicked
+         rtURS      kRfsClicked   kUfgtClicked
+       ---------------------------------------
     */
     if (routestate == rsUnlocked && (entrySignal.elemPtr == el)) {
         
         bool returnvalue = false;
         switch (routeType){
-            case RZS:
+            case rtRZS:
                 returnvalue = (kZfsClicked == cb && kNoneClicked == sb);
                 break;
-            case UZS:
+            case rtUZS:
                 returnvalue = (kZfsClicked == cb && kUfgtClicked == sb);
                 break;
-            case ZHS:
+            case rtZHS:
                 returnvalue = (kZhsClicked == cb || kZfsClicked == cb )
                     && kNoneClicked == sb;
                 break;
-            case RRS:
+            case rtRRS:
                 returnvalue = (kRfsClicked == cb && kNoneClicked == sb);
                 break;
-            case URS:
+            case rtURS:
                 returnvalue = (kRfsClicked == cb && kUfgtClicked == sb);
                 break;
             default:
@@ -1009,34 +1000,34 @@ bool Route::isUnlockedType(element* fel, element* tel, GbsButtonState cb,
     /* Function matrix
 
        route type    c-button       s-button
-       ----------------------------------------
-          RZS       kZfsClicked   kNoneClicked 
-          UZS       kZfsClicked   kUfgtClicked
-          ZHS       kZhsClicked   kNoneClicked
+       ---------------------------------------
+         rtRZS      kZfsClicked   kNoneClicked 
+         rtUZS      kZfsClicked   kUfgtClicked
+         rtZHS      kZhsClicked   kNoneClicked
                     kZfsClicked   kNoneClicked
-          RRS       kRfsClicked   kNoneClicked
-          URS       kRfsClicked   kUfgtClicked
-       ----------------------------------------
+         rtRRS      kRfsClicked   kNoneClicked
+         rtURS      kRfsClicked   kUfgtClicked
+       ---------------------------------------
     */
     if (routestate == rsUnlocked && (entrySignal.elemPtr == fel) &&
             (exitSignal.elemPtr == tel)) {
         
         bool returnvalue = false;
         switch (routeType){
-            case RZS:
+            case rtRZS:
                 returnvalue = (kZfsClicked == cb && kNoneClicked == sb);
                 break;
-            case UZS:
+            case rtUZS:
                 returnvalue = (kZfsClicked == cb && kUfgtClicked == sb);
                 break;
-            case ZHS:
+            case rtZHS:
                 returnvalue = (kZhsClicked == cb || kZfsClicked == cb )
                     && kNoneClicked == sb;
                 break;
-            case RRS:
+            case rtRRS:
                 returnvalue = (kRfsClicked == cb && kNoneClicked == sb);
                 break;
-            case URS:
+            case rtURS:
                 returnvalue = (kRfsClicked == cb && kUfgtClicked == sb);
                 break;
             default:

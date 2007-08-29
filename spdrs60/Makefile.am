@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.17 $
-# last update: $Date: 2007-08-29 17:09:30 $
+# version: $Revision: 1.18 $
+# last update: $Date: 2007-08-29 18:12:11 $
 
 SUBDIRS = pixmaps
 
@@ -57,7 +57,36 @@ spdrs60_SOURCES = main.cpp resources.h \
         router.cpp router.h \
         srcpmessage.cpp srcpmessage.h \
 	turntablecommander.cpp turntablecommander.h
-	
+
+
+# This is the same list which is assembled in spdrs60.pro under SOURCES.
+# Watch out to keep it synchronized. Only files containing translatable
+# strings are listed here (and in spdrs60.pro).
+translated_source_files = \
+	aboutdialog.cpp \
+	elementcommander.cpp \
+	element.cpp \
+	elementdialog.cpp \
+	feedbacklistbox.cpp \
+	feedbackviewer.cpp \
+	finder.cpp \
+	gbsarea.cpp \
+	gbsscrollview.cpp \
+	keyboard.cpp \
+	main.cpp \
+	mainwindow.cpp \
+	newlayoutdialog.cpp \
+	options.cpp \
+	routedialog.cpp \
+	routeelementdialog.cpp \
+	routeelementlvi.cpp \
+	route.cpp \
+	router.cpp \
+	routelistview.cpp \
+	routelistwindow.cpp \
+	turntablecommander.cpp
+
+
 spdrs60_LDADD = @LIB_QT@
 
 # the library search path. 
@@ -94,6 +123,6 @@ else
 endif
 
 # rule for translation file updates
-update-ts: spdrs60.pro $(spdrs60_SOURCES) $(nodist_spdrs60_SOURCES)
+%.ts: spdrs60.pro $(translated_source_files)
 	$(LUPDATE) -verbose spdrs60.pro
 

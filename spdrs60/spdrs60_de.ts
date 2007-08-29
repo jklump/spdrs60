@@ -1,5 +1,28 @@
 <!DOCTYPE TS><TS>
 <context>
+    <name>AboutDialog</name>
+    <message>
+        <source>About %1</source>
+        <translation>Über %1</translation>
+    </message>
+    <message>
+        <source> is a SRCP client to control a digital model railway.
+Visual appearance and usage comply to the original SpDrS60
+switchbox (Spurplandrucktastenstellwerk Bauart Siemens 60)
+of the german national railroad company. SpDrS60 needs a
+SRCP server (e.g. erddcd or srcpd) as a hardware link.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Authors</source>
+        <translation>Autoren</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+</context>
+<context>
     <name>FeedbackViewer</name>
     <message>
         <source>Feedback Modules</source>
@@ -257,10 +280,6 @@ den Suchkriterien entspricht.</translation>
         <translation>&amp;Hilfe</translation>
     </message>
     <message>
-        <source>&amp;SpDrS60 for Linux on the web</source>
-        <translation>&amp;SpDrS60 für Linux im Internet</translation>
-    </message>
-    <message>
         <source>About &amp;Qt...</source>
         <translation>Über &amp;Qt...</translation>
     </message>
@@ -347,10 +366,6 @@ den Suchkriterien entspricht.</translation>
     <message>
         <source>Program succesfully started!</source>
         <translation>Programm erfolgreich gestartet!</translation>
-    </message>
-    <message>
-        <source>About </source>
-        <translation>Über </translation>
     </message>
     <message>
         <source>&amp;About %1...</source>
@@ -745,10 +760,6 @@ Wollen Sie sie überschreiben?</translation>
         <translation>Fehler: Konfigurationsdatei &apos;~/%1&apos; konnte nicht gespeichert werden</translation>
     </message>
     <message>
-        <source>Writing SpDrS60 configuration file: ~/%1</source>
-        <translation>Schreibe SpDrS60-Konfigurationsdatei: ~/%1</translation>
-    </message>
-    <message>
         <source>&amp;Start power</source>
         <translation>&amp;Digitalstrom ein</translation>
     </message>
@@ -847,39 +858,12 @@ zu benutzen, starten Sie bitte den Server neu)</translation>
         <translation>&amp;Herunterfahren</translation>
     </message>
     <message>
-        <source>Daemon has been killed. Restart server to reconnect &quot;SpDrS60 for Linux&quot;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Server information</source>
         <translation>Informationen zum Server</translation>
     </message>
     <message>
-        <source>(C) 1999-2003 by Stefan Preis
-(C) 2004-2007 by Guido Scholz
-with the gorgeous help of:
- Ruediger Seidel
- Dirk Armbrust
- Bj&#xf6;rn Schlie&#xdf;mann
- Dietmar Toelg
-For more information please have a look at the
-documentation (see Help menu or press F1).
-
-Please report ANY bugs, hints and thanks to:
-</source>
-        <translation type="unfinished">(c) 1999-2003 Stefan Preis,
-(c) 2004-2007 Guido Scholz
-mit kräftiger Unterstützung durch:
- Ruediger Seidel
- Dirk Armbrust
- Björn Schließmann
- Dietmar Toelg
-Für mehr Informationen schlagen Sie bitte in
-der Dokumentation nach (Menü &quot;Hilfe&quot; oder F1).
-
-Bitte senden Sie Fehlermeldungen, Hinweise
-und sonstige Kommentare an:
-</translation>
+        <source>&amp;spdrs60 for Linux on the web</source>
+        <translation>&amp;spdrs60 für Linux im Internet</translation>
     </message>
 </context>
 <context>
@@ -1106,6 +1090,34 @@ und sonstige Kommentare an:
         <source>C&amp;ontact (1 - 496)</source>
         <translation>K&amp;ontakt (1 - 496)</translation>
     </message>
+    <message>
+        <source>Identification</source>
+        <translation>Identifikation</translation>
+    </message>
+    <message>
+        <source>N&amp;umber</source>
+        <translation>N&amp;ummer</translation>
+    </message>
+    <message>
+        <source>&amp;Train</source>
+        <translation>&amp;Zug</translation>
+    </message>
+    <message>
+        <source>&amp;Identification</source>
+        <translation>&amp;Identifikation</translation>
+    </message>
+    <message>
+        <source>&amp;Automatic</source>
+        <translation>&amp;Automatikbetrieb</translation>
+    </message>
+    <message>
+        <source>&amp;Type</source>
+        <translation>&amp;Typ</translation>
+    </message>
+    <message>
+        <source>&amp;Elements</source>
+        <translation>&amp;Elemente</translation>
+    </message>
 </context>
 <context>
     <name>RouteElementDialog</name>
@@ -1167,6 +1179,14 @@ und sonstige Kommentare an:
     <message>
         <source>Type</source>
         <translation>Typ</translation>
+    </message>
+    <message>
+        <source>Id</source>
+        <translation>Id</translation>
+    </message>
+    <message>
+        <source>Train</source>
+        <translation>Zug</translation>
     </message>
 </context>
 <context>
