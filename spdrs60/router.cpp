@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.2 $Revision: 1.41 $
+                           version 0.5.2 $Revision: 1.42 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-26 15:08:12 $
+    last modified        : $Date: 2007-08-29 15:11:47 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -323,9 +323,6 @@ void Router::startRecordModeAt(unsigned int index)
 
 void Router::processRouteState(Route* rt, int rs)
 {
-    int index = 0;
-    
-    index = routeList.find(rt);
     emit routeStateChanged(rt);
 
     switch ((Route::RouteState)rs) {
