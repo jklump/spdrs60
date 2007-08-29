@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.104 $
+                           version 0.5.2 $Revision: 1.105 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-26 15:08:12 $
+    last modified        : $Date: 2007-08-29 15:15:22 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -523,14 +523,14 @@ void MainWindow::initMainWindow()
             rtController, SLOT(resetRoute(element*, GbsButtonState)));
     connect(rtController, SIGNAL(routeFunctionFinished()),
             gbs, SLOT(slotElementClickedTimeout()));
-    connect(rtController, SIGNAL(startRouteTimer(TypeOfRoute)),
-            gbs, SLOT(startRouteTimer(TypeOfRoute)));
+    connect(rtController, SIGNAL(startRouteTimer(Route::RouteType)),
+            gbs, SLOT(startRouteTimer(Route::RouteType)));
     connect(gbs, SIGNAL(resetSelectedSignal()),
             rtController, SLOT(resetSelectedSignal()));
     connect(rtController, SIGNAL(updateRoutePathLEDs(const stateElement&,
-                    const stateElement&, RouteSetAction&)),
+                    const stateElement&, Route::RouteSetAction&)),
             gbs, SLOT(updateRoutePathLEDs(const stateElement&,
-                    const stateElement&, RouteSetAction&)));
+                    const stateElement&, Route::RouteSetAction&)));
     
     /*route list window*/
     rtViewer = new RouteListWindow(this, "routeListWindow", rtController);
