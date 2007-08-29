@@ -1,3 +1,10 @@
+2007-08-29 Guido Scholz <guido.scholz@bayernline.de>
+	* routedialog.*: input line for train number added
+	* route.*, routelvi.*, routelistview.c: train number added
+
+2007-08-28 Guido Scholz <guido.scholz@bayernline.de>
+	* aboutdialog.*, mainwindow.cpp: new about dialog added
+
 2007-08-26 Guido Scholz <guido.scholz@bayernline.de>
 	* routedialog.*: redesigned to a much more compact tabbed dialog,
 	input line for route id number added

@@ -1,10 +1,10 @@
 /***************************************************************************
                            routelistview.cpp
-                           version 0.5.2 $Revision: 1.5 $
+                           version 0.5.2 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-26 15:08:12 $
+    last modified        : $Date: 2007-08-29 17:09:30 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -23,23 +23,24 @@
 #include "routelistview.h"
 
 
-RouteListView::RouteListView(QWidget* parent, const char * name):
+RouteListView::RouteListView(QWidget* parent, const char* name):
     QListView(parent, name)
 {
     setAllColumnsShowFocus(true);
     addColumn(tr("S"));
-    addColumn(tr("Id"));
     addColumn(tr("Name"));
     addColumn(tr("From"));
     addColumn(tr("To"));
     addColumn(tr("Type"));
+    addColumn(tr("Id"));
+    addColumn(tr("Train"));
 
     // sort list by route name
     setSorting(2, true); 
-    //setItemMargin(2);
 
-    // set id column number alignment
-    setColumnAlignment(1, Qt::AlignRight);
+    // set id and train column alignment
+    setColumnAlignment(5, Qt::AlignRight);
+    setColumnAlignment(6, Qt::AlignRight);
 }
 
 

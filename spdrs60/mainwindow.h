@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.5.2 $Revision: 1.42 $
+                           version 0.5.2 $Revision: 1.43 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2007-08-29 17:09:30 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -41,7 +41,6 @@
 #include "newlayoutdialog.h"
 #include "keyboard.h"
 
-#define APP_NAME       "SpDrS60"
 
 enum SRCPMode {    
     srcpUndefined = 0,

@@ -261,8 +261,8 @@ den Suchkriterien entspricht.</translation>
         <translation>&amp;SpDrS60 für Linux im Internet</translation>
     </message>
     <message>
-        <source>About &amp;Qt</source>
-        <translation>Über &amp;Qt</translation>
+        <source>About &amp;Qt...</source>
+        <translation>Über &amp;Qt...</translation>
     </message>
     <message>
         <source>&amp;File</source>
@@ -326,7 +326,7 @@ den Suchkriterien entspricht.</translation>
     </message>
     <message>
         <source>About Qt</source>
-        <translation>Über QT</translation>
+        <translation>Über Qt</translation>
     </message>
     <message>
         <source>Cancel</source>
@@ -353,8 +353,8 @@ den Suchkriterien entspricht.</translation>
         <translation>Über </translation>
     </message>
     <message>
-        <source>&amp;About</source>
-        <translation>&amp;Über</translation>
+        <source>&amp;About %1...</source>
+        <translation>&amp;Über %1...</translation>
     </message>
     <message>
         <source>Personal config file not found</source>

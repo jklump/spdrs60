@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.105 $
+                           version 0.5.2 $Revision: 1.106 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-29 15:15:22 $
+    last modified        : $Date: 2007-08-29 17:09:30 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -28,6 +28,7 @@
 #include <qmenubar.h>
 #include <qvbox.h>
 
+#include "aboutdialog.h"
 #include "finder.h"
 #include "gbsscrollview.h"
 #include "mainwindow.h"
@@ -118,7 +119,7 @@
 #define MAX_HISTORY    100 // max lines in debugging history
 
 
-MainWindow::MainWindow() : QMainWindow(NULL, "SpDrS60",
+MainWindow::MainWindow(): QMainWindow(NULL, PACKAGE,
         Qt::WDestructiveClose | Qt::WGroupLeader)
 {
     setIcon(QPixmap(spdrs60_32));
@@ -309,7 +310,7 @@ void MainWindow::writeConfigFile()
                     " file: ~/%1").arg(SPDRS60_INIT), MT_INFO, HL_HINT);
         return;
     }
-    cmdToDebug(tr("Writing SpDrS60 configuration"
+    cmdToDebug(tr("Writing " PACKAGE " configuration"
                 " file: ~/%1").arg(SPDRS60_INIT), MT_INFO, HL_HINT);
 
     QDateTime dt = QDateTime::currentDateTime();
@@ -318,7 +319,7 @@ void MainWindow::writeConfigFile()
     QString rtstr;
     rtstr.sprintf("%.2f", pref.ttroundtime);
 
-    ts  << "# spdrs60 configuration file" << endl
+    ts  << "# "PACKAGE " configuration file" << endl
         << "# last modified: " << dt.toString(Qt::ISODate) << endl
         << "#" << endl
         << CF_SHOWHP2      << "=" << (int) pref.hp2 << endl
@@ -1273,12 +1274,12 @@ void MainWindow::initMainWindow()
     menuBar()->insertItem(tr("&Help"), helpmenu);
 
     helpmenu->insertItem(tr("&Help"), this, SLOT(slotAboutHelp()), Qt::Key_F1);
-    helpmenu->insertItem(tr("&SpDrS60 for Linux on the web"),
+    helpmenu->insertItem(tr("&spdrs60 for Linux on the web"),
             this, SLOT(slotAboutWeb()));
     helpmenu->insertSeparator();
-    helpmenu->insertItem(QString(tr("&About")) + " \"" + APP_NAME + "\"",
+    helpmenu->insertItem(tr("&About %1...").arg(PACKAGE),
             this, SLOT(slotAbout()));
-    helpmenu->insertItem(tr("About &Qt"), this, SLOT(slotAboutQt()));
+    helpmenu->insertItem(tr("About &Qt..."), this, SLOT(slotAboutQt()));
 
 
     resetMenu(); //may be is obsolete
@@ -1734,9 +1735,9 @@ void MainWindow::openFile(const QString& fn)
 void MainWindow::updateCaption()
 {
     if (fileName.isEmpty())
-        setCaption(QString(APP_NAME) + " - [" + tr("noname") + "]");
+        setCaption(QString(PACKAGE) + " - [" + tr("noname") + "]");
     else
-        setCaption(QString(APP_NAME) + " - [" + fileName + "]");
+        setCaption(QString(PACKAGE) + " - [" + fileName + "]");
 }
 
 
@@ -2785,8 +2786,8 @@ void MainWindow::slotDaemonKill()
         SendCommandToSRCPServer("TERM 0 SERVER");
     }
 
-    cmdToDebug(tr("Server was shutdown. Restart server to "
-             "reconnect with \"SpDrS60 for Linux\""),
+    cmdToDebug(tr("Daemon has been killed. Restart server to "
+             "reconnect " PACKAGE " for Linux"),
             MT_INFO, HL_HINT);
 }
 
@@ -2834,19 +2835,18 @@ void MainWindow::updateDaemonMenu()
 /*show spdrs60 copyright message window*/
 void MainWindow::slotAbout()
 {
-    QMessageBox::information(this, QString(tr("About ")) + APP_NAME,
-      QString(APP_NAME) + " " + VERSION + "\n" +
-      tr("(C) 1999-2003 by Stefan Preis\n"
-         "(C) 2004-2007 by Guido Scholz\n"
-         "with the gorgeous help of:\n"
-	 " Ruediger Seidel\n"
-	 " Dirk Armbrust\n"
-	 " Björn Schließmann\n"
-	 " Dietmar Toelg\n"
-	 "For more information please have a look at the\n"
-	 "documentation (see Help menu or press F1).\n\n"
-	 "Please report ANY bugs, hints and thanks to:\n") +
-	 PACKAGE_BUGREPORT);
+    /*
+       "For more information please have a look at the\n"
+       "documentation (see Help menu or press F1).\n\n"
+       "Please report ANY bugs, hints and thanks to:\n") +
+       PACKAGE_BUGREPORT);
+     */
+    AboutDialog* ad = new AboutDialog(this);
+    if (ad == NULL)
+        return;
+
+    ad->exec();
+    delete ad;
 }
 
 
@@ -3025,7 +3025,7 @@ void MainWindow::slotAboutHelp()
 }
 
 
-/* open SpDrS60 web resources with external browser */
+/* open spdrs60 web resources with external browser */
 void MainWindow::slotAboutWeb()
 {    
     QString sURL = QString("http://spdrs60.sourceforge.net/");

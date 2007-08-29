@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.5.2 $Revision: 1.37 $
+                           version 0.5.2 $Revision: 1.38 $
                            -------------------------------
     copyright            : (C) 2005-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-26 15:08:12 $
+    last modified        : $Date: 2007-08-29 17:09:30 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -84,6 +84,16 @@ void RouteDialog::addIdentificationTab()
     QVBoxLayout* identificationGBL = new QVBoxLayout(
             identificationGB->layout(), 6);
 
+    /*line with route name*/
+    QHBoxLayout* nameLayout = new QHBoxLayout(identificationGBL, 6);
+    QLabel* lblRouteName = new QLabel(tr("Na&me"), identificationGB);
+    nameLayout->addWidget(lblRouteName);
+    nameLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
+    routeNameLE = new QLineEdit(identificationGB, "routeNameLE");
+    lblRouteName->setBuddy(routeNameLE);
+    nameLayout->addWidget(routeNameLE);
+
     /*line with numerical id*/
     QHBoxLayout* numberLayout = new QHBoxLayout(identificationGBL, 6);
     QLabel* lblRouteNumber = new QLabel(tr("N&umber"), identificationGB);
@@ -95,15 +105,16 @@ void RouteDialog::addIdentificationTab()
     lblRouteNumber->setBuddy(routeNumberLE);
     numberLayout->addWidget(routeNumberLE);
 
-    /*line with route name*/
-    QHBoxLayout* nameLayout = new QHBoxLayout(identificationGBL, 6);
-    QLabel* lblRouteName = new QLabel(tr("Na&me"), identificationGB);
-    nameLayout->addWidget(lblRouteName);
-    nameLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+    /*line with train number*/
+    QHBoxLayout* trainLayout = new QHBoxLayout(identificationGBL, 6);
+    QLabel* lblRouteTrain = new QLabel(tr("&Train"), identificationGB);
+    trainLayout->addWidget(lblRouteTrain);
+    trainLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
                 QSizePolicy::Minimum));
-    routeNameLE = new QLineEdit(identificationGB, "routeNameLE");
-    lblRouteName->setBuddy(routeNameLE);
-    nameLayout->addWidget(routeNameLE);
+    routeTrainLE = new QLineEdit(identificationGB, "routeTrainLE");
+    routeTrainLE->setMaximumWidth(LEMAXWIDTH);
+    lblRouteTrain->setBuddy(routeTrainLE);
+    trainLayout->addWidget(routeTrainLE);
 
     /*horizontal layout for start and stop signal data group boxes*/
     QHBoxLayout* signalStaStoLayout = new QHBoxLayout(tabLayout, 6);
@@ -563,6 +574,18 @@ void RouteDialog::setRouteNumber(unsigned int rnumber)
 unsigned int RouteDialog::getRouteNumber()
 {
     return routeNumberLE->text().toUInt();
+}
+
+
+void RouteDialog::setRouteTrain(unsigned int train)
+{
+    routeTrainLE->setText(QString::number(train));
+}
+
+
+unsigned int RouteDialog::getRouteTrain()
+{
+    return routeTrainLE->text().toUInt();
 }
 
 

@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.5.2 $Revision: 1.26 $
+                           version 0.5.2 $Revision: 1.27 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-26 15:08:12 $
+    last modified        : $Date: 2007-08-29 17:09:30 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -32,6 +32,7 @@
 /*some magic strings for reading and writing routing files*/
 #define RF_ID           "id"
 #define RF_NAME         "name"
+#define RF_TRAIN        "train"
 #define RF_FROMSIGNAL   "from signal"
 #define RF_TOSIGNAL     "to signal"
 #define RF_SWITCHXTOY   "switch x to y"
@@ -100,11 +101,13 @@ public:
     void writeFileTextToStream(QTextStream&);
     Route* getClone();
     int getState();
+    int getType() const;
+    void clearTrain();
+    unsigned int getTrain();
     unsigned int getId();
     QString getName() const;
     QString getFromSignalName() const;
     QString getToSignalName() const;
-    int getType() const;
     QString getTypeStr() const;
     int startRouting();
     void stopRouting();
@@ -122,8 +125,10 @@ public:
     bool hasExitSignal();
     bool hasEntrySignal();
     bool hasThisExitSignal(element*);
+    bool hasTrain();
     void setEntrySignal(element*);
     void setExitSignal(element*);
+    void setTrain(unsigned int);
     void addSwitchElement(element*);
     void removeElement(element*);
     bool canActivateByFeedbackPort(unsigned int, unsigned int, bool);
@@ -133,7 +138,7 @@ signals:
     void stateChanged(Route*, int);
     void showElement(int, int, int);
     void updateRoutePathLEDs(const stateElement&, const stateElement&,
-            RouteSetAction&);
+            Route::RouteSetAction&);
     void getElementByAddress(const int, const int, element**);
 
 public slots:
@@ -147,6 +152,7 @@ private:
     PortState acPort, rePort;
     Loco acLoco;
     unsigned int idnumber;
+    unsigned int train;
     unsigned int detourLevel;
     RouteState routestate;
     int turnouts;

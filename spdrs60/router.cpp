@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.2 $Revision: 1.42 $
+                           version 0.5.2 $Revision: 1.43 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-29 15:11:47 $
+    last modified        : $Date: 2007-08-29 17:09:30 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -88,9 +88,9 @@ void Router::setupRouteElements()
         connect(sr, SIGNAL(stateChanged(Route*, int)),
                 this, SLOT(processRouteState(Route*, int)));
         connect(sr, SIGNAL(updateRoutePathLEDs(const stateElement&,
-                        const stateElement&, RouteSetAction&)),
+                        const stateElement&, Route::RouteSetAction&)),
                 this, SIGNAL(updateRoutePathLEDs(const stateElement&,
-                        const stateElement&, RouteSetAction&)));
+                        const stateElement&, Route::RouteSetAction&)));
     }
 }
 
@@ -134,9 +134,9 @@ Route* Router::copyRoute(Route* cr)
             connect(nr, SIGNAL(stateChanged(Route*, int)),
                     this, SLOT(processRouteState(Route*, int)));
             connect(nr, SIGNAL(updateRoutePathLEDs(const stateElement&,
-                            const stateElement&, RouteSetAction&)),
+                            const stateElement&, Route::RouteSetAction&)),
                     this, SIGNAL(updateRoutePathLEDs(const stateElement&,
-                            const stateElement&, RouteSetAction&)));
+                            const stateElement&, Route::RouteSetAction&)));
             modified = true;
         }
     }
@@ -160,9 +160,9 @@ void Router::deleteRoute(Route* dr)
             dr->stopRouting();
         dr->hideRoute();
         disconnect(dr, SIGNAL(updateRoutePathLEDs(const stateElement&,
-                        const stateElement&, RouteSetAction&)),
+                        const stateElement&, Route::RouteSetAction&)),
                 this, SIGNAL(updateRoutePathLEDs(const stateElement&,
-                        const stateElement&, RouteSetAction&)));
+                        const stateElement&, Route::RouteSetAction&)));
         disconnect(dr, SIGNAL(stateChanged(Route*, int)),
                 this, SLOT(processRouteState(Route*, int)));
         routeList.remove(dr);
@@ -306,9 +306,9 @@ Route* Router::addNewRoute()
         connect(nr, SIGNAL(stateChanged(Route*, int)),
                 this, SLOT(processRouteState(Route*, int)));
         connect(nr, SIGNAL(updateRoutePathLEDs(const stateElement&,
-                        const stateElement&, RouteSetAction&)),
+                        const stateElement&, Route::RouteSetAction&)),
                 this, SIGNAL(updateRoutePathLEDs(const stateElement&,
-                        const stateElement&, RouteSetAction&)));
+                        const stateElement&, Route::RouteSetAction&)));
     }
     return nr;
 }
@@ -477,7 +477,7 @@ void Router::resetRoute(element* el, GbsButtonState cb)
     if (el == NULL)
         return;
 
-    /*check if is route to reset is allready choosen*/
+    /*check if route to reset is allready choosen*/
     if (resetRt == NULL) {
         resetRt = getLockedRouteWithEntrySignal(el);
         if (resetRt != NULL) {
@@ -502,13 +502,8 @@ void Router::resetRoute(element* el, GbsButtonState cb)
         }
         else {
             //check if selected route has same exit signal
-            if (resetRt->hasThisExitSignal(el)) {
-                resetRt->stopRouting();
-                // send signal to routing viewer to update state icon
-                emit routeStateChanged(resetRt);
-                emit showLogMessage(tr("Route '%1' released")
-                        .arg(resetRt->getName()), MT_INFO, HL_HINT);
-            }
+            if (resetRt->hasThisExitSignal(el))
+                releaseRoute(resetRt);
             else {
                 QApplication::beep();
                 if (selectedStartSig != NULL)

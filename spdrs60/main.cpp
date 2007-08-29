@@ -1,11 +1,11 @@
 /***************************************************************************
                            main.cpp
-                           version 0.5.2 $Revision: 1.12 $
+                           version 0.5.2 $Revision: 1.13 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2007-08-29 17:09:30 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -59,7 +59,7 @@ int main(int argc, char* argv[])
 
    MainWindow* spdrs60Window = new MainWindow();
    Q_CHECK_PTR(spdrs60Window);
-   spdrs60Window->setCaption(QString(APP_NAME));
+   spdrs60Window->setCaption(PACKAGE);
    spdrs60Window->resize(720, 480);
 
    //necessary for "-geometry" command-line option

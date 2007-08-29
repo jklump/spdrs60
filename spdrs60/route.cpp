@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.49 $
+                           version 0.5.2 $Revision: 1.50 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-26 15:08:12 $
+    last modified        : $Date: 2007-08-29 17:09:30 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -123,9 +123,10 @@ Route::Route(element* startEl)
     acLoco.bus = 0;
     acLoco.address = 0;
     detourLevel = 0;
-
     idnumber = 0;
+    train = 0;
     Name = tr("New route");
+
     if (startEl != NULL) {
         Name.append(startEl->getLabelText());
         startEl->getStateData(entrySignal);
@@ -151,6 +152,7 @@ Route::Route(QTextStream& ts, bool isNewFormat)
     switchItems.setAutoDelete(true);
 
     idnumber = 0;
+    train = 0;
     /*exit signals are red by default*/
     exitSignal.state = 0;
     exitSignal.name = "";
@@ -175,6 +177,7 @@ Route::Route(const QString& aName)
 
     routeType = RZS;
     idnumber = 0;
+    train = 0;
     Name = aName;
 
     exitSignal.name = "";
@@ -296,6 +299,9 @@ void Route::readFileTextFromStream(QTextStream& ts)
             }
             else if (key.compare(RF_NAME) == 0){
                 Name = s.section(DS, 1, 1);
+            }
+            else if (key.compare(RF_TRAIN) == 0){
+                train = s.section(DS, 1, 1).toUInt();
             }
             else if (key.compare(RF_TOSIGNAL) == 0){
                 exitSignal.bus = s.section(DS, 1, 1).toUInt();
@@ -441,6 +447,7 @@ void Route::writeFileTextToStream(QTextStream& ts)
     ts
         << RF_ID << DS << idnumber << endl
         << RF_NAME << DS << Name << endl
+        << RF_TRAIN << DS << train << endl
         << RF_TOSIGNAL << DS << exitSignal.bus << DS << exitSignal.address << endl
         << RF_FROMSIGNAL << DS << entrySignal.bus << DS
         << entrySignal.address << DS << entrySignal.state << endl 
@@ -1083,6 +1090,7 @@ bool Route::runEditRouteDialog(QWidget* dlgparent)
             SIGNAL(getElementByAddress(const int, const int,
                     element**)));
     rtDlg->setRouteNumber(idnumber);
+    rtDlg->setRouteTrain(train);
     rtDlg->setRouteName(Name);
     rtDlg->setEntrySignalData(entrySignal);
     rtDlg->setExitSignalData(exitSignal);
@@ -1094,6 +1102,7 @@ bool Route::runEditRouteDialog(QWidget* dlgparent)
         // update gbs: 1) hide old route 2) show new route
         hideRoute();
         idnumber = rtDlg->getRouteNumber();
+        train = rtDlg->getRouteTrain();
         Name = rtDlg->getRouteName();
         rtDlg->getEntrySignalData(entrySignal);
         rtDlg->getExitSignalData(exitSignal);
@@ -1112,5 +1121,37 @@ bool Route::runEditRouteDialog(QWidget* dlgparent)
                     element**)));
     delete rtDlg;
     return returnvalue;
+}
+
+/*
+ * return true, if a train number is available
+ */
+bool Route::hasTrain()
+{
+    return (0 != train);
+}
+
+/*
+ * clear stored train number
+ */
+void Route::clearTrain()
+{
+    train = 0;
+}
+
+/*
+ * set new value for train number
+ */
+void Route::setTrain(unsigned int tr)
+{
+    train = tr;
+}
+
+/*
+ * return availabel train number
+ */
+unsigned int Route::getTrain()
+{
+    return train;
 }
 

@@ -1,11 +1,11 @@
 /***************************************************************************
                            routedialog.h
-                           version 0.5.2 $Revision: 1.20 $
+                           version 0.5.2 $Revision: 1.21 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-26 15:08:12 $
+    last modified        : $Date: 2007-08-29 17:09:30 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -53,6 +53,7 @@ public:
     RouteDialog(QWidget* parent = 0);
     void setRouteName(const QString&);
     void setRouteNumber(unsigned int);
+    void setRouteTrain(unsigned int);
     void setRouteType(int, unsigned int);
     void setEntrySignalData(const stateElement&);
     void setExitSignalData(const stateElement&);
@@ -60,6 +61,7 @@ public:
     void setReleaseData(const PortState&);
     QString getRouteName();
     unsigned int getRouteNumber();
+    unsigned int getRouteTrain();
     void getEntrySignalData(stateElement&);
     void getExitSignalData(stateElement&);
     void getActivateData(PortState&);
@@ -100,6 +102,7 @@ private:
     
    QLineEdit*    routeNameLE;
    QLineEdit*    routeNumberLE;
+   QLineEdit*    routeTrainLE;
 
    QLineEdit*    startSignalNameLE;
    QLineEdit*    startSignalSrcpBusLE;

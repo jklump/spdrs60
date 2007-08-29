@@ -1,10 +1,10 @@
 /***************************************************************************
                            routelvi.cpp
-                           version 0.5.2 $Revision: 1.3 $
+                           version 0.5.2 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-26 15:08:12 $
+    last modified        : $Date: 2007-08-29 17:09:30 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -47,11 +47,12 @@ RouteLVI::RouteLVI(QListView* parent, Route* rt): QListViewItem(parent)
  * No Name      Type
  * -------------------------------
  * 0  State     int
- * 1  Id        unsigned int
- * 2  Name      QString
- * 3  From      QString
- * 4  To        QString
- * 5  Type      (int, int)/QString
+ * 1  Name      QString
+ * 2  From      QString
+ * 3  To        QString
+ * 4  Type      (int, int)/QString
+ * 5  Id        unsigned int
+ * 6  Train     unsigned int
  * -------------------------------
  */
 int RouteLVI::compare(QListViewItem* i, int col,
@@ -81,7 +82,7 @@ int RouteLVI::compare(QListViewItem* i, int col,
                 returnvalue *= -1;
             break;
 
-        case 1:
+        case 5:
             // compare id integer values
             idkey1 = route->getId();
             idkey2 = item->getRouteId();
@@ -92,6 +93,19 @@ int RouteLVI::compare(QListViewItem* i, int col,
             if (!ascending)
                 returnvalue *= -1;
             break;
+
+        case 6:
+            // compare train integer values
+            idkey1 = route->getTrain();
+            idkey2 = item->getRouteTrain();
+            if (idkey1 > idkey2)
+                returnvalue = 1;
+            else if (idkey1 < idkey2)
+                returnvalue = -1;
+            if (!ascending)
+                returnvalue *= -1;
+            break;
+
         default:
             // compare string values
             returnvalue = key(col, ascending).localeAwareCompare(
@@ -108,6 +122,15 @@ unsigned int RouteLVI::getRouteId()
         return 0;
     else
         return route->getId();
+}
+
+
+unsigned int RouteLVI::getRouteTrain()
+{
+    if (route == NULL)
+        return 0;
+    else
+        return route->getTrain();
 }
 
 
@@ -139,11 +162,12 @@ void RouteLVI::updateRouteData()
 {
     if (route != NULL) {
         updateRouteStatePixmap();  
-        setText(1, QString::number(route->getId()));  
-        setText(2, route->getName());  
-        setText(3, route->getFromSignalName());  
-        setText(4, route->getToSignalName());  
-        setText(5, route->getTypeStr());  
+        setText(1, route->getName());  
+        setText(2, route->getFromSignalName());  
+        setText(3, route->getToSignalName());  
+        setText(4, route->getTypeStr());  
+        setText(5, QString::number(route->getId()));  
+        setText(6, QString::number(route->getTrain()));  
     }
     else {
         setPixmap(0, pUnlocked);  
@@ -152,6 +176,7 @@ void RouteLVI::updateRouteData()
         setText(3, "");  
         setText(4, "");  
         setText(5, "");  
+        setText(6, "");  
     }
 }
 

@@ -1,10 +1,10 @@
 /***************************************************************************
                            routelvi.h
-                           version 0.5.2 $Revision: 1.3 $
+                           version 0.5.2 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-26 15:08:12 $
+    last modified        : $Date: 2007-08-29 17:09:30 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -43,6 +43,7 @@ public:
     virtual int compare(QListViewItem* i, int col, bool ascending) const;    
     int getRouteState();
     unsigned int getRouteId();
+    unsigned int getRouteTrain();
     Route* getRoute();
     void setRoute(Route*);
     void updateRouteStatePixmap();

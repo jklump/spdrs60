@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.16 $
-# last update: $Date: 2007-02-11 16:59:01 $
+# version: $Revision: 1.17 $
+# last update: $Date: 2007-08-29 17:09:30 $
 
 SUBDIRS = pixmaps
 
@@ -9,6 +9,7 @@ bin_PROGRAMS = spdrs60
 
 # list of all generated (and not distributed) sources
 nodist_spdrs60_SOURCES = \
+	aboutdialog.moc.cpp \
 	elementcommander.moc.cpp \
 	elementdialog.moc.cpp \
 	element.moc.cpp \
@@ -31,6 +32,7 @@ nodist_spdrs60_SOURCES = \
 
 # list of all sources and headers
 spdrs60_SOURCES = main.cpp resources.h \
+	aboutdialog.cpp aboutdialog.h \
 	elementcommander.cpp elementcommander.h \
 	element.cpp element.h \
 	elementdialog.cpp elementdialog.h \
