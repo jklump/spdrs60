@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.51 $
+                           version 0.5.2 $Revision: 1.52 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-29 18:12:11 $
+    last modified        : $Date: 2007-08-29 20:42:24 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -1128,6 +1128,7 @@ bool Route::hasTrain()
 void Route::clearTrain()
 {
     train = 0;
+    updateTrainNumberDisplay();
 }
 
 /*
@@ -1135,7 +1136,10 @@ void Route::clearTrain()
  */
 void Route::setTrain(unsigned int tr)
 {
-    train = tr;
+    if (tr != train) {
+        train = tr;
+        updateTrainNumberDisplay();
+    }
 }
 
 /*
@@ -1146,3 +1150,25 @@ unsigned int Route::getTrain()
     return train;
 }
 
+/*
+ * return pointer to entry signal element
+ */
+element* Route::getEntrySignalElementPtr()
+{
+    return entrySignal.elemPtr;
+}
+
+/*
+ * search train number display and update content
+ */
+void Route::updateTrainNumberDisplay()
+{
+    QPtrListIterator<stateElement> it(switchItems);
+    stateElement* se;
+    while ((se = it.current()) != 0) {
+        ++it;
+        element* el = se->elemPtr;
+        if (el != NULL && el->isTrainNumberDisplay());
+            el->updateTrainNumber(train);
+    }
+}

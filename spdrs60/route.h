@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.5.2 $Revision: 1.28 $
+                           version 0.5.2 $Revision: 1.29 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-29 18:12:11 $
+    last modified        : $Date: 2007-08-29 20:42:24 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -107,6 +107,7 @@ public:
     bool hasEntrySignal();
     bool hasThisExitSignal(element*);
     bool hasTrain();
+    element* getEntrySignalElementPtr();
     void setEntrySignal(element*);
     void setExitSignal(element*);
     void setTrain(unsigned int);
@@ -143,6 +144,7 @@ private:
     QPtrList<stateElement> switchItems;
     void updateRouteName();
     void updateRouteType();
+    void updateTrainNumberDisplay();
 };
 #endif // ROUTE_H
 

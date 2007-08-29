@@ -1258,6 +1258,10 @@ zu benutzen, starten Sie bitte den Server neu)</translation>
         <source>Route &apos;%1&apos; is in activating state</source>
         <translation>Fahrstraße &apos;%1&apos; ist reserviert</translation>
     </message>
+    <message>
+        <source>Route &apos;%1&apos; resetted</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>elementCommander</name>

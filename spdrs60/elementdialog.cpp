@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.cpp
-                           version 0.5.2 $Revision: 1.35 $
+                           version 0.5.2 $Revision: 1.36 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2007-08-29 20:42:23 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -901,7 +901,8 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
         sSoldIcon == SYM_HS2 || sSoldIcon == SYM_DLT ||
         sSoldIcon == SYM_DRT || sSoldIcon == SYM_GET ||
         sSoldIcon == SYM_SHM || sSoldIcon == SYM_SHO ||
-        sSoldIcon == SYM_SHU || sSoldIcon == SYM_ZP;
+        sSoldIcon == SYM_SHU || sSoldIcon == SYM_ZP ||
+        sSoldIcon == SYM_ADR;
 
     cbRotate->setEnabled(enabled);
 
@@ -929,7 +930,7 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
     enabled = sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER
         || sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR
         || sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR
-        || sSoldIcon == SYM_LEE;
+        || sSoldIcon == SYM_LEE || sSoldIcon == SYM_ADR;
 
     cbInvert->setEnabled(enabled);
 /*

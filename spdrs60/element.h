@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.2 $Revision: 1.65 $
+                           version 0.5.2 $Revision: 1.66 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-02 18:55:29 $
+    last modified        : $Date: 2007-08-29 20:42:23 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -249,6 +249,7 @@ public:
     bool isSwitchable();
     bool isSwitched();
     bool isTurnout();
+    bool isTrainNumberDisplay();
     bool hasThreeStates();
     void showElementState(int, elemSelectionMode);
     void showPropertyDlg();
@@ -271,6 +272,7 @@ public:
     void toggle();
     bool isRotatable();
     bool ctxCanSwitch();
+    void updateTrainNumber(unsigned int);
 
 private:
     elementDialog*      elementPropertyDlg;

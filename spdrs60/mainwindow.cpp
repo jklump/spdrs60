@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.106 $
+                           version 0.5.2 $Revision: 1.107 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-29 17:09:30 $
+    last modified        : $Date: 2007-08-29 20:42:24 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -319,7 +319,7 @@ void MainWindow::writeConfigFile()
     QString rtstr;
     rtstr.sprintf("%.2f", pref.ttroundtime);
 
-    ts  << "# "PACKAGE " configuration file" << endl
+    ts  << "# " PACKAGE " configuration file" << endl
         << "# last modified: " << dt.toString(Qt::ISODate) << endl
         << "#" << endl
         << CF_SHOWHP2      << "=" << (int) pref.hp2 << endl

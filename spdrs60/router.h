@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.h
-                           version 0.5.2 $Revision: 1.21 $
+                           version 0.5.2 $Revision: 1.22 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-26 15:08:12 $
+    last modified        : $Date: 2007-08-29 20:42:24 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -91,6 +91,8 @@ private:
             GbsButtonState);
     Route* getUnlockedRouteWithExitSignal(element*, GbsButtonState,
             GbsButtonState);
+    Route* getUtilizedRouteWithExitSignal(element*);
+    void transferTrainNumber(Route*);
     
 signals:
     void getElementByAddress(const int, const int, element**);

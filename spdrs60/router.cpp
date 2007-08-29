@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.2 $Revision: 1.43 $
+                           version 0.5.2 $Revision: 1.44 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-29 17:09:30 $
+    last modified        : $Date: 2007-08-29 20:42:24 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -321,6 +321,33 @@ void Router::startRecordModeAt(unsigned int index)
 }
 
 
+/* 
+ * transfer train number from source route to target route and update
+ * route data visualization
+ */
+void Router::transferTrainNumber(Route* tr)
+{
+    if (tr == NULL)
+        return;
+
+    element* signal = tr->getEntrySignalElementPtr();
+    if (signal == NULL)
+        return;
+
+    Route* sr = getUtilizedRouteWithExitSignal(signal);
+    if (sr == NULL)
+        return;
+
+    tr->setTrain(sr->getTrain());
+    emit routeDataChanged(tr);
+
+    sr->clearTrain();
+    emit routeDataChanged(sr);
+
+    //TODO: send train message (Zugmeldung)
+}
+
+
 void Router::processRouteState(Route* rt, int rs)
 {
     emit routeStateChanged(rt);
@@ -330,6 +357,7 @@ void Router::processRouteState(Route* rt, int rs)
             // send signal to routing viewer to update state icon
             emit showLogMessage(tr("Route '%1' released")
                     .arg(rt->getName()), MT_INFO, HL_HINT);
+            transferTrainNumber(rt);
             break;
         case Route::rsLocked:
             // send signal to routing viewer to update state icon
@@ -502,8 +530,15 @@ void Router::resetRoute(element* el, GbsButtonState cb)
         }
         else {
             //check if selected route has same exit signal
-            if (resetRt->hasThisExitSignal(el))
-                releaseRoute(resetRt);
+            if (resetRt->hasThisExitSignal(el)) {
+                // this is a FHT reset, no release
+                resetRt->stopRouting();
+                emit routeStateChanged(resetRt);
+                emit showLogMessage(tr("Route '%1' resetted")
+                        .arg(resetRt->getName()), MT_INFO, HL_HINT);
+                // only for debugging purposes (transfer by FHT)
+                transferTrainNumber(resetRt);
+            }
             else {
                 QApplication::beep();
                 if (selectedStartSig != NULL)
@@ -556,6 +591,21 @@ Route* Router::getUnlockedRouteWithExitSignal(element* el, GbsButtonState cb,
     while ((rt = routeit.current()) != 0 ) {
         ++routeit;
         if (rt->isUnlockedType(selectedStartSig, el, cb, sb))
+            return rt;
+    }
+    return NULL;
+}
+
+/*
+ * find adjacent route with train number
+ */
+Route* Router::getUtilizedRouteWithExitSignal(element* el)
+{
+    QPtrListIterator<Route> routeit(routeList);
+    Route* rt;
+    while ((rt = routeit.current()) != 0 ) {
+        ++routeit;
+        if (rt->hasThisExitSignal(el) && rt->hasTrain())
             return rt;
     }
     return NULL;

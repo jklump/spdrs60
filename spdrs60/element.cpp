@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.2 $Revision: 1.124 $
+                           version 0.5.2 $Revision: 1.125 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-02 18:55:28 $
+    last modified        : $Date: 2007-08-29 20:42:23 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -554,7 +554,7 @@ void element::mouseReleaseEvent(QMouseEvent* e)
                 sSoldIcon == SYM_SS  || sSoldIcon == SYM_SSS ||
                 sSoldIcon == SYM_SSH || sSoldIcon == SYM_BLD ||
                 sSoldIcon == SYM_VS  || sSoldIcon == SYM_WS  ||
-                sSoldIcon == SYM_MDC) {
+                sSoldIcon == SYM_MDC || sSoldIcon == SYM_ADR) {
                 /*send record signal to router*/
                 if (ksmNormal == selectionMode)
                     emit recordElement(this, krecNormal);
@@ -913,6 +913,10 @@ void element::showPropertyDlg()
 
             sSoldIcon = elementPropertyDlg->getSymbolName();
             sSoldText = elementPropertyDlg->getSymbolText();
+
+            if (SYM_ADR == sSoldIcon)
+                updateTrainNumber(sSoldText.toUInt());
+
             iSoldRotate = elementPropertyDlg->getRotated();
             iSoldInvert = elementPropertyDlg->getInverted();
             iSoldLEDoff = elementPropertyDlg->getLEDsAreOff();
@@ -6168,7 +6172,7 @@ void element::slotOccupyElement(unsigned int bus, unsigned int contact,
         bool state)
 {
     if (bus == iFBBusNo) {
-        if (sSoldIcon == SYM_ADR) {
+        if (sSoldIcon == SYM_ADR && iSoldInvert != 1) {
             unsigned int targetmod = (contact - 1) / 8 + 1;
             unsigned int selfmod = (iFBContact - 1) / 8 + 1;
 
@@ -6206,6 +6210,27 @@ void element::updateEDiTSAddress(unsigned int contact, bool state)
      * if (address == 7)
      */
     setupElementIcon();
+}
+
+
+/**
+ * set train number to EDiTS address view
+ */
+void element::updateTrainNumber(unsigned int value)
+{
+    if (value != editsAddress) {
+       editsAddress = value;
+       setupElementIcon();
+    }
+}
+
+
+/**
+ * return true if this a train number display
+ */
+bool element::isTrainNumberDisplay()
+{
+    return (sSoldIcon == SYM_ADR);
 }
 
 

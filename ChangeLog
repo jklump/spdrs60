@@ -1,6 +1,8 @@
 2007-08-29 Guido Scholz <guido.scholz@bayernline.de>
 	* routedialog.*: input line for train number added
 	* route.*, routelvi.*, routelistview.c: train number added
+	* route.*, router.*, element.*, elementdialog.cpp: basic train
+	number tracing implemented
 
 2007-08-28 Guido Scholz <guido.scholz@bayernline.de>
 	* aboutdialog.*, mainwindow.cpp: new about dialog added
