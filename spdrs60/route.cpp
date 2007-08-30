@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.54 $
+                           version 0.5.2 $Revision: 1.55 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-30 19:53:03 $
+    last modified        : $Date: 2007-08-30 21:09:28 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -322,6 +322,10 @@ void Route::setupElementLists(QPtrVector<element>* elements)
             trainNumberDisplay.elemPtr = el;
         }
     }
+
+    // update only displays of utilized routes
+    if (train != 0)
+        updateTrainNumberDisplay();
 }
 
 
