@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.52 $
+                           version 0.5.2 $Revision: 1.53 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-29 20:42:24 $
+    last modified        : $Date: 2007-08-30 04:55:27 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -28,8 +28,9 @@
 #define RF_ID           "id"
 #define RF_NAME         "name"
 #define RF_TRAIN        "train"
-#define RF_FROMSIGNAL   "from signal"
-#define RF_TOSIGNAL     "to signal"
+#define RF_ENTRYSIGNAL   "from signal"
+#define RF_EXITSIGNAL     "to signal"
+#define RF_TNDISPLAY    "trainnumberdisplay"
 #define RF_SWITCHXTOY   "switch x to y"
 #define RF_ACTIVATEPORT "activate port"
 #define RF_RELEASEPORT  "release port"
@@ -43,6 +44,7 @@ Route::Route(unsigned int anid,
         const QString& aName,
         const stateElement& aexitSignal,
         const stateElement& aentrySignal,
+        const stateElement& tnDisplay,
         const PortState& arePort,
         const PortState& aacPort,
         unsigned int adetourLevel,
@@ -69,6 +71,12 @@ Route::Route(unsigned int anid,
     entrySignal.address = aentrySignal.address;
     entrySignal.state = aentrySignal.state;
     entrySignal.elemPtr = aentrySignal.elemPtr;
+    
+    trainNumberDisplay.name = tnDisplay.name;
+    trainNumberDisplay.bus = tnDisplay.bus;
+    trainNumberDisplay.address = tnDisplay.address;
+    trainNumberDisplay.state = tnDisplay.state;
+    trainNumberDisplay.elemPtr = tnDisplay.elemPtr;
     
     rePort.used = arePort.used;
     rePort.switchtooff = arePort.switchtooff;
@@ -115,6 +123,12 @@ Route::Route(element* startEl)
     exitSignal.bus = 0;
     exitSignal.name = "";
     exitSignal.elemPtr = NULL;
+    
+    trainNumberDisplay.state = 0;
+    trainNumberDisplay.address = 0;
+    trainNumberDisplay.bus = 0;
+    trainNumberDisplay.name = "";
+    trainNumberDisplay.elemPtr = NULL;
     
     routeType = rtRZS;
 
@@ -198,6 +212,12 @@ Route::Route(const QString& aName)
     entrySignal.state = 0;
     entrySignal.elemPtr = NULL;
     
+    trainNumberDisplay.name = "";
+    trainNumberDisplay.bus = 1;
+    trainNumberDisplay.address = 0;
+    trainNumberDisplay.state = 0;
+    trainNumberDisplay.elemPtr = NULL;
+    
     rePort.used = false;
     rePort.switchtooff = false;
     rePort.bus = 1;
@@ -230,6 +250,8 @@ void Route::updateElementLists(QPtrVector<element>* elements)
     entrySignal.elemPtr = NULL;
     exitSignal.name = tr("Error");
     exitSignal.elemPtr = NULL;
+    trainNumberDisplay.name = tr("Error");
+    trainNumberDisplay.elemPtr = NULL;
 
     QPtrListIterator<stateElement> it(switchItems);
     stateElement* swElement;
@@ -285,6 +307,14 @@ void Route::setupElementLists(QPtrVector<element>* elements)
             entrySignal.name = gbse->getLabelText();
             entrySignal.elemPtr = gbse;
         }
+
+        /*add train number dislay*/
+        if ((gbse != 0) && gbse->hasSameAddress(trainNumberDisplay.bus,
+                    trainNumberDisplay.address)) {
+            //routePathItems.append(gbse);
+            trainNumberDisplay.name = gbse->getLabelText();
+            trainNumberDisplay.elemPtr = gbse;
+        }
     }
 }
 
@@ -307,7 +337,7 @@ void Route::readFileTextFromStream(QTextStream& ts)
             else if (key.compare(RF_TRAIN) == 0){
                 train = s.section(DS, 1, 1).toUInt();
             }
-            else if (key.compare(RF_TOSIGNAL) == 0){
+            else if (key.compare(RF_EXITSIGNAL) == 0){
                 exitSignal.bus = s.section(DS, 1, 1).toUInt();
                 exitSignal.address = s.section(DS, 2, 2).toUInt();
             }
@@ -325,10 +355,15 @@ void Route::readFileTextFromStream(QTextStream& ts)
                 }
                 // else no memory available
             }
-            else if (key.compare(RF_FROMSIGNAL) == 0){
+            else if (key.compare(RF_ENTRYSIGNAL) == 0){
                 entrySignal.bus = s.section(DS, 1, 1).toUInt();
                 entrySignal.address = s.section(DS, 2, 2).toUInt();
                 entrySignal.state = s.section(DS, 3, 3).toUInt();
+            }
+            else if (key.compare(RF_TNDISPLAY) == 0){
+                trainNumberDisplay.bus = s.section(DS, 1, 1).toUInt();
+                trainNumberDisplay.address = s.section(DS, 2, 2).toUInt();
+                trainNumberDisplay.state = s.section(DS, 3, 3).toUInt();
             }
             else if (key.compare(RF_RELEASEPORT) == 0){
                 rePort.bus = s.section(DS, 1, 1).toUInt();
@@ -368,7 +403,7 @@ void Route::readOldFileTextFromStream(QTextStream& ts)
             if (key.compare(RF_NAME) == 0){
                   Name = value.stripWhiteSpace();
             }
-            else if (key.compare(RF_TOSIGNAL) == 0){
+            else if (key.compare(RF_EXITSIGNAL) == 0){
                 exitSignal.bus = 1;
                 exitSignal.address = value.toUInt();
             }
@@ -383,7 +418,7 @@ void Route::readOldFileTextFromStream(QTextStream& ts)
                 
                 switchItems.append(switchElement);
             }
-            else if (key.compare(RF_FROMSIGNAL) == 0){
+            else if (key.compare(RF_ENTRYSIGNAL) == 0){
                 entrySignal.bus = 1;
                 entrySignal.address = value.section(" ", 0, 0).toUInt();
                 entrySignal.state = value.section(" ", 1, 1).toUInt();
@@ -440,9 +475,12 @@ void Route::writeFileTextToStream(QTextStream& ts)
         << RF_ID << DS << idnumber << endl
         << RF_NAME << DS << Name << endl
         << RF_TRAIN << DS << train << endl
-        << RF_TOSIGNAL << DS << exitSignal.bus << DS << exitSignal.address << endl
-        << RF_FROMSIGNAL << DS << entrySignal.bus << DS
+        << RF_EXITSIGNAL << DS << exitSignal.bus << DS
+        << exitSignal.address << endl
+        << RF_ENTRYSIGNAL << DS << entrySignal.bus << DS
         << entrySignal.address << DS << entrySignal.state << endl 
+        << RF_TNDISPLAY << DS << trainNumberDisplay.bus << DS
+        << trainNumberDisplay.address << DS << trainNumberDisplay.state << endl 
         << RF_RELEASEPORT << DS << rePort.bus << DS << rePort.address
         << DS << rePort.used << DS << rePort.switchtooff << endl
         << RF_ACTIVATEPORT << DS << acPort.bus << DS << acPort.address
@@ -465,7 +503,7 @@ void Route::writeFileTextToStream(QTextStream& ts)
 Route* Route::getClone()
 {
     return new Route(idnumber, routeType, Name, exitSignal, entrySignal,
-            rePort, acPort, detourLevel, switchItems);
+            trainNumberDisplay, rePort, acPort, detourLevel, switchItems);
 }
 
 
@@ -1163,12 +1201,6 @@ element* Route::getEntrySignalElementPtr()
  */
 void Route::updateTrainNumberDisplay()
 {
-    QPtrListIterator<stateElement> it(switchItems);
-    stateElement* se;
-    while ((se = it.current()) != 0) {
-        ++it;
-        element* el = se->elemPtr;
-        if (el != NULL && el->isTrainNumberDisplay());
-            el->updateTrainNumber(train);
-    }
+    if (trainNumberDisplay.elemPtr != NULL)
+        trainNumberDisplay.elemPtr->updateTrainNumber(train);
 }

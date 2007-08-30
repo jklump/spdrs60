@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.5.2 $Revision: 1.29 $
+                           version 0.5.2 $Revision: 1.30 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-29 20:42:24 $
+    last modified        : $Date: 2007-08-30 04:55:27 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -67,6 +67,7 @@ public:
           const QString& aName,
           const stateElement& aexitSignal,
           const stateElement& aentrySignal,
+          const stateElement& tnDisplay,
           const PortState& arePort,
           const PortState& aacPort,
           unsigned int adetourLevel,
@@ -129,7 +130,7 @@ public slots:
     
 private:
     QString Name;
-    stateElement exitSignal, entrySignal;
+    stateElement exitSignal, entrySignal, trainNumberDisplay;
     RouteType routeType;
     PortState acPort, rePort;
     unsigned int idnumber;
