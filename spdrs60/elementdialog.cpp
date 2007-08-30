@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.cpp
-                           version 0.5.2 $Revision: 1.36 $
+                           version 0.5.2 $Revision: 1.37 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-29 20:42:23 $
+    last modified        : $Date: 2007-08-30 19:53:02 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -332,17 +332,17 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     srcpBus1Label->setBuddy(srcpBus1LE);
     
     /*line with address 1 */
-    labelAddress_1 = new QLabel(tr("Address &1:"), decoderGB);
-    decdataLayout->addWidget(labelAddress_1, 1, 0);
-    leAddress_1 = new QLineEdit(decoderGB, "address_1");
-    decdataLayout->addWidget(leAddress_1, 1, 1);
-    leAddress_1->setMaxLength(4);       // address length of NA protocol
-    leAddress_1->setMaximumWidth(LEMAXWIDTH);
-    connect(leAddress_1, SIGNAL(textChanged(const QString&)),
+    address1Lbl = new QLabel(tr("Address &1:"), decoderGB);
+    decdataLayout->addWidget(address1Lbl, 1, 0);
+    address1LE = new QLineEdit(decoderGB, "address_1");
+    decdataLayout->addWidget(address1LE, 1, 1);
+    address1LE->setMaxLength(4);       // address length of NA protocol
+    address1LE->setMaximumWidth(LEMAXWIDTH);
+    connect(address1LE, SIGNAL(textChanged(const QString&)),
             this, SLOT(slotAddress1Changed(const QString&)));
     a1Validator = new QIntValidator(-1, MAX_GADCC, this);
-    leAddress_1->setValidator(a1Validator);
-    labelAddress_1->setBuddy(leAddress_1);
+    address1LE->setValidator(a1Validator);
+    address1Lbl->setBuddy(address1LE);
 
     /*line with port 1 spinbox */
     port1Label = new QLabel(tr("&Port 1:"), decoderGB);
@@ -366,15 +366,15 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     srcpBus2Label->setBuddy(srcpBus2LE);
     
     /*line with address 2 */
-    labelAddress_2 = new QLabel(tr("Address &2:"), decoderGB);
-    decdataLayout->addWidget(labelAddress_2, 4, 0);
-    leAddress_2 = new QLineEdit(decoderGB, "address_2");
-    decdataLayout->addWidget(leAddress_2, 4, 1);
-    leAddress_2->setMaxLength(4);
-    leAddress_2->setMaximumWidth(LEMAXWIDTH);
+    address2Lbl = new QLabel(tr("Address &2:"), decoderGB);
+    decdataLayout->addWidget(address2Lbl, 4, 0);
+    address2LE = new QLineEdit(decoderGB, "address_2");
+    decdataLayout->addWidget(address2LE, 4, 1);
+    address2LE->setMaxLength(4);
+    address2LE->setMaximumWidth(LEMAXWIDTH);
     a2Validator = new QIntValidator(-1, MAX_GADCC, this);
-    leAddress_2->setValidator(a2Validator);
-    labelAddress_2->setBuddy(leAddress_2);
+    address2LE->setValidator(a2Validator);
+    address2Lbl->setBuddy(address2LE);
 
     /*line with port 1 spinbox */
     port2Label = new QLabel(tr("&Port 2:"), decoderGB);
@@ -527,7 +527,7 @@ void elementDialog::setupElement(const char *eName)
 void elementDialog::slotAddress1Changed(const QString&)
 {
     if (cbAddrLabeling->isChecked())
-        leText->setText(leAddress_1->text());
+        leText->setText(address1LE->text());
 }
 
 
@@ -535,7 +535,7 @@ void elementDialog::letteringChanged(bool takeaddr)
 {
     if (takeaddr) {
         leText->setFocusPolicy(QWidget::NoFocus);
-        leText->setText(leAddress_1->text());
+        leText->setText(address1LE->text());
     }
     else
         leText->setFocusPolicy(QWidget::StrongFocus);
@@ -560,6 +560,12 @@ void elementDialog::updateValidators()
     if (icon == SYM_NRB || icon == SYM_SRB) {
         a1Validator->setTop(MAX_RB);
         a2Validator->setTop(MAX_RB);
+    }
+    else if (icon == SYM_ADR) {
+        a1Validator->setTop(MAX_DISP);
+        a2Validator->setTop(MAX_DISP);
+        //a1Validator->setBottom(MAX_RB);
+        //a2Validator->setBottom(MAX_RB);
     }
 
     else { 
@@ -599,11 +605,11 @@ void elementDialog::updateValidators()
                         break;
                 }
                 
-                if (leAddress_1->text().toInt() > MAX_GAMM)
-                    leAddress_1->setText(QString::number(MAX_GAMM));
+                if (address1LE->text().toInt() > MAX_GAMM)
+                    address1LE->setText(QString::number(MAX_GAMM));
 
-                if (leAddress_2->text().toInt() > MAX_GAMM)
-                    leAddress_2->setText(QString::number(MAX_GAMM));
+                if (address2LE->text().toInt() > MAX_GAMM)
+                    address2LE->setText(QString::number(MAX_GAMM));
                 break;
 
             case 1:
@@ -804,22 +810,22 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
 
     // show address_1 data, but take enabled value from above
     enabled = enabled && sSoldIcon != SYM_SBN && sSoldIcon != SYM_MDC;
-    if (enabled) {
+    if (enabled || sSoldIcon == SYM_ADR) {
         // set direction to 0 if it was -1 before and address_1 is now enabled
         if (gaDirection == -1)
             gaDirection = 0;
         addresscount = 1;
     }
     else {
-        leAddress_1->setText("-1");
+        address1LE->setText("-1");
         addresscount = 0;
     }
 
-    srcpBus1Label->setEnabled(enabled);
-    srcpBus1LE->setEnabled(enabled);
-    leAddress_1->setEnabled(enabled);
+    srcpBus1Label->setEnabled(enabled || sSoldIcon == SYM_ADR);
+    srcpBus1LE->setEnabled(enabled || sSoldIcon == SYM_ADR);
+    address1LE->setEnabled(enabled || sSoldIcon == SYM_ADR);
     cbAddrLabeling->setEnabled(enabled);
-    labelAddress_1->setEnabled(enabled);
+    address1Lbl->setEnabled(enabled || sSoldIcon == SYM_ADR);
     port1Label->setEnabled(rbProtocol_SE->isChecked());
     port1SB->setEnabled(rbProtocol_SE->isChecked());
     xchConn1CB->setEnabled(enabled);
@@ -867,12 +873,12 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
         addresscount = 2;
     }
     else
-        leAddress_2->setText("-1");
+        address2LE->setText("-1");
 
     srcpBus2Label->setEnabled(enabled);
     srcpBus2LE->setEnabled(enabled);
-    leAddress_2->setEnabled(enabled);
-    labelAddress_2->setEnabled(enabled);
+    address2LE->setEnabled(enabled);
+    address2Lbl->setEnabled(enabled);
     port2Label->setEnabled(rbProtocol_SE->isChecked());
     port2SB->setEnabled(rbProtocol_SE->isChecked());
 
@@ -881,9 +887,9 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
                            && sSoldIcon != SYM_MDC);
  
     if (sSoldIcon == SYM_DRE)
-        leAddress_2->setFocusPolicy(NoFocus);
+        address2LE->setFocusPolicy(NoFocus);
     else
-        leAddress_2->setFocusPolicy(StrongFocus);
+        address2LE->setFocusPolicy(StrongFocus);
 
     // show rotate data
     // SYM_GER: only for text placement
@@ -969,11 +975,16 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
         cbAdrMod->setChecked(true);
         //contactSBChanged(1);
         contactSB->setEnabled(false);
+        if (address1LE->text() == "-1")
+            address1LE->setText(QString::number(MIN_DISP));
     }
     else {
         cbAdrMod->setChecked(false);
         contactSB->setEnabled(true);
         //contactSBChanged(sListText.toInt() + 1);
+        if (sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB)
+            if (address1LE->text() == "-1")
+                address1LE->setText(QString::number(MIN_RB));
     }
 
     fbBusLE->setEnabled(enabled);
@@ -1244,7 +1255,7 @@ void elementDialog::showSubTypes(int iShow_)
                                              "Controlled via keyboard #14"));
         }
 
-        int a2 = leAddress_2->text().toInt();
+        int a2 = address2LE->text().toInt();
         switch (a2 / 16) {
             default:               // default turntable
             case 15:
@@ -1267,13 +1278,13 @@ void elementDialog::slotSubTypeClicked(int stBtn)
             if (sSoldIcon == SYM_HS || sSoldIcon == SYM_VS) {
                 srcpBus2Label->setEnabled(false);
                 srcpBus2LE->setEnabled(false);
-                leAddress_2->setEnabled(false);
-                labelAddress_2->setEnabled(false);
+                address2LE->setEnabled(false);
+                address2Lbl->setEnabled(false);
                 port2Label->setEnabled(false);
                 port2SB->setEnabled(false);
                 xchConn2CB->setEnabled(false);
 
-                leAddress_2->setText("-1");
+                address2LE->setText("-1");
                 gaSubType = 0;
             }
 
@@ -1284,8 +1295,8 @@ void elementDialog::slotSubTypeClicked(int stBtn)
             else if (sSoldIcon == SYM_ENK) {
                 srcpBus2Label->setEnabled(false);
                 srcpBus2LE->setEnabled(false);
-                leAddress_2->setEnabled(false);
-                labelAddress_2->setEnabled(false);
+                address2LE->setEnabled(false);
+                address2Lbl->setEnabled(false);
                 port2Label->setEnabled(false);
                 port2SB->setEnabled(false);
                 xchConn2CB->setEnabled(false);
@@ -1298,20 +1309,20 @@ void elementDialog::slotSubTypeClicked(int stBtn)
             if (sSoldIcon == SYM_HS || sSoldIcon == SYM_VS) {
                 srcpBus2Label->setEnabled(false);
                 srcpBus2LE->setEnabled(false);
-                leAddress_2->setEnabled(false);
-                labelAddress_2->setEnabled(false);
+                address2LE->setEnabled(false);
+                address2Lbl->setEnabled(false);
                 port2Label->setEnabled(false);
                 port2SB->setEnabled(false);
                 xchConn2CB->setEnabled(false);
-                leAddress_2->setText("-1");
+                address2LE->setText("-1");
                 gaSubType = 6;
             }
 
             else if (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) {
                 srcpBus2Label->setEnabled(false);
                 srcpBus2LE->setEnabled(false);
-                leAddress_2->setEnabled(false);
-                labelAddress_2->setEnabled(false);
+                address2LE->setEnabled(false);
+                address2Lbl->setEnabled(false);
                 port2Label->setEnabled(false);
                 port2SB->setEnabled(false);
                 xchConn2CB->setEnabled(false);
@@ -1325,7 +1336,7 @@ void elementDialog::slotSubTypeClicked(int stBtn)
                 gaSubType = 0;
 
             else if (sSoldIcon == SYM_DRE)
-                leAddress_2->setText("240");
+                address2LE->setText("240");
 
             break;
 
@@ -1333,8 +1344,8 @@ void elementDialog::slotSubTypeClicked(int stBtn)
             if (sSoldIcon == SYM_HS || sSoldIcon == SYM_VS) {
                 srcpBus2Label->setEnabled(true);
                 srcpBus2LE->setEnabled(true);
-                leAddress_2->setEnabled(true);
-                labelAddress_2->setEnabled(true);
+                address2LE->setEnabled(true);
+                address2Lbl->setEnabled(true);
                 port2Label->setEnabled(true);
                 port2SB->setEnabled(true);
                 xchConn2CB->setEnabled(true);
@@ -1344,8 +1355,8 @@ void elementDialog::slotSubTypeClicked(int stBtn)
             else if (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) {
                 srcpBus2Label->setEnabled(true);
                 srcpBus2LE->setEnabled(true);
-                leAddress_2->setEnabled(true);
-                labelAddress_2->setEnabled(true);
+                address2LE->setEnabled(true);
+                address2Lbl->setEnabled(true);
                 port2Label->setEnabled(true);
                 port2SB->setEnabled(true);
                 xchConn2CB->setEnabled(true);
@@ -1359,7 +1370,7 @@ void elementDialog::slotSubTypeClicked(int stBtn)
                 gaSubType = 1;
 
             else if (sSoldIcon == SYM_DRE)
-                leAddress_2->setText("224");
+                address2LE->setText("224");
 
             break;
     }
@@ -1633,25 +1644,25 @@ void elementDialog::setProtocol(int protocol)
 
 int elementDialog::getAddress1()
 {
-    return leAddress_1->text().toInt();
+    return address1LE->text().toInt();
 };
 
 
 void elementDialog::setAddress1(int addr)
 {
-    leAddress_1->setText(QString::number(addr));
+    address1LE->setText(QString::number(addr));
 }
 
 
 int elementDialog::getAddress2()
 {
-    return leAddress_2->text().toInt();
+    return address2LE->text().toInt();
 };
 
 
 void elementDialog::setAddress2(int addr)
 {
-    leAddress_2->setText(QString::number(addr));
+    address2LE->setText(QString::number(addr));
 }
 
 
@@ -1713,7 +1724,7 @@ void elementDialog::setXChangeConn2(int xch)
 
 int elementDialog::getDirection()
 {
-    return leAddress_1->isEnabled() ? gaDirection : -1;
+    return address1LE->isEnabled() ? gaDirection : -1;
 };
 
 
@@ -1726,7 +1737,7 @@ void elementDialog::setDirection(int dir)
 QString elementDialog::getSymbolText()
 {
     return (leText->text() == "-1") ?
-        leAddress_1->text() : leText->text();
+        address1LE->text() : leText->text();
 };
 
 

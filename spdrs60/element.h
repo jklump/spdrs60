@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.2 $Revision: 1.66 $
+                           version 0.5.2 $Revision: 1.67 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-29 20:42:23 $
+    last modified        : $Date: 2007-08-30 19:53:02 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -144,6 +144,7 @@ enum elemSelectionMode {
     ksmSelected,
     ksmStopSig,
     ksmStartSig,
+    ksmDisplay,
     ksmSwitchEl,
     ksmFoundEl
 };
@@ -155,10 +156,12 @@ enum elemVisualMode {
     kvmEditRoute
 };
 
-/*element recording types for start/stop signals and normal elements*/
+/* element recording types for start/stop signals, train number display
+ * and normal elements*/
 enum elemRecordType {
     krecNormal,
     krecStartStop,
+    krecDisplay,
     krecClear
 };
 
@@ -358,11 +361,11 @@ signals:
     void turnoutIsSwitched();
     void recordElement(element*, elemRecordType);
 
-protected:
-    virtual void fontChange(const QFont&);
-    virtual void mousePressEvent(QMouseEvent*);
-    virtual void mouseReleaseEvent(QMouseEvent*);
-    virtual void paintEvent(QPaintEvent*);
+protected:  // virtual inherited methods
+    void fontChange(const QFont&);
+    void mousePressEvent(QMouseEvent*);
+    void mouseReleaseEvent(QMouseEvent*);
+    void paintEvent(QPaintEvent*);
 };
 
 

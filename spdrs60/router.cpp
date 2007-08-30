@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.2 $Revision: 1.44 $
+                           version 0.5.2 $Revision: 1.45 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-29 20:42:24 $
+    last modified        : $Date: 2007-08-30 19:53:03 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -31,10 +31,10 @@
 Router::Router(QObject* parent, const char* name):
     QObject(parent, name)
 {
-    gbsElements = NULL;
     selectedRoute = NULL;
     resetRt = NULL;
     selectedStartSig = NULL;
+    gbsElements = NULL;
     routeList.setAutoDelete(true);
     modified = false;
     visualmode = kvmNormal;
@@ -267,6 +267,7 @@ void Router::recordElement(element* el, elemRecordType rtype)
 {
     if (visualmode == kvmEditRoute && selectedRoute != NULL) {
         switch (rtype) {
+
             case (krecStartStop):
                 if (!selectedRoute->hasEntrySignal())
                     selectedRoute->setEntrySignal(el);
@@ -278,10 +279,18 @@ void Router::recordElement(element* el, elemRecordType rtype)
                 emit routeDataChanged(selectedRoute);
                 modified = true;
                 break;
+
+            case (krecDisplay):
+                if (!selectedRoute->hasTrainNumberDisplay())
+                    selectedRoute->setTrainNumberDisplay(el);
+                modified = true;
+                break;
+
             case (krecNormal):
                 selectedRoute->addSwitchElement(el);
                 modified = true;
                 break;
+
             case (krecClear):
                 selectedRoute->removeElement(el);
                 /*send update signal to routingviewer to show changed
@@ -289,6 +298,7 @@ void Router::recordElement(element* el, elemRecordType rtype)
                 emit routeDataChanged(selectedRoute);
                 modified = true;
                 break;
+
             default:
                 break;
         }
@@ -354,13 +364,13 @@ void Router::processRouteState(Route* rt, int rs)
 
     switch ((Route::RouteState)rs) {
         case Route::rsUnlocked:
-            // send signal to routing viewer to update state icon
+            //TODO: send route state message (scripting)
             emit showLogMessage(tr("Route '%1' released")
                     .arg(rt->getName()), MT_INFO, HL_HINT);
             transferTrainNumber(rt);
             break;
         case Route::rsLocked:
-            // send signal to routing viewer to update state icon
+            //TODO: send route state message (scripting)
             emit showLogMessage(tr("Route '%1' activated")
                     .arg(rt->getName()), MT_INFO, HL_HINT);
             break;
@@ -534,7 +544,8 @@ void Router::resetRoute(element* el, GbsButtonState cb)
                 // this is a FHT reset, no release
                 resetRt->stopRouting();
                 emit routeStateChanged(resetRt);
-                emit showLogMessage(tr("Route '%1' resetted")
+                //TODO: send route state message (scripting)
+                emit showLogMessage(tr("Route '%1' withdrawn")
                         .arg(resetRt->getName()), MT_INFO, HL_HINT);
                 // only for debugging purposes (transfer by FHT)
                 transferTrainNumber(resetRt);
@@ -629,6 +640,7 @@ void Router::unlockAllLockedRoutes()
         if (rt->getState() != Route::rsUnlocked) {
             rt->stopRouting();
             // send signal to routing viewer to update state icon
+            //TODO: send route state message (scripting)
             emit routeStateChanged(rt);
         }
         ++index;

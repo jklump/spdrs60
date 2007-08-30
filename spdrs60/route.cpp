@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.53 $
+                           version 0.5.2 $Revision: 1.54 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-30 04:55:27 $
+    last modified        : $Date: 2007-08-30 19:53:03 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -179,6 +179,11 @@ Route::Route(QTextStream& ts, bool isNewFormat)
     exitSignal.elemPtr = NULL;
     entrySignal.name = "";
     entrySignal.elemPtr = NULL;
+    trainNumberDisplay.state = 0;
+    trainNumberDisplay.address = 0;
+    trainNumberDisplay.bus = 0;
+    trainNumberDisplay.name = "";
+    trainNumberDisplay.elemPtr = NULL;
 
     if (isNewFormat)
         readFileTextFromStream(ts);
@@ -248,8 +253,10 @@ void Route::updateElementLists(QPtrVector<element>* elements)
     // first clear all element names and pointers
     entrySignal.name = tr("Error");
     entrySignal.elemPtr = NULL;
+
     exitSignal.name = tr("Error");
     exitSignal.elemPtr = NULL;
+    
     trainNumberDisplay.name = tr("Error");
     trainNumberDisplay.elemPtr = NULL;
 
@@ -273,9 +280,9 @@ void Route::setupElementLists(QPtrVector<element>* elements)
         return;
 
     for (unsigned int i = 0; i < elements->size(); i++) {
-        element* gbse = elements->at(i);
+        element* el = elements->at(i);
 
-        if (gbse == NULL)
+        if (el == NULL)
             continue;
 
         /*first add switchable elements "between" entry and exit signals*/
@@ -284,36 +291,35 @@ void Route::setupElementLists(QPtrVector<element>* elements)
         while ((swElement = it.current()) != 0) {
             ++it;
         
-            if ((gbse != NULL) && gbse->hasSameAddress(swElement->bus,
+            if ((el != NULL) && el->hasSameAddress(swElement->bus,
                         swElement->address)) {
-                swElement->name = gbse->getLabelText();
-                swElement->elemPtr = gbse;
+                swElement->name = el->getLabelText();
+                swElement->elemPtr = el;
                 break;
             }
         }
 
         /*add exit signal*/
-        if ((gbse != 0) && gbse->hasSameAddress(exitSignal.bus,
+        if ((el != NULL) && el->hasSameAddress(exitSignal.bus,
                     exitSignal.address)) {
-            //routePathItems.append(gbse);
-            exitSignal.name = gbse->getLabelText();
-            exitSignal.elemPtr = gbse;
+            exitSignal.name = el->getLabelText();
+            exitSignal.elemPtr = el;
         }
 
         /*add entry signal*/
-        if ((gbse != 0) && gbse->hasSameAddress(entrySignal.bus,
+        if ((el != NULL) && el->hasSameAddress(entrySignal.bus,
                     entrySignal.address)) {
-            //routePathItems.append(gbse);
-            entrySignal.name = gbse->getLabelText();
-            entrySignal.elemPtr = gbse;
+            entrySignal.name = el->getLabelText();
+            entrySignal.elemPtr = el;
         }
 
         /*add train number dislay*/
-        if ((gbse != 0) && gbse->hasSameAddress(trainNumberDisplay.bus,
+        if ((el != NULL) && el->hasSameAddress(trainNumberDisplay.bus,
                     trainNumberDisplay.address)) {
-            //routePathItems.append(gbse);
-            trainNumberDisplay.name = gbse->getLabelText();
-            trainNumberDisplay.elemPtr = gbse;
+            //fprintf(stderr, "Display found: %d %d\n", trainNumberDisplay.bus,
+            //        trainNumberDisplay.address);
+
+            trainNumberDisplay.elemPtr = el;
         }
     }
 }
@@ -811,10 +817,15 @@ void Route::stopRouting()
 void Route::hideRoute()
 {
     if (exitSignal.elemPtr != NULL)
-           exitSignal.elemPtr->switchSelectionMode(ksmNormal);
+        exitSignal.elemPtr->switchSelectionMode(ksmNormal);
 
     if (entrySignal.elemPtr != NULL)
-           entrySignal.elemPtr->switchSelectionMode(ksmNormal);
+        entrySignal.elemPtr->switchSelectionMode(ksmNormal);
+
+    if (trainNumberDisplay.elemPtr != NULL) {
+        trainNumberDisplay.elemPtr->updateTrainNumber(0);
+        trainNumberDisplay.elemPtr->switchSelectionMode(ksmNormal);
+    }
 
     QPtrListIterator<stateElement> it(switchItems);
     stateElement* swe;
@@ -830,12 +841,17 @@ void Route::hideRoute()
 void Route::showRoute()
 {
     if (exitSignal.elemPtr != NULL)
-           exitSignal.elemPtr->showElementState(exitSignal.state,
-                   ksmStopSig);
+        exitSignal.elemPtr->showElementState(exitSignal.state,
+                ksmStopSig);
 
     if (entrySignal.elemPtr != NULL)
-           entrySignal.elemPtr->showElementState(entrySignal.state,
-                   ksmStartSig);
+        entrySignal.elemPtr->showElementState(entrySignal.state,
+                ksmStartSig);
+
+    if (trainNumberDisplay.elemPtr != NULL) {
+        trainNumberDisplay.elemPtr->updateTrainNumber(train);
+        trainNumberDisplay.elemPtr->showElementState(-1, ksmDisplay);
+    }
 
     QPtrListIterator<stateElement> it(switchItems);
     stateElement* swe;
@@ -863,6 +879,14 @@ void Route::setExitSignal(element* el)
     el->switchSelectionMode(ksmStopSig);
     updateRouteName();
     updateRouteType();
+}
+
+
+void Route::setTrainNumberDisplay(element* el)
+{
+    el->getStateData(trainNumberDisplay);
+    el->switchSelectionMode(ksmDisplay);
+    updateTrainNumberDisplay();
 }
 
 
@@ -919,6 +943,7 @@ void Route::removeElement(element* el)
 {
     elemSelectionMode sm = el->getSelectionMode();
     switch (sm) {
+
         case (ksmStartSig):
             entrySignal.state = 0;
             entrySignal.address = 0;
@@ -927,6 +952,7 @@ void Route::removeElement(element* el)
             entrySignal.elemPtr = NULL;
             updateRouteName();
             break;
+
         case (ksmStopSig):
             exitSignal.state = 0;
             exitSignal.address = 0;
@@ -935,6 +961,16 @@ void Route::removeElement(element* el)
             exitSignal.elemPtr = NULL;
             updateRouteName();
             break;
+
+        case (ksmDisplay):
+            el->updateTrainNumber(0);
+            trainNumberDisplay.state = 0;
+            trainNumberDisplay.address = 0;
+            trainNumberDisplay.bus = 0;
+            trainNumberDisplay.name = "";
+            trainNumberDisplay.elemPtr = NULL;
+            break;
+
         case (ksmSwitchEl):
             {
                 bool found = false;
@@ -955,6 +991,7 @@ void Route::removeElement(element* el)
             }
         case (ksmNormal):
             break;
+
         default:
             break;
     }
@@ -971,6 +1008,12 @@ bool Route::hasEntrySignal()
 bool Route::hasExitSignal()
 {
     return exitSignal.elemPtr != NULL;
+}
+
+
+bool Route::hasTrainNumberDisplay()
+{
+    return trainNumberDisplay.elemPtr != NULL;
 }
 
 
@@ -1131,7 +1174,7 @@ bool Route::runEditRouteDialog(QWidget* dlgparent)
         // update gbs: 1) hide old route 2) show new route
         hideRoute();
         idnumber = rtDlg->getRouteNumber();
-        train = rtDlg->getRouteTrain();
+        setTrain(rtDlg->getRouteTrain());
         Name = rtDlg->getRouteName();
         rtDlg->getEntrySignalData(entrySignal);
         rtDlg->getExitSignalData(exitSignal);

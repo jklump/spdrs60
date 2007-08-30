@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.5.2 $Revision: 1.30 $
+                           version 0.5.2 $Revision: 1.31 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-30 04:55:27 $
+    last modified        : $Date: 2007-08-30 19:53:03 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -106,11 +106,13 @@ public:
             GbsButtonState);
     bool hasExitSignal();
     bool hasEntrySignal();
+    bool hasTrainNumberDisplay();
     bool hasThisExitSignal(element*);
     bool hasTrain();
     element* getEntrySignalElementPtr();
     void setEntrySignal(element*);
     void setExitSignal(element*);
+    void setTrainNumberDisplay(element*);
     void setTrain(unsigned int);
     void addSwitchElement(element*);
     void removeElement(element*);

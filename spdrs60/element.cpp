@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.2 $Revision: 1.125 $
+                           version 0.5.2 $Revision: 1.126 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-29 20:42:23 $
+    last modified        : $Date: 2007-08-30 19:53:02 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -543,6 +543,7 @@ void element::mouseReleaseEvent(QMouseEvent* e)
             }
         }
         else if (e->button() == MidButton) {
+
             /*select/deselect switchable element*/
             if (sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER ||
                 sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR || 
@@ -554,10 +555,20 @@ void element::mouseReleaseEvent(QMouseEvent* e)
                 sSoldIcon == SYM_SS  || sSoldIcon == SYM_SSS ||
                 sSoldIcon == SYM_SSH || sSoldIcon == SYM_BLD ||
                 sSoldIcon == SYM_VS  || sSoldIcon == SYM_WS  ||
-                sSoldIcon == SYM_MDC || sSoldIcon == SYM_ADR) {
+                sSoldIcon == SYM_MDC) {
                 /*send record signal to router*/
                 if (ksmNormal == selectionMode)
                     emit recordElement(this, krecNormal);
+                else
+                    emit recordElement(this, krecClear);
+                e->accept();
+            }
+
+            /*select/deselect train number display*/
+            else if (sSoldIcon == SYM_ADR) {
+                /*send record signal to router*/
+                if (ksmNormal == selectionMode)
+                    emit recordElement(this, krecDisplay);
                 else
                     emit recordElement(this, krecClear);
                 e->accept();
@@ -5451,6 +5462,10 @@ void element::paintEvent(QPaintEvent*)
                 // green if in show route mode, start signal
                 c = QColor(Qt::green);
                 break;
+            case ksmDisplay:
+                // magenta if in show route mode, train number display
+                c = QColor(Qt::magenta);
+                break;
             case ksmSwitchEl:
                 // yellow if clicked element in record route mode
                 c = QColor(251, 251, 0);
@@ -6354,7 +6369,8 @@ QString element::getLabelText() const
 
 bool element::hasSameAddress(int bus, int address)
 {
-    return (bus == iGA1BusNo && address == iSoldAddress_1);
+    return (bus == iGA1BusNo && address == iSoldAddress_1
+            && iSoldAddress_1 > 0);
 }
 
 

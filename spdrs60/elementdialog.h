@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.h
-                           version 0.5.2 $Revision: 1.16 $
+                           version 0.5.2 $Revision: 1.17 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2007-08-30 19:53:02 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -110,8 +110,8 @@ signals:
    void sigShowFBmodules();
 
 private:
-   QLineEdit    *leAddress_1;
-   QLineEdit    *leAddress_2;
+   QLineEdit    *address1LE;
+   QLineEdit    *address2LE;
    QLineEdit    *leText;
    QLineEdit    *srcpBus1LE;
    QLineEdit    *srcpBus2LE;
@@ -139,8 +139,8 @@ private:
 
    QLabel       *srcpBus1Label;
    QLabel       *srcpBus2Label;
-   QLabel       *labelAddress_1;
-   QLabel       *labelAddress_2;
+   QLabel       *address1Lbl;
+   QLabel       *address2Lbl;
    QLabel       *port1Label;
    QLabel       *port2Label;
    QLabel       *labelText;

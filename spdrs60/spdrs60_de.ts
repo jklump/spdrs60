@@ -1259,8 +1259,8 @@ zu benutzen, starten Sie bitte den Server neu)</translation>
         <translation>Fahrstraße &apos;%1&apos; ist reserviert</translation>
     </message>
     <message>
-        <source>Route &apos;%1&apos; resetted</source>
-        <translation type="unfinished"></translation>
+        <source>Route &apos;%1&apos; withdrawn</source>
+        <translation>Fahrstraße &apos;%1&apos; zurückgenommen</translation>
     </message>
 </context>
 <context>
