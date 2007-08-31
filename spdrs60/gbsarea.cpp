@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.2 $Revision: 1.76 $
+                           version 0.5.2 $Revision: 1.77 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-29 18:12:11 $
+    last modified        : $Date: 2007-08-31 20:42:48 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -367,8 +367,7 @@ void GBSArea::externalButtonClicked(GbsButtonState externalButton)
             setCursor(MGTCursor);
             /*TODO: implement MGT-function*/
             QApplication::beep();
-            emit showLogMessage(tr("MGT-Function not supported."),
-                    MT_INFO, HL_HINT);
+            emit statusMessage(tr("MGT-Function not supported."));
             delayTimer->start(500);
             break;
         case kUfgtClicked:
@@ -417,9 +416,9 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
             if (kSgtClicked == gkbState || kHagtClicked == gkbState) {
                 if (el->isLocked()) {
                     QApplication::beep();
-                    emit showLogMessage(tr("No switching possible, "
+                    emit statusMessage(tr("No switching possible, "
                                 "signal '%1' is locked by an active route.")
-                            .arg(el->getLabelText()), MT_INFO, HL_HINT);
+                            .arg(el->getLabelText()));
                 }
                 else
                     if (kSgtClicked == gkbState)
@@ -438,9 +437,9 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
                     gkbState) {
                 if (el->hasFfMLock()) {
                     QApplication::beep();
-                    emit showLogMessage(tr("No routing possible; signal '%1'"
+                    emit statusMessage(tr("No routing possible; signal '%1'"
                                 " is allready locked by an active route.")
-                            .arg(el->getLabelText()), MT_INFO, HL_HINT);
+                            .arg(el->getLabelText()));
                     slotElementClickedTimeout();
                 }
                 else {
@@ -452,14 +451,13 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
             }
             else if (kWgtClicked == gkbState) {
                 QApplication::beep();
-                emit showLogMessage(tr("Signals can not be switched "
-                            "using WGT"), MT_INFO, HL_HINT);
+                emit statusMessage(tr("Signals can not be switched "
+                            "using WGT"));
                 slotElementClickedTimeout();
             }
             else {
                 QApplication::beep();
-                emit showLogMessage(tr("Operation not allowed"),
-                        MT_INFO, HL_HINT);
+                emit statusMessage(tr("Operation not allowed"));
                 slotElementClickedTimeout();
             }
             break;
@@ -469,40 +467,36 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
             if (kWgtClicked == gkbState) {
                 if (el->isLocked()) {
                     QApplication::beep();
-                    emit showLogMessage(tr("No switching possible, "
+                    emit statusMessage(tr("No switching possible, "
                                 "solenoid '%1' is locked by an active route.")
-                            .arg(el->getLabelText()), MT_INFO, HL_HINT);
+                            .arg(el->getLabelText()));
                 }
                 else if (el->isOccupied()) {
                     QApplication::beep();
-                    emit showLogMessage(tr("No switching possible, "
-                                "turnout is occupied"), MT_INFO, HL_HINT);
+                    emit statusMessage(tr("No switching possible, "
+                                "turnout is occupied"));
                 }
                 else
                     el->toggle();
             }
             else if (kFhtClicked == gkbState){
                 QApplication::beep();
-                emit showLogMessage(tr("Turnouts can not be switched "
-                            "using FHT"),
-                        MT_INFO, HL_HINT);
+                emit statusMessage(tr("Turnouts can not be switched "
+                            "using FHT"));
             }
             else if (kSgtClicked == gkbState){
                 QApplication::beep();
-                emit showLogMessage(tr("Turnouts can not be switched "
-                            "using SGT"),
-                        MT_INFO, HL_HINT);
+                emit statusMessage(tr("Turnouts can not be switched "
+                            "using SGT"));
             }
             else if (kUfgtClicked == gkbState){
                 QApplication::beep();
-                emit showLogMessage(tr("Turnouts can not be switched "
-                            "using UfGT"),
-                        MT_INFO, HL_HINT);
+                emit statusMessage(tr("Turnouts can not be switched "
+                            "using UfGT"));
             }
             else {
                 QApplication::beep();
-                emit showLogMessage(tr("Operation not allowed"),
-                        MT_INFO, HL_HINT);
+                emit statusMessage(tr("Operation not allowed"));
             }
             slotElementClickedTimeout();
             break;
@@ -569,21 +563,21 @@ void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
 
     while (!finished) {
         if ((idx < 0) || (idx >= maxIdx)) {
-            emit showLogMessage(tr("Route hit layout edge at element %1")
-                    .arg(idx), MT_INFO, HL_HINT);
+            emit statusMessage(tr("Route hit layout edge at element %1")
+                    .arg(idx));
             break;
         }
         
         element* rel = elements[idx];
         if (rel == NULL) {
-            emit showLogMessage(tr("Route end at empty element %1")
-                    .arg(idx), MT_INFO, HL_HINT);
+            emit statusMessage(tr("Route end at empty element %1")
+                    .arg(idx));
             break;
         }
 
         if (!rel->isRoutable()) {
-            emit showLogMessage(tr("Route end at not routable element %1")
-                    .arg(idx), MT_INFO, HL_HINT);
+            emit statusMessage(tr("Route end at not routable element %1")
+                    .arg(idx));
             break;
         }
 
@@ -603,8 +597,8 @@ void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
         entrydir = rdCenter;
         
         if (exitdir == rdCenter) {
-            emit showLogMessage(tr("Route found dead end at element %1")
-                    .arg(idx), MT_INFO, HL_HINT);
+            emit statusMessage(tr("Route found dead end at element %1")
+                    .arg(idx));
             break;
         }
         if (exitdir & rdN) {
@@ -755,8 +749,7 @@ void GBSArea::slotNotrot()
             el->switchToDir(0);
     }
     
-    emit showLogMessage(tr("Switched all signals to halt/stop"),
-            MT_INFO, HL_HINT);
+    emit statusMessage(tr("Switched all signals to halt/stop"));
 }
 
 
@@ -1241,14 +1234,13 @@ void GBSArea::updateSRCP08GABusList()
     }                           /* for i */
 
     if (count == 0)
-        showLogMessage(tr("Layout does not contain a SRCP bus"
-                    " configuration for GAs"), MT_INFO, HL_HINT);
+        statusMessage(tr("Layout does not contain a SRCP bus"
+                    " configuration for GAs"));
     else if (count == 1)
-        showLogMessage(tr("Layout contains 1 configured GA bus"),
-                MT_INFO, HL_HINT);
+        statusMessage(tr("Layout contains 1 configured GA bus"));
     else
-        showLogMessage(tr("Layout contains %1 configured GA busses").
-                   arg(count), MT_INFO, HL_HINT);
+        statusMessage(tr("Layout contains %1 configured GA busses").
+                   arg(count));
 
     SRCP08GABusCount = count;
 }
@@ -1319,14 +1311,13 @@ void GBSArea::updateSRCP08FBBusList()
     }                           /* for i */
 
     if (count == 0)
-        showLogMessage(tr("Layout does not contain a SRCP bus"
-                    " configuration for FBs"), MT_INFO, HL_HINT);
+        statusMessage(tr("Layout does not contain a SRCP bus"
+                    " configuration for FBs"));
     else if (count == 1)
-        showLogMessage(tr("Layout contains 1 configured FB bus"),
-                MT_INFO, HL_HINT);
+        statusMessage(tr("Layout contains 1 configured FB bus"));
     else
-        showLogMessage(tr("Layout contains %1 configured FB busses").
-                   arg(count), MT_INFO, HL_HINT);
+        statusMessage(tr("Layout contains %1 configured FB busses").
+                arg(count));
 
     SRCP08FBBusCount = count;
 }

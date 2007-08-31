@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.5.2 $Revision: 1.44 $
+                           version 0.5.2 $Revision: 1.45 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-31 17:30:10 $
+    last modified        : $Date: 2007-08-31 20:42:48 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -38,6 +38,7 @@
 #include "gbsarea.h"
 #include "feedbackviewer.h"
 #include "routelistwindow.h"
+#include "messagehistory.h"
 #include "newlayoutdialog.h"
 #include "keyboard.h"
 
@@ -76,7 +77,6 @@ public:
 private:
    bool            LayoutPowerIsOn;
    bool            isFBInitMode;
-   int             CurrentHL;
    QString         fileName;
    QString         lastDir;
    elemVisualMode  visualMode;
@@ -134,14 +134,8 @@ private:
    
    QString         sWelcome;
 
-   QWidgetStack    *cbStack;
-   QWidgetStack    *lblStack;
-   QComboBox       *HintCB;
-   QComboBox       *CmdCB;
-   QComboBox       *InfoCB;
-   QComboBox       *FeedBackCB;
-
    GBSArea         *gbs;
+   MessageHistory* messageHistory;
    FeedbackViewer  *fbViewer;
    RouteListWindow *rtViewer;
    Router          *router;
@@ -190,7 +184,6 @@ private:
    QString ConvertMessageTime(const QString&);
 
 public slots:
-   void cmdToDebug(const QString&, int, int);
    void updateRouteListMenuItems();
    void updateRouteMenu(bool);
    void updateRouteMenuActivateItems();
@@ -221,7 +214,6 @@ private slots:
    void slotShowModules();
    void slotShowRoutes();
    void slotToggleLayoutPower();
-   void slotViewDebug();
    void slotViewKeyboard();
    void slotViewSwitchMode(QAction*);
    void layoutChangeSize();
@@ -253,12 +245,15 @@ private slots:
    void InfoSocketError(int);
 
 signals:
-   void repaintLayout();
    void findElement(const QString&, int, int);
-   void switchedVisualMode(elemVisualMode);
+   void repaintLayout();
    void sendFBChangeLayout(unsigned int, unsigned int, bool);
    void sendFBChangeModule(unsigned int, unsigned int, unsigned int);
    void sendFBChangeRoute(unsigned int, unsigned int, bool);
+   void statusMessage(const QString&);
+   void commandMessage(const QString&);
+   void infoMessage(const QString&);
+   void switchedVisualMode(elemVisualMode);
 
 protected:
    virtual void closeEvent(QCloseEvent* ce);

@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.5.2 $Revision: 1.44 $
+                           version 0.5.2 $Revision: 1.45 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-26 15:08:11 $
+    last modified        : $Date: 2007-08-31 20:42:48 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -162,7 +162,7 @@ protected:
     void dropEvent(QDropEvent *);
 
 signals:
-    void showLogMessage(const QString&, int, int);
+    void statusMessage(const QString&);
     void switchedVisualMode(elemVisualMode);
     void feedbackPortChanged(unsigned int, unsigned int, bool);
     void sendSrcpMessage(SrcpMessage*);

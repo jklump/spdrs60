@@ -357,18 +357,6 @@ den Suchkriterien entspricht.</translation>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <source>Commands</source>
-        <translation>Kommandos</translation>
-    </message>
-    <message>
-        <source>Infoport</source>
-        <translation>Infoport</translation>
-    </message>
-    <message>
-        <source>Feedbacks</source>
-        <translation>Rückmeldung</translation>
-    </message>
-    <message>
         <source>Program succesfully started!</source>
         <translation>Programm erfolgreich gestartet!</translation>
     </message>
@@ -801,10 +789,6 @@ Wollen Sie sie überschreiben?</translation>
         <translation>Gleisbildeinstellungen ändern</translation>
     </message>
     <message>
-        <source>Hints</source>
-        <translation>Hinweise</translation>
-    </message>
-    <message>
         <source>Command socket: Host &apos;%1&apos; found.</source>
         <translation>Kommando-Socket: Host &apos;%1&apos; gefunden.</translation>
     </message>
@@ -869,6 +853,25 @@ zu benutzen, starten Sie bitte den Server neu)</translation>
     <message>
         <source>&amp;spdrs60 for Linux on the web</source>
         <translation>&amp;spdrs60 für Linux im Internet</translation>
+    </message>
+</context>
+<context>
+    <name>MessageHistory</name>
+    <message>
+        <source>Hints</source>
+        <translation>Hinweise</translation>
+    </message>
+    <message>
+        <source>Commands</source>
+        <translation>Kommandos</translation>
+    </message>
+    <message>
+        <source>Infoport</source>
+        <translation>Infoport</translation>
+    </message>
+    <message>
+        <source>Feedbacks</source>
+        <translation>Rückmeldung</translation>
     </message>
 </context>
 <context>
@@ -1249,7 +1252,7 @@ zu benutzen, starten Sie bitte den Server neu)</translation>
     </message>
     <message>
         <source>Route &apos;%1&apos; released</source>
-        <translation>Fahrstraße &apos;%1&apos; zurückgenommen</translation>
+        <translation>Fahrstraße &apos;%1&apos; aufgelöst</translation>
     </message>
     <message>
         <source>Route &apos;%1&apos; waiting for activation</source>

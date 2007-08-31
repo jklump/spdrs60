@@ -34,14 +34,4 @@
 /*maximal length of an address edit line in dialogs*/
 #define LEMAXWIDTH 55
 
-// TODO: change to enum type kmtCmd, kmtInfo
-#define   MT_CMD           0   // command message type
-#define   MT_INFO          1   // info message type
-
-// TODO: change to enum type khlHist, khlInfo, khlFeed
-#define   HL_HINT          0   // hint history line
-#define   HL_CMND          1   // command history line
-#define   HL_INFO          2   // info history line
-#define   HL_FEED          3   // feedback history line
-
 #endif

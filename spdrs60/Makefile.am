@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.18 $
-# last update: $Date: 2007-08-29 18:12:11 $
+# version: $Revision: 1.19 $
+# last update: $Date: 2007-08-31 20:42:48 $
 
 SUBDIRS = pixmaps
 
@@ -20,6 +20,7 @@ nodist_spdrs60_SOURCES = \
 	gbsscrollview.moc.cpp \
 	keyboard.moc.cpp \
 	mainwindow.moc.cpp \
+	messagehistory.moc.cpp \
 	newlayoutdialog.moc.cpp \
 	options.moc.cpp \
         route.moc.cpp \
@@ -44,6 +45,7 @@ spdrs60_SOURCES = main.cpp resources.h \
 	gbsscrollview.cpp gbsscrollview.h  \
 	keyboard.cpp keyboard.h \
 	mainwindow.cpp mainwindow.h \
+	messagehistory.cpp messagehistory.h \
 	newlayoutdialog.cpp newlayoutdialog.h \
 	options.cpp options.h \
         preferences.cpp preferences.h \
@@ -75,6 +77,7 @@ translated_source_files = \
 	keyboard.cpp \
 	main.cpp \
 	mainwindow.cpp \
+	messagehistory.cpp \
 	newlayoutdialog.cpp \
 	options.cpp \
 	routedialog.cpp \

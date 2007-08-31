@@ -11,6 +11,7 @@ SOURCES = \
 	keyboard.cpp \
 	main.cpp \
 	mainwindow.cpp \
+	messagehistory.cpp \
 	newlayoutdialog.cpp \
 	options.cpp \
 	routedialog.cpp \

@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.2 $Revision: 1.46 $
+                           version 0.5.2 $Revision: 1.47 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-31 17:30:11 $
+    last modified        : $Date: 2007-08-31 20:42:48 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -360,31 +360,32 @@ void Router::transferTrainNumber(Route* tr)
 
 void Router::processRouteState(Route* rt, int rs)
 {
+    // send signal to route list viewer to update state visualisation
     emit routeStateChanged(rt);
 
     switch ((Route::RouteState)rs) {
         case Route::rsUnlocked:
             //TODO: send route state message (scripting)
-            emit showLogMessage(tr("Route '%1' released")
-                    .arg(rt->getName()), MT_INFO, HL_HINT);
+            emit statusMessage(tr("Route '%1' released")
+                    .arg(rt->getName()));
             transferTrainNumber(rt);
             break;
         case Route::rsLocked:
             //TODO: send route state message (scripting)
-            emit showLogMessage(tr("Route '%1' activated")
-                    .arg(rt->getName()), MT_INFO, HL_HINT);
+            emit statusMessage(tr("Route '%1' activated")
+                    .arg(rt->getName()));
             break;
         case Route::rsWfLock:
-            emit showLogMessage(tr("Route '%1' waiting for activation")
-                    .arg(rt->getName()), MT_INFO, HL_HINT);
+            emit statusMessage(tr("Route '%1' waiting for activation")
+                    .arg(rt->getName()));
             break;
         case Route::rsWfUnlock:
-            emit showLogMessage(tr("Route '%1' waiting for release")
-                    .arg(rt->getName()), MT_INFO, HL_HINT);
+            emit statusMessage(tr("Route '%1' waiting for release")
+                    .arg(rt->getName()));
             break;
         case Route::rsLocking:
-            emit showLogMessage(tr("Route '%1' is in activating state")
-                    .arg(rt->getName()), MT_INFO, HL_HINT);
+            emit statusMessage(tr("Route '%1' is in activating state")
+                    .arg(rt->getName()));
             break;
     }
 }
@@ -406,25 +407,25 @@ void Router::activateRoute(Route* rt)
     int result = rt->startRouting();
     switch (result) {
         case 1:
-            processRouteState(rt, Route::rsLocked);
+            //processRouteState(rt, Route::rsLocked);
             break;
         case 0: 
             QApplication::beep();
-            emit showLogMessage(tr("No routing possible; "
+            emit statusMessage(tr("No routing possible; "
                         "route '%1' is locked by an other route.")
-                    .arg(rt->getName()), MT_INFO, HL_HINT);
+                    .arg(rt->getName()));
             break;
         case -1: 
             QApplication::beep();
-            emit showLogMessage(tr("No routing possible; "
+            emit statusMessage(tr("No routing possible; "
                         "route '%1' is blocked by occupied element.")
-                    .arg(rt->getName()), MT_INFO, HL_HINT);
+                    .arg(rt->getName()));
             break;
         case -2: 
             QApplication::beep();
-            emit showLogMessage(tr("No routing possible; "
+            emit statusMessage(tr("No routing possible; "
                         "route '%1' is blocked by occupied turnout.")
-                    .arg(rt->getName()), MT_INFO, HL_HINT);
+                    .arg(rt->getName()));
             break;
     }
 }
@@ -443,7 +444,7 @@ void Router::releaseRoute(Route* rt)
         return;
 
     rt->stopRouting();
-    processRouteState(rt, Route::rsUnlocked);
+    //processRouteState(rt, Route::rsUnlocked);
 }
 
 
@@ -479,9 +480,8 @@ void Router::setRoute(element* el, GbsButtonState cb, GbsButtonState sb)
             QApplication::beep();
             /*send cursor time out to gbs*/
             emit routeFunctionFinished();
-            emit showLogMessage(tr("No matching route found for entry "
-                        "signal '%1'").arg(el->getLabelText()),
-                    MT_INFO, HL_HINT);
+            emit statusMessage(tr("No matching route found for entry "
+                        "signal '%1'").arg(el->getLabelText()));
         }
     }
     /*exit signal button is pressed*/
@@ -489,8 +489,8 @@ void Router::setRoute(element* el, GbsButtonState cb, GbsButtonState sb)
         if (lastcb != cb && !((lastcb == kZhsClicked && cb == kZfsClicked)
                     || (cb == kZhsClicked && lastcb == kZfsClicked))) {
             QApplication::beep();
-            emit showLogMessage(tr("Mixing signal buttons of different"
-                        " type is not allowed."), MT_INFO, HL_HINT);
+            emit statusMessage(tr("Mixing signal buttons of different"
+                        " type is not allowed."));
         }
         else {
             Route* sr = getUnlockedRouteWithExitSignal(el, cb, sb);
@@ -498,9 +498,9 @@ void Router::setRoute(element* el, GbsButtonState cb, GbsButtonState sb)
                 activateRoute(sr);
             else {
                 QApplication::beep();
-                emit showLogMessage(tr("No matching route found from '%1'"
+                emit statusMessage(tr("No matching route found from '%1'"
                             " to '%2'").arg(selectedStartSig->getLabelText())
-                                .arg(el->getLabelText()), MT_INFO, HL_HINT);
+                                .arg(el->getLabelText()));
             }
         }
         selectedStartSig = NULL;
@@ -526,37 +526,37 @@ void Router::resetRoute(element* el, GbsButtonState cb)
         }
         else {
             QApplication::beep();
-            emit showLogMessage(tr("No active route found for entry "
-                        "signal '%1'").arg(el->getLabelText()),
-                    MT_INFO, HL_HINT);
+            emit statusMessage(tr("No active route found for entry "
+                        "signal '%1'").arg(el->getLabelText()));
             emit routeFunctionFinished();
         }
     }
     else {
         if (lastcb != cb) {
             QApplication::beep();
-            emit showLogMessage(tr("Mixing signal buttons of different"
-                        " type is not allowed."), MT_INFO, HL_HINT);
+            emit statusMessage(tr("Mixing signal buttons of different"
+                        " type is not allowed."));
         }
         else {
             //check if selected route has same exit signal
             if (resetRt->hasThisExitSignal(el)) {
                 // this is a FHT reset, no release
                 resetRt->stopRouting();
+                //FIXME: doubled message, first is wrong, this is right:
                 emit routeStateChanged(resetRt);
                 //TODO: send route state message (scripting)
-                emit showLogMessage(tr("Route '%1' withdrawn")
-                        .arg(resetRt->getName()), MT_INFO, HL_HINT);
+                emit statusMessage(tr("Route '%1' withdrawn")
+                        .arg(resetRt->getName()));
                 // only for debugging purposes (transfer by FHT)
                 // transferTrainNumber(resetRt);
             }
             else {
                 QApplication::beep();
                 if (selectedStartSig != NULL)
-                    emit showLogMessage(tr("No active route found from "
+                    emit statusMessage(tr("No active route found from "
                                 "entry signal '%1' to exit signal '%2'")
                             .arg(selectedStartSig->getLabelText())
-                            .arg(el->getLabelText()), MT_INFO, HL_HINT);
+                            .arg(el->getLabelText()));
             }
         }
         /*send cursor time out to gbs*/
@@ -645,7 +645,7 @@ void Router::unlockAllLockedRoutes()
         }
         ++index;
     }
-    emit showLogMessage(tr("All active routes released"), MT_INFO, HL_HINT);
+    emit statusMessage(tr("All active routes released"));
 }
 
 

@@ -1,3 +1,8 @@
+2007-08-31 Guido Scholz <guido.scholz@bayernline.de>
+	* messagehistory.*, mainwindow.* gbsarea.*, router.*: new
+	message history line
+	* router.*: fixed some doubled route state change messages
+
 2007-08-29 Guido Scholz <guido.scholz@bayernline.de>
 	* routedialog.*: input line for train number added
 	* route.*, routelvi.*, routelistview.c: train number added
