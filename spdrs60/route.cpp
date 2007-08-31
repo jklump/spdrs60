@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.55 $
+                           version 0.5.2 $Revision: 1.56 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-30 21:09:28 $
+    last modified        : $Date: 2007-08-31 17:30:10 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -48,7 +48,7 @@ Route::Route(unsigned int anid,
         const PortState& arePort,
         const PortState& aacPort,
         unsigned int adetourLevel,
-        const QPtrList<stateElement>& swis)
+        const QPtrList<stateElement>& swis): QObject(NULL, "route1")
 {
     routestate = rsUnlocked;
     turnouts = 0;
@@ -110,7 +110,7 @@ Route::Route(unsigned int anid,
     }
 }
 
-Route::Route(element* startEl)
+Route::Route(element* startEl): QObject(NULL, "route2")
 {
     routestate = rsUnlocked;
     turnouts = 0;
@@ -163,7 +163,7 @@ Route::Route(element* startEl)
     }
 }
 
-Route::Route(QTextStream& ts, bool isNewFormat)
+Route::Route(QTextStream& ts): QObject(NULL, "route3")
 {
     routestate = rsUnlocked;
     turnouts = 0;
@@ -177,18 +177,17 @@ Route::Route(QTextStream& ts, bool isNewFormat)
     exitSignal.state = 0;
     exitSignal.name = "";
     exitSignal.elemPtr = NULL;
+
     entrySignal.name = "";
     entrySignal.elemPtr = NULL;
+    
     trainNumberDisplay.state = 0;
     trainNumberDisplay.address = 0;
     trainNumberDisplay.bus = 0;
     trainNumberDisplay.name = "";
     trainNumberDisplay.elemPtr = NULL;
 
-    if (isNewFormat)
-        readFileTextFromStream(ts);
-    else
-        readOldFileTextFromStream(ts);
+    readFileTextFromStream(ts);
 }
 
 
@@ -316,9 +315,11 @@ void Route::setupElementLists(QPtrVector<element>* elements)
         /*add train number dislay*/
         if ((el != NULL) && el->hasSameAddress(trainNumberDisplay.bus,
                     trainNumberDisplay.address)) {
-            //fprintf(stderr, "Display found: %d %d\n", trainNumberDisplay.bus,
-            //        trainNumberDisplay.address);
-
+            /*
+            fprintf(stderr, "Route: %s, Train: %d, Display: %d %d\n",
+                    Name.data(), train, trainNumberDisplay.bus,
+                    trainNumberDisplay.address);
+                    */
             trainNumberDisplay.elemPtr = el;
         }
     }
@@ -394,86 +395,6 @@ void Route::readFileTextFromStream(QTextStream& ts)
             /*end of route data*/
             else if (s.startsWith("%%"))
                 break;
-        }
-    }
-}
-
-
-void Route::readOldFileTextFromStream(QTextStream& ts)
-{    
-    QString s, key, value;
-    int intvalue = 0;
-
-    while (!ts.eof()) {
-        s = ts.readLine();
-        if (!s.startsWith("#")) {
-            key = s.section(IDS, 0, 0);
-            value = s.section(IDS, 1, 1).stripWhiteSpace();
-            /* key/value pairs are read sequence independent */
-            if (key.compare(RF_NAME) == 0){
-                  Name = value.stripWhiteSpace();
-            }
-            else if (key.compare(RF_EXITSIGNAL) == 0){
-                exitSignal.bus = 1;
-                exitSignal.address = value.toUInt();
-            }
-            else if (key.compare(RF_SWITCHXTOY) == 0){
-                stateElement* switchElement = new stateElement;
-                
-                switchElement->bus = 1;
-                switchElement->address = value.section(" ", 0, 0).toUInt();
-                switchElement->state = value.section(" ", 1, 1).toUInt();
-                switchElement->elemPtr = NULL;
-                switchElement->name = "";
-                
-                switchItems.append(switchElement);
-            }
-            else if (key.compare(RF_ENTRYSIGNAL) == 0){
-                entrySignal.bus = 1;
-                entrySignal.address = value.section(" ", 0, 0).toUInt();
-                entrySignal.state = value.section(" ", 1, 1).toUInt();
-            }
-            else if (key.compare(RF_RELEASEPORT) == 0){
-                rePort.switchtooff = false;
-                intvalue = value.toInt();
-                if (intvalue <= -1) {
-                    rePort.address = 0;
-                    rePort.bus = 1;
-                    rePort.used = false;
-                }
-                else {
-                    rePort.address = intvalue % 496 + 1;
-                    rePort.bus = intvalue / 496 + 1;
-                    rePort.used = true;
-                }
-            }
-            else if (key.compare(RF_ACTIVATEPORT) == 0){
-                acPort.switchtooff = false;
-                intvalue = value.toInt();
-                if (intvalue == -1) {
-                    acPort.address = 0;
-                    acPort.bus = 1;
-                    acPort.used = false;
-                }
-                else {
-                    acPort.address = intvalue % 496 + 1;
-                    acPort.bus = intvalue / 496 + 1;
-                    acPort.used = true;
-                }
-            }
-            else if (key.compare(RF_TYPE) == 0){
-                routeType = (RouteType)value.toUInt();
-            }
-            else if (key.compare(RF_DETOURLEVEL) == 0){
-                intvalue = value.toInt();
-                if (intvalue == -1)
-                    detourLevel = 0;
-                else
-                    detourLevel = (unsigned int)intvalue;
-                /*this is the last parameter, now exit while loop*/
-                break;
-
-            }
         }
     }
 }

@@ -56,18 +56,18 @@ AboutDialog::AboutDialog(QWidget* parent): QDialog(parent,
                 QSizePolicy::Minimum));
 
     // second line: description
-    label = new QLabel(PACKAGE +
-            tr(" is a SRCP client to control a digital model railway.\n"
+    label = new QLabel(tr(
+                "spdrs60 is a SRCP client to control digital model railways.\n"
                 "Visual appearance and usage comply to the original SpDrS60\n"
                 "switchbox (Spurplandrucktastenstellwerk Bauart Siemens 60)\n"
-                "of the german national railroad company. SpDrS60 needs a\n"
-                "SRCP server (e.g. erddcd or srcpd) as a hardware link."),
+                "of the german national railroad company. spdrs60 needs a\n"
+                "SRCP server (e.g. erddcd or srcpd) as hardware link."),
           this, "descLabel");
     baseLayout->addWidget(label);
 
     // third line: web link
-    label = new QLabel("http://spdrs60.sourceforge.net/",
-          this, "webLabel");
+    label = new QLabel("http://spdrs60.sourceforge.net/", this,
+            "webLabel");
     baseLayout->addWidget(label);
 
 
@@ -81,18 +81,18 @@ AboutDialog::AboutDialog(QWidget* parent): QDialog(parent,
     label = new QLabel("(C) 2004-2007 Guido Scholz <guido.scholz@bayernline.de>",
             authorGB);
 
-    // contributors groupbox
-    QGroupBox* contribGB = new QGroupBox(4, Qt::Vertical,
+    // contributors groupbox, names in two vertical columns
+    QGroupBox* contribGB = new QGroupBox(2, Qt::Horizontal,
             ("Contributors"), this, "contribGB");
     baseLayout->addWidget(contribGB);
 
-    label = new QLabel(QString::fromUtf8("Rüdiger Seidel"), contribGB);
     label = new QLabel("Dirk Armbrust", contribGB);
-    label = new QLabel("Dietmar Toelg", contribGB);
-    label = new QLabel(QString::fromUtf8("Björn Schließmann"), contribGB);
-    label = new QLabel("Sven Roth", contribGB);
     label = new QLabel("Klaus Mannweiler", contribGB);
+    label = new QLabel("Sven Roth", contribGB);
     label = new QLabel(QString::fromUtf8("David Rütti"), contribGB);
+    label = new QLabel(QString::fromUtf8("Björn Schließmann"), contribGB);
+    label = new QLabel(QString::fromUtf8("Rüdiger Seidel"), contribGB);
+    label = new QLabel("Dietmar Toelg", contribGB);
 
     // OK button
     QHBoxLayout* buttonLayout = new QHBoxLayout(0, 0, 6);

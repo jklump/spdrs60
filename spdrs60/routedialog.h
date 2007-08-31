@@ -1,11 +1,11 @@
 /***************************************************************************
                            routedialog.h
-                           version 0.5.2 $Revision: 1.21 $
+                           version 0.5.2 $Revision: 1.22 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-29 17:09:30 $
+    last modified        : $Date: 2007-08-31 17:30:11 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -91,7 +91,6 @@ private slots:
     void addElementToList();
 
 signals:
-    void showLogMessage(const QString&, int, int);
     void getElementByAddress(const int, const int, element**);
 
 protected:

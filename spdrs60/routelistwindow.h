@@ -1,10 +1,10 @@
 /***************************************************************************
                            routelistwindow.h
-                           version 0.5.2 $Revision: 1.3 $
+                           version 0.5.2 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2007-08-31 17:30:11 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -62,7 +62,6 @@ public slots:
 signals:
     void routeListIsEmpty();
     void selectedRouteChangedState();
-    void showLogMessage(const QString&, int, int);
     
 private:
     RouteListView* routeLV;

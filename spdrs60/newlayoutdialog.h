@@ -1,11 +1,11 @@
 /***************************************************************************
                            newLayoutDialog.h
-                           version 0.5.2 $Revision: 1.9 $
+                           version 0.5.2 $Revision: 1.10 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-03 19:40:48 $
+    last modified        : $Date: 2007-08-31 17:30:10 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -39,18 +39,18 @@ class newLayoutDialog: public QDialog
     Q_OBJECT
 
 public:
-    newLayoutDialog(QWidget* parent=0);
+    newLayoutDialog(QWidget* parent = 0);
     int getColumns();
     int getRows();
     QString getHost();
-    int getPort();
+    unsigned int getPort();
     bool getAutoLogin();
     bool getAutoPower();
     bool getAutoSendAll();
     void setColumns(int);
     void setRows(int);
     void setHost(const QString&);
-    void setPort(int);
+    void setPort(unsigned int);
     void setAutoLogin(bool);
     void setAutoPower(bool);
     void setAutoSendAll(bool);

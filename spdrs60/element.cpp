@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.2 $Revision: 1.126 $
+                           version 0.5.2 $Revision: 1.127 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-30 19:53:02 $
+    last modified        : $Date: 2007-08-31 17:30:10 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1382,9 +1382,11 @@ void element::setupElementIcon()
         else
             p.setPen(QPen(Qt::black));
 
-        QFont f("Helvetica");
+        //QFont f("Helvetica");
+        QFont f(QApplication::font());
         f.setPointSize(QApplication::font().pointSize() + 2);
         f.setWeight(QFont::DemiBold);
+        f.setStretch(90);
         p.setFont(f);
         sSoldText.sprintf("%05d", editsAddress);
         QFontMetrics fm(f);

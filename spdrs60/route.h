@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.5.2 $Revision: 1.31 $
+                           version 0.5.2 $Revision: 1.32 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-30 19:53:03 $
+    last modified        : $Date: 2007-08-31 17:30:11 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -73,13 +73,12 @@ public:
           unsigned int adetourLevel,
           const QPtrList<stateElement>& swis);
     
-    Route(element* = 0);
-    Route(QTextStream&, bool isNewFormat = false);
+    Route(element* = NULL);
+    Route(QTextStream&);
     Route(const QString& aName);
     ~Route();
     
     void readFileTextFromStream(QTextStream&);
-    void readOldFileTextFromStream(QTextStream&);
     void writeFileTextToStream(QTextStream&);
     Route* getClone();
     int getState();

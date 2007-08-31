@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.107 $
+                           version 0.5.2 $Revision: 1.108 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-29 20:42:24 $
+    last modified        : $Date: 2007-08-31 17:30:10 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -79,7 +79,6 @@
 
 /*for srcpCom*/
 #define GF_CMDHOST       "cmdhost"
-#define GF_FBHOST        "fbhost"
 #define GF_FORMATVERSION "formatversion"
 #define GF_FV            "2"
 
@@ -123,11 +122,10 @@ MainWindow::MainWindow(): QMainWindow(NULL, PACKAGE,
         Qt::WDestructiveClose | Qt::WGroupLeader)
 {
     setIcon(QPixmap(spdrs60_32));
+
     /*Networking */
     cmdHost = "localhost";
-    fbHost = "localhost";
     cmdPort = 4303;
-    fbPort = 4303;
     cmdAutoLogin = false;
     cmdAutoPower = false;
     cmdAutoSendAll = true;
@@ -172,7 +170,7 @@ void MainWindow::readConfigFile()
     QFile file(QDir::homeDirPath() + "/" + SPDRS60_INIT);
     if (!file.open(IO_ReadOnly)) {
         /* if no configuration file is found, just keep defaults */
-        cmdToDebug(tr("Personal config file not found") + ": ~/" +
+        cmdToDebug(tr("User preferences file not found") + ": ~/" +
                    SPDRS60_INIT, MT_INFO, HL_HINT);
         return;
     }
@@ -501,40 +499,40 @@ void MainWindow::initMainWindow()
     fbViewer->hide();
     
     /*route controller*/
-    rtController = new Router(this, gbs->getGbsElementListPtr(),
-            "rtController");
-    Q_CHECK_PTR(rtController);
+    router = new Router(this, gbs->getGbsElementListPtr(),
+            "router");
+    Q_CHECK_PTR(router);
     connect(this, SIGNAL(switchedVisualMode(elemVisualMode)),
-            rtController, SLOT(switchVisualMode(elemVisualMode)));
+            router, SLOT(switchVisualMode(elemVisualMode)));
     connect(this, SIGNAL(sendFBChangeRoute(unsigned int, unsigned int, bool)),
-            rtController, SLOT(feedbackPortChanged(unsigned int,
+            router, SLOT(feedbackPortChanged(unsigned int,
                     unsigned int, bool)));
-    connect(rtController, SIGNAL(showLogMessage(const QString&, int,
+    connect(router, SIGNAL(showLogMessage(const QString&, int,
                     int)),
             this, SLOT(cmdToDebug(const QString&, int, int)));
     connect(gbs, SIGNAL(clearRoutes()),
-            rtController, SLOT(clearRoutes()));
+            router, SLOT(clearRoutes()));
     connect(gbs, SIGNAL(recordElement(element*, elemRecordType)),
-            rtController, SLOT(recordElement(element*, elemRecordType)));
+            router, SLOT(recordElement(element*, elemRecordType)));
     connect(gbs, SIGNAL(setRoute(element*, GbsButtonState,
                     GbsButtonState)),
-            rtController, SLOT(setRoute(element*, GbsButtonState,
+            router, SLOT(setRoute(element*, GbsButtonState,
                     GbsButtonState)));
     connect(gbs, SIGNAL(resetRoute(element*, GbsButtonState)),
-            rtController, SLOT(resetRoute(element*, GbsButtonState)));
-    connect(rtController, SIGNAL(routeFunctionFinished()),
+            router, SLOT(resetRoute(element*, GbsButtonState)));
+    connect(router, SIGNAL(routeFunctionFinished()),
             gbs, SLOT(slotElementClickedTimeout()));
-    connect(rtController, SIGNAL(startRouteTimer(Route::RouteType)),
+    connect(router, SIGNAL(startRouteTimer(Route::RouteType)),
             gbs, SLOT(startRouteTimer(Route::RouteType)));
     connect(gbs, SIGNAL(resetSelectedSignal()),
-            rtController, SLOT(resetSelectedSignal()));
-    connect(rtController, SIGNAL(updateRoutePathLEDs(const stateElement&,
+            router, SLOT(resetSelectedSignal()));
+    connect(router, SIGNAL(updateRoutePathLEDs(const stateElement&,
                     const stateElement&, Route::RouteSetAction&)),
             gbs, SLOT(updateRoutePathLEDs(const stateElement&,
                     const stateElement&, Route::RouteSetAction&)));
     
     /*route list window*/
-    rtViewer = new RouteListWindow(this, "routeListWindow", rtController);
+    rtViewer = new RouteListWindow(this, "routeListWindow", router);
     Q_CHECK_PTR(rtViewer);
     moveDockWindow(rtViewer, Right);
     rtViewer->hide();
@@ -544,17 +542,15 @@ void MainWindow::initMainWindow()
             this, SLOT(updateRouteMenu(bool)));
     connect(rtViewer, SIGNAL(selectedRouteChangedState()),
             this, SLOT(updateRouteMenuActivateItems()));
-    connect(rtViewer, SIGNAL(showLogMessage(const QString&, int, int)),
-            this, SLOT(cmdToDebug(const QString&, int, int)));
     connect(rtViewer, SIGNAL(routeListIsEmpty()),
             this, SLOT(updateRouteListMenuItems()));
-    connect(rtController, SIGNAL(routeListChanged()),
+    connect(router, SIGNAL(routeListChanged()),
             rtViewer, SLOT(updateRouteList()));
-    connect(rtController, SIGNAL(routeDataChanged(Route*)),
+    connect(router, SIGNAL(routeDataChanged(Route*)),
             rtViewer, SLOT(updateRouteData(Route*)));
-    connect(rtController, SIGNAL(routeStateChanged(Route*)),
+    connect(router, SIGNAL(routeStateChanged(Route*)),
             rtViewer, SLOT(updateRouteState(Route*)));
-    connect(rtController, SIGNAL(getElementByAddress(const int, const int,
+    connect(router, SIGNAL(getElementByAddress(const int, const int,
                     element**)), gbs,
             SLOT(getElementByAddress(const int, const int, element**)));
 
@@ -1259,7 +1255,7 @@ void MainWindow::initMainWindow()
     actionRouteUnlockAll = new QAction(tr("Unlock all routes"),
             tr("&Unlock all"), Qt::CTRL + Qt::Key_U, this, "layoutUnlockRoutes");
 #endif
-    connect(actionRouteUnlockAll, SIGNAL(activated()), rtController,
+    connect(actionRouteUnlockAll, SIGNAL(activated()), router,
             SLOT(unlockAllLockedRoutes()));
     actionRouteUnlockAll->addTo(routemenu);
     //actionRouteUnlockAll->addTo(routetb);
@@ -1557,13 +1553,11 @@ bool MainWindow::saveFile()
        << GF_FORMATVERSION << DS << GF_FV << endl
        << GF_CMDHOST << DS << cmdHost << DS << cmdPort <<
                         DS << cmdAutoLogin << DS << cmdAutoPower <<
-                        DS << cmdAutoSendAll << endl
-       << GF_FBHOST << DS << fbHost << DS << fbPort << DS << fbLogin <<
-       endl;
+                        DS << cmdAutoSendAll << endl;
 
     /*TODO: srcpCom->writeFileTextToStream(ts);*/
     gbs->writeFileTextToStream(ts);
-    rtController->writeFileTextToStream(ts);
+    router->writeFileTextToStream(ts);
 
     f.close();
 
@@ -1696,13 +1690,6 @@ void MainWindow::openFile(const QString& fn)
                 value = s.section(DS, 5, 5).stripWhiteSpace();
                 cmdAutoSendAll = value.toInt() == 1;
             }
-            else if (key.compare(GF_FBHOST) == 0){
-                fbHost = value;
-                value = s.section(DS, 2, 2).stripWhiteSpace();
-                fbPort = value.toInt();
-                value = s.section(DS, 3, 3).stripWhiteSpace();
-                fbLogin = value.toInt() == 1;
-            }
             else if (key.compare(GF_FORMATVERSION) == 0){
                 fversion = value.toInt();
             }
@@ -1714,7 +1701,7 @@ void MainWindow::openFile(const QString& fn)
     /*TODO: srcpCom->readFileTextFromStream(ts);*/
     gbs->readFileTextFromStream(ts);
     qApp->processEvents();
-    rtController->readFileTextFromStream(ts);
+    router->readFileTextFromStream(ts);
 
     f.close();
     
@@ -1726,8 +1713,10 @@ void MainWindow::openFile(const QString& fn)
         ConnectToSRCPServer();
         qApp->processEvents();
 
+        //TODO: check if this is necessary here, effect may be doubled
+        //with fbInit
         // update feedback states
-        layoutUpdateFB();
+        // layoutUpdateFB();
     }
 }
 
@@ -3245,7 +3234,7 @@ void MainWindow::layoutSendAll()
 /*check for changed file data*/
 bool MainWindow::isModified()
 {
-    return (gbs->isModified() || rtController->isModified());
+    return (gbs->isModified() || router->isModified());
 }
 
 

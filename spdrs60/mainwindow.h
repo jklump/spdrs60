@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.5.2 $Revision: 1.43 $
+                           version 0.5.2 $Revision: 1.44 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-29 17:09:30 $
+    last modified        : $Date: 2007-08-31 17:30:10 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -144,14 +144,12 @@ private:
    GBSArea         *gbs;
    FeedbackViewer  *fbViewer;
    RouteListWindow *rtViewer;
-   Router          *rtController;
+   Router          *router;
    keyboard        *keybWindow;
 
    /*SRCP Networking (srcpCom)*/
-   QString     cmdHost;
-   QString     fbHost;
-   int         cmdPort;
-   int         fbPort;
+   QString      cmdHost;
+   unsigned int cmdPort;
    bool        cmdAutoLogin;
    bool        cmdAutoPower;
    bool        cmdAutoSendAll;

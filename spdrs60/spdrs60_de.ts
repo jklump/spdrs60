@@ -6,12 +6,17 @@
         <translation>Über %1</translation>
     </message>
     <message>
-        <source> is a SRCP client to control a digital model railway.
+        <source>spdrs60 is a SRCP client to control digital model railways.
 Visual appearance and usage comply to the original SpDrS60
 switchbox (Spurplandrucktastenstellwerk Bauart Siemens 60)
-of the german national railroad company. SpDrS60 needs a
-SRCP server (e.g. erddcd or srcpd) as a hardware link.</source>
-        <translation type="unfinished"></translation>
+of the german national railroad company. spdrs60 needs a
+SRCP server (e.g. erddcd or srcpd) as hardware link.</source>
+        <translation> ist ein SRCP-Client zur Steuerung von digitalen
+Modelleisenbahnen. Das Aussehen und die Bedienung orien-
+tieren sich weitgehend vorbildgetreu am SpDrS60-Stellwerk
+(Spurplandrucktastenstellwerk Bauart Siemens 60) der
+Deutschen Bahn AG. Zur Anbindung an die Modellbahnhardware
+wird ein SRCP-Server (z.B. erddcd oder srcpd) benötigt.</translation>
     </message>
     <message>
         <source>Authors</source>
@@ -372,8 +377,8 @@ den Suchkriterien entspricht.</translation>
         <translation>&amp;Über %1...</translation>
     </message>
     <message>
-        <source>Personal config file not found</source>
-        <translation>Persönliche Konfigurationsdatei nicht gefunden</translation>
+        <source>User preferences file not found</source>
+        <translation>Datei für Benutzereinstellungen nicht gefunden</translation>
     </message>
     <message>
         <source>Start &amp;power</source>

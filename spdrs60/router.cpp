@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.2 $Revision: 1.45 $
+                           version 0.5.2 $Revision: 1.46 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-30 19:53:03 $
+    last modified        : $Date: 2007-08-31 17:30:11 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -67,7 +67,7 @@ void Router::readFileTextFromStream(QTextStream& ts)
         routeList.clear();
     
     while (!ts.eof())
-        routeList.append(new Route(ts, true));
+        routeList.append(new Route(ts));
 
     modified = false;
     setupRouteElements();
@@ -548,7 +548,7 @@ void Router::resetRoute(element* el, GbsButtonState cb)
                 emit showLogMessage(tr("Route '%1' withdrawn")
                         .arg(resetRt->getName()), MT_INFO, HL_HINT);
                 // only for debugging purposes (transfer by FHT)
-                transferTrainNumber(resetRt);
+                // transferTrainNumber(resetRt);
             }
             else {
                 QApplication::beep();
