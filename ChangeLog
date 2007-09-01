@@ -1,10 +1,13 @@
 2007-09-01 Guido Scholz <guido.scholz@bayernline.de>
-	* mainwindow.* router.*, routelistwindow.*: clear difference
+	* mainwindow.* router.*, routelistwindow.*: sharp distinction
 	between route withdrawal and route release
-	* mainwindow.*: new menu item for route release
+	* mainwindow.*: new menu item for route release, old one renamed
+	to "withdraw"
+	* mainwindow.cpp, srcpinfodialog.*: new dialog to display SRCP
+	server information
 
 2007-08-31 Guido Scholz <guido.scholz@bayernline.de>
-	* messagehistory.*, mainwindow.* gbsarea.*, router.*: new
+	* messagehistory.*, mainwindow.*, gbsarea.*, router.*: new
 	message history line
 	* router.*: fixed some doubled route state change messages
 
@@ -281,7 +284,7 @@
 2005-01-22 Dietmar Toelg <dietmar.toelg@arcor.de>
 	* layouts: new (real-)example layout "Flandersbach" 
 
-2005-01-15 Björn Schließmann <b.schliessmann@web.de>
+2005-01-15 Bjoern Schliessmann <b.schliessmann@web.de>
 	* doc: port of de/index.sgml from Linuxdoc to Docbook/SGML,
 	en/index.sgml bug fixing
 
@@ -406,7 +409,7 @@
 	* package: fix a lot of little bugs
 	* MainWindow.cpp: debug window now sticks to window bottom
 
-2003-03-16 Stefan Preis <stefan.preis@wdr.de>, Rüdiger Seidel
+2003-03-16 Stefan Preis <stefan.preis@wdr.de>, Ruediger Seidel
 	* package: spdrs60-0.4.3
 	* package: port to qt2
 

@@ -1,11 +1,13 @@
-/***************************************************************************
- aboutdialog.h
- -----------------
- Begin      : 2007-08-26
- Copyright  : (C) 2007 by Guido Scholz
- E-Mail     : guido.scholz@bayernline.de
- Description: Dialog window to display program information
- ***************************************************************************/
+/*
+ * aboutdialog.h
+ * -----------------
+ * Begin        : 2007-08-26
+ * Last modified: $Date: 2007-09-01 15:59:01 $
+ *                $Revision: 1.2 $
+ * Copyright    : (C) 2007 by Guido Scholz
+ * E-Mail       : guido.scholz@bayernline.de
+ * Description  : Dialog window to display program information
+ */
 
 /***************************************************************************
  *                                                                         *

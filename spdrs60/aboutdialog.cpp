@@ -4,6 +4,10 @@
  * Begin
  *   2007-08-26
  * 
+ * Last modified
+ *   $Date: 2007-09-01 15:59:01 $
+ *   $Revision: 1.3 $
+ *
  * Copyright
  *   (C) 2007 Guido Scholz <guido.scholz@bayernline.de>
  * 

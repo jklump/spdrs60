@@ -21,6 +21,7 @@ SOURCES = \
 	router.cpp \
 	routelistview.cpp \
 	routelistwindow.cpp \
+	serverinfodialog.cpp \
 	turntablecommander.cpp
 
 TRANSLATIONS = spdrs60_de.ts

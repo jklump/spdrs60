@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.110 $
+                           version 0.5.2 $Revision: 1.111 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-01 07:35:33 $
+    last modified        : $Date: 2007-09-01 15:59:01 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -35,6 +35,7 @@
 #include "options.h"
 #include "preferences.h"
 #include "resources.h"
+#include "serverinfodialog.h"
 
 #include "../icons/spdrs60_32.xpm"
 /*toolbar icons*/
@@ -83,8 +84,10 @@
 #define GF_FV            "2"
 
 /*string constants for personal config file*/
+#define KS              "="
+#define CF_DS              ":"
 #define CF_SHOWHP2      "showhp2"
-#define CF_BLINKINGTURNOUTS "blinkingturnouts"
+#define CF_TURNOUTBLINK "blinkingturnouts"
 #define CF_TOOLTIPS     "tooltips"
 #define CF_DATATOOLTIPS "datatooltips"
 #define CF_ADDRESSLABEL "addresslabel"
@@ -123,12 +126,14 @@ MainWindow::MainWindow(): QMainWindow(NULL, PACKAGE,
 {
     setIcon(QPixmap(spdrs60_32));
 
-    /*Networking */
     cmdHost = "localhost";
     cmdPort = 4303;
     cmdAutoLogin = false;
     cmdAutoPower = false;
     cmdAutoSendAll = true;
+
+    /*Networking */
+    sWelcome = "";
     fbLogin = false;
     CommandPortIsConnected = false;
     FeedbackPortIsConnected = false;
@@ -179,13 +184,13 @@ void MainWindow::readConfigFile()
     while (!ts.eof()) {
         s = ts.readLine();
         if (!s.startsWith("#")) {
-            key = s.section("=", 0, 0);
-            value = s.section("=", 1, 1).stripWhiteSpace();
+            key = s.section(KS, 0, 0);
+            value = s.section(KS, 1, 1).stripWhiteSpace();
 
             if (key.compare(CF_SHOWHP2) == 0){
                 pref.hp2 = value.toInt();
             }
-            else if (key.compare(CF_BLINKINGTURNOUTS) == 0){
+            else if (key.compare(CF_TURNOUTBLINK) == 0){
                 pref.blinkingturnouts = value.toInt();
             }
             else if (key.compare(CF_TOOLTIPS) == 0){
@@ -265,20 +270,20 @@ void MainWindow::readConfigFile()
                 pref.fixedbusnum = value.toInt();
             }
             else if (key.compare(CF_FBBUS1) == 0){
-                pref.fbbus1.number = value.section(":", 0, 0).toUInt();
-                pref.fbbus1.modules = value.section(":", 1, 1).toUInt();
+                pref.fbbus1.number = value.section(CF_DS, 0, 0).toUInt();
+                pref.fbbus1.modules = value.section(CF_DS, 1, 1).toUInt();
             }
             else if (key.compare(CF_FBBUS2) == 0){
-                pref.fbbus2.number = value.section(":", 0, 0).toUInt();
-                pref.fbbus2.modules = value.section(":", 1, 1).toUInt();
+                pref.fbbus2.number = value.section(CF_DS, 0, 0).toUInt();
+                pref.fbbus2.modules = value.section(CF_DS, 1, 1).toUInt();
             }
             else if (key.compare(CF_FBBUS3) == 0){
-                pref.fbbus3.number = value.section(":", 0, 0).toUInt();
-                pref.fbbus3.modules = value.section(":", 1, 1).toUInt();
+                pref.fbbus3.number = value.section(CF_DS, 0, 0).toUInt();
+                pref.fbbus3.modules = value.section(CF_DS, 1, 1).toUInt();
             }
             else if (key.compare(CF_FBBUS4) == 0){
-                pref.fbbus4.number = value.section(":", 0, 0).toUInt();
-                pref.fbbus4.modules = value.section(":", 1, 1).toUInt();
+                pref.fbbus4.number = value.section(CF_DS, 0, 0).toUInt();
+                pref.fbbus4.modules = value.section(CF_DS, 1, 1).toUInt();
             }
             else if (key.compare(CF_LASTDIR) == 0){
                 lastDir = value.stripWhiteSpace();
@@ -319,42 +324,42 @@ void MainWindow::writeConfigFile()
     ts  << "# " PACKAGE " configuration file" << endl
         << "# last modified: " << dt.toString(Qt::ISODate) << endl
         << "#" << endl
-        << CF_SHOWHP2      << "=" << (int) pref.hp2 << endl
-        << CF_BLINKINGTURNOUTS << "=" << (int) pref.blinkingturnouts << endl
-        << CF_TOOLTIPS     << "=" << (int) pref.tooltips << endl
-        << CF_DATATOOLTIPS << "=" << (int) pref.datatooltips << endl
-        << CF_ADDRESSLABEL    "=" << (int) pref.addresslabeling << endl
-        << CF_INITSIGNALS  << "=" << (int) pref.initsignalsred << endl
-        << CF_LAYOUTCOLS   << "=" << pref.layoutcols << endl
-        << CF_LAYOUTROWS   << "=" << pref.layoutrows << endl
-        << CF_SENDSTATE    << "=" << pref.sendstate << endl
-        << CF_CONVERTTIME  << "=" << pref.converttime << endl
-        << CF_AUTOLOAD     << "=" << (int) pref.autoload << endl
-        << CF_AUTOLAYOUT   << "=" << pref.autolayout << endl
-        << CF_AUTOSAVE     << "=" << (int) pref.autosave << endl
-        << CF_EDITOR       << "=" << pref.editor << endl
-        << CF_BROWSER      << "=" << pref.browser << endl
-        << CF_PROTOCOL     << "=" <<
+        << CF_SHOWHP2      << KS << (int) pref.hp2 << endl
+        << CF_TURNOUTBLINK << KS << (int) pref.blinkingturnouts << endl
+        << CF_TOOLTIPS     << KS << (int) pref.tooltips << endl
+        << CF_DATATOOLTIPS << KS << (int) pref.datatooltips << endl
+        << CF_ADDRESSLABEL    KS << (int) pref.addresslabeling << endl
+        << CF_INITSIGNALS  << KS << (int) pref.initsignalsred << endl
+        << CF_LAYOUTCOLS   << KS << pref.layoutcols << endl
+        << CF_LAYOUTROWS   << KS << pref.layoutrows << endl
+        << CF_SENDSTATE    << KS << pref.sendstate << endl
+        << CF_CONVERTTIME  << KS << pref.converttime << endl
+        << CF_AUTOLOAD     << KS << (int) pref.autoload << endl
+        << CF_AUTOLAYOUT   << KS << pref.autolayout << endl
+        << CF_AUTOSAVE     << KS << (int) pref.autosave << endl
+        << CF_EDITOR       << KS << pref.editor << endl
+        << CF_BROWSER      << KS << pref.browser << endl
+        << CF_PROTOCOL     << KS <<
             ((pref.protocol == 1) ? "Motorola" 
             : (pref.protocol == 0) ? "DCC"
             : (pref.protocol == 3) ? "Selectrix" : "Server") << endl
-        << CF_DECODER      << "=" << pref.decoder << endl
-        << CF_ACTIVETIME   << "=" << pref.activetime << endl
-        << CF_AUTOTTDIR    << "=" << (int) pref.autottdir << endl
-        << CF_TTROUNDTIME  << "=" << rtstr << endl
-        << CF_ROUTINGTIME  << "=" << pref.routingtime << endl
-        << CF_FBMODSIZE    << "=" << pref.fbfactor << endl
-        << CF_FBMODTYPE    << "=" << pref.fbmoduletype << endl
-        << CF_FIXEDBUSNUM  << "=" << pref.fixedbusnum << endl
-        << CF_FBBUS1       << "=" << pref.fbbus1.number
-                           << ":" << pref.fbbus1.modules << endl
-        << CF_FBBUS2       << "=" << pref.fbbus2.number
-                           << ":" << pref.fbbus2.modules << endl
-        << CF_FBBUS3       << "=" << pref.fbbus3.number
-                           << ":" << pref.fbbus3.modules << endl
-        << CF_FBBUS4       << "=" << pref.fbbus4.number
-                           << ":" << pref.fbbus4.modules << endl
-        << CF_LASTDIR      << "=" << lastDir << endl;
+        << CF_DECODER      << KS << pref.decoder << endl
+        << CF_ACTIVETIME   << KS << pref.activetime << endl
+        << CF_AUTOTTDIR    << KS << (int) pref.autottdir << endl
+        << CF_TTROUNDTIME  << KS << rtstr << endl
+        << CF_ROUTINGTIME  << KS << pref.routingtime << endl
+        << CF_FBMODSIZE    << KS << pref.fbfactor << endl
+        << CF_FBMODTYPE    << KS << pref.fbmoduletype << endl
+        << CF_FIXEDBUSNUM  << KS << pref.fixedbusnum << endl
+        << CF_FBBUS1       << KS << pref.fbbus1.number
+                           << CF_DS << pref.fbbus1.modules << endl
+        << CF_FBBUS2       << KS << pref.fbbus2.number
+                           << CF_DS << pref.fbbus2.modules << endl
+        << CF_FBBUS3       << KS << pref.fbbus3.number
+                           << CF_DS << pref.fbbus3.modules << endl
+        << CF_FBBUS4       << KS << pref.fbbus4.number
+                           << CF_DS << pref.fbbus4.modules << endl
+        << CF_LASTDIR      << KS << lastDir << endl;
 
     file.close();
 }
@@ -1502,12 +1507,11 @@ bool MainWindow::saveFile()
     ts << "# spdrs60 data file" << endl
        << "# version=" << VERSION << endl
        << "# last modified=" << dt.toString(Qt::ISODate) << endl
-       << GF_FORMATVERSION << DS << GF_FV << endl
-       << GF_CMDHOST << DS << cmdHost << DS << cmdPort <<
-                        DS << cmdAutoLogin << DS << cmdAutoPower <<
-                        DS << cmdAutoSendAll << endl;
+       << GF_FORMATVERSION << CF_DS << GF_FV << endl
+       << GF_CMDHOST << CF_DS << cmdHost << CF_DS << cmdPort <<
+                        CF_DS << cmdAutoLogin << CF_DS << cmdAutoPower <<
+                        CF_DS << cmdAutoSendAll << endl;
 
-    /*TODO: srcpCom->writeFileTextToStream(ts);*/
     gbs->writeFileTextToStream(ts);
     router->writeFileTextToStream(ts);
 
@@ -1523,7 +1527,7 @@ bool MainWindow::saveFile()
 
 void MainWindow::slotFileSave()
 {
-    this->saveFile();
+    saveFile();
 }
 
 
@@ -1628,18 +1632,18 @@ void MainWindow::openFile(const QString& fn)
         
         /* ignore comment lines */
         if (!s.startsWith("#")) {
-            key = s.section(DS, 0, 0);
-            value = s.section(DS, 1, 1).stripWhiteSpace();
+            key = s.section(CF_DS, 0, 0);
+            value = s.section(CF_DS, 1, 1).stripWhiteSpace();
             /* key/value pairs are read sequence independent */
             if (key.compare(GF_CMDHOST) == 0){
                 cmdHost = value;
-                value = s.section(DS, 2, 2).stripWhiteSpace();
+                value = s.section(CF_DS, 2, 2).stripWhiteSpace();
                 cmdPort = value.toInt();
-                value = s.section(DS, 3, 3).stripWhiteSpace();
+                value = s.section(CF_DS, 3, 3).stripWhiteSpace();
                 cmdAutoLogin = value.toInt() == 1;
-                value = s.section(DS, 4, 4).stripWhiteSpace();
+                value = s.section(CF_DS, 4, 4).stripWhiteSpace();
                 cmdAutoPower = value.toInt() == 1;
-                value = s.section(DS, 5, 5).stripWhiteSpace();
+                value = s.section(CF_DS, 5, 5).stripWhiteSpace();
                 cmdAutoSendAll = value.toInt() == 1;
             }
             else if (key.compare(GF_FORMATVERSION) == 0){
@@ -1650,7 +1654,6 @@ void MainWindow::openFile(const QString& fn)
         }
     }
 
-    /*TODO: srcpCom->readFileTextFromStream(ts);*/
     gbs->readFileTextFromStream(ts);
     qApp->processEvents();
     router->readFileTextFromStream(ts);
@@ -2730,14 +2733,85 @@ void MainWindow::slotDaemonKill()
 /*show SRCP server info window*/
 void MainWindow::slotDaemonInfo()
 {
-    int iSep = sWelcome.find(';', 0, 0);
-    QString sServer = sWelcome.left(iSep);
-    QString sSRCP = sWelcome.right(sWelcome.length() - iSep - 2);
-    QString sInfo;
-    sInfo.sprintf(tr("Server name and version number:\n%s\n"
-                     "\nSRCP version number:\n%s"),
-                     sServer.data(), sSRCP.data());
-    QMessageBox::information(this, tr("Server information"), sInfo);
+    QString srcpVersion, srcpOther, srcpServer;
+    QStringList tokens;
+    QStringList wmt;
+    QStringList::Iterator it;
+
+    tokens = QStringList::split(";", sWelcome);
+    it = tokens.begin();
+
+    // split tokens to get SRCP, SRCPOTHER
+    // and server values
+    while (it != tokens.end()) {
+        QString(*it).stripWhiteSpace();
+
+        // here we expect a list of exactly
+        // two elements
+        wmt = QStringList::split(" ", QString(*it));
+
+        if (wmt.count() == 2) {
+
+            if (wmt[0] == "SRCP")
+                srcpVersion = wmt[1];
+            else if (wmt[0] == "SRCPOTHER")
+                srcpOther = wmt[1];
+            else {
+                if (!srcpServer.isEmpty()) {
+                    srcpServer.append(":");
+                    srcpServer.append(QString(*it));
+                }
+                else
+                    srcpServer = QString(*it);
+            }
+        }
+        else if (wmt.count() > 2)
+            emit statusMessage(
+                    tr("%1: Parse error, parameter list too "
+                        "long '%2'.")
+                    .arg(name()).arg(QString(*it)));
+        else
+            emit statusMessage(
+                    tr("%1: Parse error, parameter list too "
+                        "short '%2'.")
+                    .arg(name()).arg(QString(*it)));
+
+        wmt.clear();
+        ++it;
+    }
+
+    ServerInfoDialog* sid = new ServerInfoDialog(this);
+    if (sid == NULL)
+        return;
+
+    sid->setCommandSessionData(
+            srcpServer,
+            srcpVersion,
+            srcpOther,
+            srcpCommandSessionID);
+
+    // lazy temporary solution, assume it is the same server
+    sid->setInfoSessionData(
+            srcpServer,
+            srcpVersion,
+            srcpOther,
+            srcpInfoSessionID);
+
+/* TODO: and SRCP 0.7 feedback port
+    sid->setCommandSessionData(
+            commandPort->getSrcpServer(),
+            commandPort->getSrcpVersion(),
+            commandPort->getSrcpOther(),
+            commandPort->getSessionId());
+
+    sid->setInfoSessionData(
+            infoPort->getSrcpServer(),
+            infoPort->getSrcpVersion(),
+            infoPort->getSrcpOther(),
+            infoPort->getSessionId());
+*/
+    sid->exec();
+    delete sid;
 }
 
 
@@ -3124,8 +3198,7 @@ void MainWindow::layoutChangeSize()
         cmdAutoLogin = nlDlg->getAutoLogin();
         cmdAutoPower = nlDlg->getAutoPower();
         cmdAutoSendAll = nlDlg->getAutoSendAll();
-        //TODO:
-        //srcpCom->setCmdHost(cmdHost, cmdPort);
+
         gbs->setModified(true);
     }
     delete nlDlg;

@@ -425,18 +425,6 @@ den Suchkriterien entspricht.</translation>
         <translation>Digital&amp;strom aus</translation>
     </message>
     <message>
-        <source>Server name and version number:
-%s
-
-SRCP version number:
-%s</source>
-        <translation>Servername und Versionsnummer:
-%s
-
-SRCP-Versionsnummer:
-%s</translation>
-    </message>
-    <message>
         <source>Command socket closed by foreign host!</source>
         <translation>Kommando-Socket durch Server geschlossen!</translation>
     </message>
@@ -847,10 +835,6 @@ zu benutzen, starten Sie bitte den Server neu)</translation>
         <translation>&amp;Herunterfahren</translation>
     </message>
     <message>
-        <source>Server information</source>
-        <translation>Informationen zum Server</translation>
-    </message>
-    <message>
         <source>&amp;spdrs60 for Linux on the web</source>
         <translation>&amp;spdrs60 für Linux im Internet</translation>
     </message>
@@ -871,6 +855,14 @@ zu benutzen, starten Sie bitte den Server neu)</translation>
 includes a train number transfer.</source>
         <translation>Eine eingestellte Fahrstraße auflösen.
 Die Zugnummer wird hierbei weitergeleitet.</translation>
+    </message>
+    <message>
+        <source>%1: Parse error, parameter list too long &apos;%2&apos;.</source>
+        <translation>1%: Fehler beim Auswerten, Parameterliste zu lang &apos;%1&apos;.</translation>
+    </message>
+    <message>
+        <source>%1: Parse error, parameter list too short &apos;%2&apos;.</source>
+        <translation>&gt;%1: Fehler beim Auswerten, Parameterliste ist zu kurz &apos;%2&apos;.</translation>
     </message>
 </context>
 <context>
@@ -1287,6 +1279,41 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     <message>
         <source>Route &apos;%1&apos; withdrawn</source>
         <translation>Fahrstraße &apos;%1&apos; zurückgenommen</translation>
+    </message>
+</context>
+<context>
+    <name>ServerInfoDialog</name>
+    <message>
+        <source>SRCP server information</source>
+        <translation>SRCP-Server Information</translation>
+    </message>
+    <message>
+        <source>Command session</source>
+        <translation>Kommandositzung</translation>
+    </message>
+    <message>
+        <source>Server:</source>
+        <translation>Server:</translation>
+    </message>
+    <message>
+        <source>SRCP version:</source>
+        <translation>SRCP-Version:</translation>
+    </message>
+    <message>
+        <source>Other SRCP version:</source>
+        <translation>Alternative SRCP-Version:</translation>
+    </message>
+    <message>
+        <source>SRCP session id:</source>
+        <translation>Sitzungsidentifikationsnummer:</translation>
+    </message>
+    <message>
+        <source>Info session</source>
+        <translation>Info-Sitzung</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
