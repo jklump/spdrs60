@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.2 $Revision: 1.47 $
+                           version 0.5.2 $Revision: 1.48 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-31 20:42:48 $
+    last modified        : $Date: 2007-09-01 07:35:33 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -156,8 +156,10 @@ void Router::deleteRoute(Route* dr)
         selectedRoute = NULL;
 
     if (dr != NULL) { 
-        if (dr->getState() != Route::rsUnlocked)
-            dr->stopRouting();
+        if (dr->getState() != Route::rsUnlocked) {
+            // this is a withdrawal, no release
+            withdrawRoute(dr);
+        }
         dr->hideRoute();
         disconnect(dr, SIGNAL(updateRoutePathLEDs(const stateElement&,
                         const stateElement&, Route::RouteSetAction&)),
@@ -357,7 +359,11 @@ void Router::transferTrainNumber(Route* tr)
     //TODO: send train message (Zugmeldung)
 }
 
-
+/*
+ * Routes trigger this method to report state changes.
+ * If the route was unlocked no status message is send. This must be
+ * done by the caller to differentiate withdrawal and release.
+ */
 void Router::processRouteState(Route* rt, int rs)
 {
     // send signal to route list viewer to update state visualisation
@@ -366,9 +372,6 @@ void Router::processRouteState(Route* rt, int rs)
     switch ((Route::RouteState)rs) {
         case Route::rsUnlocked:
             //TODO: send route state message (scripting)
-            emit statusMessage(tr("Route '%1' released")
-                    .arg(rt->getName()));
-            transferTrainNumber(rt);
             break;
         case Route::rsLocked:
             //TODO: send route state message (scripting)
@@ -437,14 +440,34 @@ void Router::releaseRouteAt(unsigned int index)
     releaseRoute(rt);
 }
 
-
+/*
+ * release the selected route, send a status message and do a train
+ * number transfer
+ */
 void Router::releaseRoute(Route* rt)
 {
     if (rt == NULL || visualmode == kvmEditLayout)
         return;
 
     rt->stopRouting();
-    //processRouteState(rt, Route::rsUnlocked);
+    emit statusMessage(tr("Route '%1' released").arg(rt->getName()));
+    transferTrainNumber(rt);
+}
+
+
+/*
+ * withdraw the selected route, send a status message and do _no_ train
+ * number transfer
+ */
+void Router::withdrawRoute(Route* rt)
+{
+    if (rt == NULL || visualmode == kvmEditLayout)
+        return;
+
+    rt->stopRouting();
+    emit statusMessage(tr("Route '%1' withdrawn").arg(rt->getName()));
+    // only for debugging purposes:
+    // transferTrainNumber(resetRt);
 }
 
 
@@ -538,18 +561,10 @@ void Router::resetRoute(element* el, GbsButtonState cb)
                         " type is not allowed."));
         }
         else {
-            //check if selected route has same exit signal
-            if (resetRt->hasThisExitSignal(el)) {
-                // this is a FHT reset, no release
-                resetRt->stopRouting();
-                //FIXME: doubled message, first is wrong, this is right:
-                emit routeStateChanged(resetRt);
-                //TODO: send route state message (scripting)
-                emit statusMessage(tr("Route '%1' withdrawn")
-                        .arg(resetRt->getName()));
-                // only for debugging purposes (transfer by FHT)
-                // transferTrainNumber(resetRt);
-            }
+            // Check if selected route has same exit signal.
+            // If true, do a a FHT withdrawal (no release).
+            if (resetRt->hasThisExitSignal(el))
+                withdrawRoute(resetRt);
             else {
                 QApplication::beep();
                 if (selectedStartSig != NULL)
@@ -638,14 +653,13 @@ void Router::unlockAllLockedRoutes()
     while ((rt = routeit.current()) != 0 ) {
         ++routeit;
         if (rt->getState() != Route::rsUnlocked) {
-            rt->stopRouting();
-            // send signal to routing viewer to update state icon
-            //TODO: send route state message (scripting)
-            emit routeStateChanged(rt);
+
+            // this is a withdrawal, no release
+            withdrawRoute(rt);
         }
         ++index;
     }
-    emit statusMessage(tr("All active routes released"));
+    emit statusMessage(tr("All active routes withdrawn"));
 }
 
 

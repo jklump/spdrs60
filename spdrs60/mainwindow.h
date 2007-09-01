@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.5.2 $Revision: 1.45 $
+                           version 0.5.2 $Revision: 1.46 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-31 20:42:48 $
+    last modified        : $Date: 2007-09-01 07:35:33 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -124,8 +124,9 @@ private:
    QAction         *actionLayoutUpdateFB;
    QAction         *actionLayoutChangeSize;
 
-   QAction         *actionRouteStart;
-   QAction         *actionRouteStop;
+   QAction         *actionRouteActivate;
+   QAction         *actionRouteWithdraw;
+   QAction         *actionRouteRelease;
    QAction         *actionRouteAdd;
    QAction         *actionRouteEdit;
    QAction         *actionRouteCopy;

@@ -1,10 +1,10 @@
 /***************************************************************************
                            routelistwindow.h
-                           version 0.5.2 $Revision: 1.4 $
+                           version 0.5.2 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-31 17:30:11 $
+    last modified        : $Date: 2007-09-01 07:35:33 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -49,10 +49,12 @@ public slots:
     void slotRouteCopy();
     void slotRouteDelete();
     void slotRouteEdit();
-    void slotRouteStart();
-    void slotRouteStop();
-    void slotStartRoute(Route*);
-    void slotStopRoute(Route*);
+    void slotRouteActivate();
+    void slotRouteRelease();
+    void slotRouteWithdraw();
+    void slotActivateRoute(Route*);
+    void slotReleaseRoute(Route*);
+    void slotWithdrawRoute(Route*);
     void slotToggleRouteState(QListViewItem*);
     void switchVisualMode(elemVisualMode);
     void updateRouteData(Route*);

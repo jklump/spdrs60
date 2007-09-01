@@ -1,3 +1,8 @@
+2007-09-01 Guido Scholz <guido.scholz@bayernline.de>
+	* mainwindow.* router.*, routelistwindow.*: clear difference
+	between route withdrawal and route release
+	* mainwindow.*: new menu item for route release
+
 2007-08-31 Guido Scholz <guido.scholz@bayernline.de>
 	* messagehistory.*, mainwindow.* gbsarea.*, router.*: new
 	message history line

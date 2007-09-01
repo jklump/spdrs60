@@ -1,10 +1,10 @@
 /***************************************************************************
                            routelistwindow.cpp
-                           version 0.5.2 $Revision: 1.5 $
+                           version 0.5.2 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2007-09-01 07:35:33 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -133,7 +133,7 @@ void RouteListWindow::updateRouteList()
 /**
  * Triggered by main window when the user activates a route.
  * */
-void RouteListWindow::slotRouteStart()
+void RouteListWindow::slotRouteActivate()
 {
     if (gbsRouter == NULL || visualMode == kvmEditLayout)
         return;
@@ -157,9 +157,9 @@ void RouteListWindow::slotToggleRouteState(QListViewItem * lvi)
 
     if (sr != NULL) {
         if (sr->getState() == Route::rsLocked)
-            slotStopRoute(sr);
+            slotWithdrawRoute(sr);
         else
-            slotStartRoute(sr);
+            slotActivateRoute(sr);
     }
 }
 
@@ -167,7 +167,7 @@ void RouteListWindow::slotToggleRouteState(QListViewItem * lvi)
 /**
  * internal use for route state toggling
  */
-void RouteListWindow::slotStartRoute(Route* sr)
+void RouteListWindow::slotActivateRoute(Route* sr)
 {
     if (gbsRouter == NULL || visualMode == kvmEditLayout)
         return;
@@ -179,7 +179,7 @@ void RouteListWindow::slotStartRoute(Route* sr)
 /**
  * Triggered by main window when the user releases a route.
  * */
-void RouteListWindow::slotRouteStop()
+void RouteListWindow::slotRouteRelease()
 {
     if (gbsRouter == NULL || visualMode == kvmEditLayout)
         return;
@@ -187,19 +187,46 @@ void RouteListWindow::slotRouteStop()
     RouteLVI* lvi = (RouteLVI*) routeLV->currentItem();
 
     if (lvi != NULL)
-        slotStopRoute(lvi->getRoute());
+        slotReleaseRoute(lvi->getRoute());
 }
 
 
 /**
  * internal use
  */
-void RouteListWindow::slotStopRoute(Route* sr)
+void RouteListWindow::slotReleaseRoute(Route* sr)
 {
     if (gbsRouter == NULL || visualMode == kvmEditLayout)
         return;
 
     gbsRouter->releaseRoute(sr);
+}
+
+
+/**
+ * Triggered by main window when the user withdraws a route.
+ * */
+void RouteListWindow::slotRouteWithdraw()
+{
+    if (gbsRouter == NULL || visualMode == kvmEditLayout)
+        return;
+
+    RouteLVI* lvi = (RouteLVI*) routeLV->currentItem();
+
+    if (lvi != NULL)
+        slotWithdrawRoute(lvi->getRoute());
+}
+
+
+/**
+ * internal use
+ */
+void RouteListWindow::slotWithdrawRoute(Route* sr)
+{
+    if (gbsRouter == NULL || visualMode == kvmEditLayout)
+        return;
+
+    gbsRouter->withdrawRoute(sr);
 }
 
 

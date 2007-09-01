@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.109 $
+                           version 0.5.2 $Revision: 1.110 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-31 20:42:48 $
+    last modified        : $Date: 2007-09-01 07:35:33 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1122,32 +1122,50 @@ void MainWindow::initMainWindow()
     menuBar()->insertItem(tr("&Route"), routemenu);
 
 #if QT_VERSION >= 0x030200
-    actionRouteStart = new QAction(QPixmap(route_start_xpm),
-            tr("&Start"), 0, this, "routestart");
-    actionRouteStart->setToolTip(tr("Activate route"));
+    actionRouteActivate = new QAction(QPixmap(route_start_xpm),
+            tr("Ac&tivate"), 0, this, "routeActivate");
+    actionRouteActivate->setToolTip(tr("Activate route"));
 #else
-    actionRouteStart = new QAction(tr("Activate route"),
+    actionRouteActivate = new QAction(tr("Activate route"),
             QPixmap(route_start_xpm),
-            tr("&Start"), 0, this, "routestart");
+            tr("Ac&tivate"), 0, this, "routeActivate");
 #endif
-    connect(actionRouteStart, SIGNAL(activated()), rtViewer,
-            SLOT(slotRouteStart()));
-    actionRouteStart->addTo(routemenu);
-    actionRouteStart->addTo(routetb);
+    connect(actionRouteActivate, SIGNAL(activated()), rtViewer,
+            SLOT(slotRouteActivate()));
+    actionRouteActivate->addTo(routemenu);
+    actionRouteActivate->addTo(routetb);
 
 #if QT_VERSION >= 0x030200
-    actionRouteStop = new QAction(QPixmap(route_stop_xpm), tr("Sto&p"),
-            0, this, "routestop");
-    actionRouteStop->setToolTip(tr("Release route"));
+    actionRouteWithdraw = new QAction(QPixmap(route_stop_xpm), tr("W&ithdraw"),
+            0, this, "routeWithdraw");
+    actionRouteWithdraw->setToolTip(tr("Withdraw a wrong activated route"));
+    actionRouteWithdraw->setText(tr("Withdraw route"));
 #else
-    actionRouteStop = new QAction(tr("Release route"),
-            QPixmap(route_stop_xpm), tr("Sto&p"),
-            0, this, "routestop");
+    actionRouteWithdraw = new QAction(tr("Withdraw route"),
+            QPixmap(route_stop_xpm), tr("W&ithdraw"),
+            0, this, "routeWithdraw");
 #endif
-    connect(actionRouteStop, SIGNAL(activated()), rtViewer,
-            SLOT(slotRouteStop()));
-    actionRouteStop->addTo(routemenu);
-    actionRouteStop->addTo(routetb);
+    connect(actionRouteWithdraw, SIGNAL(activated()), rtViewer,
+            SLOT(slotRouteWithdraw()));
+    actionRouteWithdraw->addTo(routemenu);
+    actionRouteWithdraw->addTo(routetb);
+
+#if QT_VERSION >= 0x030200
+    //actionRouteRelease = new QAction(QPixmap(route_stop_xpm), tr("&Release"),
+    actionRouteRelease = new QAction(NULL, tr("&Release"),
+            0, this, "routeRelease");
+    actionRouteRelease->setToolTip(tr("Release a activated route. This\n"
+                "includes a train number transfer."));
+    actionRouteRelease->setText(tr("Release route"));
+#else
+    actionRouteRelease = new QAction(tr("Release route"),
+            QPixmap(route_stop_xpm), tr("&Release"),
+            0, this, "routeRelease");
+#endif
+    connect(actionRouteRelease, SIGNAL(activated()), rtViewer,
+            SLOT(slotRouteRelease()));
+    actionRouteRelease->addTo(routemenu);
+    //actionRouteRelease->addTo(routetb);
 
     routemenu->insertSeparator();
     routetb->addSeparator();
@@ -2848,8 +2866,9 @@ void MainWindow::slotViewSwitchMode(QAction* ac)
 void MainWindow::updateRouteMenu(bool rtvIsVisible)
 {
     if (!rtvIsVisible) {
-        actionRouteStart->setEnabled(false);
-        actionRouteStop->setEnabled(false);
+        actionRouteActivate->setEnabled(false);
+        actionRouteWithdraw->setEnabled(false);
+        actionRouteRelease->setEnabled(false);
         actionRouteAdd->setEnabled(false);
         actionRouteEdit->setEnabled(false);
         actionRouteCopy->setEnabled(false);
@@ -2886,22 +2905,26 @@ void MainWindow::updateRouteMenuActivateItems()
 
         switch (state) {
             case -1:
-                actionRouteStart->setEnabled(false);
-                actionRouteStop->setEnabled(false);
+                actionRouteActivate->setEnabled(false);
+                actionRouteWithdraw->setEnabled(false);
+                actionRouteRelease->setEnabled(false);
                 break;
             case 0:
-                actionRouteStart->setEnabled(true);
-                actionRouteStop->setEnabled(false);
+                actionRouteActivate->setEnabled(true);
+                actionRouteWithdraw->setEnabled(false);
+                actionRouteRelease->setEnabled(false);
                 break;
             default:
-                actionRouteStart->setEnabled(false);
-                actionRouteStop->setEnabled(true);
+                actionRouteActivate->setEnabled(false);
+                actionRouteWithdraw->setEnabled(true);
+                actionRouteRelease->setEnabled(true);
                 break;
         }
     }
     else {
-        actionRouteStart->setEnabled(false);
-        actionRouteStop->setEnabled(false);
+        actionRouteActivate->setEnabled(false);
+        actionRouteWithdraw->setEnabled(false);
+        actionRouteRelease->setEnabled(false);
     }
 }
 

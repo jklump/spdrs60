@@ -713,11 +713,11 @@ Wollen Sie sie überschreiben?</translation>
         <translation>Fahrstraßenbearbeitungsmodus aktiviert</translation>
     </message>
     <message>
-        <source>&amp;Start</source>
+        <source>Ac&amp;tivate</source>
         <translation>&amp;Einstellen</translation>
     </message>
     <message>
-        <source>Sto&amp;p</source>
+        <source>W&amp;ithdraw</source>
         <translation>&amp;Zurücknehmen</translation>
     </message>
     <message>
@@ -853,6 +853,24 @@ zu benutzen, starten Sie bitte den Server neu)</translation>
     <message>
         <source>&amp;spdrs60 for Linux on the web</source>
         <translation>&amp;spdrs60 für Linux im Internet</translation>
+    </message>
+    <message>
+        <source>Withdraw a wrong activated route</source>
+        <translation>Eine falsch eingestellte Fahrstraße zurücknehmen</translation>
+    </message>
+    <message>
+        <source>Withdraw route</source>
+        <translation>Fahrstraße zurücknehmen</translation>
+    </message>
+    <message>
+        <source>&amp;Release</source>
+        <translation>&amp;Auflösen</translation>
+    </message>
+    <message>
+        <source>Release a activated route. This
+includes a train number transfer.</source>
+        <translation>Eine eingestellte Fahrstraße auflösen.
+Die Zugnummer wird hierbei weitergeleitet.</translation>
     </message>
 </context>
 <context>
@@ -1223,7 +1241,7 @@ zu benutzen, starten Sie bitte den Server neu)</translation>
         <translation>Keine eingestellte Fahrstraße für Startsignal &apos;%1&apos; gefunden</translation>
     </message>
     <message>
-        <source>All active routes released</source>
+        <source>All active routes withdrawn</source>
         <translation>Alle eingestellten Fahrstraßen zurückgenommen</translation>
     </message>
     <message>

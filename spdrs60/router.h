@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.h
-                           version 0.5.2 $Revision: 1.23 $
+                           version 0.5.2 $Revision: 1.24 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-31 20:42:48 $
+    last modified        : $Date: 2007-09-01 07:35:33 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -62,6 +62,7 @@ public:
     void activateRouteAt(unsigned int);
     void releaseRoute(Route*);
     void releaseRouteAt(unsigned int);
+    void withdrawRoute(Route*);
 
 public slots:
     void clearRoutes();
