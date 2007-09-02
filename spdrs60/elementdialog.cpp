@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.cpp
-                           version 0.5.2 $Revision: 1.38 $
+                           version 0.5.2 $Revision: 1.39 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-02 17:34:16 $
+    last modified        : $Date: 2007-09-02 17:57:53 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1221,15 +1221,14 @@ void elementDialog::showSubTypes(int iShow_)
     }
 
     if (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) {
-            QToolTip::add(buttSubType[1],
-                            tr("Allows to use a:\n"
-                                    "2 state double turnout\n(f.e. Maerklin 2264)"
-                                    "\nDOES NOT WORK YET!"));
-            QToolTip::add(buttSubType[2],
-                            tr("Allows to use a:\n"
-                                    "4 state double turnout\n"
-                                    "(f.e. Maerklin 2275,\nall Roco´s)"));
-
+        QToolTip::add(buttSubType[1],
+                tr("Allows to use a:\n"
+                    "2 state double turnout\n(f.e. Maerklin 2264)"
+                    "\nDOES NOT WORK YET!"));
+        QToolTip::add(buttSubType[2],
+                tr("Allows to use a:\n"
+                    "4 state double turnout\n"
+                    "(f.e. Maerklin 2275,\nall Roco´s)"));
         switch (gaSubType) {
             case 0:
                 buttSubType[1]->setOn(true);   // 2 states possible/Maerklin

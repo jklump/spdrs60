@@ -77,7 +77,7 @@ wird ein SRCP-Server (z.B. erddcd oder srcpd) benötigt.</translation>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <source>Press this button to begin searching</source>
+        <source>Press this button to start search</source>
         <translation>Zum Starten der Suche diese Schaltfläche drücken</translation>
     </message>
     <message>
@@ -381,60 +381,8 @@ den Suchkriterien entspricht.</translation>
         <translation>Verbindung &amp;trennen</translation>
     </message>
     <message>
-        <source>SRCP: %1 ===&gt; PASS</source>
-        <translation>SRCP: %1 ===&gt; PASSIERT</translation>
-    </message>
-    <message>
-        <source>Command socket connected!</source>
-        <translation>Kommando-Socket ist verbunden!</translation>
-    </message>
-    <message>
-        <source>Command socket closed!</source>
-        <translation>Kommando-Socket ist geschlossen!</translation>
-    </message>
-    <message>
-        <source>Feedback socket connected!</source>
-        <translation>Rückmelde-Socket ist verbunden!</translation>
-    </message>
-    <message>
-        <source>Feedback socket closed!</source>
-        <translation>Rückmelde-Socket geschlossen!</translation>
-    </message>
-    <message>
-        <source>Info socket connected!</source>
-        <translation>Info-Socket ist verbunden!</translation>
-    </message>
-    <message>
-        <source>Info socket closed!</source>
-        <translation>Info-Socket ist geschlossen!</translation>
-    </message>
-    <message>
-        <source>connection refused</source>
-        <translation>Verbindung abgelehnt</translation>
-    </message>
-    <message>
-        <source>host not found</source>
-        <translation>Host nicht gefunden</translation>
-    </message>
-    <message>
-        <source>socket read error</source>
-        <translation>Socket-Lesefehler</translation>
-    </message>
-    <message>
         <source>&amp;Stop power</source>
         <translation>Digital&amp;strom aus</translation>
-    </message>
-    <message>
-        <source>Command socket closed by foreign host!</source>
-        <translation>Kommando-Socket durch Server geschlossen!</translation>
-    </message>
-    <message>
-        <source>Feedback socket closed by foreign host!</source>
-        <translation>Rückmelde-Socket durch Server geschlossen!</translation>
-    </message>
-    <message>
-        <source>Info socket closed by foreign host!</source>
-        <translation>Info-Socket durch Server geschlossen!</translation>
     </message>
     <message>
         <source>Layouts</source>
@@ -551,10 +499,6 @@ Wollen Sie sie überschreiben?</translation>
     <message>
         <source>noname</source>
         <translation>unbenannt</translation>
-    </message>
-    <message>
-        <source>Cannot read server welcome message!</source>
-        <translation>Kann Begrüßungsmeldung des Servers nicht lesen!</translation>
     </message>
     <message>
         <source>Save &amp;as...</source>
@@ -765,10 +709,6 @@ Wollen Sie sie überschreiben?</translation>
         <translation>Gewählte Fahrstraße duplizieren</translation>
     </message>
     <message>
-        <source>SRCP: %1 ===&gt; FAILED; spdrs60 requires SRCP &gt;= 0.7.0 and &lt; 0.9.0</source>
-        <translation>SRCP: %1 ===&gt; FEHLER, spdrs60 benötigt SRCP &gt;= 0.7.0 und &lt; 0.9.0</translation>
-    </message>
-    <message>
         <source>S&amp;ettings...</source>
         <translation>&amp;Einstellungen...</translation>
     </message>
@@ -777,36 +717,8 @@ Wollen Sie sie überschreiben?</translation>
         <translation>Gleisbildeinstellungen ändern</translation>
     </message>
     <message>
-        <source>Command socket: Host &apos;%1&apos; found.</source>
-        <translation>Kommando-Socket: Host &apos;%1&apos; gefunden.</translation>
-    </message>
-    <message>
-        <source>Command socket: Error number %1 occurred (%2)</source>
-        <translation>Kommando Socket: Fehler Nummer %1 ist aufgetreten (%2)</translation>
-    </message>
-    <message>
         <source>Feedback port changes should be avoided during initialization</source>
         <translation>Während der Initialisierung sollten Änderungen der Rückmelder vermieden werden</translation>
-    </message>
-    <message>
-        <source>Feedback socket: Error number %1 occurred (%2)</source>
-        <translation>Rückmelde-Socket: Fehler Nummer %1 ist aufgetreten (%2)</translation>
-    </message>
-    <message>
-        <source>Info socket: Error number %1 occurred (%2)</source>
-        <translation>Info-Socket: Fehler Nummer %1 ist aufgetreten (%2)</translation>
-    </message>
-    <message>
-        <source>Command socket: Try to connect host &quot;%1&quot; on port &quot;%2&quot;</source>
-        <translation>Kommando-Socket: Versuche Verbindung zu Host &quot;%1&quot; auf Port &quot;%2&quot; herzustellen</translation>
-    </message>
-    <message>
-        <source>Feedback socket: Try to connect host &quot;%1&quot; on port &quot;%2&quot;</source>
-        <translation>Rückmelde-Socket: Versuche Verbindung zu Host &quot;%1&quot; auf Port &quot;%2&quot; herzustellen</translation>
-    </message>
-    <message>
-        <source>Info socket: Try to connect host &quot;%1&quot; on port &quot;%2&quot;</source>
-        <translation>Info-Socket: Versuche Verbindung zu Host &quot;%1&quot; auf Port &quot;%2&quot; herzustellen</translation>
     </message>
     <message>
         <source>Use H&amp;aGT</source>
@@ -855,14 +767,6 @@ zu benutzen, starten Sie bitte den Server neu)</translation>
 includes a train number transfer.</source>
         <translation>Eine eingestellte Fahrstraße auflösen.
 Die Zugnummer wird hierbei weitergeleitet.</translation>
-    </message>
-    <message>
-        <source>%1: Parse error, parameter list too long &apos;%2&apos;.</source>
-        <translation>1%: Fehler beim Auswerten, Parameterliste zu lang &apos;%1&apos;.</translation>
-    </message>
-    <message>
-        <source>%1: Parse error, parameter list too short &apos;%2&apos;.</source>
-        <translation>&gt;%1: Fehler beim Auswerten, Parameterliste ist zu kurz &apos;%2&apos;.</translation>
     </message>
 </context>
 <context>
@@ -1317,6 +1221,77 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     </message>
 </context>
 <context>
+    <name>SrcpPort</name>
+    <message>
+        <source>%1: Try to connect host &quot;%2&quot; on port &quot;%3&quot;</source>
+        <translation>%1: Versuche Verbindung zu Host &quot;%1&quot; auf Port &quot;%2&quot; herzustellen</translation>
+    </message>
+    <message>
+        <source>%1: Parse error, parameter list too long &apos;%2&apos;.</source>
+        <translation>1%: Fehler beim Auswerten, Parameterliste zu lang &apos;%1&apos;.</translation>
+    </message>
+    <message>
+        <source>%1: Parse error, parameter list too short &apos;%2&apos;.</source>
+        <translation>%1: Fehler beim Auswerten, Parameterliste ist zu kurz &apos;%2&apos;.</translation>
+    </message>
+    <message>
+        <source>%1: Communication error, no SRCP version found.</source>
+        <translation>%1: Kommunikationsfehler, keine SRCP-Version gefunden</translation>
+    </message>
+    <message>
+        <source>%1: Communication error, wrong SRCP version &apos;%2&apos;.</source>
+        <translation>1%: Kommunikationsfehler, falsche SRCP-Version &apos;%2&apos;.</translation>
+    </message>
+    <message>
+        <source>%1: Communication error PROTOCOL &apos;%2&apos;</source>
+        <translation>1%: Kommunikationsfehler PROTOCOL &apos;%2&apos;</translation>
+    </message>
+    <message>
+        <source>%1: Communication error CONNECTIONMODE &apos;%2&apos;</source>
+        <translation>1%: Kommunikationsfehler CONNECTIONMODE &apos;%2&apos;</translation>
+    </message>
+    <message>
+        <source>%1: Communication error GO &apos;%2&apos;</source>
+        <translation>1%: Kommunikationsfehler GO &apos;%2&apos;</translation>
+    </message>
+    <message>
+        <source>%1: Error, wrong SRCP state: %2</source>
+        <translation>1%: Fehler, falscher SRCP-Status: %2</translation>
+    </message>
+    <message>
+        <source>%1: Socket connected to host &apos;%2&apos; on port &apos;%3&apos;</source>
+        <translation>1%: Socket mit Host &apos;%2&apos; auf Port &apos;%3&apos; verbunden</translation>
+    </message>
+    <message>
+        <source>%1: Host &apos;%2&apos; found</source>
+        <translation>%1: Host &apos;%2&apos; gefunden</translation>
+    </message>
+    <message>
+        <source>%1: Socket closed by foreign host.</source>
+        <translation>1%: Socket durch Server geschlossen.</translation>
+    </message>
+    <message>
+        <source>%1: Socket closed.</source>
+        <translation>%1: Socket geschlossen.</translation>
+    </message>
+    <message>
+        <source>%1: Socket error %2 occured (%3).</source>
+        <translation>%1: Socketfehler %2 ist aufgetreten (%3)</translation>
+    </message>
+    <message>
+        <source>connection refused</source>
+        <translation>Verbindung verweigert</translation>
+    </message>
+    <message>
+        <source>host not found</source>
+        <translation>Host nicht gefunden</translation>
+    </message>
+    <message>
+        <source>socket read error</source>
+        <translation>Socketlesefehler</translation>
+    </message>
+</context>
+<context>
     <name>elementCommander</name>
     <message>
         <source>Shifting bridge commander</source>
@@ -1426,28 +1401,6 @@ Vr0 und Vr2</translation>
 Vr0, Vr1 and Vr2</source>
         <translation>Erlaubt den Signalwechsel nach:
 Vr0, Vr1 und Vr2</translation>
-    </message>
-    <message>
-        <source>Allows to use a:
-bistable coupler</source>
-        <translation>Erlaubt den Gebrauch eines:
-Bistabilen Kupplers</translation>
-    </message>
-    <message>
-        <source>Allows to use a:
-momentary coupler
-on left connector</source>
-        <translation>Erlaubt den Gebrauch eines:
-Einfachen Entkupplers
-am linken Anschluß</translation>
-    </message>
-    <message>
-        <source>Allows to use a:
-momentary coupler
-on right connector</source>
-        <translation>Erlaubt den Gebrauch eines:
-Einfachen Entkupplers
-am rechten Anschluß</translation>
     </message>
     <message>
         <source>Allows to use a:
@@ -1579,16 +1532,30 @@ Controlled via keyboard #14</source>
         <source>&amp;Port 2:</source>
         <translation>&amp;Anschluß 2:</translation>
     </message>
+    <message>
+        <source>Allows to use a bistable coupler</source>
+        <translation>Erlaubt den Gebrauch eines bistabilen Entkupplers</translation>
+    </message>
+    <message>
+        <source>Allows to use a:
+momentary coupler on left connector</source>
+        <translation>Erlaubt den Gebrauch eines:
+Einfachen Entkupplers
+am linken Anschluß</translation>
+    </message>
+    <message>
+        <source>Allows to use a:
+momentary coupler on right connector</source>
+        <translation>Erlaubt den Gebrauch eines:
+Einfachen Entkupplers
+am rechten Anschluß</translation>
+    </message>
 </context>
 <context>
     <name>keyboard</name>
     <message>
         <source>Keyboard</source>
         <translation>Schaltpult</translation>
-    </message>
-    <message>
-        <source>Please enter the address to be switched</source>
-        <translation>Bitte die zu schaltende Adresse eingeben</translation>
     </message>
     <message>
         <source>Press this button to activate red connector</source>
@@ -1599,10 +1566,6 @@ Controlled via keyboard #14</source>
         <translation>Diesen Schalter zur Betätitung des grünen Anschlusses drücken</translation>
     </message>
     <message>
-        <source>Please enter the SRCB-bus for the address</source>
-        <translation>Bitte den zur Adresse passenden SRCP-Bus eingeben</translation>
-    </message>
-    <message>
         <source>SRCP-&amp;Bus:</source>
         <translation>SRCP-&amp;Bus:</translation>
     </message>
@@ -1610,15 +1573,17 @@ Controlled via keyboard #14</source>
         <source>&amp;Address:</source>
         <translation>&amp;Adresse:</translation>
     </message>
+    <message>
+        <source>Enter the SRCP bus for the address</source>
+        <translation>Hier den zur Adresse passenden SRCP-Bus eingeben</translation>
+    </message>
+    <message>
+        <source>Enter the address to be switched</source>
+        <translation>Hier die zu schaltende Adresse eingeben</translation>
+    </message>
 </context>
 <context>
     <name>newLayoutDialog</name>
-    <message>
-        <source>Choose or enter the number of
-columns for an empty layout</source>
-        <translation>Anzahl der Spalten für das neue
-Gleisbild wählen oder eingeben</translation>
-    </message>
     <message>
         <source>Create new layout</source>
         <translation>Neues Gleisbild erzeugen</translation>
@@ -1634,12 +1599,6 @@ Gleisbild wählen oder eingeben</translation>
     <message>
         <source>&amp;Rows:</source>
         <translation>&amp;Zeilen:</translation>
-    </message>
-    <message>
-        <source>Choose or enter the number of
-rows for an empty layout</source>
-        <translation>Anzahl der Zeilen für
-das neue Gleisbild eingeben</translation>
     </message>
     <message>
         <source>OK</source>
@@ -1672,6 +1631,54 @@ das neue Gleisbild eingeben</translation>
     <message>
         <source>Send all &amp;solenoid states after power on</source>
         <translation>&amp;Magnetartikelstellungen automatisch senden</translation>
+    </message>
+    <message>
+        <source>Enter the hostname or IP address
+of your SRCP server.</source>
+        <translation>Hier den Hostnamen oder die IP-Adressse
+ihres SRCP-Servers eingeben.</translation>
+    </message>
+    <message>
+        <source>The SRCP server will be automatically
+connected when this file is loaded.
+</source>
+        <translation>Nach dem Laden der Datei wird automatisch eine
+Verbindung zum SRCP-Server aufgenommen.</translation>
+    </message>
+    <message>
+        <source>Power of your layout will be automatically
+switched on after server connect.
+</source>
+<translation>Nach der Verbindungsaufnahme mit dem SRCP-Server
+wird die Digitalspannung automatisch eingeschaltet.</translation>
+    </message>
+    <message>
+        <source>The configured states of all solenoids will
+be automatically send to the SRCP server
+after layout power is switched on.
+</source>
+<translation>Nach dem Einschalten der Digitalspannung wird die Stellung
+aller Magnetartikel automatisch an den SRCP-Server gesand.</translation>
+    </message>
+    <message>
+        <source>Choose or enter the number of
+columns for your layout</source>
+        <translation>Anzahl der Spalten für das
+Gleisbild wählen oder eingeben</translation>
+    </message>
+    <message>
+        <source>Choose or enter the number
+of rows for your layout</source>
+        <translation>Anzahl der Zeilen für
+das Gleisbild wählen oder eingeben</translation>
+    </message>
+    <message>
+        <source>Enter the portnumber of your srcp service.
+Default value for SRCP 0.8 is 4303,
+for a SRCP 0.7 server choose 12345.</source>
+        <translation>Hier die Portnummer des srcp-Dienstes eingeben.
+Die Voreinstellung für SRCP 0.8 ist 4303,
+für SRCP 0.7 ist der Wert 12345.</translation>
     </message>
 </context>
 <context>
@@ -1761,20 +1768,8 @@ ein Modul an Bus Nr. 1 angeschlossen ist.</translation>
         <translation>&amp;Browser für die Dokumentation:</translation>
     </message>
     <message>
-        <source>General options</source>
-        <translation>Allgemeine Einstellungen</translation>
-    </message>
-    <message>
         <source>Show &amp;orange light for signals switched to Hp2</source>
         <translation>&amp;Orangefarbenes Licht für Hp2-Signale anzeigen</translation>
-    </message>
-    <message>
-        <source>Show &amp;general bubblehelp (change needs program restart)</source>
-        <translation>Allgemeine &amp;Tooltip-Hilfe (benötigt Programmneustart)</translation>
-    </message>
-    <message>
-        <source>Show bubblehelp for element &amp;data</source>
-        <translation>Tooltip-Hilfe für &amp;Elementdaten</translation>
     </message>
     <message>
         <source>Solenoid labeling</source>
@@ -1881,8 +1876,8 @@ ein Modul an Bus Nr. 1 angeschlossen ist.</translation>
         <translation>Gleisbild beim &amp;Programmstart laden:</translation>
     </message>
     <message>
-        <source>&amp;Save active layout on program exit</source>
-        <translation>Bei Programmbeendung &amp;aktives Gleisbild speichern</translation>
+        <source>&amp;Save active layout on program exit without check-back</source>
+        <translation>Bei Programmbeendung Gleisbild ohne &amp;Rückfrage speichern</translation>
     </message>
     <message>
         <source>&amp;Convert SRCP 0.8 server time human readable</source>
@@ -1971,6 +1966,30 @@ ein Modul an Bus Nr. 1 angeschlossen ist.</translation>
     <message>
         <source>Show &amp;blinking turnouts</source>
         <translation>Weichen &amp;blinkend umschalten</translation>
+    </message>
+    <message>
+        <source>Sho&amp;w time for incoming and outgoing messages</source>
+        <translation>&amp;Zeit für ein- und ausgehende Meldungen anzeigen</translation>
+    </message>
+    <message>
+        <source>Statusline</source>
+        <translation>Statuszeile</translation>
+    </message>
+    <message>
+        <source>Special effects</source>
+        <translation>Spezielle Effekte</translation>
+    </message>
+    <message>
+        <source>Bubblehelp</source>
+        <translation>Tooltip-Hilfe</translation>
+    </message>
+    <message>
+        <source>Globally show help &amp;bubbles</source>
+        <translation>Allgemein Tooltips anzeigen</translation>
+    </message>
+    <message>
+        <source>Show help bubbles for element &amp;data</source>
+        <translation>Tooltips für Daten der Gleisbildelemente anzeigen</translation>
     </message>
 </context>
 <context>
