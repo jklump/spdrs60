@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.20 $
-# last update: $Date: 2007-09-01 15:59:01 $
+# version: $Revision: 1.21 $
+# last update: $Date: 2007-09-02 17:48:15 $
 
 SUBDIRS = pixmaps
 
@@ -10,6 +10,7 @@ bin_PROGRAMS = spdrs60
 # list of all generated (and not distributed) sources
 nodist_spdrs60_SOURCES = \
 	aboutdialog.moc.cpp \
+	commandport.moc.cpp \
 	elementcommander.moc.cpp \
 	elementdialog.moc.cpp \
 	element.moc.cpp \
@@ -18,6 +19,7 @@ nodist_spdrs60_SOURCES = \
 	finder.moc.cpp \
 	gbsarea.moc.cpp \
 	gbsscrollview.moc.cpp \
+	infoport.moc.cpp \
 	keyboard.moc.cpp \
 	mainwindow.moc.cpp \
 	messagehistory.moc.cpp \
@@ -30,11 +32,13 @@ nodist_spdrs60_SOURCES = \
         routelistview.moc.cpp \
         routelistwindow.moc.cpp \
 	serverinfodialog.moc.cpp \
+	srcpport.moc.cpp \
 	turntablecommander.moc.cpp
 
 # list of all sources and headers
 spdrs60_SOURCES = main.cpp resources.h \
 	aboutdialog.cpp aboutdialog.h \
+	commandport.cpp commandport.h \
 	elementcommander.cpp elementcommander.h \
 	element.cpp element.h \
 	elementdialog.cpp elementdialog.h \
@@ -44,6 +48,7 @@ spdrs60_SOURCES = main.cpp resources.h \
 	finder.cpp finder.h \
 	gbsarea.cpp gbsarea.h \
 	gbsscrollview.cpp gbsscrollview.h  \
+	infoport.cpp infoport.h \
 	keyboard.cpp keyboard.h \
 	mainwindow.cpp mainwindow.h \
 	messagehistory.cpp messagehistory.h \
@@ -60,6 +65,7 @@ spdrs60_SOURCES = main.cpp resources.h \
         router.cpp router.h \
 	serverinfodialog.cpp serverinfodialog.h \
         srcpmessage.cpp srcpmessage.h \
+	srcpport.cpp srcpport.h \
 	turntablecommander.cpp turntablecommander.h
 
 
@@ -90,6 +96,7 @@ translated_source_files = \
 	routelistview.cpp \
 	routelistwindow.cpp \
 	serverinfodialog.cpp \
+	srcpport.cpp \
 	turntablecommander.cpp
 
 

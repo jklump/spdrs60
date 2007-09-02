@@ -1,11 +1,11 @@
 /***************************************************************************
                            turntablecommander.cpp
-                           version 0.5.2 $Revision: 1.9 $
+                           version 0.5.2 $Revision: 1.10 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2007-09-02 17:48:15 $
 ***************************************************************************/
 
 /******************************************************************************
@@ -232,35 +232,33 @@ void turntableCommander::setupProgArea()
     connect(bgProg, SIGNAL(released(int)),
             this, SLOT(slotProgrammer(int)));
 
-    if (pref.tooltips == true) {
-        QToolTip::add(buttLeftStep,
-                      tr("Step to next available track\n"
-                          "counter-clockwise"));
-        QToolTip::add(buttRightStep,
-                      tr("Step to next available track\nclockwise"));
-        QToolTip::add(buttChooseLeft,
-                      tr("Select counter-\nclockwise rotation"));
-        QToolTip::add(buttChooseRight, tr("Select clockwise\nrotation"));
-        QToolTip::add(buttStopCont, tr("Stop rotating"));
-        QToolTip::add(listTracks,
-                      tr("Choose the new track the turntable\n"
-                          "shall go to"));
-        QToolTip::add(buttGoToTrack, tr("Go to selected track"));
-        QToolTip::add(buttTurn180, tr("Turn bridge at 180°"));
-        QToolTip::add(buttSetup, tr("Setup turntable"));
-        QToolTip::add(buttInput,
-                      tr("Press this button within 5 seconds after\n"
-                         "having switched on power to the whole\n"
-                         "layout (not just to your PC)."));
-        QToolTip::add(buttSave,
-                      tr("Press this button to save the current\n"
-                         "bridge position as position #1."));
-        QToolTip::add(buttAddPos,
-                      tr("Press this button to add an other position\n"
-                          "for a track."));
-        QToolTip::add(buttEnd,
-                      tr("Press this button to end programming mode."));
-    }
+    QToolTip::add(buttLeftStep,
+                    tr("Step to next available track\n"
+                            "counter-clockwise"));
+    QToolTip::add(buttRightStep,
+                    tr("Step to next available track\nclockwise"));
+    QToolTip::add(buttChooseLeft,
+                    tr("Select counter-\nclockwise rotation"));
+    QToolTip::add(buttChooseRight, tr("Select clockwise\nrotation"));
+    QToolTip::add(buttStopCont, tr("Stop rotating"));
+    QToolTip::add(listTracks,
+                    tr("Choose the new track the turntable\n"
+                            "shall go to"));
+    QToolTip::add(buttGoToTrack, tr("Go to selected track"));
+    QToolTip::add(buttTurn180, tr("Turn bridge at 180°"));
+    QToolTip::add(buttSetup, tr("Setup turntable"));
+    QToolTip::add(buttInput,
+                    tr("Press this button within 5 seconds after\n"
+                            "having switched on power to the whole\n"
+                            "layout (not just to your PC)."));
+    QToolTip::add(buttSave,
+                    tr("Press this button to save the current\n"
+                            "bridge position as position #1."));
+    QToolTip::add(buttAddPos,
+                    tr("Press this button to add an other position\n"
+                            "for a track."));
+    QToolTip::add(buttEnd,
+                    tr("Press this button to end programming mode."));
 }
 
 
