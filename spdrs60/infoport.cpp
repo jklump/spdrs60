@@ -2,8 +2,8 @@
  infoport.cpp
  ------------
  Begin        : 17.08.2007
- Last modified: $Date: 2007-09-02 17:20:02 $
-                $Revision: 1.1 $
+ Last modified: $Date: 2007-09-02 20:51:35 $
+                $Revision: 1.2 $
  Copyright    : (C) 2007 by Guido Scholz <guido.scholz@bayernline.de>
  Description  : Class for info port network communication with a
                 SRCP 0.8 server.
@@ -34,3 +34,14 @@ QString InfoPort::getConnectionMode()
 {
     return QString("INFO");
 }
+
+/*
+ * return the initial communication style, allowed csOld, csNew
+ * SRCP 0.7 needs csOld to switch off server login for info and feedback
+ * ports
+ */
+int InfoPort::getInitialStyle()
+{
+    return commStyle;
+}
+

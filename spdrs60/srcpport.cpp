@@ -2,8 +2,8 @@
  srcpport.cpp
  ------------
  Begin        : 17.08.2007
- Last modified: $Date: 2007-09-02 17:18:25 $
-                $Revision: 1.1 $
+ Last modified: $Date: 2007-09-02 20:51:35 $
+                $Revision: 1.2 $
  Copyright    : (C) 2007 by Guido Scholz <guido.scholz@bayernline.de>
  Description  : Abstract class for network communication with SRCP server.
                 Communication styles SRCP 0.7 and 0.8 are supported.
@@ -132,16 +132,39 @@ void SrcpPort::setPreferedProtocol(const QString& protocol)
 }
 
 /*
+ * set communication style, has no effect if a connection is running
+ */
+void SrcpPort::setCommunicationStyle(CommunicationStyle style)
+{
+    commStyle = style;
+}
+
+/*
  * initiate server connection and start handshake phase
  */
 void SrcpPort::serverConnect()
 {
     emit statusMessage(tr("%1: Try to connect host \"%2\" on port \"%3\"")
             .arg(name()).arg(host).arg(port));
-    srcpState = sLogin;
+
+    if (getInitialStyle() == csOld) {
+        srcpState = sRun;
+        currentStyle = csOld;
+    }
+    else
+        srcpState = sLogin;
+
     srcpSocket->connectToHost(host, port);
 }
 
+/*
+ * return the initial communication style, must be inherited by SRCP 0.7
+ * info and feddback port
+ */
+int SrcpPort::getInitialStyle()
+{
+    return csNew;
+}
 
 /*
  * stop server connection and reset communication state
@@ -167,7 +190,7 @@ void SrcpPort::serverDisconnect()
  */
 bool SrcpPort::hasServerConnection()
 {
-    return (srcpSocket->state() == QSocket::Connected);
+    return (srcpSocket->state() != QSocket::Idle);
 }
 
 
@@ -236,9 +259,9 @@ void SrcpPort::readData()
 
                         if (wmt.count() == 2) {
 
-                            if (wmt[0] == "SRCP")
+                            if (wmt[0].lower() == "srcp")
                                 srcpVersion = wmt[1];
-                            else if (wmt[0] == "SRCPOTHER")
+                            else if (wmt[0].lower() == "srcpother")
                                 srcpOther = wmt[1];
                             else {
                                 if (!srcpServer.isEmpty()) {
@@ -404,12 +427,16 @@ void SrcpPort::readData()
 
 /*
  * give response if a new socket connection is successfully established
+ * for SRCP 07. info port and feedback port connection state change is
+ * reported immediately (without login procedure)
  */
 void SrcpPort::socketConnected()
 {
-    // TODO: check: srcpState = sLogin;
     emit statusMessage(tr("%1: Socket connected to "
                 "host '%2' on port '%3'").arg(name()).arg(host).arg(port));
+
+    if (srcpState == sRun)
+        emit connectionStateChanged(true);
 }
 
 

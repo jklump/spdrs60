@@ -2,8 +2,8 @@
  infoport.h
  ------------
  Begin        : 17.08.2007
- Last modified: $Date: 2007-09-02 17:20:02 $
-                $Revision: 1.1 $
+ Last modified: $Date: 2007-09-02 20:51:35 $
+                $Revision: 1.2 $
  Copyright    : (C) 2007 by Guido Scholz <guido.scholz@bayernline.de>
  Description  : Class for info port network communication with a
                 SRCP 0.8 server.
@@ -34,6 +34,7 @@ public:
 
 protected:
     QString getConnectionMode();
+    int getInitialStyle();
 };
 
 #endif                          //INFOPORT_H

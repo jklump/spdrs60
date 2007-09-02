@@ -1649,7 +1649,7 @@ Verbindung zum SRCP-Server aufgenommen.</translation>
         <source>Power of your layout will be automatically
 switched on after server connect.
 </source>
-<translation>Nach der Verbindungsaufnahme mit dem SRCP-Server
+        <translation>Nach der Verbindungsaufnahme mit dem SRCP-Server
 wird die Digitalspannung automatisch eingeschaltet.</translation>
     </message>
     <message>
@@ -1657,7 +1657,7 @@ wird die Digitalspannung automatisch eingeschaltet.</translation>
 be automatically send to the SRCP server
 after layout power is switched on.
 </source>
-<translation>Nach dem Einschalten der Digitalspannung wird die Stellung
+        <translation>Nach dem Einschalten der Digitalspannung wird die Stellung
 aller Magnetartikel automatisch an den SRCP-Server gesand.</translation>
     </message>
     <message>

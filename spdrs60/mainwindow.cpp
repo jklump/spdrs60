@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.113 $
+                           version 0.5.2 $Revision: 1.114 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-02 17:50:27 $
+    last modified        : $Date: 2007-09-02 20:51:35 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -182,8 +182,7 @@ MainWindow::~MainWindow()
     // port destructors take care to close server connection
     delete commandPort;
     delete infoPort;
-    if (feedbackPort != NULL)
-        delete feedbackPort;
+    delete feedbackPort;
 }
 
 /**
@@ -2027,6 +2026,7 @@ void MainWindow::updateCommandConnectionState(bool connected)
     if (connected) {
 
         if (SrcpPort::csOld == commandStyle) {
+            infoPort->setCommunicationStyle(SrcpPort::csOld);
             infoPort->setServer(
                     commandPort->getHostname(),
                     commandPort->getPortNumber() + 2);
@@ -2110,6 +2110,8 @@ void MainWindow::updateInfoConnectionState(bool connected)
 
         //connect feedbackport style dependend
         if (SrcpPort::csOld == infoStyle) {
+
+            feedbackPort->setCommunicationStyle(SrcpPort::csOld);
             feedbackPort->setServer(
                     commandPort->getHostname(),
                     commandPort->getPortNumber() + 1);
@@ -2309,19 +2311,13 @@ void MainWindow::CloseSRCPServerConnection()
         commandPort->serverDisconnect();
     }        
 
-    /* 2. Feedback socket, but only in SRCP 0.7 mode */
-    if (SrcpPort::csOld == commandStyle &&
-            feedbackPort->hasServerConnection()) {
+    /* 2. Feedback socket, relevant only in SRCP 0.7 mode */
+    if (feedbackPort->hasServerConnection())
         feedbackPort->serverDisconnect();
-    }
 
     /* 3. Info socket */
-    if (infoPort->hasServerConnection()) {
-        if (SrcpPort::csNew == infoStyle)
-            SendInfoCommandToSRCPServer("TERM 0 SESSION");
-
+    if (infoPort->hasServerConnection())
         infoPort->serverDisconnect();
-    }
 }
 
 

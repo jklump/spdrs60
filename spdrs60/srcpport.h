@@ -2,8 +2,8 @@
  srcpport.h
  ----------
  Begin        : 17.08.2007
- Last modified: $Date: 2007-09-02 17:18:25 $
-                $Revision: 1.1 $
+ Last modified: $Date: 2007-09-02 20:51:35 $
+                $Revision: 1.2 $
  Copyright    : (C) 2007 by Guido Scholz <guido.scholz@bayernline.de>
  Description  : Abstract class for network communication with SRCP server.
                 Communication styles SRCP 0.7 and 0.8 are supported.
@@ -37,6 +37,8 @@ public:
     ~SrcpPort();
 
     void setServer(const QString&, unsigned int);
+    void setCommunicationStyle(CommunicationStyle);
+    void setPreferedProtocol(const QString&);
     QString getHostname() const;
     unsigned int getPortNumber() const;
     bool hasServerConnection();
@@ -49,7 +51,6 @@ public:
     QString getSrcpServer();
     int getCurrentStyle();
     void enableTimeTranslation(bool);
-    void setPreferedProtocol(const QString&);
     bool isTimeTranslationEnabled();
 
 private:
@@ -59,7 +60,6 @@ private:
     QString host;
     unsigned int port;
     QString otherProtocol;
-    CommunicationStyle commStyle;
     CommunicationStyle currentStyle;
     bool translateservertime;
     unsigned int sessionid;
@@ -74,7 +74,9 @@ private:
     QString translateServerTime(const QString&);
 
 protected:
+    CommunicationStyle commStyle;
     virtual QString getConnectionMode() = 0;
+    virtual int getInitialStyle();
     
 private slots:
     void readData();
