@@ -1,11 +1,11 @@
 /***************************************************************************
                            newlayoutdialog.cpp
-                           version 0.5.2 $Revision: 1.18 $
+                           version 0.5.2 $Revision: 1.19 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-31 17:30:10 $
+    last modified        : $Date: 2007-09-02 17:34:16 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -56,9 +56,9 @@ newLayoutDialog::newLayoutDialog(QWidget* parent)
     columnsLayout->addWidget(sbEnterCols);
     label->setBuddy(sbEnterCols);
     sbEnterCols->setWrapping(true);     // enables to spin "over" the limits
-    if (pref.tooltips)
-        QToolTip::add(sbEnterCols, tr("Choose or enter the number of\n"
-                                      "columns for an empty layout"));
+    QToolTip::add(sbEnterCols, tr(
+                "Choose or enter the number of\n"
+                "columns for your layout"));
 
     //line with row number
     QHBoxLayout* rowsLayout = new QHBoxLayout(boxL);
@@ -72,9 +72,9 @@ newLayoutDialog::newLayoutDialog(QWidget* parent)
     rowsLayout->addWidget(sbEnterRows);
     label->setBuddy(sbEnterRows);
     sbEnterRows->setWrapping(true);     // enables to spin "over" the limits
-    if (pref.tooltips)
-        QToolTip::add(sbEnterRows, tr("Choose or enter the number of\n"
-                                      "rows for an empty layout"));
+    QToolTip::add(sbEnterRows, tr(
+                "Choose or enter the number\n"
+                "of rows for your layout"));
 
     // server group box
     QGroupBox *serverGB = new QGroupBox(0, Qt::Horizontal, "SRCP-Server",
@@ -93,6 +93,9 @@ newLayoutDialog::newLayoutDialog(QWidget* parent)
     hostL->addWidget(hostLE);
     hostLE->setMaximumWidth(100);
     label->setBuddy(hostLE);
+    QToolTip::add(hostLE, tr(
+                "Enter the hostname or IP address\n"
+                "of your SRCP server."));
 
     // line with port number
     QHBoxLayout* portL = new QHBoxLayout(serverGBL);
@@ -109,6 +112,10 @@ newLayoutDialog::newLayoutDialog(QWidget* parent)
     portLE->setMaxLength(5);
     QValidator* portValidator = new QIntValidator(1, 65535, serverGB);
     portLE->setValidator(portValidator);
+    QToolTip::add(portLE, tr(
+                "Enter the portnumber of your srcp service.\n"
+                "Default value for SRCP 0.8 is 4303,\n"
+                "for a SRCP 0.7 server choose 12345."));
 
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -122,15 +129,25 @@ newLayoutDialog::newLayoutDialog(QWidget* parent)
             startBG, "autologinCB");
     connect(autologinCB, SIGNAL(stateChanged(int)), this,
             SLOT(autologinChanged(int)));
+    QToolTip::add(autologinCB, tr(
+                "The SRCP server will be automatically\n"
+                "connected when this file is loaded.\n"));
 
     autopowerCB = new QCheckBox(tr("Autostart layout &voltage"),
             startBG, "autopowerCB");
     connect(autopowerCB, SIGNAL(stateChanged(int)), this,
             SLOT(autopowerChanged(int)));
+    QToolTip::add(autopowerCB, tr(
+                "Power of your layout will be automatically\n"
+                "switched on after server connect.\n"));
 
     autosendallCB = new QCheckBox(tr("Send all &solenoid states after"
                 " power on"),
             startBG, "autosendallCB");
+    QToolTip::add(autopowerCB, tr(
+                "The configured states of all solenoids will\n"
+                "be automatically send to the SRCP server\n"
+                "after layout power is switched on.\n"));
 
     // line with OK/Cancel buttons
     QHBoxLayout* buttonLayout = new QHBoxLayout(0, 0, 6);

@@ -1,11 +1,11 @@
 /***************************************************************************
                            keyboard.cpp
-                           version 0.5.2 $Revision: 1.17 $
+                           version 0.5.2 $Revision: 1.18 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2007-09-02 17:34:16 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -74,9 +74,7 @@ keyboard::keyboard(QWidget* parent, unsigned int srcpv): QDialog(parent,
             "addressLayout");
 
     QLabel *labelAddress = new QLabel(tr("&Address:"), this, "addressLbl");
-    if (pref.tooltips)
-        QToolTip::add(labelAddress,
-                      tr("Please enter the address to be switched"));
+    QToolTip::add(labelAddress, tr("Enter the address to be switched"));
     addressLayout->addWidget(labelAddress);
 
     spacer = new QSpacerItem(0, 0,
@@ -104,9 +102,7 @@ keyboard::keyboard(QWidget* parent, unsigned int srcpv): QDialog(parent,
     redPB->setPaletteBackgroundColor(QColor(255, 0, 0));
     connect(redPB, SIGNAL(clicked()), this, SLOT(slotActivateRed()));
     buttonLayout->addWidget(redPB);
-    if (pref.tooltips)
-        QToolTip::add(redPB,
-                      tr("Press this button to activate red connector"));
+    QToolTip::add(redPB, tr("Press this button to activate red connector"));
 
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -118,9 +114,8 @@ keyboard::keyboard(QWidget* parent, unsigned int srcpv): QDialog(parent,
     connect(greenPB, SIGNAL(clicked()), this, SLOT(slotActivateGrn()));
     buttonLayout->addWidget(greenPB);
     greenPB->setDefault(true);
-    if (pref.tooltips)
-        QToolTip::add(greenPB,
-                      tr("Press this button to activate green connector"));
+    QToolTip::add(greenPB,
+            tr("Press this button to activate green connector"));
 
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);

@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.cpp
-                           version 0.5.2 $Revision: 1.25 $
+                           version 0.5.2 $Revision: 1.26 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2007-09-02 17:34:17 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -78,9 +78,8 @@ void optionsDialog::setupLayoutTab()
     label = new QLabel(tr("&Rows:"),
             newlayoutGB);
     dimrowLayout->addWidget(label);
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    dimrowLayout->addItem(spacer);
+    dimrowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
     sbDefaultRows = new QSpinBox(MIN_ROWS, MAX_ROWS, 1, newlayoutGB,
             "rowsSB");
     dimrowLayout->addWidget(sbDefaultRows);
@@ -99,9 +98,8 @@ void optionsDialog::setupLayoutTab()
     label = new QLabel(tr("&Editor for layout and preferences files:"),
             extprogGB);
     editorLayout->addWidget(label);
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    editorLayout->addItem(spacer);
+    editorLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
     coboEditor = new QComboBox(true, extprogGB);
     coboEditor->insertItem("kwrite");
     coboEditor->insertItem("kedit");
@@ -115,9 +113,8 @@ void optionsDialog::setupLayoutTab()
     QHBoxLayout* browserLayout = new QHBoxLayout(extprogGBL);
     label = new QLabel(tr("&Browser for documentation:"), extprogGB);
     browserLayout->addWidget(label);
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    browserLayout->addItem(spacer);
+    browserLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
     coboBrowser = new QComboBox(true, extprogGB);
     coboBrowser->insertItem("firefox");
     coboBrowser->insertItem("konqueror");
@@ -140,8 +137,8 @@ void optionsDialog::setupLayoutTab()
         QVBoxLayout(autolayoutGB->layout(), 6);
     
     // line with autosave option
-    cbAutosave = new QCheckBox(tr("&Save active layout on program exit"),
-            autolayoutGB, "autosaveCB");
+    cbAutosave = new QCheckBox(tr("&Save active layout on program exit "
+                "without check-back"), autolayoutGB, "autosaveCB");
     autoGBLayout->addWidget(cbAutosave);
 
     // line with radiobutton and choose button
@@ -151,9 +148,8 @@ void optionsDialog::setupLayoutTab()
     chooseLayout->addWidget(cbAutoload);
     connect(cbAutoload, SIGNAL(toggled(bool)),
             this, SLOT(slotAutoload(bool)));
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    chooseLayout->addItem(spacer);
+    chooseLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
     buttGetAutofile = new QPushButton(tr("C&hoose..."), autolayoutGB,
             "choosePB");
     chooseLayout->addWidget(buttGetAutofile);
@@ -163,6 +159,21 @@ void optionsDialog::setupLayoutTab()
     // line with lineedit
     leAutoload = new QLineEdit(autolayoutGB, "autoloadLE");
     autoGBLayout->addWidget(leAutoload);
+
+
+    // statusline groupbox
+    QButtonGroup* statuslineBG = new QButtonGroup(2, Qt::Vertical,
+            tr("Statusline"), w, "statuslineBG");
+    tabL->addWidget(statuslineBG);
+
+    cbShowTime = new QCheckBox(
+            tr("Sho&w time for incoming and outgoing messages"),
+            statuslineBG, "showtimeCB");
+    
+    cbConvertTime = new QCheckBox(tr("&Convert SRCP 0.8 server time "
+                "human readable"),
+            statuslineBG, "converttimeCB");
+    
 
     // spacer to push group boxes to top
     spacer = new QSpacerItem(0, 0,
@@ -176,28 +187,33 @@ void optionsDialog::setupElementTab()
 {
     QWidget *w = new QWidget(this, "tabPageTwo");
     QVBoxLayout* tabL = new QVBoxLayout(w, 10);
-    
-         
-    // elements groupbox
-    QButtonGroup* generalBG = new QButtonGroup(6, Qt::Vertical,
-            tr("General options"), w, "generalBG");
-    tabL->addWidget(generalBG);
-    cbShowHp2 = new QCheckBox(tr("Show &orange light for signals"
-                " switched to Hp2"), generalBG, "Hp2CB");
-    cbShowBlinkingTurnouts = new QCheckBox(tr("Show &blinking turnouts"),
-                generalBG, "Hp2CB");
-    allwaysSendState = new QCheckBox(tr("A&llways send solenoid states"
-                " on routing"), generalBG, "sendStateCB");
-    cbGenBubble = new QCheckBox(tr("Show &general bubblehelp "
-                "(change needs program restart)"),
-            generalBG, "bubbleCB");
-    cbDataBubble = new QCheckBox(tr("Show bubblehelp for element &data"),
-            generalBG, "databubbleCB");
-    cbConvertTime = new QCheckBox(tr("&Convert SRCP 0.8 server time "
-                "human readable"),
-            generalBG, "converttimeCB");
 
-    
+
+    // special effects groupbox
+    QButtonGroup* effectsBG = new QButtonGroup(3, Qt::Vertical,
+            tr("Special effects"), w, "effectsBG");
+    tabL->addWidget(effectsBG);
+    cbShowHp2 = new QCheckBox(tr("Show &orange light for signals"
+                " switched to Hp2"), effectsBG, "Hp2CB");
+    cbShowBlinkingTurnouts = new QCheckBox(tr("Show &blinking turnouts"),
+                effectsBG, "Hp2CB");
+    allwaysSendState = new QCheckBox(tr("A&llways send solenoid states"
+                " on routing"), effectsBG, "sendStateCB");
+
+
+    // bubblehelp groupbox
+    QButtonGroup* bubblehelpBG = new QButtonGroup(2, Qt::Vertical,
+            tr("Bubblehelp"), w, "bubblehelpBG");
+    tabL->addWidget(bubblehelpBG);
+    cbGenBubble = new QCheckBox(tr("Globally show help &bubbles"),
+            bubblehelpBG, "bubbleCB");
+    connect(cbGenBubble, SIGNAL(toggled(bool)),
+            this, SLOT(globalBubbleHelpChanged(bool)));
+
+    cbDataBubble = new QCheckBox(tr("Show help bubbles for element &data"),
+            bubblehelpBG, "databubbleCB");
+
+
     // text groupbox
     QButtonGroup* soladdrBG = new QButtonGroup(2, Qt::Vertical,
             tr("Solenoid labeling"), w, "soladdrBG");
@@ -216,7 +232,7 @@ void optionsDialog::setupElementTab()
         new QRadioButton(tr("Always on &Halt (Hp0/Hp00/Sh0)"), initsigBG);
     rbSignalLay =
         new QRadioButton(tr("As &saved from previous session"), initsigBG);
-   
+
 
     // spacer to push group boxes to top
     QSpacerItem* spacer = new QSpacerItem(0, 0,
@@ -233,7 +249,7 @@ void optionsDialog::setupDigitalTab()
     
     
     // protocol groupbox
-    QButtonGroup *protocolBG = new QButtonGroup(2, Qt::Vertical,
+    QButtonGroup *protocolBG = new QButtonGroup(4, Qt::Vertical,
             tr("Default protocol"), w);
     tabL->addWidget(protocolBG);
     rbProtMS = new QRadioButton("Märklin/M&otorola", protocolBG);
@@ -242,6 +258,7 @@ void optionsDialog::setupDigitalTab()
     rbProtSE = new QRadioButton("Selectri&x", protocolBG);
     connect(protocolBG, SIGNAL(clicked(int)),
             this, SLOT(slotProtChanged(int)));
+
 
     // solenoid groupbox
     QGroupBox* solenoidGB = new QGroupBox(0, Qt::Horizontal,
@@ -352,7 +369,7 @@ void optionsDialog::setupFeedbackTab()
    
     // left column
     // 1. feedback module groupbox
-    QButtonGroup* inputsGB = new QButtonGroup(1, Qt::Vertical,
+    QButtonGroup* inputsGB = new QButtonGroup(2, Qt::Vertical,
             tr("Module size"), w);
     tabL->addWidget(inputsGB);
 
@@ -363,7 +380,7 @@ void optionsDialog::setupFeedbackTab()
             this, SLOT(slotLimitModules(int)));
 
     // 2. bus numbering groupbox
-    QButtonGroup* busnoGB = new QButtonGroup(1, Qt::Vertical,
+    QButtonGroup* busnoGB = new QButtonGroup(2, Qt::Vertical,
             tr("Bus numbering"), w);
     tabL->addWidget(busnoGB);
 
@@ -389,9 +406,8 @@ void optionsDialog::setupFeedbackTab()
             "busLayout");
     busLayout->addColSpacing(2, 10);
     
-    QSpacerItem* spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    busGBL->addItem(spacer);
+    busGBL->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
 
     // 1. line
     QLabel* label = new QLabel(tr("&Bus:"), busGB);
@@ -462,9 +478,8 @@ void optionsDialog::setupFeedbackTab()
     sbFBmod_4->setWrapping(true);
     
     // spacer to push group boxes to top
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    tabL->addItem(spacer);
+    tabL->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
 
     addTab(w, tr("&Feedback modules"));
 }
@@ -535,9 +550,8 @@ void optionsDialog::setupFeedbackTypeTab()
     removePB->setEnabled(false);
 
     // spacer to push buttons to left
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    sxinitGBL->addItem(spacer);
+    sxinitGBL->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
 
 
     addTab(tab, tr("Feedback &type"));
@@ -709,9 +723,10 @@ void optionsDialog::getPreferences(Preferences& prf)
     prf.hp2 = cbShowHp2->isChecked();
     prf.blinkingturnouts = cbShowBlinkingTurnouts->isChecked();
     prf.sendstate = allwaysSendState->isChecked();
-    prf.tooltips = cbGenBubble->isChecked();
+    QToolTip::setGloballyEnabled(cbGenBubble->isChecked());
     prf.datatooltips = cbDataBubble->isChecked();
     prf.converttime = cbConvertTime->isChecked();
+    prf.showtime = cbShowTime->isChecked();
     prf.addresslabeling = rbShowAddr->isChecked();
     prf.initsignalsred = rbSignalRed->isChecked();
     prf.autoload = cbAutoload->isChecked();
@@ -760,9 +775,11 @@ void optionsDialog::setPreferences(const Preferences& prf)
     cbShowHp2->setChecked(prf.hp2);
     cbShowBlinkingTurnouts->setChecked(prf.blinkingturnouts);
     allwaysSendState->setChecked(prf.sendstate);
-    cbGenBubble->setChecked(prf.tooltips);
+    cbGenBubble->setChecked(QToolTip::isGloballyEnabled());
+    globalBubbleHelpChanged(cbGenBubble->isChecked());
     cbDataBubble->setChecked(prf.datatooltips);
     cbConvertTime->setChecked(prf.converttime);
+    cbShowTime->setChecked(prf.showtime);
     
     if (prf.addresslabeling)
         rbShowAddr->setChecked(true);
@@ -880,3 +897,10 @@ void optionsDialog::setPreferences(const Preferences& prf)
     selectFbModuleType(prf.fbmoduletype);
 }
 
+/*
+ * show response if global bubble help ist enabled/disabled
+ */
+void optionsDialog::globalBubbleHelpChanged(bool enabled)
+{
+    cbDataBubble->setEnabled(enabled);
+}

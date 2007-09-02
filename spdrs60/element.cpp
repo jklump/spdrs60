@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.2 $Revision: 1.127 $
+                           version 0.5.2 $Revision: 1.128 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-31 17:30:10 $
+    last modified        : $Date: 2007-09-02 17:34:16 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -305,7 +305,7 @@ void element::updateProperties()
 
     isright = sSoldIcon.contains("links", 1) ? 0 : 1;
 
-    bool enabled = (signal ||
+    bool rotatable = (signal ||
             sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER ||
             sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR ||
             sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR ||
@@ -315,10 +315,14 @@ void element::updateProperties()
             sSoldIcon == SYM_GER || sSoldIcon == SYM_WEY ||
             sSoldIcon == SYM_HS2 || sSoldIcon == SYM_DLT ||
             sSoldIcon == SYM_DRT || sSoldIcon == SYM_GET ||
-            sSoldIcon == SYM_SHM || sSoldIcon == SYM_SHO);
+            sSoldIcon == SYM_SHM || sSoldIcon == SYM_SHO ||
+            sSoldIcon == SYM_ADR);
 
-    if (!enabled)
+    if (!rotatable) {
         iSoldRotate = -1;
+    }
+    else if (iSoldRotate == -1 && sSoldIcon == SYM_ADR)
+        iSoldRotate = 0;
 }
 
 
@@ -432,7 +436,8 @@ void element::mousePressEvent(QMouseEvent* e)
             /* determine what type of button was pressed an send the
              * corresponding value to GBSArea to change cursor shape etc.*/
             // if element contains a solenoid or is a external button
-            else if (iSoldAddress_1 != -1){
+            // TODO: if (hasButton())
+            else if ((iSoldAddress_1 != -1) && (sSoldIcon != SYM_ADR)){
 
                 if (sSoldIcon == SYM_HS || sSoldIcon == SYM_NRB)
                     ctrlButton = kZfsClicked;
@@ -1098,19 +1103,19 @@ void element::setupElementIcon()
         else
             pm.fill(QColor(Qt::lightGray));
             
-        QPainter p;
-        p.begin(&pm);
-            
         // paint text label
         if (sSoldText != "-1" && !sSoldText.isEmpty()) {
-            QFont f("Helvetica");
+            QPainter p;
+            p.begin(&pm);
+            
+            QFont f(QApplication::font());
             f.setPointSize(QApplication::font().pointSize() - 1);
             p.setFont(f);
 
             p.drawText(pm.rect(), Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, sSoldText);
+            p.end();
         }
-        p.end();
         setPaletteBackgroundPixmap(pm);
     }
    
@@ -1168,7 +1173,7 @@ void element::setupElementIcon()
         p.setBrush(Qt::white);
         p.drawRect(pm.width() / 2 , pm.height() / 2 - 5, 24, 11);
         sSoldText.sprintf("%04d", countervalue);
-        QFont f("Helvetica");
+        QFont f(QApplication::font());
         f.setPointSize(7);
         p.setFont(f);
         QRect br = p.fontMetrics().boundingRect(sSoldText);
@@ -1330,7 +1335,7 @@ void element::setupElementIcon()
 
         // paint text label
         if (sSoldText != "-1" && !sSoldText.isEmpty()) {
-            QFont f("Helvetica");
+            QFont f(QApplication::font());
             f.setPointSize(QApplication::font().pointSize() - 3);
             p.setFont(f);
             QFontMetrics fm(f);
@@ -1382,7 +1387,6 @@ void element::setupElementIcon()
         else
             p.setPen(QPen(Qt::black));
 
-        //QFont f("Helvetica");
         QFont f(QApplication::font());
         f.setPointSize(QApplication::font().pointSize() + 2);
         f.setWeight(QFont::DemiBold);
@@ -1455,7 +1459,7 @@ void element::setupElementIcon()
         
         // paint text label
         if (sSoldText != "-1" && !sSoldText.isEmpty()) {
-            QFont f("Helvetica");
+            QFont f(QApplication::font());
             f.setPointSize(QApplication::font().pointSize() - 3);
             p.setFont(f);
             QFontMetrics fm(f);
@@ -1539,7 +1543,7 @@ void element::setupElementIcon()
         
         // paint text label
         if (sSoldText != "-1" && !sSoldText.isEmpty()) {
-            QFont f("Helvetica");
+            QFont f(QApplication::font());
             f.setPointSize(QApplication::font().pointSize() - 3);
             p.setFont(f);
             QFontMetrics fm(f);
@@ -1603,7 +1607,7 @@ void element::setupElementIcon()
 
         // paint text label
         if (sSoldText != "-1" && !sSoldText.isEmpty()) {
-            QFont f("Helvetica");
+            QFont f(QApplication::font());
             f.setPointSize(QApplication::font().pointSize() - 3);
             p.setFont(f);
             QFontMetrics fm(f);
@@ -1675,7 +1679,7 @@ void element::setupElementIcon()
 
         // paint text label
         if (sSoldText != "-1" && !sSoldText.isEmpty()) {
-            QFont f("Helvetica");
+            QFont f(QApplication::font());
             f.setPointSize(QApplication::font().pointSize() - 3);
             p.setFont(f);
             QFontMetrics fm(f);
@@ -1797,7 +1801,7 @@ void element::setupElementIcon()
 
         // paint text label
         if (sSoldText != "-1" && !sSoldText.isEmpty()) {
-            QFont f("Helvetica");
+            QFont f(QApplication::font());
             f.setPointSize(QApplication::font().pointSize() - 3);
             p.setFont(f);
             QFontMetrics fm(f);
@@ -2000,7 +2004,7 @@ void element::setupElementIcon()
 
         // paint text label
         if (sSoldText != "-1" && !sSoldText.isEmpty()) {
-            QFont f("Helvetica");
+            QFont f(QApplication::font());
             f.setPointSize(QApplication::font().pointSize() - 3);
             p.setFont(f);
             QFontMetrics fm(f);
@@ -2181,7 +2185,7 @@ void element::setupElementIcon()
 
         // paint text label
         if (sSoldText != "-1" && !sSoldText.isEmpty()) {
-            QFont f("Helvetica");
+            QFont f(QApplication::font());
             f.setPointSize(QApplication::font().pointSize() - 3);
             p.setFont(f);
             QFontMetrics fm(f);
@@ -2330,7 +2334,7 @@ void element::setupElementIcon()
 
         // paint text label
         if (sSoldText != "-1" && !sSoldText.isEmpty()) {
-            QFont f("Helvetica");
+            QFont f(QApplication::font());
             f.setPointSize(QApplication::font().pointSize() - 3);
             p.setFont(f);
             QFontMetrics fm(f);
@@ -2434,7 +2438,7 @@ void element::setupElementIcon()
 
         // paint text label
         if (sSoldText != "-1" && !sSoldText.isEmpty()) {
-            QFont f("Helvetica");
+            QFont f(QApplication::font());
             f.setPointSize(QApplication::font().pointSize() - 3);
             p.setFont(f);
             QFontMetrics fm(f);
@@ -2500,7 +2504,7 @@ void element::setupElementIcon()
 
         // paint text label
         if (sSoldText != "-1" && !sSoldText.isEmpty()) {
-            QFont f("Helvetica");
+            QFont f(QApplication::font());
             f.setPointSize(QApplication::font().pointSize() - 1);
             p.setFont(f);
 
@@ -3447,7 +3451,7 @@ void element::setupElementIcon()
         // paint text label
         p.setPen(Qt::black);
         if (sSoldText != "-1" && !sSoldText.isEmpty()) {
-            QFont f("Helvetica");
+            QFont f(QApplication::font());
             f.setPointSize(QApplication::font().pointSize() - 3);
             p.setFont(f);
             QFontMetrics fm(f);
@@ -3689,7 +3693,7 @@ void element::setupElementIcon()
         // paint text label
         p.setPen(Qt::black);
         if (sSoldText != "-1" && !sSoldText.isEmpty()) {
-            QFont f("Helvetica");
+            QFont f(QApplication::font());
             f.setPointSize(QApplication::font().pointSize() - 3);
             p.setFont(f);
             QFontMetrics fm(f);
@@ -3950,7 +3954,7 @@ void element::setupElementIcon()
         // paint text label
         p.setPen(Qt::black);
         if (sSoldText != "-1" && !sSoldText.isEmpty()) {
-            QFont f("Helvetica");
+            QFont f(QApplication::font());
             f.setPointSize(QApplication::font().pointSize() - 3);
             p.setFont(f);
             QFontMetrics fm(f);
@@ -4206,7 +4210,7 @@ void element::setupElementIcon()
         // paint text label
         p.setPen(Qt::black);
         if (sSoldText != "-1" && !sSoldText.isEmpty()) {
-            QFont f("Helvetica");
+            QFont f(QApplication::font());
             f.setPointSize(QApplication::font().pointSize() - 3);
             p.setFont(f);
             QFontMetrics fm(f);
@@ -4287,7 +4291,7 @@ void element::setupElementIcon()
 
         // paint text label
         if (sSoldText != "-1" && !sSoldText.isEmpty()) {
-            QFont f("Helvetica");
+            QFont f(QApplication::font());
             f.setPointSize(QApplication::font().pointSize() - 3);
             p.setFont(f);
             QFontMetrics fm(f);
@@ -4423,7 +4427,7 @@ void element::setupElementIcon()
 
         // paint text label
         if (sSoldText != "-1" && !sSoldText.isEmpty()) {
-            QFont f("Helvetica");
+            QFont f(QApplication::font());
             f.setPointSize(QApplication::font().pointSize() - 3);
             p.setFont(f);
             QFontMetrics fm(f);
@@ -4595,7 +4599,7 @@ void element::setupElementIcon()
 
         // paint text label
         if (sSoldText != "-1" && !sSoldText.isEmpty()) {
-            QFont f("Helvetica");
+            QFont f(QApplication::font());
             f.setPointSize(QApplication::font().pointSize() - 3);
             p.setFont(f);
             QFontMetrics fm(f);
@@ -4789,7 +4793,7 @@ void element::setupElementIcon()
 
         // paint text label
         if (sSoldText != "-1" && !sSoldText.isEmpty()) {
-            QFont f("Helvetica");
+            QFont f(QApplication::font());
             f.setPointSize(QApplication::font().pointSize() - 3);
             p.setFont(f);
             QFontMetrics fm(f);
@@ -4971,7 +4975,7 @@ void element::setupElementIcon()
 
         // paint text label
         if (sSoldText != "-1" && !sSoldText.isEmpty()) {
-            QFont f("Helvetica");
+            QFont f(QApplication::font());
             f.setPointSize(QApplication::font().pointSize() - 3);
             p.setFont(f);
             QFontMetrics fm(f);
@@ -5166,7 +5170,7 @@ void element::setupElementIcon()
 
         // paint text label
         if (sSoldText != "-1" && !sSoldText.isEmpty()) {
-            QFont f("Helvetica");
+            QFont f(QApplication::font());
             f.setPointSize(QApplication::font().pointSize() - 3);
             p.setFont(f);
             QFontMetrics fm(f);
@@ -5365,7 +5369,7 @@ void element::setupElementIcon()
         p.drawPixmap(4, 4, QPixmap(transfertable_xpm));
         
         //paint label
-        QFont f("Helvetica");
+        QFont f(QApplication::font());
         f.setPointSize(QApplication::font().pointSize() - 3);
         p.setFont(f);
         QFontMetrics fm(f);
@@ -5425,7 +5429,7 @@ void element::setupElementIcon()
         //paint label
         p.rotate(-SANGLE/2);
         p.setPen(QPen(Qt::black));
-        QFont f("Helvetica");
+        QFont f(QApplication::font());
         f.setPointSize(QApplication::font().pointSize() - 3);
         p.setFont(f);
         QFontMetrics fm(f);
@@ -5508,14 +5512,15 @@ void element::addTooltip()
 
     QString tip1, tip2;
 
-    tip1.sprintf("ELEMENT  # %03d\n"
-            "icon     : %s\n"
-            "rotate   : %s (=%1d)\n"
-            "hide LEDs: %s (=%1d)\n"
-            "invers   : %s (=%1d)\n"
-            "decoder  : %s\n"
-            "protocol : %s\n"
-            "adress 1 : %s\n",
+    tip1.sprintf(
+            "Item No  : %d\n"
+            "Icon     : %s\n"
+            "Rotate   : %s (=%1d)\n"
+            "Hide LEDs: %s (=%1d)\n"
+            "Inverted : %s (=%1d)\n"
+            "Decoder  : %s\n"
+            "Protocol : %s\n"
+            "Address 1: %s\n",
             iSoldIndex,
             sSoldIcon.data(),
             iSoldRotate == -1 ? "N/A" : (iSoldRotate ==
@@ -5537,14 +5542,15 @@ void element::addTooltip()
                                 : "Server"))),
             iSoldAddress_1 == -1 ?  "N/A (=-1)" : a1.data());
 
-    tip2.sprintf("adress 2 : %s\n"
-            "c conn 1 : %s (=%1d)\n"
-            "c conn 2 : %s (=%1d)\n"
-            "direction: %d\n"
-            "subtype  : %d\n"
-            "text     : %s\n"
-            "lock     : %s (=%1d)\n"
-            "time (ms): %d\n"
+    tip2.sprintf(
+            "Address 2 : %s\n"
+            "xc Conn 1: %s (=%1d)\n"
+            "xc Conn 2: %s (=%1d)\n"
+            "Direction: %d\n"
+            "Subtype  : %d\n"
+            "Text     : %s\n"
+            "Locked   : %s (=%1d)\n"
+            "Time (ms): %d\n"
             "FB contact: %d\n",
             iSoldAddress_2 == -1 ? "N/A (=-1)" : a2.data(),
             iSoldChangeConn[0] ==
@@ -6322,9 +6328,13 @@ void element::slotCopyAvailTracks(const QString& trackstr)
 }
 
 
+/* 
+ * update tooltip visability and
+ * redraw backgroud pixmap with the opposite of text/address labels
+ */
 void element::slotRepaintLayout()
 {
-    // show element now with opposite of text/address labels
+    QToolTip::remove(this);
     setupElementIcon();
 }
 

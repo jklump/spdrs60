@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.111 $
+                           version 0.5.2 $Revision: 1.112 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-01 15:59:01 $
+    last modified        : $Date: 2007-09-02 17:34:16 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -194,7 +194,7 @@ void MainWindow::readConfigFile()
                 pref.blinkingturnouts = value.toInt();
             }
             else if (key.compare(CF_TOOLTIPS) == 0){
-                pref.tooltips = value.toInt();
+                QToolTip::setGloballyEnabled(value.toInt());
             }
             else if (key.compare(CF_DATATOOLTIPS) == 0){
                 pref.datatooltips = value.toInt();
@@ -326,7 +326,7 @@ void MainWindow::writeConfigFile()
         << "#" << endl
         << CF_SHOWHP2      << KS << (int) pref.hp2 << endl
         << CF_TURNOUTBLINK << KS << (int) pref.blinkingturnouts << endl
-        << CF_TOOLTIPS     << KS << (int) pref.tooltips << endl
+        << CF_TOOLTIPS     << KS << (int) QToolTip::isGloballyEnabled() << endl
         << CF_DATATOOLTIPS << KS << (int) pref.datatooltips << endl
         << CF_ADDRESSLABEL    KS << (int) pref.addresslabeling << endl
         << CF_INITSIGNALS  << KS << (int) pref.initsignalsred << endl
@@ -3110,10 +3110,15 @@ void MainWindow::slotEditOptions()
 
     if (optDlg->exec() == QDialog::Accepted) {
         bool al = pref.addresslabeling;
+        bool et = pref.datatooltips;
+        
         optDlg->getPreferences(pref);
         writeConfigFile();
+        
         fbViewer->updateBusAndModuleStructure();
-        if (al != pref.addresslabeling)
+        messageHistory->enableTime(pref.showtime);
+
+        if ((al != pref.addresslabeling) || (et != pref.datatooltips))
             emit repaintLayout();
     }
     delete optDlg;

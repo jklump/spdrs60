@@ -1,10 +1,10 @@
 /***************************************************************************
                            preferences.cpp
-                           version 0.5.2 $Revision: 1.9 $
+                           version 0.5.2 $Revision: 1.10 $
                            -------------------------------
     copyright            : (C) 2006-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2007-09-02 17:34:17 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -30,8 +30,8 @@ Preferences pref = {
     true,
     true,
     false,
-    true,
     false,
+    true,
     true,
     true,
     true,

@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementcommander.cpp
-                           version 0.5.2 $Revision: 1.7 $
+                           version 0.5.2 $Revision: 1.8 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $ 
+    last modified        : $Date: 2007-09-02 17:34:16 $ 
 ***************************************************************************/
 
 /***************************************************************************
@@ -86,11 +86,9 @@ void elementCommander::setupBridge()
     connect(buttMoveUp, SIGNAL(clicked()), this, SLOT(slotMoveUp()));
     connect(buttMoveDown, SIGNAL(clicked()), this, SLOT(slotMoveDown()));
 
-    if (pref.tooltips == true) {
-        QToolTip::add(buttMoveUp, tr("Move bridge upwards"));
-        QToolTip::add(buttMoveDown, tr("Move bridge downwards"));
-        QToolTip::add(buttStop, tr("Stop moving bridge"));
-    }
+    QToolTip::add(buttMoveUp, tr("Move bridge upwards"));
+    QToolTip::add(buttMoveDown, tr("Move bridge downwards"));
+    QToolTip::add(buttStop, tr("Stop moving bridge"));
 }
 
 
@@ -116,11 +114,9 @@ void elementCommander::setupMotor()
     connect(buttRotateRight, SIGNAL(clicked()),
             this, SLOT(slotRotateRight()));
 
-    if (pref.tooltips == true) {
-        QToolTip::add(buttRotateLeft, tr("Move motor clockwise"));
-        QToolTip::add(buttRotateRight, tr("Move motor anti-clockwise"));
-        QToolTip::add(buttStop, tr("Stop motor"));
-    }
+    QToolTip::add(buttRotateLeft, tr("Move motor clockwise"));
+    QToolTip::add(buttRotateRight, tr("Move motor anti-clockwise"));
+    QToolTip::add(buttStop, tr("Stop motor"));
 }
 
 

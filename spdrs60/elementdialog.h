@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.h
-                           version 0.5.2 $Revision: 1.17 $
+                           version 0.5.2 $Revision: 1.18 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-30 19:53:02 $
+    last modified        : $Date: 2007-09-02 17:34:16 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -105,6 +105,7 @@ private slots:
    void slotEnable_LED_FB();
    void contactSBChanged(int);
    void letteringChanged(bool);
+   void invertedChanged(bool);
 
 signals:
    void sigShowFBmodules();
@@ -118,6 +119,8 @@ private:
    QLineEdit    *fbBusLE;
    QLineEdit    *moduleLE;
    QLineEdit    *portLE;
+
+   QGroupBox*   feedbackGB;
 
    QCheckBox    *cbAddrLabeling;
    QCheckBox    *cbRotate;

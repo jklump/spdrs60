@@ -1,11 +1,11 @@
 /***************************************************************************
                            finder.cpp
-                           version 0.5.2 $Revision: 1.12 $
+                           version 0.5.2 $Revision: 1.13 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2007-09-02 17:34:16 $
 ***************************************************************************/
 
 /*****************************************************************************
@@ -85,12 +85,10 @@ Finder::Finder(QWidget* parent): QDialog(parent, "Finder", false)
     QPushButton* buttCancel = new QPushButton(tr("Cancel"), this, "cancelBtn");
     buttonLayout->addWidget(buttCancel);
     connect(buttCancel, SIGNAL(clicked()), this, SLOT(reject()));
-    if (pref.tooltips) {
-        QToolTip::add(buttSearch,
-                      tr("Press this button to begin searching"));
-        QToolTip::add(buttCancel,
-                      tr("Press this button to close this window"));
-    }
+    QToolTip::add(buttSearch,
+            tr("Press this button to start search"));
+    QToolTip::add(buttCancel,
+            tr("Press this button to close this window"));
 }
 
 

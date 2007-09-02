@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.h
-                           version 0.5.2 $Revision: 1.17 $
+                           version 0.5.2 $Revision: 1.18 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2007-09-02 17:34:17 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -71,6 +71,7 @@ private slots:
    void slotLimitModules(int);         // limits no of fb moduls on each bus
    void fixFBBusNumbers(int);
    void selectFbModuleType(int);
+   void globalBubbleHelpChanged(bool);
 
 private:
    QCheckBox* cbShowHp2;            // layout shows orange light for Hp2
@@ -82,6 +83,7 @@ private:
    QCheckBox* cbAutosave;           // activate autosaver
    QCheckBox* cbAutoTTDir;          // auto-select turn dir of turntable
    QCheckBox* cbConvertTime;        // convert SRCP time string
+   QCheckBox* cbShowTime;           // show message time in statusline
 
    QRadioButton *rbShowAddr;           // show element's address or full text
    QRadioButton *rbShowTxt;

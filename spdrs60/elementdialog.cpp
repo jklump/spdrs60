@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.cpp
-                           version 0.5.2 $Revision: 1.37 $
+                           version 0.5.2 $Revision: 1.38 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-30 19:53:02 $
+    last modified        : $Date: 2007-09-02 17:34:16 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -210,6 +210,8 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     /* line with invert checkbox*/
     cbInvert = new QCheckBox(tr("&Inverted use"), frData, "invertCB");
     rfDataGBLayout->addWidget(cbInvert);
+    connect(cbInvert, SIGNAL(toggled(bool)), this,
+            SLOT(invertedChanged(bool))); 
 
     /* spacer to shift lines above to top*/
     spacer = new QSpacerItem(0, 0,
@@ -396,7 +398,7 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     decoderGBL->addItem(spacer);
 
     /*feedback LED data group box*/
-    QGroupBox* feedbackGB = new QGroupBox(0, Qt::Horizontal,
+    feedbackGB = new QGroupBox(0, Qt::Horizontal,
             tr("Feedback for track LEDs"), this, "feedbackGB");
     rightColumnLayout->addWidget(feedbackGB);
     QVBoxLayout* feedbackGBL = new QVBoxLayout(feedbackGB->layout(), 6);
@@ -473,8 +475,7 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     buttFBmodules->setPixmap(QPixmap(viewfeedback_xpm));
     connect(buttFBmodules, SIGNAL(clicked()), this,
             SLOT(slotShowFBmodules()));
-    if (pref.tooltips == true)
-        QToolTip::add(buttFBmodules, tr("Show feedback module window"));
+    QToolTip::add(buttFBmodules, tr("Show feedback module window"));
 
     /*spacer to push contents of box to top */
     spacer = new QSpacerItem(0, 0,
@@ -939,6 +940,7 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
         || sSoldIcon == SYM_LEE || sSoldIcon == SYM_ADR;
 
     cbInvert->setEnabled(enabled);
+    invertedChanged(cbInvert->isChecked());
 /*
     enabled = sSoldIcon == SYM_KUL || sSoldIcon == SYM_KUR ||
         sSoldIcon == SYM_DIL || sSoldIcon == SYM_DIR ||
@@ -1140,7 +1142,7 @@ void elementDialog::showSubTypes(int iShow_)
 
     // activate the subtype dependant button
     if (sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS || sSoldIcon == SYM_VS) {
-        if (sSoldIcon == SYM_HS && pref.tooltips) {
+        if (sSoldIcon == SYM_HS) {
             QToolTip::add(buttSubType[0],
                           tr("Allows to switch this signal to:\n"
                              "Hp0, Hp1"));
@@ -1151,7 +1153,7 @@ void elementDialog::showSubTypes(int iShow_)
                           tr("Allows to switch this signal to:\n"
                              "Hp0, Hp1 and Hp2"));
         }
-        if (sSoldIcon == SYM_HSS && pref.tooltips) {
+        if (sSoldIcon == SYM_HSS) {
             QToolTip::add(buttSubType[0],
                           tr("Allows to switch this signal to:\n"
                              "Hp0, Hp1 and Sh1"));
@@ -1162,7 +1164,7 @@ void elementDialog::showSubTypes(int iShow_)
                           tr("Allows to switch this signal to:\n"
                              "Hp0, Hp1, Hp2 and Sh1"));
         }
-        if (sSoldIcon == SYM_VS && pref.tooltips) {
+        if (sSoldIcon == SYM_VS) {
             QToolTip::add(buttSubType[0],
                           tr("Allows to switch this signal to:\n"
                              "Vr0, Vr1"));
@@ -1195,16 +1197,12 @@ void elementDialog::showSubTypes(int iShow_)
     }
 
     if (sSoldIcon == SYM_ENK) {
-        if (pref.tooltips) {
-            QToolTip::add(buttSubType[0],
-                          tr("Allows to use a:\nbistable coupler"));
-            QToolTip::add(buttSubType[1], tr("Allows to use a:\n"
-                                             "momentary coupler\n"
-                                             "on left connector"));
-            QToolTip::add(buttSubType[2], tr("Allows to use a:\n"
-                                             "momentary coupler\n"
-                                             "on right connector"));
-        }
+        QToolTip::add(buttSubType[0],
+                tr("Allows to use a bistable coupler"));
+        QToolTip::add(buttSubType[1], tr("Allows to use a:\n"
+                    "momentary coupler on left connector"));
+        QToolTip::add(buttSubType[2], tr("Allows to use a:\n"
+                    "momentary coupler on right connector"));
         switch (gaSubType) {
             default:               // on new creation
             case -1:
@@ -1223,16 +1221,15 @@ void elementDialog::showSubTypes(int iShow_)
     }
 
     if (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) {
-        if (pref.tooltips) {
             QToolTip::add(buttSubType[1],
-                          tr("Allows to use a:\n"
-                             "2 state double turnout\n(f.e. Maerklin 2264)"
-                             "\nDOES NOT WORK YET!"));
+                            tr("Allows to use a:\n"
+                                    "2 state double turnout\n(f.e. Maerklin 2264)"
+                                    "\nDOES NOT WORK YET!"));
             QToolTip::add(buttSubType[2],
-                          tr("Allows to use a:\n"
-                             "4 state double turnout\n"
-                             "(f.e. Maerklin 2275,\nall Roco´s)"));
-        }
+                            tr("Allows to use a:\n"
+                                    "4 state double turnout\n"
+                                    "(f.e. Maerklin 2275,\nall Roco´s)"));
+
         switch (gaSubType) {
             case 0:
                 buttSubType[1]->setOn(true);   // 2 states possible/Maerklin
@@ -1248,12 +1245,10 @@ void elementDialog::showSubTypes(int iShow_)
 
     if (sSoldIcon == SYM_DRE) {
 
-        if (pref.tooltips) {
-            QToolTip::add(buttSubType[1], tr("Default turntable:\n"
-                                             "Controlled via keyboard #15"));
-            QToolTip::add(buttSubType[2], tr("Extra turntable:\n"
-                                             "Controlled via keyboard #14"));
-        }
+        QToolTip::add(buttSubType[1], tr("Default turntable:\n"
+                    "Controlled via keyboard #15"));
+        QToolTip::add(buttSubType[2], tr("Extra turntable:\n"
+                    "Controlled via keyboard #14"));
 
         int a2 = address2LE->text().toInt();
         switch (a2 / 16) {
@@ -1788,3 +1783,14 @@ void elementDialog::setFBContact(int contact)
     contactSBChanged(contact);
 };
 
+/*
+ * enabe/disable feedback editing depending on address symbol is EDiTs
+ * or train number tracing type
+ */
+void elementDialog::invertedChanged(bool inverted)
+{
+    QString icon = IconNameList->at(IconComboBox->currentItem());
+
+    if (icon == SYM_ADR)
+        feedbackGB->setEnabled(!inverted);
+}
