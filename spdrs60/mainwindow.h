@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.5.2 $Revision: 1.46 $
+                           version 0.5.2 $Revision: 1.47 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-01 07:35:33 $
+    last modified        : $Date: 2007-09-02 17:50:27 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -35,30 +35,30 @@
 #include <qsocket.h>
 #include <qwidgetstack.h>
 
-#include "gbsarea.h"
+#include "commandport.h"
 #include "feedbackviewer.h"
-#include "routelistwindow.h"
+#include "gbsarea.h"
+#include "infoport.h"
+#include "keyboard.h"
 #include "messagehistory.h"
 #include "newlayoutdialog.h"
-#include "keyboard.h"
+#include "routelistwindow.h"
 
 
 enum SRCPMode {    
     srcpUndefined = 0,
-    srcpLogin,
     srcpConnected,
     srcp07GetFBStates,
     srcp07GetPower,
     srcp08GetBusPower,
-    srcp08GoCommandMode,
-    srcp08GoInfoMode,
     srcp08InitFBBusses,
     srcp08InitGADevices,
     srcp08RunInfoMode,
     srcp08ServerError,
     srcp08SetBusPower,
-    srcp08SetConnectionModeCommand,
-    srcp08SetConnectionModeInfo,
+
+    srcp08GoCommandMode,
+
     srcp08TermServer
 };
 
@@ -75,12 +75,6 @@ public:
    void openFileWindow(const QString&);
 
 private:
-   bool            LayoutPowerIsOn;
-   bool            isFBInitMode;
-   QString         fileName;
-   QString         lastDir;
-   elemVisualMode  visualMode;
-
    QAction         *actionFileNew;
    QAction         *actionFileOpen;
    QAction         *actionFileSave;
@@ -133,8 +127,18 @@ private:
    QAction         *actionRouteDelete;
    QAction         *actionRouteUnlockAll;
    
-   QString         sWelcome;
+   bool            LayoutPowerIsOn;
+   bool            isFBInitMode;
+   QString         fileName;
+   QString         lastDir;
+   elemVisualMode  visualMode;
 
+   SrcpPort::CommunicationStyle infoStyle;
+   SrcpPort::CommunicationStyle commandStyle;
+
+   CommandPort*    commandPort;
+   InfoPort*       infoPort;
+   InfoPort*       feedbackPort;
    GBSArea         *gbs;
    MessageHistory* messageHistory;
    FeedbackViewer  *fbViewer;
@@ -142,24 +146,11 @@ private:
    Router          *router;
    keyboard        *keybWindow;
 
-   /*SRCP Networking (srcpCom)*/
-   QString      cmdHost;
-   unsigned int cmdPort;
-   bool        cmdAutoLogin;
-   bool        cmdAutoPower;
-   bool        cmdAutoSendAll;
-   bool        fbLogin;
-   QSocket* CommandSocket;
-   QSocket* FeedbackSocket;
-   QSocket* InfoSocket;
-   bool CommandPortIsConnected;
-   bool FeedbackPortIsConnected;
-   bool InfoPortIsConnected;
+   bool         cmdAutoLogin;
+   bool         cmdAutoPower;
+   bool         cmdAutoSendAll;
    SRCPMode     SRCPCommandState;
    SRCPMode     SRCPInfoState;
-   unsigned int srcpVersion;
-   int          srcpCommandSessionID;
-   int          srcpInfoSessionID;
 
    void initMainWindow();
    void updateDaemonMenu();
@@ -175,13 +166,7 @@ private:
    void readConfigFile();
 
    /* New Networking code: */
-   void initAllSockets();
    void ConnectCommandPort();
-   void ConnectFeedbackPort();
-   void ConnectInfoPort();
-   bool isValidSRCP07Version(const QString&);
-   bool isValidSRCP08Version(const QString&);
-   QString GetSocketErrorString(int e);
    QString ConvertMessageTime(const QString&);
 
 public slots:
@@ -228,22 +213,12 @@ private slots:
    void SendCommandToSRCPServer(const QString&);
    void SendInfoCommandToSRCPServer(const QString&);
    void sendSrcpMessage(SrcpMessage*);
-   void CommandSocketHostFound();
-   void CommandSocketReadyRead();
-   void CommandSocketConnected();
-   void CommandSocketConnectionClosed();
-   void CommandSocketConnectionClosedByServer();
-   void CommandSocketError(int);
-   void FeedbackSocketReadyRead();
-   void FeedbackSocketConnected();
-   void FeedbackSocketConnectionClosed();
-   void FeedbackSocketConnectionClosedByServer();
-   void FeedbackSocketError(int);
-   void InfoSocketReadyRead();
-   void InfoSocketConnected();
-   void InfoSocketConnectionClosed();
-   void InfoSocketConnectionClosedByServer();
-   void InfoSocketError(int);
+   void processCommandMessage(const QString&);
+   void processFeedbackMessage(const QString&);
+   void processInfoMessage(const QString&);
+   void updateCommandConnectionState(bool);
+   void updateInfoConnectionState(bool);
+   void updateFeedbackConnectionState(bool);
 
 signals:
    void findElement(const QString&, int, int);

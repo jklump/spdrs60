@@ -1,10 +1,10 @@
 /***************************************************************************
                            srcpmessage.cpp
-                           version 0.5.2 $Revision: 1.16 $
+                           version 0.5.2 $Revision: 1.17 $
                            -------------------------------
     copyright            : (C) 2005-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2007-09-02 17:50:27 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -47,12 +47,12 @@ SrcpMessage::~SrcpMessage()
 }
 
 
-QString SrcpMessage::getSrcpMessageStr(unsigned int version) const
+QString SrcpMessage::getSrcpMessageStr(SrcpPort::CommunicationStyle style) const
 {
     QString cmdStr = "";
 
     // SRCP 0.7
-    if (7 == version)
+    if (SrcpPort::csOld == style)
 
         switch(message) {
             case msgFbGet:

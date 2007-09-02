@@ -1,11 +1,11 @@
 /***************************************************************************
                            keyboard.cpp
-                           version 0.5.2 $Revision: 1.18 $
+                           version 0.5.2 $Revision: 1.19 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-02 17:34:16 $
+    last modified        : $Date: 2007-09-02 17:50:26 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -33,20 +33,21 @@
 
 
 
-keyboard::keyboard(QWidget* parent, unsigned int srcpv): QDialog(parent,
-        "keyboard")
+keyboard::keyboard(QWidget* parent,
+        SrcpPort::CommunicationStyle cstyle): QDialog(parent, "keyboard")
 {
     setCaption(tr("Keyboard"));
-    srcpVersion = srcpv;
+    srcpStyle = cstyle;
 
     QBoxLayout* baseLayout = new QVBoxLayout(this, 10, 10);
+
+    // TODO: add protocol seletor
 
     /*line with SRCP-bus label and edit line*/
     QBoxLayout* busLayout = new QHBoxLayout(baseLayout, 6, "busLayout");
 
     QLabel *busLbl = new QLabel(tr("SRCP-&Bus:"), this, "busLbl");
-    if (pref.tooltips)
-        QToolTip::add(busLbl, tr("Please enter the SRCB-bus for the address"));
+    QToolTip::add(busLbl, tr("Enter the SRCP bus for the address"));
     busLayout->addWidget(busLbl);
 
     QSpacerItem* spacer = new QSpacerItem(0, 0,
@@ -64,7 +65,7 @@ keyboard::keyboard(QWidget* parent, unsigned int srcpv): QDialog(parent,
     busLbl->setBuddy(busLE);
 
     // hide SRCP bus line if server provides SRCP 0.7.x
-    if (7 == srcpv) {
+    if (SrcpPort::csOld == cstyle) {
         busLbl->hide();
         busLE->hide();
     }
@@ -130,7 +131,7 @@ void keyboard::slotActivateRed()
     unsigned int adr = addressLE->text().toUInt();
     unsigned int bus = busLE->text().toUInt();
 
-    if (srcpVersion == 7) {
+    if (SrcpPort::csOld == srcpStyle) {
         /* SET GA <protocol> <addr> <port> <action> <delay> */
         QString cs = QString("SET GA N %1 0 1 50").arg(adr);
         emit sendCommand(cs);
@@ -152,7 +153,7 @@ void keyboard::slotActivateGrn()
     unsigned int adr = addressLE->text().toUInt();
     unsigned int bus = busLE->text().toUInt();
     
-    if (srcpVersion == 7) {
+    if (SrcpPort::csOld == srcpStyle) {
         /* SET GA <protocol> <addr> <port> <action> <delay> */
         QString cs = QString("SET GA N %1 1 1 50").arg(adr);
         emit sendCommand(cs);
