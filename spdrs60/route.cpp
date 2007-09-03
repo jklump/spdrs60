@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.56 $
+                           version 0.5.2 $Revision: 1.57 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-31 17:30:10 $
+    last modified        : $Date: 2007-09-03 20:36:22 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -447,6 +447,12 @@ int Route::getState()
 unsigned int Route::getId()
 {
     return idnumber;
+}
+
+
+void Route::setId(unsigned int id)
+{
+    idnumber = id;
 }
 
 

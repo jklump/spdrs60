@@ -3,6 +3,8 @@
 	for launching external programms.
 	* routedialog.cpp: Validators for route id and train mumber
 	added.
+	* router.*, route.*: Automatical route id selection for routes
+	without an assigned id.
 
 2007-09-02 Guido Scholz <guido.scholz@bayernline.de>
 	* mainwindow.cpp, options.*, element.cpp, preferences.*: tooltip

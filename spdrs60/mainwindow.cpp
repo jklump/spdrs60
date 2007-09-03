@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.115 $
+                           version 0.5.2 $Revision: 1.116 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-03 18:02:19 $
+    last modified        : $Date: 2007-09-03 20:36:22 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -209,55 +209,55 @@ void MainWindow::readConfigFile()
             key = s.section(KS, 0, 0);
             value = s.section(KS, 1, 1).stripWhiteSpace();
 
-            if (key.compare(CF_SHOWHP2) == 0){
+            if (key.compare(CF_SHOWHP2) == 0) {
                 pref.hp2 = value.toInt();
             }
-            else if (key.compare(CF_TURNOUTBLINK) == 0){
+            else if (key.compare(CF_TURNOUTBLINK) == 0) {
                 pref.blinkingturnouts = value.toInt();
             }
-            else if (key.compare(CF_TOOLTIPS) == 0){
+            else if (key.compare(CF_TOOLTIPS) == 0) {
                 QToolTip::setGloballyEnabled(value.toInt());
             }
-            else if (key.compare(CF_DATATOOLTIPS) == 0){
+            else if (key.compare(CF_DATATOOLTIPS) == 0) {
                 pref.datatooltips = value.toInt();
             }
-            else if (key.compare(CF_ADDRESSLABEL) == 0){
+            else if (key.compare(CF_ADDRESSLABEL) == 0) {
                 pref.addresslabeling = value.toInt();
             }
-            else if (key.compare(CF_INITSIGNALS) == 0){
+            else if (key.compare(CF_INITSIGNALS) == 0) {
                 pref.initsignalsred = value.toInt();
             }
-            else if (key.compare(CF_LAYOUTCOLS) == 0){
+            else if (key.compare(CF_LAYOUTCOLS) == 0) {
                 pref.layoutcols = value.toUInt();
             }
-            else if (key.compare(CF_LAYOUTROWS) == 0){
+            else if (key.compare(CF_LAYOUTROWS) == 0) {
                 pref.layoutrows = value.toUInt();
             }
-            else if (key.compare(CF_SENDSTATE) == 0){
+            else if (key.compare(CF_SENDSTATE) == 0) {
                 pref.sendstate = value.toInt();
             }
-            else if (key.compare(CF_CONVERTTIME) == 0){
+            else if (key.compare(CF_CONVERTTIME) == 0) {
                 pref.converttime = value.toInt();
             }
-            else if (key.compare(CF_SHOWTIME) == 0){
+            else if (key.compare(CF_SHOWTIME) == 0) {
                 pref.showtime = value.toInt();
             }
-            else if (key.compare(CF_AUTOLOAD) == 0){
+            else if (key.compare(CF_AUTOLOAD) == 0) {
                 pref.autoload = value.toInt();
             }
-            else if (key.compare(CF_AUTOLAYOUT) == 0){
+            else if (key.compare(CF_AUTOLAYOUT) == 0) {
                 pref.autolayout = value;
             }
-            else if (key.compare(CF_AUTOSAVE) == 0){
+            else if (key.compare(CF_AUTOSAVE) == 0) {
                 pref.autosave = value.toInt();
             }
-            else if (key.compare(CF_EDITOR) == 0){
+            else if (key.compare(CF_EDITOR) == 0) {
                 pref.editor = value;
             }
-            else if (key.compare(CF_BROWSER) == 0){
+            else if (key.compare(CF_BROWSER) == 0) {
                 pref.browser = value;
             }
-            else if (key.compare(CF_PROTOCOL) == 0){
+            else if (key.compare(CF_PROTOCOL) == 0) {
                 pref.protocol = 2;
                 if (value == "DCC")
                     pref.protocol = 0;
@@ -266,51 +266,51 @@ void MainWindow::readConfigFile()
                 else if (value == "Selectrix")
                     pref.protocol = 3;
             }
-            else if (key.compare(CF_DECODER) == 0){
+            else if (key.compare(CF_DECODER) == 0) {
                 pref.decoder = value;
             }
-            else if (key.compare(CF_ACTIVETIME) == 0){
+            else if (key.compare(CF_ACTIVETIME) == 0) {
                 pref.activetime = value.toInt();
             }
-            else if (key.compare(CF_AUTOTTDIR) == 0){
+            else if (key.compare(CF_AUTOTTDIR) == 0) {
                 pref.autottdir = value.toInt();
             }
-            else if (key.compare(CF_TTROUNDTIME) == 0){
+            else if (key.compare(CF_TTROUNDTIME) == 0) {
                 pref.ttroundtime = value.toDouble();
             }
-            else if (key.compare(CF_ROUTINGTIME) == 0){
+            else if (key.compare(CF_ROUTINGTIME) == 0) {
                 pref.routingtime = value.toInt();
             }
             //TODO: remove before release
-            else if (key.compare(CF_FEEDBACKTYPE) == 0){
+            else if (key.compare(CF_FEEDBACKTYPE) == 0) {
                 pref.fbfactor = value.toInt();
             }
-            else if (key.compare(CF_FBMODSIZE) == 0){
+            else if (key.compare(CF_FBMODSIZE) == 0) {
                 pref.fbfactor = value.toInt();
             }
-            else if (key.compare(CF_FBMODTYPE) == 0){
+            else if (key.compare(CF_FBMODTYPE) == 0) {
                 pref.fbmoduletype = value.toInt();
             }
-            else if (key.compare(CF_FIXEDBUSNUM) == 0){
+            else if (key.compare(CF_FIXEDBUSNUM) == 0) {
                 pref.fixedbusnum = value.toInt();
             }
-            else if (key.compare(CF_FBBUS1) == 0){
+            else if (key.compare(CF_FBBUS1) == 0) {
                 pref.fbbus1.number = value.section(CF_DS, 0, 0).toUInt();
                 pref.fbbus1.modules = value.section(CF_DS, 1, 1).toUInt();
             }
-            else if (key.compare(CF_FBBUS2) == 0){
+            else if (key.compare(CF_FBBUS2) == 0) {
                 pref.fbbus2.number = value.section(CF_DS, 0, 0).toUInt();
                 pref.fbbus2.modules = value.section(CF_DS, 1, 1).toUInt();
             }
-            else if (key.compare(CF_FBBUS3) == 0){
+            else if (key.compare(CF_FBBUS3) == 0) {
                 pref.fbbus3.number = value.section(CF_DS, 0, 0).toUInt();
                 pref.fbbus3.modules = value.section(CF_DS, 1, 1).toUInt();
             }
-            else if (key.compare(CF_FBBUS4) == 0){
+            else if (key.compare(CF_FBBUS4) == 0) {
                 pref.fbbus4.number = value.section(CF_DS, 0, 0).toUInt();
                 pref.fbbus4.modules = value.section(CF_DS, 1, 1).toUInt();
             }
-            else if (key.compare(CF_LASTDIR) == 0){
+            else if (key.compare(CF_LASTDIR) == 0) {
                 lastDir = value.stripWhiteSpace();
                 // check if directory is valid
                 if (!QFile::exists(lastDir))
@@ -408,22 +408,12 @@ void MainWindow::initMainWindow()
      | | | |                                             | | | |
      | | | |                                             | | | |
      | | | |                                             | | | |
-     | | | |                                             | | | |
-     | | | |                                             | | | |
-     | | | |                                             | | | |
      | | | +---------------------------------------------+ | | |
      | | +-------------------------------------------------+ | |
      | +-----------------------------------------------------+ |
-     | | +-----------------+-------------------------------+ | |
-     | | |  QHBox          |                               | | |
-     | | | +-------------+ | +---------------------------+ | | |
-     | | | |QWidgetStack | | |QWidgetStack+----------+   | | | |
-     | | | |   +-------+ | | |            |+----------+  | | | |
-     | | | |   |+-------+| | |            +|+----------+ | | | |
-     | | | |   +|QLabel || | |             +|QListView | | | | |
-     | | | |    +-------+| | |              +----------+ | | | |
-     | | | +-------------+ | +---------------------------+ | | |
-     | | +-----------------+-------------------------------+ | |
+     | | +-------------------------------------------------+ | |
+     | | |  MessageHistory                                 | | |
+     | | +-------------------------------------------------+ | |
      | +-----------------------------------------------------+ |
      +---------------------------------------------------------+
      */
@@ -1490,7 +1480,7 @@ void MainWindow::updateFileMenuItems()
     actionFileSave->setEnabled(true);
     actionFileSaveAs->setEnabled(true);
 
-    if (fileName.isEmpty()){
+    if (fileName.isEmpty()) {
         actionEditFileLayout->setMenuText(tr("Layout file not saved yet"));
         actionEditFileLayout->setEnabled(false);
     }
@@ -1524,7 +1514,7 @@ void MainWindow::updateFileMenuItems()
 
 bool MainWindow::saveFile()
 {
-    if (fileName.isEmpty()){
+    if (fileName.isEmpty()) {
         slotFileSaveAs();
         return true;
     }
@@ -1582,7 +1572,7 @@ void MainWindow::slotFileSaveAs()
         lastDir = fn.left(fn.findRev('/'));
 
         /*check for existend file*/
-        if (QFile::exists(fn)){
+        if (QFile::exists(fn)) {
             int choice = QMessageBox::warning(this, tr("Warning"),
                     tr("File '%1' exists!\n"
                         "Do you want to overwrite it?").arg(fn),
@@ -1649,7 +1639,7 @@ void MainWindow::openFile(const QString& fn)
 
     QFile f(fn);
 
-    if (!f.open(IO_ReadOnly)){
+    if (!f.open(IO_ReadOnly)) {
         statusMessage(tr("Could not read file '%1'").arg(fn));
         return;
     }
@@ -1665,6 +1655,7 @@ void MainWindow::openFile(const QString& fn)
     
     QString s, key, value;
     int fversion = 0;
+
     while (!ts.eof()) {
         s = ts.readLine();
         
@@ -1672,8 +1663,9 @@ void MainWindow::openFile(const QString& fn)
         if (!s.startsWith("#")) {
             key = s.section(CF_DS, 0, 0);
             value = s.section(CF_DS, 1, 1).stripWhiteSpace();
+
             /* key/value pairs are read sequence independent */
-            if (key.compare(GF_CMDHOST) == 0){
+            if (key.compare(GF_CMDHOST) == 0) {
                 QStringList tokens = QStringList::split(CF_DS, s);
 
                 unsigned int prt = tokens[2].toUInt();
@@ -1685,9 +1677,8 @@ void MainWindow::openFile(const QString& fn)
                 cmdAutoPower = tokens[4].toInt() == 1;
                 cmdAutoSendAll = tokens[5].toInt() == 1;
             }
-            else if (key.compare(GF_FORMATVERSION) == 0){
+            else if (key.compare(GF_FORMATVERSION) == 0)
                 fversion = value.toInt();
-            }
             else if (s.startsWith("%% layout"))
                 break;
         }
@@ -1820,13 +1811,13 @@ void MainWindow::processCommandMessage(const QString& command)
          * start FB bus init sequence
          * when GA init is done, go to FB bus init
          */
-        if (!gbs->runSRCP08GAInitSequence()){
+        if (!gbs->runSRCP08GAInitSequence()) {
             SRCPCommandState = srcp08InitFBBusses;
-            if (!gbs->sendSRCP08BusMessage(SrcpMessage::msgPowerInit)){
-                if (cmdAutoPower){
+            if (!gbs->sendSRCP08BusMessage(SrcpMessage::msgPowerInit)) {
+                if (cmdAutoPower) {
                     SRCPCommandState = srcp08GetBusPower;
                     if (!gbs->sendSRCP08BusMessage(
-                                SrcpMessage::msgPowerGet)){
+                                SrcpMessage::msgPowerGet)) {
                         LayoutPowerIsOn = true;
                         updateLayoutPowerAction();
                         SRCPCommandState = srcpConnected;
@@ -1846,10 +1837,10 @@ void MainWindow::processCommandMessage(const QString& command)
          * keep SRCPCommandState while initialization is not finished
          */
         if (!gbs->sendSRCP08BusMessage(SrcpMessage::msgPowerInit))
-            if (cmdAutoPower){
+            if (cmdAutoPower) {
                 SRCPCommandState = srcp08GetBusPower;
                 if (!gbs->sendSRCP08BusMessage(
-                            SrcpMessage::msgPowerGet)){
+                            SrcpMessage::msgPowerGet)) {
                     LayoutPowerIsOn = true;
                     updateLayoutPowerAction();
                     SRCPCommandState = srcpConnected;
@@ -1886,8 +1877,8 @@ void MainWindow::processCommandMessage(const QString& command)
          *   1101459034.300 100 INFO 2 POWER OFF
          *        0          1    2  3   4    5    -> QString sections
          */
-        if (command.section(" ", 1, 2) == "100 INFO"){
-            if (command.section(" ", 5, 5) == "OFF"){
+        if (command.section(" ", 1, 2) == "100 INFO") {
+            if (command.section(" ", 5, 5) == "OFF") {
                 SendCommandToSRCPServer(QString("SET %1 POWER ON")
                         .arg(command.section(" ", 3, 3)));
                 PowerSwitched = true;
@@ -1899,7 +1890,7 @@ void MainWindow::processCommandMessage(const QString& command)
          * next bus at next cycle
          */
         if (!PowerSwitched)
-            if (!gbs->sendSRCP08BusMessage(SrcpMessage::msgPowerGet)){
+            if (!gbs->sendSRCP08BusMessage(SrcpMessage::msgPowerGet)) {
                 // all busses are switched on, we are ready 
                 LayoutPowerIsOn = true;
                 updateLayoutPowerAction();
@@ -2198,7 +2189,7 @@ void MainWindow::processInfoMessage(const QString& info)
     }
 
     /* respond to SRCP 0.8 messages */
-    else if (SrcpPort::csNew == infoStyle){
+    else if (SrcpPort::csNew == infoStyle) {
         if (pref.converttime) {
             QString msgstr = ConvertMessageTime(info);
             infoMessage(msgstr);

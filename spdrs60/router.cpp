@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.2 $Revision: 1.48 $
+                           version 0.5.2 $Revision: 1.49 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-01 07:35:33 $
+    last modified        : $Date: 2007-09-03 20:36:22 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -59,15 +59,26 @@ Router::~Router()
     routeList.clear();
 }
 
-
+/*
+ * read a new route from file
+ * set an id if the route does not have one already
+ */
 void Router::readFileTextFromStream(QTextStream& ts)
 {
+    Route* rt = NULL;
+
     /*clear old list*/
     if (!routeList.isEmpty())
         routeList.clear();
     
-    while (!ts.eof())
-        routeList.append(new Route(ts));
+    while (!ts.eof()) {
+        rt = new Route(ts);
+        if (rt != NULL) {
+            if (rt->getId() == 0)
+                rt->setId(getMaximumRouteIdNumber() + 1);
+            routeList.append(rt);
+        }
+    }
 
     modified = false;
     setupRouteElements();
@@ -82,7 +93,7 @@ void Router::setupRouteElements()
 
     QPtrListIterator<Route> routeit(routeList);
     Route* sr;
-    while ((sr = routeit.current()) != 0 ) {
+    while ((sr = routeit.current()) != 0) {
         ++routeit;
         sr->setupElementLists(gbsElements);
         connect(sr, SIGNAL(stateChanged(Route*, int)),
@@ -102,7 +113,7 @@ void Router::updateRouteElements()
 
     QPtrListIterator<Route> routeit(routeList);
     Route* sr;
-    while ((sr = routeit.current()) != 0 ) {
+    while ((sr = routeit.current()) != 0) {
         ++routeit;
         sr->updateElementLists(gbsElements);
         // tell route list window about changed data
@@ -183,7 +194,7 @@ void Router::writeFileTextToStream(QTextStream& ts)
     
     QPtrListIterator<Route> routeit(routeList);
     Route* saveroute;
-    while ((saveroute = routeit.current()) != 0 ) {
+    while ((saveroute = routeit.current()) != 0) {
         ++routeit;
         i++;
         ts << "%% route " << i << endl;
@@ -312,6 +323,7 @@ Route* Router::addNewRoute()
 {
     Route* nr = new Route(tr("New route"));
     if (nr != NULL) {
+        nr->setId(getMaximumRouteIdNumber() + 1);
         selectedRouteChanged(nr);
         routeList.append(nr);
 
@@ -586,7 +598,7 @@ Route* Router::getLockedRouteWithEntrySignal(element* el)
 {
     QPtrListIterator<Route> routeit(routeList);
     Route* rt;
-    while ((rt = routeit.current()) != 0 ) {
+    while ((rt = routeit.current()) != 0) {
         ++routeit;
         if (rt->isLockedWithEntrySignal(el))
             return rt;
@@ -600,7 +612,7 @@ Route* Router::getUnlockedRouteWithEntrySignal(element* el, GbsButtonState cb,
 {
     QPtrListIterator<Route> routeit(routeList);
     Route* rt;
-    while ((rt = routeit.current()) != 0 ) {
+    while ((rt = routeit.current()) != 0) {
         ++routeit;
         if (rt->isUnlockedWithEntrySignalType(el, cb, sb))
             return rt;
@@ -614,7 +626,7 @@ Route* Router::getUnlockedRouteWithExitSignal(element* el, GbsButtonState cb,
 {
     QPtrListIterator<Route> routeit(routeList);
     Route* rt;
-    while ((rt = routeit.current()) != 0 ) {
+    while ((rt = routeit.current()) != 0) {
         ++routeit;
         if (rt->isUnlockedType(selectedStartSig, el, cb, sb))
             return rt;
@@ -629,12 +641,31 @@ Route* Router::getUtilizedRouteWithExitSignal(element* el)
 {
     QPtrListIterator<Route> routeit(routeList);
     Route* rt;
-    while ((rt = routeit.current()) != 0 ) {
+    while ((rt = routeit.current()) != 0) {
         ++routeit;
         if (rt->hasThisExitSignal(el) && rt->hasTrain())
             return rt;
     }
     return NULL;
+}
+
+/*
+ * find maximum route id number for next new route
+ */
+unsigned int Router::getMaximumRouteIdNumber()
+{
+    unsigned int max = 0;
+    unsigned int id = 0;
+
+    QPtrListIterator<Route> routeit(routeList);
+    Route* rt;
+    while ((rt = routeit.current()) != 0) {
+        ++routeit;
+        id = rt->getId();
+        if (id > max)
+            max = id;
+    }
+    return max;
 }
 
 
@@ -650,7 +681,7 @@ void Router::unlockAllLockedRoutes()
     QPtrListIterator<Route> routeit(routeList);
     Route* rt;
     int index = 0;
-    while ((rt = routeit.current()) != 0 ) {
+    while ((rt = routeit.current()) != 0) {
         ++routeit;
         if (rt->getState() != Route::rsUnlocked) {
 
@@ -670,7 +701,7 @@ void Router::feedbackPortChanged(unsigned int bus, unsigned int port,
     Route* rt;
 
     /*first release locked routes*/
-    while ((rt = routeit.current()) != 0 ) {
+    while ((rt = routeit.current()) != 0) {
         ++routeit;
         if (rt->canReleaseByFeedbackPort(bus, port, ison))
             releaseRoute(rt);
@@ -678,7 +709,7 @@ void Router::feedbackPortChanged(unsigned int bus, unsigned int port,
     
     /*second activate unlocked routes*/
     routeit.toFirst();
-    while ((rt = routeit.current()) != 0 ) {
+    while ((rt = routeit.current()) != 0) {
         ++routeit;
         if (rt->canActivateByFeedbackPort(bus, port, ison))
             activateRoute(rt);

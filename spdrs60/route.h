@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.5.2 $Revision: 1.32 $
+                           version 0.5.2 $Revision: 1.33 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-31 17:30:11 $
+    last modified        : $Date: 2007-09-03 20:36:22 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -113,6 +113,7 @@ public:
     void setExitSignal(element*);
     void setTrainNumberDisplay(element*);
     void setTrain(unsigned int);
+    void setId(unsigned int);
     void addSwitchElement(element*);
     void removeElement(element*);
     bool canActivateByFeedbackPort(unsigned int, unsigned int, bool);
