@@ -1,3 +1,9 @@
+2007-09-03 Guido Scholz <guido.scholz@bayernline.de>
+	* mainwindow.cpp: Removed stdlib dependency by using QProcess
+	for launching external programms.
+	* routedialog.cpp: Validators for route id and train mumber
+	added.
+
 2007-09-02 Guido Scholz <guido.scholz@bayernline.de>
 	* mainwindow.cpp, options.*, element.cpp, preferences.*: tooltip
 	usage optimized, visibility now can be changed without program

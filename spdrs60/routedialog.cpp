@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.5.2 $Revision: 1.38 $
+                           version 0.5.2 $Revision: 1.39 $
                            -------------------------------
     copyright            : (C) 2005-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-29 17:09:30 $
+    last modified        : $Date: 2007-09-03 18:04:33 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -94,27 +94,43 @@ void RouteDialog::addIdentificationTab()
     lblRouteName->setBuddy(routeNameLE);
     nameLayout->addWidget(routeNameLE);
 
+    // Validator for route id and train number
+    QIntValidator* routeValidator = new QIntValidator(0, 99999, this);
+
     /*line with numerical id*/
     QHBoxLayout* numberLayout = new QHBoxLayout(identificationGBL, 6);
-    QLabel* lblRouteNumber = new QLabel(tr("N&umber"), identificationGB);
+    QLabel* lblRouteNumber = new QLabel(tr("N&umber (Id)"), identificationGB);
     numberLayout->addWidget(lblRouteNumber);
     numberLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
                 QSizePolicy::Minimum));
     routeNumberLE = new QLineEdit(identificationGB, "routeNumberLE");
     routeNumberLE->setMaximumWidth(LEMAXWIDTH);
+    routeNumberLE->setValidator(routeValidator);
     lblRouteNumber->setBuddy(routeNumberLE);
     numberLayout->addWidget(routeNumberLE);
+    QToolTip::add(routeNumberLE, tr(
+                "Enter an unique identification number for\n"
+                "this route. The valid range is %1 to %2.")
+            .arg(routeValidator->bottom())
+            .arg(routeValidator->top()));
 
     /*line with train number*/
     QHBoxLayout* trainLayout = new QHBoxLayout(identificationGBL, 6);
-    QLabel* lblRouteTrain = new QLabel(tr("&Train"), identificationGB);
+    QLabel* lblRouteTrain = new QLabel(tr("&Train number"), identificationGB);
     trainLayout->addWidget(lblRouteTrain);
     trainLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
                 QSizePolicy::Minimum));
     routeTrainLE = new QLineEdit(identificationGB, "routeTrainLE");
     routeTrainLE->setMaximumWidth(LEMAXWIDTH);
+    routeTrainLE->setValidator(routeValidator);
     lblRouteTrain->setBuddy(routeTrainLE);
     trainLayout->addWidget(routeTrainLE);
+    QToolTip::add(routeTrainLE, tr(
+                "Enter an unique identification number for\n"
+                "the train, currently occupying this route.\n"
+                "The valid range is %1 to %2.")
+            .arg(routeValidator->bottom())
+            .arg(routeValidator->top()));
 
     /*horizontal layout for start and stop signal data group boxes*/
     QHBoxLayout* signalStaStoLayout = new QHBoxLayout(tabLayout, 6);
