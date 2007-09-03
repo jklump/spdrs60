@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.cpp
-                           version 0.5.2 $Revision: 1.39 $
+                           version 0.5.2 $Revision: 1.40 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-02 17:57:53 $
+    last modified        : $Date: 2007-09-03 18:01:11 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1790,6 +1790,11 @@ void elementDialog::invertedChanged(bool inverted)
 {
     QString icon = IconNameList->at(IconComboBox->currentItem());
 
-    if (icon == SYM_ADR)
+    if (icon == SYM_ADR) {
         feedbackGB->setEnabled(!inverted);
+        srcpBus1Label->setEnabled(inverted);
+        srcpBus1LE->setEnabled(inverted);
+        address1Lbl->setEnabled(inverted);
+        address1LE->setEnabled(inverted);
+    }
 }

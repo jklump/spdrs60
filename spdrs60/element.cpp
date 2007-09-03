@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.2 $Revision: 1.128 $
+                           version 0.5.2 $Revision: 1.129 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-02 17:34:16 $
+    last modified        : $Date: 2007-09-03 18:01:11 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -930,8 +930,11 @@ void element::showPropertyDlg()
             sSoldIcon = elementPropertyDlg->getSymbolName();
             sSoldText = elementPropertyDlg->getSymbolText();
 
-            if (SYM_ADR == sSoldIcon)
-                updateTrainNumber(sSoldText.toUInt());
+            // force display update
+            if (SYM_ADR == sSoldIcon) {
+                editsAddress = sSoldText.toUInt();
+                setupElementIcon();
+            }
 
             iSoldRotate = elementPropertyDlg->getRotated();
             iSoldInvert = elementPropertyDlg->getInverted();
@@ -5543,7 +5546,7 @@ void element::addTooltip()
             iSoldAddress_1 == -1 ?  "N/A (=-1)" : a1.data());
 
     tip2.sprintf(
-            "Address 2 : %s\n"
+            "Address 2: %s\n"
             "xc Conn 1: %s (=%1d)\n"
             "xc Conn 2: %s (=%1d)\n"
             "Direction: %d\n"
@@ -5551,7 +5554,7 @@ void element::addTooltip()
             "Text     : %s\n"
             "Locked   : %s (=%1d)\n"
             "Time (ms): %d\n"
-            "FB contact: %d\n",
+            "FB Contact: %d\n",
             iSoldAddress_2 == -1 ? "N/A (=-1)" : a2.data(),
             iSoldChangeConn[0] ==
             -1 ? "N/A" : (iSoldChangeConn[0] == 0 ? "No" : "Yes"),
@@ -5587,13 +5590,12 @@ void element::addTooltip()
  *  rdSW | rdS  | rdSE
  *
  */
-
 unsigned int element::routeElement(unsigned int entrydir, bool setroute)
 {
 
     unsigned int returnvalue = rdCenter;
 
-    // immediate return if track is straightforward
+    /* - */
     if (sSoldIcon == SYM_GER || sSoldIcon == SYM_ENK || sSoldIcon == SYM_HS
             || sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB
             || sSoldIcon == SYM_HSS || sSoldIcon == SYM_SS
@@ -5609,6 +5611,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
             returnvalue = rdW;
     }
 
+    /* | */
     else if (sSoldIcon == SYM_TRV) {
             if (entrydir == rdN)
                 returnvalue = rdS;
@@ -5617,7 +5620,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     }
     
     /* \
-       |  */
+       | */
     else if (sSoldIcon == SYM_TTL) {
             if (entrydir == rdNW)
                 returnvalue = rdS;
@@ -5635,7 +5638,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     }
     
     /* |
-       \  */
+       \ */
     else if (sSoldIcon == SYM_TBL) {
             if (entrydir == rdN)
                 returnvalue = rdSE;
@@ -6237,11 +6240,12 @@ void element::updateEDiTSAddress(unsigned int contact, bool state)
 
 
 /**
- * set train number to EDiTS address view
+ * Set train number to EDiTS address view.
+ * Only possible, if is in inverted state.
  */
 void element::updateTrainNumber(unsigned int value)
 {
-    if (value != editsAddress) {
+    if ((iSoldInvert == 1) && (value != editsAddress)) {
        editsAddress = value;
        setupElementIcon();
     }
