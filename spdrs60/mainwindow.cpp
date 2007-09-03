@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.114 $
+                           version 0.5.2 $Revision: 1.115 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-02 20:51:35 $
+    last modified        : $Date: 2007-09-03 18:02:19 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -22,10 +22,10 @@
    elements and sets up the connection to the SRCP server
  ***************************************************************************/
 
-#include <stdio.h>              // for sprintf()
-#include <stdlib.h>             // for system()
 #include <qhbox.h>
 #include <qmenubar.h>
+#include <qprocess.h>
+#include <qtextcodec.h>
 #include <qvbox.h>
 
 #include "aboutdialog.h"
@@ -168,8 +168,10 @@ MainWindow::MainWindow(): QMainWindow(NULL, PACKAGE,
     connect(feedbackPort, SIGNAL(messageReceived(const QString&)),
             this, SLOT(processFeedbackMessage(const QString&)));
 
-    initMainWindow();               // setup main window with all menus
-    readConfigFile();               // read user dependend config file
+    // setup main window with all menus
+    initMainWindow();
+    // read user dependend config file
+    readConfigFile();
     statusMessage(tr("Program succesfully started!"));
 }
 
@@ -2684,14 +2686,29 @@ void MainWindow::updateRouteListMenuItems()
     updateRouteMenu(rtViewer->isVisible());
 }
 
+/*
+ * Open browser window with URL
+ */
+void MainWindow::runBrowserUrl(const QString& url)
+{
+    QProcess* proc = new QProcess(this, "browserProcess");
+    proc->addArgument(pref.browser);
+    proc->addArgument(url);
 
-/* open handbook in external browser*/
+    if (!proc->start()) {
+        statusMessage(tr("Error starting browser '%1'!").arg(pref.browser));
+    }
+}
+
+/*
+ * Open handbook in external browser
+ */
 void MainWindow::slotAboutHelp()
 {
     QString langenv, sURL;
 
-    langenv = getenv("LANG");
-    if (langenv.find("de", 0, TRUE) >= 0)
+    langenv = QTextCodec::locale();
+    if (langenv.startsWith("de"))
         langenv = "de";
     else
         langenv = "en";
@@ -2700,44 +2717,34 @@ void MainWindow::slotAboutHelp()
         .arg(HTML_DOC_DIR)
         .arg(langenv);
 
-    /* if browser is mozilla or firefox first check for running program
-     * instance; run with "-remote" option to get a new tab */
-
-    if (pref.browser == "mozilla" || pref.browser == "firefox") {
-        if (system(pref.browser + " -remote 'ping()'") == 0)
-            system(pref.browser + " -remote 'openURL(" + sURL + ",new-tab)'");
-        else
-            system(pref.browser + " " + sURL + " &");
-    }
-    else
-        system(pref.browser + " " + sURL + " &");
+    runBrowserUrl(sURL);
 }
 
-
-/* open spdrs60 web resources with external browser */
+/*
+ * Open spdrs60 web resources with external browser
+ */
 void MainWindow::slotAboutWeb()
 {    
-    QString sURL = QString("http://spdrs60.sourceforge.net/");
-
-    if (pref.browser == "mozilla" || pref.browser == "firefox") {
-        if (system(pref.browser + " -remote 'ping()'") == 0)
-            system(pref.browser + " -remote 'openURL(" + sURL + ",new-tab)'");
-        else
-            system(pref.browser + " " + sURL + " &");
-    }
-    else
-        system(pref.browser + " " + sURL + " &");
+    runBrowserUrl("http://spdrs60.sourceforge.net/");
 }
 
-// show an original DB clock with minute delay
+/*
+ * show an original DB clock with minute delay
+ */
 void MainWindow::slotShowClock()
 {
-    QString sCommand = "centralclock &";
-    system(sCommand.data());    
+    QProcess* proc = new QProcess(this, "clockProcess");
+    proc->addArgument("centralclock");
+
+    if (!proc->start()) {
+        statusMessage(tr("Error starting clock!"));
+    }
 }                               
 
 
-// show feedback module window
+/* 
+ * show feedback module window
+ */
 void MainWindow::slotShowModules()
 {
     if (fbViewer != NULL)

@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.5.2 $Revision: 1.47 $
+                           version 0.5.2 $Revision: 1.48 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-02 17:50:27 $
+    last modified        : $Date: 2007-09-03 18:02:19 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -164,6 +164,7 @@ private:
    bool isModified();
    void writeConfigFile();
    void readConfigFile();
+   void runBrowserUrl(const QString&);
 
    /* New Networking code: */
    void ConnectCommandPort();
