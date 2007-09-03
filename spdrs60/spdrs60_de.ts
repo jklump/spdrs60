@@ -768,6 +768,14 @@ includes a train number transfer.</source>
         <translation>Eine eingestellte Fahrstraße auflösen.
 Die Zugnummer wird hierbei weitergeleitet.</translation>
     </message>
+    <message>
+        <source>Error starting clock!</source>
+        <translation>Fehler beim Starten der Bahnhofsuhr!</translation>
+    </message>
+    <message>
+        <source>Error starting browser &apos;%1&apos;!</source>
+        <translation>Fehler beim Starten von Browser &apos;%1&apos;!</translation>
+    </message>
 </context>
 <context>
     <name>MessageHistory</name>
@@ -1017,12 +1025,12 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <translation>Identifikation</translation>
     </message>
     <message>
-        <source>N&amp;umber</source>
-        <translation>N&amp;ummer</translation>
+        <source>N&amp;umber (Id)</source>
+        <translation>N&amp;ummer (Id)</translation>
     </message>
     <message>
-        <source>&amp;Train</source>
-        <translation>&amp;Zug</translation>
+        <source>&amp;Train number</source>
+        <translation>&amp;Zugnummer</translation>
     </message>
     <message>
         <source>&amp;Identification</source>
@@ -1039,6 +1047,17 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     <message>
         <source>&amp;Elements</source>
         <translation>&amp;Elemente</translation>
+    </message>
+    <message>
+        <source>Enter an unique identification number for
+this route. The valid range is %1 to %2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter an unique identification number for
+the train, currently occupying this route.
+The valid range is %1 to %2.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
