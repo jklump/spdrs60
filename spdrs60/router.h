@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.h
-                           version 0.5.2 $Revision: 1.25 $
+                           version 0.5.2 $Revision: 1.26 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-03 20:36:22 $
+    last modified        : $Date: 2007-09-04 20:02:17 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -38,8 +38,9 @@ class Router: public QObject
     Q_OBJECT
         
 public:
-    Router(QObject* parent=0, const char* name=0);
-    Router(QObject* parent=0, QPtrVector<element>* elPtr=0, const char* name=0);
+    Router(QObject* parent = NULL, const char* name = NULL);
+    Router(QObject* parent = NULL, QPtrVector<element>* elPtr = NULL,
+            const char* name = NULL);
     ~Router();
     void readFileTextFromStream(QTextStream&);
     void writeFileTextToStream(QTextStream&);

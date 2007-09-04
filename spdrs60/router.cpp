@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.2 $Revision: 1.49 $
+                           version 0.5.2 $Revision: 1.50 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-03 20:36:22 $
+    last modified        : $Date: 2007-09-04 20:02:17 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -72,7 +72,7 @@ void Router::readFileTextFromStream(QTextStream& ts)
         routeList.clear();
     
     while (!ts.eof()) {
-        rt = new Route(ts);
+        rt = new Route(ts, this, "streamRoute");
         if (rt != NULL) {
             if (rt->getId() == 0)
                 rt->setId(getMaximumRouteIdNumber() + 1);
@@ -321,7 +321,7 @@ void Router::recordElement(element* el, elemRecordType rtype)
 
 Route* Router::addNewRoute()
 {
-    Route* nr = new Route(tr("New route"));
+    Route* nr = new Route(tr("New route"), this, "newRoute");
     if (nr != NULL) {
         nr->setId(getMaximumRouteIdNumber() + 1);
         selectedRouteChanged(nr);

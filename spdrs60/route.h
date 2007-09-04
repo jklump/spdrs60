@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.5.2 $Revision: 1.33 $
+                           version 0.5.2 $Revision: 1.34 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-03 20:36:22 $
+    last modified        : $Date: 2007-09-04 20:02:17 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -71,11 +71,15 @@ public:
           const PortState& arePort,
           const PortState& aacPort,
           unsigned int adetourLevel,
-          const QPtrList<stateElement>& swis);
+          const QPtrList<stateElement>& swis,
+          QObject* parent = NULL, const char* name = NULL);
     
-    Route(element* = NULL);
-    Route(QTextStream&);
-    Route(const QString& aName);
+    Route(element* = NULL, QObject* parent = NULL,
+            const char* name = NULL);
+    Route(QTextStream&, QObject* parent = NULL,
+            const char* name = NULL);
+    Route(const QString& aName, QObject* parent = NULL,
+            const char* name = NULL);
     ~Route();
     
     void readFileTextFromStream(QTextStream&);

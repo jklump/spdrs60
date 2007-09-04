@@ -777,12 +777,8 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <translation>Fehler beim Starten von Browser &apos;%1&apos;!</translation>
     </message>
     <message>
-        <source>Command port connected with %1 communication style.</source>
-        <translation type="obsolete">Kommandokanal mit %1 Kommunikationsstil verbunden.</translation>
-    </message>
-    <message>
         <source>Error: Command port connected with unknown style &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler: Kommandokanal mit unbekanntem Kommunikationsstil &apos;%1&apos; verbunden.</translation>
     </message>
     <message>
         <source>Not connected</source>
@@ -790,19 +786,19 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     </message>
     <message>
         <source>Command port connected with old communication style.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommandokanal mit altem Kommunikationsstil verbunden.</translation>
     </message>
     <message>
         <source>Command port connected with new communication style.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kommandokanal mit neuem Kommunikationsstil verbunden.</translation>
     </message>
     <message>
         <source>Info port connected with old communication style.</source>
-        <translation type="unfinished"></translation>
+        <translation>Info-Kanal mit altem Kommunikationsstil verbunden.</translation>
     </message>
     <message>
         <source>Error: Info port connected with unknown style &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler: Info-Kanal mit unbekanntem Kommunikationsstil &apos;%1&apos; verbunden.</translation>
     </message>
 </context>
 <context>
@@ -1079,13 +1075,16 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     <message>
         <source>Enter an unique identification number for
 this route. The valid range is %1 to %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hier eine eindeutige Zahl zur Identifikation der
+Fahrstraße eingeben. Erlaubt sind Werte von %1 bis %2.</translation>
     </message>
     <message>
         <source>Enter an unique identification number for
 the train, currently occupying this route.
 The valid range is %1 to %2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hier eine eindeutige Zahl zur Identifikation des
+Zugs eingeben, der augenblicklich die Fahrstraße belegt.
+Erlaubt sind Werte von %1 bis %2.</translation>
     </message>
 </context>
 <context>

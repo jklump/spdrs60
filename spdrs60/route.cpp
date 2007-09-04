@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.57 $
+                           version 0.5.2 $Revision: 1.58 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-03 20:36:22 $
+    last modified        : $Date: 2007-09-04 20:02:17 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -48,7 +48,8 @@ Route::Route(unsigned int anid,
         const PortState& arePort,
         const PortState& aacPort,
         unsigned int adetourLevel,
-        const QPtrList<stateElement>& swis): QObject(NULL, "route1")
+        const QPtrList<stateElement>& swis,
+        QObject* parent, const char* name): QObject(parent, name)
 {
     routestate = rsUnlocked;
     turnouts = 0;
@@ -110,7 +111,8 @@ Route::Route(unsigned int anid,
     }
 }
 
-Route::Route(element* startEl): QObject(NULL, "route2")
+Route::Route(element* startEl, QObject* parent, const char* name)
+: QObject(parent, name)
 {
     routestate = rsUnlocked;
     turnouts = 0;
@@ -163,7 +165,8 @@ Route::Route(element* startEl): QObject(NULL, "route2")
     }
 }
 
-Route::Route(QTextStream& ts): QObject(NULL, "route3")
+Route::Route(QTextStream& ts, QObject* parent, const char* name)
+: QObject(parent, name)
 {
     routestate = rsUnlocked;
     turnouts = 0;
@@ -191,7 +194,8 @@ Route::Route(QTextStream& ts): QObject(NULL, "route3")
 }
 
 
-Route::Route(const QString& aName)
+Route::Route(const QString& aName, QObject* parent, const char* name)
+    : QObject(parent, name)
 {
     routestate = rsUnlocked;
     turnouts = 0;
@@ -434,7 +438,8 @@ void Route::writeFileTextToStream(QTextStream& ts)
 Route* Route::getClone()
 {
     return new Route(idnumber, routeType, Name, exitSignal, entrySignal,
-            trainNumberDisplay, rePort, acPort, detourLevel, switchItems);
+            trainNumberDisplay, rePort, acPort, detourLevel,
+            switchItems, parent(), "clonedRoute");
 }
 
 
