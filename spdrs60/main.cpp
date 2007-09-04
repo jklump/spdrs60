@@ -1,11 +1,11 @@
 /***************************************************************************
                            main.cpp
-                           version 0.5.2 $Revision: 1.14 $
+                           version 0.5.2 $Revision: 1.15 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-01 07:35:33 $
+    last modified        : $Date: 2007-09-04 20:11:29 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -22,7 +22,6 @@
    application and stores the command line arguments
  **************************************************************************/
 
-#include <stdlib.h>
 
 #include <qapplication.h>
 #include <qstring.h>
@@ -44,7 +43,7 @@ int main(int argc, char* argv[])
    if (qt.load(QString("qt_") + QTextCodec::locale(), QT_TRANSLATIONS_DIR))
        a.installTranslator(&qt);
    else
-       fprintf(stderr, "No Qt translation for %s found.\n",
+       qWarning("No Qt translation for locale '%s' found.",
                QTextCodec::locale());
 #endif
    
@@ -54,7 +53,7 @@ int main(int argc, char* argv[])
    if (spdrs60Tr.load(QString("spdrs60_") + QTextCodec::locale(), RES_DIR))
        a.installTranslator(&spdrs60Tr);
    else
-       fprintf(stderr, "No spdrs60 translation for %s in %s found.\n",
+       qWarning("No spdrs60 translation for locale '%s' in '%s' found.",
                QTextCodec::locale(), RES_DIR);
 
    MainWindow* spdrs60Window = new MainWindow();
