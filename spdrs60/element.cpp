@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.2 $Revision: 1.129 $
+                           version 0.5.2 $Revision: 1.130 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-03 18:01:11 $
+    last modified        : $Date: 2007-09-04 15:50:51 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -22,8 +22,6 @@
    of the switch command to the erddcd daemon
  ***************************************************************************/
 
-#include <unistd.h>             // for usleep()
-#include <stdio.h>              // for sprintf()
 
 #include "element.h"
 #include "preferences.h"
@@ -170,24 +168,24 @@ void element::readFileTextFromStream(QTextStream& ats)
             key = s.section(DS, 0, 0);
             value = s.section(DS, 1, 1).stripWhiteSpace();
             /* key/value pairs are read sequence independent */
-            if (key.compare(GF_INDEX) == 0){
+            if (key.compare(GF_INDEX) == 0) {
                   iSoldIndex = value.stripWhiteSpace().toUInt();
                   //fprintf(stderr, "New idx: %d  ", iSoldIndex);
             }
-            else if (key.compare(GF_NAME) == 0){
+            else if (key.compare(GF_NAME) == 0) {
                   sSoldIcon = value.stripWhiteSpace();
                   //fprintf(stderr, "New-Icon: %s\n", sSoldIcon.data());
             }
-            else if (key.compare(GF_ROTATE) == 0){
+            else if (key.compare(GF_ROTATE) == 0) {
                 iSoldRotate = value.toInt();
             }
-            else if (key.compare(GF_INVERSTO) == 0){
+            else if (key.compare(GF_INVERSTO) == 0) {
                 iSoldInvert = value.toInt();
             }
-            else if (key.compare(GF_DECODER) == 0){
+            else if (key.compare(GF_DECODER) == 0) {
                 sSoldDecoder = value;
             }
-            else if (key.compare(GF_PROTOCOL) == 0){
+            else if (key.compare(GF_PROTOCOL) == 0) {
                 if (value == "M")
                     protocol = SrcpMessage::proMM;
                 else if (value == "N")
@@ -199,47 +197,47 @@ void element::readFileTextFromStream(QTextStream& ats)
                 else
                     protocol = SrcpMessage::proNone;
             }
-            else if (key.compare(GF_ADDRESS1) == 0){
+            else if (key.compare(GF_ADDRESS1) == 0) {
                 iGA1BusNo = value.toInt();
                 value = s.section(DS, 2, 2).stripWhiteSpace();
                 iSoldAddress_1 = value.toInt();
                 value = s.section(DS, 3, 3).stripWhiteSpace();
                 port1 = value.toUInt();
             }
-            else if (key.compare(GF_ADDRESS2) == 0){
+            else if (key.compare(GF_ADDRESS2) == 0) {
                 iGA2BusNo = value.toInt();
                 value = s.section(DS, 2, 2).stripWhiteSpace();
                 iSoldAddress_2 = value.toInt();
                 value = s.section(DS, 3, 3).stripWhiteSpace();
                 port2 = value.toUInt();
             }
-            else if (key.compare(GF_XCHCONN1) == 0){
+            else if (key.compare(GF_XCHCONN1) == 0) {
                 iSoldChangeConn[0] = value.toInt();
             }
-            else if (key.compare(GF_XCHCONN2) == 0){
+            else if (key.compare(GF_XCHCONN2) == 0) {
                 iSoldChangeConn[1] = value.toInt();
             }
-            else if (key.compare(GF_DIRECTION) == 0){
+            else if (key.compare(GF_DIRECTION) == 0) {
                 iSoldDirection = value.toInt();
             }
-            else if (key.compare(GF_SUBTYPE) == 0){
+            else if (key.compare(GF_SUBTYPE) == 0) {
                 iSoldSubType = value.toInt();
             }
-            else if (key.compare(GF_TEXT) == 0){
+            else if (key.compare(GF_TEXT) == 0) {
                 //sSoldText = value;
                 sSoldText = s.section(DS, 1).stripWhiteSpace();
             }
-            else if (key.compare(GF_ACTTIME) == 0){
+            else if (key.compare(GF_ACTTIME) == 0) {
                 iSoldActiveTime = value.toInt();
             }
-            else if (key.compare(GF_FBPORT) == 0){
+            else if (key.compare(GF_FBPORT) == 0) {
                 iFBBusNo = value.toUInt();
                 value = s.section(DS, 2, 2).stripWhiteSpace();
                 iFBContact = value.toInt();
                 if (iFBContact <= 0)
                     iFBContact = 1;
             }
-            else if (key.compare(GF_HIDELEDS) == 0){
+            else if (key.compare(GF_HIDELEDS) == 0) {
                 iSoldLEDoff = value.toInt();
                 /*this is the last parameter, now exit while loop*/
                 break;
@@ -437,7 +435,7 @@ void element::mousePressEvent(QMouseEvent* e)
              * corresponding value to GBSArea to change cursor shape etc.*/
             // if element contains a solenoid or is a external button
             // TODO: if (hasButton())
-            else if ((iSoldAddress_1 != -1) && (sSoldIcon != SYM_ADR)){
+            else if ((iSoldAddress_1 != -1) && (sSoldIcon != SYM_ADR)) {
 
                 if (sSoldIcon == SYM_HS || sSoldIcon == SYM_NRB)
                     ctrlButton = kZfsClicked;
@@ -446,7 +444,7 @@ void element::mousePressEvent(QMouseEvent* e)
                         sSoldIcon == SYM_WS || sSoldIcon == SYM_SRB)
                     ctrlButton = kRfsClicked;
 
-                else if (sSoldIcon == SYM_HSS){
+                else if (sSoldIcon == SYM_HSS) {
                     /* two different buttons on this panel */
                     if (CursorPos.x() > (EL_WIDTH >> 1) ^ (bool)iSoldRotate)
                         ctrlButton = kZfsClicked; 
@@ -465,7 +463,7 @@ void element::mousePressEvent(QMouseEvent* e)
 
             /*add here new external button functions*/
             /*TODO: change to switch SYM_ID_ */
-            else if (sSoldIcon.startsWith("taste")){
+            else if (sSoldIcon.startsWith("taste")) {
                 if (sSoldIcon == SYM_TAW)
                     ctrlButton = kWgtClicked;
 
@@ -521,7 +519,7 @@ void element::mouseReleaseEvent(QMouseEvent* e)
 {
     /*normal mode*/
     if (visualMode == kvmNormal) {
-        if (e->button() == RightButton){
+        if (e->button() == RightButton) {
             // handled by gbsarea
             e->ignore();
         }
@@ -538,7 +536,7 @@ void element::mouseReleaseEvent(QMouseEvent* e)
             if ((sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
                  sSoldIcon == SYM_SS || 
                  sSoldIcon == SYM_SSH || sSoldIcon == SYM_SSS ||
-                 sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB)){
+                 sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB)) {
                 /*send record signal to router*/
                 if (ksmNormal == selectionMode)
                     emit recordElement(this, krecStartStop);
@@ -579,7 +577,7 @@ void element::mouseReleaseEvent(QMouseEvent* e)
                 e->accept();
             }
         }
-        else if (e->button() == RightButton){
+        else if (e->button() == RightButton) {
             // handled by gbsarea
             e->ignore();
         }
@@ -665,9 +663,6 @@ void element::sendSrcpState()
     int iRealBus = iGA1BusNo;
 
 
-  DO_AGAIN:;
-    int sendRepeatCounter = 1;
-
     // element contains a momentarily activated coupler
     if (sSoldIcon == SYM_ENK && iSoldSubType != -1)
         iRealDirection = iSoldSubType;  // copy subtype as realDirection
@@ -675,13 +670,6 @@ void element::sendSrcpState()
     // element contains a main signal with direction >= 2
     else if ((sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
               sSoldIcon == SYM_VS) && iSoldDirection >= 2) {
-
-        /*
-         * serd: Viessman Formsignale often need several attempts
-         * wait only if command for signal is repeated
-         */
-        if (sSoldDecoder.startsWith("Vi"))
-            sendRepeatCounter = cNumRepeatCommands;
 
         // Hp0+Hp1 not considered, is done by default copy
         switch (iSoldSubType) {
@@ -782,14 +770,6 @@ void element::sendSrcpState()
         sm->setGaData(protocol, iRealBus, iRealAddress, port,
                 value, iSoldActiveTime);
         
-        while (sendRepeatCounter > 0) {
-            emit sendSrcpMessage(sm);
-            --sendRepeatCounter;
-            // TODO: timer controlled repeat, this delay also suspends
-            // redrawing of element icons
-            if (sendRepeatCounter > 0)
-                usleep(iSoldActiveTime * 1000);
-        }
         delete sm;
 
         // return to copy direction and address for second switch
@@ -798,7 +778,6 @@ void element::sendSrcpState()
              sSoldIcon == SYM_DKR) && iSoldSubType == 1)) &&
              !bSwitchSecondAddress) {
             bSwitchSecondAddress = true;
-            goto DO_AGAIN;
         }
         /*
          * if momentary coupler: activate it, wait for a short time
@@ -925,7 +904,7 @@ void element::showPropertyDlg()
         connect(elementPropertyDlg, SIGNAL(sigShowFBmodules()),
                 this, SIGNAL(sigShowFBmodules()));
         
-        if (elementPropertyDlg->exec() == QDialog::Accepted){
+        if (elementPropertyDlg->exec() == QDialog::Accepted) {
 
             sSoldIcon = elementPropertyDlg->getSymbolName();
             sSoldText = elementPropertyDlg->getSymbolText();
@@ -1276,7 +1255,7 @@ void element::setupElementIcon()
     }
    
     // direction arrows
-    else if (sSoldIcon == SYM_RI1 || sSoldIcon == SYM_RI2){
+    else if (sSoldIcon == SYM_RI1 || sSoldIcon == SYM_RI2) {
         bool isri2 = (sSoldIcon == SYM_RI2);
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
@@ -1362,7 +1341,7 @@ void element::setupElementIcon()
     }
     
     // address
-    else if (sSoldIcon == SYM_ADR){
+    else if (sSoldIcon == SYM_ADR) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -1408,7 +1387,7 @@ void element::setupElementIcon()
     }
     
     // level crossing
-    else if (sSoldIcon == SYM_BUE){
+    else if (sSoldIcon == SYM_BUE) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -1437,7 +1416,7 @@ void element::setupElementIcon()
     }
     
     // relay
-    else if (sSoldIcon == SYM_REL){
+    else if (sSoldIcon == SYM_REL) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -1497,7 +1476,7 @@ void element::setupElementIcon()
     }
     
     // motor
-    else if (sSoldIcon == SYM_MDC){
+    else if (sSoldIcon == SYM_MDC) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -1573,7 +1552,7 @@ void element::setupElementIcon()
     }
     
     // decoupler
-    else if (sSoldIcon == SYM_ENK){
+    else if (sSoldIcon == SYM_ENK) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -1647,7 +1626,7 @@ void element::setupElementIcon()
     }
     
     // blind element
-    else if (sSoldIcon == SYM_BLD){
+    else if (sSoldIcon == SYM_BLD) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -1723,7 +1702,7 @@ void element::setupElementIcon()
     }
     
     // shunt wait signal
-    else if (sSoldIcon == SYM_WS){
+    else if (sSoldIcon == SYM_WS) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -1835,7 +1814,7 @@ void element::setupElementIcon()
     }
     
     // signal HSS
-    else if (sSoldIcon == SYM_HSS){
+    else if (sSoldIcon == SYM_HSS) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2038,7 +2017,7 @@ void element::setupElementIcon()
     }
     
     // signal HS
-    else if (sSoldIcon == SYM_HS){
+    else if (sSoldIcon == SYM_HS) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2219,7 +2198,7 @@ void element::setupElementIcon()
     }
     
     // signal VS
-    else if (sSoldIcon == SYM_VS){
+    else if (sSoldIcon == SYM_VS) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2368,7 +2347,7 @@ void element::setupElementIcon()
     }
     
     // signal ZP
-    else if (sSoldIcon == SYM_ZP){
+    else if (sSoldIcon == SYM_ZP) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2472,7 +2451,7 @@ void element::setupElementIcon()
     }
     
     // straight track
-    else if (sSoldIcon == SYM_GER){
+    else if (sSoldIcon == SYM_GER) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2534,7 +2513,7 @@ void element::setupElementIcon()
     }
     
     // vertical track
-    else if (sSoldIcon == SYM_TRV){
+    else if (sSoldIcon == SYM_TRV) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2572,7 +2551,7 @@ void element::setupElementIcon()
     }
     
     // vertical turn top left
-    else if (sSoldIcon == SYM_TTL){
+    else if (sSoldIcon == SYM_TTL) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2629,7 +2608,7 @@ void element::setupElementIcon()
     }
     
     // vertical turn top right
-    else if (sSoldIcon == SYM_TTR){
+    else if (sSoldIcon == SYM_TTR) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2686,7 +2665,7 @@ void element::setupElementIcon()
     }
     
     // vertical turn bottom left
-    else if (sSoldIcon == SYM_TBL){
+    else if (sSoldIcon == SYM_TBL) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2743,7 +2722,7 @@ void element::setupElementIcon()
     }
     
     // vertical turn bottom right
-    else if (sSoldIcon == SYM_TBR){
+    else if (sSoldIcon == SYM_TBR) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2800,7 +2779,7 @@ void element::setupElementIcon()
     }
     
     // track turn right and left
-    else if (sSoldIcon == SYM_KUR || sSoldIcon == SYM_KUL){
+    else if (sSoldIcon == SYM_KUR || sSoldIcon == SYM_KUL) {
         bool left = (sSoldIcon == SYM_KUL);
 
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
@@ -2916,7 +2895,7 @@ void element::setupElementIcon()
     }
 
     // diagonal track right and left
-    else if (sSoldIcon == SYM_DIR || sSoldIcon == SYM_DIL){
+    else if (sSoldIcon == SYM_DIR || sSoldIcon == SYM_DIL) {
         bool left = (sSoldIcon == SYM_DIL);
 
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
@@ -2977,7 +2956,7 @@ void element::setupElementIcon()
     }
 
     // diagonal crossing (hosentraeger)
-    else if (sSoldIcon == SYM_KRH){
+    else if (sSoldIcon == SYM_KRH) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -3068,7 +3047,7 @@ void element::setupElementIcon()
     }
     
     // left crossing
-    else if (sSoldIcon == SYM_KRL){
+    else if (sSoldIcon == SYM_KRL) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -3158,7 +3137,7 @@ void element::setupElementIcon()
     }
     
     // right crossing
-    else if (sSoldIcon == SYM_KRR){
+    else if (sSoldIcon == SYM_KRR) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -3249,7 +3228,7 @@ void element::setupElementIcon()
     }
     
     // single slip switch left
-    else if (sSoldIcon == SYM_EKL){
+    else if (sSoldIcon == SYM_EKL) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -3489,7 +3468,7 @@ void element::setupElementIcon()
     }
     
     // single slip switch right
-    else if (sSoldIcon == SYM_EKR){
+    else if (sSoldIcon == SYM_EKR) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -3731,7 +3710,7 @@ void element::setupElementIcon()
     }
     
     // double slip switch left
-    else if (sSoldIcon == SYM_DKL){
+    else if (sSoldIcon == SYM_DKL) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -3987,7 +3966,7 @@ void element::setupElementIcon()
     }
     
     // double slip switch right
-    else if (sSoldIcon == SYM_DKR){
+    else if (sSoldIcon == SYM_DKR) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -4243,7 +4222,7 @@ void element::setupElementIcon()
     }
     
     // track with normal route button
-    else if (sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB){
+    else if (sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -4326,7 +4305,7 @@ void element::setupElementIcon()
 
     // shunting signals SS, SSH, SSS
     else if (sSoldIcon == SYM_SS || sSoldIcon == SYM_SSH ||
-            sSoldIcon == SYM_SSS){
+            sSoldIcon == SYM_SSS) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -4465,7 +4444,7 @@ void element::setupElementIcon()
     }
 
     // turnout left or turnout right
-    else if (sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER){
+    else if (sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER) {
         bool left = sSoldIcon == SYM_WEL;
         
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
@@ -4642,7 +4621,7 @@ void element::setupElementIcon()
     }
 
     // diagonal turnout left or right
-    else if (sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR){
+    else if (sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR) {
         bool left = sSoldIcon == SYM_DWL;
         
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
@@ -4836,7 +4815,7 @@ void element::setupElementIcon()
     }
 
     // y-turnout
-    else if (sSoldIcon == SYM_WEY){
+    else if (sSoldIcon == SYM_WEY) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -5012,7 +4991,7 @@ void element::setupElementIcon()
     }
 
     // 3-way turnout
-    else if (sSoldIcon == SYM_DRW){
+    else if (sSoldIcon == SYM_DRW) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -5357,7 +5336,7 @@ void element::setupElementIcon()
     }
 
     // transfer table
-    else if (sSoldIcon == SYM_SBN){
+    else if (sSoldIcon == SYM_SBN) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -5392,7 +5371,7 @@ void element::setupElementIcon()
     }
     
     // turntable
-    else if (sSoldIcon == SYM_DRE){
+    else if (sSoldIcon == SYM_DRE) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -6360,8 +6339,7 @@ void element::writeFileTextToStream(QTextStream& ts)
         ((protocol == SrcpMessage::proMM) ? "M" :
          (protocol == SrcpMessage::proDCC) ? "N" :
          (protocol == SrcpMessage::proServer) ? "P" :
-         (protocol == SrcpMessage::proSelectrix) ? "S" : "-1"
-         ) << endl;
+         (protocol == SrcpMessage::proSelectrix) ? "S" : "-1") << endl;
     ts << GF_ADDRESS1  << DS << iGA1BusNo << DS << iSoldAddress_1 <<
         DS << port1 << endl;
     ts << GF_ADDRESS2  << DS << iGA2BusNo << DS << iSoldAddress_2 <<
@@ -6534,7 +6512,7 @@ bool element::sendSRCP08InitGA(unsigned int gano)
 {
     bool returnvalue = false;
 
-    if (isSwitchable()){
+    if (isSwitchable()) {
 
         SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgGaInit);
         if (sm == NULL)
