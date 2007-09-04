@@ -2,8 +2,8 @@
  srcpport.cpp
  ------------
  Begin        : 17.08.2007
- Last modified: $Date: 2007-09-02 20:51:35 $
-                $Revision: 1.2 $
+ Last modified: $Date: 2007-09-04 19:27:47 $
+                $Revision: 1.3 $
  Copyright    : (C) 2007 by Guido Scholz <guido.scholz@bayernline.de>
  Description  : Abstract class for network communication with SRCP server.
                 Communication styles SRCP 0.7 and 0.8 are supported.
@@ -91,6 +91,17 @@ void SrcpPort::setServer(const QString& hn, unsigned int prt)
 }
 
 /*
+ * Set prefered communication style, hostname and portnumber to new
+ * values, close current connection and reconnect if values change.
+ */
+void SrcpPort::setServer(CommunicationStyle style,
+        const QString& hn, unsigned int prt)
+{
+    commStyle= style;
+    setServer(hn, prt);
+}
+
+/*
  * return hostname
  */
 QString SrcpPort::getHostname() const
@@ -144,10 +155,10 @@ void SrcpPort::setCommunicationStyle(CommunicationStyle style)
  */
 void SrcpPort::serverConnect()
 {
-    emit statusMessage(tr("%1: Try to connect host \"%2\" on port \"%3\"")
+    emit statusMessage(tr("%1: Try to connect host '%2' on port '%3'")
             .arg(name()).arg(host).arg(port));
 
-    if (getInitialStyle() == csOld) {
+    if (commStyle == csOld) {
         srcpState = sRun;
         currentStyle = csOld;
     }
@@ -158,29 +169,30 @@ void SrcpPort::serverConnect()
 }
 
 /*
- * return the initial communication style, must be inherited by SRCP 0.7
- * info and feddback port
- */
-int SrcpPort::getInitialStyle()
-{
-    return csNew;
-}
-
-/*
  * stop server connection and reset communication state
  */
 void SrcpPort::serverDisconnect()
 {
     if (srcpSocket->isOpen()) {
-        srcpState = sNone;
+        clearConnectionData();
         srcpSocket->close();
         if (srcpSocket->state() == QSocket::Closing) {
             // We have a delayed close.
             connect(srcpSocket, SIGNAL(delayedCloseFinished()),
                     SLOT(socketDelayedClosed()));
         }
-        else
-            socketDelayedClosed();
+        // Socket immediately closed
+        else {
+            clearConnectionData();
+            emit connectionStateChanged(false);
+            emit statusMessage(tr("%1: Socket immediately closed.")
+                    .arg(name()));
+
+            if (reconnect) {
+                reconnect = false;
+                serverConnect();
+            }
+        }
     }
 }
 
@@ -190,7 +202,8 @@ void SrcpPort::serverDisconnect()
  */
 bool SrcpPort::hasServerConnection()
 {
-    return (srcpSocket->state() != QSocket::Idle);
+    return ((srcpSocket->state() != QSocket::Idle) &&
+            (srcpSocket->state() != QSocket::Closing));
 }
 
 
@@ -470,7 +483,7 @@ void SrcpPort::socketDelayedClosed()
 {
     clearConnectionData();
     emit connectionStateChanged(false);
-    emit statusMessage(tr("%1: Socket closed.").arg(name()));
+    emit statusMessage(tr("%1: Socket delayed closed.").arg(name()));
 
     if (reconnect) {
         reconnect = false;

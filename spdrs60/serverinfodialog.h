@@ -2,8 +2,8 @@
  * serverinfodialog.h
  * --------------------
  * Begin        : 2007-08-22
- * Last modified: $Date: 2007-09-01 15:59:02 $
- *                $Revision: 1.1 $
+ * Last modified: $Date: 2007-09-04 19:27:47 $
+ *                $Revision: 1.2 $
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Description  : Dialog window to display SRCP server information
@@ -24,16 +24,25 @@
 #include <qdialog.h>
 #include <qlabel.h>
 
+#include "srcpport.h"
+
 
 class ServerInfoDialog: public QDialog {
     Q_OBJECT
    
 public:
-    ServerInfoDialog(QWidget* parent = 0);
+    ServerInfoDialog(SrcpPort::CommunicationStyle style = SrcpPort::csNew,
+            QWidget* parent = NULL, const char* name = NULL);
+
+    // for new style
     void setCommandSessionData(const QString&, const QString&,
                        const QString&, unsigned int);
     void setInfoSessionData(const QString&, const QString&,
                        const QString&, unsigned int);
+    // for old style
+    void setOldCommandData(const QString&, const QString&);
+    void setOldFeedbackConnected(bool);
+    void setOldInfoConnected(bool);
 
 private:
     QLabel* cmdServerLbl;
@@ -45,6 +54,9 @@ private:
     QLabel* infoSrcpLbl;
     QLabel* infoSrcpOtherLbl;
     QLabel* infoSessionIdLbl;
+
+    QLabel* feedbackPortLbl;
+    QLabel* infoPortLbl;
 };
 
 #endif    //SERVERINFODIALOG_H

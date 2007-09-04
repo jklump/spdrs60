@@ -2,8 +2,8 @@
  * serverinfodialog.cpp
  * --------------------
  * Begin        : 2007-08-22
- * Last modified: $Date: 2007-09-01 15:59:02 $
- *                $Revision: 1.1 $
+ * Last modified: $Date: 2007-09-04 19:27:47 $
+ *                $Revision: 1.2 $
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Description  : Dialog window to display SRCP server information
@@ -26,8 +26,8 @@
 #include "serverinfodialog.h"
 
 
-ServerInfoDialog::ServerInfoDialog(QWidget* parent): QDialog(parent,
-        "ServerInfoDialog", true)
+ServerInfoDialog::ServerInfoDialog(SrcpPort::CommunicationStyle style,
+        QWidget* parent, const char* name) : QDialog(parent, name, true)
 {
     setCaption(tr("SRCP server information"));
     QVBoxLayout* baseLayout = new QVBoxLayout(this, 10, 10);
@@ -53,17 +53,22 @@ ServerInfoDialog::ServerInfoDialog(QWidget* parent): QDialog(parent,
     cmdSrcpLbl = new QLabel("", commandGB);
     cmdLayout->addWidget(cmdSrcpLbl, 1, 1);
 
+    QLabel* label;
     // 3. line
-    cmdLayout->addWidget(new QLabel(tr("Other SRCP version:"),
-                commandGB), 2, 0);
+    label = new QLabel(tr("Other SRCP version:"), commandGB);
+    cmdLayout->addWidget(label, 2, 0);
+    label->setHidden(SrcpPort::csOld == style);
     cmdSrcpOtherLbl = new QLabel("", commandGB);
     cmdLayout->addWidget(cmdSrcpOtherLbl, 2, 1);
+    cmdSrcpOtherLbl->setHidden(SrcpPort::csOld == style);
 
     // 4. line
-    cmdLayout->addWidget(new QLabel(tr("SRCP session id:"),
-                commandGB), 3, 0);
+    label = new QLabel(tr("SRCP session id:"), commandGB);
+    cmdLayout->addWidget(label, 3, 0);
+    label->setHidden(SrcpPort::csOld == style);
     cmdSessionIdLbl = new QLabel("", commandGB);
     cmdLayout->addWidget(cmdSessionIdLbl, 3, 1);
+    cmdSessionIdLbl->setHidden(SrcpPort::csOld == style);
 
 
     // info session groupbox
@@ -96,6 +101,30 @@ ServerInfoDialog::ServerInfoDialog(QWidget* parent): QDialog(parent,
                 infoGB) , 3, 0);
     infoSessionIdLbl = new QLabel("", infoGB);
     infoLayout->addWidget(infoSessionIdLbl, 3, 1);
+
+    infoGB->setHidden(SrcpPort::csOld == style);
+
+
+    // ports groupbox for old style information
+    QGroupBox* portsGB = new QGroupBox(0, Qt::Horizontal,
+            tr("Additional ports"), this, "portsGB");
+    baseLayout->addWidget(portsGB);
+    QGridLayout* portsLayout = new QGridLayout(portsGB->layout(), 2, 2, 10,
+            "portsLayout");
+
+    // 1. line
+    portsLayout->addWidget(new QLabel(tr("Feedback port:"),
+                portsGB), 0, 0);
+    feedbackPortLbl = new QLabel("Not connected", portsGB);
+    portsLayout->addWidget(feedbackPortLbl, 0, 1);
+
+    // 2. line
+    portsLayout->addWidget(new QLabel(tr("Info port:"),
+                portsGB) , 1, 0);
+    infoPortLbl = new QLabel("Not Connected", portsGB);
+    portsLayout->addWidget(infoPortLbl, 1, 1);
+
+    portsGB->setHidden(SrcpPort::csOld != style);
 
 
     // OK button
@@ -139,4 +168,29 @@ void ServerInfoDialog::setInfoSessionData(const QString& server,
     infoSessionIdLbl->setText(QString::number(sessionid));
 };
 
+
+void ServerInfoDialog::setOldCommandData(const QString& server,
+        const QString& srcp)
+{
+    cmdServerLbl->setText(server);
+    cmdSrcpLbl->setText(srcp);
+}
+
+
+void ServerInfoDialog::setOldFeedbackConnected(bool connected)
+{
+    if (connected)
+        feedbackPortLbl->setText(tr("Connected"));
+    else
+        feedbackPortLbl->setText(tr("Not connected"));
+}
+
+
+void ServerInfoDialog::setOldInfoConnected(bool connected)
+{
+    if (connected)
+        infoPortLbl->setText(tr("Connected"));
+    else
+        infoPortLbl->setText(tr("Not connected"));
+}
 

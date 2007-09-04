@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.116 $
+                           version 0.5.2 $Revision: 1.117 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-03 20:36:22 $
+    last modified        : $Date: 2007-09-04 19:27:47 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -131,6 +131,8 @@ MainWindow::MainWindow(): QMainWindow(NULL, PACKAGE,
     cmdAutoSendAll = true;
 
     /*Networking */
+    commandStyle = SrcpPort::csNone;
+    infoStyle = SrcpPort::csNone;
     SRCPCommandState = srcpUndefined;
     SRCPInfoState = srcpUndefined;
     LayoutPowerIsOn = false;
@@ -2019,8 +2021,9 @@ void MainWindow::updateCommandConnectionState(bool connected)
     if (connected) {
 
         if (SrcpPort::csOld == commandStyle) {
-            infoPort->setCommunicationStyle(SrcpPort::csOld);
-            infoPort->setServer(
+            statusMessage(tr("Command port connected with old "
+                        "communication style."));
+            infoPort->setServer(SrcpPort::csOld,
                     commandPort->getHostname(),
                     commandPort->getPortNumber() + 2);
             infoPort->serverConnect();
@@ -2034,12 +2037,13 @@ void MainWindow::updateCommandConnectionState(bool connected)
         }
 
         else if (SrcpPort::csNew == commandStyle) {
-            infoPort->setServer(
+            statusMessage(tr("Command port connected with new "
+                        "communication style."));
+            infoPort->setServer(SrcpPort::csNew,
                     commandPort->getHostname(),
                     commandPort->getPortNumber());
             infoPort->serverConnect();
 
-            //TODO: add first SRCP 0.8 Command
             /*
              * now the server is ready for basic commands
              *
@@ -2077,7 +2081,8 @@ void MainWindow::updateCommandConnectionState(bool connected)
             }
         }
         else {
-            //TODO: error message
+            statusMessage(tr("Error: Command port connected with "
+                        "unknown style '%1'").arg(commandStyle));
         }
         // layout area is set modified to make changes of GA directions
         // saveable
@@ -2101,15 +2106,22 @@ void MainWindow::updateInfoConnectionState(bool connected)
     if (connected) {
         SRCPInfoState = srcp08RunInfoMode;
 
-        //connect feedbackport style dependend
+        //connect feedback port depending on command session style
         if (SrcpPort::csOld == infoStyle) {
+            statusMessage(tr("Info port connected with old "
+                        "communication style."));
 
-            feedbackPort->setCommunicationStyle(SrcpPort::csOld);
-            feedbackPort->setServer(
+            feedbackPort->setServer(SrcpPort::csOld,
                     commandPort->getHostname(),
                     commandPort->getPortNumber() + 1);
             feedbackPort->serverConnect();
         }
+        else if (SrcpPort::csNew == infoStyle)
+            statusMessage(tr("Info port connected with old "
+                        "communication style."));
+        else
+            statusMessage(tr("Error: Info port connected with "
+                        "unknown style '%1'").arg(infoStyle));
     }
     else {
         SRCPInfoState = srcpUndefined;
@@ -2302,15 +2314,22 @@ void MainWindow::CloseSRCPServerConnection()
             SendCommandToSRCPServer("TERM 0 SESSION");
 
         commandPort->serverDisconnect();
+        commandStyle = SrcpPort::csNone;
+        SRCPCommandState = srcpUndefined;
+        LayoutPowerIsOn = false;
     }        
 
     /* 2. Feedback socket, relevant only in SRCP 0.7 mode */
-    if (feedbackPort->hasServerConnection())
+    if (feedbackPort->hasServerConnection()) {
         feedbackPort->serverDisconnect();
+    }
 
     /* 3. Info socket */
-    if (infoPort->hasServerConnection())
+    if (infoPort->hasServerConnection()) {
         infoPort->serverDisconnect();
+        infoStyle = SrcpPort::csNone;
+        SRCPInfoState = srcpUndefined;
+    }
 }
 
 
@@ -2459,23 +2478,39 @@ void MainWindow::slotDaemonKill()
 /*show SRCP server info window*/
 void MainWindow::slotDaemonInfo()
 {
-    ServerInfoDialog* sid = new ServerInfoDialog(this);
+    ServerInfoDialog* sid = new ServerInfoDialog(commandStyle, this,
+            "serverInfoDialog");
+
     if (sid == NULL)
         return;
 
-    // TODO: and SRCP 0.7 feedback port
-    sid->setCommandSessionData(
-            commandPort->getSrcpServer(),
-            commandPort->getSrcpVersion(),
-            commandPort->getSrcpOther(),
-            commandPort->getSessionId());
+    if (SrcpPort::csNew == commandStyle) {
+        if (commandPort->hasServerConnection())
+            sid->setCommandSessionData(
+                    commandPort->getSrcpServer(),
+                    commandPort->getSrcpVersion(),
+                    commandPort->getSrcpOther(),
+                    commandPort->getSessionId());
+        else
+            sid->setCommandSessionData(tr("Not connected"), "", "", 0); 
 
-    sid->setInfoSessionData(
-            infoPort->getSrcpServer(),
-            infoPort->getSrcpVersion(),
-            infoPort->getSrcpOther(),
-            infoPort->getSessionId());
+        if (infoPort->hasServerConnection())
+            sid->setInfoSessionData(
+                    infoPort->getSrcpServer(),
+                    infoPort->getSrcpVersion(),
+                    infoPort->getSrcpOther(),
+                    infoPort->getSessionId());
+        else
+            sid->setInfoSessionData(tr("Not connected"), "", "", 0); 
+    }
+    else {
+        sid->setOldCommandData(
+                commandPort->getSrcpServer(),
+                commandPort->getSrcpVersion());
 
+        sid->setOldFeedbackConnected(feedbackPort->hasServerConnection());
+        sid->setOldInfoConnected(infoPort->hasServerConnection());
+    }
     sid->exec();
     delete sid;
 }

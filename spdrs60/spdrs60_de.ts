@@ -776,6 +776,34 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <source>Error starting browser &apos;%1&apos;!</source>
         <translation>Fehler beim Starten von Browser &apos;%1&apos;!</translation>
     </message>
+    <message>
+        <source>Command port connected with %1 communication style.</source>
+        <translation type="obsolete">Kommandokanal mit %1 Kommunikationsstil verbunden.</translation>
+    </message>
+    <message>
+        <source>Error: Command port connected with unknown style &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not connected</source>
+        <translation>Nicht verbunden</translation>
+    </message>
+    <message>
+        <source>Command port connected with old communication style.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Command port connected with new communication style.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Info port connected with old communication style.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error: Info port connected with unknown style &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MessageHistory</name>
@@ -1238,12 +1266,32 @@ The valid range is %1 to %2.</source>
         <source>OK</source>
         <translation>OK</translation>
     </message>
+    <message>
+        <source>Feedback port:</source>
+        <translation>Rückmeldekanal:</translation>
+    </message>
+    <message>
+        <source>Info port:</source>
+        <translation>Info-Kanal:</translation>
+    </message>
+    <message>
+        <source>Connected</source>
+        <translation>Verbunden</translation>
+    </message>
+    <message>
+        <source>Not connected</source>
+        <translation>Nicht verbunden</translation>
+    </message>
+    <message>
+        <source>Additional ports</source>
+        <translation>Weitere Kanäle</translation>
+    </message>
 </context>
 <context>
     <name>SrcpPort</name>
     <message>
-        <source>%1: Try to connect host &quot;%2&quot; on port &quot;%3&quot;</source>
-        <translation>%1: Versuche Verbindung zu Host &quot;%1&quot; auf Port &quot;%2&quot; herzustellen</translation>
+        <source>%1: Try to connect host &apos;%2&apos; on port &apos;%3&apos;</source>
+        <translation>%1: Versuche Verbindung zu Host &apos;%1&apos; auf Port &apos;%2&apos; herzustellen</translation>
     </message>
     <message>
         <source>%1: Parse error, parameter list too long &apos;%2&apos;.</source>
@@ -1290,8 +1338,12 @@ The valid range is %1 to %2.</source>
         <translation>1%: Socket durch Server geschlossen.</translation>
     </message>
     <message>
-        <source>%1: Socket closed.</source>
-        <translation>%1: Socket geschlossen.</translation>
+        <source>%1: Socket delayed closed.</source>
+        <translation>%1: Socket verzögert geschlossen.</translation>
+    </message>
+    <message>
+        <source>%1: Socket immediately closed.</source>
+        <translation>%1: Socket unmittelbar geschlossen.</translation>
     </message>
     <message>
         <source>%1: Socket error %2 occured (%3).</source>
