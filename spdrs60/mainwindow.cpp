@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.117 $
+                           version 0.5.2 $Revision: 1.118 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-04 19:27:47 $
+    last modified        : $Date: 2007-09-05 15:50:30 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2117,7 +2117,7 @@ void MainWindow::updateInfoConnectionState(bool connected)
             feedbackPort->serverConnect();
         }
         else if (SrcpPort::csNew == infoStyle)
-            statusMessage(tr("Info port connected with old "
+            statusMessage(tr("Info port connected with new "
                         "communication style."));
         else
             statusMessage(tr("Error: Info port connected with "
