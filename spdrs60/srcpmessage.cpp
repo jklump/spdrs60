@@ -1,10 +1,10 @@
 /***************************************************************************
                            srcpmessage.cpp
-                           version 0.5.2 $Revision: 1.17 $
+                           version 0.5.2 $Revision: 1.18 $
                            -------------------------------
     copyright            : (C) 2005-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-02 17:50:27 $
+    last modified        : $Date: 2007-09-05 17:39:48 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -176,6 +176,10 @@ QString SrcpMessage::getSrcpMessageStr(SrcpPort::CommunicationStyle style) const
     return cmdStr;
 }
 
+void SrcpMessage::setMessage(Message msg)
+{
+    message = msg;
+}
 
 int SrcpMessage::getMessage()
 {

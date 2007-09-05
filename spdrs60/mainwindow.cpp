@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.118 $
+                           version 0.5.2 $Revision: 1.119 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-05 15:50:30 $
+    last modified        : $Date: 2007-09-05 17:39:48 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -117,6 +117,7 @@
 #define CF_FBBUS3       "fbbus3"
 #define CF_FBBUS4       "fbbus4"
 #define CF_LASTDIR      "lastdir"
+#define CF_KEYBOARD     "keyboardprotocol"
 
 #define SPDRS60_INIT   ".spdrs60rc" // program init filename
 
@@ -318,6 +319,9 @@ void MainWindow::readConfigFile()
                 if (!QFile::exists(lastDir))
                     lastDir = QDir::homeDirPath();
             }
+            else if (key.compare(CF_KEYBOARD) == 0) {
+                pref.keyboardprot = value.toInt();
+            }
         }
     }
     file.close();
@@ -386,7 +390,8 @@ void MainWindow::writeConfigFile()
                            << CF_DS << pref.fbbus3.modules << endl
         << CF_FBBUS4       << KS << pref.fbbus4.number
                            << CF_DS << pref.fbbus4.modules << endl
-        << CF_LASTDIR      << KS << lastDir << endl;
+        << CF_LASTDIR      << KS << lastDir << endl
+        << CF_KEYBOARD     << KS << pref.keyboardprot << endl;
 
     file.close();
 }
@@ -2797,13 +2802,24 @@ void MainWindow::slotViewKeyboard()
         }
     }
     else {
-        keybWindow = new keyboard(this, commandStyle);
-        connect(keybWindow, SIGNAL(sendCommand(const QString&)),
-                this, SLOT(SendCommandToSRCPServer(const QString&)));
+        keybWindow = new keyboard(commandStyle, pref.keyboardprot,
+                this, "Keyboard");
+        connect(keybWindow, SIGNAL(sendSrcpMessage(SrcpMessage*)),
+                this, SLOT(sendSrcpMessage(SrcpMessage*)));
+        connect(keybWindow, SIGNAL(protocolSelected(int)),
+                this, SLOT(saveKeyboardProtocol(int)));
 
         keybWindow->move(QCursor::pos());
         keybWindow->show();
     }
+}
+
+/*
+ * save keyboard protocol settings for next time usage
+ */
+void MainWindow::saveKeyboardProtocol(int protocol)
+{
+    pref.keyboardprot = protocol;
 }
 
 

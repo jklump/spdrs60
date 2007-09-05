@@ -2,8 +2,8 @@
  srcpport.cpp
  ------------
  Begin        : 17.08.2007
- Last modified: $Date: 2007-09-04 19:27:47 $
-                $Revision: 1.3 $
+ Last modified: $Date: 2007-09-05 17:39:48 $
+                $Revision: 1.4 $
  Copyright    : (C) 2007 by Guido Scholz <guido.scholz@bayernline.de>
  Description  : Abstract class for network communication with SRCP server.
                 Communication styles SRCP 0.7 and 0.8 are supported.
@@ -83,7 +83,8 @@ void SrcpPort::setServer(const QString& hn, unsigned int prt)
         host = hn;
         port = prt;
 
-        if (srcpSocket->isOpen()) {
+        //if (srcpSocket->isOpen()) {
+        if (hasServerConnection()) {
             reconnect = true;
             serverDisconnect();
         }

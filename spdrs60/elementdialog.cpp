@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.cpp
-                           version 0.5.2 $Revision: 1.40 $
+                           version 0.5.2 $Revision: 1.41 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-03 18:01:11 $
+    last modified        : $Date: 2007-09-05 17:39:48 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -269,12 +269,10 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     QHBoxLayout* decoderLayout = new QHBoxLayout(decoderGBL, 6);
     labelDecoder = new QLabel(tr("T&ype:"), decoderGB);
     decoderLayout->addWidget(labelDecoder);
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    decoderLayout->addItem(spacer);
+    decoderLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
 
     coboDecoder = new QComboBox(false, decoderGB);
-    coboDecoder->setGeometry(100, 75, 140, 22);
     coboDecoder->insertItem("Maerklin k83 WD (M)");
     coboDecoder->insertItem("Maerklin k84 SD (M)");
     coboDecoder->insertItem("Viessm. 5211 WD (M)");

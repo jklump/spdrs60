@@ -800,6 +800,10 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <source>Error: Info port connected with unknown style &apos;%1&apos;</source>
         <translation>Fehler: Info-Kanal mit unbekanntem Kommunikationsstil &apos;%1&apos; verbunden.</translation>
     </message>
+    <message>
+        <source>Info port connected with new communication style.</source>
+        <translation>Info-Kanal mit neuem Kommunikationsstil verbunden.</translation>
+    </message>
 </context>
 <context>
     <name>MessageHistory</name>
@@ -1650,6 +1654,24 @@ am rechten Anschluß</translation>
     <message>
         <source>Enter the address to be switched</source>
         <translation>Hier die zu schaltende Adresse eingeben</translation>
+    </message>
+    <message>
+        <source>&amp;Protocol:</source>
+        <translation>&amp;Protokoll</translation>
+    </message>
+    <message>
+        <source>Select the decoder protocol
+MM: Maerklin/Motorola
+DCC: NMRA/DCC
+Slx: Selectrix
+Srv: Protocol by server
+</source>
+        <translation>Protokoll des Decoders auswählen
+MM: Märklin/Motorola
+DCC: NMRA/DCC
+Slx: Selectrix
+Srv: Protokoll durch Server
+</translation>
     </message>
 </context>
 <context>

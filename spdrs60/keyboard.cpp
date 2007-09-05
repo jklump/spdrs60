@@ -1,11 +1,11 @@
 /***************************************************************************
                            keyboard.cpp
-                           version 0.5.2 $Revision: 1.19 $
+                           version 0.5.2 $Revision: 1.20 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-02 17:50:26 $
+    last modified        : $Date: 2007-09-05 17:39:48 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -21,6 +21,7 @@
    this code shows a window with a manual keyboard to switch solenoids
  ***************************************************************************/
 
+#include <qapplication.h>
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qpushbutton.h>
@@ -33,26 +34,46 @@
 
 
 
-keyboard::keyboard(QWidget* parent,
-        SrcpPort::CommunicationStyle cstyle): QDialog(parent, "keyboard")
+keyboard::keyboard(SrcpPort::CommunicationStyle cstyle, int protocol,
+        QWidget* parent, const char* name): QDialog(parent, name)
 {
     setCaption(tr("Keyboard"));
     srcpStyle = cstyle;
 
     QBoxLayout* baseLayout = new QVBoxLayout(this, 10, 10);
 
-    // TODO: add protocol seletor
+    /*line with decoder combobox*/
+    QHBoxLayout* protocolLayout = new QHBoxLayout(baseLayout, 6,
+            "protocolLayout");
+    QLabel* protocolLbl = new QLabel(tr("&Protocol:"), this);
+    protocolLayout->addWidget(protocolLbl);
+    protocolLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
+
+    protocolCB = new QComboBox(false, this);
+    protocolLayout->addWidget(protocolCB);
+    protocolCB->insertItem("MM");
+    protocolCB->insertItem("DCC");
+    protocolCB->insertItem("Slx");
+    protocolCB->insertItem("Srv");
+    protocolLbl->setBuddy(protocolCB);
+    protocolCB->setCurrentItem(protocol);
+    connect(protocolCB, SIGNAL(activated(int)),
+            this, SIGNAL(protocolSelected(int)));
+    QToolTip::add(protocolCB, tr("Select the decoder protocol\n"
+                "MM: Maerklin/Motorola\n"
+                "DCC: NMRA/DCC\n"
+                "Slx: Selectrix\n"
+                "Srv: Protocol by server\n"));
 
     /*line with SRCP-bus label and edit line*/
     QBoxLayout* busLayout = new QHBoxLayout(baseLayout, 6, "busLayout");
 
     QLabel *busLbl = new QLabel(tr("SRCP-&Bus:"), this, "busLbl");
-    QToolTip::add(busLbl, tr("Enter the SRCP bus for the address"));
     busLayout->addWidget(busLbl);
 
-    QSpacerItem* spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    busLayout->addItem(spacer);
+    busLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
 
     busLE = new QLineEdit("1", this, "busLE");
     QFontMetrics fm(busLE->font());
@@ -63,6 +84,7 @@ keyboard::keyboard(QWidget* parent,
     busLE->setValidator(busValidator);
     busLayout->addWidget(busLE);
     busLbl->setBuddy(busLE);
+    QToolTip::add(busLE, tr("Enter the SRCP bus for the address"));
 
     // hide SRCP bus line if server provides SRCP 0.7.x
     if (SrcpPort::csOld == cstyle) {
@@ -75,28 +97,26 @@ keyboard::keyboard(QWidget* parent,
             "addressLayout");
 
     QLabel *labelAddress = new QLabel(tr("&Address:"), this, "addressLbl");
-    QToolTip::add(labelAddress, tr("Enter the address to be switched"));
     addressLayout->addWidget(labelAddress);
 
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    addressLayout->addItem(spacer);
+    addressLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
 
-    addressLE = new QLineEdit(this, "addressLE");
+    addressLE = new QLineEdit("1", this, "addressLE");
     addressLE->setMaxLength(4);
     addressLE->setMaximumWidth(LEwidth);
     QValidator* addressValidator = new QIntValidator(1, MAX_GADCC, this);
     addressLE->setValidator(addressValidator);
     addressLayout->addWidget(addressLE);
     labelAddress->setBuddy(addressLE);
+    QToolTip::add(addressLE, tr("Enter the address to be switched"));
     
     /*line with red and green buttons*/
     QBoxLayout* buttonLayout = new QHBoxLayout(0, 0, 6);
     baseLayout->addLayout(buttonLayout);
 
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    buttonLayout->addItem(spacer);
+    buttonLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
 
     QPushButton* redPB = new QPushButton("&0", this, "redBtn");
     redPB->setMaximumWidth(LEwidth);
@@ -105,67 +125,106 @@ keyboard::keyboard(QWidget* parent,
     buttonLayout->addWidget(redPB);
     QToolTip::add(redPB, tr("Press this button to activate red connector"));
 
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    buttonLayout->addItem(spacer);
+    buttonLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
 
     QPushButton* greenPB = new QPushButton("&1", this, "greenBtn");
     greenPB->setMaximumWidth(LEwidth);
     greenPB->setPaletteBackgroundColor(QColor(0, 255, 0));
-    connect(greenPB, SIGNAL(clicked()), this, SLOT(slotActivateGrn()));
+    connect(greenPB, SIGNAL(clicked()), this, SLOT(slotActivateGreen()));
     buttonLayout->addWidget(greenPB);
     greenPB->setDefault(true);
     QToolTip::add(greenPB,
             tr("Press this button to activate green connector"));
 
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    buttonLayout->addItem(spacer);
+    buttonLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
 }
 
 
-// send command for both protocols with a basic limit check,
-// MAX_GADCC is the higher limit of DCC protocol
+// send command for selected protocol
 void keyboard::slotActivateRed()
 {
+    SrcpMessage::Protocol protocol;
     unsigned int adr = addressLE->text().toUInt();
     unsigned int bus = busLE->text().toUInt();
 
-    if (SrcpPort::csOld == srcpStyle) {
-        /* SET GA <protocol> <addr> <port> <action> <delay> */
-        QString cs = QString("SET GA N %1 0 1 50").arg(adr);
-        emit sendCommand(cs);
-        if (adr <= MAX_GAMM) {
-            cs = QString("SET GA M %1 0 1 50").arg(adr);
-            emit sendCommand(cs);
-        }
+    switch(protocolCB->currentItem()) {
+        case 0:
+            protocol = SrcpMessage::proMM;
+            break;
+        case 1:
+            protocol = SrcpMessage::proDCC;
+            break;
+        case 2:
+            protocol = SrcpMessage::proSelectrix;
+            break;
+        case 3:
+            protocol = SrcpMessage::proServer;
+            break;
+        default:
+            protocol = SrcpMessage::proMM;
     }
-    else {
-        /* SET <bus> GA <addr> <port> <value> <delay> */
-        QString cs = QString("SET %1 GA %2 0 1 50").arg(bus).arg(adr);
-        emit sendCommand(cs);
+
+    SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgGaSet);
+    if (sm == NULL)
+        return;
+
+    sm->setGaData(protocol, bus, adr, 0, 1, 200);
+
+    // send also init message if is new style
+    if (SrcpPort::csNew == srcpStyle) {
+        sm->setMessage(SrcpMessage::msgGaInit);
+        emit sendSrcpMessage(sm);
+        // give time to show effect
+        qApp->processEvents();
+        sm->setMessage(SrcpMessage::msgGaSet);
     }
+
+    emit sendSrcpMessage(sm);
+    delete sm;
 }
 
 
-void keyboard::slotActivateGrn()
+void keyboard::slotActivateGreen()
 {
+    SrcpMessage::Protocol protocol;
     unsigned int adr = addressLE->text().toUInt();
     unsigned int bus = busLE->text().toUInt();
-    
-    if (SrcpPort::csOld == srcpStyle) {
-        /* SET GA <protocol> <addr> <port> <action> <delay> */
-        QString cs = QString("SET GA N %1 1 1 50").arg(adr);
-        emit sendCommand(cs);
-        if (adr <= MAX_GAMM) {
-            cs = QString("SET GA M %1 1 1 50").arg(adr);
-            emit sendCommand(cs);
-        }
+
+    switch(protocolCB->currentItem()) {
+        case 0:
+            protocol = SrcpMessage::proMM;
+            break;
+        case 1:
+            protocol = SrcpMessage::proDCC;
+            break;
+        case 2:
+            protocol = SrcpMessage::proSelectrix;
+            break;
+        case 3:
+            protocol = SrcpMessage::proServer;
+            break;
+        default:
+            protocol = SrcpMessage::proMM;
     }
-    else {
-        /* SET <bus> GA <addr> <port> <value> <delay> */
-        QString cs = QString("SET %1 GA %2 1 1 50").arg(bus).arg(adr);
-        emit sendCommand(cs);
+
+    SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgGaSet);
+    if (sm == NULL)
+        return;
+
+    sm->setGaData(protocol, bus, adr, 1, 1, 200);
+
+    // send also init message if is new style
+    if (SrcpPort::csNew == srcpStyle) {
+        sm->setMessage(SrcpMessage::msgGaInit);
+        emit sendSrcpMessage(sm);
+        // give time to show effect
+        qApp->processEvents();
+        sm->setMessage(SrcpMessage::msgGaSet);
     }
+
+    emit sendSrcpMessage(sm);
+    delete sm;
 }
 

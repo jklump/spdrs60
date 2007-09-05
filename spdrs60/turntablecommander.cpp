@@ -1,11 +1,11 @@
 /***************************************************************************
                            turntablecommander.cpp
-                           version 0.5.2 $Revision: 1.11 $
+                           version 0.5.2 $Revision: 1.12 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-02 17:57:53 $
+    last modified        : $Date: 2007-09-05 17:39:48 $
 ***************************************************************************/
 
 /******************************************************************************
@@ -20,7 +20,8 @@
 /******************************************************************************
     this code provides a GUI to control maerklin's digital turntable
  ******************************************************************************/
-#include <stdlib.h>             // for abs(), atoi()
+
+#include <stdlib.h>             // for abs()
 #include <math.h>               // for nearbyint()
 
 #include "turntablecommander.h"

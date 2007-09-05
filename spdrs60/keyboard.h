@@ -1,11 +1,11 @@
 /***************************************************************************
                            keyboard.h
-                           version 0.5.2 $Revision: 1.10 $
+                           version 0.5.2 $Revision: 1.11 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-02 17:50:27 $
+    last modified        : $Date: 2007-09-05 17:39:48 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -24,9 +24,11 @@
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 
+#include <qcombobox.h>                    
 #include <qdialog.h>                    
 #include <qlineedit.h>
 
+#include "srcpmessage.h"
 #include "srcpport.h"
 
 
@@ -35,22 +37,24 @@ class keyboard: public QDialog
    Q_OBJECT
 
 public:
-   keyboard(QWidget* parent = 0,
-           SrcpPort::CommunicationStyle sctyle = SrcpPort::csOld);
+   keyboard(SrcpPort::CommunicationStyle sctyle = SrcpPort::csOld,
+           int protocol = 1, QWidget* parent = 0, const char* name = NULL);
 
 private:
    SrcpPort::CommunicationStyle srcpStyle;
 
 signals:
-   void sendCommand(const QString&);
+   void sendSrcpMessage(SrcpMessage*);
+   void protocolSelected(int);
 
 private slots:
    void slotActivateRed();
-   void slotActivateGrn();
+   void slotActivateGreen();
 
 private:
-   QLineEdit*   addressLE;    // lineedit for address to switch
-   QLineEdit*   busLE;        // lineedit for SRCP-bus
+   QLineEdit* addressLE;
+   QLineEdit* busLE;
+   QComboBox* protocolCB;
 };
 
 #endif

@@ -1,10 +1,10 @@
 /***************************************************************************
                            preferences.h
-                           version 0.5.2 $Revision: 1.9 $
+                           version 0.5.2 $Revision: 1.10 $
                            -------------------------------
     copyright            : (C) 2006-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-02 17:34:17 $
+    last modified        : $Date: 2007-09-05 17:39:48 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -59,6 +59,7 @@ struct Preferences {
     BusModules fbbus2;
     BusModules fbbus3;
     BusModules fbbus4;
+    int keyboardprot;
 };
 
 extern Preferences pref;

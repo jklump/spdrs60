@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.5.2 $Revision: 1.48 $
+                           version 0.5.2 $Revision: 1.49 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-03 18:02:19 $
+    last modified        : $Date: 2007-09-05 17:39:48 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -220,6 +220,7 @@ private slots:
    void updateCommandConnectionState(bool);
    void updateInfoConnectionState(bool);
    void updateFeedbackConnectionState(bool);
+   void saveKeyboardProtocol(int);
 
 signals:
    void findElement(const QString&, int, int);

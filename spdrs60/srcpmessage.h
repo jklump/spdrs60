@@ -1,10 +1,10 @@
 /***************************************************************************
                            srcpmessage.h
-                           version 0.5.2 $Revision: 1.15 $
+                           version 0.5.2 $Revision: 1.16 $
                            -------------------------------
     copyright            : (C) 2005-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-02 17:50:27 $
+    last modified        : $Date: 2007-09-05 17:39:48 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -58,6 +58,7 @@ class SrcpMessage
         // TODO: this should be: ConnectionStyle {csOld = 0, csNew}
         virtual QString getSrcpMessageStr(
                 SrcpPort::CommunicationStyle style = SrcpPort::csOld) const;
+        void setMessage(Message);
         int getMessage();
         //int getDeviceGroup();
         //int getAction();
