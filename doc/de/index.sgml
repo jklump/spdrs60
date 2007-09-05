@@ -1,11 +1,11 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.2//EN" [
-<!-- Aktuelle Version: --> <!ENTITY ver "0.5.2">
+<!-- Aktuelle Version: --> <!ENTITY ver "0.5.3">
 ]>
 
 <book lang="de">
 
     <bookinfo>
-        <title>SpDrS60 für Linux</title>
+        <title>spdrs60 für Linux</title>
 
         <author>
             <firstname>Stefan</firstname>
@@ -37,6 +37,10 @@
 
         <revhistory>
             <revision>
+                <revnumber>0.10</revnumber>
+                <date>Mi Sep 05 22:19:58 CET 2007</date>
+            </revision>
+            <revision>
                 <revnumber>0.9</revnumber>
                 <date>Sa Feb 17 08:32:45 CET 2007</date>
             </revision>
@@ -62,7 +66,7 @@
             </revision>
         </revhistory>
         <abstract>
-            <para>Dieses Handbuch beschreibt den SRCP-Client SpDrS60 Version
+            <para>Dieses Handbuch beschreibt den SRCP-Client spdrs60 Version
                 &ver; für Qt3.</para>
         </abstract>
     </bookinfo>
@@ -70,7 +74,7 @@
 <chapter id="sect-einfuehrung">
   <title>Einführung</title>
 <para>
-Bei &raquo;SpDrS60 für Linux&laquo; handelt es sich um ein
+Bei &raquo;spdrs60 für Linux&laquo; handelt es sich um ein
 Programm zum komfortablen Steuern von Weichen und Signalen unter
 Benutzung eines SRCP-konformen Servers wie &raquo;erddcd&laquo; oder
 &raquo;srcpd&laquo;. Das Programm befindet sich noch in der
@@ -111,6 +115,9 @@ vorhandenen Funktionen bieten:
   <listitem><para>Automatisches Einstellen und Auflösen von
   Fahrstra&szlig;en durch Rückmeldungen</para></listitem>
 
+  <listitem><para>Automatische Zugnummerverfolgung über das Einstellen
+  und Auflösen von Fahrstra&szlig;en</para></listitem>
+
   <listitem><para>Sicherheitstechnische Unterscheidung von Rangier- und
   Zugfahrstra&szlig;en</para></listitem>
 
@@ -136,7 +143,7 @@ vorhandenen Funktionen bieten:
 
 </itemizedlist>
 <para>
-&raquo;SpDrS60 für Linux&laquo; kann nicht eigenständig benutzt werden.
+&raquo;spdrs60 für Linux&laquo; kann nicht eigenständig benutzt werden.
 Das Programm benötigt grundsätzlich einen SRCP-Server zur Anbindung an
 die Hardware der Modellbahnanlage. Zur Auswahl stehen beispielsweise
 folgende Linuxprogramme:
@@ -163,6 +170,77 @@ empfehlenswert, diese Dokumentation durchzuarbeiten.
 
 <chapter id="sect-aenderungen">
   <title>Änderungen</title>
+
+<sect1 id="ver-0.5.3">
+  <title>Version 0.5.3</title>
+<para>
+Veröffentlicht am --.--.2007
+</para>
+<itemizedlist mark="bullet">
+
+  <listitem><para>
+  Der Informationsdialog über spdrs60 wurde neu gestaltet.                      
+  </para></listitem>
+  
+  <listitem><para>
+  Der Informationsdialog zur Anzeige der SRCP-Serverinformationen wurde
+  neu gestaltet und gibt nun detailiertere Angaben zu den bestehenden
+  Verbindungen wieder.
+  </para></listitem>
+
+  <listitem><para>
+  Für die Kommandohistorie im unteren Bereich des Programmfensters kann
+  nun über eine neue Benutzereinstellung die Anzeige der Zeit einzelner
+  Meldungen ein- bzw. ausgeschaltet werden. Die vierte Historieenebene
+  der SRCP 0.7-Rückmeldeinformationen ist nun entfallen; diese
+  Informationsdaten werden bei SRCP 0.7-Verbindungen zusammen mit den
+  Info-Meldungen angezeigt. Das entspricht im Prinzip der Situation
+  beim SRCP-0.8-Infokanal.
+  </para></listitem>
+  
+  <listitem><para>
+  Änderungen der Benutzereinstellungen für die Anzeige der Tooltip-Hilfe
+  wirken nun unmittelbar, ohne Programmneustart.
+  </para></listitem>
+  
+  <listitem><para>
+  Der Dialog zum Einstellen der Fahrstraßendaten wurde mit Reitern
+  gestaltet und ist dadurch wesentlich kompakter. Zusätzlich wurden
+  Eingabemöglichkeiten für die Fahrstraßenidentifikationsnummer (Id) und
+  die Zugnummer des belegenden Zuges ergänzt.
+  </para></listitem>
+  
+  <listitem><para>
+  Das Programm verfügt nun über eine automatische
+  Zugnummernverfolgung. Die Nummer wird von einer Fahrstraße zur
+  nächsten weitergereicht, wenn das Startsignal der übernehmenden
+  Fahrstraße beim Auflösen auf Halt zurück fällt. Das entspricht im
+  Prinzip dem Verfahren beim Original. Die Zugnummern werden nicht nur
+  in der Fahrstraßentabelle angezeigt, sondern lassen sich auch im
+  Gleisbild durch ein zugeordnetes Adressanzeige-Element darstellen.
+  </para></listitem>
+
+  <listitem><para>
+  Das Fahrstraßenmenü wurde um einen Eintrag zum Auflösen von
+  Fahrstraßen erweitert. Dieser ist für Testzwecke gedacht, um z.B. die
+  Weiterleitung von Zugnummern zu simulieren.
+  </para></listitem>
+  
+  <listitem><para>
+  Der Quellcode zur Kommunikation mit dem SRCP-Server wurde überarbeitet
+  und modularer gestaltet. Das Anmelden bei den einzelenen Netzwerkports
+  erfolgt nun sequenziell, nicht mehr teilweise parallel. Dadurch sind
+  die Meldungen in der Hinweiszeile besser interpretierbar.
+  </para></listitem>
+  
+  <listitem><para>
+  Im Dialog zu den Gleisbildeinstellungen sind nun die Optionen für
+  automatische Abläufe beim Laden der Datei der Bedienlogik nach
+  anwählbar.
+  </para></listitem>
+  
+</itemizedlist>
+</sect1>
 
 <sect1 id="ver-0.5.2">
   <title>Version 0.5.2</title>
@@ -753,7 +831,7 @@ Drehscheibe.</para></listitem>
   <listitem><para>Komplett überarbeitete und neu strukturierte
 Online-Hilfe.</para></listitem>
 
-  <listitem><para>Starten einer neuen SpDrS60 für Linux-Instanz aus dem
+  <listitem><para>Starten einer neuen spdrs60 für Linux-Instanz aus dem
 Programm heraus.</para></listitem>
 
   <listitem><para>Neue Webseiten, auch in Englisch
@@ -1039,7 +1117,7 @@ Opera)</para></listitem>
   <listitem><para>Damit die Befehle überhaupt auf der Anlage
 ankommen, benötigt man einen SRCP-Server, wie den Daemon &raquo;erddcd&laquo;
 aus dem <ulink url="http://www.vogt-it.com/OpenSource/DDL/">DDL-Paket</ulink>
-von Torsten Vogt. Alternativ funktioniert SpDrS60 auch mit dem
+von Torsten Vogt. Alternativ funktioniert spdrs60 auch mit dem
 Übersetzer-Server &raquo;m6051d&laquo; bzw. dessen Nachfolger
 &raquo;srcpd&laquo; von Matthias Trute. Dieser übersetzt zwischen
 SRCP-Clients und einer Digitalzentrale, wie z.B. dem Original
@@ -1052,7 +1130,7 @@ Allgemein gilt, dass die Version des vom Server angebotenen SRCP-Protokolls
 </itemizedlist>
 </para>
 
-<para>SpDrS60 läuft unter den verschiedensten Linux-Distributionen,
+<para>spdrs60 läuft unter den verschiedensten Linux-Distributionen,
 solange diese die Qt-Bibliothek in der Version 3.x mitliefern.
 Getestet wurde diese Version unter Qt 3.0.5 bis 3.3.6 mit SuSE, Fedora,
 Debian und Ubuntu in unterschiedlichen Versionsständen.
@@ -1120,7 +1198,7 @@ $ dpkg -i &lt;paketname&gt;.deb
 <sect1 id="sect-kompilieren">
   <title>Quellcode kompilieren</title>
 <para>
-Um SpDrS60 auf Ihrem System aus dem Quellcode zu kompilieren und
+Um spdrs60 auf Ihrem System aus dem Quellcode zu kompilieren und
 anschließend zu installieren, müssen Sie als normaler Benutzer zunächst
 das Programmpaket auspacken:
 </para>
@@ -1152,7 +1230,7 @@ $ su -c "make install"
 </screen>
 
 <para>
-Da SpDrS60 das Konfigurationstool <command>autoconf</command> benutzt,
+Da spdrs60 das Konfigurationstool <command>autoconf</command> benutzt,
 sollten Sie keine Probleme beim Kompilieren haben. Voraussetzung ist
 natürlich, Sie haben alle notwendigen Bibliotheken (Qt3) bzw. die
 entsprechenden Entwicklerpakete (qt3-devel bzw. qt-devel) installiert.
@@ -1259,11 +1337,11 @@ Bei den fertigen Softwarepaketen von der
 wird das Programm automatisch in die Menühierarchie der verwendeten
 Desktop-Oberfläche integriert (<xref linkend="abb-kdemenu">) und kann
 einfach von dort gestartet werden. Abhängig von der verwendeten
-Distribution ist SpDrS60 unter der Rubrik &raquo;Spiele&laquo; oder
+Distribution ist spdrs60 unter der Rubrik &raquo;Spiele&laquo; oder
 &raquo;Spiele/Simulationsspiele&laquo; eingeordnet.
 </para>
 <figure id="abb-kdemenu">
-  <title>SpDrS60 im KDE-Menü eingebunden</title>
+  <title>spdrs60 im KDE-Menü eingebunden</title>
   <mediaobject><imageobject>
     <imagedata fileref="schnapp-kdemenu.png">
   </imageobject></mediaobject>
@@ -1496,7 +1574,7 @@ hier ein.
 Zur Zeit werden die Info-Meldungen zu angesteuerten Magnetartikel nur
 für solche mit einem Antrieb
 ausgewertet. In Zukunft sollen alle Änderungen von Elementzuständen,
-wie sie z.B. durch eine zweite Instanz von SpDrS60 für Linux oder durch
+wie sie z.B. durch eine zweite Instanz von spdrs60 für Linux oder durch
 andere SRCP-Clients erzeugt werden, über die Auswertung dieser
 Infoport-Meldungen visualisiert werden. Bis zur vollständigen Umsetzung
 dieser Funktion gilt daher, dass bei
@@ -1563,7 +1641,7 @@ Namen</para></listitem>
 
 <para>
 Über den Punkt &raquo;Datei/Neues Fenster&laquo; kann ganz einfach eine
-neue Instanz von &raquo;SpDrS60
+neue Instanz von &raquo;spdrs60
 für Linux&laquo; gestartet werden. Auch dort gelten die Parameter,
 die über den Einstellungsdialog gemacht wurden.
 </para>
@@ -1756,7 +1834,7 @@ Die Bedeutung der Einträge im Einzelnen von oben nach unten:
 
 <itemizedlist mark="bullet">
   <listitem><para>Öffnet diese Online-Hilfe</para></listitem>
-  <listitem><para>Öffnen der SpDrS60-für-Linux-Webseiten (benötigt einen
+  <listitem><para>Öffnen der spdrs60-für-Linux-Webseiten (benötigt einen
 Internet-Zugang)</para></listitem>
   <listitem><para>Über dieses Programm</para></listitem>
   <listitem><para>Über das in diesem Programm verwendete
@@ -2434,7 +2512,7 @@ basiert.
 </para>
 
 <figure id="abb-bahnhofklein">
-  <title>SpDrS60 mit dem Beispiellayout
+  <title>spdrs60 mit dem Beispiellayout
 &raquo;<filename>bahnhof_klein.spdrs60</filename>&laquo;</title>
   <mediaobject><imageobject>
     <imagedata fileref="schnapp-bhf-klein.png">
@@ -3781,7 +3859,7 @@ unabhängige Kontakte aus, sondern als eine zusammengehörende
 Informationseinheit.
 </para>
 <para>
-Hier besitzt SpDrS60 für Linux spezielle Möglichkeiten. Das Programm ist
+Hier besitzt spdrs60 für Linux spezielle Möglichkeiten. Das Programm ist
 in der Lage, Informationen von einem Adress-Rückmelde-Decoder als
 Klartext anzuzeigen. Zuständig hierfür ist das Element
 &raquo;Adresse&laquo; (<xref linkend="abb-adr">).
@@ -3888,7 +3966,7 @@ manuelle Rücknahme von Fahrstra&szlig;en ist mit diesem Bedienkonzept
 möglich.
 </para>
 <para>
-Prinzipiell ist es möglich, die Fahrstraßen in SpDrS60 für Linux nur
+Prinzipiell ist es möglich, die Fahrstraßen in spdrs60 für Linux nur
 über Rückmeldungen zu beeinflussen. Eine direkte Bedienhandlung am PC
 ist dann nicht notwendig und dessen Funktion reduziert sich auf die
 Visualisierung des Betriebsgeschehens, die Überprüfung der
@@ -4356,7 +4434,7 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
 <chapter id="sect-rueckmeldung">
   <title>Rückmeldungen</title>
 <para>
-Rückmeldungen werden in SpDrS60 für Linux sowohl für die Visualisierung von
+Rückmeldungen werden in spdrs60 für Linux sowohl für die Visualisierung von
 Anlagenzuständen, als auch zum Auslösen von Schaltvorgängen genutzt.
 Die Bearbeitung eingehender Rückmeldungen erfolgt programmintern mit
 folgender Reihenfolge:
@@ -4932,7 +5010,7 @@ Wie geht man also vor?
 <para>
 <itemizedlist mark="bullet">
   <listitem><para>Man starte den Rechner mit dem
-DDL-Daemon sowie den SpDrS60-Client und lädt das
+DDL-Daemon sowie den spdrs60-Client und lädt das
 Anlagen-Layout.</para></listitem>
   <listitem><para>Danach aktiviere man den Commander und
 öffne das Programmierfenster.</para></listitem>
@@ -5072,7 +5150,7 @@ Man wähle hier zwischen Links- und Rechtslauf oder Anhalten.
   <varlistentry>
   <term><emphasis>
   Wie erfahre ich, ob es eine neue Version von
-  &raquo;SpDrS60 für Linux&laquo; gibt?
+  &raquo;spdrs60 für Linux&laquo; gibt?
   </emphasis></term>
   <listitem><para>
   Am besten meldet man sich auf den Mailinglisten an, die unter <ulink
@@ -5142,7 +5220,7 @@ Man wähle hier zwischen Links- und Rechtslauf oder Anhalten.
   </emphasis></term>
   <listitem><para>
   In Form einer direkten Anbindung ist das nicht möglich und auch nicht
-  geplant. SpDrS60 soll ein reiner SRCP-Client bleiben. Durch die
+  geplant. spdrs60 soll ein reiner SRCP-Client bleiben. Durch die
   Unterstützung von SRCP in der Version 0.8 ist über die Anbindung an
   den von Matthias Trute und anderen entwickelten SRCP-Server
   &raquo;srcpd&laquo; (<ulink
@@ -5151,10 +5229,10 @@ Man wähle hier zwischen Links- und Rechtslauf oder Anhalten.
   </varlistentry>
   <varlistentry>
   <term><emphasis>
-  Wann kommt SpDrS60 für Windows?
+  Wann kommt spdrs60 für Windows?
   </emphasis></term>
   <listitem><para>
-  Da SpDrS60 auf der Qt Bibliothek von Trolltech (<ulink
+  Da spdrs60 auf der Qt Bibliothek von Trolltech (<ulink
    url="http://www.trolltech.com/">http://www.trolltech.com/</ulink>)
   basiert, ist eine Portierung auf dieses Betriebssystem prinzipiell möglich.
   Bisher hat sich allerdings kein Interessent gefunden, der diese Arbeit
@@ -5200,7 +5278,7 @@ und vim) aus.
 </para>
 <para>
 Im unteren Bereich läßt sich einstellen, ob der &raquo;Spielstand&laquo;
-der Modellbahn beim Beenden von SpDrS60 für Linux automatisch
+der Modellbahn beim Beenden von spdrs60 für Linux automatisch
 gespeichert werden soll. Besonders wertvoll ist das für Gleisstellungen,
 die sich dann beim nächsten Programmstart von vornherein im richtigen
 Zustand befinden.
@@ -5482,7 +5560,7 @@ heraus wieder überschrieben.
 
 <para>
 Der Dateikopf wird durch eine Kommentarzeile eingeleitet, die die Datei
-als SpDrS60-Datendatei charakterisiert. Darunter finden sich Angaben zur
+als spdrs60-Datendatei charakterisiert. Darunter finden sich Angaben zur
 Programmversion, welche zum Speichern genutzt wurde, zum Datum der
 letzten Änderung, und zur Version des hier verwendetet
 Dateiformats. Es folgen Einträge für die gleisbildbezogene Speicherung der
