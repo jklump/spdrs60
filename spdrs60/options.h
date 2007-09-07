@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.h
-                           version 0.5.2 $Revision: 1.18 $
+                           version 0.5.2 $Revision: 1.19 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-02 17:34:17 $
+    last modified        : $Date: 2007-09-07 16:11:31 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -57,11 +57,12 @@ public:
 
 private:
    void setupElementTab();
-   void setupLayoutTab();              // creates the tab with layout specs
-   void setupDigitalTab();             // creates the tab with data specs
-   void setupFeedbackTab();            // creates the tab with data specs
-   void setupFeedbackTypeTab();        // creates the tab with data specs
-   bool valuesAreValid();              // check if any user entry is wrong
+   void setupLayoutTab();
+   void setupDigitalTab();
+   void setupFeedbackTab();
+   void setupFeedbackTypeTab();
+   void setupGenericMessagesTab();
+   bool valuesAreValid();
 
 private slots:
    void slotGetAutofile();             // select a file to be auto-opened
@@ -84,6 +85,13 @@ private:
    QCheckBox* cbAutoTTDir;          // auto-select turn dir of turntable
    QCheckBox* cbConvertTime;        // convert SRCP time string
    QCheckBox* cbShowTime;           // show message time in statusline
+
+   QCheckBox* sroutestateCB;
+   QCheckBox* rroutestateCB;
+   QCheckBox* strainnumberCB;
+   QCheckBox* rtrainnumberCB;
+   QCheckBox* routetypeCB;
+   QCheckBox* tracksectionCB;
 
    QRadioButton *rbShowAddr;           // show element's address or full text
    QRadioButton *rbShowTxt;

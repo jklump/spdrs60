@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.cpp
-                           version 0.5.2 $Revision: 1.26 $
+                           version 0.5.2 $Revision: 1.27 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-02 17:34:17 $
+    last modified        : $Date: 2007-09-07 16:11:31 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -27,6 +27,7 @@
 #include <qvbox.h>
 #include <qvgroupbox.h>
 #include <qstringlist.h>
+#include <qtooltip.h>
 
 #include "gbsarea.h"
 #include "options.h"
@@ -41,6 +42,7 @@ optionsDialog::optionsDialog(QWidget* parent)
     setupDigitalTab();
     setupFeedbackTab();
     setupFeedbackTypeTab();
+    setupGenericMessagesTab();
 
     setCaption(tr("User preferences"));
     setOKButton();
@@ -64,9 +66,8 @@ void optionsDialog::setupLayoutTab()
     QLabel* label = new QLabel(tr("&Columns:"),
             newlayoutGB);
     dimcolLayout->addWidget(label);
-    QSpacerItem* spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    dimcolLayout->addItem(spacer);
+    dimcolLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
     sbDefaultCols = new QSpinBox(MIN_COLS, MAX_COLS, 1, newlayoutGB,
             "colsSB");
     dimcolLayout->addWidget(sbDefaultCols);
@@ -176,9 +177,9 @@ void optionsDialog::setupLayoutTab()
     
 
     // spacer to push group boxes to top
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    tabL->addItem(spacer);
+    tabL->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum,
+                QSizePolicy::Expanding));
+
     addTab(w, tr("&Layout"));
 }
 
@@ -235,9 +236,9 @@ void optionsDialog::setupElementTab()
 
 
     // spacer to push group boxes to top
-    QSpacerItem* spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    tabL->addItem(spacer);
+    tabL->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum,
+                QSizePolicy::Expanding));
+
     addTab(w, tr("&Elements"));
 }
 
@@ -269,9 +270,8 @@ void optionsDialog::setupDigitalTab()
     QHBoxLayout* decoderLayout = new QHBoxLayout(solenoidGBL);
     QLabel* label = new QLabel(tr("Default de&coder:"), solenoidGB);
     decoderLayout->addWidget(label);
-    QSpacerItem* spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    decoderLayout->addItem(spacer);
+    decoderLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
     coboDecoder = new QComboBox(false, solenoidGB);
     coboDecoder->insertItem("Märklin k83 WD (M)");
     coboDecoder->insertItem("Märklin k84 SD (M)");
@@ -306,9 +306,8 @@ void optionsDialog::setupDigitalTab()
     QHBoxLayout* atimeLayout = new QHBoxLayout(solenoidGBL);
     label = new QLabel(tr("Default &activation time (ms):"), solenoidGB);
     atimeLayout->addWidget(label);
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    atimeLayout->addItem(spacer);
+    atimeLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
     // 20 ms steps
     sbActiveTime = new QSpinBox(50, 2000, 50, solenoidGB, "atimeSB");
     label->setBuddy(sbActiveTime);
@@ -319,9 +318,8 @@ void optionsDialog::setupDigitalTab()
     QHBoxLayout* delayLayout = new QHBoxLayout(solenoidGBL);
     label = new QLabel(tr("Routing &delay per element (ms):"), solenoidGB);
     delayLayout->addWidget(label);
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    delayLayout->addItem(spacer);
+    delayLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
     // 50 ms steps
     sbRoutingTime = new QSpinBox(20, 1000, 20, solenoidGB, "rtSB");
     sbRoutingTime->setWrapping(true);
@@ -344,9 +342,8 @@ void optionsDialog::setupDigitalTab()
     QHBoxLayout* ttLayout = new QHBoxLayout(ttGBL);
     label = new QLabel(tr("T&ime for a 360° turn of turntable (s.ms):"), ttGB);
     ttLayout->addWidget(label);
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    ttLayout->addItem(spacer);
+    ttLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
     leTTRoundTime = new QLineEdit(ttGB, "roundTime");
     leTTRoundTime->setMaxLength(6);
     leTTRoundTime->setMaximumWidth(60); //MAGIC
@@ -354,9 +351,8 @@ void optionsDialog::setupDigitalTab()
     ttLayout->addWidget(leTTRoundTime);
 
     // spacer to push group boxes to top
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    tabL->addItem(spacer);
+    tabL->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum,
+                QSizePolicy::Expanding));
 
     addTab(w, tr("&Digital Data"));
 }
@@ -478,8 +474,8 @@ void optionsDialog::setupFeedbackTab()
     sbFBmod_4->setWrapping(true);
     
     // spacer to push group boxes to top
-    tabL->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    tabL->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum,
+                QSizePolicy::Expanding));
 
     addTab(w, tr("&Feedback modules"));
 }
@@ -521,9 +517,8 @@ void optionsDialog::setupFeedbackTypeTab()
     // 2b: vertical box layout container for buttons 
     QVBoxLayout* sxinitBtnLayout = new QVBoxLayout(sxinitGBL, 6);
 
-    QSpacerItem* spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    sxinitBtnLayout->addItem(spacer);
+    sxinitBtnLayout->addItem(new QSpacerItem(0, 0,
+                QSizePolicy::Expanding, QSizePolicy::Minimum));
 
     QPushButton* upPB = new QPushButton(tr("&Up"), selectrixGB,
             "upPB");
@@ -555,6 +550,69 @@ void optionsDialog::setupFeedbackTypeTab()
 
 
     addTab(tab, tr("Feedback &type"));
+}
+
+
+void optionsDialog::setupGenericMessagesTab()
+{
+    QWidget *w = new QWidget(this, "tabPageSix");
+    QVBoxLayout* tabL = new QVBoxLayout(w, 10);
+    
+
+    // dynamic data groupbox
+    QButtonGroup* dynamicdataBG = new QButtonGroup(4, Qt::Vertical,
+            tr("Dynamic route data"), w, "dynamicdataBG");
+    tabL->addWidget(dynamicdataBG);
+
+    sroutestateCB = new QCheckBox(tr("S&end route state change messages"),
+            dynamicdataBG, "sroutestateCB");
+    QToolTip::add(sroutestateCB, tr(
+                "Send a state change message when a route is released or\n"
+                "successfully activated. This is typically used for scripting."));
+
+    rroutestateCB = new QCheckBox(tr(
+                "Pro&cess incoming route state change messages"),
+            dynamicdataBG, "rroutestateCB");
+    QToolTip::add(rroutestateCB, tr(
+                "Process incoming state change messages to release or\n"
+                "activate routes. This is typically used for scripting."));
+
+    strainnumberCB = new QCheckBox(tr("Send train &number messages"),
+            dynamicdataBG, "strainnumberCB");
+    QToolTip::add(strainnumberCB, tr(
+                "Send a generic message when a train number is assigned\n"
+                "to a new route. This is used for train tracking."));
+
+    rtrainnumberCB = new QCheckBox(tr("&Process incoming train number messages"),
+            dynamicdataBG, "rtrainnumberCB");
+    QToolTip::add(rtrainnumberCB, tr(
+                "Process a generic message assigning a new train number to a\n"
+                "route (SET) or requesting the currently used train number (GET)."));
+    
+
+    // static data groupbox
+    QButtonGroup* staticdataBG = new QButtonGroup(2, Qt::Vertical,
+            tr("Static route data"), w, "staticdataBG");
+    tabL->addWidget(staticdataBG);
+
+    routetypeCB = new QCheckBox(tr("Enable route &type editing"),
+            staticdataBG, "routetypeCB");
+    QToolTip::add(rtrainnumberCB, tr(
+                "Process a generic message assigning a new type to a\n"
+                "route (SET) or requesting the currently used type (GET).\n"
+                "This is used as a CRCF service example."));
+
+    tracksectionCB = new QCheckBox(tr("Enable track &section editing"),
+            staticdataBG, "tracksectionCB");
+    QToolTip::add(rtrainnumberCB, tr(
+                "Process a generic message assigning a new section number to a\n"
+                "route (SET) or requesting the currently used section number (GET)."));
+    
+
+    // spacer to push group boxes to top
+    tabL->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum,
+                QSizePolicy::Expanding));
+    addTab(w, tr("Generic &messages"));
 }
 
 
