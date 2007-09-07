@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.2 $Revision: 1.130 $
+                           version 0.5.2 $Revision: 1.131 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-04 15:50:51 $
+    last modified        : $Date: 2007-09-07 21:22:16 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1372,7 +1372,11 @@ void element::setupElementIcon()
         QFont f(QApplication::font());
         f.setPointSize(QApplication::font().pointSize() + 2);
         f.setWeight(QFont::DemiBold);
+#if QT_VERSION >= 0x030200
         f.setStretch(90);
+#else
+        f.setPointSizeFloat(f.pointSizeFloat() * .9);
+#endif
         p.setFont(f);
         sSoldText.sprintf("%05d", editsAddress);
         QFontMetrics fm(f);
