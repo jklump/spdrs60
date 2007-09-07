@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.5.2 $Revision: 1.39 $
+                           version 0.5.2 $Revision: 1.40 $
                            -------------------------------
     copyright            : (C) 2005-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-03 18:04:33 $
+    last modified        : $Date: 2007-09-07 21:23:30 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -32,41 +32,24 @@
 
 
 
-RouteDialog::RouteDialog(QWidget* parent)
-: QDialog(parent, "EditRouteDialog")
+RouteDialog::RouteDialog(QWidget* parent): QTabDialog(parent,
+        "EditRouteDialog", true)
 {
+    setCaption(tr("Edit route"));
+
     startSignalElPtr = NULL;
     stopSignalElPtr = NULL;
-    
-    setCaption(tr("Edit route"));
-    /*Layout to separate OK Cancel Button form the upper rest*/
-    QBoxLayout* baseLayout = new QVBoxLayout(this, 12, 12);
-    
     // Validator for all bus input lines
     busValidator = new QIntValidator(1, 999, this);
-
-    tabs = new QTabWidget(this, "Tabs");
-    baseLayout->addWidget(tabs);
 
     addIdentificationTab();
     addElementsTab();
     addRouteTypeTab();
     addAutomaticTab();
+    addTrainNumberForwardingTab();
 
-    /*layout with OK and Cancel buttons*/
-    QBoxLayout* buttonLayout = new QHBoxLayout(baseLayout, 6);
-
-    buttonLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
-
-    QPushButton* okPB = new QPushButton(tr("OK"), this);
-    connect(okPB, SIGNAL(clicked()), this, SLOT(accept()));
-    buttonLayout->addWidget(okPB);
-    okPB->setDefault(true);
-
-    QPushButton* cancelPB = new QPushButton(tr("Cancel"), this);
-    connect(cancelPB, SIGNAL(clicked()), this, SLOT(reject()));
-    buttonLayout->addWidget(cancelPB);
+    setOKButton();
+    setCancelButton();
 }    
 
 /*
@@ -246,9 +229,9 @@ void RouteDialog::addIdentificationTab()
 
     // push group boxes to top
     tabLayout->addItem(new QSpacerItem(0, 0,
-                QSizePolicy::Expanding, QSizePolicy::Minimum));
+                QSizePolicy::Minimum, QSizePolicy::Expanding));
 
-    tabs->addTab(w, tr("&Identification"));
+    addTab(w, tr("&Identification"));
 }
 
 /*
@@ -264,7 +247,7 @@ void RouteDialog::addAutomaticTab()
     QGroupBox* activateGB = new QGroupBox(0, Qt::Horizontal,
             tr("Activate route"), w, "activateGB");
     tabLayout->addWidget(activateGB);
-    QVBoxLayout* activateGBL = new QVBoxLayout(activateGB->layout(), 6);
+    QVBoxLayout* activateGBL = new QVBoxLayout(activateGB->layout(), 10);
 
     /*line with CheckBox to activate FB switching*/
     activatefbCB = new QCheckBox(tr("&Enable feedback activation"),
@@ -340,12 +323,16 @@ void RouteDialog::addAutomaticTab()
     //activatePortLB->setBuddy(activatePortLE);
     activatePortLayout->addWidget(activatePortLE);
 
+    // push items to top
+    activateGBL->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum,
+                QSizePolicy::Expanding));
+
 
     /*release route group box*/
     QGroupBox* releaseGB = new QGroupBox(0, Qt::Horizontal,
             tr("Release route"), w, "releaseGB");
     tabLayout->addWidget(releaseGB);
-    QVBoxLayout* releaseGBL = new QVBoxLayout(releaseGB->layout(), 6);
+    QVBoxLayout* releaseGBL = new QVBoxLayout(releaseGB->layout(), 10);
 
     /*line with CheckBox to release FB switching*/
     releasefbCB = new QCheckBox(tr("Enable &feedback release"),
@@ -419,7 +406,10 @@ void RouteDialog::addAutomaticTab()
     //releasePortLB->setBuddy(releasePortLE);
     releasePortLayout->addWidget(releasePortLE);
 
-    tabs->addTab(w, tr("&Automatic"));
+    // push items to top
+    releaseGBL->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum,
+                QSizePolicy::Expanding));
+    addTab(w, tr("&Automatic"));
 }
 
 /*
@@ -494,10 +484,10 @@ void RouteDialog::addRouteTypeTab()
     connect(typeBG, SIGNAL(pressed(int)), this, SLOT(typeBGPressed(int)));
 
     // push groub box to top
-    tabLayout->addItem(new QSpacerItem(0, 0,
-                QSizePolicy::Expanding, QSizePolicy::Minimum));
+    tabLayout->addItem(new QSpacerItem(0, 0 , QSizePolicy::Minimum,
+                QSizePolicy::Expanding));
 
-    tabs->addTab(w, tr("&Type"));
+    addTab(w, tr("&Type"));
 }
 
 /*
@@ -522,19 +512,16 @@ void RouteDialog::addElementsTab()
     elementsLV->addColumn(tr("No"));
     elementsLV->addColumn(tr("Name"));
     elementsLV->setColumnWidthMode(0, QListView::Maximum);
-    elementsLV->addColumn(tr("SRCP-Bus"));
+    elementsLV->addColumn(tr("Bus"));
     elementsLV->addColumn(tr("Address"));
     elementsLV->addColumn(tr("State"));
     elementsLV->setColumnAlignment(0, Qt::AlignCenter);
-    elementsLV->setColumnAlignment(2, Qt::AlignCenter);
+    elementsLV->setColumnAlignment(2, Qt::AlignRight);
     elementsLV->setColumnAlignment(3, Qt::AlignRight);
     elementsLV->setColumnAlignment(4, Qt::AlignCenter);
     connect(elementsLV, SIGNAL(selectionChanged(QListViewItem*)),
             this, SLOT(elementsLVChanged(QListViewItem*)));
  
-    routeElL->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
-
     /*column with Add and Remove buttons*/
     QVBoxLayout* routeElBtnLayout = new QVBoxLayout(routeElL, 6);
 
@@ -565,7 +552,84 @@ void RouteDialog::addElementsTab()
     routeElBtnLayout->addWidget(removePB);
     removePB->setEnabled(false);
 
-    tabs->addTab(w, tr("&Elements"));
+    // push button to the left
+    routeElL->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
+
+    addTab(w, tr("&Elements"));
+}
+
+/*
+ * add tab with options for train number forwarding
+ */
+void RouteDialog::addTrainNumberForwardingTab()
+{
+    QWidget *w = new QWidget(this, "trainnumberTab");
+    QVBoxLayout* tabLayout = new QVBoxLayout(w, 10, 10);
+
+
+    QHBoxLayout* lrLayout = new QHBoxLayout(tabLayout, 10);
+    /*group box to choose automatic forwarding*/
+    forwardingBG = new QButtonGroup(2, Qt::Vertical,
+            tr("Target detection"), w, "forwardingBG");
+    lrLayout->addWidget(forwardingBG);
+    forwardingBG->setExclusive(true);
+    
+    new QRadioButton(tr("&Automatic"), forwardingBG);
+    new QRadioButton(tr("&Manual"), forwardingBG);
+
+    forwardingBG->setButton(0);
+    connect(forwardingBG, SIGNAL(pressed(int)),
+            this, SLOT(detectionChanged(int)));
+
+    /*group box to choose target*/
+    targetBG = new QButtonGroup(2, Qt::Vertical,
+            tr("Target type"), w, "targetBG");
+    lrLayout->addWidget(targetBG);
+    targetBG->setExclusive(true);
+    
+    new QRadioButton(tr("&Route"), targetBG);
+    new QRadioButton(tr("&Block"), targetBG);
+
+    targetBG->setButton(0);
+
+    /*message to targetid group box*/
+    targetidGB = new QGroupBox(0, Qt::Vertical,
+            tr("Target identification"), w, "targetidGB");
+    tabLayout->addWidget(targetidGB);
+
+    /*line with SRCP bus for activation by feedback*/
+    QHBoxLayout* targetidLayout = new QHBoxLayout(targetidGB->layout(), 6);
+    QLabel* numberLbl = new QLabel(tr("&Number (Id)"), targetidGB);
+    targetidLayout->addWidget(numberLbl);
+    targetidLayout->addItem(new QSpacerItem(0, 0,
+                QSizePolicy::Expanding, QSizePolicy::Minimum));
+    forwardidLE = new QLineEdit("1", targetidGB, "forwardidLE");
+    forwardidLE->setMaximumWidth(LEMAXWIDTH);
+    //forwardidLE->setValidator(busValidator);
+    numberLbl->setBuddy(forwardidLE);
+    targetidLayout->addWidget(forwardidLE);
+
+
+    /*message to interlocking group box*/
+    interlockingGB = new QGroupBox(1, Qt::Vertical,
+            tr("External target"), w, "interlockingGB");
+    tabLayout->addWidget(interlockingGB);
+
+    inderlockingCB = new QCheckBox(tr("Send message to adjacent "
+                "&interlocking"), interlockingGB, "interlockingCB");
+    
+    tabLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum,
+                QSizePolicy::Expanding));
+
+    // preset selection
+#if QT_VERSION >= 0x030300
+    detectionChanged(forwardingBG->selectedId());
+#else
+    detectionChanged(forwardingBG->id(forwardingBG->selected));
+#endif
+
+    addTab(w, tr("Train number &forwarding"));
 }
 
 
@@ -1079,3 +1143,12 @@ void RouteDialog::updateListIndexNumbersFrom(QListViewItem* lvi)
     }
 }
 
+/*
+ * response to detection changes
+ */
+void RouteDialog::detectionChanged(int btn)
+{
+    targetBG->setEnabled(btn ==1);
+    targetidGB->setEnabled(btn ==1);
+    interlockingGB->setEnabled(btn ==1);
+}

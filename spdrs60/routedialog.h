@@ -1,11 +1,11 @@
 /***************************************************************************
                            routedialog.h
-                           version 0.5.2 $Revision: 1.22 $
+                           version 0.5.2 $Revision: 1.23 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-31 17:30:11 $
+    last modified        : $Date: 2007-09-07 21:23:30 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -24,12 +24,11 @@
 #define ROUTEDIALOG_H
 
 #include <qbuttongroup.h>
-#include <qdialog.h>
 #include <qlineedit.h>
 #include <qlistview.h>
 #include <qstring.h>
 #include <qspinbox.h>
-#include <qtabwidget.h>
+#include <qtabdialog.h>
 #include <qtooltip.h>
 #include <qvalidator.h>
 
@@ -45,7 +44,7 @@ enum RouteType {
     kShuntingD};
 
 
-class RouteDialog: public QDialog
+class RouteDialog: public QTabDialog
 {
     Q_OBJECT
 
@@ -89,6 +88,7 @@ private slots:
     void downListElement();
     void editListElement();
     void addElementToList();
+    void detectionChanged(int);
 
 signals:
     void getElementByAddress(const int, const int, element**);
@@ -96,6 +96,8 @@ signals:
 protected:
 
 private:
+   QValidator*   busValidator;
+   
    element* startSignalElPtr;
    element* stopSignalElPtr;
     
@@ -147,13 +149,19 @@ private:
    QSpinBox*     uzsLevelSB;
    QSpinBox*     ursLevelSB;
 
-   QTabWidget*   tabs;
-   QValidator*   busValidator;
-   
+   // train number forwarding page
+   QButtonGroup* forwardingBG;
+   QButtonGroup* targetBG;
+   QCheckBox*    inderlockingCB;
+   QLineEdit*    forwardidLE;
+   QGroupBox*    targetidGB;
+   QGroupBox*    interlockingGB;
+
    void addIdentificationTab();
    void addElementsTab();
    void addRouteTypeTab();
    void addAutomaticTab();
+   void addTrainNumberForwardingTab();
    void updateEntrySignalName(int, int);
    void updateExitSignalName(int, int);
    void updateListIndexNumbersFrom(QListViewItem*);
