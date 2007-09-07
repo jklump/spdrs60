@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.119 $
+                           version 0.5.2 $Revision: 1.120 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-05 17:39:48 $
+    last modified        : $Date: 2007-09-07 21:21:26 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2280,9 +2280,28 @@ void MainWindow::processInfoMessage(const QString& info)
                         }
                 }
             }
+            /*
+             * respond to incomming power messages
+             *
+             * <time> 100 INFO <bus> DESCRIPTION <device list>
+             *   0     1   2     3     4      5     : Qstring sections
+             */
+            else if (devGroup == "DESCRIPTION") {
+                QStringList tokens = QStringList::split(" ", info);
+                if ((tokens[1].toUInt() == 100) &&
+                    (tokens[3].toUInt() == 0)){
+
+                    QString gm = "GM";
+                    int pos = tokens.findIndex(gm);
+                    bool gm_server_enabled = (pos != -1);
+                    qWarning("Server GM: %d", gm_server_enabled);
+                    }
+                    //check if bus is relevant for this layout
+            }
             /**
-             * add other device groups here (ECHO, MACRO)
-             * <time> 100 INFO <bus=0> ECHO <echo message>
+             * add other device groups here (SESSION, SERVER, TIME, GL,
+             * LOCK, DESCRIPTION)
+             * <time> 100 INFO <bus=0> GM <generic message>
              * <time> 100 INFO <bus=0> MACRO <macro message>
              **/
         }
@@ -2591,19 +2610,26 @@ void MainWindow::slotShowRoutes()
 /* edit layout file with external editor*/
 void MainWindow::slotEditGBSFiles()
 {
-    QString sCommand = pref.editor;
-    sCommand.append(" " + fileName + (" &"));
-    system(sCommand.data());
+    QProcess* proc = new QProcess(this, "browserProcess");
+    proc->addArgument(pref.editor);
+    proc->addArgument(fileName);
+
+    if (!proc->start()) {
+        statusMessage(tr("Error starting editor '%1'!").arg(pref.editor));
+    }
 }
 
 
 /*open config file with external editor*/
 void MainWindow::slotEditConfigFile()
 {
-    // edit program´s config file with editor program
-    QString sCommand = pref.editor + " " + QDir::homeDirPath() + "/" +
-        SPDRS60_INIT + (" &");
-    system(sCommand.data());
+    QProcess* proc = new QProcess(this, "browserProcess");
+    proc->addArgument(pref.editor);
+    proc->addArgument(QDir::homeDirPath() + "/" SPDRS60_INIT);
+
+    if (!proc->start()) {
+        statusMessage(tr("Error starting editor '%1'!").arg(pref.editor));
+    }
 }
 
 
