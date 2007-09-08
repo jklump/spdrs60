@@ -1075,7 +1075,7 @@ qt_libdirs=""
 for dir in $kde_qt_dirs; do
    qt_libdirs="$qt_libdirs $dir/lib${kdelibsuff} $dir"
 done
-qt_libdirs="$QTLIB $qt_libdirs /usr/X11R6/lib /usr/lib /usr/lib64 /usr/local/qt/lib $x_libraries"
+qt_libdirs="$QTLIB $qt_libdirs /usr/X11R6/lib /usr/lib /usr/lib/qt3/lib64 /usr/local/qt/lib $x_libraries"
 if test ! "$ac_qt_libraries" = "NO"; then
   qt_libdir=$ac_qt_libraries
 else
