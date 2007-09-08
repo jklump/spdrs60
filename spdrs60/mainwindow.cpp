@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.120 $
+                           version 0.5.2 $Revision: 1.121 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-07 21:21:26 $
+    last modified        : $Date: 2007-09-08 05:40:27 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2294,7 +2294,7 @@ void MainWindow::processInfoMessage(const QString& info)
                     QString gm = "GM";
                     int pos = tokens.findIndex(gm);
                     bool gm_server_enabled = (pos != -1);
-                    qWarning("Server GM: %d", gm_server_enabled);
+                    //qWarning("Server GM: %d", gm_server_enabled);
                     }
                     //check if bus is relevant for this layout
             }

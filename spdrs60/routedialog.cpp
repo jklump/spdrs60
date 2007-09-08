@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.5.2 $Revision: 1.40 $
+                           version 0.5.2 $Revision: 1.41 $
                            -------------------------------
     copyright            : (C) 2005-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-07 21:23:30 $
+    last modified        : $Date: 2007-09-08 05:40:27 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -626,7 +626,7 @@ void RouteDialog::addTrainNumberForwardingTab()
 #if QT_VERSION >= 0x030300
     detectionChanged(forwardingBG->selectedId());
 #else
-    detectionChanged(forwardingBG->id(forwardingBG->selected));
+    detectionChanged(forwardingBG->id(forwardingBG->selected()));
 #endif
 
     addTab(w, tr("Train number &forwarding"));
