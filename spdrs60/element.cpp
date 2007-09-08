@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.2 $Revision: 1.131 $
+                           version 0.5.2 $Revision: 1.132 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-07 21:22:16 $
+    last modified        : $Date: 2007-09-08 11:44:40 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -769,6 +769,7 @@ void element::sendSrcpState()
 
         sm->setGaData(protocol, iRealBus, iRealAddress, port,
                 value, iSoldActiveTime);
+        emit sendSrcpMessage(sm);
         
         delete sm;
 
