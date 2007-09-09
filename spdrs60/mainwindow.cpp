@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.121 $
+                           version 0.5.2 $Revision: 1.122 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-08 05:40:27 $
+    last modified        : $Date: 2007-09-09 13:15:31 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2289,14 +2289,12 @@ void MainWindow::processInfoMessage(const QString& info)
             else if (devGroup == "DESCRIPTION") {
                 QStringList tokens = QStringList::split(" ", info);
                 if ((tokens[1].toUInt() == 100) &&
-                    (tokens[3].toUInt() == 0)){
+                        (tokens[3].toUInt() == 0)){
 
                     QString gm = "GM";
                     int pos = tokens.findIndex(gm);
-                    bool gm_server_enabled = (pos != -1);
-                    //qWarning("Server GM: %d", gm_server_enabled);
-                    }
-                    //check if bus is relevant for this layout
+                    router->setServerHasGm(pos != -1);
+                }
             }
             /**
              * add other device groups here (SESSION, SERVER, TIME, GL,
@@ -2320,9 +2318,11 @@ void MainWindow::ConnectToSRCPServer()
 /*
  * connection to all server ports is done in a cascade, first try is
  * command port
+ * also preset Generic Massage capabilities of server to "no"
  */
 void MainWindow::ConnectCommandPort()
 {
+    router->setServerHasGm(false);
     commandPort->serverConnect();
 }
 

@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.5.2 $Revision: 1.41 $
+                           version 0.5.2 $Revision: 1.42 $
                            -------------------------------
     copyright            : (C) 2005-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-08 05:40:27 $
+    last modified        : $Date: 2007-09-09 13:15:31 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -568,21 +568,28 @@ void RouteDialog::addTrainNumberForwardingTab()
     QVBoxLayout* tabLayout = new QVBoxLayout(w, 10, 10);
 
 
+    /* 1. general options group box*/
+    interlockingGB = new QGroupBox(2, Qt::Vertical,
+            tr("General options"), w, "interlockingGB");
+    tabLayout->addWidget(interlockingGB);
+
+    enableforwardingCB = new QCheckBox(tr("&Activate train number "
+                "forwarding"), interlockingGB, "enableforwardingCB");
+    connect(enableforwardingCB, SIGNAL(toggled(bool)),
+            this, SLOT(detectionChanged(bool)));
+
+    interlockingCB = new QCheckBox(tr("Send train number to adjacent "
+                "&interlocking"), interlockingGB, "interlockingCB");
+    QToolTip::add(interlockingCB, tr(
+                "Send a Generic Message with route id and\n"
+                "train id, so an interessted interlocking can\n"
+                "pick up this information so update its route."));
+
+
+    /* layout for two boxes side by side*/
     QHBoxLayout* lrLayout = new QHBoxLayout(tabLayout, 10);
-    /*group box to choose automatic forwarding*/
-    forwardingBG = new QButtonGroup(2, Qt::Vertical,
-            tr("Target detection"), w, "forwardingBG");
-    lrLayout->addWidget(forwardingBG);
-    forwardingBG->setExclusive(true);
-    
-    new QRadioButton(tr("&Automatic"), forwardingBG);
-    new QRadioButton(tr("&Manual"), forwardingBG);
 
-    forwardingBG->setButton(0);
-    connect(forwardingBG, SIGNAL(pressed(int)),
-            this, SLOT(detectionChanged(int)));
-
-    /*group box to choose target*/
+    /* 2. left group box to choose target*/
     targetBG = new QButtonGroup(2, Qt::Vertical,
             tr("Target type"), w, "targetBG");
     lrLayout->addWidget(targetBG);
@@ -593,10 +600,10 @@ void RouteDialog::addTrainNumberForwardingTab()
 
     targetBG->setButton(0);
 
-    /*message to targetid group box*/
+    /* 3. right group box to input message target id*/
     targetidGB = new QGroupBox(0, Qt::Vertical,
             tr("Target identification"), w, "targetidGB");
-    tabLayout->addWidget(targetidGB);
+    lrLayout->addWidget(targetidGB);
 
     /*line with SRCP bus for activation by feedback*/
     QHBoxLayout* targetidLayout = new QHBoxLayout(targetidGB->layout(), 6);
@@ -611,23 +618,11 @@ void RouteDialog::addTrainNumberForwardingTab()
     targetidLayout->addWidget(forwardidLE);
 
 
-    /*message to interlocking group box*/
-    interlockingGB = new QGroupBox(1, Qt::Vertical,
-            tr("External target"), w, "interlockingGB");
-    tabLayout->addWidget(interlockingGB);
-
-    inderlockingCB = new QCheckBox(tr("Send message to adjacent "
-                "&interlocking"), interlockingGB, "interlockingCB");
-    
     tabLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum,
                 QSizePolicy::Expanding));
 
     // preset selection
-#if QT_VERSION >= 0x030300
-    detectionChanged(forwardingBG->selectedId());
-#else
-    detectionChanged(forwardingBG->id(forwardingBG->selected()));
-#endif
+    detectionChanged(enableforwardingCB->isChecked());
 
     addTab(w, tr("Train number &forwarding"));
 }
@@ -668,6 +663,7 @@ unsigned int RouteDialog::getRouteTrain()
     return routeTrainLE->text().toUInt();
 }
 
+//TODO section
 
 void RouteDialog::setEntrySignalData(const stateElement& signal)
 {
@@ -836,6 +832,46 @@ void RouteDialog::getRouteElements(QPtrList<stateElement>& items)
             ++it;
         }
     }
+}
+
+/*
+ * set data for the whole train number forwarding tab page
+ */
+void RouteDialog::setTrainNumberForwardData(bool forward, bool external,
+        Route::TrainNumberTarget targettype, unsigned int targetid)
+{
+    enableforwardingCB->setChecked(forward);
+    interlockingCB->setChecked(external);
+    targetBG->setButton(targettype);
+    forwardidLE->setText(QString::number(targetid));
+}
+
+
+bool RouteDialog::getForwardTrainNumber()
+{
+    return enableforwardingCB->isChecked();
+}
+
+
+bool RouteDialog::getInterlocking()
+{
+    return interlockingCB->isChecked();
+}
+
+
+int RouteDialog::getTrainNumberTarget()
+{
+#if QT_VERSION >= 0x030300
+    return targetBG->selectedId();
+#else
+    return targetBG->id(targetBG->selected());
+#endif
+}
+
+
+unsigned int RouteDialog::getTargetId()
+{
+    return forwardidLE->text().toUInt();
 }
 
 
@@ -1146,9 +1182,11 @@ void RouteDialog::updateListIndexNumbersFrom(QListViewItem* lvi)
 /*
  * response to detection changes
  */
-void RouteDialog::detectionChanged(int btn)
+void RouteDialog::detectionChanged(bool enable)
 {
-    targetBG->setEnabled(btn ==1);
-    targetidGB->setEnabled(btn ==1);
-    interlockingGB->setEnabled(btn ==1);
+    interlockingCB->setEnabled(enable);
+    if (!enable)
+        interlockingCB->setChecked(false);
+    targetBG->setEnabled(enable);
+    targetidGB->setEnabled(enable);
 }

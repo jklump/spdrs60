@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.58 $
+                           version 0.5.2 $Revision: 1.59 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-04 20:02:17 $
+    last modified        : $Date: 2007-09-09 13:15:31 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -28,15 +28,15 @@
 #define RF_ID           "id"
 #define RF_NAME         "name"
 #define RF_TRAIN        "train"
-#define RF_ENTRYSIGNAL   "from signal"
-#define RF_EXITSIGNAL     "to signal"
+#define RF_ENTRYSIGNAL  "from signal"
+#define RF_EXITSIGNAL   "to signal"
 #define RF_TNDISPLAY    "trainnumberdisplay"
 #define RF_SWITCHXTOY   "switch x to y"
 #define RF_ACTIVATEPORT "activate port"
 #define RF_RELEASEPORT  "release port"
 #define RF_ACTIVATEPORT "activate port"
 #define RF_TYPE         "type"
-#define RF_DETOURLEVEL  "level"
+#define RF_FORWARDTRAIN "forwardtrain"
 
 
 Route::Route(unsigned int anid,
@@ -51,11 +51,7 @@ Route::Route(unsigned int anid,
         const QPtrList<stateElement>& swis,
         QObject* parent, const char* name): QObject(parent, name)
 {
-    routestate = rsUnlocked;
-    turnouts = 0;
-    tocounter = 0;
-    triggerto = NULL;
-    switchItems.setAutoDelete(true);
+    initVariables();
 
     routeType = arouteType;
     idnumber = anid;
@@ -114,11 +110,7 @@ Route::Route(unsigned int anid,
 Route::Route(element* startEl, QObject* parent, const char* name)
 : QObject(parent, name)
 {
-    routestate = rsUnlocked;
-    turnouts = 0;
-    tocounter = 0;
-    triggerto = NULL;
-    switchItems.setAutoDelete(true);
+    initVariables();
 
     exitSignal.state = 0;
     exitSignal.address = 0;
@@ -132,8 +124,6 @@ Route::Route(element* startEl, QObject* parent, const char* name)
     trainNumberDisplay.name = "";
     trainNumberDisplay.elemPtr = NULL;
     
-    routeType = rtRZS;
-
     rePort.used = false;
     rePort.switchtooff = false;
     rePort.bus = 1;
@@ -144,9 +134,6 @@ Route::Route(element* startEl, QObject* parent, const char* name)
     acPort.bus = 1;
     acPort.address = 0;
     
-    detourLevel = 0;
-    idnumber = 0;
-    train = 0;
     Name = tr("New route");
 
     if (startEl != NULL) {
@@ -168,14 +155,8 @@ Route::Route(element* startEl, QObject* parent, const char* name)
 Route::Route(QTextStream& ts, QObject* parent, const char* name)
 : QObject(parent, name)
 {
-    routestate = rsUnlocked;
-    turnouts = 0;
-    tocounter = 0;
-    triggerto = NULL;
-    switchItems.setAutoDelete(true);
+    initVariables();
 
-    idnumber = 0;
-    train = 0;
     /*exit signals are red by default*/
     exitSignal.state = 0;
     exitSignal.name = "";
@@ -197,15 +178,8 @@ Route::Route(QTextStream& ts, QObject* parent, const char* name)
 Route::Route(const QString& aName, QObject* parent, const char* name)
     : QObject(parent, name)
 {
-    routestate = rsUnlocked;
-    turnouts = 0;
-    tocounter = 0;
-    triggerto = NULL;
-    switchItems.setAutoDelete(true);
+    initVariables();
 
-    routeType = rtRZS;
-    idnumber = 0;
-    train = 0;
     Name = aName;
 
     exitSignal.name = "";
@@ -235,8 +209,6 @@ Route::Route(const QString& aName, QObject* parent, const char* name)
     acPort.switchtooff = false;
     acPort.bus = 1;
     acPort.address = 0;
-    
-    detourLevel = 0;
 }
 
 
@@ -245,6 +217,28 @@ Route::~Route()
     switchItems.clear();
 }
 
+/*
+ * set all variables to init values
+ */
+void Route::initVariables()
+{
+    // dynamic data
+    routestate = rsUnlocked;
+    turnouts = 0;
+    tocounter = 0;
+    triggerto = NULL;
+    switchItems.setAutoDelete(true);
+
+    // user selectable data
+    routeType = rtRZS;
+    detourLevel = 0;
+    idnumber = 0;
+    train = 0;
+    forwardnumber = false;
+    forwardexternal = false;
+    forwardtargetid = 0;
+    forwardtargettype = tntRoute;
+}
 /* 
  * Update route element names and pointers when layout was edited
  */
@@ -396,6 +390,13 @@ void Route::readFileTextFromStream(QTextStream& ts)
                 routeType = (RouteType)s.section(DS, 1, 1).toUInt();
                 detourLevel = s.section(DS, 2, 2).toUInt();
             }
+            else if (key.compare(RF_FORWARDTRAIN) == 0) {
+                forwardnumber = s.section(DS, 1, 1).toInt();
+                forwardexternal = s.section(DS, 2, 2).toInt();
+                forwardtargettype = (TrainNumberTarget)
+                    s.section(DS, 3, 3).toInt();
+                forwardtargetid = s.section(DS, 4, 4).toUInt();
+            }
             /*end of route data*/
             else if (s.startsWith("%%"))
                 break;
@@ -420,7 +421,10 @@ void Route::writeFileTextToStream(QTextStream& ts)
         << DS << rePort.used << DS << rePort.switchtooff << endl
         << RF_ACTIVATEPORT << DS << acPort.bus << DS << acPort.address
         << DS << acPort.used << DS << acPort.switchtooff << endl
-        << RF_TYPE << DS << routeType << DS << detourLevel << endl;
+        << RF_TYPE << DS << routeType << DS << detourLevel << endl
+        << RF_FORWARDTRAIN << DS << forwardnumber
+            << DS << forwardexternal <<  DS << forwardtargettype
+            << DS << forwardtargetid <<endl;
 
     QPtrListIterator<stateElement> it(switchItems);
     stateElement* swElement;
@@ -1106,6 +1110,9 @@ bool Route::runEditRouteDialog(QWidget* dlgparent)
     rtDlg->setReleaseData(rePort);
     rtDlg->setRouteType(routeType, detourLevel);
     rtDlg->setRouteElements(switchItems);
+    rtDlg->setTrainNumberForwardData(forwardnumber, forwardexternal,
+           forwardtargettype, forwardtargetid);
+
     if (rtDlg->exec() == QDialog::Accepted) {
         // update gbs: 1) hide old route 2) show new route
         hideRoute();
@@ -1120,6 +1127,12 @@ bool Route::runEditRouteDialog(QWidget* dlgparent)
         detourLevel = rtDlg->getDetourLevel();
         switchItems.clear();
         rtDlg->getRouteElements(switchItems);
+        forwardnumber = rtDlg->getForwardTrainNumber();
+        forwardexternal = rtDlg->getInterlocking();
+        forwardtargettype = (Route::TrainNumberTarget)
+            rtDlg->getTrainNumberTarget();
+        forwardtargetid = rtDlg->getTargetId();
+
         showRoute();
         returnvalue = true;
     }
@@ -1183,3 +1196,36 @@ void Route::updateTrainNumberDisplay()
     if (trainNumberDisplay.elemPtr != NULL)
         trainNumberDisplay.elemPtr->updateTrainNumber(train);
 }
+
+/*
+ * return true if train number forwarding is enabled
+ */
+bool Route::forwardTrainNumber()
+{
+    return forwardnumber;
+}
+
+/*
+ * return true if train number forwarding is external
+ */
+bool Route::forwardExternal()
+{
+    return forwardexternal;
+}
+
+/*
+ * return type of train number forwarding target
+ */
+int Route::forwardTargetId()
+{
+    return forwardtargetid;
+}
+
+/*
+ * return type of train number forwarding target
+ */
+int Route::forwardTargetType()
+{
+    return forwardtargettype;
+}
+

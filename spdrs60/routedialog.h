@@ -1,11 +1,11 @@
 /***************************************************************************
                            routedialog.h
-                           version 0.5.2 $Revision: 1.23 $
+                           version 0.5.2 $Revision: 1.24 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-07 21:23:30 $
+    last modified        : $Date: 2007-09-09 13:15:31 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -69,6 +69,12 @@ public:
     unsigned int getDetourLevel();
     void setRouteElements(const QPtrList<stateElement>&);
     void getRouteElements(QPtrList<stateElement>&);
+    void setTrainNumberForwardData(bool, bool, Route::TrainNumberTarget,
+            unsigned int);
+    bool getForwardTrainNumber();
+    bool getInterlocking();
+    int getTrainNumberTarget();
+    unsigned int getTargetId();
   
 public slots:
 
@@ -88,7 +94,7 @@ private slots:
     void downListElement();
     void editListElement();
     void addElementToList();
-    void detectionChanged(int);
+    void detectionChanged(bool);
 
 signals:
     void getElementByAddress(const int, const int, element**);
@@ -150,9 +156,9 @@ private:
    QSpinBox*     ursLevelSB;
 
    // train number forwarding page
-   QButtonGroup* forwardingBG;
    QButtonGroup* targetBG;
-   QCheckBox*    inderlockingCB;
+   QCheckBox*    enableforwardingCB;
+   QCheckBox*    interlockingCB;
    QLineEdit*    forwardidLE;
    QGroupBox*    targetidGB;
    QGroupBox*    interlockingGB;

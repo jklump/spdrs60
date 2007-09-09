@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.2 $Revision: 1.50 $
+                           version 0.5.2 $Revision: 1.51 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-04 20:02:17 $
+    last modified        : $Date: 2007-09-09 13:15:31 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -31,26 +31,16 @@
 Router::Router(QObject* parent, const char* name):
     QObject(parent, name)
 {
-    selectedRoute = NULL;
-    resetRt = NULL;
-    selectedStartSig = NULL;
+    initVariables();
     gbsElements = NULL;
-    routeList.setAutoDelete(true);
-    modified = false;
-    visualmode = kvmNormal;
 }
 
 
 Router::Router(QObject* parent, QPtrVector<element>* elPtr, const char* name):
     QObject(parent, name)
 {
-    selectedRoute = NULL;
-    resetRt = NULL;
-    selectedStartSig = NULL;
+    initVariables();
     gbsElements = elPtr;
-    routeList.setAutoDelete(true);
-    modified = false;
-    visualmode = kvmNormal;
 }
 
 
@@ -59,6 +49,19 @@ Router::~Router()
     routeList.clear();
 }
 
+/*
+ * set all variables to init values
+ */
+void Router::initVariables()
+{
+    selectedRoute = NULL;
+    resetRt = NULL;
+    selectedStartSig = NULL;
+    routeList.setAutoDelete(true);
+    modified = false;
+    serverhasgm = false;
+    visualmode = kvmNormal;
+}
 /*
  * read a new route from file
  * set an id if the route does not have one already
@@ -349,12 +352,12 @@ void Router::startRecordModeAt(unsigned int index)
  * transfer train number from source route to target route and update
  * route data visualization
  */
-void Router::transferTrainNumber(Route* tr)
+void Router::transferTrainNumber(Route* nr)
 {
-    if (tr == NULL)
+    if (nr == NULL)
         return;
 
-    element* signal = tr->getEntrySignalElementPtr();
+    element* signal = nr->getEntrySignalElementPtr();
     if (signal == NULL)
         return;
 
@@ -362,13 +365,58 @@ void Router::transferTrainNumber(Route* tr)
     if (sr == NULL)
         return;
 
-    tr->setTrain(sr->getTrain());
-    emit routeDataChanged(tr);
+    //train number forwarding
+    if (nr->forwardTrainNumber()) {
+        // route
+        // TODO: target = nr->forwardTarget();
+        // switch(target) {
+        if (nr->forwardTargetType() == Route::tntRoute) {
+            if (nr->forwardExternal()) {
+                emit statusMessage(tr("Error forwarding train number: "
+                            "External targets are not supported yet."));
+                //sendGmRouteTrain();
+                //ROUTE <rid> TRAIN <tid>
+            }
+            else {
+                Route* mr = getRouteWithId(nr->forwardTargetId());
+                if (mr == NULL)
+                    emit statusMessage(tr("Error forwarding train number: "
+                            "Unknown route id '%1'")
+                            .arg(nr->forwardTargetId()));
+                else {
+                    mr->setTrain(sr->getTrain());
+                    emit routeDataChanged(mr);
 
-    sr->clearTrain();
-    emit routeDataChanged(sr);
+                    sr->clearTrain();
+                    emit routeDataChanged(sr);
+                    //TODO: send train message (Zugmeldung)
+                    //sendGmTrainSection();
+                    //TRAIN <tid> SECTION <sid>
+                }
+            }
+        }
+        // block
+        else if (nr->forwardTargetType() == Route::tntBlock) {
+            emit statusMessage(tr("Error forwarding train number: "
+                    "Block is not a supported target yet."));
+        }
+        else {
+            emit statusMessage(tr("Error forwarding train number: "
+                    "Unknown target '%1'.").arg(nr->forwardTargetType()));
+        }
+    }
+    // no train number forwarding
+    else {
+        nr->setTrain(sr->getTrain());
+        emit routeDataChanged(nr);
+
+        sr->clearTrain();
+        emit routeDataChanged(sr);
 
     //TODO: send train message (Zugmeldung)
+    //sendGmTrainSection();
+    //TRAIN <tid> SECTION <sid>
+    }
 }
 
 /*
@@ -384,9 +432,12 @@ void Router::processRouteState(Route* rt, int rs)
     switch ((Route::RouteState)rs) {
         case Route::rsUnlocked:
             //TODO: send route state message (scripting)
+            //sendGmRouteState();
+            //ROUTE <rid> STATE 0
             break;
         case Route::rsLocked:
             //TODO: send route state message (scripting)
+            //ROUTE <rid> STATE 1
             emit statusMessage(tr("Route '%1' activated")
                     .arg(rt->getName()));
             break;
@@ -745,3 +796,34 @@ bool Router::editRoute(QWidget* owner, Route* er)
     return isEdited;
 }
 
+/*
+ * set server Generic Messages capabilities
+ */
+void Router::setServerHasGm(bool gm)
+{
+    serverhasgm = gm;
+}
+
+/*
+ * return value for stored server Generic Messages capabilities
+ */
+bool Router::serverHasGm()
+{
+    return serverhasgm;
+}
+
+/*
+ * search for route with specified id
+ */
+Route* Router::getRouteWithId(unsigned int id)
+{
+    QPtrListIterator<Route> it(routeList);
+    Route* rt;
+
+    while ((rt = it.current()) != 0) {
+        ++it;
+        if (rt->getId() == id)
+            return rt;
+    }
+    return NULL;
+}

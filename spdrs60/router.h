@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.h
-                           version 0.5.2 $Revision: 1.26 $
+                           version 0.5.2 $Revision: 1.27 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-04 20:02:17 $
+    last modified        : $Date: 2007-09-09 13:15:31 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -64,6 +64,8 @@ public:
     void releaseRoute(Route*);
     void releaseRouteAt(unsigned int);
     void withdrawRoute(Route*);
+    void setServerHasGm(bool);
+    bool serverHasGm();
 
 public slots:
     void clearRoutes();
@@ -83,11 +85,16 @@ private:
     Route* resetRt;
     element* selectedStartSig;
     bool modified;
+    bool serverhasgm;
     elemVisualMode visualmode;
     GbsButtonState lastcb;
 
+    void initVariables();
     void setupRouteElements();
     void updateRouteElements();
+    Route* getRouteWithId(unsigned int);
+    //Route* getRouteWithSection(unsigned int);
+    //Route* getRouteWithTrain(unsigned int);
     Route* getLockedRouteWithEntrySignal(element*);
     Route* getUnlockedRouteWithEntrySignal(element*, GbsButtonState,
             GbsButtonState);

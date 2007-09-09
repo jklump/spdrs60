@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.5.2 $Revision: 1.34 $
+                           version 0.5.2 $Revision: 1.35 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-04 20:02:17 $
+    last modified        : $Date: 2007-09-09 13:15:31 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -62,6 +62,8 @@ public:
     /* Type of routing action for route path highlighting */
     enum RouteSetAction {rsaReset = 0, rsaZfs, rsaRfs};
         
+    enum TrainNumberTarget {tntRoute = 0, tntBlock};
+
     Route(unsigned int anid,
           RouteType arouteType,
           const QString& aName,
@@ -122,6 +124,10 @@ public:
     void removeElement(element*);
     bool canActivateByFeedbackPort(unsigned int, unsigned int, bool);
     bool canReleaseByFeedbackPort(unsigned int, unsigned int, bool);
+    bool forwardTrainNumber();
+    bool forwardExternal();
+    int forwardTargetId();
+    int forwardTargetType();
     
 signals:
     void stateChanged(Route*, int);
@@ -147,8 +153,15 @@ private:
     int tocounter;
     element* triggerto;
 
+    bool forwardnumber;
+    bool forwardexternal;
+    unsigned int forwardtargetid;
+    TrainNumberTarget forwardtargettype;
+
     /*list with raw item data*/
     QPtrList<stateElement> switchItems;
+
+    void initVariables();
     void updateRouteName();
     void updateRouteType();
     void updateTrainNumberDisplay();
