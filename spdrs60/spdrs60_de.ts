@@ -808,6 +808,34 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <source>Error starting editor &apos;%1&apos;!</source>
         <translation>Fehler beim Starten des Texteditors &apos;%1&apos;!</translation>
     </message>
+    <message>
+        <source>Toggle the history line</source>
+        <translation>Statuszeile umschalten</translation>
+    </message>
+    <message>
+        <source>Status&amp;line</source>
+        <translation>Status&amp;zeile</translation>
+    </message>
+    <message>
+        <source>Show the statusline</source>
+        <translation>Statuszeile anzeigen</translation>
+    </message>
+    <message>
+        <source>&amp;Menu</source>
+        <translation>&amp;Menü</translation>
+    </message>
+    <message>
+        <source>Show the main menu</source>
+        <translation>Das Menü anzeigen</translation>
+    </message>
+    <message>
+        <source>Tool&amp;bars</source>
+        <translation>S&amp;ymbolleisten</translation>
+    </message>
+    <message>
+        <source>Show the toolbars</source>
+        <translation>Symbolleisten anzeigen</translation>
+    </message>
 </context>
 <context>
     <name>MessageHistory</name>
