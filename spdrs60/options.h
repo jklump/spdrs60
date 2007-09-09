@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.h
-                           version 0.5.2 $Revision: 1.19 $
+                           version 0.5.2 $Revision: 1.20 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-07 16:11:31 $
+    last modified        : $Date: 2007-09-09 13:13:38 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -50,7 +50,7 @@ class optionsDialog: public QTabDialog
    Q_OBJECT
 
 public:
-    optionsDialog(QWidget* parent = 0);
+    optionsDialog(QWidget* parent = NULL);
 
     void getPreferences(Preferences&);
     void setPreferences(const Preferences&);
@@ -65,26 +65,26 @@ private:
    bool valuesAreValid();
 
 private slots:
-   void slotGetAutofile();             // select a file to be auto-opened
-   void slotAutoload(bool);            // activate autoload filename lineentry
-   void slotDecoderChanged(int);       // selects new protocol if dec selected
-   void slotProtChanged(int);          // selects new dec if protocol changed
-   void slotLimitModules(int);         // limits no of fb moduls on each bus
+   void slotGetAutofile();
+   void slotAutoload(bool);
+   void slotDecoderChanged(int);
+   void slotProtChanged(int);
+   void slotLimitModules(int);
    void fixFBBusNumbers(int);
    void selectFbModuleType(int);
    void globalBubbleHelpChanged(bool);
 
 private:
-   QCheckBox* cbShowHp2;            // layout shows orange light for Hp2
+   QCheckBox* cbShowHp2;
    QCheckBox* cbShowBlinkingTurnouts;
-   QCheckBox* allwaysSendState;     // send solenoid state on routing
-   QCheckBox* cbGenBubble;          // show general bubble help
-   QCheckBox* cbDataBubble;         // show element data as bubblehelp
-   QCheckBox* cbAutoload;           // activate autoloader
-   QCheckBox* cbAutosave;           // activate autosaver
-   QCheckBox* cbAutoTTDir;          // auto-select turn dir of turntable
-   QCheckBox* cbConvertTime;        // convert SRCP time string
-   QCheckBox* cbShowTime;           // show message time in statusline
+   QCheckBox* allwaysSendState;
+   QCheckBox* cbGenBubble;
+   QCheckBox* cbDataBubble;
+   QCheckBox* cbAutoload;
+   QCheckBox* cbAutosave;
+   QCheckBox* cbAutoTTDir;
+   QCheckBox* cbConvertTime;
+   QCheckBox* cbShowTime;
 
    QCheckBox* sroutestateCB;
    QCheckBox* rroutestateCB;
@@ -93,44 +93,44 @@ private:
    QCheckBox* routetypeCB;
    QCheckBox* tracksectionCB;
 
-   QRadioButton *rbShowAddr;           // show element's address or full text
+   QRadioButton *rbShowAddr;
    QRadioButton *rbShowTxt;
-   QRadioButton *rb16inputs;           // user has feedback modules with
-   QRadioButton *rb8inputs;            // 16 or 8 inputs
+   QRadioButton *rb16inputs;
+   QRadioButton *rb8inputs;
    QRadioButton *fixedBusesRB;
    QRadioButton *flexBusesRB;
-   QRadioButton *rbProtMS;             // default protocol selector
+   QRadioButton *rbProtMS;
    QRadioButton *rbProtNA;
    QRadioButton *rbProtPS;
    QRadioButton *rbProtSE;
-   QRadioButton *rbSignalRed;          // init signals always red or as saved
+   QRadioButton *rbSignalRed;
    QRadioButton *rbSignalLay;
 
-   QSpinBox     *sbActiveTime;         // default activation time for solenoids
-   QSpinBox     *sbDefaultCols;        // no of default new columns
-   QSpinBox     *sbDefaultRows;        // no of default new rows
-   QSpinBox     *sbRoutingTime;        // default delay between to elements in
-                                       // a route
-   QSpinBox     *sbFBmod_1;
-   QSpinBox     *sbFBmod_2;
-   QSpinBox     *sbFBmod_3;
-   QSpinBox     *sbFBmod_4;
+   QSpinBox *sbActiveTime;
+   QSpinBox *sbDefaultCols;
+   QSpinBox *sbDefaultRows;
+   QSpinBox *sbRoutingTime;
 
-   QComboBox    *coboEditor;           // name of file editor
-   QComboBox    *coboDecoder;          // name of default decoder
-   QComboBox    *coboBrowser;          // name of help browser
+   QSpinBox *sbFBmod_1;
+   QSpinBox *sbFBmod_2;
+   QSpinBox *sbFBmod_3;
+   QSpinBox *sbFBmod_4;
 
-   QLineEdit    *leAutoload;           // name entry field for autoload file
-   QLineEdit    *leTTRoundTime;        // time for a whole turntable turn
-   QLineEdit*    bus1LE;
-   QLineEdit*    bus2LE;
-   QLineEdit*    bus3LE;
-   QLineEdit*    bus4LE;
+   QComboBox *coboEditor;
+   QComboBox *coboDecoder;
+   QComboBox *coboBrowser;
 
-   QPushButton  *buttGetAutofile;      // button to select autoload file
+   QLineEdit* leAutoload;
+   QLineEdit* leTTRoundTime;
+   QLineEdit* bus1LE;
+   QLineEdit* bus2LE;
+   QLineEdit* bus3LE;
+   QLineEdit* bus4LE;
+
+   QPushButton* buttGetAutofile;
 
    QButtonGroup* feedbackTypeGB;
-   QGroupBox*    selectrixGB;
+   QGroupBox* selectrixGB;
 };
 
 #endif    //OPTIONSDIALOG_H

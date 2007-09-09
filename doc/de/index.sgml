@@ -239,6 +239,11 @@ Veröffentlicht am --.--.2007
   anwählbar.
   </para></listitem>
   
+  <listitem><para>
+  Der Grenzwert für die maximale Anzahl an Zeilen im Gleisbild wurde von
+  30 auf 120 erhöht.
+  </para></listitem>
+  
 </itemizedlist>
 </sect1>
 

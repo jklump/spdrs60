@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.cpp
-                           version 0.5.2 $Revision: 1.27 $
+                           version 0.5.2 $Revision: 1.28 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-07 16:11:31 $
+    last modified        : $Date: 2007-09-09 13:13:38 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -34,9 +34,11 @@
 #include "resources.h"
 
 
-optionsDialog::optionsDialog(QWidget* parent)
-: QTabDialog(parent, "optionsDialog", true)
+optionsDialog::optionsDialog(QWidget* parent): QTabDialog(parent,
+        "optionsDialog", true)
 {
+    setCaption(tr("User preferences"));
+
     setupLayoutTab();
     setupElementTab();
     setupDigitalTab();
@@ -44,7 +46,6 @@ optionsDialog::optionsDialog(QWidget* parent)
     setupFeedbackTypeTab();
     setupGenericMessagesTab();
 
-    setCaption(tr("User preferences"));
     setOKButton();
     setCancelButton();
 }
