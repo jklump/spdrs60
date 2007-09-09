@@ -2,8 +2,8 @@
  * serverinfodialog.h
  * --------------------
  * Begin        : 2007-08-22
- * Last modified: $Date: 2007-09-04 19:27:47 $
- *                $Revision: 1.2 $
+ * Last modified: $Date: 2007-09-09 17:36:51 $
+ *                $Revision: 1.3 $
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Description  : Dialog window to display SRCP server information
@@ -36,7 +36,7 @@ public:
 
     // for new style
     void setCommandSessionData(const QString&, const QString&,
-                       const QString&, unsigned int);
+                       const QString&, unsigned int, bool);
     void setInfoSessionData(const QString&, const QString&,
                        const QString&, unsigned int);
     // for old style
@@ -49,6 +49,7 @@ private:
     QLabel* cmdSrcpLbl;
     QLabel* cmdSrcpOtherLbl;
     QLabel* cmdSessionIdLbl;
+    QLabel* cmdGmLbl;
 
     QLabel* infoServerLbl;
     QLabel* infoSrcpLbl;

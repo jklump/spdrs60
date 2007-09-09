@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.122 $
+                           version 0.5.2 $Revision: 1.123 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-09 13:15:31 $
+    last modified        : $Date: 2007-09-09 17:36:51 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2514,9 +2514,10 @@ void MainWindow::slotDaemonInfo()
                     commandPort->getSrcpServer(),
                     commandPort->getSrcpVersion(),
                     commandPort->getSrcpOther(),
-                    commandPort->getSessionId());
+                    commandPort->getSessionId(),
+                    router->serverHasGm());
         else
-            sid->setCommandSessionData(tr("Not connected"), "", "", 0); 
+            sid->setCommandSessionData(tr("Not connected"), "", "", 0, false); 
 
         if (infoPort->hasServerConnection())
             sid->setInfoSessionData(

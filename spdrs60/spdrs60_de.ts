@@ -1343,6 +1343,18 @@ pick up this information so update its route.</source>
         <source>Additional ports</source>
         <translation>Weitere Kanäle</translation>
     </message>
+    <message>
+        <source>Generic Messages:</source>
+        <translation>Standardnachrichten</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Ja</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>Nein</translation>
+    </message>
 </context>
 <context>
     <name>SrcpPort</name>

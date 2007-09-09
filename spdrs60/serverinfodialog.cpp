@@ -2,8 +2,8 @@
  * serverinfodialog.cpp
  * --------------------
  * Begin        : 2007-08-22
- * Last modified: $Date: 2007-09-04 19:27:47 $
- *                $Revision: 1.2 $
+ * Last modified: $Date: 2007-09-09 17:36:51 $
+ *                $Revision: 1.3 $
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Description  : Dialog window to display SRCP server information
@@ -38,7 +38,7 @@ ServerInfoDialog::ServerInfoDialog(SrcpPort::CommunicationStyle style,
     baseLayout->addWidget(commandGB);
 
     // grid layout with 4 rows and 2 columns
-    QGridLayout* cmdLayout = new QGridLayout(commandGB->layout(), 4, 2, 10,
+    QGridLayout* cmdLayout = new QGridLayout(commandGB->layout(), 5, 2, 10,
             "cmdLayout");
     
     // 1. line
@@ -69,6 +69,14 @@ ServerInfoDialog::ServerInfoDialog(SrcpPort::CommunicationStyle style,
     cmdSessionIdLbl = new QLabel("", commandGB);
     cmdLayout->addWidget(cmdSessionIdLbl, 3, 1);
     cmdSessionIdLbl->setHidden(SrcpPort::csOld == style);
+
+    // 5. line
+    label = new QLabel(tr("Generic Messages:"), commandGB);
+    cmdLayout->addWidget(label, 4, 0);
+    label->setHidden(SrcpPort::csOld == style);
+    cmdGmLbl = new QLabel("No", commandGB);
+    cmdLayout->addWidget(cmdGmLbl, 4, 1);
+    cmdGmLbl->setHidden(SrcpPort::csOld == style);
 
 
     // info session groupbox
@@ -147,12 +155,17 @@ ServerInfoDialog::ServerInfoDialog(SrcpPort::CommunicationStyle style,
  */
 void ServerInfoDialog::setCommandSessionData(const QString& server,
         const QString& srcp, const QString& srcpother,
-        unsigned int sessionid)
+        unsigned int sessionid, bool gm)
 {
     cmdServerLbl->setText(server);
     cmdSrcpLbl->setText(srcp);
     cmdSrcpOtherLbl->setText(srcpother);
     cmdSessionIdLbl->setText(QString::number(sessionid));
+
+    if (gm)
+        cmdGmLbl->setText(tr("Yes"));
+    else
+        cmdGmLbl->setText(tr("No"));
 };
 
 /*
