@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60 documentation
 # last changes by: Guido Scholz
-# Version: $Revision: 1.14 $
-# last update: $Date: 2007-02-23 16:40:01 $
+# Version: $Revision: 1.15 $
+# last update: $Date: 2007-09-09 13:08:02 $
 
 # HTML_DOC_DIR is defined in configure.ac
 htmldir = @HTML_DOC_DIR@
@@ -238,6 +238,7 @@ dist_commonimages_DATA = \
 dist_html_DATA = spdrs60.css 
 
 
+if HTML_DOC
 enhtml_DATA = \
 	en/index.html \
 	en/sect-changes.html \
@@ -250,8 +251,11 @@ enhtml_DATA = \
 	en/sect-routes.html \
 	en/sect-symbols.html \
 	en/sect-usage.html
+else
+enhtml_DATA =
+endif
 
-
+if HTML_DOC
 dehtml_DATA = \
 	de/index.html \
 	de/sect-aenderungen.html \
@@ -314,6 +318,9 @@ dehtml_DATA = \
 	de/ver-0.5.1.html \
 	de/ver-0.5.2.html
 
+else
+dehtml_DATA =
+endif
 
 tex_files = \
     de/index.tex de/index.dvi de/index.out de/index.log \
@@ -338,6 +345,9 @@ EXTRA_DIST = en/index.sgml de/index.sgml \
 # Sprache aus den ersten zwei Zeichen von "Target" ermitteln, 
 # entsprechend den Unterverzeichnissen der sgml-Dateien
 
+# use jade rules only if html documentation is enabled
+if HTML_DOC
+
 en/index.html: en/index.sgml $(dist_commonimages_DATA) $(dist_enimages_DATA) spdrs60.dsl
 	cd en; $(JADE) -b ISO-8859-1 -t sgml -i html -d "../spdrs60.dsl#html" index.sgml; cd ..
 
@@ -350,6 +360,7 @@ de/index.html: de/index.sgml $(dist_commonimages_DATA) $(dist_deimages_DATA) spd
 de/index.tex: de/index.sgml $(dist_commonimages_DATA) $(dist_deimages_DATA) spdrs60.dsl
 	cd de; $(JADE) -b ISO-8859-1 -t tex -d "../spdrs60.dsl#print" index.sgml; cd ..
 
-# tis is not complete, just a shortcut to generate a pdf handbook
+# this is not complete, just a shortcut to generate a pdf handbook
 pdf: de/index.tex
 	cd de; pdfjadetex index.tex; cd ..
+endif

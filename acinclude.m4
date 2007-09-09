@@ -757,6 +757,7 @@ cat >> conftest.$ac_ext <<EOF
 EOF
 ])
 
+
 AC_DEFUN([KDE_USE_QT],
 [
 if test -z "$1"; then
@@ -785,17 +786,17 @@ if test -z "$2"; then
   fi
   if test "$kde_qtver" = "3"; then
     if test $kde_qtsubver -gt 0; then
-	 if test $kde_qtsubver -gt 1; then
-	    if test $kde_qtsubver -gt 2; then
-		kde_qt_minversion=">= Qt 3.3"
-	    else
-	        kde_qt_minversion=">= Qt 3.2"
-	    fi
-	 else
-            kde_qt_minversion=">= Qt 3.1 (20021021)"
+         if test $kde_qtsubver -gt 1; then
+            if test $kde_qtsubver -gt 2; then
+                kde_qt_minversion=">= Qt 3.3 and < 4.0"
+            else
+                kde_qt_minversion=">= Qt 3.2 and < 4.0"
+            fi
+         else
+            kde_qt_minversion=">= Qt 3.1 (20021021) and < 4.0"
          fi
     else
-      kde_qt_minversion=">= Qt 3.0"
+      kde_qt_minversion=">= Qt 3.0 and < 4.0"
     fi
   fi
   if test "$kde_qtver" = "1"; then
@@ -808,11 +809,11 @@ fi
 if test -z "$3"; then
    if test $kde_qtver = 3; then
      if test $kde_qtsubver -gt 0; then
-       kde_qt_verstring="QT_VERSION >= 0x03@VER@00"
+       kde_qt_verstring="QT_VERSION >= 0x03@VER@00 && QT_VERSION < 0x040000"
        qtsubver=`echo "00$kde_qtsubver" | sed -e 's,.*\(..\)$,\1,'`
        kde_qt_verstring=`echo $kde_qt_verstring | sed -e "s,@VER@,$qtsubver,"`
      else
-       kde_qt_verstring="QT_VERSION >= 300"
+       kde_qt_verstring="QT_VERSION >= 300 && QT_VERSION < 0x040000"
      fi
    fi
    if test $kde_qtver = 2; then
@@ -829,6 +830,9 @@ else
    kde_qt_verstring="$3"
 fi
 
+if test $kde_qtver = 4; then
+  kde_qt_dirs="$QTDIR /usr/lib/qt4 /usr/lib/qt /usr/share/qt4"
+fi
 if test $kde_qtver = 3; then
   kde_qt_dirs="$QTDIR /usr/lib/qt3 /usr/lib/qt /usr/share/qt3"
 fi
@@ -839,6 +843,7 @@ if test $kde_qtver = 1; then
    kde_qt_dirs="$QTDIR /usr/lib/qt"
 fi
 ])
+
 
 AC_DEFUN([KDE_CHECK_QT_DIRECT],
 [
@@ -1075,7 +1080,7 @@ qt_libdirs=""
 for dir in $kde_qt_dirs; do
    qt_libdirs="$qt_libdirs $dir/lib${kdelibsuff} $dir"
 done
-qt_libdirs="$QTLIB $qt_libdirs /usr/X11R6/lib /usr/lib /usr/lib/qt3/lib64 /usr/local/qt/lib $x_libraries"
+qt_libdirs="$QTLIB $qt_libdirs /usr/X11R6/lib /usr/lib /usr/local/qt/lib $x_libraries"
 if test ! "$ac_qt_libraries" = "NO"; then
   qt_libdir=$ac_qt_libraries
 else
@@ -2191,17 +2196,27 @@ AC_DEFUN([KDE_ADD_DEPENDENCIES],
 
 AC_DEFUN([KDE_CHECK_LIB64],
 [
-    kdelibsuff="$kde_libs_suffix"
-    if test -z "$kdelibsuff"; then
-       kdelibsuff=no
-    fi
     AC_ARG_ENABLE(libsuffix,
         AC_HELP_STRING([--enable-libsuffix],
-            [/lib directory suffix (64,32,none[=default])]),
-            kdelibsuff=$enableval)
-    # TODO: add an auto case that compiles a little C app to check
-    # where the glibc is
-    if test "$kdelibsuff" = "no"; then
+            [/lib directory suffix (64,32,none,auto[=default])]),
+            kdelibsuff=$enableval, kdelibsuff="auto")
+    
+    if test "$kdelibsuff" = "auto"; then
+    
+cat > conftest.c << EOF
+#include <stdio.h>
+int main() {
+ return 0;
+}
+EOF
+        kdelibsuff=`$CC conftest.c -o conftest.out; ldd conftest.out |sed -ne '/libc.so/{
+    s,.*/lib\([[^\/]]*\)/.*,\1, 
+    p 
+}'`
+        rm -rf conftest.*
+    fi  
+        
+    if test "$kdelibsuff" = "no" || test "$kdelibsuff" = "none"; then
        kdelibsuff=
     fi
     if test -z "$kdelibsuff"; then
@@ -2216,6 +2231,7 @@ AC_DEFUN([KDE_CHECK_LIB64],
         AC_MSG_RESULT([using lib directory suffix $kdelibsuff])
     fi
 ])
+
 
 AC_DEFUN([KDE_CHECK_TYPES],
 [  AC_CHECK_SIZEOF(int, 4)dnl

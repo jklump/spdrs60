@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.21 $
-# last update: $Date: 2007-09-02 17:48:15 $
+# version: $Revision: 1.22 $
+# last update: $Date: 2007-09-09 13:08:03 $
 
 SUBDIRS = pixmaps
 
@@ -100,6 +100,10 @@ translated_source_files = \
 	turntablecommander.cpp
 
 
+# list here all files containing string translations
+translatedstrings = spdrs60_de.ts
+
+
 spdrs60_LDADD = @LIB_QT@
 
 # the library search path. 
@@ -114,12 +118,14 @@ TRANSLATE_DEF = -DQT_TRANSLATIONS_DIR=\"@QT_TRANSLATIONS_DIR@\"
 endif
 AM_CXXFLAGS = $(TRANSLATE_DEF) -Wall
 
-EXTRA_DIST = spdrs60_de.ts spdrs60.pro
+EXTRA_DIST = spdrs60.pro $(translatedstrings)
 
 pkgdata_DATA = spdrs60_de.qm
 
 # all generated files are removed by "make clean"
 CLEANFILES = $(nodist_spdrs60_SOURCES) $(pkgdata_DATA)
+
+SUFFIXES = .qm .ts
 
 # rule for moc-file generation (moc_% conflicts with 'lupdate')
 %.moc.cpp: %.h
@@ -128,10 +134,10 @@ CLEANFILES = $(nodist_spdrs60_SOURCES) $(pkgdata_DATA)
 # rule for translation file generation
 # lrelease 3.0 does not understand option -qm
 if LRELEASE_QM
-%.qm: %.ts
+.ts.qm: $(translatedstrings)
 	$(LRELEASE) -verbose $< -qm $@
 else
-%.qm: %.ts
+.ts.qm: $(translatedstrings)
 	$(LRELEASE) -verbose spdrs60.pro
 endif
 

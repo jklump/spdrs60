@@ -1,7 +1,7 @@
 dnl configure.ac for spdrs60
 dnl Guido Scholz
-dnl last update: $Date: 2007-08-29 17:09:30 $
-dnl version: $Revision: 1.20 $
+dnl last update: $Date: 2007-09-09 13:08:00 $
+dnl version: $Revision: 1.21 $
 dnl Process this file with autoconf to produce a configure script.
 
 AC_INIT([spdrs60],[0.5.3],[Guido Scholz <guido.scholz@bayernline.de>])
@@ -23,26 +23,23 @@ dnl if test "x$CFLAGS" = "x"; then CFLAGS="-Wall"; fi
 
 dnl Checks for programs
 AC_PROG_CXX
-AC_PROG_AWK
 
-dnl skip html doc generation 
+
+dnl option to skip html doc generation 
 AC_ARG_ENABLE(html-doc, AC_HELP_STRING([--disable-html-doc],
             [disable building and installation of html documentation]),, enable_html_doc=yes)
 
-HTML_DOC=doc
-if test x$enable_html_doc = xno; then
-  HTML_DOC=
-else
+AM_CONDITIONAL(HTML_DOC, test x${enable_html_doc} = xyes)
+if test x$enable_html_doc = xyes; then
 
-  dnl check for jade or openjade
+    dnl check for jade or openjade to generate html documentation
   AC_PATH_PROGS(JADE, jade openjade, no)
-  if test "$JADE" = "no" ; then
+  if test "x$JADE" = "xno" ; then
     AC_MSG_ERROR(
       [cannot find 'jade' or 'openjade', please install the adequate package.])
   fi
 
 fi
-AC_SUBST(HTML_DOC)
 
 dnl AC_REQUIRE([KDE_CHECK_EXTRA_LIBS])
 all_libraries="$all_libraries $USER_LDFLAGS"
@@ -58,14 +55,14 @@ dnl TODO: check for QTDIR
 
 dnl check for lupdate
 AC_PATH_PROG(LUPDATE, lupdate, no, [$PATH:$QTDIR/bin])
-if test "$LUPDATE" = "no" ; then
+if test "x$LUPDATE" = "xno" ; then
   AC_MSG_ERROR(
     [cannot find 'lupdate', please install the Qt development tools package.])
 fi
 
 dnl check for lrelease
 AC_PATH_PROG(LRELEASE, lrelease, no, [$PATH:$QTDIR/bin])
-if test "$LRELEASE" = "no" ; then
+if test "x$LRELEASE" = "xno" ; then
   AC_MSG_ERROR(
     [cannot find 'lrelease', please install the Qt development tools package.])
 else
