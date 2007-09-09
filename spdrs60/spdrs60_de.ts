@@ -804,6 +804,10 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <source>Info port connected with new communication style.</source>
         <translation>Info-Kanal mit neuem Kommunikationsstil verbunden.</translation>
     </message>
+    <message>
+        <source>Error starting editor &apos;%1&apos;!</source>
+        <translation>Fehler beim Starten des Texteditors &apos;%1&apos;!</translation>
+    </message>
 </context>
 <context>
     <name>MessageHistory</name>
@@ -913,14 +917,6 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <translation>Fahrstraße bearbeiten</translation>
     </message>
     <message>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Abbrechen</translation>
-    </message>
-    <message>
         <source>Na&amp;me</source>
         <translation>&amp;Name</translation>
     </message>
@@ -983,10 +979,6 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     <message>
         <source>Route elements</source>
         <translation>Fahrstraßenelemente</translation>
-    </message>
-    <message>
-        <source>SRCP-Bus</source>
-        <translation>SRCP-Bus</translation>
     </message>
     <message>
         <source>&amp;Add</source>
@@ -1089,6 +1081,52 @@ The valid range is %1 to %2.</source>
         <translation>Hier eine eindeutige Zahl zur Identifikation des
 Zugs eingeben, der augenblicklich die Fahrstraße belegt.
 Erlaubt sind Werte von %1 bis %2.</translation>
+    </message>
+    <message>
+        <source>&amp;Route</source>
+        <translation>&amp;Fahrstraße</translation>
+    </message>
+    <message>
+        <source>&amp;Block</source>
+        <translation>&amp;Streckenblock</translation>
+    </message>
+    <message>
+        <source>&amp;Number (Id)</source>
+        <translation>&amp;Nummer (Id)</translation>
+    </message>
+    <message>
+        <source>Target type</source>
+        <translation>Empfänger der Nummer</translation>
+    </message>
+    <message>
+        <source>Train number &amp;forwarding</source>
+        <translation>Zugnummerweiterleitung</translation>
+    </message>
+    <message>
+        <source>Bus</source>
+        <translation>Bus</translation>
+    </message>
+    <message>
+        <source>Target identification</source>
+        <translation>Identifikationsnummer des Empfängers</translation>
+    </message>
+    <message>
+        <source>General options</source>
+        <translation>Allgemeine Einstellungen</translation>
+    </message>
+    <message>
+        <source>&amp;Activate train number forwarding</source>
+        <translation>&amp;Zgnummerweiterleitung aktivieren</translation>
+    </message>
+    <message>
+        <source>Send a Generic Message with route id and
+train id, so an interessted interlocking can
+pick up this information so update its route.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send train number to adjacent &amp;interlocking</source>
+        <translation>Zugnummer an benachbartes &amp;Stellwerk senden</translation>
     </message>
 </context>
 <context>
@@ -1233,6 +1271,22 @@ Erlaubt sind Werte von %1 bis %2.</translation>
     <message>
         <source>Route &apos;%1&apos; withdrawn</source>
         <translation>Fahrstraße &apos;%1&apos; zurückgenommen</translation>
+    </message>
+    <message>
+        <source>Error forwarding train number: Unknown route id &apos;%1&apos;</source>
+        <translation>Fehler beim Weiterleiten der Zugnummer: Unbekannte Fahrstraßennummer &apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>Error forwarding train number: Block is not a supported target yet.</source>
+        <translation>Fehler beim Weiterleiten der Zugnummer: Streckenblock wird als Ziel noch nicht unterstüzt</translation>
+    </message>
+    <message>
+        <source>Error forwarding train number: Unknown target &apos;%1&apos;.</source>
+        <translation>Fehler beim Weiterleiten der Zugnummer: Unbekanntes Ziel &apos;%1&apos;.</translation>
+    </message>
+    <message>
+        <source>Error forwarding train number: External targets are not supported yet.</source>
+        <translation>Fehler beim Weiterleiten der Zugnummer: Externe Ziele werden noch nicht unterstüzt.</translation>
     </message>
 </context>
 <context>
@@ -2082,6 +2136,75 @@ ein Modul an Bus Nr. 1 angeschlossen ist.</translation>
     <message>
         <source>Show help bubbles for element &amp;data</source>
         <translation>Tooltips für Daten der Gleisbildelemente anzeigen</translation>
+    </message>
+    <message>
+        <source>Generic &amp;messages</source>
+        <translation>Generische &amp;Meldungen</translation>
+    </message>
+    <message>
+        <source>Dynamic route data</source>
+        <translation>Dynamische Fahrstraßendaten</translation>
+    </message>
+    <message>
+        <source>Static route data</source>
+        <translation>Statische Fahrstraßendaten</translation>
+    </message>
+    <message>
+        <source>Enable route &amp;type editing</source>
+        <translation>Verändern des &amp;Fahrstraßentyps erlauben</translation>
+    </message>
+    <message>
+        <source>Enable track &amp;section editing</source>
+        <translation>Ändern des &amp;Streckenabschnitts erlauben</translation>
+    </message>
+    <message>
+        <source>Send train &amp;number messages</source>
+        <translation>Versand von &amp;Zugmeldungen aktivieren</translation>
+    </message>
+    <message>
+        <source>Pro&amp;cess incoming route state change messages</source>
+        <translation>Eingehende &amp;Änderungen zum Fahrstraßenstatus bearbeiten</translation>
+    </message>
+    <message>
+        <source>&amp;Process incoming train number messages</source>
+        <translation>Eingehende Zug&amp;nummeränderungen entgegennehmen</translation>
+    </message>
+    <message>
+        <source>Send a state change message when a route is released or
+successfully activated. This is typically used for scripting.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Process incoming state change messages to release or
+activate routes. This is typically used for scripting.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send a generic message when a train number is assigned
+to a new route. This is used for train tracking.</source>
+        <translation>Eine Standardnachricht versenden, wenn eine
+Zugnummer einer neuen Fahrstraße zugewiesen wird. Das
+wird in der Regel für eine Zugverfolgung benötigt.</translation>
+    </message>
+    <message>
+        <source>Process a generic message assigning a new train number to a
+route (SET) or requesting the currently used train number (GET).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Process a generic message assigning a new type to a
+route (SET) or requesting the currently used type (GET).
+This is used as a CRCF service example.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Process a generic message assigning a new section number to a
+route (SET) or requesting the currently used section number (GET).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>S&amp;end route state change messages</source>
+        <translation>Änderungen von Fa&amp;hrstraßenstati melden</translation>
     </message>
 </context>
 <context>
