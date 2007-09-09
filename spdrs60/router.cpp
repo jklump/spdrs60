@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.2 $Revision: 1.51 $
+                           version 0.5.2 $Revision: 1.52 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-09 13:15:31 $
+    last modified        : $Date: 2007-09-09 13:45:42 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -389,6 +389,8 @@ void Router::transferTrainNumber(Route* nr)
 
                     sr->clearTrain();
                     emit routeDataChanged(sr);
+
+                    modified = true;
                     //TODO: send train message (Zugmeldung)
                     //sendGmTrainSection();
                     //TRAIN <tid> SECTION <sid>
@@ -413,6 +415,7 @@ void Router::transferTrainNumber(Route* nr)
         sr->clearTrain();
         emit routeDataChanged(sr);
 
+        modified = true;
     //TODO: send train message (Zugmeldung)
     //sendGmTrainSection();
     //TRAIN <tid> SECTION <sid>

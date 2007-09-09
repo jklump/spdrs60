@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.5.2 $Revision: 1.42 $
+                           version 0.5.2 $Revision: 1.43 $
                            -------------------------------
     copyright            : (C) 2005-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-09 13:15:31 $
+    last modified        : $Date: 2007-09-09 13:45:42 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -39,8 +39,12 @@ RouteDialog::RouteDialog(QWidget* parent): QTabDialog(parent,
 
     startSignalElPtr = NULL;
     stopSignalElPtr = NULL;
+
     // Validator for all bus input lines
     busValidator = new QIntValidator(1, 999, this);
+    // Validator for route id and train number
+    routeValidator = new QIntValidator(0, 99999, this);
+
 
     addIdentificationTab();
     addElementsTab();
@@ -76,9 +80,6 @@ void RouteDialog::addIdentificationTab()
     routeNameLE = new QLineEdit(identificationGB, "routeNameLE");
     lblRouteName->setBuddy(routeNameLE);
     nameLayout->addWidget(routeNameLE);
-
-    // Validator for route id and train number
-    QIntValidator* routeValidator = new QIntValidator(0, 99999, this);
 
     /*line with numerical id*/
     QHBoxLayout* numberLayout = new QHBoxLayout(identificationGBL, 6);
@@ -613,7 +614,7 @@ void RouteDialog::addTrainNumberForwardingTab()
                 QSizePolicy::Expanding, QSizePolicy::Minimum));
     forwardidLE = new QLineEdit("1", targetidGB, "forwardidLE");
     forwardidLE->setMaximumWidth(LEMAXWIDTH);
-    //forwardidLE->setValidator(busValidator);
+    forwardidLE->setValidator(routeValidator);
     numberLbl->setBuddy(forwardidLE);
     targetidLayout->addWidget(forwardidLE);
 
