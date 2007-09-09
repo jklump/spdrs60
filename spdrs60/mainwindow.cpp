@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.123 $
+                           version 0.5.2 $Revision: 1.124 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-09 17:36:51 $
+    last modified        : $Date: 2007-09-09 18:29:00 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -785,7 +785,6 @@ void MainWindow::initMainWindow()
     viewtb->setLabel(tr("View operations"));
 
     QPopupMenu* viewmenu = new QPopupMenu(this);
-    //viewmenu = new QPopupMenu(this);
     menuBar()->insertItem(tr("&View"), viewmenu);
 
 #if QT_VERSION >= 0x030200
@@ -862,19 +861,23 @@ void MainWindow::initMainWindow()
     
 #if QT_VERSION >= 0x030200
     actionViewLayoutEditMode = new QAction(QPixmap(viewlayouteditmode_xpm),
-            tr("&Layout edit mode"), Qt::CTRL + Qt::Key_E, ViewGrp, "layouteditmode");
+            tr("&Layout edit mode"), Qt::CTRL + Qt::Key_E, ViewGrp,
+            "layouteditmode");
 #else
     actionViewLayoutEditMode = new QAction("", QPixmap(viewlayouteditmode_xpm),
-            tr("&Layout edit mode"), Qt::CTRL + Qt::Key_E, ViewGrp, "layouteditmode");
+            tr("&Layout edit mode"), Qt::CTRL + Qt::Key_E, ViewGrp,
+            "layouteditmode");
 #endif
     actionViewLayoutEditMode->setToggleAction(true);
     
 #if QT_VERSION >= 0x030200
     actionViewRouteEditMode = new QAction(QPixmap(viewrouteeditmode_xpm),
-            tr("&Route edit mode"), Qt::CTRL + Qt::Key_B, ViewGrp, "routeeditmode");
+            tr("&Route edit mode"), Qt::CTRL + Qt::Key_B, ViewGrp,
+            "routeeditmode");
 #else
     actionViewRouteEditMode = new QAction("", QPixmap(viewrouteeditmode_xpm),
-            tr("&Route edit mode"), Qt::CTRL + Qt::Key_B, ViewGrp, "routeeditmode");
+            tr("&Route edit mode"), Qt::CTRL + Qt::Key_B, ViewGrp,
+            "routeeditmode");
 #endif
     actionViewRouteEditMode->setToggleAction(true);
     
@@ -884,12 +887,52 @@ void MainWindow::initMainWindow()
     viewmenu->insertSeparator();
 
 #if QT_VERSION >= 0x030200
+    QAction* actionViewMenu = new QAction(NULL,
+            tr("&Menu"), Qt::CTRL + Qt::Key_U, this, "viewMenu");
+    actionViewMenu->setToolTip(tr("Show the main menu"));
+#else
+    actionViewMenu = new QAction(tr("Show the main menu"),
+            tr("&Menu"), Qt::CTRL + Qt::Key_U, this, "viewMenu");
+#endif
+    actionViewMenu->setToggleAction(true);
+    actionViewMenu->setOn(true);
+    actionViewMenu->addTo(viewmenu);
+    connect(actionViewMenu, SIGNAL(toggled(bool)), menuBar(),
+            SLOT(setShown(bool)));
+
+#if QT_VERSION >= 0x030200
+    QAction* actionViewToolbar = new QAction(NULL,
+            tr("Tool&bars"), 0, this, "viewToolbar");
+    actionViewToolbar->setToolTip(tr("Show the toolbars"));
+#else
+    actionViewToolbar = new QAction(tr("Show the toolbars"),
+            tr("Tool&bars"), 0, this, "viewToolbar");
+#endif
+    actionViewToolbar->setToggleAction(true);
+    actionViewToolbar->setOn(true);
+    actionViewToolbar->addTo(viewmenu);
+
+#if QT_VERSION >= 0x030200
+    QAction* actionViewStatusline = new QAction(NULL,
+            tr("Status&line"), 0, this, "viewStatusline");
+    actionViewStatusline->setToolTip(tr("Show the statusline"));
+#else
+    actionViewStatusline = new QAction(tr("Show the statusline"),
+            tr("Status&line"), 0, this, "viewStatusline");
+#endif
+    actionViewStatusline->setToggleAction(true);
+    actionViewStatusline->setOn(true);
+    connect(actionViewStatusline, SIGNAL(toggled(bool)), messageHistory,
+            SLOT(setShown(bool)));
+    actionViewStatusline->addTo(viewmenu);
+
+#if QT_VERSION >= 0x030200
     actionViewToggleHistory = new QAction(NULL,
             tr("Toggle &history line"), Qt::CTRL + Qt::Key_D, // Ctrl H/T
             this, "viewToggleHistory");
-    actionViewToggleHistory->setToolTip(tr("Show basic keyboard"));
+    actionViewToggleHistory->setToolTip(tr("Toggle the history line"));
 #else
-    actionViewToggleHistory = new QAction(tr("Show basic keyboard"),
+    actionViewToggleHistory = new QAction(tr("Toggle the history line"),
             tr("Toggle &history line"), Qt::CTRL + Qt::Key_D, // Ctrl H/T
             this, "viewToggleHistory");
 #endif
@@ -1293,6 +1336,19 @@ void MainWindow::initMainWindow()
             this, SLOT(slotAbout()));
     helpmenu->insertItem(tr("About &Qt..."), this, SLOT(slotAboutQt()));
 
+    // connect all toolbars to be hidable
+    connect(actionViewToolbar, SIGNAL(toggled(bool)), filetb,
+            SLOT(setShown(bool)));
+    connect(actionViewToolbar, SIGNAL(toggled(bool)), edittb,
+            SLOT(setShown(bool)));
+    connect(actionViewToolbar, SIGNAL(toggled(bool)), viewtb,
+            SLOT(setShown(bool)));
+    connect(actionViewToolbar, SIGNAL(toggled(bool)), daemontb,
+            SLOT(setShown(bool)));
+    connect(actionViewToolbar, SIGNAL(toggled(bool)), layouttb,
+            SLOT(setShown(bool)));
+    //connect(actionViewHideToolbar, SIGNAL(toggled(bool)), routetb,
+    //        SLOT(setShown(bool)));
 
     resetMenu(); //may be is obsolete
 

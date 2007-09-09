@@ -1,3 +1,7 @@
+2007-09-09 Guido Scholz <guido.scholz@bayernline.de>
+	* mainwindow.cpp: Menu, toolbars and statusline are made hidable
+	by menu actions, Ctrl-U will bring a hidden menu back.
+
 2007-09-05 Guido Scholz <guido.scholz@bayernline.de>
 	* mainwindow.*, keyboard.*: Option for protocol selection added,
 	binary srcp messages, SRCP 0.8 messages also send INIT.
