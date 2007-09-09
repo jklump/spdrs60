@@ -1,11 +1,11 @@
 /***************************************************************************
                            routedialog.h
-                           version 0.5.2 $Revision: 1.24 $
+                           version 0.5.2 $Revision: 1.25 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-09 13:15:31 $
+    last modified        : $Date: 2007-09-09 14:40:26 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -102,7 +102,8 @@ signals:
 protected:
 
 private:
-   QValidator*   busValidator;
+   QIntValidator*   busValidator;
+   QIntValidator*   routeValidator;
    
    element* startSignalElPtr;
    element* stopSignalElPtr;
