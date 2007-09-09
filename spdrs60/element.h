@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.2 $Revision: 1.67 $
+                           version 0.5.2 $Revision: 1.68 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-30 19:53:02 $
+    last modified        : $Date: 2007-09-09 14:35:56 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -333,6 +333,7 @@ private:
     void setRouted(bool);
     void updateEDiTSAddress(unsigned int, bool);
     void updateFeedbackState();
+    void switchAddress(bool);
 
 public slots:
     void runTurnoutBlinkTimer();

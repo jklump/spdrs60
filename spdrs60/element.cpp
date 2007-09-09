@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.2 $Revision: 1.132 $
+                           version 0.5.2 $Revision: 1.133 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-08 11:44:40 $
+    last modified        : $Date: 2007-09-09 14:35:56 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -649,14 +649,8 @@ void element::switchVisualMode(elemVisualMode vm)
 }
 
 
-void element::sendSrcpState()
+void element::switchAddress(bool secondone)
 {
-    /* do not send anything for rail buttons without signals */
-    if (sSoldIcon == SYM_SRB || sSoldIcon == SYM_NRB)
-        return;
-
-    bool bSwitchSecondAddress = false;
-        
     // default copy of direction + address
     int iRealDirection = iSoldDirection;
     int iRealAddress = iSoldAddress_1;
@@ -698,97 +692,110 @@ void element::sendSrcpState()
 
     // element contains a 3-way-turnout
     else if (sSoldIcon == SYM_DRW) {
-        switch (bSwitchSecondAddress) {
-            case false:            // send first address data
-                iRealDirection = iSoldDirection % 2;
-                break;
-            case true:             // send second address data
-                iRealDirection = (iSoldDirection > 1);
-                iRealAddress = iSoldAddress_2;
-                iRealBus = iGA2BusNo;
-                break;
+
+        // send second address data
+        if (secondone) {
+            iRealDirection = (iSoldDirection > 1);
+            iRealAddress = iSoldAddress_2;
+            iRealBus = iGA2BusNo;
+        }
+        // send first address data
+        else {
+            iRealDirection = iSoldDirection % 2;
         }
     }
 
     // element contains a 4-state-DKW or EKW
     else if ((sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR) ||
-             ((sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) &&
-              iSoldSubType == 1)) {
-        switch (bSwitchSecondAddress) {
-            case false:            // send first address data
-                iRealDirection = (iSoldDirection >= 2);
-                break;
-            case true:             // send second address data
-                iRealDirection = (iSoldDirection == 1 || iSoldDirection == 2);
-                iRealAddress = iSoldAddress_2;
-                iRealBus = iGA2BusNo;
-                break;
+            ((sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) &&
+             iSoldSubType == 1)) {
+
+        // send second address data
+        if (secondone) {
+            iRealDirection = (iSoldDirection == 1 || iSoldDirection == 2);
+            iRealAddress = iSoldAddress_2;
+            iRealBus = iGA2BusNo;
+        }
+        // send first address data
+        else {
+            iRealDirection = (iSoldDirection >= 2);
         }
     }
 
-    if (protocol != SrcpMessage::proNone) {
+    if (protocol == SrcpMessage::proNone)
+        return;
 
-        /*
-         * The calculated real direction to be sent is modified
-         * again if you electronically changed your decoder
-         * outputs of one address.
-         */
-        if (sSoldIcon != SYM_DRE) {
+    /*
+     * The calculated real direction to be sent is modified
+     * again if you electronically changed your decoder
+     * outputs of one address.
+     */
+    if (sSoldIcon != SYM_DRE) {
+        if (iRealAddress == iSoldAddress_1)
+            iRealDirection = iRealDirection ^ iSoldChangeConn[0];
+        if (iRealAddress == iSoldAddress_2)
+            iRealDirection = iRealDirection ^ iSoldChangeConn[1];
+    }
+
+    int port = 0;
+    int value = 0;
+
+    switch (protocol) {
+        case SrcpMessage::proMM:
+            port = iRealDirection;
+            value = 1;
+            break; 
+        case SrcpMessage::proDCC: 
+            port = !iRealDirection;
+            value = 1;
+            break;
+        default:
+            //TODO: translate Selectrix address to flat address
             if (iRealAddress == iSoldAddress_1)
-                iRealDirection = iRealDirection ^ iSoldChangeConn[0];
-            if (iRealAddress == iSoldAddress_2)
-                iRealDirection = iRealDirection ^ iSoldChangeConn[1];
-        }
+                port = port1;
+            else
+                port = port2;
 
-        int port = 0;
-        int value = 0;
-            
-        switch (protocol) {
-            case SrcpMessage::proMM:
-                port = iRealDirection;
-                value = 1;
-                break; 
-            case SrcpMessage::proDCC: 
-                port = !iRealDirection;
-                value = 1;
-                break;
-            default:
-                //TODO: translate Selectrix address to flat address
-                if (iRealAddress == iSoldAddress_1)
-                    port = port1;
-                else
-                    port = port2;
-
-                value = iRealDirection;
-                break;
-        }
-
-        SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgGaSet);
-        if (sm == NULL)
-            return;
-
-        sm->setGaData(protocol, iRealBus, iRealAddress, port,
-                value, iSoldActiveTime);
-        emit sendSrcpMessage(sm);
-        
-        delete sm;
-
-        // return to copy direction and address for second switch
-        if ((sSoldIcon == SYM_DRW || sSoldIcon == SYM_EKL ||
-             sSoldIcon == SYM_EKR || ((sSoldIcon == SYM_DKL ||
-             sSoldIcon == SYM_DKR) && iSoldSubType == 1)) &&
-             !bSwitchSecondAddress) {
-            bSwitchSecondAddress = true;
-        }
-        /*
-         * if momentary coupler: activate it, wait for a short time
-         * and deactivate it graphically
-         */
-        else if (sSoldIcon == SYM_ENK && iSoldSubType != -1)
-            QTimer::singleShot(iSoldActiveTime, this,
-                    SLOT(repaintTimeOutEnk()));
+            value = iRealDirection;
+            break;
     }
+
+    SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgGaSet);
+    if (sm == NULL)
+        return;
+
+    sm->setGaData(protocol, iRealBus, iRealAddress, port,
+            value, iSoldActiveTime);
+    emit sendSrcpMessage(sm);
+
+    delete sm;
     qApp->processEvents();
+}
+
+
+void element::sendSrcpState()
+{
+    /* do not send anything for rail buttons without signals */
+    if (sSoldIcon == SYM_SRB || sSoldIcon == SYM_NRB)
+        return;
+
+    // switch only first address
+    switchAddress(false);
+
+    // switch also second address if there is one
+    if ((sSoldIcon == SYM_DRW || sSoldIcon == SYM_EKL ||
+                sSoldIcon == SYM_EKR || ((sSoldIcon == SYM_DKL ||
+                        sSoldIcon == SYM_DKR) && iSoldSubType == 1))) {
+        switchAddress(true);
+    }
+
+    /*
+     * if momentary coupler: activate it, wait for a short time
+     * and deactivate it graphically
+     */
+    else if (sSoldIcon == SYM_ENK && iSoldSubType != -1)
+        QTimer::singleShot(iSoldActiveTime, this,
+                SLOT(repaintTimeOutEnk()));
 }
 
 
