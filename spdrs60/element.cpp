@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.2 $Revision: 1.133 $
+                           version 0.5.2 $Revision: 1.134 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-09 14:35:56 $
+    last modified        : $Date: 2007-09-10 15:49:47 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -916,16 +916,19 @@ void element::showPropertyDlg()
 
             sSoldIcon = elementPropertyDlg->getSymbolName();
             sSoldText = elementPropertyDlg->getSymbolText();
-
-            // force display update
-            if (SYM_ADR == sSoldIcon) {
-                editsAddress = sSoldText.toUInt();
-                setupElementIcon();
-            }
-
             iSoldRotate = elementPropertyDlg->getRotated();
             iSoldInvert = elementPropertyDlg->getInverted();
             iSoldLEDoff = elementPropertyDlg->getLEDsAreOff();
+
+            // force display update
+            if (SYM_ADR == sSoldIcon) {
+                if (iSoldInvert)
+                    editsAddress = 0;
+                else
+                    editsAddress = sSoldText.toUInt();
+                setupElementIcon();
+            }
+
             iSoldSubType = elementPropertyDlg->getGASubType();
             protocol =
                 (SrcpMessage::Protocol) elementPropertyDlg->getProtocol();
