@@ -897,6 +897,10 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
+    <message>
+        <source>noname</source>
+        <translation>unbenannt</translation>
+    </message>
 </context>
 <context>
     <name>RouteDialog</name>

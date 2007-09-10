@@ -1,10 +1,10 @@
 /***************************************************************************
                            routelvi.cpp
-                           version 0.5.2 $Revision: 1.4 $
+                           version 0.5.2 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-29 17:09:30 $
+    last modified        : $Date: 2007-09-10 20:05:43 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -162,7 +162,7 @@ void RouteLVI::updateRouteData()
 {
     if (route != NULL) {
         updateRouteStatePixmap();  
-        setText(1, route->getName());  
+        setText(1, route->getSectionName());  
         setText(2, route->getFromSignalName());  
         setText(3, route->getToSignalName());  
         setText(4, route->getTypeStr());  

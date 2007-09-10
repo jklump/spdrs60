@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.2 $Revision: 1.52 $
+                           version 0.5.2 $Revision: 1.53 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-09 13:45:42 $
+    last modified        : $Date: 2007-09-10 20:05:43 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -442,19 +442,19 @@ void Router::processRouteState(Route* rt, int rs)
             //TODO: send route state message (scripting)
             //ROUTE <rid> STATE 1
             emit statusMessage(tr("Route '%1' activated")
-                    .arg(rt->getName()));
+                    .arg(rt->getSectionName()));
             break;
         case Route::rsWfLock:
             emit statusMessage(tr("Route '%1' waiting for activation")
-                    .arg(rt->getName()));
+                    .arg(rt->getSectionName()));
             break;
         case Route::rsWfUnlock:
             emit statusMessage(tr("Route '%1' waiting for release")
-                    .arg(rt->getName()));
+                    .arg(rt->getSectionName()));
             break;
         case Route::rsLocking:
             emit statusMessage(tr("Route '%1' is in activating state")
-                    .arg(rt->getName()));
+                    .arg(rt->getSectionName()));
             break;
     }
 }
@@ -482,19 +482,19 @@ void Router::activateRoute(Route* rt)
             QApplication::beep();
             emit statusMessage(tr("No routing possible; "
                         "route '%1' is locked by an other route.")
-                    .arg(rt->getName()));
+                    .arg(rt->getSectionName()));
             break;
         case -1: 
             QApplication::beep();
             emit statusMessage(tr("No routing possible; "
                         "route '%1' is blocked by occupied element.")
-                    .arg(rt->getName()));
+                    .arg(rt->getSectionName()));
             break;
         case -2: 
             QApplication::beep();
             emit statusMessage(tr("No routing possible; "
                         "route '%1' is blocked by occupied turnout.")
-                    .arg(rt->getName()));
+                    .arg(rt->getSectionName()));
             break;
     }
 }
@@ -516,7 +516,7 @@ void Router::releaseRoute(Route* rt)
         return;
 
     rt->stopRouting();
-    emit statusMessage(tr("Route '%1' released").arg(rt->getName()));
+    emit statusMessage(tr("Route '%1' released").arg(rt->getSectionName()));
     transferTrainNumber(rt);
 }
 
@@ -531,7 +531,7 @@ void Router::withdrawRoute(Route* rt)
         return;
 
     rt->stopRouting();
-    emit statusMessage(tr("Route '%1' withdrawn").arg(rt->getName()));
+    emit statusMessage(tr("Route '%1' withdrawn").arg(rt->getSectionName()));
     // only for debugging purposes:
     // transferTrainNumber(resetRt);
 }
@@ -787,7 +787,7 @@ bool Router::editRoute(QWidget* owner, Route* er)
                 SIGNAL(getElementByAddress(const int, const int,
                         element**)));
         
-        isEdited = er->runEditRouteDialog(owner);
+        isEdited = er->runEditDialog(owner);
 
         disconnect(er, SIGNAL(getElementByAddress(const int,
                         const int, element**)), this,

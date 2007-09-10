@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.59 $
+                           version 0.5.2 $Revision: 1.60 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-09 13:15:31 $
+    last modified        : $Date: 2007-09-10 20:05:43 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -49,13 +49,11 @@ Route::Route(unsigned int anid,
         const PortState& aacPort,
         unsigned int adetourLevel,
         const QPtrList<stateElement>& swis,
-        QObject* parent, const char* name): QObject(parent, name)
+        QObject* parent, const char* name): Section(aName, anid, 0, parent, name)
 {
     initVariables();
 
     routeType = arouteType;
-    idnumber = anid;
-    Name = aName;
 
     exitSignal.name = aexitSignal.name;
     exitSignal.bus = aexitSignal.bus;
@@ -108,7 +106,7 @@ Route::Route(unsigned int anid,
 }
 
 Route::Route(element* startEl, QObject* parent, const char* name)
-: QObject(parent, name)
+: Section(tr("New route"), 0, 0, parent, name)
 {
     initVariables();
 
@@ -134,10 +132,8 @@ Route::Route(element* startEl, QObject* parent, const char* name)
     acPort.bus = 1;
     acPort.address = 0;
     
-    Name = tr("New route");
-
     if (startEl != NULL) {
-        Name.append(startEl->getLabelText());
+        sectionName.append(startEl->getLabelText());
         startEl->getStateData(entrySignal);
         //select route type element name dependent
         if (startEl->hasShuntingRouteButtonOnly())
@@ -153,7 +149,7 @@ Route::Route(element* startEl, QObject* parent, const char* name)
 }
 
 Route::Route(QTextStream& ts, QObject* parent, const char* name)
-: QObject(parent, name)
+: Section(tr("noname"), 0, 0, parent, name)
 {
     initVariables();
 
@@ -176,11 +172,9 @@ Route::Route(QTextStream& ts, QObject* parent, const char* name)
 
 
 Route::Route(const QString& aName, QObject* parent, const char* name)
-    : QObject(parent, name)
+    : Section(aName, 0, 0, parent, name)
 {
     initVariables();
-
-    Name = aName;
 
     exitSignal.name = "";
     exitSignal.bus = 1;
@@ -222,6 +216,8 @@ Route::~Route()
  */
 void Route::initVariables()
 {
+    Section::initVariables();
+
     // dynamic data
     routestate = rsUnlocked;
     turnouts = 0;
@@ -232,12 +228,6 @@ void Route::initVariables()
     // user selectable data
     routeType = rtRZS;
     detourLevel = 0;
-    idnumber = 0;
-    train = 0;
-    forwardnumber = false;
-    forwardexternal = false;
-    forwardtargetid = 0;
-    forwardtargettype = tntRoute;
 }
 /* 
  * Update route element names and pointers when layout was edited
@@ -315,7 +305,7 @@ void Route::setupElementLists(QPtrVector<element>* elements)
                     trainNumberDisplay.address)) {
             /*
             fprintf(stderr, "Route: %s, Train: %d, Display: %d %d\n",
-                    Name.data(), train, trainNumberDisplay.bus,
+                    sectionName.data(), trainid, trainNumberDisplay.bus,
                     trainNumberDisplay.address);
                     */
             trainNumberDisplay.elemPtr = el;
@@ -323,7 +313,7 @@ void Route::setupElementLists(QPtrVector<element>* elements)
     }
 
     // update only displays of utilized routes
-    if (train != 0)
+    if (trainid != 0)
         updateTrainNumberDisplay();
 }
 
@@ -338,13 +328,13 @@ void Route::readFileTextFromStream(QTextStream& ts)
             key = s.section(DS, 0, 0);
             /* key/value pairs are read sequence independent */
             if (key.compare(RF_ID) == 0){
-                idnumber = s.section(DS, 1, 1).toUInt();
+                sectionid = s.section(DS, 1, 1).toUInt();
             }
             else if (key.compare(RF_NAME) == 0){
-                Name = s.section(DS, 1, 1);
+                sectionName = s.section(DS, 1, 1);
             }
             else if (key.compare(RF_TRAIN) == 0){
-                train = s.section(DS, 1, 1).toUInt();
+                trainid = s.section(DS, 1, 1).toUInt();
             }
             else if (key.compare(RF_EXITSIGNAL) == 0){
                 exitSignal.bus = s.section(DS, 1, 1).toUInt();
@@ -408,9 +398,9 @@ void Route::readFileTextFromStream(QTextStream& ts)
 void Route::writeFileTextToStream(QTextStream& ts)
 {
     ts
-        << RF_ID << DS << idnumber << endl
-        << RF_NAME << DS << Name << endl
-        << RF_TRAIN << DS << train << endl
+        << RF_ID << DS << sectionid << endl
+        << RF_NAME << DS << sectionName << endl
+        << RF_TRAIN << DS << trainid << endl
         << RF_EXITSIGNAL << DS << exitSignal.bus << DS
         << exitSignal.address << endl
         << RF_ENTRYSIGNAL << DS << entrySignal.bus << DS
@@ -441,7 +431,7 @@ void Route::writeFileTextToStream(QTextStream& ts)
 
 Route* Route::getClone()
 {
-    return new Route(idnumber, routeType, Name, exitSignal, entrySignal,
+    return new Route(sectionid, routeType, sectionName, exitSignal, entrySignal,
             trainNumberDisplay, rePort, acPort, detourLevel,
             switchItems, parent(), "clonedRoute");
 }
@@ -450,24 +440,6 @@ Route* Route::getClone()
 int Route::getState()
 {
     return routestate;
-}
-
-
-unsigned int Route::getId()
-{
-    return idnumber;
-}
-
-
-void Route::setId(unsigned int id)
-{
-    idnumber = id;
-}
-
-
-QString Route::getName() const
-{
-    return Name;
 }
 
 
@@ -789,7 +761,7 @@ void Route::showRoute()
                 ksmStartSig);
 
     if (trainNumberDisplay.elemPtr != NULL) {
-        trainNumberDisplay.elemPtr->updateTrainNumber(train);
+        trainNumberDisplay.elemPtr->updateTrainNumber(trainid);
         trainNumberDisplay.elemPtr->showElementState(-1, ksmDisplay);
     }
 
@@ -822,27 +794,19 @@ void Route::setExitSignal(element* el)
 }
 
 
-void Route::setTrainNumberDisplay(element* el)
-{
-    el->getStateData(trainNumberDisplay);
-    el->switchSelectionMode(ksmDisplay);
-    updateTrainNumberDisplay();
-}
-
-
 void Route::updateRouteName()
 {
     if (hasEntrySignal()) {
         if (hasExitSignal()) 
-            Name = QString("%1 - %2").arg(entrySignal.name).arg(exitSignal.name);
+            sectionName = QString("%1 - %2").arg(entrySignal.name).arg(exitSignal.name);
         else
-            Name = QString(tr("New route from %1").arg(entrySignal.name));
+            sectionName = QString(tr("New route from %1").arg(entrySignal.name));
     }
     else {
         if (hasExitSignal())
-            Name = QString(tr("New route to %1").arg(exitSignal.name));
+            sectionName = QString(tr("New route to %1").arg(exitSignal.name));
         else
-            Name = tr("New route");
+            sectionName = tr("New route");
     }
 }
 
@@ -948,12 +912,6 @@ bool Route::hasEntrySignal()
 bool Route::hasExitSignal()
 {
     return exitSignal.elemPtr != NULL;
-}
-
-
-bool Route::hasTrainNumberDisplay()
-{
-    return trainNumberDisplay.elemPtr != NULL;
 }
 
 
@@ -1088,7 +1046,7 @@ bool Route::canReleaseByFeedbackPort(unsigned int bus,
 }
 
 
-bool Route::runEditRouteDialog(QWidget* dlgparent)
+bool Route::runEditDialog(QWidget* dlgparent)
 {
     bool returnvalue = false;
     
@@ -1101,9 +1059,9 @@ bool Route::runEditRouteDialog(QWidget* dlgparent)
                     element**)), this,
             SIGNAL(getElementByAddress(const int, const int,
                     element**)));
-    rtDlg->setRouteNumber(idnumber);
-    rtDlg->setRouteTrain(train);
-    rtDlg->setRouteName(Name);
+    rtDlg->setRouteNumber(sectionid);
+    rtDlg->setRouteTrain(trainid);
+    rtDlg->setRouteName(sectionName);
     rtDlg->setEntrySignalData(entrySignal);
     rtDlg->setExitSignalData(exitSignal);
     rtDlg->setActivateData(acPort);
@@ -1116,9 +1074,9 @@ bool Route::runEditRouteDialog(QWidget* dlgparent)
     if (rtDlg->exec() == QDialog::Accepted) {
         // update gbs: 1) hide old route 2) show new route
         hideRoute();
-        idnumber = rtDlg->getRouteNumber();
+        sectionid = rtDlg->getRouteNumber();
         setTrain(rtDlg->getRouteTrain());
-        Name = rtDlg->getRouteName();
+        sectionName = rtDlg->getRouteName();
         rtDlg->getEntrySignalData(entrySignal);
         rtDlg->getExitSignalData(exitSignal);
         rtDlg->getActivateData(acPort);
@@ -1145,87 +1103,10 @@ bool Route::runEditRouteDialog(QWidget* dlgparent)
 }
 
 /*
- * return true, if a train number is available
- */
-bool Route::hasTrain()
-{
-    return (0 != train);
-}
-
-/*
- * clear stored train number
- */
-void Route::clearTrain()
-{
-    train = 0;
-    updateTrainNumberDisplay();
-}
-
-/*
- * set new value for train number
- */
-void Route::setTrain(unsigned int tr)
-{
-    if (tr != train) {
-        train = tr;
-        updateTrainNumberDisplay();
-    }
-}
-
-/*
- * return availabel train number
- */
-unsigned int Route::getTrain()
-{
-    return train;
-}
-
-/*
  * return pointer to entry signal element
  */
 element* Route::getEntrySignalElementPtr()
 {
     return entrySignal.elemPtr;
-}
-
-/*
- * search train number display and update content
- */
-void Route::updateTrainNumberDisplay()
-{
-    if (trainNumberDisplay.elemPtr != NULL)
-        trainNumberDisplay.elemPtr->updateTrainNumber(train);
-}
-
-/*
- * return true if train number forwarding is enabled
- */
-bool Route::forwardTrainNumber()
-{
-    return forwardnumber;
-}
-
-/*
- * return true if train number forwarding is external
- */
-bool Route::forwardExternal()
-{
-    return forwardexternal;
-}
-
-/*
- * return type of train number forwarding target
- */
-int Route::forwardTargetId()
-{
-    return forwardtargetid;
-}
-
-/*
- * return type of train number forwarding target
- */
-int Route::forwardTargetType()
-{
-    return forwardtargettype;
 }
 

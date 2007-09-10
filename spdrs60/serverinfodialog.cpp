@@ -2,8 +2,8 @@
  * serverinfodialog.cpp
  * --------------------
  * Begin        : 2007-08-22
- * Last modified: $Date: 2007-09-09 17:36:51 $
- *                $Revision: 1.3 $
+ * Last modified: $Date: 2007-09-10 20:05:43 $
+ *                $Revision: 1.4 $
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Description  : Dialog window to display SRCP server information
@@ -38,7 +38,7 @@ ServerInfoDialog::ServerInfoDialog(SrcpPort::CommunicationStyle style,
     baseLayout->addWidget(commandGB);
 
     // grid layout with 4 rows and 2 columns
-    QGridLayout* cmdLayout = new QGridLayout(commandGB->layout(), 5, 2, 10,
+    QGridLayout* cmdLayout = new QGridLayout(commandGB->layout(), 5, 2, 8,
             "cmdLayout");
     
     // 1. line
@@ -83,7 +83,7 @@ ServerInfoDialog::ServerInfoDialog(SrcpPort::CommunicationStyle style,
     QGroupBox* infoGB = new QGroupBox(0, Qt::Horizontal,
             tr("Info session"), this, "infoGB");
     baseLayout->addWidget(infoGB);
-    QGridLayout* infoLayout = new QGridLayout(infoGB->layout(), 4, 2, 10,
+    QGridLayout* infoLayout = new QGridLayout(infoGB->layout(), 4, 2, 8,
             "infoLayout");
 
     // 1. line
@@ -117,7 +117,7 @@ ServerInfoDialog::ServerInfoDialog(SrcpPort::CommunicationStyle style,
     QGroupBox* portsGB = new QGroupBox(0, Qt::Horizontal,
             tr("Additional ports"), this, "portsGB");
     baseLayout->addWidget(portsGB);
-    QGridLayout* portsLayout = new QGridLayout(portsGB->layout(), 2, 2, 10,
+    QGridLayout* portsLayout = new QGridLayout(portsGB->layout(), 2, 2, 8,
             "portsLayout");
 
     // 1. line

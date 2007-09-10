@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.2 $Revision: 1.134 $
+                           version 0.5.2 $Revision: 1.135 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-10 15:49:47 $
+    last modified        : $Date: 2007-09-10 20:05:43 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -922,7 +922,7 @@ void element::showPropertyDlg()
 
             // force display update
             if (SYM_ADR == sSoldIcon) {
-                if (iSoldInvert)
+                if (iSoldInvert == 1)
                     editsAddress = 0;
                 else
                     editsAddress = sSoldText.toUInt();
