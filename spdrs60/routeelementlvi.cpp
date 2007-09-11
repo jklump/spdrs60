@@ -1,10 +1,10 @@
 /***************************************************************************
                            routeelementlvi.cpp
-                           version 0.5.2 $Revision: 1.9 $
+                           version 0.5.2 $Revision: 1.10 $
                            -------------------------------
     copyright            : (C) 2005-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2007-09-11 19:20:49 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -111,8 +111,6 @@ int RouteElementLVI::compare(QListViewItem* i, int col,
                 returnvalue = 1;
             else if (key1 < key2)
                 returnvalue = -1;
-            if (!ascending)
-                returnvalue *= -1;
             break;
         case 1:
             returnvalue = key(col,
@@ -123,24 +121,18 @@ int RouteElementLVI::compare(QListViewItem* i, int col,
                 returnvalue = 1;
             else if (routeElement.bus < ce->bus)
                 returnvalue = -1;
-            if (!ascending)
-                returnvalue *= -1;
             break;
         case 3:
             if (routeElement.address > ce->address)
                 returnvalue = 1;
             else if (routeElement.address < ce->address)
                 returnvalue = -1;
-            if (!ascending)
-                returnvalue *= -1;
             break;
         case 4:
             if (routeElement.state > ce->state)
                 returnvalue = 1;
             else if (routeElement.state < ce->state)
                 returnvalue = -1;
-            if (!ascending)
-                returnvalue *= -1;
             break;
     }
     return returnvalue;
