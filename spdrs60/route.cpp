@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.61 $
+                           version 0.5.2 $Revision: 1.62 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-11 17:03:00 $
+    last modified        : $Date: 2007-09-11 17:11:38 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -278,7 +278,7 @@ void Route::setupElementList(QPtrVector<element>* elements)
         while ((swElement = it.current()) != 0) {
             ++it;
         
-            if ((el != NULL) && el->hasSameAddress(swElement->bus,
+            if (el->hasSameAddress(swElement->bus,
                         swElement->address)) {
                 swElement->name = el->getLabelText();
                 swElement->elemPtr = el;
@@ -287,21 +287,21 @@ void Route::setupElementList(QPtrVector<element>* elements)
         }
 
         /*add exit signal*/
-        if ((el != NULL) && el->hasSameAddress(exitSignal.bus,
+        if (el->hasSameAddress(exitSignal.bus,
                     exitSignal.address)) {
             exitSignal.name = el->getLabelText();
             exitSignal.elemPtr = el;
         }
 
         /*add entry signal*/
-        if ((el != NULL) && el->hasSameAddress(entrySignal.bus,
+        if (el->hasSameAddress(entrySignal.bus,
                     entrySignal.address)) {
             entrySignal.name = el->getLabelText();
             entrySignal.elemPtr = el;
         }
 
         /*add train number dislay*/
-        if ((el != NULL) && el->hasSameAddress(trainNumberDisplay.bus,
+        if (el->hasSameAddress(trainNumberDisplay.bus,
                     trainNumberDisplay.address)) {
             /*
             fprintf(stderr, "Route: %s, Train: %d, Display: %d %d\n",
