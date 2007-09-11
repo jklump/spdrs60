@@ -1,10 +1,10 @@
 /***************************************************************************
                            routelvi.cpp
-                           version 0.5.2 $Revision: 1.5 $
+                           version 0.5.2 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-10 20:05:43 $
+    last modified        : $Date: 2007-09-11 19:14:46 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -78,8 +78,6 @@ int RouteLVI::compare(QListViewItem* i, int col,
                 returnvalue = 1;
             else if (key1 < key2)
                 returnvalue = -1;
-            if (!ascending)
-                returnvalue *= -1;
             break;
 
         case 5:
@@ -90,8 +88,6 @@ int RouteLVI::compare(QListViewItem* i, int col,
                 returnvalue = 1;
             else if (idkey1 < idkey2)
                 returnvalue = -1;
-            if (!ascending)
-                returnvalue *= -1;
             break;
 
         case 6:
@@ -102,8 +98,6 @@ int RouteLVI::compare(QListViewItem* i, int col,
                 returnvalue = 1;
             else if (idkey1 < idkey2)
                 returnvalue = -1;
-            if (!ascending)
-                returnvalue *= -1;
             break;
 
         default:
