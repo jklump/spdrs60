@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.60 $
+                           version 0.5.2 $Revision: 1.61 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-10 20:05:43 $
+    last modified        : $Date: 2007-09-11 17:03:00 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -232,7 +232,7 @@ void Route::initVariables()
 /* 
  * Update route element names and pointers when layout was edited
  */
-void Route::updateElementLists(QPtrVector<element>* elements)
+void Route::updateElementList(QPtrVector<element>* elements)
 {
     if (elements == NULL)
         return;
@@ -257,11 +257,11 @@ void Route::updateElementLists(QPtrVector<element>* elements)
     }
 
     // now assign the right values
-    setupElementLists(elements);
+    setupElementList(elements);
 }
 
 
-void Route::setupElementLists(QPtrVector<element>* elements)
+void Route::setupElementList(QPtrVector<element>* elements)
 {
     if (elements == NULL)
         return;

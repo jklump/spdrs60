@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.2 $Revision: 1.53 $
+                           version 0.5.2 $Revision: 1.54 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-10 20:05:43 $
+    last modified        : $Date: 2007-09-11 17:03:00 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -98,7 +98,7 @@ void Router::setupRouteElements()
     Route* sr;
     while ((sr = routeit.current()) != 0) {
         ++routeit;
-        sr->setupElementLists(gbsElements);
+        sr->setupElementList(gbsElements);
         connect(sr, SIGNAL(stateChanged(Route*, int)),
                 this, SLOT(processRouteState(Route*, int)));
         connect(sr, SIGNAL(updateRoutePathLEDs(const stateElement&,
@@ -118,7 +118,7 @@ void Router::updateRouteElements()
     Route* sr;
     while ((sr = routeit.current()) != 0) {
         ++routeit;
-        sr->updateElementLists(gbsElements);
+        sr->updateElementList(gbsElements);
         // tell route list window about changed data
         emit routeDataChanged(sr);
     }

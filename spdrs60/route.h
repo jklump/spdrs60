@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.5.2 $Revision: 1.36 $
+                           version 0.5.2 $Revision: 1.37 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-10 20:05:43 $
+    last modified        : $Date: 2007-09-11 17:03:00 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -97,8 +97,8 @@ public:
     void hideRoute();
     void showRoute();
     void viewRoute();
-    void setupElementLists(QPtrVector<element>*);
-    void updateElementLists(QPtrVector<element>*);
+    void setupElementList(QPtrVector<element>*);
+    void updateElementList(QPtrVector<element>*);
     bool isLockedWithEntrySignal(element*);
     bool isUnlockedWithEntrySignalType(element*, GbsButtonState,
             GbsButtonState);
