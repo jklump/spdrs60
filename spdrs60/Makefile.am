@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.23 $
-# last update: $Date: 2007-09-10 20:05:43 $
+# version: $Revision: 1.24 $
+# last update: $Date: 2007-09-12 17:52:58 $
 
 SUBDIRS = pixmaps
 
@@ -9,42 +9,62 @@ bin_PROGRAMS = spdrs60
 
 # list of all generated (and not distributed) sources
 nodist_spdrs60_SOURCES = \
-	aboutdialog.moc.cpp \
-	commandport.moc.cpp \
-	elementcommander.moc.cpp \
-	elementdialog.moc.cpp \
-	element.moc.cpp \
-	feedbacklistbox.moc.cpp \
-	feedbackviewer.moc.cpp \
-	finder.moc.cpp \
-	gbsarea.moc.cpp \
-	gbsscrollview.moc.cpp \
-	infoport.moc.cpp \
-	keyboard.moc.cpp \
-	mainwindow.moc.cpp \
-	messagehistory.moc.cpp \
-	newlayoutdialog.moc.cpp \
-	options.moc.cpp \
-        route.moc.cpp \
-	routedialog.moc.cpp \
-	routeelementdialog.moc.cpp \
-        router.moc.cpp \
-        routelistview.moc.cpp \
-        routelistwindow.moc.cpp \
-	section.moc.cpp \
-	serverinfodialog.moc.cpp \
-	srcpport.moc.cpp \
-	turntablecommander.moc.cpp
+	aboutdialog_moc.cpp \
+	commandport_moc.cpp \
+	elementcommander_moc.cpp \
+	elementdialog_moc.cpp \
+	element_moc.cpp \
+	feedbackchooser_moc.cpp \
+	feedbacklistbox_moc.cpp \
+	feedbackviewer_moc.cpp \
+	finder_moc.cpp \
+	gbsarea_moc.cpp \
+	gbsscrollview_moc.cpp \
+	infoport_moc.cpp \
+	keyboard_moc.cpp \
+	mainwindow_moc.cpp \
+	messagehistory_moc.cpp \
+	newlayoutdialog_moc.cpp \
+	options_moc.cpp \
+        route_moc.cpp \
+	routedialog_moc.cpp \
+	routeelementdialog_moc.cpp \
+        router_moc.cpp \
+        routelistview_moc.cpp \
+        routelistwindow_moc.cpp \
+        section_moc.cpp \
+	serverinfodialog_moc.cpp \
+	singlefeedbackdialog_moc.cpp \
+	doublefeedbackdialog_moc.cpp \
+        spdritem_moc.cpp \
+        spdrdecorativeitem_moc.cpp \
+        spdrtrackitem_moc.cpp \
+        spdraxlecountergroupitem_moc.cpp \
+        spdrextbtngroupitem_moc.cpp \
+        spdrlevelcrossinggroupitem_moc.cpp \
+        spdrpowersupplygroupitem_moc.cpp \
+        spdrroutegroupitem_moc.cpp \
+        spdrsignalgroupitem_moc.cpp \
+        spdrturnoutgroupitem_moc.cpp \
+        spdrfhtitem_moc.cpp \
+        spdrsgtitem_moc.cpp \
+        spdrwgtitem_moc.cpp \
+	srcpport_moc.cpp \
+	turntablecommander_moc.cpp
 
 # list of all sources and headers
-spdrs60_SOURCES = main.cpp resources.h \
+spdrs60_SOURCES = main.cpp resources.h filekeys.h \
 	aboutdialog.cpp aboutdialog.h \
 	commandport.cpp commandport.h \
 	elementcommander.cpp elementcommander.h \
 	element.cpp element.h \
 	elementdialog.cpp elementdialog.h \
+	feedbackchooser.cpp feedbackchooser.h \
 	feedbacklistbox.cpp feedbacklistbox.h \
 	feedbackmodule.cpp feedbackmodule.h \
+	feedbackreceiver.cpp feedbackreceiver.h \
+	feedbacksinglebtnreceiver.cpp feedbacksinglebtnreceiver.h \
+	feedbackdoublebtnreceiver.cpp feedbackdoublebtnreceiver.h \
 	feedbackviewer.cpp feedbackviewer.h \
 	finder.cpp finder.h \
 	gbsarea.cpp gbsarea.h \
@@ -66,6 +86,21 @@ spdrs60_SOURCES = main.cpp resources.h \
         router.cpp router.h \
 	section.cpp section.h \
 	serverinfodialog.cpp serverinfodialog.h \
+	singlefeedbackdialog.cpp singlefeedbackdialog.h \
+	doublefeedbackdialog.cpp doublefeedbackdialog.h \
+        spdritem.cpp spdritem.h \
+        spdrtrackitem.cpp spdrtrackitem.h \
+        spdrdecorativeitem.cpp spdrdecorativeitem.h \
+        spdrextbtngroupitem.cpp spdrextbtngroupitem.h \
+        spdraxlecountergroupitem.cpp spdraxlecountergroupitem.h \
+        spdrlevelcrossinggroupitem.cpp spdrlevelcrossinggroupitem.h \
+        spdrpowersupplygroupitem.cpp spdrpowersupplygroupitem.h \
+        spdrroutegroupitem.cpp spdrroutegroupitem.h \
+        spdrsignalgroupitem.cpp spdrsignalgroupitem.h \
+        spdrturnoutgroupitem.cpp spdrturnoutgroupitem.h \
+        spdrfhtitem.cpp spdrfhtitem.h \
+        spdrsgtitem.cpp spdrsgtitem.h \
+        spdrwgtitem.cpp spdrwgtitem.h \
         srcpmessage.cpp srcpmessage.h \
 	srcpport.cpp srcpport.h \
 	turntablecommander.cpp turntablecommander.h
@@ -104,7 +139,7 @@ translated_source_files = \
 
 
 # list here all files containing string translations
-translatedstrings = spdrs60_de.ts
+translatedstrings = spdrs60_de.ts spdrs60_it.ts
 
 
 spdrs60_LDADD = @LIB_QT@
@@ -123,15 +158,15 @@ AM_CXXFLAGS = $(TRANSLATE_DEF) -Wall
 
 EXTRA_DIST = spdrs60.pro $(translatedstrings)
 
-pkgdata_DATA = spdrs60_de.qm
+pkgdata_DATA = spdrs60_de.qm spdrs60_it.qm
 
 # all generated files are removed by "make clean"
 CLEANFILES = $(nodist_spdrs60_SOURCES) $(pkgdata_DATA)
 
-SUFFIXES = .qm .ts
+SUFFIXES = _moc.cpp
 
-# rule for moc-file generation (moc_% conflicts with 'lupdate')
-%.moc.cpp: %.h
+# rule for moc-file generation
+.h_moc.cpp: $(spdrs60_SOURCES)
 	$(MOC) $< -o $@
 
 # rule for translation file generation
