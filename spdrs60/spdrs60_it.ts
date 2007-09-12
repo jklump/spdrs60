@@ -1,0 +1,2316 @@
+<!DOCTYPE TS><TS>
+<context>
+    <name>AboutDialog</name>
+    <message>
+        <source>About %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>spdrs60 is a SRCP client to control digital model railways.
+Visual appearance and usage comply to the original SpDrS60
+switchbox (Spurplandrucktastenstellwerk Bauart Siemens 60)
+of the german national railroad company. spdrs60 needs a
+SRCP server (e.g. erddcd or srcpd) as hardware link.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Authors</source>
+        <translation>Autori</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Contributors</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>FeedbackViewer</name>
+    <message>
+        <source>Feedback Modules</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bus &amp;%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Finder</name>
+    <message>
+        <source>Element locator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Find:</source>
+        <translation>&amp;Trova:</translation>
+    </message>
+    <message>
+        <source>Data fields</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Text fields</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Decoder address &amp;1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Decoder address &amp;2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Match counter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;First/only one match</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;All matches</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Cancella</translation>
+    </message>
+    <message>
+        <source>Press this button to start search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Press this button to close this window</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>GBSArea</name>
+    <message>
+        <source>&amp;Toggle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Repeat</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>R&amp;otate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Clear</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MGT-Function not supported.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No switching possible, signal &apos;%1&apos; is locked by an active route.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No routing possible; signal &apos;%1&apos; is allready locked by an active route.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Signals can not be switched using WGT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Operation not allowed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No switching possible, solenoid &apos;%1&apos; is locked by an active route.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No switching possible, turnout is occupied</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turnouts can not be switched using FHT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turnouts can not be switched using SGT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turnouts can not be switched using UfGT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route hit layout edge at element %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route end at empty element %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route end at not routable element %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route found dead end at element %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Locate error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There&apos;s no element which
+matches your search criteria.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switched all signals to halt/stop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Layout does not contain a SRCP bus configuration for GAs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Layout contains 1 configured GA bus</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Layout contains %1 configured GA busses</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Layout does not contain a SRCP bus configuration for FBs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Layout contains 1 configured FB bus</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Layout contains %1 configured FB busses</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Repeat: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MainWindow</name>
+    <message>
+        <source>Program succesfully started!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>User preferences file not found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error: Could not save configuration file: ~/%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File operations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;File</source>
+        <translation>&amp;File</translation>
+    </message>
+    <message>
+        <source>&amp;New...</source>
+        <translation>&amp;Nuovo...</translation>
+    </message>
+    <message>
+        <source>Create empty layout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Open...</source>
+        <translation>&amp;Apri...</translation>
+    </message>
+    <message>
+        <source>Open layout file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Save</source>
+        <translation>&amp;Salva</translation>
+    </message>
+    <message>
+        <source>Save &amp;as...</source>
+        <translation>Salva &amp;come...</translation>
+    </message>
+    <message>
+        <source>New &amp;window</source>
+        <translation>Nuova &amp;finestra</translation>
+    </message>
+    <message>
+        <source>&amp;Close</source>
+        <translation>&amp;Chiudi</translation>
+    </message>
+    <message>
+        <source>&amp;Quit</source>
+        <translation>&amp;Esci</translation>
+    </message>
+    <message>
+        <source>Edit operations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Layout</source>
+        <translation>&amp;Disposizione</translation>
+    </message>
+    <message>
+        <source>Edit layout file with external editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit config file with external editor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Edit</source>
+        <translation>&amp;Modifica</translation>
+    </message>
+    <message>
+        <source>Cu&amp;t</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cut selection to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Copy</source>
+        <translation>&amp;Copia</translation>
+    </message>
+    <message>
+        <source>Copy selection to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Paste</source>
+        <translation>&amp;Incolla</translation>
+    </message>
+    <message>
+        <source>Paste from clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Data files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Find...</source>
+        <translation>&amp;Trova...</translation>
+    </message>
+    <message>
+        <source>Find information in layout element</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pr&amp;eferences...</source>
+        <translation>&amp;Preferenze...</translation>
+    </message>
+    <message>
+        <source>Edit application preferences</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>View operations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;View</source>
+        <translation>&amp;Visualizza</translation>
+    </message>
+    <message>
+        <source>&amp;Feedback modules</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show feedback module window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Routing &amp;table</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show routing table</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Central clock</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show central clock</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Keyboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show basic keyboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Normal mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Layout edit mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Route edit mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Menu</source>
+        <translation>Barra del &amp;Menù</translation>
+    </message>
+    <message>
+        <source>Show the main menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tool&amp;bars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show the toolbars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Status&amp;line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show the statusline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle &amp;history line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle the history line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Daemon operations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Daemon</source>
+        <translation>&amp;Server</translation>
+    </message>
+    <message>
+        <source>&amp;Connect</source>
+        <translation>&amp;Connessione</translation>
+    </message>
+    <message>
+        <source>Connect to SRCP daemon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Disconnect</source>
+        <translation>&amp;Disconnetti</translation>
+    </message>
+    <message>
+        <source>Disconnect from SRCP daemon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Reset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset SRCP daemon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Kill</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Kill SRCP daemon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Info...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Info about SRCP daemon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Layout operations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start &amp;power</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch layout power on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use &amp;FHT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use route help button</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use &amp;UfGT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use detour group button</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use &amp;WGT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use turnout group button</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use &amp;SGT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use signal group button</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use H&amp;aGT</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use signal halt group button</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Halt signals</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch all signals to halt</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Toggle all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle all switchable elements</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send &amp;all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send current states of all switchable elements to SRCP server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Up&amp;date feedback states</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Get all current feedback states from SRCP server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>S&amp;ettings...</source>
+        <translation>&amp;Impostazioni..</translation>
+    </message>
+    <message>
+        <source>Change layout settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route operations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Route</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ac&amp;tivate</source>
+        <translation>A&amp;zionare</translation>
+    </message>
+    <message>
+        <source>Activate route</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>W&amp;ithdraw</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Withdraw a wrong activated route</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Withdraw route</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Release</source>
+        <translation>&amp;Rilasciare</translation>
+    </message>
+    <message>
+        <source>Release a activated route. This
+includes a train number transfer.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Release route</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Add</source>
+        <translation type="unfinished">&amp;Aggiungi</translation>
+    </message>
+    <message>
+        <source>Add new route</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Edit...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit selected route</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dupli&amp;cate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Duplicate selected route</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Delete</source>
+        <translation>&amp;Cancella</translation>
+    </message>
+    <message>
+        <source>Delete selected route</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Unlock all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unlock all routes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Aiuto</translation>
+    </message>
+    <message>
+        <source>&amp;spdrs60 for Linux on the web</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;About %1...</source>
+        <translation>&amp;Informazioni su %1...</translation>
+    </message>
+    <message>
+        <source>About &amp;Qt...</source>
+        <translation>Informazioni su &amp;Qt...</translation>
+    </message>
+    <message>
+        <source>Autoloader failed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The selected autoload file &apos;%1&apos;
+does not exist. Please adjust your options.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Now</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Later</source>
+        <translation>&amp;Dopo</translation>
+    </message>
+    <message>
+        <source>Unnamed file was changed.
+Save changes?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File &apos;%1&apos; was changed.
+Save changes?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save changes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Yes</source>
+        <translation>&amp;Si</translation>
+    </message>
+    <message>
+        <source>&amp;No</source>
+        <translation>&amp;No</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Cancella</translation>
+    </message>
+    <message>
+        <source>New layout file created</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Layout file not saved yet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not write to file &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Layout file &apos;%1&apos; saved</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Layouts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Warning</source>
+        <translation>Attenzione</translation>
+    </message>
+    <message>
+        <source>File &apos;%1&apos; exists!
+Do you want to overwrite it?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Saving aborted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Could not read file &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Layout file &apos;%1&apos; opened</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>noname</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Command port connected with old communication style.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Command port connected with new communication style.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error: Command port connected with unknown style &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Info port connected with old communication style.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Info port connected with new communication style.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error: Info port connected with unknown style &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Feedback port changes should be avoided during initialization</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Stop power</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch layout power off</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Start power</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shutdown SRCP server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You are about to shutdown the SRCP server.
+Do you really want to proceed?
+(Note: To continue using this program, restart
+the server daemon after shutdown has finished)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Shutdown</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not connected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>About Qt</source>
+        <translation>Informazioni su Qt</translation>
+    </message>
+    <message>
+        <source>Error starting editor &apos;%1&apos;!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Layout in normal view mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Entering layout edit mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Entering route edit mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error starting browser &apos;%1&apos;!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error starting clock!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MessageHistory</name>
+    <message>
+        <source>Hints</source>
+        <translation>Accenni</translation>
+    </message>
+    <message>
+        <source>Commands</source>
+        <translation>Comandi</translation>
+    </message>
+    <message>
+        <source>Infoport</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Feedbacks</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QObject</name>
+    <message>
+        <source>NR</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DR%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>HR</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>NS</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DS%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Route</name>
+    <message>
+        <source>New route</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>noname</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Errore</translation>
+    </message>
+    <message>
+        <source>New route from %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New route to %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RouteDialog</name>
+    <message>
+        <source>Edit route</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Identification</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Na&amp;me</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Track n&amp;umber</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter an unique identification number for
+this route. The valid range is %1 to %2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Train number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter an unique identification number for
+the train, currently occupying this route.
+The valid range is %1 to %2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start signal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Nome</translation>
+    </message>
+    <message>
+        <source>SRC&amp;P-Bus</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Address</source>
+        <translation>&amp;Indirizzo</translation>
+    </message>
+    <message>
+        <source>S&amp;tate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stop signal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SRCP-&amp;Bus</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add&amp;ress</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Identification</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Activate route</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Enable feedback activation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch on feedback response</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ac&amp;tivation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Deactivation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>B&amp;us (s88/SRCP)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>C&amp;ontact (1 - 496)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Module (1 - %1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port (1 - %1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Release route</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable &amp;feedback release</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bus (s&amp;88/SRCP)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Contact (1 - 496)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Automatic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation type="unfinished">Tipo</translation>
+    </message>
+    <message>
+        <source>&amp;Normal route</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Detour route</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Level:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help route</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Normal &amp;shunting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Detour shuntin&amp;g</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Le&amp;vel:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Type</source>
+        <translation>&amp;Tipo</translation>
+    </message>
+    <message>
+        <source>Route elements</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bus</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation>Indirizzo</translation>
+    </message>
+    <message>
+        <source>State</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Up</source>
+        <translation>&amp;Su</translation>
+    </message>
+    <message>
+        <source>Do&amp;wn</source>
+        <translation>&amp;Giu</translation>
+    </message>
+    <message>
+        <source>&amp;Edit</source>
+        <translation type="unfinished">&amp;Modifica</translation>
+    </message>
+    <message>
+        <source>&amp;Add</source>
+        <translation>&amp;Aggiungi</translation>
+    </message>
+    <message>
+        <source>&amp;Remove</source>
+        <translation>&amp;Rimuovi</translation>
+    </message>
+    <message>
+        <source>&amp;Elements</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>General options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Activate train number forwarding</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send train number to adjacent &amp;interlocking</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send a Generic Message with route id and
+train id, so an interessted interlocking can
+pick up this information so update its route.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Target type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Route</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Target identification</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Track number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Train number &amp;forwarding</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Errore</translation>
+    </message>
+    <message>
+        <source>Add new element</source>
+        <translation>Aggiungi nuovo utento</translation>
+    </message>
+</context>
+<context>
+    <name>RouteElementDialog</name>
+    <message>
+        <source>Edit route element</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route element</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Nome</translation>
+    </message>
+    <message>
+        <source>SRCP-&amp;Bus</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Address</source>
+        <translation>&amp;Indirizzo</translation>
+    </message>
+    <message>
+        <source>&amp;State</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Cancella</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Errore</translation>
+    </message>
+</context>
+<context>
+    <name>RouteListView</name>
+    <message>
+        <source>S</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name</source>
+        <translation>Nome</translation>
+    </message>
+    <message>
+        <source>From</source>
+        <translation>Da</translation>
+    </message>
+    <message>
+        <source>To</source>
+        <translation>Verso</translation>
+    </message>
+    <message>
+        <source>Type</source>
+        <translation>Tipo</translation>
+    </message>
+    <message>
+        <source>Track</source>
+        <translation>Binario</translation>
+    </message>
+    <message>
+        <source>Train</source>
+        <translation>Treno</translation>
+    </message>
+</context>
+<context>
+    <name>RouteListWindow</name>
+    <message>
+        <source>Routes</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Router</name>
+    <message>
+        <source>New route</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error forwarding train number: External targets are not supported yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error forwarding train number: Unknown route id &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error forwarding train number: Block is not a supported target yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error forwarding train number: Unknown target &apos;%1&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route &apos;%1&apos; activated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route &apos;%1&apos; waiting for activation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route &apos;%1&apos; waiting for release</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route &apos;%1&apos; is in activating state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No routing possible; route &apos;%1&apos; is locked by an other route.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No routing possible; route &apos;%1&apos; is blocked by occupied element.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No routing possible; route &apos;%1&apos; is blocked by occupied turnout.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route &apos;%1&apos; released</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route &apos;%1&apos; withdrawn</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No matching route found for entry signal &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mixing signal buttons of different type is not allowed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No matching route found from &apos;%1&apos; to &apos;%2&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No active route found for entry signal &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No active route found from entry signal &apos;%1&apos; to exit signal &apos;%2&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error: Maximum track number found is &apos;%1&apos;; valid range is from 100 to 999</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All active routes withdrawn</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ServerInfoDialog</name>
+    <message>
+        <source>SRCP server information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Command session</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Server:</source>
+        <translation>Server:</translation>
+    </message>
+    <message>
+        <source>SRCP version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Other SRCP version:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SRCP session id:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Generic Messages:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Info session</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Additional ports</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Feedback port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Info port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Yes</source>
+        <translation>Si</translation>
+    </message>
+    <message>
+        <source>No</source>
+        <translation>No</translation>
+    </message>
+    <message>
+        <source>Connected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not connected</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SrcpPort</name>
+    <message>
+        <source>%1: Try to connect host &apos;%2&apos; on port &apos;%3&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1: Socket immediately closed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1: Parse error, parameter list too long &apos;%2&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1: Parse error, parameter list too short &apos;%2&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1: Communication error, no SRCP version found.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1: Communication error, wrong SRCP version &apos;%2&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1: Communication error PROTOCOL &apos;%2&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1: Communication error CONNECTIONMODE &apos;%2&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1: Communication error GO &apos;%2&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1: Error, wrong SRCP state: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1: Socket connected to host &apos;%2&apos; on port &apos;%3&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1: Host &apos;%2&apos; found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1: Socket closed by foreign host.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1: Socket delayed closed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1: Socket error %2 occured (%3).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>connection refused</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>host not found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>socket read error</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>elementCommander</name>
+    <message>
+        <source>Shifting bridge commander</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move bridge upwards</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move bridge downwards</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stop moving bridge</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DC-motor commander</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move motor clockwise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move motor anti-clockwise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stop motor</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>elementDialog</name>
+    <message>
+        <source>Properties of Element #%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Data</source>
+        <translation>Dati</translation>
+    </message>
+    <message>
+        <source>I&amp;con:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Text:</source>
+        <translation>&amp;Testo</translation>
+    </message>
+    <message>
+        <source>Address for la&amp;beling</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Rotation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Inverted use</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Symbol variants</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Protocol</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Decoder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>T&amp;ype:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset &amp;after (ms):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>S&amp;RCP-Bus 1:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Address &amp;1:</source>
+        <translation>Indirizzo &amp;1:</translation>
+    </message>
+    <message>
+        <source>&amp;Port 1:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Exch. conn.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SR&amp;CP-Bus 2:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Address &amp;2:</source>
+        <translation>Indirizzo &amp;2:</translation>
+    </message>
+    <message>
+        <source>&amp;Port 2:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>E&amp;xch. conn.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Feedback for track LEDs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;LEDs off</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bus (s&amp;88/SRCP):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>C&amp;ontact (1 - 496):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Module (1 - %1):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port (1 - %1):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Address module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;FB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show feedback module window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Cancella</translation>
+    </message>
+    <message>
+        <source>Allows to switch this signal to:
+Hp0, Hp1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to switch this signal to:
+Hp0 and Hp2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to switch this signal to:
+Hp0, Hp1 and Hp2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to switch this signal to:
+Hp0, Hp1 and Sh1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to switch this signal to:
+Hp0, Hp2 and Sh1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to switch this signal to:
+Hp0, Hp1, Hp2 and Sh1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to switch this signal to:
+Vr0, Vr1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to switch this signal to:
+Vr0 and Vr2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to switch this signal to:
+Vr0, Vr1 and Vr2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to use a bistable coupler</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to use a:
+momentary coupler on left connector</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to use a:
+momentary coupler on right connector</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to use a:
+2 state double turnout
+(f.e. Maerklin 2264)
+DOES NOT WORK YET!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to use a:
+4 state double turnout
+(f.e. Maerklin 2275,
+all Roco&#xb4;s)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default turntable:
+Controlled via keyboard #15</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extra turntable:
+Controlled via keyboard #14</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>keyboard</name>
+    <message>
+        <source>Keyboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Protocol:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the decoder protocol
+MM: Maerklin/Motorola
+DCC: NMRA/DCC
+Slx: Selectrix
+Srv: Protocol by server
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SRCP-&amp;Bus:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the SRCP bus for the address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Address:</source>
+        <translation>&amp;Indirizzo</translation>
+    </message>
+    <message>
+        <source>Enter the address to be switched</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Press this button to activate red connector</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Press this button to activate green connector</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>newLayoutDialog</name>
+    <message>
+        <source>Create new layout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Layout dimensions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Columns:</source>
+        <translation>&amp;Colonne:</translation>
+    </message>
+    <message>
+        <source>Choose or enter the number of
+columns for your layout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Rows:</source>
+        <translation type="unfinished">&amp;File:</translation>
+    </message>
+    <message>
+        <source>Choose or enter the number
+of rows for your layout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Hostname:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the hostname or IP address
+of your SRCP server.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Portnumber:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the portnumber of your srcp service.
+Default value for SRCP 0.8 is 4303,
+for a SRCP 0.7 server choose 12345.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Actions on file loading</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Autoconnect to &amp;server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The SRCP server will be automatically
+connected when this file is loaded.
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Autostart layout &amp;voltage</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Power of your layout will be automatically
+switched on after server connect.
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send all &amp;solenoid states after power on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The configured states of all solenoids will
+be automatically send to the SRCP server
+after layout power is switched on.
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Cancella</translation>
+    </message>
+</context>
+<context>
+    <name>optionsDialog</name>
+    <message>
+        <source>User preferences</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default dimensions for new layouts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Columns:</source>
+        <translation type="unfinished">&amp;Colonne:</translation>
+    </message>
+    <message>
+        <source>&amp;Rows:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>External programms</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Editor for layout and preferences files:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Browser for documentation:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Automatical layout loading and saving</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Save active layout on program exit without check-back</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Load this layout on program startup:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>C&amp;hoose...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Statusline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sho&amp;w time for incoming and outgoing messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Convert SRCP 0.8 server time human readable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Layout</source>
+        <translation type="unfinished">&amp;Disposizione</translation>
+    </message>
+    <message>
+        <source>Special effects</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show &amp;orange light for signals switched to Hp2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show &amp;blinking turnouts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A&amp;llways send solenoid states on routing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bubblehelp</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Globally show help &amp;bubbles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show help bubbles for element &amp;data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Solenoid labeling</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show decoder &amp;address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show &amp;text (turnout or signal name)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Initialize signals on startup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Always on &amp;Halt (Hp0/Hp00/Sh0)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>As &amp;saved from previous session</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Elements</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default protocol</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Solenoid defaults</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default de&amp;coder:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default &amp;activation time (ms):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Routing &amp;delay per element (ms):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turntable defaults</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose digital &amp;turntable moving-direction automatically</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>T&amp;ime for a 360&#xb0; turn of turntable (s.ms):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Digital Data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Module size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>1&amp;6 Inputs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;8 Inputs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bus numbering</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fi&amp;xed (SRCP 0.7)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>F&amp;lexible (SRCP 0.8)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Connected modules per bus</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Bus:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Modules:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Feedback modules</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Module type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>S88 via &amp;DDL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>i8&amp;255-Card</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>S88 via M60&amp;15</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Protocol by server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Selectrix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Selectrix Initialization</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bus</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Address</source>
+        <translation type="unfinished">Indirizzo</translation>
+    </message>
+    <message>
+        <source>Number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Up</source>
+        <translation type="unfinished">&amp;Su</translation>
+    </message>
+    <message>
+        <source>&amp;Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Edit...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Add...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Remove</source>
+        <translation type="unfinished">&amp;Rimuovi</translation>
+    </message>
+    <message>
+        <source>Feedback &amp;type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dynamic route data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>S&amp;end route state change messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send a state change message when a route is released or
+successfully activated. This is typically used for scripting.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pro&amp;cess incoming route state change messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Process incoming state change messages to release or
+activate routes. This is typically used for scripting.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send train &amp;number messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send a generic message when a train number is assigned
+to a new route. This is used for train tracking.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Process incoming train number messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Process a generic message assigning a new train number to a
+route (SET) or requesting the currently used train number (GET).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Static route data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable route &amp;type editing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Process a generic message assigning a new type to a
+route (SET) or requesting the currently used type (GET).
+This is used as a CRCF service example.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable track &amp;section editing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Process a generic message assigning a new section number to a
+route (SET) or requesting the currently used section number (GET).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Generic &amp;messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Layouts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Filename missing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have enabled the autoloader,
+so you must select a filename, too.
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;OK</source>
+        <translation>&amp;OK</translation>
+    </message>
+    <message>
+        <source>Turntable at lightspeed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please specify the total time
+that a turntable needs for a whole
+360&#xb0; turn.
+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Feedback modules missing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>On every feedback bus there seem to be
+no feedback modules.
+
+I assume that at least 1 module
+is connected to bus #1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Yes</source>
+        <translation>&amp;Si</translation>
+    </message>
+</context>
+<context>
+    <name>turntableCommander</name>
+    <message>
+        <source>Digital turntable commander</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Setup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Digital turntable programmer:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Start programming</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save &amp;position #1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pos. #1 is saved!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Done</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Step to next available track
+counter-clockwise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Step to next available track
+clockwise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select counter-
+clockwise rotation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select clockwise
+rotation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Stop rotating</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose the new track the turntable
+shall go to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Go to selected track</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Turn bridge at 180&#xb0;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Setup turntable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Press this button within 5 seconds after
+having switched on power to the whole
+layout (not just to your PC).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Press this button to save the current
+bridge position as position #1.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Press this button to add an other position
+for a track.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Press this button to end programming mode.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pos. #1 saved!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pos. #%d saved!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Add position #%d</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pos. #%d is saved!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+</TS>
