@@ -25,4 +25,4 @@ SOURCES = \
 	srcpport.cpp \
 	turntablecommander.cpp
 
-TRANSLATIONS = spdrs60_de.ts
+TRANSLATIONS = spdrs60_de.ts spdrs60_it.ts

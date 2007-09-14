@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.24 $
-# last update: $Date: 2007-09-12 17:52:58 $
+# version: $Revision: 1.25 $
+# last update: $Date: 2007-09-14 15:47:58 $
 
 SUBDIRS = pixmaps
 
@@ -22,6 +22,7 @@ nodist_spdrs60_SOURCES = \
 	gbsscrollview_moc.cpp \
 	infoport_moc.cpp \
 	keyboard_moc.cpp \
+	layouteditmodeagrp_moc.cpp \
 	mainwindow_moc.cpp \
 	messagehistory_moc.cpp \
 	newlayoutdialog_moc.cpp \
@@ -71,6 +72,7 @@ spdrs60_SOURCES = main.cpp resources.h filekeys.h \
 	gbsscrollview.cpp gbsscrollview.h  \
 	infoport.cpp infoport.h \
 	keyboard.cpp keyboard.h \
+	layouteditmodeagrp.cpp layouteditmodeagrp.h \
 	mainwindow.cpp mainwindow.h \
 	messagehistory.cpp messagehistory.h \
 	newlayoutdialog.cpp newlayoutdialog.h \
@@ -120,6 +122,7 @@ translated_source_files = \
 	gbsarea.cpp \
 	gbsscrollview.cpp \
 	keyboard.cpp \
+	layouteditmodeagrp.cpp \
 	main.cpp \
 	mainwindow.cpp \
 	messagehistory.cpp \
@@ -138,8 +141,20 @@ translated_source_files = \
 	turntablecommander.cpp
 
 
+# generated files containing translations, installed but not distributed
+pkgdata_DATA = spdrs60_de.qm spdrs60_it.qm
+
+
 # list here all files containing string translations
 translatedstrings = spdrs60_de.ts spdrs60_it.ts
+
+
+# misc files which are distributed but not installed
+EXTRA_DIST = spdrs60.pro $(translatedstrings)
+
+
+# all generated files to be removed by "make clean"
+CLEANFILES = $(nodist_spdrs60_SOURCES) $(pkgdata_DATA)
 
 
 spdrs60_LDADD = @LIB_QT@
@@ -147,7 +162,7 @@ spdrs60_LDADD = @LIB_QT@
 # the library search path. 
 spdrs60_LDFLAGS = $(all_libraries) 
 
-# set the include path for X, qt and KDE
+# set the include path for X and Qt
 INCLUDES= $(all_includes)
 
 # define path to Qt translations if configure found it
@@ -156,18 +171,13 @@ TRANSLATE_DEF = -DQT_TRANSLATIONS_DIR=\"@QT_TRANSLATIONS_DIR@\"
 endif
 AM_CXXFLAGS = $(TRANSLATE_DEF) -Wall
 
-EXTRA_DIST = spdrs60.pro $(translatedstrings)
-
-pkgdata_DATA = spdrs60_de.qm spdrs60_it.qm
-
-# all generated files are removed by "make clean"
-CLEANFILES = $(nodist_spdrs60_SOURCES) $(pkgdata_DATA)
-
-SUFFIXES = _moc.cpp
 
 # rule for moc-file generation
+SUFFIXES = _moc.cpp
+
 .h_moc.cpp: $(spdrs60_SOURCES)
 	$(MOC) $< -o $@
+
 
 # rule for translation file generation
 # lrelease 3.0 does not understand option -qm

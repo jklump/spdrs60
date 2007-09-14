@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.2 $Revision: 1.77 $
+                           version 0.5.2 $Revision: 1.78 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-31 20:42:48 $
+    last modified        : $Date: 2007-09-14 15:47:58 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -54,6 +54,10 @@
 #include "pixmaps/cursor_rrs_m.xpm"
 #include "pixmaps/cursor_urs_b.xpm"
 #include "pixmaps/cursor_urs_m.xpm"
+#include "pixmaps/cursor_paint_b.xpm"
+#include "pixmaps/cursor_paint_m.xpm"
+#include "pixmaps/cursor_erase_b.xpm"
+#include "pixmaps/cursor_erase_m.xpm"
 
 /* popup menu icons */
 #include "pixmaps/ctx_rota.xpm"
@@ -87,6 +91,7 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
     // set all global layout variables
     gkbState = kNoneClicked;
     visualMode = kvmNormal;
+    lyeditMode = lemSelect;
     modified = false;
     cols = 0;
     rows = 0;
@@ -95,6 +100,8 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
      
     setAcceptDrops(true);
     dragging = false;
+    erasing = false;
+    painting = false;
 
     elements.setAutoDelete(true);
 
@@ -163,6 +170,16 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
     cm = QPixmap(cursor_urs_m_xpm);
     cb.setMask(*cm.mask());
     URSCursor = QCursor(cb, 0, 0);
+
+    cb = QPixmap(cursor_paint_b_xpm);
+    cm = QPixmap(cursor_paint_m_xpm);
+    cb.setMask(*cm.mask());
+    paintCursor = QCursor(cb, 0, 0);
+
+    cb = QPixmap(cursor_erase_b_xpm);
+    cm = QPixmap(cursor_erase_m_xpm);
+    cb.setMask(*cm.mask());
+    eraseCursor = QCursor(cb, 0, 0);
 
     delayTimer = new QTimer(this);
     connect(delayTimer, SIGNAL(timeout()),
@@ -1359,7 +1376,19 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
     /*layout edit mode*/
     else if (visualMode == kvmEditLayout) {
         if (e->button() == LeftButton) {
+
+            if (lyeditMode == lemSelect) {
             /*TODO: handle drop action*/
+            }
+
+            else if (lyeditMode == lemErase) {
+                erasing = false;
+            }
+
+            else if (lyeditMode == lemPaint) {
+                painting = false;
+            }
+
             e->accept();
         }
         else if (e->button() == MidButton) {
@@ -1480,9 +1509,47 @@ void GBSArea::mousePressEvent(QMouseEvent* e)
     /*layout edit mode*/
     if (visualMode == kvmEditLayout) {
         if (e->button() == LeftButton) {
-            element* el = (element*)childAt(e->pos());
-            if (el != NULL)
-                dragging = true;
+
+            /* drag item */
+            if (lyeditMode == lemSelect) {
+                element* el = (element*)childAt(e->pos());
+                if (el != NULL)
+                    dragging = true;
+            }
+
+            /* erase item */
+            else if (lyeditMode == lemErase) {
+                element* el = (element*)childAt(e->pos());
+                unsigned int idx = indexOf(e->pos());
+
+                if (el != NULL) {
+                    elements.remove(idx);
+                    lastElementName = "";
+                    modified = true;
+                }
+                erasing = true;
+            }
+
+            /* paint item */
+            else if (lyeditMode == lemPaint) {
+                /*
+                element* el = (element*)childAt(e->pos());
+                unsigned int idx = indexOf(e->pos());
+
+                if (el != NULL) {
+                    if (el->classId() != sici..) {
+                    elements.remove(idx);
+                    elements.insert(idx, new element());
+                    lastElementName = "";
+                    modified = true;
+                    }
+                }
+                else {
+                    //TODO: add painted element
+                }
+                */
+                painting = true;
+            }
         }
     }
 }
@@ -1494,7 +1561,8 @@ void GBSArea::mouseMoveEvent(QMouseEvent* e)
 {
     /*layout edit mode*/
     if (visualMode == kvmEditLayout) {
-        if (dragging) {
+        /* drag elements */
+        if ((lyeditMode == lemSelect) && dragging) {
             element* el = (element*)childAt(e->pos());
             if (el != NULL) {
                 unsigned int idx = el->getIndexNo();
@@ -1507,6 +1575,22 @@ void GBSArea::mouseMoveEvent(QMouseEvent* e)
                 d->dragMove();
                 dragging = false;
             }
+        }
+
+        /* erase elements */
+        else if ((lyeditMode == lemErase) && erasing) {
+                element* el = (element*)childAt(e->pos());
+                unsigned int idx = indexOf(e->pos());
+
+                if (el != NULL) {
+                        elements.remove(idx);
+                        lastElementName = "";
+                        modified = true;
+                }
+        }
+        
+        /* paint elements */
+        else if ((lyeditMode == lemPaint) && painting) {
         }
     }
 }
@@ -1593,3 +1677,35 @@ void GBSArea::paintEvent(QPaintEvent*)
     for (int y = 0; y < h; y += (EL_HEIGHT + 1))
         p.drawLine(0, y, w - 1, y);
 }
+
+/*
+ * change current edit mode
+ */
+void GBSArea::changeLayoutEditMode(LayoutEditMode lem)
+{
+    if (lem != lyeditMode)
+        lyeditMode = lem;
+
+    switch(lem) {
+        case lemSelect:
+            setCursor(Qt::ArrowCursor);
+            break;
+        case lemPaint:
+            setCursor(paintCursor);
+            break;
+        case lemErase:
+            setCursor(eraseCursor);
+            break;
+    }
+}
+
+/*
+ * change current paint item
+ */
+/* TODO:
+void GBSArea::changeLayoutPaintItem(SpdrItemClassId sici)
+{
+    if (sici != paintItem)
+        paintItem = sici;
+}
+*/

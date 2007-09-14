@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.124 $
+                           version 0.5.2 $Revision: 1.125 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-09 18:29:00 $
+    last modified        : $Date: 2007-09-14 15:47:58 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -36,6 +36,7 @@
 #include "preferences.h"
 #include "resources.h"
 #include "serverinfodialog.h"
+#include "layouteditmodeagrp.h"
 
 #include "../icons/spdrs60_32.xpm"
 /*toolbar icons*/
@@ -78,7 +79,7 @@
 #include "pixmaps/route_copy.xpm"
 #include "pixmaps/route_clear.xpm"
 
-/*for srcpCom*/
+/*some constants for data files*/
 #define GF_CMDHOST       "cmdhost"
 #define GF_FORMATVERSION "formatversion"
 #define GF_FV            "2"
@@ -926,6 +927,8 @@ void MainWindow::initMainWindow()
             SLOT(setShown(bool)));
     actionViewStatusline->addTo(viewmenu);
 
+    viewmenu->insertSeparator();
+
 #if QT_VERSION >= 0x030200
     actionViewToggleHistory = new QAction(NULL,
             tr("Toggle &history line"), Qt::CTRL + Qt::Key_D, // Ctrl H/T
@@ -1320,6 +1323,27 @@ void MainWindow::initMainWindow()
     //actionRouteUnlockAll->addTo(routetb);
 
 
+    /*layout edit toolbar*/
+    QToolBar* layoutedittb = new QToolBar(this, "layoutedittb");
+    Q_CHECK_PTR(layoutedittb);
+    layoutedittb->setLabel(tr("Layout edit operations"));
+    layoutedittb->hide();
+    layoutedittb->setEnabled(false);
+
+    //connect visibility of toolbar to toggle state of layout edit mode
+    //action 
+    connect(actionViewLayoutEditMode, SIGNAL(toggled(bool)),
+            layoutedittb, SLOT(setShown(bool)));
+    connect(actionViewLayoutEditMode, SIGNAL(toggled(bool)),
+            layoutedittb, SLOT(setEnabled(bool)));
+
+    LayoutEditModeAgrp *layoutEditGrp = new LayoutEditModeAgrp(this,
+            "layoutEditModeGroup");
+    connect(layoutEditGrp, SIGNAL(modeChanged(GBSArea::LayoutEditMode)),
+            gbs, SLOT(changeLayoutEditMode(GBSArea::LayoutEditMode)));
+    
+    layoutEditGrp->addTo(layoutedittb);
+    
     /*help toolbar*/
     //QToolBar* helptb = new QToolBar(this, "helptb");
     //Q_CHECK_PTR(helptb);

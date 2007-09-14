@@ -5,8 +5,8 @@
  *   2007-08-26
  * 
  * Last modified
- *   $Date: 2007-09-01 15:59:01 $
- *   $Revision: 1.3 $
+ *   $Date: 2007-09-14 15:47:58 $
+ *   $Revision: 1.4 $
  *
  * Copyright
  *   (C) 2007 Guido Scholz <guido.scholz@bayernline.de>
@@ -87,7 +87,7 @@ AboutDialog::AboutDialog(QWidget* parent): QDialog(parent,
 
     // contributors groupbox, names in two vertical columns
     QGroupBox* contribGB = new QGroupBox(2, Qt::Horizontal,
-            ("Contributors"), this, "contribGB");
+            tr("Contributors"), this, "contribGB");
     baseLayout->addWidget(contribGB);
 
     label = new QLabel("Dirk Armbrust", contribGB);

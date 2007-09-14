@@ -1,10 +1,10 @@
 /***************************************************************************
                            routelvi.cpp
-                           version 0.5.2 $Revision: 1.6 $
+                           version 0.5.2 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-11 19:14:46 $
+    last modified        : $Date: 2007-09-14 15:47:58 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -155,22 +155,25 @@ void RouteLVI::setRoute(Route* rt)
 void RouteLVI::updateRouteData()
 {
     if (route != NULL) {
-        updateRouteStatePixmap();  
-        setText(1, route->getSectionName());  
-        setText(2, route->getFromSignalName());  
-        setText(3, route->getToSignalName());  
-        setText(4, route->getTypeStr());  
-        setText(5, QString::number(route->getId()));  
-        setText(6, QString::number(route->getTrain()));  
+        QString num;
+
+        updateRouteStatePixmap();
+        setText(1, route->getSectionName());
+        setText(2, route->getFromSignalName());
+        setText(3, route->getToSignalName());
+        setText(4, route->getTypeStr());
+        num.sprintf("%03d", route->getId());
+        setText(5, num);
+        setText(6, QString::number(route->getTrain()));
     }
     else {
-        setPixmap(0, pUnlocked);  
-        setText(1, "");  
-        setText(2, "");  
-        setText(3, "");  
-        setText(4, "");  
-        setText(5, "");  
-        setText(6, "");  
+        setPixmap(0, pUnlocked);
+        setText(1, "");
+        setText(2, "");
+        setText(3, "");
+        setText(4, "");
+        setText(5, "");
+        setText(6, "");
     }
 }
 

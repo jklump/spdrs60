@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.5.2 $Revision: 1.43 $
+                           version 0.5.2 $Revision: 1.44 $
                            -------------------------------
     copyright            : (C) 2005-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-09 13:45:42 $
+    last modified        : $Date: 2007-09-14 15:47:58 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -42,8 +42,10 @@ RouteDialog::RouteDialog(QWidget* parent): QTabDialog(parent,
 
     // Validator for all bus input lines
     busValidator = new QIntValidator(1, 999, this);
-    // Validator for route id and train number
-    routeValidator = new QIntValidator(0, 99999, this);
+    // Validator for train ids
+    trainidValidator = new QIntValidator(0, 99999, this);
+    // Validator for track numbers
+    tracknumberValidator = new QIntValidator(100, 999, this);
 
 
     addIdentificationTab();
@@ -81,22 +83,22 @@ void RouteDialog::addIdentificationTab()
     lblRouteName->setBuddy(routeNameLE);
     nameLayout->addWidget(routeNameLE);
 
-    /*line with numerical id*/
+    /*line with track number (Gleisnummer)*/
     QHBoxLayout* numberLayout = new QHBoxLayout(identificationGBL, 6);
-    QLabel* lblRouteNumber = new QLabel(tr("N&umber (Id)"), identificationGB);
+    QLabel* lblRouteNumber = new QLabel(tr("Track n&umber"), identificationGB);
     numberLayout->addWidget(lblRouteNumber);
     numberLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
                 QSizePolicy::Minimum));
     routeNumberLE = new QLineEdit(identificationGB, "routeNumberLE");
     routeNumberLE->setMaximumWidth(LEMAXWIDTH);
-    routeNumberLE->setValidator(routeValidator);
+    routeNumberLE->setValidator(tracknumberValidator);
     lblRouteNumber->setBuddy(routeNumberLE);
     numberLayout->addWidget(routeNumberLE);
     QToolTip::add(routeNumberLE, tr(
                 "Enter an unique identification number for\n"
                 "this route. The valid range is %1 to %2.")
-            .arg(routeValidator->bottom())
-            .arg(routeValidator->top()));
+            .arg(tracknumberValidator->bottom())
+            .arg(tracknumberValidator->top()));
 
     /*line with train number*/
     QHBoxLayout* trainLayout = new QHBoxLayout(identificationGBL, 6);
@@ -106,15 +108,15 @@ void RouteDialog::addIdentificationTab()
                 QSizePolicy::Minimum));
     routeTrainLE = new QLineEdit(identificationGB, "routeTrainLE");
     routeTrainLE->setMaximumWidth(LEMAXWIDTH);
-    routeTrainLE->setValidator(routeValidator);
+    routeTrainLE->setValidator(trainidValidator);
     lblRouteTrain->setBuddy(routeTrainLE);
     trainLayout->addWidget(routeTrainLE);
     QToolTip::add(routeTrainLE, tr(
                 "Enter an unique identification number for\n"
                 "the train, currently occupying this route.\n"
                 "The valid range is %1 to %2.")
-            .arg(routeValidator->bottom())
-            .arg(routeValidator->top()));
+            .arg(trainidValidator->bottom())
+            .arg(trainidValidator->top()));
 
     /*horizontal layout for start and stop signal data group boxes*/
     QHBoxLayout* signalStaStoLayout = new QHBoxLayout(tabLayout, 6);
@@ -608,13 +610,13 @@ void RouteDialog::addTrainNumberForwardingTab()
 
     /*line with SRCP bus for activation by feedback*/
     QHBoxLayout* targetidLayout = new QHBoxLayout(targetidGB->layout(), 6);
-    QLabel* numberLbl = new QLabel(tr("&Number (Id)"), targetidGB);
+    QLabel* numberLbl = new QLabel(tr("&Track number"), targetidGB);
     targetidLayout->addWidget(numberLbl);
     targetidLayout->addItem(new QSpacerItem(0, 0,
                 QSizePolicy::Expanding, QSizePolicy::Minimum));
     forwardidLE = new QLineEdit("1", targetidGB, "forwardidLE");
     forwardidLE->setMaximumWidth(LEMAXWIDTH);
-    forwardidLE->setValidator(routeValidator);
+    forwardidLE->setValidator(tracknumberValidator);
     numberLbl->setBuddy(forwardidLE);
     targetidLayout->addWidget(forwardidLE);
 

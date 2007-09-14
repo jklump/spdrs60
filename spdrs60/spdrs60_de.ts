@@ -26,6 +26,10 @@ wird ein SRCP-Server (z.B. erddcd oder srcpd) benötigt.</translation>
         <source>OK</source>
         <translation>OK</translation>
     </message>
+    <message>
+        <source>Contributors</source>
+        <translation>Mitwirkende</translation>
+    </message>
 </context>
 <context>
     <name>FeedbackViewer</name>
@@ -836,6 +840,10 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <source>Show the toolbars</source>
         <translation>Symbolleisten anzeigen</translation>
     </message>
+    <message>
+        <source>Layout edit operations</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MessageHistory</name>
@@ -1077,8 +1085,8 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <translation>Identifikation</translation>
     </message>
     <message>
-        <source>N&amp;umber (Id)</source>
-        <translation>N&amp;ummer (Id)</translation>
+        <source>Track n&amp;umber</source>
+        <translation>&amp;Gleisnummer</translation>
     </message>
     <message>
         <source>&amp;Train number</source>
@@ -1123,8 +1131,8 @@ Erlaubt sind Werte von %1 bis %2.</translation>
         <translation>&amp;Streckenblock</translation>
     </message>
     <message>
-        <source>&amp;Number (Id)</source>
-        <translation>&amp;Nummer (Id)</translation>
+        <source>&amp;Track number</source>
+        <translation>&amp;Gleisnummer</translation>
     </message>
     <message>
         <source>Target type</source>
@@ -1223,8 +1231,8 @@ pick up this information so update its route.</source>
         <translation>Typ</translation>
     </message>
     <message>
-        <source>Id</source>
-        <translation>Id</translation>
+        <source>Track</source>
+        <translation>Gleis</translation>
     </message>
     <message>
         <source>Train</source>
@@ -1319,6 +1327,10 @@ pick up this information so update its route.</source>
     <message>
         <source>Error forwarding train number: External targets are not supported yet.</source>
         <translation>Fehler beim Weiterleiten der Zugnummer: Externe Ziele werden noch nicht unterstüzt.</translation>
+    </message>
+    <message>
+        <source>Error: Maximum track number found is &apos;%1&apos;; valid range is from 100 to 999</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

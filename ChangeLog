@@ -1,3 +1,11 @@
+2007-09-13 Guido Scholz <guido.scholz@bayernline.de>
+	* pixmaps/*.xpm: New cursor shapes and icons for extended layout
+	edit mode.
+
+2007-09-10 Guido Scholz <guido.scholz@bayernline.de>
+	* section.*, route.*, router, routelvi.cpp: New base class
+	»section« for routes and blocks.
+
 2007-09-09 Guido Scholz <guido.scholz@bayernline.de>
 	* mainwindow.cpp: Menu, toolbars and statusline are made hidable
 	by menu actions, Ctrl-U will bring a hidden menu back.

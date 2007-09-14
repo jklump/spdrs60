@@ -597,7 +597,7 @@ includes a train number transfer.</source>
     </message>
     <message>
         <source>&amp;Add</source>
-        <translation type="unfinished">&amp;Aggiungi</translation>
+        <translation>&amp;Aggiungi</translation>
     </message>
     <message>
         <source>Add new route</source>
@@ -826,6 +826,10 @@ the server daemon after shutdown has finished)</source>
         <source>Error starting clock!</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Layout edit operations</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MessageHistory</name>
@@ -1019,7 +1023,7 @@ The valid range is %1 to %2.</source>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished">Tipo</translation>
+        <translation>Tipo</translation>
     </message>
     <message>
         <source>&amp;Normal route</source>
@@ -1059,7 +1063,7 @@ The valid range is %1 to %2.</source>
     </message>
     <message>
         <source>No</source>
-        <translation type="unfinished"></translation>
+        <translation>No</translation>
     </message>
     <message>
         <source>Bus</source>
@@ -1083,7 +1087,7 @@ The valid range is %1 to %2.</source>
     </message>
     <message>
         <source>&amp;Edit</source>
-        <translation type="unfinished">&amp;Modifica</translation>
+        <translation>&amp;Modifica</translation>
     </message>
     <message>
         <source>&amp;Add</source>
@@ -1764,7 +1768,7 @@ columns for your layout</source>
     </message>
     <message>
         <source>&amp;Rows:</source>
-        <translation type="unfinished">&amp;File:</translation>
+        <translation>&amp;File:</translation>
     </message>
     <message>
         <source>Choose or enter the number
@@ -1846,11 +1850,11 @@ after layout power is switched on.
     </message>
     <message>
         <source>&amp;Columns:</source>
-        <translation type="unfinished">&amp;Colonne:</translation>
+        <translation>&amp;Colonne:</translation>
     </message>
     <message>
         <source>&amp;Rows:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;File:</translation>
     </message>
     <message>
         <source>External programms</source>
@@ -1894,7 +1898,7 @@ after layout power is switched on.
     </message>
     <message>
         <source>&amp;Layout</source>
-        <translation type="unfinished">&amp;Disposizione</translation>
+        <translation>&amp;Disposizione</translation>
     </message>
     <message>
         <source>Special effects</source>
@@ -2062,7 +2066,7 @@ after layout power is switched on.
     </message>
     <message>
         <source>Address</source>
-        <translation type="unfinished">Indirizzo</translation>
+        <translation>Indirizzo</translation>
     </message>
     <message>
         <source>Number</source>
@@ -2070,7 +2074,7 @@ after layout power is switched on.
     </message>
     <message>
         <source>&amp;Up</source>
-        <translation type="unfinished">&amp;Su</translation>
+        <translation>&amp;Su</translation>
     </message>
     <message>
         <source>&amp;Down</source>
@@ -2086,7 +2090,7 @@ after layout power is switched on.
     </message>
     <message>
         <source>&amp;Remove</source>
-        <translation type="unfinished">&amp;Rimuovi</translation>
+        <translation>&amp;Rimuovi</translation>
     </message>
     <message>
         <source>Feedback &amp;type</source>

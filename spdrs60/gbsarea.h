@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.5.2 $Revision: 1.45 $
+                           version 0.5.2 $Revision: 1.46 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-31 20:42:48 $
+    last modified        : $Date: 2007-09-14 15:47:58 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -49,15 +49,16 @@ class GBSArea: public QWidget
    Q_PROPERTY(bool modified READ isModified WRITE setModified DESIGNABLE false)
 
 public:
+   enum LayoutEditMode {lemSelect = 0, lemPaint, lemErase};
+
    GBSArea(QWidget* parent = 0, const char* name = 0);
    virtual ~GBSArea();
 
    bool isModified() const;
-   virtual void setModified(bool m);
+   void setModified(bool m);
    QSize sizeHint() const;
    void writeFileTextToStream(QTextStream& ts);
    void readFileTextFromStream(QTextStream& ts);
-   // void readOldElements(QTextStream&);
    void setLayoutSize(int, int);
    int getColumns();
    int getRows();
@@ -85,6 +86,8 @@ private:
    QCursor     UZSCursor;
    QCursor     WGTCursor;
    QCursor     ZHSCursor;
+   QCursor     paintCursor;
+   QCursor     eraseCursor;
    QTimer*     delayTimer;
 
    QPopupMenu* ctxNorm;
@@ -99,6 +102,8 @@ private:
    bool        modified: 1;
    GbsButtonState  gkbState;
    elemVisualMode visualMode;
+   LayoutEditMode lyeditMode;
+   //SpdrItemClassId paintItem;
 
    // for SRCP 0.8
    unsigned int SRCP08GA1InitWalker;
@@ -149,9 +154,13 @@ public slots:
             Route::RouteSetAction&);
     void getElementByAddress(const int, const int, element**);
     void switchVisualMode(elemVisualMode);
+    void changeLayoutEditMode(GBSArea::LayoutEditMode);
+    //void changeLayoutEditMode(SpdrItemClassId);
 
 protected:
     bool dragging;
+    bool erasing;
+    bool painting;
     unsigned int indexOf(int row, int col) const;
     unsigned int indexOf(QPoint) const;
     void mousePressEvent(QMouseEvent *);
