@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mmail      : guido.scholz@bayernline.de
  * Begin        : 2007-09-12
- * Last modified: $Date: 2007-09-14 04:34:02 $
- *                $Revision: 1.1 $
+ * Last modified: $Date: 2007-09-15 10:54:47 $
+ *                $Revision: 1.2 $
  *
  * This is the header file to layouteditmodeagrp.cpp
  */
@@ -42,6 +42,8 @@ public slots:
 
 private slots:
     void modeSelected(QAction*);
+    void enableEditMode(bool);
+
     
 private:
     QAction* actionSelectMode;

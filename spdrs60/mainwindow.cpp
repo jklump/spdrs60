@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.125 $
+                           version 0.5.2 $Revision: 1.126 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-14 15:47:58 $
+    last modified        : $Date: 2007-09-15 10:54:47 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1341,6 +1341,8 @@ void MainWindow::initMainWindow()
             "layoutEditModeGroup");
     connect(layoutEditGrp, SIGNAL(modeChanged(GBSArea::LayoutEditMode)),
             gbs, SLOT(changeLayoutEditMode(GBSArea::LayoutEditMode)));
+    connect(actionViewLayoutEditMode, SIGNAL(toggled(bool)),
+            layoutEditGrp, SLOT(enableEditMode(bool)));
     
     layoutEditGrp->addTo(layoutedittb);
     
