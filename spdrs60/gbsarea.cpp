@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.2 $Revision: 1.78 $
+                           version 0.5.2 $Revision: 1.79 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-14 15:47:58 $
+    last modified        : $Date: 2007-09-16 16:58:48 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -59,27 +59,13 @@
 #include "pixmaps/cursor_erase_b.xpm"
 #include "pixmaps/cursor_erase_m.xpm"
 
-/* popup menu icons */
-#include "pixmaps/ctx_rota.xpm"
-#include "pixmaps/ctx_straight.xpm"
-#include "pixmaps/ctx_clear.xpm"
-#include "pixmaps/ctx_l_curve.xpm"
-#include "pixmaps/ctx_l_diag.xpm"
-#include "pixmaps/ctx_l_turn.xpm"
-#include "pixmaps/ctx_r_curve.xpm"
-#include "pixmaps/ctx_r_diag.xpm"
-#include "pixmaps/ctx_r_turn.xpm"
-
 // search options
 #define SRCH_TX 0   // search string should be in text field
 #define SRCH_A1 1   // search string should be in address 1 field
 #define SRCH_A2 2   // search string should be in address 2 field
 
 // constants for context menu
-#define   CTX_ID_REP       901
-#define   CTX_ID_TOGGLE    902
-#define   CTX_ID_CLEAR     903
-#define   CTX_ID_ROTATE    904
+#define   CTX_ID_TOGGLE    900
 
 // mime type for layout elements
 #define MIME_LE "application/x-spdrs60-le"
@@ -92,10 +78,10 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
     gkbState = kNoneClicked;
     visualMode = kvmNormal;
     lyeditMode = lemSelect;
+    paintItem = element::siciGer;
     modified = false;
     cols = 0;
     rows = 0;
-    lastElementName = "";
     setPaletteBackgroundColor(QColor(lightGray));
      
     setAcceptDrops(true);
@@ -104,6 +90,7 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
     painting = false;
 
     elements.setAutoDelete(true);
+    initSpdrMap();
 
     // SRCP 0.8 data
     SRCP08GA1InitWalker = 0;
@@ -187,35 +174,6 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
 
     ctxNorm = new QPopupMenu(this, "ctxNormPM");
     ctxNorm->insertItem(tr("&Toggle"), CTX_ID_TOGGLE);
-    
-    QPixmap p;
-    // context menu with entries for edit mode
-    ctxEdit = new QPopupMenu(this, "ctxEditPM");
-    ctxEdit->insertItem(tr("&Repeat"), CTX_ID_REP);
-    ctxEdit->setItemEnabled(CTX_ID_REP, false);
-    ctxEdit->insertSeparator();
-
-    p = QPixmap(ctx_rota_xpm);
-    ctxEdit->insertItem(p, tr("R&otate"), CTX_ID_ROTATE);
-    p = QPixmap(ctx_clear_xpm);
-    ctxEdit->insertItem(p, tr("&Clear"), CTX_ID_CLEAR);
-    ctxEdit->insertSeparator();
-
-    //TODO: make element names translatable
-    p = QPixmap(ctx_straight_xpm);
-    ctxEdit->insertItem(p, SYM_GER, 5);
-    p = QPixmap(ctx_l_curve_xpm);
-    ctxEdit->insertItem(p, SYM_KUL, 6);
-    p = QPixmap(ctx_r_curve_xpm);
-    ctxEdit->insertItem(p, SYM_KUR, 7);
-    p = QPixmap(ctx_l_diag_xpm);
-    ctxEdit->insertItem(p, SYM_DIL, 8);
-    p = QPixmap(ctx_r_diag_xpm);
-    ctxEdit->insertItem(p, SYM_DIR, 9);
-    p = QPixmap(ctx_l_turn_xpm);
-    ctxEdit->insertItem(p, SYM_WEL, 10);
-    p = QPixmap(ctx_r_turn_xpm);
-    ctxEdit->insertItem(p, SYM_WER, 11);
 }
 
 
@@ -314,6 +272,15 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
                 if (idx < ecount) {
                     moveElementToIndexPos(el, idx);
                     elements.insert(idx, el);
+
+                    // FIXME: temporary solution until all stored
+                    // items have a valid class id
+                    element::SpdrItemClassId ci =
+                        (element::SpdrItemClassId)el->classId();
+                    if (ci == element::siciNone) {
+                        el->setClassId(classIdByName(el->sSoldIcon));
+                    }
+
                     connectElement(el);
                     el->show();
                 }
@@ -321,7 +288,7 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
         }
         else if (s.startsWith("%% route"))
             break;
-        }
+    }
     setModified(false);
 }
 
@@ -1391,86 +1358,19 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
 
             e->accept();
         }
-        else if (e->button() == MidButton) {
-            element* el = (element*)childAt(e->pos());
-            unsigned int idx = indexOf(e->pos());
 
-            // add new empty element
-            if (el == NULL) {
-                el = new element(this);
-                el->setIndexNo(idx);
-                el->switchVisualMode(visualMode);
-                moveElementToIndexPos(el, idx);
-                elements.insert(idx, el);
-                connectElement(el);
-                el->show();
-            }
-
-            // first update name of last edited element
-            ctxEdit->setItemEnabled(CTX_ID_REP,
-                    !lastElementName.isEmpty());
-
-            QString s = QString(tr("&Repeat: %1")).arg(lastElementName);
-            ctxEdit->changeItem(s, CTX_ID_REP);
-            ctxEdit->setItemEnabled(CTX_ID_CLEAR, true);
-            ctxEdit->setItemEnabled(CTX_ID_ROTATE, el->isRotatable());
-            int value = ctxEdit->exec(QCursor::pos());
-
-            if (value != -1) {
-                switch (value) {
-                    case CTX_ID_REP:
-                        el->setElementName(lastElementName);
-                        break;
-                    case CTX_ID_ROTATE:
-                        el->rotate();
-                        break;
-                    case CTX_ID_CLEAR:
-                        //route data is updated when edit mode is left
-                        elements.remove(idx);
-                        lastElementName = "";
-                        break;
-                    case 5:
-                        el->setElementName(SYM_GER);
-                        lastElementName = SYM_GER;
-                        break;
-                    case 6:
-                        el->setElementName(SYM_KUL);
-                        lastElementName = SYM_KUL;
-                        break;
-                    case 7:
-                        el->setElementName(SYM_KUR);
-                        lastElementName = SYM_KUR;
-                        break;
-                    case 8:
-                        el->setElementName(SYM_DIL);
-                        lastElementName = SYM_DIL;
-                        break;
-                    case 9:
-                        el->setElementName(SYM_DIR);
-                        lastElementName = SYM_DIR;
-                        break;
-                    case 10:
-                        el->setElementName(SYM_WEL);
-                        lastElementName = SYM_WEL;
-                        break;
-                    case 11:
-                        el->setElementName(SYM_WER);
-                        lastElementName = SYM_WER;
-                        break;
-                }
-                modified = true;
-            }
-            e->accept();
+        else if (e->button() == MidButton){
+            // nothing happens here
         }
-        else if (e->button() == RightButton){
+
+        else if ((e->button() == RightButton) && (lyeditMode == lemSelect)){
             element* el = (element*)childAt(e->pos());
 
             // add new empty element
             if (el == NULL) {
-                el = new element(this);
                 unsigned int idx = indexOf(e->pos());
+                el = new element(this, element::siciLee, SYM_LEE, visualMode);
                 el->setIndexNo(idx);
-                el->switchVisualMode(visualMode);
                 moveElementToIndexPos(el, idx);
                 elements.insert(idx, el);
                 connectElement(el);
@@ -1478,9 +1378,10 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
             }
 
             el->showPropertyDlg();
-            lastElementName = el->sSoldIcon;
+            el->setClassId(classIdByName(el->sSoldIcon));
             e->accept();
         }
+
     }
 
     /*route edit mode*/
@@ -1524,7 +1425,6 @@ void GBSArea::mousePressEvent(QMouseEvent* e)
 
                 if (el != NULL) {
                     elements.remove(idx);
-                    lastElementName = "";
                     modified = true;
                 }
                 erasing = true;
@@ -1532,22 +1432,32 @@ void GBSArea::mousePressEvent(QMouseEvent* e)
 
             /* paint item */
             else if (lyeditMode == lemPaint) {
-                /*
                 element* el = (element*)childAt(e->pos());
                 unsigned int idx = indexOf(e->pos());
 
                 if (el != NULL) {
-                    if (el->classId() != sici..) {
-                    elements.remove(idx);
-                    elements.insert(idx, new element());
-                    lastElementName = "";
-                    modified = true;
+                    if (el->classId() != paintItem) {
+                        elements.remove(idx);
+                        el = new element(this, paintItem,
+                                nameByClassId(paintItem), visualMode);
+                        el->setIndexNo(idx);
+                        moveElementToIndexPos(el, idx);
+                        elements.insert(idx, el);
+                        connectElement(el);
+                        el->show();
+                        modified = true;
                     }
                 }
                 else {
-                    //TODO: add painted element
+                    el = new element(this, paintItem,
+                            nameByClassId(paintItem), visualMode);
+                    el->setIndexNo(idx);
+                    moveElementToIndexPos(el, idx);
+                    elements.insert(idx, el);
+                    connectElement(el);
+                    el->show();
+                    modified = true;
                 }
-                */
                 painting = true;
             }
         }
@@ -1584,13 +1494,38 @@ void GBSArea::mouseMoveEvent(QMouseEvent* e)
 
                 if (el != NULL) {
                         elements.remove(idx);
-                        lastElementName = "";
                         modified = true;
                 }
         }
         
         /* paint elements */
         else if ((lyeditMode == lemPaint) && painting) {
+                element* el = (element*)childAt(e->pos());
+                unsigned int idx = indexOf(e->pos());
+
+                if (el != NULL) {
+                    if (el->classId() != paintItem) {
+                        elements.remove(idx);
+                        el = new element(this, paintItem,
+                                nameByClassId(paintItem), visualMode);
+                        el->setIndexNo(idx);
+                        moveElementToIndexPos(el, idx);
+                        elements.insert(idx, el);
+                        connectElement(el);
+                        el->show();
+                        modified = true;
+                    }
+                }
+                else {
+                    el = new element(this, paintItem,
+                            nameByClassId(paintItem), visualMode);
+                    el->setIndexNo(idx);
+                    moveElementToIndexPos(el, idx);
+                    elements.insert(idx, el);
+                    connectElement(el);
+                    el->show();
+                    modified = true;
+                }
         }
     }
 }
@@ -1702,10 +1637,112 @@ void GBSArea::changeLayoutEditMode(LayoutEditMode lem)
 /*
  * change current paint item
  */
-/* TODO:
-void GBSArea::changeLayoutPaintItem(SpdrItemClassId sici)
+void GBSArea::changeLayoutPaintItem(element::SpdrItemClassId sici)
 {
     if (sici != paintItem)
         paintItem = sici;
 }
-*/
+
+/*
+ * setup map to translate between item ids and item names
+ */
+void GBSArea::initSpdrMap()
+{
+    spdrmap[element::siciHs] = SYM_HS;
+    spdrmap[element::siciHss] = SYM_HSS;
+    spdrmap[element::siciSs] = SYM_SS;
+    spdrmap[element::siciSsh] = SYM_SSH;
+    spdrmap[element::siciSss] = SYM_SSS;
+    spdrmap[element::siciWs] = SYM_WS;
+    spdrmap[element::siciVs] = SYM_VS;
+    spdrmap[element::siciZp] = SYM_ZP;
+    spdrmap[element::siciNrb] = SYM_NRB;
+    spdrmap[element::siciSrb] = SYM_SRB;
+    spdrmap[element::siciWel] = SYM_WEL;
+    spdrmap[element::siciWer] = SYM_WER;
+    spdrmap[element::siciDwl] = SYM_DWL;
+    spdrmap[element::siciDwr] = SYM_DWR;
+    spdrmap[element::siciWey] = SYM_WEY;
+    spdrmap[element::siciDrw] = SYM_DRW;
+    spdrmap[element::siciEkl] = SYM_EKL;
+    spdrmap[element::siciEkr] = SYM_EKR;
+    spdrmap[element::siciDkl] = SYM_DKL;
+    spdrmap[element::siciDkr] = SYM_DKR;
+    spdrmap[element::siciGer] = SYM_GER;
+    spdrmap[element::siciDir] = SYM_DIR;
+    spdrmap[element::siciDil] = SYM_DIL;
+    spdrmap[element::siciKur] = SYM_KUR;
+    spdrmap[element::siciKul] = SYM_KUL;
+    spdrmap[element::siciTtl] = SYM_TTL;
+    spdrmap[element::siciTtr] = SYM_TTR;
+    spdrmap[element::siciTbl] = SYM_TBL;
+    spdrmap[element::siciTbr] = SYM_TBR;
+    spdrmap[element::siciTrv] = SYM_TRV;
+    spdrmap[element::siciKrh] = SYM_KRH;
+    spdrmap[element::siciKrr] = SYM_KRR;
+    spdrmap[element::siciKrl] = SYM_KRL;
+    spdrmap[element::siciRi1] = SYM_RI1;
+    spdrmap[element::siciRi2] = SYM_RI2;
+    spdrmap[element::siciEnk] = SYM_ENK;
+    spdrmap[element::siciBld] = SYM_BLD;
+    spdrmap[element::siciAdr] = SYM_ADR;
+    spdrmap[element::siciBue] = SYM_BUE;
+    spdrmap[element::siciPre] = SYM_PRE;
+    spdrmap[element::siciGet] = SYM_GET;
+    spdrmap[element::siciDlt] = SYM_DLT;
+    spdrmap[element::siciDrt] = SYM_DRT;
+    spdrmap[element::siciLee] = SYM_LEE;
+    spdrmap[element::siciRel] = SYM_REL;
+    spdrmap[element::siciMdc] = SYM_MDC;
+    spdrmap[element::siciDre] = SYM_DRE;
+    spdrmap[element::siciSbn] = SYM_SBN;
+    spdrmap[element::siciHs1] = SYM_HS1;
+    spdrmap[element::siciHs2] = SYM_HS2;
+    spdrmap[element::siciSho] = SYM_SHO;
+    spdrmap[element::siciShm] = SYM_SHM;
+    spdrmap[element::siciShu] = SYM_SHU;
+    spdrmap[element::siciFeg] = SYM_FEG;
+    spdrmap[element::siciTaf] = SYM_TAF;
+    spdrmap[element::siciTau] = SYM_TAU;
+    spdrmap[element::siciFeb] = SYM_FEB;
+    spdrmap[element::siciTaw] = SYM_TAW;
+    spdrmap[element::siciFeb] = SYM_FEB;
+    spdrmap[element::siciFen] = SYM_FEN;
+    spdrmap[element::siciFee] = SYM_FEE;
+}
+
+
+/*
+ * return name of spdr item from id
+ */
+element::SpdrItemClassId GBSArea::classIdByName(const QString& name)
+{
+    element::SpdrItemClassId returnvalue = element::siciNone;
+
+    SpdrMap::Iterator it;
+    for (it = spdrmap.begin(); it != spdrmap.end(); ++it ) {
+        if (QString(it.data()) == name) {
+            returnvalue = (element::SpdrItemClassId)it.key();
+            break;
+        }
+    }
+
+    return returnvalue;
+}
+
+
+/*
+ * return classid of spdr item from name
+ */
+QString GBSArea::nameByClassId(element::SpdrItemClassId id)
+{
+    QString returnvalue = "";
+
+    SpdrMap::Iterator it;
+    it = spdrmap.find(id);
+
+    if (it != spdrmap.end())
+        returnvalue = it.data();
+
+    return returnvalue;
+}

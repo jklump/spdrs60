@@ -197,22 +197,6 @@ den Suchkriterien entspricht.</translation>
         <source>&amp;Toggle</source>
         <translation>&amp;Umschalten</translation>
     </message>
-    <message>
-        <source>&amp;Repeat</source>
-        <translation>&amp;Wiederholen</translation>
-    </message>
-    <message>
-        <source>R&amp;otate</source>
-        <translation>&amp;Rotieren</translation>
-    </message>
-    <message>
-        <source>&amp;Clear</source>
-        <translation>&amp;Löschen</translation>
-    </message>
-    <message>
-        <source>&amp;Repeat: %1</source>
-        <translation>&amp;Wiederholen: %1</translation>
-    </message>
 </context>
 <context>
     <name>MainWindow</name>

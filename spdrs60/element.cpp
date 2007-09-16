@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.2 $Revision: 1.135 $
+                           version 0.5.2 $Revision: 1.136 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-10 20:05:43 $
+    last modified        : $Date: 2007-09-16 16:58:48 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -78,12 +78,16 @@
 #define WANGLE (180.0 - SANGLE) // wide angle
 
 
-element::element(QWidget* parent): QWidget(parent, "gbselement")
+element::element(QWidget* parent, SpdrItemClassId ci, const char* si,
+        elemVisualMode vm)
+    : QWidget(parent, "gbselement")
 {
     initVariables();
 
+    visualMode = vm;
+    classid = ci;
+    sSoldIcon = si;
     iSoldIndex = 0;
-    sSoldIcon = SYM_LEE;
     iSoldRotate = -1;
     iSoldInvert = -1;
     sSoldDecoder = "-1";
@@ -108,6 +112,8 @@ element::element(QTextStream& ats, QWidget* parent)
 : QWidget(parent, "gbselement")
 {
     initVariables();
+    visualMode = kvmNormal;
+    classid = siciNone;
     readFileTextFromStream(ats);
     updateProperties();
     setupElementIcon();
@@ -146,7 +152,6 @@ void element::initVariables()
                 false));
     setPaletteBackgroundColor(QColor(Qt::lightGray));
     selectionMode = ksmNormal;
-    visualMode = kvmNormal;
 
     lockCounter = 0;
     blinkcounter = 0;
@@ -167,14 +172,16 @@ void element::readFileTextFromStream(QTextStream& ats)
         if (!s.startsWith("#")) {
             key = s.section(DS, 0, 0);
             value = s.section(DS, 1, 1).stripWhiteSpace();
+
             /* key/value pairs are read sequence independent */
             if (key.compare(GF_INDEX) == 0) {
                   iSoldIndex = value.stripWhiteSpace().toUInt();
-                  //fprintf(stderr, "New idx: %d  ", iSoldIndex);
+            }
+            else if (key.compare(GF_CLASSID) == 0) {
+                  classid = (SpdrItemClassId)value.toInt();
             }
             else if (key.compare(GF_NAME) == 0) {
                   sSoldIcon = value.stripWhiteSpace();
-                  //fprintf(stderr, "New-Icon: %s\n", sSoldIcon.data());
             }
             else if (key.compare(GF_ROTATE) == 0) {
                 iSoldRotate = value.toInt();
@@ -6345,28 +6352,29 @@ QSize element::sizeHint() const
 
 void element::writeFileTextToStream(QTextStream& ts)
 {
-    ts << GF_INDEX     << DS << iSoldIndex<< endl;
-    ts << GF_NAME      << DS << sSoldIcon << endl;
-    ts << GF_ROTATE    << DS << iSoldRotate << endl;
-    ts << GF_INVERSTO  << DS << iSoldInvert << endl;
-    ts << GF_DECODER   << DS << sSoldDecoder << endl;
-    ts << GF_PROTOCOL  << DS << 
+    ts << GF_INDEX     << DS << iSoldIndex<< endl
+       << GF_CLASSID   << DS << classid << endl
+       << GF_NAME      << DS << sSoldIcon << endl
+       << GF_ROTATE    << DS << iSoldRotate << endl
+       << GF_INVERSTO  << DS << iSoldInvert << endl
+       << GF_DECODER   << DS << sSoldDecoder << endl
+       << GF_PROTOCOL  << DS << 
         ((protocol == SrcpMessage::proMM) ? "M" :
          (protocol == SrcpMessage::proDCC) ? "N" :
          (protocol == SrcpMessage::proServer) ? "P" :
-         (protocol == SrcpMessage::proSelectrix) ? "S" : "-1") << endl;
-    ts << GF_ADDRESS1  << DS << iGA1BusNo << DS << iSoldAddress_1 <<
-        DS << port1 << endl;
-    ts << GF_ADDRESS2  << DS << iGA2BusNo << DS << iSoldAddress_2 <<
-        DS << port2 << endl;
-    ts << GF_XCHCONN1  << DS << iSoldChangeConn[0] << endl;
-    ts << GF_XCHCONN2  << DS << iSoldChangeConn[1] << endl;
-    ts << GF_DIRECTION << DS << iSoldDirection << endl;
-    ts << GF_SUBTYPE   << DS << iSoldSubType << endl;
-    ts << GF_TEXT      << DS << sSoldText << endl;
-    ts << GF_ACTTIME   << DS << iSoldActiveTime << endl;
-    ts << GF_FBPORT    << DS << iFBBusNo << DS << iFBContact << endl;
-    ts << GF_HIDELEDS  << DS << iSoldLEDoff << endl;
+         (protocol == SrcpMessage::proSelectrix) ? "S" : "-1") << endl
+       << GF_ADDRESS1  << DS << iGA1BusNo << DS << iSoldAddress_1 <<
+        DS << port1 << endl
+       << GF_ADDRESS2  << DS << iGA2BusNo << DS << iSoldAddress_2 <<
+        DS << port2 << endl
+       << GF_XCHCONN1  << DS << iSoldChangeConn[0] << endl
+       << GF_XCHCONN2  << DS << iSoldChangeConn[1] << endl
+       << GF_DIRECTION << DS << iSoldDirection << endl
+       << GF_SUBTYPE   << DS << iSoldSubType << endl
+       << GF_TEXT      << DS << sSoldText << endl
+       << GF_ACTTIME   << DS << iSoldActiveTime << endl
+       << GF_FBPORT    << DS << iFBBusNo << DS << iFBContact << endl
+       << GF_HIDELEDS  << DS << iSoldLEDoff << endl;
 }
 
 
@@ -6689,4 +6697,20 @@ void element::setElementName(const QString& n)
 bool element::isRotatable()
 {
    return (iSoldRotate != -1);
+}
+
+/*
+ * return class id
+ */
+int element::classId()
+{
+    return classid;
+}
+
+/*
+ * set class id value
+ */
+void element::setClassId(SpdrItemClassId id)
+{
+    classid = id;
 }

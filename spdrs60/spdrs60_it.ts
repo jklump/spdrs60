@@ -99,18 +99,6 @@ SRCP server (e.g. erddcd or srcpd) as hardware link.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Repeat</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>R&amp;otate</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Clear</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>MGT-Function not supported.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -201,10 +189,6 @@ matches your search criteria.</source>
     </message>
     <message>
         <source>Layout contains %1 configured FB busses</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Repeat: %1</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.2 $Revision: 1.55 $
+                           version 0.5.2 $Revision: 1.56 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-14 15:47:58 $
+    last modified        : $Date: 2007-09-16 16:58:48 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -94,10 +94,10 @@ void Router::setupRouteElements()
     if (gbsElements == NULL)
         return;
 
-    QPtrListIterator<Route> routeit(routeList);
+    QPtrListIterator<Route> it(routeList);
     Route* sr;
-    while ((sr = routeit.current()) != 0) {
-        ++routeit;
+    while ((sr = it.current()) != 0) {
+        ++it;
         sr->setupElementList(gbsElements);
         connect(sr, SIGNAL(stateChanged(Route*, int)),
                 this, SLOT(processRouteState(Route*, int)));

@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.2 $Revision: 1.68 $
+                           version 0.5.2 $Revision: 1.69 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-09 14:35:56 $
+    last modified        : $Date: 2007-09-16 16:58:48 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -116,9 +116,6 @@
 #define SYM_FEE  "panel_grey"  // power supply
 #define SYM_FEN  "panel_brown" // axle counter
 
-// special symbol, do NOT edit
-#define SYM_KURR "kurr"
-#define SYM_KULR "kulr"
 
 
 /* Click states of layout internal buttons (group key block, signals,
@@ -179,6 +176,7 @@ const unsigned int rdSE = rdS | rdE;
 
 /*some magic strings for reading and writing layout files*/
 #define GF_INDEX      "index"
+#define GF_CLASSID    "classid"
 #define GF_NAME       "icon"
 #define GF_ROTATE     "rotate"
 #define GF_INVERSTO   "invers turnout"
@@ -219,8 +217,62 @@ class element: public QWidget
     Q_OBJECT
 
 public:
-    element(QWidget* parent=0);
+    enum SpdrItemClassId {
+        siciNone = 0,
+        siciGer = 100, siciTrv, siciDir, siciDil,
+        siciKur = 120, siciKul,
+        siciTtl = 125, siciTtr, siciTbl, siciTbr,
+        siciKrh = 150, siciKrr, siciKrl,
+        siciRi1 = 170,
+        siciRi2 = 172,
+        siciNrb = 200,
+        siciSrb = 202,
+        siciZp = 250,
+        siciEnk = 252,
+        siciBld = 255,
+        siciHs = 300,
+        siciHss = 310,
+        siciSs = 320,
+        siciSsh = 330,
+        siciSss = 340,
+        siciWs = 350,
+        siciVs = 360,
+        siciAdr = 400,
+        siciBue = 420,
+        siciWel = 500,
+        siciWer = 502,
+        siciDwl = 510,
+        siciDwr = 512,
+        siciWey = 550,
+        siciEkl = 600,
+        siciEkr = 602,
+        siciDkl = 610,
+        siciDkr = 612,
+        siciDrw = 650,
+        siciDre = 700, siciSbn,
+        siciRel = 710,
+        siciMdc = 720,
+        siciPre = 800,
+        siciGet = 820,
+        siciShm = 820,
+        siciSho = 822,
+        siciShu = 824,
+        siciDlt = 825,
+        siciDrt = 827,
+        siciHs1 = 830,
+        siciHs2 = 831,
+        siciLee = 900,
+        siciFeg = 1100, siciTaf, siciTau,
+        siciFeb = 1200, siciTaw,
+        siciFer = 1300, siciTas,
+        siciFey = 1400,
+        siciFen = 1500,
+        siciFee = 1600};
+    
+    element(QWidget* parent = NULL, SpdrItemClassId ci = siciLee,
+            const char * si = SYM_LEE, elemVisualMode vm = kvmNormal);
     element(QTextStream&, QWidget* parent=0);
+
 
     /*this variables should also be private*/
     QString  sSoldIcon;
@@ -276,6 +328,8 @@ public:
     bool isRotatable();
     bool ctxCanSwitch();
     void updateTrainNumber(unsigned int);
+    int classId();
+    void setClassId(SpdrItemClassId);
 
 private:
     elementDialog*      elementPropertyDlg;
@@ -284,6 +338,7 @@ private:
 
     elemSelectionMode selectionMode;
     elemVisualMode visualMode;
+    SpdrItemClassId classid;
     unsigned int iSoldIndex;
     unsigned int iFBBusNo;
     int iFBContact;

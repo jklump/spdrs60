@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.5.2 $Revision: 1.46 $
+                           version 0.5.2 $Revision: 1.47 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-14 15:47:58 $
+    last modified        : $Date: 2007-09-16 16:58:48 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -27,6 +27,7 @@
 #include <qapplication.h>
 #include <qdatetime.h>
 #include <qfile.h>
+#include <qmap.h>
 #include <qmessagebox.h>
 #include <qpopupmenu.h>
 #include <qptrvector.h>
@@ -49,6 +50,7 @@ class GBSArea: public QWidget
    Q_PROPERTY(bool modified READ isModified WRITE setModified DESIGNABLE false)
 
 public:
+   typedef QMap<element::SpdrItemClassId, QString> SpdrMap;
    enum LayoutEditMode {lemSelect = 0, lemPaint, lemErase};
 
    GBSArea(QWidget* parent = 0, const char* name = 0);
@@ -91,10 +93,9 @@ private:
    QTimer*     delayTimer;
 
    QPopupMenu* ctxNorm;
-   QPopupMenu* ctxEdit;
-   QString     lastElementName;
    
    QPtrVector<element> elements;
+   SpdrMap spdrmap;
 
    int         cols;
    int         rows;
@@ -103,7 +104,7 @@ private:
    GbsButtonState  gkbState;
    elemVisualMode visualMode;
    LayoutEditMode lyeditMode;
-   //SpdrItemClassId paintItem;
+   element::SpdrItemClassId paintItem;
 
    // for SRCP 0.8
    unsigned int SRCP08GA1InitWalker;
@@ -122,18 +123,10 @@ private:
    void updateSRCP08GABusList();
    void updateSRCP08FBBusList();
    void updateSRCP08BusLists();
+   void initSpdrMap();
+   element::SpdrItemClassId classIdByName(const QString&);
+   QString nameByClassId(element::SpdrItemClassId);
    
-/*
-void savePixmaps(int ID)
-{
- const QPixmap *saveIcon;
- saveIcon=GBSElement[ID]->backgroundPixmap();
- QString fn;
- fn.sprintf("/home/stefan/.AA/spdrs60/resources/save/%s_D%d_R%d.bmp",GBSElement[ID]->sSoldIcon.data(),GBSElement[ID]->iSoldDirection,GBSElement[ID]->iSoldRotate);
- //if(GBSElement[ID]->iSoldDirection != -1)
- saveIcon->save(fn, "BMP");
-};
-*/
 public slots:
     void newFile(int, int);
     void slotElementClickedTimeout();
@@ -155,7 +148,7 @@ public slots:
     void getElementByAddress(const int, const int, element**);
     void switchVisualMode(elemVisualMode);
     void changeLayoutEditMode(GBSArea::LayoutEditMode);
-    //void changeLayoutEditMode(SpdrItemClassId);
+    void changeLayoutPaintItem(element::SpdrItemClassId);
 
 protected:
     bool dragging;
