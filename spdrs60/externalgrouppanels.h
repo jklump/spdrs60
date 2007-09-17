@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mmail      : guido.scholz@bayernline.de
  * Begin        : 2007-09-16
- * Last modified: $Date: 2007-09-16 21:02:24 $
- *                $Revision: 1.1 $
+ * Last modified: $Date: 2007-09-17 18:05:45 $
+ *                $Revision: 1.2 $
  *
  * This is the header file to externalgrouppanels.cpp
  */
@@ -26,6 +26,7 @@
 #include <qaction.h>
 
 #include "element.h"
+#include "gbsarea.h"
 
 
 class ExternalGroupPanels: public QActionGroup
@@ -42,7 +43,8 @@ public slots:
 
 private slots:
     void spdrItemSelected(QAction*);
-    void enablePaintMode(bool);
+    void enablePaintItems(GBSArea::LayoutEditMode);
+    //void deselectPaintItem(element::SpdrItemClassId);
 
 private:
     QAction* actionSpdrFeg;

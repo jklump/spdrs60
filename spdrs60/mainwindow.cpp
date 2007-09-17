@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.126 $
+                           version 0.5.2 $Revision: 1.127 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-15 10:54:47 $
+    last modified        : $Date: 2007-09-17 18:05:45 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -29,14 +29,16 @@
 #include <qvbox.h>
 
 #include "aboutdialog.h"
+#include "externalgrouppanels.h"
 #include "finder.h"
 #include "gbsscrollview.h"
+#include "layouteditmodeagrp.h"
 #include "mainwindow.h"
 #include "options.h"
 #include "preferences.h"
 #include "resources.h"
 #include "serverinfodialog.h"
-#include "layouteditmodeagrp.h"
+
 
 #include "../icons/spdrs60_32.xpm"
 /*toolbar icons*/
@@ -1311,11 +1313,13 @@ void MainWindow::initMainWindow()
 
 #if QT_VERSION >= 0x030200
     actionRouteUnlockAll = new QAction(NULL,
-            tr("&Unlock all"), Qt::CTRL + Qt::Key_U, this, "layoutUnlockRoutes");
+            tr("&Unlock all"), Qt::CTRL + Qt::Key_U, this,
+            "layoutUnlockRoutes");
     actionRouteUnlockAll->setToolTip(tr("Unlock all routes"));
 #else
     actionRouteUnlockAll = new QAction(tr("Unlock all routes"),
-            tr("&Unlock all"), Qt::CTRL + Qt::Key_U, this, "layoutUnlockRoutes");
+            tr("&Unlock all"), Qt::CTRL + Qt::Key_U, this,
+            "layoutUnlockRoutes");
 #endif
     connect(actionRouteUnlockAll, SIGNAL(activated()), router,
             SLOT(unlockAllLockedRoutes()));
@@ -1339,13 +1343,32 @@ void MainWindow::initMainWindow()
 
     LayoutEditModeAgrp *layoutEditGrp = new LayoutEditModeAgrp(this,
             "layoutEditModeGroup");
+    layoutEditGrp->addTo(layoutedittb);
+
     connect(layoutEditGrp, SIGNAL(modeChanged(GBSArea::LayoutEditMode)),
             gbs, SLOT(changeLayoutEditMode(GBSArea::LayoutEditMode)));
     connect(actionViewLayoutEditMode, SIGNAL(toggled(bool)),
             layoutEditGrp, SLOT(enableEditMode(bool)));
     
-    layoutEditGrp->addTo(layoutedittb);
     
+    /*external buttons group toolbar*/
+    QToolBar* externalgrouptb = new QToolBar(this, "externalgrouptb");
+    Q_CHECK_PTR(externalgrouptb);
+    externalgrouptb->setLabel(tr("External group panels"));
+    externalgrouptb->hide();
+
+    connect(actionViewLayoutEditMode, SIGNAL(toggled(bool)),
+            externalgrouptb, SLOT(setShown(bool)));
+
+    ExternalGroupPanels *groupPanels = new ExternalGroupPanels(this,
+            "ExternalGroupPanels");
+    groupPanels->addTo(externalgrouptb);
+
+    connect(layoutEditGrp, SIGNAL(modeChanged(GBSArea::LayoutEditMode)),
+            groupPanels, SLOT(enablePaintItems(GBSArea::LayoutEditMode)));
+    connect(groupPanels, SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            gbs, SLOT(changeLayoutPaintItem(element::SpdrItemClassId)));
+
     /*help toolbar*/
     //QToolBar* helptb = new QToolBar(this, "helptb");
     //Q_CHECK_PTR(helptb);

@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-12
- * Last modified: $Date: 2007-09-15 10:54:47 $
- *                $Revision: 1.2 $
+ * Last modified: $Date: 2007-09-17 18:05:45 $
+ *                $Revision: 1.3 $
  *
  * This file provides menu and toolbar action to switch layout edit mode
  * between three different working modes:
@@ -81,6 +81,7 @@ void LayoutEditModeAgrp::modeSelected(QAction* ac)
     else if (ac == actionEraseMode)
         mode = GBSArea::lemErase;
 
+    // editModeChanged()
     emit modeChanged(mode);
 }
 

@@ -828,6 +828,10 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <source>Layout edit operations</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>External group panels</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MessageHistory</name>

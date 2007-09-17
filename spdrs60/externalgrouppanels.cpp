@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-16
- * Last modified: $Date: 2007-09-16 21:02:24 $
- *                $Revision: 1.1 $
+ * Last modified: $Date: 2007-09-17 18:05:45 $
+ *                $Revision: 1.2 $
  *
  * This file provides menu and toolbar action to switch the paint item
  * selection between different external group panels.
@@ -60,10 +60,10 @@ ExternalGroupPanels::ExternalGroupPanels(QObject* parent, const char* name):
 
 #if QT_VERSION >= 0x030200
     actionSpdrTau = new QAction(QPixmap(spdritem_tau_xpm),
-            tr("&UfGT panel"), 0, this, "ufgtPanel");
+            tr("&UfGT and MGT panel"), 0, this, "ufgtPanel");
 #else
     actionSpdrTau = new QAction("", QPixmap(spdritem_tau_xpm),
-            tr("&UfGT panel"), 0, this, "ufgtPanel");
+            tr("&UfGT and MGT panel"), 0, this, "ufgtPanel");
 #endif
     actionSpdrTau->setToggleAction(true);
 
@@ -100,10 +100,10 @@ ExternalGroupPanels::ExternalGroupPanels(QObject* parent, const char* name):
 
 #if QT_VERSION >= 0x030200
     actionSpdrTas = new QAction(QPixmap(spdritem_tas_xpm),
-            tr("&SGT panel"), 0, this, "sgtPanel");
+            tr("&SGT and HaGT panel"), 0, this, "sgtPanel");
 #else
     actionSpdrTas = new QAction("", QPixmap(spdritem_tas_xpm),
-            tr("&SGT panel"), 0, this, "sgtPanel");
+            tr("&SGT and HaGT panel"), 0, this, "sgtPanel");
 #endif
     actionSpdrTas->setToggleAction(true);
 
@@ -140,6 +140,7 @@ ExternalGroupPanels::ExternalGroupPanels(QObject* parent, const char* name):
 
     connect(this, SIGNAL(selected(QAction*)),
             this, SLOT(spdrItemSelected(QAction*)));
+    setEnabled(false);
 }
 
 
@@ -173,11 +174,10 @@ void ExternalGroupPanels::spdrItemSelected(QAction* ac)
 }
 
 /*
- * reset to select mode if layout edit mode is disabled
+ * enable actions if layout edit mode is choosen
  */
-void ExternalGroupPanels::enablePaintMode(bool enable)
+void ExternalGroupPanels::enablePaintItems(GBSArea::LayoutEditMode mode)
 {
-    if (!enable)
-       actionSpdrFeg->setOn(true);
+    setEnabled(mode == GBSArea::lemPaint);
 }
 

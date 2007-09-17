@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.25 $
-# last update: $Date: 2007-09-14 15:47:58 $
+# version: $Revision: 1.26 $
+# last update: $Date: 2007-09-17 18:05:45 $
 
 SUBDIRS = pixmaps
 
@@ -14,7 +14,7 @@ nodist_spdrs60_SOURCES = \
 	elementcommander_moc.cpp \
 	elementdialog_moc.cpp \
 	element_moc.cpp \
-	feedbackchooser_moc.cpp \
+	externalgrouppanels_moc.cpp \
 	feedbacklistbox_moc.cpp \
 	feedbackviewer_moc.cpp \
 	finder_moc.cpp \
@@ -35,21 +35,6 @@ nodist_spdrs60_SOURCES = \
         routelistwindow_moc.cpp \
         section_moc.cpp \
 	serverinfodialog_moc.cpp \
-	singlefeedbackdialog_moc.cpp \
-	doublefeedbackdialog_moc.cpp \
-        spdritem_moc.cpp \
-        spdrdecorativeitem_moc.cpp \
-        spdrtrackitem_moc.cpp \
-        spdraxlecountergroupitem_moc.cpp \
-        spdrextbtngroupitem_moc.cpp \
-        spdrlevelcrossinggroupitem_moc.cpp \
-        spdrpowersupplygroupitem_moc.cpp \
-        spdrroutegroupitem_moc.cpp \
-        spdrsignalgroupitem_moc.cpp \
-        spdrturnoutgroupitem_moc.cpp \
-        spdrfhtitem_moc.cpp \
-        spdrsgtitem_moc.cpp \
-        spdrwgtitem_moc.cpp \
 	srcpport_moc.cpp \
 	turntablecommander_moc.cpp
 
@@ -60,12 +45,9 @@ spdrs60_SOURCES = main.cpp resources.h filekeys.h \
 	elementcommander.cpp elementcommander.h \
 	element.cpp element.h \
 	elementdialog.cpp elementdialog.h \
-	feedbackchooser.cpp feedbackchooser.h \
+	externalgrouppanels.cpp externalgrouppanels.h \
 	feedbacklistbox.cpp feedbacklistbox.h \
 	feedbackmodule.cpp feedbackmodule.h \
-	feedbackreceiver.cpp feedbackreceiver.h \
-	feedbacksinglebtnreceiver.cpp feedbacksinglebtnreceiver.h \
-	feedbackdoublebtnreceiver.cpp feedbackdoublebtnreceiver.h \
 	feedbackviewer.cpp feedbackviewer.h \
 	finder.cpp finder.h \
 	gbsarea.cpp gbsarea.h \
@@ -88,21 +70,6 @@ spdrs60_SOURCES = main.cpp resources.h filekeys.h \
         router.cpp router.h \
 	section.cpp section.h \
 	serverinfodialog.cpp serverinfodialog.h \
-	singlefeedbackdialog.cpp singlefeedbackdialog.h \
-	doublefeedbackdialog.cpp doublefeedbackdialog.h \
-        spdritem.cpp spdritem.h \
-        spdrtrackitem.cpp spdrtrackitem.h \
-        spdrdecorativeitem.cpp spdrdecorativeitem.h \
-        spdrextbtngroupitem.cpp spdrextbtngroupitem.h \
-        spdraxlecountergroupitem.cpp spdraxlecountergroupitem.h \
-        spdrlevelcrossinggroupitem.cpp spdrlevelcrossinggroupitem.h \
-        spdrpowersupplygroupitem.cpp spdrpowersupplygroupitem.h \
-        spdrroutegroupitem.cpp spdrroutegroupitem.h \
-        spdrsignalgroupitem.cpp spdrsignalgroupitem.h \
-        spdrturnoutgroupitem.cpp spdrturnoutgroupitem.h \
-        spdrfhtitem.cpp spdrfhtitem.h \
-        spdrsgtitem.cpp spdrsgtitem.h \
-        spdrwgtitem.cpp spdrwgtitem.h \
         srcpmessage.cpp srcpmessage.h \
 	srcpport.cpp srcpport.h \
 	turntablecommander.cpp turntablecommander.h
@@ -116,6 +83,7 @@ translated_source_files = \
 	elementcommander.cpp \
 	element.cpp \
 	elementdialog.cpp \
+	externalgrouppanels.cpp \
 	feedbacklistbox.cpp \
 	feedbackviewer.cpp \
 	finder.cpp \

@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.cpp
-                           version 0.5.2 $Revision: 1.42 $
+                           version 0.5.2 $Revision: 1.43 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-10 15:49:47 $
+    last modified        : $Date: 2007-09-17 18:05:45 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -162,20 +162,6 @@ elementDialog::elementDialog(QWidget* parent, int idx):
     setupElement(SYM_SHM);
     setupElement(SYM_SHU);
     
-    /*external buttons*/
-    setupElement(SYM_TAF);
-    setupElement(SYM_TAU);
-    setupElement(SYM_TAW);
-    setupElement(SYM_TAS);
-
-    /*external empty color panels*/
-    setupElement(SYM_FEG);
-    setupElement(SYM_FEB);
-    setupElement(SYM_FER);
-    setupElement(SYM_FEY);
-    setupElement(SYM_FEE);
-    setupElement(SYM_FEN);
-
     // only four elements visible in open combo Box
     IconComboBox->setSizeLimit(4);
     IconComboBox->setMinimumHeight(EL_HEIGHT + 5);
