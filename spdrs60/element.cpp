@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.2 $Revision: 1.136 $
+                           version 0.5.2 $Revision: 1.137 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-16 16:58:48 $
+    last modified        : $Date: 2007-09-17 18:49:37 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -51,29 +51,12 @@
 #define   DIR_HP2          2
 #define   DIR_SH1          3
 
-#define   DIR_Sh0          0  // for shunt signals, main signal variants
-#define   DIR_Sh1          1  // are not applicable
-
-#define   DIR_ENK_DW       0  // decoupler off
-#define   DIR_ENK_UP       1  // decoupler on
-
-#define   DIR_REL0         0  // relay off
-#define   DIR_REL1         1  // relay on
-
-#define   DIR_0            0
-#define   DIR_1            1
-
 #define   LED_OFF          0   // LED states of an element = off
 #define   LED_YEL          1   // route selected
 #define   LED_RED          2   // occupied
 
 // delay for edit mode after element locating
-#define   LOCATE_TIMER     5000
-
-// serd: Viessman Signale often need several attempts for reaching
-// their correct position
-#define   cNumRepeatCommands 3
-
+#define LOCATE_TIMER 5000
 #define SANGLE 31.264         // small angle
 #define WANGLE (180.0 - SANGLE) // wide angle
 
@@ -6353,7 +6336,7 @@ QSize element::sizeHint() const
 void element::writeFileTextToStream(QTextStream& ts)
 {
     ts << GF_INDEX     << DS << iSoldIndex<< endl
-       << GF_CLASSID   << DS << classid << endl
+      // << GF_CLASSID   << DS << classid << endl
        << GF_NAME      << DS << sSoldIcon << endl
        << GF_ROTATE    << DS << iSoldRotate << endl
        << GF_INVERSTO  << DS << iSoldInvert << endl
