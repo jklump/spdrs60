@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.127 $
+                           version 0.5.2 $Revision: 1.128 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-17 18:05:45 $
+    last modified        : $Date: 2007-09-18 18:48:02 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -38,6 +38,7 @@
 #include "preferences.h"
 #include "resources.h"
 #include "serverinfodialog.h"
+#include "straighttrackpanels.h"
 
 
 #include "../icons/spdrs60_32.xpm"
@@ -1351,6 +1352,25 @@ void MainWindow::initMainWindow()
             layoutEditGrp, SLOT(enableEditMode(bool)));
     
     
+    /*straight track group toolbar*/
+    QToolBar* straightracktb = new QToolBar(this, "straightracktb");
+    Q_CHECK_PTR(straightracktb);
+    straightracktb->setLabel(tr("Straight track panels"));
+    straightracktb->hide();
+
+    connect(actionViewLayoutEditMode, SIGNAL(toggled(bool)),
+            straightracktb, SLOT(setShown(bool)));
+
+    StraightTrackPanels *straightTrkPanels = new StraightTrackPanels(this,
+            "StraightTrackPanels");
+    straightTrkPanels->addTo(straightracktb);
+
+    connect(layoutEditGrp, SIGNAL(modeChanged(GBSArea::LayoutEditMode)),
+            straightTrkPanels, SLOT(enablePaintItems(GBSArea::LayoutEditMode)));
+    connect(straightTrkPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            gbs, SLOT(changeLayoutPaintItem(element::SpdrItemClassId)));
+
     /*external buttons group toolbar*/
     QToolBar* externalgrouptb = new QToolBar(this, "externalgrouptb");
     Q_CHECK_PTR(externalgrouptb);
