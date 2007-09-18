@@ -1,13 +1,13 @@
 /*
- * externalgrouppanels.h
+ * panelaction.h
  * ---------------------------
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
- * Begin        : 2007-09-16
+ * Begin        : 2007-09-18
  * Last modified: $Date: 2007-09-18 17:07:16 $
- *                $Revision: 1.3 $
+ *                $Revision: 1.1 $
  *
- * This is the header file to externalgrouppanels.cpp
+ * This is the header file to panelaction.cpp
  */
 
 /**************************************************************************
@@ -20,18 +20,23 @@
  **************************************************************************/
 
 
-#ifndef EXTERNALGROUPPANELS_H
-#define EXTERNALGROUPPANELS_H
+#ifndef PANELACTION_H
+#define PANELACTION_H
 
-#include <panelactiongroup.h>
+#include <qaction.h>
+
+#include "element.h"
 
 
-class ExternalGroupPanels: public PanelActionGroup
+class PanelAction: public QAction
 {
     Q_OBJECT
         
 public:
-    ExternalGroupPanels(QObject* parent, const char* name);
+    PanelAction(const QIconSet& icon, const QString&, QKeySequence,
+            element::SpdrItemClassId si = element::siciNone,
+            QObject* parent = NULL, const char * name = 0);
+    element::SpdrItemClassId Sici();
 
 signals:
 
@@ -40,9 +45,10 @@ public slots:
 private slots:
 
 private:
+    element::SpdrItemClassId sici;
 
 protected:
 
 };
 
-#endif //EXTERNALGROUPPANELS_H
+#endif //PANELACTION_H

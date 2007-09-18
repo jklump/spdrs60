@@ -3,12 +3,14 @@ SOURCES = \
 	elementcommander.cpp \
 	element.cpp \
 	elementdialog.cpp \
+	externalgrouppanels.cpp \
 	feedbacklistbox.cpp \
 	feedbackviewer.cpp \
 	finder.cpp \
 	gbsarea.cpp \
 	gbsscrollview.cpp \
 	keyboard.cpp \
+	layouteditmodeagrp.cpp \
 	main.cpp \
 	mainwindow.cpp \
 	messagehistory.cpp \
@@ -21,6 +23,7 @@ SOURCES = \
 	router.cpp \
 	routelistview.cpp \
 	routelistwindow.cpp \
+	section.cpp \
 	serverinfodialog.cpp \
 	srcpport.cpp \
 	turntablecommander.cpp

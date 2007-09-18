@@ -1,13 +1,13 @@
 /*
- * externalgrouppanels.h
+ * panelactiongroup.h
  * ---------------------------
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
- * Begin        : 2007-09-16
+ * Begin        : 2007-09-18
  * Last modified: $Date: 2007-09-18 17:07:16 $
- *                $Revision: 1.3 $
+ *                $Revision: 1.1 $
  *
- * This is the header file to externalgrouppanels.cpp
+ * This is the header file to panelactiongroup.cpp
  */
 
 /**************************************************************************
@@ -20,24 +20,31 @@
  **************************************************************************/
 
 
-#ifndef EXTERNALGROUPPANELS_H
-#define EXTERNALGROUPPANELS_H
+#ifndef PANELACTIONGROUP_H
+#define PANELACTIONGROUP_H
 
-#include <panelactiongroup.h>
+#include <qaction.h>
+
+#include "element.h"
+#include "gbsarea.h"
 
 
-class ExternalGroupPanels: public PanelActionGroup
+class PanelActionGroup: public QActionGroup
 {
     Q_OBJECT
         
 public:
-    ExternalGroupPanels(QObject* parent, const char* name);
+    PanelActionGroup(QObject* parent, const char* name);
 
 signals:
+    void paintItemChanged(element::SpdrItemClassId);
 
 public slots:
 
 private slots:
+    void spdrItemSelected(QAction*);
+    void enablePaintItems(GBSArea::LayoutEditMode);
+    //void deselectPaintItem(element::SpdrItemClassId);
 
 private:
 
@@ -45,4 +52,4 @@ protected:
 
 };
 
-#endif //EXTERNALGROUPPANELS_H
+#endif //PANELACTIONGROUP_H

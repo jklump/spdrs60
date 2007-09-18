@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.26 $
-# last update: $Date: 2007-09-17 18:05:45 $
+# version: $Revision: 1.27 $
+# last update: $Date: 2007-09-18 17:07:16 $
 
 SUBDIRS = pixmaps
 
@@ -27,6 +27,8 @@ nodist_spdrs60_SOURCES = \
 	messagehistory_moc.cpp \
 	newlayoutdialog_moc.cpp \
 	options_moc.cpp \
+	panelaction_moc.cpp \
+	panelactiongroup_moc.cpp \
         route_moc.cpp \
 	routedialog_moc.cpp \
 	routeelementdialog_moc.cpp \
@@ -37,6 +39,7 @@ nodist_spdrs60_SOURCES = \
 	serverinfodialog_moc.cpp \
 	srcpport_moc.cpp \
 	turntablecommander_moc.cpp
+
 
 # list of all sources and headers
 spdrs60_SOURCES = main.cpp resources.h filekeys.h \
@@ -59,6 +62,8 @@ spdrs60_SOURCES = main.cpp resources.h filekeys.h \
 	messagehistory.cpp messagehistory.h \
 	newlayoutdialog.cpp newlayoutdialog.h \
 	options.cpp options.h \
+	panelaction.cpp panelaction.h \
+	panelactiongroup.cpp panelactiongroup.h \
         preferences.cpp preferences.h \
         route.cpp route.h \
 	routedialog.cpp routedialog.h \
