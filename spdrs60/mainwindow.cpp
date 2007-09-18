@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.128 $
+                           version 0.5.2 $Revision: 1.129 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-18 18:48:02 $
+    last modified        : $Date: 2007-09-18 20:04:42 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -29,6 +29,7 @@
 #include <qvbox.h>
 
 #include "aboutdialog.h"
+#include "curvedtrackpanels.h"
 #include "externalgrouppanels.h"
 #include "finder.h"
 #include "gbsscrollview.h"
@@ -1368,6 +1369,25 @@ void MainWindow::initMainWindow()
     connect(layoutEditGrp, SIGNAL(modeChanged(GBSArea::LayoutEditMode)),
             straightTrkPanels, SLOT(enablePaintItems(GBSArea::LayoutEditMode)));
     connect(straightTrkPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            gbs, SLOT(changeLayoutPaintItem(element::SpdrItemClassId)));
+
+    /*curved track group toolbar*/
+    QToolBar* curvedracktb = new QToolBar(this, "curvedracktb");
+    Q_CHECK_PTR(curvedracktb);
+    curvedracktb->setLabel(tr("Curved track panels"));
+    curvedracktb->hide();
+
+    connect(actionViewLayoutEditMode, SIGNAL(toggled(bool)),
+            curvedracktb, SLOT(setShown(bool)));
+
+    CurvedTrackPanels *curvedTrkPanels = new CurvedTrackPanels(this,
+            "CurvedTrackPanels");
+    curvedTrkPanels->addTo(curvedracktb);
+
+    connect(layoutEditGrp, SIGNAL(modeChanged(GBSArea::LayoutEditMode)),
+            curvedTrkPanels, SLOT(enablePaintItems(GBSArea::LayoutEditMode)));
+    connect(curvedTrkPanels,
             SIGNAL(paintItemChanged(element::SpdrItemClassId)),
             gbs, SLOT(changeLayoutPaintItem(element::SpdrItemClassId)));
 

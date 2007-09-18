@@ -1,5 +1,6 @@
 SOURCES = \
 	aboutdialog.cpp \
+        curvedtrackpanels.cpp \
 	elementcommander.cpp \
 	element.cpp \
 	elementdialog.cpp \
@@ -26,6 +27,7 @@ SOURCES = \
 	section.cpp \
 	serverinfodialog.cpp \
 	srcpport.cpp \
+	straighttrackpanels.cpp \
 	turntablecommander.cpp
 
 TRANSLATIONS = spdrs60_de.ts spdrs60_it.ts
