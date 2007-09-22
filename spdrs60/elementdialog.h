@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.h
-                           version 0.5.2 $Revision: 1.19 $
+                           version 0.5.2 $Revision: 1.20 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-22 07:34:09 $
+    last modified        : $Date: 2007-09-22 16:08:23 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -54,7 +54,6 @@ public:
    void setSRCPBus1(int);
    int getSRCPBus2();
    void setSRCPBus2(int);
-   QString getSymbolName();
    void setSymbolName(const QString&);
    int getRotated();
    void setRotated(int);
@@ -114,10 +113,7 @@ private:
    QRadioButton *rbProtocol_PS;
    QRadioButton *rbProtocol_SE;
 
-   QComboBox    *IconComboBox;
    QComboBox    *coboDecoder;
-
-   QStrList     *IconNameList;
 
    QLabel       *srcpBus1Label;
    QLabel       *srcpBus2Label;
@@ -153,13 +149,12 @@ private:
    QString      lastDecoder;
    QString      symbolName;
 
-   void setupElement(const char*);
    void showSubTypes(int);
    void updateValidators();
 
 private slots:
    void slotAddress1Changed(const QString&);
-   void slotSymbolChanged(int);
+   void slotSymbolChanged();
    void slotSubTypeClicked(int);
    void slotDecoderChanged(int);
    void slotProtocolChanged(int);

@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.cpp
-                           version 0.5.2 $Revision: 1.44 $
+                           version 0.5.2 $Revision: 1.45 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-22 07:34:09 $
+    last modified        : $Date: 2007-09-22 16:08:23 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -87,99 +87,15 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     leftColumnLayout->addWidget(frData);
     QVBoxLayout* rfDataGBLayout = new QVBoxLayout(frData->layout(), 6);
 
-    /*line with symbol group box*/
-    QHBoxLayout* symbolLayout = new QHBoxLayout(rfDataGBLayout, 6);
-
-    QLabel *label = new QLabel(tr("I&con:"), frData);
-    symbolLayout->addWidget(label);
-    QSpacerItem* spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    symbolLayout->addItem(spacer);
-
-    /*container for icon names, unvisible */
-    IconNameList = new QStrList(true);
-    /*container for shown icons */
-    IconComboBox = new QComboBox(false, frData);    // false = not editable
-    symbolLayout->addWidget(IconComboBox);
-
-    setupElement(SYM_LEE);
-    setupElement(SYM_GER);
-    setupElement(SYM_KUL);
-    setupElement(SYM_KUR);
-    setupElement(SYM_DIL);
-    setupElement(SYM_DIR);
-    setupElement(SYM_KRH);
-    setupElement(SYM_KRL);
-    setupElement(SYM_KRR);
-    setupElement(SYM_RI1);
-    setupElement(SYM_RI2);
-
-    // vertical elements
-    setupElement(SYM_TRV);
-    setupElement(SYM_TTL);
-    setupElement(SYM_TTR);
-    setupElement(SYM_TBR);
-    setupElement(SYM_TBL);
-
-    setupElement(SYM_WEL);
-    setupElement(SYM_WER);
-    setupElement(SYM_DWL);
-    setupElement(SYM_DWR);
-    setupElement(SYM_WEY);
-    setupElement(SYM_DRW);
-    
-    setupElement(SYM_EKL);
-    setupElement(SYM_EKR);
-    setupElement(SYM_DKL);
-    setupElement(SYM_DKR);
-
-    /*rails with buttons*/
-    setupElement(SYM_HS);
-    setupElement(SYM_HSS);
-    setupElement(SYM_SS);
-    setupElement(SYM_SSH);
-    setupElement(SYM_SSS);
-    setupElement(SYM_VS);
-    setupElement(SYM_WS);
-    setupElement(SYM_ZP);
-    setupElement(SYM_NRB);
-    setupElement(SYM_SRB);
-
-    setupElement(SYM_ENK);
-    setupElement(SYM_BLD);
-    setupElement(SYM_BUE);
-    setupElement(SYM_ADR);
-    setupElement(SYM_PRE);
-    setupElement(SYM_DLT);
-    setupElement(SYM_DRT);
-    setupElement(SYM_GET);
-    setupElement(SYM_DRE);
-    setupElement(SYM_SBN);
-    setupElement(SYM_REL);
-    setupElement(SYM_MDC);
-    setupElement(SYM_HS1);
-    setupElement(SYM_HS2);
-    setupElement(SYM_SHO);
-    setupElement(SYM_SHM);
-    setupElement(SYM_SHU);
-    
-    // only four elements visible in open combo Box
-    IconComboBox->setSizeLimit(4);
-    IconComboBox->setMinimumHeight(EL_HEIGHT + 5);
-    connect(IconComboBox, SIGNAL(activated(int)), this,
-            SLOT(slotSymbolChanged(int)));
-    label->setBuddy(IconComboBox);
 
     /*line with text edit line*/
     QHBoxLayout* textLayout = new QHBoxLayout(rfDataGBLayout);
     labelText = new QLabel(tr("&Text:"), frData);
     textLayout->addWidget(labelText);
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    textLayout->addItem(spacer);
+    textLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
     leText = new QLineEdit(frData, "text");
     leText->setMaxLength(20);
-    leText->setMaximumWidth(IconComboBox->width() - 13);
     textLayout->addWidget(leText);
     labelText->setBuddy(leText);
 
@@ -201,9 +117,8 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
             SLOT(invertedChanged(bool))); 
 
     /* spacer to shift lines above to top*/
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    rfDataGBLayout->addItem(spacer);
+    rfDataGBLayout->addItem(new QSpacerItem(0, 0,
+                QSizePolicy::Expanding, QSizePolicy::Minimum));
 
     /*group box for symbol variants*/
     QGroupBox* variantGB = new QGroupBox(0, Qt::Horizontal,
@@ -297,9 +212,8 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     QHBoxLayout* resetLayout = new QHBoxLayout(decoderGBL, 6);
     labelTime = new QLabel(tr("Reset &after (ms):"), decoderGB);
     resetLayout->addWidget(labelTime);
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    resetLayout->addItem(spacer);
+    resetLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
 
     activeTimeSB = new QSpinBox(50, 2000, 50, decoderGB, "");
     activeTimeSB->setWrapping(true);
@@ -378,9 +292,8 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     decdataLayout->addWidget(xchConn2CB, 5, 2);
 
     /*spacer to push contents of box to top */
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    decoderGBL->addItem(spacer);
+    decoderGBL->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
 
     /*feedback LED data group box*/
     feedbackGB = new QGroupBox(0, Qt::Horizontal,
@@ -397,9 +310,8 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     QHBoxLayout* busLayout = new QHBoxLayout(feedbackGBL, 6);
     labelFBBus = new QLabel(tr("Bus (s&88/SRCP):"), feedbackGB);
     busLayout->addWidget(labelFBBus);
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    busLayout->addItem(spacer);
+    busLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
     fbBusLE = new QLineEdit(feedbackGB, "fbBusLE");
     busLayout->addWidget(fbBusLE);
     fbBusLE->setMaximumWidth(LEMAXWIDTH);
@@ -411,9 +323,8 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     QHBoxLayout* feedbackLayout = new QHBoxLayout(feedbackGBL, 6);
     labelFBContact = new QLabel(tr("C&ontact (1 - 496):"), feedbackGB);
     feedbackLayout->addWidget(labelFBContact);
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    feedbackLayout->addItem(spacer);
+    feedbackLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
     contactSB = new QSpinBox(1, 496, 1, feedbackGB, "contactSB");
     labelFBContact->setBuddy(contactSB);
     feedbackLayout->addWidget(contactSB);
@@ -425,9 +336,8 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     labelFBmodule = new QLabel(tr("Module (1 - %1):")
             .arg(pref.fbfactor == 0 ? 31 : 62), feedbackGB);
     moduleLayout->addWidget(labelFBmodule);
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    moduleLayout->addItem(spacer);
+    moduleLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
     moduleLE = new QLineEdit(feedbackGB, "moduleLE");
     moduleLE->setMaximumWidth(LEMAXWIDTH);
     moduleLE->setFocusPolicy(QWidget::NoFocus);
@@ -438,9 +348,8 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     labelFBport = new QLabel(tr("Port (1 - %1):")
             .arg(pref.fbfactor == 0 ? 16 : 8), feedbackGB);
     portLayout->addWidget(labelFBport);
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    portLayout->addItem(spacer);
+    portLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
     portLE = new QLineEdit(feedbackGB, "portLE");
     portLE->setMaximumWidth(LEMAXWIDTH);
     portLE->setFocusPolicy(QWidget::NoFocus);
@@ -452,9 +361,8 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
                 "AddressmoduleCB");
     mbLayout->addWidget(cbAdrMod);
     cbAdrMod->setEnabled(false);
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    mbLayout->addItem(spacer);
+    mbLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
     buttFBmodules = new QPushButton(tr("&FB"), feedbackGB);
     mbLayout->addWidget(buttFBmodules);
     buttFBmodules->setPixmap(QPixmap(viewfeedback_xpm));
@@ -463,16 +371,14 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     QToolTip::add(buttFBmodules, tr("Show feedback module window"));
 
     /*spacer to push contents of box to top */
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    feedbackGBL->addItem(spacer);
+    feedbackGBL->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
 
     
     /*layout with OK and Cancel buttons*/
     QBoxLayout* buttonLayout = new QHBoxLayout(baseLayout, 6);
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    buttonLayout->addItem(spacer);
+    buttonLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                QSizePolicy::Minimum));
 
     /*button line at bottom*/
     buttOK = new QPushButton(tr("OK"), this);
@@ -488,25 +394,6 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
 
 ElementDialog::~ElementDialog()
 {
-    delete IconNameList;
-}
-
-
-/*
- * in this dialog we work with two different list: a QStrList which holds
- * all element names and a ComboBox which holds all elements graphically
- * thus it is not possible to determin the name of a QPixmap in a ComboBox
- * we use a trick: at the same index ID we have the icon in ComboBox and
- * it´s name in QStrList. To get a pixmap´s name we must recalculate the
- * name using the current item ID of the ComboBox
- */
-void ElementDialog::setupElement(const char *eName)
-{
-    IconNameList->append(eName);
-    QString sPixmapName = RES_DIR_ELEM;
-    sPixmapName += eName;
-    sPixmapName += ".xpm";
-    IconComboBox->insertItem(QPixmap(sPixmapName));
 }
 
 
@@ -764,14 +651,11 @@ void ElementDialog::slotShowFBmodules()
 }
 
 
-void ElementDialog::slotSymbolChanged(int iCoboIconID)
+void ElementDialog::slotSymbolChanged()
 {
     int enabled;
     QString sListText;
     
-    // store the name of current pixmap in a special variable -> faster access
-    symbolName = IconNameList->at(iCoboIconID);
-
     // show protocol data => element->hasAddress() or isSwitchable()
     enabled = symbolName == SYM_HS || symbolName == SYM_HSS ||
         symbolName == SYM_SS || symbolName == SYM_WS ||
@@ -1497,16 +1381,10 @@ void ElementDialog::setSRCPBus2(int bus)
 }
 
 
-QString ElementDialog::getSymbolName()
-{
-    return IconNameList->at(IconComboBox->currentItem());
-};
-
-
 void ElementDialog::setSymbolName(const QString& sname) 
 {
-    IconComboBox->setCurrentItem(IconNameList->find(sname));
-    slotSymbolChanged(IconComboBox->currentItem());
+    symbolName = sname;
+    slotSymbolChanged();
 }
 
 

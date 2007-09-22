@@ -1,7 +1,7 @@
 dnl configure.ac for spdrs60
 dnl Guido Scholz
-dnl last update: $Date: 2007-09-09 13:08:00 $
-dnl version: $Revision: 1.21 $
+dnl last update: $Date: 2007-09-22 16:08:21 $
+dnl version: $Revision: 1.22 $
 dnl Process this file with autoconf to produce a configure script.
 
 AC_INIT([spdrs60],[0.5.3],[Guido Scholz <guido.scholz@bayernline.de>])
@@ -175,10 +175,12 @@ dnl define this variable for source files (config.h)
 AC_DEFINE_UNQUOTED([DOC_DIR], ["$DOC_DIR"], \
   [directory for package documentation])
 
+
 HTML_DOC_DIR="$DOC_DIR/$PACKAGE/html"
 AC_SUBST(HTML_DOC_DIR)
 AC_DEFINE_UNQUOTED([HTML_DOC_DIR], ["$HTML_DOC_DIR"], \
   [directory html package documentation in html])
+
 
 AC_DEFINE_UNQUOTED([RES_DIR], ["${prefix}/share/$PACKAGE/"], \
   [directory for shared data])
@@ -193,17 +195,6 @@ AC_ARG_WITH(icon-dir,
 AC_SUBST(ICONDIR)
 AC_DEFINE_UNQUOTED([ICONDIR], ["$ICONDIR"], [directory for icons])
 
-AC_ARG_WITH(element-dir,
-  [AC_HELP_STRING([--with-element-dir=DIR],
-    [directory for element icons])],
-  [ if test "x$withval" != "x" ; then
-     RES_DIR_ELEM="$withval/"
-    fi ],
-  [RES_DIR_ELEM="${prefix}/share/$PACKAGE/elements/"])
-dnl RES_DIR_ELEM="${prefix}/share/$PACKAGE/elements/"
-AC_SUBST(RES_DIR_ELEM)
-AC_DEFINE_UNQUOTED([RES_DIR_ELEM], ["$RES_DIR_ELEM"], \
-  [directory for elements])
 
 RES_DIR_LAYT="${prefix}/share/$PACKAGE/layouts/"
 AC_SUBST(RES_DIR_LAYT)
@@ -215,7 +206,6 @@ AC_CONFIG_FILES([Makefile])
 AC_CONFIG_FILES([clock/Makefile])
 AC_CONFIG_FILES([debian/Makefile])
 AC_CONFIG_FILES([doc/Makefile])
-AC_CONFIG_FILES([elements/Makefile])
 AC_CONFIG_FILES([icons/Makefile])
 AC_CONFIG_FILES([layouts/Makefile])
 AC_CONFIG_FILES([man/Makefile])

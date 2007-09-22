@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.2 $Revision: 1.138 $
+                           version 0.5.2 $Revision: 1.139 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-22 07:34:09 $
+    last modified        : $Date: 2007-09-22 16:08:22 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -904,7 +904,6 @@ void element::showPropertyDlg()
         
         if (elementPropertyDlg->exec() == QDialog::Accepted) {
 
-            sSoldIcon = elementPropertyDlg->getSymbolName();
             sSoldText = elementPropertyDlg->getSymbolText();
             iSoldRotate = elementPropertyDlg->getRotated();
             iSoldInvert = elementPropertyDlg->getInverted();

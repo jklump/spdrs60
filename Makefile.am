@@ -1,9 +1,9 @@
 # Makefile.am for spdrs60
 # Guido Scholz
-# version: $Revision: 1.7 $
-# last update: $Date: 2007-09-09 13:08:00 $
+# version: $Revision: 1.8 $
+# last update: $Date: 2007-09-22 16:08:21 $
 
-SUBDIRS = icons elements layouts \
+SUBDIRS = icons layouts \
         doc man clock spdrs60 debian
 
 
