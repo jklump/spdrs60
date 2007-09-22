@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.31 $
-# last update: $Date: 2007-09-22 14:25:35 $
+# version: $Revision: 1.32 $
+# last update: $Date: 2007-09-22 15:27:32 $
 
 SUBDIRS = pixmaps
 
@@ -27,6 +27,7 @@ nodist_spdrs60_SOURCES = \
 	layouteditmodeagrp_moc.cpp \
 	mainwindow_moc.cpp \
 	messagehistory_moc.cpp \
+	miscpanels_moc.cpp \
 	newlayoutdialog_moc.cpp \
 	options_moc.cpp \
 	panelaction_moc.cpp \
@@ -67,6 +68,7 @@ spdrs60_SOURCES = main.cpp resources.h \
 	layouteditmodeagrp.cpp layouteditmodeagrp.h \
 	mainwindow.cpp mainwindow.h \
 	messagehistory.cpp messagehistory.h \
+	miscpanels.cpp miscpanels.h \
 	newlayoutdialog.cpp newlayoutdialog.h \
 	options.cpp options.h \
 	panelaction.cpp panelaction.h \
@@ -111,6 +113,7 @@ translated_source_files = \
 	main.cpp \
 	mainwindow.cpp \
 	messagehistory.cpp \
+	miscpanels.cpp \
 	newlayoutdialog.cpp \
 	options.cpp \
 	routedialog.cpp \

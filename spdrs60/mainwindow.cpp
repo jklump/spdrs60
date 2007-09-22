@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.131 $
+                           version 0.5.2 $Revision: 1.132 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-22 14:25:35 $
+    last modified        : $Date: 2007-09-22 15:27:32 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -36,6 +36,7 @@
 #include "gbsscrollview.h"
 #include "layouteditmodeagrp.h"
 #include "mainwindow.h"
+#include "miscpanels.h"
 #include "options.h"
 #include "preferences.h"
 #include "resources.h"
@@ -1500,6 +1501,66 @@ void MainWindow::initMainWindow()
             signalPanels,
             SLOT(deselectPaintItem(element::SpdrItemClassId)));
 
+    /*misc group toolbar*/
+    QToolBar* miscpaneltb = new QToolBar(this, "miscpaneltb");
+    Q_CHECK_PTR(miscpaneltb);
+    moveDockWindow(miscpaneltb, Qt::DockLeft);
+    miscpaneltb->setLabel(tr("Miscellanous panels"));
+    miscpaneltb->hide();
+
+    connect(actionViewLayoutEditMode, SIGNAL(toggled(bool)),
+            miscpaneltb, SLOT(setShown(bool)));
+
+    MiscPanels *miscPanels = new MiscPanels(this,
+            "MiscPanels");
+    miscPanels->addTo(miscpaneltb);
+
+    connect(layoutEditGrp, SIGNAL(modeChanged(GBSArea::LayoutEditMode)),
+            miscPanels, SLOT(enablePaintItems(GBSArea::LayoutEditMode)));
+    connect(miscPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            gbs, SLOT(changeLayoutPaintItem(element::SpdrItemClassId)));
+
+    connect(straightTrkPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            miscPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(miscPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            straightTrkPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(curvedTrkPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            miscPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(miscPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            curvedTrkPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(signalPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            miscPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(miscPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            signalPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(switchPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            miscPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(miscPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            switchPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
     /*deco group toolbar*/
     QToolBar* decopaneltb = new QToolBar(this, "decopaneltb");
     Q_CHECK_PTR(decopaneltb);
@@ -1560,6 +1621,16 @@ void MainWindow::initMainWindow()
             signalPanels,
             SLOT(deselectPaintItem(element::SpdrItemClassId)));
 
+    connect(miscPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            decoPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(decoPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            miscPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
     /*external buttons group toolbar*/
     QToolBar* externalgrouptb = new QToolBar(this, "externalgrouptb");
     Q_CHECK_PTR(externalgrouptb);
@@ -1618,6 +1689,16 @@ void MainWindow::initMainWindow()
     connect(groupPanels,
             SIGNAL(paintItemChanged(element::SpdrItemClassId)),
             switchPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(miscPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            groupPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(groupPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            miscPanels,
             SLOT(deselectPaintItem(element::SpdrItemClassId)));
 
     connect(decoPanels,

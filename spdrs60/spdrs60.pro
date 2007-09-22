@@ -16,6 +16,7 @@ SOURCES = \
 	main.cpp \
 	mainwindow.cpp \
 	messagehistory.cpp \
+	miscpanels.cpp \
 	newlayoutdialog.cpp \
 	options.cpp \
 	routedialog.cpp \

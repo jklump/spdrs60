@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.2 $Revision: 1.72 $
+                           version 0.5.2 $Revision: 1.73 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-22 14:25:35 $
+    last modified        : $Date: 2007-09-22 15:27:32 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -84,21 +84,21 @@
 #define SYM_TBR  "turn_botvert_right"
 
 // miscellaneous
-#define SYM_ENK  "entkoppler" // decoupler
+#define SYM_ENK  "entkoppler" // decoupler (dco)
 #define SYM_BLD  "blind"      // blind item, switchable
-#define SYM_ADR  "adresse"    //trackaddressindicator
-#define SYM_BUE  "uebergang"  // level crossing
+#define SYM_ADR  "adresse"    // trackaddressindicator
+#define SYM_BUE  "uebergang"  // level crossing (lcr)
 #define SYM_REL  "relais"
 #define SYM_MDC  "motor_dc"
-#define SYM_DRE  "drehscheibe" // turntable
-#define SYM_SBN  "schiebebuehne" // transfer table
+#define SYM_DRE  "drehscheibe" // turntable (tnt)
+#define SYM_SBN  "schiebebuehne" // transfer table (trt)
 
 // decorative items
 #define SYM_PRE  "prellbock"  // buffer stop, bumper
-#define SYM_GET  "gerade_tl"  //tunnel straight left/right
+#define SYM_GET  "gerade_tl"  // tunnel straight left/right
 #define SYM_DLT  "diagonale_links_tl" //tunnelbottomleft /top left
 #define SYM_DRT  "diagonale_rechts_tl" // right
-#define SYM_LEE  "leer"
+#define SYM_LEE  "leer" // (txt)
 #define SYM_HS1  "haus_1"
 #define SYM_HS2  "haus_2"
 #define SYM_SHO  "schuppen_o" // loco shed
