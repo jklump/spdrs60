@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-16
- * Last modified: $Date: 2007-09-22 08:08:18 $
- *                $Revision: 1.2 $
+ * Last modified: $Date: 2007-09-22 14:25:35 $
+ *                $Revision: 1.3 $
  *
  * This file provides menu and toolbar action to switch the paint item
  * selection between different external group panels.
@@ -42,40 +42,40 @@ StraightTrackPanels::StraightTrackPanels(QObject* parent, const char* name):
 
     is.setPixmap(QPixmap(spdritem_trh_xpm), QIconSet::Small);
     selectedAction = new PanelAction(is,
-            tr("&Horizontal track panel"), 0,
+            tr("&Horizontal track"), 0,
             element::siciGer, this, "horizontaltrackPanel");
     selectedAction->setOn(true);
 
     is.setPixmap(QPixmap(spdritem_trv_xpm), QIconSet::Small);
-    new PanelAction(is, tr("&Vertical track panel"), 0,
+    new PanelAction(is, tr("&Vertical track"), 0,
             element::siciTrv, this, "verticaltrackPanel");
 
     is.setPixmap(QPixmap(spdritem_dil_xpm), QIconSet::Small);
-    new PanelAction(is, tr("&Left diagonal track panel"), 0,
+    new PanelAction(is, tr("&Left diagonal track"), 0,
             element::siciDil, this, "leftdiaPanel");
 
     is.setPixmap(QPixmap(spdritem_dir_xpm), QIconSet::Small);
-    new PanelAction(is, tr("&Right diagonal track panel"), 0,
+    new PanelAction(is, tr("&Right diagonal track"), 0,
             element::siciDir, this, "rightdiaPanel");
 
     is.setPixmap(QPixmap(spdritem_ri1_xpm), QIconSet::Small);
-    new PanelAction(is, tr("&Single direction panel"), 0,
+    new PanelAction(is, tr("&Single direction track"), 0,
             element::siciRi1, this, "singledirectionPanel");
 
     is.setPixmap(QPixmap(spdritem_ri2_xpm), QIconSet::Small);
-    new PanelAction(is, tr("&Two direction panel"), 0,
+    new PanelAction(is, tr("&Double direction track"), 0,
             element::siciRi2, this, "twodirectionPanel");
 
     is.setPixmap(QPixmap(spdritem_krh_xpm), QIconSet::Small);
-    new PanelAction(is, tr("&Crossing panel"), 0,
+    new PanelAction(is, tr("&Diagonal crossing"), 0,
             element::siciKrh, this, "crossingPanel");
 
     is.setPixmap(QPixmap(spdritem_krr_xpm), QIconSet::Small);
-    new PanelAction(is, tr("&Right crossing panel"), 0,
+    new PanelAction(is, tr("&Right crossing"), 0,
             element::siciKrr, this, "rightcrossingPanel");
 
     is.setPixmap(QPixmap(spdritem_krl_xpm), QIconSet::Small);
-    new PanelAction(is, tr("&Left crossing panel"), 0,
+    new PanelAction(is, tr("&Left crossing"), 0,
             element::siciKrl, this, "leftcrossingPanel");
 }
 

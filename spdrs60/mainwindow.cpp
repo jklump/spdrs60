@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.130 $
+                           version 0.5.2 $Revision: 1.131 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-22 08:08:18 $
+    last modified        : $Date: 2007-09-22 14:25:35 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -30,6 +30,7 @@
 
 #include "aboutdialog.h"
 #include "curvedtrackpanels.h"
+#include "decopanels.h"
 #include "externalgrouppanels.h"
 #include "finder.h"
 #include "gbsscrollview.h"
@@ -1499,6 +1500,66 @@ void MainWindow::initMainWindow()
             signalPanels,
             SLOT(deselectPaintItem(element::SpdrItemClassId)));
 
+    /*deco group toolbar*/
+    QToolBar* decopaneltb = new QToolBar(this, "decopaneltb");
+    Q_CHECK_PTR(decopaneltb);
+    moveDockWindow(decopaneltb, Qt::DockLeft);
+    decopaneltb->setLabel(tr("Decoration panels"));
+    decopaneltb->hide();
+
+    connect(actionViewLayoutEditMode, SIGNAL(toggled(bool)),
+            decopaneltb, SLOT(setShown(bool)));
+
+    DecoPanels *decoPanels = new DecoPanels(this,
+            "DecoPanels");
+    decoPanels->addTo(decopaneltb);
+
+    connect(layoutEditGrp, SIGNAL(modeChanged(GBSArea::LayoutEditMode)),
+            decoPanels, SLOT(enablePaintItems(GBSArea::LayoutEditMode)));
+    connect(decoPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            gbs, SLOT(changeLayoutPaintItem(element::SpdrItemClassId)));
+
+    connect(straightTrkPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            decoPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(decoPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            straightTrkPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(curvedTrkPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            decoPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(decoPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            curvedTrkPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(switchPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            decoPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(decoPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            switchPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(signalPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            decoPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(decoPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            signalPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
     /*external buttons group toolbar*/
     QToolBar* externalgrouptb = new QToolBar(this, "externalgrouptb");
     Q_CHECK_PTR(externalgrouptb);
@@ -1544,6 +1605,11 @@ void MainWindow::initMainWindow()
             signalPanels,
             SLOT(deselectPaintItem(element::SpdrItemClassId)));
 
+    connect(signalPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            groupPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
     connect(switchPanels,
             SIGNAL(paintItemChanged(element::SpdrItemClassId)),
             groupPanels,
@@ -1554,9 +1620,14 @@ void MainWindow::initMainWindow()
             switchPanels,
             SLOT(deselectPaintItem(element::SpdrItemClassId)));
 
-    connect(signalPanels,
+    connect(decoPanels,
             SIGNAL(paintItemChanged(element::SpdrItemClassId)),
             groupPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(groupPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            decoPanels,
             SLOT(deselectPaintItem(element::SpdrItemClassId)));
 
     /*help toolbar*/

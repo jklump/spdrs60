@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.2 $Revision: 1.81 $
+                           version 0.5.2 $Revision: 1.82 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-22 07:34:09 $
+    last modified        : $Date: 2007-09-22 14:25:35 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1691,15 +1691,15 @@ void GBSArea::initSpdrMap()
     spdrmap[element::siciBld] = SYM_BLD;
     spdrmap[element::siciAdr] = SYM_ADR;
     spdrmap[element::siciBue] = SYM_BUE;
+    spdrmap[element::siciRel] = SYM_REL;
+    spdrmap[element::siciMdc] = SYM_MDC;
+    spdrmap[element::siciDre] = SYM_DRE;
+    spdrmap[element::siciSbn] = SYM_SBN;
     spdrmap[element::siciPre] = SYM_PRE;
     spdrmap[element::siciGet] = SYM_GET;
     spdrmap[element::siciDlt] = SYM_DLT;
     spdrmap[element::siciDrt] = SYM_DRT;
     spdrmap[element::siciLee] = SYM_LEE;
-    spdrmap[element::siciRel] = SYM_REL;
-    spdrmap[element::siciMdc] = SYM_MDC;
-    spdrmap[element::siciDre] = SYM_DRE;
-    spdrmap[element::siciSbn] = SYM_SBN;
     spdrmap[element::siciHs1] = SYM_HS1;
     spdrmap[element::siciHs2] = SYM_HS2;
     spdrmap[element::siciSho] = SYM_SHO;

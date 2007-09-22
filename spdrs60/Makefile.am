@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.30 $
-# last update: $Date: 2007-09-22 08:05:17 $
+# version: $Revision: 1.31 $
+# last update: $Date: 2007-09-22 14:25:35 $
 
 SUBDIRS = pixmaps
 
@@ -12,6 +12,7 @@ nodist_spdrs60_SOURCES = \
 	aboutdialog_moc.cpp \
 	commandport_moc.cpp \
 	curvedtrackpanels_moc.cpp \
+	decopanels_moc.cpp \
 	elementcommander_moc.cpp \
 	elementdialog_moc.cpp \
 	element_moc.cpp \
@@ -50,6 +51,7 @@ spdrs60_SOURCES = main.cpp resources.h \
 	aboutdialog.cpp aboutdialog.h \
 	commandport.cpp commandport.h \
 	curvedtrackpanels.cpp curvedtrackpanels.h \
+	decopanels.cpp decopanels.h \
 	elementcommander.cpp elementcommander.h \
 	element.cpp element.h \
 	elementdialog.cpp elementdialog.h \
@@ -94,6 +96,7 @@ spdrs60_SOURCES = main.cpp resources.h \
 translated_source_files = \
 	aboutdialog.cpp \
 	curvedtrackpanels.cpp \
+	decopanels.cpp \
 	elementcommander.cpp \
 	element.cpp \
 	elementdialog.cpp \

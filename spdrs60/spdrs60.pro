@@ -1,6 +1,7 @@
 SOURCES = \
 	aboutdialog.cpp \
         curvedtrackpanels.cpp \
+	decopanels.cpp \
 	elementcommander.cpp \
 	element.cpp \
 	elementdialog.cpp \

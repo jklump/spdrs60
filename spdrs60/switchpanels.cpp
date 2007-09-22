@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-21
- * Last modified: $Date: 2007-09-22 08:05:17 $
- *                $Revision: 1.1 $
+ * Last modified: $Date: 2007-09-22 14:25:35 $
+ *                $Revision: 1.2 $
  *
  * This file provides menu and toolbar action to switch the paint item
  * selection between different switch panels.
@@ -71,7 +71,7 @@ SwitchPanels::SwitchPanels(QObject* parent, const char* name):
             element::siciEkl, this, "singleleftPanel");
 
     is.setPixmap(QPixmap(spdritem_ekr_xpm), QIconSet::Small);
-    new PanelAction(is, tr("&single-slip switch right"), 0,
+    new PanelAction(is, tr("&Single-slip switch right"), 0,
             element::siciEkr, this, "singlerightPanel");
 
     is.setPixmap(QPixmap(spdritem_dkl_xpm), QIconSet::Small);

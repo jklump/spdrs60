@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.2 $Revision: 1.71 $
+                           version 0.5.2 $Revision: 1.72 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-22 08:05:17 $
+    last modified        : $Date: 2007-09-22 14:25:35 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -256,11 +256,11 @@ public:
         siciRel = 710,
         siciMdc = 720,
         siciPre = 800,
-        siciGet = 820,
         siciShm = 820,
         siciSho = 822,
         siciShu = 824,
         siciDlt = 825,
+        siciGet = 826,
         siciDrt = 827,
         siciHs1 = 830,
         siciHs2 = 831,
