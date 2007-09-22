@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.129 $
+                           version 0.5.2 $Revision: 1.130 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-18 20:04:42 $
+    last modified        : $Date: 2007-09-22 08:08:18 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -39,6 +39,8 @@
 #include "preferences.h"
 #include "resources.h"
 #include "serverinfodialog.h"
+#include "signalpanels.h"
+#include "switchpanels.h"
 #include "straighttrackpanels.h"
 
 
@@ -495,7 +497,7 @@ void MainWindow::initMainWindow()
     /*feedback module viewer*/
     fbViewer = new FeedbackViewer(this, "feedbackviewer");
     Q_CHECK_PTR(fbViewer);
-    moveDockWindow(fbViewer, Left);
+    moveDockWindow(fbViewer, Qt::DockLeft);
     connect(this, SIGNAL(sendFBChangeLayout(unsigned int, unsigned int,
                     bool)),
             fbViewer, SLOT(feedbackPortChanged(unsigned int, unsigned int,
@@ -537,7 +539,7 @@ void MainWindow::initMainWindow()
     /*route list window*/
     rtViewer = new RouteListWindow(this, "routeListWindow", router);
     Q_CHECK_PTR(rtViewer);
-    moveDockWindow(rtViewer, Right);
+    moveDockWindow(rtViewer, Qt::DockRight);
     rtViewer->hide();
     connect(this, SIGNAL(switchedVisualMode(elemVisualMode)),
             rtViewer, SLOT(switchVisualMode(elemVisualMode)));
@@ -953,6 +955,8 @@ void MainWindow::initMainWindow()
     QToolBar* daemontb = new QToolBar(this, "daemontb");
     Q_CHECK_PTR(daemontb);
     daemontb->setLabel(tr("Daemon operations"));
+    connect(actionViewNormalMode, SIGNAL(toggled(bool)),
+            daemontb, SLOT(setShown(bool)));
 
     QPopupMenu* daemonmenu = new QPopupMenu(this);
     //daemonmenu = new QPopupMenu(this);
@@ -1035,6 +1039,8 @@ void MainWindow::initMainWindow()
     QToolBar* layouttb = new QToolBar(this, "layouttb");
     Q_CHECK_PTR(layouttb);
     layouttb->setLabel(tr("Layout operations"));
+    connect(actionViewNormalMode, SIGNAL(toggled(bool)),
+            layouttb, SLOT(setShown(bool)));
 
     QPopupMenu* layoutmenu = new QPopupMenu(this);
     menuBar()->insertItem(tr("&Layout"), layoutmenu);
@@ -1356,6 +1362,7 @@ void MainWindow::initMainWindow()
     /*straight track group toolbar*/
     QToolBar* straightracktb = new QToolBar(this, "straightracktb");
     Q_CHECK_PTR(straightracktb);
+    moveDockWindow(straightracktb, Qt::DockLeft);
     straightracktb->setLabel(tr("Straight track panels"));
     straightracktb->hide();
 
@@ -1373,17 +1380,18 @@ void MainWindow::initMainWindow()
             gbs, SLOT(changeLayoutPaintItem(element::SpdrItemClassId)));
 
     /*curved track group toolbar*/
-    QToolBar* curvedracktb = new QToolBar(this, "curvedracktb");
-    Q_CHECK_PTR(curvedracktb);
-    curvedracktb->setLabel(tr("Curved track panels"));
-    curvedracktb->hide();
+    QToolBar* curvedtracktb = new QToolBar(this, "curvedtracktb");
+    Q_CHECK_PTR(curvedtracktb);
+    moveDockWindow(curvedtracktb, Qt::DockLeft);
+    curvedtracktb->setLabel(tr("Curved track panels"));
+    curvedtracktb->hide();
 
     connect(actionViewLayoutEditMode, SIGNAL(toggled(bool)),
-            curvedracktb, SLOT(setShown(bool)));
+            curvedtracktb, SLOT(setShown(bool)));
 
     CurvedTrackPanels *curvedTrkPanels = new CurvedTrackPanels(this,
             "CurvedTrackPanels");
-    curvedTrkPanels->addTo(curvedracktb);
+    curvedTrkPanels->addTo(curvedtracktb);
 
     connect(layoutEditGrp, SIGNAL(modeChanged(GBSArea::LayoutEditMode)),
             curvedTrkPanels, SLOT(enablePaintItems(GBSArea::LayoutEditMode)));
@@ -1391,9 +1399,110 @@ void MainWindow::initMainWindow()
             SIGNAL(paintItemChanged(element::SpdrItemClassId)),
             gbs, SLOT(changeLayoutPaintItem(element::SpdrItemClassId)));
 
+    connect(straightTrkPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            curvedTrkPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(curvedTrkPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            straightTrkPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    /*signal group toolbar*/
+    QToolBar* signalpaneltb = new QToolBar(this, "signalpaneltb");
+    Q_CHECK_PTR(signalpaneltb);
+    moveDockWindow(signalpaneltb, Qt::DockLeft);
+    signalpaneltb->setLabel(tr("Signal panels"));
+    signalpaneltb->hide();
+
+    connect(actionViewLayoutEditMode, SIGNAL(toggled(bool)),
+            signalpaneltb, SLOT(setShown(bool)));
+
+    SignalPanels *signalPanels = new SignalPanels(this,
+            "SignalPanels");
+    signalPanels->addTo(signalpaneltb);
+
+    connect(layoutEditGrp, SIGNAL(modeChanged(GBSArea::LayoutEditMode)),
+            signalPanels, SLOT(enablePaintItems(GBSArea::LayoutEditMode)));
+    connect(signalPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            gbs, SLOT(changeLayoutPaintItem(element::SpdrItemClassId)));
+
+    connect(straightTrkPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            signalPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(signalPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            straightTrkPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(curvedTrkPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            signalPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(signalPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            curvedTrkPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    /*switch group toolbar*/
+    QToolBar* switchpaneltb = new QToolBar(this, "switchpaneltb");
+    Q_CHECK_PTR(switchpaneltb);
+    moveDockWindow(switchpaneltb, Qt::DockLeft);
+    switchpaneltb->setLabel(tr("Switch panels"));
+    switchpaneltb->hide();
+
+    connect(actionViewLayoutEditMode, SIGNAL(toggled(bool)),
+            switchpaneltb, SLOT(setShown(bool)));
+
+    SwitchPanels *switchPanels = new SwitchPanels(this,
+            "SwitchPanels");
+    switchPanels->addTo(switchpaneltb);
+
+    connect(layoutEditGrp, SIGNAL(modeChanged(GBSArea::LayoutEditMode)),
+            switchPanels, SLOT(enablePaintItems(GBSArea::LayoutEditMode)));
+    connect(switchPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            gbs, SLOT(changeLayoutPaintItem(element::SpdrItemClassId)));
+
+    connect(straightTrkPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            switchPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(switchPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            straightTrkPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(curvedTrkPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            switchPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(switchPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            curvedTrkPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(signalPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            switchPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(switchPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            signalPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
     /*external buttons group toolbar*/
     QToolBar* externalgrouptb = new QToolBar(this, "externalgrouptb");
     Q_CHECK_PTR(externalgrouptb);
+    moveDockWindow(externalgrouptb, Qt::DockLeft);
     externalgrouptb->setLabel(tr("External group panels"));
     externalgrouptb->hide();
 
@@ -1406,8 +1515,49 @@ void MainWindow::initMainWindow()
 
     connect(layoutEditGrp, SIGNAL(modeChanged(GBSArea::LayoutEditMode)),
             groupPanels, SLOT(enablePaintItems(GBSArea::LayoutEditMode)));
+
     connect(groupPanels, SIGNAL(paintItemChanged(element::SpdrItemClassId)),
             gbs, SLOT(changeLayoutPaintItem(element::SpdrItemClassId)));
+
+    connect(groupPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            curvedTrkPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(curvedTrkPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            groupPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(groupPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            straightTrkPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(straightTrkPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            groupPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(groupPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            signalPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(switchPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            groupPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(groupPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            switchPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
+
+    connect(signalPanels,
+            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            groupPanels,
+            SLOT(deselectPaintItem(element::SpdrItemClassId)));
 
     /*help toolbar*/
     //QToolBar* helptb = new QToolBar(this, "helptb");

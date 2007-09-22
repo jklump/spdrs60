@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-16
- * Last modified: $Date: 2007-09-18 17:07:16 $
- *                $Revision: 1.3 $
+ * Last modified: $Date: 2007-09-22 08:08:18 $
+ *                $Revision: 1.4 $
  *
  * This file provides menu and toolbar action to switch the paint item
  * selection between different external group panels.
@@ -39,34 +39,46 @@
 ExternalGroupPanels::ExternalGroupPanels(QObject* parent, const char* name):
     PanelActionGroup(parent, name)
 {
-    new PanelAction(QPixmap(spdritem_feg_xpm), tr("&Route panel"), 0,
+    QIconSet is;
+
+    is.setPixmap(QPixmap(spdritem_feg_xpm), QIconSet::Small);
+    new PanelAction(is, tr("&Route group panel"), 0,
             element::siciFeg, this, "routePanel");
 
-    new PanelAction(QPixmap(spdritem_taf_xpm), tr("&FHT panel"), 0,
+    is.setPixmap(QPixmap(spdritem_taf_xpm), QIconSet::Small);
+    new PanelAction(is, tr("&FHT panel"), 0,
             element::siciTaf, this, "fhtPanel");
 
-    new PanelAction(QPixmap(spdritem_tau_xpm), tr("&UfGT and MGT panel"), 0,
+    is.setPixmap(QPixmap(spdritem_tau_xpm), QIconSet::Small);
+    new PanelAction(is, tr("&UfGT and MGT panel"), 0,
             element::siciTau, this, "ufgtPanel");
 
-    new PanelAction(QPixmap(spdritem_feb_xpm), tr("&Turnout panel"), 0,
+    is.setPixmap(QPixmap(spdritem_feb_xpm), QIconSet::Small);
+    new PanelAction(is, tr("&Turnout group panel"), 0,
             element::siciFeb, this, "turnoutPanel");
 
-    new PanelAction(QPixmap(spdritem_taw_xpm), tr("&WGT panel"), 0,
+    is.setPixmap(QPixmap(spdritem_taw_xpm), QIconSet::Small);
+    new PanelAction(is, tr("&WGT panel"), 0,
             element::siciTaw, this, "wgtPanel");
 
-    new PanelAction(QPixmap(spdritem_fer_xpm), tr("&Signal panel"), 0,
+    is.setPixmap(QPixmap(spdritem_fer_xpm), QIconSet::Small);
+    new PanelAction(is, tr("&Signal group panel"), 0,
             element::siciFer, this, "signalPanel");
 
-    new PanelAction(QPixmap(spdritem_tas_xpm), tr("&SGT and HaGT panel"), 0,
+    is.setPixmap(QPixmap(spdritem_tas_xpm), QIconSet::Small);
+    new PanelAction(is, tr("&SGT and HaGT panel"), 0,
             element::siciTas, this, "sgtPanel");
 
-    new PanelAction(QPixmap(spdritem_fey_xpm), tr("&Level crossing panel"), 0,
+    is.setPixmap(QPixmap(spdritem_fey_xpm), QIconSet::Small);
+    new PanelAction(is, tr("&Level crossing group panel"), 0,
             element::siciFey, this, "crossingPanel");
 
-    new PanelAction(QPixmap(spdritem_fen_xpm), tr("&Axle counter panel"), 0,
+    is.setPixmap(QPixmap(spdritem_fen_xpm), QIconSet::Small);
+    new PanelAction(is, tr("&Axle counter group panel"), 0,
             element::siciFen, this, "axlePanel");
 
-    new PanelAction(QPixmap(spdritem_fee_xpm), tr("&Power supply panel"), 0,
+    is.setPixmap(QPixmap(spdritem_fee_xpm), QIconSet::Small);
+    new PanelAction(is, tr("&Power supply group panel"), 0,
             element::siciFee, this, "powerPanel");
 }
 
