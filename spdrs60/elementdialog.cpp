@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.cpp
-                           version 0.5.2 $Revision: 1.43 $
+                           version 0.5.2 $Revision: 1.44 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-17 18:05:45 $
+    last modified        : $Date: 2007-09-22 07:34:09 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -59,13 +59,14 @@
 #define MINSXPORT 1
 #define MAXSXPORT 8
 
-elementDialog::elementDialog(QWidget* parent, int idx):
-    QDialog(parent, "elementDialog", true)
+ElementDialog::ElementDialog(QWidget* parent, int idx):
+    QDialog(parent, "ElementDialog", true)
 {
     setCaption(tr("Properties of Element #%1").arg(idx));
     gaSubType = 0;
     gaDirection = 0;
     addresscount = 0;
+    symbolName= "";
 
     /*Layout to separate OK Cancel buttons from the upper rest*/
     QBoxLayout* baseLayout = new QVBoxLayout(this, 12, 12);
@@ -485,7 +486,7 @@ elementDialog::elementDialog(QWidget* parent, int idx):
 }
 
 
-elementDialog::~elementDialog()
+ElementDialog::~ElementDialog()
 {
     delete IconNameList;
 }
@@ -499,7 +500,7 @@ elementDialog::~elementDialog()
  * it´s name in QStrList. To get a pixmap´s name we must recalculate the
  * name using the current item ID of the ComboBox
  */
-void elementDialog::setupElement(const char *eName)
+void ElementDialog::setupElement(const char *eName)
 {
     IconNameList->append(eName);
     QString sPixmapName = RES_DIR_ELEM;
@@ -509,14 +510,14 @@ void elementDialog::setupElement(const char *eName)
 }
 
 
-void elementDialog::slotAddress1Changed(const QString&)
+void ElementDialog::slotAddress1Changed(const QString&)
 {
     if (cbAddrLabeling->isChecked())
         leText->setText(address1LE->text());
 }
 
 
-void elementDialog::letteringChanged(bool takeaddr)
+void ElementDialog::letteringChanged(bool takeaddr)
 {
     if (takeaddr) {
         leText->setFocusPolicy(QWidget::NoFocus);
@@ -527,7 +528,7 @@ void elementDialog::letteringChanged(bool takeaddr)
 }
 
 
-void elementDialog::updateValidators()
+void ElementDialog::updateValidators()
 {
     /*
      *  id  protocol
@@ -540,13 +541,11 @@ void elementDialog::updateValidators()
      *  -------------
      */
     
-    QString icon = IconNameList->at(IconComboBox->currentItem());
-    
-    if (icon == SYM_NRB || icon == SYM_SRB) {
+    if (symbolName == SYM_NRB || symbolName == SYM_SRB) {
         a1Validator->setTop(MAX_RB);
         a2Validator->setTop(MAX_RB);
     }
-    else if (icon == SYM_ADR) {
+    else if (symbolName == SYM_ADR) {
         a1Validator->setTop(MAX_DISP);
         a2Validator->setTop(MAX_DISP);
         //a1Validator->setBottom(MAX_RB);
@@ -712,7 +711,7 @@ void elementDialog::updateValidators()
 }
 
 
-void elementDialog::slotDecoderChanged(int index)
+void ElementDialog::slotDecoderChanged(int index)
 {
     QString sProt = coboDecoder->text(index).right(3);
     if (sProt == QString::null)
@@ -732,7 +731,7 @@ void elementDialog::slotDecoderChanged(int index)
 }
 
 
-void elementDialog::slotProtocolChanged(int)
+void ElementDialog::slotProtocolChanged(int)
 {
     QString sProt;
     QString sText;
@@ -759,43 +758,43 @@ void elementDialog::slotProtocolChanged(int)
 }
 
 
-void elementDialog::slotShowFBmodules()
+void ElementDialog::slotShowFBmodules()
 {
     emit sigShowFBmodules();
 }
 
 
-void elementDialog::slotSymbolChanged(int iCoboIconID)
+void ElementDialog::slotSymbolChanged(int iCoboIconID)
 {
     int enabled;
     QString sListText;
     
     // store the name of current pixmap in a special variable -> faster access
-    sSoldIcon = IconNameList->at(iCoboIconID);
+    symbolName = IconNameList->at(iCoboIconID);
 
     // show protocol data => element->hasAddress() or isSwitchable()
-    enabled = sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
-        sSoldIcon == SYM_SS || sSoldIcon == SYM_WS ||
-        sSoldIcon == SYM_SSH || sSoldIcon == SYM_SSS ||
-        sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER ||
-        sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR ||
-        sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR ||
-        sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR ||
-        sSoldIcon == SYM_DRW ||
-        sSoldIcon == SYM_ENK || sSoldIcon == SYM_REL ||
-        sSoldIcon == SYM_WEY || sSoldIcon == SYM_MDC ||
-        sSoldIcon == SYM_SBN || sSoldIcon == SYM_BLD ||
-        sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB ||
-        sSoldIcon == SYM_ZP || sSoldIcon == SYM_VS;
+    enabled = symbolName == SYM_HS || symbolName == SYM_HSS ||
+        symbolName == SYM_SS || symbolName == SYM_WS ||
+        symbolName == SYM_SSH || symbolName == SYM_SSS ||
+        symbolName == SYM_WEL || symbolName == SYM_WER ||
+        symbolName == SYM_DWL || symbolName == SYM_DWR ||
+        symbolName == SYM_EKL || symbolName == SYM_EKR ||
+        symbolName == SYM_DKL || symbolName == SYM_DKR ||
+        symbolName == SYM_DRW ||
+        symbolName == SYM_ENK || symbolName == SYM_REL ||
+        symbolName == SYM_WEY || symbolName == SYM_MDC ||
+        symbolName == SYM_SBN || symbolName == SYM_BLD ||
+        symbolName == SYM_NRB || symbolName == SYM_SRB ||
+        symbolName == SYM_ZP || symbolName == SYM_VS;
 
-    rbProtocol_MS->setEnabled(enabled || sSoldIcon == SYM_DRE);
+    rbProtocol_MS->setEnabled(enabled || symbolName == SYM_DRE);
     rbProtocol_NA->setEnabled(enabled);
     rbProtocol_PS->setEnabled(enabled);
     rbProtocol_SE->setEnabled(enabled);
 
     // show address_1 data, but take enabled value from above
-    enabled = enabled && sSoldIcon != SYM_SBN && sSoldIcon != SYM_MDC;
-    if (enabled || sSoldIcon == SYM_ADR) {
+    enabled = enabled && symbolName != SYM_SBN && symbolName != SYM_MDC;
+    if (enabled || symbolName == SYM_ADR) {
         // set direction to 0 if it was -1 before and address_1 is now enabled
         if (gaDirection == -1)
             gaDirection = 0;
@@ -806,32 +805,32 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
         addresscount = 0;
     }
 
-    srcpBus1Label->setEnabled(enabled || sSoldIcon == SYM_ADR);
-    srcpBus1LE->setEnabled(enabled || sSoldIcon == SYM_ADR);
-    address1LE->setEnabled(enabled || sSoldIcon == SYM_ADR);
+    srcpBus1Label->setEnabled(enabled || symbolName == SYM_ADR);
+    srcpBus1LE->setEnabled(enabled || symbolName == SYM_ADR);
+    address1LE->setEnabled(enabled || symbolName == SYM_ADR);
     cbAddrLabeling->setEnabled(enabled);
-    address1Lbl->setEnabled(enabled || sSoldIcon == SYM_ADR);
+    address1Lbl->setEnabled(enabled || symbolName == SYM_ADR);
     port1Label->setEnabled(rbProtocol_SE->isChecked());
     port1SB->setEnabled(rbProtocol_SE->isChecked());
     xchConn1CB->setEnabled(enabled);
 
     // show text data
-    enabled = sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
-        sSoldIcon == SYM_WS || sSoldIcon == SYM_VS ||
-        sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER ||
-        sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR ||
-        sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR ||
-        sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR ||
-        sSoldIcon == SYM_DRW || sSoldIcon == SYM_SS ||
-        sSoldIcon == SYM_SSH || sSoldIcon == SYM_SSS ||
-        sSoldIcon == SYM_ENK || sSoldIcon == SYM_REL ||
-        sSoldIcon == SYM_GER || sSoldIcon == SYM_LEE ||
-        sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB ||
-        sSoldIcon == SYM_WEY || sSoldIcon == SYM_MDC ||
-        sSoldIcon == SYM_SBN || sSoldIcon == SYM_ADR ||
-        sSoldIcon == SYM_RI1 || sSoldIcon == SYM_RI2 ||
-        sSoldIcon == SYM_DRE ||
-        sSoldIcon == SYM_BLD || sSoldIcon == SYM_ZP;
+    enabled = symbolName == SYM_HS || symbolName == SYM_HSS ||
+        symbolName == SYM_WS || symbolName == SYM_VS ||
+        symbolName == SYM_WEL || symbolName == SYM_WER ||
+        symbolName == SYM_DWL || symbolName == SYM_DWR ||
+        symbolName == SYM_EKL || symbolName == SYM_EKR ||
+        symbolName == SYM_DKL || symbolName == SYM_DKR ||
+        symbolName == SYM_DRW || symbolName == SYM_SS ||
+        symbolName == SYM_SSH || symbolName == SYM_SSS ||
+        symbolName == SYM_ENK || symbolName == SYM_REL ||
+        symbolName == SYM_GER || symbolName == SYM_LEE ||
+        symbolName == SYM_NRB || symbolName == SYM_SRB ||
+        symbolName == SYM_WEY || symbolName == SYM_MDC ||
+        symbolName == SYM_SBN || symbolName == SYM_ADR ||
+        symbolName == SYM_RI1 || symbolName == SYM_RI2 ||
+        symbolName == SYM_DRE ||
+        symbolName == SYM_BLD || symbolName == SYM_ZP;
 
     if (!enabled)
         leText->setText("-1");
@@ -841,17 +840,17 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
 
     // show address_2 data
     // Hp0+Hp1+Hp2
-    enabled = sSoldIcon == SYM_HSS || sSoldIcon == SYM_DRW
-        || sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR
-        || sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR
-        || sSoldIcon == SYM_MDC || sSoldIcon == SYM_DRE
-        || sSoldIcon == SYM_SBN || (sSoldIcon == SYM_VS
+    enabled = symbolName == SYM_HSS || symbolName == SYM_DRW
+        || symbolName == SYM_DKL || symbolName == SYM_DKR
+        || symbolName == SYM_EKL || symbolName == SYM_EKR
+        || symbolName == SYM_MDC || symbolName == SYM_DRE
+        || symbolName == SYM_SBN || (symbolName == SYM_VS
                                     && gaSubType == 4)
-        || (sSoldIcon == SYM_HS && gaSubType == 4);
+        || (symbolName == SYM_HS && gaSubType == 4);
     
     if (enabled) {
         /*
-        if (sSoldIcon != SYM_DRE && sSoldIcon != SYM_SBN) {
+        if (symbolName != SYM_DRE && symbolName != SYM_SBN) {
             sListText = listElementData->at(LIST_ID_CHACONN_2);
             xchConn2CB->setChecked(sListText == "1");
         }*/
@@ -867,97 +866,97 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
     port2Label->setEnabled(rbProtocol_SE->isChecked());
     port2SB->setEnabled(rbProtocol_SE->isChecked());
 
-    xchConn2CB->setEnabled(enabled && sSoldIcon != SYM_DRE
-                           && sSoldIcon != SYM_SBN
-                           && sSoldIcon != SYM_MDC);
+    xchConn2CB->setEnabled(enabled && symbolName != SYM_DRE
+                           && symbolName != SYM_SBN
+                           && symbolName != SYM_MDC);
  
-    if (sSoldIcon == SYM_DRE)
+    if (symbolName == SYM_DRE)
         address2LE->setFocusPolicy(NoFocus);
     else
         address2LE->setFocusPolicy(StrongFocus);
 
     // show rotate data
     // SYM_GER: only for text placement
-    enabled = sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
-        sSoldIcon == SYM_WS || sSoldIcon == SYM_VS ||
-        sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER ||
-        sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR ||
-        sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR ||
-        sSoldIcon == SYM_KUL || sSoldIcon == SYM_KUR ||
-        sSoldIcon == SYM_DRW || sSoldIcon == SYM_SS ||
-        sSoldIcon == SYM_SSH || sSoldIcon == SYM_SSS ||
-        sSoldIcon == SYM_PRE || sSoldIcon == SYM_RI1 ||
-        sSoldIcon == SYM_GER || sSoldIcon == SYM_WEY ||
-        sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB ||
-        sSoldIcon == SYM_HS2 || sSoldIcon == SYM_DLT ||
-        sSoldIcon == SYM_DRT || sSoldIcon == SYM_GET ||
-        sSoldIcon == SYM_SHM || sSoldIcon == SYM_SHO ||
-        sSoldIcon == SYM_SHU || sSoldIcon == SYM_ZP ||
-        sSoldIcon == SYM_ADR;
+    enabled = symbolName == SYM_HS || symbolName == SYM_HSS ||
+        symbolName == SYM_WS || symbolName == SYM_VS ||
+        symbolName == SYM_WEL || symbolName == SYM_WER ||
+        symbolName == SYM_DWL || symbolName == SYM_DWR ||
+        symbolName == SYM_EKL || symbolName == SYM_EKR ||
+        symbolName == SYM_KUL || symbolName == SYM_KUR ||
+        symbolName == SYM_DRW || symbolName == SYM_SS ||
+        symbolName == SYM_SSH || symbolName == SYM_SSS ||
+        symbolName == SYM_PRE || symbolName == SYM_RI1 ||
+        symbolName == SYM_GER || symbolName == SYM_WEY ||
+        symbolName == SYM_NRB || symbolName == SYM_SRB ||
+        symbolName == SYM_HS2 || symbolName == SYM_DLT ||
+        symbolName == SYM_DRT || symbolName == SYM_GET ||
+        symbolName == SYM_SHM || symbolName == SYM_SHO ||
+        symbolName == SYM_SHU || symbolName == SYM_ZP ||
+        symbolName == SYM_ADR;
 
     cbRotate->setEnabled(enabled);
 
     // show LEDoff data (Gleismelder)
-    enabled = sSoldIcon == SYM_KUL || sSoldIcon == SYM_KUR ||
-        sSoldIcon == SYM_DIL || sSoldIcon == SYM_DIR ||
-        sSoldIcon == SYM_GER || sSoldIcon == SYM_RI1 ||
-        sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB ||
-        sSoldIcon == SYM_RI2 || sSoldIcon == SYM_KRH ||
-        sSoldIcon == SYM_KRL || sSoldIcon == SYM_KRR ||
-        sSoldIcon == SYM_SS || sSoldIcon == SYM_SSH ||
-        sSoldIcon == SYM_SSS || sSoldIcon == SYM_TRV ||
-        sSoldIcon == SYM_TTL || sSoldIcon == SYM_TTR ||
-        sSoldIcon == SYM_TBL || sSoldIcon == SYM_TBR ||
-        sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER ||
-        sSoldIcon == SYM_WEY || sSoldIcon == SYM_DRW ||
-        sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR ||
-        sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR ||
-        sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR ||
-        sSoldIcon == SYM_ENK || sSoldIcon == SYM_BLD;
+    enabled = symbolName == SYM_KUL || symbolName == SYM_KUR ||
+        symbolName == SYM_DIL || symbolName == SYM_DIR ||
+        symbolName == SYM_GER || symbolName == SYM_RI1 ||
+        symbolName == SYM_NRB || symbolName == SYM_SRB ||
+        symbolName == SYM_RI2 || symbolName == SYM_KRH ||
+        symbolName == SYM_KRL || symbolName == SYM_KRR ||
+        symbolName == SYM_SS || symbolName == SYM_SSH ||
+        symbolName == SYM_SSS || symbolName == SYM_TRV ||
+        symbolName == SYM_TTL || symbolName == SYM_TTR ||
+        symbolName == SYM_TBL || symbolName == SYM_TBR ||
+        symbolName == SYM_WEL || symbolName == SYM_WER ||
+        symbolName == SYM_WEY || symbolName == SYM_DRW ||
+        symbolName == SYM_DWL || symbolName == SYM_DWR ||
+        symbolName == SYM_EKL || symbolName == SYM_EKR ||
+        symbolName == SYM_DKL || symbolName == SYM_DKR ||
+        symbolName == SYM_ENK || symbolName == SYM_BLD;
 
     cbLEDoff->setEnabled(enabled);
 
     // show invert data for empty elements only for colour
-    enabled = sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER
-        || sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR
-        || sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR
-        || sSoldIcon == SYM_LEE || sSoldIcon == SYM_ADR;
+    enabled = symbolName == SYM_WEL || symbolName == SYM_WER
+        || symbolName == SYM_EKL || symbolName == SYM_EKR
+        || symbolName == SYM_DWL || symbolName == SYM_DWR
+        || symbolName == SYM_LEE || symbolName == SYM_ADR;
 
     cbInvert->setEnabled(enabled);
     invertedChanged(cbInvert->isChecked());
 /*
-    enabled = sSoldIcon == SYM_KUL || sSoldIcon == SYM_KUR ||
-        sSoldIcon == SYM_DIL || sSoldIcon == SYM_DIR ||
-        sSoldIcon == SYM_GER || sSoldIcon == SYM_RI1 ||
-        sSoldIcon == SYM_RI2 || sSoldIcon == SYM_KRH ||
-        sSoldIcon == SYM_KRL || sSoldIcon == SYM_KRR;
+    enabled = symbolName == SYM_KUL || symbolName == SYM_KUR ||
+        symbolName == SYM_DIL || symbolName == SYM_DIR ||
+        symbolName == SYM_GER || symbolName == SYM_RI1 ||
+        symbolName == SYM_RI2 || symbolName == SYM_KRH ||
+        symbolName == SYM_KRL || symbolName == SYM_KRR;
 */
     // show feedback data =>element->hasFBContact()
-    enabled = sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
-        sSoldIcon == SYM_SSH || sSoldIcon == SYM_SSS ||
-        sSoldIcon == SYM_BUE || sSoldIcon == SYM_ADR ||
-        sSoldIcon == SYM_WS || sSoldIcon == SYM_VS ||
-        sSoldIcon == SYM_SS || sSoldIcon == SYM_ZP ||
-        ((sSoldIcon == SYM_KUL || sSoldIcon == SYM_KUR ||
-          sSoldIcon == SYM_ENK || sSoldIcon == SYM_BLD || 
-          sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR ||
-          sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR ||
-          sSoldIcon == SYM_DRW || sSoldIcon == SYM_WEY ||
-          sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER ||
-          sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR ||
-          sSoldIcon == SYM_DIL || sSoldIcon == SYM_DIR ||
-          sSoldIcon == SYM_GER || sSoldIcon == SYM_RI1 ||
-          sSoldIcon == SYM_TRV ||
-          sSoldIcon == SYM_TTL || sSoldIcon == SYM_TTR ||
-          sSoldIcon == SYM_TBL || sSoldIcon == SYM_TBR ||
-          sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB ||
-          sSoldIcon == SYM_RI2 || sSoldIcon == SYM_KRH ||
-          sSoldIcon == SYM_KRL || sSoldIcon == SYM_KRR) &&
+    enabled = symbolName == SYM_HS || symbolName == SYM_HSS ||
+        symbolName == SYM_SSH || symbolName == SYM_SSS ||
+        symbolName == SYM_BUE || symbolName == SYM_ADR ||
+        symbolName == SYM_WS || symbolName == SYM_VS ||
+        symbolName == SYM_SS || symbolName == SYM_ZP ||
+        ((symbolName == SYM_KUL || symbolName == SYM_KUR ||
+          symbolName == SYM_ENK || symbolName == SYM_BLD || 
+          symbolName == SYM_EKL || symbolName == SYM_EKR ||
+          symbolName == SYM_DKL || symbolName == SYM_DKR ||
+          symbolName == SYM_DRW || symbolName == SYM_WEY ||
+          symbolName == SYM_WEL || symbolName == SYM_WER ||
+          symbolName == SYM_DWL || symbolName == SYM_DWR ||
+          symbolName == SYM_DIL || symbolName == SYM_DIR ||
+          symbolName == SYM_GER || symbolName == SYM_RI1 ||
+          symbolName == SYM_TRV ||
+          symbolName == SYM_TTL || symbolName == SYM_TTR ||
+          symbolName == SYM_TBL || symbolName == SYM_TBR ||
+          symbolName == SYM_NRB || symbolName == SYM_SRB ||
+          symbolName == SYM_RI2 || symbolName == SYM_KRH ||
+          symbolName == SYM_KRL || symbolName == SYM_KRR) &&
          !cbLEDoff->isChecked());
 
     buttFBmodules->setEnabled(enabled);
 
-    if (sSoldIcon == SYM_ADR) {
+    if (symbolName == SYM_ADR) {
         cbAdrMod->setChecked(true);
         //contactSBChanged(1);
         contactSB->setEnabled(false);
@@ -968,7 +967,7 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
         cbAdrMod->setChecked(false);
         contactSB->setEnabled(true);
         //contactSBChanged(sListText.toInt() + 1);
-        if (sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB)
+        if (symbolName == SYM_NRB || symbolName == SYM_SRB)
             if (address1LE->text() == "-1")
                 address1LE->setText(QString::number(MIN_RB));
     }
@@ -983,39 +982,39 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
     labelFBport->setEnabled(enabled);
 
     // show active time
-    enabled = sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
-        sSoldIcon == SYM_WS || sSoldIcon == SYM_VS ||
-        sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER ||
-        sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR ||
-        sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR ||
-        sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR ||
-        sSoldIcon == SYM_DRW || sSoldIcon == SYM_SS ||
-        sSoldIcon == SYM_SSH || sSoldIcon == SYM_SSS ||
-        sSoldIcon == SYM_ENK || sSoldIcon == SYM_REL ||
-        sSoldIcon == SYM_WEY || sSoldIcon == SYM_DRE ||
-        sSoldIcon == SYM_SBN || sSoldIcon == SYM_MDC ||
-        sSoldIcon == SYM_BLD || sSoldIcon == SYM_ZP;
+    enabled = symbolName == SYM_HS || symbolName == SYM_HSS ||
+        symbolName == SYM_WS || symbolName == SYM_VS ||
+        symbolName == SYM_WEL || symbolName == SYM_WER ||
+        symbolName == SYM_DWL || symbolName == SYM_DWR ||
+        symbolName == SYM_EKL || symbolName == SYM_EKR ||
+        symbolName == SYM_DKL || symbolName == SYM_DKR ||
+        symbolName == SYM_DRW || symbolName == SYM_SS ||
+        symbolName == SYM_SSH || symbolName == SYM_SSS ||
+        symbolName == SYM_ENK || symbolName == SYM_REL ||
+        symbolName == SYM_WEY || symbolName == SYM_DRE ||
+        symbolName == SYM_SBN || symbolName == SYM_MDC ||
+        symbolName == SYM_BLD || symbolName == SYM_ZP;
 
     activeTimeSB->setEnabled(enabled);
     labelTime->setEnabled(enabled);
 
     // show decoder data
-    enabled = sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
-        sSoldIcon == SYM_WS || sSoldIcon == SYM_VS ||
-        sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER ||
-        sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR ||
-        sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR ||
-        sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR ||
-        sSoldIcon == SYM_DRW || sSoldIcon == SYM_SS ||
-        sSoldIcon == SYM_SSH || sSoldIcon == SYM_SSS ||
-        sSoldIcon == SYM_ENK || sSoldIcon == SYM_REL ||
-        sSoldIcon == SYM_WEY ||
-        sSoldIcon == SYM_SBN || sSoldIcon == SYM_MDC ||
-        sSoldIcon == SYM_BLD || sSoldIcon == SYM_ZP;
+    enabled = symbolName == SYM_HS || symbolName == SYM_HSS ||
+        symbolName == SYM_WS || symbolName == SYM_VS ||
+        symbolName == SYM_WEL || symbolName == SYM_WER ||
+        symbolName == SYM_DWL || symbolName == SYM_DWR ||
+        symbolName == SYM_EKL || symbolName == SYM_EKR ||
+        symbolName == SYM_DKL || symbolName == SYM_DKR ||
+        symbolName == SYM_DRW || symbolName == SYM_SS ||
+        symbolName == SYM_SSH || symbolName == SYM_SSS ||
+        symbolName == SYM_ENK || symbolName == SYM_REL ||
+        symbolName == SYM_WEY ||
+        symbolName == SYM_SBN || symbolName == SYM_MDC ||
+        symbolName == SYM_BLD || symbolName == SYM_ZP;
 
-    if (!enabled && sSoldIcon != SYM_DRE)
+    if (!enabled && symbolName != SYM_DRE)
         coboDecoder->setCurrentItem(coboDecoder->count() - 1);  // == -1
-    else if (!enabled && sSoldIcon == SYM_DRE)
+    else if (!enabled && symbolName == SYM_DRE)
         coboDecoder->setCurrentItem(8); // Maerklin special turntable decoder
     else {
         sListText = lastDecoder;
@@ -1033,10 +1032,10 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
     labelDecoder->setEnabled(enabled);
 
     // show subtype data
-    enabled = sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
-        sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR ||
-        sSoldIcon == SYM_ENK || sSoldIcon == SYM_DRE ||
-        sSoldIcon == SYM_VS;
+    enabled = symbolName == SYM_HS || symbolName == SYM_HSS ||
+        symbolName == SYM_DKL || symbolName == SYM_DKR ||
+        symbolName == SYM_ENK || symbolName == SYM_DRE ||
+        symbolName == SYM_VS;
 
     if (!enabled)
         gaSubType = -1;
@@ -1046,7 +1045,7 @@ void elementDialog::slotSymbolChanged(int iCoboIconID)
 }
 
 
-void elementDialog::slotEnable_LED_FB()
+void ElementDialog::slotEnable_LED_FB()
 {
     fbBusLE->setEnabled(!cbLEDoff->isChecked());
     labelFBBus->setEnabled(!cbLEDoff->isChecked());
@@ -1065,7 +1064,7 @@ void elementDialog::slotEnable_LED_FB()
 }
 
 
-void elementDialog::showSubTypes(int iShow_)
+void ElementDialog::showSubTypes(int iShow_)
 {
     int i;
 
@@ -1082,42 +1081,42 @@ void elementDialog::showSubTypes(int iShow_)
     buttSubType[1]->show();
     buttSubType[2]->show();
     // show appropriate text ...
-    if (sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS || sSoldIcon ==
+    if (symbolName == SYM_HS || symbolName == SYM_HSS || symbolName ==
             SYM_VS) {
-        if (sSoldIcon == SYM_HS){
+        if (symbolName == SYM_HS){
             buttSubType[0]->setPixmap(QPixmap(signal_hs_st1_xpm));
             buttSubType[1]->setPixmap(QPixmap(signal_hs_st2_xpm));
             buttSubType[2]->setPixmap(QPixmap(signal_hs_st3_xpm));
         }
-        else if (sSoldIcon == SYM_HSS){
+        else if (symbolName == SYM_HSS){
             buttSubType[0]->setPixmap(QPixmap(signal_hss_st1_xpm));
             buttSubType[1]->setPixmap(QPixmap(signal_hss_st2_xpm));
             buttSubType[2]->setPixmap(QPixmap(signal_hss_st3_xpm));
         }
-        else if (sSoldIcon == SYM_VS){
+        else if (symbolName == SYM_VS){
             buttSubType[0]->setPixmap(QPixmap(signal_vs_st1_xpm));
             buttSubType[1]->setPixmap(QPixmap(signal_vs_st2_xpm));
             buttSubType[2]->setPixmap(QPixmap(signal_vs_st3_xpm));
         }
     }
     
-    else if (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) {
-        if (sSoldIcon == SYM_DKL){
+    else if (symbolName == SYM_DKL || symbolName == SYM_DKR) {
+        if (symbolName == SYM_DKL){
             buttSubType[1]->setPixmap(QPixmap(dkw_links_st2_xpm));
             buttSubType[2]->setPixmap(QPixmap(dkw_links_st3_xpm));
         }
-        else if (sSoldIcon == SYM_DKR){
+        else if (symbolName == SYM_DKR){
             buttSubType[1]->setPixmap(QPixmap(dkw_rechts_st2_xpm));
             buttSubType[2]->setPixmap(QPixmap(dkw_rechts_st3_xpm));
         }
         buttSubType[0]->hide();
     }
-    else if (sSoldIcon == SYM_ENK) {
+    else if (symbolName == SYM_ENK) {
         buttSubType[0]->setPixmap(QPixmap(entkoppler_st1_xpm));
         buttSubType[1]->setPixmap(QPixmap(entkoppler_st2_xpm));
         buttSubType[2]->setPixmap(QPixmap(entkoppler_st3_xpm));
     }
-    else if (sSoldIcon == SYM_DRE) {
+    else if (symbolName == SYM_DRE) {
         buttSubType[0]->hide();
         buttSubType[1]->setPixmap(QPixmap(drehscheibe_st2_xpm));
         buttSubType[2]->setPixmap(QPixmap(drehscheibe_st3_xpm));
@@ -1125,8 +1124,8 @@ void elementDialog::showSubTypes(int iShow_)
 
 
     // activate the subtype dependant button
-    if (sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS || sSoldIcon == SYM_VS) {
-        if (sSoldIcon == SYM_HS) {
+    if (symbolName == SYM_HS || symbolName == SYM_HSS || symbolName == SYM_VS) {
+        if (symbolName == SYM_HS) {
             QToolTip::add(buttSubType[0],
                           tr("Allows to switch this signal to:\n"
                              "Hp0, Hp1"));
@@ -1137,7 +1136,7 @@ void elementDialog::showSubTypes(int iShow_)
                           tr("Allows to switch this signal to:\n"
                              "Hp0, Hp1 and Hp2"));
         }
-        if (sSoldIcon == SYM_HSS) {
+        if (symbolName == SYM_HSS) {
             QToolTip::add(buttSubType[0],
                           tr("Allows to switch this signal to:\n"
                              "Hp0, Hp1 and Sh1"));
@@ -1148,7 +1147,7 @@ void elementDialog::showSubTypes(int iShow_)
                           tr("Allows to switch this signal to:\n"
                              "Hp0, Hp1, Hp2 and Sh1"));
         }
-        if (sSoldIcon == SYM_VS) {
+        if (symbolName == SYM_VS) {
             QToolTip::add(buttSubType[0],
                           tr("Allows to switch this signal to:\n"
                              "Vr0, Vr1"));
@@ -1180,7 +1179,7 @@ void elementDialog::showSubTypes(int iShow_)
         }
     }
 
-    if (sSoldIcon == SYM_ENK) {
+    if (symbolName == SYM_ENK) {
         QToolTip::add(buttSubType[0],
                 tr("Allows to use a bistable coupler"));
         QToolTip::add(buttSubType[1], tr("Allows to use a:\n"
@@ -1204,7 +1203,7 @@ void elementDialog::showSubTypes(int iShow_)
         }
     }
 
-    if (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) {
+    if (symbolName == SYM_DKL || symbolName == SYM_DKR) {
         QToolTip::add(buttSubType[1],
                 tr("Allows to use a:\n"
                     "2 state double turnout\n(f.e. Maerklin 2264)"
@@ -1226,7 +1225,7 @@ void elementDialog::showSubTypes(int iShow_)
         }
     }
 
-    if (sSoldIcon == SYM_DRE) {
+    if (symbolName == SYM_DRE) {
 
         QToolTip::add(buttSubType[1], tr("Default turntable:\n"
                     "Controlled via keyboard #15"));
@@ -1249,11 +1248,11 @@ void elementDialog::showSubTypes(int iShow_)
 }
 
 
-void elementDialog::slotSubTypeClicked(int stBtn)
+void ElementDialog::slotSubTypeClicked(int stBtn)
 {
     switch (stBtn) {
         case 0:                    // == subType 1
-            if (sSoldIcon == SYM_HS || sSoldIcon == SYM_VS) {
+            if (symbolName == SYM_HS || symbolName == SYM_VS) {
                 srcpBus2Label->setEnabled(false);
                 srcpBus2LE->setEnabled(false);
                 address2LE->setEnabled(false);
@@ -1266,11 +1265,11 @@ void elementDialog::slotSubTypeClicked(int stBtn)
                 gaSubType = 0;
             }
 
-            else if (sSoldIcon == SYM_HSS) {
+            else if (symbolName == SYM_HSS) {
                 gaSubType = 1;
             }
 
-            else if (sSoldIcon == SYM_ENK) {
+            else if (symbolName == SYM_ENK) {
                 srcpBus2Label->setEnabled(false);
                 srcpBus2LE->setEnabled(false);
                 address2LE->setEnabled(false);
@@ -1284,7 +1283,7 @@ void elementDialog::slotSubTypeClicked(int stBtn)
             break;
 
         case 1:                    // == subType 2
-            if (sSoldIcon == SYM_HS || sSoldIcon == SYM_VS) {
+            if (symbolName == SYM_HS || symbolName == SYM_VS) {
                 srcpBus2Label->setEnabled(false);
                 srcpBus2LE->setEnabled(false);
                 address2LE->setEnabled(false);
@@ -1296,7 +1295,7 @@ void elementDialog::slotSubTypeClicked(int stBtn)
                 gaSubType = 6;
             }
 
-            else if (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) {
+            else if (symbolName == SYM_DKL || symbolName == SYM_DKR) {
                 srcpBus2Label->setEnabled(false);
                 srcpBus2LE->setEnabled(false);
                 address2LE->setEnabled(false);
@@ -1307,19 +1306,19 @@ void elementDialog::slotSubTypeClicked(int stBtn)
                 gaSubType = 0;
             }
 
-            else if (sSoldIcon == SYM_HSS)
+            else if (symbolName == SYM_HSS)
                 gaSubType = 7;
 
-            else if (sSoldIcon == SYM_ENK)
+            else if (symbolName == SYM_ENK)
                 gaSubType = 0;
 
-            else if (sSoldIcon == SYM_DRE)
+            else if (symbolName == SYM_DRE)
                 address2LE->setText("240");
 
             break;
 
         case 2:                    // == subType 3
-            if (sSoldIcon == SYM_HS || sSoldIcon == SYM_VS) {
+            if (symbolName == SYM_HS || symbolName == SYM_VS) {
                 srcpBus2Label->setEnabled(true);
                 srcpBus2LE->setEnabled(true);
                 address2LE->setEnabled(true);
@@ -1330,7 +1329,7 @@ void elementDialog::slotSubTypeClicked(int stBtn)
                 gaSubType = 4;
             }
 
-            else if (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) {
+            else if (symbolName == SYM_DKL || symbolName == SYM_DKR) {
                 srcpBus2Label->setEnabled(true);
                 srcpBus2LE->setEnabled(true);
                 address2LE->setEnabled(true);
@@ -1341,13 +1340,13 @@ void elementDialog::slotSubTypeClicked(int stBtn)
                 gaSubType = 1;
             }
 
-            else if (sSoldIcon == SYM_HSS)
+            else if (symbolName == SYM_HSS)
                 gaSubType = 5;
 
-            else if (sSoldIcon == SYM_ENK)
+            else if (symbolName == SYM_ENK)
                 gaSubType = 1;
 
-            else if (sSoldIcon == SYM_DRE)
+            else if (symbolName == SYM_DRE)
                 address2LE->setText("224");
 
             break;
@@ -1355,7 +1354,7 @@ void elementDialog::slotSubTypeClicked(int stBtn)
 }
 
 
-void elementDialog::contactSBChanged(int contact)
+void ElementDialog::contactSBChanged(int contact)
 {
     // FB_16 = 0, FB_8 = 1
     int inputs = 16 - (pref.fbfactor * 8);
@@ -1366,17 +1365,16 @@ void elementDialog::contactSBChanged(int contact)
 }
 
 
-int elementDialog::getGASubType()
+int ElementDialog::getGASubType()
 {
     return gaSubType;
 };
 
 
-void elementDialog::setGASubType(int sType)
+void ElementDialog::setGASubType(int sType)
 {
     int btn = -1;
     gaSubType = sType;
-    QString icon = IconNameList->at(IconComboBox->currentItem());
 
     /*
      * for SYM_ENK:
@@ -1388,7 +1386,7 @@ void elementDialog::setGASubType(int sType)
      *     1            2
      * --------------------------
     */
-    if (icon == SYM_ENK)
+    if (symbolName == SYM_ENK)
         btn = gaSubType + 1;
 
     /*
@@ -1401,7 +1399,7 @@ void elementDialog::setGASubType(int sType)
      *     5            2
      * --------------------------
     */
-    else if (icon == SYM_HSS) {
+    else if (symbolName == SYM_HSS) {
         switch (gaSubType) {
             case 1:
                 btn = 0;
@@ -1428,7 +1426,7 @@ void elementDialog::setGASubType(int sType)
      *     4            2
      * --------------------------
     */
-    else if (icon == SYM_HS || icon == SYM_VS) {
+    else if (symbolName == SYM_HS || symbolName == SYM_VS) {
         switch (gaSubType) {
             case 0:
                 btn = 0;
@@ -1455,7 +1453,7 @@ void elementDialog::setGASubType(int sType)
      *     1            2
      * --------------------------
     */
-    else if (icon == SYM_DKL || icon == SYM_DKR) {
+    else if (symbolName == SYM_DKL || symbolName == SYM_DKR) {
         switch (gaSubType) {
             case 0:
                 btn = 1;
@@ -1475,50 +1473,50 @@ void elementDialog::setGASubType(int sType)
 }
 
 
-int elementDialog::getSRCPBus1()
+int ElementDialog::getSRCPBus1()
 {
     return srcpBus1LE->text().toInt();
 };
 
 
-void elementDialog::setSRCPBus1(int bus)
+void ElementDialog::setSRCPBus1(int bus)
 {
     srcpBus1LE->setText(QString::number(bus));
 }
 
 
-int elementDialog::getSRCPBus2()
+int ElementDialog::getSRCPBus2()
 {
     return srcpBus2LE->text().toInt();
 };
 
 
-void elementDialog::setSRCPBus2(int bus)
+void ElementDialog::setSRCPBus2(int bus)
 {
     srcpBus2LE->setText(QString::number(bus));
 }
 
 
-QString elementDialog::getSymbolName()
+QString ElementDialog::getSymbolName()
 {
     return IconNameList->at(IconComboBox->currentItem());
 };
 
 
-void elementDialog::setSymbolName(const QString& sname) 
+void ElementDialog::setSymbolName(const QString& sname) 
 {
     IconComboBox->setCurrentItem(IconNameList->find(sname));
     slotSymbolChanged(IconComboBox->currentItem());
 }
 
 
-int elementDialog::getRotated()
+int ElementDialog::getRotated()
 {
     return cbRotate->isEnabled() ? (cbRotate->isChecked()? 1 : 0) : -1;
 };
 
 
-void elementDialog::setRotated(int rotated)
+void ElementDialog::setRotated(int rotated)
 {
     if (rotated == -1)
         cbRotate->setChecked(false);
@@ -1527,13 +1525,13 @@ void elementDialog::setRotated(int rotated)
 }
 
 
-int elementDialog::getInverted()
+int ElementDialog::getInverted()
 {
     return cbInvert->isEnabled() ? (cbInvert->isChecked()? 1 : 0) : -1;
 };
 
 
-void elementDialog::setInverted(int inverted)
+void ElementDialog::setInverted(int inverted)
 {
     if (inverted == -1)
         cbInvert->setChecked(false);
@@ -1542,13 +1540,13 @@ void elementDialog::setInverted(int inverted)
 }
 
 
-int elementDialog::getLEDsAreOff()
+int ElementDialog::getLEDsAreOff()
 {
     return cbLEDoff->isEnabled() ? (cbLEDoff->isChecked()? 1 : 0) : -1;
 };
 
 
-void elementDialog::setLEDsAreOff(int off)
+void ElementDialog::setLEDsAreOff(int off)
 {
     if (off == -1)
         cbLEDoff->setEnabled(false);
@@ -1559,13 +1557,13 @@ void elementDialog::setLEDsAreOff(int off)
 }
 
 
-QString elementDialog::getDecoder()
+QString ElementDialog::getDecoder()
 {
     return coboDecoder->currentText();
 };
 
 
-void elementDialog::setDecoder(const QString& decoder)
+void ElementDialog::setDecoder(const QString& decoder)
 {
     QString sDec;
     lastDecoder = decoder;
@@ -1584,7 +1582,7 @@ void elementDialog::setDecoder(const QString& decoder)
 }   
 
 
-int elementDialog::getProtocol()
+int ElementDialog::getProtocol()
 {
     if (!rbProtocol_MS->isEnabled())
         return SrcpMessage::proNone;
@@ -1599,7 +1597,7 @@ int elementDialog::getProtocol()
 };
 
 
-void elementDialog::setProtocol(int protocol)
+void ElementDialog::setProtocol(int protocol)
 {
     if (protocol == SrcpMessage::proNone) {
         rbProtocol_MS->setEnabled(false);
@@ -1620,62 +1618,62 @@ void elementDialog::setProtocol(int protocol)
 }
 
 
-int elementDialog::getAddress1()
+int ElementDialog::getAddress1()
 {
     return address1LE->text().toInt();
 };
 
 
-void elementDialog::setAddress1(int addr)
+void ElementDialog::setAddress1(int addr)
 {
     address1LE->setText(QString::number(addr));
 }
 
 
-int elementDialog::getAddress2()
+int ElementDialog::getAddress2()
 {
     return address2LE->text().toInt();
 };
 
 
-void elementDialog::setAddress2(int addr)
+void ElementDialog::setAddress2(int addr)
 {
     address2LE->setText(QString::number(addr));
 }
 
 
-void elementDialog::setPort1(int aport)
+void ElementDialog::setPort1(int aport)
 {
     port1SB->setValue(aport);
 }
 
 
-int elementDialog::getPort1()
+int ElementDialog::getPort1()
 {
     return port1SB->value();
 }
 
 
-void elementDialog::setPort2(int aport)
+void ElementDialog::setPort2(int aport)
 {
     port2SB->setValue(aport);
 }
 
 
-int elementDialog::getPort2()
+int ElementDialog::getPort2()
 {
     return port2SB->value();
 }
 
 
-int elementDialog::getXChangeConn1()
+int ElementDialog::getXChangeConn1()
 {
     return xchConn1CB->isEnabled() ?
         (xchConn1CB->isChecked() ? 1 : 0) : -1;
 };
 
 
-void elementDialog::setXChangeConn1(int xch)
+void ElementDialog::setXChangeConn1(int xch)
 {
     if (xch == -1)
         xchConn1CB->setChecked(false);
@@ -1684,14 +1682,14 @@ void elementDialog::setXChangeConn1(int xch)
 }
 
 
-int elementDialog::getXChangeConn2()
+int ElementDialog::getXChangeConn2()
 {
     return xchConn2CB->isEnabled() ?
         (xchConn2CB->isChecked() ? 1 : 0) : -1;
 };
 
 
-void elementDialog::setXChangeConn2(int xch)
+void ElementDialog::setXChangeConn2(int xch)
 {
     if (xch == -1)
         xchConn2CB->setChecked(false);
@@ -1700,39 +1698,39 @@ void elementDialog::setXChangeConn2(int xch)
 }
 
 
-int elementDialog::getDirection()
+int ElementDialog::getDirection()
 {
     return address1LE->isEnabled() ? gaDirection : -1;
 };
 
 
-void elementDialog::setDirection(int dir)
+void ElementDialog::setDirection(int dir)
 {
     gaDirection = dir;
 };
 
 
-QString elementDialog::getSymbolText()
+QString ElementDialog::getSymbolText()
 {
     return (leText->text() == "-1") ?
         address1LE->text() : leText->text();
 };
 
 
-void elementDialog::setSymbolText(const QString& text)
+void ElementDialog::setSymbolText(const QString& text)
 {
     leText->setText(text);
 }
 
 
-int elementDialog::getActiveTime()
+int ElementDialog::getActiveTime()
 {
     return activeTimeSB->isEnabled() ?
         activeTimeSB->value() : -1;
 };
 
 
-void elementDialog::setActiveTime(int atime)
+void ElementDialog::setActiveTime(int atime)
 {
     if (atime != -1)
         activeTimeSB->setValue(atime);
@@ -1742,25 +1740,25 @@ void elementDialog::setActiveTime(int atime)
 
 
 
-int elementDialog::getFBBus()
+int ElementDialog::getFBBus()
 {
     return fbBusLE->text().toInt();
 };
 
 
-void elementDialog::setFBBus(int bus)
+void ElementDialog::setFBBus(int bus)
 {
     fbBusLE->setText(QString::number(bus));
 };
 
 
-int elementDialog::getFBContact()
+int ElementDialog::getFBContact()
 {
     return contactSB->value();
 };
 
 
-void elementDialog::setFBContact(int contact)
+void ElementDialog::setFBContact(int contact)
 {
     contactSB->setValue(contact);
     contactSBChanged(contact);
@@ -1770,11 +1768,9 @@ void elementDialog::setFBContact(int contact)
  * enabe/disable feedback editing depending on address symbol is EDiTs
  * or train number tracing type
  */
-void elementDialog::invertedChanged(bool inverted)
+void ElementDialog::invertedChanged(bool inverted)
 {
-    QString icon = IconNameList->at(IconComboBox->currentItem());
-
-    if (icon == SYM_ADR) {
+    if (symbolName == SYM_ADR) {
         leText->setEnabled(!inverted);
         if (inverted)
             leText->setText("-1");

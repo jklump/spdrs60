@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.2 $Revision: 1.69 $
+                           version 0.5.2 $Revision: 1.70 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-16 16:58:48 $
+    last modified        : $Date: 2007-09-22 07:34:09 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -64,39 +64,41 @@
 #define SYM_DKL  "dkw_links"  // double-slip switch left
 #define SYM_DKR  "dkw_rechts" // double-slip switch right
 
-// route tracks
+// straight tracks
 #define SYM_GER  "gerade" // straight track horizontal
-#define SYM_DIR  "diagonale_rechts"
+#define SYM_TRV  "trackvertical"
 #define SYM_DIL  "diagonale_links"
+#define SYM_DIR  "diagonale_rechts"
+#define SYM_RI1  "richtung_1" //trackonedirection
+#define SYM_RI2  "richtung_2" //tracktwodirections
+#define SYM_KRH  "kreuzung_hose"   //crossing
+#define SYM_KRR  "kreuzung_rechts" //crossing right
+#define SYM_KRL  "kreuzung_links"  //crossing left
+
+// curved tracks
 #define SYM_KUR  "kurve_rechts" //curved track right
 #define SYM_KUL  "kurve_links"
 #define SYM_TTL  "turn_topvert_left"
 #define SYM_TTR  "turn_topvert_right"
 #define SYM_TBL  "turn_botvert_left"
 #define SYM_TBR  "turn_botvert_right"
-#define SYM_TRV  "trackvertical"
-#define SYM_KRH  "kreuzung_hose"   //crossing
-#define SYM_KRR  "kreuzung_rechts" //crossing right
-#define SYM_KRL  "kreuzung_links"  //crossing left
-#define SYM_RI1  "richtung_1" //trackonedirection
-#define SYM_RI2  "richtung_2" //tracktwodirections
+
+// miscellaneous
 #define SYM_ENK  "entkoppler" // decoupler
 #define SYM_BLD  "blind"      // blind item, switchable
 #define SYM_ADR  "adresse"    //trackaddressindicator
 #define SYM_BUE  "uebergang"  // level crossing
-
-// non route tracks
-#define SYM_PRE  "prellbock"  // buffer stop, bumper
-#define SYM_GET  "gerade_tl"  //tunnel straight left/right
-#define SYM_DLT  "diagonale_links_tl" //tunnelbottomleft /top left
-#define SYM_DRT  "diagonale_rechts_tl" // right
-
-// miscellaneous
-#define SYM_LEE  "leer"
 #define SYM_REL  "relais"
 #define SYM_MDC  "motor_dc"
 #define SYM_DRE  "drehscheibe" // turntable
 #define SYM_SBN  "schiebebuehne" // transfer table
+
+// decorative items
+#define SYM_PRE  "prellbock"  // buffer stop, bumper
+#define SYM_GET  "gerade_tl"  //tunnel straight left/right
+#define SYM_DLT  "diagonale_links_tl" //tunnelbottomleft /top left
+#define SYM_DRT  "diagonale_rechts_tl" // right
+#define SYM_LEE  "leer"
 #define SYM_HS1  "haus_1"
 #define SYM_HS2  "haus_2"
 #define SYM_SHO  "schuppen_o" // loco shed
@@ -332,7 +334,7 @@ public:
     void setClassId(SpdrItemClassId);
 
 private:
-    elementDialog*      elementPropertyDlg;
+    ElementDialog*      elementPropertyDlg;
     elementCommander*   turntableProperties;
     turntableCommander* ttComm;
 

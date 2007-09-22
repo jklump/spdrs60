@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.h
-                           version 0.5.2 $Revision: 1.18 $
+                           version 0.5.2 $Revision: 1.19 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-02 17:34:16 $
+    last modified        : $Date: 2007-09-22 07:34:09 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -40,13 +40,13 @@
 #include <qvalidator.h>
   	
 
-class elementDialog: public QDialog
+class ElementDialog: public QDialog
 {
    Q_OBJECT
 
 public:
-   elementDialog(QWidget* parent = 0, int idx = 0);
-   virtual ~elementDialog();
+   ElementDialog(QWidget* parent = 0, int idx = 0);
+   virtual ~ElementDialog();
 
    int getGASubType();
    void setGASubType(int);
@@ -88,27 +88,6 @@ public:
    void setFBBus(int);
    int getFBContact();
    void setFBContact(int);
-
-private:
-   void setupElement(const char*);
-   void showSubTypes(int);
-   void updateValidators();
-
-
-private slots:
-   void slotAddress1Changed(const QString&);
-   void slotSymbolChanged(int);
-   void slotSubTypeClicked(int);
-   void slotDecoderChanged(int);
-   void slotProtocolChanged(int);
-   void slotShowFBmodules();
-   void slotEnable_LED_FB();
-   void contactSBChanged(int);
-   void letteringChanged(bool);
-   void invertedChanged(bool);
-
-signals:
-   void sigShowFBmodules();
 
 private:
    QLineEdit    *address1LE;
@@ -165,7 +144,6 @@ private:
    QSpinBox     *port1SB;
    QSpinBox     *port2SB;
 
-   QString      sSoldIcon;
    QIntValidator* a1Validator;
    QIntValidator* a2Validator;
 
@@ -173,6 +151,26 @@ private:
    int          gaDirection;
    int          addresscount;
    QString      lastDecoder;
+   QString      symbolName;
+
+   void setupElement(const char*);
+   void showSubTypes(int);
+   void updateValidators();
+
+private slots:
+   void slotAddress1Changed(const QString&);
+   void slotSymbolChanged(int);
+   void slotSubTypeClicked(int);
+   void slotDecoderChanged(int);
+   void slotProtocolChanged(int);
+   void slotShowFBmodules();
+   void slotEnable_LED_FB();
+   void contactSBChanged(int);
+   void letteringChanged(bool);
+   void invertedChanged(bool);
+
+signals:
+   void sigShowFBmodules();
 };
 
 #endif    //ELEMENTDIALOG_H

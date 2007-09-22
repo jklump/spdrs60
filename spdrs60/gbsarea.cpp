@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.2 $Revision: 1.80 $
+                           version 0.5.2 $Revision: 1.81 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-17 18:05:45 $
+    last modified        : $Date: 2007-09-22 07:34:09 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1490,18 +1490,22 @@ void GBSArea::mouseMoveEvent(QMouseEvent* e)
         /* erase elements */
         else if ((lyeditMode == lemErase) && erasing) {
                 element* el = (element*)childAt(e->pos());
-                unsigned int idx = indexOf(e->pos());
 
                 if (el != NULL) {
-                        elements.remove(idx);
-                        modified = true;
+                    unsigned int idx = indexOf(e->pos());
+                    elements.remove(idx);
+                    modified = true;
                 }
         }
         
         /* paint elements */
         else if ((lyeditMode == lemPaint) && painting) {
-                element* el = (element*)childAt(e->pos());
                 unsigned int idx = indexOf(e->pos());
+
+                if (idx > (unsigned int)(rows * cols))
+                    return;
+
+                element* el = (element*)childAt(e->pos());
 
                 if (el != NULL) {
                     if (el->classId() != paintItem) {

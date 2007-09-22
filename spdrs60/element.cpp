@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.2 $Revision: 1.137 $
+                           version 0.5.2 $Revision: 1.138 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-17 18:49:37 $
+    last modified        : $Date: 2007-09-22 07:34:09 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -871,7 +871,7 @@ void element::showPropertyDlg()
         elementPropertyDlg->raise();
     }
     else {
-        elementPropertyDlg = new elementDialog(this, iSoldIndex);
+        elementPropertyDlg = new ElementDialog(this, iSoldIndex);
         if (elementPropertyDlg == NULL)
             return;
         
@@ -5500,13 +5500,13 @@ void element::addTooltip()
     QString tip1, tip2;
 
     tip1.sprintf(
-            "Item No  : %d\n"
-            "Icon     : %s\n"
-            "Rotate   : %s (=%1d)\n"
+            "Item No: %d\n"
+            "Icon: %s\n"
+            "Rotate: %s (=%1d)\n"
             "Hide LEDs: %s (=%1d)\n"
-            "Inverted : %s (=%1d)\n"
-            "Decoder  : %s\n"
-            "Protocol : %s\n"
+            "Inverted: %s (=%1d)\n"
+            "Decoder: %s\n"
+            "Protocol: %s\n"
             "Address 1: %s\n",
             iSoldIndex,
             sSoldIcon.data(),
@@ -5534,9 +5534,9 @@ void element::addTooltip()
             "xc Conn 1: %s (=%1d)\n"
             "xc Conn 2: %s (=%1d)\n"
             "Direction: %d\n"
-            "Subtype  : %d\n"
-            "Text     : %s\n"
-            "Locked   : %s (=%1d)\n"
+            "Subtype: %d\n"
+            "Text: %s\n"
+            "Locked: %s (=%1d)\n"
             "Time (ms): %d\n"
             "FB Contact: %d\n",
             iSoldAddress_2 == -1 ? "N/A (=-1)" : a2.data(),
@@ -5552,7 +5552,6 @@ void element::addTooltip()
 
     tip1.append(tip2);
 
-    QToolTip::setFont((QFont) "Courier");   //serd
     QToolTip::add(this, tip1);
 }
 
