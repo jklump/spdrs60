@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.29 $
-# last update: $Date: 2007-09-22 07:48:42 $
+# version: $Revision: 1.30 $
+# last update: $Date: 2007-09-22 08:05:17 $
 
 SUBDIRS = pixmaps
 
@@ -38,7 +38,10 @@ nodist_spdrs60_SOURCES = \
         routelistwindow_moc.cpp \
         section_moc.cpp \
 	serverinfodialog_moc.cpp \
+	signalpanels_moc.cpp \
+	switchpanels_moc.cpp \
 	srcpport_moc.cpp \
+	straighttrackpanels_moc.cpp \
 	turntablecommander_moc.cpp
 
 
@@ -77,8 +80,11 @@ spdrs60_SOURCES = main.cpp resources.h \
         router.cpp router.h \
 	section.cpp section.h \
 	serverinfodialog.cpp serverinfodialog.h \
+	signalpanels.cpp signalpanels.h \
+	switchpanels.cpp switchpanels.h \
         srcpmessage.cpp srcpmessage.h \
 	srcpport.cpp srcpport.h \
+	straighttrackpanels.cpp straighttrackpanels.h \
 	turntablecommander.cpp turntablecommander.h
 
 
@@ -113,7 +119,10 @@ translated_source_files = \
 	routelistwindow.cpp \
 	section.cpp \
 	serverinfodialog.cpp \
+	signalpanels.cpp \
+	switchpanels.cpp \
 	srcpport.cpp \
+	straighttrackpanels.cpp \
 	turntablecommander.cpp
 
 

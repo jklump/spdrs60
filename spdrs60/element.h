@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.2 $Revision: 1.70 $
+                           version 0.5.2 $Revision: 1.71 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-22 07:34:09 $
+    last modified        : $Date: 2007-09-22 08:05:17 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -197,6 +197,7 @@ const unsigned int rdSE = rdS | rdE;
 
 #define DS            ";"    // data separator in spdrs60 files
 #define IDS           ":"    // data separator in imported files
+// TODO: adjust width to 55 (56 has no center)
 #define EL_WIDTH      56     // width of an element in pixels (orig: 54 mm)
 #define EL_HEIGHT     35     // height of an element in pixels (orig: 34 mm)
                              // 8 * H = 5 * W = 280

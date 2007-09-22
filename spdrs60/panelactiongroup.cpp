@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-18
- * Last modified: $Date: 2007-09-18 17:07:16 $
- *                $Revision: 1.1 $
+ * Last modified: $Date: 2007-09-22 08:05:17 $
+ *                $Revision: 1.2 $
  *
  * This file provides a basic class for menu and toolbar actions to switch
  * the gbsarea paint item.
@@ -28,6 +28,7 @@
 PanelActionGroup::PanelActionGroup(QObject* parent, const char* name):
  QActionGroup(parent, name , true)
 {
+    selectedAction = NULL;
     connect(this, SIGNAL(selected(QAction*)),
             this, SLOT(spdrItemSelected(QAction*)));
     setEnabled(false);
@@ -38,7 +39,10 @@ PanelActionGroup::PanelActionGroup(QObject* parent, const char* name):
  */
 void PanelActionGroup::spdrItemSelected(QAction* ac)
 {
-    emit paintItemChanged(static_cast<PanelAction*>(ac)->Sici());
+    if (ac != NULL) {
+        selectedAction = ac;
+        emit paintItemChanged(static_cast<PanelAction*>(ac)->Sici());
+    }
 }
 
 /*
@@ -47,5 +51,18 @@ void PanelActionGroup::spdrItemSelected(QAction* ac)
 void PanelActionGroup::enablePaintItems(GBSArea::LayoutEditMode mode)
 {
     setEnabled(mode == GBSArea::lemPaint);
+}
+
+/*
+ * deselect current selection, only possible if exclusive state is false
+ */
+void PanelActionGroup::deselectPaintItem(element::SpdrItemClassId)
+{
+    if (selectedAction != NULL) {
+        setExclusive(false);
+        selectedAction->setOn(false);
+        setExclusive(true);
+        selectedAction = NULL;
+    }
 }
 

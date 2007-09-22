@@ -1,13 +1,13 @@
 /*
- * panelactiongroup.h
+ * switchpanels.h
  * ---------------------------
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
- * Begin        : 2007-09-18
+ * Begin        : 2007-09-21
  * Last modified: $Date: 2007-09-22 08:05:17 $
- *                $Revision: 1.2 $
+ *                $Revision: 1.1 $
  *
- * This is the header file to panelactiongroup.cpp
+ * This is the header file to switchpanels.cpp
  */
 
 /**************************************************************************
@@ -20,37 +20,19 @@
  **************************************************************************/
 
 
-#ifndef PANELACTIONGROUP_H
-#define PANELACTIONGROUP_H
+#ifndef SWITCHPANELS_H
+#define SWITCHPANELS_H
 
-#include <qaction.h>
-
-#include "element.h"
-#include "gbsarea.h"
+#include <panelactiongroup.h>
 
 
-class PanelActionGroup: public QActionGroup
+class SwitchPanels: public PanelActionGroup
 {
     Q_OBJECT
         
 public:
-    PanelActionGroup(QObject* parent, const char* name);
-
-signals:
-    void paintItemChanged(element::SpdrItemClassId);
-
-protected slots:
-    void spdrItemSelected(QAction*);
-
-public slots:
-    void enablePaintItems(GBSArea::LayoutEditMode);
-    void deselectPaintItem(element::SpdrItemClassId);
-
-private:
-
-protected:
-    QAction* selectedAction;
+    SwitchPanels(QObject* parent, const char* name);
 
 };
 
-#endif //PANELACTIONGROUP_H
+#endif //SWITCHPANELS_H

@@ -26,6 +26,8 @@ SOURCES = \
 	routelistwindow.cpp \
 	section.cpp \
 	serverinfodialog.cpp \
+	signalpanels.cpp \
+	switchpanels.cpp \
 	srcpport.cpp \
 	straighttrackpanels.cpp \
 	turntablecommander.cpp
