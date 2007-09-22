@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.28 $
-# last update: $Date: 2007-09-18 20:04:42 $
+# version: $Revision: 1.29 $
+# last update: $Date: 2007-09-22 07:48:42 $
 
 SUBDIRS = pixmaps
 
@@ -43,7 +43,7 @@ nodist_spdrs60_SOURCES = \
 
 
 # list of all sources and headers
-spdrs60_SOURCES = main.cpp resources.h filekeys.h \
+spdrs60_SOURCES = main.cpp resources.h \
 	aboutdialog.cpp aboutdialog.h \
 	commandport.cpp commandport.h \
 	curvedtrackpanels.cpp curvedtrackpanels.h \
