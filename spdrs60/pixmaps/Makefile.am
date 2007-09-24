@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60, pixmaps included by cpp-files
 # (c) Guido Scholz
-# version: $Revision: 1.22 $
-# last update: $Date: 2007-09-22 15:27:32 $
+# version: $Revision: 1.23 $
+# last update: $Date: 2007-09-24 20:50:28 $
 
 EXTRA_DIST = filenew.xpm filesave.xpm fileopen.xpm \
 	fileclose.xpm filenewwindow.xpm \
@@ -33,10 +33,8 @@ EXTRA_DIST = filenew.xpm filesave.xpm fileopen.xpm \
 	cursor_erase_b.xpm cursor_erase_m.xpm \
 	tt_goto.xpm tt_left_step.xpm tt_left.xpm tt_prog.xpm \
 	tt_right_step.xpm tt_right.xpm tt_stop.xpm tt_turn180.xpm \
-	ctx_clear.xpm ctx_l_curve.xpm ctx_l_diag.xpm ctx_l_turn.xpm \
-	ctx_r_curve.xpm ctx_r_diag.xpm ctx_rota.xpm ctx_r_turn.xpm \
-	ctx_straight.xpm entkoppler_st1.xpm entkoppler_st2.xpm \
-	entkoppler_st3.xpm dkw_links_st2.xpm dkw_links_st3.xpm \
+	entkoppler_st1.xpm entkoppler_st2.xpm entkoppler_st3.xpm \
+	dkw_links_st2.xpm dkw_links_st3.xpm \
 	dkw_rechts_st2.xpm dkw_rechts_st3.xpm \
 	signal_hss_st1.xpm signal_hss_st2.xpm signal_hss_st3.xpm \
 	signal_hs_st1.xpm signal_hs_st2.xpm signal_hs_st3.xpm \
