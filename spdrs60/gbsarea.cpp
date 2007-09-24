@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.2 $Revision: 1.82 $
+                           version 0.5.2 $Revision: 1.83 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-22 14:25:35 $
+    last modified        : $Date: 2007-09-24 20:57:04 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1675,8 +1675,8 @@ void GBSArea::initSpdrMap()
     spdrmap[element::siciGer] = SYM_GER;
     spdrmap[element::siciDir] = SYM_DIR;
     spdrmap[element::siciDil] = SYM_DIL;
-    spdrmap[element::siciKur] = SYM_KUR;
-    spdrmap[element::siciKul] = SYM_KUL;
+    spdrmap[element::siciCrb] = SYM_KUR;
+    spdrmap[element::siciClt] = SYM_KUL;
     spdrmap[element::siciTtl] = SYM_TTL;
     spdrmap[element::siciTtr] = SYM_TTR;
     spdrmap[element::siciTbl] = SYM_TBL;

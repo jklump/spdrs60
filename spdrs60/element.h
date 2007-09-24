@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.2 $Revision: 1.73 $
+                           version 0.5.2 $Revision: 1.74 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-22 15:27:32 $
+    last modified        : $Date: 2007-09-24 20:57:04 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -223,7 +223,7 @@ public:
     enum SpdrItemClassId {
         siciNone = 0,
         siciGer = 100, siciTrv, siciDir, siciDil,
-        siciKur = 120, siciKul,
+        siciCrb = 120, siciClt, siciCrt, siciClb,
         siciTtl = 125, siciTtr, siciTbl, siciTbr,
         siciKrh = 150, siciKrr, siciKrl,
         siciRi1 = 170,

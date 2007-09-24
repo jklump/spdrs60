@@ -1,6 +1,8 @@
 2007-09-22 Guido Scholz <guido.scholz@bayernline.de>
-	* pixmaps/*.xpm, decopanels.*, miscpanels.*, mainwindow.cpp: New
-	toolbars for decorative and miscellanous painting items.
+	* pixmaps/*.xpm, decopanels.*, miscpanels.*, signalpanels.*,
+	switchpanels.*, externalgrouppanels.*, mainwindow.cpp,
+	gbsarea.cpp: New toolbars for paint items, context menu for
+	painting shortcut removed.
 
 2007-09-13 Guido Scholz <guido.scholz@bayernline.de>
 	* pixmaps/*.xpm: New cursor shapes and icons for extended layout

@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.2 $Revision: 1.139 $
+                           version 0.5.2 $Revision: 1.140 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-22 16:08:22 $
+    last modified        : $Date: 2007-09-24 20:57:04 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -62,8 +62,7 @@
 
 
 element::element(QWidget* parent, SpdrItemClassId ci, const char* si,
-        elemVisualMode vm)
-    : QWidget(parent, "gbselement")
+        elemVisualMode vm) : QWidget(parent, "gbselement")
 {
     initVariables();
 
@@ -297,7 +296,6 @@ void element::updateProperties()
             sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER ||
             sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR ||
             sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR ||
-            sSoldIcon == SYM_KUL || sSoldIcon == SYM_KUR ||
             sSoldIcon == SYM_DRW || sSoldIcon == SYM_SHU ||
             sSoldIcon == SYM_PRE || sSoldIcon == SYM_RI1 ||
             sSoldIcon == SYM_GER || sSoldIcon == SYM_WEY ||
@@ -2892,6 +2890,79 @@ void element::setupElementIcon()
                 p.drawLine(0, 0, w / 5, 0);
                 p.restore();
             }
+        }
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+
+    // (rotated) track turn right and left
+    else if (classid == siciCrt || classid == siciClb) {
+        bool left = (classid == siciClb);
+
+        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        pm.fill(QColor(Qt::lightGray));
+        QPainter p;
+        p.begin(&pm);
+        
+        int w = pm.width();
+        int h = pm.height();
+        
+        // paint track
+        p.fillRect(w / 2 - 1, h / 2 - 3, w, 7, QBrush(Qt::black));
+
+        p.save();
+        p.translate(w / 2, h / 2);
+
+        if (left)
+            p.rotate(WANGLE);
+        else
+            p.rotate(-WANGLE);
+
+        p.setPen(QPen(black, 7));
+        p.drawLine(0, 0, w / 2 + 5, 0);
+        p.restore();
+
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 4; i < 7; ++i)
+                p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
+                        QBrush(Qt::lightGray));
+
+            p.save();
+            p.translate(w / 2, h / 2);
+
+            if (left)
+                p.rotate(WANGLE);
+            else
+                p.rotate(-WANGLE);
+
+            for (int i = 0; i < 3; ++i)
+                p.fillRect(5 + 7 * i, -2, 5, 5, QBrush(Qt::lightGray));
+            p.restore();
+        }
+        else {
+            QColor c;
+            if (occupied)
+                c = QColor(Qt::red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(Qt::darkGray);
+            }
+            p.fillRect(w / 2, h / 2 - 1, w / 5 , 3, QBrush(c));
+            p.save();
+            p.translate(w / 2, h / 2);
+
+            if (left)
+                p.rotate(WANGLE);
+            else
+                p.rotate(-WANGLE);
+
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+            p.drawLine(0, 0, w / 5, 0);
+            p.restore();
         }
 
         p.end();
@@ -5722,6 +5793,14 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
     }
 
+    else if (classid == siciClb) {
+        /* /- */
+            if (entrydir == rdE)
+                returnvalue = rdSW;
+            else if (entrydir == rdSW)
+                returnvalue = rdE;
+    }
+
     else if (sSoldIcon == SYM_KUR) {
         /* \- */
         if (iSoldRotate == 1) {
@@ -5737,6 +5816,14 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
             else if (entrydir == rdSE)
                 returnvalue = rdW;
         }
+    }
+
+    else if (classid == siciCrt) {
+        /* \- */
+        if (entrydir == rdE)
+            returnvalue = rdNW;
+        else if (entrydir == rdNW)
+            returnvalue = rdE;
     }
 
     else if (sSoldIcon == SYM_DRW) {

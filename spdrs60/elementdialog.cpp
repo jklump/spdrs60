@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.cpp
-                           version 0.5.2 $Revision: 1.45 $
+                           version 0.5.2 $Revision: 1.46 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-22 16:08:23 $
+    last modified        : $Date: 2007-09-24 20:57:04 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -766,7 +766,6 @@ void ElementDialog::slotSymbolChanged()
         symbolName == SYM_WEL || symbolName == SYM_WER ||
         symbolName == SYM_DWL || symbolName == SYM_DWR ||
         symbolName == SYM_EKL || symbolName == SYM_EKR ||
-        symbolName == SYM_KUL || symbolName == SYM_KUR ||
         symbolName == SYM_DRW || symbolName == SYM_SS ||
         symbolName == SYM_SSH || symbolName == SYM_SSS ||
         symbolName == SYM_PRE || symbolName == SYM_RI1 ||
