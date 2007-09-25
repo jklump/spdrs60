@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.5.2 $Revision: 1.49 $
+                           version 0.5.2 $Revision: 1.50 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-05 17:39:48 $
+    last modified        : $Date: 2007-09-25 18:14:50 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -43,6 +43,7 @@
 #include "messagehistory.h"
 #include "newlayoutdialog.h"
 #include "routelistwindow.h"
+#include "trainnumberdialog.h"
 
 
 enum SRCPMode {    
@@ -95,6 +96,7 @@ private:
    QAction         *actionViewFBModules;
    QAction         *actionViewClock;
    QAction         *actionViewKeyboard;
+   QAction         *actionViewTrainNumberDialog;
    QAction         *actionViewToggleHistory;
    QAction         *actionViewNormalMode;
    QAction         *actionViewLayoutEditMode;
@@ -145,6 +147,7 @@ private:
    RouteListWindow *rtViewer;
    Router          *router;
    keyboard        *keybWindow;
+   TrainNumberDialog* trainnumberdialog;
 
    bool         cmdAutoLogin;
    bool         cmdAutoPower;
@@ -202,6 +205,7 @@ private slots:
    void slotShowRoutes();
    void slotToggleLayoutPower();
    void slotViewKeyboard();
+   void slotViewTrainNumberDialog();
    void slotViewSwitchMode(QAction*);
    void layoutChangeSize();
    void layoutUpdateFB();

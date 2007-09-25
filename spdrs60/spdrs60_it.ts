@@ -27,6 +27,333 @@ SRCP server (e.g. erddcd or srcpd) as hardware link.</source>
     </message>
 </context>
 <context>
+    <name>CurvedTrackPanels</name>
+    <message>
+        <source>&amp;Curve top vertical left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Curve top vertical right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Curve bottom vertical left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Curve bottom vertical right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Curve right bottom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Curve left top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Curve left bottom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Curve right top</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DecoPanels</name>
+    <message>
+        <source>&amp;Text field panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Buffer stop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Straight tunnel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Tunnel left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Tunnel right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;House center wing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;House side wing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Top loco shed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Middle loco shed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Bottom loco shed</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ElementDialog</name>
+    <message>
+        <source>Properties of Element #%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Data</source>
+        <translation>Dati</translation>
+    </message>
+    <message>
+        <source>&amp;Text:</source>
+        <translation>&amp;Testo</translation>
+    </message>
+    <message>
+        <source>Address for la&amp;beling</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Rotation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Inverted use</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Symbol variants</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Protocol</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Decoder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>T&amp;ype:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset &amp;after (ms):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>S&amp;RCP-Bus 1:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Address &amp;1:</source>
+        <translation>Indirizzo &amp;1:</translation>
+    </message>
+    <message>
+        <source>&amp;Port 1:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Exch. conn.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SR&amp;CP-Bus 2:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Address &amp;2:</source>
+        <translation>Indirizzo &amp;2:</translation>
+    </message>
+    <message>
+        <source>&amp;Port 2:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>E&amp;xch. conn.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Feedback for track LEDs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;LEDs off</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bus (s&amp;88/SRCP):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>C&amp;ontact (1 - 496):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Module (1 - %1):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port (1 - %1):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Address module</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;FB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show feedback module window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Cancella</translation>
+    </message>
+    <message>
+        <source>Allows to switch this signal to:
+Hp0, Hp1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to switch this signal to:
+Hp0 and Hp2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to switch this signal to:
+Hp0, Hp1 and Hp2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to switch this signal to:
+Hp0, Hp1 and Sh1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to switch this signal to:
+Hp0, Hp2 and Sh1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to switch this signal to:
+Hp0, Hp1, Hp2 and Sh1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to switch this signal to:
+Vr0, Vr1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to switch this signal to:
+Vr0 and Vr2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to switch this signal to:
+Vr0, Vr1 and Vr2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to use a bistable coupler</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to use a:
+momentary coupler on left connector</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to use a:
+momentary coupler on right connector</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to use a:
+2 state double turnout
+(f.e. Maerklin 2264)
+DOES NOT WORK YET!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to use a:
+4 state double turnout
+(f.e. Maerklin 2275,
+all Roco&#xb4;s)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default turntable:
+Controlled via keyboard #15</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Extra turntable:
+Controlled via keyboard #14</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ExternalGroupPanels</name>
+    <message>
+        <source>&amp;FHT panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;UfGT and MGT panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;WGT panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;SGT and HaGT panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Route group panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Turnout group panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Signal group panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Level crossing group panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Axle counter group panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Power supply group panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FeedbackViewer</name>
     <message>
         <source>Feedback Modules</source>
@@ -189,6 +516,21 @@ matches your search criteria.</source>
     </message>
     <message>
         <source>Layout contains %1 configured FB busses</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LayoutEditModeAgrp</name>
+    <message>
+        <source>&amp;Select mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Paint mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Erase mode</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -818,6 +1160,38 @@ the server daemon after shutdown has finished)</source>
         <source>External group panels</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Straight track panels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Curved track panels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Signal panels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch panels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Decoration panels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Miscellanous panels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Train number dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show train number input dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MessageHistory</name>
@@ -835,6 +1209,41 @@ the server daemon after shutdown has finished)</source>
     </message>
     <message>
         <source>Feedbacks</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MiscPanels</name>
+    <message>
+        <source>&amp;Decoupler</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Blind element</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Address indicator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Level crossing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Relais</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;DC motor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Turntable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Transfer table</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1303,6 +1712,10 @@ pick up this information so update its route.</source>
         <source>All active routes withdrawn</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Error setting train number: Route id &apos;%1&apos; not found.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ServerInfoDialog</name>
@@ -1368,6 +1781,49 @@ pick up this information so update its route.</source>
     </message>
     <message>
         <source>Not connected</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SignalPanels</name>
+    <message>
+        <source>&amp;Main signal panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Main four state signal panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Shunt signal panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help route signal panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Two button shunt signal panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Wait signal panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Distant signal panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;ZP signal panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Route button panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Shunt button panel</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1447,6 +1903,115 @@ pick up this information so update its route.</source>
     </message>
 </context>
 <context>
+    <name>StraightTrackPanels</name>
+    <message>
+        <source>&amp;Horizontal track</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Vertical track</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Left diagonal track</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Right diagonal track</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Single direction track</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Double direction track</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Diagonal crossing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Right crossing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Left crossing</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SwitchPanels</name>
+    <message>
+        <source>&amp;Switch left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Switch right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Diagonal switch left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Diagonal switch right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Y-Switch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Three way turnout</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Single-slip switch left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Double-slip switch left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Double-slip switch right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Single-slip switch right</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TrainNumberDialog</name>
+    <message>
+        <source>&amp;Route-Id:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Press this button to set train number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change train number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Train number:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the route id for the train number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the train number for the selected route</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>elementCommander</name>
     <message>
         <source>Shifting bridge commander</source>
@@ -1482,216 +2047,6 @@ pick up this information so update its route.</source>
     </message>
 </context>
 <context>
-    <name>elementDialog</name>
-    <message>
-        <source>Properties of Element #%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Data</source>
-        <translation>Dati</translation>
-    </message>
-    <message>
-        <source>I&amp;con:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Text:</source>
-        <translation>&amp;Testo</translation>
-    </message>
-    <message>
-        <source>Address for la&amp;beling</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Rotation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Inverted use</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Symbol variants</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Protocol</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Decoder</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>T&amp;ype:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Reset &amp;after (ms):</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>S&amp;RCP-Bus 1:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Address &amp;1:</source>
-        <translation>Indirizzo &amp;1:</translation>
-    </message>
-    <message>
-        <source>&amp;Port 1:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Exch. conn.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>SR&amp;CP-Bus 2:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Address &amp;2:</source>
-        <translation>Indirizzo &amp;2:</translation>
-    </message>
-    <message>
-        <source>&amp;Port 2:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>E&amp;xch. conn.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Feedback for track LEDs</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;LEDs off</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Bus (s&amp;88/SRCP):</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>C&amp;ontact (1 - 496):</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Module (1 - %1):</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Port (1 - %1):</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Address module</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;FB</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Show feedback module window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Cancella</translation>
-    </message>
-    <message>
-        <source>Allows to switch this signal to:
-Hp0, Hp1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows to switch this signal to:
-Hp0 and Hp2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows to switch this signal to:
-Hp0, Hp1 and Hp2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows to switch this signal to:
-Hp0, Hp1 and Sh1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows to switch this signal to:
-Hp0, Hp2 and Sh1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows to switch this signal to:
-Hp0, Hp1, Hp2 and Sh1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows to switch this signal to:
-Vr0, Vr1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows to switch this signal to:
-Vr0 and Vr2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows to switch this signal to:
-Vr0, Vr1 and Vr2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows to use a bistable coupler</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows to use a:
-momentary coupler on left connector</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows to use a:
-momentary coupler on right connector</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows to use a:
-2 state double turnout
-(f.e. Maerklin 2264)
-DOES NOT WORK YET!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows to use a:
-4 state double turnout
-(f.e. Maerklin 2275,
-all Roco&#xb4;s)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Default turntable:
-Controlled via keyboard #15</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Extra turntable:
-Controlled via keyboard #14</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>keyboard</name>
     <message>
         <source>Keyboard</source>
@@ -1720,7 +2075,7 @@ Srv: Protocol by server
     </message>
     <message>
         <source>&amp;Address:</source>
-        <translation>&amp;Indirizzo</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Enter the address to be switched</source>
@@ -1747,7 +2102,7 @@ Srv: Protocol by server
     </message>
     <message>
         <source>&amp;Columns:</source>
-        <translation>&amp;Colonne:</translation>
+        <translation type="unfinished">&amp;Colonne:</translation>
     </message>
     <message>
         <source>Choose or enter the number of
@@ -1756,7 +2111,7 @@ columns for your layout</source>
     </message>
     <message>
         <source>&amp;Rows:</source>
-        <translation>&amp;File:</translation>
+        <translation type="unfinished">&amp;File:</translation>
     </message>
     <message>
         <source>Choose or enter the number
@@ -1819,11 +2174,11 @@ after layout power is switched on.
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="unfinished">OK</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancella</translation>
+        <translation type="unfinished">Cancella</translation>
     </message>
 </context>
 <context>

@@ -32,6 +32,348 @@ wird ein SRCP-Server (z.B. erddcd oder srcpd) benötigt.</translation>
     </message>
 </context>
 <context>
+    <name>CurvedTrackPanels</name>
+    <message>
+        <source>&amp;Curve top vertical left</source>
+        <translation>&amp;Linkskurve nach oben</translation>
+    </message>
+    <message>
+        <source>&amp;Curve top vertical right</source>
+        <translation>&amp;Rechtskurve nach oben</translation>
+    </message>
+    <message>
+        <source>&amp;Curve bottom vertical left</source>
+        <translation>&amp;Linkskurve nach unten</translation>
+    </message>
+    <message>
+        <source>&amp;Curve bottom vertical right</source>
+        <translation>&amp;Rechtskurve nach unten</translation>
+    </message>
+    <message>
+        <source>&amp;Curve right bottom</source>
+        <translation>&amp;Horizontale Rechtskurve nach unten</translation>
+    </message>
+    <message>
+        <source>&amp;Curve left top</source>
+        <translation>&amp;Horizontale Linkskurve nach oben</translation>
+    </message>
+    <message>
+        <source>&amp;Curve left bottom</source>
+        <translation>&amp;Horizontale Linkskurve nach unten</translation>
+    </message>
+    <message>
+        <source>&amp;Curve right top</source>
+        <translation>&amp;Horizontale Rechtskurve nach oben</translation>
+    </message>
+</context>
+<context>
+    <name>DecoPanels</name>
+    <message>
+        <source>&amp;Text field panel</source>
+        <translation>&amp;Textfeld</translation>
+    </message>
+    <message>
+        <source>&amp;Buffer stop</source>
+        <translation>&amp;Prellbock</translation>
+    </message>
+    <message>
+        <source>&amp;Straight tunnel</source>
+        <translation>&amp;Tunnel geradeaus</translation>
+    </message>
+    <message>
+        <source>&amp;Tunnel left</source>
+        <translation>&amp;Tunnel links</translation>
+    </message>
+    <message>
+        <source>&amp;Tunnel right</source>
+        <translation>&amp;Tunnel rechts</translation>
+    </message>
+    <message>
+        <source>&amp;House center wing</source>
+        <translation>&amp;Haus, Mittelflügel</translation>
+    </message>
+    <message>
+        <source>&amp;House side wing</source>
+        <translation>&amp;Haus, Seitenflügel</translation>
+    </message>
+    <message>
+        <source>&amp;Top loco shed</source>
+        <translation>&amp;Lokschuppen oben</translation>
+    </message>
+    <message>
+        <source>&amp;Middle loco shed</source>
+        <translation>&amp;Lokschuppen Mitte</translation>
+    </message>
+    <message>
+        <source>&amp;Bottom loco shed</source>
+        <translation>&amp;Lokschuppen unten</translation>
+    </message>
+</context>
+<context>
+    <name>ElementDialog</name>
+    <message>
+        <source>Properties of Element #%1</source>
+        <translation>Eigenschaften von Element Nr. %1</translation>
+    </message>
+    <message>
+        <source>Data</source>
+        <translation>Daten</translation>
+    </message>
+    <message>
+        <source>&amp;Text:</source>
+        <translation>&amp;Text:</translation>
+    </message>
+    <message>
+        <source>Address for la&amp;beling</source>
+        <translation>Mit Adresse &amp;beschriften</translation>
+    </message>
+    <message>
+        <source>&amp;Rotation</source>
+        <translation>&amp;Rotiert</translation>
+    </message>
+    <message>
+        <source>&amp;Inverted use</source>
+        <translation>&amp;Invertieren</translation>
+    </message>
+    <message>
+        <source>Symbol variants</source>
+        <translation>Symbolvarianten</translation>
+    </message>
+    <message>
+        <source>Protocol</source>
+        <translation>Protokoll</translation>
+    </message>
+    <message>
+        <source>Decoder</source>
+        <translation>Decoder</translation>
+    </message>
+    <message>
+        <source>T&amp;ype:</source>
+        <translation>T&amp;yp:</translation>
+    </message>
+    <message>
+        <source>Reset &amp;after (ms):</source>
+        <translation>&amp;Zurücksetzen nach (ms):</translation>
+    </message>
+    <message>
+        <source>S&amp;RCP-Bus 1:</source>
+        <translation>S&amp;RCP-Bus 1:</translation>
+    </message>
+    <message>
+        <source>Address &amp;1:</source>
+        <translation>Adresse &amp;1:</translation>
+    </message>
+    <message>
+        <source>&amp;Port 1:</source>
+        <translation>&amp;Anschluß 1:</translation>
+    </message>
+    <message>
+        <source>&amp;Exch. conn.</source>
+        <translation>&amp;Vertauschen</translation>
+    </message>
+    <message>
+        <source>SR&amp;CP-Bus 2:</source>
+        <translation>SR&amp;CP-Bus 2:</translation>
+    </message>
+    <message>
+        <source>Address &amp;2:</source>
+        <translation>Adresse &amp;2:</translation>
+    </message>
+    <message>
+        <source>&amp;Port 2:</source>
+        <translation>&amp;Anschluß 2:</translation>
+    </message>
+    <message>
+        <source>E&amp;xch. conn.</source>
+        <translation>V&amp;ertauschen</translation>
+    </message>
+    <message>
+        <source>Feedback for track LEDs</source>
+        <translation>Rückmeldung für Gleismelder</translation>
+    </message>
+    <message>
+        <source>&amp;LEDs off</source>
+        <translation>&amp;Gleismelder aus</translation>
+    </message>
+    <message>
+        <source>Bus (s&amp;88/SRCP):</source>
+        <translation>Bus (s&amp;88/SRCP):</translation>
+    </message>
+    <message>
+        <source>C&amp;ontact (1 - 496):</source>
+        <translation>K&amp;ontakt (1 - 496):</translation>
+    </message>
+    <message>
+        <source>Module (1 - %1):</source>
+        <translation>Modul (1 - %1):</translation>
+    </message>
+    <message>
+        <source>Port (1 - %1):</source>
+        <translation>Eingang (1 - %1):</translation>
+    </message>
+    <message>
+        <source>Address module</source>
+        <translation>Adressmodul</translation>
+    </message>
+    <message>
+        <source>&amp;FB</source>
+        <translation>&amp;FB</translation>
+    </message>
+    <message>
+        <source>Show feedback module window</source>
+        <translation></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Abbrechen</translation>
+    </message>
+    <message>
+        <source>Allows to switch this signal to:
+Hp0, Hp1</source>
+        <translation>Erlaubt den Signalwechsel nach:
+Hp0 und Hp1</translation>
+    </message>
+    <message>
+        <source>Allows to switch this signal to:
+Hp0 and Hp2</source>
+        <translation>Erlaubt den Signalwechsel nach:
+Hp0 und Hp2</translation>
+    </message>
+    <message>
+        <source>Allows to switch this signal to:
+Hp0, Hp1 and Hp2</source>
+        <translation>Erlaubt den Signalwechsel nach:
+Hp0, Hp1, und Hp2</translation>
+    </message>
+    <message>
+        <source>Allows to switch this signal to:
+Hp0, Hp1 and Sh1</source>
+        <translation>Erlaubt den Signalwechsel nach:
+Hp0, Hp1, und Sh1</translation>
+    </message>
+    <message>
+        <source>Allows to switch this signal to:
+Hp0, Hp2 and Sh1</source>
+        <translation>Erlaubt den Signalwechsel nach:
+Hp0, Hp2, und Sh1</translation>
+    </message>
+    <message>
+        <source>Allows to switch this signal to:
+Hp0, Hp1, Hp2 and Sh1</source>
+        <translation>Erlaubt den Signalwechsel nach:
+Hp0, Hp1, Hp2 und Sh1</translation>
+    </message>
+    <message>
+        <source>Allows to switch this signal to:
+Vr0, Vr1</source>
+        <translation>Erlaubt den Signalwechsel nach:
+Vr0 und Vr1</translation>
+    </message>
+    <message>
+        <source>Allows to switch this signal to:
+Vr0 and Vr2</source>
+        <translation>Erlaubt den Signalwechsel nach:
+Vr0 und Vr2</translation>
+    </message>
+    <message>
+        <source>Allows to switch this signal to:
+Vr0, Vr1 and Vr2</source>
+        <translation>Erlaubt den Signalwechsel nach:
+Vr0, Vr1 und Vr2</translation>
+    </message>
+    <message>
+        <source>Allows to use a bistable coupler</source>
+        <translation>Erlaubt den Gebrauch eines bistabilen Entkupplers</translation>
+    </message>
+    <message>
+        <source>Allows to use a:
+momentary coupler on left connector</source>
+        <translation>Erlaubt den Gebrauch eines:
+Einfachen Entkupplers
+am linken Anschluß</translation>
+    </message>
+    <message>
+        <source>Allows to use a:
+momentary coupler on right connector</source>
+        <translation>Erlaubt den Gebrauch eines:
+Einfachen Entkupplers
+am rechten Anschluß</translation>
+    </message>
+    <message>
+        <source>Allows to use a:
+2 state double turnout
+(f.e. Maerklin 2264)
+DOES NOT WORK YET!</source>
+        <translation>Erlaubt den Gebrauch einer DKW mit 2 Stellungen
+(z.B. Märklin 2264) FUNKTIONIERT NOCH NICHT!</translation>
+    </message>
+    <message>
+        <source>Allows to use a:
+4 state double turnout
+(f.e. Maerklin 2275,
+all Roco&#xb4;s)</source>
+        <translation>Erlaubt den Gebrauch einer DKW mit 4 Stellungen
+(z.B. Märklin 2275, alle Roco Modelle)</translation>
+    </message>
+    <message>
+        <source>Default turntable:
+Controlled via keyboard #15</source>
+        <translation>Standard-Drehscheibe: Steuerung über Schaltpult Nr. 15</translation>
+    </message>
+    <message>
+        <source>Extra turntable:
+Controlled via keyboard #14</source>
+        <translation>Extra-Drehscheibe: Steuerung über Schaltpult Nr. 14</translation>
+    </message>
+</context>
+<context>
+    <name>ExternalGroupPanels</name>
+    <message>
+        <source>&amp;FHT panel</source>
+        <translation>&amp;FHT-Feld</translation>
+    </message>
+    <message>
+        <source>&amp;UfGT and MGT panel</source>
+        <translation>&amp;UfGT- und MGT-Feld</translation>
+    </message>
+    <message>
+        <source>&amp;WGT panel</source>
+        <translation>&amp;WGT-Feld</translation>
+    </message>
+    <message>
+        <source>&amp;SGT and HaGT panel</source>
+        <translation>&amp;SGT- und HaGT-Feld </translation>
+    </message>
+    <message>
+        <source>&amp;Route group panel</source>
+        <translation>&amp;Fahrstraßengruppenfeld</translation>
+    </message>
+    <message>
+        <source>&amp;Turnout group panel</source>
+        <translation>&amp;Weichengruppenfeld</translation>
+    </message>
+    <message>
+        <source>&amp;Signal group panel</source>
+        <translation>&amp;Signalgruppenfeld</translation>
+    </message>
+    <message>
+        <source>&amp;Level crossing group panel</source>
+        <translation>&amp;Bahnübergangsgruppenfeld</translation>
+    </message>
+    <message>
+        <source>&amp;Axle counter group panel</source>
+        <translation>&amp;Achszählgruppenfeld</translation>
+    </message>
+    <message>
+        <source>&amp;Power supply group panel</source>
+        <translation>&amp;Spannungsversorgungsgruppenfeld</translation>
+    </message>
+</context>
+<context>
     <name>FeedbackViewer</name>
     <message>
         <source>Feedback Modules</source>
@@ -196,6 +538,21 @@ den Suchkriterien entspricht.</translation>
     <message>
         <source>&amp;Toggle</source>
         <translation>&amp;Umschalten</translation>
+    </message>
+</context>
+<context>
+    <name>LayoutEditModeAgrp</name>
+    <message>
+        <source>&amp;Select mode</source>
+        <translation>&amp;Auswahlmodus</translation>
+    </message>
+    <message>
+        <source>&amp;Paint mode</source>
+        <translation>&amp;Zeichnenmodus</translation>
+    </message>
+    <message>
+        <source>&amp;Erase mode</source>
+        <translation>&amp;Löschmodus</translation>
     </message>
 </context>
 <context>
@@ -826,11 +1183,43 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     </message>
     <message>
         <source>Layout edit operations</source>
-        <translation type="unfinished"></translation>
+        <translation>Gleisbildbearbeitungsfunktionen</translation>
     </message>
     <message>
         <source>External group panels</source>
-        <translation type="unfinished"></translation>
+        <translation>Gruppentastenblockfelder</translation>
+    </message>
+    <message>
+        <source>Straight track panels</source>
+        <translation>Felder gerader Strecken</translation>
+    </message>
+    <message>
+        <source>Curved track panels</source>
+        <translation>Felder gebogener Strecken</translation>
+    </message>
+    <message>
+        <source>Signal panels</source>
+        <translation>Signalfelder</translation>
+    </message>
+    <message>
+        <source>Switch panels</source>
+        <translation>Weichenfelder</translation>
+    </message>
+    <message>
+        <source>Decoration panels</source>
+        <translation>Dekorative Felder</translation>
+    </message>
+    <message>
+        <source>Miscellanous panels</source>
+        <translation>Verschiedene Felder</translation>
+    </message>
+    <message>
+        <source>&amp;Train number dialog</source>
+        <translation>&amp;Zugnummerneingabedialog</translation>
+    </message>
+    <message>
+        <source>Show train number input dialog</source>
+        <translation>Dialog zur Eingabe von Zugnummern anzeigen</translation>
     </message>
 </context>
 <context>
@@ -850,6 +1239,41 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     <message>
         <source>Feedbacks</source>
         <translation>Rückmeldung</translation>
+    </message>
+</context>
+<context>
+    <name>MiscPanels</name>
+    <message>
+        <source>&amp;Decoupler</source>
+        <translation>&amp;Entkuppler</translation>
+    </message>
+    <message>
+        <source>&amp;Blind element</source>
+        <translation>&amp;Blindelement</translation>
+    </message>
+    <message>
+        <source>&amp;Address indicator</source>
+        <translation>&amp;</translation>
+    </message>
+    <message>
+        <source>&amp;Level crossing</source>
+        <translation>&amp;Bahnübergang</translation>
+    </message>
+    <message>
+        <source>&amp;Relais</source>
+        <translation>&amp;Relais</translation>
+    </message>
+    <message>
+        <source>&amp;DC motor</source>
+        <translation>&amp;Gleichstrommotor</translation>
+    </message>
+    <message>
+        <source>&amp;Turntable</source>
+        <translation>&amp;Drehscheibe</translation>
+    </message>
+    <message>
+        <source>&amp;Transfer table</source>
+        <translation>&amp;Schiebebühne</translation>
     </message>
 </context>
 <context>
@@ -1320,6 +1744,10 @@ pick up this information so update its route.</source>
         <source>Error: Maximum track number found is &apos;%1&apos;; valid range is from 100 to 999</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Error setting train number: Route id &apos;%1&apos; not found.</source>
+        <translation>Fehler beim Setzen der Zugnummer: Fahrstraßennummer &apos;%1&apos; wurde nicht gefunden</translation>
+    </message>
 </context>
 <context>
     <name>ServerInfoDialog</name>
@@ -1386,6 +1814,49 @@ pick up this information so update its route.</source>
     <message>
         <source>No</source>
         <translation>Nein</translation>
+    </message>
+</context>
+<context>
+    <name>SignalPanels</name>
+    <message>
+        <source>&amp;Main signal panel</source>
+        <translation>&amp;Hauptsignal</translation>
+    </message>
+    <message>
+        <source>&amp;Main four state signal panel</source>
+        <translation>&amp;Vierbegriffiges Hauptsignal</translation>
+    </message>
+    <message>
+        <source>&amp;Shunt signal panel</source>
+        <translation>&amp;Sperrsignal</translation>
+    </message>
+    <message>
+        <source>&amp;Help route signal panel</source>
+        <translation>&amp;Sperrsignal für Hilfsfahrstraßen</translation>
+    </message>
+    <message>
+        <source>&amp;Two button shunt signal panel</source>
+        <translation>&amp;Sperrsignal mit zwei Tasten</translation>
+    </message>
+    <message>
+        <source>&amp;Wait signal panel</source>
+        <translation>&amp;Wartesignal</translation>
+    </message>
+    <message>
+        <source>&amp;Distant signal panel</source>
+        <translation>&amp;Vorsignal</translation>
+    </message>
+    <message>
+        <source>&amp;ZP signal panel</source>
+        <translation>&amp;Zugpersonalsignal</translation>
+    </message>
+    <message>
+        <source>&amp;Route button panel</source>
+        <translation>&amp;Gleistaste für Zugfahrstraßen</translation>
+    </message>
+    <message>
+        <source>&amp;Shunt button panel</source>
+        <translation>&amp;Gleistaste für Rangierfahrstraßen</translation>
     </message>
 </context>
 <context>
@@ -1464,6 +1935,115 @@ pick up this information so update its route.</source>
     </message>
 </context>
 <context>
+    <name>StraightTrackPanels</name>
+    <message>
+        <source>&amp;Horizontal track</source>
+        <translation>&amp;Horizontales Gleis</translation>
+    </message>
+    <message>
+        <source>&amp;Vertical track</source>
+        <translation>&amp;Vertikales Gleis</translation>
+    </message>
+    <message>
+        <source>&amp;Left diagonal track</source>
+        <translation>&amp;Diagonale links</translation>
+    </message>
+    <message>
+        <source>&amp;Right diagonal track</source>
+        <translation>&amp;Diagonale rechts</translation>
+    </message>
+    <message>
+        <source>&amp;Single direction track</source>
+        <translation>&amp;Einseitige Fahrtrichtung</translation>
+    </message>
+    <message>
+        <source>&amp;Double direction track</source>
+        <translation>&amp;Zweiseitige Fahrtrichtung</translation>
+    </message>
+    <message>
+        <source>&amp;Diagonal crossing</source>
+        <translation>&amp;Hosenkreuzung</translation>
+    </message>
+    <message>
+        <source>&amp;Right crossing</source>
+        <translation>&amp;Kreuzung rechts</translation>
+    </message>
+    <message>
+        <source>&amp;Left crossing</source>
+        <translation>&amp;Kreuzung links</translation>
+    </message>
+</context>
+<context>
+    <name>SwitchPanels</name>
+    <message>
+        <source>&amp;Switch left</source>
+        <translation>&amp;Weiche links</translation>
+    </message>
+    <message>
+        <source>&amp;Switch right</source>
+        <translation>&amp;Weiche rechts</translation>
+    </message>
+    <message>
+        <source>&amp;Diagonal switch left</source>
+        <translation>&amp;Diagonale Weiche links</translation>
+    </message>
+    <message>
+        <source>&amp;Diagonal switch right</source>
+        <translation>&amp;Diagonale Weiche rechts</translation>
+    </message>
+    <message>
+        <source>&amp;Y-Switch</source>
+        <translation>&amp;Y-Weiche</translation>
+    </message>
+    <message>
+        <source>&amp;Three way turnout</source>
+        <translation>&amp;Dreiwegweiche</translation>
+    </message>
+    <message>
+        <source>&amp;Single-slip switch left</source>
+        <translation>&amp;Einfachkreuzungsweiche links</translation>
+    </message>
+    <message>
+        <source>&amp;Double-slip switch left</source>
+        <translation>&amp;Doppelte Kreuzungsweiche links</translation>
+    </message>
+    <message>
+        <source>&amp;Double-slip switch right</source>
+        <translation>&amp;Doppelte Kreuzungsweiche rechts</translation>
+    </message>
+    <message>
+        <source>&amp;Single-slip switch right</source>
+        <translation>&amp;Einfachkreuzungsweiche rechts</translation>
+    </message>
+</context>
+<context>
+    <name>TrainNumberDialog</name>
+    <message>
+        <source>&amp;Route-Id:</source>
+        <translation>&amp;Fahrstraßennr.:</translation>
+    </message>
+    <message>
+        <source>Press this button to set train number</source>
+        <translation>Diesen Schalter zum Ändern der Zugnummer betätigen</translation>
+    </message>
+    <message>
+        <source>Change train number</source>
+        <translation>zugnummer ändern</translation>
+    </message>
+    <message>
+        <source>&amp;Train number:</source>
+        <translation>&amp;Zugnummer:</translation>
+    </message>
+    <message>
+        <source>Enter the route id for the train number</source>
+        <translation>Fahrstraßennummer für Zugnummer eingeben</translation>
+    </message>
+    <message>
+        <source>Enter the train number for the selected route</source>
+        <translation>Zugnummer für gewählte Fahrstraße eingeben</translation>
+    </message>
+</context>
+<context>
     <name>elementCommander</name>
     <message>
         <source>Shifting bridge commander</source>
@@ -1496,231 +2076,6 @@ pick up this information so update its route.</source>
     <message>
         <source>Stop motor</source>
         <translation>Motor anhalten</translation>
-    </message>
-</context>
-<context>
-    <name>elementDialog</name>
-    <message>
-        <source>&amp;Text:</source>
-        <translation>&amp;Text:</translation>
-    </message>
-    <message>
-        <source>Address &amp;1:</source>
-        <translation>Adresse &amp;1:</translation>
-    </message>
-    <message>
-        <source>Address &amp;2:</source>
-        <translation>Adresse &amp;2:</translation>
-    </message>
-    <message>
-        <source>&amp;FB</source>
-        <translation>&amp;FB</translation>
-    </message>
-    <message>
-        <source>Show feedback module window</source>
-        <translation>Rückmeldemodule anzeigen</translation>
-    </message>
-    <message>
-        <source>Allows to switch this signal to:
-Hp0, Hp1</source>
-        <translation>Erlaubt den Signalwechsel nach:
-Hp0 und Hp1</translation>
-    </message>
-    <message>
-        <source>Allows to switch this signal to:
-Hp0 and Hp2</source>
-        <translation>Erlaubt den Signalwechsel nach:
-Hp0 und Hp2</translation>
-    </message>
-    <message>
-        <source>Allows to switch this signal to:
-Hp0, Hp1 and Hp2</source>
-        <translation>Erlaubt den Signalwechsel nach:
-Hp0, Hp1, und Hp2</translation>
-    </message>
-    <message>
-        <source>Allows to switch this signal to:
-Hp0, Hp1 and Sh1</source>
-        <translation>Erlaubt den Signalwechsel nach:
-Hp0, Hp1, und Sh1</translation>
-    </message>
-    <message>
-        <source>Allows to switch this signal to:
-Hp0, Hp2 and Sh1</source>
-        <translation>Erlaubt den Signalwechsel nach:
-Hp0, Hp2, und Sh1</translation>
-    </message>
-    <message>
-        <source>Allows to switch this signal to:
-Hp0, Hp1, Hp2 and Sh1</source>
-        <translation>Erlaubt den Signalwechsel nach:
-Hp0, Hp1, Hp2 und Sh1</translation>
-    </message>
-    <message>
-        <source>Allows to switch this signal to:
-Vr0, Vr1</source>
-        <translation>Erlaubt den Signalwechsel nach:
-Vr0 und Vr1</translation>
-    </message>
-    <message>
-        <source>Allows to switch this signal to:
-Vr0 and Vr2</source>
-        <translation>Erlaubt den Signalwechsel nach:
-Vr0 und Vr2</translation>
-    </message>
-    <message>
-        <source>Allows to switch this signal to:
-Vr0, Vr1 and Vr2</source>
-        <translation>Erlaubt den Signalwechsel nach:
-Vr0, Vr1 und Vr2</translation>
-    </message>
-    <message>
-        <source>Allows to use a:
-2 state double turnout
-(f.e. Maerklin 2264)
-DOES NOT WORK YET!</source>
-        <translation>Erlaubt den Gebrauch einer DKW mit 2 Stellungen
-(z.B. Märklin 2264) FUNKTIONIERT NOCH NICHT!</translation>
-    </message>
-    <message>
-        <source>Allows to use a:
-4 state double turnout
-(f.e. Maerklin 2275,
-all Roco&#xb4;s)</source>
-        <translation>Erlaubt den Gebrauch einer DKW mit 4 Stellungen
-(z.B. Märklin 2275, alle Roco Modelle)</translation>
-    </message>
-    <message>
-        <source>Default turntable:
-Controlled via keyboard #15</source>
-        <translation>Standard-Drehscheibe: Steuerung über Schaltpult Nr. 15</translation>
-    </message>
-    <message>
-        <source>Extra turntable:
-Controlled via keyboard #14</source>
-        <translation>Extra-Drehscheibe: Steuerung über Schaltpult Nr. 14</translation>
-    </message>
-    <message>
-        <source>Data</source>
-        <translation>Daten</translation>
-    </message>
-    <message>
-        <source>I&amp;con:</source>
-        <translation>&amp;Symbol:</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Abbrechen</translation>
-    </message>
-    <message>
-        <source>&amp;Rotation</source>
-        <translation>&amp;Rotiert</translation>
-    </message>
-    <message>
-        <source>&amp;LEDs off</source>
-        <translation>&amp;Gleismelder aus</translation>
-    </message>
-    <message>
-        <source>&amp;Inverted use</source>
-        <translation>&amp;Invertieren</translation>
-    </message>
-    <message>
-        <source>&amp;Exch. conn.</source>
-        <translation>&amp;Vertauschen</translation>
-    </message>
-    <message>
-        <source>E&amp;xch. conn.</source>
-        <translation>V&amp;ertauschen</translation>
-    </message>
-    <message>
-        <source>Address module</source>
-        <translation>Adressmodul</translation>
-    </message>
-    <message>
-        <source>Symbol variants</source>
-        <translation>Symbolvarianten</translation>
-    </message>
-    <message>
-        <source>Protocol</source>
-        <translation>Protokoll</translation>
-    </message>
-    <message>
-        <source>Decoder</source>
-        <translation>Decoder</translation>
-    </message>
-    <message>
-        <source>T&amp;ype:</source>
-        <translation>T&amp;yp:</translation>
-    </message>
-    <message>
-        <source>S&amp;RCP-Bus 1:</source>
-        <translation>S&amp;RCP-Bus 1:</translation>
-    </message>
-    <message>
-        <source>SR&amp;CP-Bus 2:</source>
-        <translation>SR&amp;CP-Bus 2:</translation>
-    </message>
-    <message>
-        <source>Reset &amp;after (ms):</source>
-        <translation>&amp;Zurücksetzen nach (ms):</translation>
-    </message>
-    <message>
-        <source>Feedback for track LEDs</source>
-        <translation>Rückmeldung für Gleismelder</translation>
-    </message>
-    <message>
-        <source>Bus (s&amp;88/SRCP):</source>
-        <translation>Bus (s&amp;88/SRCP):</translation>
-    </message>
-    <message>
-        <source>C&amp;ontact (1 - 496):</source>
-        <translation>K&amp;ontakt (1 - 496):</translation>
-    </message>
-    <message>
-        <source>Module (1 - %1):</source>
-        <translation>Modul (1 - %1):</translation>
-    </message>
-    <message>
-        <source>Port (1 - %1):</source>
-        <translation>Eingang (1 - %1):</translation>
-    </message>
-    <message>
-        <source>Properties of Element #%1</source>
-        <translation>Eigenschaften von Element Nr. %1</translation>
-    </message>
-    <message>
-        <source>Address for la&amp;beling</source>
-        <translation>Mit Adresse &amp;beschriften</translation>
-    </message>
-    <message>
-        <source>&amp;Port 1:</source>
-        <translation>&amp;Anschluß 1:</translation>
-    </message>
-    <message>
-        <source>&amp;Port 2:</source>
-        <translation>&amp;Anschluß 2:</translation>
-    </message>
-    <message>
-        <source>Allows to use a bistable coupler</source>
-        <translation>Erlaubt den Gebrauch eines bistabilen Entkupplers</translation>
-    </message>
-    <message>
-        <source>Allows to use a:
-momentary coupler on left connector</source>
-        <translation>Erlaubt den Gebrauch eines:
-Einfachen Entkupplers
-am linken Anschluß</translation>
-    </message>
-    <message>
-        <source>Allows to use a:
-momentary coupler on right connector</source>
-        <translation>Erlaubt den Gebrauch eines:
-Einfachen Entkupplers
-am rechten Anschluß</translation>
     </message>
 </context>
 <context>

@@ -32,6 +32,8 @@ SOURCES = \
 	switchpanels.cpp \
 	srcpport.cpp \
 	straighttrackpanels.cpp \
+	trainnumberdialog.cpp \
+	trainnumberdialog.cpp \
 	turntablecommander.cpp
 
 TRANSLATIONS = spdrs60_de.ts spdrs60_it.ts

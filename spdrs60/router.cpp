@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.2 $Revision: 1.56 $
+                           version 0.5.2 $Revision: 1.57 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-16 16:58:48 $
+    last modified        : $Date: 2007-09-25 18:14:50 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -834,3 +834,18 @@ Route* Router::getRouteWithId(unsigned int id)
     }
     return NULL;
 }
+
+/*
+ * set train number of specified route
+ */
+void Router::changeTrainNumber(unsigned int rn, unsigned int tn)
+{
+    Route* rt = getRouteWithId(rn);
+
+    if (rt != NULL)
+        rt->setTrain(tn);
+    else
+        emit statusMessage(tr("Error setting train number: "
+                    "Route id '%1' not found.").arg(tn));
+}
+

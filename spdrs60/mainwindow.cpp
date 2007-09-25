@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.132 $
+                           version 0.5.2 $Revision: 1.133 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-22 15:27:32 $
+    last modified        : $Date: 2007-09-25 18:14:50 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -70,6 +70,7 @@
 
 #include "pixmaps/viewroute.xpm"
 #include "pixmaps/viewfeedback.xpm"
+#include "pixmaps/viewtrainnumber.xpm"
 #include "pixmaps/viewkeyboard.xpm"
 #include "pixmaps/viewclock.xpm"
 #include "pixmaps/viewnormalmode.xpm"
@@ -148,6 +149,7 @@ MainWindow::MainWindow(): QMainWindow(NULL, PACKAGE,
     LayoutPowerIsOn = false;
 
     keybWindow = NULL;
+    trainnumberdialog = NULL;
     isFBInitMode = true;            // var to avoid all startup feedback
     visualMode = kvmNormal;         // normal layout mode
     lastDir = QDir::homeDirPath();  // remembers path for FileOpen
@@ -838,6 +840,20 @@ void MainWindow::initMainWindow()
     actionViewClock->addTo(viewmenu);
     actionViewClock->addTo(viewtb);
 
+#if QT_VERSION >= 0x030200
+    actionViewTrainNumberDialog = new QAction(QPixmap(viewtrainnumber_xpm),
+            tr("&Train number dialog"), 0, this, "viewTrainNumberDlg");
+    actionViewTrainNumberDialog->setToolTip(tr("Show train number input dialog"));
+#else
+    actionViewTrainNumberDialog = new QAction(
+            tr("Show train number input dialog"), QPixmap(viewtrainnumber_xpm),
+            tr("&Keyboard"), 0, this, "viewTrainNumberDlr");
+#endif
+    connect(actionViewTrainNumberDialog, SIGNAL(activated()), this,
+            SLOT(slotViewTrainNumberDialog()));
+    actionViewTrainNumberDialog->addTo(viewmenu);
+    actionViewTrainNumberDialog->addTo(viewtb);
+    
 #if QT_VERSION >= 0x030200
     actionViewKeyboard = new QAction(QPixmap(viewkeyboard_xpm),
             tr("&Keyboard"), Qt::CTRL + Qt::Key_K, this, "viewKeyboard");
@@ -3285,6 +3301,27 @@ void MainWindow::slotViewKeyboard()
 
         keybWindow->move(QCursor::pos());
         keybWindow->show();
+    }
+}
+
+/* show train number input dialog */
+void MainWindow::slotViewTrainNumberDialog()
+{
+    if (trainnumberdialog != NULL) {
+        if (trainnumberdialog->isVisible())
+            trainnumberdialog->hide();
+        else {
+            trainnumberdialog->show();
+            trainnumberdialog->setActiveWindow();
+            trainnumberdialog->raise();
+        }
+    }
+    else {
+        trainnumberdialog = new TrainNumberDialog(this, "trainnumberdialog");
+        connect(trainnumberdialog,
+                SIGNAL(trainNumberChanged(unsigned int, unsigned int)),
+                router, SLOT(changeTrainNumber(unsigned int, unsigned int)));
+        trainnumberdialog->show();
     }
 }
 
