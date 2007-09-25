@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60, pixmaps included by cpp-files
 # (c) Guido Scholz
-# version: $Revision: 1.25 $
-# last update: $Date: 2007-09-25 18:14:51 $
+# version: $Revision: 1.26 $
+# last update: $Date: 2007-09-25 21:22:10 $
 
 EXTRA_DIST = filenew.xpm filesave.xpm fileopen.xpm \
 	fileclose.xpm filenewwindow.xpm \
@@ -52,16 +52,16 @@ EXTRA_DIST = filenew.xpm filesave.xpm fileopen.xpm \
 	spdritem_dwr.xpm spdritem_ekl.xpm spdritem_ekr.xpm \
 	spdritem_feb.xpm spdritem_fee.xpm spdritem_feg.xpm \
 	spdritem_fen.xpm spdritem_fer.xpm spdritem_fey.xpm \
-	spdritem_hss.xpm spdritem_hs.xpm spdritem_krh.xpm \
+	spdritem_hssr.xpm spdritem_hsr.xpm spdritem_krh.xpm \
 	spdritem_krl.xpm spdritem_krr.xpm spdritem_crb.xpm spdritem_clt.xpm \
-	spdritem_crt.xpm spdritem_clb.xpm spdritem_nrb.xpm spdritem_ri1.xpm \
-	spdritem_ri2.xpm spdritem_srb.xpm spdritem_ssh.xpm \
-	spdritem_sss.xpm spdritem_ss.xpm spdritem_taf.xpm \
+	spdritem_crt.xpm spdritem_clb.xpm spdritem_rbr.xpm spdritem_ri1.xpm \
+	spdritem_ri2.xpm spdritem_sbr.xpm spdritem_shr.xpm \
+	spdritem_sdr.xpm spdritem_ssr.xpm spdritem_taf.xpm \
 	spdritem_tas.xpm spdritem_tau.xpm spdritem_taw.xpm \
 	spdritem_tbl.xpm spdritem_tbr.xpm spdritem_trh.xpm \
 	spdritem_trv.xpm spdritem_ttl.xpm spdritem_ttr.xpm \
-	spdritem_vs.xpm spdritem_wel.xpm spdritem_wer.xpm \
-	spdritem_wey.xpm spdritem_ws.xpm spdritem_zp.xpm \
+	spdritem_vsr.xpm spdritem_wel.xpm spdritem_wer.xpm \
+	spdritem_wey.xpm spdritem_wsr.xpm spdritem_zpr.xpm \
 	spdritem_pre.xpm spdritem_tug.xpm spdritem_dlt.xpm \
 	spdritem_drt.xpm spdritem_lee.xpm spdritem_hs1.xpm \
 	spdritem_hs2.xpm spdritem_sht.xpm spdritem_shm.xpm \
