@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.5.2 $Revision: 1.44 $
+                           version 0.5.2 $Revision: 1.45 $
                            -------------------------------
     copyright            : (C) 2005-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-14 15:47:58 $
+    last modified        : $Date: 2007-09-25 21:07:42 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -45,7 +45,7 @@ RouteDialog::RouteDialog(QWidget* parent): QTabDialog(parent,
     // Validator for train ids
     trainidValidator = new QIntValidator(0, 99999, this);
     // Validator for track numbers
-    tracknumberValidator = new QIntValidator(100, 999, this);
+    tracknumberValidator = new QIntValidator(1, 99999, this);
 
 
     addIdentificationTab();
@@ -85,7 +85,8 @@ void RouteDialog::addIdentificationTab()
 
     /*line with track number (Gleisnummer)*/
     QHBoxLayout* numberLayout = new QHBoxLayout(identificationGBL, 6);
-    QLabel* lblRouteNumber = new QLabel(tr("Track n&umber"), identificationGB);
+    QLabel* lblRouteNumber = new QLabel(tr("Identification n&umber"),
+            identificationGB);
     numberLayout->addWidget(lblRouteNumber);
     numberLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
                 QSizePolicy::Minimum));

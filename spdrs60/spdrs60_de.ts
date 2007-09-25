@@ -1497,8 +1497,8 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <translation>Identifikation</translation>
     </message>
     <message>
-        <source>Track n&amp;umber</source>
-        <translation>&amp;Gleisnummer</translation>
+        <source>Identification n&amp;umber</source>
+        <translation>&amp;Identifikationsnummer</translation>
     </message>
     <message>
         <source>&amp;Train number</source>
@@ -1643,8 +1643,8 @@ pick up this information so update its route.</source>
         <translation>Typ</translation>
     </message>
     <message>
-        <source>Track</source>
-        <translation>Gleis</translation>
+        <source>Id</source>
+        <translation>Id-Nr.</translation>
     </message>
     <message>
         <source>Train</source>
@@ -1739,10 +1739,6 @@ pick up this information so update its route.</source>
     <message>
         <source>Error forwarding train number: External targets are not supported yet.</source>
         <translation>Fehler beim Weiterleiten der Zugnummer: Externe Ziele werden noch nicht unterstüzt.</translation>
-    </message>
-    <message>
-        <source>Error: Maximum track number found is &apos;%1&apos;; valid range is from 100 to 999</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Error setting train number: Route id &apos;%1&apos; not found.</source>

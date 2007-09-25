@@ -1,3 +1,9 @@
+2007-09-25 Guido Scholz <guido.scholz@bayernline.de>
+	* pixmaps/viewtrainnumber.xpm, mainwindow.cpp,
+	trainnumberdialog.*: New train number edit dialog added.
+	* element.cpp: Layout item identification now is number based
+	not string based.
+
 2007-09-22 Guido Scholz <guido.scholz@bayernline.de>
 	* pixmaps/*.xpm, decopanels.*, miscpanels.*, signalpanels.*,
 	switchpanels.*, externalgrouppanels.*, mainwindow.cpp,

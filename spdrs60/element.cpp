@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.2 $Revision: 1.140 $
+                           version 0.5.2 $Revision: 1.141 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-24 20:57:04 $
+    last modified        : $Date: 2007-09-25 21:07:42 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -90,15 +90,15 @@ element::element(QWidget* parent, SpdrItemClassId ci, const char* si,
 }
     
 
-element::element(QTextStream& ats, QWidget* parent)
+element::element(QTextStream& ts, QWidget* parent)
 : QWidget(parent, "gbselement")
 {
     initVariables();
     visualMode = kvmNormal;
     classid = siciNone;
-    readFileTextFromStream(ats);
+    readFileTextFromStream(ts);
     updateProperties();
-    setupElementIcon();
+    //setupElementIcon();
 }
 
 
@@ -292,7 +292,9 @@ void element::updateProperties()
 
     isright = sSoldIcon.contains("links", 1) ? 0 : 1;
 
+    //FIXME: convert old rotatables to non rotatable
     bool rotatable = (signal ||
+            sSoldIcon == SYM_CRB || sSoldIcon == SYM_CLT ||
             sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER ||
             sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR ||
             sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR ||
@@ -320,7 +322,7 @@ bool element::is2StateDKW()
 /* check if this element contains information to save*/
 bool element::isEmpty()
 {
-    return (sSoldIcon == SYM_LEE) && (iSoldInvert != 1) &&
+    return (classid == siciLee) && (iSoldInvert != 1) &&
         (sSoldText == "-1" || sSoldText.isEmpty());
 }
 
@@ -373,7 +375,7 @@ void element::switchToDir(int newdir)
         // or deactivated, these are treated the same
         // TODO: option to repaint only when INFO messages came back from
         // srcp server
-        if (newdir != iSoldDirection || sSoldIcon == SYM_ENK) {
+        if (newdir != iSoldDirection || classid == siciEnk) {
             iSoldDirection = newdir;
             setupElementIcon();
             sendSrcpState();
@@ -398,7 +400,7 @@ void element::mousePressEvent(QMouseEvent* e)
             QPoint CursorPos = mapFromGlobal(QCursor::pos());
 
             /*TODO: move this to gbsarea*/
-            if (sSoldIcon == SYM_DRE) {
+            if (classid == siciDre) {
                 ttComm = new turntableCommander(this, iSoldSubType, sSoldText);
                 connect(ttComm, SIGNAL(applyPressed(QPoint)),
                         this, SLOT(slotUpdateTurntableData(QPoint)));
@@ -410,7 +412,7 @@ void element::mousePressEvent(QMouseEvent* e)
             }
 
             /*TODO: move this to gbsarea*/
-            else if (sSoldIcon == SYM_SBN || sSoldIcon == SYM_MDC) {
+            else if (classid == siciSbn || classid == siciMdc) {
                 turntableProperties = new elementCommander(this, sSoldIcon);
                 connect(turntableProperties, SIGNAL(applyPressed(QPoint)),
                         this, SLOT(slotUpdateTurntableData(QPoint)));
@@ -423,16 +425,16 @@ void element::mousePressEvent(QMouseEvent* e)
              * corresponding value to GBSArea to change cursor shape etc.*/
             // if element contains a solenoid or is a external button
             // TODO: if (hasButton())
-            else if ((iSoldAddress_1 != -1) && (sSoldIcon != SYM_ADR)) {
+            else if ((iSoldAddress_1 != -1) && (classid != siciAdr)) {
 
-                if (sSoldIcon == SYM_HS || sSoldIcon == SYM_NRB)
+                if (classid == siciHs || classid == siciNrb)
                     ctrlButton = kZfsClicked;
 
-                else if (sSoldIcon == SYM_SS || sSoldIcon == SYM_SSS ||
-                        sSoldIcon == SYM_WS || sSoldIcon == SYM_SRB)
+                else if (classid == siciSs || classid == siciSss ||
+                        classid == siciWs || classid == siciSrb)
                     ctrlButton = kRfsClicked;
 
-                else if (sSoldIcon == SYM_HSS) {
+                else if (classid == siciHss) {
                     /* two different buttons on this panel */
                     if (CursorPos.x() > (EL_WIDTH >> 1) ^ (bool)iSoldRotate)
                         ctrlButton = kZfsClicked; 
@@ -440,7 +442,7 @@ void element::mousePressEvent(QMouseEvent* e)
                         ctrlButton = kRfsClicked;
                 }
 
-                else if (sSoldIcon == SYM_SSH)
+                else if (classid == siciSsh)
                     ctrlButton = kZhsClicked;
 
                 else
@@ -452,10 +454,10 @@ void element::mousePressEvent(QMouseEvent* e)
             /*add here new external button functions*/
             /*TODO: change to switch SYM_ID_ */
             else if (sSoldIcon.startsWith("taste")) {
-                if (sSoldIcon == SYM_TAW)
+                if (classid == siciTaw)
                     ctrlButton = kWgtClicked;
 
-                else if (sSoldIcon == SYM_TAF) {
+                else if (classid == siciTaf) {
                     ctrlButton = kFhtClicked;
 
                     /*
@@ -468,14 +470,14 @@ void element::mousePressEvent(QMouseEvent* e)
                     setupElementIcon();
                 }
 
-                else if (sSoldIcon == SYM_TAU) {
+                else if (classid == siciTau) {
                     if (CursorPos.x() < (EL_WIDTH >> 1))
                         ctrlButton = kUfgtClicked; 
                     else
                         ctrlButton = kMgtClicked;
                 }
 
-                else if (sSoldIcon == SYM_TAS) {
+                else if (classid == siciTas) {
                     if (CursorPos.x() < (EL_WIDTH >> 1))
                         ctrlButton = kSgtClicked; 
                     else
@@ -521,10 +523,10 @@ void element::mouseReleaseEvent(QMouseEvent* e)
     else if (visualMode == kvmEditRoute) {
         if (e->button() == LeftButton) {
             /*select/deselect start or stop signal*/
-            if ((sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
-                 sSoldIcon == SYM_SS || 
-                 sSoldIcon == SYM_SSH || sSoldIcon == SYM_SSS ||
-                 sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB)) {
+            if ((classid == siciHs || classid == siciHss ||
+                 classid == siciSs || 
+                 classid == siciSsh || classid == siciSss ||
+                 classid == siciNrb || classid == siciSrb)) {
                 /*send record signal to router*/
                 if (ksmNormal == selectionMode)
                     emit recordElement(this, krecStartStop);
@@ -536,17 +538,17 @@ void element::mouseReleaseEvent(QMouseEvent* e)
         else if (e->button() == MidButton) {
 
             /*select/deselect switchable element*/
-            if (sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER ||
-                sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR || 
-                sSoldIcon == SYM_WEY || sSoldIcon == SYM_DKR || 
-                sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR || 
-                sSoldIcon == SYM_DKL || sSoldIcon == SYM_DRW || 
-                sSoldIcon == SYM_REL || sSoldIcon == SYM_ZP  || 
-                sSoldIcon == SYM_HS  || sSoldIcon == SYM_HSS ||
-                sSoldIcon == SYM_SS  || sSoldIcon == SYM_SSS ||
-                sSoldIcon == SYM_SSH || sSoldIcon == SYM_BLD ||
-                sSoldIcon == SYM_VS  || sSoldIcon == SYM_WS  ||
-                sSoldIcon == SYM_MDC) {
+            if (classid == siciWel || classid == siciWer ||
+                classid == siciDwl || classid == siciDwr || 
+                classid == siciWey || classid == siciDkr || 
+                classid == siciEkl || classid == siciEkr || 
+                classid == siciDkl || classid == siciDrw || 
+                classid == siciRel || classid == siciZp  || 
+                classid == siciHs  || classid == siciHss ||
+                classid == siciSs  || classid == siciSss ||
+                classid == siciSsh || classid == siciBld ||
+                classid == siciVs  || classid == siciWs  ||
+                classid == siciMdc) {
                 /*send record signal to router*/
                 if (ksmNormal == selectionMode)
                     emit recordElement(this, krecNormal);
@@ -556,7 +558,7 @@ void element::mouseReleaseEvent(QMouseEvent* e)
             }
 
             /*select/deselect train number display*/
-            else if (sSoldIcon == SYM_ADR) {
+            else if (classid == siciAdr) {
                 /*send record signal to router*/
                 if (ksmNormal == selectionMode)
                     emit recordElement(this, krecDisplay);
@@ -646,12 +648,12 @@ void element::switchAddress(bool secondone)
 
 
     // element contains a momentarily activated coupler
-    if (sSoldIcon == SYM_ENK && iSoldSubType != -1)
+    if (classid == siciEnk && iSoldSubType != -1)
         iRealDirection = iSoldSubType;  // copy subtype as realDirection
 
     // element contains a main signal with direction >= 2
-    else if ((sSoldIcon == SYM_HS || sSoldIcon == SYM_HSS ||
-              sSoldIcon == SYM_VS) && iSoldDirection >= 2) {
+    else if ((classid == siciHs || classid == siciHss ||
+              classid == siciVs) && iSoldDirection >= 2) {
 
         // Hp0+Hp1 not considered, is done by default copy
         switch (iSoldSubType) {
@@ -679,7 +681,7 @@ void element::switchAddress(bool secondone)
     }
 
     // element contains a 3-way-turnout
-    else if (sSoldIcon == SYM_DRW) {
+    else if (classid == siciDrw) {
 
         // send second address data
         if (secondone) {
@@ -694,8 +696,8 @@ void element::switchAddress(bool secondone)
     }
 
     // element contains a 4-state-DKW or EKW
-    else if ((sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR) ||
-            ((sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR) &&
+    else if ((classid == siciEkl || classid == siciEkr) ||
+            ((classid == siciDkl || classid == siciDkr) &&
              iSoldSubType == 1)) {
 
         // send second address data
@@ -718,7 +720,7 @@ void element::switchAddress(bool secondone)
      * again if you electronically changed your decoder
      * outputs of one address.
      */
-    if (sSoldIcon != SYM_DRE) {
+    if (classid != siciDre) {
         if (iRealAddress == iSoldAddress_1)
             iRealDirection = iRealDirection ^ iSoldChangeConn[0];
         if (iRealAddress == iSoldAddress_2)
@@ -764,16 +766,16 @@ void element::switchAddress(bool secondone)
 void element::sendSrcpState()
 {
     /* do not send anything for rail buttons without signals */
-    if (sSoldIcon == SYM_SRB || sSoldIcon == SYM_NRB)
+    if (classid == siciSrb || classid == siciNrb)
         return;
 
     // switch only first address
     switchAddress(false);
 
     // switch also second address if there is one
-    if ((sSoldIcon == SYM_DRW || sSoldIcon == SYM_EKL ||
-                sSoldIcon == SYM_EKR || ((sSoldIcon == SYM_DKL ||
-                        sSoldIcon == SYM_DKR) && iSoldSubType == 1))) {
+    if ((classid == siciDrw || classid == siciEkl ||
+                classid == siciEkr || ((classid == siciDkl ||
+                        classid == siciDkr) && iSoldSubType == 1))) {
         switchAddress(true);
     }
 
@@ -781,7 +783,7 @@ void element::sendSrcpState()
      * if momentary coupler: activate it, wait for a short time
      * and deactivate it graphically
      */
-    else if (sSoldIcon == SYM_ENK && iSoldSubType != -1)
+    else if (classid == siciEnk && iSoldSubType != -1)
         QTimer::singleShot(iSoldActiveTime, this,
                 SLOT(repaintTimeOutEnk()));
 }
@@ -810,7 +812,7 @@ void element::processInfoPortMessage(unsigned int bus,
     if (blinkcounter != 0)
         return;
     
-    if (sSoldIcon == SYM_ENK && iSoldSubType != -1)
+    if (classid == siciEnk && iSoldSubType != -1)
         return;
     
     if (!(bus == (unsigned int)iGA1BusNo &&
@@ -908,7 +910,7 @@ void element::showPropertyDlg()
             iSoldLEDoff = elementPropertyDlg->getLEDsAreOff();
 
             // force display update
-            if (SYM_ADR == sSoldIcon) {
+            if (siciAdr == classid) {
                 if (iSoldInvert == 1)
                     editsAddress = 0;
                 else
@@ -954,15 +956,15 @@ void element::showPropertyDlg()
 void element::toggle()
 {
     // toggles cyclic for 3-state-solenoids
-    if (sSoldIcon == SYM_DRW ||
-        sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR) {
+    if (classid == siciDrw ||
+        classid == siciEkl || classid == siciEkr) {
         if (iSoldDirection < 2)
             switchToDir(iSoldDirection + 1);
         else
             switchToDir(0);
     }
 
-    else if (sSoldIcon == SYM_HS || sSoldIcon == SYM_VS) {
+    else if (classid == siciHs || classid == siciVs) {
         switch (iSoldDirection) {
             case 0:
                 if (iSoldSubType != 6)
@@ -982,7 +984,7 @@ void element::toggle()
         } 
     }
 
-    else if (sSoldIcon == SYM_HSS) {
+    else if (classid == siciHss) {
         switch (iSoldDirection) {
             case 0:
                 if (iSoldSubType < 6)
@@ -1006,7 +1008,7 @@ void element::toggle()
     }
 
     // toggles cyclic for 4-state-solenoids
-    else if ((sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR)
+    else if ((classid == siciDkl || classid == siciDkr)
              && iSoldSubType == 1) {
         if (iSoldDirection < 3)
             switchToDir(iSoldDirection + 1);
@@ -1037,6 +1039,7 @@ void element::rotate()
 void element::clear()
 {
     sSoldIcon = SYM_LEE;
+    classid = siciLee;
     iSoldActiveTime = -1;
     iSoldChangeConn[0] = -1;
     iSoldChangeConn[1] = -1;
@@ -1075,7 +1078,7 @@ bool element::ctxCanSwitch()
 void element::setupElementIcon()
 {
     // empty symbol
-    if (sSoldIcon == SYM_LEE) {
+    if (classid == siciLee) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
 
         if (iSoldInvert == 1) 
@@ -1100,14 +1103,14 @@ void element::setupElementIcon()
     }
    
     // blue panel
-    else if (sSoldIcon == SYM_FEB) {
+    else if (classid == siciFeb) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(0, 0, 192));
         setPaletteBackgroundPixmap(pm);
     }
    
     // blue panel with wgt button
-    else if (sSoldIcon == SYM_TAW) {
+    else if (classid == siciTaw) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(0, 0, 192));
         QPainter p;
@@ -1129,14 +1132,14 @@ void element::setupElementIcon()
     }
    
     // green panel
-    else if (sSoldIcon == SYM_FEG) {
+    else if (classid == siciFeg) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(0, 160, 0));
         setPaletteBackgroundPixmap(pm);
     }
    
     // green panel with FHT button and counter
-    else if (sSoldIcon == SYM_TAF) {
+    else if (classid == siciTaf) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(0, 160, 0));
         QPainter p;
@@ -1166,7 +1169,7 @@ void element::setupElementIcon()
     }
    
     // green panel with ufgt and mgt buttons
-    else if (sSoldIcon == SYM_TAU) {
+    else if (classid == siciTau) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(0, 160, 0));
         QPainter p;
@@ -1186,14 +1189,14 @@ void element::setupElementIcon()
     }
    
     // red panel
-    else if (sSoldIcon == SYM_FER) {
+    else if (classid == siciFer) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(221, 0, 0));
         setPaletteBackgroundPixmap(pm);
     }
    
     // red panel with sgt and hagt buttons
-    else if (sSoldIcon == SYM_TAS) {
+    else if (classid == siciTas) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(221, 0, 0));
         QPainter p;
@@ -1213,28 +1216,28 @@ void element::setupElementIcon()
     }
    
     // yellow panel
-    else if (sSoldIcon == SYM_FEY) {
+    else if (classid == siciFey) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(224, 224, 0));
         setPaletteBackgroundPixmap(pm);
     }
    
     // brown panel
-    else if (sSoldIcon == SYM_FEN) {
+    else if (classid == siciFen) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(112, 48, 0));
         setPaletteBackgroundPixmap(pm);
     }
    
     // gray panel
-    else if (sSoldIcon == SYM_FEE) {
+    else if (classid == siciFee) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(128, 128, 128));
         setPaletteBackgroundPixmap(pm);
     }
    
     // buffer stop (prellbock)
-    else if (sSoldIcon == SYM_PRE) {
+    else if (classid == siciPre) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -1253,8 +1256,8 @@ void element::setupElementIcon()
     }
    
     // direction arrows
-    else if (sSoldIcon == SYM_RI1 || sSoldIcon == SYM_RI2) {
-        bool isri2 = (sSoldIcon == SYM_RI2);
+    else if (classid == siciRi1 || classid == siciRi2) {
+        bool isri2 = (classid == siciRi2);
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -1339,7 +1342,7 @@ void element::setupElementIcon()
     }
     
     // address
-    else if (sSoldIcon == SYM_ADR) {
+    else if (classid == siciAdr) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -1389,7 +1392,7 @@ void element::setupElementIcon()
     }
     
     // level crossing
-    else if (sSoldIcon == SYM_BUE) {
+    else if (classid == siciBue) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -1418,7 +1421,7 @@ void element::setupElementIcon()
     }
     
     // relay
-    else if (sSoldIcon == SYM_REL) {
+    else if (classid == siciRel) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -1478,7 +1481,7 @@ void element::setupElementIcon()
     }
     
     // motor
-    else if (sSoldIcon == SYM_MDC) {
+    else if (classid == siciMdc) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -1554,7 +1557,7 @@ void element::setupElementIcon()
     }
     
     // decoupler
-    else if (sSoldIcon == SYM_ENK) {
+    else if (classid == siciEnk) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -1628,7 +1631,7 @@ void element::setupElementIcon()
     }
     
     // blind element
-    else if (sSoldIcon == SYM_BLD) {
+    else if (classid == siciBld) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -1704,7 +1707,7 @@ void element::setupElementIcon()
     }
     
     // shunt wait signal
-    else if (sSoldIcon == SYM_WS) {
+    else if (classid == siciWs) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -1816,7 +1819,7 @@ void element::setupElementIcon()
     }
     
     // signal HSS
-    else if (sSoldIcon == SYM_HSS) {
+    else if (classid == siciHss) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2019,7 +2022,7 @@ void element::setupElementIcon()
     }
     
     // signal HS
-    else if (sSoldIcon == SYM_HS) {
+    else if (classid == siciHs) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2200,7 +2203,7 @@ void element::setupElementIcon()
     }
     
     // signal VS
-    else if (sSoldIcon == SYM_VS) {
+    else if (classid == siciVs) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2349,7 +2352,7 @@ void element::setupElementIcon()
     }
     
     // signal ZP
-    else if (sSoldIcon == SYM_ZP) {
+    else if (classid == siciZp) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2453,7 +2456,7 @@ void element::setupElementIcon()
     }
     
     // straight track
-    else if (sSoldIcon == SYM_GER) {
+    else if (classid == siciGer) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2515,7 +2518,7 @@ void element::setupElementIcon()
     }
     
     // vertical track
-    else if (sSoldIcon == SYM_TRV) {
+    else if (classid == siciTrv) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2553,7 +2556,7 @@ void element::setupElementIcon()
     }
     
     // vertical turn top left
-    else if (sSoldIcon == SYM_TTL) {
+    else if (classid == siciTtl) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2610,7 +2613,7 @@ void element::setupElementIcon()
     }
     
     // vertical turn top right
-    else if (sSoldIcon == SYM_TTR) {
+    else if (classid == siciTtr) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2667,7 +2670,7 @@ void element::setupElementIcon()
     }
     
     // vertical turn bottom left
-    else if (sSoldIcon == SYM_TBL) {
+    else if (classid == siciTbl) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2724,7 +2727,7 @@ void element::setupElementIcon()
     }
     
     // vertical turn bottom right
-    else if (sSoldIcon == SYM_TBR) {
+    else if (classid == siciTbr) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2781,8 +2784,8 @@ void element::setupElementIcon()
     }
     
     // track turn right and left
-    else if (sSoldIcon == SYM_KUR || sSoldIcon == SYM_KUL) {
-        bool left = (sSoldIcon == SYM_KUL);
+    else if (classid == siciCrb || classid == siciClt) {
+        bool left = (classid == siciClt);
 
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
@@ -2970,8 +2973,8 @@ void element::setupElementIcon()
     }
 
     // diagonal track right and left
-    else if (sSoldIcon == SYM_DIR || sSoldIcon == SYM_DIL) {
-        bool left = (sSoldIcon == SYM_DIL);
+    else if (classid == siciDir || classid == siciDil) {
+        bool left = (classid == siciDil);
 
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
@@ -3031,7 +3034,7 @@ void element::setupElementIcon()
     }
 
     // diagonal crossing (hosentraeger)
-    else if (sSoldIcon == SYM_KRH) {
+    else if (classid == siciKrh) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -3122,7 +3125,7 @@ void element::setupElementIcon()
     }
     
     // left crossing
-    else if (sSoldIcon == SYM_KRL) {
+    else if (classid == siciKrl) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -3212,7 +3215,7 @@ void element::setupElementIcon()
     }
     
     // right crossing
-    else if (sSoldIcon == SYM_KRR) {
+    else if (classid == siciKrr) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -3303,7 +3306,7 @@ void element::setupElementIcon()
     }
     
     // single slip switch left
-    else if (sSoldIcon == SYM_EKL) {
+    else if (classid == siciEkl) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -3543,7 +3546,7 @@ void element::setupElementIcon()
     }
     
     // single slip switch right
-    else if (sSoldIcon == SYM_EKR) {
+    else if (classid == siciEkr) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -3785,7 +3788,7 @@ void element::setupElementIcon()
     }
     
     // double slip switch left
-    else if (sSoldIcon == SYM_DKL) {
+    else if (classid == siciDkl) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -4041,7 +4044,7 @@ void element::setupElementIcon()
     }
     
     // double slip switch right
-    else if (sSoldIcon == SYM_DKR) {
+    else if (classid == siciDkr) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -4297,7 +4300,7 @@ void element::setupElementIcon()
     }
     
     // track with normal route button
-    else if (sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB) {
+    else if (classid == siciNrb || classid == siciSrb) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -4330,7 +4333,7 @@ void element::setupElementIcon()
 
         // paint track button
         if (iSoldRotate == 1) {
-            if (sSoldIcon == SYM_NRB)
+            if (classid == siciNrb)
                 p.drawPixmap(w / 6  - 4, h / 2 - 3,
                         QPixmap(button_red_xpm));
             else
@@ -4338,7 +4341,7 @@ void element::setupElementIcon()
                         QPixmap(button_gray_xpm));
         }
         else {
-            if (sSoldIcon == SYM_NRB)
+            if (classid == siciNrb)
                 p.drawPixmap(5 * w / 6 - 4 , h / 2 - 3, 
                         QPixmap(button_red_xpm));
             else
@@ -4379,8 +4382,8 @@ void element::setupElementIcon()
     }
 
     // shunting signals SS, SSH, SSS
-    else if (sSoldIcon == SYM_SS || sSoldIcon == SYM_SSH ||
-            sSoldIcon == SYM_SSS) {
+    else if (classid == siciSs || classid == siciSsh ||
+            classid == siciSss) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -4414,7 +4417,7 @@ void element::setupElementIcon()
         int xpos1 = w / 6  - 4;
         int xpos2 = 5 * w / 6 - 4;
 
-        if (sSoldIcon == SYM_SSS) {
+        if (classid == siciSss) {
             p.drawPixmap(xpos1, h / 2 - 3, QPixmap(button_gray_xpm));
             p.drawPixmap(xpos2, h / 2 - 3, QPixmap(button_gray_xpm));
         }
@@ -4422,10 +4425,10 @@ void element::setupElementIcon()
         if (iSoldRotate != 1)
         xpos1 = xpos2;
 
-        if (sSoldIcon == SYM_SSH)
+        if (classid == siciSsh)
             p.drawPixmap(xpos1, h / 2 - 3, QPixmap(button_red_xpm));
 
-        else if (sSoldIcon == SYM_SS) {
+        else if (classid == siciSs) {
             p.drawPixmap(xpos1, h / 2 - 3, QPixmap(button_gray_xpm));
         }
 
@@ -4519,8 +4522,8 @@ void element::setupElementIcon()
     }
 
     // turnout left or turnout right
-    else if (sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER) {
-        bool left = sSoldIcon == SYM_WEL;
+    else if (classid == siciWel || classid == siciWer) {
+        bool left = classid == siciWel;
         
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
@@ -4696,8 +4699,8 @@ void element::setupElementIcon()
     }
 
     // diagonal turnout left or right
-    else if (sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR) {
-        bool left = sSoldIcon == SYM_DWL;
+    else if (classid == siciDwl || classid == siciDwr) {
+        bool left = classid == siciDwl;
         
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
@@ -4890,7 +4893,7 @@ void element::setupElementIcon()
     }
 
     // y-turnout
-    else if (sSoldIcon == SYM_WEY) {
+    else if (classid == siciWey) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -5066,7 +5069,7 @@ void element::setupElementIcon()
     }
 
     // 3-way turnout
-    else if (sSoldIcon == SYM_DRW) {
+    else if (classid == siciDrw) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -5261,7 +5264,7 @@ void element::setupElementIcon()
     }
 
     // house 1 (train station middle section)
-    else if (sSoldIcon == SYM_HS1) {
+    else if (classid == siciHs1) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -5277,7 +5280,7 @@ void element::setupElementIcon()
     }
 
     // house 2 (train station side section)
-    else if (sSoldIcon == SYM_HS2) {
+    else if (classid == siciHs2) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -5303,11 +5306,11 @@ void element::setupElementIcon()
     }
    
     // straight track with tunnel
-    else if (sSoldIcon == SYM_GET || sSoldIcon == SYM_DLT ||
-            sSoldIcon == SYM_DRT) {
+    else if (classid == siciGet || classid == siciDlt ||
+            classid == siciDrt) {
 
-        bool isleft = (sSoldIcon == SYM_DLT);
-        bool isright = (sSoldIcon == SYM_DRT);
+        bool isleft = (classid == siciDlt);
+        bool isright = (classid == siciDrt);
         
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
@@ -5352,11 +5355,11 @@ void element::setupElementIcon()
     }
 
     // track with loco shed (lokschuppen)
-    else if (sSoldIcon == SYM_SHO || sSoldIcon == SYM_SHM ||
-            sSoldIcon == SYM_SHU) {
+    else if (classid == siciSho || classid == siciShm ||
+            classid == siciShu) {
 
-        bool istop = (sSoldIcon == SYM_SHO);
-        bool isbottom = (sSoldIcon == SYM_SHU);
+        bool istop = (classid == siciSho);
+        bool isbottom = (classid == siciShu);
         
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
@@ -5411,7 +5414,7 @@ void element::setupElementIcon()
     }
 
     // transfer table
-    else if (sSoldIcon == SYM_SBN) {
+    else if (classid == siciSbn) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -5446,7 +5449,7 @@ void element::setupElementIcon()
     }
     
     // turntable
-    else if (sSoldIcon == SYM_DRE) {
+    else if (classid == siciDre) {
         QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -5649,14 +5652,14 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     unsigned int returnvalue = rdCenter;
 
     /* - */
-    if (sSoldIcon == SYM_GER || sSoldIcon == SYM_ENK || sSoldIcon == SYM_HS
-            || sSoldIcon == SYM_NRB || sSoldIcon == SYM_SRB
-            || sSoldIcon == SYM_HSS || sSoldIcon == SYM_SS
-            || sSoldIcon == SYM_SSH || sSoldIcon == SYM_SSS
-            || sSoldIcon == SYM_BUE || sSoldIcon == SYM_RI1
-            || sSoldIcon == SYM_RI2 || sSoldIcon == SYM_WS
-            || sSoldIcon == SYM_ZP || sSoldIcon == SYM_BLD
-            || sSoldIcon == SYM_ADR || sSoldIcon == SYM_VS) {
+    if (classid == siciGer || classid == siciEnk || classid == siciHs
+            || classid == siciNrb || classid == siciSrb
+            || classid == siciHss || classid == siciSs
+            || classid == siciSsh || classid == siciSss
+            || classid == siciBue || classid == siciRi1
+            || classid == siciRi2 || classid == siciWs
+            || classid == siciZp || classid == siciBld
+            || classid == siciAdr || classid == siciVs) {
 
         if (entrydir == rdW)
             returnvalue = rdE;
@@ -5665,7 +5668,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     }
 
     /* | */
-    else if (sSoldIcon == SYM_TRV) {
+    else if (classid == siciTrv) {
             if (entrydir == rdN)
                 returnvalue = rdS;
             else if (entrydir == rdS)
@@ -5674,7 +5677,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     
     /* \
        | */
-    else if (sSoldIcon == SYM_TTL) {
+    else if (classid == siciTtl) {
             if (entrydir == rdNW)
                 returnvalue = rdS;
             else if (entrydir == rdS)
@@ -5683,7 +5686,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     
     /* /
        | */
-    else if (sSoldIcon == SYM_TTR) {
+    else if (classid == siciTtr) {
             if (entrydir == rdNE)
                 returnvalue = rdS;
             else if (entrydir == rdS)
@@ -5692,7 +5695,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     
     /* |
        \ */
-    else if (sSoldIcon == SYM_TBL) {
+    else if (classid == siciTbl) {
             if (entrydir == rdN)
                 returnvalue = rdSE;
             else if (entrydir == rdSE)
@@ -5701,14 +5704,14 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     
     /* |
        / */
-    else if (sSoldIcon == SYM_TBR) {
+    else if (classid == siciTbr) {
             if (entrydir == rdN)
                 returnvalue = rdSW;
             else if (entrydir == rdSW)
                 returnvalue = rdN;
     }
     
-    else if (sSoldIcon == SYM_WEL) {
+    else if (classid == siciWel) {
         // --
         if (iSoldDirection == 0) {
             if (entrydir == rdW)
@@ -5734,7 +5737,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
     }
 
-    else if (sSoldIcon == SYM_WER) {
+    else if (classid == siciWer) {
         // --
         if (iSoldDirection == 0) {
             if (entrydir == rdW)
@@ -5761,7 +5764,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     }
 
     /* / */
-    else if (sSoldIcon == SYM_DIL) {
+    else if (classid == siciDil) {
         if (entrydir == rdSW)
             returnvalue = rdNE;
         else if (entrydir == rdNE)
@@ -5769,14 +5772,14 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     }
 
     /* \ */
-    else if (sSoldIcon == SYM_DIR) {
+    else if (classid == siciDir) {
         if (entrydir == rdNW)
             returnvalue = rdSE;
         else if (entrydir == rdSE)
             returnvalue = rdNW;
     }
 
-    else if (sSoldIcon == SYM_KUL) {
+    else if (classid == siciClt) {
         /* /- */
         if (iSoldRotate == 1) {
             if (entrydir == rdE)
@@ -5801,7 +5804,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
                 returnvalue = rdE;
     }
 
-    else if (sSoldIcon == SYM_KUR) {
+    else if (classid == siciCrb) {
         /* \- */
         if (iSoldRotate == 1) {
             if (entrydir == rdE)
@@ -5826,7 +5829,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
             returnvalue = rdE;
     }
 
-    else if (sSoldIcon == SYM_DRW) {
+    else if (classid == siciDrw) {
         // --
         if (iSoldDirection == 0) {
             if (entrydir == rdW)
@@ -5870,7 +5873,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
     }
 
-    else if (sSoldIcon == SYM_WEY) {
+    else if (classid == siciWey) {
         if (iSoldRotate == 1) {
             /* /- */
             if (iSoldDirection == 0) {
@@ -5905,7 +5908,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
     }
 
-    else if (sSoldIcon == SYM_DWL) {
+    else if (classid == siciDwl) {
         /* \
             \ */
         if (iSoldDirection == 0) {
@@ -5933,7 +5936,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
     }
 
-    else if (sSoldIcon == SYM_DWR) {
+    else if (classid == siciDwr) {
         /*  /
            / */
         if (iSoldDirection == 0) {
@@ -5961,7 +5964,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
     }
 
-    else if (sSoldIcon == SYM_EKL) {
+    else if (classid == siciEkl) {
         // --
         if (iSoldDirection == 0) {
             if (entrydir == rdE)
@@ -6000,7 +6003,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         return returnvalue;
     }
 
-    else if (sSoldIcon == SYM_EKR) {
+    else if (classid == siciEkr) {
         // --
         if (iSoldDirection == 0) {
             if (entrydir == rdE)
@@ -6040,7 +6043,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     }
 
     // 4-state-DKWs
-    else if (sSoldIcon == SYM_DKL && iSoldSubType == 1) {
+    else if (classid == siciDkl && iSoldSubType == 1) {
         // --
         if (iSoldDirection == 0) {
             if (entrydir == rdE)
@@ -6077,7 +6080,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         return returnvalue;
     }
 
-    else if (sSoldIcon == SYM_DKR && iSoldSubType == 1) {
+    else if (classid == siciDkr && iSoldSubType == 1) {
         // --
         if (iSoldDirection == 0) {
             if (entrydir == rdE)
@@ -6116,7 +6119,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
 
 
     // 2-state-DKWs
-    else if (sSoldIcon == SYM_DKL && iSoldSubType == 0) {
+    else if (classid == siciDkl && iSoldSubType == 0) {
         // --
         if (iSoldDirection == 0) {
             if (entrydir == rdE)
@@ -6143,7 +6146,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         return returnvalue;
     }
 
-    else if (sSoldIcon == SYM_DKR && iSoldSubType == 0) {
+    else if (classid == siciDkr && iSoldSubType == 0) {
         // --
         if (iSoldDirection == 0) {
             if (entrydir == rdE)
@@ -6171,7 +6174,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     }
 
     // rail crossings
-    else if (sSoldIcon == SYM_KRH) {
+    else if (classid == siciKrh) {
 
         //  /
         // /
@@ -6199,7 +6202,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
             routedtrack = 0;
     }
 
-    else if (sSoldIcon == SYM_KRL) {
+    else if (classid == siciKrl) {
         // --
         if (entrydir == rdW) {
             returnvalue = rdE;
@@ -6227,7 +6230,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
     }
 
-    else if (sSoldIcon == SYM_KRR) {
+    else if (classid == siciKrr) {
         // --
         if (entrydir == rdW) {
             returnvalue = rdE;
@@ -6267,7 +6270,7 @@ void element::slotOccupyElement(unsigned int bus, unsigned int contact,
         bool state)
 {
     if (bus == iFBBusNo) {
-        if (sSoldIcon == SYM_ADR && iSoldInvert != 1) {
+        if (classid == siciAdr && iSoldInvert != 1) {
             unsigned int targetmod = (contact - 1) / 8 + 1;
             unsigned int selfmod = (iFBContact - 1) / 8 + 1;
 
@@ -6326,7 +6329,7 @@ void element::updateTrainNumber(unsigned int value)
  */
 bool element::isTrainNumberDisplay()
 {
-    return (sSoldIcon == SYM_ADR);
+    return (classid == siciAdr);
 }
 
 
@@ -6383,7 +6386,7 @@ void element::slotUpdateTurntableData(QPoint newCmd_)
     iSoldDirection = newCmd_.y();
 
     // save track# in subtype if a track key was pressed
-    if (sSoldIcon == SYM_DRE && newCmd_.x() >= 4)
+    if (classid == siciDre && newCmd_.x() >= 4)
         iSoldSubType = newCmd_.x() * 2 - 9 + newCmd_.y();
 
     setupElementIcon();
@@ -6544,8 +6547,8 @@ bool element::hasDifferentDirection(int dir)
 
 bool element::hasShuntingRouteButtonOnly()
 {
-    return (sSoldIcon == SYM_SS || sSoldIcon == SYM_SSS || sSoldIcon ==
-            SYM_SRB || sSoldIcon == SYM_WS);
+    return (classid == siciSs || classid == siciSss || classid ==
+            siciSrb || classid == siciWs);
 }
 
 
@@ -6592,7 +6595,7 @@ void element::updateFeedbackState()
  */
 void element::fontChange(const QFont& oldFont)
 {
-    if (sSoldIcon == SYM_LEE && (sSoldText.isEmpty() || sSoldText == "-1"))
+    if (classid == siciLee && (sSoldText.isEmpty() || sSoldText == "-1"))
         return;
     else
         setupElementIcon();
@@ -6655,7 +6658,7 @@ int element::getFBBusNo()
 
 bool element::hasThreeStates()
 {
-    return (sSoldIcon == SYM_HS || sSoldIcon == SYM_VS) &&
+    return (classid == siciHs || classid == siciVs) &&
         iSoldSubType == 6;
 }
 
@@ -6770,7 +6773,7 @@ bool element::isRotatable()
 /*
  * return class id
  */
-int element::classId()
+element::SpdrItemClassId element::classId()
 {
     return classid;
 }
@@ -6781,4 +6784,17 @@ int element::classId()
 void element::setClassId(SpdrItemClassId id)
 {
     classid = id;
+
+    // translate old nonrotated ids
+    if (iSoldRotate == 1) {
+        if (id == siciCrb) {
+            classid = siciCrt;
+            iSoldRotate = -1;
+        }
+        else if (id == siciClt) {
+            classid = siciClb;
+            iSoldRotate = -1;
+        }
+    }
+    setupElementIcon();
 }

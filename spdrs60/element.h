@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.2 $Revision: 1.74 $
+                           version 0.5.2 $Revision: 1.75 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-24 20:57:04 $
+    last modified        : $Date: 2007-09-25 21:07:42 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -76,8 +76,10 @@
 #define SYM_KRL  "kreuzung_links"  //crossing left
 
 // curved tracks
-#define SYM_KUR  "kurve_rechts" //curved track right
-#define SYM_KUL  "kurve_links"
+#define SYM_CRB  "kurve_rechts" //curved track right bottom (KUR)
+#define SYM_CLT  "kurve_links"  //left top (KUL)
+#define SYM_CRT  "turn_tophor_right" //right top
+#define SYM_CLB  "turn_bothor_left"  //curved track left bottom
 #define SYM_TTL  "turn_topvert_left"
 #define SYM_TTR  "turn_topvert_right"
 #define SYM_TBL  "turn_botvert_left"
@@ -223,7 +225,7 @@ public:
     enum SpdrItemClassId {
         siciNone = 0,
         siciGer = 100, siciTrv, siciDir, siciDil,
-        siciCrb = 120, siciClt, siciCrt, siciClb,
+        siciCrb = 120, siciCrt, siciClt, siciClb,
         siciTtl = 125, siciTtr, siciTbl, siciTbr,
         siciKrh = 150, siciKrr, siciKrl,
         siciRi1 = 170,
@@ -331,7 +333,7 @@ public:
     bool isRotatable();
     bool ctxCanSwitch();
     void updateTrainNumber(unsigned int);
-    int classId();
+    element::SpdrItemClassId classId();
     void setClassId(SpdrItemClassId);
 
 private:

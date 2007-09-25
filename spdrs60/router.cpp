@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.2 $Revision: 1.57 $
+                           version 0.5.2 $Revision: 1.58 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-25 18:14:50 $
+    last modified        : $Date: 2007-09-25 21:07:42 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -709,7 +709,7 @@ Route* Router::getUtilizedRouteWithExitSignal(element* el)
  */
 unsigned int Router::getMaximumRouteIdNumber()
 {
-    unsigned int max = 100;
+    unsigned int max = 0;
     unsigned int id = 0;
 
     QPtrListIterator<Route> routeit(routeList);
@@ -720,9 +720,6 @@ unsigned int Router::getMaximumRouteIdNumber()
         if (id > max)
             max = id;
     }
-    if (max > 999)
-        emit statusMessage(tr("Error: Maximum track number found is "
-                    "'%1'; valid range is from 100 to 999").arg(max));
     return max;
 }
 

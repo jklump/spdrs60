@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.2 $Revision: 1.83 $
+                           version 0.5.2 $Revision: 1.84 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-24 20:57:04 $
+    last modified        : $Date: 2007-09-25 21:07:42 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -275,10 +275,11 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
 
                     // FIXME: temporary solution until all stored
                     // items have a valid class id
-                    element::SpdrItemClassId ci =
-                        (element::SpdrItemClassId)el->classId();
+                    element::SpdrItemClassId ci = el->classId();
+
                     if (ci == element::siciNone) {
                         el->setClassId(classIdByName(el->sSoldIcon));
+                        el->sSoldIcon = nameByClassId(el->classId());
                     }
 
                     connectElement(el);
@@ -1675,8 +1676,10 @@ void GBSArea::initSpdrMap()
     spdrmap[element::siciGer] = SYM_GER;
     spdrmap[element::siciDir] = SYM_DIR;
     spdrmap[element::siciDil] = SYM_DIL;
-    spdrmap[element::siciCrb] = SYM_KUR;
-    spdrmap[element::siciClt] = SYM_KUL;
+    spdrmap[element::siciCrb] = SYM_CRB;
+    spdrmap[element::siciClb] = SYM_CLB;
+    spdrmap[element::siciCrt] = SYM_CRT;
+    spdrmap[element::siciClt] = SYM_CLT;
     spdrmap[element::siciTtl] = SYM_TTL;
     spdrmap[element::siciTtr] = SYM_TTR;
     spdrmap[element::siciTbl] = SYM_TBL;

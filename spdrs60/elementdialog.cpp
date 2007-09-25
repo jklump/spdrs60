@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.cpp
-                           version 0.5.2 $Revision: 1.46 $
+                           version 0.5.2 $Revision: 1.47 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-24 20:57:04 $
+    last modified        : $Date: 2007-09-25 21:07:42 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -780,7 +780,8 @@ void ElementDialog::slotSymbolChanged()
     cbRotate->setEnabled(enabled);
 
     // show LEDoff data (Gleismelder)
-    enabled = symbolName == SYM_KUL || symbolName == SYM_KUR ||
+    enabled = symbolName == SYM_CLT || symbolName == SYM_CRB ||
+        symbolName == SYM_CRT || symbolName == SYM_CLB ||
         symbolName == SYM_DIL || symbolName == SYM_DIR ||
         symbolName == SYM_GER || symbolName == SYM_RI1 ||
         symbolName == SYM_NRB || symbolName == SYM_SRB ||
@@ -808,7 +809,8 @@ void ElementDialog::slotSymbolChanged()
     cbInvert->setEnabled(enabled);
     invertedChanged(cbInvert->isChecked());
 /*
-    enabled = symbolName == SYM_KUL || symbolName == SYM_KUR ||
+    enabled = symbolName == SYM_CLT || symbolName == SYM_CRB ||
+        symbolName == SYM_CRT || symbolName == SYM_CLB ||
         symbolName == SYM_DIL || symbolName == SYM_DIR ||
         symbolName == SYM_GER || symbolName == SYM_RI1 ||
         symbolName == SYM_RI2 || symbolName == SYM_KRH ||
@@ -820,7 +822,8 @@ void ElementDialog::slotSymbolChanged()
         symbolName == SYM_BUE || symbolName == SYM_ADR ||
         symbolName == SYM_WS || symbolName == SYM_VS ||
         symbolName == SYM_SS || symbolName == SYM_ZP ||
-        ((symbolName == SYM_KUL || symbolName == SYM_KUR ||
+        ((symbolName == SYM_CLT || symbolName == SYM_CRB ||
+          symbolName == SYM_CRT || symbolName == SYM_CLB || 
           symbolName == SYM_ENK || symbolName == SYM_BLD || 
           symbolName == SYM_EKL || symbolName == SYM_EKR ||
           symbolName == SYM_DKL || symbolName == SYM_DKR ||

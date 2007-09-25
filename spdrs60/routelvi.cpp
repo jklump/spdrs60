@@ -1,10 +1,10 @@
 /***************************************************************************
                            routelvi.cpp
-                           version 0.5.2 $Revision: 1.7 $
+                           version 0.5.2 $Revision: 1.8 $
                            -------------------------------
     copyright            : (C) 2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-14 15:47:58 $
+    last modified        : $Date: 2007-09-25 21:07:42 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -162,8 +162,7 @@ void RouteLVI::updateRouteData()
         setText(2, route->getFromSignalName());
         setText(3, route->getToSignalName());
         setText(4, route->getTypeStr());
-        num.sprintf("%03d", route->getId());
-        setText(5, num);
+        setText(5, QString::number(route->getId()));
         setText(6, QString::number(route->getTrain()));
     }
     else {

@@ -1308,10 +1308,6 @@ the server daemon after shutdown has finished)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Track n&amp;umber</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Enter an unique identification number for
 this route. The valid range is %1 to %2.</source>
         <translation type="unfinished"></translation>
@@ -1548,6 +1544,10 @@ pick up this information so update its route.</source>
         <source>Add new element</source>
         <translation>Aggiungi nuovo utento</translation>
     </message>
+    <message>
+        <source>Identification n&amp;umber</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>RouteElementDialog</name>
@@ -1592,7 +1592,7 @@ pick up this information so update its route.</source>
     <name>RouteListView</name>
     <message>
         <source>S</source>
-        <translation type="unfinished"></translation>
+        <translation>S</translation>
     </message>
     <message>
         <source>Name</source>
@@ -1611,12 +1611,12 @@ pick up this information so update its route.</source>
         <translation>Tipo</translation>
     </message>
     <message>
-        <source>Track</source>
-        <translation>Binario</translation>
-    </message>
-    <message>
         <source>Train</source>
         <translation>Treno</translation>
+    </message>
+    <message>
+        <source>Id</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1702,10 +1702,6 @@ pick up this information so update its route.</source>
     </message>
     <message>
         <source>No active route found from entry signal &apos;%1&apos; to exit signal &apos;%2&apos;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Error: Maximum track number found is &apos;%1&apos;; valid range is from 100 to 999</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
