@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.cpp
-                           version 0.5.2 $Revision: 1.47 $
+                           version 0.5.2 $Revision: 1.48 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-25 21:07:42 $
+    last modified        : $Date: 2007-09-26 17:48:18 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -120,25 +120,16 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     rfDataGBLayout->addItem(new QSpacerItem(0, 0,
                 QSizePolicy::Expanding, QSizePolicy::Minimum));
 
-    /*group box for symbol variants*/
-    QGroupBox* variantGB = new QGroupBox(0, Qt::Horizontal,
-            tr("Symbol variants"), this, "variantsGB");
-    leftColumnLayout->addWidget(variantGB);
-    QVBoxLayout* variantGBLayout = new
-        QVBoxLayout(variantGB->layout(), 6);
-
     /*group of three buttons*/
-    bgSubType = new QButtonGroup(0, Qt::Horizontal, "", variantGB, "bgSubType");
-    variantGBLayout->addWidget(bgSubType);
-    QVBoxLayout* subtypeBGL = new QVBoxLayout(bgSubType->layout(), 6);
-    bgSubType->setFrameStyle(QFrame::NoFrame);  // buttongroup not visible
+    bgSubType = new QButtonGroup(3, Qt::Vertical, tr("Symbol variants"),
+            this, "bgSubType");
+    leftColumnLayout->addWidget(bgSubType);
     bgSubType->setExclusive(true);
 
     // on startup hide subtype buttons, they are only used by some elements
     for (int i = 0; i < 3; i++) {
         buttSubType[i] = new QPushButton(bgSubType, "buttSubType");
         buttSubType[i]->setPixmap(QPixmap(signal_hss_st1_xpm));
-        subtypeBGL->addWidget(buttSubType[i]); 
         buttSubType[i]->setToggleButton(true);
         buttSubType[i]->hide();
     }
@@ -149,7 +140,6 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     /*groupbox with protocol data*/
     protocolBG = new QButtonGroup(4, Qt::Vertical,
                         tr("Protocol"), this, "protocolBG");
-    //rightColumnLayout->addWidget(protocolBG);
     leftColumnLayout->addWidget(protocolBG);
     protocolBG->setExclusive(true);
     rbProtocol_MS = new QRadioButton("&Maerklin/Motorola", protocolBG);
