@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.2 $Revision: 1.85 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-28 17:24:51 $
+    last modified        : $Date: 2007-09-28 18:00:23 $
+                           $Revision: 1.86 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1367,7 +1367,6 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
         else if ((e->button() == RightButton) && (lyeditMode == lemSelect)){
             element* el = (element*)childAt(e->pos());
 
-            // add new empty element
             if (el == NULL) {
                 e->accept();
                 return;
@@ -1456,6 +1455,7 @@ void GBSArea::mousePressEvent(QMouseEvent* e)
                 }
                 painting = true;
             }
+            e->accept();
         }
     }
 }
@@ -1527,6 +1527,7 @@ void GBSArea::mouseMoveEvent(QMouseEvent* e)
                     modified = true;
                 }
         }
+        e->accept();
     }
 }
 
@@ -1567,6 +1568,7 @@ void GBSArea::dropEvent(QDropEvent *e)
             moveElementToIndexPos(el, pidx);
             elements.insert(pidx, el);
         }
+        e->accept();
     }
 }
 
