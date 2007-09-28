@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
-                           version 0.5.2 $Revision: 1.133 $
+                           version 0.5.2 $Revision: 1.134 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-25 18:14:50 $
+    last modified        : $Date: 2007-09-28 17:24:51 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -29,21 +29,15 @@
 #include <qvbox.h>
 
 #include "aboutdialog.h"
-#include "curvedtrackpanels.h"
-#include "decopanels.h"
-#include "externalgrouppanels.h"
 #include "finder.h"
 #include "gbsscrollview.h"
 #include "layouteditmodeagrp.h"
 #include "mainwindow.h"
-#include "miscpanels.h"
 #include "options.h"
+#include "paintitemwindow.h"
 #include "preferences.h"
 #include "resources.h"
 #include "serverinfodialog.h"
-#include "signalpanels.h"
-#include "switchpanels.h"
-#include "straighttrackpanels.h"
 
 
 #include "../icons/spdrs60_32.xpm"
@@ -563,6 +557,13 @@ void MainWindow::initMainWindow()
                     element**)), gbs,
             SLOT(getElementByAddress(const int, const int, element**)));
 
+    /*paint item window*/
+    PaintItemWindow* piw = new PaintItemWindow(this, "piw");
+    Q_CHECK_PTR(piw);
+    moveDockWindow(piw, Qt::DockLeft);
+    piw->hide();
+    connect(piw, SIGNAL(paintItemChanged(element::SpdrItemClassId)),
+            gbs, SLOT(changeLayoutPaintItem(element::SpdrItemClassId)));
 
     /*file toolbar*/
     QToolBar* filetb = new QToolBar(this, "filetb");
@@ -1367,6 +1368,10 @@ void MainWindow::initMainWindow()
     connect(actionViewLayoutEditMode, SIGNAL(toggled(bool)),
             layoutedittb, SLOT(setEnabled(bool)));
 
+    //connect visibility of paint item window 
+    connect(actionViewLayoutEditMode, SIGNAL(toggled(bool)),
+            piw, SLOT(setShown(bool)));
+
     LayoutEditModeAgrp *layoutEditGrp = new LayoutEditModeAgrp(this,
             "layoutEditModeGroup");
     layoutEditGrp->addTo(layoutedittb);
@@ -1375,358 +1380,10 @@ void MainWindow::initMainWindow()
             gbs, SLOT(changeLayoutEditMode(GBSArea::LayoutEditMode)));
     connect(actionViewLayoutEditMode, SIGNAL(toggled(bool)),
             layoutEditGrp, SLOT(enableEditMode(bool)));
+    connect(layoutEditGrp, SIGNAL(modeChanged(GBSArea::LayoutEditMode)),
+            piw, SLOT(changeLayoutEditMode(GBSArea::LayoutEditMode)));
     
     
-    /*straight track group toolbar*/
-    QToolBar* straightracktb = new QToolBar(this, "straightracktb");
-    Q_CHECK_PTR(straightracktb);
-    moveDockWindow(straightracktb, Qt::DockLeft);
-    straightracktb->setLabel(tr("Straight track panels"));
-    straightracktb->hide();
-
-    connect(actionViewLayoutEditMode, SIGNAL(toggled(bool)),
-            straightracktb, SLOT(setShown(bool)));
-
-    StraightTrackPanels *straightTrkPanels = new StraightTrackPanels(this,
-            "StraightTrackPanels");
-    straightTrkPanels->addTo(straightracktb);
-
-    connect(layoutEditGrp, SIGNAL(modeChanged(GBSArea::LayoutEditMode)),
-            straightTrkPanels, SLOT(enablePaintItems(GBSArea::LayoutEditMode)));
-    connect(straightTrkPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            gbs, SLOT(changeLayoutPaintItem(element::SpdrItemClassId)));
-
-    /*curved track group toolbar*/
-    QToolBar* curvedtracktb = new QToolBar(this, "curvedtracktb");
-    Q_CHECK_PTR(curvedtracktb);
-    moveDockWindow(curvedtracktb, Qt::DockLeft);
-    curvedtracktb->setLabel(tr("Curved track panels"));
-    curvedtracktb->hide();
-
-    connect(actionViewLayoutEditMode, SIGNAL(toggled(bool)),
-            curvedtracktb, SLOT(setShown(bool)));
-
-    CurvedTrackPanels *curvedTrkPanels = new CurvedTrackPanels(this,
-            "CurvedTrackPanels");
-    curvedTrkPanels->addTo(curvedtracktb);
-
-    connect(layoutEditGrp, SIGNAL(modeChanged(GBSArea::LayoutEditMode)),
-            curvedTrkPanels, SLOT(enablePaintItems(GBSArea::LayoutEditMode)));
-    connect(curvedTrkPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            gbs, SLOT(changeLayoutPaintItem(element::SpdrItemClassId)));
-
-    connect(straightTrkPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            curvedTrkPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(curvedTrkPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            straightTrkPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    /*signal group toolbar*/
-    QToolBar* signalpaneltb = new QToolBar(this, "signalpaneltb");
-    Q_CHECK_PTR(signalpaneltb);
-    moveDockWindow(signalpaneltb, Qt::DockLeft);
-    signalpaneltb->setLabel(tr("Signal panels"));
-    signalpaneltb->hide();
-
-    connect(actionViewLayoutEditMode, SIGNAL(toggled(bool)),
-            signalpaneltb, SLOT(setShown(bool)));
-
-    SignalPanels *signalPanels = new SignalPanels(this,
-            "SignalPanels");
-    signalPanels->addTo(signalpaneltb);
-
-    connect(layoutEditGrp, SIGNAL(modeChanged(GBSArea::LayoutEditMode)),
-            signalPanels, SLOT(enablePaintItems(GBSArea::LayoutEditMode)));
-    connect(signalPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            gbs, SLOT(changeLayoutPaintItem(element::SpdrItemClassId)));
-
-    connect(straightTrkPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            signalPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(signalPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            straightTrkPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(curvedTrkPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            signalPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(signalPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            curvedTrkPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    /*switch group toolbar*/
-    QToolBar* switchpaneltb = new QToolBar(this, "switchpaneltb");
-    Q_CHECK_PTR(switchpaneltb);
-    moveDockWindow(switchpaneltb, Qt::DockLeft);
-    switchpaneltb->setLabel(tr("Switch panels"));
-    switchpaneltb->hide();
-
-    connect(actionViewLayoutEditMode, SIGNAL(toggled(bool)),
-            switchpaneltb, SLOT(setShown(bool)));
-
-    SwitchPanels *switchPanels = new SwitchPanels(this,
-            "SwitchPanels");
-    switchPanels->addTo(switchpaneltb);
-
-    connect(layoutEditGrp, SIGNAL(modeChanged(GBSArea::LayoutEditMode)),
-            switchPanels, SLOT(enablePaintItems(GBSArea::LayoutEditMode)));
-    connect(switchPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            gbs, SLOT(changeLayoutPaintItem(element::SpdrItemClassId)));
-
-    connect(straightTrkPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            switchPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(switchPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            straightTrkPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(curvedTrkPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            switchPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(switchPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            curvedTrkPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(signalPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            switchPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(switchPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            signalPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    /*misc group toolbar*/
-    QToolBar* miscpaneltb = new QToolBar(this, "miscpaneltb");
-    Q_CHECK_PTR(miscpaneltb);
-    moveDockWindow(miscpaneltb, Qt::DockLeft);
-    miscpaneltb->setLabel(tr("Miscellanous panels"));
-    miscpaneltb->hide();
-
-    connect(actionViewLayoutEditMode, SIGNAL(toggled(bool)),
-            miscpaneltb, SLOT(setShown(bool)));
-
-    MiscPanels *miscPanels = new MiscPanels(this,
-            "MiscPanels");
-    miscPanels->addTo(miscpaneltb);
-
-    connect(layoutEditGrp, SIGNAL(modeChanged(GBSArea::LayoutEditMode)),
-            miscPanels, SLOT(enablePaintItems(GBSArea::LayoutEditMode)));
-    connect(miscPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            gbs, SLOT(changeLayoutPaintItem(element::SpdrItemClassId)));
-
-    connect(straightTrkPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            miscPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(miscPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            straightTrkPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(curvedTrkPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            miscPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(miscPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            curvedTrkPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(signalPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            miscPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(miscPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            signalPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(switchPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            miscPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(miscPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            switchPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    /*deco group toolbar*/
-    QToolBar* decopaneltb = new QToolBar(this, "decopaneltb");
-    Q_CHECK_PTR(decopaneltb);
-    moveDockWindow(decopaneltb, Qt::DockLeft);
-    decopaneltb->setLabel(tr("Decoration panels"));
-    decopaneltb->hide();
-
-    connect(actionViewLayoutEditMode, SIGNAL(toggled(bool)),
-            decopaneltb, SLOT(setShown(bool)));
-
-    DecoPanels *decoPanels = new DecoPanels(this,
-            "DecoPanels");
-    decoPanels->addTo(decopaneltb);
-
-    connect(layoutEditGrp, SIGNAL(modeChanged(GBSArea::LayoutEditMode)),
-            decoPanels, SLOT(enablePaintItems(GBSArea::LayoutEditMode)));
-    connect(decoPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            gbs, SLOT(changeLayoutPaintItem(element::SpdrItemClassId)));
-
-    connect(straightTrkPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            decoPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(decoPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            straightTrkPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(curvedTrkPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            decoPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(decoPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            curvedTrkPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(switchPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            decoPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(decoPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            switchPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(signalPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            decoPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(decoPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            signalPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(miscPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            decoPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(decoPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            miscPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    /*external buttons group toolbar*/
-    QToolBar* externalgrouptb = new QToolBar(this, "externalgrouptb");
-    Q_CHECK_PTR(externalgrouptb);
-    moveDockWindow(externalgrouptb, Qt::DockLeft);
-    externalgrouptb->setLabel(tr("External group panels"));
-    externalgrouptb->hide();
-
-    connect(actionViewLayoutEditMode, SIGNAL(toggled(bool)),
-            externalgrouptb, SLOT(setShown(bool)));
-
-    ExternalGroupPanels *groupPanels = new ExternalGroupPanels(this,
-            "ExternalGroupPanels");
-    groupPanels->addTo(externalgrouptb);
-
-    connect(layoutEditGrp, SIGNAL(modeChanged(GBSArea::LayoutEditMode)),
-            groupPanels, SLOT(enablePaintItems(GBSArea::LayoutEditMode)));
-
-    connect(groupPanels, SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            gbs, SLOT(changeLayoutPaintItem(element::SpdrItemClassId)));
-
-    connect(groupPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            curvedTrkPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(curvedTrkPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            groupPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(groupPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            straightTrkPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(straightTrkPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            groupPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(groupPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            signalPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(signalPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            groupPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(switchPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            groupPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(groupPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            switchPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(miscPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            groupPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(groupPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            miscPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(decoPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            groupPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
-    connect(groupPanels,
-            SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            decoPanels,
-            SLOT(deselectPaintItem(element::SpdrItemClassId)));
-
     /*help toolbar*/
     //QToolBar* helptb = new QToolBar(this, "helptb");
     //Q_CHECK_PTR(helptb);

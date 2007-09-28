@@ -1,11 +1,8 @@
 SOURCES = \
 	aboutdialog.cpp \
-        curvedtrackpanels.cpp \
-	decopanels.cpp \
 	elementcommander.cpp \
 	element.cpp \
 	elementdialog.cpp \
-	externalgrouppanels.cpp \
 	feedbacklistbox.cpp \
 	feedbackviewer.cpp \
 	finder.cpp \
@@ -16,9 +13,10 @@ SOURCES = \
 	main.cpp \
 	mainwindow.cpp \
 	messagehistory.cpp \
-	miscpanels.cpp \
 	newlayoutdialog.cpp \
 	options.cpp \
+	paintitembutton.cpp \
+	paintitemwindow.cpp \
 	routedialog.cpp \
 	routeelementdialog.cpp \
 	routeelementlvi.cpp \
@@ -28,10 +26,7 @@ SOURCES = \
 	routelistwindow.cpp \
 	section.cpp \
 	serverinfodialog.cpp \
-	signalpanels.cpp \
-	switchpanels.cpp \
 	srcpport.cpp \
-	straighttrackpanels.cpp \
 	trainnumberdialog.cpp \
 	trainnumberdialog.cpp \
 	turntablecommander.cpp

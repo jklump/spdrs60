@@ -1,11 +1,11 @@
 /***************************************************************************
                            gbsarea.cpp
-                           version 0.5.2 $Revision: 1.84 $
+                           version 0.5.2 $Revision: 1.85 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-25 21:07:42 $
+    last modified        : $Date: 2007-09-28 17:24:51 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1369,13 +1369,8 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
 
             // add new empty element
             if (el == NULL) {
-                unsigned int idx = indexOf(e->pos());
-                el = new element(this, element::siciLee, SYM_LEE, visualMode);
-                el->setIndexNo(idx);
-                moveElementToIndexPos(el, idx);
-                elements.insert(idx, el);
-                connectElement(el);
-                el->show();
+                e->accept();
+                return;
             }
 
             el->showPropertyDlg();

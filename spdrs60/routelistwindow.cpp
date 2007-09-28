@@ -1,10 +1,10 @@
 /***************************************************************************
                            routelistwindow.cpp
-                           version 0.5.2 $Revision: 1.6 $
-                           -------------------------------
+                           -------------------
     copyright            : (C) 2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-01 07:35:33 $
+    last modified        : $Date: 2007-09-28 17:24:52 $
+                           $Revision: 1.7 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -38,7 +38,8 @@ RouteListWindow::RouteListWindow(QWidget* parent, const char* name,
 
     routeLV = new RouteListView(this, "routeListView");
     Q_CHECK_PTR(routeLV);
-    boxLayout()->addWidget(routeLV);
+    //boxLayout()->addWidget(routeLV);
+    setWidget(routeLV);
 
     connect(routeLV, SIGNAL(currentChanged(QListViewItem *)),
             this, SLOT(currentRouteChanged(QListViewItem *)));

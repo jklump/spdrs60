@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.2 $Revision: 1.141 $
+                           version 0.5.2 $Revision: 1.142 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-25 21:07:42 $
+    last modified        : $Date: 2007-09-28 17:24:51 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -128,10 +128,7 @@ void element::initVariables()
     // this is only used for crossings to choose the routed track
     routedtrack = 0;
 
-    setMaximumSize(sizeHint());
-    setMinimumSize(sizeHint());
-    setSizePolicy(QSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed,
-                false));
+    setFixedSize(sizeHint());
     setPaletteBackgroundColor(QColor(Qt::lightGray));
     selectionMode = ksmNormal;
 
@@ -6743,25 +6740,6 @@ void element::setLightsOn(bool ison)
         setupElementIcon();
         repaint();
     }
-}
-
-
-void element::setElementName(const QString& n)
-{
-    if (n == sSoldIcon)
-        return;
-
-    sSoldIcon = n;
-    
-    if (sSoldIcon == SYM_LEE)
-        clear();
-    else {
-        iSoldRotate = 0; 
-        updateProperties();
-    }
-
-    setupElementIcon();
-    updateFeedbackState();
 }
 
 

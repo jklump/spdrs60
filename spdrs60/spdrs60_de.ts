@@ -32,84 +32,6 @@ wird ein SRCP-Server (z.B. erddcd oder srcpd) benötigt.</translation>
     </message>
 </context>
 <context>
-    <name>CurvedTrackPanels</name>
-    <message>
-        <source>&amp;Curve top vertical left</source>
-        <translation>&amp;Linkskurve nach oben</translation>
-    </message>
-    <message>
-        <source>&amp;Curve top vertical right</source>
-        <translation>&amp;Rechtskurve nach oben</translation>
-    </message>
-    <message>
-        <source>&amp;Curve bottom vertical left</source>
-        <translation>&amp;Linkskurve nach unten</translation>
-    </message>
-    <message>
-        <source>&amp;Curve bottom vertical right</source>
-        <translation>&amp;Rechtskurve nach unten</translation>
-    </message>
-    <message>
-        <source>&amp;Curve right bottom</source>
-        <translation>&amp;Horizontale Rechtskurve nach unten</translation>
-    </message>
-    <message>
-        <source>&amp;Curve left top</source>
-        <translation>&amp;Horizontale Linkskurve nach oben</translation>
-    </message>
-    <message>
-        <source>&amp;Curve left bottom</source>
-        <translation>&amp;Horizontale Linkskurve nach unten</translation>
-    </message>
-    <message>
-        <source>&amp;Curve right top</source>
-        <translation>&amp;Horizontale Rechtskurve nach oben</translation>
-    </message>
-</context>
-<context>
-    <name>DecoPanels</name>
-    <message>
-        <source>&amp;Text field panel</source>
-        <translation>&amp;Textfeld</translation>
-    </message>
-    <message>
-        <source>&amp;Buffer stop</source>
-        <translation>&amp;Prellbock</translation>
-    </message>
-    <message>
-        <source>&amp;Straight tunnel</source>
-        <translation>&amp;Tunnel geradeaus</translation>
-    </message>
-    <message>
-        <source>&amp;Tunnel left</source>
-        <translation>&amp;Tunnel links</translation>
-    </message>
-    <message>
-        <source>&amp;Tunnel right</source>
-        <translation>&amp;Tunnel rechts</translation>
-    </message>
-    <message>
-        <source>&amp;House center wing</source>
-        <translation>&amp;Haus, Mittelflügel</translation>
-    </message>
-    <message>
-        <source>&amp;House side wing</source>
-        <translation>&amp;Haus, Seitenflügel</translation>
-    </message>
-    <message>
-        <source>&amp;Top loco shed</source>
-        <translation>&amp;Lokschuppen oben</translation>
-    </message>
-    <message>
-        <source>&amp;Middle loco shed</source>
-        <translation>&amp;Lokschuppen Mitte</translation>
-    </message>
-    <message>
-        <source>&amp;Bottom loco shed</source>
-        <translation>&amp;Lokschuppen unten</translation>
-    </message>
-</context>
-<context>
     <name>ElementDialog</name>
     <message>
         <source>Properties of Element #%1</source>
@@ -328,49 +250,6 @@ Controlled via keyboard #15</source>
         <source>Extra turntable:
 Controlled via keyboard #14</source>
         <translation>Extra-Drehscheibe: Steuerung über Schaltpult Nr. 14</translation>
-    </message>
-</context>
-<context>
-    <name>ExternalGroupPanels</name>
-    <message>
-        <source>&amp;FHT panel</source>
-        <translation>&amp;FHT-Feld</translation>
-    </message>
-    <message>
-        <source>&amp;UfGT and MGT panel</source>
-        <translation>&amp;UfGT- und MGT-Feld</translation>
-    </message>
-    <message>
-        <source>&amp;WGT panel</source>
-        <translation>&amp;WGT-Feld</translation>
-    </message>
-    <message>
-        <source>&amp;SGT and HaGT panel</source>
-        <translation>&amp;SGT- und HaGT-Feld </translation>
-    </message>
-    <message>
-        <source>&amp;Route group panel</source>
-        <translation>&amp;Fahrstraßengruppenfeld</translation>
-    </message>
-    <message>
-        <source>&amp;Turnout group panel</source>
-        <translation>&amp;Weichengruppenfeld</translation>
-    </message>
-    <message>
-        <source>&amp;Signal group panel</source>
-        <translation>&amp;Signalgruppenfeld</translation>
-    </message>
-    <message>
-        <source>&amp;Level crossing group panel</source>
-        <translation>&amp;Bahnübergangsgruppenfeld</translation>
-    </message>
-    <message>
-        <source>&amp;Axle counter group panel</source>
-        <translation>&amp;Achszählgruppenfeld</translation>
-    </message>
-    <message>
-        <source>&amp;Power supply group panel</source>
-        <translation>&amp;Spannungsversorgungsgruppenfeld</translation>
     </message>
 </context>
 <context>
@@ -1186,34 +1065,6 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <translation>Gleisbildbearbeitungsfunktionen</translation>
     </message>
     <message>
-        <source>External group panels</source>
-        <translation>Gruppentastenblockfelder</translation>
-    </message>
-    <message>
-        <source>Straight track panels</source>
-        <translation>Felder gerader Strecken</translation>
-    </message>
-    <message>
-        <source>Curved track panels</source>
-        <translation>Felder gebogener Strecken</translation>
-    </message>
-    <message>
-        <source>Signal panels</source>
-        <translation>Signalfelder</translation>
-    </message>
-    <message>
-        <source>Switch panels</source>
-        <translation>Weichenfelder</translation>
-    </message>
-    <message>
-        <source>Decoration panels</source>
-        <translation>Dekorative Felder</translation>
-    </message>
-    <message>
-        <source>Miscellanous panels</source>
-        <translation>Verschiedene Felder</translation>
-    </message>
-    <message>
         <source>&amp;Train number dialog</source>
         <translation>&amp;Zugnummerneingabedialog</translation>
     </message>
@@ -1242,38 +1093,270 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     </message>
 </context>
 <context>
-    <name>MiscPanels</name>
+    <name>PaintItemWindow</name>
     <message>
-        <source>&amp;Decoupler</source>
-        <translation>&amp;Entkuppler</translation>
+        <source>Paint items</source>
+        <translation></translation>
     </message>
     <message>
-        <source>&amp;Blind element</source>
-        <translation>&amp;Blindelement</translation>
+        <source>Buffer stop</source>
+        <translation>Prellbock</translation>
     </message>
     <message>
-        <source>&amp;Address indicator</source>
-        <translation>&amp;</translation>
+        <source>Straight tunnel</source>
+        <translation>Tunnel geradeaus</translation>
     </message>
     <message>
-        <source>&amp;Level crossing</source>
-        <translation>&amp;Bahnübergang</translation>
+        <source>Tunnel left</source>
+        <translation>Tunnel links</translation>
     </message>
     <message>
-        <source>&amp;Relais</source>
-        <translation>&amp;Relais</translation>
+        <source>Tunnel right</source>
+        <translation>Tunnel rechts</translation>
     </message>
     <message>
-        <source>&amp;DC motor</source>
-        <translation>&amp;Gleichstrommotor</translation>
+        <source>Text field panel</source>
+        <translation>Textfeld</translation>
     </message>
     <message>
-        <source>&amp;Turntable</source>
-        <translation>&amp;Drehscheibe</translation>
+        <source>House center wing</source>
+        <translation>Haus, Mittelflügel</translation>
     </message>
     <message>
-        <source>&amp;Transfer table</source>
-        <translation>&amp;Schiebebühne</translation>
+        <source>House side wing</source>
+        <translation>Haus, Seitenflügel</translation>
+    </message>
+    <message>
+        <source>Top loco shed</source>
+        <translation>Lokschuppen oben</translation>
+    </message>
+    <message>
+        <source>Middle loco shed</source>
+        <translation>Lokschuppen Mitte</translation>
+    </message>
+    <message>
+        <source>Bottom loco shed</source>
+        <translation>Lokschuppen unten</translation>
+    </message>
+    <message>
+        <source>Horizontal track</source>
+        <translation>Horizontales Gleis</translation>
+    </message>
+    <message>
+        <source>Vertical track</source>
+        <translation>Vertikales Gleis</translation>
+    </message>
+    <message>
+        <source>Left diagonal track</source>
+        <translation>Diagonale links</translation>
+    </message>
+    <message>
+        <source>Right diagonal track</source>
+        <translation>Diagonale rechts</translation>
+    </message>
+    <message>
+        <source>Single direction track</source>
+        <translation>Einseitige Fahrtrichtung</translation>
+    </message>
+    <message>
+        <source>Double direction track</source>
+        <translation>Zweiseitige Fahrtrichtung</translation>
+    </message>
+    <message>
+        <source>Diagonal crossing</source>
+        <translation>Hosenkreuzung</translation>
+    </message>
+    <message>
+        <source>Right crossing</source>
+        <translation>Kreuzung rechts</translation>
+    </message>
+    <message>
+        <source>Left crossing</source>
+        <translation>Kreuzung links</translation>
+    </message>
+    <message>
+        <source>Curve right bottom</source>
+        <translation>Horizontale Rechtskurve nach unten</translation>
+    </message>
+    <message>
+        <source>Curve left top</source>
+        <translation>Horizontale Linkskurve nach oben</translation>
+    </message>
+    <message>
+        <source>Curve left bottom</source>
+        <translation>Horizontale Linkskurve nach unten</translation>
+    </message>
+    <message>
+        <source>Curve right top</source>
+        <translation>Horizontale Rechtskurve nach oben</translation>
+    </message>
+    <message>
+        <source>Curve top vertical left</source>
+        <translation>Linkskurve nach oben</translation>
+    </message>
+    <message>
+        <source>Curve top vertical right</source>
+        <translation>Rechtskurve nach oben</translation>
+    </message>
+    <message>
+        <source>Curve bottom vertical left</source>
+        <translation>Linkskurve nach unten</translation>
+    </message>
+    <message>
+        <source>Curve bottom vertical right</source>
+        <translation>Rechtskurve nach unten</translation>
+    </message>
+    <message>
+        <source>Switch left</source>
+        <translation>Weiche links</translation>
+    </message>
+    <message>
+        <source>Switch right</source>
+        <translation>Weiche rechts</translation>
+    </message>
+    <message>
+        <source>Diagonal switch left</source>
+        <translation>Diagonale Weiche links</translation>
+    </message>
+    <message>
+        <source>Diagonal switch right</source>
+        <translation>Diagonale Weiche rechts</translation>
+    </message>
+    <message>
+        <source>Y-Switch</source>
+        <translation>Y-Weiche</translation>
+    </message>
+    <message>
+        <source>Three way turnout</source>
+        <translation>Dreiwegweiche</translation>
+    </message>
+    <message>
+        <source>Single-slip switch left</source>
+        <translation>Einfachkreuzungsweiche links</translation>
+    </message>
+    <message>
+        <source>Single-slip switch right</source>
+        <translation>Einfachkreuzungsweiche rechts</translation>
+    </message>
+    <message>
+        <source>Double-slip switch left</source>
+        <translation>Doppelte Kreuzungsweiche links</translation>
+    </message>
+    <message>
+        <source>Double-slip switch right</source>
+        <translation>Doppelte Kreuzungsweiche rechts</translation>
+    </message>
+    <message>
+        <source>Main signal panel</source>
+        <translation>Hauptsignal</translation>
+    </message>
+    <message>
+        <source>Main four state signal panel</source>
+        <translation>Vierbegriffiges Hauptsignal</translation>
+    </message>
+    <message>
+        <source>Shunt signal panel</source>
+        <translation>Sperrsignal</translation>
+    </message>
+    <message>
+        <source>Help route signal panel</source>
+        <translation>Sperrsignal für Hilfsfahrstraßen</translation>
+    </message>
+    <message>
+        <source>Two button shunt signal panel</source>
+        <translation>Sperrsignal mit zwei Tasten</translation>
+    </message>
+    <message>
+        <source>Wait signal panel</source>
+        <translation>Wartesignal</translation>
+    </message>
+    <message>
+        <source>Distant signal panel</source>
+        <translation>Vorsignal</translation>
+    </message>
+    <message>
+        <source>ZP signal panel</source>
+        <translation>Zugpersonalsignal</translation>
+    </message>
+    <message>
+        <source>Route button panel</source>
+        <translation>Gleistaste für Zugfahrstraßen</translation>
+    </message>
+    <message>
+        <source>Shunt button panel</source>
+        <translation>Gleistaste für Rangierfahrstraßen</translation>
+    </message>
+    <message>
+        <source>Decoupler</source>
+        <translation>Entkuppler</translation>
+    </message>
+    <message>
+        <source>Blind element</source>
+        <translation>Blindelement</translation>
+    </message>
+    <message>
+        <source>Address indicator</source>
+        <translation>Zugnummernanzeige</translation>
+    </message>
+    <message>
+        <source>Level crossing</source>
+        <translation>Bahnübergang</translation>
+    </message>
+    <message>
+        <source>Relais</source>
+        <translation>Relais</translation>
+    </message>
+    <message>
+        <source>DC motor</source>
+        <translation>Gleichstrommotor</translation>
+    </message>
+    <message>
+        <source>Turntable</source>
+        <translation>Drehscheibe</translation>
+    </message>
+    <message>
+        <source>Transfer table</source>
+        <translation>Schiebebühne</translation>
+    </message>
+    <message>
+        <source>Route group panel</source>
+        <translation>Fahrstraßengruppenfeld</translation>
+    </message>
+    <message>
+        <source>FHT panel</source>
+        <translation>FHT-Feld</translation>
+    </message>
+    <message>
+        <source>UfGT and MGT panel</source>
+        <translation>UfGT- und MGT-Feld</translation>
+    </message>
+    <message>
+        <source>Turnout group panel</source>
+        <translation>Weichengruppenfeld</translation>
+    </message>
+    <message>
+        <source>WGT panel</source>
+        <translation>WGT-Feld</translation>
+    </message>
+    <message>
+        <source>Signal group panel</source>
+        <translation>Signalgruppenfeld</translation>
+    </message>
+    <message>
+        <source>SGT and HaGT panel</source>
+        <translation>SGT- und HaGT-Feld </translation>
+    </message>
+    <message>
+        <source>Level crossing group panel</source>
+        <translation>Bahnübergangsgruppenfeld</translation>
+    </message>
+    <message>
+        <source>Axle counter group panel</source>
+        <translation>Achszählgruppenfeld</translation>
+    </message>
+    <message>
+        <source>Power supply group panel</source>
+        <translation>Spannungsversorgungsgruppenfeld</translation>
     </message>
 </context>
 <context>
@@ -1813,49 +1896,6 @@ pick up this information so update its route.</source>
     </message>
 </context>
 <context>
-    <name>SignalPanels</name>
-    <message>
-        <source>&amp;Main signal panel</source>
-        <translation>&amp;Hauptsignal</translation>
-    </message>
-    <message>
-        <source>&amp;Main four state signal panel</source>
-        <translation>&amp;Vierbegriffiges Hauptsignal</translation>
-    </message>
-    <message>
-        <source>&amp;Shunt signal panel</source>
-        <translation>&amp;Sperrsignal</translation>
-    </message>
-    <message>
-        <source>&amp;Help route signal panel</source>
-        <translation>&amp;Sperrsignal für Hilfsfahrstraßen</translation>
-    </message>
-    <message>
-        <source>&amp;Two button shunt signal panel</source>
-        <translation>&amp;Sperrsignal mit zwei Tasten</translation>
-    </message>
-    <message>
-        <source>&amp;Wait signal panel</source>
-        <translation>&amp;Wartesignal</translation>
-    </message>
-    <message>
-        <source>&amp;Distant signal panel</source>
-        <translation>&amp;Vorsignal</translation>
-    </message>
-    <message>
-        <source>&amp;ZP signal panel</source>
-        <translation>&amp;Zugpersonalsignal</translation>
-    </message>
-    <message>
-        <source>&amp;Route button panel</source>
-        <translation>&amp;Gleistaste für Zugfahrstraßen</translation>
-    </message>
-    <message>
-        <source>&amp;Shunt button panel</source>
-        <translation>&amp;Gleistaste für Rangierfahrstraßen</translation>
-    </message>
-</context>
-<context>
     <name>SrcpPort</name>
     <message>
         <source>%1: Try to connect host &apos;%2&apos; on port &apos;%3&apos;</source>
@@ -1931,88 +1971,6 @@ pick up this information so update its route.</source>
     </message>
 </context>
 <context>
-    <name>StraightTrackPanels</name>
-    <message>
-        <source>&amp;Horizontal track</source>
-        <translation>&amp;Horizontales Gleis</translation>
-    </message>
-    <message>
-        <source>&amp;Vertical track</source>
-        <translation>&amp;Vertikales Gleis</translation>
-    </message>
-    <message>
-        <source>&amp;Left diagonal track</source>
-        <translation>&amp;Diagonale links</translation>
-    </message>
-    <message>
-        <source>&amp;Right diagonal track</source>
-        <translation>&amp;Diagonale rechts</translation>
-    </message>
-    <message>
-        <source>&amp;Single direction track</source>
-        <translation>&amp;Einseitige Fahrtrichtung</translation>
-    </message>
-    <message>
-        <source>&amp;Double direction track</source>
-        <translation>&amp;Zweiseitige Fahrtrichtung</translation>
-    </message>
-    <message>
-        <source>&amp;Diagonal crossing</source>
-        <translation>&amp;Hosenkreuzung</translation>
-    </message>
-    <message>
-        <source>&amp;Right crossing</source>
-        <translation>&amp;Kreuzung rechts</translation>
-    </message>
-    <message>
-        <source>&amp;Left crossing</source>
-        <translation>&amp;Kreuzung links</translation>
-    </message>
-</context>
-<context>
-    <name>SwitchPanels</name>
-    <message>
-        <source>&amp;Switch left</source>
-        <translation>&amp;Weiche links</translation>
-    </message>
-    <message>
-        <source>&amp;Switch right</source>
-        <translation>&amp;Weiche rechts</translation>
-    </message>
-    <message>
-        <source>&amp;Diagonal switch left</source>
-        <translation>&amp;Diagonale Weiche links</translation>
-    </message>
-    <message>
-        <source>&amp;Diagonal switch right</source>
-        <translation>&amp;Diagonale Weiche rechts</translation>
-    </message>
-    <message>
-        <source>&amp;Y-Switch</source>
-        <translation>&amp;Y-Weiche</translation>
-    </message>
-    <message>
-        <source>&amp;Three way turnout</source>
-        <translation>&amp;Dreiwegweiche</translation>
-    </message>
-    <message>
-        <source>&amp;Single-slip switch left</source>
-        <translation>&amp;Einfachkreuzungsweiche links</translation>
-    </message>
-    <message>
-        <source>&amp;Double-slip switch left</source>
-        <translation>&amp;Doppelte Kreuzungsweiche links</translation>
-    </message>
-    <message>
-        <source>&amp;Double-slip switch right</source>
-        <translation>&amp;Doppelte Kreuzungsweiche rechts</translation>
-    </message>
-    <message>
-        <source>&amp;Single-slip switch right</source>
-        <translation>&amp;Einfachkreuzungsweiche rechts</translation>
-    </message>
-</context>
-<context>
     <name>TrainNumberDialog</name>
     <message>
         <source>&amp;Route-Id:</source>
@@ -2037,6 +1995,13 @@ pick up this information so update its route.</source>
     <message>
         <source>Enter the train number for the selected route</source>
         <translation>Zugnummer für gewählte Fahrstraße eingeben</translation>
+    </message>
+</context>
+<context>
+    <name>element</name>
+    <message>
+        <source>Text</source>
+        <translation>Text</translation>
     </message>
 </context>
 <context>

@@ -1,13 +1,13 @@
 /*
- * panelactiongroup.h
+ * paintitembutton.h
  * ---------------------------
  * Copyright    : (C) 2007 by Guido Scholz
- * E-Mail       : guido.scholz@bayernline.de
- * Begin        : 2007-09-18
- * Last modified: $Date: 2007-09-22 08:05:17 $
- *                $Revision: 1.2 $
+ * E-Mmail      : guido.scholz@bayernline.de
+ * Begin        : 2007-09-26
+ * Last modified: $Date: 2007-09-28 17:24:51 $
+ *                $Revision: 1.1 $
  *
- * This is the header file to panelactiongroup.cpp
+ * This is the header file to paintitembutton.cpp
  */
 
 /**************************************************************************
@@ -20,37 +20,29 @@
  **************************************************************************/
 
 
-#ifndef PANELACTIONGROUP_H
-#define PANELACTIONGROUP_H
+#ifndef PAINTITEMBUTTON_H
+#define PAINTITEMBUTTON_H
 
-#include <qaction.h>
+#include <qtoolbutton.h>
 
 #include "element.h"
-#include "gbsarea.h"
 
 
-class PanelActionGroup: public QActionGroup
+class PaintItemButton: public QToolButton
 {
     Q_OBJECT
         
 public:
-    PanelActionGroup(QObject* parent, const char* name);
+    PaintItemButton(const QIconSet&, const QString&,
+            element::SpdrItemClassId si = element::siciNone,
+            QWidget* parent = NULL, const char* name = 0);
 
-signals:
-    void paintItemChanged(element::SpdrItemClassId);
-
-protected slots:
-    void spdrItemSelected(QAction*);
-
-public slots:
-    void enablePaintItems(GBSArea::LayoutEditMode);
-    void deselectPaintItem(element::SpdrItemClassId);
-
+    element::SpdrItemClassId Sici();
+    
 private:
-
-protected:
-    QAction* selectedAction;
+    element::SpdrItemClassId sici;
 
 };
 
-#endif //PANELACTIONGROUP_H
+#endif // PAINTITEMBUTTON_H
+

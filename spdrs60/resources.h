@@ -10,10 +10,10 @@
 #include "config.h"
 
 #define   MIN_COLS         4   // min number of columns in a layout
-#define   MAX_COLS         120 // max number of columns in a layout
+#define   MAX_COLS         200 // max number of columns in a layout
                                // change value if you need bigger ones
 #define   MIN_ROWS         4   // min number of rows in layout
-#define   MAX_ROWS         120 // max number of rows in layout
+#define   MAX_ROWS         200 // max number of rows in layout
 
 #define   cDelayTime       5000 // Timer for external buttons and routing.
 

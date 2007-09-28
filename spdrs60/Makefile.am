@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.33 $
-# last update: $Date: 2007-09-25 18:14:50 $
+# version: $Revision: 1.34 $
+# last update: $Date: 2007-09-28 17:24:51 $
 
 SUBDIRS = pixmaps
 
@@ -11,12 +11,9 @@ bin_PROGRAMS = spdrs60
 nodist_spdrs60_SOURCES = \
 	aboutdialog_moc.cpp \
 	commandport_moc.cpp \
-	curvedtrackpanels_moc.cpp \
-	decopanels_moc.cpp \
 	elementcommander_moc.cpp \
 	elementdialog_moc.cpp \
 	element_moc.cpp \
-	externalgrouppanels_moc.cpp \
 	feedbacklistbox_moc.cpp \
 	feedbackviewer_moc.cpp \
 	finder_moc.cpp \
@@ -27,11 +24,10 @@ nodist_spdrs60_SOURCES = \
 	layouteditmodeagrp_moc.cpp \
 	mainwindow_moc.cpp \
 	messagehistory_moc.cpp \
-	miscpanels_moc.cpp \
 	newlayoutdialog_moc.cpp \
 	options_moc.cpp \
-	panelaction_moc.cpp \
-	panelactiongroup_moc.cpp \
+	paintitembutton_moc.cpp \
+	paintitemwindow_moc.cpp \
         route_moc.cpp \
 	routedialog_moc.cpp \
 	routeelementdialog_moc.cpp \
@@ -40,10 +36,7 @@ nodist_spdrs60_SOURCES = \
         routelistwindow_moc.cpp \
         section_moc.cpp \
 	serverinfodialog_moc.cpp \
-	signalpanels_moc.cpp \
-	switchpanels_moc.cpp \
 	srcpport_moc.cpp \
-	straighttrackpanels_moc.cpp \
 	trainnumberdialog_moc.cpp \
 	turntablecommander_moc.cpp
 
@@ -53,12 +46,9 @@ nodist_spdrs60_SOURCES = \
 spdrs60_SOURCES = main.cpp resources.h \
 	aboutdialog.cpp aboutdialog.h \
 	commandport.cpp commandport.h \
-	curvedtrackpanels.cpp curvedtrackpanels.h \
-	decopanels.cpp decopanels.h \
 	elementcommander.cpp elementcommander.h \
 	element.cpp element.h \
 	elementdialog.cpp elementdialog.h \
-	externalgrouppanels.cpp externalgrouppanels.h \
 	feedbacklistbox.cpp feedbacklistbox.h \
 	feedbackmodule.cpp feedbackmodule.h \
 	feedbackviewer.cpp feedbackviewer.h \
@@ -70,11 +60,10 @@ spdrs60_SOURCES = main.cpp resources.h \
 	layouteditmodeagrp.cpp layouteditmodeagrp.h \
 	mainwindow.cpp mainwindow.h \
 	messagehistory.cpp messagehistory.h \
-	miscpanels.cpp miscpanels.h \
 	newlayoutdialog.cpp newlayoutdialog.h \
 	options.cpp options.h \
-	panelaction.cpp panelaction.h \
-	panelactiongroup.cpp panelactiongroup.h \
+	paintitembutton.cpp paintitembutton.h \
+	paintitemwindow.cpp paintitemwindow.h \
         preferences.cpp preferences.h \
         route.cpp route.h \
 	routedialog.cpp routedialog.h \
@@ -86,11 +75,8 @@ spdrs60_SOURCES = main.cpp resources.h \
         router.cpp router.h \
 	section.cpp section.h \
 	serverinfodialog.cpp serverinfodialog.h \
-	signalpanels.cpp signalpanels.h \
-	switchpanels.cpp switchpanels.h \
         srcpmessage.cpp srcpmessage.h \
 	srcpport.cpp srcpport.h \
-	straighttrackpanels.cpp straighttrackpanels.h \
 	trainnumberdialog.cpp trainnumberdialog.h \
 	turntablecommander.cpp turntablecommander.h
 
@@ -100,12 +86,9 @@ spdrs60_SOURCES = main.cpp resources.h \
 # strings are listed here (and in spdrs60.pro).
 translated_source_files = \
 	aboutdialog.cpp \
-	curvedtrackpanels.cpp \
-	decopanels.cpp \
 	elementcommander.cpp \
 	element.cpp \
 	elementdialog.cpp \
-	externalgrouppanels.cpp \
 	feedbacklistbox.cpp \
 	feedbackviewer.cpp \
 	finder.cpp \
@@ -116,9 +99,10 @@ translated_source_files = \
 	main.cpp \
 	mainwindow.cpp \
 	messagehistory.cpp \
-	miscpanels.cpp \
 	newlayoutdialog.cpp \
 	options.cpp \
+	paintitembutton.cpp \
+	paintitemwindow.cpp \
 	routedialog.cpp \
 	routeelementdialog.cpp \
 	routeelementlvi.cpp \
@@ -128,10 +112,7 @@ translated_source_files = \
 	routelistwindow.cpp \
 	section.cpp \
 	serverinfodialog.cpp \
-	signalpanels.cpp \
-	switchpanels.cpp \
 	srcpport.cpp \
-	straighttrackpanels.cpp \
 	trainnumberdialog.cpp \
 	turntablecommander.cpp
 

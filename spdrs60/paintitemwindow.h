@@ -1,13 +1,13 @@
 /*
- * panelaction.h
+ * paintitemwindow.h
  * ---------------------------
  * Copyright    : (C) 2007 by Guido Scholz
- * E-Mail       : guido.scholz@bayernline.de
- * Begin        : 2007-09-18
- * Last modified: $Date: 2007-09-18 17:07:16 $
+ * E-Mmail      : guido.scholz@bayernline.de
+ * Begin        : 2007-09-26
+ * Last modified: $Date: 2007-09-28 17:24:51 $
  *                $Revision: 1.1 $
  *
- * This is the header file to panelaction.cpp
+ * This is the header file to paintitemwindow.cpp
  */
 
 /**************************************************************************
@@ -20,35 +20,35 @@
  **************************************************************************/
 
 
-#ifndef PANELACTION_H
-#define PANELACTION_H
+#ifndef PAINTITEMWINDOW_H
+#define PAINTITEMWINDOW_H
 
-#include <qaction.h>
+#include <qdockwindow.h>
 
 #include "element.h"
+#include "gbsarea.h"
 
 
-class PanelAction: public QAction
+class PaintItemWindow: public QDockWindow
 {
     Q_OBJECT
         
 public:
-    PanelAction(const QIconSet& icon, const QString&, QKeySequence,
-            element::SpdrItemClassId si = element::siciNone,
-            QObject* parent = NULL, const char * name = 0);
-    element::SpdrItemClassId Sici();
-
-signals:
-
+    PaintItemWindow(QWidget* parent = NULL, const char* name = 0);
+    
 public slots:
+    void changeLayoutEditMode(GBSArea::LayoutEditMode);
 
 private slots:
+    void paintItemPressed(int);
 
+signals:
+    void paintItemChanged(element::SpdrItemClassId);
+    
 private:
-    element::SpdrItemClassId sici;
-
-protected:
+    QButtonGroup* paintItemBG;
 
 };
 
-#endif //PANELACTION_H
+#endif // PAINTITEMWINDOW_H
+
