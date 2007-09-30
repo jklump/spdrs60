@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-28 18:00:23 $
-                           $Revision: 1.86 $
+    last modified        : $Date: 2007-09-30 18:50:30 $
+                           $Revision: 1.87 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -223,7 +223,7 @@ void GBSArea::writeFileTextToStream(QTextStream& ts)
     
     for (unsigned int i = 0; i < elements.size(); i++) {
         element* el = elements[i];
-        if (el != NULL && !el->isEmpty()) {
+        if (el != NULL) {
             ts << "%% element " << i << endl;
             el->writeFileTextToStream(ts);
         }
@@ -245,16 +245,16 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
 
     while (!ts.eof()) {
         s = ts.readLine();
-        
+
         /* ignore comment lines */
         if (s.startsWith("#"))
             continue;
 
-        /*TODO: read layout dimensions */ 
+        /* read layout dimensions */ 
         key = s.section(DS, 0, 0);
         value = s.section(DS, 1, 1).stripWhiteSpace();
         /* key/value pairs are read sequence independent */
-        if (key.compare(GF_DIMENSIONS) == 0){
+        if (key.compare(GF_DIMENSIONS) == 0) {
             cols = value.toInt();
             value = s.section(DS, 2, 2).stripWhiteSpace();
             rows = value.toInt();
@@ -344,7 +344,7 @@ void GBSArea::externalButtonClicked(GbsButtonState externalButton)
     delayTimer->start(cDelayTime);
     gkbState = externalButton;
     
-    switch (externalButton){
+    switch (externalButton) {
         case kFhtClicked:
             setCursor(FHTCursor);
             break;
@@ -464,17 +464,17 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
                 else
                     el->toggle();
             }
-            else if (kFhtClicked == gkbState){
+            else if (kFhtClicked == gkbState) {
                 QApplication::beep();
                 emit statusMessage(tr("Turnouts can not be switched "
                             "using FHT"));
             }
-            else if (kSgtClicked == gkbState){
+            else if (kSgtClicked == gkbState) {
                 QApplication::beep();
                 emit statusMessage(tr("Turnouts can not be switched "
                             "using SGT"));
             }
-            else if (kUfgtClicked == gkbState){
+            else if (kUfgtClicked == gkbState) {
                 QApplication::beep();
                 emit statusMessage(tr("Turnouts can not be switched "
                             "using UfGT"));
@@ -695,10 +695,10 @@ void GBSArea::slotToggleAll()
         element* el = elements[i];
 
         if (el != NULL &&
-                el->sSoldIcon != SYM_ENK &&
-                el->sSoldIcon != SYM_MDC &&
-                el->sSoldIcon != SYM_SBN &&
-                el->sSoldIcon != SYM_DRE)
+                el->classId() != element::siciEnk &&
+                el->classId() != element::siciMdc &&
+                el->classId() != element::siciSbn &&
+                el->classId() != element::siciDre)
             el->toggle();
     }
 }
@@ -713,10 +713,10 @@ void GBSArea::slotSendAll()
         element* el = elements[i];
 
         if (el != NULL &&
-                el->sSoldIcon != SYM_ENK &&
-                el->sSoldIcon != SYM_MDC &&
-                el->sSoldIcon != SYM_SBN &&
-                el->sSoldIcon != SYM_DRE)
+                el->classId() != element::siciEnk &&
+                el->classId() != element::siciMdc &&
+                el->classId() != element::siciSbn &&
+                el->classId() != element::siciDre)
             el->sendSrcpState();
     }
 }
@@ -1181,7 +1181,8 @@ void GBSArea::updateSRCP08GABusList()
                 if (count == 0) {
                     count++;
 
-                    pSRCP08GABusList = (unsigned int *) calloc(count, sizeof(unsigned int));
+                    pSRCP08GABusList = (unsigned int *) calloc(count,
+                            sizeof(unsigned int));
                     if (pSRCP08GABusList == NULL) {
                         fprintf(stderr, "Memory allocation error!");
                         SRCP08GABusCount = count - 1;
@@ -1314,7 +1315,7 @@ bool GBSArea::hasSrcp08GaBus(unsigned int bus)
 
     if (SRCP08GABusCount > 0) 
         for (unsigned int i = 0; i < SRCP08GABusCount; i++)
-            if (bus == pSRCP08GABusList[i]){
+            if (bus == pSRCP08GABusList[i]) {
                 returnvalue = true;
                 break;
             }
@@ -1327,7 +1328,7 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
 {
     /*normal mode*/
     if (visualMode == kvmNormal) {
-        if (e->button() == RightButton){
+        if (e->button() == RightButton) {
             element* el = (element*)childAt(e->pos());
 
             if (el != NULL && el->isSwitchable()) {
@@ -1360,11 +1361,11 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
             e->accept();
         }
 
-        else if (e->button() == MidButton){
+        else if (e->button() == MidButton) {
             // nothing happens here
         }
 
-        else if ((e->button() == RightButton) && (lyeditMode == lemSelect)){
+        else if (e->button() == RightButton) {
             element* el = (element*)childAt(e->pos());
 
             if (el == NULL) {
@@ -1382,7 +1383,7 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
     /*route edit mode*/
     else if (visualMode == kvmEditRoute) {
         /*show context menu to switch element only without selection*/
-        if (e->button() == RightButton){
+        if (e->button() == RightButton) {
             element* el = (element*)childAt(e->pos());
 
             if (el != NULL && el->isSwitchable()) {
@@ -1660,6 +1661,7 @@ void GBSArea::initSpdrMap()
     spdrmap[element::siciZp] = SYM_ZP;
     spdrmap[element::siciNrb] = SYM_NRB;
     spdrmap[element::siciSrb] = SYM_SRB;
+
     spdrmap[element::siciWel] = SYM_WEL;
     spdrmap[element::siciWer] = SYM_WER;
     spdrmap[element::siciDwl] = SYM_DWL;
@@ -1670,7 +1672,9 @@ void GBSArea::initSpdrMap()
     spdrmap[element::siciEkr] = SYM_EKR;
     spdrmap[element::siciDkl] = SYM_DKL;
     spdrmap[element::siciDkr] = SYM_DKR;
+
     spdrmap[element::siciGer] = SYM_GER;
+    spdrmap[element::siciTrv] = SYM_TRV;
     spdrmap[element::siciDir] = SYM_DIR;
     spdrmap[element::siciDil] = SYM_DIL;
     spdrmap[element::siciCrb] = SYM_CRB;
@@ -1681,12 +1685,13 @@ void GBSArea::initSpdrMap()
     spdrmap[element::siciTtr] = SYM_TTR;
     spdrmap[element::siciTbl] = SYM_TBL;
     spdrmap[element::siciTbr] = SYM_TBR;
-    spdrmap[element::siciTrv] = SYM_TRV;
     spdrmap[element::siciKrh] = SYM_KRH;
     spdrmap[element::siciKrr] = SYM_KRR;
     spdrmap[element::siciKrl] = SYM_KRL;
-    spdrmap[element::siciRi1] = SYM_RI1;
-    spdrmap[element::siciRi2] = SYM_RI2;
+    spdrmap[element::siciTdr] = SYM_TDR;
+    spdrmap[element::siciTdl] = SYM_TDL;
+    spdrmap[element::siciTdb] = SYM_TDB;
+
     spdrmap[element::siciEnk] = SYM_ENK;
     spdrmap[element::siciBld] = SYM_BLD;
     spdrmap[element::siciAdr] = SYM_ADR;

@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.h
-                           version 0.5.2 $Revision: 1.76 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-28 17:24:51 $
+    last modified        : $Date: 2007-09-30 18:50:30 $
+                           $Revision: 1.77 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -69,8 +69,9 @@
 #define SYM_TRV  "trackvertical"
 #define SYM_DIL  "diagonale_links"
 #define SYM_DIR  "diagonale_rechts"
-#define SYM_RI1  "richtung_1" //trackonedirection
-#define SYM_RI2  "richtung_2" //tracktwodirections
+#define SYM_TDR  "richtung_1" //track direction right
+#define SYM_TDL  "direction_l" //track direction left
+#define SYM_TDB  "richtung_2" //track both directions
 #define SYM_KRH  "kreuzung_hose"   //crossing
 #define SYM_KRR  "kreuzung_rechts" //crossing right
 #define SYM_KRL  "kreuzung_links"  //crossing left
@@ -154,7 +155,8 @@ enum elemSelectionMode {
 enum elemVisualMode {
     kvmNormal = 0,
     kvmEditLayout,
-    kvmEditRoute
+    kvmEditRoute,
+    kvmEditClearance
 };
 
 /* element recording types for start/stop signals, train number display
@@ -163,7 +165,8 @@ enum elemRecordType {
     krecNormal,
     krecStartStop,
     krecDisplay,
-    krecClear
+    krecClear,
+    krecTrackIndicator
 };
 
 /*element route directions for 2D-routing*/
@@ -228,8 +231,7 @@ public:
         siciCrb = 120, siciCrt, siciClt, siciClb,
         siciTtl = 125, siciTtr, siciTbl, siciTbr,
         siciKrh = 150, siciKrr, siciKrl,
-        siciRi1 = 170,
-        siciRi2 = 172,
+        siciTdr = 170, siciTdl, siciTdb,
         siciNrb = 200,
         siciSrb = 202,
         siciZp = 250,
@@ -290,7 +292,6 @@ public:
     void activateFfM(bool);
     void readFileTextFromStream(QTextStream&);
     void writeFileTextToStream(QTextStream&);
-    QSize sizeHint() const;
     unsigned int routeElement(unsigned int, bool);
     void locateMe();
     QString getLabelText() const;
@@ -300,7 +301,6 @@ public:
     bool hasFfMLock();
     bool hasLEDsOn();
     bool is2StateDKW();
-    bool isEmpty();
     bool isLocked();
     bool isOccupied();
     bool isRoutable();
@@ -381,7 +381,6 @@ private:
     QTimer*  locateTimer;
 
     void addTooltip();
-    void clear();
     void initVariables();
     void setupElementIcon();
     void setLightsOn(bool);

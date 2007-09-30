@@ -1155,10 +1155,6 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <translation>Diagonale rechts</translation>
     </message>
     <message>
-        <source>Single direction track</source>
-        <translation>Einseitige Fahrtrichtung</translation>
-    </message>
-    <message>
         <source>Double direction track</source>
         <translation>Zweiseitige Fahrtrichtung</translation>
     </message>
@@ -1357,6 +1353,14 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     <message>
         <source>Power supply group panel</source>
         <translation>Spannungsversorgungsgruppenfeld</translation>
+    </message>
+    <message>
+        <source>Single direction track right</source>
+        <translation>Einseitige Fahrtrichtung rechts</translation>
+    </message>
+    <message>
+        <source>Single direction track left</source>
+        <translation>Einseitige Fahrtrichtung links</translation>
     </message>
 </context>
 <context>
@@ -2001,7 +2005,7 @@ pick up this information so update its route.</source>
     <name>element</name>
     <message>
         <source>Text</source>
-        <translation>Text</translation>
+        <translation type="obsolete">Text</translation>
     </message>
 </context>
 <context>

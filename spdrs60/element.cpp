@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
-                           version 0.5.2 $Revision: 1.142 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-28 17:24:51 $
+    last modified        : $Date: 2007-09-30 18:50:30 $
+                           $Revision: 1.143 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -80,7 +80,7 @@ element::element(QWidget* parent, SpdrItemClassId ci, const char* si,
     iSoldChangeConn[1] = -1;
     iSoldDirection = -1;
     iSoldSubType = -1;
-    sSoldText = "-1"; // for test cases: "test"
+    sSoldText = "-1";
     iSoldActiveTime = -1;
     iFBContact = 1;
     iSoldLEDoff = 1;
@@ -98,6 +98,7 @@ element::element(QTextStream& ts, QWidget* parent)
     classid = siciNone;
     readFileTextFromStream(ts);
     updateProperties();
+    //FIXME: temporary solution
     //setupElementIcon();
 }
 
@@ -128,7 +129,7 @@ void element::initVariables()
     // this is only used for crossings to choose the routed track
     routedtrack = 0;
 
-    setFixedSize(sizeHint());
+    setFixedSize(QSize(EL_WIDTH, EL_HEIGHT));
     setPaletteBackgroundColor(QColor(Qt::lightGray));
     selectionMode = ksmNormal;
 
@@ -248,7 +249,6 @@ void element::updateProperties()
     signal = sSoldIcon.startsWith("signal");
 
     // init signals as they were saved in layout file or with red state
-    // FIXME: handle HSS
     if (pref.initsignalsred) {
         if (signal || sSoldIcon == SYM_REL || sSoldIcon == SYM_BLD)
             iSoldDirection = 0;
@@ -287,7 +287,7 @@ void element::updateProperties()
     state2dkw = (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR)
         && iSoldSubType == 0;
 
-    isright = sSoldIcon.contains("links", 1) ? 0 : 1;
+    isright = sSoldIcon.contains("links", 1) ? false : true;
 
     //FIXME: convert old rotatables to non rotatable
     bool rotatable = (signal ||
@@ -296,7 +296,7 @@ void element::updateProperties()
             sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR ||
             sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR ||
             sSoldIcon == SYM_DRW || sSoldIcon == SYM_SHU ||
-            sSoldIcon == SYM_PRE || sSoldIcon == SYM_RI1 ||
+            sSoldIcon == SYM_PRE || sSoldIcon == SYM_TDR ||
             sSoldIcon == SYM_GER || sSoldIcon == SYM_WEY ||
             sSoldIcon == SYM_HS2 || sSoldIcon == SYM_DLT ||
             sSoldIcon == SYM_DRT || sSoldIcon == SYM_GET ||
@@ -314,13 +314,6 @@ void element::updateProperties()
 bool element::is2StateDKW()
 {
     return state2dkw;
-}
-
-/* check if this element contains information to save*/
-bool element::isEmpty()
-{
-    return (classid == siciLee) && (iSoldInvert != 1) &&
-        (sSoldText == "-1" || sSoldText.isEmpty());
 }
 
 
@@ -433,7 +426,7 @@ void element::mousePressEvent(QMouseEvent* e)
 
                 else if (classid == siciHss) {
                     /* two different buttons on this panel */
-                    if (CursorPos.x() > (EL_WIDTH >> 1) ^ (bool)iSoldRotate)
+                    if (CursorPos.x() > (width() >> 1) ^ (bool)iSoldRotate)
                         ctrlButton = kZfsClicked; 
                     else
                         ctrlButton = kRfsClicked;
@@ -468,14 +461,14 @@ void element::mousePressEvent(QMouseEvent* e)
                 }
 
                 else if (classid == siciTau) {
-                    if (CursorPos.x() < (EL_WIDTH >> 1))
+                    if (CursorPos.x() < (width() >> 1))
                         ctrlButton = kUfgtClicked; 
                     else
                         ctrlButton = kMgtClicked;
                 }
 
                 else if (classid == siciTas) {
-                    if (CursorPos.x() < (EL_WIDTH >> 1))
+                    if (CursorPos.x() < (width() >> 1))
                         ctrlButton = kSgtClicked; 
                     else
                         ctrlButton = kHagtClicked;
@@ -535,18 +528,13 @@ void element::mouseReleaseEvent(QMouseEvent* e)
         else if (e->button() == MidButton) {
 
             /*select/deselect switchable element*/
-            if (classid == siciWel || classid == siciWer ||
-                classid == siciDwl || classid == siciDwr || 
-                classid == siciWey || classid == siciDkr || 
-                classid == siciEkl || classid == siciEkr || 
-                classid == siciDkl || classid == siciDrw || 
+            /*and send record signal to router*/
+            if (turnout || classid == siciMdc ||
                 classid == siciRel || classid == siciZp  || 
                 classid == siciHs  || classid == siciHss ||
                 classid == siciSs  || classid == siciSss ||
                 classid == siciSsh || classid == siciBld ||
-                classid == siciVs  || classid == siciWs  ||
-                classid == siciMdc) {
-                /*send record signal to router*/
+                classid == siciVs  || classid == siciWs) {
                 if (ksmNormal == selectionMode)
                     emit recordElement(this, krecNormal);
                 else
@@ -555,8 +543,8 @@ void element::mouseReleaseEvent(QMouseEvent* e)
             }
 
             /*select/deselect train number display*/
+            /*and send record signal to router*/
             else if (classid == siciAdr) {
-                /*send record signal to router*/
                 if (ksmNormal == selectionMode)
                     emit recordElement(this, krecDisplay);
                 else
@@ -567,6 +555,22 @@ void element::mouseReleaseEvent(QMouseEvent* e)
         else if (e->button() == RightButton) {
             // handled by gbsarea
             e->ignore();
+        }
+    }
+
+    /*track clear detection / track occupancy detection*/
+    else if (visualMode == kvmEditClearance) {
+        if (e->button() == LeftButton) {
+
+            /*select/deselect track indicator elements*/
+            /*and send record signal to element recorder*/
+            if (routable) {
+                if (ksmNormal == selectionMode)
+                    emit recordElement(this, krecTrackIndicator);
+                else
+                    emit recordElement(this, krecClear);
+            }
+            e->accept();
         }
     }
 }
@@ -1018,7 +1022,6 @@ void element::toggle()
         switchToDir(!iSoldDirection);
 }
 
-
 /*
  * rotate element
  */
@@ -1028,32 +1031,6 @@ void element::rotate()
         iSoldRotate = !iSoldRotate;
         setupElementIcon();
     }
-}
-
-/**
- * reset all element data to an empty element
- */
-void element::clear()
-{
-    sSoldIcon = SYM_LEE;
-    classid = siciLee;
-    iSoldActiveTime = -1;
-    iSoldChangeConn[0] = -1;
-    iSoldChangeConn[1] = -1;
-    iSoldDirection = -1;
-    iFBContact = 1;
-    iSoldInvert = -1;
-    iSoldLEDoff = 1;
-    iSoldLEDstate = LED_OFF;
-    lockCounter = 0;
-    iSoldRotate = -1;
-    iSoldSubType = -1;
-    iSoldAddress_1 = -1;
-    iSoldAddress_2 = -1;
-    sSoldDecoder = "-1";
-    protocol = SrcpMessage::proNone;
-    sSoldText = "-1";
-    updateProperties();
 }
 
 /**
@@ -1068,7 +1045,6 @@ bool element::ctxCanSwitch()
          (visualMode == kvmEditRoute && ksmNormal == selectionMode));
 }
 
-
 /**
  * paint element icon
  */
@@ -1076,7 +1052,7 @@ void element::setupElementIcon()
 {
     // empty symbol
     if (classid == siciLee) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
 
         if (iSoldInvert == 1) 
             pm.fill(QColor(Qt::darkGray));
@@ -1101,14 +1077,14 @@ void element::setupElementIcon()
    
     // blue panel
     else if (classid == siciFeb) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(0, 0, 192));
         setPaletteBackgroundPixmap(pm);
     }
    
     // blue panel with wgt button
     else if (classid == siciTaw) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(0, 0, 192));
         QPainter p;
         p.begin(&pm);
@@ -1130,14 +1106,14 @@ void element::setupElementIcon()
    
     // green panel
     else if (classid == siciFeg) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(0, 160, 0));
         setPaletteBackgroundPixmap(pm);
     }
    
     // green panel with FHT button and counter
     else if (classid == siciTaf) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(0, 160, 0));
         QPainter p;
         p.begin(&pm);
@@ -1167,7 +1143,7 @@ void element::setupElementIcon()
    
     // green panel with ufgt and mgt buttons
     else if (classid == siciTau) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(0, 160, 0));
         QPainter p;
         p.begin(&pm);
@@ -1187,14 +1163,14 @@ void element::setupElementIcon()
    
     // red panel
     else if (classid == siciFer) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(221, 0, 0));
         setPaletteBackgroundPixmap(pm);
     }
    
     // red panel with sgt and hagt buttons
     else if (classid == siciTas) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(221, 0, 0));
         QPainter p;
         p.begin(&pm);
@@ -1214,28 +1190,28 @@ void element::setupElementIcon()
    
     // yellow panel
     else if (classid == siciFey) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(224, 224, 0));
         setPaletteBackgroundPixmap(pm);
     }
    
     // brown panel
     else if (classid == siciFen) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(112, 48, 0));
         setPaletteBackgroundPixmap(pm);
     }
    
     // gray panel
     else if (classid == siciFee) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(128, 128, 128));
         setPaletteBackgroundPixmap(pm);
     }
    
     // buffer stop (prellbock)
     else if (classid == siciPre) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -1253,9 +1229,9 @@ void element::setupElementIcon()
     }
    
     // direction arrows
-    else if (classid == siciRi1 || classid == siciRi2) {
-        bool isri2 = (classid == siciRi2);
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+    else if (classid == siciTdr || classid == siciTdb) {
+        bool isri2 = (classid == siciTdb);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -1338,9 +1314,86 @@ void element::setupElementIcon()
         setPaletteBackgroundPixmap(pm);
     }
     
+    // left direction arrow
+    else if (classid == siciTdl) {
+        QPixmap pm = QPixmap(size());
+        pm.fill(QColor(Qt::lightGray));
+        QPainter p;
+        p.begin(&pm);
+        
+        int w = pm.width();
+        int h = pm.height();
+        
+        // paint track
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
+
+        // paint arrows
+        /**
+         * isri2  rotated  rightarrow  leftarrow
+         * -------------------------------------
+         *  0       0         1            0
+         *  0       1         0            1
+         *  1       0         1            1
+         *  1       1         1            1
+         * -------------------------------------
+         **/
+
+        p.setBrush(QBrush(Qt::black));
+
+        QPointArray leftarrow = QPointArray(4);
+        leftarrow.putPoints(0, 4, w * 3 /4, h / 2,
+                w - 1, 1, w / 2 - 6, h / 2, w - 1, h - 1);
+        p.drawPolygon(leftarrow);
+        
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 7; ++i)
+                p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
+                        QBrush(Qt::lightGray));
+        }
+        else {
+            QColor c;
+            if (occupied)
+                c = QColor(Qt::red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(Qt::darkGray);
+            }
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+            p.drawLine(w / 3, h / 2, 2 * w / 3, h / 2);
+            p.setPen(QPen(Qt::black));
+        }
+
+        // paint text label
+        if (sSoldText != "-1" && !sSoldText.isEmpty()) {
+            QFont f(QApplication::font());
+            f.setPointSize(QApplication::font().pointSize() - 3);
+            p.setFont(f);
+            QFontMetrics fm(f);
+            QRect br = fm.boundingRect(sSoldText);
+            br.setWidth(br.width() + 4);
+            br.setHeight(br.height() + 2);
+
+            if (iSoldRotate == 1)
+                br.moveBottomRight(QPoint(w / 2 + br.width() / 2,
+                            h - 3));
+            else
+                br.moveTopLeft(QPoint(w / 2 - br.width() / 2, 2));
+            
+            p.fillRect(br, QBrush(Qt::white));
+            p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
+                    Qt::DontClip, sSoldText);
+        }
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+    
     // address
     else if (classid == siciAdr) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -1390,7 +1443,7 @@ void element::setupElementIcon()
     
     // level crossing
     else if (classid == siciBue) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -1419,7 +1472,7 @@ void element::setupElementIcon()
     
     // relay
     else if (classid == siciRel) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -1479,7 +1532,7 @@ void element::setupElementIcon()
     
     // motor
     else if (classid == siciMdc) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -1555,7 +1608,7 @@ void element::setupElementIcon()
     
     // decoupler
     else if (classid == siciEnk) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -1629,7 +1682,7 @@ void element::setupElementIcon()
     
     // blind element
     else if (classid == siciBld) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -1705,7 +1758,7 @@ void element::setupElementIcon()
     
     // shunt wait signal
     else if (classid == siciWs) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -1817,7 +1870,7 @@ void element::setupElementIcon()
     
     // signal HSS
     else if (classid == siciHss) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -2020,7 +2073,7 @@ void element::setupElementIcon()
     
     // signal HS
     else if (classid == siciHs) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -2201,7 +2254,7 @@ void element::setupElementIcon()
     
     // signal VS
     else if (classid == siciVs) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -2350,7 +2403,7 @@ void element::setupElementIcon()
     
     // signal ZP
     else if (classid == siciZp) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -2454,7 +2507,7 @@ void element::setupElementIcon()
     
     // straight track
     else if (classid == siciGer) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -2516,7 +2569,7 @@ void element::setupElementIcon()
     
     // vertical track
     else if (classid == siciTrv) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -2554,7 +2607,7 @@ void element::setupElementIcon()
     
     // vertical turn top left
     else if (classid == siciTtl) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -2611,7 +2664,7 @@ void element::setupElementIcon()
     
     // vertical turn top right
     else if (classid == siciTtr) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -2668,7 +2721,7 @@ void element::setupElementIcon()
     
     // vertical turn bottom left
     else if (classid == siciTbl) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -2725,7 +2778,7 @@ void element::setupElementIcon()
     
     // vertical turn bottom right
     else if (classid == siciTbr) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -2784,7 +2837,7 @@ void element::setupElementIcon()
     else if (classid == siciCrb || classid == siciClt) {
         bool left = (classid == siciClt);
 
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -2900,7 +2953,7 @@ void element::setupElementIcon()
     else if (classid == siciCrt || classid == siciClb) {
         bool left = (classid == siciClb);
 
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -2973,7 +3026,7 @@ void element::setupElementIcon()
     else if (classid == siciDir || classid == siciDil) {
         bool left = (classid == siciDil);
 
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -3032,7 +3085,7 @@ void element::setupElementIcon()
 
     // diagonal crossing (hosentraeger)
     else if (classid == siciKrh) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -3123,7 +3176,7 @@ void element::setupElementIcon()
     
     // left crossing
     else if (classid == siciKrl) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -3213,7 +3266,7 @@ void element::setupElementIcon()
     
     // right crossing
     else if (classid == siciKrr) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -3304,7 +3357,7 @@ void element::setupElementIcon()
     
     // single slip switch left
     else if (classid == siciEkl) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -3544,7 +3597,7 @@ void element::setupElementIcon()
     
     // single slip switch right
     else if (classid == siciEkr) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -3786,7 +3839,7 @@ void element::setupElementIcon()
     
     // double slip switch left
     else if (classid == siciDkl) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -4042,7 +4095,7 @@ void element::setupElementIcon()
     
     // double slip switch right
     else if (classid == siciDkr) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -4298,7 +4351,7 @@ void element::setupElementIcon()
     
     // track with normal route button
     else if (classid == siciNrb || classid == siciSrb) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -4381,7 +4434,7 @@ void element::setupElementIcon()
     // shunting signals SS, SSH, SSS
     else if (classid == siciSs || classid == siciSsh ||
             classid == siciSss) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -4522,7 +4575,7 @@ void element::setupElementIcon()
     else if (classid == siciWel || classid == siciWer) {
         bool left = classid == siciWel;
         
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -4699,7 +4752,7 @@ void element::setupElementIcon()
     else if (classid == siciDwl || classid == siciDwr) {
         bool left = classid == siciDwl;
         
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -4891,7 +4944,7 @@ void element::setupElementIcon()
 
     // y-turnout
     else if (classid == siciWey) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -5067,7 +5120,7 @@ void element::setupElementIcon()
 
     // 3-way turnout
     else if (classid == siciDrw) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -5262,7 +5315,7 @@ void element::setupElementIcon()
 
     // house 1 (train station middle section)
     else if (classid == siciHs1) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -5278,7 +5331,7 @@ void element::setupElementIcon()
 
     // house 2 (train station side section)
     else if (classid == siciHs2) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -5309,7 +5362,7 @@ void element::setupElementIcon()
         bool isleft = (classid == siciDlt);
         bool isright = (classid == siciDrt);
         
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -5358,7 +5411,7 @@ void element::setupElementIcon()
         bool istop = (classid == siciSho);
         bool isbottom = (classid == siciShu);
         
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -5412,7 +5465,7 @@ void element::setupElementIcon()
 
     // transfer table
     else if (classid == siciSbn) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -5447,7 +5500,7 @@ void element::setupElementIcon()
     
     // turntable
     else if (classid == siciDre) {
-        QPixmap pm = QPixmap(EL_WIDTH, EL_HEIGHT);
+        QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
@@ -5653,10 +5706,11 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
             || classid == siciNrb || classid == siciSrb
             || classid == siciHss || classid == siciSs
             || classid == siciSsh || classid == siciSss
-            || classid == siciBue || classid == siciRi1
-            || classid == siciRi2 || classid == siciWs
+            || classid == siciBue || classid == siciTdr
+            || classid == siciTdl || classid == siciTdb 
+            || classid == siciWs || classid == siciVs
             || classid == siciZp || classid == siciBld
-            || classid == siciAdr || classid == siciVs) {
+            || classid == siciAdr) {
 
         if (entrydir == rdW)
             returnvalue = rdE;
@@ -6412,12 +6466,6 @@ void element::slotRepaintLayout()
 }
 
 
-QSize element::sizeHint() const
-{
-    return QSize(EL_WIDTH, EL_HEIGHT);
-}
-
-
 void element::writeFileTextToStream(QTextStream& ts)
 {
     ts << GF_INDEX     << DS << iSoldIndex<< endl
@@ -6497,7 +6545,6 @@ void element::activateFfM(bool active)
             setupElementIcon();
         }
 }
-
 
 /**
  * test if "Fahrstrassenfestlegemelder" is switched on
@@ -6771,6 +6818,10 @@ void element::setClassId(SpdrItemClassId id)
         }
         else if (id == siciClt) {
             classid = siciClb;
+            iSoldRotate = -1;
+        }
+        else if (id == siciTdr) {
+            classid = siciTdl;
             iSoldRotate = -1;
         }
     }

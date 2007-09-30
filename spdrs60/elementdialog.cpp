@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-28 17:24:51 $
-                           $Revision: 1.49 $
+    last modified        : $Date: 2007-09-30 18:50:30 $
+                           $Revision: 1.50 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -702,8 +702,8 @@ void ElementDialog::slotSymbolChanged()
         symbolName == SYM_NRB || symbolName == SYM_SRB ||
         symbolName == SYM_WEY || symbolName == SYM_MDC ||
         symbolName == SYM_SBN || symbolName == SYM_ADR ||
-        symbolName == SYM_RI1 || symbolName == SYM_RI2 ||
-        symbolName == SYM_DRE ||
+        symbolName == SYM_TDR || symbolName == SYM_TDL ||
+        symbolName == SYM_TDB || symbolName == SYM_DRE ||
         symbolName == SYM_BLD || symbolName == SYM_ZP;
 
     if (!enabled)
@@ -758,7 +758,7 @@ void ElementDialog::slotSymbolChanged()
         symbolName == SYM_EKL || symbolName == SYM_EKR ||
         symbolName == SYM_DRW || symbolName == SYM_SS ||
         symbolName == SYM_SSH || symbolName == SYM_SSS ||
-        symbolName == SYM_PRE || symbolName == SYM_RI1 ||
+        symbolName == SYM_PRE ||
         symbolName == SYM_GER || symbolName == SYM_WEY ||
         symbolName == SYM_NRB || symbolName == SYM_SRB ||
         symbolName == SYM_HS2 || symbolName == SYM_DLT ||
@@ -773,9 +773,10 @@ void ElementDialog::slotSymbolChanged()
     enabled = symbolName == SYM_CLT || symbolName == SYM_CRB ||
         symbolName == SYM_CRT || symbolName == SYM_CLB ||
         symbolName == SYM_DIL || symbolName == SYM_DIR ||
-        symbolName == SYM_GER || symbolName == SYM_RI1 ||
+        symbolName == SYM_GER || symbolName == SYM_TDR ||
+        symbolName == SYM_TDL || symbolName == SYM_TDB ||
         symbolName == SYM_NRB || symbolName == SYM_SRB ||
-        symbolName == SYM_RI2 || symbolName == SYM_KRH ||
+        symbolName == SYM_KRH ||
         symbolName == SYM_KRL || symbolName == SYM_KRR ||
         symbolName == SYM_SS || symbolName == SYM_SSH ||
         symbolName == SYM_SSS || symbolName == SYM_TRV ||
@@ -802,8 +803,8 @@ void ElementDialog::slotSymbolChanged()
     enabled = symbolName == SYM_CLT || symbolName == SYM_CRB ||
         symbolName == SYM_CRT || symbolName == SYM_CLB ||
         symbolName == SYM_DIL || symbolName == SYM_DIR ||
-        symbolName == SYM_GER || symbolName == SYM_RI1 ||
-        symbolName == SYM_RI2 || symbolName == SYM_KRH ||
+        symbolName == SYM_GER || symbolName == SYM_TDR+L ||
+        symbolName == SYM_TDB || symbolName == SYM_KRH ||
         symbolName == SYM_KRL || symbolName == SYM_KRR;
 */
     // show feedback data =>element->hasFBContact()
@@ -821,12 +822,12 @@ void ElementDialog::slotSymbolChanged()
           symbolName == SYM_WEL || symbolName == SYM_WER ||
           symbolName == SYM_DWL || symbolName == SYM_DWR ||
           symbolName == SYM_DIL || symbolName == SYM_DIR ||
-          symbolName == SYM_GER || symbolName == SYM_RI1 ||
-          symbolName == SYM_TRV ||
+          symbolName == SYM_GER || symbolName == SYM_TDR ||
+          symbolName == SYM_TDL || symbolName == SYM_TRV ||
           symbolName == SYM_TTL || symbolName == SYM_TTR ||
           symbolName == SYM_TBL || symbolName == SYM_TBR ||
           symbolName == SYM_NRB || symbolName == SYM_SRB ||
-          symbolName == SYM_RI2 || symbolName == SYM_KRH ||
+          symbolName == SYM_TDB || symbolName == SYM_KRH ||
           symbolName == SYM_KRL || symbolName == SYM_KRR) &&
          !cbLEDoff->isChecked());
 

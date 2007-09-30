@@ -1126,10 +1126,6 @@ the server daemon after shutdown has finished)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Single direction track</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Double direction track</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1327,6 +1323,14 @@ the server daemon after shutdown has finished)</source>
     </message>
     <message>
         <source>Power supply group panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Single direction track right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Single direction track left</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1962,13 +1966,6 @@ pick up this information so update its route.</source>
     </message>
     <message>
         <source>Enter the train number for the selected route</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>element</name>
-    <message>
-        <source>Text</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
