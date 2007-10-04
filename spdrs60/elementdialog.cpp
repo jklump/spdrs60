@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-30 18:50:30 $
-                           $Revision: 1.50 $
+    last modified        : $Date: 2007-10-04 18:04:39 $
+                           $Revision: 1.51 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -647,8 +647,10 @@ void ElementDialog::slotSymbolChanged()
     QString sListText;
     
     // show protocol data => element->hasAddress() or isSwitchable()
-    enabled = symbolName == SYM_HS || symbolName == SYM_HSS ||
-        symbolName == SYM_SS || symbolName == SYM_WS ||
+    enabled = symbolName == SYM_HSR || symbolName == SYM_HSL ||
+        symbolName == SYM_HSS ||
+        symbolName == SYM_SS ||
+        symbolName == SYM_WSR || symbolName == SYM_WSL ||
         symbolName == SYM_SSH || symbolName == SYM_SSS ||
         symbolName == SYM_WEL || symbolName == SYM_WER ||
         symbolName == SYM_DWL || symbolName == SYM_DWR ||
@@ -659,7 +661,8 @@ void ElementDialog::slotSymbolChanged()
         symbolName == SYM_WEY || symbolName == SYM_MDC ||
         symbolName == SYM_SBN || symbolName == SYM_BLD ||
         symbolName == SYM_NRB || symbolName == SYM_SRB ||
-        symbolName == SYM_ZP || symbolName == SYM_VS;
+        symbolName == SYM_ZP ||
+        symbolName == SYM_VSR || symbolName == SYM_VSL;
 
     rbProtocol_MS->setEnabled(enabled || symbolName == SYM_DRE);
     rbProtocol_NA->setEnabled(enabled);
@@ -689,8 +692,10 @@ void ElementDialog::slotSymbolChanged()
     xchConn1CB->setEnabled(enabled);
 
     // show text data
-    enabled = symbolName == SYM_HS || symbolName == SYM_HSS ||
-        symbolName == SYM_WS || symbolName == SYM_VS ||
+    enabled = symbolName == SYM_HSR || symbolName == SYM_HSL ||
+        symbolName == SYM_HSS ||
+        symbolName == SYM_WSR || symbolName == SYM_WSL ||
+        symbolName == SYM_VSR || symbolName == SYM_VSL ||
         symbolName == SYM_WEL || symbolName == SYM_WER ||
         symbolName == SYM_DWL || symbolName == SYM_DWR ||
         symbolName == SYM_EKL || symbolName == SYM_EKR ||
@@ -718,9 +723,11 @@ void ElementDialog::slotSymbolChanged()
         || symbolName == SYM_DKL || symbolName == SYM_DKR
         || symbolName == SYM_EKL || symbolName == SYM_EKR
         || symbolName == SYM_MDC || symbolName == SYM_DRE
-        || symbolName == SYM_SBN || (symbolName == SYM_VS
-                                    && gaSubType == 4)
-        || (symbolName == SYM_HS && gaSubType == 4);
+        || symbolName == SYM_SBN
+        || (symbolName == SYM_VSR && gaSubType == 4)
+        || (symbolName == SYM_VSL && gaSubType == 4)
+        || (symbolName == SYM_HSR && gaSubType == 4)
+        || (symbolName == SYM_HSL && gaSubType == 4);
     
     if (enabled) {
         /*
@@ -751,21 +758,18 @@ void ElementDialog::slotSymbolChanged()
 
     // show rotate data
     // SYM_GER: only for text placement
-    enabled = symbolName == SYM_HS || symbolName == SYM_HSS ||
-        symbolName == SYM_WS || symbolName == SYM_VS ||
+    enabled = symbolName == SYM_HSS ||
         symbolName == SYM_WEL || symbolName == SYM_WER ||
         symbolName == SYM_DWL || symbolName == SYM_DWR ||
         symbolName == SYM_EKL || symbolName == SYM_EKR ||
         symbolName == SYM_DRW || symbolName == SYM_SS ||
         symbolName == SYM_SSH || symbolName == SYM_SSS ||
-        symbolName == SYM_PRE ||
         symbolName == SYM_GER || symbolName == SYM_WEY ||
         symbolName == SYM_NRB || symbolName == SYM_SRB ||
-        symbolName == SYM_HS2 || symbolName == SYM_DLT ||
+        symbolName == SYM_DLT ||
         symbolName == SYM_DRT || symbolName == SYM_GET ||
         symbolName == SYM_SHM || symbolName == SYM_SHO ||
-        symbolName == SYM_SHU || symbolName == SYM_ZP ||
-        symbolName == SYM_ADR;
+        symbolName == SYM_SHU || symbolName == SYM_ZP;
 
     cbRotate->setEnabled(enabled);
 
@@ -808,10 +812,12 @@ void ElementDialog::slotSymbolChanged()
         symbolName == SYM_KRL || symbolName == SYM_KRR;
 */
     // show feedback data =>element->hasFBContact()
-    enabled = symbolName == SYM_HS || symbolName == SYM_HSS ||
+    enabled = symbolName == SYM_HSR || symbolName == SYM_HSL ||
+        symbolName == SYM_HSS ||
         symbolName == SYM_SSH || symbolName == SYM_SSS ||
         symbolName == SYM_BUE || symbolName == SYM_ADR ||
-        symbolName == SYM_WS || symbolName == SYM_VS ||
+        symbolName == SYM_VSR || symbolName == SYM_VSL ||
+        symbolName == SYM_WSR || symbolName == SYM_WSL ||
         symbolName == SYM_SS || symbolName == SYM_ZP ||
         ((symbolName == SYM_CLT || symbolName == SYM_CRB ||
           symbolName == SYM_CRT || symbolName == SYM_CLB || 
@@ -859,8 +865,10 @@ void ElementDialog::slotSymbolChanged()
     labelFBport->setEnabled(enabled);
 
     // show active time
-    enabled = symbolName == SYM_HS || symbolName == SYM_HSS ||
-        symbolName == SYM_WS || symbolName == SYM_VS ||
+    enabled = symbolName == SYM_HSR || symbolName == SYM_HSL ||
+        symbolName == SYM_HSS ||
+        symbolName == SYM_VSR || symbolName == SYM_VSL ||
+        symbolName == SYM_WSR || symbolName == SYM_WSL ||
         symbolName == SYM_WEL || symbolName == SYM_WER ||
         symbolName == SYM_DWL || symbolName == SYM_DWR ||
         symbolName == SYM_EKL || symbolName == SYM_EKR ||
@@ -876,8 +884,10 @@ void ElementDialog::slotSymbolChanged()
     labelTime->setEnabled(enabled);
 
     // show decoder data
-    enabled = symbolName == SYM_HS || symbolName == SYM_HSS ||
-        symbolName == SYM_WS || symbolName == SYM_VS ||
+    enabled = symbolName == SYM_HSR || symbolName == SYM_HSL ||
+        symbolName == SYM_HSS ||
+        symbolName == SYM_VSR || symbolName == SYM_VSL ||
+        symbolName == SYM_WSR || symbolName == SYM_WSL ||
         symbolName == SYM_WEL || symbolName == SYM_WER ||
         symbolName == SYM_DWL || symbolName == SYM_DWR ||
         symbolName == SYM_EKL || symbolName == SYM_EKR ||
@@ -909,10 +919,11 @@ void ElementDialog::slotSymbolChanged()
     labelDecoder->setEnabled(enabled);
 
     // show subtype data
-    enabled = symbolName == SYM_HS || symbolName == SYM_HSS ||
+    enabled = symbolName == SYM_HSR || symbolName == SYM_HSL ||
+        symbolName == SYM_HSS ||
         symbolName == SYM_DKL || symbolName == SYM_DKR ||
         symbolName == SYM_ENK || symbolName == SYM_DRE ||
-        symbolName == SYM_VS;
+        symbolName == SYM_VSR || symbolName == SYM_VSL;
 
     if (!enabled)
         gaSubType = -1;
@@ -958,9 +969,10 @@ void ElementDialog::showSubTypes(int iShow_)
     buttSubType[1]->show();
     buttSubType[2]->show();
     // show appropriate text ...
-    if (symbolName == SYM_HS || symbolName == SYM_HSS || symbolName ==
-            SYM_VS) {
-        if (symbolName == SYM_HS){
+    if (symbolName == SYM_HSR || symbolName == SYM_HSL ||
+            symbolName == SYM_HSS || symbolName == SYM_VSR ||
+            symbolName == SYM_VSL) {
+        if (symbolName == SYM_HSR || symbolName == SYM_HSL){
             buttSubType[0]->setPixmap(QPixmap(signal_hs_st1_xpm));
             buttSubType[1]->setPixmap(QPixmap(signal_hs_st2_xpm));
             buttSubType[2]->setPixmap(QPixmap(signal_hs_st3_xpm));
@@ -970,7 +982,7 @@ void ElementDialog::showSubTypes(int iShow_)
             buttSubType[1]->setPixmap(QPixmap(signal_hss_st2_xpm));
             buttSubType[2]->setPixmap(QPixmap(signal_hss_st3_xpm));
         }
-        else if (symbolName == SYM_VS){
+        else if (symbolName == SYM_VSR || symbolName == SYM_VSL){
             buttSubType[0]->setPixmap(QPixmap(signal_vs_st1_xpm));
             buttSubType[1]->setPixmap(QPixmap(signal_vs_st2_xpm));
             buttSubType[2]->setPixmap(QPixmap(signal_vs_st3_xpm));
@@ -1001,8 +1013,10 @@ void ElementDialog::showSubTypes(int iShow_)
 
 
     // activate the subtype dependant button
-    if (symbolName == SYM_HS || symbolName == SYM_HSS || symbolName == SYM_VS) {
-        if (symbolName == SYM_HS) {
+    if (symbolName == SYM_HSR || symbolName == SYM_HSL ||
+            symbolName == SYM_HSS ||
+            symbolName == SYM_VSR || symbolName == SYM_VSL) {
+        if (symbolName == SYM_HSR || symbolName == SYM_HSL) {
             QToolTip::add(buttSubType[0],
                           tr("Allows to switch this signal to:\n"
                              "Hp0, Hp1"));
@@ -1024,7 +1038,7 @@ void ElementDialog::showSubTypes(int iShow_)
                           tr("Allows to switch this signal to:\n"
                              "Hp0, Hp1, Hp2 and Sh1"));
         }
-        if (symbolName == SYM_VS) {
+        if (symbolName == SYM_VSR || symbolName == SYM_VSL) {
             QToolTip::add(buttSubType[0],
                           tr("Allows to switch this signal to:\n"
                              "Vr0, Vr1"));
@@ -1129,7 +1143,8 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
 {
     switch (stBtn) {
         case 0:                    // == subType 1
-            if (symbolName == SYM_HS || symbolName == SYM_VS) {
+            if (symbolName == SYM_HSR || symbolName == SYM_HSL ||
+                    symbolName == SYM_VSR || symbolName == SYM_VSL) {
                 srcpBus2Label->setEnabled(false);
                 srcpBus2LE->setEnabled(false);
                 address2LE->setEnabled(false);
@@ -1160,7 +1175,8 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
             break;
 
         case 1:                    // == subType 2
-            if (symbolName == SYM_HS || symbolName == SYM_VS) {
+            if (symbolName == SYM_HSR || symbolName == SYM_HSL ||
+                    symbolName == SYM_VSR || symbolName == SYM_VSL) {
                 srcpBus2Label->setEnabled(false);
                 srcpBus2LE->setEnabled(false);
                 address2LE->setEnabled(false);
@@ -1195,7 +1211,8 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
             break;
 
         case 2:                    // == subType 3
-            if (symbolName == SYM_HS || symbolName == SYM_VS) {
+            if (symbolName == SYM_HSR || symbolName == SYM_HSL ||
+                    symbolName == SYM_VSR || symbolName == SYM_VSL) {
                 srcpBus2Label->setEnabled(true);
                 srcpBus2LE->setEnabled(true);
                 address2LE->setEnabled(true);
@@ -1303,7 +1320,8 @@ void ElementDialog::setGASubType(int sType)
      *     4            2
      * --------------------------
     */
-    else if (symbolName == SYM_HS || symbolName == SYM_VS) {
+    else if (symbolName == SYM_HSR || symbolName == SYM_HSL ||
+            symbolName == SYM_VSR || symbolName == SYM_VSL) {
         switch (gaSubType) {
             case 0:
                 btn = 0;

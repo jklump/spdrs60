@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-26
- * Last modified: $Date: 2007-09-30 18:50:30 $
- *                $Revision: 1.2 $
+ * Last modified: $Date: 2007-10-04 18:04:39 $
+ *                $Revision: 1.3 $
  *
  * This code creates a dockable window with a set of paint items 
  */
@@ -60,12 +60,15 @@
 
 /*signal panels */
 #include "pixmaps/spdritem_hsr.xpm"
+#include "pixmaps/spdritem_hsl.xpm"
 #include "pixmaps/spdritem_hssr.xpm"
 #include "pixmaps/spdritem_ssr.xpm"
 #include "pixmaps/spdritem_shr.xpm"
 #include "pixmaps/spdritem_sdr.xpm"
 #include "pixmaps/spdritem_wsr.xpm"
+#include "pixmaps/spdritem_wsl.xpm"
 #include "pixmaps/spdritem_vsr.xpm"
+#include "pixmaps/spdritem_vsl.xpm"
 #include "pixmaps/spdritem_zpr.xpm"
 #include "pixmaps/spdritem_rbr.xpm"
 #include "pixmaps/spdritem_sbr.xpm"
@@ -81,13 +84,15 @@
 #include "pixmaps/spdritem_trt.xpm"
 
 /*decorative panels*/
-#include "pixmaps/spdritem_pre.xpm"
+#include "pixmaps/spdritem_bsl.xpm"
+#include "pixmaps/spdritem_bsr.xpm"
 #include "pixmaps/spdritem_tug.xpm"
 #include "pixmaps/spdritem_dlt.xpm"
 #include "pixmaps/spdritem_drt.xpm"
 #include "pixmaps/spdritem_lee.xpm"
 #include "pixmaps/spdritem_hs1.xpm"
-#include "pixmaps/spdritem_hs2.xpm"
+#include "pixmaps/spdritem_bul.xpm"
+#include "pixmaps/spdritem_bur.xpm"
 #include "pixmaps/spdritem_sht.xpm"
 #include "pixmaps/spdritem_shm.xpm"
 #include "pixmaps/spdritem_shb.xpm"
@@ -234,9 +239,13 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
             element::siciDkr, paintItemBG, "doublerightPanel");
 
     /*signal panels */
+    new PaintItemButton(QPixmap(spdritem_hsl_xpm),
+            tr("Main signal left panel"),
+            element::siciHsl, paintItemBG, "mainsignalleftPanel");
+
     new PaintItemButton(QPixmap(spdritem_hsr_xpm),
-            tr("Main signal panel"),
-            element::siciHs, paintItemBG, "mainsignalPanel");
+            tr("Main signal right panel"),
+            element::siciHsr, paintItemBG, "mainsignalrightPanel");
 
     new PaintItemButton(QPixmap(spdritem_hssr_xpm),
             tr("Main four state signal panel"),
@@ -254,17 +263,13 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
             tr("Two button shunt signal panel"),
             element::siciSss, paintItemBG, "twobtnshuntsignalPanel");
 
+    new PaintItemButton(QPixmap(spdritem_wsl_xpm),
+            tr("Left wait signal panel"),
+            element::siciWsl, paintItemBG, "leftwaitsignalPanel");
+
     new PaintItemButton(QPixmap(spdritem_wsr_xpm),
-            tr("Wait signal panel"),
-            element::siciWs, paintItemBG, "waitsignalPanel");
-
-    new PaintItemButton(QPixmap(spdritem_vsr_xpm),
-            tr("Distant signal panel"),
-            element::siciVs, paintItemBG, "distantsignalPanel");
-
-    new PaintItemButton(QPixmap(spdritem_zpr_xpm),
-            tr("ZP signal panel"),
-            element::siciZp, paintItemBG, "zpsignalPanel");
+            tr("Right wait signal panel"),
+            element::siciWsr, paintItemBG, "RightwaitsignalPanel");
 
     new PaintItemButton(QPixmap(spdritem_rbr_xpm),
             tr("Route button panel"),
@@ -273,6 +278,18 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
     new PaintItemButton(QPixmap(spdritem_sbr_xpm),
             tr("Shunt button panel"),
             element::siciSrb, paintItemBG, "shuntbuttonPanel");
+
+    new PaintItemButton(QPixmap(spdritem_vsl_xpm),
+            tr("Left distant signal panel"),
+            element::siciVsl, paintItemBG, "leftdistantsignalPanel");
+
+    new PaintItemButton(QPixmap(spdritem_vsr_xpm),
+            tr("Right distant signal panel"),
+            element::siciVsr, paintItemBG, "rightdistantsignalPanel");
+
+    new PaintItemButton(QPixmap(spdritem_zpr_xpm),
+            tr("ZP signal panel"),
+            element::siciZp, paintItemBG, "zpsignalPanel");
 
     /*miscellanous panels*/
     new PaintItemButton(QPixmap(spdritem_dco_xpm), tr("Decoupler"),
@@ -300,8 +317,11 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
             element::siciSbn, paintItemBG, "transfertablePanel");
 
     /*decorative panels*/
-    new PaintItemButton(QPixmap(spdritem_pre_xpm), tr("Buffer stop"),
-            element::siciPre, paintItemBG, "bufferstopPanel");
+    new PaintItemButton(QPixmap(spdritem_bsl_xpm), tr("Left buffer stop"),
+            element::siciBsl, paintItemBG, "leftbufferstopPanel");
+
+    new PaintItemButton(QPixmap(spdritem_bsr_xpm), tr("Right buffer stop"),
+            element::siciBsr, paintItemBG, "rightbufferstopPanel");
 
     new PaintItemButton(QPixmap(spdritem_tug_xpm),tr("Straight tunnel"),
             element::siciGet, paintItemBG, "tunnelstraightPanel");
@@ -318,8 +338,11 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
     new PaintItemButton(QPixmap(spdritem_hs1_xpm), tr("House center wing"),
             element::siciHs1, paintItemBG, "centerwingPanel");
 
-    new PaintItemButton(QPixmap(spdritem_hs2_xpm), tr("House side wing"),
-            element::siciHs2, paintItemBG, "sidewingPanel");
+    new PaintItemButton(QPixmap(spdritem_bul_xpm), tr("Building left wing"),
+            element::siciBul, paintItemBG, "buildingleftwingPanel");
+
+    new PaintItemButton(QPixmap(spdritem_bur_xpm), tr("Building right wing"),
+            element::siciBur, paintItemBG, "buildingrightwingPanel");
 
     new PaintItemButton(QPixmap(spdritem_sht_xpm), tr("Top loco shed"),
             element::siciSho, paintItemBG, "locoshedtPanel");

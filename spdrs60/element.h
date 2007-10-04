@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-30 18:50:30 $
-                           $Revision: 1.77 $
+    last modified        : $Date: 2007-10-04 18:04:39 $
+                           $Revision: 1.78 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -41,13 +41,16 @@
 
 // symbol names
 // signals
-#define SYM_HS   "signal_hs"
+#define SYM_HSR  "signal_hs"
+#define SYM_HSL  "signal_hsl"
 #define SYM_HSS  "signal_hss"
 #define SYM_SS   "signal_ss"
 #define SYM_SSH  "signal_ssh" 
 #define SYM_SSS  "signal_sss" 
-#define SYM_WS   "signal_ws"
-#define SYM_VS   "signal_vs"
+#define SYM_WSR  "signal_ws"
+#define SYM_WSL  "signal_wsl"
+#define SYM_VSR  "signal_vs"
+#define SYM_VSL  "signal_vsl"
 #define SYM_ZP   "signal_zp"
 #define SYM_NRB  "signal_nrb" // not really signals but rails
 #define SYM_SRB  "signal_srb" // with a routing button
@@ -97,13 +100,15 @@
 #define SYM_SBN  "schiebebuehne" // transfer table (trt)
 
 // decorative items
-#define SYM_PRE  "prellbock"  // buffer stop, bumper
+#define SYM_BSR  "prellbock"  // buffer stop, bumper
+#define SYM_BSL  "bufferstopleft"
 #define SYM_GET  "gerade_tl"  // tunnel straight left/right
 #define SYM_DLT  "diagonale_links_tl" //tunnelbottomleft /top left
 #define SYM_DRT  "diagonale_rechts_tl" // right
 #define SYM_LEE  "leer" // (txt)
 #define SYM_HS1  "haus_1"
-#define SYM_HS2  "haus_2"
+#define SYM_BUL  "haus_2"
+#define SYM_BUR  "buildingright"
 #define SYM_SHO  "schuppen_o" // loco shed
 #define SYM_SHM  "schuppen_m"
 #define SYM_SHU  "schuppen_u"
@@ -237,13 +242,13 @@ public:
         siciZp = 250,
         siciEnk = 252,
         siciBld = 255,
-        siciHs = 300,
+        siciHsr = 300, siciHsl,
         siciHss = 310,
         siciSs = 320,
         siciSsh = 330,
         siciSss = 340,
-        siciWs = 350,
-        siciVs = 360,
+        siciWsr = 350, siciWsl,
+        siciVsr = 360, siciVsl,
         siciAdr = 400,
         siciBue = 420,
         siciWel = 500,
@@ -259,15 +264,14 @@ public:
         siciDre = 700, siciSbn,
         siciRel = 710,
         siciMdc = 720,
-        siciPre = 800,
+        siciBsr = 800, siciBsl,
         siciShm = 820,
         siciSho = 822,
         siciShu = 824,
         siciDlt = 825,
         siciGet = 826,
         siciDrt = 827,
-        siciHs1 = 830,
-        siciHs2 = 831,
+        siciHs1 = 830, siciBul, siciBur,
         siciLee = 900,
         siciFeg = 1100, siciTaf, siciTau,
         siciFeb = 1200, siciTaw,

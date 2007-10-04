@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
-                           version 0.5.2 $Revision: 1.45 $
+                           version 0.5.2 $Revision: 1.46 $
                            -------------------------------
     copyright            : (C) 2005-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-25 21:07:42 $
+    last modified        : $Date: 2007-10-04 18:04:39 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -43,7 +43,7 @@ RouteDialog::RouteDialog(QWidget* parent): QTabDialog(parent,
     // Validator for all bus input lines
     busValidator = new QIntValidator(1, 999, this);
     // Validator for train ids
-    trainidValidator = new QIntValidator(0, 99999, this);
+    trainidValidator = new QIntValidator(0, 999999, this);
     // Validator for track numbers
     tracknumberValidator = new QIntValidator(1, 99999, this);
 

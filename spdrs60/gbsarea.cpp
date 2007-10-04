@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-30 18:50:30 $
-                           $Revision: 1.87 $
+    last modified        : $Date: 2007-10-04 18:04:39 $
+                           $Revision: 1.88 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1651,13 +1651,16 @@ void GBSArea::changeLayoutPaintItem(element::SpdrItemClassId sici)
  */
 void GBSArea::initSpdrMap()
 {
-    spdrmap[element::siciHs] = SYM_HS;
+    spdrmap[element::siciHsr] = SYM_HSR;
+    spdrmap[element::siciHsl] = SYM_HSL;
     spdrmap[element::siciHss] = SYM_HSS;
     spdrmap[element::siciSs] = SYM_SS;
     spdrmap[element::siciSsh] = SYM_SSH;
     spdrmap[element::siciSss] = SYM_SSS;
-    spdrmap[element::siciWs] = SYM_WS;
-    spdrmap[element::siciVs] = SYM_VS;
+    spdrmap[element::siciWsr] = SYM_WSR;
+    spdrmap[element::siciWsl] = SYM_WSL;
+    spdrmap[element::siciVsr] = SYM_VSR;
+    spdrmap[element::siciVsl] = SYM_VSL;
     spdrmap[element::siciZp] = SYM_ZP;
     spdrmap[element::siciNrb] = SYM_NRB;
     spdrmap[element::siciSrb] = SYM_SRB;
@@ -1700,13 +1703,15 @@ void GBSArea::initSpdrMap()
     spdrmap[element::siciMdc] = SYM_MDC;
     spdrmap[element::siciDre] = SYM_DRE;
     spdrmap[element::siciSbn] = SYM_SBN;
-    spdrmap[element::siciPre] = SYM_PRE;
+    spdrmap[element::siciBsr] = SYM_BSR;
+    spdrmap[element::siciBsl] = SYM_BSL;
     spdrmap[element::siciGet] = SYM_GET;
     spdrmap[element::siciDlt] = SYM_DLT;
     spdrmap[element::siciDrt] = SYM_DRT;
     spdrmap[element::siciLee] = SYM_LEE;
     spdrmap[element::siciHs1] = SYM_HS1;
-    spdrmap[element::siciHs2] = SYM_HS2;
+    spdrmap[element::siciBul] = SYM_BUL;
+    spdrmap[element::siciBur] = SYM_BUR;
     spdrmap[element::siciSho] = SYM_SHO;
     spdrmap[element::siciShm] = SYM_SHM;
     spdrmap[element::siciShu] = SYM_SHU;

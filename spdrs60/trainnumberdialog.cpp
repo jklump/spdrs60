@@ -3,8 +3,8 @@
  * ---------------------
  * copyright            : (C) 2007 Guido Scholz
  * email                : guido.scholz@bayernline.de
- * last modified        : $Date: 2007-09-25 18:14:51 $
- *                        $Revision: 1.1 $
+ * last modified        : $Date: 2007-10-04 18:04:40 $
+ *                        $Revision: 1.2 $
  *
  * this code shows a window with a manual trainnumberdialog to switch solenoids
  */
@@ -50,7 +50,7 @@ TrainNumberDialog::TrainNumberDialog(QWidget* parent, const char* name)
     int LEwidth = fm.width("888888") + 10;
     routeLE->setMaxLength(5);
     routeLE->setMaximumWidth(LEwidth);
-    QValidator* routeValidator = new QIntValidator(1, 9999, this);
+    QValidator* routeValidator = new QIntValidator(1, 99999, this);
     routeLE->setValidator(routeValidator);
     routeLayout->addWidget(routeLE);
     label->setBuddy(routeLE);
@@ -69,7 +69,7 @@ TrainNumberDialog::TrainNumberDialog(QWidget* parent, const char* name)
     trainLE = new QLineEdit("1", this, "trainLE");
     trainLE->setMaxLength(5);
     trainLE->setMaximumWidth(LEwidth);
-    QValidator* trainValidator = new QIntValidator(0, 99999, this);
+    QValidator* trainValidator = new QIntValidator(0, 999999, this);
     trainLE->setValidator(trainValidator);
     trainLayout->addWidget(trainLE);
     label->setBuddy(trainLE);
