@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-26
- * Last modified: $Date: 2007-10-04 18:04:39 $
- *                $Revision: 1.3 $
+ * Last modified: $Date: 2007-10-07 05:38:57 $
+ *                $Revision: 1.4 $
  *
  * This code creates a dockable window with a set of paint items 
  */
@@ -63,15 +63,20 @@
 #include "pixmaps/spdritem_hsl.xpm"
 #include "pixmaps/spdritem_hssr.xpm"
 #include "pixmaps/spdritem_ssr.xpm"
+#include "pixmaps/spdritem_ssl.xpm"
 #include "pixmaps/spdritem_shr.xpm"
+#include "pixmaps/spdritem_shl.xpm"
 #include "pixmaps/spdritem_sdr.xpm"
 #include "pixmaps/spdritem_wsr.xpm"
 #include "pixmaps/spdritem_wsl.xpm"
 #include "pixmaps/spdritem_vsr.xpm"
 #include "pixmaps/spdritem_vsl.xpm"
 #include "pixmaps/spdritem_zpr.xpm"
+#include "pixmaps/spdritem_zpl.xpm"
 #include "pixmaps/spdritem_rbr.xpm"
+#include "pixmaps/spdritem_rbl.xpm"
 #include "pixmaps/spdritem_sbr.xpm"
+#include "pixmaps/spdritem_sbl.xpm"
 
 /*miscellanous panels*/
 #include "pixmaps/spdritem_dco.xpm"
@@ -152,6 +157,10 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
     new PaintItemButton(QPixmap(spdritem_krh_xpm), tr("Diagonal crossing"),
             element::siciKrh, paintItemBG, "crossingPanel");
 
+    new PaintItemButton(QPixmap(spdritem_tdb_xpm),
+            tr("Double direction track"),
+            element::siciTdb, paintItemBG, "bothdirectionPanel");
+
     new PaintItemButton(QPixmap(spdritem_tdr_xpm),
             tr("Single direction track right"),
             element::siciTdr, paintItemBG, "rightdirectionPanel");
@@ -159,10 +168,6 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
     new PaintItemButton(QPixmap(spdritem_tdl_xpm),
             tr("Single direction track left"),
             element::siciTdl, paintItemBG, "leftdirectionPanel");
-
-    new PaintItemButton(QPixmap(spdritem_tdb_xpm),
-            tr("Double direction track"),
-            element::siciTdb, paintItemBG, "bothdirectionPanel");
 
     /*curved track panels*/
     new PaintItemButton(QPixmap(spdritem_crb_xpm),
@@ -251,13 +256,21 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
             tr("Main four state signal panel"),
             element::siciHss, paintItemBG, "mainfourstatesignalPanel");
 
+    new PaintItemButton(QPixmap(spdritem_ssl_xpm),
+            tr("Left shunt signal panel"),
+            element::siciSsl, paintItemBG, "leftshuntsignalPanel");
+
     new PaintItemButton(QPixmap(spdritem_ssr_xpm),
-            tr("Shunt signal panel"),
-            element::siciSs, paintItemBG, "shuntsignalPanel");
+            tr("Right shunt signal panel"),
+            element::siciSsr, paintItemBG, "rightshuntsignalPanel");
+
+    new PaintItemButton(QPixmap(spdritem_shl_xpm),
+            tr("Left help route signal panel"),
+            element::siciShl, paintItemBG, "helproutePanel");
 
     new PaintItemButton(QPixmap(spdritem_shr_xpm),
-            tr("Help route signal panel"),
-            element::siciSsh, paintItemBG, "helproutePanel");
+            tr("Right help route signal panel"),
+            element::siciShr, paintItemBG, "helproutePanel");
 
     new PaintItemButton(QPixmap(spdritem_sdr_xpm),
             tr("Two button shunt signal panel"),
@@ -271,13 +284,21 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
             tr("Right wait signal panel"),
             element::siciWsr, paintItemBG, "RightwaitsignalPanel");
 
+    new PaintItemButton(QPixmap(spdritem_rbl_xpm),
+            tr("Left route button panel"),
+            element::siciRbl, paintItemBG, "leftroutebuttonPanel");
+
     new PaintItemButton(QPixmap(spdritem_rbr_xpm),
-            tr("Route button panel"),
-            element::siciNrb, paintItemBG, "routebuttonPanel");
+            tr("Right route button panel"),
+            element::siciRbr, paintItemBG, "rightroutebuttonPanel");
+
+    new PaintItemButton(QPixmap(spdritem_sbl_xpm),
+            tr("Left shunt button panel"),
+            element::siciSbl, paintItemBG, "leftshuntbuttonPanel");
 
     new PaintItemButton(QPixmap(spdritem_sbr_xpm),
-            tr("Shunt button panel"),
-            element::siciSrb, paintItemBG, "shuntbuttonPanel");
+            tr("Right shunt button panel"),
+            element::siciSbr, paintItemBG, "rightshuntbuttonPanel");
 
     new PaintItemButton(QPixmap(spdritem_vsl_xpm),
             tr("Left distant signal panel"),
@@ -287,9 +308,13 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
             tr("Right distant signal panel"),
             element::siciVsr, paintItemBG, "rightdistantsignalPanel");
 
+    new PaintItemButton(QPixmap(spdritem_zpl_xpm),
+            tr("Left ZP signal panel"),
+            element::siciZpl, paintItemBG, "leftzpsignalPanel");
+
     new PaintItemButton(QPixmap(spdritem_zpr_xpm),
-            tr("ZP signal panel"),
-            element::siciZp, paintItemBG, "zpsignalPanel");
+            tr("Right ZP signal panel"),
+            element::siciZpr, paintItemBG, "rightzpsignalPanel");
 
     /*miscellanous panels*/
     new PaintItemButton(QPixmap(spdritem_dco_xpm), tr("Decoupler"),

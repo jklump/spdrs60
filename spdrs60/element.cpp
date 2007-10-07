@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-04 18:04:39 $
-                           $Revision: 1.144 $
+    last modified        : $Date: 2007-10-07 05:38:57 $
+                           $Revision: 1.145 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -256,7 +256,8 @@ void element::updateProperties()
 
     if (signal)
         ffm = (sSoldIcon == SYM_HSR || sSoldIcon == SYM_HSL ||
-                sSoldIcon == SYM_HSS || sSoldIcon == SYM_SSH);
+                sSoldIcon == SYM_HSS ||
+                sSoldIcon == SYM_SHR || sSoldIcon == SYM_SHL);
 
     else if (sSoldIcon.startsWith("weiche") ||
                 sSoldIcon.startsWith("dreier") ||
@@ -282,7 +283,8 @@ void element::updateProperties()
     
     /*element has decoder connected*/
     switchable = (signal || turnout || simplega) &&
-        sSoldIcon != SYM_NRB && sSoldIcon != SYM_SRB;
+        sSoldIcon != SYM_RBR && sSoldIcon != SYM_RBL &&
+        sSoldIcon != SYM_SBR && sSoldIcon != SYM_SBL;
 
     state2dkw = (sSoldIcon == SYM_DKL || sSoldIcon == SYM_DKR)
         && iSoldSubType == 0;
@@ -417,12 +419,13 @@ void element::mousePressEvent(QMouseEvent* e)
             else if ((iSoldAddress_1 != -1) && (classid != siciAdr)) {
 
                 if (classid == siciHsr || classid == siciHsl
-                        || classid == siciNrb)
+                        || classid == siciRbr || classid == siciRbl)
                     ctrlButton = kZfsClicked;
 
-                else if (classid == siciSs || classid == siciSss ||
+                else if (classid == siciSsr || classid == siciSsl ||
+                        classid == siciSss ||
                         classid == siciWsr || classid == siciWsl ||
-                        classid == siciSrb)
+                        classid == siciSbr || classid == siciSbl)
                     ctrlButton = kRfsClicked;
 
                 else if (classid == siciHss) {
@@ -433,7 +436,7 @@ void element::mousePressEvent(QMouseEvent* e)
                         ctrlButton = kRfsClicked;
                 }
 
-                else if (classid == siciSsh)
+                else if (classid == siciShr || classid == siciShl)
                     ctrlButton = kZhsClicked;
 
                 else
@@ -516,9 +519,11 @@ void element::mouseReleaseEvent(QMouseEvent* e)
             /*select/deselect start or stop signal*/
             if ((classid == siciHsr || classid == siciHsl ||
                         classid == siciHss ||
-                        classid == siciSs || 
-                 classid == siciSsh || classid == siciSss ||
-                 classid == siciNrb || classid == siciSrb)) {
+                        classid == siciSsr || classid == siciSsl || 
+                        classid == siciShr || classid == siciShl ||
+                        classid == siciSss ||
+                        classid == siciRbr || classid == siciRbl ||
+                        classid == siciSbr || classid == siciSbl)) {
                 /*send record signal to router*/
                 if (ksmNormal == selectionMode)
                     emit recordElement(this, krecStartStop);
@@ -532,13 +537,16 @@ void element::mouseReleaseEvent(QMouseEvent* e)
             /*select/deselect switchable element*/
             /*and send record signal to router*/
             if (turnout || classid == siciMdc ||
-                classid == siciRel || classid == siciZp  || 
-                classid == siciHsr  || classid == siciHsl  ||
+                classid == siciRel ||
+                classid == siciZpr || classid == siciZpl || 
+                classid == siciHsr || classid == siciHsl ||
                 classid == siciHss ||
-                classid == siciSs  || classid == siciSss ||
-                classid == siciSsh || classid == siciBld ||
-                classid == siciVsr  || classid == siciVsl ||
-                classid == siciWsr  || classid == siciWsl) {
+                classid == siciSsr || classid == siciSsl ||
+                classid == siciSss ||
+                classid == siciShr || classid == siciShl ||
+                classid == siciBld ||
+                classid == siciVsr || classid == siciVsl ||
+                classid == siciWsr || classid == siciWsl) {
                 if (ksmNormal == selectionMode)
                     emit recordElement(this, krecNormal);
                 else
@@ -773,7 +781,8 @@ void element::switchAddress(bool secondone)
 void element::sendSrcpState()
 {
     /* do not send anything for rail buttons without signals */
-    if (classid == siciSrb || classid == siciNrb)
+    if (classid == siciSbr || classid == siciSbl ||
+            classid == siciRbr || classid == siciRbl)
         return;
 
     // switch only first address
@@ -2746,8 +2755,8 @@ void element::setupElementIcon()
         setPaletteBackgroundPixmap(pm);
     }
     
-    // signal ZP
-    else if (classid == siciZp) {
+    // right signal ZP
+    else if (classid == siciZpr) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2840,6 +2849,93 @@ void element::setupElementIcon()
                             h - 3));
             else
                 br.moveTopLeft(QPoint(w/2 - br.width()/2, 2));
+            
+            p.fillRect(br, QBrush(Qt::white));
+            p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
+                    Qt::DontClip, s);
+        }
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+    
+    // left signal ZP
+    else if (classid == siciZpl) {
+        QPixmap pm = QPixmap(size());
+        pm.fill(QColor(Qt::lightGray));
+        QPainter p;
+        p.begin(&pm);
+        
+        int w = pm.width();
+        int h = pm.height();
+        
+        // paint track
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
+        
+        // paint lock light
+        if (lockCounter == 0)
+            p.setBrush(Qt::darkGray);
+        else
+            p.setBrush(QColor(255, 225, 0));
+
+        p.drawEllipse(w / 2 - 2, 5, 5, 5);
+
+        // paint signal icon
+        p.fillRect(21, 5, 2, 5, QBrush(Qt::black));
+        p.fillRect(5, 2, 11, 11, QBrush(Qt::black));
+        p.drawLine(16, 7, 20, 7);
+ 
+        // paint signal light
+        QPointArray lights = QPointArray(12);
+        lights.putPoints(0, 12, 3, 0, 5, 0, 1, 1, 7, 1, 0, 3, 8, 3,
+                0, 5, 8, 5, 1, 7, 7, 7, 3, 8, 5, 8);
+
+        lights.translate(6, 3);
+
+        if (iSoldDirection == 1)
+            p.setPen(QPen(Qt::green));
+        else
+            p.setPen(QPen(Qt::darkGray));
+
+        p.drawPoints(lights);
+        
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 7; ++i)
+                p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
+        }
+        else {
+            QColor c;
+            if (occupied)
+                c = QColor(Qt::red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(Qt::darkGray);
+            }
+            p.fillRect(w / 3 + 1, h / 2 - 1, w / 3, 3, QBrush(c));
+            p.setPen(QPen(Qt::black));
+        }
+
+        // paint text label
+        if (sSoldText != "-1" && !sSoldText.isEmpty()) {
+            QFont f(QApplication::font());
+            f.setPointSize(QApplication::font().pointSize() - 3);
+            p.setFont(f);
+            QFontMetrics fm(f);
+            QString s;
+            
+            if (pref.addresslabeling)
+                s.setNum(iSoldAddress_1);
+            else
+                s = sSoldText;
+
+            QRect br = fm.boundingRect(s);
+            br.setWidth(br.width() + 4);
+            br.setHeight(br.height() + 2);
+
+            br.moveBottomRight(QPoint(w/2 + br.width()/2, h - 3));
             
             p.fillRect(br, QBrush(Qt::white));
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
@@ -4694,8 +4790,8 @@ void element::setupElementIcon()
         setPaletteBackgroundPixmap(pm);
     }
     
-    // track with normal route button
-    else if (classid == siciNrb || classid == siciSrb) {
+    // right track with normal route button
+    else if (classid == siciRbr || classid == siciSbr) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -4728,7 +4824,7 @@ void element::setupElementIcon()
 
         // paint track button
         if (iSoldRotate == 1) {
-            if (classid == siciNrb)
+            if (classid == siciRbr)
                 p.drawPixmap(w / 6  - 4, h / 2 - 3,
                         QPixmap(button_red_xpm));
             else
@@ -4736,7 +4832,7 @@ void element::setupElementIcon()
                         QPixmap(button_gray_xpm));
         }
         else {
-            if (classid == siciNrb)
+            if (classid == siciRbr)
                 p.drawPixmap(5 * w / 6 - 4 , h / 2 - 3, 
                         QPixmap(button_red_xpm));
             else
@@ -4776,8 +4872,76 @@ void element::setupElementIcon()
         setPaletteBackgroundPixmap(pm);
     }
 
-    // shunting signals SS, SSH, SSS
-    else if (classid == siciSs || classid == siciSsh ||
+    // left track with normal route button
+    else if (classid == siciRbl || classid == siciSbl) {
+        QPixmap pm = QPixmap(size());
+        pm.fill(QColor(Qt::lightGray));
+        QPainter p;
+        p.begin(&pm);
+        
+        int w = pm.width();
+        int h = pm.height();
+        
+        // paint track
+        p.fillRect(0, h/2 - 3, w, 7, QBrush(Qt::black));
+        
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 7; ++i)
+                p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
+                        QBrush(Qt::lightGray));
+        }
+        else {
+            QColor c;
+            if (occupied)
+                c = QColor(Qt::red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(Qt::darkGray);
+            }
+            p.fillRect(w / 3, h / 2 - 1, w / 3, 3, QBrush(c));
+        }
+
+        // paint track button
+            if (classid == siciRbl)
+                p.drawPixmap(w / 6  - 4, h / 2 - 3,
+                        QPixmap(button_red_xpm));
+            else
+                p.drawPixmap(w / 6  - 4, h / 2 - 3,
+                        QPixmap(button_gray_xpm));
+
+        // paint text label
+        if (sSoldText != "-1" && !sSoldText.isEmpty()) {
+            QFont f(QApplication::font());
+            f.setPointSize(QApplication::font().pointSize() - 3);
+            p.setFont(f);
+            QFontMetrics fm(f);
+            QString s;
+
+            if (pref.addresslabeling)
+                s.setNum(iSoldAddress_1);
+            else
+                s = sSoldText;
+
+            QRect br = fm.boundingRect(s);
+            br.setWidth(br.width() + 4);
+            br.setHeight(br.height() + 2);
+
+            br.moveTopLeft(QPoint(w/2 - br.width()/2, 2));
+
+            p.fillRect(br, QBrush(Qt::white));
+            p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
+                    Qt::DontClip, s);
+        }
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+
+    // right shunting signals SS, SSH, SSS
+    else if (classid == siciSsr || classid == siciShr ||
             classid == siciSss) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
@@ -4820,10 +4984,10 @@ void element::setupElementIcon()
         if (iSoldRotate != 1)
         xpos1 = xpos2;
 
-        if (classid == siciSsh)
+        if (classid == siciShr)
             p.drawPixmap(xpos1, h / 2 - 3, QPixmap(button_red_xpm));
 
-        else if (classid == siciSs) {
+        else if (classid == siciSsr) {
             p.drawPixmap(xpos1, h / 2 - 3, QPixmap(button_gray_xpm));
         }
 
@@ -4901,6 +5065,127 @@ void element::setupElementIcon()
                 br.moveBottomRight(QPoint(w/2 + br.width()/2, h - 3));
             else
                 br.moveTopLeft(QPoint(w/2 - br.width()/2, 2));
+
+            p.fillRect(br, QBrush(Qt::white));
+            p.setBrush(Qt::white);
+            br.setX(br.x() + 1);
+            br.setY(br.y() + 1);
+            br.setHeight(br.height() - 2);
+            
+            p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
+                    Qt::DontClip, s);
+        }
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+
+    // left shunting signals SS, SSH, SSS
+    else if (classid == siciSsl || classid == siciShl ||
+            classid == siciSss) {
+        QPixmap pm = QPixmap(size());
+        pm.fill(QColor(Qt::lightGray));
+        QPainter p;
+        p.begin(&pm);
+        
+        int w = pm.width();
+        int h = pm.height();
+        
+        // paint track
+        p.fillRect(0, h/2 - 3, w, 7, QBrush(Qt::black));
+        
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 7; ++i)
+                p.fillRect(4 + 7 * i, h/2 - 2, 5, 5, QBrush(Qt::lightGray));
+        }
+        else {
+            QColor c;
+            if (occupied)
+                c = QColor(Qt::red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(Qt::darkGray);
+            }
+            p.fillRect(w / 3 + 1, h / 2 - 1, w / 3, 3, QBrush(c));
+        }
+
+        // paint track button
+        int xpos1 = w / 6  - 4;
+        int xpos2 = 5 * w / 6 - 4;
+
+        if (classid == siciSss) {
+            p.drawPixmap(xpos1, h / 2 - 3, QPixmap(button_gray_xpm));
+            p.drawPixmap(xpos2, h / 2 - 3, QPixmap(button_gray_xpm));
+        }
+
+        if (classid == siciShl)
+            p.drawPixmap(xpos1, h / 2 - 3, QPixmap(button_red_xpm));
+
+        else if (classid == siciSsl) {
+            p.drawPixmap(xpos1, h / 2 - 3, QPixmap(button_gray_xpm));
+        }
+
+        // paint signal icon
+        p.setBrush(Qt::black);
+
+        p.drawRect(5, 5, 15, 5);
+        p.drawLine(6, 4, 18, 4);
+        p.drawLine(6, 10, 18, 10);
+        p.drawLine(5 + 15, 7, 6 + 16, 7);
+        p.drawLine(7 + 16, 5, 7 + 16, 9);
+        p.drawLine(7 + 17, 5, 7 + 17, 9);
+
+        // paint signal light
+        // SH0
+        if (iSoldDirection == 0) {
+            p.setPen(QPen(Qt::red));
+            p.drawLine(7, 5, 7, 9);
+            p.drawLine(8, 5, 8, 9);
+        }
+        // SH1
+        else {
+            p.setPen(Qt::yellow);
+            p.drawLine(14, 5, 18, 9);
+            p.drawLine(13, 5, 17, 9);
+        }
+        p.setPen(QPen(Qt::black));
+        
+
+        // paint lock light
+        if (lockCounter == 0)
+            p.setBrush(Qt::darkGray);
+        else
+            p.setBrush(QColor(255, 225, 0));
+
+        p.drawEllipse(w / 2 - 1, 5, 5, 5);
+
+        // paint FfM
+        if (ffm) {
+            p.setBrush(ffmactive ? Qt::yellow : Qt::darkGray);
+            p.drawRect(5, h - 10, 6, 6);
+        }
+
+        // paint text label
+        if (sSoldText != "-1" && !sSoldText.isEmpty()) {
+            QFont f(QApplication::font());
+            f.setPointSize(QApplication::font().pointSize() - 3);
+            p.setFont(f);
+            QFontMetrics fm(f);
+            QString s;
+
+            if (pref.addresslabeling)
+                s.setNum(iSoldAddress_1);
+            else
+                s = sSoldText;
+
+            QRect br = fm.boundingRect(s);
+            br.setWidth(br.width() + 4);
+            br.setHeight(br.height() + 2);
+
+            br.moveBottomRight(QPoint(w/2 + br.width()/2, h - 3));
 
             p.fillRect(br, QBrush(Qt::white));
             p.setBrush(Qt::white);
@@ -6067,14 +6352,18 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     /* - */
     if (classid == siciGer || classid == siciEnk
             || classid == siciHsr || classid == siciHsl
-            || classid == siciNrb || classid == siciSrb
-            || classid == siciHss || classid == siciSs
-            || classid == siciSsh || classid == siciSss
+            || classid == siciRbr || classid == siciRbl
+            || classid == siciSbl || classid == siciSbl
+            || classid == siciHss
+            || classid == siciSsr || classid == siciSsl
+            || classid == siciShr || classid == siciShl
+            || classid == siciSss
             || classid == siciBue || classid == siciTdr
             || classid == siciTdl || classid == siciTdb 
             || classid == siciVsr || classid == siciVsl
             || classid == siciWsr || classid == siciWsl
-            || classid == siciZp || classid == siciBld
+            || classid == siciZpr || classid == siciZpl
+            || classid == siciBld
             || classid == siciAdr) {
 
         if (entrydir == rdW)
@@ -6956,8 +7245,10 @@ bool element::hasDifferentDirection(int dir)
 
 bool element::hasShuntingRouteButtonOnly()
 {
-    return (classid == siciSs || classid == siciSss || classid ==
-            siciSrb || classid == siciWsr || classid == siciWsl);
+    return (classid == siciSsr || classid == siciSsl ||
+            classid == siciSss ||
+            classid == siciSbr || classid == siciSbl ||
+            classid == siciWsr || classid == siciWsl);
 }
 
 
@@ -7200,6 +7491,18 @@ void element::setClassId(SpdrItemClassId id)
         }
         else if (id == siciWsr) {
             classid = siciWsl;
+            iSoldRotate = -1;
+        }
+        else if (id == siciZpr) {
+            classid = siciZpl;
+            iSoldRotate = -1;
+        }
+        else if (id == siciRbr) {
+            classid = siciRbl;
+            iSoldRotate = -1;
+        }
+        else if (id == siciSbr) {
+            classid = siciSbl;
             iSoldRotate = -1;
         }
         else if (id == siciBul) {

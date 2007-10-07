@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-04 18:04:39 $
-                           $Revision: 1.51 $
+    last modified        : $Date: 2007-10-07 05:38:57 $
+                           $Revision: 1.52 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -418,7 +418,8 @@ void ElementDialog::updateValidators()
      *  -------------
      */
     
-    if (symbolName == SYM_NRB || symbolName == SYM_SRB) {
+    if (symbolName == SYM_RBR || symbolName == SYM_RBL ||
+            symbolName == SYM_SBR || symbolName == SYM_SBL) {
         a1Validator->setTop(MAX_RB);
         a2Validator->setTop(MAX_RB);
     }
@@ -649,9 +650,10 @@ void ElementDialog::slotSymbolChanged()
     // show protocol data => element->hasAddress() or isSwitchable()
     enabled = symbolName == SYM_HSR || symbolName == SYM_HSL ||
         symbolName == SYM_HSS ||
-        symbolName == SYM_SS ||
+        symbolName == SYM_SSR || symbolName == SYM_SSL ||
         symbolName == SYM_WSR || symbolName == SYM_WSL ||
-        symbolName == SYM_SSH || symbolName == SYM_SSS ||
+        symbolName == SYM_SHR || symbolName == SYM_SHL ||
+        symbolName == SYM_SSS ||
         symbolName == SYM_WEL || symbolName == SYM_WER ||
         symbolName == SYM_DWL || symbolName == SYM_DWR ||
         symbolName == SYM_EKL || symbolName == SYM_EKR ||
@@ -660,8 +662,9 @@ void ElementDialog::slotSymbolChanged()
         symbolName == SYM_ENK || symbolName == SYM_REL ||
         symbolName == SYM_WEY || symbolName == SYM_MDC ||
         symbolName == SYM_SBN || symbolName == SYM_BLD ||
-        symbolName == SYM_NRB || symbolName == SYM_SRB ||
-        symbolName == SYM_ZP ||
+        symbolName == SYM_RBR || symbolName == SYM_RBL ||
+        symbolName == SYM_SBR || symbolName == SYM_SBL ||
+        symbolName == SYM_ZPR || symbolName == SYM_ZPL ||
         symbolName == SYM_VSR || symbolName == SYM_VSL;
 
     rbProtocol_MS->setEnabled(enabled || symbolName == SYM_DRE);
@@ -700,16 +703,20 @@ void ElementDialog::slotSymbolChanged()
         symbolName == SYM_DWL || symbolName == SYM_DWR ||
         symbolName == SYM_EKL || symbolName == SYM_EKR ||
         symbolName == SYM_DKL || symbolName == SYM_DKR ||
-        symbolName == SYM_DRW || symbolName == SYM_SS ||
-        symbolName == SYM_SSH || symbolName == SYM_SSS ||
+        symbolName == SYM_DRW ||
+        symbolName == SYM_SSR || symbolName == SYM_SSL ||
+        symbolName == SYM_SHR || symbolName == SYM_SHL ||
+        symbolName == SYM_SSS ||
         symbolName == SYM_ENK || symbolName == SYM_REL ||
         symbolName == SYM_GER || symbolName == SYM_LEE ||
-        symbolName == SYM_NRB || symbolName == SYM_SRB ||
+        symbolName == SYM_RBR || symbolName == SYM_RBL ||
+        symbolName == SYM_SBR || symbolName == SYM_SBL ||
         symbolName == SYM_WEY || symbolName == SYM_MDC ||
         symbolName == SYM_SBN || symbolName == SYM_ADR ||
         symbolName == SYM_TDR || symbolName == SYM_TDL ||
         symbolName == SYM_TDB || symbolName == SYM_DRE ||
-        symbolName == SYM_BLD || symbolName == SYM_ZP;
+        symbolName == SYM_ZPR || symbolName == SYM_ZPL ||
+        symbolName == SYM_BLD;
 
     if (!enabled)
         leText->setText("-1");
@@ -762,14 +769,13 @@ void ElementDialog::slotSymbolChanged()
         symbolName == SYM_WEL || symbolName == SYM_WER ||
         symbolName == SYM_DWL || symbolName == SYM_DWR ||
         symbolName == SYM_EKL || symbolName == SYM_EKR ||
-        symbolName == SYM_DRW || symbolName == SYM_SS ||
-        symbolName == SYM_SSH || symbolName == SYM_SSS ||
+        symbolName == SYM_DRW ||
+        symbolName == SYM_SSS ||
         symbolName == SYM_GER || symbolName == SYM_WEY ||
-        symbolName == SYM_NRB || symbolName == SYM_SRB ||
         symbolName == SYM_DLT ||
         symbolName == SYM_DRT || symbolName == SYM_GET ||
         symbolName == SYM_SHM || symbolName == SYM_SHO ||
-        symbolName == SYM_SHU || symbolName == SYM_ZP;
+        symbolName == SYM_SHU;
 
     cbRotate->setEnabled(enabled);
 
@@ -777,13 +783,16 @@ void ElementDialog::slotSymbolChanged()
     enabled = symbolName == SYM_CLT || symbolName == SYM_CRB ||
         symbolName == SYM_CRT || symbolName == SYM_CLB ||
         symbolName == SYM_DIL || symbolName == SYM_DIR ||
-        symbolName == SYM_GER || symbolName == SYM_TDR ||
-        symbolName == SYM_TDL || symbolName == SYM_TDB ||
-        symbolName == SYM_NRB || symbolName == SYM_SRB ||
+        symbolName == SYM_GER || symbolName == SYM_TRV ||
+        symbolName == SYM_TDR || symbolName == SYM_TDL ||
+        symbolName == SYM_TDB ||
+        symbolName == SYM_RBR || symbolName == SYM_RBL ||
+        symbolName == SYM_SBR || symbolName == SYM_SBL ||
         symbolName == SYM_KRH ||
         symbolName == SYM_KRL || symbolName == SYM_KRR ||
-        symbolName == SYM_SS || symbolName == SYM_SSH ||
-        symbolName == SYM_SSS || symbolName == SYM_TRV ||
+        symbolName == SYM_SSR || symbolName == SYM_SSL ||
+        symbolName == SYM_SHR || symbolName == SYM_SHL ||
+        symbolName == SYM_SSS ||
         symbolName == SYM_TTL || symbolName == SYM_TTR ||
         symbolName == SYM_TBL || symbolName == SYM_TBR ||
         symbolName == SYM_WEL || symbolName == SYM_WER ||
@@ -814,11 +823,13 @@ void ElementDialog::slotSymbolChanged()
     // show feedback data =>element->hasFBContact()
     enabled = symbolName == SYM_HSR || symbolName == SYM_HSL ||
         symbolName == SYM_HSS ||
-        symbolName == SYM_SSH || symbolName == SYM_SSS ||
+        symbolName == SYM_SHR || symbolName == SYM_SHL ||
+        symbolName == SYM_SSS ||
         symbolName == SYM_BUE || symbolName == SYM_ADR ||
         symbolName == SYM_VSR || symbolName == SYM_VSL ||
         symbolName == SYM_WSR || symbolName == SYM_WSL ||
-        symbolName == SYM_SS || symbolName == SYM_ZP ||
+        symbolName == SYM_SSR || symbolName == SYM_SSL || 
+        symbolName == SYM_ZPR || symbolName == SYM_ZPL ||
         ((symbolName == SYM_CLT || symbolName == SYM_CRB ||
           symbolName == SYM_CRT || symbolName == SYM_CLB || 
           symbolName == SYM_ENK || symbolName == SYM_BLD || 
@@ -832,7 +843,8 @@ void ElementDialog::slotSymbolChanged()
           symbolName == SYM_TDL || symbolName == SYM_TRV ||
           symbolName == SYM_TTL || symbolName == SYM_TTR ||
           symbolName == SYM_TBL || symbolName == SYM_TBR ||
-          symbolName == SYM_NRB || symbolName == SYM_SRB ||
+          symbolName == SYM_RBR || symbolName == SYM_RBL ||
+          symbolName == SYM_SBR || symbolName == SYM_SBL ||
           symbolName == SYM_TDB || symbolName == SYM_KRH ||
           symbolName == SYM_KRL || symbolName == SYM_KRR) &&
          !cbLEDoff->isChecked());
@@ -850,7 +862,8 @@ void ElementDialog::slotSymbolChanged()
         cbAdrMod->setChecked(false);
         contactSB->setEnabled(true);
         //contactSBChanged(sListText.toInt() + 1);
-        if (symbolName == SYM_NRB || symbolName == SYM_SRB)
+        if (symbolName == SYM_RBR || symbolName == SYM_RBL ||
+                symbolName == SYM_SBR || symbolName == SYM_SBL)
             if (address1LE->text() == "-1")
                 address1LE->setText(QString::number(MIN_RB));
     }
@@ -873,12 +886,15 @@ void ElementDialog::slotSymbolChanged()
         symbolName == SYM_DWL || symbolName == SYM_DWR ||
         symbolName == SYM_EKL || symbolName == SYM_EKR ||
         symbolName == SYM_DKL || symbolName == SYM_DKR ||
-        symbolName == SYM_DRW || symbolName == SYM_SS ||
-        symbolName == SYM_SSH || symbolName == SYM_SSS ||
+        symbolName == SYM_DRW ||
+        symbolName == SYM_SSR || symbolName == SYM_SSL ||
+        symbolName == SYM_SHR || symbolName == SYM_SHL ||
+        symbolName == SYM_SSS ||
         symbolName == SYM_ENK || symbolName == SYM_REL ||
         symbolName == SYM_WEY || symbolName == SYM_DRE ||
         symbolName == SYM_SBN || symbolName == SYM_MDC ||
-        symbolName == SYM_BLD || symbolName == SYM_ZP;
+        symbolName == SYM_BLD ||
+        symbolName == SYM_ZPR || symbolName == SYM_ZPL;
 
     activeTimeSB->setEnabled(enabled);
     labelTime->setEnabled(enabled);
@@ -892,12 +908,15 @@ void ElementDialog::slotSymbolChanged()
         symbolName == SYM_DWL || symbolName == SYM_DWR ||
         symbolName == SYM_EKL || symbolName == SYM_EKR ||
         symbolName == SYM_DKL || symbolName == SYM_DKR ||
-        symbolName == SYM_DRW || symbolName == SYM_SS ||
-        symbolName == SYM_SSH || symbolName == SYM_SSS ||
+        symbolName == SYM_DRW ||
+        symbolName == SYM_SSR || symbolName == SYM_SSL ||
+        symbolName == SYM_SHR || symbolName == SYM_SHL ||
+        symbolName == SYM_SSS ||
         symbolName == SYM_ENK || symbolName == SYM_REL ||
         symbolName == SYM_WEY ||
         symbolName == SYM_SBN || symbolName == SYM_MDC ||
-        symbolName == SYM_BLD || symbolName == SYM_ZP;
+        symbolName == SYM_BLD ||
+        symbolName == SYM_ZPR || symbolName == SYM_ZPL;
 
     if (!enabled && symbolName != SYM_DRE)
         coboDecoder->setCurrentItem(coboDecoder->count() - 1);  // == -1

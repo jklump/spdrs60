@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-04 18:04:39 $
-                           $Revision: 1.78 $
+    last modified        : $Date: 2007-10-07 05:38:57 $
+                           $Revision: 1.79 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -44,16 +44,21 @@
 #define SYM_HSR  "signal_hs"
 #define SYM_HSL  "signal_hsl"
 #define SYM_HSS  "signal_hss"
-#define SYM_SS   "signal_ss"
-#define SYM_SSH  "signal_ssh" 
+#define SYM_SSR  "signal_ss"
+#define SYM_SSL  "signal_ssl"
+#define SYM_SHR  "signal_ssh" 
+#define SYM_SHL  "signal_shl"
 #define SYM_SSS  "signal_sss" 
 #define SYM_WSR  "signal_ws"
 #define SYM_WSL  "signal_wsl"
 #define SYM_VSR  "signal_vs"
 #define SYM_VSL  "signal_vsl"
-#define SYM_ZP   "signal_zp"
-#define SYM_NRB  "signal_nrb" // not really signals but rails
-#define SYM_SRB  "signal_srb" // with a routing button
+#define SYM_ZPR  "signal_zp"
+#define SYM_ZPL  "signal_zpl"
+#define SYM_RBR  "signal_nrb" // not really signals but rails
+#define SYM_RBL  "signal_rbl"
+#define SYM_SBR  "signal_srb" // with a routing button
+#define SYM_SBL  "signal_sbl"
 
 // turnouts
 #define SYM_WEL  "weiche_links" //turnout left
@@ -237,15 +242,15 @@ public:
         siciTtl = 125, siciTtr, siciTbl, siciTbr,
         siciKrh = 150, siciKrr, siciKrl,
         siciTdr = 170, siciTdl, siciTdb,
-        siciNrb = 200,
-        siciSrb = 202,
-        siciZp = 250,
+        siciRbr = 200, siciRbl,
+        siciSbr = 210, siciSbl,
+        siciZpr = 250, siciZpl,
         siciEnk = 252,
         siciBld = 255,
         siciHsr = 300, siciHsl,
         siciHss = 310,
-        siciSs = 320,
-        siciSsh = 330,
+        siciSsr = 320, siciSsl,
+        siciShr = 330, siciShl,
         siciSss = 340,
         siciWsr = 350, siciWsl,
         siciVsr = 360, siciVsl,
