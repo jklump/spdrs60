@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-07 05:38:57 $
-                           $Revision: 1.52 $
+    last modified        : $Date: 2007-10-07 17:31:03 $
+                           $Revision: 1.53 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -25,7 +25,6 @@
 #include <qlayout.h>
 
 #include "elementdialog.h"
-#include "element.h"
 #include "preferences.h"
 #include "resources.h"
 
@@ -66,7 +65,7 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     gaSubType = 0;
     gaDirection = 0;
     addresscount = 0;
-    symbolName= "";
+    classid = element::siciNone;
 
     /*Layout to separate OK Cancel buttons from the upper rest*/
     QBoxLayout* baseLayout = new QVBoxLayout(this, 12, 12);
@@ -382,11 +381,6 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
 }
 
 
-ElementDialog::~ElementDialog()
-{
-}
-
-
 void ElementDialog::slotAddress1Changed(const QString&)
 {
     if (cbAddrLabeling->isChecked())
@@ -418,12 +412,12 @@ void ElementDialog::updateValidators()
      *  -------------
      */
     
-    if (symbolName == SYM_RBR || symbolName == SYM_RBL ||
-            symbolName == SYM_SBR || symbolName == SYM_SBL) {
+    if (classid == element::siciRbr || classid == element::siciRbl ||
+            classid == element::siciSbr || classid == element::siciSbl) {
         a1Validator->setTop(MAX_RB);
         a2Validator->setTop(MAX_RB);
     }
-    else if (symbolName == SYM_ADR) {
+    else if (classid == element::siciAdr) {
         a1Validator->setTop(MAX_DISP);
         a2Validator->setTop(MAX_DISP);
         //a1Validator->setBottom(MAX_RB);
@@ -648,33 +642,36 @@ void ElementDialog::slotSymbolChanged()
     QString sListText;
     
     // show protocol data => element->hasAddress() or isSwitchable()
-    enabled = symbolName == SYM_HSR || symbolName == SYM_HSL ||
-        symbolName == SYM_HSS ||
-        symbolName == SYM_SSR || symbolName == SYM_SSL ||
-        symbolName == SYM_WSR || symbolName == SYM_WSL ||
-        symbolName == SYM_SHR || symbolName == SYM_SHL ||
-        symbolName == SYM_SSS ||
-        symbolName == SYM_WEL || symbolName == SYM_WER ||
-        symbolName == SYM_DWL || symbolName == SYM_DWR ||
-        symbolName == SYM_EKL || symbolName == SYM_EKR ||
-        symbolName == SYM_DKL || symbolName == SYM_DKR ||
-        symbolName == SYM_DRW ||
-        symbolName == SYM_ENK || symbolName == SYM_REL ||
-        symbolName == SYM_WEY || symbolName == SYM_MDC ||
-        symbolName == SYM_SBN || symbolName == SYM_BLD ||
-        symbolName == SYM_RBR || symbolName == SYM_RBL ||
-        symbolName == SYM_SBR || symbolName == SYM_SBL ||
-        symbolName == SYM_ZPR || symbolName == SYM_ZPL ||
-        symbolName == SYM_VSR || symbolName == SYM_VSL;
+    enabled =
+        classid == element::siciHsr || classid == element::siciHsl ||
+        classid == element::siciHss ||
+        classid == element::siciSsr || classid == element::siciSsl ||
+        classid == element::siciWsr || classid == element::siciWsl ||
+        classid == element::siciShr || classid == element::siciShl ||
+        classid == element::siciSss ||
+        classid == element::siciWel || classid == element::siciWer ||
+        classid == element::siciDwl || classid == element::siciDwr ||
+        classid == element::siciEkl || classid == element::siciEkr ||
+        classid == element::siciDkl || classid == element::siciDkr ||
+        classid == element::siciDrw ||
+        classid == element::siciEnk || classid == element::siciRel ||
+        classid == element::siciWey || classid == element::siciMdc ||
+        classid == element::siciSbn || classid == element::siciBld ||
+        classid == element::siciRbr || classid == element::siciRbl ||
+        classid == element::siciSbr || classid == element::siciSbl ||
+        classid == element::siciZpr || classid == element::siciZpl ||
+        classid == element::siciVsr || classid == element::siciVsl;
 
-    rbProtocol_MS->setEnabled(enabled || symbolName == SYM_DRE);
+    rbProtocol_MS->setEnabled(enabled || classid == element::siciDre);
     rbProtocol_NA->setEnabled(enabled);
     rbProtocol_PS->setEnabled(enabled);
     rbProtocol_SE->setEnabled(enabled);
 
     // show address_1 data, but take enabled value from above
-    enabled = enabled && symbolName != SYM_SBN && symbolName != SYM_MDC;
-    if (enabled || symbolName == SYM_ADR) {
+    enabled = enabled && classid != element::siciSbn &&
+        classid != element::siciMdc;
+
+    if (enabled || classid == element::siciAdr) {
         // set direction to 0 if it was -1 before and address_1 is now enabled
         if (gaDirection == -1)
             gaDirection = 0;
@@ -685,38 +682,39 @@ void ElementDialog::slotSymbolChanged()
         addresscount = 0;
     }
 
-    srcpBus1Label->setEnabled(enabled || symbolName == SYM_ADR);
-    srcpBus1LE->setEnabled(enabled || symbolName == SYM_ADR);
-    address1LE->setEnabled(enabled || symbolName == SYM_ADR);
+    srcpBus1Label->setEnabled(enabled || classid == element::siciAdr);
+    srcpBus1LE->setEnabled(enabled || classid == element::siciAdr);
+    address1LE->setEnabled(enabled || classid == element::siciAdr);
     cbAddrLabeling->setEnabled(enabled);
-    address1Lbl->setEnabled(enabled || symbolName == SYM_ADR);
+    address1Lbl->setEnabled(enabled || classid == element::siciAdr);
     port1Label->setEnabled(rbProtocol_SE->isChecked());
     port1SB->setEnabled(rbProtocol_SE->isChecked());
     xchConn1CB->setEnabled(enabled);
 
     // show text data
-    enabled = symbolName == SYM_HSR || symbolName == SYM_HSL ||
-        symbolName == SYM_HSS ||
-        symbolName == SYM_WSR || symbolName == SYM_WSL ||
-        symbolName == SYM_VSR || symbolName == SYM_VSL ||
-        symbolName == SYM_WEL || symbolName == SYM_WER ||
-        symbolName == SYM_DWL || symbolName == SYM_DWR ||
-        symbolName == SYM_EKL || symbolName == SYM_EKR ||
-        symbolName == SYM_DKL || symbolName == SYM_DKR ||
-        symbolName == SYM_DRW ||
-        symbolName == SYM_SSR || symbolName == SYM_SSL ||
-        symbolName == SYM_SHR || symbolName == SYM_SHL ||
-        symbolName == SYM_SSS ||
-        symbolName == SYM_ENK || symbolName == SYM_REL ||
-        symbolName == SYM_GER || symbolName == SYM_LEE ||
-        symbolName == SYM_RBR || symbolName == SYM_RBL ||
-        symbolName == SYM_SBR || symbolName == SYM_SBL ||
-        symbolName == SYM_WEY || symbolName == SYM_MDC ||
-        symbolName == SYM_SBN || symbolName == SYM_ADR ||
-        symbolName == SYM_TDR || symbolName == SYM_TDL ||
-        symbolName == SYM_TDB || symbolName == SYM_DRE ||
-        symbolName == SYM_ZPR || symbolName == SYM_ZPL ||
-        symbolName == SYM_BLD;
+    enabled = 
+        classid == element::siciHsr || classid == element::siciHsl ||
+        classid == element::siciHss ||
+        classid == element::siciWsr || classid == element::siciWsl ||
+        classid == element::siciVsr || classid == element::siciVsl ||
+        classid == element::siciWel || classid == element::siciWer ||
+        classid == element::siciDwl || classid == element::siciDwr ||
+        classid == element::siciEkl || classid == element::siciEkr ||
+        classid == element::siciDkl || classid == element::siciDkr ||
+        classid == element::siciDrw ||
+        classid == element::siciSsr || classid == element::siciSsl ||
+        classid == element::siciShr || classid == element::siciShl ||
+        classid == element::siciSss ||
+        classid == element::siciEnk || classid == element::siciRel ||
+        classid == element::siciGer || classid == element::siciLee ||
+        classid == element::siciRbr || classid == element::siciRbl ||
+        classid == element::siciSbr || classid == element::siciSbl ||
+        classid == element::siciWey || classid == element::siciMdc ||
+        classid == element::siciSbn || classid == element::siciAdr ||
+        classid == element::siciTdr || classid == element::siciTdl ||
+        classid == element::siciTdb || classid == element::siciDre ||
+        classid == element::siciZpr || classid == element::siciZpl ||
+        classid == element::siciBld;
 
     if (!enabled)
         leText->setText("-1");
@@ -726,19 +724,20 @@ void ElementDialog::slotSymbolChanged()
 
     // show address_2 data
     // Hp0+Hp1+Hp2
-    enabled = symbolName == SYM_HSS || symbolName == SYM_DRW
-        || symbolName == SYM_DKL || symbolName == SYM_DKR
-        || symbolName == SYM_EKL || symbolName == SYM_EKR
-        || symbolName == SYM_MDC || symbolName == SYM_DRE
-        || symbolName == SYM_SBN
-        || (symbolName == SYM_VSR && gaSubType == 4)
-        || (symbolName == SYM_VSL && gaSubType == 4)
-        || (symbolName == SYM_HSR && gaSubType == 4)
-        || (symbolName == SYM_HSL && gaSubType == 4);
+    enabled =
+        classid == element::siciHss || classid == element::siciDrw || 
+        classid == element::siciDkl || classid == element::siciDkr || 
+        classid == element::siciEkl || classid == element::siciEkr || 
+        classid == element::siciMdc || classid == element::siciDre || 
+        classid == element::siciSbn || 
+        (classid == element::siciVsr && gaSubType == 4) || 
+        (classid == element::siciVsl && gaSubType == 4) || 
+        (classid == element::siciHsr && gaSubType == 4) || 
+        (classid == element::siciHsl && gaSubType == 4);
     
     if (enabled) {
         /*
-        if (symbolName != SYM_DRE && symbolName != SYM_SBN) {
+        if (classid != element::siciDre && classid != element::siciSbn) {
             sListText = listElementData->at(LIST_ID_CHACONN_2);
             xchConn2CB->setChecked(sListText == "1");
         }*/
@@ -754,104 +753,101 @@ void ElementDialog::slotSymbolChanged()
     port2Label->setEnabled(rbProtocol_SE->isChecked());
     port2SB->setEnabled(rbProtocol_SE->isChecked());
 
-    xchConn2CB->setEnabled(enabled && symbolName != SYM_DRE
-                           && symbolName != SYM_SBN
-                           && symbolName != SYM_MDC);
+    xchConn2CB->setEnabled(enabled && classid != element::siciDre
+                           && classid != element::siciSbn
+                           && classid != element::siciMdc);
  
-    if (symbolName == SYM_DRE)
+    if (classid == element::siciDre)
         address2LE->setFocusPolicy(NoFocus);
     else
         address2LE->setFocusPolicy(StrongFocus);
 
     // show rotate data
-    // SYM_GER: only for text placement
-    enabled = symbolName == SYM_HSS ||
-        symbolName == SYM_WEL || symbolName == SYM_WER ||
-        symbolName == SYM_DWL || symbolName == SYM_DWR ||
-        symbolName == SYM_EKL || symbolName == SYM_EKR ||
-        symbolName == SYM_DRW ||
-        symbolName == SYM_SSS ||
-        symbolName == SYM_GER || symbolName == SYM_WEY ||
-        symbolName == SYM_DLT ||
-        symbolName == SYM_DRT || symbolName == SYM_GET ||
-        symbolName == SYM_SHM || symbolName == SYM_SHO ||
-        symbolName == SYM_SHU;
+    // element::siciGer: only for text placement
+    enabled =
+        classid == element::siciHss ||
+        classid == element::siciWel || classid == element::siciWer ||
+        classid == element::siciDwl || classid == element::siciDwr ||
+        classid == element::siciEkl || classid == element::siciEkr ||
+        classid == element::siciDrw ||
+        classid == element::siciSss ||
+        classid == element::siciGer || classid == element::siciWey ||
+        classid == element::siciDlt ||
+        classid == element::siciDrt || classid == element::siciGet ||
+        classid == element::siciShm || classid == element::siciSho ||
+        classid == element::siciShu;
 
     cbRotate->setEnabled(enabled);
 
     // show LEDoff data (Gleismelder)
-    enabled = symbolName == SYM_CLT || symbolName == SYM_CRB ||
-        symbolName == SYM_CRT || symbolName == SYM_CLB ||
-        symbolName == SYM_DIL || symbolName == SYM_DIR ||
-        symbolName == SYM_GER || symbolName == SYM_TRV ||
-        symbolName == SYM_TDR || symbolName == SYM_TDL ||
-        symbolName == SYM_TDB ||
-        symbolName == SYM_RBR || symbolName == SYM_RBL ||
-        symbolName == SYM_SBR || symbolName == SYM_SBL ||
-        symbolName == SYM_KRH ||
-        symbolName == SYM_KRL || symbolName == SYM_KRR ||
-        symbolName == SYM_SSR || symbolName == SYM_SSL ||
-        symbolName == SYM_SHR || symbolName == SYM_SHL ||
-        symbolName == SYM_SSS ||
-        symbolName == SYM_TTL || symbolName == SYM_TTR ||
-        symbolName == SYM_TBL || symbolName == SYM_TBR ||
-        symbolName == SYM_WEL || symbolName == SYM_WER ||
-        symbolName == SYM_WEY || symbolName == SYM_DRW ||
-        symbolName == SYM_DWL || symbolName == SYM_DWR ||
-        symbolName == SYM_EKL || symbolName == SYM_EKR ||
-        symbolName == SYM_DKL || symbolName == SYM_DKR ||
-        symbolName == SYM_ENK || symbolName == SYM_BLD;
+    enabled =
+        classid == element::siciClt || classid == element::siciCrb ||
+        classid == element::siciCrt || classid == element::siciClb ||
+        classid == element::siciDil || classid == element::siciDir ||
+        classid == element::siciGer || classid == element::siciTrv ||
+        classid == element::siciTdr || classid == element::siciTdl ||
+        classid == element::siciTdb ||
+        classid == element::siciRbr || classid == element::siciRbl ||
+        classid == element::siciSbr || classid == element::siciSbl ||
+        classid == element::siciKrh ||
+        classid == element::siciKrl || classid == element::siciKrr ||
+        classid == element::siciSsr || classid == element::siciSsl ||
+        classid == element::siciShr || classid == element::siciShl ||
+        classid == element::siciSss ||
+        classid == element::siciTtl || classid == element::siciTtr ||
+        classid == element::siciTbl || classid == element::siciTbr ||
+        classid == element::siciWel || classid == element::siciWer ||
+        classid == element::siciWey || classid == element::siciDrw ||
+        classid == element::siciDwl || classid == element::siciDwr ||
+        classid == element::siciEkl || classid == element::siciEkr ||
+        classid == element::siciDkl || classid == element::siciDkr ||
+        classid == element::siciEnk || classid == element::siciBld;
 
     cbLEDoff->setEnabled(enabled);
 
     // show invert data for empty elements only for colour
-    enabled = symbolName == SYM_WEL || symbolName == SYM_WER
-        || symbolName == SYM_EKL || symbolName == SYM_EKR
-        || symbolName == SYM_DWL || symbolName == SYM_DWR
-        || symbolName == SYM_LEE || symbolName == SYM_ADR;
+    enabled =
+        classid == element::siciWel || classid == element::siciWer ||
+        classid == element::siciEkl || classid == element::siciEkr ||
+        classid == element::siciDwl || classid == element::siciDwr ||
+        classid == element::siciLee || classid == element::siciAdr;
 
     cbInvert->setEnabled(enabled);
     invertedChanged(cbInvert->isChecked());
-/*
-    enabled = symbolName == SYM_CLT || symbolName == SYM_CRB ||
-        symbolName == SYM_CRT || symbolName == SYM_CLB ||
-        symbolName == SYM_DIL || symbolName == SYM_DIR ||
-        symbolName == SYM_GER || symbolName == SYM_TDR+L ||
-        symbolName == SYM_TDB || symbolName == SYM_KRH ||
-        symbolName == SYM_KRL || symbolName == SYM_KRR;
-*/
-    // show feedback data =>element->hasFBContact()
-    enabled = symbolName == SYM_HSR || symbolName == SYM_HSL ||
-        symbolName == SYM_HSS ||
-        symbolName == SYM_SHR || symbolName == SYM_SHL ||
-        symbolName == SYM_SSS ||
-        symbolName == SYM_BUE || symbolName == SYM_ADR ||
-        symbolName == SYM_VSR || symbolName == SYM_VSL ||
-        symbolName == SYM_WSR || symbolName == SYM_WSL ||
-        symbolName == SYM_SSR || symbolName == SYM_SSL || 
-        symbolName == SYM_ZPR || symbolName == SYM_ZPL ||
-        ((symbolName == SYM_CLT || symbolName == SYM_CRB ||
-          symbolName == SYM_CRT || symbolName == SYM_CLB || 
-          symbolName == SYM_ENK || symbolName == SYM_BLD || 
-          symbolName == SYM_EKL || symbolName == SYM_EKR ||
-          symbolName == SYM_DKL || symbolName == SYM_DKR ||
-          symbolName == SYM_DRW || symbolName == SYM_WEY ||
-          symbolName == SYM_WEL || symbolName == SYM_WER ||
-          symbolName == SYM_DWL || symbolName == SYM_DWR ||
-          symbolName == SYM_DIL || symbolName == SYM_DIR ||
-          symbolName == SYM_GER || symbolName == SYM_TDR ||
-          symbolName == SYM_TDL || symbolName == SYM_TRV ||
-          symbolName == SYM_TTL || symbolName == SYM_TTR ||
-          symbolName == SYM_TBL || symbolName == SYM_TBR ||
-          symbolName == SYM_RBR || symbolName == SYM_RBL ||
-          symbolName == SYM_SBR || symbolName == SYM_SBL ||
-          symbolName == SYM_TDB || symbolName == SYM_KRH ||
-          symbolName == SYM_KRL || symbolName == SYM_KRR) &&
+
+    // element gets feedback messages
+    enabled =
+        classid == element::siciHsr || classid == element::siciHsl ||
+        classid == element::siciHss ||
+        classid == element::siciShr || classid == element::siciShl ||
+        classid == element::siciSss ||
+        classid == element::siciBue || classid == element::siciAdr ||
+        classid == element::siciVsr || classid == element::siciVsl ||
+        classid == element::siciWsr || classid == element::siciWsl ||
+        classid == element::siciSsr || classid == element::siciSsl || 
+        classid == element::siciZpr || classid == element::siciZpl ||
+        ((classid == element::siciClt || classid == element::siciCrb ||
+          classid == element::siciCrt || classid == element::siciClb || 
+          classid == element::siciEnk || classid == element::siciBld || 
+          classid == element::siciEkl || classid == element::siciEkr ||
+          classid == element::siciDkl || classid == element::siciDkr ||
+          classid == element::siciDrw || classid == element::siciWey ||
+          classid == element::siciWel || classid == element::siciWer ||
+          classid == element::siciDwl || classid == element::siciDwr ||
+          classid == element::siciDil || classid == element::siciDir ||
+          classid == element::siciGer || classid == element::siciTdr ||
+          classid == element::siciTdl || classid == element::siciTrv ||
+          classid == element::siciTtl || classid == element::siciTtr ||
+          classid == element::siciTbl || classid == element::siciTbr ||
+          classid == element::siciRbr || classid == element::siciRbl ||
+          classid == element::siciSbr || classid == element::siciSbl ||
+          classid == element::siciTdb || classid == element::siciKrh ||
+          classid == element::siciKrl || classid == element::siciKrr) &&
          !cbLEDoff->isChecked());
 
     buttFBmodules->setEnabled(enabled);
 
-    if (symbolName == SYM_ADR) {
+    if (classid == element::siciAdr) {
         cbAdrMod->setChecked(true);
         //contactSBChanged(1);
         contactSB->setEnabled(false);
@@ -862,8 +858,8 @@ void ElementDialog::slotSymbolChanged()
         cbAdrMod->setChecked(false);
         contactSB->setEnabled(true);
         //contactSBChanged(sListText.toInt() + 1);
-        if (symbolName == SYM_RBR || symbolName == SYM_RBL ||
-                symbolName == SYM_SBR || symbolName == SYM_SBL)
+        if (classid == element::siciRbr || classid == element::siciRbl ||
+                classid == element::siciSbr || classid == element::siciSbl)
             if (address1LE->text() == "-1")
                 address1LE->setText(QString::number(MIN_RB));
     }
@@ -878,50 +874,53 @@ void ElementDialog::slotSymbolChanged()
     labelFBport->setEnabled(enabled);
 
     // show active time
-    enabled = symbolName == SYM_HSR || symbolName == SYM_HSL ||
-        symbolName == SYM_HSS ||
-        symbolName == SYM_VSR || symbolName == SYM_VSL ||
-        symbolName == SYM_WSR || symbolName == SYM_WSL ||
-        symbolName == SYM_WEL || symbolName == SYM_WER ||
-        symbolName == SYM_DWL || symbolName == SYM_DWR ||
-        symbolName == SYM_EKL || symbolName == SYM_EKR ||
-        symbolName == SYM_DKL || symbolName == SYM_DKR ||
-        symbolName == SYM_DRW ||
-        symbolName == SYM_SSR || symbolName == SYM_SSL ||
-        symbolName == SYM_SHR || symbolName == SYM_SHL ||
-        symbolName == SYM_SSS ||
-        symbolName == SYM_ENK || symbolName == SYM_REL ||
-        symbolName == SYM_WEY || symbolName == SYM_DRE ||
-        symbolName == SYM_SBN || symbolName == SYM_MDC ||
-        symbolName == SYM_BLD ||
-        symbolName == SYM_ZPR || symbolName == SYM_ZPL;
+    enabled =
+        classid == element::siciHsr || classid == element::siciHsl ||
+        classid == element::siciHss ||
+        classid == element::siciVsr || classid == element::siciVsl ||
+        classid == element::siciWsr || classid == element::siciWsl ||
+        classid == element::siciWel || classid == element::siciWer ||
+        classid == element::siciDwl || classid == element::siciDwr ||
+        classid == element::siciEkl || classid == element::siciEkr ||
+        classid == element::siciDkl || classid == element::siciDkr ||
+        classid == element::siciDrw ||
+        classid == element::siciSsr || classid == element::siciSsl ||
+        classid == element::siciShr || classid == element::siciShl ||
+        classid == element::siciSss ||
+        classid == element::siciEnk || classid == element::siciRel ||
+        classid == element::siciWey || classid == element::siciDre ||
+        classid == element::siciSbn || classid == element::siciMdc ||
+        classid == element::siciBld ||
+        classid == element::siciZpr || classid == element::siciZpl;
 
     activeTimeSB->setEnabled(enabled);
     labelTime->setEnabled(enabled);
 
     // show decoder data
-    enabled = symbolName == SYM_HSR || symbolName == SYM_HSL ||
-        symbolName == SYM_HSS ||
-        symbolName == SYM_VSR || symbolName == SYM_VSL ||
-        symbolName == SYM_WSR || symbolName == SYM_WSL ||
-        symbolName == SYM_WEL || symbolName == SYM_WER ||
-        symbolName == SYM_DWL || symbolName == SYM_DWR ||
-        symbolName == SYM_EKL || symbolName == SYM_EKR ||
-        symbolName == SYM_DKL || symbolName == SYM_DKR ||
-        symbolName == SYM_DRW ||
-        symbolName == SYM_SSR || symbolName == SYM_SSL ||
-        symbolName == SYM_SHR || symbolName == SYM_SHL ||
-        symbolName == SYM_SSS ||
-        symbolName == SYM_ENK || symbolName == SYM_REL ||
-        symbolName == SYM_WEY ||
-        symbolName == SYM_SBN || symbolName == SYM_MDC ||
-        symbolName == SYM_BLD ||
-        symbolName == SYM_ZPR || symbolName == SYM_ZPL;
+    enabled =
+        classid == element::siciHsr || classid == element::siciHsl ||
+        classid == element::siciHss ||
+        classid == element::siciVsr || classid == element::siciVsl ||
+        classid == element::siciWsr || classid == element::siciWsl ||
+        classid == element::siciWel || classid == element::siciWer ||
+        classid == element::siciDwl || classid == element::siciDwr ||
+        classid == element::siciEkl || classid == element::siciEkr ||
+        classid == element::siciDkl || classid == element::siciDkr ||
+        classid == element::siciDrw ||
+        classid == element::siciSsr || classid == element::siciSsl ||
+        classid == element::siciShr || classid == element::siciShl ||
+        classid == element::siciSss ||
+        classid == element::siciEnk || classid == element::siciRel ||
+        classid == element::siciWey ||
+        classid == element::siciSbn || classid == element::siciMdc ||
+        classid == element::siciBld ||
+        classid == element::siciZpr || classid == element::siciZpl;
 
-    if (!enabled && symbolName != SYM_DRE)
+    if (!enabled && classid != element::siciDre)
         coboDecoder->setCurrentItem(coboDecoder->count() - 1);  // == -1
-    else if (!enabled && symbolName == SYM_DRE)
-        coboDecoder->setCurrentItem(8); // Maerklin special turntable decoder
+    // Maerklin special turntable decoder
+    else if (!enabled && classid == element::siciDre)
+        coboDecoder->setCurrentItem(8);
     else {
         sListText = lastDecoder;
         if (sListText == "-1")
@@ -938,11 +937,12 @@ void ElementDialog::slotSymbolChanged()
     labelDecoder->setEnabled(enabled);
 
     // show subtype data
-    enabled = symbolName == SYM_HSR || symbolName == SYM_HSL ||
-        symbolName == SYM_HSS ||
-        symbolName == SYM_DKL || symbolName == SYM_DKR ||
-        symbolName == SYM_ENK || symbolName == SYM_DRE ||
-        symbolName == SYM_VSR || symbolName == SYM_VSL;
+    enabled =
+        classid == element::siciHsr || classid == element::siciHsl ||
+        classid == element::siciHss ||
+        classid == element::siciDkl || classid == element::siciDkr ||
+        classid == element::siciEnk || classid == element::siciDre ||
+        classid == element::siciVsr || classid == element::siciVsl;
 
     if (!enabled)
         gaSubType = -1;
@@ -988,43 +988,43 @@ void ElementDialog::showSubTypes(int iShow_)
     buttSubType[1]->show();
     buttSubType[2]->show();
     // show appropriate text ...
-    if (symbolName == SYM_HSR || symbolName == SYM_HSL ||
-            symbolName == SYM_HSS || symbolName == SYM_VSR ||
-            symbolName == SYM_VSL) {
-        if (symbolName == SYM_HSR || symbolName == SYM_HSL){
+    if (classid == element::siciHsr || classid == element::siciHsl ||
+            classid == element::siciHss || classid == element::siciVsr ||
+            classid == element::siciVsl) {
+        if (classid == element::siciHsr || classid == element::siciHsl){
             buttSubType[0]->setPixmap(QPixmap(signal_hs_st1_xpm));
             buttSubType[1]->setPixmap(QPixmap(signal_hs_st2_xpm));
             buttSubType[2]->setPixmap(QPixmap(signal_hs_st3_xpm));
         }
-        else if (symbolName == SYM_HSS){
+        else if (classid == element::siciHss){
             buttSubType[0]->setPixmap(QPixmap(signal_hss_st1_xpm));
             buttSubType[1]->setPixmap(QPixmap(signal_hss_st2_xpm));
             buttSubType[2]->setPixmap(QPixmap(signal_hss_st3_xpm));
         }
-        else if (symbolName == SYM_VSR || symbolName == SYM_VSL){
+        else if (classid == element::siciVsr || classid == element::siciVsl){
             buttSubType[0]->setPixmap(QPixmap(signal_vs_st1_xpm));
             buttSubType[1]->setPixmap(QPixmap(signal_vs_st2_xpm));
             buttSubType[2]->setPixmap(QPixmap(signal_vs_st3_xpm));
         }
     }
     
-    else if (symbolName == SYM_DKL || symbolName == SYM_DKR) {
-        if (symbolName == SYM_DKL){
+    else if (classid == element::siciDkl || classid == element::siciDkr) {
+        if (classid == element::siciDkl){
             buttSubType[1]->setPixmap(QPixmap(dkw_links_st2_xpm));
             buttSubType[2]->setPixmap(QPixmap(dkw_links_st3_xpm));
         }
-        else if (symbolName == SYM_DKR){
+        else if (classid == element::siciDkr){
             buttSubType[1]->setPixmap(QPixmap(dkw_rechts_st2_xpm));
             buttSubType[2]->setPixmap(QPixmap(dkw_rechts_st3_xpm));
         }
         buttSubType[0]->hide();
     }
-    else if (symbolName == SYM_ENK) {
+    else if (classid == element::siciEnk) {
         buttSubType[0]->setPixmap(QPixmap(entkoppler_st1_xpm));
         buttSubType[1]->setPixmap(QPixmap(entkoppler_st2_xpm));
         buttSubType[2]->setPixmap(QPixmap(entkoppler_st3_xpm));
     }
-    else if (symbolName == SYM_DRE) {
+    else if (classid == element::siciDre) {
         buttSubType[0]->hide();
         buttSubType[1]->setPixmap(QPixmap(drehscheibe_st2_xpm));
         buttSubType[2]->setPixmap(QPixmap(drehscheibe_st3_xpm));
@@ -1032,10 +1032,10 @@ void ElementDialog::showSubTypes(int iShow_)
 
 
     // activate the subtype dependant button
-    if (symbolName == SYM_HSR || symbolName == SYM_HSL ||
-            symbolName == SYM_HSS ||
-            symbolName == SYM_VSR || symbolName == SYM_VSL) {
-        if (symbolName == SYM_HSR || symbolName == SYM_HSL) {
+    if (classid == element::siciHsr || classid == element::siciHsl ||
+            classid == element::siciHss ||
+            classid == element::siciVsr || classid == element::siciVsl) {
+        if (classid == element::siciHsr || classid == element::siciHsl) {
             QToolTip::add(buttSubType[0],
                           tr("Allows to switch this signal to:\n"
                              "Hp0, Hp1"));
@@ -1046,7 +1046,7 @@ void ElementDialog::showSubTypes(int iShow_)
                           tr("Allows to switch this signal to:\n"
                              "Hp0, Hp1 and Hp2"));
         }
-        if (symbolName == SYM_HSS) {
+        if (classid == element::siciHss) {
             QToolTip::add(buttSubType[0],
                           tr("Allows to switch this signal to:\n"
                              "Hp0, Hp1 and Sh1"));
@@ -1057,7 +1057,7 @@ void ElementDialog::showSubTypes(int iShow_)
                           tr("Allows to switch this signal to:\n"
                              "Hp0, Hp1, Hp2 and Sh1"));
         }
-        if (symbolName == SYM_VSR || symbolName == SYM_VSL) {
+        if (classid == element::siciVsr || classid == element::siciVsl) {
             QToolTip::add(buttSubType[0],
                           tr("Allows to switch this signal to:\n"
                              "Vr0, Vr1"));
@@ -1089,7 +1089,7 @@ void ElementDialog::showSubTypes(int iShow_)
         }
     }
 
-    if (symbolName == SYM_ENK) {
+    if (classid == element::siciEnk) {
         QToolTip::add(buttSubType[0],
                 tr("Allows to use a bistable coupler"));
         QToolTip::add(buttSubType[1], tr("Allows to use a:\n"
@@ -1113,7 +1113,7 @@ void ElementDialog::showSubTypes(int iShow_)
         }
     }
 
-    if (symbolName == SYM_DKL || symbolName == SYM_DKR) {
+    if (classid == element::siciDkl || classid == element::siciDkr) {
         QToolTip::add(buttSubType[1],
                 tr("Allows to use a:\n"
                     "2 state double turnout\n(f.e. Maerklin 2264)"
@@ -1135,7 +1135,7 @@ void ElementDialog::showSubTypes(int iShow_)
         }
     }
 
-    if (symbolName == SYM_DRE) {
+    if (classid == element::siciDre) {
 
         QToolTip::add(buttSubType[1], tr("Default turntable:\n"
                     "Controlled via keyboard #15"));
@@ -1162,8 +1162,8 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
 {
     switch (stBtn) {
         case 0:                    // == subType 1
-            if (symbolName == SYM_HSR || symbolName == SYM_HSL ||
-                    symbolName == SYM_VSR || symbolName == SYM_VSL) {
+            if (classid == element::siciHsr || classid == element::siciHsl ||
+                    classid == element::siciVsr || classid == element::siciVsl) {
                 srcpBus2Label->setEnabled(false);
                 srcpBus2LE->setEnabled(false);
                 address2LE->setEnabled(false);
@@ -1176,11 +1176,11 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
                 gaSubType = 0;
             }
 
-            else if (symbolName == SYM_HSS) {
+            else if (classid == element::siciHss) {
                 gaSubType = 1;
             }
 
-            else if (symbolName == SYM_ENK) {
+            else if (classid == element::siciEnk) {
                 srcpBus2Label->setEnabled(false);
                 srcpBus2LE->setEnabled(false);
                 address2LE->setEnabled(false);
@@ -1194,8 +1194,8 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
             break;
 
         case 1:                    // == subType 2
-            if (symbolName == SYM_HSR || symbolName == SYM_HSL ||
-                    symbolName == SYM_VSR || symbolName == SYM_VSL) {
+            if (classid == element::siciHsr || classid == element::siciHsl ||
+                    classid == element::siciVsr || classid == element::siciVsl) {
                 srcpBus2Label->setEnabled(false);
                 srcpBus2LE->setEnabled(false);
                 address2LE->setEnabled(false);
@@ -1207,7 +1207,7 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
                 gaSubType = 6;
             }
 
-            else if (symbolName == SYM_DKL || symbolName == SYM_DKR) {
+            else if (classid == element::siciDkl || classid == element::siciDkr) {
                 srcpBus2Label->setEnabled(false);
                 srcpBus2LE->setEnabled(false);
                 address2LE->setEnabled(false);
@@ -1218,20 +1218,20 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
                 gaSubType = 0;
             }
 
-            else if (symbolName == SYM_HSS)
+            else if (classid == element::siciHss)
                 gaSubType = 7;
 
-            else if (symbolName == SYM_ENK)
+            else if (classid == element::siciEnk)
                 gaSubType = 0;
 
-            else if (symbolName == SYM_DRE)
+            else if (classid == element::siciDre)
                 address2LE->setText("240");
 
             break;
 
         case 2:                    // == subType 3
-            if (symbolName == SYM_HSR || symbolName == SYM_HSL ||
-                    symbolName == SYM_VSR || symbolName == SYM_VSL) {
+            if (classid == element::siciHsr || classid == element::siciHsl ||
+                    classid == element::siciVsr || classid == element::siciVsl) {
                 srcpBus2Label->setEnabled(true);
                 srcpBus2LE->setEnabled(true);
                 address2LE->setEnabled(true);
@@ -1242,7 +1242,7 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
                 gaSubType = 4;
             }
 
-            else if (symbolName == SYM_DKL || symbolName == SYM_DKR) {
+            else if (classid == element::siciDkl || classid == element::siciDkr) {
                 srcpBus2Label->setEnabled(true);
                 srcpBus2LE->setEnabled(true);
                 address2LE->setEnabled(true);
@@ -1253,13 +1253,13 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
                 gaSubType = 1;
             }
 
-            else if (symbolName == SYM_HSS)
+            else if (classid == element::siciHss)
                 gaSubType = 5;
 
-            else if (symbolName == SYM_ENK)
+            else if (classid == element::siciEnk)
                 gaSubType = 1;
 
-            else if (symbolName == SYM_DRE)
+            else if (classid == element::siciDre)
                 address2LE->setText("224");
 
             break;
@@ -1290,7 +1290,7 @@ void ElementDialog::setGASubType(int sType)
     gaSubType = sType;
 
     /*
-     * for SYM_ENK:
+     * for element::siciEnk:
      *
      * gaSubType   pressed button
      * --------------------------
@@ -1299,11 +1299,11 @@ void ElementDialog::setGASubType(int sType)
      *     1            2
      * --------------------------
     */
-    if (symbolName == SYM_ENK)
+    if (classid == element::siciEnk)
         btn = gaSubType + 1;
 
     /*
-     * for SYM_HSS:
+     * for element::siciHss:
      *
      * gaSubType   pressed button
      * --------------------------
@@ -1312,7 +1312,7 @@ void ElementDialog::setGASubType(int sType)
      *     5            2
      * --------------------------
     */
-    else if (symbolName == SYM_HSS) {
+    else if (classid == element::siciHss) {
         switch (gaSubType) {
             case 1:
                 btn = 0;
@@ -1330,7 +1330,7 @@ void ElementDialog::setGASubType(int sType)
     }
     
     /*
-     * for SYM_HS and SYM_VS:
+     * for element::siciHS and element::siciVS:
      *
      * gaSubType   pressed button
      * --------------------------
@@ -1339,8 +1339,8 @@ void ElementDialog::setGASubType(int sType)
      *     4            2
      * --------------------------
     */
-    else if (symbolName == SYM_HSR || symbolName == SYM_HSL ||
-            symbolName == SYM_VSR || symbolName == SYM_VSL) {
+    else if (classid == element::siciHsr || classid == element::siciHsl ||
+            classid == element::siciVsr || classid == element::siciVsl) {
         switch (gaSubType) {
             case 0:
                 btn = 0;
@@ -1358,7 +1358,7 @@ void ElementDialog::setGASubType(int sType)
     }
     
     /*
-     * for SYM_DKL and SYM_DKR:
+     * for element::siciDkl and element::siciDkr:
      *
      * gaSubType   pressed button
      * --------------------------
@@ -1367,7 +1367,7 @@ void ElementDialog::setGASubType(int sType)
      *     1            2
      * --------------------------
     */
-    else if (symbolName == SYM_DKL || symbolName == SYM_DKR) {
+    else if (classid == element::siciDkl || classid == element::siciDkr) {
         switch (gaSubType) {
             case 0:
                 btn = 1;
@@ -1411,9 +1411,9 @@ void ElementDialog::setSRCPBus2(int bus)
 }
 
 
-void ElementDialog::setSymbolName(const QString& sname) 
+void ElementDialog::setClassId(element::SpdrItemClassId ci) 
 {
-    symbolName = sname;
+    classid = ci;
     slotSymbolChanged();
 }
 
@@ -1678,7 +1678,7 @@ void ElementDialog::setFBContact(int contact)
  */
 void ElementDialog::invertedChanged(bool inverted)
 {
-    if (symbolName == SYM_ADR) {
+    if (classid == element::siciAdr) {
         leText->setEnabled(!inverted);
         if (inverted)
             leText->setText("-1");

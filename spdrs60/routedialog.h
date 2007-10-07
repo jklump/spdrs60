@@ -1,11 +1,11 @@
 /***************************************************************************
                            routedialog.h
-                           version 0.5.2 $Revision: 1.26 $
+                           version 0.5.2 $Revision: 1.27 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-14 15:47:58 $
+    last modified        : $Date: 2007-10-07 17:31:03 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -24,6 +24,7 @@
 #define ROUTEDIALOG_H
 
 #include <qbuttongroup.h>
+#include <qcheckbox.h>
 #include <qlineedit.h>
 #include <qlistview.h>
 #include <qstring.h>

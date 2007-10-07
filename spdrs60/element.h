@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-07 05:38:57 $
-                           $Revision: 1.79 $
+    last modified        : $Date: 2007-10-07 17:31:03 $
+                           $Revision: 1.80 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -34,7 +34,6 @@
 #include <qtooltip.h>
 #include <qwmatrix.h>
 
-#include "elementdialog.h"
 #include "elementcommander.h"
 #include "srcpmessage.h"
 #include "turntablecommander.h"
@@ -345,7 +344,6 @@ public:
     void setClassId(SpdrItemClassId);
 
 private:
-    ElementDialog*      elementPropertyDlg;
     elementCommander*   turntableProperties;
     turntableCommander* ttComm;
 

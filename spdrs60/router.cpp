@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.2 $Revision: 1.58 $
+                           version 0.5.2 $Revision: 1.59 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-25 21:07:42 $
+    last modified        : $Date: 2007-10-07 17:31:03 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -21,6 +21,7 @@
   list, loads it from file, save it to file, shows routing edit window.
  ***************************************************************************/
 
+#include <qapplication.h>
 #include <qfile.h>
 #include <qdatetime.h>
 

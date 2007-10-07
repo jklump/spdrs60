@@ -1,10 +1,10 @@
 /***************************************************************************
                            routeelementdialog.cpp
-                           version 0.5.2 $Revision: 1.13 $
+                           version 0.5.2 $Revision: 1.14 $
                            -------------------------------
     copyright            : (C) 2005-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2007-10-07 17:31:03 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -22,6 +22,7 @@
 
 #include <qhbox.h>
 #include <qlayout.h>
+#include <qvalidator.h>
 
 #include "resources.h"
 #include "routeelementdialog.h"
@@ -67,7 +68,7 @@ RouteElementDialog::RouteElementDialog(QWidget* parent)
     reSrcpBusLE->setMaximumWidth(LEMAXWIDTH);
     reSrcpBusLE->setMaxLength(4);
     reSrcpBusLbl->setBuddy(reSrcpBusLE);
-    QValidator* busValidator = new QIntValidator(1, 999, this);
+    QIntValidator* busValidator = new QIntValidator(1, 999, this);
     reSrcpBusLE->setValidator(busValidator);
     routeElSrcpBusLayout->addWidget(reSrcpBusLE);
     connect(reSrcpBusLE, SIGNAL(textChanged(const QString&)),

@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementdialog.h
-                           version 0.5.2 $Revision: 1.20 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-22 16:08:23 $
+    last modified        : $Date: 2007-10-07 17:31:03 $
+                           $Revision: 1.21 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -20,25 +20,23 @@
 /***************************************************************************
    this is the header file to elementdialog.cpp
  ***************************************************************************/
+
 #ifndef ELEMENTDIALOG_H
 #define ELEMENTDIALOG_H
 
-#include <qapplication.h>
 #include <qbuttongroup.h>
 #include <qcheckbox.h>
 #include <qcombobox.h>
-#include <qframe.h>
 #include <qgroupbox.h>
 #include <qlabel.h>
 #include <qlineedit.h>
-#include <qmessagebox.h>
-#include <qpixmap.h>
 #include <qpushbutton.h>
 #include <qradiobutton.h>
 #include <qspinbox.h>
-#include <qtooltip.h>
 #include <qvalidator.h>
-  	
+
+#include "element.h"
+
 
 class ElementDialog: public QDialog
 {
@@ -46,7 +44,6 @@ class ElementDialog: public QDialog
 
 public:
    ElementDialog(QWidget* parent = 0, int idx = 0);
-   virtual ~ElementDialog();
 
    int getGASubType();
    void setGASubType(int);
@@ -54,7 +51,7 @@ public:
    void setSRCPBus1(int);
    int getSRCPBus2();
    void setSRCPBus2(int);
-   void setSymbolName(const QString&);
+   void setClassId(element::SpdrItemClassId);
    int getRotated();
    void setRotated(int);
    int getInverted();
@@ -89,9 +86,9 @@ public:
    void setFBContact(int);
 
 private:
+   QLineEdit    *leText;
    QLineEdit    *address1LE;
    QLineEdit    *address2LE;
-   QLineEdit    *leText;
    QLineEdit    *srcpBus1LE;
    QLineEdit    *srcpBus2LE;
    QLineEdit    *fbBusLE;
@@ -121,8 +118,8 @@ private:
    QLabel       *address2Lbl;
    QLabel       *port1Label;
    QLabel       *port2Label;
-   QLabel       *labelText;
    QLabel       *labelDecoder;
+   QLabel       *labelText;
    QLabel       *labelTime;
    QLabel       *labelFBBus;
    QLabel       *labelFBContact;
@@ -147,7 +144,7 @@ private:
    int          gaDirection;
    int          addresscount;
    QString      lastDecoder;
-   QString      symbolName;
+   element::SpdrItemClassId classid;
 
    void showSubTypes(int);
    void updateValidators();

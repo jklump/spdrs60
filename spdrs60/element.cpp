@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-07 05:38:57 $
-                           $Revision: 1.145 $
+    last modified        : $Date: 2007-10-07 17:31:03 $
+                           $Revision: 1.146 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -22,8 +22,10 @@
    of the switch command to the erddcd daemon
  ***************************************************************************/
 
+#include <qapplication.h>
 
 #include "element.h"
+#include "elementdialog.h"
 #include "preferences.h"
 #include "resources.h"
 
@@ -137,7 +139,6 @@ void element::initVariables()
     blinkcounter = 0;
     iSoldLEDstate = LED_OFF;
 
-    elementPropertyDlg = NULL;
     turntableProperties = NULL;
     ttComm = NULL;
 }
@@ -882,48 +883,43 @@ void element::showPropertyDlg()
 {
     /* when dialog is already open just bring it to front
        else create new dialog */
-    if (elementPropertyDlg != NULL) {
-        elementPropertyDlg->setActiveWindow();
-        elementPropertyDlg->raise();
-    }
-    else {
-        elementPropertyDlg = new ElementDialog(this, iSoldIndex);
-        if (elementPropertyDlg == NULL)
+        ElementDialog* eDlg = new ElementDialog(this, iSoldIndex);
+        if (eDlg == NULL)
             return;
         
-        elementPropertyDlg->setSymbolText(sSoldText);
-        elementPropertyDlg->setRotated(iSoldRotate);
-        elementPropertyDlg->setInverted(iSoldInvert);
-        elementPropertyDlg->setGASubType(iSoldSubType);
-        elementPropertyDlg->setProtocol((int) protocol);
-        elementPropertyDlg->setDecoder(sSoldDecoder);
-        elementPropertyDlg->setSRCPBus1(iGA1BusNo);
-        elementPropertyDlg->setAddress1(iSoldAddress_1);
-        elementPropertyDlg->setXChangeConn1(iSoldChangeConn[0]);
-        elementPropertyDlg->setSRCPBus2(iGA2BusNo);
-        elementPropertyDlg->setAddress2(iSoldAddress_2);
-        elementPropertyDlg->setXChangeConn2(iSoldChangeConn[1]);
-        elementPropertyDlg->setDirection(iSoldDirection);
-        elementPropertyDlg->setActiveTime(iSoldActiveTime);
-        elementPropertyDlg->setLEDsAreOff(iSoldLEDoff);
-        elementPropertyDlg->setFBBus(iFBBusNo);
-        elementPropertyDlg->setFBContact(iFBContact);
+        eDlg->setSymbolText(sSoldText);
+        eDlg->setRotated(iSoldRotate);
+        eDlg->setInverted(iSoldInvert);
+        eDlg->setGASubType(iSoldSubType);
+        eDlg->setProtocol((int) protocol);
+        eDlg->setDecoder(sSoldDecoder);
+        eDlg->setSRCPBus1(iGA1BusNo);
+        eDlg->setAddress1(iSoldAddress_1);
+        eDlg->setXChangeConn1(iSoldChangeConn[0]);
+        eDlg->setSRCPBus2(iGA2BusNo);
+        eDlg->setAddress2(iSoldAddress_2);
+        eDlg->setXChangeConn2(iSoldChangeConn[1]);
+        eDlg->setDirection(iSoldDirection);
+        eDlg->setActiveTime(iSoldActiveTime);
+        eDlg->setLEDsAreOff(iSoldLEDoff);
+        eDlg->setFBBus(iFBBusNo);
+        eDlg->setFBContact(iFBContact);
         // this must be the last one, because it triggers enabling and
         // disabling of all element dependent widgets
-        elementPropertyDlg->setSymbolName(sSoldIcon);
+        eDlg->setClassId(classid);
         //FIXME: minvalues and maxvalues of port spin boxes are set to late
-        elementPropertyDlg->setPort1(port1);
-        elementPropertyDlg->setPort2(port2);
+        eDlg->setPort1(port1);
+        eDlg->setPort2(port2);
 
-        connect(elementPropertyDlg, SIGNAL(sigShowFBmodules()),
+        connect(eDlg, SIGNAL(sigShowFBmodules()),
                 this, SIGNAL(sigShowFBmodules()));
         
-        if (elementPropertyDlg->exec() == QDialog::Accepted) {
+        if (eDlg->exec() == QDialog::Accepted) {
 
-            sSoldText = elementPropertyDlg->getSymbolText();
-            iSoldRotate = elementPropertyDlg->getRotated();
-            iSoldInvert = elementPropertyDlg->getInverted();
-            iSoldLEDoff = elementPropertyDlg->getLEDsAreOff();
+            sSoldText = eDlg->getSymbolText();
+            iSoldRotate = eDlg->getRotated();
+            iSoldInvert = eDlg->getInverted();
+            iSoldLEDoff = eDlg->getLEDsAreOff();
 
             // force display update
             if (siciAdr == classid) {
@@ -934,22 +930,22 @@ void element::showPropertyDlg()
                 setupElementIcon();
             }
 
-            iSoldSubType = elementPropertyDlg->getGASubType();
+            iSoldSubType = eDlg->getGASubType();
             protocol =
-                (SrcpMessage::Protocol) elementPropertyDlg->getProtocol();
-            sSoldDecoder = elementPropertyDlg->getDecoder();
-            iGA1BusNo = elementPropertyDlg->getSRCPBus1();
-            iSoldAddress_1 = elementPropertyDlg->getAddress1();
-            iSoldChangeConn[0] = elementPropertyDlg->getXChangeConn1();
-            port1 = elementPropertyDlg->getPort1();
-            iGA2BusNo = elementPropertyDlg->getSRCPBus2();
-            iSoldAddress_2 = elementPropertyDlg->getAddress2();
-            iSoldChangeConn[1] = elementPropertyDlg->getXChangeConn2();
-            port2 = elementPropertyDlg->getPort2();
-            iSoldDirection = elementPropertyDlg->getDirection();
-            iSoldActiveTime = elementPropertyDlg->getActiveTime();
-            iFBBusNo = elementPropertyDlg->getFBBus();
-            iFBContact = elementPropertyDlg->getFBContact();
+                (SrcpMessage::Protocol) eDlg->getProtocol();
+            sSoldDecoder = eDlg->getDecoder();
+            iGA1BusNo = eDlg->getSRCPBus1();
+            iSoldAddress_1 = eDlg->getAddress1();
+            iSoldChangeConn[0] = eDlg->getXChangeConn1();
+            port1 = eDlg->getPort1();
+            iGA2BusNo = eDlg->getSRCPBus2();
+            iSoldAddress_2 = eDlg->getAddress2();
+            iSoldChangeConn[1] = eDlg->getXChangeConn2();
+            port2 = eDlg->getPort2();
+            iSoldDirection = eDlg->getDirection();
+            iSoldActiveTime = eDlg->getActiveTime();
+            iFBBusNo = eDlg->getFBBus();
+            iFBContact = eDlg->getFBContact();
             
             updateProperties();
             //updateLEDState();
@@ -957,12 +953,10 @@ void element::showPropertyDlg()
             // ask server for current occupation state
             updateFeedbackState();
         }
-        disconnect(elementPropertyDlg, SIGNAL(sigShowFBmodules()),
+        disconnect(eDlg, SIGNAL(sigShowFBmodules()),
                 this, SIGNAL(sigShowFBmodules()));
         
-        delete elementPropertyDlg;
-        elementPropertyDlg = NULL;
-    }
+        delete eDlg;
 }
 
 
