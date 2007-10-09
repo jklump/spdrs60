@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-07 17:31:03 $
-                           $Revision: 1.80 $
+    last modified        : $Date: 2007-10-09 19:40:03 $
+                           $Revision: 1.81 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -42,12 +42,14 @@
 // signals
 #define SYM_HSR  "signal_hs"
 #define SYM_HSL  "signal_hsl"
-#define SYM_HSS  "signal_hss"
+#define SYM_HSSR  "signal_hss"
+#define SYM_HSSL  "signal_hssl"
 #define SYM_SSR  "signal_ss"
 #define SYM_SSL  "signal_ssl"
 #define SYM_SHR  "signal_ssh" 
 #define SYM_SHL  "signal_shl"
-#define SYM_SSS  "signal_sss" 
+#define SYM_SDR  "signal_sss" 
+#define SYM_SDL  "signal_sdl" 
 #define SYM_WSR  "signal_ws"
 #define SYM_WSL  "signal_wsl"
 #define SYM_VSR  "signal_vs"
@@ -247,10 +249,10 @@ public:
         siciEnk = 252,
         siciBld = 255,
         siciHsr = 300, siciHsl,
-        siciHss = 310,
+        siciHssr = 310, siciHssl,
         siciSsr = 320, siciSsl,
         siciShr = 330, siciShl,
-        siciSss = 340,
+        siciSdr = 340, siciSdl,
         siciWsr = 350, siciWsl,
         siciVsr = 360, siciVsl,
         siciAdr = 400,

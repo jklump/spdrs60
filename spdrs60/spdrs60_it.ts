@@ -1070,10 +1070,6 @@ the server daemon after shutdown has finished)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Buffer stop</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Straight tunnel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1091,10 +1087,6 @@ the server daemon after shutdown has finished)</source>
     </message>
     <message>
         <source>House center wing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>House side wing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1214,46 +1206,6 @@ the server daemon after shutdown has finished)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Main signal panel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Main four state signal panel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Shunt signal panel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Help route signal panel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Two button shunt signal panel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Wait signal panel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Distant signal panel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ZP signal panel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Route button panel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Shunt button panel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Decoupler</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1331,6 +1283,102 @@ the server daemon after shutdown has finished)</source>
     </message>
     <message>
         <source>Single direction track left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Main signal right panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Main signal left panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Left wait signal panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right wait signal panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Left distant signal panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right distant signal panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Left buffer stop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right buffer stop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Building left wing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Building right wing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Left ZP signal panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right ZP signal panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Left route button panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right route button panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Left shunt button panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right shunt button panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Left shunt signal panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right shunt signal panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Left help route signal panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right help route signal panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Left main four state signal panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right main four state signal panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Left double button shunt signal panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right doouble button shunt signal panel</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -1099,10 +1099,6 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <translation></translation>
     </message>
     <message>
-        <source>Buffer stop</source>
-        <translation>Prellbock</translation>
-    </message>
-    <message>
         <source>Straight tunnel</source>
         <translation>Tunnel geradeaus</translation>
     </message>
@@ -1121,10 +1117,6 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     <message>
         <source>House center wing</source>
         <translation>Haus, Mittelflügel</translation>
-    </message>
-    <message>
-        <source>House side wing</source>
-        <translation>Haus, Seitenflügel</translation>
     </message>
     <message>
         <source>Top loco shed</source>
@@ -1243,46 +1235,6 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <translation>Doppelte Kreuzungsweiche rechts</translation>
     </message>
     <message>
-        <source>Main signal panel</source>
-        <translation>Hauptsignal</translation>
-    </message>
-    <message>
-        <source>Main four state signal panel</source>
-        <translation>Vierbegriffiges Hauptsignal</translation>
-    </message>
-    <message>
-        <source>Shunt signal panel</source>
-        <translation>Sperrsignal</translation>
-    </message>
-    <message>
-        <source>Help route signal panel</source>
-        <translation>Sperrsignal für Hilfsfahrstraßen</translation>
-    </message>
-    <message>
-        <source>Two button shunt signal panel</source>
-        <translation>Sperrsignal mit zwei Tasten</translation>
-    </message>
-    <message>
-        <source>Wait signal panel</source>
-        <translation>Wartesignal</translation>
-    </message>
-    <message>
-        <source>Distant signal panel</source>
-        <translation>Vorsignal</translation>
-    </message>
-    <message>
-        <source>ZP signal panel</source>
-        <translation>Zugpersonalsignal</translation>
-    </message>
-    <message>
-        <source>Route button panel</source>
-        <translation>Gleistaste für Zugfahrstraßen</translation>
-    </message>
-    <message>
-        <source>Shunt button panel</source>
-        <translation>Gleistaste für Rangierfahrstraßen</translation>
-    </message>
-    <message>
         <source>Decoupler</source>
         <translation>Entkuppler</translation>
     </message>
@@ -1361,6 +1313,102 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     <message>
         <source>Single direction track left</source>
         <translation>Einseitige Fahrtrichtung links</translation>
+    </message>
+    <message>
+        <source>Main signal right panel</source>
+        <translation>Hauptsignal rechst</translation>
+    </message>
+    <message>
+        <source>Main signal left panel</source>
+        <translation>Hauptsignal links</translation>
+    </message>
+    <message>
+        <source>Left wait signal panel</source>
+        <translation>Wartesignal links</translation>
+    </message>
+    <message>
+        <source>Right wait signal panel</source>
+        <translation>Wartesignal rechts</translation>
+    </message>
+    <message>
+        <source>Left distant signal panel</source>
+        <translation>Vorsignal links</translation>
+    </message>
+    <message>
+        <source>Right distant signal panel</source>
+        <translation>Vorsignal rechts</translation>
+    </message>
+    <message>
+        <source>Left buffer stop</source>
+        <translation>Prellbock links</translation>
+    </message>
+    <message>
+        <source>Right buffer stop</source>
+        <translation>Prellbock rechts</translation>
+    </message>
+    <message>
+        <source>Building left wing</source>
+        <translation>Gebäude, linker Seitenflügel</translation>
+    </message>
+    <message>
+        <source>Building right wing</source>
+        <translation>Gebäude, rechter Seitenflügel</translation>
+    </message>
+    <message>
+        <source>Left ZP signal panel</source>
+        <translation>Zugpersonalsignal links</translation>
+    </message>
+    <message>
+        <source>Right ZP signal panel</source>
+        <translation>Zugpersonalsignal rechts</translation>
+    </message>
+    <message>
+        <source>Left route button panel</source>
+        <translation>Gleistaste für Zugfahrstraßen nach links</translation>
+    </message>
+    <message>
+        <source>Right route button panel</source>
+        <translation>Gleistaste für Zugfahrstraßen nach rechts</translation>
+    </message>
+    <message>
+        <source>Left shunt button panel</source>
+        <translation>Gleistaste für Rangierfahrstraßen nach links</translation>
+    </message>
+    <message>
+        <source>Right shunt button panel</source>
+        <translation>Gleistaste für Rangierfahrstraßen nach rechts</translation>
+    </message>
+    <message>
+        <source>Left shunt signal panel</source>
+        <translation>Sperrsignal links</translation>
+    </message>
+    <message>
+        <source>Right shunt signal panel</source>
+        <translation>Sperrsignal rechts</translation>
+    </message>
+    <message>
+        <source>Left help route signal panel</source>
+        <translation>Sperrsignal für Hilfsfahrstraßen nach links</translation>
+    </message>
+    <message>
+        <source>Right help route signal panel</source>
+        <translation>Sperrsignal für Hilfsfahrstraßen nach rechts</translation>
+    </message>
+    <message>
+        <source>Left main four state signal panel</source>
+        <translation>Linkes, vierbegriffiges Hauptsignal</translation>
+    </message>
+    <message>
+        <source>Right main four state signal panel</source>
+        <translation>Rechtes, vierbegriffiges Hauptsignal</translation>
+    </message>
+    <message>
+        <source>Left double button shunt signal panel</source>
+        <translation>Linkes Sperrsignal mit zwei Tasten</translation>
+    </message>
+    <message>
+        <source>Right doouble button shunt signal panel</source>
+        <translation>Rechtes Sperrsignal mit zwei Tasten</translation>
     </message>
 </context>
 <context>

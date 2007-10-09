@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-07 17:31:03 $
-                           $Revision: 1.146 $
+    last modified        : $Date: 2007-10-09 19:40:03 $
+                           $Revision: 1.147 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -257,7 +257,7 @@ void element::updateProperties()
 
     if (signal)
         ffm = (sSoldIcon == SYM_HSR || sSoldIcon == SYM_HSL ||
-                sSoldIcon == SYM_HSS ||
+                sSoldIcon == SYM_HSSR || sSoldIcon == SYM_HSSL ||
                 sSoldIcon == SYM_SHR || sSoldIcon == SYM_SHL);
 
     else if (sSoldIcon.startsWith("weiche") ||
@@ -424,17 +424,25 @@ void element::mousePressEvent(QMouseEvent* e)
                     ctrlButton = kZfsClicked;
 
                 else if (classid == siciSsr || classid == siciSsl ||
-                        classid == siciSss ||
+                        classid == siciSdr || classid == siciSdl ||
                         classid == siciWsr || classid == siciWsl ||
                         classid == siciSbr || classid == siciSbl)
                     ctrlButton = kRfsClicked;
 
-                else if (classid == siciHss) {
+                else if (classid == siciHssr) {
                     /* two different buttons on this panel */
                     if (CursorPos.x() > (width() >> 1) ^ (bool)iSoldRotate)
                         ctrlButton = kZfsClicked; 
                     else
                         ctrlButton = kRfsClicked;
+                }
+
+                else if (classid == siciHssl) {
+                    /* two different buttons on this panel */
+                    if (CursorPos.x() > (width() >> 1))
+                        ctrlButton = kRfsClicked;
+                    else
+                        ctrlButton = kZfsClicked; 
                 }
 
                 else if (classid == siciShr || classid == siciShl)
@@ -519,10 +527,10 @@ void element::mouseReleaseEvent(QMouseEvent* e)
         if (e->button() == LeftButton) {
             /*select/deselect start or stop signal*/
             if ((classid == siciHsr || classid == siciHsl ||
-                        classid == siciHss ||
+                        classid == siciHssr || classid == siciHssl ||
                         classid == siciSsr || classid == siciSsl || 
                         classid == siciShr || classid == siciShl ||
-                        classid == siciSss ||
+                        classid == siciSdr || classid == siciSdl ||
                         classid == siciRbr || classid == siciRbl ||
                         classid == siciSbr || classid == siciSbl)) {
                 /*send record signal to router*/
@@ -541,9 +549,9 @@ void element::mouseReleaseEvent(QMouseEvent* e)
                 classid == siciRel ||
                 classid == siciZpr || classid == siciZpl || 
                 classid == siciHsr || classid == siciHsl ||
-                classid == siciHss ||
+                classid == siciHssr || classid == siciHssl ||
                 classid == siciSsr || classid == siciSsl ||
-                classid == siciSss ||
+                classid == siciSdr || classid == siciSdl ||
                 classid == siciShr || classid == siciShl ||
                 classid == siciBld ||
                 classid == siciVsr || classid == siciVsl ||
@@ -667,7 +675,7 @@ void element::switchAddress(bool secondone)
 
     // element contains a main signal with direction >= 2
     else if ((classid == siciHsr || classid == siciHsl ||
-                classid == siciHss ||
+                classid == siciHssr || classid == siciHssl ||
               classid == siciVsr || classid == siciVsl)
             && iSoldDirection >= 2) {
 
@@ -995,7 +1003,7 @@ void element::toggle()
         } 
     }
 
-    else if (classid == siciHss) {
+    else if (classid == siciHssr || classid == siciHssl) {
         switch (iSoldDirection) {
             case 0:
                 if (iSoldSubType < 6)
@@ -1973,8 +1981,8 @@ void element::setupElementIcon()
         setPaletteBackgroundPixmap(pm);
     }
 
-    // signal HSS
-    else if (classid == siciHss) {
+    // right signal HSS
+    else if (classid == siciHssr) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2166,6 +2174,152 @@ void element::setupElementIcon()
                             h - 3));
             else
                 br.moveTopLeft(QPoint(w/2 - br.width()/2, 2));
+            
+            p.fillRect(br, QBrush(Qt::white));
+            p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
+                    Qt::DontClip, s);
+        }
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+    
+    // left signal HSS
+    else if (classid == siciHssl) {
+        QPixmap pm = QPixmap(size());
+        pm.fill(QColor(Qt::lightGray));
+        QPainter p;
+        p.begin(&pm);
+
+        int w = pm.width();
+        int h = pm.height();
+
+        // paint track
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
+
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 7; ++i)
+                p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
+        }
+        else {
+            QColor c;
+            if (occupied)
+                c = QColor(Qt::red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(Qt::darkGray);
+            }
+            p.fillRect(w / 3 + 1, h / 2 - 1, w / 3, 3, QBrush(c));
+            p.setPen(QPen(Qt::black));
+        }
+
+        // paint track button
+        p.drawPixmap(w / 6  - 4, h / 2 - 3,
+                QPixmap(button_red_xpm));
+        p.drawPixmap(5 * w / 6  - 4, h / 2 - 3,
+                QPixmap(button_gray_xpm));
+
+        // paint signal icon
+        p.setBrush(Qt::black);
+        p.drawEllipse(31, 4, 7, 7);
+        p.fillRect(9, 4, 24, 7, QBrush(Qt::black));
+        p.fillRect(41, 5, 2, 5, QBrush(Qt::black));
+        p.drawLine(38, 7, 40, 7);
+
+        /**
+         * direction subtype bottom-left bottom-right top-left top-right
+         * -------------------------------------------------------------
+         *     0       0          y           y
+         *     1       0                                 g        g
+         *     0       6          y           y
+         *     2       6          y                               g
+         *     0       4          y           y
+         *     1       4                                 g        g
+         *     2       4          y                               g
+         * -------------------------------------------------------------
+         **/
+ 
+        // fprintf(stderr, "dir: %d type: %d\n", iSoldDirection, iSoldSubType);
+
+        // paint signal light
+        // fix potential wrong direction value
+        if (iSoldSubType == 6 && iSoldDirection == DIR_HP1)
+            iSoldDirection = DIR_HP2;
+
+        switch (iSoldDirection) {
+            case DIR_HP2:              // HP2 => 2
+                if (pref.hp2) {
+                    p.setBrush(Qt::yellow);
+                    // top
+                    p.drawEllipse(4, 4, 7, 7);
+                    // bottom
+                    p.setBrush(Qt::black);
+                    p.drawEllipse(14, 4, 7, 7);
+                    break;
+                }
+            case DIR_HP1:              // HP1 => 1
+                p.setBrush(Qt::green);
+                // top
+                p.drawEllipse(4, 4, 7, 7);
+                // bottom
+                p.setBrush(Qt::black);
+                p.drawEllipse(14, 4, 7, 7);
+                break;
+            case DIR_SH1:              // SH1 => 3
+                {
+                    p.setPen(Qt::yellow);
+                    // paint only shunt light
+                    int startx = w - 22;
+                    p.drawLine(startx, 9, startx - 4, 5);
+                    p.drawLine(startx + 1, 9, startx - 3, 5);
+                    p.setPen(Qt::black);
+                    break;
+                }
+            case DIR_HP0:              // HP0 => 0
+                p.setBrush(Qt::red);
+                // bottom
+                p.drawEllipse(14, 4, 7, 7);
+                // top
+                p.setBrush(Qt::black);
+                p.drawEllipse(4, 4, 7, 7);
+                break;
+        }
+
+        // paint lock light
+        if (lockCounter == 0)
+            p.setBrush(Qt::darkGray);
+        else
+            p.setBrush(QColor(255, 225, 0));
+
+        p.drawEllipse(w - 11, 5, 5, 5);
+
+        // paint FfM
+        if (ffm) {
+            p.setBrush(ffmactive ? Qt::yellow : Qt::darkGray);
+            p.drawRect(5, h - 10, 6, 6);
+        }
+
+        // paint text label
+        if (sSoldText != "-1" && !sSoldText.isEmpty()) {
+            QFont f(QApplication::font());
+            f.setPointSize(QApplication::font().pointSize() - 3);
+            p.setFont(f);
+            QFontMetrics fm(f);
+            QString s;
+            
+            if (pref.addresslabeling)
+                s.setNum(iSoldAddress_1);
+            else
+                s = sSoldText;
+
+            QRect br = fm.boundingRect(s);
+            br.setWidth(br.width() + 4);
+            br.setHeight(br.height() + 2);
+
+            br.moveBottomRight(QPoint(w/2 + br.width()/2, h - 3));
             
             p.fillRect(br, QBrush(Qt::white));
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
@@ -4936,7 +5090,7 @@ void element::setupElementIcon()
 
     // right shunting signals SS, SSH, SSS
     else if (classid == siciSsr || classid == siciShr ||
-            classid == siciSss) {
+            classid == siciSdr) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -4970,7 +5124,7 @@ void element::setupElementIcon()
         int xpos1 = w / 6  - 4;
         int xpos2 = 5 * w / 6 - 4;
 
-        if (classid == siciSss) {
+        if (classid == siciSdr) {
             p.drawPixmap(xpos1, h / 2 - 3, QPixmap(button_gray_xpm));
             p.drawPixmap(xpos2, h / 2 - 3, QPixmap(button_gray_xpm));
         }
@@ -5076,7 +5230,7 @@ void element::setupElementIcon()
 
     // left shunting signals SS, SSH, SSS
     else if (classid == siciSsl || classid == siciShl ||
-            classid == siciSss) {
+            classid == siciSdl) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -5110,7 +5264,7 @@ void element::setupElementIcon()
         int xpos1 = w / 6  - 4;
         int xpos2 = 5 * w / 6 - 4;
 
-        if (classid == siciSss) {
+        if (classid == siciSdl) {
             p.drawPixmap(xpos1, h / 2 - 3, QPixmap(button_gray_xpm));
             p.drawPixmap(xpos2, h / 2 - 3, QPixmap(button_gray_xpm));
         }
@@ -6348,10 +6502,10 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
             || classid == siciHsr || classid == siciHsl
             || classid == siciRbr || classid == siciRbl
             || classid == siciSbl || classid == siciSbl
-            || classid == siciHss
+            || classid == siciHssr || classid == siciHssl
             || classid == siciSsr || classid == siciSsl
             || classid == siciShr || classid == siciShl
-            || classid == siciSss
+            || classid == siciSdr || classid == siciSdl
             || classid == siciBue || classid == siciTdr
             || classid == siciTdl || classid == siciTdb 
             || classid == siciVsr || classid == siciVsl
@@ -7240,7 +7394,7 @@ bool element::hasDifferentDirection(int dir)
 bool element::hasShuntingRouteButtonOnly()
 {
     return (classid == siciSsr || classid == siciSsl ||
-            classid == siciSss ||
+            classid == siciSdr || classid == siciSdl ||
             classid == siciSbr || classid == siciSbl ||
             classid == siciWsr || classid == siciWsl);
 }

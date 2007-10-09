@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-26
- * Last modified: $Date: 2007-10-07 05:38:57 $
- *                $Revision: 1.4 $
+ * Last modified: $Date: 2007-10-09 19:40:03 $
+ *                $Revision: 1.5 $
  *
  * This code creates a dockable window with a set of paint items 
  */
@@ -62,11 +62,13 @@
 #include "pixmaps/spdritem_hsr.xpm"
 #include "pixmaps/spdritem_hsl.xpm"
 #include "pixmaps/spdritem_hssr.xpm"
+#include "pixmaps/spdritem_hssl.xpm"
 #include "pixmaps/spdritem_ssr.xpm"
 #include "pixmaps/spdritem_ssl.xpm"
 #include "pixmaps/spdritem_shr.xpm"
 #include "pixmaps/spdritem_shl.xpm"
 #include "pixmaps/spdritem_sdr.xpm"
+#include "pixmaps/spdritem_sdl.xpm"
 #include "pixmaps/spdritem_wsr.xpm"
 #include "pixmaps/spdritem_wsl.xpm"
 #include "pixmaps/spdritem_vsr.xpm"
@@ -252,9 +254,13 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
             tr("Main signal right panel"),
             element::siciHsr, paintItemBG, "mainsignalrightPanel");
 
+    new PaintItemButton(QPixmap(spdritem_hssl_xpm),
+            tr("Left main four state signal panel"),
+            element::siciHssl, paintItemBG, "leftmainfourstatesignalPanel");
+
     new PaintItemButton(QPixmap(spdritem_hssr_xpm),
-            tr("Main four state signal panel"),
-            element::siciHss, paintItemBG, "mainfourstatesignalPanel");
+            tr("Right main four state signal panel"),
+            element::siciHssr, paintItemBG, "rightmainfourstatesignalPanel");
 
     new PaintItemButton(QPixmap(spdritem_ssl_xpm),
             tr("Left shunt signal panel"),
@@ -272,9 +278,13 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
             tr("Right help route signal panel"),
             element::siciShr, paintItemBG, "helproutePanel");
 
+    new PaintItemButton(QPixmap(spdritem_sdl_xpm),
+            tr("Left double button shunt signal panel"),
+            element::siciSdl, paintItemBG, "lefttwobtnshuntsignalPanel");
+
     new PaintItemButton(QPixmap(spdritem_sdr_xpm),
-            tr("Two button shunt signal panel"),
-            element::siciSss, paintItemBG, "twobtnshuntsignalPanel");
+            tr("Right doouble button shunt signal panel"),
+            element::siciSdr, paintItemBG, "righttwobtnshuntsignalPanel");
 
     new PaintItemButton(QPixmap(spdritem_wsl_xpm),
             tr("Left wait signal panel"),

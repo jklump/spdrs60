@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-07 17:31:03 $
-                           $Revision: 1.53 $
+    last modified        : $Date: 2007-10-09 19:40:03 $
+                           $Revision: 1.54 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -644,11 +644,11 @@ void ElementDialog::slotSymbolChanged()
     // show protocol data => element->hasAddress() or isSwitchable()
     enabled =
         classid == element::siciHsr || classid == element::siciHsl ||
-        classid == element::siciHss ||
+        classid == element::siciHssr || classid == element::siciHssl ||
         classid == element::siciSsr || classid == element::siciSsl ||
         classid == element::siciWsr || classid == element::siciWsl ||
         classid == element::siciShr || classid == element::siciShl ||
-        classid == element::siciSss ||
+        classid == element::siciSdr || classid == element::siciSdl ||
         classid == element::siciWel || classid == element::siciWer ||
         classid == element::siciDwl || classid == element::siciDwr ||
         classid == element::siciEkl || classid == element::siciEkr ||
@@ -668,6 +668,8 @@ void ElementDialog::slotSymbolChanged()
     rbProtocol_SE->setEnabled(enabled);
 
     // show address_1 data, but take enabled value from above
+    // TODO: include items with virtual addresses
+    // exclude turntable and transfer table
     enabled = enabled && classid != element::siciSbn &&
         classid != element::siciMdc;
 
@@ -694,7 +696,7 @@ void ElementDialog::slotSymbolChanged()
     // show text data
     enabled = 
         classid == element::siciHsr || classid == element::siciHsl ||
-        classid == element::siciHss ||
+        classid == element::siciHssr || classid == element::siciHssl ||
         classid == element::siciWsr || classid == element::siciWsl ||
         classid == element::siciVsr || classid == element::siciVsl ||
         classid == element::siciWel || classid == element::siciWer ||
@@ -704,7 +706,7 @@ void ElementDialog::slotSymbolChanged()
         classid == element::siciDrw ||
         classid == element::siciSsr || classid == element::siciSsl ||
         classid == element::siciShr || classid == element::siciShl ||
-        classid == element::siciSss ||
+        classid == element::siciSdr || classid == element::siciSdl ||
         classid == element::siciEnk || classid == element::siciRel ||
         classid == element::siciGer || classid == element::siciLee ||
         classid == element::siciRbr || classid == element::siciRbl ||
@@ -725,7 +727,8 @@ void ElementDialog::slotSymbolChanged()
     // show address_2 data
     // Hp0+Hp1+Hp2
     enabled =
-        classid == element::siciHss || classid == element::siciDrw || 
+        classid == element::siciHssr || classid == element::siciHssl ||
+        classid == element::siciDrw || 
         classid == element::siciDkl || classid == element::siciDkr || 
         classid == element::siciEkl || classid == element::siciEkr || 
         classid == element::siciMdc || classid == element::siciDre || 
@@ -765,12 +768,10 @@ void ElementDialog::slotSymbolChanged()
     // show rotate data
     // element::siciGer: only for text placement
     enabled =
-        classid == element::siciHss ||
         classid == element::siciWel || classid == element::siciWer ||
         classid == element::siciDwl || classid == element::siciDwr ||
         classid == element::siciEkl || classid == element::siciEkr ||
         classid == element::siciDrw ||
-        classid == element::siciSss ||
         classid == element::siciGer || classid == element::siciWey ||
         classid == element::siciDlt ||
         classid == element::siciDrt || classid == element::siciGet ||
@@ -793,7 +794,7 @@ void ElementDialog::slotSymbolChanged()
         classid == element::siciKrl || classid == element::siciKrr ||
         classid == element::siciSsr || classid == element::siciSsl ||
         classid == element::siciShr || classid == element::siciShl ||
-        classid == element::siciSss ||
+        classid == element::siciSdr || classid == element::siciSdl ||
         classid == element::siciTtl || classid == element::siciTtr ||
         classid == element::siciTbl || classid == element::siciTbr ||
         classid == element::siciWel || classid == element::siciWer ||
@@ -818,9 +819,9 @@ void ElementDialog::slotSymbolChanged()
     // element gets feedback messages
     enabled =
         classid == element::siciHsr || classid == element::siciHsl ||
-        classid == element::siciHss ||
+        classid == element::siciHssr || classid == element::siciHssl ||
         classid == element::siciShr || classid == element::siciShl ||
-        classid == element::siciSss ||
+        classid == element::siciSdr || classid == element::siciSdl ||
         classid == element::siciBue || classid == element::siciAdr ||
         classid == element::siciVsr || classid == element::siciVsl ||
         classid == element::siciWsr || classid == element::siciWsl ||
@@ -876,7 +877,7 @@ void ElementDialog::slotSymbolChanged()
     // show active time
     enabled =
         classid == element::siciHsr || classid == element::siciHsl ||
-        classid == element::siciHss ||
+        classid == element::siciHssr || classid == element::siciHssl ||
         classid == element::siciVsr || classid == element::siciVsl ||
         classid == element::siciWsr || classid == element::siciWsl ||
         classid == element::siciWel || classid == element::siciWer ||
@@ -886,7 +887,7 @@ void ElementDialog::slotSymbolChanged()
         classid == element::siciDrw ||
         classid == element::siciSsr || classid == element::siciSsl ||
         classid == element::siciShr || classid == element::siciShl ||
-        classid == element::siciSss ||
+        classid == element::siciSdr || classid == element::siciSdl ||
         classid == element::siciEnk || classid == element::siciRel ||
         classid == element::siciWey || classid == element::siciDre ||
         classid == element::siciSbn || classid == element::siciMdc ||
@@ -899,7 +900,7 @@ void ElementDialog::slotSymbolChanged()
     // show decoder data
     enabled =
         classid == element::siciHsr || classid == element::siciHsl ||
-        classid == element::siciHss ||
+        classid == element::siciHssr || classid == element::siciHssl ||
         classid == element::siciVsr || classid == element::siciVsl ||
         classid == element::siciWsr || classid == element::siciWsl ||
         classid == element::siciWel || classid == element::siciWer ||
@@ -909,7 +910,7 @@ void ElementDialog::slotSymbolChanged()
         classid == element::siciDrw ||
         classid == element::siciSsr || classid == element::siciSsl ||
         classid == element::siciShr || classid == element::siciShl ||
-        classid == element::siciSss ||
+        classid == element::siciSdr || classid == element::siciSdl ||
         classid == element::siciEnk || classid == element::siciRel ||
         classid == element::siciWey ||
         classid == element::siciSbn || classid == element::siciMdc ||
@@ -939,7 +940,7 @@ void ElementDialog::slotSymbolChanged()
     // show subtype data
     enabled =
         classid == element::siciHsr || classid == element::siciHsl ||
-        classid == element::siciHss ||
+        classid == element::siciHssr || classid == element::siciHssl ||
         classid == element::siciDkl || classid == element::siciDkr ||
         classid == element::siciEnk || classid == element::siciDre ||
         classid == element::siciVsr || classid == element::siciVsl;
@@ -989,14 +990,14 @@ void ElementDialog::showSubTypes(int iShow_)
     buttSubType[2]->show();
     // show appropriate text ...
     if (classid == element::siciHsr || classid == element::siciHsl ||
-            classid == element::siciHss || classid == element::siciVsr ||
-            classid == element::siciVsl) {
+            classid == element::siciHssr || classid == element::siciHssl ||
+            classid == element::siciVsr || classid == element::siciVsl) {
         if (classid == element::siciHsr || classid == element::siciHsl){
             buttSubType[0]->setPixmap(QPixmap(signal_hs_st1_xpm));
             buttSubType[1]->setPixmap(QPixmap(signal_hs_st2_xpm));
             buttSubType[2]->setPixmap(QPixmap(signal_hs_st3_xpm));
         }
-        else if (classid == element::siciHss){
+        else if (classid == element::siciHssr || classid == element::siciHssl){
             buttSubType[0]->setPixmap(QPixmap(signal_hss_st1_xpm));
             buttSubType[1]->setPixmap(QPixmap(signal_hss_st2_xpm));
             buttSubType[2]->setPixmap(QPixmap(signal_hss_st3_xpm));
@@ -1033,7 +1034,7 @@ void ElementDialog::showSubTypes(int iShow_)
 
     // activate the subtype dependant button
     if (classid == element::siciHsr || classid == element::siciHsl ||
-            classid == element::siciHss ||
+            classid == element::siciHssr || classid == element::siciHssl ||
             classid == element::siciVsr || classid == element::siciVsl) {
         if (classid == element::siciHsr || classid == element::siciHsl) {
             QToolTip::add(buttSubType[0],
@@ -1046,7 +1047,7 @@ void ElementDialog::showSubTypes(int iShow_)
                           tr("Allows to switch this signal to:\n"
                              "Hp0, Hp1 and Hp2"));
         }
-        if (classid == element::siciHss) {
+        if (classid == element::siciHssr || classid == element::siciHssl) {
             QToolTip::add(buttSubType[0],
                           tr("Allows to switch this signal to:\n"
                              "Hp0, Hp1 and Sh1"));
@@ -1176,7 +1177,8 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
                 gaSubType = 0;
             }
 
-            else if (classid == element::siciHss) {
+            else if (classid == element::siciHssr ||
+                    classid == element::siciHssl) {
                 gaSubType = 1;
             }
 
@@ -1218,7 +1220,8 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
                 gaSubType = 0;
             }
 
-            else if (classid == element::siciHss)
+            else if (classid == element::siciHssr ||
+                    classid == element::siciHssl)
                 gaSubType = 7;
 
             else if (classid == element::siciEnk)
@@ -1253,7 +1256,8 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
                 gaSubType = 1;
             }
 
-            else if (classid == element::siciHss)
+            else if (classid == element::siciHssr ||
+                    classid == element::siciHssl)
                 gaSubType = 5;
 
             else if (classid == element::siciEnk)
@@ -1312,7 +1316,7 @@ void ElementDialog::setGASubType(int sType)
      *     5            2
      * --------------------------
     */
-    else if (classid == element::siciHss) {
+    else if (classid == element::siciHssr || classid == element::siciHssl) {
         switch (gaSubType) {
             case 1:
                 btn = 0;

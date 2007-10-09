@@ -3,15 +3,15 @@ Section: x11
 Priority: optional
 Maintainer: Guido Scholz (privat) <guido.scholz@bayernline.de>
 Build-Depends: debhelper (>= 4.0.0), libqt3-mt-dev, libqt3-i18n, qt3-dev-tools, openjade, docbook, docbook-dsssl
-Standards-Version: 3.6.1
+Standards-Version: 3.7.2
 
 Package: spdrs60
 Architecture: any
-Depends: ${shlibs:Depends}, libqt3-mt 
+Depends: libqt3-mt 
 Recommends: libqt3-i18n, qt3-qtconfig, www-browser, t1-xfree86-nonfree
-Description: SpDrS60, Controlcenter for digital model railway
+Description: Interlocking control center for digital model railways
  Graphical program to comfortably control a digital model railway.
  Visual appearance and usage comply to the original switch box of
- the german federal railway company. SpDrS60 needs a SRCP server
+ the German federal railway company. spdrs60 needs a SRCP server
  (e.g. erddcd or srcpd) as a link to the physical layout of the
  model railway. 
