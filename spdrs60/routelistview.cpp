@@ -1,10 +1,10 @@
 /***************************************************************************
                            routelistview.cpp
-                           version 0.5.2 $Revision: 1.8 $
+                           version 0.5.2 $Revision: 1.9 $
                            -------------------------------
     copyright            : (C) 2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-25 21:07:42 $
+    last modified        : $Date: 2007-10-10 19:41:51 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -66,11 +66,11 @@ RouteLVI* RouteListView::getRouteLVIByRoute(Route* sr)
 void RouteListView::keyPressEvent(QKeyEvent* e)
 {
     switch (e->key()) {
-        case Key_Insert:
+        case Qt::Key_Insert:
             emit insertPressed();
             e->accept();
             break;
-        case Key_Delete:
+        case Qt::Key_Delete:
             if (currentItem() != NULL)
                 emit deletePressed(currentItem());
             e->accept();

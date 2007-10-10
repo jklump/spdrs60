@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.cpp
-                           version 0.5.2 $Revision: 1.28 $
+                           version 0.5.2 $Revision: 1.29 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-09 13:13:38 $
+    last modified        : $Date: 2007-10-10 19:41:51 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -761,16 +761,30 @@ void optionsDialog::fixFBBusNumbers(int fixed)
         bus2LE->setText("2");
         bus3LE->setText("3");
         bus4LE->setText("4");
+#if QT_VERSION >= 0x040000
+        bus1LE->setFocusPolicy(Qt::NoFocus);
+        bus2LE->setFocusPolicy(Qt::NoFocus);
+        bus3LE->setFocusPolicy(Qt::NoFocus);
+        bus4LE->setFocusPolicy(Qt::NoFocus);
+#else
         bus1LE->setFocusPolicy(QWidget::NoFocus);
         bus2LE->setFocusPolicy(QWidget::NoFocus);
         bus3LE->setFocusPolicy(QWidget::NoFocus);
         bus4LE->setFocusPolicy(QWidget::NoFocus);
+#endif
     }
     else {
+#if QT_VERSION >= 0x040000
+        bus1LE->setFocusPolicy(Qt::StrongFocus);
+        bus2LE->setFocusPolicy(Qt::StrongFocus);
+        bus3LE->setFocusPolicy(Qt::StrongFocus);
+        bus4LE->setFocusPolicy(Qt::StrongFocus);
+#else
         bus1LE->setFocusPolicy(QWidget::StrongFocus);
         bus2LE->setFocusPolicy(QWidget::StrongFocus);
         bus3LE->setFocusPolicy(QWidget::StrongFocus);
         bus4LE->setFocusPolicy(QWidget::StrongFocus);
+#endif
     }
 }
 
@@ -782,7 +796,10 @@ void optionsDialog::getPreferences(Preferences& prf)
     prf.hp2 = cbShowHp2->isChecked();
     prf.blinkingturnouts = cbShowBlinkingTurnouts->isChecked();
     prf.sendstate = allwaysSendState->isChecked();
+#if QT_VERSION >= 0x040000
+#else
     QToolTip::setGloballyEnabled(cbGenBubble->isChecked());
+#endif
     prf.datatooltips = cbDataBubble->isChecked();
     prf.converttime = cbConvertTime->isChecked();
     prf.showtime = cbShowTime->isChecked();
@@ -834,7 +851,10 @@ void optionsDialog::setPreferences(const Preferences& prf)
     cbShowHp2->setChecked(prf.hp2);
     cbShowBlinkingTurnouts->setChecked(prf.blinkingturnouts);
     allwaysSendState->setChecked(prf.sendstate);
+#if QT_VERSION >= 0x040000
+#else
     cbGenBubble->setChecked(QToolTip::isGloballyEnabled());
+#endif
     globalBubbleHelpChanged(cbGenBubble->isChecked());
     cbDataBubble->setChecked(prf.datatooltips);
     cbConvertTime->setChecked(prf.converttime);

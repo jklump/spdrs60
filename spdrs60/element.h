@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-09 19:40:03 $
-                           $Revision: 1.81 $
+    last modified        : $Date: 2007-10-10 19:41:51 $
+                           $Revision: 1.82 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -32,7 +32,14 @@
 #include <qrect.h>
 #include <qstring.h>
 #include <qtooltip.h>
+
+#if QT_VERSION >= 0x040000
+#include <qmatrix.h>
+#include <qmouseevent.h>
+#include <qpaintevent.h>
+#else
 #include <qwmatrix.h>
+#endif
 
 #include "elementcommander.h"
 #include "srcpmessage.h"

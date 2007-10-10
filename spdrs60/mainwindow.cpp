@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-28 18:00:23 $
-                           $Revision: 1.135 $
+    last modified        : $Date: 2007-10-10 19:41:51 $
+                           $Revision: 1.136 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -202,7 +202,11 @@ MainWindow::~MainWindow()
 void MainWindow::readConfigFile()
 {
     QFile file(QDir::homeDirPath() + "/" + SPDRS60_INIT);
+#if QT_VERSION >= 0x040000
     if (!file.open(IO_ReadOnly)) {
+#else
+    if (!file.open(IO_ReadOnly)) {
+#endif
         /* if no configuration file is found, just keep defaults */
         statusMessage(tr("User preferences file not found") + ": ~/" +
                    SPDRS60_INIT);
@@ -223,9 +227,12 @@ void MainWindow::readConfigFile()
             else if (key.compare(CF_TURNOUTBLINK) == 0) {
                 pref.blinkingturnouts = value.toInt();
             }
+#if QT_VERSION >= 0x040000
+#else
             else if (key.compare(CF_TOOLTIPS) == 0) {
                 QToolTip::setGloballyEnabled(value.toInt());
             }
+#endif
             else if (key.compare(CF_DATATOOLTIPS) == 0) {
                 pref.datatooltips = value.toInt();
             }
@@ -343,7 +350,11 @@ void MainWindow::writeConfigFile()
 {
     QFile file(QDir::homeDirPath() + "/" + SPDRS60_INIT);
     
+#if QT_VERSION >= 0x040000
+    if (!file.open(QIODevice::WriteOnly)) {
+#else
     if (!file.open(IO_WriteOnly)) {
+#endif
         statusMessage(tr("Error: Could not save configuration"
                     " file: ~/%1").arg(SPDRS60_INIT));
         return;
@@ -362,7 +373,10 @@ void MainWindow::writeConfigFile()
         << "#" << endl
         << CF_SHOWHP2      << KS << (int) pref.hp2 << endl
         << CF_TURNOUTBLINK << KS << (int) pref.blinkingturnouts << endl
+#if QT_VERSION >= 0x040000
+#else
         << CF_TOOLTIPS     << KS << (int) QToolTip::isGloballyEnabled() << endl
+#endif
         << CF_DATATOOLTIPS << KS << (int) pref.datatooltips << endl
         << CF_ADDRESSLABEL    KS << (int) pref.addresslabeling << endl
         << CF_INITSIGNALS  << KS << (int) pref.initsignalsred << endl
@@ -673,9 +687,9 @@ void MainWindow::initMainWindow()
 
     QPopupMenu* editfilemenu = new QPopupMenu(this);
     
-#if QT_VERSION >= 0x030200
-    actionEditFileLayout = new QAction(NULL, tr("&Layout"), 0, this,
-            "editFileLayout");
+#if QT_VERSION >= 0x040000
+    actionEditFileLayout = new QAction(tr("&Layout"), this);
+#elif QT_VERSION >= 0x030200
     actionEditFileLayout->setToolTip(tr(
                 "Edit layout file with external editor"));
 #else
@@ -688,7 +702,10 @@ void MainWindow::initMainWindow()
     actionEditFileLayout->addTo(editfilemenu);
     //actionEditFileLayout->addTo(edittb);
 
-#if QT_VERSION >= 0x030200
+#if QT_VERSION >= 0x040000
+    actionEditFileOptions = new QAction(
+            QDir::homeDirPath() + "/" + SPDRS60_INIT, this);
+#elif QT_VERSION >= 0x030200
     actionEditFileOptions = new QAction(NULL,
             QDir::homeDirPath() + "/" + SPDRS60_INIT, 0, this,
             "editFileOptions");
@@ -912,7 +929,10 @@ void MainWindow::initMainWindow()
 
     viewmenu->insertSeparator();
 
-#if QT_VERSION >= 0x030200
+#if QT_VERSION >= 0x040000
+    QAction* actionViewMenu = new QAction(
+            tr("&Menu"), Qt::CTRL + Qt::Key_U, this, "viewMenu");
+#elif QT_VERSION >= 0x030200
     QAction* actionViewMenu = new QAction(NULL,
             tr("&Menu"), Qt::CTRL + Qt::Key_U, this, "viewMenu");
     actionViewMenu->setToolTip(tr("Show the main menu"));
@@ -926,7 +946,10 @@ void MainWindow::initMainWindow()
     connect(actionViewMenu, SIGNAL(toggled(bool)), menuBar(),
             SLOT(setShown(bool)));
 
-#if QT_VERSION >= 0x030200
+#if QT_VERSION >= 0x040000
+    QAction* actionViewToolbar = new QAction(
+            tr("Tool&bars"), 0, this, "viewToolbar");
+#elif QT_VERSION >= 0x030200
     QAction* actionViewToolbar = new QAction(NULL,
             tr("Tool&bars"), 0, this, "viewToolbar");
     actionViewToolbar->setToolTip(tr("Show the toolbars"));
@@ -938,7 +961,10 @@ void MainWindow::initMainWindow()
     actionViewToolbar->setOn(true);
     actionViewToolbar->addTo(viewmenu);
 
-#if QT_VERSION >= 0x030200
+#if QT_VERSION >= 0x040000
+    QAction* actionViewStatusline = new QAction(
+            tr("Status&line"), 0, this, "viewStatusline");
+#elif QT_VERSION >= 0x030200
     QAction* actionViewStatusline = new QAction(NULL,
             tr("Status&line"), 0, this, "viewStatusline");
     actionViewStatusline->setToolTip(tr("Show the statusline"));
@@ -954,7 +980,11 @@ void MainWindow::initMainWindow()
 
     viewmenu->insertSeparator();
 
-#if QT_VERSION >= 0x030200
+#if QT_VERSION >= 0x040000
+    actionViewToggleHistory = new QAction(
+            tr("Toggle &history line"), Qt::CTRL + Qt::Key_D, // Ctrl H/T
+            this, "viewToggleHistory");
+#elif QT_VERSION >= 0x030200
     actionViewToggleHistory = new QAction(NULL,
             tr("Toggle &history line"), Qt::CTRL + Qt::Key_D, // Ctrl H/T
             this, "viewToggleHistory");
@@ -1078,7 +1108,10 @@ void MainWindow::initMainWindow()
     actionLayoutPower->addTo(layoutmenu);
     actionLayoutPower->addTo(layouttb);
 
-#if QT_VERSION >= 0x030200
+#if QT_VERSION >= 0x040000
+    actionLayoutFht = new QAction(
+            tr("Use &FHT"), Qt::Key_F5, this, "layoutFht");
+#elif QT_VERSION >= 0x030200
     actionLayoutFht = new QAction(NULL,
             tr("Use &FHT"), Qt::Key_F5, this, "layoutFht");
     actionLayoutFht->setToolTip(tr("Use route help button"));
@@ -1091,7 +1124,10 @@ void MainWindow::initMainWindow()
     actionLayoutFht->addTo(layoutmenu);
     //actionLayoutFht->addTo(layouttb);
 
-#if QT_VERSION >= 0x030200
+#if QT_VERSION >= 0x040000
+    actionLayoutUfgt = new QAction(
+            tr("Use &UfGT"), Qt::Key_F6, this, "layoutUfgt");
+#elif QT_VERSION >= 0x030200
     actionLayoutUfgt = new QAction(NULL,
             tr("Use &UfGT"), Qt::Key_F6, this, "layoutUfgt");
     actionLayoutUfgt->setToolTip(tr("Use detour group button"));
@@ -1104,7 +1140,10 @@ void MainWindow::initMainWindow()
     actionLayoutUfgt->addTo(layoutmenu);
     //actionLayoutUfgt->addTo(layouttb);
 
-#if QT_VERSION >= 0x030200
+#if QT_VERSION >= 0x040000
+    actionLayoutWgt = new QAction(
+            tr("Use &WGT"), Qt::Key_F7, this, "layoutWgt");
+#elif QT_VERSION >= 0x030200
     actionLayoutWgt = new QAction(NULL,
             tr("Use &WGT"), Qt::Key_F7, this, "layoutWgt");
     actionLayoutWgt->setToolTip(tr("Use turnout group button"));
@@ -1117,7 +1156,10 @@ void MainWindow::initMainWindow()
     actionLayoutWgt->addTo(layoutmenu);
     //actionLayoutWgt->addTo(layouttb);
 
-#if QT_VERSION >= 0x030200
+#if QT_VERSION >= 0x040000
+    actionLayoutSgt = new QAction(
+            tr("Use &SGT"), Qt::Key_F8, this, "layoutSgt");
+#elif QT_VERSION >= 0x030200
     actionLayoutSgt = new QAction(NULL,
             tr("Use &SGT"), Qt::Key_F8, this, "layoutSgt");
     actionLayoutSgt->setToolTip(tr("Use signal group button"));
@@ -1130,7 +1172,10 @@ void MainWindow::initMainWindow()
     actionLayoutSgt->addTo(layoutmenu);
     //actionLayoutSgt->addTo(layouttb);
 
-#if QT_VERSION >= 0x030200
+#if QT_VERSION >= 0x040000
+    actionLayoutHagt = new QAction(
+            tr("Use H&aGT"), Qt::Key_F9, this, "layoutHagt");
+#elif QT_VERSION >= 0x030200
     actionLayoutHagt = new QAction(NULL,
             tr("Use H&aGT"), Qt::Key_F9, this, "layoutHagt");
     actionLayoutHagt->setToolTip(tr("Use signal halt group button"));
@@ -1159,7 +1204,10 @@ void MainWindow::initMainWindow()
     actionLayoutNotRot->addTo(layoutmenu);
     actionLayoutNotRot->addTo(layouttb);
 
-#if QT_VERSION >= 0x030200
+#if QT_VERSION >= 0x040000
+    actionLayoutToggleAll = new QAction(
+            tr("&Toggle all"), Qt::Key_F10, this, "layoutToggleAll");
+#elif QT_VERSION >= 0x030200
     actionLayoutToggleAll = new QAction(NULL,
             tr("&Toggle all"), Qt::Key_F10, this, "layoutToggleAll");
     actionLayoutToggleAll->setToolTip(tr("Toggle all switchable elements"));
@@ -1172,7 +1220,10 @@ void MainWindow::initMainWindow()
     actionLayoutToggleAll->addTo(layoutmenu);
     //actionLayoutToggleAll->addTo(layouttb);
 
-#if QT_VERSION >= 0x030200
+#if QT_VERSION >= 0x040000
+    actionLayoutSendAll = new QAction(
+            tr("Send &all"), Qt::Key_F11, this, "layoutSendAll");
+#elif QT_VERSION >= 0x030200
     actionLayoutSendAll = new QAction(NULL,
             tr("Send &all"), Qt::Key_F11, this, "layoutSendAll");
     actionLayoutSendAll->setToolTip(tr("Send current states of all "
@@ -1187,7 +1238,10 @@ void MainWindow::initMainWindow()
     actionLayoutSendAll->addTo(layoutmenu);
     //actionLayoutSendAll->addTo(layouttb);
 
-#if QT_VERSION >= 0x030200
+#if QT_VERSION >= 0x040000
+    actionLayoutUpdateFB = new QAction(
+            tr("Up&date feedback states"), 0, this, "layoutUpdateFB");
+#elif QT_VERSION >= 0x030200
     actionLayoutUpdateFB = new QAction(NULL,
             tr("Up&date feedback states"), 0, this, "layoutUpdateFB");
     actionLayoutUpdateFB->setToolTip(tr("Get all current feedback "
@@ -1204,7 +1258,10 @@ void MainWindow::initMainWindow()
 
     layoutmenu->insertSeparator();
 
-#if QT_VERSION >= 0x030200
+#if QT_VERSION >= 0x040000
+    actionLayoutChangeSize = new QAction(
+            tr("S&ettings..."), 0, this, "layoutChangeSettings");
+#elif QT_VERSION >= 0x030200
     actionLayoutChangeSize = new QAction(NULL,
             tr("S&ettings..."), 0, this, "layoutChangeSettings");
     actionLayoutChangeSize->setToolTip(tr("Change layout settings"));
@@ -1260,7 +1317,10 @@ void MainWindow::initMainWindow()
     actionRouteWithdraw->addTo(routemenu);
     actionRouteWithdraw->addTo(routetb);
 
-#if QT_VERSION >= 0x030200
+#if QT_VERSION >= 0x040000
+    actionRouteRelease = new QAction(tr("&Release"),
+            0, this, "routeRelease");
+#elif QT_VERSION >= 0x030200
     //actionRouteRelease = new QAction(QPixmap(route_stop_xpm), tr("&Release"),
     actionRouteRelease = new QAction(NULL, tr("&Release"),
             0, this, "routeRelease");
@@ -1338,7 +1398,11 @@ void MainWindow::initMainWindow()
 
     routemenu->insertSeparator();
 
-#if QT_VERSION >= 0x030200
+#if QT_VERSION >= 0x040000
+    actionRouteUnlockAll = new QAction(
+            tr("&Unlock all"), Qt::CTRL + Qt::Key_U, this,
+            "layoutUnlockRoutes");
+#elif QT_VERSION >= 0x030200
     actionRouteUnlockAll = new QAction(NULL,
             tr("&Unlock all"), Qt::CTRL + Qt::Key_U, this,
             "layoutUnlockRoutes");
@@ -1647,7 +1711,11 @@ bool MainWindow::saveFile()
     }
 
     QFile f(fileName);
+#if QT_VERSION >= 0x040000
+    if (!f.open(QIODevice::WriteOnly)) {
+#else
     if (!f.open(IO_WriteOnly)) {
+#endif
         statusMessage(tr("Could not write to file '%1'").arg(fileName));
         return false;
     }
@@ -1766,7 +1834,11 @@ void MainWindow::openFile(const QString& fn)
 
     QFile f(fn);
 
+#if QT_VERSION >= 0x040000
+    if (!f.open(QIODevice::WriteOnly)) {
+#else
     if (!f.open(IO_ReadOnly)) {
+#endif
         statusMessage(tr("Could not read file '%1'").arg(fn));
         return;
     }

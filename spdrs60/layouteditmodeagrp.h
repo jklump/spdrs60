@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-12
- * Last modified: $Date: 2007-09-28 17:24:51 $
- *                $Revision: 1.3 $
+ * Last modified: $Date: 2007-10-10 19:41:51 $
+ *                $Revision: 1.4 $
  *
  * This is the header file to layouteditmodeagrp.cpp
  */
@@ -24,6 +24,10 @@
 #define LAYOUTEDITMODEAGRP_H
 
 #include <qaction.h>
+
+#if QT_VERSION >= 0x040000
+#include <QActionGroup>
+#endif
 
 #include "gbsarea.h"
 

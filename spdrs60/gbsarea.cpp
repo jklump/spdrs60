@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-09 19:40:03 $
-                           $Revision: 1.90 $
+    last modified        : $Date: 2007-10-10 19:41:51 $
+                           $Revision: 1.91 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -82,7 +82,7 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
     modified = false;
     cols = 0;
     rows = 0;
-    setPaletteBackgroundColor(QColor(lightGray));
+    setPaletteBackgroundColor(QColor(Qt::lightGray));
      
     setAcceptDrops(true);
     dragging = false;
@@ -105,67 +105,119 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
     /*cursor setup */
     QPixmap cb = QPixmap(cursor_wgt_b_xpm);
     QPixmap cm = QPixmap(cursor_wgt_m_xpm);
+#if QT_VERSION >= 0x040000
+    cb.setMask(cm.mask());
+#else
     cb.setMask(*cm.mask());
+#endif
     WGTCursor = QCursor(cb, 0, 0);
 
     cb = QPixmap(cursor_fht_b_xpm);
     cm = QPixmap(cursor_fht_m_xpm);
+#if QT_VERSION >= 0x040000
+    cb.setMask(cm.mask());
+#else
     cb.setMask(*cm.mask());
+#endif
     FHTCursor = QCursor(cb, 0, 0);
 
     cb = QPixmap(cursor_ufgt_b_xpm);
     cm = QPixmap(cursor_ufgt_m_xpm);
+#if QT_VERSION >= 0x040000
+    cb.setMask(cm.mask());
+#else
     cb.setMask(*cm.mask());
+#endif
     UfGTCursor = QCursor(cb, 0, 0);
 
     cb = QPixmap(cursor_mgt_b_xpm);
     cm = QPixmap(cursor_mgt_m_xpm);
+#if QT_VERSION >= 0x040000
+    cb.setMask(cm.mask());
+#else
     cb.setMask(*cm.mask());
+#endif
     MGTCursor = QCursor(cb, 0, 0);
 
     cb = QPixmap(cursor_sgt_b_xpm);
     cm = QPixmap(cursor_sgt_m_xpm);
+#if QT_VERSION >= 0x040000
+    cb.setMask(cm.mask());
+#else
     cb.setMask(*cm.mask());
+#endif
     SGTCursor = QCursor(cb, 0, 0);
 
     cb = QPixmap(cursor_hagt_b_xpm);
     cm = QPixmap(cursor_hagt_m_xpm);
+#if QT_VERSION >= 0x040000
+    cb.setMask(cm.mask());
+#else
     cb.setMask(*cm.mask());
+#endif
     HaGTCursor = QCursor(cb, 0, 0);
 
     cb = QPixmap(cursor_rzs_b_xpm);
     cm = QPixmap(cursor_rzs_m_xpm);
+#if QT_VERSION >= 0x040000
+    cb.setMask(cm.mask());
+#else
     cb.setMask(*cm.mask());
+#endif
     RZSCursor = QCursor(cb, 0, 0);
 
     cb = QPixmap(cursor_uzs_b_xpm);
     cm = QPixmap(cursor_uzs_m_xpm);
+#if QT_VERSION >= 0x040000
+    cb.setMask(cm.mask());
+#else
     cb.setMask(*cm.mask());
+#endif
     UZSCursor = QCursor(cb, 0, 0);
 
     cb = QPixmap(cursor_zhs_b_xpm);
     cm = QPixmap(cursor_zhs_m_xpm);
+#if QT_VERSION >= 0x040000
+    cb.setMask(cm.mask());
+#else
     cb.setMask(*cm.mask());
+#endif
     ZHSCursor = QCursor(cb, 0, 0);
 
     cb = QPixmap(cursor_rrs_b_xpm);
     cm = QPixmap(cursor_rrs_m_xpm);
+#if QT_VERSION >= 0x040000
+    cb.setMask(cm.mask());
+#else
     cb.setMask(*cm.mask());
+#endif
     RRSCursor = QCursor(cb, 0, 0);
 
     cb = QPixmap(cursor_urs_b_xpm);
     cm = QPixmap(cursor_urs_m_xpm);
+#if QT_VERSION >= 0x040000
+    cb.setMask(cm.mask());
+#else
     cb.setMask(*cm.mask());
+#endif
     URSCursor = QCursor(cb, 0, 0);
 
     cb = QPixmap(cursor_paint_b_xpm);
     cm = QPixmap(cursor_paint_m_xpm);
+#if QT_VERSION >= 0x040000
+    cb.setMask(cm.mask());
+#else
     cb.setMask(*cm.mask());
+#endif
     paintCursor = QCursor(cb, 0, 0);
 
     cb = QPixmap(cursor_erase_b_xpm);
     cm = QPixmap(cursor_erase_m_xpm);
+#if QT_VERSION >= 0x040000
+    cb.setMask(cm.mask());
+#else
     cb.setMask(*cm.mask());
+#endif
     eraseCursor = QCursor(cb, 0, 0);
 
     delayTimer = new QTimer(this);
@@ -1328,7 +1380,7 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
 {
     /*normal mode*/
     if (visualMode == kvmNormal) {
-        if (e->button() == RightButton) {
+        if (e->button() == Qt::RightButton) {
             element* el = (element*)childAt(e->pos());
 
             if (el != NULL && el->isSwitchable()) {
@@ -1344,7 +1396,7 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
 
     /*layout edit mode*/
     else if (visualMode == kvmEditLayout) {
-        if (e->button() == LeftButton) {
+        if (e->button() == Qt::LeftButton) {
 
             if (lyeditMode == lemSelect) {
             /*TODO: handle drop action*/
@@ -1361,11 +1413,11 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
             e->accept();
         }
 
-        else if (e->button() == MidButton) {
+        else if (e->button() == Qt::MidButton) {
             // nothing happens here
         }
 
-        else if (e->button() == RightButton) {
+        else if (e->button() == Qt::RightButton) {
             element* el = (element*)childAt(e->pos());
 
             if (el == NULL) {
@@ -1383,7 +1435,7 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
     /*route edit mode*/
     else if (visualMode == kvmEditRoute) {
         /*show context menu to switch element only without selection*/
-        if (e->button() == RightButton) {
+        if (e->button() == Qt::RightButton) {
             element* el = (element*)childAt(e->pos());
 
             if (el != NULL && el->isSwitchable()) {
@@ -1405,7 +1457,7 @@ void GBSArea::mousePressEvent(QMouseEvent* e)
 {
     /*layout edit mode*/
     if (visualMode == kvmEditLayout) {
-        if (e->button() == LeftButton) {
+        if (e->button() == Qt::LeftButton) {
 
             /* drag item */
             if (lyeditMode == lemSelect) {
@@ -1593,15 +1645,15 @@ void GBSArea::paintEvent(QPaintEvent*)
     switch (visualMode) {
         case kvmEditLayout:
             // edit mode: red
-            c = QColor(red);
+            c = QColor(Qt::red);
             break;
         case kvmEditRoute:
             // show route mode: blue
-            c = QColor(blue);
+            c = QColor(Qt::blue);
             break;
         default:
             // normal mode: grey
-            c = QColor(gray);
+            c = QColor(Qt::gray);
             break;
     }
     

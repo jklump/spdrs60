@@ -7,7 +7,11 @@
 #define RESOURCES_H
 
 /* include AC-Variables  */
+#ifdef WIN32
+#include "config_w32.h"
+#else
 #include "config.h"
+#endif
 
 #define   MIN_COLS         4   // min number of columns in a layout
 #define   MAX_COLS         200 // max number of columns in a layout

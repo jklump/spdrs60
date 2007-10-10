@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-09 19:40:03 $
-                           $Revision: 1.147 $
+    last modified        : $Date: 2007-10-10 19:41:51 $
+                           $Revision: 1.148 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -23,6 +23,7 @@
  ***************************************************************************/
 
 #include <qapplication.h>
+#include <qpixmap.h>
 
 #include "element.h"
 #include "elementdialog.h"
@@ -108,6 +109,9 @@ element::element(QTextStream& ts, QWidget* parent)
 /*set all variables which are not read from file*/
 void element::initVariables()
 {
+#if QT_VERSION >= 0x040000
+    setAutoFillBackground(true);
+#endif
     editsAddress = 0;
     countervalue = 0;
     ffmactive = false;
@@ -6439,14 +6443,14 @@ void element::addTooltip()
                 0 ? "No" : "Yes"),
             iSoldInvert,
             sSoldDecoder == "-1" ?  "N/A (=-1)" 
-            : sSoldDecoder.data(),
+            : (char*)sSoldDecoder.data(),
             protocol == SrcpMessage::proNone ? "N/A (=-1)"
                 : (protocol == SrcpMessage::proMM ? "Motorola"
                         : (protocol == SrcpMessage::proDCC ? "NMRA/DCC"
                             : (protocol == SrcpMessage::proSelectrix ?
                                 "Selectrix"
                                 : "Server"))),
-            iSoldAddress_1 == -1 ?  "N/A (=-1)" : a1.data());
+            iSoldAddress_1 == -1 ?  "N/A (=-1)" : (char*)a1.data());
 
     tip2.sprintf(
             "Address 2: %s\n"
@@ -6458,14 +6462,14 @@ void element::addTooltip()
             "Locked: %s (=%1d)\n"
             "Time (ms): %d\n"
             "FB Contact: %d\n",
-            iSoldAddress_2 == -1 ? "N/A (=-1)" : a2.data(),
+            iSoldAddress_2 == -1 ? "N/A (=-1)" : (char*)a2.data(),
             iSoldChangeConn[0] ==
             -1 ? "N/A" : (iSoldChangeConn[0] == 0 ? "No" : "Yes"),
             iSoldChangeConn[0],
             iSoldChangeConn[1] ==
             -1 ? "N/A" : (iSoldChangeConn[1] == 0 ? "No" : "Yes"),
             iSoldChangeConn[1], iSoldDirection, iSoldSubType,
-            sSoldText == "-1" ? "N/A (=-1)" : sSoldText.data(),
+            sSoldText == "-1" ? "N/A (=-1)" : (char*)sSoldText.data(),
             lockCounter == -1 ? "N/A" : (isLocked() ? "No" : "Yes"),
             lockCounter, iSoldActiveTime, iFBContact);
 

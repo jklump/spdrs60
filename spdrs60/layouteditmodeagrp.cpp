@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-12
- * Last modified: $Date: 2007-09-17 18:05:45 $
- *                $Revision: 1.3 $
+ * Last modified: $Date: 2007-10-10 19:41:51 $
+ *                $Revision: 1.4 $
  *
  * This file provides menu and toolbar action to switch layout edit mode
  * between three different working modes:
@@ -24,6 +24,8 @@
  **************************************************************************/
 
 
+#include <qpixmap.h>
+
 #include "layouteditmodeagrp.h"
 
 #include "pixmaps/layoutitemselectmode.xpm"
@@ -32,7 +34,11 @@
 
     
 LayoutEditModeAgrp::LayoutEditModeAgrp(QObject* parent, const char* name):
+#if QT_VERSION >= 0x040000
+ QActionGroup(parent)
+#else
  QActionGroup(parent, name , true)
+#endif
 {
 #if QT_VERSION >= 0x030200
     actionSelectMode = new QAction(QPixmap(layoutitemselectmode_xpm),

@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementcommander.h
-                           version 0.5.2 $Revision: 1.6 $
+                           version 0.5.2 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2007-10-10 19:41:51 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -24,7 +24,12 @@
 #ifndef ELEMENTCOMMANDER_H
 #define ELEMENTCOMMANDER_H
 
+#if QT_VERSION >= 0x040000
+#include <q3buttongroup.h>
+#else
 #include <qbuttongroup.h>
+#endif
+
 #include <qdialog.h>
 #include <qlabel.h>
 #include <qpixmap.h>
@@ -61,7 +66,11 @@ private:
    QPushButton*  buttRotateRight;     // button for rotating a motor acw
    QPushButton*  buttStop;            // button for stop any movements
    QPixmap       pixButton;           // the pixmap for each button
-   QButtonGroup* bgButton;            // a button group for moving/rotating butt
+#if QT_VERSION >= 0x040000
+   Q3ButtonGroup* bgButton;            // moving/rotating
+#else
+   QButtonGroup* bgButton;            // moving/rotating
+#endif
 
    QString       sSoldIcon;           // save the icon relevant for commander
 };

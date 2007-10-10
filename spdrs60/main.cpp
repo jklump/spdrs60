@@ -1,11 +1,11 @@
 /***************************************************************************
                            main.cpp
-                           version 0.5.2 $Revision: 1.15 $
+                           version 0.5.2 $Revision: 1.16 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-04 20:11:29 $
+    last modified        : $Date: 2007-10-10 19:41:51 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -28,7 +28,12 @@
 #include <qtextcodec.h>
 #include <qtranslator.h>
 
+#ifdef WIN32
+#include "config_w32.h"
+#else
 #include "config.h"
+#endif
+
 #include "mainwindow.h"
 
 

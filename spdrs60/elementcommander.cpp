@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementcommander.cpp
-                           version 0.5.2 $Revision: 1.8 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-02 17:34:16 $ 
+    last modified        : $Date: 2007-10-10 19:41:51 $ 
+                           $Revision: 1.9 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -20,6 +20,13 @@
 /***************************************************************************
  this code provides a GUI to control analog turntables, shifting brigdes ...
 ****************************************************************************/
+
+#include <qpixmap.h>
+
+#if QT_VERSION >= 0x040000
+#include <q3frame.h>
+#endif
+
 #include "elementcommander.h"
 #include "preferences.h"
 #include "element.h"
@@ -61,8 +68,9 @@ elementCommander::elementCommander(QWidget * parent, QString sSoldIcon_)
     else
         setupMotor();
 
-    this->setFixedWidth(285);   // fix the window's geometry
-    this->setFixedHeight(30);
+    // fix the window's geometry
+    setFixedWidth(285);
+    setFixedHeight(30);
 }
 
 

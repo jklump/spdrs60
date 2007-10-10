@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-09 19:40:03 $
-                           $Revision: 1.54 $
+    last modified        : $Date: 2007-10-10 19:41:51 $
+                           $Revision: 1.55 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -21,8 +21,18 @@
  this file provides an user interface to change properties of an element
  ***************************************************************************/
 
+#if QT_VERSION >= 0x040000
+#include <q3hbox.h>
+#include <q3hboxlayout>
+#include <q3gridlayout>
+#include <q3vboxlayout>
+#else
 #include <qhbox.h>
+#endif
+
 #include <qlayout.h>
+#include <qlabel.h>
+#include <qpixmap.h>
 
 #include "elementdialog.h"
 #include "preferences.h"
@@ -329,7 +339,11 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
                 QSizePolicy::Minimum));
     moduleLE = new QLineEdit(feedbackGB, "moduleLE");
     moduleLE->setMaximumWidth(LEMAXWIDTH);
+#if QT_VERSION >= 0x040000
+    moduleLE->setFocusPolicy(Qt::NoFocus);
+#else
     moduleLE->setFocusPolicy(QWidget::NoFocus);
+#endif
     moduleLayout->addWidget(moduleLE);
     
     /*line with port*/
@@ -341,7 +355,11 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
                 QSizePolicy::Minimum));
     portLE = new QLineEdit(feedbackGB, "portLE");
     portLE->setMaximumWidth(LEMAXWIDTH);
+#if QT_VERSION >= 0x040000
+    portLE->setFocusPolicy(Qt::NoFocus);
+#else
     portLE->setFocusPolicy(QWidget::NoFocus);
+#endif
     portLayout->addWidget(portLE);
     
     /*this checkbox never is active, shows only state information*/
@@ -391,7 +409,11 @@ void ElementDialog::slotAddress1Changed(const QString&)
 void ElementDialog::letteringChanged(bool takeaddr)
 {
     if (takeaddr) {
+#if QT_VERSION >= 0x040000
+        leText->setFocusPolicy(Qt::NoFocus);
+#else
         leText->setFocusPolicy(QWidget::NoFocus);
+#endif
         leText->setText(address1LE->text());
     }
     else
@@ -761,9 +783,15 @@ void ElementDialog::slotSymbolChanged()
                            && classid != element::siciMdc);
  
     if (classid == element::siciDre)
-        address2LE->setFocusPolicy(NoFocus);
+#if QT_VERSION >= 0x040000
+        address2LE->setFocusPolicy(Qt::NoFocus);
     else
-        address2LE->setFocusPolicy(StrongFocus);
+        address2LE->setFocusPolicy(Qt::StrongFocus);
+#else
+        address2LE->setFocusPolicy(QWidget::NoFocus);
+    else
+        address2LE->setFocusPolicy(QWidget::StrongFocus);
+#endif
 
     // show rotate data
     // element::siciGer: only for text placement

@@ -1,10 +1,10 @@
 /***************************************************************************
                            routeelementdialog.cpp
-                           version 0.5.2 $Revision: 1.14 $
+                           version 0.5.2 $Revision: 1.15 $
                            -------------------------------
     copyright            : (C) 2005-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-07 17:31:03 $
+    last modified        : $Date: 2007-10-10 19:41:51 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -53,7 +53,11 @@ RouteElementDialog::RouteElementDialog(QWidget* parent)
     reLayout->addItem(spacer);
     reNameLE = new QLineEdit(elDataGB, "reNameLE");
     reNameLE->setReadOnly(true);
+#if QT_VERSION >= 0x040000
+    reNameLE->setFocusPolicy(Qt::NoFocus);
+#else
     reNameLE->setFocusPolicy(QWidget::NoFocus);
+#endif
     reNameLE->setMaximumWidth(LEMAXWIDTH);
     reLayout->addWidget(reNameLE);
 

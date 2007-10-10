@@ -19,6 +19,7 @@
 
 #include <qdatetime.h>
 #include <qfont.h>
+#include <qlabel.h>
 
 #include "messagehistory.h"
 
@@ -64,17 +65,29 @@ MessageHistory::MessageHistory(QWidget* parent): QHBox(parent,
     f.setFamily("Courier");
 
     hintCB = new QComboBox(false, cbStack);
+#if QT_VERSION >= 0x040000
+    hintCB->setMaxVisibleItems(15);
+#else
     hintCB->setSizeLimit(15);
+#endif
     hintCB->setFont(f);
     cbStack->addWidget(hintCB, 0);
 
     commandCB = new QComboBox(false, cbStack);
+#if QT_VERSION >= 0x040000
+    commandCB->setMaxVisibleItems(15);
+#else
     commandCB->setSizeLimit(15);
+#endif
     commandCB->setFont(f);
     cbStack->addWidget(commandCB, 1);
 
     infoCB = new QComboBox(false, cbStack);
+#if QT_VERSION >= 0x040000
+    infoCB->setMaxVisibleItems(15);
+#else
     infoCB->setSizeLimit(15);
+#endif
     infoCB->setFont(f);
     cbStack->addWidget(infoCB, 2);
 

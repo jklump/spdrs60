@@ -1,11 +1,11 @@
 /***************************************************************************
                            turntablecommander.cpp
-                           version 0.5.2 $Revision: 1.12 $
+                           version 0.5.2 $Revision: 1.13 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-05 17:39:48 $
+    last modified        : $Date: 2007-10-10 19:41:51 $
 ***************************************************************************/
 
 /******************************************************************************
@@ -386,7 +386,11 @@ void turntableCommander::startTrackTimer()
     listTracks->setEnabled(false);
 
     tTrackReached = new QTimer();       // start timer
+#if QT_VERSION >= 0x040000
+    tTrackReached->start((int) 1000 * pref.ttroundtime / 24);
+#else
     tTrackReached->start((int) nearbyint(1000 * pref.ttroundtime / 24));
+#endif
     connect(tTrackReached, SIGNAL(timeout()),
             this, SLOT(slotTrackReached()));
 }

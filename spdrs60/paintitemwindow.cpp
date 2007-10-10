@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-26
- * Last modified: $Date: 2007-10-09 19:40:03 $
- *                $Revision: 1.5 $
+ * Last modified: $Date: 2007-10-10 19:41:51 $
+ *                $Revision: 1.6 $
  *
  * This code creates a dockable window with a set of paint items 
  */
@@ -434,7 +434,11 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
  */
 void PaintItemWindow::paintItemPressed(int bi)
 {
+#if QT_VERSION >= 0x040000
+    QAbstractButton* pib = paintItemBG->find(bi);
+#else
     QButton* pib = paintItemBG->find(bi);
+#endif
 
     if (pib == NULL)
         return;

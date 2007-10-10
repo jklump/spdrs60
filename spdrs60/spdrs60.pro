@@ -1,13 +1,237 @@
-SOURCES = \
+TEMPLATE = app
+TARGET = spdrs60
+DEPENDPATH += .
+INCLUDEPATH += .
+
+# Input
+HEADERS += aboutdialog.h \
+	commandport.h \
+	element.h \
+	elementcommander.h \
+	elementdialog.h \
+	feedbacklistbox.h \
+	feedbackmodule.h \
+	feedbackviewer.h \
+	finder.h \
+	gbsarea.h \
+	gbsscrollview.h \
+	infoport.h \
+	keyboard.h \
+	layouteditmodeagrp.h \
+	mainwindow.h \
+	messagehistory.h \
+	newlayoutdialog.h \
+	options.h \
+	paintitembutton.h \
+	paintitemwindow.h \
+	preferences.h \
+	resources.h \
+	route.h \
+	routedialog.h \
+	routeelementdialog.h \
+	routeelementlvi.h \
+	routelistview.h \
+	routelistwindow.h \
+	routelvi.h \
+	router.h \
+	section.h \
+	serverinfodialog.h \
+	srcpmessage.h \
+	srcpport.h \
+	trainnumberdialog.h \
+	turntablecommander.h \
+	../icons/spdrs60_32.xpm \
+	../icons/spdrs60_48.xpm \
+	pixmaps/button-red.xpm \
+	pixmaps/button-gray.xpm \
+	pixmaps/button-black.xpm \
+	pixmaps/button-yellow.xpm \
+	pixmaps/label-fht.xpm \
+	pixmaps/label-hagt.xpm \
+	pixmaps/label-mgt.xpm \
+	pixmaps/label-sgt.xpm \
+	pixmaps/label-ufgt.xpm \
+	pixmaps/label-wgt.xpm \
+	pixmaps/transfertable.xpm \
+	pixmaps/signal-w.xpm \
+	pixmaps/signal-wr.xpm \
+	pixmaps/tt_stop.xpm \
+	pixmaps/tt_left.xpm \
+	pixmaps/tt_left_step.xpm \
+	pixmaps/tt_right.xpm \
+	pixmaps/tt_right_step.xpm \
+	pixmaps/viewfeedback.xpm \
+	pixmaps/drehscheibe_st2.xpm \
+	pixmaps/drehscheibe_st3.xpm \
+	pixmaps/dkw_links_st2.xpm \
+	pixmaps/dkw_links_st3.xpm \
+	pixmaps/dkw_rechts_st2.xpm \
+	pixmaps/dkw_rechts_st3.xpm \
+	pixmaps/signal_vs_st1.xpm \
+	pixmaps/signal_vs_st2.xpm \
+	pixmaps/signal_vs_st3.xpm \
+	pixmaps/signal_hs_st1.xpm \
+	pixmaps/signal_hs_st2.xpm \
+	pixmaps/signal_hs_st3.xpm \
+	pixmaps/signal_hss_st1.xpm \
+	pixmaps/signal_hss_st2.xpm \
+	pixmaps/signal_hss_st3.xpm \
+	pixmaps/entkoppler_st1.xpm \
+	pixmaps/entkoppler_st2.xpm \
+	pixmaps/entkoppler_st3.xpm \
+	pixmaps/cursor_wgt_b.xpm \
+	pixmaps/cursor_wgt_m.xpm \
+	pixmaps/cursor_fht_b.xpm \
+	pixmaps/cursor_fht_m.xpm \
+	pixmaps/cursor_ufgt_b.xpm \
+	pixmaps/cursor_ufgt_m.xpm \
+	pixmaps/cursor_mgt_b.xpm \
+	pixmaps/cursor_mgt_m.xpm \
+	pixmaps/cursor_sgt_b.xpm \
+	pixmaps/cursor_sgt_m.xpm \
+	pixmaps/cursor_hagt_b.xpm \
+	pixmaps/cursor_hagt_m.xpm \
+	pixmaps/cursor_rzs_b.xpm \
+	pixmaps/cursor_rzs_m.xpm \
+	pixmaps/cursor_uzs_b.xpm \
+	pixmaps/cursor_uzs_m.xpm \
+	pixmaps/cursor_zhs_b.xpm \
+	pixmaps/cursor_zhs_m.xpm \
+	pixmaps/cursor_rrs_b.xpm \
+	pixmaps/cursor_rrs_m.xpm \
+	pixmaps/cursor_urs_b.xpm \
+	pixmaps/cursor_urs_m.xpm \
+	pixmaps/cursor_paint_b.xpm \
+	pixmaps/cursor_paint_m.xpm \
+	pixmaps/cursor_erase_b.xpm \
+	pixmaps/cursor_erase_m.xpm \
+	pixmaps/layoutitemselectmode.xpm \
+	pixmaps/layoutitempaintmode.xpm \
+	pixmaps/layoutitemerasemode.xpm \
+	pixmaps/filenew.xpm \
+	pixmaps/fileopen.xpm \
+	pixmaps/filesave.xpm \
+	pixmaps/filesaveas.xpm \
+	pixmaps/filenewwindow.xpm \
+	pixmaps/fileclose.xpm \
+	pixmaps/filequit.xpm \
+	pixmaps/editcut.xpm \
+	pixmaps/editcopy.xpm \
+	pixmaps/editpaste.xpm \
+	pixmaps/editfind.xpm \
+	pixmaps/editoptions.xpm \
+	pixmaps/daemonconnect.xpm \
+	pixmaps/daemondisconnect.xpm \
+	pixmaps/daemonkill.xpm \
+	pixmaps/daemonreset.xpm \
+	pixmaps/daemoninfo.xpm \
+	pixmaps/viewroute.xpm \
+	pixmaps/viewtrainnumber.xpm \
+	pixmaps/viewkeyboard.xpm \
+	pixmaps/viewclock.xpm \
+	pixmaps/viewnormalmode.xpm \
+	pixmaps/viewlayouteditmode.xpm \
+	pixmaps/viewrouteeditmode.xpm \
+	pixmaps/layoutstart.xpm \
+	pixmaps/layoutstop.xpm \
+	pixmaps/layoutnotrot.xpm \
+	pixmaps/route_start.xpm \
+	pixmaps/route_stop.xpm \
+	pixmaps/route_edit.xpm \
+	pixmaps/route_new.xpm \
+	pixmaps/route_copy.xpm \
+	pixmaps/route_clear.xpm \
+	pixmaps/spdritem_trh.xpm \
+	pixmaps/spdritem_trv.xpm \
+	pixmaps/spdritem_dil.xpm \
+	pixmaps/spdritem_dir.xpm \
+	pixmaps/spdritem_tdr.xpm \
+	pixmaps/spdritem_tdl.xpm \
+	pixmaps/spdritem_tdb.xpm \
+	pixmaps/spdritem_krh.xpm \
+	pixmaps/spdritem_krr.xpm \
+	pixmaps/spdritem_krl.xpm \
+	pixmaps/spdritem_crb.xpm \
+	pixmaps/spdritem_clt.xpm \
+	pixmaps/spdritem_clb.xpm \
+	pixmaps/spdritem_crt.xpm \
+	pixmaps/spdritem_ttl.xpm \
+	pixmaps/spdritem_ttr.xpm \
+	pixmaps/spdritem_tbl.xpm \
+	pixmaps/spdritem_tbr.xpm \
+	pixmaps/spdritem_wel.xpm \
+	pixmaps/spdritem_wer.xpm \
+	pixmaps/spdritem_dwl.xpm \
+	pixmaps/spdritem_dwr.xpm \
+	pixmaps/spdritem_wey.xpm \
+	pixmaps/spdritem_drw.xpm \
+	pixmaps/spdritem_ekl.xpm \
+	pixmaps/spdritem_ekr.xpm \
+	pixmaps/spdritem_dkl.xpm \
+	pixmaps/spdritem_dkr.xpm \
+	pixmaps/spdritem_hsr.xpm \
+	pixmaps/spdritem_hsl.xpm \
+	pixmaps/spdritem_hssr.xpm \
+	pixmaps/spdritem_ssr.xpm \
+	pixmaps/spdritem_shr.xpm \
+	pixmaps/spdritem_sdr.xpm \
+	pixmaps/spdritem_wsr.xpm \
+	pixmaps/spdritem_vsr.xpm \
+	pixmaps/spdritem_vsl.xpm \
+	pixmaps/spdritem_zpr.xpm \
+	pixmaps/spdritem_rbr.xpm \
+	pixmaps/spdritem_sbr.xpm \
+	pixmaps/spdritem_dco.xpm \
+	pixmaps/spdritem_bld.xpm \
+	pixmaps/spdritem_adr.xpm \
+	pixmaps/spdritem_lcr.xpm \
+	pixmaps/spdritem_rel.xpm \
+	pixmaps/spdritem_mdc.xpm \
+	pixmaps/spdritem_tnt.xpm \
+	pixmaps/spdritem_trt.xpm \
+	pixmaps/spdritem_bsl.xpm \
+	pixmaps/spdritem_bsr.xpm \
+	pixmaps/spdritem_tug.xpm \
+	pixmaps/spdritem_dlt.xpm \
+	pixmaps/spdritem_drt.xpm \
+	pixmaps/spdritem_lee.xpm \
+	pixmaps/spdritem_hs1.xpm \
+	pixmaps/spdritem_bul.xpm \
+	pixmaps/spdritem_bur.xpm \
+	pixmaps/spdritem_sht.xpm \
+	pixmaps/spdritem_shm.xpm \
+	pixmaps/spdritem_shb.xpm \
+	pixmaps/spdritem_feg.xpm \
+	pixmaps/spdritem_taf.xpm \
+	pixmaps/spdritem_tau.xpm \
+	pixmaps/spdritem_feb.xpm \
+	pixmaps/spdritem_taw.xpm \
+	pixmaps/spdritem_fer.xpm \
+	pixmaps/spdritem_tas.xpm \
+	pixmaps/spdritem_fey.xpm \
+	pixmaps/spdritem_fen.xpm \
+	pixmaps/spdritem_fee.xpm \
+	pixmaps/route_locked.xpm \
+	pixmaps/route_unlocked.xpm \
+	pixmaps/route_wflock.xpm \
+	pixmaps/route_wfunlock.xpm \
+	pixmaps/tt_goto.xpm \
+	pixmaps/tt_prog.xpm \
+	pixmaps/tt_turn180.xpm
+
+SOURCES += \
 	aboutdialog.cpp \
-	elementcommander.cpp \
+	commandport.cpp \
 	element.cpp \
+	elementcommander.cpp \
 	elementdialog.cpp \
 	feedbacklistbox.cpp \
+	feedbackmodule.cpp \
 	feedbackviewer.cpp \
 	finder.cpp \
 	gbsarea.cpp \
 	gbsscrollview.cpp \
+	infoport.cpp \
 	keyboard.cpp \
 	layouteditmodeagrp.cpp \
 	main.cpp \
@@ -17,18 +241,22 @@ SOURCES = \
 	options.cpp \
 	paintitembutton.cpp \
 	paintitemwindow.cpp \
+	preferences.cpp \
+	route.cpp \
 	routedialog.cpp \
 	routeelementdialog.cpp \
 	routeelementlvi.cpp \
-	route.cpp \
-	router.cpp \
 	routelistview.cpp \
 	routelistwindow.cpp \
+	routelvi.cpp \
+	router.cpp \
 	section.cpp \
 	serverinfodialog.cpp \
+	srcpmessage.cpp \
 	srcpport.cpp \
-	trainnumberdialog.cpp \
 	trainnumberdialog.cpp \
 	turntablecommander.cpp
 
-TRANSLATIONS = spdrs60_de.ts spdrs60_it.ts
+
+TRANSLATIONS += spdrs60_de.ts spdrs60_it.ts
+QT +=  qt3support

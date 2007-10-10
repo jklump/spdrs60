@@ -3,8 +3,8 @@
                            -------------------------------
     copyright            : (C) 2005-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-07 17:31:03 $
-                           $Revision: 1.48 $
+    last modified        : $Date: 2007-10-10 19:41:51 $
+                           $Revision: 1.49 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -136,7 +136,11 @@ void RouteDialog::addIdentificationTab()
                 QSizePolicy::Expanding, QSizePolicy::Minimum));
     startSignalNameLE = new QLineEdit(startsignalGB, "startSignalNameLE");
     startSignalNameLE->setReadOnly(true);
+#if QT_VERSION >= 0x040000
+    startSignalNameLE->setFocusPolicy(Qt::NoFocus);
+#else
     startSignalNameLE->setFocusPolicy(QWidget::NoFocus);
+#endif
     startSignalNameLE->setMaximumWidth(LEMAXWIDTH);
     startSignalLayout->addWidget(startSignalNameLE);
 
@@ -198,7 +202,11 @@ void RouteDialog::addIdentificationTab()
     stopSignalNameLE = new QLineEdit(stopSignalGB, "stopSignalNameLE");
     stopSignalNameLE->setMaximumWidth(LEMAXWIDTH);
     stopSignalNameLE->setReadOnly(true);
+#if QT_VERSION >= 0x040000
+    stopSignalNameLE->setFocusPolicy(Qt::NoFocus);
+#else
     stopSignalNameLE->setFocusPolicy(QWidget::NoFocus);
+#endif
     stopSignalLayout->addWidget(stopSignalNameLE);
 
     /*line with stop signal SRCP bus*/
@@ -311,7 +319,11 @@ void RouteDialog::addAutomaticTab()
                 QSizePolicy::Expanding, QSizePolicy::Minimum));
     activateModuleLE = new QLineEdit(activateGB, "activateModuleLE");
     activateModuleLE->setMaximumWidth(LEMAXWIDTH);
+#if QT_VERSION >= 0x040000
+    activateModuleLE->setFocusPolicy(Qt::NoFocus);
+#else
     activateModuleLE->setFocusPolicy(QWidget::NoFocus);
+#endif
     //activateModuleLB->setBuddy(activateModuleLE);
     activateModuleLayout->addWidget(activateModuleLE);
 
@@ -324,7 +336,11 @@ void RouteDialog::addAutomaticTab()
                 QSizePolicy::Expanding, QSizePolicy::Minimum));
     activatePortLE = new QLineEdit(activateGB, "activatePortLE");
     activatePortLE->setMaximumWidth(LEMAXWIDTH);
+#if QT_VERSION >= 0x040000
+    activatePortLE->setFocusPolicy(Qt::NoFocus);
+#else
     activatePortLE->setFocusPolicy(QWidget::NoFocus);
+#endif
     //activatePortLB->setBuddy(activatePortLE);
     activatePortLayout->addWidget(activatePortLE);
 
@@ -394,7 +410,11 @@ void RouteDialog::addAutomaticTab()
                 QSizePolicy::Expanding, QSizePolicy::Minimum));
     releaseModuleLE = new QLineEdit(releaseGB, "releaseModuleLE");
     releaseModuleLE->setMaximumWidth(LEMAXWIDTH);
+#if QT_VERSION >= 0x040000
+    releaseModuleLE->setFocusPolicy(Qt::NoFocus);
+#else
     releaseModuleLE->setFocusPolicy(QWidget::NoFocus);
+#endif
     //releaseModuleLB->setBuddy(releaseModuleLE);
     releaseModuleLayout->addWidget(releaseModuleLE);
 
@@ -407,7 +427,11 @@ void RouteDialog::addAutomaticTab()
                 QSizePolicy::Expanding, QSizePolicy::Minimum));
     releasePortLE = new QLineEdit(releaseGB, "releasePortLE");
     releasePortLE->setMaximumWidth(LEMAXWIDTH);
+#if QT_VERSION >= 0x040000
+    releasePortLE->setFocusPolicy(Qt::NoFocus);
+#else
     releasePortLE->setFocusPolicy(QWidget::NoFocus);
+#endif
     //releasePortLB->setBuddy(releasePortLE);
     releasePortLayout->addWidget(releasePortLE);
 

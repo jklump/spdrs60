@@ -5,8 +5,8 @@
  *   2007-08-26
  * 
  * Last modified
- *   $Date: 2007-09-14 15:47:58 $
- *   $Revision: 1.4 $
+ *   $Date: 2007-10-10 19:41:51 $
+ *   $Revision: 1.5 $
  *
  * Copyright
  *   (C) 2007 Guido Scholz <guido.scholz@bayernline.de>
@@ -27,9 +27,15 @@
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qgrid.h>
+#include <qpixmap.h>
 
 #include "aboutdialog.h"
+
+#ifdef WIN32
+#include "config_w32.h"
+#else
 #include "config.h"
+#endif
 
 /* application icon */
 #include "../icons/spdrs60_48.xpm"

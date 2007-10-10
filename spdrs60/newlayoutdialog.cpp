@@ -1,11 +1,11 @@
 /***************************************************************************
                            newlayoutdialog.cpp
-                           version 0.5.2 $Revision: 1.19 $
+                           version 0.5.2 $Revision: 1.20 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-02 17:34:16 $
+    last modified        : $Date: 2007-10-10 19:41:51 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -250,7 +250,11 @@ void newLayoutDialog::setAutoLogin(bool login)
     autologinCB->setChecked(login);
 
     if (!login)
+#if QT_VERSION >= 0x040000
+        autologinChanged(QCheckBox::Off);
+#else
         autologinChanged(QButton::Off);
+#endif
 }
 
 
@@ -259,7 +263,11 @@ void newLayoutDialog::setAutoPower(bool power)
     autopowerCB->setChecked(power);
 
     if (!power)
+#if QT_VERSION >= 0x040000
+        autopowerChanged(QCheckBox::Off);
+#else
         autopowerChanged(QButton::Off);
+#endif
 }
 
 
@@ -271,7 +279,11 @@ void newLayoutDialog::setAutoSendAll(bool power)
 /* enable/disable autopower option depending on autologin state */
 void newLayoutDialog::autologinChanged(int state)
 {
+#if QT_VERSION >= 0x040000
+    if (state == QCheckBox::On)
+#else
     if (state == QButton::On)
+#endif
         autopowerCB->setEnabled(true);
     else {
         autopowerCB->setChecked(false);
@@ -284,7 +296,11 @@ void newLayoutDialog::autologinChanged(int state)
 /* enable/disable autosendall option depending on autopower state */
 void newLayoutDialog::autopowerChanged(int state)
 {
+#if QT_VERSION >= 0x040000
+    if (state == QCheckBox::On)
+#else
     if (state == QButton::On)
+#endif
         autosendallCB->setEnabled(true);
     else {
         autosendallCB->setChecked(false);
