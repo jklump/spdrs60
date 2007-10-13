@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-10 19:41:51 $
-                           $Revision: 1.136 $
+    last modified        : $Date: 2007-10-13 09:12:20 $
+                           $Revision: 1.137 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1835,7 +1835,7 @@ void MainWindow::openFile(const QString& fn)
     QFile f(fn);
 
 #if QT_VERSION >= 0x040000
-    if (!f.open(QIODevice::WriteOnly)) {
+    if (!f.open(QIODevice::ReadOnly)) {
 #else
     if (!f.open(IO_ReadOnly)) {
 #endif

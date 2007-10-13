@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.5.2 $Revision: 1.47 $
+                           version 0.5.2 $Revision: 1.48 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-16 16:58:48 $
+    last modified        : $Date: 2007-10-13 09:12:20 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -23,6 +23,10 @@
 
 #ifndef GBSAREA_H
 #define GBSAREA_H
+
+#if QT_VERSION >= 0x040000
+#include <QBitmap>
+#endif
 
 #include <qapplication.h>
 #include <qdatetime.h>

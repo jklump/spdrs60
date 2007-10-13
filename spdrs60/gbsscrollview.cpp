@@ -1,10 +1,10 @@
 /***************************************************************************
                            gbsscrollview.cpp
-                           version 0.5.2 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2007-10-13 09:12:20 $
+                           $Revision: 1.7 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -23,7 +23,11 @@
 GBSScrollView::GBSScrollView(QWidget* parent, const char* name,
                              Qt::WFlags f): QScrollView(parent, name, f)
 {
-    setFocusPolicy(QWidget::StrongFocus);
+#if QT_VERSION >= 0x040000
+   setFocusPolicy(Qt::StrongFocus);
+#else   
+   setFocusPolicy(QWidget::StrongFocus);
+#endif
 }
 
 

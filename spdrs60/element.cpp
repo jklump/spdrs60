@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-10 19:41:51 $
-                           $Revision: 1.148 $
+    last modified        : $Date: 2007-10-13 09:12:20 $
+                           $Revision: 1.149 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -62,6 +62,10 @@
 #define LOCATE_TIMER 5000
 #define SANGLE 31.264         // small angle
 #define WANGLE (180.0 - SANGLE) // wide angle
+
+#if QT_VERSION >= 0x040000
+using namespace Qt;
+#endif
 
 
 element::element(QWidget* parent, SpdrItemClassId ci, const char* si,
@@ -7445,7 +7449,7 @@ void element::updateFeedbackState()
  * update element if system font is changed e.g. by qtconfig
  * do nothing for empty element with no text
  */
-void element::fontChange(const QFont& oldFont)
+void element::fontChange(const QFont&)
 {
     if (classid == siciLee && (sSoldText.isEmpty() || sSoldText == "-1"))
         return;

@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-10 19:41:51 $
-                           $Revision: 1.55 $
+    last modified        : $Date: 2007-10-13 09:12:20 $
+                           $Revision: 1.56 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -417,7 +417,11 @@ void ElementDialog::letteringChanged(bool takeaddr)
         leText->setText(address1LE->text());
     }
     else
+#if QT_VERSION >= 0x040000
+        leText->setFocusPolicy(Qt::StrongFocus);
+#else
         leText->setFocusPolicy(QWidget::StrongFocus);
+#endif
 }
 
 

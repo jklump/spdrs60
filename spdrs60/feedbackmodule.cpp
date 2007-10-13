@@ -1,10 +1,10 @@
 /***************************************************************************
                            feedbackmodule.cpp
-                           version 0.5.2 $Revision: 1.5 $
+                           version 0.5.2 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 2006-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2007-10-13 09:12:20 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -38,12 +38,12 @@ FeedbackModule::FeedbackModule(QListBox* listbox): QListBoxItem(listbox)
     setSelectable(false);
 }
 
-int FeedbackModule::height(const QListBox* lb) const
+int FeedbackModule::height(const QListBox*) const
 {
     return FBMHEIGHT;
 }
 
-int FeedbackModule::width(const QListBox* lb) const
+int FeedbackModule::width(const QListBox*) const
 {
     if (moduleType == fbm16)
         return FBM16WIDTH;

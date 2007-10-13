@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-10 19:41:51 $
-                           $Revision: 1.82 $
+    last modified        : $Date: 2007-10-13 09:12:20 $
+                           $Revision: 1.83 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -35,8 +35,9 @@
 
 #if QT_VERSION >= 0x040000
 #include <qmatrix.h>
-#include <qmouseevent.h>
-#include <qpaintevent.h>
+#include <QMouseEvent>
+#include <QPaintEvent>
+#include <Q3TextStream>
 #else
 #include <qwmatrix.h>
 #endif

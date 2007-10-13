@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.34 $
-# last update: $Date: 2007-09-28 17:24:51 $
+# version: $Revision: 1.35 $
+# last update: $Date: 2007-10-13 09:12:20 $
 
 SUBDIRS = pixmaps
 
@@ -126,7 +126,7 @@ translatedstrings = spdrs60_de.ts spdrs60_it.ts
 
 
 # misc files which are distributed but not installed
-EXTRA_DIST = spdrs60.pro $(translatedstrings)
+EXTRA_DIST = spdrs60.pro $(translatedstrings) config_w32.h
 
 
 # all generated files to be removed by "make clean"

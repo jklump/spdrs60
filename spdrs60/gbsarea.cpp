@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-10 19:41:51 $
-                           $Revision: 1.91 $
+    last modified        : $Date: 2007-10-13 09:12:20 $
+                           $Revision: 1.92 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -944,7 +944,7 @@ unsigned int GBSArea::indexOf(QPoint ep) const
 
 void GBSArea::moveElementToIndexPos(element* el, unsigned int idx)
 {
-    if (el != NULL && idx >= 0 && idx < elements.size())
+    if (el != NULL && idx < elements.size())
         el->move(1 + (idx / rows) * (EL_WIDTH + 1),
                 1 + (idx % rows) * (EL_HEIGHT + 1));
 }
@@ -1529,8 +1529,16 @@ void GBSArea::mouseMoveEvent(QMouseEvent* e)
                 memcpy(data.data(), &idx, sizeof(idx));
                 QStoredDrag* d = new QStoredDrag(MIME_LE, this, "spdrs60-le");
                 d->setEncodedData(data);
-                d->setPixmap(*el->paletteBackgroundPixmap(),
-                        QPoint(EL_WIDTH / 2, EL_HEIGHT / 2));
+
+                if (NULL != el->paletteBackgroundPixmap())
+                    d->setPixmap(*el->paletteBackgroundPixmap(),
+                            QPoint(EL_WIDTH / 2, EL_HEIGHT / 2));
+                else {
+                    QPixmap pm;
+                    pm.grabWidget(this);
+                    d->setPixmap(pm);
+                }
+
                 d->dragMove();
                 dragging = false;
             }
