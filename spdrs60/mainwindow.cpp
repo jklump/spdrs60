@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-13 09:12:20 $
-                           $Revision: 1.137 $
+    last modified        : $Date: 2007-10-14 10:24:35 $
+                           $Revision: 1.138 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -203,7 +203,7 @@ void MainWindow::readConfigFile()
 {
     QFile file(QDir::homeDirPath() + "/" + SPDRS60_INIT);
 #if QT_VERSION >= 0x040000
-    if (!file.open(IO_ReadOnly)) {
+    if (!file.open(QIODevice::ReadOnly)) {
 #else
     if (!file.open(IO_ReadOnly)) {
 #endif
@@ -690,6 +690,8 @@ void MainWindow::initMainWindow()
 #if QT_VERSION >= 0x040000
     actionEditFileLayout = new QAction(tr("&Layout"), this);
 #elif QT_VERSION >= 0x030200
+    actionEditFileLayout = new QAction(NULL, tr("&Layout"), 0, this,
+                    "editFileLayout");
     actionEditFileLayout->setToolTip(tr(
                 "Edit layout file with external editor"));
 #else
