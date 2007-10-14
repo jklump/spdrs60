@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.35 $
-# last update: $Date: 2007-10-13 09:12:20 $
+# version: $Revision: 1.36 $
+# last update: $Date: 2007-10-14 10:49:40 $
 
 SUBDIRS = pixmaps
 
@@ -145,7 +145,7 @@ INCLUDES= $(all_includes)
 if TRANSLATE_QT
 TRANSLATE_DEF = -DQT_TRANSLATIONS_DIR=\"@QT_TRANSLATIONS_DIR@\"
 endif
-AM_CXXFLAGS = $(TRANSLATE_DEF) -Wall
+AM_CXXFLAGS = $(TRANSLATE_DEF) -Wall -Wno-long-long -pedantic
 
 
 # rule for moc-file generation

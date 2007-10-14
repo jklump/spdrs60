@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-13 09:12:20 $
-                           $Revision: 1.56 $
+    last modified        : $Date: 2007-10-14 10:49:40 $
+                           $Revision: 1.57 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1317,7 +1317,7 @@ void ElementDialog::contactSBChanged(int contact)
 int ElementDialog::getGASubType()
 {
     return gaSubType;
-};
+}
 
 
 void ElementDialog::setGASubType(int sType)
@@ -1426,7 +1426,7 @@ void ElementDialog::setGASubType(int sType)
 int ElementDialog::getSRCPBus1()
 {
     return srcpBus1LE->text().toInt();
-};
+}
 
 
 void ElementDialog::setSRCPBus1(int bus)
@@ -1438,7 +1438,7 @@ void ElementDialog::setSRCPBus1(int bus)
 int ElementDialog::getSRCPBus2()
 {
     return srcpBus2LE->text().toInt();
-};
+}
 
 
 void ElementDialog::setSRCPBus2(int bus)
@@ -1457,7 +1457,7 @@ void ElementDialog::setClassId(element::SpdrItemClassId ci)
 int ElementDialog::getRotated()
 {
     return cbRotate->isEnabled() ? (cbRotate->isChecked()? 1 : 0) : -1;
-};
+}
 
 
 void ElementDialog::setRotated(int rotated)
@@ -1472,7 +1472,7 @@ void ElementDialog::setRotated(int rotated)
 int ElementDialog::getInverted()
 {
     return cbInvert->isEnabled() ? (cbInvert->isChecked()? 1 : 0) : -1;
-};
+}
 
 
 void ElementDialog::setInverted(int inverted)
@@ -1487,7 +1487,7 @@ void ElementDialog::setInverted(int inverted)
 int ElementDialog::getLEDsAreOff()
 {
     return cbLEDoff->isEnabled() ? (cbLEDoff->isChecked()? 1 : 0) : -1;
-};
+}
 
 
 void ElementDialog::setLEDsAreOff(int off)
@@ -1504,7 +1504,7 @@ void ElementDialog::setLEDsAreOff(int off)
 QString ElementDialog::getDecoder()
 {
     return coboDecoder->currentText();
-};
+}
 
 
 void ElementDialog::setDecoder(const QString& decoder)
@@ -1538,7 +1538,7 @@ int ElementDialog::getProtocol()
         return SrcpMessage::proSelectrix;
     else
         return SrcpMessage::proServer;
-};
+}
 
 
 void ElementDialog::setProtocol(int protocol)
@@ -1565,7 +1565,7 @@ void ElementDialog::setProtocol(int protocol)
 int ElementDialog::getAddress1()
 {
     return address1LE->text().toInt();
-};
+}
 
 
 void ElementDialog::setAddress1(int addr)
@@ -1577,7 +1577,7 @@ void ElementDialog::setAddress1(int addr)
 int ElementDialog::getAddress2()
 {
     return address2LE->text().toInt();
-};
+}
 
 
 void ElementDialog::setAddress2(int addr)
@@ -1614,7 +1614,7 @@ int ElementDialog::getXChangeConn1()
 {
     return xchConn1CB->isEnabled() ?
         (xchConn1CB->isChecked() ? 1 : 0) : -1;
-};
+}
 
 
 void ElementDialog::setXChangeConn1(int xch)
@@ -1630,7 +1630,7 @@ int ElementDialog::getXChangeConn2()
 {
     return xchConn2CB->isEnabled() ?
         (xchConn2CB->isChecked() ? 1 : 0) : -1;
-};
+}
 
 
 void ElementDialog::setXChangeConn2(int xch)
@@ -1645,20 +1645,20 @@ void ElementDialog::setXChangeConn2(int xch)
 int ElementDialog::getDirection()
 {
     return address1LE->isEnabled() ? gaDirection : -1;
-};
+}
 
 
 void ElementDialog::setDirection(int dir)
 {
     gaDirection = dir;
-};
+}
 
 
 QString ElementDialog::getSymbolText()
 {
     return (leText->text() == "-1") ?
         address1LE->text() : leText->text();
-};
+}
 
 
 void ElementDialog::setSymbolText(const QString& text)
@@ -1671,7 +1671,7 @@ int ElementDialog::getActiveTime()
 {
     return activeTimeSB->isEnabled() ?
         activeTimeSB->value() : -1;
-};
+}
 
 
 void ElementDialog::setActiveTime(int atime)
@@ -1687,26 +1687,26 @@ void ElementDialog::setActiveTime(int atime)
 int ElementDialog::getFBBus()
 {
     return fbBusLE->text().toInt();
-};
+}
 
 
 void ElementDialog::setFBBus(int bus)
 {
     fbBusLE->setText(QString::number(bus));
-};
+}
 
 
 int ElementDialog::getFBContact()
 {
     return contactSB->value();
-};
+}
 
 
 void ElementDialog::setFBContact(int contact)
 {
     contactSB->setValue(contact);
     contactSBChanged(contact);
-};
+}
 
 /*
  * enabe/disable feedback editing depending on address symbol is EDiTs

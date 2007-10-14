@@ -2,8 +2,8 @@
  * serverinfodialog.cpp
  * --------------------
  * Begin        : 2007-08-22
- * Last modified: $Date: 2007-09-10 20:05:43 $
- *                $Revision: 1.4 $
+ * Last modified: $Date: 2007-10-14 10:49:40 $
+ *                $Revision: 1.5 $
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Description  : Dialog window to display SRCP server information
@@ -166,7 +166,7 @@ void ServerInfoDialog::setCommandSessionData(const QString& server,
         cmdGmLbl->setText(tr("Yes"));
     else
         cmdGmLbl->setText(tr("No"));
-};
+}
 
 /*
  * set data of info session
@@ -179,7 +179,7 @@ void ServerInfoDialog::setInfoSessionData(const QString& server,
     infoSrcpLbl->setText(srcp);
     infoSrcpOtherLbl->setText(srcpother);
     infoSessionIdLbl->setText(QString::number(sessionid));
-};
+}
 
 
 void ServerInfoDialog::setOldCommandData(const QString& server,
