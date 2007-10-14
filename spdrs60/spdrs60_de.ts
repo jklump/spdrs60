@@ -1407,7 +1407,7 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <translation>Linkes Sperrsignal mit zwei Tasten</translation>
     </message>
     <message>
-        <source>Right doouble button shunt signal panel</source>
+        <source>Right oouble button shunt signal panel</source>
         <translation>Rechtes Sperrsignal mit zwei Tasten</translation>
     </message>
 </context>

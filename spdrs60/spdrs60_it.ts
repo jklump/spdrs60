@@ -1378,7 +1378,7 @@ the server daemon after shutdown has finished)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Right doouble button shunt signal panel</source>
+        <source>Right double button shunt signal panel</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

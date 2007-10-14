@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-26
- * Last modified: $Date: 2007-10-10 19:41:51 $
- *                $Revision: 1.6 $
+ * Last modified: $Date: 2007-10-14 12:01:27 $
+ *                $Revision: 1.7 $
  *
  * This code creates a dockable window with a set of paint items 
  */
@@ -283,7 +283,7 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
             element::siciSdl, paintItemBG, "lefttwobtnshuntsignalPanel");
 
     new PaintItemButton(QPixmap(spdritem_sdr_xpm),
-            tr("Right doouble button shunt signal panel"),
+            tr("Right double button shunt signal panel"),
             element::siciSdr, paintItemBG, "righttwobtnshuntsignalPanel");
 
     new PaintItemButton(QPixmap(spdritem_wsl_xpm),
