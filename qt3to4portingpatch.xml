@@ -1,0 +1,8 @@
+<Rules>
+   <Include>path_to q3porting.xml</Include>
+
+    <item Type="RenamedClass" Disable="True">
+        <Qt4>Q3ActionGroup</Qt4>
+        <Qt3>QActionGroup</Qt3>
+    </item>
+ </Rules>
