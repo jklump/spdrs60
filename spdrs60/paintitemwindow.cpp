@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-26
- * Last modified: $Date: 2007-10-19 18:24:06 $
- *                $Revision: 1.8 $
+ * Last modified: $Date: 2007-10-19 18:29:05 $
+ *                $Revision: 1.9 $
  *
  * This code creates a dockable window with a set of paint items 
  */
@@ -47,8 +47,10 @@
 #include "pixmaps/spdritem_tbr.xpm"
 
 /*switch panels */
-#include "pixmaps/spdritem_wel.xpm"
-#include "pixmaps/spdritem_wer.xpm"
+#include "pixmaps/spdritem_slt.xpm" //wel
+#include "pixmaps/spdritem_slb.xpm"
+#include "pixmaps/spdritem_srb.xpm" //wer
+#include "pixmaps/spdritem_srt.xpm"
 #include "pixmaps/spdritem_dwl.xpm"
 #include "pixmaps/spdritem_dwr.xpm"
 #include "pixmaps/spdritem_wey.xpm"
