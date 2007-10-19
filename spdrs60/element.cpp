@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-13 09:12:20 $
-                           $Revision: 1.149 $
+    last modified        : $Date: 2007-10-19 18:24:04 $
+                           $Revision: 1.150 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -269,6 +269,7 @@ void element::updateProperties()
                 sSoldIcon == SYM_SHR || sSoldIcon == SYM_SHL);
 
     else if (sSoldIcon.startsWith("weiche") ||
+                sSoldIcon.startsWith("switch") ||
                 sSoldIcon.startsWith("dreier") ||
                 sSoldIcon.startsWith("ekw") ||
                 sSoldIcon.startsWith("dkw"))
@@ -303,7 +304,8 @@ void element::updateProperties()
     //FIXME: convert old rotatables to non rotatable
     bool rotatable = (signal ||
             sSoldIcon == SYM_CRB || sSoldIcon == SYM_CLT ||
-            sSoldIcon == SYM_WEL || sSoldIcon == SYM_WER ||
+            sSoldIcon == SYM_SRT || sSoldIcon == SYM_SRB ||
+            sSoldIcon == SYM_SLT || sSoldIcon == SYM_SLB ||
             sSoldIcon == SYM_DWL || sSoldIcon == SYM_DWR ||
             sSoldIcon == SYM_EKL || sSoldIcon == SYM_EKR ||
             sSoldIcon == SYM_DRW || sSoldIcon == SYM_SHU ||
@@ -5357,10 +5359,8 @@ void element::setupElementIcon()
         setPaletteBackgroundPixmap(pm);
     }
 
-    // turnout left or turnout right
-    else if (classid == siciWel || classid == siciWer) {
-        bool left = classid == siciWel;
-        
+    // switch left top (+ old left bottom)
+    else if (classid == siciSlt) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -5376,15 +5376,9 @@ void element::setupElementIcon()
         p.translate(w / 2, h / 2);
 
         if (iSoldRotate == 1)
-            if (left)
-                p.rotate(WANGLE);
-            else
-                p.rotate(-WANGLE);
+            p.rotate(WANGLE);
         else
-            if (left)
-                p.rotate(-SANGLE);
-            else
-                p.rotate(SANGLE);
+            p.rotate(-SANGLE);
 
         p.setPen(QPen(black, 7));
         p.drawLine(0, 0, w / 2 + 5, 0);
@@ -5399,15 +5393,9 @@ void element::setupElementIcon()
             p.translate(w / 2, h / 2);
 
             if (iSoldRotate == 1)
-                if (left)
-                    p.rotate(WANGLE);
-                else
-                    p.rotate(-WANGLE);
+                p.rotate(WANGLE);
             else
-                if (left)
-                    p.rotate(-SANGLE);
-                else
-                    p.rotate(SANGLE);
+                p.rotate(-SANGLE);
 
             for (int i = 0; i < 3; ++i)
                 p.fillRect(6 + 7 * i, -2, 5, 5, QBrush(Qt::lightGray));
@@ -5463,15 +5451,9 @@ void element::setupElementIcon()
             p.translate(w / 2, h / 2);
 
             if (iSoldRotate == 1)
-                if (left)
-                    p.rotate(WANGLE);
-                else
-                    p.rotate(-WANGLE);
+                p.rotate(WANGLE);
             else
-                if (left)
-                    p.rotate(-SANGLE);
-                else
-                    p.rotate(SANGLE);
+                p.rotate(-SANGLE);
 
             p.drawLine(11, 0, 11 + 14, 0);
             p.restore();
@@ -5488,7 +5470,7 @@ void element::setupElementIcon()
         else
             p.setBrush(QColor(255, 225, 0));
 
-        if (iSoldRotate == 1 && left || iSoldRotate == 0 && !left)
+        if (iSoldRotate == 1)
             p.drawEllipse(w / 2 - 2, 6, 5, 5);
         else
             p.drawEllipse(w / 2 - 2, h - 11, 5, 5);
@@ -5511,15 +5493,420 @@ void element::setupElementIcon()
             br.setHeight(br.height() + 2);
 
             if (iSoldRotate == 1)
-                if (left)
-                    br.moveTopRight(QPoint(w - 3, 2));
-                else
-                    br.moveBottomRight(QPoint(w - 3, h - 3));
+                br.moveTopRight(QPoint(w - 3, 2));
             else
-                if (left)
-                    br.moveBottomLeft(QPoint(2, h - 3));
+                br.moveBottomLeft(QPoint(2, h - 3));
+
+            p.fillRect(br, QBrush(Qt::white));
+            p.setBrush(Qt::white);
+            br.setX(br.x() + 1);
+            br.setY(br.y() + 1);
+            br.setHeight(br.height() - 2);
+
+            p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
+                    Qt::DontClip, s);
+        }
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+
+    // switch left bottom
+    else if (classid == siciSlb) {
+        QPixmap pm = QPixmap(size());
+        pm.fill(QColor(Qt::lightGray));
+        QPainter p;
+        p.begin(&pm);
+        
+        int w = pm.width();
+        int h = pm.height();
+        
+        // paint track
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
+        
+        p.save();
+        p.translate(w / 2, h / 2);
+
+        p.rotate(WANGLE);
+
+        p.setPen(QPen(black, 7));
+        p.drawLine(0, 0, w / 2 + 5, 0);
+        p.restore();
+
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 7; ++i)
+                p.fillRect(4 + 7 * i, h/2 - 2, 5, 5, QBrush(Qt::lightGray));
+            // short track
+            p.save();
+            p.translate(w / 2, h / 2);
+
+            p.rotate(WANGLE);
+
+            for (int i = 0; i < 3; ++i)
+                p.fillRect(6 + 7 * i, -2, 5, 5, QBrush(Qt::lightGray));
+            p.restore();
+
+        }
+        else {
+            // first light
+            QColor c;
+            if (occupied)
+                c = QColor(Qt::red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
                 else
-                    br.moveTopLeft(QPoint(2, 2));
+                    c = QColor(Qt::darkGray);
+            }
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+
+            p.drawLine(w - 5, h / 2 , w - 19,  h / 2);
+
+            // second light
+            if (iSoldDirection == 0 && lightson)
+                if (occupied)
+                    c = QColor(Qt::red);
+                else
+                    c = QColor(255, 225, 0);
+            else
+                c = QColor(Qt::darkGray);
+
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+
+            p.drawLine(5, h / 2 , 19,  h / 2);
+
+            // third light
+            if (iSoldDirection == 1 && lightson)
+                if (occupied)
+                    c = QColor(Qt::red);
+                else
+                    c = QColor(255, 225, 0);
+            else
+                c = QColor(Qt::darkGray);
+
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+
+            p.save();
+            p.translate(w / 2, h / 2);
+
+            p.rotate(WANGLE);
+
+            p.drawLine(11, 0, 11 + 14, 0);
+            p.restore();
+
+            p.setPen(QPen(Qt::black));
+        }
+
+        // paint track button
+        p.drawPixmap(w / 2 - 4, h / 2 - 3, QPixmap(button_black_xpm));
+
+        // paint lock light
+        if (lockCounter == 0)
+            p.setBrush(Qt::darkGray);
+        else
+            p.setBrush(QColor(255, 225, 0));
+
+        p.drawEllipse(w / 2 - 2, 6, 5, 5);
+
+        // paint text label
+        if (sSoldText != "-1" && !sSoldText.isEmpty()) {
+            QFont f(QApplication::font());
+            f.setPointSize(QApplication::font().pointSize() - 3);
+            p.setFont(f);
+            QFontMetrics fm(f);
+            QString s;
+
+            if (pref.addresslabeling)
+                s.setNum(iSoldAddress_1);
+            else
+                s = sSoldText;
+
+            QRect br = fm.boundingRect(s);
+            br.setWidth(br.width() + 4);
+            br.setHeight(br.height() + 2);
+
+            br.moveTopRight(QPoint(w - 3, 2));
+
+            p.fillRect(br, QBrush(Qt::white));
+            p.setBrush(Qt::white);
+            br.setX(br.x() + 1);
+            br.setY(br.y() + 1);
+            br.setHeight(br.height() - 2);
+
+            p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
+                    Qt::DontClip, s);
+        }
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+
+    // switch right top
+    else if (classid == siciSrt) {
+        QPixmap pm = QPixmap(size());
+        pm.fill(QColor(Qt::lightGray));
+        QPainter p;
+        p.begin(&pm);
+        
+        int w = pm.width();
+        int h = pm.height();
+        
+        // paint track
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
+        
+        p.save();
+        p.translate(w / 2, h / 2);
+
+        p.rotate(-WANGLE);
+
+        p.setPen(QPen(black, 7));
+        p.drawLine(0, 0, w / 2 + 5, 0);
+        p.restore();
+
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 7; ++i)
+                p.fillRect(4 + 7 * i, h/2 - 2, 5, 5, QBrush(Qt::lightGray));
+            // short track
+            p.save();
+            p.translate(w / 2, h / 2);
+
+            p.rotate(-WANGLE);
+
+            for (int i = 0; i < 3; ++i)
+                p.fillRect(6 + 7 * i, -2, 5, 5, QBrush(Qt::lightGray));
+            p.restore();
+
+        }
+        else {
+            // first light
+            QColor c;
+            if (occupied)
+                c = QColor(Qt::red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(Qt::darkGray);
+            }
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+
+            p.drawLine(w - 5, h / 2 , w - 19,  h / 2);
+
+            // second light
+            if (iSoldDirection == 0 && lightson)
+                if (occupied)
+                    c = QColor(Qt::red);
+                else
+                    c = QColor(255, 225, 0);
+            else
+                c = QColor(Qt::darkGray);
+
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+
+            p.drawLine(5, h / 2 , 19,  h / 2);
+
+            // third light
+            if (iSoldDirection == 1 && lightson)
+                if (occupied)
+                    c = QColor(Qt::red);
+                else
+                    c = QColor(255, 225, 0);
+            else
+                c = QColor(Qt::darkGray);
+
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+
+            p.save();
+            p.translate(w / 2, h / 2);
+
+            p.rotate(-WANGLE);
+
+            p.drawLine(11, 0, 11 + 14, 0);
+            p.restore();
+
+            p.setPen(QPen(Qt::black));
+        }
+
+        // paint track button
+        p.drawPixmap(w / 2 - 4, h / 2 - 3, QPixmap(button_black_xpm));
+
+        // paint lock light
+        if (lockCounter == 0)
+            p.setBrush(Qt::darkGray);
+        else
+            p.setBrush(QColor(255, 225, 0));
+
+        p.drawEllipse(w / 2 - 2, h - 11, 5, 5);
+
+        // paint text label
+        if (sSoldText != "-1" && !sSoldText.isEmpty()) {
+            QFont f(QApplication::font());
+            f.setPointSize(QApplication::font().pointSize() - 3);
+            p.setFont(f);
+            QFontMetrics fm(f);
+            QString s;
+
+            if (pref.addresslabeling)
+                s.setNum(iSoldAddress_1);
+            else
+                s = sSoldText;
+
+            QRect br = fm.boundingRect(s);
+            br.setWidth(br.width() + 4);
+            br.setHeight(br.height() + 2);
+
+            br.moveBottomRight(QPoint(w - 3, h - 3));
+
+            p.fillRect(br, QBrush(Qt::white));
+            p.setBrush(Qt::white);
+            br.setX(br.x() + 1);
+            br.setY(br.y() + 1);
+            br.setHeight(br.height() - 2);
+
+            p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
+                    Qt::DontClip, s);
+        }
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+
+    // switch right bottom (+ old right top)
+    else if (classid == siciSrb) {
+        QPixmap pm = QPixmap(size());
+        pm.fill(QColor(Qt::lightGray));
+        QPainter p;
+        p.begin(&pm);
+        
+        int w = pm.width();
+        int h = pm.height();
+        
+        // paint track
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
+        
+        p.save();
+        p.translate(w / 2, h / 2);
+
+        if (iSoldRotate == 1)
+            p.rotate(-WANGLE);
+        else
+            p.rotate(SANGLE);
+
+        p.setPen(QPen(black, 7));
+        p.drawLine(0, 0, w / 2 + 5, 0);
+        p.restore();
+
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 7; ++i)
+                p.fillRect(4 + 7 * i, h/2 - 2, 5, 5, QBrush(Qt::lightGray));
+            // short track
+            p.save();
+            p.translate(w / 2, h / 2);
+
+            if (iSoldRotate == 1)
+                p.rotate(-WANGLE);
+            else
+                p.rotate(SANGLE);
+
+            for (int i = 0; i < 3; ++i)
+                p.fillRect(6 + 7 * i, -2, 5, 5, QBrush(Qt::lightGray));
+            p.restore();
+
+        }
+        else {
+            // first light
+            QColor c;
+            if (occupied)
+                c = QColor(Qt::red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(Qt::darkGray);
+            }
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+
+            if (iSoldRotate == 1)
+                p.drawLine(w - 5, h / 2 , w - 19,  h / 2);
+            else
+                p.drawLine(5, h / 2 , 19,  h / 2);
+
+            // second light
+            if (iSoldDirection == 0 && lightson)
+                if (occupied)
+                    c = QColor(Qt::red);
+                else
+                    c = QColor(255, 225, 0);
+            else
+                c = QColor(Qt::darkGray);
+
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+
+            if (iSoldRotate == 1)
+                p.drawLine(5, h / 2 , 19,  h / 2);
+            else
+                p.drawLine(w - 5, h / 2 , w - 19,  h / 2);
+
+            // third light
+            if (iSoldDirection == 1 && lightson)
+                if (occupied)
+                    c = QColor(Qt::red);
+                else
+                    c = QColor(255, 225, 0);
+            else
+                c = QColor(Qt::darkGray);
+
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+
+            p.save();
+            p.translate(w / 2, h / 2);
+
+            if (iSoldRotate == 1)
+                p.rotate(-WANGLE);
+            else
+                p.rotate(SANGLE);
+
+            p.drawLine(11, 0, 11 + 14, 0);
+            p.restore();
+
+            p.setPen(QPen(Qt::black));
+        }
+
+        // paint track button
+        p.drawPixmap(w / 2 - 4, h / 2 - 3, QPixmap(button_black_xpm));
+
+        // paint lock light
+        if (lockCounter == 0)
+            p.setBrush(Qt::darkGray);
+        else
+            p.setBrush(QColor(255, 225, 0));
+
+        if (iSoldRotate == 1)
+            p.drawEllipse(w / 2 - 2, h - 11, 5, 5);
+        else
+            p.drawEllipse(w / 2 - 2, 6, 5, 5);
+
+        // paint text label
+        if (sSoldText != "-1" && !sSoldText.isEmpty()) {
+            QFont f(QApplication::font());
+            f.setPointSize(QApplication::font().pointSize() - 3);
+            p.setFont(f);
+            QFontMetrics fm(f);
+            QString s;
+
+            if (pref.addresslabeling)
+                s.setNum(iSoldAddress_1);
+            else
+                s = sSoldText;
+
+            QRect br = fm.boundingRect(s);
+            br.setWidth(br.width() + 4);
+            br.setHeight(br.height() + 2);
+
+            if (iSoldRotate == 1)
+                br.moveBottomRight(QPoint(w - 3, h - 3));
+            else
+                br.moveTopLeft(QPoint(2, 2));
 
             p.fillRect(br, QBrush(Qt::white));
             p.setBrush(Qt::white);
@@ -6572,7 +6959,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
                 returnvalue = rdN;
     }
     
-    else if (classid == siciWel) {
+    else if (classid == siciSlt) {
         // --
         if (iSoldDirection == 0) {
             if (entrydir == rdW)
@@ -6598,7 +6985,41 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
     }
 
-    else if (classid == siciWer) {
+    else if (classid == siciSlb) {
+        // --
+        if (iSoldDirection == 0) {
+            if (entrydir == rdW)
+                returnvalue = rdE;
+            else if (entrydir == rdE)
+                returnvalue = rdW;
+        }
+        else {
+            // /-
+            if (entrydir == rdE)
+                returnvalue = rdSW;
+            else if (entrydir == rdSW)
+                returnvalue = rdE;
+        }
+    }
+
+    else if (classid == siciSrt) {
+        // --
+        if (iSoldDirection == 0) {
+            if (entrydir == rdW)
+                returnvalue = rdE;
+            else if (entrydir == rdE)
+                returnvalue = rdW;
+        }
+        else {
+            // \-
+            if (entrydir == rdE)
+                returnvalue = rdNW;
+            else if (entrydir == rdNW)
+                returnvalue = rdE;
+        }
+    }
+
+    else if (classid == siciSrb) {
         // --
         if (iSoldDirection == 0) {
             if (entrydir == rdW)

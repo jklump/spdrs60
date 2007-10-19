@@ -320,7 +320,7 @@ can not be routed over occupied tracks.</para></listitem>
 for this signal.</para></listitem>
 <listitem><para>For route editing there is a new edit mode indicated by
 blue lines around each symbol. Users can easily assemble new routes or
-edit allready configured routes by clicking on layout elements. Mouse
+edit already configured routes by clicking on layout elements. Mouse
 behavior has changed here. A single click with left mouse button selects
 or deselects entry and exit signals; a single click with middle button
 does the same for other switchable route elements.</para></listitem>
@@ -382,7 +382,7 @@ Release date: 2005-01-31
 <listitem><para>Online-Documentation is ported from Linuxdoc to
 Docbook/SGML; the documentation text was updated.</para></listitem>
 <listitem><para>Bugfix for routing editor showing wrong data for
-allready configured routes.</para></listitem>
+already configured routes.</para></listitem>
 <listitem><para>Some reorganization of code.</para></listitem>
 <listitem><para>Three new sample files ared added; &raquo;dedorf&laquo; which
 is used in the tutorial book &raquo;Sp Dr S60-Stellwerke bedienen&laquo;
@@ -721,7 +721,7 @@ follows:
 $ rpm -i &lt;packagename&gt;.rpm
 </screen>
 <para>
-If the package to be installed is an update of an allready installed
+If the package to be installed is an update of an already installed
 version, applying the update can be done using this command line:
 </para>
 <screen>

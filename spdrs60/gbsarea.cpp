@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-13 09:12:20 $
-                           $Revision: 1.92 $
+    last modified        : $Date: 2007-10-19 18:24:05 $
+                           $Revision: 1.93 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -475,7 +475,7 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
                 if (el->hasFfMLock()) {
                     QApplication::beep();
                     emit statusMessage(tr("No routing possible; signal '%1'"
-                                " is allready locked by an active route.")
+                                " is already locked by an active route.")
                             .arg(el->getLabelText()));
                     slotElementClickedTimeout();
                 }
@@ -1732,8 +1732,10 @@ void GBSArea::initSpdrMap()
     spdrmap[element::siciSbr] = SYM_SBR;
     spdrmap[element::siciSbl] = SYM_SBL;
 
-    spdrmap[element::siciWel] = SYM_WEL;
-    spdrmap[element::siciWer] = SYM_WER;
+    spdrmap[element::siciSlt] = SYM_SLT;
+    spdrmap[element::siciSlb] = SYM_SLB;
+    spdrmap[element::siciSrt] = SYM_SRT;
+    spdrmap[element::siciSrb] = SYM_SRB;
     spdrmap[element::siciDwl] = SYM_DWL;
     spdrmap[element::siciDwr] = SYM_DWR;
     spdrmap[element::siciWey] = SYM_WEY;

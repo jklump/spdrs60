@@ -5,8 +5,8 @@
  *   2007-08-26
  * 
  * Last modified
- *   $Date: 2007-10-10 19:41:51 $
- *   $Revision: 1.5 $
+ *   $Date: 2007-10-19 18:24:04 $
+ *   $Revision: 1.6 $
  *
  * Copyright
  *   (C) 2007 Guido Scholz <guido.scholz@bayernline.de>
@@ -100,6 +100,8 @@ AboutDialog::AboutDialog(QWidget* parent): QDialog(parent,
     label = new QLabel("Klaus Mannweiler", contribGB);
     label = new QLabel("Sven Roth", contribGB);
     label = new QLabel(QString::fromUtf8("David Rütti"), contribGB);
+    label = new QLabel(QString::fromUtf8("André Schenk"), contribGB);
+    label = new QLabel("Ullrich Schicke", contribGB);
     label = new QLabel(QString::fromUtf8("Björn Schließmann"), contribGB);
     label = new QLabel(QString::fromUtf8("Rüdiger Seidel"), contribGB);
     label = new QLabel("Dietmar Toelg", contribGB);
@@ -118,5 +120,4 @@ AboutDialog::AboutDialog(QWidget* parent): QDialog(parent,
     buttonLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
                 QSizePolicy::Minimum));
 }
-
 

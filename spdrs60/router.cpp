@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.2 $Revision: 1.59 $
+                           version 0.5.2 $Revision: 1.60 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-07 17:31:03 $
+    last modified        : $Date: 2007-10-19 18:24:06 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -556,7 +556,7 @@ void Router::setRoute(element* el, GbsButtonState cb, GbsButtonState sb)
     if (el == NULL)
         return;
 
-    /*check if entry signal is allready choosen*/
+    /*check if entry signal is already choosen*/
     if (selectedStartSig == NULL) {
         Route* sr = getUnlockedRouteWithEntrySignal(el, cb, sb);
         if (sr != NULL) {
@@ -605,7 +605,7 @@ void Router::resetRoute(element* el, GbsButtonState cb)
     if (el == NULL)
         return;
 
-    /*check if route to reset is allready choosen*/
+    /*check if route to reset is already choosen*/
     if (resetRt == NULL) {
         resetRt = getLockedRouteWithEntrySignal(el);
         if (resetRt != NULL) {

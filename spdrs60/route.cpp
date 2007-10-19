@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.62 $
+                           version 0.5.2 $Revision: 1.63 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-11 17:11:38 $
+    last modified        : $Date: 2007-10-19 18:24:06 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -636,7 +636,7 @@ void Route::showRoutePath()
      * 4) lock all switchable elements; in original SpDr this is done
      * with step 3) but is too complicated to implement respecting
      * interruption by occupied elements for "Zugfahrstrassen" and the
-     * necessary unlocking of allready locked elements
+     * necessary unlocking of already locked elements
      */
     if (entrySignal.elemPtr != NULL)
         entrySignal.elemPtr->setLocked(true);

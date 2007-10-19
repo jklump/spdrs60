@@ -7,7 +7,7 @@ Standards-Version: 3.7.2
 
 Package: spdrs60
 Architecture: any
-Depends: libqt3-mt 
+Depends: ${shlibs:Depends} 
 Recommends: libqt3-i18n, qt3-qtconfig, www-browser, t1-xfree86-nonfree
 Description: Interlocking control center for digital model railways
  Graphical program to comfortably control a digital model railway.

@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-26
- * Last modified: $Date: 2007-10-14 12:01:27 $
- *                $Revision: 1.7 $
+ * Last modified: $Date: 2007-10-19 18:24:06 $
+ *                $Revision: 1.8 $
  *
  * This code creates a dockable window with a set of paint items 
  */
@@ -205,13 +205,21 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
             element::siciTbr, paintItemBG, "curvebvrPanel");
 
     /*switch panels */
-    new PaintItemButton(QPixmap(spdritem_wel_xpm),
-            tr("Switch left"),
-            element::siciWel, paintItemBG, "switchleftPanel");
+    new PaintItemButton(QPixmap(spdritem_slb_xpm),
+            tr("Switch bottom left"),
+            element::siciSlb, paintItemBG, "switchbottomleftPanel");
 
-    new PaintItemButton(QPixmap(spdritem_wer_xpm),
-            tr("Switch right"),
-            element::siciWer, paintItemBG, "switchrightPanel");
+    new PaintItemButton(QPixmap(spdritem_slt_xpm),
+            tr("Switch top left"),
+            element::siciSlt, paintItemBG, "switchtopleftPanel");
+
+    new PaintItemButton(QPixmap(spdritem_srb_xpm),
+            tr("Switch bottom right"),
+            element::siciSrb, paintItemBG, "switchbottomrightPanel");
+
+    new PaintItemButton(QPixmap(spdritem_srt_xpm),
+            tr("Switch top right"),
+            element::siciSrt, paintItemBG, "switchtoprightPanel");
 
     new PaintItemButton(QPixmap(spdritem_dwl_xpm),
             tr("Diagonal switch left"),
@@ -283,7 +291,7 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
             element::siciSdl, paintItemBG, "lefttwobtnshuntsignalPanel");
 
     new PaintItemButton(QPixmap(spdritem_sdr_xpm),
-            tr("Right double button shunt signal panel"),
+            tr("Right doouble button shunt signal panel"),
             element::siciSdr, paintItemBG, "righttwobtnshuntsignalPanel");
 
     new PaintItemButton(QPixmap(spdritem_wsl_xpm),

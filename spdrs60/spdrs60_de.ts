@@ -355,7 +355,7 @@ den Suchkriterien entspricht.</translation>
         <translation>Kein Umschalten möglich; Weiche ist belegt</translation>
     </message>
     <message>
-        <source>No routing possible; signal &apos;%1&apos; is allready locked by an active route.</source>
+        <source>No routing possible; signal &apos;%1&apos; is already locked by an active route.</source>
         <translation>Kein Umschalten möglich; Signal &apos;%1&apos; ist durch eine aktive Fahrstraße gesperrt.</translation>
     </message>
     <message>
@@ -1195,14 +1195,6 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <translation>Rechtskurve nach unten</translation>
     </message>
     <message>
-        <source>Switch left</source>
-        <translation>Weiche links</translation>
-    </message>
-    <message>
-        <source>Switch right</source>
-        <translation>Weiche rechts</translation>
-    </message>
-    <message>
         <source>Diagonal switch left</source>
         <translation>Diagonale Weiche links</translation>
     </message>
@@ -1407,8 +1399,24 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <translation>Linkes Sperrsignal mit zwei Tasten</translation>
     </message>
     <message>
-        <source>Right oouble button shunt signal panel</source>
+        <source>Right doouble button shunt signal panel</source>
         <translation>Rechtes Sperrsignal mit zwei Tasten</translation>
+    </message>
+    <message>
+        <source>Switch bottom left</source>
+        <translation>Weiche links unten</translation>
+    </message>
+    <message>
+        <source>Switch top left</source>
+        <translation>Weiche links oben</translation>
+    </message>
+    <message>
+        <source>Switch bottom right</source>
+        <translation>Weiche rechts unten</translation>
+    </message>
+    <message>
+        <source>Switch top right</source>
+        <translation>Weiche rechts oben</translation>
     </message>
 </context>
 <context>

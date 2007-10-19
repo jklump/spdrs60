@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-13 09:12:20 $
-                           $Revision: 1.83 $
+    last modified        : $Date: 2007-10-19 18:24:05 $
+                           $Revision: 1.84 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -70,8 +70,10 @@
 #define SYM_SBL  "signal_sbl"
 
 // turnouts
-#define SYM_WEL  "weiche_links" //turnout left
-#define SYM_WER  "weiche_rechts" //turnout right
+#define SYM_SLB  "switch_left_bottom"
+#define SYM_SLT  "weiche_links" //turnout left
+#define SYM_SRB  "weiche_rechts" //turnout right
+#define SYM_SRT  "switch_right_top"
 #define SYM_DWL  "weiche_diag_links" //turnoutdiagonalleft
 #define SYM_DWR  "weiche_diag_rechts" //turnoutdiagonalright
 #define SYM_WEY  "weiche_y"
@@ -265,10 +267,10 @@ public:
         siciVsr = 360, siciVsl,
         siciAdr = 400,
         siciBue = 420,
-        siciWel = 500,
-        siciWer = 502,
-        siciDwl = 510,
-        siciDwr = 512,
+        siciSrb = 500, siciSrt,
+        siciSlb = 510, siciSlt,
+        siciDwl = 520,
+        siciDwr = 530,
         siciWey = 550,
         siciEkl = 600,
         siciEkr = 602,

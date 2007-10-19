@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-14 10:24:35 $
-                           $Revision: 1.138 $
+    last modified        : $Date: 2007-10-19 18:24:05 $
+                           $Revision: 1.139 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -691,7 +691,7 @@ void MainWindow::initMainWindow()
     actionEditFileLayout = new QAction(tr("&Layout"), this);
 #elif QT_VERSION >= 0x030200
     actionEditFileLayout = new QAction(NULL, tr("&Layout"), 0, this,
-                    "editFileLayout");
+            "editFileLayout");
     actionEditFileLayout->setToolTip(tr(
                 "Edit layout file with external editor"));
 #else
@@ -2229,7 +2229,7 @@ void MainWindow::updateCommandConnectionState(bool connected)
 
             /*
              * ask server about power state, may be an other client
-             * allready switched power on
+             * already switched power on
              */
             SRCPCommandState = srcp07GetPower;
             SendCommandToSRCPServer("GET POWER");

@@ -313,7 +313,7 @@ Controlled via keyboard #14</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>No routing possible; signal &apos;%1&apos; is allready locked by an active route.</source>
+        <source>No routing possible; signal &apos;%1&apos; is already locked by an active route.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1166,14 +1166,6 @@ the server daemon after shutdown has finished)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Switch left</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Switch right</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Diagonal switch left</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1378,7 +1370,23 @@ the server daemon after shutdown has finished)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Right double button shunt signal panel</source>
+        <source>Right doouble button shunt signal panel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch bottom left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch top left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch bottom right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch top right</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

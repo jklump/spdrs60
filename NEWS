@@ -124,7 +124,7 @@ spdrs60-0.4.8 (2005-12-11)
 
   o For route editing there is a new edit mode indicated by blue lines
     around each symbol. Users can easily assemble new routes or edit
-    allready configured routes by clicking on layout elements. Mouse
+    already configured routes by clicking on layout elements. Mouse
     behavior has changed here. A single click with left mouse button
     selects or deselects entry and exit signals; a single click with
     middle button does the same for other switchable route elements.
