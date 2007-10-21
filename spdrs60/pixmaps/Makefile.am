@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60, pixmaps included by cpp-files
 # (c) Guido Scholz
-# version: $Revision: 1.33 $
-# last update: $Date: 2007-10-21 11:45:17 $
+# version: $Revision: 1.34 $
+# last update: $Date: 2007-10-21 17:54:11 $
 
 EXTRA_DIST = filenew.xpm filesave.xpm fileopen.xpm \
 	fileclose.xpm filenewwindow.xpm \
@@ -47,39 +47,44 @@ EXTRA_DIST = filenew.xpm filesave.xpm fileopen.xpm \
 	transfertable.xpm signal-w.xpm signal-wr.xpm \
 	layoutitemerasemode.xpm layoutitempaintmode.xpm \
 	layoutitemselectmode.xpm \
+	spdritem_bsl.xpm spdritem_bsr.xpm \
+	spdritem_buc.xpm spdritem_bul.xpm spdritem_bur.xpm \
+	spdritem_clb.xpm spdritem_clt.xpm \
+	spdritem_crb.xpm spdritem_crt.xpm \
+	spdritem_dbr.xpm spdritem_dbl.xpm \
+	spdritem_dco.xpm spdritem_bld.xpm spdritem_adr.xpm \
 	spdritem_dil.xpm spdritem_dir.xpm \
 	spdritem_dkl.xpm spdritem_dkr.xpm \
-	spdritem_twr.xpm spdritem_twl.xpm \
-	spdritem_dbr.xpm spdritem_dbl.xpm \
+	spdritem_dlt.xpm spdritem_drt.xpm \
 	spdritem_dtr.xpm spdritem_dtl.xpm \
 	spdritem_ekl.xpm spdritem_ekr.xpm \
 	spdritem_feb.xpm spdritem_fee.xpm spdritem_feg.xpm \
 	spdritem_fen.xpm spdritem_fer.xpm spdritem_fey.xpm \
-	spdritem_hssr.xpm spdritem_hssl.xpm \
 	spdritem_hsr.xpm spdritem_hsl.xpm \
+	spdritem_hssr.xpm spdritem_hssl.xpm \
 	spdritem_krh.xpm spdritem_krl.xpm spdritem_krr.xpm \
-	spdritem_clb.xpm spdritem_clt.xpm \
-	spdritem_crb.xpm spdritem_crt.xpm \
+	spdritem_lcr.xpm spdritem_rel.xpm spdritem_mdc.xpm \
+	spdritem_lee.xpm \
 	spdritem_rbr.xpm spdritem_rbl.xpm \
-	spdritem_tdr.xpm spdritem_tdl.xpm spdritem_tdb.xpm \
 	spdritem_sbr.xpm spdritem_sbl.xpm \
 	spdritem_sdr.xpm spdritem_sdl.xpm \
 	spdritem_shr.xpm spdritem_shl.xpm \
+	spdritem_sht.xpm spdritem_shb.xpm \
+	spdritem_lsr.xpm spdritem_lsl.xpm \
+	spdritem_srb.xpm spdritem_slb.xpm \
+	spdritem_srt.xpm spdritem_slt.xpm \
 	spdritem_ssr.xpm spdritem_ssl.xpm \
+	spdritem_syr.xpm spdritem_syl.xpm \
 	spdritem_taf.xpm \
 	spdritem_tas.xpm spdritem_tau.xpm spdritem_taw.xpm \
 	spdritem_tbl.xpm spdritem_tbr.xpm spdritem_trh.xpm \
-	spdritem_trv.xpm spdritem_ttl.xpm spdritem_ttr.xpm \
+	spdritem_tdr.xpm spdritem_tdl.xpm spdritem_tdb.xpm \
+	spdritem_tnt.xpm spdritem_trt.xpm \
+	spdritem_trv.xpm \
+	spdritem_tul.xpm spdritem_tur.xpm \
+	spdritem_ttl.xpm spdritem_ttr.xpm \
+	spdritem_twr.xpm spdritem_twl.xpm \
 	spdritem_vsr.xpm spdritem_vsl.xpm \
-	spdritem_srb.xpm spdritem_slb.xpm \
-	spdritem_srt.xpm spdritem_slt.xpm \
-	spdritem_syr.xpm spdritem_syl.xpm \
 	spdritem_wsr.xpm spdritem_wsl.xpm \
-	spdritem_zpr.xpm spdritem_zpl.xpm \
-	spdritem_bsl.xpm spdritem_bsr.xpm spdritem_tug.xpm spdritem_dlt.xpm \
-	spdritem_drt.xpm spdritem_lee.xpm spdritem_hs1.xpm \
-	spdritem_bul.xpm spdritem_bur.xpm spdritem_sht.xpm spdritem_shm.xpm \
-	spdritem_shb.xpm \
-	spdritem_dco.xpm spdritem_bld.xpm spdritem_adr.xpm \
-	spdritem_lcr.xpm spdritem_rel.xpm spdritem_mdc.xpm \
-	spdritem_tnt.xpm spdritem_trt.xpm
+	spdritem_zpr.xpm spdritem_zpl.xpm
+

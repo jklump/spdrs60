@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-21 11:45:14 $
-                           $Revision: 1.153 $
+    last modified        : $Date: 2007-10-21 17:54:10 $
+                           $Revision: 1.154 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -316,8 +316,10 @@ void element::updateProperties()
             sSoldIcon == SYM_GER ||
             sSoldIcon == SYM_SYR || sSoldIcon == SYM_SYL ||
             sSoldIcon == SYM_BUL || sSoldIcon == SYM_DLT ||
-            sSoldIcon == SYM_DRT || sSoldIcon == SYM_GET ||
-            sSoldIcon == SYM_SHM || sSoldIcon == SYM_SHO ||
+            sSoldIcon == SYM_DRT ||
+            sSoldIcon == SYM_TUR || sSoldIcon == SYM_TUL ||
+            sSoldIcon == SYM_LSR || sSoldIcon == SYM_LSL ||
+            sSoldIcon == SYM_SHO ||
             sSoldIcon == SYM_ADR);
 
     if (!rotatable) {
@@ -7191,7 +7193,7 @@ void element::setupElementIcon()
     }
 
     // house 1 (train station middle section)
-    else if (classid == siciHs1) {
+    else if (classid == siciBuc) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -7250,13 +7252,8 @@ void element::setupElementIcon()
         setPaletteBackgroundPixmap(pm);
     }
    
-    // straight track with tunnel
-    else if (classid == siciGet || classid == siciDlt ||
-            classid == siciDrt) {
-
-        bool isleft = (classid == siciDlt);
-        bool isright = (classid == siciDrt);
-        
+    // straight track with tunnel right (+old left)
+    else if (classid == siciTur) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -7267,24 +7264,97 @@ void element::setupElementIcon()
 
         int tracklen = pm.width() / 2 - 5;
 
-        if (isleft) {
-            tracklen += 5;
-            if (iSoldRotate == 1) 
-                p.rotate(WANGLE);
-            else 
-                p.rotate(-SANGLE);
-        }
-        else if (isright) {
-            tracklen += 5;
-            if (iSoldRotate == 1) 
-                p.rotate(SANGLE);
-            else 
-                p.rotate(-WANGLE);
-        }
-        else {
-            if (iSoldRotate == 1)
-                p.rotate(180.0);
-        }
+        if (iSoldRotate == 1)
+            p.rotate(180.0);
+        
+        // paint track
+        p.fillRect(-5, -3, -tracklen, 7, QBrush(Qt::black));
+        
+        // paint tunnel entry
+        QPointArray tunnel = QPointArray(4);
+        tunnel.putPoints(0, 4, -8, -14, 0, -6, 0, 6, -8, 14);
+        p.setPen(QPen(darkGray, 2));
+        p.drawPolyline(tunnel);
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+
+    // straight track with tunnel left
+    else if (classid == siciTul) {
+        QPixmap pm = QPixmap(size());
+        pm.fill(QColor(Qt::lightGray));
+        QPainter p;
+        p.begin(&pm);
+
+        // translate origin to center of pixmap
+        p.translate(pm.width()/2, pm.height()/2);
+
+        int tracklen = pm.width() / 2 - 5;
+
+        p.rotate(180.0);
+        
+        // paint track
+        p.fillRect(-5, -3, -tracklen, 7, QBrush(Qt::black));
+        
+        // paint tunnel entry
+        QPointArray tunnel = QPointArray(4);
+        tunnel.putPoints(0, 4, -8, -14, 0, -6, 0, 6, -8, 14);
+        p.setPen(QPen(darkGray, 2));
+        p.drawPolyline(tunnel);
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+
+    // left diagonal track with tunnel
+    else if (classid == siciDlt) {
+        QPixmap pm = QPixmap(size());
+        pm.fill(QColor(Qt::lightGray));
+        QPainter p;
+        p.begin(&pm);
+
+        // translate origin to center of pixmap
+        p.translate(pm.width()/2, pm.height()/2);
+
+        int tracklen = pm.width() / 2 - 5;
+
+        tracklen += 5;
+        if (iSoldRotate == 1) 
+            p.rotate(WANGLE);
+        else 
+            p.rotate(-SANGLE);
+        
+        // paint track
+        p.fillRect(-5, -3, -tracklen, 7, QBrush(Qt::black));
+        
+        // paint tunnel entry
+        QPointArray tunnel = QPointArray(4);
+        tunnel.putPoints(0, 4, -8, -14, 0, -6, 0, 6, -8, 14);
+        p.setPen(QPen(darkGray, 2));
+        p.drawPolyline(tunnel);
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+
+    // right diagonal track with tunnel
+    else if (classid == siciDrt) {
+        QPixmap pm = QPixmap(size());
+        pm.fill(QColor(Qt::lightGray));
+        QPainter p;
+        p.begin(&pm);
+
+        // translate origin to center of pixmap
+        p.translate(pm.width()/2, pm.height()/2);
+
+        int tracklen = pm.width() / 2 - 5;
+
+        tracklen += 5;
+        if (iSoldRotate == 1) 
+            p.rotate(SANGLE);
+        else 
+            p.rotate(-WANGLE);
         
         // paint track
         p.fillRect(-5, -3, -tracklen, 7, QBrush(Qt::black));
@@ -7300,11 +7370,9 @@ void element::setupElementIcon()
     }
 
     // track with loco shed (lokschuppen)
-    else if (classid == siciSho || classid == siciShm ||
-            classid == siciShu) {
+    else if (classid == siciSho || classid == siciShu) {
 
         bool istop = (classid == siciSho);
-        bool isbottom = (classid == siciShu);
         
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
@@ -7329,7 +7397,7 @@ void element::setupElementIcon()
             else 
                 p.rotate(-SANGLE);
         }
-        else if (isbottom) {
+        else {
             tracklen += 5;
             shedwidth += 8;
             shedxoffset += 9;
@@ -7338,10 +7406,6 @@ void element::setupElementIcon()
                 p.rotate(-WANGLE);
             else 
                 p.rotate(SANGLE);
-        }
-        else {
-            if (iSoldRotate == 1)
-                p.rotate(180.0);
         }
         
         // paint track
@@ -7353,6 +7417,66 @@ void element::setupElementIcon()
                 pm.width()/2, shedwidth);
         p.drawLine(pm.width() / 4 - shedxoffset, -shedwidth / 2 + shedyoffset,
                 pm.width() / 4 - shedxoffset, shedwidth / 2 + shedyoffset);
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+
+    // track with right loco shed (+ old left)
+    else if (classid == siciLsr) {
+        QPixmap pm = QPixmap(size());
+        pm.fill(QColor(Qt::lightGray));
+        QPainter p;
+        p.begin(&pm);
+
+        // translate origin to center of pixmap
+        p.translate(pm.width()/2, pm.height()/2);
+
+        int tracklen = pm.width() / 2;
+        int shedwidth = pm.height();
+        int shedxoffset = 0;
+        int shedyoffset = 0;
+
+        if (iSoldRotate == 1)
+            p.rotate(180.0);
+        
+        // paint track
+        p.fillRect(0, -3, -tracklen, 7, QBrush(Qt::black));
+        
+        // paint schuppen
+        p.setBrush(QColor(192, 0 ,0));
+        p.drawRect(0 - shedxoffset, -shedwidth/2 + shedyoffset,
+                pm.width()/2, shedwidth);
+        p.drawLine(pm.width() / 4 - shedxoffset, -shedwidth / 2 + shedyoffset,
+                pm.width() / 4 - shedxoffset, shedwidth / 2 + shedyoffset);
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+
+    // track with left middle loco shed
+    else if (classid == siciLsl) {
+        QPixmap pm = QPixmap(size());
+        pm.fill(QColor(Qt::lightGray));
+        QPainter p;
+        p.begin(&pm);
+
+        // translate origin to center of pixmap
+        p.translate(pm.width() / 2, pm.height() / 2);
+
+        int tracklen = pm.width() / 2;
+        int shedwidth = pm.height();
+
+        p.rotate(180.0);
+        
+        // paint track
+        p.fillRect(0, -3, -tracklen, 7, QBrush(Qt::black));
+        
+        // paint schuppen
+        p.setBrush(QColor(192, 0 ,0));
+        p.drawRect(0 , -shedwidth / 2, pm.width() / 2, shedwidth);
+        p.drawLine(pm.width() / 4, -shedwidth / 2,
+                pm.width() / 4, shedwidth / 2);
 
         p.end();
         setPaletteBackgroundPixmap(pm);
@@ -8892,6 +9016,14 @@ void element::setClassId(SpdrItemClassId id)
         }
         else if (id == siciTwr) {
             classid = siciTwl;
+            iSoldRotate = -1;
+        }
+        else if (id == siciTur) {
+            classid = siciTul;
+            iSoldRotate = -1;
+        }
+        else if (id == siciLsr) {
+            classid = siciLsl;
             iSoldRotate = -1;
         }
     }

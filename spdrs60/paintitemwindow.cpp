@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-26
- * Last modified: $Date: 2007-10-21 11:45:17 $
- *                $Revision: 1.11 $
+ * Last modified: $Date: 2007-10-21 17:54:10 $
+ *                $Revision: 1.12 $
  *
  * This code creates a dockable window with a set of paint items 
  */
@@ -25,26 +25,26 @@
 #include "paintitemwindow.h"
 
 /*straight track panels*/
-#include "pixmaps/spdritem_trh.xpm"
-#include "pixmaps/spdritem_trv.xpm"
 #include "pixmaps/spdritem_dil.xpm"
 #include "pixmaps/spdritem_dir.xpm"
-#include "pixmaps/spdritem_tdr.xpm"
-#include "pixmaps/spdritem_tdl.xpm"
-#include "pixmaps/spdritem_tdb.xpm"
 #include "pixmaps/spdritem_krh.xpm"
-#include "pixmaps/spdritem_krr.xpm"
 #include "pixmaps/spdritem_krl.xpm"
+#include "pixmaps/spdritem_krr.xpm"
+#include "pixmaps/spdritem_tdb.xpm"
+#include "pixmaps/spdritem_tdl.xpm"
+#include "pixmaps/spdritem_tdr.xpm"
+#include "pixmaps/spdritem_trh.xpm"
+#include "pixmaps/spdritem_trv.xpm"
 
 /*curved track panels*/
-#include "pixmaps/spdritem_crb.xpm"
-#include "pixmaps/spdritem_clt.xpm"
 #include "pixmaps/spdritem_clb.xpm"
+#include "pixmaps/spdritem_clt.xpm"
+#include "pixmaps/spdritem_crb.xpm"
 #include "pixmaps/spdritem_crt.xpm"
-#include "pixmaps/spdritem_ttl.xpm"
-#include "pixmaps/spdritem_ttr.xpm"
 #include "pixmaps/spdritem_tbl.xpm"
 #include "pixmaps/spdritem_tbr.xpm"
+#include "pixmaps/spdritem_ttl.xpm"
+#include "pixmaps/spdritem_ttr.xpm"
 
 /*switch panels */
 #include "pixmaps/spdritem_slt.xpm" //wel
@@ -59,68 +59,70 @@
 #include "pixmaps/spdritem_syl.xpm"
 #include "pixmaps/spdritem_twr.xpm" //drw
 #include "pixmaps/spdritem_twl.xpm"
-#include "pixmaps/spdritem_ekl.xpm"
-#include "pixmaps/spdritem_ekr.xpm"
+#include "pixmaps/spdritem_ekl.xpm" //ekl
+#include "pixmaps/spdritem_ekr.xpm" //ekr
 #include "pixmaps/spdritem_dkl.xpm"
 #include "pixmaps/spdritem_dkr.xpm"
 
 /*signal panels */
-#include "pixmaps/spdritem_hsr.xpm"
 #include "pixmaps/spdritem_hsl.xpm"
-#include "pixmaps/spdritem_hssr.xpm"
+#include "pixmaps/spdritem_hsr.xpm"
 #include "pixmaps/spdritem_hssl.xpm"
-#include "pixmaps/spdritem_ssr.xpm"
-#include "pixmaps/spdritem_ssl.xpm"
-#include "pixmaps/spdritem_shr.xpm"
-#include "pixmaps/spdritem_shl.xpm"
-#include "pixmaps/spdritem_sdr.xpm"
-#include "pixmaps/spdritem_sdl.xpm"
-#include "pixmaps/spdritem_wsr.xpm"
-#include "pixmaps/spdritem_wsl.xpm"
-#include "pixmaps/spdritem_vsr.xpm"
-#include "pixmaps/spdritem_vsl.xpm"
-#include "pixmaps/spdritem_zpr.xpm"
-#include "pixmaps/spdritem_zpl.xpm"
-#include "pixmaps/spdritem_rbr.xpm"
+#include "pixmaps/spdritem_hssr.xpm"
 #include "pixmaps/spdritem_rbl.xpm"
-#include "pixmaps/spdritem_sbr.xpm"
+#include "pixmaps/spdritem_rbr.xpm"
 #include "pixmaps/spdritem_sbl.xpm"
+#include "pixmaps/spdritem_sbr.xpm"
+#include "pixmaps/spdritem_sdl.xpm"
+#include "pixmaps/spdritem_sdr.xpm"
+#include "pixmaps/spdritem_shl.xpm"
+#include "pixmaps/spdritem_shr.xpm"
+#include "pixmaps/spdritem_ssl.xpm"
+#include "pixmaps/spdritem_ssr.xpm"
+#include "pixmaps/spdritem_vsl.xpm"
+#include "pixmaps/spdritem_vsr.xpm"
+#include "pixmaps/spdritem_wsl.xpm"
+#include "pixmaps/spdritem_wsr.xpm"
+#include "pixmaps/spdritem_zpl.xpm"
+#include "pixmaps/spdritem_zpr.xpm"
 
 /*miscellanous panels*/
-#include "pixmaps/spdritem_dco.xpm"
-#include "pixmaps/spdritem_bld.xpm"
 #include "pixmaps/spdritem_adr.xpm"
+#include "pixmaps/spdritem_bld.xpm"
+#include "pixmaps/spdritem_dco.xpm"
 #include "pixmaps/spdritem_lcr.xpm"
-#include "pixmaps/spdritem_rel.xpm"
 #include "pixmaps/spdritem_mdc.xpm"
+#include "pixmaps/spdritem_rel.xpm"
 #include "pixmaps/spdritem_tnt.xpm"
 #include "pixmaps/spdritem_trt.xpm"
 
 /*decorative panels*/
 #include "pixmaps/spdritem_bsl.xpm"
 #include "pixmaps/spdritem_bsr.xpm"
-#include "pixmaps/spdritem_tug.xpm"
+#include "pixmaps/spdritem_buc.xpm"
+#include "pixmaps/spdritem_bul.xpm"
+#include "pixmaps/spdritem_bur.xpm"
 #include "pixmaps/spdritem_dlt.xpm"
 #include "pixmaps/spdritem_drt.xpm"
 #include "pixmaps/spdritem_lee.xpm"
-#include "pixmaps/spdritem_hs1.xpm"
-#include "pixmaps/spdritem_bul.xpm"
-#include "pixmaps/spdritem_bur.xpm"
-#include "pixmaps/spdritem_sht.xpm"
-#include "pixmaps/spdritem_shm.xpm"
 #include "pixmaps/spdritem_shb.xpm"
+#include "pixmaps/spdritem_lsl.xpm"
+#include "pixmaps/spdritem_lsr.xpm"
+#include "pixmaps/spdritem_sht.xpm"
+#include "pixmaps/spdritem_tur.xpm" //tug
+#include "pixmaps/spdritem_tul.xpm"
 
 /*external group panels*/
-#include "pixmaps/spdritem_feg.xpm"
-#include "pixmaps/spdritem_taf.xpm"
-#include "pixmaps/spdritem_tau.xpm"
 #include "pixmaps/spdritem_feb.xpm"
-#include "pixmaps/spdritem_taw.xpm"
-#include "pixmaps/spdritem_fer.xpm"
-#include "pixmaps/spdritem_tas.xpm"
-#include "pixmaps/spdritem_fey.xpm"
-#include "pixmaps/spdritem_fen.xpm"
 #include "pixmaps/spdritem_fee.xpm"
+#include "pixmaps/spdritem_feg.xpm"
+#include "pixmaps/spdritem_fen.xpm"
+#include "pixmaps/spdritem_fer.xpm"
+#include "pixmaps/spdritem_fey.xpm"
+#include "pixmaps/spdritem_taf.xpm"
+#include "pixmaps/spdritem_tas.xpm"
+#include "pixmaps/spdritem_tau.xpm"
+#include "pixmaps/spdritem_taw.xpm"
 
 
 PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
@@ -388,20 +390,23 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
     new PaintItemButton(QPixmap(spdritem_bsr_xpm), tr("Right buffer stop"),
             element::siciBsr, paintItemBG, "rightbufferstopPanel");
 
-    new PaintItemButton(QPixmap(spdritem_tug_xpm),tr("Straight tunnel"),
-            element::siciGet, paintItemBG, "tunnelstraightPanel");
+    new PaintItemButton(QPixmap(spdritem_tur_xpm),tr("Tunnel right"),
+            element::siciTur, paintItemBG, "tunnelrightPanel");
 
-    new PaintItemButton(QPixmap(spdritem_dlt_xpm), tr("Tunnel left"),
-            element::siciDlt, paintItemBG, "tunnelleftPanel");
+    new PaintItemButton(QPixmap(spdritem_tul_xpm),tr("Tunnel left"),
+            element::siciTul, paintItemBG, "tunnelleftPanel");
 
-    new PaintItemButton(QPixmap(spdritem_drt_xpm), tr("Tunnel right"),
-            element::siciDrt, paintItemBG, "tunnelrightPanel");
+    new PaintItemButton(QPixmap(spdritem_dlt_xpm), tr("Diagonal tunnel left"),
+            element::siciDlt, paintItemBG, "diagonaltunnelleftPanel");
+
+    new PaintItemButton(QPixmap(spdritem_drt_xpm), tr("Diagonal tunnel right"),
+            element::siciDrt, paintItemBG, "diagonaltunnelrightPanel");
 
     new PaintItemButton(QPixmap(spdritem_lee_xpm), tr("Text field panel"),
             element::siciLee, paintItemBG, "textfieldPanel");
 
-    new PaintItemButton(QPixmap(spdritem_hs1_xpm), tr("House center wing"),
-            element::siciHs1, paintItemBG, "centerwingPanel");
+    new PaintItemButton(QPixmap(spdritem_buc_xpm), tr("House center wing"),
+            element::siciBuc, paintItemBG, "centerwingPanel");
 
     new PaintItemButton(QPixmap(spdritem_bul_xpm), tr("Building left wing"),
             element::siciBul, paintItemBG, "buildingleftwingPanel");
@@ -412,8 +417,11 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
     new PaintItemButton(QPixmap(spdritem_sht_xpm), tr("Top loco shed"),
             element::siciSho, paintItemBG, "locoshedtPanel");
 
-    new PaintItemButton(QPixmap(spdritem_shm_xpm), tr("Middle loco shed"),
-            element::siciShm, paintItemBG, "locoshedmPanel");
+    new PaintItemButton(QPixmap(spdritem_lsr_xpm), tr("Middle loco shed right"),
+            element::siciLsr, paintItemBG, "locoshedmrightPanel");
+
+    new PaintItemButton(QPixmap(spdritem_lsl_xpm), tr("Middle loco shed left"),
+            element::siciLsl, paintItemBG, "locoshedmleftPanel");
 
     new PaintItemButton(QPixmap(spdritem_shb_xpm), tr("Bottom loco shed"),
             element::siciShu, paintItemBG, "locoshedbPanel");

@@ -135,12 +135,15 @@ HEADERS += aboutdialog.h \
 	pixmaps/spdritem_bld.xpm \
 	pixmaps/spdritem_bsl.xpm \
 	pixmaps/spdritem_bsr.xpm \
+	pixmaps/spdritem_buc.xpm \
 	pixmaps/spdritem_bul.xpm \
 	pixmaps/spdritem_bur.xpm \
 	pixmaps/spdritem_clb.xpm \
 	pixmaps/spdritem_clt.xpm \
 	pixmaps/spdritem_crb.xpm \
 	pixmaps/spdritem_crt.xpm \
+	pixmaps/spdritem_dbl.xpm \
+	pixmaps/spdritem_dbr.xpm \
 	pixmaps/spdritem_dco.xpm \
 	pixmaps/spdritem_dil.xpm \
 	pixmaps/spdritem_dir.xpm \
@@ -148,12 +151,8 @@ HEADERS += aboutdialog.h \
 	pixmaps/spdritem_dkr.xpm \
 	pixmaps/spdritem_dlt.xpm \
 	pixmaps/spdritem_drt.xpm \
-	pixmaps/spdritem_twr.xpm \
-	pixmaps/spdritem_twl.xpm \
-	pixmaps/spdritem_dbr.xpm \
-	pixmaps/spdritem_dbl.xpm \
-	pixmaps/spdritem_dtr.xpm \
 	pixmaps/spdritem_dtl.xpm \
+	pixmaps/spdritem_dtr.xpm \
 	pixmaps/spdritem_ekl.xpm \
 	pixmaps/spdritem_ekr.xpm \
 	pixmaps/spdritem_feb.xpm \
@@ -162,26 +161,30 @@ HEADERS += aboutdialog.h \
 	pixmaps/spdritem_fen.xpm \
 	pixmaps/spdritem_fer.xpm \
 	pixmaps/spdritem_fey.xpm \
-	pixmaps/spdritem_hs1.xpm \
 	pixmaps/spdritem_hsl.xpm \
 	pixmaps/spdritem_hsr.xpm \
-	pixmaps/spdritem_hssr.xpm \
 	pixmaps/spdritem_hssl.xpm \
+	pixmaps/spdritem_hssr.xpm \
 	pixmaps/spdritem_krh.xpm \
 	pixmaps/spdritem_krl.xpm \
 	pixmaps/spdritem_krr.xpm \
 	pixmaps/spdritem_lcr.xpm \
 	pixmaps/spdritem_lee.xpm \
+	pixmaps/spdritem_lsl.xpm \
+	pixmaps/spdritem_lsr.xpm \
 	pixmaps/spdritem_mdc.xpm \
 	pixmaps/spdritem_rbr.xpm \
 	pixmaps/spdritem_rel.xpm \
 	pixmaps/spdritem_sbr.xpm \
-	pixmaps/spdritem_sdr.xpm \
 	pixmaps/spdritem_sdl.xpm \
+	pixmaps/spdritem_sdr.xpm \
 	pixmaps/spdritem_shb.xpm \
-	pixmaps/spdritem_shm.xpm \
 	pixmaps/spdritem_shr.xpm \
 	pixmaps/spdritem_sht.xpm \
+	pixmaps/spdritem_slb.xpm \
+	pixmaps/spdritem_slt.xpm \
+	pixmaps/spdritem_srb.xpm \
+	pixmaps/spdritem_srt.xpm \
 	pixmaps/spdritem_ssr.xpm \
 	pixmaps/spdritem_taf.xpm \
 	pixmaps/spdritem_tas.xpm \
@@ -198,15 +201,15 @@ HEADERS += aboutdialog.h \
 	pixmaps/spdritem_trv.xpm \
 	pixmaps/spdritem_ttl.xpm \
 	pixmaps/spdritem_ttr.xpm \
-	pixmaps/spdritem_tug.xpm \
+	pixmaps/spdritem_tul.xpm \
+	pixmaps/spdritem_tur.xpm \
+	pixmaps/spdritem_twl.xpm \
+	pixmaps/spdritem_twr.xpm \
 	pixmaps/spdritem_vsl.xpm \
 	pixmaps/spdritem_vsr.xpm \
-	pixmaps/spdritem_srt.xpm \
-	pixmaps/spdritem_srb.xpm \
-	pixmaps/spdritem_slt.xpm \
-	pixmaps/spdritem_slb.xpm \
-	pixmaps/spdritem_wey.xpm \
+	pixmaps/spdritem_wsl.xpm \
 	pixmaps/spdritem_wsr.xpm \
+	pixmaps/spdritem_zpl.xpm \
 	pixmaps/spdritem_zpr.xpm \
 	pixmaps/transfertable.xpm \
 	pixmaps/tt_goto.xpm \

@@ -1070,10 +1070,6 @@ the server daemon after shutdown has finished)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Straight tunnel</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Tunnel left</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1091,10 +1087,6 @@ the server daemon after shutdown has finished)</source>
     </message>
     <message>
         <source>Top loco shed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Middle loco shed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1403,6 +1395,22 @@ the server daemon after shutdown has finished)</source>
     </message>
     <message>
         <source>Three way turnout left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Diagonal tunnel left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Diagonal tunnel right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Middle loco shed right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Middle loco shed left</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-21 11:45:16 $
-                           $Revision: 1.86 $
+    last modified        : $Date: 2007-10-21 17:54:10 $
+                           $Revision: 1.87 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -122,15 +122,17 @@
 // decorative items
 #define SYM_BSR  "prellbock"  // buffer stop, bumper
 #define SYM_BSL  "bufferstopleft"
-#define SYM_GET  "gerade_tl"  // tunnel straight left/right
+#define SYM_TUR  "gerade_tl"  // tunnel straight left/right
+#define SYM_TUL  "gerade_tunnel_left"
 #define SYM_DLT  "diagonale_links_tl" //tunnelbottomleft /top left
 #define SYM_DRT  "diagonale_rechts_tl" // right
 #define SYM_LEE  "leer" // (txt)
-#define SYM_HS1  "haus_1"
+#define SYM_BUC  "haus_1"
 #define SYM_BUL  "haus_2"
 #define SYM_BUR  "buildingright"
 #define SYM_SHO  "schuppen_o" // loco shed
-#define SYM_SHM  "schuppen_m"
+#define SYM_LSR  "schuppen_m"
+#define SYM_LSL  "locoshed_m_left"
 #define SYM_SHU  "schuppen_u"
 
 // external group buttons
@@ -285,13 +287,9 @@ public:
         siciRel = 710,
         siciMdc = 720,
         siciBsr = 800, siciBsl,
-        siciShm = 820,
-        siciSho = 822,
-        siciShu = 824,
-        siciDlt = 825,
-        siciGet = 826,
-        siciDrt = 827,
-        siciHs1 = 830, siciBul, siciBur,
+        siciLsr = 820, siciLsl, siciSho, siciShu,
+        siciTur = 830, siciTul, siciDlt, siciDrt,
+        siciBuc = 840, siciBul, siciBur,
         siciLee = 900,
         siciFeg = 1100, siciTaf, siciTau,
         siciFeb = 1200, siciTaw,

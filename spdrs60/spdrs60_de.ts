@@ -1099,10 +1099,6 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <translation></translation>
     </message>
     <message>
-        <source>Straight tunnel</source>
-        <translation>Tunnel geradeaus</translation>
-    </message>
-    <message>
         <source>Tunnel left</source>
         <translation>Tunnel links</translation>
     </message>
@@ -1121,10 +1117,6 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     <message>
         <source>Top loco shed</source>
         <translation>Lokschuppen oben</translation>
-    </message>
-    <message>
-        <source>Middle loco shed</source>
-        <translation>Lokschuppen Mitte</translation>
     </message>
     <message>
         <source>Bottom loco shed</source>
@@ -1193,10 +1185,6 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     <message>
         <source>Curve bottom vertical right</source>
         <translation>Rechtskurve nach unten</translation>
-    </message>
-    <message>
-        <source>Three way turnout</source>
-        <translation type="obsolete">Dreiwegweiche</translation>
     </message>
     <message>
         <source>Single-slip switch left</source>
@@ -1432,11 +1420,27 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     </message>
     <message>
         <source>Three way turnout right</source>
-        <translation type="unfinished"></translation>
+        <translation>Dreiwegweiche rechts</translation>
     </message>
     <message>
         <source>Three way turnout left</source>
-        <translation type="unfinished"></translation>
+        <translation>Dreiwegweiche links</translation>
+    </message>
+    <message>
+        <source>Diagonal tunnel left</source>
+        <translation>Diagonaler Tunnel links</translation>
+    </message>
+    <message>
+        <source>Diagonal tunnel right</source>
+        <translation>Diagonaler Tunnel rechts</translation>
+    </message>
+    <message>
+        <source>Middle loco shed right</source>
+        <translation>Mittlerer Lokschuppen rechts</translation>
+    </message>
+    <message>
+        <source>Middle loco shed left</source>
+        <translation>Mittlerer Lokschuppen links</translation>
     </message>
 </context>
 <context>
@@ -2612,7 +2616,9 @@ ein Modul an Bus Nr. 1 angeschlossen ist.</translation>
     <message>
         <source>Send a state change message when a route is released or
 successfully activated. This is typically used for scripting.</source>
-        <translation type="unfinished"></translation>
+        <translation>Eine Statusänderungsmeldung senden, wenn eine Fahrstraße
+aufgelöst oder erfolgreich eingestellt wurde. Typischerweise wird diese
+Funktion bei der Programmsteuerung mit Skripten genutzt.</translation>
     </message>
     <message>
         <source>Process incoming state change messages to release or
