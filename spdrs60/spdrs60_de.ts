@@ -1195,12 +1195,8 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <translation>Rechtskurve nach unten</translation>
     </message>
     <message>
-        <source>Y-Switch</source>
-        <translation>Y-Weiche</translation>
-    </message>
-    <message>
         <source>Three way turnout</source>
-        <translation>Dreiwegweiche</translation>
+        <translation type="obsolete">Dreiwegweiche</translation>
     </message>
     <message>
         <source>Single-slip switch left</source>
@@ -1425,6 +1421,22 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     <message>
         <source>Diagonal switch top left</source>
         <translation>Diagonale Weiche links oben</translation>
+    </message>
+    <message>
+        <source>Y-Switch right</source>
+        <translation>Y-Weiche rechts</translation>
+    </message>
+    <message>
+        <source>Y-Switch left</source>
+        <translation>Y-Weiche links</translation>
+    </message>
+    <message>
+        <source>Three way turnout right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Three way turnout left</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

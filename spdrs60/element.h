@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-21 08:33:34 $
-                           $Revision: 1.85 $
+    last modified        : $Date: 2007-10-21 11:45:16 $
+                           $Revision: 1.86 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -78,8 +78,10 @@
 #define SYM_DTL  "switch_diag_topleft"
 #define SYM_DTR  "weiche_diag_rechts" //turnoutdiagonalright
 #define SYM_DBR  "weiche_diag_bottomright"
-#define SYM_WEY  "weiche_y"
-#define SYM_DRW  "dreier_weiche" //3-way turnout
+#define SYM_SYR  "weiche_y"
+#define SYM_SYL  "switch_y_left"
+#define SYM_TWR  "dreier_weiche" //3-way turnout
+#define SYM_TWL  "switch_treeway_left"
 #define SYM_EKL  "ekw_links"  // single-slip switch left
 #define SYM_EKR  "ekw_rechts" // single-slip switch right
 #define SYM_DKL  "dkw_links"  // double-slip switch left
@@ -273,12 +275,12 @@ public:
         siciSlb = 510, siciSlt,
         siciDbl = 520, siciDtl,
         siciDtr = 530, siciDbr,
-        siciWey = 550,
+        siciSyr = 550, siciSyl,
         siciEkl = 600,
         siciEkr = 602,
         siciDkl = 610,
         siciDkr = 612,
-        siciDrw = 650,
+        siciTwr = 650, siciTwl,
         siciDre = 700, siciSbn,
         siciRel = 710,
         siciMdc = 720,
@@ -356,6 +358,7 @@ public:
     void updateTrainNumber(unsigned int);
     element::SpdrItemClassId classId();
     void setClassId(SpdrItemClassId);
+    unsigned int entryDir();
 
 private:
     elementCommander*   turntableProperties;

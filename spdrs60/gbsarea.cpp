@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-21 08:33:34 $
-                           $Revision: 1.94 $
+    last modified        : $Date: 2007-10-21 11:45:17 $
+                           $Revision: 1.95 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -593,10 +593,13 @@ void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
     unsigned int entrydir;
     unsigned int exitdir;
 
+    /*
     if (fSig.elemPtr->iSoldRotate == 1)
         entrydir = rdE;
     else
         entrydir = rdW;
+    */
+    entrydir = fSig.elemPtr->entryDir();
 
     while (!finished) {
         if ((idx < 0) || (idx >= maxIdx)) {
@@ -1740,8 +1743,10 @@ void GBSArea::initSpdrMap()
     spdrmap[element::siciDtl] = SYM_DTL;
     spdrmap[element::siciDtr] = SYM_DTR;
     spdrmap[element::siciDbr] = SYM_DBR;
-    spdrmap[element::siciWey] = SYM_WEY;
-    spdrmap[element::siciDrw] = SYM_DRW;
+    spdrmap[element::siciSyr] = SYM_SYR;
+    spdrmap[element::siciSyl] = SYM_SYL;
+    spdrmap[element::siciTwr] = SYM_TWR;
+    spdrmap[element::siciTwl] = SYM_TWL;
     spdrmap[element::siciEkl] = SYM_EKL;
     spdrmap[element::siciEkr] = SYM_EKR;
     spdrmap[element::siciDkl] = SYM_DKL;

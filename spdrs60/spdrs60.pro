@@ -148,7 +148,8 @@ HEADERS += aboutdialog.h \
 	pixmaps/spdritem_dkr.xpm \
 	pixmaps/spdritem_dlt.xpm \
 	pixmaps/spdritem_drt.xpm \
-	pixmaps/spdritem_drw.xpm \
+	pixmaps/spdritem_twr.xpm \
+	pixmaps/spdritem_twl.xpm \
 	pixmaps/spdritem_dbr.xpm \
 	pixmaps/spdritem_dbl.xpm \
 	pixmaps/spdritem_dtr.xpm \

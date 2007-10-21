@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-26
- * Last modified: $Date: 2007-10-21 08:33:34 $
- *                $Revision: 1.10 $
+ * Last modified: $Date: 2007-10-21 11:45:17 $
+ *                $Revision: 1.11 $
  *
  * This code creates a dockable window with a set of paint items 
  */
@@ -55,8 +55,10 @@
 #include "pixmaps/spdritem_dbr.xpm"
 #include "pixmaps/spdritem_dtr.xpm" //dwr
 #include "pixmaps/spdritem_dtl.xpm"
-#include "pixmaps/spdritem_wey.xpm"
-#include "pixmaps/spdritem_drw.xpm"
+#include "pixmaps/spdritem_syr.xpm" //wey
+#include "pixmaps/spdritem_syl.xpm"
+#include "pixmaps/spdritem_twr.xpm" //drw
+#include "pixmaps/spdritem_twl.xpm"
 #include "pixmaps/spdritem_ekl.xpm"
 #include "pixmaps/spdritem_ekr.xpm"
 #include "pixmaps/spdritem_dkl.xpm"
@@ -241,13 +243,21 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
             tr("Diagonal switch bottom right"),
             element::siciDbr, paintItemBG, "diagswitchbotrightPanel");
 
-    new PaintItemButton(QPixmap(spdritem_wey_xpm),
-            tr("Y-Switch"),
-            element::siciWey, paintItemBG, "yswitchPanel");
+    new PaintItemButton(QPixmap(spdritem_syr_xpm),
+            tr("Y-Switch right"),
+            element::siciSyr, paintItemBG, "yswitchrightPanel");
 
-    new PaintItemButton(QPixmap(spdritem_drw_xpm),
-            tr("Three way turnout"),
-            element::siciDrw, paintItemBG, "waitsignalPanel");
+    new PaintItemButton(QPixmap(spdritem_syl_xpm),
+            tr("Y-Switch left"),
+            element::siciSyl, paintItemBG, "yswitchleftPanel");
+
+    new PaintItemButton(QPixmap(spdritem_twr_xpm),
+            tr("Three way turnout right"),
+            element::siciTwr, paintItemBG, "treewayrightPanel");
+
+    new PaintItemButton(QPixmap(spdritem_twl_xpm),
+            tr("Three way turnout left"),
+            element::siciTwl, paintItemBG, "threewayleftPanel");
 
     new PaintItemButton(QPixmap(spdritem_ekl_xpm),
             tr("Single-slip switch left"),
