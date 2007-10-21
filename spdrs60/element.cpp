@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-21 08:33:33 $
-                           $Revision: 1.151 $
+    last modified        : $Date: 2007-10-21 11:38:14 $
+                           $Revision: 1.152 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -7531,7 +7531,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         else {
             if (iSoldRotate == 1) {
                 /* /- */
-                if (iSoldDirection == 0) {
+                if (iSoldDirection == 1) {
                     if (entrydir == rdE)
                         returnvalue = rdSW;
                     else if (entrydir == rdSW)
