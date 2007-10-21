@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-19 18:24:05 $
-                           $Revision: 1.58 $
+    last modified        : $Date: 2007-10-21 08:33:34 $
+                           $Revision: 1.59 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -677,7 +677,8 @@ void ElementDialog::slotSymbolChanged()
         classid == element::siciSdr || classid == element::siciSdl ||
         classid == element::siciSrt || classid == element::siciSrb ||
         classid == element::siciSlt || classid == element::siciSlb ||
-        classid == element::siciDwl || classid == element::siciDwr ||
+        classid == element::siciDbl || classid == element::siciDbr ||
+        classid == element::siciDtl || classid == element::siciDtr ||
         classid == element::siciEkl || classid == element::siciEkr ||
         classid == element::siciDkl || classid == element::siciDkr ||
         classid == element::siciDrw ||
@@ -728,7 +729,8 @@ void ElementDialog::slotSymbolChanged()
         classid == element::siciVsr || classid == element::siciVsl ||
         classid == element::siciSrt || classid == element::siciSrb ||
         classid == element::siciSlt || classid == element::siciSlb ||
-        classid == element::siciDwl || classid == element::siciDwr ||
+        classid == element::siciDbl || classid == element::siciDbr ||
+        classid == element::siciDtl || classid == element::siciDtr ||
         classid == element::siciEkl || classid == element::siciEkr ||
         classid == element::siciDkl || classid == element::siciDkr ||
         classid == element::siciDrw ||
@@ -802,7 +804,6 @@ void ElementDialog::slotSymbolChanged()
     // show rotate data
     // element::siciGer: only for text placement
     enabled =
-        classid == element::siciDwl || classid == element::siciDwr ||
         classid == element::siciEkl || classid == element::siciEkr ||
         classid == element::siciDrw ||
         classid == element::siciGer || classid == element::siciWey ||
@@ -833,7 +834,8 @@ void ElementDialog::slotSymbolChanged()
         classid == element::siciSrt || classid == element::siciSrb ||
         classid == element::siciSlt || classid == element::siciSlb ||
         classid == element::siciWey || classid == element::siciDrw ||
-        classid == element::siciDwl || classid == element::siciDwr ||
+        classid == element::siciDbl || classid == element::siciDbr ||
+        classid == element::siciDtl || classid == element::siciDtr ||
         classid == element::siciEkl || classid == element::siciEkr ||
         classid == element::siciDkl || classid == element::siciDkr ||
         classid == element::siciEnk || classid == element::siciBld;
@@ -845,7 +847,8 @@ void ElementDialog::slotSymbolChanged()
         classid == element::siciSrt || classid == element::siciSrb ||
         classid == element::siciSlt || classid == element::siciSlb ||
         classid == element::siciEkl || classid == element::siciEkr ||
-        classid == element::siciDwl || classid == element::siciDwr ||
+        classid == element::siciDbl || classid == element::siciDbr ||
+        classid == element::siciDtl || classid == element::siciDtr ||
         classid == element::siciLee || classid == element::siciAdr;
 
     cbInvert->setEnabled(enabled);
@@ -870,7 +873,8 @@ void ElementDialog::slotSymbolChanged()
           classid == element::siciDrw || classid == element::siciWey ||
           classid == element::siciSrt || classid == element::siciSrb ||
           classid == element::siciSlt || classid == element::siciSlb ||
-          classid == element::siciDwl || classid == element::siciDwr ||
+        classid == element::siciDbl || classid == element::siciDbr ||
+        classid == element::siciDtl || classid == element::siciDtr ||
           classid == element::siciDil || classid == element::siciDir ||
           classid == element::siciGer || classid == element::siciTdr ||
           classid == element::siciTdl || classid == element::siciTrv ||
@@ -918,7 +922,8 @@ void ElementDialog::slotSymbolChanged()
         classid == element::siciWsr || classid == element::siciWsl ||
         classid == element::siciSrt || classid == element::siciSrb ||
         classid == element::siciSlt || classid == element::siciSlb ||
-        classid == element::siciDwl || classid == element::siciDwr ||
+        classid == element::siciDbl || classid == element::siciDbr ||
+        classid == element::siciDtl || classid == element::siciDtr ||
         classid == element::siciEkl || classid == element::siciEkr ||
         classid == element::siciDkl || classid == element::siciDkr ||
         classid == element::siciDrw ||
@@ -942,7 +947,8 @@ void ElementDialog::slotSymbolChanged()
         classid == element::siciWsr || classid == element::siciWsl ||
         classid == element::siciSrt || classid == element::siciSrb ||
         classid == element::siciSlt || classid == element::siciSlb ||
-        classid == element::siciDwl || classid == element::siciDwr ||
+        classid == element::siciDbl || classid == element::siciDbr ||
+        classid == element::siciDtl || classid == element::siciDtr ||
         classid == element::siciEkl || classid == element::siciEkr ||
         classid == element::siciDkl || classid == element::siciDkr ||
         classid == element::siciDrw ||

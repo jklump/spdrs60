@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-26
- * Last modified: $Date: 2007-10-19 18:29:05 $
- *                $Revision: 1.9 $
+ * Last modified: $Date: 2007-10-21 08:33:34 $
+ *                $Revision: 1.10 $
  *
  * This code creates a dockable window with a set of paint items 
  */
@@ -51,8 +51,10 @@
 #include "pixmaps/spdritem_slb.xpm"
 #include "pixmaps/spdritem_srb.xpm" //wer
 #include "pixmaps/spdritem_srt.xpm"
-#include "pixmaps/spdritem_dwl.xpm"
-#include "pixmaps/spdritem_dwr.xpm"
+#include "pixmaps/spdritem_dbl.xpm" //dwl
+#include "pixmaps/spdritem_dbr.xpm"
+#include "pixmaps/spdritem_dtr.xpm" //dwr
+#include "pixmaps/spdritem_dtl.xpm"
 #include "pixmaps/spdritem_wey.xpm"
 #include "pixmaps/spdritem_drw.xpm"
 #include "pixmaps/spdritem_ekl.xpm"
@@ -126,7 +128,7 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
     setCaption(tr("Paint items"));
     setCloseMode(Always);
 
-    paintItemBG = new QButtonGroup(6, Qt::Horizontal, this, "paintItemBG");
+    paintItemBG = new QButtonGroup(8, Qt::Horizontal, this, "paintItemBG");
     Q_CHECK_PTR(paintItemBG);
     paintItemBG->setExclusive(true);
     paintItemBG->setInsideSpacing(0);
@@ -198,19 +200,15 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
             tr("Curve top vertical right"),
             element::siciTtr, paintItemBG, "curvetvrPanel");
 
-    new PaintItemButton(QPixmap(spdritem_tbl_xpm),
-            tr("Curve bottom vertical left"),
-            element::siciTbl, paintItemBG, "curvebvlPanel");
-
     new PaintItemButton(QPixmap(spdritem_tbr_xpm),
             tr("Curve bottom vertical right"),
             element::siciTbr, paintItemBG, "curvebvrPanel");
 
-    /*switch panels */
-    new PaintItemButton(QPixmap(spdritem_slb_xpm),
-            tr("Switch bottom left"),
-            element::siciSlb, paintItemBG, "switchbottomleftPanel");
+    new PaintItemButton(QPixmap(spdritem_tbl_xpm),
+            tr("Curve bottom vertical left"),
+            element::siciTbl, paintItemBG, "curvebvlPanel");
 
+    /*switch panels */
     new PaintItemButton(QPixmap(spdritem_slt_xpm),
             tr("Switch top left"),
             element::siciSlt, paintItemBG, "switchtopleftPanel");
@@ -223,13 +221,25 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
             tr("Switch top right"),
             element::siciSrt, paintItemBG, "switchtoprightPanel");
 
-    new PaintItemButton(QPixmap(spdritem_dwl_xpm),
-            tr("Diagonal switch left"),
-            element::siciDwl, paintItemBG, "diaswitchleftPanel");
+    new PaintItemButton(QPixmap(spdritem_slb_xpm),
+            tr("Switch bottom left"),
+            element::siciSlb, paintItemBG, "switchbottomleftPanel");
 
-    new PaintItemButton(QPixmap(spdritem_dwr_xpm),
-            tr("Diagonal switch right"),
-            element::siciDwr, paintItemBG, "diaswitchrightPanel");
+    new PaintItemButton(QPixmap(spdritem_dtr_xpm),
+            tr("Diagonal switch top right"),
+            element::siciDtr, paintItemBG, "diaswitchtoprightPanel");
+
+    new PaintItemButton(QPixmap(spdritem_dbl_xpm),
+            tr("Diagonal switch bottom left"),
+            element::siciDbl, paintItemBG, "diagswitchbotleftPanel");
+
+    new PaintItemButton(QPixmap(spdritem_dtl_xpm),
+            tr("Diagonal switch top left"),
+            element::siciDtl, paintItemBG, "diagswitchtopleftPanel");
+
+    new PaintItemButton(QPixmap(spdritem_dbr_xpm),
+            tr("Diagonal switch bottom right"),
+            element::siciDbr, paintItemBG, "diagswitchbotrightPanel");
 
     new PaintItemButton(QPixmap(spdritem_wey_xpm),
             tr("Y-Switch"),

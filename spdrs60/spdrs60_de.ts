@@ -1195,14 +1195,6 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <translation>Rechtskurve nach unten</translation>
     </message>
     <message>
-        <source>Diagonal switch left</source>
-        <translation>Diagonale Weiche links</translation>
-    </message>
-    <message>
-        <source>Diagonal switch right</source>
-        <translation>Diagonale Weiche rechts</translation>
-    </message>
-    <message>
         <source>Y-Switch</source>
         <translation>Y-Weiche</translation>
     </message>
@@ -1417,6 +1409,22 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     <message>
         <source>Switch top right</source>
         <translation>Weiche rechts oben</translation>
+    </message>
+    <message>
+        <source>Diagonal switch bottom left</source>
+        <translation>Diagonale Weiche links unten</translation>
+    </message>
+    <message>
+        <source>Diagonal switch bottom right</source>
+        <translation>Diagonale Weiche rechts unten</translation>
+    </message>
+    <message>
+        <source>Diagonal switch top right</source>
+        <translation>Diagonale Weiche rechts oben</translation>
+    </message>
+    <message>
+        <source>Diagonal switch top left</source>
+        <translation>Diagonale Weiche links oben</translation>
     </message>
 </context>
 <context>

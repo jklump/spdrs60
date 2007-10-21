@@ -1166,14 +1166,6 @@ the server daemon after shutdown has finished)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Diagonal switch left</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Diagonal switch right</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Y-Switch</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1387,6 +1379,22 @@ the server daemon after shutdown has finished)</source>
     </message>
     <message>
         <source>Switch top right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Diagonal switch bottom left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Diagonal switch bottom right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Diagonal switch top right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Diagonal switch top left</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
