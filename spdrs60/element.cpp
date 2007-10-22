@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-21 17:54:10 $
-                           $Revision: 1.154 $
+    last modified        : $Date: 2007-10-22 16:30:47 $
+                           $Revision: 1.155 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -446,8 +446,8 @@ void element::mousePressEvent(QMouseEvent* e)
 
                 else if (classid == siciHssr) {
                     /* two different buttons on this panel */
-                    if (CursorPos.x() > (width() >> 1) ^ (bool)iSoldRotate)
-                        ctrlButton = kZfsClicked; 
+                    if (CursorPos.x() > (width() >> 1))
+                        ctrlButton = kZfsClicked;
                     else
                         ctrlButton = kRfsClicked;
                 }
@@ -8968,6 +8968,22 @@ void element::setClassId(SpdrItemClassId id)
         }
         else if (id == siciHsr) {
             classid = siciHsl;
+            iSoldRotate = -1;
+        }
+        else if (id == siciHssr) {
+            classid = siciHsl;
+            iSoldRotate = -1;
+        }
+        else if (id == siciSdr) {
+            classid = siciSdl;
+            iSoldRotate = -1;
+        }
+        else if (id == siciSsr) {
+            classid = siciSsl;
+            iSoldRotate = -1;
+        }
+        else if (id == siciShr) {
+            classid = siciShl;
             iSoldRotate = -1;
         }
         else if (id == siciVsr) {
