@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-19 18:24:05 $
-                           $Revision: 1.139 $
+    last modified        : $Date: 2007-11-21 18:12:02 $
+                           $Revision: 1.140 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -939,7 +939,7 @@ void MainWindow::initMainWindow()
             tr("&Menu"), Qt::CTRL + Qt::Key_U, this, "viewMenu");
     actionViewMenu->setToolTip(tr("Show the main menu"));
 #else
-    actionViewMenu = new QAction(tr("Show the main menu"),
+    QAction* actionViewMenu = new QAction(tr("Show the main menu"),
             tr("&Menu"), Qt::CTRL + Qt::Key_U, this, "viewMenu");
 #endif
     actionViewMenu->setToggleAction(true);
@@ -956,7 +956,7 @@ void MainWindow::initMainWindow()
             tr("Tool&bars"), 0, this, "viewToolbar");
     actionViewToolbar->setToolTip(tr("Show the toolbars"));
 #else
-    actionViewToolbar = new QAction(tr("Show the toolbars"),
+    QAction* actionViewToolbar = new QAction(tr("Show the toolbars"),
             tr("Tool&bars"), 0, this, "viewToolbar");
 #endif
     actionViewToolbar->setToggleAction(true);
@@ -971,7 +971,7 @@ void MainWindow::initMainWindow()
             tr("Status&line"), 0, this, "viewStatusline");
     actionViewStatusline->setToolTip(tr("Show the statusline"));
 #else
-    actionViewStatusline = new QAction(tr("Show the statusline"),
+    QAction* actionViewStatusline = new QAction(tr("Show the statusline"),
             tr("Status&line"), 0, this, "viewStatusline");
 #endif
     actionViewStatusline->setToggleAction(true);
