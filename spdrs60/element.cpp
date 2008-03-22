@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-03-22 16:09:16 $
-                           $Revision: 1.156 $
+    last modified        : $Date: 2008-03-22 19:52:17 $
+                           $Revision: 1.157 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -7266,6 +7266,28 @@ void element::setupElementIcon()
         // paint track
         // vertical section
         p.fillRect(w / 2 - 3, 0, 7, h, QBrush(Qt::black));
+
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 4; ++i)
+                p.fillRect(w / 2 - 2 , 4 + 7 * i, 5, 5,
+                        QBrush(Qt::lightGray));
+        }
+        else {
+            QColor c;
+            if (occupied)
+                c = QColor(Qt::red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(Qt::darkGray);
+            }
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+            p.drawLine(w / 2, h / 3, w / 2, 2 * h / 3);
+            p.setPen(QPen(Qt::black));
+        }
+
         // horizontal sections
         p.fillRect(0, h / 2 - 3, tracklen, 7, QBrush(Qt::black));
         p.fillRect(w - tracklen + 1, h / 2 - 3, tracklen -1, 7,
@@ -7301,6 +7323,28 @@ void element::setupElementIcon()
         // paint track
         // horizontal section
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
+
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            for (int i = 0; i < 7; ++i)
+                p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
+                        QBrush(Qt::lightGray));
+        }
+        else {
+            QColor c;
+            if (occupied)
+                c = QColor(Qt::red);
+            else {
+                if (routed)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(Qt::darkGray);
+            }
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+            p.drawLine(w / 3, h / 2, 2 * w / 3, h / 2);
+            p.setPen(QPen(Qt::black));
+        }
+
         // vertical sections
         p.fillRect(w / 2 - 3, 0, 7, tracklen, QBrush(Qt::black));
         p.fillRect(w / 2 - 3, h - tracklen, 7, tracklen, QBrush(Qt::black));
@@ -7338,6 +7382,37 @@ void element::setupElementIcon()
         // paint long diagonal track
         p.setPen(QPen(black, 7));
         p.drawLine(0, 0, w, h - 1);
+
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            p.save();
+            p.translate(w / 2, h / 2);
+            p.rotate(SANGLE);
+
+            for (int i = -3; i < 4; ++i)
+                p.fillRect(-3 + 7 * i, -2, 5, 5, QBrush(Qt::lightGray));
+
+            p.restore();
+        }
+        else {
+            QColor c;
+            if (occupied)
+                c = QColor(Qt::red);
+            else {
+                if (routed && (routedtrack & 1) == 1)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(Qt::darkGray);
+            }
+            p.save();
+            p.translate(w / 2, h / 2);
+            p.rotate(SANGLE);
+
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+            p.drawLine(-w / 6, 0, w / 6, 0);
+
+            p.restore();
+        }
 
         // translate origin to center of pixmap
         p.translate(pm.width()/2, pm.height()/2);
@@ -7383,13 +7458,40 @@ void element::setupElementIcon()
         p.setPen(QPen(black, 7));
         p.drawLine(0, h - 1, w, 0);
 
+        // paint track lights
+        if (iSoldLEDoff == 1) {
+            p.save();
+            p.translate(w / 2, h / 2);
+            p.rotate(-SANGLE);
+
+            for (int i = -3; i < 4; ++i)
+                p.fillRect(-3 + 7 * i, -2, 5, 5, QBrush(Qt::lightGray));
+
+            p.restore();
+        }
+        else {
+            QColor c;
+            if (occupied)
+                c = QColor(Qt::red);
+            else {
+                if (routed && (routedtrack & 1) == 1)
+                    c = QColor(255, 225, 0);
+                else
+                    c = QColor(Qt::darkGray);
+            }
+            p.save();
+            p.translate(w / 2, h / 2);
+            p.rotate(-SANGLE);
+
+            p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
+            p.drawLine(-w / 6, 0, w / 6, 0);
+
+            p.restore();
+        }
+
         // translate origin to center of pixmap
         p.translate(pm.width()/2, pm.height()/2);
-
-        if (iSoldRotate == 1) 
-            p.rotate(SANGLE);
-        else 
-            p.rotate(-WANGLE);
+        p.rotate(-WANGLE);
         
         // paint two short tracks
         p.drawLine(-tracklen, 0, -9, 0);
@@ -8490,114 +8592,170 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     }
 
     //tunnel crossings
-    else if (classid == siciTur) {
+    else if (classid == siciTuv) {
 
-        // |
+        // | (tunnel)
         // |
         if (entrydir == rdS) {
             returnvalue = rdN;
-            routedtrack = 1;
+            if (setroute) 
+                routedtrack |= 2;
+            else
+                routedtrack &= ~2;
+            // no repaint neccessary
+            return returnvalue;
         }
         else if (entrydir == rdN) {
             returnvalue = rdS;
-            routedtrack = 1;
+            if (setroute) 
+                routedtrack |= 2;
+            else
+                routedtrack &= ~2;
+            // no repaint neccessary
+            return returnvalue;
         }
 
-        /* -- */
+        /* -- (top) */
         else if (entrydir == rdW) {
             returnvalue = rdE;
-            routedtrack = 2;
+            if (setroute) 
+                routedtrack |= 1;
+            else
+                routedtrack &= ~1;
         }
         else if (entrydir == rdE) {
             returnvalue = rdW;
-            routedtrack = 2;
+            if (setroute) 
+                routedtrack |= 1;
+            else
+                routedtrack &= ~1;
+        }
+    }
+
+    else if (classid == siciTuh) {
+
+        // | (top)
+        // |
+        if (entrydir == rdS) {
+            returnvalue = rdN;
+            if (setroute) 
+                routedtrack |= 1;
+            else
+                routedtrack &= ~1;
+        }
+        else if (entrydir == rdN) {
+            returnvalue = rdS;
+            if (setroute) 
+                routedtrack |= 1;
+            else
+                routedtrack &= ~1;
         }
 
-        if (!setroute) 
-            routedtrack = 0;
+        /* --  (tunnel) */
+        else if (entrydir == rdW) {
+            returnvalue = rdE;
+            if (setroute) 
+                routedtrack |= 2;
+            else
+                routedtrack &= ~2;
+            // no repaint neccessary
+            return returnvalue;
+        }
+        else if (entrydir == rdE) {
+            returnvalue = rdW;
+            if (setroute) 
+                routedtrack |= 2;
+            else
+                routedtrack &= ~2;
+            // no repaint neccessary
+            return returnvalue;
+        }
+    }
+
+    else if (classid == siciTur) {
+
+        //  / (top)
+        // /
+        if (entrydir == rdSW) {
+            returnvalue = rdNE;
+            if (setroute) 
+                routedtrack |= 1;
+            else
+                routedtrack &= ~1;
+            // repaint neccessary
+        }
+        else if (entrydir == rdNE) {
+            returnvalue = rdSW;
+            if (setroute) 
+                routedtrack |= 1;
+            else
+                routedtrack &= ~1;
+            // repaint neccessary
+        }
+
+        /* \  (tunnel)
+            \ */
+        else if (entrydir == rdNW) {
+            returnvalue = rdSE;
+            if (setroute) 
+                routedtrack |= 2;
+            else
+                routedtrack &= ~2;
+            // no repaint neccessary
+            return returnvalue;
+        }
+        else if (entrydir == rdSE) {
+            returnvalue = rdNW;
+            if (setroute) 
+                routedtrack |= 2;
+            else
+                routedtrack &= ~2;
+            // no repaint neccessary
+            return returnvalue;
+        }
     }
 
     else if (classid == siciTul) {
 
-        // |
-        // |
-        if (entrydir == rdS) {
-            returnvalue = rdN;
-            routedtrack = 1;
-        }
-        else if (entrydir == rdN) {
-            returnvalue = rdS;
-            routedtrack = 1;
-        }
-
-        /* -- */
-        else if (entrydir == rdW) {
-            returnvalue = rdE;
-            routedtrack = 2;
-        }
-        else if (entrydir == rdE) {
-            returnvalue = rdW;
-            routedtrack = 2;
-        }
-
-        if (!setroute) 
-            routedtrack = 0;
-    }
-
-    else if (classid == siciTur) {
-
-        //  /
+        //  / (tunnel)
         // /
         if (entrydir == rdSW) {
             returnvalue = rdNE;
-            routedtrack = 1;
+            if (setroute) 
+                routedtrack |= 2;
+            else
+                routedtrack &= ~2;
+            // no repaint neccessary
+            return returnvalue;
         }
         else if (entrydir == rdNE) {
             returnvalue = rdSW;
-            routedtrack = 1;
+            if (setroute) 
+                routedtrack |= 2;
+            else
+                routedtrack &= ~2;
+            // no repaint neccessary
+            return returnvalue;
         }
 
-        /* \
+        /* \  (top)
             \ */
         else if (entrydir == rdNW) {
             returnvalue = rdSE;
-            routedtrack = 2;
+            if (setroute) 
+                routedtrack |= 1;
+            else
+                routedtrack &= ~1;
+            // repaint neccessary
         }
         else if (entrydir == rdSE) {
             returnvalue = rdNW;
-            routedtrack = 2;
+            if (setroute) 
+                routedtrack |= 1;
+            else
+                routedtrack &= ~1;
+            // repaint neccessary
         }
-
-        if (!setroute) 
-            routedtrack = 0;
-    }
-
-    else if (classid == siciTul) {
-
-        //  /
-        // /
-        if (entrydir == rdSW) {
-            returnvalue = rdNE;
-            routedtrack = 1;
-        }
-        else if (entrydir == rdNE) {
-            returnvalue = rdSW;
-            routedtrack = 1;
-        }
-
-        /* \
-            \ */
-        else if (entrydir == rdNW) {
-            returnvalue = rdSE;
-            routedtrack = 2;
-        }
-        else if (entrydir == rdSE) {
-            returnvalue = rdNW;
-            routedtrack = 2;
-        }
-
-        if (!setroute) 
-            routedtrack = 0;
     }
 
 

@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-03-22 16:09:16 $
-                           $Revision: 1.62 $
+    last modified        : $Date: 2008-03-22 19:52:17 $
+                           $Revision: 1.63 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -825,6 +825,8 @@ void ElementDialog::slotSymbolChanged()
         classid == element::siciSbr || classid == element::siciSbl ||
         classid == element::siciKrh ||
         classid == element::siciKrl || classid == element::siciKrr ||
+        classid == element::siciTuh || classid == element::siciTuv ||
+        classid == element::siciTul || classid == element::siciTur ||
         classid == element::siciSsr || classid == element::siciSsl ||
         classid == element::siciShr || classid == element::siciShl ||
         classid == element::siciSdr || classid == element::siciSdl ||
