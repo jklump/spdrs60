@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-21 17:54:10 $
-                           $Revision: 1.87 $
+    last modified        : $Date: 2008-03-22 16:09:16 $
+                           $Revision: 1.88 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -122,10 +122,10 @@
 // decorative items
 #define SYM_BSR  "prellbock"  // buffer stop, bumper
 #define SYM_BSL  "bufferstopleft"
-#define SYM_TUR  "gerade_tl"  // tunnel straight left/right
-#define SYM_TUL  "gerade_tunnel_left"
-#define SYM_DLT  "diagonale_links_tl" //tunnelbottomleft /top left
-#define SYM_DRT  "diagonale_rechts_tl" // right
+#define SYM_TUH  "gerade_tl"  // tunnel straight left/right (tug)
+#define SYM_TUV  "gerade_tunnel_left"
+#define SYM_TUL  "diagonale_links_tl" //tunnelbottomleft /top left
+#define SYM_TUR  "diagonale_rechts_tl" // right
 #define SYM_LEE  "leer" // (txt)
 #define SYM_BUC  "haus_1"
 #define SYM_BUL  "haus_2"
@@ -258,6 +258,7 @@ public:
         siciCrb = 120, siciCrt, siciClt, siciClb,
         siciTtl = 125, siciTtr, siciTbl, siciTbr,
         siciKrh = 150, siciKrr, siciKrl,
+        siciTuh = 160, siciTuv, siciTul, siciTur,
         siciTdr = 170, siciTdl, siciTdb,
         siciRbr = 200, siciRbl,
         siciSbr = 210, siciSbl,
@@ -288,7 +289,6 @@ public:
         siciMdc = 720,
         siciBsr = 800, siciBsl,
         siciLsr = 820, siciLsl, siciSho, siciShu,
-        siciTur = 830, siciTul, siciDlt, siciDrt,
         siciBuc = 840, siciBul, siciBur,
         siciLee = 900,
         siciFeg = 1100, siciTaf, siciTau,

@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-26
- * Last modified: $Date: 2007-10-21 17:54:10 $
- *                $Revision: 1.12 $
+ * Last modified: $Date: 2008-03-22 16:09:16 $
+ *                $Revision: 1.13 $
  *
  * This code creates a dockable window with a set of paint items 
  */
@@ -35,6 +35,10 @@
 #include "pixmaps/spdritem_tdr.xpm"
 #include "pixmaps/spdritem_trh.xpm"
 #include "pixmaps/spdritem_trv.xpm"
+#include "pixmaps/spdritem_tuh.xpm" //tug
+#include "pixmaps/spdritem_tuv.xpm"
+#include "pixmaps/spdritem_tul.xpm"
+#include "pixmaps/spdritem_tur.xpm"
 
 /*curved track panels*/
 #include "pixmaps/spdritem_clb.xpm"
@@ -102,15 +106,11 @@
 #include "pixmaps/spdritem_buc.xpm"
 #include "pixmaps/spdritem_bul.xpm"
 #include "pixmaps/spdritem_bur.xpm"
-#include "pixmaps/spdritem_dlt.xpm"
-#include "pixmaps/spdritem_drt.xpm"
 #include "pixmaps/spdritem_lee.xpm"
 #include "pixmaps/spdritem_shb.xpm"
 #include "pixmaps/spdritem_lsl.xpm"
 #include "pixmaps/spdritem_lsr.xpm"
 #include "pixmaps/spdritem_sht.xpm"
-#include "pixmaps/spdritem_tur.xpm" //tug
-#include "pixmaps/spdritem_tul.xpm"
 
 /*external group panels*/
 #include "pixmaps/spdritem_feb.xpm"
@@ -178,6 +178,18 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
     new PaintItemButton(QPixmap(spdritem_tdl_xpm),
             tr("Single direction track left"),
             element::siciTdl, paintItemBG, "leftdirectionPanel");
+
+    new PaintItemButton(QPixmap(spdritem_tuv_xpm),tr("Vertical Tunnel"),
+            element::siciTuv, paintItemBG, "tunnelverticalPanel");
+
+    new PaintItemButton(QPixmap(spdritem_tuh_xpm),tr("Horizontal Tunnel"),
+            element::siciTuh, paintItemBG, "tunnelhorizontalPanel");
+
+    new PaintItemButton(QPixmap(spdritem_tul_xpm), tr("Diagonal tunnel left"),
+            element::siciTul, paintItemBG, "diagonaltunnelleftPanel");
+
+    new PaintItemButton(QPixmap(spdritem_tur_xpm), tr("Diagonal tunnel right"),
+            element::siciTur, paintItemBG, "diagonaltunnelrightPanel");
 
     /*curved track panels*/
     new PaintItemButton(QPixmap(spdritem_crb_xpm),
@@ -389,18 +401,6 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
 
     new PaintItemButton(QPixmap(spdritem_bsr_xpm), tr("Right buffer stop"),
             element::siciBsr, paintItemBG, "rightbufferstopPanel");
-
-    new PaintItemButton(QPixmap(spdritem_tur_xpm),tr("Tunnel right"),
-            element::siciTur, paintItemBG, "tunnelrightPanel");
-
-    new PaintItemButton(QPixmap(spdritem_tul_xpm),tr("Tunnel left"),
-            element::siciTul, paintItemBG, "tunnelleftPanel");
-
-    new PaintItemButton(QPixmap(spdritem_dlt_xpm), tr("Diagonal tunnel left"),
-            element::siciDlt, paintItemBG, "diagonaltunnelleftPanel");
-
-    new PaintItemButton(QPixmap(spdritem_drt_xpm), tr("Diagonal tunnel right"),
-            element::siciDrt, paintItemBG, "diagonaltunnelrightPanel");
 
     new PaintItemButton(QPixmap(spdritem_lee_xpm), tr("Text field panel"),
             element::siciLee, paintItemBG, "textfieldPanel");

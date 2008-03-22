@@ -1070,14 +1070,6 @@ the server daemon after shutdown has finished)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Tunnel left</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Tunnel right</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Text field panel</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1411,6 +1403,14 @@ the server daemon after shutdown has finished)</source>
     </message>
     <message>
         <source>Middle loco shed left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vertical Tunnel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Horizontal Tunnel</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -2,10 +2,10 @@
                            element.cpp
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-                         : (C) 2004-2007 Guido Scholz
+                         : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-22 16:30:47 $
-                           $Revision: 1.155 $
+    last modified        : $Date: 2008-03-22 16:09:16 $
+                           $Revision: 1.156 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -315,8 +315,8 @@ void element::updateProperties()
             sSoldIcon == SYM_TDR ||
             sSoldIcon == SYM_GER ||
             sSoldIcon == SYM_SYR || sSoldIcon == SYM_SYL ||
-            sSoldIcon == SYM_BUL || sSoldIcon == SYM_DLT ||
-            sSoldIcon == SYM_DRT ||
+            sSoldIcon == SYM_BUL ||
+            sSoldIcon == SYM_TUH || sSoldIcon == SYM_TUV ||
             sSoldIcon == SYM_TUR || sSoldIcon == SYM_TUL ||
             sSoldIcon == SYM_LSR || sSoldIcon == SYM_LSL ||
             sSoldIcon == SYM_SHO ||
@@ -931,7 +931,7 @@ void element::showPropertyDlg()
         // this must be the last one, because it triggers enabling and
         // disabling of all element dependent widgets
         eDlg->setClassId(classid);
-        //FIXME: minvalues and maxvalues of port spin boxes are set to late
+        //FIXME: minvalues and maxvalues of port spin boxes are set too late
         eDlg->setPort1(port1);
         eDlg->setPort2(port2);
 
@@ -1474,7 +1474,7 @@ void element::setupElementIcon()
         QFontMetrics fm(f);
         QRect br = fm.boundingRect(sSoldText);
         br.moveTopLeft(QPoint(pm.width() / 2 - br.width() / 2,
-                    pm.height() / 2 - br.height() / 2));
+                    pm.height() / 2 - br.height() / 2 - 1));
 	p.drawText(br, Qt::AlignCenter | Qt::SingleLine | Qt::DontClip,
                 sSoldText);
         
@@ -7252,55 +7252,72 @@ void element::setupElementIcon()
         setPaletteBackgroundPixmap(pm);
     }
    
-    // straight track with tunnel right (+old left)
-    else if (classid == siciTur) {
+    // straight track with horizontal tunnel (old left + right)
+    else if (classid == siciTuh) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
 
-        // translate origin to center of pixmap
-        p.translate(pm.width()/2, pm.height()/2);
+        int w = pm.width();
+        int h = pm.height();
+        int tracklen = w / 2 - 8;
 
-        int tracklen = pm.width() / 2 - 5;
-
-        if (iSoldRotate == 1)
-            p.rotate(180.0);
-        
         // paint track
-        p.fillRect(-5, -3, -tracklen, 7, QBrush(Qt::black));
+        // vertical section
+        p.fillRect(w / 2 - 3, 0, 7, h, QBrush(Qt::black));
+        // horizontal sections
+        p.fillRect(0, h / 2 - 3, tracklen, 7, QBrush(Qt::black));
+        p.fillRect(w - tracklen + 1, h / 2 - 3, tracklen -1, 7,
+                QBrush(Qt::black));
+
+        // translate origin to center of pixmap
+        p.translate(pm.width()/2 - 6, pm.height()/2);
         
         // paint tunnel entry
         QPointArray tunnel = QPointArray(4);
         tunnel.putPoints(0, 4, -8, -14, 0, -6, 0, 6, -8, 14);
         p.setPen(QPen(darkGray, 2));
         p.drawPolyline(tunnel);
+        p.translate(13, 0);
+        p.rotate(180.0);
+        p.drawPolyline(tunnel);
 
         p.end();
         setPaletteBackgroundPixmap(pm);
     }
 
-    // straight track with tunnel left
-    else if (classid == siciTul) {
+    // straight track with vertical tunnel
+    else if (classid == siciTuv) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
 
-        // translate origin to center of pixmap
-        p.translate(pm.width()/2, pm.height()/2);
+        int w = pm.width();
+        int h = pm.height();
+        int tracklen = h / 2 - 8;
 
-        int tracklen = pm.width() / 2 - 5;
-
-        p.rotate(180.0);
-        
         // paint track
-        p.fillRect(-5, -3, -tracklen, 7, QBrush(Qt::black));
+        // horizontal section
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
+        // vertical sections
+        p.fillRect(w / 2 - 3, 0, 7, tracklen, QBrush(Qt::black));
+        p.fillRect(w / 2 - 3, h - tracklen, 7, tracklen, QBrush(Qt::black));
         
+        // translate origin to center of pixmap
+        p.translate(w / 2, h / 2);
+
         // paint tunnel entry
         QPointArray tunnel = QPointArray(4);
         tunnel.putPoints(0, 4, -8, -14, 0, -6, 0, 6, -8, 14);
         p.setPen(QPen(darkGray, 2));
+
+        p.rotate(90.0);
+        p.translate(-6, 0);
+        p.drawPolyline(tunnel);
+        p.translate(13, 0);
+        p.rotate(180.0);
         p.drawPolyline(tunnel);
 
         p.end();
@@ -7308,30 +7325,43 @@ void element::setupElementIcon()
     }
 
     // left diagonal track with tunnel
-    else if (classid == siciDlt) {
+    else if (classid == siciTul) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
 
+        int w = pm.width();
+        int h = pm.height();
+        int tracklen = w / 2 + 5;
+
+        // paint long diagonal track
+        p.setPen(QPen(black, 7));
+        p.drawLine(0, 0, w, h - 1);
+
         // translate origin to center of pixmap
         p.translate(pm.width()/2, pm.height()/2);
 
-        int tracklen = pm.width() / 2 - 5;
-
-        tracklen += 5;
         if (iSoldRotate == 1) 
             p.rotate(WANGLE);
         else 
             p.rotate(-SANGLE);
         
-        // paint track
-        p.fillRect(-5, -3, -tracklen, 7, QBrush(Qt::black));
+        // paint two short tracks
+        p.drawLine(-tracklen, 0, -9, 0);
+        p.drawLine(9, 0, tracklen, 0);
         
         // paint tunnel entry
         QPointArray tunnel = QPointArray(4);
         tunnel.putPoints(0, 4, -8, -14, 0, -6, 0, 6, -8, 14);
         p.setPen(QPen(darkGray, 2));
+        p.rotate(SANGLE - WANGLE + 90.0);
+        p.translate(-6, -4);
+        p.drawPolyline(tunnel);
+
+        p.translate(6, 4);
+        p.rotate(180.0);
+        p.translate(-6, -4);
         p.drawPolyline(tunnel);
 
         p.end();
@@ -7339,30 +7369,43 @@ void element::setupElementIcon()
     }
 
     // right diagonal track with tunnel
-    else if (classid == siciDrt) {
+    else if (classid == siciTur) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
         p.begin(&pm);
 
+        int w = pm.width();
+        int h = pm.height();
+        int tracklen = w / 2 + 5;
+
+        // paint long diagonal track
+        p.setPen(QPen(black, 7));
+        p.drawLine(0, h - 1, w, 0);
+
         // translate origin to center of pixmap
         p.translate(pm.width()/2, pm.height()/2);
 
-        int tracklen = pm.width() / 2 - 5;
-
-        tracklen += 5;
         if (iSoldRotate == 1) 
             p.rotate(SANGLE);
         else 
             p.rotate(-WANGLE);
         
-        // paint track
-        p.fillRect(-5, -3, -tracklen, 7, QBrush(Qt::black));
+        // paint two short tracks
+        p.drawLine(-tracklen, 0, -9, 0);
+        p.drawLine(9, 0, tracklen, 0);
         
         // paint tunnel entry
         QPointArray tunnel = QPointArray(4);
         tunnel.putPoints(0, 4, -8, -14, 0, -6, 0, 6, -8, 14);
         p.setPen(QPen(darkGray, 2));
+        p.rotate(WANGLE - SANGLE + 90.0);
+        p.translate(-6, 4);
+        p.drawPolyline(tunnel);
+
+        p.translate(6, -4);
+        p.rotate(180.0);
+        p.translate(-6, 4);
         p.drawPolyline(tunnel);
 
         p.end();
@@ -8446,6 +8489,118 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
 
     }
 
+    //tunnel crossings
+    else if (classid == siciTur) {
+
+        // |
+        // |
+        if (entrydir == rdS) {
+            returnvalue = rdN;
+            routedtrack = 1;
+        }
+        else if (entrydir == rdN) {
+            returnvalue = rdS;
+            routedtrack = 1;
+        }
+
+        /* -- */
+        else if (entrydir == rdW) {
+            returnvalue = rdE;
+            routedtrack = 2;
+        }
+        else if (entrydir == rdE) {
+            returnvalue = rdW;
+            routedtrack = 2;
+        }
+
+        if (!setroute) 
+            routedtrack = 0;
+    }
+
+    else if (classid == siciTul) {
+
+        // |
+        // |
+        if (entrydir == rdS) {
+            returnvalue = rdN;
+            routedtrack = 1;
+        }
+        else if (entrydir == rdN) {
+            returnvalue = rdS;
+            routedtrack = 1;
+        }
+
+        /* -- */
+        else if (entrydir == rdW) {
+            returnvalue = rdE;
+            routedtrack = 2;
+        }
+        else if (entrydir == rdE) {
+            returnvalue = rdW;
+            routedtrack = 2;
+        }
+
+        if (!setroute) 
+            routedtrack = 0;
+    }
+
+    else if (classid == siciTur) {
+
+        //  /
+        // /
+        if (entrydir == rdSW) {
+            returnvalue = rdNE;
+            routedtrack = 1;
+        }
+        else if (entrydir == rdNE) {
+            returnvalue = rdSW;
+            routedtrack = 1;
+        }
+
+        /* \
+            \ */
+        else if (entrydir == rdNW) {
+            returnvalue = rdSE;
+            routedtrack = 2;
+        }
+        else if (entrydir == rdSE) {
+            returnvalue = rdNW;
+            routedtrack = 2;
+        }
+
+        if (!setroute) 
+            routedtrack = 0;
+    }
+
+    else if (classid == siciTul) {
+
+        //  /
+        // /
+        if (entrydir == rdSW) {
+            returnvalue = rdNE;
+            routedtrack = 1;
+        }
+        else if (entrydir == rdNE) {
+            returnvalue = rdSW;
+            routedtrack = 1;
+        }
+
+        /* \
+            \ */
+        else if (entrydir == rdNW) {
+            returnvalue = rdSE;
+            routedtrack = 2;
+        }
+        else if (entrydir == rdSE) {
+            returnvalue = rdNW;
+            routedtrack = 2;
+        }
+
+        if (!setroute) 
+            routedtrack = 0;
+    }
+
+
     // repaint element according to new routing state
     if (returnvalue != rdCenter)
         setRouted(setroute);
@@ -9034,10 +9189,12 @@ void element::setClassId(SpdrItemClassId id)
             classid = siciTwl;
             iSoldRotate = -1;
         }
+        /*
         else if (id == siciTur) {
             classid = siciTul;
             iSoldRotate = -1;
         }
+        */
         else if (id == siciLsr) {
             classid = siciLsl;
             iSoldRotate = -1;

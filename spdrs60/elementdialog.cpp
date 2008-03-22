@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-21 17:54:10 $
-                           $Revision: 1.61 $
+    last modified        : $Date: 2008-03-22 16:09:16 $
+                           $Revision: 1.62 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -808,7 +808,7 @@ void ElementDialog::slotSymbolChanged()
     enabled =
         classid == element::siciEkl || classid == element::siciEkr ||
         classid == element::siciGer ||
-        classid == element::siciDlt || classid == element::siciDrt ||
+        classid == element::siciTul || classid == element::siciTur ||
         classid == element::siciSho || classid == element::siciShu;
 
     cbRotate->setEnabled(enabled);

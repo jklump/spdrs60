@@ -1099,14 +1099,6 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <translation></translation>
     </message>
     <message>
-        <source>Tunnel left</source>
-        <translation>Tunnel links</translation>
-    </message>
-    <message>
-        <source>Tunnel right</source>
-        <translation>Tunnel rechts</translation>
-    </message>
-    <message>
         <source>Text field panel</source>
         <translation>Textfeld</translation>
     </message>
@@ -1441,6 +1433,14 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     <message>
         <source>Middle loco shed left</source>
         <translation>Mittlerer Lokschuppen links</translation>
+    </message>
+    <message>
+        <source>Vertical Tunnel</source>
+        <translation>Vertikaler Tunnel</translation>
+    </message>
+    <message>
+        <source>Horizontal Tunnel</source>
+        <translation>Horizontaler Tunnel</translation>
     </message>
 </context>
 <context>
