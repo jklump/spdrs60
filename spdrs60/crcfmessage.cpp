@@ -1,0 +1,257 @@
+/***************************************************************************
+                           crcfmessage.cpp
+                           version 0.5.3 $Revision: 1.1 $
+                           -------------------------------
+    copyright            : (C) 2008 by Guido Scholz
+    email                : guido.scholz@bayernline.de
+    last modified        : $Date: 2008-03-27 21:54:28 $
+***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *  This program is free software; you can redistribute it and/or modify   *
+ *  it under the terms of the GNU General Public License as published by   *
+ *  the Free Software Foundation; either version 2 of the License, or      *
+ *  (at your option) any later version.                                    *
+ *                                                                         *
+ ***************************************************************************/
+
+/***************************************************************************
+    This code implements a class for CRCF messages which can be
+    exchanged via SRCP Generic Messages (GM).
+    It implements a method to parse a CRCF message string to binary message
+    content. 
+ ***************************************************************************/
+
+#include "crcfmessage.h"
+
+#include <qstringlist.h>
+
+
+CrcfMessage::CrcfMessage(CrcfActor cac, unsigned int aid, CrcfMethod cme,
+        CrcfAttribute cat, unsigned int value)
+{
+    actor = cac;
+    actor_id = aid;
+    method = cme;
+    attribute = cat;
+    attvalue = value;
+}
+
+
+// just to avoid compiler warnings
+CrcfMessage::~CrcfMessage()
+{           
+}
+
+
+CrcfMessage::CrcfActor CrcfMessage::getActor() const
+{
+    return actor;
+}
+
+
+QString CrcfMessage::getActorStr() const
+{
+    return actorStr(actor);
+}
+
+
+QString CrcfMessage::actorStr(CrcfActor ac)
+{
+    QString acStr = "";
+    
+    switch (ac) {
+        case acRoute:
+            acStr = "ROUTE";
+            break;
+        case acSection:
+            acStr = "SECTION";
+            break;
+        case acTrain:
+            acStr = "TRAIN";
+            break;
+        default:
+            break;
+    }
+    return acStr;
+}
+
+
+unsigned int CrcfMessage::getActorId() const
+{
+    return actor_id;
+}
+
+
+CrcfMessage::CrcfMethod CrcfMessage::getMethod() const
+{
+    return method;
+}
+
+
+QString CrcfMessage::getMethodStr() const
+{
+    return methodStr(method);
+}
+
+
+QString CrcfMessage::methodStr(CrcfMethod me)
+{
+    QString meStr = "";
+    
+    switch (me) {
+        case meInfo:
+            meStr = "INFO";
+            break;
+        case meSet:
+            meStr = "SET";
+            break;
+        case meGet:
+            meStr = "GET";
+            break;
+        default:
+            break;
+    }
+    return meStr;
+}
+
+
+CrcfMessage::CrcfAttribute CrcfMessage::getAttribute() const
+{
+    return attribute;
+}
+
+
+QString CrcfMessage::getAttributeStr() const
+{
+    return attributeStr(attribute);
+}
+
+
+QString CrcfMessage::attributeStr(CrcfAttribute at)
+{
+    QString atStr = "";
+    
+    switch (at) {
+        case atState:
+            atStr = "STATE";
+            break;
+        case atType:
+            atStr = "TYPE";
+            break;
+        case atTrain:
+            atStr = "TRAIN";
+            break;
+        default:
+            break;
+    }
+    return atStr;
+}
+
+
+unsigned int CrcfMessage::getAttValue() const
+{
+    return attvalue;
+}
+
+/* 
+ * Parse CRCF message and return pointer to new message instance, if
+ * message was valid.
+ * <actor> <actor_id> <method> <attribute> [<value>]
+ *    1       2          3         4          5
+ */
+CrcfMessage* CrcfMessage::parse(QString& msg)
+{
+    CrcfActor actor;
+    CrcfMethod cm;
+    CrcfAttribute cat;
+    unsigned int aid = 0;
+    unsigned int value = 0;
+    QStringList tokens;
+
+    tokens = QStringList::split(" ", msg);
+    if (tokens.count() < 4)
+        // error message to short
+        return NULL;
+
+    // token 1
+    if ("ROUTE" == tokens[0]) {
+        actor = acRoute;
+    }
+    else if ("SECTION" == tokens[0]) {
+        actor = acSection;
+    }
+    else {
+        //error unsupported CRCF actor
+        return NULL;
+    }
+
+    // token 2
+    aid = tokens[1].toUInt();
+
+    // token 3
+    if ("SET" == tokens[2]) {
+        cm = meSet;
+    }
+    else if ("GET" == tokens[2]) {
+        cm = meGet;
+    }
+    else if ("INFO" == tokens[2]) {
+        cm = meInfo;
+    }
+    else {
+        //error unsupported CRCF method
+        return NULL;
+    }
+
+    // token 4 (no context analysis)
+    if ("STATE" == tokens[3]) {
+        cat = atState;
+    }
+    else if ("TYPE" == tokens[3]) {
+        cat = atType;
+    }
+    else if ("TRAIN" == tokens[3]) {
+        cat = atTrain;
+    }
+    else {
+        //error unsupported CRCF attribute
+        return NULL;
+    }
+
+    // token 5
+    if (meSet == cm || meInfo == cm)
+        if (tokens.count() == 5) {
+            value = tokens[4].toUInt();
+        }
+        else {
+            //error unsupported CRCF operation
+            return NULL;
+        }
+
+    return new CrcfMessage(actor, aid, cm, cat, value);
+}
+
+/*assemble CRCF message string*/
+QString CrcfMessage::getMessage() const
+{
+    return message(actor, actor_id, method, attribute, attvalue);
+}
+
+/*static assemble CRCF message string*/
+QString CrcfMessage::message(CrcfActor cac, unsigned int aid, CrcfMethod cme,
+        CrcfAttribute cat, unsigned int value)
+{
+    QString result;
+
+    if (meGet == cme)
+        result = QString("%1 %2 %3 %4").arg(actorStr(cac)).arg(aid)
+            .arg(methodStr(cme)).arg(attributeStr(cat));
+    else
+        result = QString("%1 %2 %3 %4 %5").arg(actorStr(cac)).arg(aid)
+            .arg(methodStr(cme)).arg(attributeStr(cat)).arg(value);
+
+    return result;
+}
+

@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.36 $
-# last update: $Date: 2007-10-14 10:49:40 $
+# version: $Revision: 1.37 $
+# last update: $Date: 2008-03-27 21:54:28 $
 
 SUBDIRS = pixmaps
 
@@ -46,6 +46,7 @@ nodist_spdrs60_SOURCES = \
 spdrs60_SOURCES = main.cpp resources.h \
 	aboutdialog.cpp aboutdialog.h \
 	commandport.cpp commandport.h \
+        crcfmessage.cpp crcfmessage.h \
 	elementcommander.cpp elementcommander.h \
 	element.cpp element.h \
 	elementdialog.cpp elementdialog.h \

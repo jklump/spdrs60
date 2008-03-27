@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-11-21 18:12:02 $
-                           $Revision: 1.140 $
+    last modified        : $Date: 2008-03-27 21:54:28 $
+                           $Revision: 1.141 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -29,6 +29,7 @@
 #include <qvbox.h>
 
 #include "aboutdialog.h"
+#include "crcfmessage.h"
 #include "finder.h"
 #include "gbsscrollview.h"
 #include "layouteditmodeagrp.h"
@@ -525,6 +526,8 @@ void MainWindow::initMainWindow()
     connect(this, SIGNAL(sendFBChangeRoute(unsigned int, unsigned int, bool)),
             router, SLOT(feedbackPortChanged(unsigned int,
                     unsigned int, bool)));
+    connect(router, SIGNAL(sendSrcpMessage(SrcpMessage*)),
+            this, SLOT(sendSrcpMessage(SrcpMessage*)));
     connect(gbs, SIGNAL(clearRoutes()),
             router, SLOT(clearRoutes()));
     connect(gbs, SIGNAL(recordElement(element*, elemRecordType)),
@@ -2453,6 +2456,46 @@ void MainWindow::processInfoMessage(const QString& info)
                             info.section(" ", 5, 5).toUInt(),
                             info.section(" ", 6, 6).toUInt(),
                             info.section(" ", 7, 7).toUInt());
+            }
+
+            /*
+             * respond to incomming generic messages
+             *
+             * <time> 100 INFO <bus> GM <sendto> <replyto> <gmtype> <content>
+             *   0     1   2     3   4     5        6          7        8
+             */
+            else if (devGroup == "GM") {
+                unsigned int recsid;
+                recsid = info.section(" ", 5, 5).toUInt();
+                QString gmtype = info.section(" ", 7, 7);
+                QString gmcontent = info.section(" ", 8);
+                CrcfMessage* cm; 
+
+                if (recsid == 0 || infoPort->getSessionId() == recsid) {
+                    if ("CRCF" == gmtype) {
+                        cm = CrcfMessage::parse(gmcontent);
+                        if (cm != NULL) {
+                            if (cm->getActor() == CrcfMessage::acRoute)
+                                /*adjust send/reply session-ids*/
+                                router->processGenericMessage(
+                                        info.section(" ", 6, 6).toUInt(),
+                                        infoPort->getSessionId(), cm);
+                            else
+                                statusMessage(
+                                        tr("Unsupported CRCF actor detected."));
+                            delete cm;
+                        }
+                        else
+                            statusMessage(
+                                    tr("Error parsing Generic Message."));
+                    }
+                    else
+                        statusMessage(tr("Unknown Generic Message type "
+                                    "'%1' detected.").arg(gmtype));
+                }
+                else
+                    statusMessage(tr("Misleaded Generic Message detected "
+                                "(receiver session ID = %1).").arg(recsid));
             }
 
             /*

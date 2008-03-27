@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.h
-                           version 0.5.2 $Revision: 1.28 $
+                           version 0.5.2 $Revision: 1.29 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-25 18:14:50 $
+    last modified        : $Date: 2008-03-27 21:54:28 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -27,8 +27,10 @@
 #include <qptrlist.h>
 #include <qptrvector.h>
 
-#include "route.h"
+#include "crcfmessage.h"
 #include "element.h"
+#include "route.h"
+#include "srcpmessage.h"
 
 #define RF_OLDROUTEEXT ".dat.rts"
 
@@ -66,6 +68,8 @@ public:
     void withdrawRoute(Route*);
     void setServerHasGm(bool);
     bool serverHasGm();
+    void processGenericMessage(unsigned int, unsigned int,
+            const CrcfMessage*);
 
 public slots:
     void clearRoutes();
@@ -111,6 +115,7 @@ signals:
     void routeDataChanged(Route*);
     void routeListChanged();
     void routeStateChanged(Route*);
+    void sendSrcpMessage(SrcpMessage*);
     void statusMessage(const QString&);
     void startRouteTimer(Route::RouteType);
     void updateRoutePathLEDs(const stateElement&, const stateElement&,

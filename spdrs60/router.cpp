@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.2 $Revision: 1.60 $
+                           version 0.5.2 $Revision: 1.61 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-19 18:24:06 $
+    last modified        : $Date: 2008-03-27 21:54:28 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -63,6 +63,7 @@ void Router::initVariables()
     serverhasgm = false;
     visualmode = kvmNormal;
 }
+
 /*
  * read a new route from file
  * set an id if the route does not have one already
@@ -376,7 +377,7 @@ void Router::transferTrainNumber(Route* nr)
                 emit statusMessage(tr("Error forwarding train number: "
                             "External targets are not supported yet."));
                 //sendGmRouteTrain();
-                //ROUTE <rid> TRAIN <tid>
+                //ROUTE <rid> INFO TRAIN <tid>
             }
             else {
                 Route* mr = getRouteWithId(nr->forwardTargetId());
@@ -394,7 +395,7 @@ void Router::transferTrainNumber(Route* nr)
                     modified = true;
                     //TODO: send train message (Zugmeldung)
                     //sendGmTrainSection();
-                    //TRAIN <tid> SECTION <sid>
+                    //TRAIN <tid> INFO SECTION <sid>
                 }
             }
         }
@@ -419,7 +420,7 @@ void Router::transferTrainNumber(Route* nr)
         modified = true;
     //TODO: send train message (Zugmeldung)
     //sendGmTrainSection();
-    //TRAIN <tid> SECTION <sid>
+    //TRAIN <tid> INFO SECTION <sid>
     }
 }
 
@@ -436,12 +437,13 @@ void Router::processRouteState(Route* rt, int rs)
     switch ((Route::RouteState)rs) {
         case Route::rsUnlocked:
             //TODO: send route state message (scripting)
-            //sendGmRouteState();
-            //ROUTE <rid> STATE 0
+            //rt->sendGmRouteState();
+            //ROUTE <rid> INFO STATE 0
             break;
         case Route::rsLocked:
             //TODO: send route state message (scripting)
-            //ROUTE <rid> STATE 1
+            //rt->sendGmRouteState();
+            //ROUTE <rid> INFO STATE 1
             emit statusMessage(tr("Route '%1' activated")
                     .arg(rt->getSectionName()));
             break;
@@ -845,5 +847,49 @@ void Router::changeTrainNumber(unsigned int rn, unsigned int tn)
     else
         emit statusMessage(tr("Error setting train number: "
                     "Route id '%1' not found.").arg(tn));
+}
+
+/*
+ * respond to incomming Generic Messages
+ */
+void Router::processGenericMessage(unsigned int sendto,
+        unsigned int replyto, const CrcfMessage* cm)
+{
+    QString cms = "";
+
+    if (NULL == cm)
+        return;
+
+    Route* rt = getRouteWithId(cm->getActorId());
+    if (NULL == rt)
+        return;
+
+    switch (cm->getMethod()) {
+        case CrcfMessage::meGet:
+            /* ROUTE <routeid> GET <attribute> ... */
+            cms = rt->getCrcfInfoMessage(cm->getAttribute());
+            if (cms.isEmpty()) 
+                emit statusMessage(tr("Unsupported CRCF attribute '%1' "
+                            "detected.").arg(cm->getAttributeStr()));
+            else {
+                SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgGmSet);
+                if (sm == NULL)
+                    return;
+
+                sm->setGmData(sendto, replyto, "CRCF", cms);
+                emit sendSrcpMessage(sm);
+                delete sm;
+            }
+            break;
+
+        case CrcfMessage::meSet:
+            /* ROUTE <routeid> SET <attribute> ... */
+            break;
+
+        default:
+            emit statusMessage(tr("Unsupported CRCF method '%1' "
+                        "detected.").arg(cm->getMethodStr()));
+            break;
+    }
 }
 

@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.5.2 $Revision: 1.37 $
+                           version 0.5.2 $Revision: 1.38 $
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-11 17:03:00 $
+    last modified        : $Date: 2008-03-27 21:54:28 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -27,6 +27,7 @@
 #include <qtextstream.h>
 #include <qptrvector.h>
 
+#include "crcfmessage.h"
 #include "element.h"
 #include "section.h"
 
@@ -92,6 +93,7 @@ public:
     QString getFromSignalName() const;
     QString getToSignalName() const;
     QString getTypeStr() const;
+    QString getCrcfInfoMessage(CrcfMessage::CrcfAttribute) const;
     int startRouting();
     void stopRouting();
     void hideRoute();

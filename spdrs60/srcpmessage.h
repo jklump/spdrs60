@@ -1,10 +1,10 @@
 /***************************************************************************
                            srcpmessage.h
-                           version 0.5.2 $Revision: 1.16 $
+                           version 0.5.2 $Revision: 1.17 $
                            -------------------------------
     copyright            : (C) 2005-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-05 17:39:48 $
+    last modified        : $Date: 2008-03-27 21:54:28 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -31,16 +31,17 @@ class SrcpMessage
 {
     public:
         enum Message {msgNoMsg = 0,
-            msgServerLogin, msgServerReset,
-            msgServerShutdown, msgServerLogout,
+            msgServerLogin, msgServerReset, msgServerShutdown,
+            msgSessionTerm,
             msgPowerInit, msgPowerSet, msgPowerGet, msgPowerTerm,
             msgPowerInfo,
             msgLockSet, msgLockGet, msgLockTerm, msgLockInfo,
             msgFbInit, msgFbGet, msgFbTerm, msgFbInfo,
             msgGaInit, msgGaSet, msgGaGet, msgGaInfo,
-            msgGlInit, msgGlSet, msgGlGet, msgGlTerm, msgGlInfo};
+            msgGlInit, msgGlSet, msgGlGet, msgGlTerm, msgGlInfo,
+            msgGmSet};
        
-        enum DeviceGroup {dgGA = 0, dgGL, dgFB, dgSM, dgTime, dgPower,
+        enum DeviceGroup {dgGA = 0, dgGL, dgGM, dgFB, dgSM, dgTime, dgPower,
             dgServer, dgSession, dgLock, dgDescription};
 
         enum Action {acInit = 0, acSet, acGet, acCheck, acTerm, acWait,
@@ -67,6 +68,8 @@ class SrcpMessage
         void setGaData(Protocol, unsigned int, unsigned int,
                 unsigned int, unsigned int, int);
         //TODO: void setGlData();
+        void setGmData(unsigned int, unsigned int, const QString&,
+                const QString&);
         void setLockData(unsigned int, DeviceGroup, unsigned int);
         void setPowerData(unsigned int, bool);
 
@@ -83,6 +86,10 @@ class SrcpMessage
         unsigned int port;
         unsigned int value;
         unsigned int srcpbus;
+        unsigned int sendtosid;
+        unsigned int replytosid;
+        QString gmtype;
+        QString gmmessage;
         QString getProtocolStr(Protocol pro = proMM) const;
         QString getDeviceGroupStr(DeviceGroup dg = dgGA) const;
         QString getActionStr(Action ac = acInit) const;

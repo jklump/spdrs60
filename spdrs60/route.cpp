@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.63 $
+                           version 0.5.2 $Revision: 1.64 $
                            -------------------------------
-    copyright            : (C) 2004-2007 by Guido Scholz
+    copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-19 18:24:06 $
+    last modified        : $Date: 2008-03-27 21:54:28 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -1108,5 +1108,29 @@ bool Route::runEditDialog(QWidget* dlgparent)
 element* Route::getEntrySignalElementPtr()
 {
     return entrySignal.elemPtr;
+}
+
+/*assemble CRCF route info message string*/
+QString Route::getCrcfInfoMessage(CrcfMessage::CrcfAttribute at) const
+{
+    unsigned int result = 0;
+
+    switch (at) {
+        case CrcfMessage::atState:
+            result = routestate == rsUnlocked ? 0 : 1;
+            break;
+        case CrcfMessage::atType:
+            result = routeType;
+            break;
+        case CrcfMessage::atTrain:
+            result = trainid;
+            break;
+        default:
+            return "";
+            break;
+    }
+
+    return CrcfMessage::message(CrcfMessage::acRoute, sectionid,
+            CrcfMessage::meInfo, at, result);
 }
 

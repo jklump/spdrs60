@@ -1,10 +1,10 @@
 /***************************************************************************
                            srcpmessage.cpp
-                           version 0.5.2 $Revision: 1.18 $
+                           version 0.5.2 $Revision: 1.19 $
                            -------------------------------
     copyright            : (C) 2005-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-05 17:39:48 $
+    last modified        : $Date: 2008-03-27 21:54:28 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -38,6 +38,10 @@ SrcpMessage::SrcpMessage(Message msg)
    power = false;
    protocol = proMM;
    srcpbus = 0;
+   sendtosid = 0;
+   replytosid = 0;
+   gmtype = "";
+   gmmessage = "";
 }
 
 
@@ -97,14 +101,14 @@ QString SrcpMessage::getSrcpMessageStr(SrcpPort::CommunicationStyle style) const
             case msgPowerSet:
                 cmdStr = QString("SET POWER %1").arg(power ? "ON" : "OFF");
                 break;
-            case msgServerLogout:
-                cmdStr = "LOGOUT";
-                break;
             case msgServerReset:
                 cmdStr = "RESET";
                 break;
             case msgServerShutdown:
                 cmdStr = "SHUTDOWN";
+                break;
+            case msgSessionTerm:
+                cmdStr = "LOGOUT";
                 break;
             case msgNoMsg:
             default:
@@ -136,6 +140,11 @@ QString SrcpMessage::getSrcpMessageStr(SrcpPort::CommunicationStyle style) const
                     .arg(srcpbus).arg(address).arg(port).arg(value).arg(delay);
                 break;
                 //TODO: msgGl...
+            case msgGmSet:
+                cmdStr = QString("SET 0 GM %1 %2 %3 %4")
+                    .arg(sendtosid).arg(replytosid).arg(gmtype)
+                    .arg(gmmessage);
+                break;
                 //TODO: flexible lock duration
             case msgLockSet:
                 cmdStr = QString("SET %1 LOCK %2 %3 0").arg(srcpbus)
@@ -159,14 +168,14 @@ QString SrcpMessage::getSrcpMessageStr(SrcpPort::CommunicationStyle style) const
                 cmdStr = QString("SET %1 POWER %2").arg(srcpbus)
                     .arg(power ? "ON" :"OFF");
                 break;
-            case msgServerLogout:
-                cmdStr = "TERM 0 SESSION";
-                break;
             case msgServerReset:
                 cmdStr = "RESET 0 SERVER";
                 break;
             case msgServerShutdown:
                 cmdStr = "TERM 0 SERVER";
+                break;
+            case msgSessionTerm:
+                cmdStr = "TERM 0 SESSION";
                 break;
             case msgNoMsg:
             default:
@@ -222,6 +231,9 @@ QString SrcpMessage::getDeviceGroupStr(DeviceGroup dg) const
             break;
         case dgGL:
             dgStr = "GL";
+            break;
+        case dgGM:
+            dgStr = "GM";
             break;
         case dgFB:
             dgStr = "FB";
@@ -313,6 +325,17 @@ void SrcpMessage::setGaData(Protocol pro, unsigned int bus,
 
 //TODO: void SrcpMessage::setGlData()
 
+void SrcpMessage::setGmData(unsigned int ssid, unsigned int rsid,
+        const QString& gmt, const QString& gmm)
+{
+    srcpbus = 0;
+    sendtosid = ssid;
+    replytosid = rsid;
+    gmtype = gmt;
+    gmmessage = gmm;
+}
+
+
 void SrcpMessage::setLockData(unsigned int bus, DeviceGroup dg,
         unsigned int adr)
 {
@@ -327,5 +350,4 @@ void SrcpMessage::setPowerData(unsigned int bus, bool pwr)
     srcpbus = bus;
     power = pwr;
 }
-
 
