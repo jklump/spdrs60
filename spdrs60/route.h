@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.5.2 $Revision: 1.38 $
+                           version 0.5.3 $Revision: 1.39 $
                            -------------------------------
-    copyright            : (C) 2004-2007 by Guido Scholz
+    copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-03-27 21:54:28 $
+    last modified        : $Date: 2008-03-30 08:57:07 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -89,6 +89,7 @@ public:
     void writeFileTextToStream(QTextStream&);
     Route* getClone();
     int getState();
+    void setType(RouteType);
     int getType() const;
     QString getFromSignalName() const;
     QString getToSignalName() const;

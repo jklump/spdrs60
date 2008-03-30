@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.h
-                           version 0.5.2 $Revision: 1.29 $
+                           version 0.5.3 $Revision: 1.30 $
                            -------------------------------
-    copyright            : (C) 2004-2007 by Guido Scholz
+    copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-03-27 21:54:28 $
+    last modified        : $Date: 2008-03-30 08:57:07 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -108,6 +108,7 @@ private:
     Route* getUtilizedRouteWithExitSignal(element*);
     void transferTrainNumber(Route*);
     unsigned int getMaximumRouteIdNumber();
+    void sendGmCrcfMessage(unsigned int, unsigned int, const QString&);
     
 signals:
     void getElementByAddress(const int, const int, element**);

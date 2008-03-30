@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.2 $Revision: 1.61 $
+                           version 0.5.3 $Revision: 1.62 $
                            -------------------------------
-    copyright            : (C) 2004-2007 by Guido Scholz
+    copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-03-27 21:54:28 $
+    last modified        : $Date: 2008-03-30 08:57:07 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -394,8 +394,11 @@ void Router::transferTrainNumber(Route* nr)
 
                     modified = true;
                     //TODO: send train message (Zugmeldung)
-                    //sendGmTrainSection();
-                    //TRAIN <tid> INFO SECTION <sid>
+                    // if (pref.sendtrainmessages) {
+                    //QString cms;
+                    //cms = mr->getCrcfInfoMessage(CrcfMessage::atTrain);
+                    //sendGmCrcfMessage(0, reply_sid, cms);
+                    //}
                 }
             }
         }
@@ -418,9 +421,12 @@ void Router::transferTrainNumber(Route* nr)
         emit routeDataChanged(sr);
 
         modified = true;
-    //TODO: send train message (Zugmeldung)
-    //sendGmTrainSection();
-    //TRAIN <tid> INFO SECTION <sid>
+        //TODO: send train message (Zugmeldung)
+        // if (pref.sendtrainmessages) {
+        //QString cms;
+        //cms = mr->getCrcfInfoMessage(CrcfMessage::atTrain);
+        //sendGmCrcfMessage(0, reply_sid, cms);
+        //}
     }
 }
 
@@ -866,24 +872,47 @@ void Router::processGenericMessage(unsigned int sendto,
 
     switch (cm->getMethod()) {
         case CrcfMessage::meGet:
-            /* ROUTE <routeid> GET <attribute> ... */
+            /* ROUTE <routeid> GET <attribute> */
             cms = rt->getCrcfInfoMessage(cm->getAttribute());
             if (cms.isEmpty()) 
                 emit statusMessage(tr("Unsupported CRCF attribute '%1' "
                             "detected.").arg(cm->getAttributeStr()));
-            else {
-                SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgGmSet);
-                if (sm == NULL)
-                    return;
-
-                sm->setGmData(sendto, replyto, "CRCF", cms);
-                emit sendSrcpMessage(sm);
-                delete sm;
-            }
+            else
+                sendGmCrcfMessage(sendto, replyto, cms);
             break;
 
         case CrcfMessage::meSet:
-            /* ROUTE <routeid> SET <attribute> ... */
+            /* ROUTE <routeid> SET <attribute> <att_value> */
+            switch (cm->getAttribute()) {
+
+                case CrcfMessage::atState:
+                    break;
+
+                case CrcfMessage::atTrain:
+                    rt->setTrain(cm->getAttValue());
+                    emit routeDataChanged(rt);
+                    modified = true;
+                    cms = rt->getCrcfInfoMessage(CrcfMessage::atTrain);
+                    sendGmCrcfMessage(sendto, replyto, cms);
+                    break;
+
+                case CrcfMessage::atType:
+                    if (cm->getAttValue() < 6) {
+                        rt->setType((Route::RouteType)cm->getAttValue());
+                        emit routeDataChanged(rt);
+                        modified = true;
+                        cms = rt->getCrcfInfoMessage(CrcfMessage::atType);
+                        sendGmCrcfMessage(sendto, replyto, cms);
+                    }
+                    else 
+                        emit statusMessage(tr("Unvalid CRCF attribute "
+                                    "value '%1' detected.")
+                                .arg(cm->getAttValue()));
+                    break;
+
+                default:
+                    break;
+            }
             break;
 
         default:
@@ -893,3 +922,16 @@ void Router::processGenericMessage(unsigned int sendto,
     }
 }
 
+
+/* send a SRCP GM CRCF message to server */
+void Router::sendGmCrcfMessage(unsigned int sendto,
+        unsigned int replyto, const QString& cms)
+{
+    SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgGmSet);
+    if (sm == NULL)
+        return;
+
+    sm->setGmData(sendto, replyto, "CRCF", cms);
+    emit sendSrcpMessage(sm);
+    delete sm;
+}

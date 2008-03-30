@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.64 $
+                           version 0.5.2 $Revision: 1.65 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-03-27 21:54:28 $
+    last modified        : $Date: 2008-03-30 08:57:07 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -458,6 +458,13 @@ QString Route::getToSignalName() const
         return QString::number(exitSignal.address);
     else
         return exitSignal.name;
+}
+
+
+void Route::setType(RouteType t)
+{
+    if (routeType != t)
+        routeType = t;
 }
 
 
