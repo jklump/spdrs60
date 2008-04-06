@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60 documentation
 # last changes by: Guido Scholz
-# Version: $Revision: 1.15 $
-# last update: $Date: 2007-09-09 13:08:02 $
+# Version: $Revision: 1.16 $
+# last update: $Date: 2008-04-06 18:14:07 $
 
 # HTML_DOC_DIR is defined in configure.ac
 htmldir = @HTML_DOC_DIR@
@@ -258,41 +258,47 @@ endif
 if HTML_DOC
 dehtml_DATA = \
 	de/index.html \
-	de/sect-aenderungen.html \
-	de/sect-anschluesse.html \
+	de/chapter-aenderungen.html \
+	de/chapter-anschluesse.html \
+	de/chapter-bedienung.html \
+	de/chapter-einfuehrung.html \
+	de/chapter-fahrstrassen-allg.html \
+	de/chapter-faq.html \
+	de/chapter-installation.html \
+	de/chapter-rueckmeldung.html \
+	de/chapter-sonstiges.html \
+	de/chapter-standardnachrichten.html \
+	de/chapter-symbole.html \
 	de/sect-anschluesse-weichen.html \
 	de/sect-bedienelemente.html \
-	de/sect-bedienung.html \
 	de/sect-bezugsquellen.html \
 	de/sect-bugs.html \
 	de/sect-copyright.html \
+	de/sect-crcf-statisch.html \
+	de/sect-crcf-dynamisch.html \
+	de/sect-gm-allgemein.html \
+	de/sect-gm-anwendung.html \
+	de/sect-gm-crcf.html \
 	de/sect-dateien.html \
 	de/sect-drehscheibe.html \
-	de/sect-einfuehrung.html \
 	de/sect-elementstellungen.html \
 	de/sect-erzeugen.html \
-	de/sect-fahrstrassen-allg.html \
 	de/sect-fahrstrassen-bedienung.html \
 	de/sect-fahrstrassen.html \
 	de/sect-fahrstrassen-vorwort.html \
-	de/sect-faq.html \
 	de/sect-filestructure.html \
 	de/sect-gleichstrommotoren.html \
 	de/sect-grundlegende-bedienung.html \
-	de/sect-installation.html \
 	de/sect-installieren.html \
 	de/sect-kompilieren.html \
 	de/sect-layout-ladenspeichern.html \
 	de/sect-literatur.html \
 	de/sect-menuepunkte.html \
 	de/sect-optionen.html \
-	de/sect-rueckmeldung.html \
 	de/sect-schiebebuehne.html \
 	de/sect-signale.html \
-	de/sect-sonstiges.html \
 	de/sect-starten.html \
 	de/sect-symboleedit.html \
-	de/sect-symbole.html \
 	de/sect-symboleigenschaften.html \
 	de/sect-symbole-uebersicht.html \
 	de/sect-tastaturkuerzel.html \
@@ -316,7 +322,8 @@ dehtml_DATA = \
 	de/ver-0.4.8.html \
 	de/ver-0.5.0.html \
 	de/ver-0.5.1.html \
-	de/ver-0.5.2.html
+	de/ver-0.5.2.html \
+	de/ver-0.5.3.html
 
 else
 dehtml_DATA =

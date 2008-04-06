@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.3 $Revision: 1.62 $
+                           version 0.5.3 $Revision: 1.63 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-03-30 08:57:07 $
+    last modified        : $Date: 2008-04-06 18:14:07 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -885,9 +885,19 @@ void Router::processGenericMessage(unsigned int sendto,
             /* ROUTE <routeid> SET <attribute> <att_value> */
             switch (cm->getAttribute()) {
 
+                /* ROUTE <routeid> SET STATE <att_value> */
                 case CrcfMessage::atState:
+                    if (0 == cm->getAttValue())
+                        releaseRoute(rt);
+                    else if (1 == cm->getAttValue())
+                        activateRoute(rt);
+                    else
+                        emit statusMessage(tr("Unvalid STATE "
+                                    "value '%1' detected.")
+                                .arg(cm->getAttValue()));
                     break;
 
+                /* ROUTE <routeid> SET TRAIN <att_value> */
                 case CrcfMessage::atTrain:
                     rt->setTrain(cm->getAttValue());
                     emit routeDataChanged(rt);
@@ -896,17 +906,30 @@ void Router::processGenericMessage(unsigned int sendto,
                     sendGmCrcfMessage(sendto, replyto, cms);
                     break;
 
+                /* ROUTE <routeid> SET TYPE <att_value> */
                 case CrcfMessage::atType:
-                    if (cm->getAttValue() < 6) {
-                        rt->setType((Route::RouteType)cm->getAttValue());
-                        emit routeDataChanged(rt);
-                        modified = true;
-                        cms = rt->getCrcfInfoMessage(CrcfMessage::atType);
-                        sendGmCrcfMessage(sendto, replyto, cms);
+
+                    /* route type is a static CRCF value, editing is
+                     * only allowed in route edit mode */
+                    if (visualmode == kvmEditRoute) {
+
+                        /*check for valid range 0..5*/
+                        if (cm->getAttValue() < 6) {
+                            rt->setType((Route::RouteType)cm->getAttValue());
+                            emit routeDataChanged(rt);
+                            modified = true;
+                            cms = rt->getCrcfInfoMessage(CrcfMessage::atType);
+                            sendGmCrcfMessage(sendto, replyto, cms);
+                        }
+                        else 
+                            emit statusMessage(tr("Unvalid TYPE "
+                                        "value '%1' detected.")
+                                    .arg(cm->getAttValue()));
                     }
-                    else 
-                        emit statusMessage(tr("Unvalid CRCF attribute "
-                                    "value '%1' detected.")
+                    else
+                        emit statusMessage(tr("Route type editing via "
+                                    "CRCF messages is only allowed in "
+                                    "route edit mode.")
                                 .arg(cm->getAttValue()));
                     break;
 

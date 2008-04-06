@@ -71,7 +71,7 @@
         </abstract>
     </bookinfo>
 
-<chapter id="sect-einfuehrung">
+<chapter id="chapter-einfuehrung">
   <title>Einführung</title>
 <para>
 Bei &raquo;spdrs60 für Linux&laquo; handelt es sich um ein
@@ -149,15 +149,19 @@ die Hardware der Modellbahnanlage. Zur Auswahl stehen beispielsweise
 folgende Linuxprogramme:
 </para>
 <itemizedlist>
-    <listitem><para>
+    <listitem>
+        <para>
             <ulink url="http://www.vogt-it.com/OpenSource/DDL/">erddcd</ulink>
             aus dem DDL-Projekt
-    </para></listitem>
-    <listitem><para>
-            <ulink url="http://srcpd.sourceforge.net/">srcpd</ulink>, mit dem sich
-            auch verschiedene Digitalzentralen unterschiedlichster
+        </para>
+    </listitem>
+    <listitem>
+        <para>
+            <ulink url="http://srcpd.sourceforge.net/">srcpd</ulink>, mit
+            dem sich auch verschiedene Digitalzentralen unterschiedlichster
             Hersteller ansteuern lassen
-    </para></listitem>
+        </para>
+    </listitem>
 </itemizedlist>
 <para>Eine Zielsetzung des Programms ist
 es, eine sinnvolle Kombination aus Anwenderfreundlichkeit (z.B. schnelles
@@ -168,13 +172,13 @@ empfehlenswert, diese Dokumentation durchzuarbeiten.
 </chapter>
 
 
-<chapter id="sect-aenderungen">
+<chapter id="chapter-aenderungen">
   <title>Änderungen</title>
 
 <sect1 id="ver-0.5.3">
   <title>Version 0.5.3</title>
 <para>
-Veröffentlicht am --.--.2007
+Veröffentlicht am --.--.2008
 </para>
 <itemizedlist mark="bullet">
 
@@ -242,6 +246,22 @@ Veröffentlicht am --.--.2007
   <listitem><para>
   Der Grenzwert für die maximale Anzahl an Zeilen im Gleisbild wurde von
   30 auf 120 erhöht.
+  </para></listitem>
+  
+  <listitem>
+      <para>
+          Der Editor für Gleisbilder wurde überarbeitet und erlaubt nun ein
+          rasches und kontinuierliches Zeichnen oder Löschen von
+          Gleisverläufen. Die Auswahl der Gleisbildelemente erfolgt nun
+          nicht mehr über den Eigenschaftsdialog, sondern über eine
+          Werkzeugauswahl.
+      </para>
+  </listitem>
+  
+  <listitem><para>
+  Eine Unterstützung für Standardnachrichten (Generic Messages, GM)
+  wurde ergänzt. Eine kleinere Auswahl an statischen und dynamischen
+  CRCF-Daten läßt sich nun abfragen und ändern.
   </para></listitem>
   
 </itemizedlist>
@@ -1004,7 +1024,7 @@ bzw. das Heimatverzeichnis des Benutzers</para></listitem>
   <listitem><para>Bugfix beim Abbruch von
 Gleisbild-Ladevorgängen</para></listitem>
   <listitem><para>Neues Dokumentations-Kapitel <xref
-linkend="sect-anschluesse">, ansonsten einige kleinere Updates in der
+linkend="chapter-anschluesse">, ansonsten einige kleinere Updates in der
 restlichen Dokumentation</para></listitem>
 </itemizedlist>
 </sect1>
@@ -1064,7 +1084,7 @@ Fahrstra&szlig;en dafür benutzt werden müssten</para></listitem>
 </sect1>
 </chapter>
 
-<chapter id="sect-installation">
+<chapter id="chapter-installation">
   <title>Installation</title>
 <sect1 id="sect-bezugsquellen">
   <title>Bezugsquellen</title>
@@ -1370,7 +1390,7 @@ und es erscheint das Programmfenster (<xref linkend="abb-startansicht">).
 </chapter>
 
 
-<chapter id="sect-bedienung">
+<chapter id="chapter-bedienung">
   <title>Bedienung</title>
 
 <sect1 id="sect-bedienelemente">
@@ -2050,7 +2070,7 @@ Die Rückmeldeübersicht ist durch <keycap>Strg-M</keycap> oder das Menü
 &raquo;Ansicht/Rückmeldemodule&laquo; erreichbar. Es erscheint dann ein
 Fenster mit der vorkonfigurierten Anzahl an Rückmeldemodulen, die
 jeweils den aktuellen Zustand der Kontakte farblich anzeigen. Weitere
-Details sind im <xref linkend="sect-rueckmeldung"> beschrieben.
+Details sind im <xref linkend="chapter-rueckmeldung"> beschrieben.
 </para>
 </sect2>
 
@@ -2073,7 +2093,7 @@ Entweder man klickt diese im Gleisbild an, sofern man eine mit eingebunden
 hat, oder man erspart sich die Mausbewegung und drückt das
 Tastaturkürzel <keycap>F5</keycap>. Anschließend betätigt man die
 Gleistasten des Start- und des Zielsignals. Mehr zu diesem Thema finden
-Sie im <xref linkend="sect-fahrstrassen-allg">.
+Sie im <xref linkend="chapter-fahrstrassen-allg">.
 </para>
 </sect2>
 
@@ -2539,7 +2559,7 @@ typische Aussehen eines SpDrS60-Stelltisches:
 <para>Das Gleisbild enthält hier einige zusätzliche, nur auf der
 Modellbahn befindliche Elemente wie Drehscheibe, Gebäude u.ä.
 Eine genauere Beschreibung der zur Verfügung stehenden Symbole erfolgt
-im <xref linkend="sect-symbole">.
+im <xref linkend="chapter-symbole">.
 </para>
 
 </sect2>
@@ -2576,7 +2596,7 @@ nicht, wird sie beim Speichern automatisch angehängt.
   
 </chapter>
 
-<chapter id="sect-symbole">
+<chapter id="chapter-symbole">
   <title>Gleisbildelemente</title>
 
 <sect1 id="sect-symbole-uebersicht">
@@ -2585,7 +2605,7 @@ nicht, wird sie beim Speichern automatisch angehängt.
 <para>Die folgende Tabelle bietet eine Übersicht der im Programm zur
     Verfügung stehenden Gleisbildelemente und deren Eigenschaften. Für
     Signale bzw.
-Weichen wird in <xref linkend="sect-anschluesse"> zusätzlich
+Weichen wird in <xref linkend="chapter-anschluesse"> zusätzlich
 beschrieben, wie Anschlüsse auszuführen sind. Auf besondere Elemente
 wie die Drehscheibe wird im <xref linkend="sect-drehscheibe"> näher
 eingegangen.
@@ -2799,7 +2819,7 @@ eingegangen.
       <entry>1</entry>
       <entry><footnote id="fntabsym2"><para>Die Übersicht über einzelne
       Artikel der Hersteller befindet sich im
-      <xref linkend="sect-anschluesse">.</para></footnote> Subtyp = 0</entry>
+      <xref linkend="chapter-anschluesse">.</para></footnote> Subtyp = 0</entry>
       <entry>0 = gerade Gleisführung, 1 = abzweigende Führung</entry>
     </row>
     <row>
@@ -3900,7 +3920,7 @@ eingestellten Adresse nicht entsprechen sollte.
 </chapter>
 
 
-<chapter id="sect-fahrstrassen-allg">
+<chapter id="chapter-fahrstrassen-allg">
   <title>Fahrstra&szlig;en</title>
 <sect1 id="sect-fahrstrassen-vorwort">
   <title>Vorwort</title>
@@ -4436,7 +4456,359 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
   
 </chapter>
 
-<chapter id="sect-rueckmeldung">
+<chapter id="chapter-standardnachrichten">
+  <title>Standardnachrichten</title>
+  
+  <sect1 id="sect-gm-allgemein">
+  <title>Allgemeines</title>
+
+  <para>
+      Bei den Standardnachrichten (Generic Messages, GM) handelt es sich um
+      eine SRCP-Erweiterung, die den Austausch von Daten zwischen verschiedenen
+      SRCP-Clients ermöglicht. Diese Daten können in Form standardisierter
+      Nachrichten sowohl als Rundruf an alle erreichbaren SRCP-Info-Clients,
+      als auch gezielt nur einzelnen SRCP-Info-Clients zugestellt werden.
+      Die Standardisierung der übermittelten Nachrichten
+      selbst steckt derzeit noch in den Anfängen und ist für Änderungen
+      jederzeit offen. Die Verwendung von CRCF (Common Railroad Configuration
+      Files) als Nachrichtenformat wurde bei der Einführung dieser Erweiterung
+      ausführlich diskutiert und empfohlen. Weiterführende Literatur zum Thema
+      befindet sich auf einer Der-Moba Internetseite (<ulink
+          url="http://www.der-moba.de/index.php/SRCP-Erweiterungen"
+          >http://www.der-moba.de/index.php/SRCP-Erweiterungen</ulink>).
+  </para>
+<para>
+    Beim Arbeiten mit spdrs60 können Standardnachrichten für verschiedene
+    Zwecke eingesetzt werden:
+</para>
+<itemizedlist mark="bullet">
+    <listitem>
+        <para>
+            Einstellen und Zurücknehmen von Fahrstraßen.
+        </para>
+    </listitem>
+    <listitem>
+        <para>
+            Verfolgen von Zugläufen über Zugmeldungen.
+        </para>
+    </listitem>
+    <listitem>
+        <para>
+            Konfiguration von Gleisbelegungen durch Züge.
+        </para>
+    </listitem>
+    <listitem>
+        <para>
+            Konfiguration von Fahrstraßentypen.
+        </para>
+    </listitem>
+</itemizedlist>
+
+</sect1>
+<sect1 id="sect-gm-anwendung">
+  <title>Anwendung</title>
+
+<para>
+    Allgemein sind beim Einsatz von Standardnachrichten verschiedene Dinge
+    zu beachten. 
+</para>
+<itemizedlist mark="bullet">
+    <listitem>
+        <para>
+            Das Weiterleiten der Nachrichten ist Aufgabe des SRCP-Servers,
+            daher werden diese vom SRCP-Client nur an den Bus 0 gesendet.
+            Eine Standardnachricht beginnt also immer mit der Kennung
+            <emphasis>SET 0 GM</emphasis>.
+        </para>
+    </listitem>
+    <listitem>
+        <para>
+            Empfänger von Standardnachrichten können nur SRCP-Clients sein,
+            die eine Info-Sitzung unterhalten.  SRCP-Clients einer
+            Kommando-Sitzung können nicht adressiert
+            werden. In spdrs60 kann die Nummer der aktuell verwendeten
+            Info-Sitzung über das Menü <emphasis>Daemon/Über...</emphasis>
+            jederzeit nachgeschlagen werden.
+        </para>
+    </listitem>
+    <listitem>
+        <para>
+            Der verwendete Nachrichtentyp und das ihm zugrunde
+            liegende Format muß öffentlich dokumentiert sein. Im Prinzip
+            könnte jeder beliebige SRCP-Client einen eigenen
+            Nachrichtentyp definieren und diesen als anwendungsspezifische
+            Makro-Sprache einsetzen. Um eine Zersplitterung der
+            Nachrichtentypen zu vermeiden, sollte jedoch möglichst CRCF
+            verwendet bzw. wo nötig weiterentwickelt werden.
+        </para>
+    </listitem>
+    <listitem>
+        <para>
+            Es werden keine Daten transportiert, die schon durch
+            das konventionelle SRCP abgedeckt sind.
+        </para>
+    </listitem>
+</itemizedlist>
+<para>
+    Die Standardnachrichten haben folgende allgemeine Form: 
+</para>
+<screen>SET 0 GM &lt;sendto_sid&gt; &lt;replyto_sid&gt; &lt;message_type&gt; &lt;message_content&gt;</screen>
+<para>
+    Ein konkretes Beispiel zum Versenden einer CRCF-Nachricht an die
+    Info-Sitzung 2 mit Rückantwort an die Info-Sitzung 3 könnte
+    wie folgt aussehen: 
+</para>
+<screen>SET 0 GM 2 3 CRCF ROUTE 23 SET STATE 1</screen>
+<para>
+    Der eigentliche Inhalt der Nachricht ist damit folgender:
+</para>
+<screen>ROUTE 23 SET STATE 1</screen>
+<para>
+    Bei den übrigen Informationen handelt es sich quasi um eine
+    Verpackung oder einen Briefumschlag, der nur der richtigen
+    Zustellung dient.
+</para>
+</sect1>
+
+<sect1 id="sect-gm-crcf">
+  <title>CRCF-Daten in spdrs60</title>
+<para>
+    spdrs60 unterstützt Standardnachrichten in einem derzeit noch sehr
+    beschränkten Umfang. Als Nachrichtentyp findet in spdrs60 nur CRCF
+    Verwendung. Da dieses Datenformat noch nicht durchgehend genormt
+    ist und auch
+    noch keine größeren Erfahrungen vorliegen, wurde für die Verwendung
+    in spdrs60 das folgende vorläufige Nachrichtenformat festgelegt:
+</para>
+<screen>&lt;actor&gt; &lt;actor_id&gt; &lt;method&gt; &lt;attribute&gt; [&lt;attribute_value&gt;]</screen>
+<para>
+    Die einzelnen Nachrichtenelemente haben folgende Bedeutung:
+</para>
+
+<variablelist>
+  <varlistentry>
+      <term>
+          &lt;actor&gt;
+      </term>
+  <listitem>
+      <para>
+         Benennung für den Akteur, dessen Daten geändert werden sollen.
+         Typische Anwendungsbeispiele sind ROUTE, SECTION, TRAIN, ...
+      </para>
+  </listitem>
+  </varlistentry>
+  <varlistentry>
+      <term>
+          &lt;actor_id&gt;
+      </term>
+  <listitem>
+      <para>
+         Identifikationsnummer, die zur eindeutigen Adressierung des
+         Akteurs dient. Es handelt sich dabei um einen positiven
+         Ganzzahlwert &gt;= 0.
+      </para>
+  </listitem>
+  </varlistentry>
+  <varlistentry>
+      <term>
+          &lt;method&gt;
+      </term>
+  <listitem>
+      <para>
+         Methode, die auf den folgenden Attributwert angewendet werden
+         soll. In Anlehnung an das SRCP-Vokabular sind die folgenden
+         Methoden definiert: SET, GET und INFO.
+      </para>
+  </listitem>
+  </varlistentry>
+  <varlistentry>
+      <term>
+          &lt;attribute&gt;
+      </term>
+  <listitem>
+      <para>
+         Attribut des Akteurs, das von der Nachricht betroffen ist. Die
+         Attribut-Kennungen sind je nach Akteur unterschiedlich. Für
+         eine Fahrstraße sind in spdrs60 zurzeit die folgenden Attribute
+         definiert: STATE, TYPE und TRAIN.
+      </para>
+  </listitem>
+  </varlistentry>
+  <varlistentry>
+      <term>
+          &lt;attribute_value&gt;
+      </term>
+  <listitem>
+      <para>
+          Der Wert des Attributs, das von der Nachricht betroffen ist.
+          Die Angabe dieses Wertes ist abhängig von der verwendeten
+          Methode; bei der Methode GET findet er keine Verwendung.
+          Zurzeit wird hier nur ein positiver Ganzzahlwert &gt;= 0
+          akzeptiert. Möglicherweise ist diese Auslegung zu streng, so dass
+          hier alternativ auch alphanumerische Kennungen zugelassen
+          werden sollten. Für diese Kennungen gibt es allerdings bisher
+          keine Festlegung.
+      </para>
+  </listitem>
+  </varlistentry>
+</variablelist>
+<para>
+    Bei den CRCF-Daten unterscheidet man prinzipiell zwei verschiedene
+    Varianten, die in spdrs60 beide unterstützt werden. 
+</para>
+<variablelist>
+  <varlistentry>
+      <term>
+          Statische Daten
+      </term>
+  <listitem>
+      <para>
+         Hierbei handelt es sich um Daten, die sich während des
+         laufenden Betriebs nicht ändern. Beispielsweise der Typ einer
+         Fahrstraße. Dennoch lassen sich diese Daten verändern
+         oder abfragen. Das Verändern im laufenden Betreib sollte jedoch
+         nur mit Bedacht erfolgen.
+      </para>
+  </listitem>
+  </varlistentry>
+  <varlistentry>
+      <term>
+          Dynamische Daten
+      </term>
+  <listitem>
+      <para>
+         Hierbei handelt es sich um Daten, die sich während des
+         laufenden Betriebs ändern, beispielsweise der Status einer
+         Fahrstraße (eingstellt, aufgelöst) oder Aufenthaltsort eines
+         Zuges.
+      </para>
+  </listitem>
+  </varlistentry>
+</variablelist>
+<para>
+    Die folgenden Abschnitte gehen näher auf den Gebrauch dieser
+    CRCF-Daten ein.
+</para>
+</sect1>
+
+<sect1 id="sect-crcf-statisch">
+    <title>Statische CRCF-Daten</title>
+    <para>
+        Bei den statischen CRCF-Daten handelt es sich um Zustandsdaten,
+        die vom Benutzer in der Regel nur einmal beim Entwurf eines
+        Gleisbildes eingestellt werden und mit dem Speichern der
+        Konfigurationsdatei festgelegt sind. Beim nächsten Laden der
+        Datei stehen sie wieder unverändert zur Verfügung. Obwohl diese
+        Daten normalerweise während des Betriebs nicht verändert werden,
+        unterstützt spdrs60
+        prinzipiell auch das Verändern solcher Daten über CRCF-Nachrichten.
+        Im laufenden Betrieb kann das unter Umständen zu Verwirrungen
+        führen; es ist also mit entsprechender Vorsicht davon Gebrauch zu
+        machen. Standardmäßig sollten statische Daten von externen
+        SRCP-Clients nur gelesen werden.
+    </para>
+
+    <sect2 id="sect-crcf-fahrstrassentyp">
+        <title>Fahrstraßentyp</title>
+        <para>
+            spdrs60 unterstützt über CRCF-Daten das Einstellen und
+            Zurücknehmen des Fahrstraßentyps, sowie die Abfrage
+            des aktuellen Typs einer Fahrstraße. Das Verändern dieses
+            Wertes (SET TYPE) ist aus Sicherheitsgründen nur im
+            Fahrstraßenbearbeitungsmodus möglich.
+        </para>
+        <para>
+            Das folgende Beispiel zeigt eine Standardnachricht an
+            spdrs60 (Info-Sitzung 2) zum Setzen des Typs
+            von Fahrstraße 65. Eine eventuelle Rückantwort soll an
+            Info-Sitzung 3 geleitet werden.
+        </para>
+        <screen>SET 0 GM 2 3 CRCF ROUTE 65 SET TYPE 0</screen>
+        <para>
+            Nachricht an spdrs60 (Info-Sitzung 2) zum Abfragen des Typs
+            der Fahrstraße 65:
+        </para>
+        <screen>SET 0 GM 2 3 CRCF ROUTE 65 GET TYPE</screen>
+        <para>
+            Antwort von spdrs60 an den SRCP-Server als Information zum
+            Typ der Fahrstraße 65:
+        </para>
+        <screen>SET 0 GM 3 2 CRCF ROUTE 65 INFO TYPE 0</screen>
+        <para>
+            Der SRCP-Info-Client mit der Sitzungsnummer 3 erhält
+            schließlich folgende Nachricht vom SRCP-Server:
+        </para>
+        <screen>&lt;time&gt; INFO 0 GM 3 2 CRCF ROUTE 65 INFO TYPE 0</screen>
+    </sect2>
+</sect1>
+
+<sect1 id="sect-crcf-dynamisch">
+    <title>Dynamische CRCF-Daten</title>
+    <para>
+        Bei den dynamischen CRCF-Daten handelt es sich um Zustandsdaten,
+        die sich im laufenden Betrieb der Anlage ständig ändern. In der
+        Regel werden diese auch beim Speichern eines Gleisbildes
+        gesichert, um den letzten Spielstand der Anlage zu erhalten.
+        Beim nächsten Laden der Datei stehen diese wieder unverändert
+        zur Verfügung. Für Automatisierungsprozesse oder zur
+        Komfortsteigerung kann es sinnvoll sein, diese Einstellungen
+        durch einen anderen SRCP-Client vornehmen zu lassen.
+        spdrs60 unterstützt prinzipiell das Verändern solcher Daten über
+        CRCF-Nachrichten im laufenden Betrieb. Es bleibt dem Benutzer
+        überlassen, ob diese Veränderungen im Einzelfall zum Erfolg
+        führen oder nicht.
+    </para>
+
+    <sect2 id="sect-crcf-fahrstrassenstatus">
+        <title>Fahrstraßenstatus</title>
+        <para>
+            spdrs60 unsterstützt über CRCF-Daten das Einstellen und
+            Zurücknehmen von Fahrstraßen, sowie die Abfrage
+            des aktuellen Status einer Fahrstraße. Diese Funktion läßt
+            sich beispielsweise zur Automatisierung von Abläufen
+            einsetzen.
+        </para>
+        <para>
+            Einstellen der Fahrstraße 41:
+        </para>
+        <screen>SET 0 GM 2 3 CRCF ROUTE 41 SET STATE 1</screen>
+        <para>
+            Zurücknehmen der Fahrstraße 41:
+        </para>
+        <screen>SET 0 GM 2 3 CRCF ROUTE 41 SET STATE 0</screen>
+    </sect2>
+
+    <sect2 id="sect-gm-fahrstrassenzug">
+        <title>Fahrstraßenbelegung durch Züge</title>
+        <para>
+            spdrs60 unsterstützt über CRCF-Daten das Belegen von Fahrstraßen
+            mit Zugnummern, sowie die Abfrage der aktuellen Zugbelegung einer
+            Fahrstraße. Diese Funktion läßt sich beispielsweise zur
+            Disposition von Zügen oder zum Verfolgen von Zugläufen einsetzen.
+        </para>
+        <para>
+            Belegung der Fahrstraße 73 mit Zug 34552:
+        </para>
+        <screen>SET 0 GM 2 3 CRCF ROUTE 73 SET TRAIN 34552</screen>
+        <para>
+            Welcher Zug belegt Fahrstraße 73?:
+        </para>
+        <screen>SET 0 GM 2 3 CRCF ROUTE 73 GET TRAIN</screen>
+        <para>
+            Antwort von spdrs60:
+        </para>
+        <screen>SET 0 GM 3 2 CRCF ROUTE 73 INFO TRAIN 34552</screen>
+        <para>
+            Antwort, die über den SRCP-Server beim SRCP-Client ankommt:
+        </para>
+        <screen>&lt;time&gt; INFO 0 GM 3 2 CRCF ROUTE 73 INFO TRAIN 34552</screen>
+    </sect2>
+</sect1>
+
+</chapter>
+
+
+<chapter id="chapter-rueckmeldung">
   <title>Rückmeldungen</title>
 <para>
 Rückmeldungen werden in spdrs60 für Linux sowohl für die Visualisierung von
@@ -4482,7 +4854,7 @@ Modulen sind in dieser Übersicht mit einem roten Quadrat gekennzeichnet.
 </para>
 </chapter>
 
-<chapter id="sect-anschluesse">
+<chapter id="chapter-anschluesse">
   <title>Anschlüsse</title>
 <sect1 id="sect-anschluesse-weichen">
   <title>Weichen</title>
@@ -5148,7 +5520,7 @@ Man wähle hier zwischen Links- und Rechtslauf oder Anhalten.
 </chapter>
 
 
-<chapter id="sect-FAQ">
+<chapter id="chapter-faq">
   <title>FAQ</title>
   <para>
   <variablelist>
@@ -5248,7 +5620,7 @@ Man wähle hier zwischen Links- und Rechtslauf oder Anhalten.
   </para>
 </chapter>
 
-<chapter id="sect-sonstiges">
+<chapter id="chapter-sonstiges">
   <title>Sonstiges</title>
 <sect1 id="sect-optionen">
   <title>Änderung von Programm-Optionen</title>
@@ -5455,7 +5827,7 @@ man gar keine Drehscheibe hat):
 </figure>
 <para>
 Auf dieser in <xref linkend="abb-optfeedback"> dargestellen Seite wird
-konfiguriert, wie die in <xref linkend="sect-rueckmeldung"> beschriebene
+konfiguriert, wie die in <xref linkend="chapter-rueckmeldung"> beschriebene
 Ansicht der Rückmeldemodule im Detail dargestellt wird. Es gibt dazu
 Einstellmöglichkeiten für die Anzahl der Eingänge der Module, der
 Anzahl der Rückmeldebusse (maximal vier Busse mit je 31 Modulen zu
