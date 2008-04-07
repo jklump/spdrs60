@@ -1,10 +1,10 @@
 /***************************************************************************
                            crcfmessage.h
-                           version 0.5.3 $Revision: 1.1 $
+                           version 0.5.3 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-03-27 21:54:28 $
+    last modified        : $Date: 2008-04-07 20:59:10 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -32,10 +32,13 @@ class CrcfMessage
        
         enum CrcfMethod {meNone = 0, meSet, meGet, meInfo};
 
-        enum CrcfAttribute {atNone = 0, atState, atType, atTrain};
+        enum CrcfAttribute {atNone = 0, atId, atName, atState, atType,
+            atTrain};
 
         CrcfMessage(CrcfActor, unsigned int, CrcfMethod,
                 CrcfAttribute, unsigned int);
+        CrcfMessage(CrcfActor, unsigned int, CrcfMethod,
+                CrcfAttribute, const QString);
         virtual ~CrcfMessage();
 
         CrcfMessage::CrcfActor getActor() const;
@@ -49,6 +52,8 @@ class CrcfMessage
         QString getMessage() const;
         static QString message(CrcfActor, unsigned int, CrcfMethod,
                 CrcfAttribute, unsigned int);
+        static QString message(CrcfActor, unsigned int, CrcfMethod,
+                CrcfAttribute, const QString);
         static CrcfMessage* parse(QString&);
 
     private:
@@ -60,6 +65,7 @@ class CrcfMessage
         CrcfAttribute attribute;
         unsigned int actor_id;
         unsigned int attvalue;
+        QString attvaluestr;
 };
 #endif
 

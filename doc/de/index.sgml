@@ -4471,11 +4471,12 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
       Die Standardisierung der übermittelten Nachrichten
       selbst steckt derzeit noch in den Anfängen und ist für Änderungen
       jederzeit offen. Die Verwendung von CRCF (Common Railroad Configuration
-      Files) als Nachrichtenformat wurde bei der Einführung dieser Erweiterung
+      Files) als über Standardnachrichten zu transportierender
+      Informationsinhalt wurde bei der Einführung dieser Erweiterung
       ausführlich diskutiert und empfohlen. Weiterführende Literatur zum Thema
-      befindet sich auf einer Der-Moba Internetseite (<ulink
-          url="http://www.der-moba.de/index.php/SRCP-Erweiterungen"
-          >http://www.der-moba.de/index.php/SRCP-Erweiterungen</ulink>).
+      befindet sich auf der entsprechenden Der-Moba-Internetseite (<ulink
+      url="http://www.der-moba.de/index.php/SRCP-Erweiterungen"
+      >http://www.der-moba.de/index.php/SRCP-Erweiterungen</ulink>).
   </para>
 <para>
     Beim Arbeiten mit spdrs60 können Standardnachrichten für verschiedene
@@ -4499,7 +4500,7 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
     </listitem>
     <listitem>
         <para>
-            Konfiguration von Fahrstraßentypen.
+            Einstellung und Abfrage unterschiedlicher Konfigurationsdaten.
         </para>
     </listitem>
 </itemizedlist>
@@ -4554,13 +4555,66 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
 </para>
 <screen>SET 0 GM &lt;sendto_sid&gt; &lt;replyto_sid&gt; &lt;message_type&gt; &lt;message_content&gt;</screen>
 <para>
+    Die einzelnen Nachrichtenelemente haben folgende Bedeutung:
+</para>
+<variablelist>
+  <varlistentry>
+      <term>
+          &lt;sendto_id&gt;
+      </term>
+  <listitem>
+      <para>
+         Nummer der Info-Sitzung des Empfängers der Nachricht. Ist der
+         Wert 0, wird die Nachricht an alle Info-Sitzungen
+         weitergeleitet.
+      </para>
+  </listitem>
+  </varlistentry>
+  <varlistentry>
+      <term>
+          &lt;replyto_id&gt;
+      </term>
+  <listitem>
+      <para>
+         Nummer der Info-Sitzung, an die der Empfänger eine eventuelle
+         Rückantwort senden soll. Ist der Wert 0, wird die Nachricht an
+         alle Info-Sitzungen zurückgeleitet.
+      </para>
+  </listitem>
+  </varlistentry>
+  <varlistentry>
+      <term>
+          &lt;messagetype&gt;
+      </term>
+  <listitem>
+      <para>
+         Kennung des Nachrichtentyps der übermittelten Daten. Die
+         Kennung muß für ein offengelegtes Nachrichtenformat stehen.
+         Erste Normungsbestrebungen gibt es hier für CRCF.
+      </para>
+  </listitem>
+  </varlistentry>
+  <varlistentry>
+      <term>
+          &lt;message_content&gt;
+      </term>
+  <listitem>
+      <para>
+         Inhalt der Nachricht, der gemäß den Vorschriften des
+         Nachrichtentyps codiert ist.
+      </para>
+  </listitem>
+  </varlistentry>
+</variablelist>
+<para>
     Ein konkretes Beispiel zum Versenden einer CRCF-Nachricht an die
     Info-Sitzung 2 mit Rückantwort an die Info-Sitzung 3 könnte
     wie folgt aussehen: 
 </para>
 <screen>SET 0 GM 2 3 CRCF ROUTE 23 SET STATE 1</screen>
 <para>
-    Der eigentliche Inhalt der Nachricht ist damit folgender:
+    Der Inhalt der SRCP-Standardnachricht ist also folgende
+    CRCF-Nachricht:
 </para>
 <screen>ROUTE 23 SET STATE 1</screen>
 <para>
@@ -4573,10 +4627,12 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
 <sect1 id="sect-gm-crcf">
   <title>CRCF-Daten in spdrs60</title>
 <para>
-    spdrs60 unterstützt Standardnachrichten in einem derzeit noch sehr
+    spdrs60 unterstützt Standardnachrichten in einem derzeit nur sehr
     beschränkten Umfang. Als Nachrichtentyp findet in spdrs60 nur CRCF
-    Verwendung. Da dieses Datenformat noch nicht durchgehend genormt
-    ist und auch
+    Verwendung; dieser wird zum Lesen, Schreiben und Melden von
+    CRCF-Daten genutzt. Das Programm arbeitet mit diesen Konfigurationsdaten
+    sowohl als CRCF-Client, als auch als CRCF-Server. Da dieses
+    Datenformat noch nicht durchgehend genormt ist und auch
     noch keine größeren Erfahrungen vorliegen, wurde für die Verwendung
     in spdrs60 das folgende vorläufige Nachrichtenformat festgelegt:
 </para>
@@ -4605,7 +4661,7 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
       <para>
          Identifikationsnummer, die zur eindeutigen Adressierung des
          Akteurs dient. Es handelt sich dabei um einen positiven
-         Ganzzahlwert &gt;= 0.
+         Ganzzahlwert &gt;=&nbsp;0.
       </para>
   </listitem>
   </varlistentry>
@@ -4630,7 +4686,7 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
          Attribut des Akteurs, das von der Nachricht betroffen ist. Die
          Attribut-Kennungen sind je nach Akteur unterschiedlich. Für
          eine Fahrstraße sind in spdrs60 zurzeit die folgenden Attribute
-         definiert: STATE, TYPE und TRAIN.
+         definiert: ID, NAME, STATE, TYPE und TRAIN.
       </para>
   </listitem>
   </varlistentry>
@@ -4643,11 +4699,9 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
           Der Wert des Attributs, das von der Nachricht betroffen ist.
           Die Angabe dieses Wertes ist abhängig von der verwendeten
           Methode; bei der Methode GET findet er keine Verwendung.
-          Zurzeit wird hier nur ein positiver Ganzzahlwert &gt;= 0
-          akzeptiert. Möglicherweise ist diese Auslegung zu streng, so dass
-          hier alternativ auch alphanumerische Kennungen zugelassen
-          werden sollten. Für diese Kennungen gibt es allerdings bisher
-          keine Festlegung.
+          Abhängig vom Attribut kann es sich hierbei um einen positiven
+          Ganzzahlwert &gt;=&nbsp;0 (z.B. Nummer eines Zuges), oder eine
+          alphanumerische Kennung (z.B. Name einer Fahrstraße) handeln.
       </para>
   </listitem>
   </varlistentry>
@@ -4664,10 +4718,12 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
   <listitem>
       <para>
          Hierbei handelt es sich um Daten, die sich während des
-         laufenden Betriebs nicht ändern. Beispielsweise der Typ einer
-         Fahrstraße. Dennoch lassen sich diese Daten verändern
-         oder abfragen. Das Verändern im laufenden Betreib sollte jedoch
-         nur mit Bedacht erfolgen.
+         laufenden Betriebs nicht ändern. Beispielsweise der Typ oder
+         die Identifikationsnummer einer Fahrstraße. Dennoch lassen sich
+         diese Daten in spdrs60 über CRCF-Nachrichten nicht nur
+         abfragen, sondern auch verändern.
+         Das Bearbeiten statischer Daten sollte im laufenden Betrieb
+         jedoch nur mit Bedacht erfolgen.
       </para>
   </listitem>
   </varlistentry>
@@ -4677,10 +4733,12 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
       </term>
   <listitem>
       <para>
-         Hierbei handelt es sich um Daten, die sich während des
-         laufenden Betriebs ändern, beispielsweise der Status einer
-         Fahrstraße (eingstellt, aufgelöst) oder Aufenthaltsort eines
-         Zuges.
+          Hierbei handelt es sich um Daten, die sich während des laufenden
+          Betriebs ändern, beispielsweise der Status einer Fahrstraße
+          (eingstellt, aufgelöst) oder der Aufenthaltsort eines Zuges.
+          Der aktuelle Stand dynamischer Daten läßt sich explizit abfragen
+          oder optional per Rundrufnachricht automatisch bei Änderungen
+          versenden.
       </para>
   </listitem>
   </varlistentry>
@@ -4696,37 +4754,93 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
     <para>
         Bei den statischen CRCF-Daten handelt es sich um Zustandsdaten,
         die vom Benutzer in der Regel nur einmal beim Entwurf eines
-        Gleisbildes eingestellt werden und mit dem Speichern der
-        Konfigurationsdatei festgelegt sind. Beim nächsten Laden der
-        Datei stehen sie wieder unverändert zur Verfügung. Obwohl diese
-        Daten normalerweise während des Betriebs nicht verändert werden,
-        unterstützt spdrs60
-        prinzipiell auch das Verändern solcher Daten über CRCF-Nachrichten.
+        Gleisbildes eingestellt werden und anschließend mit dem Speichern
+        der Konfigurationsdatei für den weiteren Gebrauch festgelegt sind.
+        Nach jedem Laden der Datei stehen sie also unverändert zur Verfügung.
+        Obwohl diese Daten normalerweise während des Betriebs nicht
+        verändert werden, unterstützt spdrs60 nicht nur das Lesen,
+        sondern auch das Überschreiben solcher Daten durch CRCF-Nachrichten.
         Im laufenden Betrieb kann das unter Umständen zu Verwirrungen
         führen; es ist also mit entsprechender Vorsicht davon Gebrauch zu
         machen. Standardmäßig sollten statische Daten von externen
         SRCP-Clients nur gelesen werden.
+        Die von spdrs60 unterstützten statischen CRCF-Daten sind in <xref
+        linkend="tabelle-crcf-statisch"> aufgeführt. Es ist dort
+        ebenfalls ersichtlich, mit welcher Kennung sie ansprechbar sind,
+        und in welchem Betriebsmodus sie bearbeitet werden können.
     </para>
 
-    <sect2 id="sect-crcf-fahrstrassentyp">
-        <title>Fahrstraßentyp</title>
-        <para>
-            spdrs60 unterstützt über CRCF-Daten das Einstellen und
-            Zurücknehmen des Fahrstraßentyps, sowie die Abfrage
-            des aktuellen Typs einer Fahrstraße. Das Verändern dieses
-            Wertes (SET TYPE) ist aus Sicherheitsgründen nur im
-            Fahrstraßenbearbeitungsmodus möglich.
-        </para>
+<table frame="topbot" id="tabelle-crcf-statisch">
+  <title>Statische CRCF-Daten von Fahrstraßen (ROUTE)</title>
+<tgroup cols="4" align="left" colsep="0" rowsep="0">   
+  <colspec colname="c1" colwidth="4*">
+  <colspec colname="c2" colwidth="2*">
+  <colspec colname="c3" colwidth="3*">
+  <colspec colname="c2" colwidth="4*">
+  <thead>
+    <row rowsep="1">
+      <entry align="left">Attribut</entry>
+      <entry align="left">Kennung</entry>
+      <entry align="left">Lesen in Modus</entry>
+      <entry align="left">Verändern in Modus</entry>
+    </row>
+  </thead>
+  <tbody>
+    <row>
+      <entry>Identifikationsnummer</entry>
+      <entry>ID</entry>
+      <entry>alle</entry>
+      <entry>keiner</entry>
+    </row>
+    <row>
+      <entry>Name</entry>
+      <entry>NAME</entry>
+      <entry>alle</entry>
+      <entry>keiner</entry>
+    </row>
+    <row>
+      <entry>Typ</entry>
+      <entry>TYPE</entry>
+      <entry>alle</entry>
+      <entry>Fahrstraßeneditiermodus</entry>
+    </row>
+  </tbody>
+</tgroup>
+</table>
+</sect1>
+
+
+<sect1 id="sect-crcf-dynamisch">
+    <title>Dynamische CRCF-Daten</title>
+    <para>
+        Bei den dynamischen CRCF-Daten handelt es sich um Zustandsdaten,
+        die sich im laufenden Betrieb der Anlage ständig ändern. In der
+        Regel werden diese auch beim Speichern eines Gleisbildes
+        gesichert, um den letzten Spielstand der Anlage zu erhalten.
+        Beim nächsten Laden der Datei stehen diese wieder unverändert
+        zur Verfügung. Für Automatisierungsprozesse oder zur
+        Komfortsteigerung kann es sinnvoll sein, diese Einstellungen
+        durch einen anderen SRCP-Client vornehmen zu lassen, oder diesen
+        einfach bei Veränderungen mitlesen zu lassen. spdrs60 unterstützt
+        sowohl das Lesen und Verändern solcher Daten über CRCF-Nachrichten
+        im laufenden Betrieb, als auch das optionale Versenden von
+        Änderungsmeldungen in Form von Rundrufnachrichten.
+    </para>
+
+</sect1>
+
+<sect1 id="sect-crcf-datenabfrage">
+    <title>CRCF-Daten abfragen</title>
+    <para>
+        Das Abfragen von CRCF-Daten erfolgt über die Methode GET.
+    </para>
+    <sect2 id="sect-crcf-datenabfrage-b1">
+        <title>Beispiel 1</title>
         <para>
             Das folgende Beispiel zeigt eine Standardnachricht an
-            spdrs60 (Info-Sitzung 2) zum Setzen des Typs
+            spdrs60 (Info-Sitzung 2) zur Abfrage des Typs
             von Fahrstraße 65. Eine eventuelle Rückantwort soll an
             Info-Sitzung 3 geleitet werden.
-        </para>
-        <screen>SET 0 GM 2 3 CRCF ROUTE 65 SET TYPE 0</screen>
-        <para>
-            Nachricht an spdrs60 (Info-Sitzung 2) zum Abfragen des Typs
-            der Fahrstraße 65:
         </para>
         <screen>SET 0 GM 2 3 CRCF ROUTE 65 GET TYPE</screen>
         <para>
@@ -4740,69 +4854,89 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
         </para>
         <screen>&lt;time&gt; INFO 0 GM 3 2 CRCF ROUTE 65 INFO TYPE 0</screen>
     </sect2>
-</sect1>
 
-<sect1 id="sect-crcf-dynamisch">
-    <title>Dynamische CRCF-Daten</title>
-    <para>
-        Bei den dynamischen CRCF-Daten handelt es sich um Zustandsdaten,
-        die sich im laufenden Betrieb der Anlage ständig ändern. In der
-        Regel werden diese auch beim Speichern eines Gleisbildes
-        gesichert, um den letzten Spielstand der Anlage zu erhalten.
-        Beim nächsten Laden der Datei stehen diese wieder unverändert
-        zur Verfügung. Für Automatisierungsprozesse oder zur
-        Komfortsteigerung kann es sinnvoll sein, diese Einstellungen
-        durch einen anderen SRCP-Client vornehmen zu lassen.
-        spdrs60 unterstützt prinzipiell das Verändern solcher Daten über
-        CRCF-Nachrichten im laufenden Betrieb. Es bleibt dem Benutzer
-        überlassen, ob diese Veränderungen im Einzelfall zum Erfolg
-        führen oder nicht.
-    </para>
-
-    <sect2 id="sect-crcf-fahrstrassenstatus">
-        <title>Fahrstraßenstatus</title>
+    <sect2 id="sect-crcf-datenabfrage-b2">
+        <title>Beispiel 2</title>
         <para>
-            spdrs60 unsterstützt über CRCF-Daten das Einstellen und
-            Zurücknehmen von Fahrstraßen, sowie die Abfrage
-            des aktuellen Status einer Fahrstraße. Diese Funktion läßt
-            sich beispielsweise zur Automatisierung von Abläufen
-            einsetzen.
-        </para>
-        <para>
-            Einstellen der Fahrstraße 41:
-        </para>
-        <screen>SET 0 GM 2 3 CRCF ROUTE 41 SET STATE 1</screen>
-        <para>
-            Zurücknehmen der Fahrstraße 41:
-        </para>
-        <screen>SET 0 GM 2 3 CRCF ROUTE 41 SET STATE 0</screen>
-    </sect2>
-
-    <sect2 id="sect-gm-fahrstrassenzug">
-        <title>Fahrstraßenbelegung durch Züge</title>
-        <para>
-            spdrs60 unsterstützt über CRCF-Daten das Belegen von Fahrstraßen
-            mit Zugnummern, sowie die Abfrage der aktuellen Zugbelegung einer
-            Fahrstraße. Diese Funktion läßt sich beispielsweise zur
-            Disposition von Zügen oder zum Verfolgen von Zugläufen einsetzen.
-        </para>
-        <para>
-            Belegung der Fahrstraße 73 mit Zug 34552:
-        </para>
-        <screen>SET 0 GM 2 3 CRCF ROUTE 73 SET TRAIN 34552</screen>
-        <para>
-            Welcher Zug belegt Fahrstraße 73?:
+            Das nächste Beispiel zeigt eine Abfrage der Zugbelegung von
+            Fahrstraße 73:
         </para>
         <screen>SET 0 GM 2 3 CRCF ROUTE 73 GET TRAIN</screen>
         <para>
-            Antwort von spdrs60:
+            Die Antwort von spdrs60 an den SRCP-Server enthält die
+            Information zum Zug mit der Nummer 34552:
         </para>
         <screen>SET 0 GM 3 2 CRCF ROUTE 73 INFO TRAIN 34552</screen>
         <para>
-            Antwort, die über den SRCP-Server beim SRCP-Client ankommt:
+            Antwort, die über den SRCP-Server beim SRCP-Client mit
+            Info-Sitzung 3 ankommt:
         </para>
         <screen>&lt;time&gt; INFO 0 GM 3 2 CRCF ROUTE 73 INFO TRAIN 34552</screen>
     </sect2>
+</sect1>
+
+<sect1 id="sect-crcf-dateneinstellung">
+    <title>CRCF-Daten einstellen</title>
+    <para>
+        Das Einstellen von CRCF-Daten erfolgt über die Methode SET.
+    </para>
+    <sect2 id="sect-crcf-dateneinstellung-b1">
+        <title>Beispiel 1</title>
+        <para>
+            Das folgende Beispiel zeigt eine Standardnachricht an
+            spdrs60 (Info-Sitzung 2) zum Setzen des Typs
+            von Fahrstraße 65. Eine eventuelle Rückantwort soll an
+            Info-Sitzung 3 geleitet werden.
+        </para>
+        <screen>SET 0 GM 2 3 CRCF ROUTE 65 SET TYPE 0</screen>
+        <para>
+            Antwort von spdrs60 an den SRCP-Server als Information zum
+            Typ der Fahrstraße 65:
+        </para>
+        <screen>SET 0 GM 3 2 CRCF ROUTE 65 INFO TYPE 0</screen>
+        <para>
+            Der SRCP-Info-Client mit der Sitzungsnummer 3 erhält
+            schließlich folgende Nachricht vom SRCP-Server:
+        </para>
+        <screen>&lt;time&gt; INFO 0 GM 3 2 CRCF ROUTE 65 INFO TYPE 0</screen>
+    </sect2>
+
+    <sect2 id="sect-crcf-dateneinstellung-b2">
+        <title>Beispiel 2</title>
+
+        <para>
+            Das nächste Beispiel zeigt ein Setzen der Zugbelegung von
+            Fahrstraße 73:
+        </para>
+        <screen>SET 0 GM 2 3 CRCF ROUTE 73 SET TRAIN 34552</screen>
+        <para>
+            Die Antwort von spdrs60 an den SRCP-Server enthält die
+            Information zum Zug mit der Nummer 34552:
+        </para>
+        <screen>SET 0 GM 3 2 CRCF ROUTE 73 INFO TRAIN 34552</screen>
+        <para>
+            Antwort, die über den SRCP-Server beim SRCP-Client mit
+            Info-Sitzung 3 ankommt:
+        </para>
+        <screen>&lt;time&gt; INFO 0 GM 3 2 CRCF ROUTE 73 INFO TRAIN 34552</screen>
+    </sect2>
+</sect1>
+
+<sect1 id="sect-crcf-rundruf">
+    <title>CRCF-Daten als Rundruf versenden</title>
+    <para>
+        Bei dynamischen CRCF-Daten unterstützt spdrs60 das automatische
+        Versenden von Rundrufnachrichten. Die SRCP/CRCF-Clients müssen
+        dann nicht den aktuellen Status eines Parameters abfragen,
+        sondern bekommen diesen unaufgefordert zugestellt, sobald sich
+        dieser ändert. Diese Funktion läßt sich z.B. zum Verfolgen von
+        Zugläufen mit Hilfe von Zugmeldungen nutzen. Beispiel:
+    </para>
+    <screen>&lt;time&gt; INFO 0 GM 0 15 CRCF ROUTE 65 INFO TRAIN 4227</screen>
+    <para>
+        Die Aktivierung dieser Option erfolgt über den Dialog für die
+        Benutzereinstellungen des Programms.
+    </para>
 </sect1>
 
 </chapter>

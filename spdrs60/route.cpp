@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.65 $
+                           version 0.5.2 $Revision: 1.66 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-03-30 08:57:07 $
+    last modified        : $Date: 2008-04-07 20:59:10 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -1123,6 +1123,13 @@ QString Route::getCrcfInfoMessage(CrcfMessage::CrcfAttribute at) const
     unsigned int result = 0;
 
     switch (at) {
+        case CrcfMessage::atId:
+            result = sectionid;
+            break;
+        case CrcfMessage::atName:
+            return CrcfMessage::message(CrcfMessage::acRoute, sectionid,
+                    CrcfMessage::meInfo, at, sectionName);
+            break;
         case CrcfMessage::atState:
             result = routestate == rsUnlocked ? 0 : 1;
             break;

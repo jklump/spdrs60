@@ -1,10 +1,10 @@
 /***************************************************************************
                            crcfmessage.cpp
-                           version 0.5.3 $Revision: 1.1 $
+                           version 0.5.3 $Revision: 1.2 $
                            -------------------------------
     copyright            : (C) 2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-03-27 21:54:28 $
+    last modified        : $Date: 2008-04-07 20:59:10 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -27,7 +27,7 @@
 
 #include <qstringlist.h>
 
-
+/*constructor with integer value*/
 CrcfMessage::CrcfMessage(CrcfActor cac, unsigned int aid, CrcfMethod cme,
         CrcfAttribute cat, unsigned int value)
 {
@@ -36,6 +36,20 @@ CrcfMessage::CrcfMessage(CrcfActor cac, unsigned int aid, CrcfMethod cme,
     method = cme;
     attribute = cat;
     attvalue = value;
+    attvaluestr = "";
+}
+
+
+/*constructor with string value*/
+CrcfMessage::CrcfMessage(CrcfActor cac, unsigned int aid, CrcfMethod cme,
+        CrcfAttribute cat, const QString valuestr)
+{
+    actor = cac;
+    actor_id = aid;
+    method = cme;
+    attribute = cat;
+    attvalue = 0;
+    attvaluestr = valuestr;
 }
 
 
@@ -134,6 +148,12 @@ QString CrcfMessage::attributeStr(CrcfAttribute at)
     QString atStr = "";
     
     switch (at) {
+        case atId:
+            atStr = "ID";
+            break;
+        case atName:
+            atStr = "NAME";
+            break;
         case atState:
             atStr = "STATE";
             break;
@@ -209,6 +229,12 @@ CrcfMessage* CrcfMessage::parse(QString& msg)
     if ("STATE" == tokens[3]) {
         cat = atState;
     }
+    else if ("ID" == tokens[3]) {
+        cat = atId;
+    }
+    else if ("NAME" == tokens[3]) {
+        cat = atName;
+    }
     else if ("TYPE" == tokens[3]) {
         cat = atType;
     }
@@ -223,6 +249,8 @@ CrcfMessage* CrcfMessage::parse(QString& msg)
     // token 5
     if (meSet == cm || meInfo == cm)
         if (tokens.count() == 5) {
+            if (cat == atName)
+                return new CrcfMessage(actor, aid, cm, cat, tokens[4]);
             value = tokens[4].toUInt();
         }
         else {
@@ -236,10 +264,12 @@ CrcfMessage* CrcfMessage::parse(QString& msg)
 /*assemble CRCF message string*/
 QString CrcfMessage::getMessage() const
 {
-    return message(actor, actor_id, method, attribute, attvalue);
+    if (atName != attribute)
+        return message(actor, actor_id, method, attribute, attvalue);
+    return message(actor, actor_id, method, attribute, attvaluestr);
 }
 
-/*static assemble CRCF message string*/
+/*static assemble CRCF message string, integer attribute value*/
 QString CrcfMessage::message(CrcfActor cac, unsigned int aid, CrcfMethod cme,
         CrcfAttribute cat, unsigned int value)
 {
@@ -251,6 +281,22 @@ QString CrcfMessage::message(CrcfActor cac, unsigned int aid, CrcfMethod cme,
     else
         result = QString("%1 %2 %3 %4 %5").arg(actorStr(cac)).arg(aid)
             .arg(methodStr(cme)).arg(attributeStr(cat)).arg(value);
+
+    return result;
+}
+
+/*static assemble CRCF message string, string attribute value*/
+QString CrcfMessage::message(CrcfActor cac, unsigned int aid, CrcfMethod cme,
+        CrcfAttribute cat, const QString valuestr)
+{
+    QString result;
+
+    if (meGet == cme)
+        result = QString("%1 %2 %3 %4").arg(actorStr(cac)).arg(aid)
+            .arg(methodStr(cme)).arg(attributeStr(cat));
+    else
+        result = QString("%1 %2 %3 %4 %5").arg(actorStr(cac)).arg(aid)
+            .arg(methodStr(cme)).arg(attributeStr(cat)).arg(valuestr);
 
     return result;
 }

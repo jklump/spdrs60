@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.3 $Revision: 1.63 $
+                           version 0.5.3 $Revision: 1.64 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-06 18:14:07 $
+    last modified        : $Date: 2008-04-07 20:59:10 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -286,7 +286,7 @@ void Router::recordElement(element* el, elemRecordType rtype)
     if (visualmode == kvmEditRoute && selectedRoute != NULL) {
         switch (rtype) {
 
-            case (krecStartStop):
+            case krecStartStop:
                 if (!selectedRoute->hasEntrySignal())
                     selectedRoute->setEntrySignal(el);
                 else if (!selectedRoute->hasExitSignal())
@@ -298,18 +298,18 @@ void Router::recordElement(element* el, elemRecordType rtype)
                 modified = true;
                 break;
 
-            case (krecDisplay):
+            case krecDisplay:
                 if (!selectedRoute->hasTrainNumberDisplay())
                     selectedRoute->setTrainNumberDisplay(el);
                 modified = true;
                 break;
 
-            case (krecNormal):
+            case krecNormal:
                 selectedRoute->addSwitchElement(el);
                 modified = true;
                 break;
 
-            case (krecClear):
+            case krecClear:
                 selectedRoute->removeElement(el);
                 /*send update signal to routingviewer to show changed
                   route name if changed element was entry or exit signal*/
@@ -887,9 +887,11 @@ void Router::processGenericMessage(unsigned int sendto,
 
                 /* ROUTE <routeid> SET STATE <att_value> */
                 case CrcfMessage::atState:
-                    if (0 == cm->getAttValue())
-                        releaseRoute(rt);
-                    else if (1 == cm->getAttValue())
+                    if (0 == cm->getAttValue() &&
+                            rt->getState() != Route::rsUnlocked)
+                        withdrawRoute(rt);
+                    else if (1 == cm->getAttValue() &&
+                            rt->getState() == Route::rsUnlocked)
                         activateRoute(rt);
                     else
                         emit statusMessage(tr("Unvalid STATE "
@@ -906,11 +908,10 @@ void Router::processGenericMessage(unsigned int sendto,
                     sendGmCrcfMessage(sendto, replyto, cms);
                     break;
 
+                /* route type is a static CRCF value, editing is
+                 * only allowed in route edit mode */
                 /* ROUTE <routeid> SET TYPE <att_value> */
                 case CrcfMessage::atType:
-
-                    /* route type is a static CRCF value, editing is
-                     * only allowed in route edit mode */
                     if (visualmode == kvmEditRoute) {
 
                         /*check for valid range 0..5*/
@@ -929,8 +930,37 @@ void Router::processGenericMessage(unsigned int sendto,
                     else
                         emit statusMessage(tr("Route type editing via "
                                     "CRCF messages is only allowed in "
-                                    "route edit mode.")
-                                .arg(cm->getAttValue()));
+                                    "route edit mode."));
+                    break;
+
+                /* route id is a static CRCF value, editing is
+                 * only allowed in route edit mode */
+                /* ROUTE <routeid> SET ID <att_value> */
+                case CrcfMessage::atId:
+                    if (visualmode == kvmEditRoute) {
+                        //TODO: add id editing
+                        emit statusMessage(tr("Route ID editing "
+                                    "not supported."));
+                    }
+                    else
+                        emit statusMessage(tr("Route id editing via "
+                                    "CRCF messages is only allowed in "
+                                    "route edit mode."));
+                    break;
+
+                /* route name is a static CRCF value, editing is
+                 * only allowed in route edit mode */
+                /* ROUTE <routeid> SET NAME <att_value> */
+                case CrcfMessage::atName:
+                    if (visualmode == kvmEditRoute) {
+                        //TODO: add id editing
+                        emit statusMessage(tr("Route NAME editing "
+                                    "not supported."));
+                    }
+                    else
+                        emit statusMessage(tr("Route name editing via "
+                                    "CRCF messages is only allowed in "
+                                    "route edit mode."));
                     break;
 
                 default:
