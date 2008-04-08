@@ -1,10 +1,10 @@
 /***************************************************************************
                            crcfmessage.cpp
-                           version 0.5.3 $Revision: 1.2 $
+                           version 0.5.3 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-07 20:59:10 $
+    last modified        : $Date: 2008-04-08 20:09:14 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -19,15 +19,15 @@
 /***************************************************************************
     This code implements a class for CRCF messages which can be
     exchanged via SRCP Generic Messages (GM).
-    It implements a method to parse a CRCF message string to binary message
-    content. 
+    It implements methods to parse a CRCF message string to binary message
+    content and the other way around.
  ***************************************************************************/
 
 #include "crcfmessage.h"
 
 #include <qstringlist.h>
 
-/*constructor with integer value*/
+/*constructor with integer attribute value*/
 CrcfMessage::CrcfMessage(CrcfActor cac, unsigned int aid, CrcfMethod cme,
         CrcfAttribute cat, unsigned int value)
 {
@@ -40,7 +40,7 @@ CrcfMessage::CrcfMessage(CrcfActor cac, unsigned int aid, CrcfMethod cme,
 }
 
 
-/*constructor with string value*/
+/*constructor with string attribute value*/
 CrcfMessage::CrcfMessage(CrcfActor cac, unsigned int aid, CrcfMethod cme,
         CrcfAttribute cat, const QString valuestr)
 {
@@ -84,6 +84,9 @@ QString CrcfMessage::actorStr(CrcfActor ac)
             break;
         case acTrain:
             acStr = "TRAIN";
+            break;
+        case acLayout:
+            acStr = "LAYOUT";
             break;
         default:
             break;
@@ -163,6 +166,12 @@ QString CrcfMessage::attributeStr(CrcfAttribute at)
         case atTrain:
             atStr = "TRAIN";
             break;
+        case atRows:
+            atStr = "ROWS";
+            break;
+        case atColumns:
+            atStr = "COLUMNS";
+            break;
         default:
             break;
     }
@@ -195,22 +204,28 @@ CrcfMessage* CrcfMessage::parse(QString& msg)
         // error message to short
         return NULL;
 
-    // token 1
+    // token 1: actor
     if ("ROUTE" == tokens[0]) {
         actor = acRoute;
     }
+    else if ("LAYOUT" == tokens[0]) {
+        actor = acLayout;
+    }
     else if ("SECTION" == tokens[0]) {
         actor = acSection;
+    }
+    else if ("TRAIN" == tokens[0]) {
+        actor = acTrain;
     }
     else {
         //error unsupported CRCF actor
         return NULL;
     }
 
-    // token 2
+    // token 2: actor id
     aid = tokens[1].toUInt();
 
-    // token 3
+    // token 3: method
     if ("SET" == tokens[2]) {
         cm = meSet;
     }
@@ -225,7 +240,7 @@ CrcfMessage* CrcfMessage::parse(QString& msg)
         return NULL;
     }
 
-    // token 4 (no context analysis)
+    // token 4: attribute (no context analysis)
     if ("STATE" == tokens[3]) {
         cat = atState;
     }
@@ -241,12 +256,18 @@ CrcfMessage* CrcfMessage::parse(QString& msg)
     else if ("TRAIN" == tokens[3]) {
         cat = atTrain;
     }
+    else if ("ROWS" == tokens[3]) {
+        cat = atTrain;
+    }
+    else if ("COLUMNS" == tokens[3]) {
+        cat = atTrain;
+    }
     else {
         //error unsupported CRCF attribute
         return NULL;
     }
 
-    // token 5
+    // token 5: attribute value
     if (meSet == cm || meInfo == cm)
         if (tokens.count() == 5) {
             if (cat == atName)

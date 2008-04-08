@@ -1,10 +1,10 @@
 /***************************************************************************
                            crcfmessage.h
-                           version 0.5.3 $Revision: 1.2 $
+                           version 0.5.3 $Revision: 1.3 $
                            -------------------------------
     copyright            : (C) 2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-07 20:59:10 $
+    last modified        : $Date: 2008-04-08 20:09:14 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -17,7 +17,7 @@
  ***************************************************************************/
 
 /***************************************************************************
-    This is the headerfile for srcpmessage.cpp
+    This is the headerfile for crcfmessage.cpp
  ***************************************************************************/
 
 #ifndef CRCFMESSAGE_H
@@ -28,12 +28,12 @@
 class CrcfMessage
 {
     public:
-        enum CrcfActor {acNone = 0, acRoute, acSection, acTrain};
+        enum CrcfActor {acNone = 0, acLayout, acRoute, acSection, acTrain};
        
         enum CrcfMethod {meNone = 0, meSet, meGet, meInfo};
 
         enum CrcfAttribute {atNone = 0, atId, atName, atState, atType,
-            atTrain};
+            atTrain, atRows, atColumns};
 
         CrcfMessage(CrcfActor, unsigned int, CrcfMethod,
                 CrcfAttribute, unsigned int);

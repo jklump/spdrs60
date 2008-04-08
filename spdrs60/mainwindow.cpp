@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-03-27 21:54:28 $
-                           $Revision: 1.141 $
+    last modified        : $Date: 2008-04-08 20:09:14 $
+                           $Revision: 1.142 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2475,11 +2475,18 @@ void MainWindow::processInfoMessage(const QString& info)
                     if ("CRCF" == gmtype) {
                         cm = CrcfMessage::parse(gmcontent);
                         if (cm != NULL) {
+
                             if (cm->getActor() == CrcfMessage::acRoute)
                                 /*adjust send/reply session-ids*/
                                 router->processGenericMessage(
                                         info.section(" ", 6, 6).toUInt(),
                                         infoPort->getSessionId(), cm);
+                            /*
+                            else if (cm->getActor() == CrcfMessage::acLayout)
+                                gbs->processGenericMessage(
+                                        info.section(" ", 6, 6).toUInt(),
+                                        infoPort->getSessionId(), cm);
+                            */
                             else
                                 statusMessage(
                                         tr("Unsupported CRCF actor detected."));
