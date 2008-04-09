@@ -238,6 +238,12 @@ Veröffentlicht am --.--.2008
   </para></listitem>
   
   <listitem><para>
+  Das Ansichtsmenü wurde um Einträge erweitert, mit denen sich die
+  Statuszeile, die Werkzeugleiste und das Menü ein- und ausblenden
+  lassen.
+  </para></listitem>
+  
+  <listitem><para>
   Der Quellcode zur Kommunikation mit dem SRCP-Server wurde überarbeitet
   und modularer gestaltet. Das Anmelden bei den einzelnen Netzwerkports
   erfolgt nun sequenziell, nicht mehr teilweise parallel. Dadurch sind
@@ -4618,7 +4624,7 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
   <listitem>
       <para>
          Inhalt der Nachricht, der gemäß den Vorschriften des
-         Nachrichtentyps codiert ist.
+         Nachrichtentyps kodiert ist.
       </para>
   </listitem>
   </varlistentry>
@@ -4659,12 +4665,20 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
       </term>
   <listitem>
       <para>
-         Hierbei handelt es sich um Daten, die sich während des
-         laufenden Betriebs nicht ändern. Beispielsweise der Typ oder
-         die Identifikationsnummer einer Fahrstraße. Dennoch lassen sich
-         diese Daten in spdrs60 über CRCF-Nachrichten nicht nur
-         abfragen, sondern auch verändern (siehe auch
-         <xref linkend="sect-crcf-statisch">).
+          Hierbei handelt es sich um Daten, die sich während des laufenden
+          Betriebs typischerweise <emphasis>nicht</emphasis> ändern. In
+          der Regel werden diese vom spdrs60-Benutzer nur einmal beim Entwurf
+          eines Gleisbildes eingestellt und anschließend mit dem Speichern
+          der Konfigurationsdatei für den weiteren Gebrauch festgelegt.
+          Nach jedem Laden der Datei stehen sie also unverändert zur Verfügung.
+          Dennoch unterstützt spdrs60 nicht nur das Lesen, sondern auch
+          das Überschreiben solcher Daten durch CRCF-Nachrichten.
+          Im laufenden Betrieb kann das unter Umständen zu Verwirrungen
+          führen; es ist also mit entsprechender Vorsicht davon Gebrauch zu
+          machen. Standardmäßig sollten statische Daten von externen
+          SRCP-Clients nur gelesen werden. In spdrs60 sind Änderungen von
+          statischen Daten nur dann möglich, wenn sich das Gleisbild im
+          richtigen Bearbeitungsmodus befindet.
       </para>
   </listitem>
   </varlistentry>
@@ -4674,12 +4688,20 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
       </term>
   <listitem>
       <para>
-          Hierbei handelt es sich um Daten, die sich während des laufenden
-          Betriebs ändern, beispielsweise der Status einer Fahrstraße
-          (eingstellt, aufgelöst) oder der Aufenthaltsort eines Zuges.
-          Der aktuelle Stand dynamischer Daten läßt sich explizit abfragen
-          oder optional per Rundrufnachricht automatisch bei Änderungen
-          versenden (siehe auch <xref linkend="sect-crcf-dynamisch">).
+        Hierbei handelt es sich um Zustandsdaten, die sich im laufenden
+        Betrieb der Anlage ständig ändern; beispielsweise der Status
+        einer Fahrstraße (eingstellt, aufgelöst) oder der Aufenthaltsort
+        eines Zuges. In der
+        Regel werden diese auch beim Speichern eines Gleisbildes
+        gesichert, um den letzten Spielstand der Anlage zu erhalten.
+        Beim nächsten Laden der Datei stehen sie wieder unverändert
+        zur Verfügung. Für Automatisierungsprozesse oder zur
+        Komfortsteigerung kann es sinnvoll sein, diese Einstellungen
+        durch einen anderen SRCP-Client vornehmen zu lassen, oder diesen
+        einfach bei Veränderungen mitlesen zu lassen. spdrs60 unterstützt
+        sowohl das Lesen und Verändern solcher Daten über CRCF-Nachrichten
+        im laufenden Betrieb, als auch das optionale Versenden von
+        Änderungsmeldungen in Form von Rundrufnachrichten.
       </para>
   </listitem>
   </varlistentry>
@@ -4798,8 +4820,8 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
     <title>Gleisbildattribute</title>
 <para>
     Die <xref linkend="tabelle-crcf-gleisbildattribute"> listet die
-    Attribute eines Gleisbild-Akteurs auf, soweit sie bisher durch spdrs60 in
-    Form von CRCF-Daten unterstützt werden. Diese Daten
+    Attribute eines Gleisbild-Akteurs (LAYOUT) auf, soweit sie bisher
+    durch spdrs60 in Form von CRCF-Daten unterstützt werden. Diese Daten
     lassen sich unabhängig vom aktuellen Modus lesen, aber nur im
     Gleisbildeditiermodus schreibend verändern, da es sich hierbei um
     statische Daten handelt.
@@ -4853,12 +4875,88 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
   </tbody>
 </tgroup>
 </table>
+<para>
+    Die Bedeutung der einzelnen Gleisbildattribute wird im Folgenden
+    näher erläutert.
+</para>
+<variablelist>
+  <varlistentry>
+      <term>
+          Identifikationsnummer (ID)
+      </term>
+  <listitem>
+      <para>
+         Mit dieser Nummer lassen sich einzelne Gleisbilder voneinander
+         unterscheiden. Bei Anlagen, die auf mehrere Gleisbilder (z.B.
+         für verschiedene Bahnhöfe) aufgeteilt sind, sollte jedes
+         Gleisbild eine andere Identifikationsnummer bekommen. Gültig
+         sind ganzzahlige Werte &gt;=&nbsp;0. Der Wert kann über
+         CRCF-Nachrichten nur im Gleisbildbearbeitungsmodus geändert
+         werden.
+      </para>
+  </listitem>
+  </varlistentry>
+  <varlistentry>
+      <term>
+          Name (NAME)
+      </term>
+  <listitem>
+      <para>
+          Hierbei handelt es sich um eine Namensbezeichnung für das
+          Gleisbild; beispielsweise könnte es sich dabei um eine
+          Bahnhofsbezeichnung handeln. Der Name darf kein Leerzeichen
+          enthalten. Er kann nur im Gleisbildbearbeitungsmodus geändert
+          werden.
+      </para>
+  </listitem>
+  </varlistentry>
+  <varlistentry>
+      <term>
+          Modus (MODE)
+      </term>
+  <listitem>
+      <para>
+          Dieser Zahlenwert kodiert den Modus in dem sich das Gleisbild
+          befindet. Derzeit werden die folgenden drei Modi
+          unterschieden: 0 = Betriebsmodus, 1 = Gleisbildbearbeitungsmodus,
+          2 = Fahrstraßenbearbeitungsmodus. Das Verändern von statischen
+          CRCF-Daten ist in spdrs60 aus Sicherheitsgründen nur in
+          bestimmten Modi erlaubt.
+      </para>
+  </listitem>
+  </varlistentry>
+  <varlistentry>
+      <term>
+          Zeilen (ROWS)
+      </term>
+  <listitem>
+      <para>
+          Dieser Zahlenwert gibt die Anzahl der Zeilen des Gleisbildes
+          wieder. Er kann nur im Gleisbildbearbeitungsmodus geändert
+          werden.
+      </para>
+  </listitem>
+  </varlistentry>
+  <varlistentry>
+      <term>
+          Spalten (COLUMNS)
+      </term>
+  <listitem>
+      <para>
+          Dieser Zahlenwert gibt die Anzahl der Spalten des Gleisbildes
+          wieder. Er kann nur im Gleisbildbearbeitungsmodus geändert
+          werden.
+      </para>
+  </listitem>
+  </varlistentry>
+</variablelist>
+
 </sect2>
 
 <sect2 id="sect-crcf-fahrstrassen">
     <title>Fahrstraßenattribute</title>
 <para>
-    Die Attribute eines Fahrstraßen-Akteurs sind in <xref
+    Die Attribute eines Fahrstraßen-Akteurs (ROUTE) sind in <xref
     linkend="tabelle-crcf-fahrstrassenattribute"> aufgelistet, soweit sie
     bisher durch spdrs60 als CRCF-Daten unterstützt werden. Diese Daten
     lassen sich unabhängig vom aktuellen Modus lesen, aber bei statischen
@@ -4872,7 +4970,7 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
   <colspec colname="c1" colwidth="3*">
   <colspec colname="c2" colwidth="2*">
   <colspec colname="c3" colwidth="2*">
-  <colspec colname="c3" colwidth="2*">
+  <colspec colname="c4" colwidth="2*">
   <thead>
     <row rowsep="1">
       <entry align="left">Bezeichnung</entry>
@@ -4897,14 +4995,8 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
     <row>
       <entry>Typ</entry>
       <entry>TYPE</entry>
-      <entry>(numerisch)</entry>
-      <entry>statisch</entry>
-    </row>
-    <row>
-      <entry>Zug</entry>
-      <entry>TRAIN</entry>
       <entry>numerisch</entry>
-      <entry>dynamisch</entry>
+      <entry>statisch</entry>
     </row>
     <row>
       <entry>Status</entry>
@@ -4912,48 +5004,97 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
       <entry>numerisch</entry>
       <entry>dynamisch</entry>
     </row>
+    <row>
+      <entry>Zug</entry>
+      <entry>TRAIN</entry>
+      <entry>numerisch</entry>
+      <entry>dynamisch</entry>
+    </row>
   </tbody>
 </tgroup>
 </table>
-</sect2>
-
-<sect2 id="sect-crcf-statisch">
-    <title>Statische CRCF-Daten</title>
-    <para>
-        Bei den statischen CRCF-Daten handelt es sich um Zustandsdaten,
-        die vom Benutzer in der Regel nur einmal beim Entwurf eines
-        Gleisbildes eingestellt werden und anschließend mit dem Speichern
-        der Konfigurationsdatei für den weiteren Gebrauch festgelegt sind.
-        Nach jedem Laden der Datei stehen sie also unverändert zur Verfügung.
-        Obwohl diese Daten normalerweise während des Betriebs nicht
-        verändert werden, unterstützt spdrs60 nicht nur das Lesen,
-        sondern auch das Überschreiben solcher Daten durch CRCF-Nachrichten.
-        Im laufenden Betrieb kann das unter Umständen zu Verwirrungen
-        führen; es ist also mit entsprechender Vorsicht davon Gebrauch zu
-        machen. Standardmäßig sollten statische Daten von externen
-        SRCP-Clients nur gelesen werden. In spdrs60 sind Änderungen von
-        statischen Daten nur dann möglich, wenn sich das Gleisbild im
-        richtigen Bearbeitungsmodus befindet.
-    </para>
-
-</sect2>
-
-<sect2 id="sect-crcf-dynamisch">
-    <title>Dynamische CRCF-Daten</title>
-    <para>
-        Bei den dynamischen CRCF-Daten handelt es sich um Zustandsdaten,
-        die sich im laufenden Betrieb der Anlage ständig ändern. In der
-        Regel werden diese auch beim Speichern eines Gleisbildes
-        gesichert, um den letzten Spielstand der Anlage zu erhalten.
-        Beim nächsten Laden der Datei stehen diese wieder unverändert
-        zur Verfügung. Für Automatisierungsprozesse oder zur
-        Komfortsteigerung kann es sinnvoll sein, diese Einstellungen
-        durch einen anderen SRCP-Client vornehmen zu lassen, oder diesen
-        einfach bei Veränderungen mitlesen zu lassen. spdrs60 unterstützt
-        sowohl das Lesen und Verändern solcher Daten über CRCF-Nachrichten
-        im laufenden Betrieb, als auch das optionale Versenden von
-        Änderungsmeldungen in Form von Rundrufnachrichten.
-    </para>
+<para>
+    Die Bedeutung der einzelnen Fahrstraßenattribute und
+    Gültigkeitsbeschränkungen bezüglich der zugeordneten Werte
+    werden im Folgenden näher erläutert.
+</para>
+<variablelist>
+  <varlistentry>
+      <term>
+          Identifikationsnummer (ID)
+      </term>
+  <listitem>
+      <para>
+         Mit dieser Nummer lassen sich einzelne Fahrstraßen voneinander
+         unterscheiden. Bei Anlagen, die auf mehrere Gleisbilder (z.B.
+         für verschiedene Bahnhöfe) aufgeteilt sind, sollte jedes
+         Gleisbild einen anderen Wertebereich für die
+         Fahrstraßennummerierung nutzen. Beispielsweise könnte der
+         Hauptbahnhof den Bereich 0..99, der Rangierbahnhof den
+         Bereich 100..199 und der Schattenbahnhof den Bereich
+         200..299 nutzen. Gültig sind ganzzahlige Werte &gt;=&nbsp;0.
+         Die Identifikationsnummer kann über CRCF-Nachrichten nur im
+         Fahrstraßenbearbeitungsmodus geändert werden. Die Änderung
+         wird außerdem nur akzeptiert, wenn die Nummer noch nicht vergeben
+         wurde, also innerhalb eines Gleisbildes eindeutig ist.
+      </para>
+  </listitem>
+  </varlistentry>
+  <varlistentry>
+      <term>
+          Name (NAME)
+      </term>
+  <listitem>
+      <para>
+          Hierbei handelt es sich um eine Namensbezeichnung für die
+          Fahrstraße. Der Name darf kein Leerzeichen enthalten. Er kann
+          nur im Fahrstraßenbearbeitungsmodus geändert werden.
+      </para>
+  </listitem>
+  </varlistentry>
+  <varlistentry>
+      <term>
+          Typ (TYPE)
+      </term>
+  <listitem>
+      <para>
+          Dieser Zahlenwert kodiert den Typ der Fahrstraße. Es gilt
+          folgende Zuordnung: 0 = Regelzugstraße, 1 = Umfahrzugstraße, 2
+          = Zughilfsstraße, 3 = Regelrangierstraße, 4 =
+          Umfahrrangierstraße.
+          Möglicherweise wird diese Zahlenkodierung im Laufe der
+          fortschreitenden CRCF-Normierung gegen eine alphanumerische
+          Kennung ersetzt.
+      </para>
+  </listitem>
+  </varlistentry>
+  <varlistentry>
+      <term>
+          Status (STATE)
+      </term>
+  <listitem>
+      <para>
+          Dieser Zahlenwert kodiert den aktuellen Status der Fahrstraße
+          (eingestellt, aufgelöst, reserviert, ...). Auch hier ist es
+          denkbar, den Statuswerten im Laufe der weiteren CRCF-Normierung
+          alphanumerische Kennungen zuzuordnen. Gültig sind derzeit nur
+          die beiden Werte 0 = aufgelöst und 1 = eingestellt.
+      </para>
+  </listitem>
+  </varlistentry>
+  <varlistentry>
+      <term>
+          Zug (TRAIN)
+      </term>
+  <listitem>
+      <para>
+          Dieser Zahlenwert gibt die Nummer des Zuges wieder, der die
+          Fahrstraße augenblicklich in Benutzung hat. Gültig sind
+          ganzzahlige Werte &gt;=&nbsp;0.
+      </para>
+  </listitem>
+  </varlistentry>
+</variablelist>
 
 </sect2>
 
@@ -4975,7 +5116,7 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
         <screen>SET 0 GM 2 3 CRCF ROUTE 65 GET TYPE</screen>
         <para>
             Antwort von spdrs60 an den SRCP-Server als Information zum
-            Typ der Fahrstraße 65:
+            Typ (Regelzugstraße) der Fahrstraße 65:
         </para>
         <screen>SET 0 GM 3 2 CRCF ROUTE 65 INFO TYPE 0</screen>
         <para>
@@ -5006,29 +5147,35 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
 </sect1>
 
 <sect1 id="sect-crcf-dateneinstellung">
-    <title>CRCF-Daten einstellen</title>
+    <title>CRCF-Daten ändern</title>
     <para>
-        Das Einstellen von CRCF-Daten erfolgt über die Methode SET.
+        Das Ändern von CRCF-Daten erfolgt über die Methode SET.
     </para>
     <sect2 id="sect-crcf-dateneinstellung-b1">
         <title>Beispiel 1</title>
         <para>
-            Das folgende Beispiel zeigt eine Standardnachricht an
-            spdrs60 (Info-Sitzung 2) zum Setzen des Typs
-            von Fahrstraße 65. Eine eventuelle Rückantwort soll an
-            Info-Sitzung 3 geleitet werden.
+            Das folgende Beispiel zeigt eine Standardnachricht an spdrs60
+            (Info-Sitzung 2) zum Setzen des Status von Fahrstraße 65 auf
+            den Wert 1 (Einstellen der Fahrstraße). Eine eventuelle
+            Rückantwort soll an Info-Sitzung 3 geleitet werden.
         </para>
-        <screen>SET 0 GM 2 3 CRCF ROUTE 65 SET TYPE 0</screen>
+        <screen>SET 0 GM 2 3 CRCF ROUTE 65 SET STATE 1</screen>
         <para>
-            Antwort von spdrs60 an den SRCP-Server als Information zum
-            Typ der Fahrstraße 65:
+            Antwort von spdrs60 an den SRCP-Server als Information zur
+            erfolgreichen Statusänderung der Fahrstraße 65:
         </para>
-        <screen>SET 0 GM 3 2 CRCF ROUTE 65 INFO TYPE 0</screen>
+        <screen>SET 0 GM 3 2 CRCF ROUTE 65 INFO STATE 1</screen>
         <para>
             Der SRCP-Info-Client mit der Sitzungsnummer 3 erhält
             schließlich folgende Nachricht vom SRCP-Server:
         </para>
-        <screen>&lt;time&gt; INFO 0 GM 3 2 CRCF ROUTE 65 INFO TYPE 0</screen>
+        <screen>&lt;time&gt; INFO 0 GM 3 2 CRCF ROUTE 65 INFO STATE 1</screen>
+        <para>
+            Speziell beim Einstellen von Fahrstraßen ist zu beachten,
+            dass die Erfolgsmeldung in der Regel mit mehr oder weniger
+            großer Zeitverzögerung eintrifft. Fehlgeschlagene
+            Einstellversuche werden nicht quittiert.
+        </para>
     </sect2>
 
     <sect2 id="sect-crcf-dateneinstellung-b2">

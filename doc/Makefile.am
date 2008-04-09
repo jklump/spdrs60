@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60 documentation
 # last changes by: Guido Scholz
-# Version: $Revision: 1.16 $
-# last update: $Date: 2008-04-06 18:14:07 $
+# Version: $Revision: 1.17 $
+# last update: $Date: 2008-04-09 19:36:13 $
 
 # HTML_DOC_DIR is defined in configure.ac
 htmldir = @HTML_DOC_DIR@
@@ -274,8 +274,6 @@ dehtml_DATA = \
 	de/sect-bezugsquellen.html \
 	de/sect-bugs.html \
 	de/sect-copyright.html \
-	de/sect-crcf-statisch.html \
-	de/sect-crcf-dynamisch.html \
 	de/sect-gm-allgemein.html \
 	de/sect-gm-anwendung.html \
 	de/sect-gm-crcf.html \
