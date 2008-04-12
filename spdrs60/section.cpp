@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-10
- * Last modified: $Date: 2007-09-10 19:55:18 $
- *                $Revision: 1.1 $
+ * Last modified: $Date: 2008-04-12 14:22:14 $
+ *                $Revision: 1.2 $
  *
  * This code implements the section class to handle train ids and train
  * locations. This is a base class for routes and blocks.
@@ -73,6 +73,12 @@ void Section::setId(unsigned int id)
 QString Section::getSectionName() const
 {
     return sectionName;
+}
+
+
+void Section::setSectionName(const QString& sn)
+{
+    sectionName = sn;
 }
 
 

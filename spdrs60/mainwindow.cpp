@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-08 20:09:14 $
-                           $Revision: 1.142 $
+    last modified        : $Date: 2008-04-12 14:22:14 $
+                           $Revision: 1.143 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2531,7 +2531,7 @@ void MainWindow::processInfoMessage(const QString& info)
              *   0     1   2     3     4      5     : Qstring sections
              */
             else if (devGroup == "DESCRIPTION") {
-                QStringList tokens = QStringList::split(" ", info);
+                QStringList tokens = QStringList::split(' ', info);
                 if ((tokens[1].toUInt() == 100) &&
                         (tokens[3].toUInt() == 0)){
 

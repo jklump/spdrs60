@@ -1,10 +1,10 @@
 /***************************************************************************
                            crcfmessage.cpp
-                           version 0.5.3 $Revision: 1.3 $
+                           version 0.5.3 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-08 20:09:14 $
+    last modified        : $Date: 2008-04-12 14:22:13 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -26,6 +26,7 @@
 #include "crcfmessage.h"
 
 #include <qstringlist.h>
+#include <qurl.h>
 
 /*constructor with integer attribute value*/
 CrcfMessage::CrcfMessage(CrcfActor cac, unsigned int aid, CrcfMethod cme,
@@ -50,6 +51,7 @@ CrcfMessage::CrcfMessage(CrcfActor cac, unsigned int aid, CrcfMethod cme,
     attribute = cat;
     attvalue = 0;
     attvaluestr = valuestr;
+    QUrl::decode(attvaluestr);
 }
 
 
@@ -184,6 +186,14 @@ unsigned int CrcfMessage::getAttValue() const
     return attvalue;
 }
 
+
+/* return value string; if string contains white spaces escape it using
+ * the character '"'*/
+QString CrcfMessage::getAttValueStr() const
+{
+    return attvaluestr;
+}
+
 /* 
  * Parse CRCF message and return pointer to new message instance, if
  * message was valid.
@@ -199,7 +209,7 @@ CrcfMessage* CrcfMessage::parse(QString& msg)
     unsigned int value = 0;
     QStringList tokens;
 
-    tokens = QStringList::split(" ", msg);
+    tokens = QStringList::split(' ', msg);
     if (tokens.count() < 4)
         // error message to short
         return NULL;
@@ -285,9 +295,15 @@ CrcfMessage* CrcfMessage::parse(QString& msg)
 /*assemble CRCF message string*/
 QString CrcfMessage::getMessage() const
 {
+    QString crcfurl;
+
     if (atName != attribute)
         return message(actor, actor_id, method, attribute, attvalue);
-    return message(actor, actor_id, method, attribute, attvaluestr);
+    else {
+        crcfurl = attvaluestr;
+        QUrl::encode(crcfurl);
+        return message(actor, actor_id, method, attribute, crcfurl);
+    }
 }
 
 /*static assemble CRCF message string, integer attribute value*/
@@ -306,18 +322,23 @@ QString CrcfMessage::message(CrcfActor cac, unsigned int aid, CrcfMethod cme,
     return result;
 }
 
-/*static assemble CRCF message string, string attribute value*/
+/* Static assemble CRCF message string, string attribute value.
+ * The value string is quoted with '"' if containing white spaces.*/
 QString CrcfMessage::message(CrcfActor cac, unsigned int aid, CrcfMethod cme,
         CrcfAttribute cat, const QString valuestr)
 {
     QString result;
+    QString crcfurl;
 
     if (meGet == cme)
         result = QString("%1 %2 %3 %4").arg(actorStr(cac)).arg(aid)
             .arg(methodStr(cme)).arg(attributeStr(cat));
-    else
+    else {
+        crcfurl = valuestr;
+        QUrl::encode(crcfurl);
         result = QString("%1 %2 %3 %4 %5").arg(actorStr(cac)).arg(aid)
-            .arg(methodStr(cme)).arg(attributeStr(cat)).arg(valuestr);
+            .arg(methodStr(cme)).arg(attributeStr(cat)).arg(crcfurl);
+    }
 
     return result;
 }

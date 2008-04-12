@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-10
- * Last modified: $Date: 2007-09-10 19:55:18 $
- *                $Revision: 1.1 $
+ * Last modified: $Date: 2008-04-12 14:22:14 $
+ *                $Revision: 1.2 $
  *
  * This is the header file for section.cpp.
  */
@@ -51,6 +51,7 @@ public:
     void clearTrain();
     bool hasTrain();
     QString getSectionName() const;
+    void setSectionName(const QString&);
     bool hasTrainNumberDisplay();
     void setTrainNumberDisplay(element*);
     bool forwardTrainNumber();

@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.3 $Revision: 1.64 $
+                           version 0.5.3 $Revision: 1.65 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-07 20:59:10 $
+    last modified        : $Date: 2008-04-12 14:22:14 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -905,7 +905,12 @@ void Router::processGenericMessage(unsigned int sendto,
                     emit routeDataChanged(rt);
                     modified = true;
                     cms = rt->getCrcfInfoMessage(CrcfMessage::atTrain);
-                    sendGmCrcfMessage(sendto, replyto, cms);
+                    if (!cms.isEmpty())
+                        sendGmCrcfMessage(sendto, replyto, cms);
+                    else
+                        emit statusMessage(tr("Error assembling "
+                                    "CRCF message for route TRAIN "
+                                    "'%1'.").arg(cm->getAttValue()));
                     break;
 
                 /* route type is a static CRCF value, editing is
@@ -920,7 +925,12 @@ void Router::processGenericMessage(unsigned int sendto,
                             emit routeDataChanged(rt);
                             modified = true;
                             cms = rt->getCrcfInfoMessage(CrcfMessage::atType);
-                            sendGmCrcfMessage(sendto, replyto, cms);
+                            if (!cms.isEmpty())
+                                sendGmCrcfMessage(sendto, replyto, cms);
+                            else
+                                emit statusMessage(tr("Error assembling "
+                                            "CRCF message for route TYPE "
+                                            "'%1'.").arg(cm->getAttValue()));
                         }
                         else 
                             emit statusMessage(tr("Unvalid TYPE "
@@ -938,9 +948,25 @@ void Router::processGenericMessage(unsigned int sendto,
                 /* ROUTE <routeid> SET ID <att_value> */
                 case CrcfMessage::atId:
                     if (visualmode == kvmEditRoute) {
-                        //TODO: add id editing
-                        emit statusMessage(tr("Route ID editing "
-                                    "not supported."));
+                        unsigned int mid = cm->getAttValue();
+                        if (mid != rt->getId()) {
+                            Route* ir = getRouteWithId(mid);
+                            if (NULL == ir) {
+                                rt->setId(mid);
+                                emit routeDataChanged(rt);
+                                modified = true;
+                                cms = rt->getCrcfInfoMessage(CrcfMessage::atId);
+                                if (!cms.isEmpty())
+                                    sendGmCrcfMessage(sendto, replyto, cms);
+                                else
+                                    emit statusMessage(tr("Error assembling "
+                                                "CRCF message for route ID "
+                                                "'%1'.").arg(mid));
+                            }
+                            else
+                                emit statusMessage(tr("Route ID '%1' already "
+                                            "in use.").arg(mid));
+                        }
                     }
                     else
                         emit statusMessage(tr("Route id editing via "
@@ -953,9 +979,16 @@ void Router::processGenericMessage(unsigned int sendto,
                 /* ROUTE <routeid> SET NAME <att_value> */
                 case CrcfMessage::atName:
                     if (visualmode == kvmEditRoute) {
-                        //TODO: add id editing
-                        emit statusMessage(tr("Route NAME editing "
-                                    "not supported."));
+                        rt->setSectionName(cm->getAttValueStr());
+                        emit routeDataChanged(rt);
+                        modified = true;
+                        cms = rt->getCrcfInfoMessage(CrcfMessage::atName);
+                        if (!cms.isEmpty())
+                            sendGmCrcfMessage(sendto, replyto, cms);
+                        else
+                            emit statusMessage(tr("Error assembling "
+                                        "CRCF message for route NAME "
+                                        "'%1'.").arg(cm->getAttValueStr()));
                     }
                     else
                         emit statusMessage(tr("Route name editing via "

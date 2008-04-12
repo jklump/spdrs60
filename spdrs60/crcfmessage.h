@@ -1,10 +1,10 @@
 /***************************************************************************
                            crcfmessage.h
-                           version 0.5.3 $Revision: 1.3 $
+                           version 0.5.3 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-08 20:09:14 $
+    last modified        : $Date: 2008-04-12 14:22:13 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -47,6 +47,7 @@ class CrcfMessage
         QString getActorStr() const;
         QString getMethodStr() const;
         QString getAttributeStr() const;
+        QString getAttValueStr() const;
         unsigned int getActorId() const;
         unsigned int getAttValue() const;
         QString getMessage() const;

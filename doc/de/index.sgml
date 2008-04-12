@@ -4782,6 +4782,10 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
           Abhängig vom Attribut kann es sich hierbei um einen positiven
           Ganzzahlwert &gt;=&nbsp;0 (z.B. Nummer eines Zuges), oder eine
           alphanumerische Kennung (z.B. Name einer Fahrstraße) handeln.
+          Handelt es sich um einen alphanumerischen Wert, wird dieser
+          URL-kodiert (<ulink
+              url="http://www.ietf.org/rfc/rfc2396.txt">RFC&nbsp;2396</ulink>)
+          über den SRCP-Server versand und empfangen.
       </para>
   </listitem>
   </varlistentry>
@@ -4904,9 +4908,8 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
       <para>
           Hierbei handelt es sich um eine Namensbezeichnung für das
           Gleisbild; beispielsweise könnte es sich dabei um eine
-          Bahnhofsbezeichnung handeln. Der Name darf kein Leerzeichen
-          enthalten. Er kann nur im Gleisbildbearbeitungsmodus geändert
-          werden.
+          Bahnhofsbezeichnung handeln.
+          Er kann nur im Gleisbildbearbeitungsmodus geändert werden.
       </para>
   </listitem>
   </varlistentry>
@@ -5047,8 +5050,8 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
   <listitem>
       <para>
           Hierbei handelt es sich um eine Namensbezeichnung für die
-          Fahrstraße. Der Name darf kein Leerzeichen enthalten. Er kann
-          nur im Fahrstraßenbearbeitungsmodus geändert werden.
+          Fahrstraße. Er kann nur im Fahrstraßenbearbeitungsmodus
+          geändert werden.
       </para>
   </listitem>
   </varlistentry>
@@ -5061,7 +5064,8 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
           Dieser Zahlenwert kodiert den Typ der Fahrstraße. Es gilt
           folgende Zuordnung: 0 = Regelzugstraße, 1 = Umfahrzugstraße, 2
           = Zughilfsstraße, 3 = Regelrangierstraße, 4 =
-          Umfahrrangierstraße.
+          Umfahrrangierstraße. Er kann
+          nur im Fahrstraßenbearbeitungsmodus geändert werden.
           Möglicherweise wird diese Zahlenkodierung im Laufe der
           fortschreitenden CRCF-Normierung gegen eine alphanumerische
           Kennung ersetzt.

@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.66 $
+                           version 0.5.2 $Revision: 1.67 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-07 20:59:10 $
+    last modified        : $Date: 2008-04-12 14:22:14 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -805,9 +805,11 @@ void Route::updateRouteName()
 {
     if (hasEntrySignal()) {
         if (hasExitSignal()) 
-            sectionName = QString("%1 - %2").arg(entrySignal.name).arg(exitSignal.name);
+            sectionName = QString("%1 - %2").arg(entrySignal.name)
+                .arg(exitSignal.name);
         else
-            sectionName = QString(tr("New route from %1").arg(entrySignal.name));
+            sectionName = QString(tr("New route from %1")
+                    .arg(entrySignal.name));
     }
     else {
         if (hasExitSignal())
