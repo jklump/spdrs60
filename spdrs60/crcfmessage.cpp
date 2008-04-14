@@ -1,10 +1,10 @@
 /***************************************************************************
                            crcfmessage.cpp
-                           version 0.5.3 $Revision: 1.4 $
+                           version 0.5.3 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-12 14:22:13 $
+    last modified        : $Date: 2008-04-14 20:38:24 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -89,6 +89,9 @@ QString CrcfMessage::actorStr(CrcfActor ac)
             break;
         case acLayout:
             acStr = "LAYOUT";
+            break;
+        case acRwcc:
+            acStr = "RWCC";
             break;
         default:
             break;
@@ -227,6 +230,9 @@ CrcfMessage* CrcfMessage::parse(QString& msg)
     else if ("TRAIN" == tokens[0]) {
         actor = acTrain;
     }
+    else if ("RWCC" == tokens[0]) {
+        actor = acRwcc;
+    }
     else {
         //error unsupported CRCF actor
         return NULL;
@@ -267,10 +273,10 @@ CrcfMessage* CrcfMessage::parse(QString& msg)
         cat = atTrain;
     }
     else if ("ROWS" == tokens[3]) {
-        cat = atTrain;
+        cat = atRows;
     }
     else if ("COLUMNS" == tokens[3]) {
-        cat = atTrain;
+        cat = atColumns;
     }
     else {
         //error unsupported CRCF attribute
@@ -295,15 +301,10 @@ CrcfMessage* CrcfMessage::parse(QString& msg)
 /*assemble CRCF message string*/
 QString CrcfMessage::getMessage() const
 {
-    QString crcfurl;
-
     if (atName != attribute)
         return message(actor, actor_id, method, attribute, attvalue);
-    else {
-        crcfurl = attvaluestr;
-        QUrl::encode(crcfurl);
-        return message(actor, actor_id, method, attribute, crcfurl);
-    }
+    
+    return message(actor, actor_id, method, attribute, attvaluestr);
 }
 
 /*static assemble CRCF message string, integer attribute value*/
@@ -323,7 +324,7 @@ QString CrcfMessage::message(CrcfActor cac, unsigned int aid, CrcfMethod cme,
 }
 
 /* Static assemble CRCF message string, string attribute value.
- * The value string is quoted with '"' if containing white spaces.*/
+ * The value string gets URL encoded.*/
 QString CrcfMessage::message(CrcfActor cac, unsigned int aid, CrcfMethod cme,
         CrcfAttribute cat, const QString valuestr)
 {

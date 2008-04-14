@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.5.2 $Revision: 1.48 $
+                           version 0.5.2 $Revision: 1.49 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-13 09:12:20 $
+    last modified        : $Date: 2008-04-14 20:38:24 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -46,6 +46,7 @@
 
 #define GF_GBSEXT      ".spdrs60"
 #define GF_DIMENSIONS  "dimensions"
+#define GF_ID          "identification"
 
 
 class GBSArea: public QWidget
@@ -61,13 +62,17 @@ public:
    virtual ~GBSArea();
 
    bool isModified() const;
-   void setModified(bool m);
+   void setModified(bool);
    QSize sizeHint() const;
-   void writeFileTextToStream(QTextStream& ts);
-   void readFileTextFromStream(QTextStream& ts);
-   void setLayoutSize(int, int);
+   void writeFileTextToStream(QTextStream&);
+   void readFileTextFromStream(QTextStream&);
+   unsigned int getLayoutId();
+   void setLayoutId(unsigned int);
+   QString getLayoutName() const;
+   void setLayoutName(const QString&);
    int getColumns();
    int getRows();
+   void setLayoutSize(int, int);
    void removeRowElements(int row);
    void removeColumnElements(int col);
    element* item(int row, int col) const;
@@ -79,6 +84,8 @@ public:
    //bool switchSRCP08FBBusState(bool);
    bool runSRCP08GAInitSequence();
    bool hasSrcp08GaBus(unsigned int);
+   void processGenericMessage(unsigned int, unsigned int,
+           const CrcfMessage*);
     
 private:
    QCursor     FHTCursor;
@@ -103,6 +110,8 @@ private:
 
    int         cols;
    int         rows;
+   unsigned int layoutid;
+   QString      layoutname;
 
    bool        modified: 1;
    GbsButtonState  gkbState;
@@ -130,9 +139,11 @@ private:
    void initSpdrMap();
    element::SpdrItemClassId classIdByName(const QString&);
    QString nameByClassId(element::SpdrItemClassId);
+   void sendGmCrcfMessage(unsigned int, unsigned int, const QString&);
+    QString getCrcfInfoMessage(CrcfMessage::CrcfAttribute) const;
    
 public slots:
-    void newFile(int, int);
+    void newFile(int, int, unsigned int, const QString&);
     void slotElementClickedTimeout();
     void slotFHTclicked();
     void slotFRTclicked();

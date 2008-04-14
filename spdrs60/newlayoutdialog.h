@@ -1,11 +1,11 @@
 /***************************************************************************
                            newLayoutDialog.h
-                           version 0.5.2 $Revision: 1.10 $
+                           version 0.5.2 $Revision: 1.11 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-31 17:30:10 $
+    last modified        : $Date: 2008-04-14 20:38:24 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -42,6 +42,8 @@ public:
     newLayoutDialog(QWidget* parent = 0);
     int getColumns();
     int getRows();
+    unsigned int getLayoutId();
+    QString getLayoutName();
     QString getHost();
     unsigned int getPort();
     bool getAutoLogin();
@@ -49,6 +51,8 @@ public:
     bool getAutoSendAll();
     void setColumns(int);
     void setRows(int);
+    void setLayoutId(unsigned int);
+    void setLayoutName(const QString&);
     void setHost(const QString&);
     void setPort(unsigned int);
     void setAutoLogin(bool);
@@ -58,6 +62,8 @@ public:
 private:
     QSpinBox* sbEnterCols;
     QSpinBox* sbEnterRows;
+    QLineEdit* idLE;
+    QLineEdit* nameLE;
     QLineEdit* hostLE;
     QLineEdit* portLE;
     QCheckBox* autologinCB;

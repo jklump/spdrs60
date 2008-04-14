@@ -1,10 +1,10 @@
 /***************************************************************************
                            crcfmessage.h
-                           version 0.5.3 $Revision: 1.4 $
+                           version 0.5.3 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-12 14:22:13 $
+    last modified        : $Date: 2008-04-14 20:38:24 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -28,7 +28,8 @@
 class CrcfMessage
 {
     public:
-        enum CrcfActor {acNone = 0, acLayout, acRoute, acSection, acTrain};
+        enum CrcfActor {acNone = 0, acLayout, acRoute, acRwcc,
+            acSection, acTrain};
        
         enum CrcfMethod {meNone = 0, meSet, meGet, meInfo};
 

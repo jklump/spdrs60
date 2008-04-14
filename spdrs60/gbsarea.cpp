@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-03-22 16:09:16 $
-                           $Revision: 1.97 $
+    last modified        : $Date: 2008-04-14 20:38:24 $
+                           $Revision: 1.98 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -82,6 +82,8 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
     modified = false;
     cols = 0;
     rows = 0;
+    layoutid = 0;
+    layoutname = "";
     setPaletteBackgroundColor(QColor(Qt::lightGray));
      
     setAcceptDrops(true);
@@ -250,17 +252,22 @@ QSize GBSArea::sizeHint() const
 // *INDENT-ON*
 
 
-void GBSArea::newFile(int iColumns, int iRows)
+void GBSArea::newFile(int newcols, int newrows, unsigned int newid,
+        const QString& newname)
 {
-    cols = iColumns;
-    rows = iRows;
-
-    // delete a possibly shown old layout
+    // delete all old routes and layout data
     emit clearRoutes();
+    emit updateRoutingViewer("");
     elements.clear();
+
+    cols = newcols;
+    rows = newrows;
+    layoutid = newid;
+    layoutname = newname;
+
     elements.resize(rows * cols);
     adjustSize();
-    emit updateRoutingViewer("");
+    setModified(false);
 }
         
 
@@ -270,6 +277,7 @@ void GBSArea::writeFileTextToStream(QTextStream& ts)
        << "%% layout" << endl
        << "# layout dimensions=columns" << DS "rows" << endl
        << GF_DIMENSIONS << DS << cols << DS << rows << endl
+       << GF_ID << DS << layoutid << DS << layoutname << endl
        << "# start of element section" << endl;
        //<< "# elements=" << elements.count() << endl;
     
@@ -303,9 +311,10 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
             continue;
 
         /* read layout dimensions */ 
+        /* key/value pairs are read sequence independent */
         key = s.section(DS, 0, 0);
         value = s.section(DS, 1, 1).stripWhiteSpace();
-        /* key/value pairs are read sequence independent */
+
         if (key.compare(GF_DIMENSIONS) == 0) {
             cols = value.toInt();
             value = s.section(DS, 2, 2).stripWhiteSpace();
@@ -314,6 +323,11 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
             elements.resize(ecount);
             adjustSize();
         }
+        else if (key.compare(GF_ID) == 0) {
+            layoutid = value.toUInt();
+            layoutname = s.section(DS, 2).stripWhiteSpace();
+        }
+
         /*here we read allways up to start marker of a new route*/
         else if (s.startsWith("%% element")) {
 
@@ -850,23 +864,35 @@ void GBSArea::setModified(bool m)
 }
 
 
+/*return number of layout columns*/
 int GBSArea::getColumns()
 {
     return cols;
 }
 
 
+/*return number of layout rows*/
 int GBSArea::getRows()
 {
     return rows;
 }
 
 
+/*set new layout size*/
 void GBSArea::setLayoutSize(int newcols, int newrows)
 {
-    if (newcols < 1 || newrows < 1)
-        return;
+    if (newcols < 1)
+        newcols = 1;
 
+    if (newrows < 1)
+        newrows = 1;
+
+    if (newcols > MAX_COLS)
+        newcols = MAX_COLS;
+
+    if (newrows > MAX_ROWS)
+        newrows = MAX_ROWS;
+ 
     QPtrVector<element> tmpelements;
 
     tmpelements.resize(newcols * newrows);
@@ -906,6 +932,40 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
 
     adjustSize();
     setModified(true);
+}
+
+
+/*set new layout id*/
+void GBSArea::setLayoutId(unsigned int newid)
+{
+    if (layoutid != newid) {
+        layoutid = newid;
+        setModified(true);
+    }
+}
+
+
+/*return layout id*/
+unsigned int GBSArea::getLayoutId()
+{
+    return layoutid;
+}
+
+
+/*set new layout name*/
+void GBSArea::setLayoutName(const QString& newname)
+{
+    if (layoutname != newname) {
+        layoutname = newname;
+        setModified(true);
+    }
+}
+
+
+/*return layout name*/
+QString GBSArea::getLayoutName() const
+{
+    return layoutname;
 }
 
 
@@ -1841,3 +1901,172 @@ QString GBSArea::nameByClassId(element::SpdrItemClassId id)
 
     return returnvalue;
 }
+
+/*
+ * respond to incomming Generic Messages
+ */
+void GBSArea::processGenericMessage(unsigned int sendto,
+        unsigned int replyto, const CrcfMessage* cm)
+{
+    QString cms = "";
+
+    if (NULL == cm)
+        return;
+
+    if (cm->getActorId() != layoutid)
+        return;
+
+    switch (cm->getMethod()) {
+        case CrcfMessage::meGet:
+            /* LAYOUT <layoutid> GET <attribute> */
+            cms = getCrcfInfoMessage(cm->getAttribute());
+            if (cms.isEmpty()) 
+                emit statusMessage(tr("Unsupported CRCF attribute '%1' "
+                            "detected.").arg(cm->getAttributeStr()));
+            else
+                sendGmCrcfMessage(sendto, replyto, cms);
+            break;
+
+        case CrcfMessage::meSet:
+            /* LAYOUT <layoutid> SET <attribute> <att_value> */
+
+            /* layout data are static CRCF values, editing is
+             * only allowed in layout edit mode */
+            if (visualMode == kvmEditLayout) {
+
+                switch (cm->getAttribute()) {
+
+                    /* LAYOUT <layoutid> SET COLUMNS <att_value> */
+                    case CrcfMessage::atColumns:
+                        {
+                        int cc = cm->getAttValue();
+                        if (cc != cols) {
+                        if (cc > 0 && cc <= MAX_COLS) {
+                            setLayoutSize(cc, rows);
+                            cms = getCrcfInfoMessage(CrcfMessage::atColumns);
+                            if (!cms.isEmpty())
+                                sendGmCrcfMessage(sendto, replyto, cms);
+                            else
+                                emit statusMessage(tr("Error assembling "
+                                            "CRCF message for layout "
+                                            "COLUMNS '%1'.").arg(cc));
+                        }
+                        else
+                            emit statusMessage(tr("Unvalid COLUMNS "
+                                        "value '%1' detected.").arg(cc));
+                        }
+                        }
+                        break;
+
+                        /* LAYOUT <routeid> SET ROWS <att_value> */
+                    case CrcfMessage::atRows:
+                        {
+                        int cr = cm->getAttValue();
+                        if (cr != rows) {
+                        if (cr > 0 && cr <= MAX_ROWS) {
+                            setLayoutSize(cols, cr);
+                            cms = getCrcfInfoMessage(CrcfMessage::atRows);
+                            if (!cms.isEmpty())
+                                sendGmCrcfMessage(sendto, replyto, cms);
+                            else
+                                emit statusMessage(tr("Error assembling "
+                                            "CRCF message for layout "
+                                            "ROWS '%1'.").arg(cr));
+                        }
+                        else
+                            emit statusMessage(tr("Unvalid ROWS "
+                                        "value '%1' detected.")
+                                    .arg(cm->getAttValue()));
+                        }
+                        }
+                        break;
+
+                        /* LAYOUT <layoutid> SET ID <att_value> */
+                    case CrcfMessage::atId:
+                        {
+                        unsigned int mid = cm->getAttValue();
+                        if (layoutid != mid) {
+                            setLayoutId(mid);
+                            cms = getCrcfInfoMessage(CrcfMessage::atId);
+                            if (!cms.isEmpty())
+                                sendGmCrcfMessage(sendto, replyto, cms);
+                            else
+                                emit statusMessage(tr("Error assembling "
+                                            "CRCF message for layout ID "
+                                            "'%1'.").arg(mid));
+                        }
+                        }
+                        break;
+
+                        /* LAYOUT <layoutid> SET NAME <att_value> */
+                    case CrcfMessage::atName:
+                        setLayoutName(cm->getAttValueStr());
+                        cms = getCrcfInfoMessage(CrcfMessage::atName);
+                        if (!cms.isEmpty())
+                            sendGmCrcfMessage(sendto, replyto, cms);
+                        else
+                            emit statusMessage(tr("Error assembling "
+                                        "CRCF message for layout NAME "
+                                        "'%1'.").arg(cm->getAttValueStr()));
+                        break;
+
+                    default:
+                        break;
+                } // end switch
+            }
+            else
+                emit statusMessage(tr("Layout data editing via "
+                            "CRCF messages is only allowed in "
+                            "layout edit mode."));
+            break;
+
+        default:
+            emit statusMessage(tr("Unsupported CRCF method '%1' "
+                        "detected.").arg(cm->getMethodStr()));
+            break;
+    }
+}
+
+
+/* send a SRCP GM CRCF message to server, method identical to router */
+void GBSArea::sendGmCrcfMessage(unsigned int sendto,
+        unsigned int replyto, const QString& cms)
+{
+    SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgGmSet);
+    if (sm == NULL)
+        return;
+
+    sm->setGmData(sendto, replyto, "CRCF", cms);
+    emit sendSrcpMessage(sm);
+    delete sm;
+}
+
+
+/*assemble CRCF layout info message string*/
+QString GBSArea::getCrcfInfoMessage(CrcfMessage::CrcfAttribute at) const
+{
+    unsigned int result = 0;
+
+    switch (at) {
+        case CrcfMessage::atId:
+            result = layoutid;
+            break;
+        case CrcfMessage::atName:
+            return CrcfMessage::message(CrcfMessage::acLayout, layoutid,
+                    CrcfMessage::meInfo, at, layoutname);
+            break;
+        case CrcfMessage::atColumns:
+            result = cols;
+            break;
+        case CrcfMessage::atRows:
+            result = rows;
+            break;
+        default:
+            return "";
+            break;
+    }
+
+    return CrcfMessage::message(CrcfMessage::acLayout, layoutid,
+            CrcfMessage::meInfo, at, result);
+}
+

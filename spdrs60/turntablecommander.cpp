@@ -1,11 +1,11 @@
 /***************************************************************************
                            turntablecommander.cpp
-                           version 0.5.2 $Revision: 1.13 $
+                           version 0.5.2 $Revision: 1.14 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-10 19:41:51 $
+    last modified        : $Date: 2008-04-14 20:38:24 $
 ***************************************************************************/
 
 /******************************************************************************
@@ -75,7 +75,7 @@ turntableCommander::turntableCommander(QWidget * parent, int iActiveTrack_,
     unsigned int idx = 0;
     
     for (int i = 0; i < trackcount; ++i) {
-        idx = tracks.section(";", i, i).toInt() - 1;
+        idx = tracks.section(';', i, i).toInt() - 1;
         if (idx < 24)
             iTracks[idx] = 1;
     }

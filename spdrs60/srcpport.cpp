@@ -2,8 +2,8 @@
  srcpport.cpp
  ------------
  Begin        : 17.08.2007
- Last modified: $Date: 2007-09-05 17:39:48 $
-                $Revision: 1.4 $
+ Last modified: $Date: 2008-04-14 20:38:24 $
+                $Revision: 1.5 $
  Copyright    : (C) 2007 by Guido Scholz <guido.scholz@bayernline.de>
  Description  : Abstract class for network communication with SRCP server.
                 Communication styles SRCP 0.7 and 0.8 are supported.
@@ -597,19 +597,19 @@ QString SrcpPort::getSocketErrorString(int e)
 QString SrcpPort::translateServerTime(const QString& msg)
 {
     QString msgstr;
-    QString timestr = msg.section(" ", 0, 0);
+    QString timestr = msg.section(' ', 0, 0);
     if (!timestr.startsWith("0.")) {
         QDateTime srvtime = QDateTime();
-        srvtime.setTime_t(timestr.section(".", 0 , 0).toUInt());
+        srvtime.setTime_t(timestr.section('.', 0 , 0).toUInt());
         QTime msgtime = srvtime.time();
         msgstr = msgtime.toString("[hh:mm:ss.");
 
-        msgstr.append(timestr.section(".", 1 , 1));
+        msgstr.append(timestr.section('.', 1 , 1));
         msgstr.append("] ");
     }
     else
         msgstr = "[--:--:--.---] ";
 
-    msgstr.append(msg.section(" ", 1));
+    msgstr.append(msg.section(' ', 1));
     return msgstr;
 }

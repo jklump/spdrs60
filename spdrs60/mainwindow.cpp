@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-12 14:22:14 $
-                           $Revision: 1.143 $
+    last modified        : $Date: 2008-04-14 20:38:24 $
+                           $Revision: 1.144 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1648,10 +1648,12 @@ void MainWindow::newFile()
         delete nlDlg;
         return;
     }
-    int iNewCols = nlDlg->getColumns();
-    int iNewRows = nlDlg->getRows();
-    gbs->setLayoutSize(iNewCols, iNewRows);
+    int newcols = nlDlg->getColumns();
+    int newrows = nlDlg->getRows();
+    unsigned int newid = nlDlg->getLayoutId();
+    QString newname = nlDlg->getLayoutName();
 
+    CloseSRCPServerConnection();
     commandPort->setServer(nlDlg->getHost(), nlDlg->getPort());
     infoPort->setServer(nlDlg->getHost(), nlDlg->getPort());
     feedbackPort->setServer(nlDlg->getHost(), nlDlg->getPort());
@@ -1661,9 +1663,8 @@ void MainWindow::newFile()
     cmdAutoSendAll = nlDlg->getAutoSendAll();
     delete nlDlg;
     
-    CloseSRCPServerConnection();
     fileName = "";
-    gbs->newFile(iNewCols, iNewRows);
+    gbs->newFile(newcols, newrows, newid, newname);
 
     updateCaption();
     updateFileMenuItems();
@@ -1958,8 +1959,8 @@ void MainWindow::processCommandMessage(const QString& command)
              * INFO FB <module_type> * <all states>
              *   0   1      2        3       4
              */
-            if ("*" == command.section(" ", 3, 3)) {
-                QString allstates = command.section(" ", 4, 4);
+            if ("*" == command.section(' ', 3, 3)) {
+                QString allstates = command.section(' ', 4, 4);
 
                 unsigned int limit = allstates.length();
                 if (limit > MAX_FB)
@@ -1986,8 +1987,8 @@ void MainWindow::processCommandMessage(const QString& command)
             else {
                 unsigned int fbport, fbbus, fbcontact, fbstate;
 
-                fbport = command.section(" ", 3, 3).toUInt();
-                fbstate = command.section(" ", 4, 4).toUInt();
+                fbport = command.section(' ', 3, 3).toUInt();
+                fbstate = command.section(' ', 4, 4).toUInt();
                 fbcontact = (fbport - 1) % 496 + 1;
                 fbbus = (fbport - 1) / 496 + 1;
 
@@ -2081,10 +2082,10 @@ void MainWindow::processCommandMessage(const QString& command)
          *   1101459034.300 100 INFO 2 POWER OFF
          *        0          1    2  3   4    5    -> QString sections
          */
-        if (command.section(" ", 1, 2) == "100 INFO") {
-            if (command.section(" ", 5, 5) == "OFF") {
+        if (command.section(' ', 1, 2) == "100 INFO") {
+            if (command.section(' ', 5, 5) == "OFF") {
                 SendCommandToSRCPServer(QString("SET %1 POWER ON")
-                        .arg(command.section(" ", 3, 3)));
+                        .arg(command.section(' ', 3, 3)));
                 PowerSwitched = true;
             }
             /* echo "200 OK" is only displayed in history line */
@@ -2159,8 +2160,8 @@ void MainWindow::processFeedbackMessage(const QString& info)
      *  0   1       2           3        4
      */
 
-    fbport = info.section(" ", 3, 3).toUInt();
-    fbstate = info.section(" ", 4, 4).toUInt();
+    fbport = info.section(' ', 3, 3).toUInt();
+    fbstate = info.section(' ', 4, 4).toUInt();
 
     fbcontact = (fbport - 1) % 496 + 1;
     fbbus = (fbport - 1) / 496 + 1;
@@ -2188,20 +2189,20 @@ void MainWindow::processFeedbackMessage(const QString& info)
 QString MainWindow::ConvertMessageTime(const QString& msg)
 {
     QString msgstr;
-    QString timestr = msg.section(" ", 0, 0);
+    QString timestr = msg.section(' ', 0, 0);
     if (!timestr.startsWith("0.")) {
         QDateTime srvtime = QDateTime();
-        srvtime.setTime_t(timestr.section(".", 0 , 0).toUInt());
+        srvtime.setTime_t(timestr.section('.', 0 , 0).toUInt());
         QTime msgtime = srvtime.time();
         msgstr = msgtime.toString("[hh:mm:ss.");
 
-        msgstr.append(timestr.section(".", 1 , 1));
+        msgstr.append(timestr.section('.', 1 , 1));
         msgstr.append("] ");
     }
     else
         msgstr = "[--:--:--.---] ";
 
-    msgstr.append(msg.section(" ", 1));
+    msgstr.append(msg.section(' ', 1));
     return msgstr;
 }
 
@@ -2363,17 +2364,17 @@ void MainWindow::processInfoMessage(const QString& info)
     if (SrcpPort::csOld == infoStyle) {
 
         infoMessage(info);
-        QString device = info.section(" ", 1, 1);
+        QString device = info.section(' ', 1, 1);
         /*
          * check for incomming GA actions and send them to gbs
          * INFO GA <protocol> <addr> <port> <state>
          *   0   1     2        3      4       5
          */
-        if ("GA" == device && info.section(" ", 5, 5).toUInt() == 1) {
+        if ("GA" == device && info.section(' ', 5, 5).toUInt() == 1) {
             gbs->sendInfoPortMessage(1,
-                    info.section(" ", 3, 3).toUInt(),
-                    info.section(" ", 4, 4).toUInt(),
-                    info.section(" ", 5, 5).toUInt());
+                    info.section(' ', 3, 3).toUInt(),
+                    info.section(' ', 4, 4).toUInt(),
+                    info.section(' ', 5, 5).toUInt());
         }
         /*
          * check for requested FB states and send them to gbs, module
@@ -2385,8 +2386,8 @@ void MainWindow::processInfoMessage(const QString& info)
             // one state of a single FB port
             unsigned int fbport, fbcontact, fbbus, fbstate;
 
-            fbport = info.section(" ", 3, 3).toUInt();
-            fbstate = info.section(" ", 4, 4).toUInt();
+            fbport = info.section(' ', 3, 3).toUInt();
+            fbstate = info.section(' ', 4, 4).toUInt();
 
             fbcontact = (fbport - 1) % 496 + 1;
             fbbus = (fbport - 1) / 496 + 1;
@@ -2414,7 +2415,7 @@ void MainWindow::processInfoMessage(const QString& info)
 
         /* respond to incomming info messages */
         if (SRCPInfoState == srcp08RunInfoMode) {
-            QString devGroup = info.section(" ", 4, 4);
+            QString devGroup = info.section(' ', 4, 4);
 
             /*
              * respond to incomming feedback messages
@@ -2427,9 +2428,9 @@ void MainWindow::processInfoMessage(const QString& info)
                 /*TODO: implement FB for other hardware then s88 */
 
                 /* which bus is first one when FB type is s88? */
-                fbbus = info.section(" ", 3, 3).toUInt();
-                fbcontact = info.section(" ", 5, 5).toUInt();
-                fbstate  = info.section(" ", 6, 6).toUInt();
+                fbbus = info.section(' ', 3, 3).toUInt();
+                fbcontact = info.section(' ', 5, 5).toUInt();
+                fbstate  = info.section(' ', 6, 6).toUInt();
 
                 // send updates to:
                 // 1. module window
@@ -2448,14 +2449,14 @@ void MainWindow::processInfoMessage(const QString& info)
              *   0     1   2     3   4    5       6     7: Qstring sections
              */
             else if (devGroup == "GA") {
-                if (info.section(" ", 1, 1).toUInt() == 100 &&
-                        info.section(" ", 0, 0) != "0.0")
+                if (info.section(' ', 1, 1).toUInt() == 100 &&
+                        info.section(' ', 0, 0) != "0.0")
                     // (bus, addr, port, value)
                     gbs->sendInfoPortMessage(
-                            info.section(" ", 3, 3).toUInt(),
-                            info.section(" ", 5, 5).toUInt(),
-                            info.section(" ", 6, 6).toUInt(),
-                            info.section(" ", 7, 7).toUInt());
+                            info.section(' ', 3, 3).toUInt(),
+                            info.section(' ', 5, 5).toUInt(),
+                            info.section(' ', 6, 6).toUInt(),
+                            info.section(' ', 7, 7).toUInt());
             }
 
             /*
@@ -2466,30 +2467,42 @@ void MainWindow::processInfoMessage(const QString& info)
              */
             else if (devGroup == "GM") {
                 unsigned int recsid;
-                recsid = info.section(" ", 5, 5).toUInt();
-                QString gmtype = info.section(" ", 7, 7);
-                QString gmcontent = info.section(" ", 8);
+                recsid = info.section(' ', 5, 5).toUInt();
+                QString gmtype = info.section(' ', 7, 7);
+                QString gmcontent = info.section(' ', 8);
                 CrcfMessage* cm; 
 
                 if (recsid == 0 || infoPort->getSessionId() == recsid) {
                     if ("CRCF" == gmtype) {
                         cm = CrcfMessage::parse(gmcontent);
                         if (cm != NULL) {
+                            CrcfMessage::CrcfActor cac = cm->getActor();
 
-                            if (cm->getActor() == CrcfMessage::acRoute)
-                                /*adjust send/reply session-ids*/
-                                router->processGenericMessage(
-                                        info.section(" ", 6, 6).toUInt(),
-                                        infoPort->getSessionId(), cm);
-                            /*
-                            else if (cm->getActor() == CrcfMessage::acLayout)
-                                gbs->processGenericMessage(
-                                        info.section(" ", 6, 6).toUInt(),
-                                        infoPort->getSessionId(), cm);
-                            */
-                            else
-                                statusMessage(
-                                        tr("Unsupported CRCF actor detected."));
+                            /*adjust send/reply session-ids*/
+                            switch (cac) {
+                                case CrcfMessage::acRoute:
+                                    router->processGenericMessage(
+                                            info.section(' ', 6, 6).toUInt(),
+                                            infoPort->getSessionId(), cm);
+                                    break;
+                                case CrcfMessage::acLayout:
+                                    gbs->processGenericMessage(
+                                            info.section(' ', 6, 6).toUInt(),
+                                            infoPort->getSessionId(), cm);
+                                    break;
+                                case CrcfMessage::acRwcc:
+                                    /*
+                                    processGenericMessage(
+                                            info.section(' ', 6, 6).toUInt(),
+                                            infoPort->getSessionId(), cm);
+                                    */
+                                    break;
+                                default:
+                                    /*only for debugging*/
+                                    statusMessage(tr("Unsupported CRCF "
+                                                "actor detected."));
+                                    break;
+                            }
                             delete cm;
                         }
                         else
@@ -2512,9 +2525,9 @@ void MainWindow::processInfoMessage(const QString& info)
              *   0     1   2     3     4      5     : Qstring sections
              */
             else if (devGroup == "POWER") {
-                if (info.section(" ", 1, 1).toUInt() == 100) {
-                    unsigned int bus = info.section(" ", 3, 3).toUInt();
-                    bool poweron = info.section(" ", 5, 5) == "ON";
+                if (info.section(' ', 1, 1).toUInt() == 100) {
+                    unsigned int bus = info.section(' ', 3, 3).toUInt();
+                    bool poweron = info.section(' ', 5, 5) == "ON";
 
                     //check if bus is relevant for this layout
                     if (gbs->hasSrcp08GaBus(bus)) 
@@ -3204,6 +3217,8 @@ void MainWindow::layoutChangeSize()
     nlDlg->setCaption(tr("Change layout settings"));
     nlDlg->setColumns(gbs->getColumns());
     nlDlg->setRows(gbs->getRows());
+    nlDlg->setLayoutId(gbs->getLayoutId());
+    nlDlg->setLayoutName(gbs->getLayoutName());
     nlDlg->setHost(commandPort->getHostname());
     nlDlg->setPort(commandPort->getPortNumber());
     nlDlg->setAutoLogin(cmdAutoLogin);
@@ -3211,9 +3226,9 @@ void MainWindow::layoutChangeSize()
     nlDlg->setAutoSendAll(cmdAutoSendAll);
     
     if (nlDlg->exec() == QDialog::Accepted) {
-        int iNewCols = nlDlg->getColumns();
-        int iNewRows = nlDlg->getRows();
-        gbs->setLayoutSize(iNewCols, iNewRows);
+        gbs->setLayoutSize(nlDlg->getColumns(), nlDlg->getRows());
+        gbs->setLayoutId(nlDlg->getLayoutId());
+        gbs->setLayoutName(nlDlg->getLayoutName());
 
         commandPort->setServer(nlDlg->getHost(), nlDlg->getPort());
         infoPort->setServer(nlDlg->getHost(), nlDlg->getPort());
@@ -3222,8 +3237,6 @@ void MainWindow::layoutChangeSize()
         cmdAutoLogin = nlDlg->getAutoLogin();
         cmdAutoPower = nlDlg->getAutoPower();
         cmdAutoSendAll = nlDlg->getAutoSendAll();
-
-        gbs->setModified(true);
     }
     delete nlDlg;
 }

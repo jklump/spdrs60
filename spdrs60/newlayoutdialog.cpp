@@ -1,11 +1,11 @@
 /***************************************************************************
                            newlayoutdialog.cpp
-                           version 0.5.2 $Revision: 1.20 $
+                           version 0.5.2 $Revision: 1.21 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-10 19:41:51 $
+    last modified        : $Date: 2008-04-14 20:38:24 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -75,6 +75,49 @@ newLayoutDialog::newLayoutDialog(QWidget* parent)
     QToolTip::add(sbEnterRows, tr(
                 "Choose or enter the number\n"
                 "of rows for your layout"));
+
+    // identification group box
+    QGroupBox *identificationGB = new QGroupBox(0, Qt::Horizontal,
+            "Identification", this, "identificationGB");
+    baseLayout->addWidget(identificationGB);
+    QVBoxLayout* identificationGBL = new QVBoxLayout(
+            identificationGB->layout(), 6);
+
+    // line with id
+    QHBoxLayout* idL = new QHBoxLayout(identificationGBL);
+    label = new QLabel(tr("&Id:"), identificationGB);
+    idL->addWidget(label);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    idL->addItem(spacer);
+    idLE = new QLineEdit(identificationGB, "idLE");
+    idL->addWidget(idLE);
+    idLE->setMaximumWidth(100);
+    idLE->setMaxLength(6);
+    QValidator* idValidator = new QIntValidator(0, 999999, identificationGB);
+    idLE->setValidator(idValidator);
+    label->setBuddy(idLE);
+    QToolTip::add(idLE, tr(
+                "Enter the identification\n"
+                "number of this layout.\n"
+                "Valid range is 0..999999."));
+
+    // line with layout name
+    QHBoxLayout* nameL = new QHBoxLayout(identificationGBL);
+    label = new QLabel(tr("&Name:"), identificationGB);
+    nameL->addWidget(label);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    nameL->addItem(spacer);
+
+    nameLE = new QLineEdit(identificationGB, "nameLE");
+    nameL->addWidget(nameLE);
+    nameLE->setMaximumWidth(100);
+    label->setBuddy(nameLE);
+
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    identificationGBL->addItem(spacer);
 
     // server group box
     QGroupBox *serverGB = new QGroupBox(0, Qt::Horizontal, "SRCP-Server",
@@ -180,6 +223,18 @@ int newLayoutDialog::getRows()
 }
 
 
+unsigned int newLayoutDialog::getLayoutId()
+{
+    return idLE->text().toUInt();
+}
+
+
+QString newLayoutDialog::getLayoutName()
+{
+    return nameLE->text();
+}
+
+
 void newLayoutDialog::setColumns(int cols)
 {
     sbEnterCols->setValue(cols);
@@ -189,6 +244,18 @@ void newLayoutDialog::setColumns(int cols)
 void newLayoutDialog::setRows(int rows)
 {
     sbEnterRows->setValue(rows);
+}
+
+
+void newLayoutDialog::setLayoutId(unsigned int id)
+{
+    return idLE->setText(QString::number(id));
+}
+
+
+void newLayoutDialog::setLayoutName(const QString& name)
+{
+    return nameLE->setText(name);
 }
 
 
