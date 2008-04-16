@@ -418,6 +418,42 @@ den Suchkriterien entspricht.</translation>
         <source>&amp;Toggle</source>
         <translation>&amp;Umschalten</translation>
     </message>
+    <message>
+        <source>Unsupported CRCF attribute &apos;%1&apos; detected.</source>
+        <translation>Nicht unterstütztes CRCF-Attribut &apos;%1&apos; gefunden.</translation>
+    </message>
+    <message>
+        <source>Unvalid COLUMNS value &apos;%1&apos; detected.</source>
+        <translation>Ungültiger Wert &apos;%1&apos; für COLUMNS gefunden.</translation>
+    </message>
+    <message>
+        <source>Unvalid ROWS value &apos;%1&apos; detected.</source>
+        <translation>Ungültiger Wert &apos;%1&apos; für ROWS gefunden.</translation>
+    </message>
+    <message>
+        <source>Error assembling CRCF message for layout ID &apos;%1&apos;.</source>
+        <translation>Fehler beim Erstellen einer CRCF-Nachricht für Gleisbild ID &apos;%1&apos;.</translation>
+    </message>
+    <message>
+        <source>Error assembling CRCF message for layout NAME &apos;%1&apos;.</source>
+        <translation>Fehler beim Erstellen einer CRCF-Nachricht für Gleisbild NAME &apos;%1&apos;.</translation>
+    </message>
+    <message>
+        <source>Layout data editing via CRCF messages is only allowed in layout edit mode.</source>
+        <translation>Das Bearbeiten von Gleisbilddaten über CRCF-Nachrichten ist nur im Gleisbildbearbeitungsmodus erlaubt.</translation>
+    </message>
+    <message>
+        <source>Unsupported CRCF method &apos;%1&apos; detected.</source>
+        <translation>Nicht unterstützte CRCF-Methode &apos;%1&apos; gefunden.</translation>
+    </message>
+    <message>
+        <source>Error assembling CRCF message for layout COLUMNS &apos;%1&apos;.</source>
+        <translation>Fehler beim Erstellen einer CRCF-Nachricht für Gleisbild COLUMNS &apos;%1&apos;.</translation>
+    </message>
+    <message>
+        <source>Error assembling CRCF message for layout ROWS &apos;%1&apos;.</source>
+        <translation>Fehler beim Erstellen einer CRCF-Nachricht für Gleisbild ROWS &apos;%1&apos;.</translation>
+    </message>
 </context>
 <context>
     <name>LayoutEditModeAgrp</name>
@@ -1071,6 +1107,22 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     <message>
         <source>Show train number input dialog</source>
         <translation>Dialog zur Eingabe von Zugnummern anzeigen</translation>
+    </message>
+    <message>
+        <source>Unknown Generic Message type &apos;%1&apos; detected.</source>
+        <translation>Unbekannter Standardnachrichtentyp &apos;%1&apos; gefunden.</translation>
+    </message>
+    <message>
+        <source>Misleaded Generic Message detected (receiver session ID = %1).</source>
+        <translation>Fehlgeleitete Standardnachricht gefunden (Empfängersitzungs-ID = %1).</translation>
+    </message>
+    <message>
+        <source>Error parsing Generic Message.</source>
+        <translation>Fehler beim Interpretieren einer Standardnachricht.</translation>
+    </message>
+    <message>
+        <source>Unsupported CRCF actor detected.</source>
+        <translation>Nicht unterstützter CRCF-Akteur gefunden.</translation>
     </message>
 </context>
 <context>
@@ -1911,6 +1963,54 @@ pick up this information so update its route.</source>
         <source>Error setting train number: Route id &apos;%1&apos; not found.</source>
         <translation>Fehler beim Setzen der Zugnummer: Fahrstraßennummer &apos;%1&apos; wurde nicht gefunden</translation>
     </message>
+    <message>
+        <source>Unsupported CRCF attribute &apos;%1&apos; detected.</source>
+        <translation>Nicht unterstütztes CRCF-Attribut &apos;%1&apos; gefunden.</translation>
+    </message>
+    <message>
+        <source>Unsupported CRCF method &apos;%1&apos; detected.</source>
+        <translation>Nicht unterstützte CRCF-Methode &apos;%1&apos; gefunden.</translation>
+    </message>
+    <message>
+        <source>Unvalid STATE value &apos;%1&apos; detected.</source>
+        <translation>Ungültiger Wert &apos;%1&apos; für STATE gefunden.</translation>
+    </message>
+    <message>
+        <source>Unvalid TYPE value &apos;%1&apos; detected.</source>
+        <translation>Ungültiger Wert &apos;%1&apos; für TYPE gefunden.</translation>
+    </message>
+    <message>
+        <source>Route type editing via CRCF messages is only allowed in route edit mode.</source>
+        <translation>Das Bearbeiten des Fahrstraßentyps über CRCF-Nachrichten ist nur im Fahrstraßenbearbeitungsmodus erlaubt.</translation>
+    </message>
+    <message>
+        <source>Route id editing via CRCF messages is only allowed in route edit mode.</source>
+        <translation>Das Bearbeiten der Fahrstraßenidentifikationsnummer über CRCF-Nachrichten ist nur im Fahrstraßenbearbeitungsmodus erlaubt.</translation>
+    </message>
+    <message>
+        <source>Route name editing via CRCF messages is only allowed in route edit mode.</source>
+        <translation>Das Bearbeiten des Fahrstraßennamens über CRCF-Nachrichten ist nur im Fahrstraßenbearbeitungsmodus erlaubt.</translation>
+    </message>
+    <message>
+        <source>Route ID &apos;%1&apos; already in use.</source>
+        <translation>Fahrstraßen-ID &apos;%1&apos; ist schon in Benutzung.</translation>
+    </message>
+    <message>
+        <source>Error assembling CRCF message for route ID &apos;%1&apos;.</source>
+        <translation>Fehler beim Erstellen einer CRCF-Nachricht für Fahrstraße ID &apos;%1&apos;.</translation>
+    </message>
+    <message>
+        <source>Error assembling CRCF message for route NAME &apos;%1&apos;.</source>
+        <translation>Fehler beim Erstellen einer CRCF-Nachricht für Fahrstraße NAME &apos;%1&apos;.</translation>
+    </message>
+    <message>
+        <source>Error assembling CRCF message for route TRAIN &apos;%1&apos;.</source>
+        <translation>Fehler beim Erstellen einer CRCF-Nachricht für Fahrstraße TRAIN &apos;%1&apos;.</translation>
+    </message>
+    <message>
+        <source>Error assembling CRCF message for route TYPE &apos;%1&apos;.</source>
+        <translation>Fehler beim Erstellen einer CRCF-Nachricht für Fahrstraße TYPE &apos;%1&apos;.</translation>
+    </message>
 </context>
 <context>
     <name>ServerInfoDialog</name>
@@ -2269,6 +2369,22 @@ for a SRCP 0.7 server choose 12345.</source>
         <translation>Hier die Portnummer des srcp-Dienstes eingeben.
 Die Voreinstellung für SRCP 0.8 ist 4303,
 für SRCP 0.7 ist der Wert 12345.</translation>
+    </message>
+    <message>
+        <source>&amp;Id:</source>
+        <translation>&amp;Id:</translation>
+    </message>
+    <message>
+        <source>Enter the identification
+number of this layout.
+Valid range is 0..999999.</source>
+        <translation>Identifikationsnummer
+dieses Gleisbilds eingeben.
+Der gültige Wertebereich ist 0..999999.</translation>
+    </message>
+    <message>
+        <source>&amp;Name:</source>
+        <translation>&amp;Name:</translation>
     </message>
 </context>
 <context>

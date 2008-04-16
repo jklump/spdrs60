@@ -397,6 +397,42 @@ matches your search criteria.</source>
         <source>Layout contains %1 configured FB busses</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Unsupported CRCF attribute &apos;%1&apos; detected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unvalid COLUMNS value &apos;%1&apos; detected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unvalid ROWS value &apos;%1&apos; detected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error assembling CRCF message for layout ID &apos;%1&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error assembling CRCF message for layout NAME &apos;%1&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Layout data editing via CRCF messages is only allowed in layout edit mode.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unsupported CRCF method &apos;%1&apos; detected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error assembling CRCF message for layout COLUMNS &apos;%1&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error assembling CRCF message for layout ROWS &apos;%1&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LayoutEditModeAgrp</name>
@@ -1041,6 +1077,22 @@ the server daemon after shutdown has finished)</source>
     </message>
     <message>
         <source>Show train number input dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unknown Generic Message type &apos;%1&apos; detected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Misleaded Generic Message detected (receiver session ID = %1).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error parsing Generic Message.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unsupported CRCF actor detected.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1879,6 +1931,54 @@ pick up this information so update its route.</source>
         <source>Error setting train number: Route id &apos;%1&apos; not found.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Unsupported CRCF attribute &apos;%1&apos; detected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unsupported CRCF method &apos;%1&apos; detected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unvalid STATE value &apos;%1&apos; detected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unvalid TYPE value &apos;%1&apos; detected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route type editing via CRCF messages is only allowed in route edit mode.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route id editing via CRCF messages is only allowed in route edit mode.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route name editing via CRCF messages is only allowed in route edit mode.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Route ID &apos;%1&apos; already in use.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error assembling CRCF message for route ID &apos;%1&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error assembling CRCF message for route NAME &apos;%1&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error assembling CRCF message for route TRAIN &apos;%1&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error assembling CRCF message for route TYPE &apos;%1&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ServerInfoDialog</name>
@@ -2217,6 +2317,20 @@ after layout power is switched on.
     <message>
         <source>Cancel</source>
         <translation>Cancella</translation>
+    </message>
+    <message>
+        <source>&amp;Id:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the identification
+number of this layout.
+Valid range is 0..999999.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Name:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

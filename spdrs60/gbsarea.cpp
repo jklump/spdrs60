@@ -2,10 +2,10 @@
                            gbsarea.cpp
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-                         : (C) 2004-2007 by Guido Scholz
+                         : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-14 20:38:24 $
-                           $Revision: 1.98 $
+    last modified        : $Date: 2008-04-16 19:51:04 $
+                           $Revision: 1.99 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -275,7 +275,7 @@ void GBSArea::writeFileTextToStream(QTextStream& ts)
 {
     ts << "# start of layout section" << endl
        << "%% layout" << endl
-       << "# layout dimensions=columns" << DS "rows" << endl
+       << "# layout dimensions=columns" << DS << "rows" << endl
        << GF_DIMENSIONS << DS << cols << DS << rows << endl
        << GF_ID << DS << layoutid << DS << layoutname << endl
        << "# start of element section" << endl;
@@ -344,6 +344,7 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
                     element::SpdrItemClassId ci = el->classId();
 
                     if (ci == element::siciNone) {
+                        //TODO: derive id from icon name + rotate flag
                         el->setClassId(classIdByName(el->sSoldIcon));
                         el->sSoldIcon = nameByClassId(el->classId());
                     }
@@ -860,6 +861,10 @@ void GBSArea::setModified(bool m)
     if (modified != m)
         modified = m;
 
+    //TODO: check this, should be updated if element was
+    //  - removed
+    //  - added
+    //  - edited
     updateSRCP08BusLists();
 }
 
@@ -940,7 +945,7 @@ void GBSArea::setLayoutId(unsigned int newid)
 {
     if (layoutid != newid) {
         layoutid = newid;
-        setModified(true);
+        modified = true;
     }
 }
 
@@ -957,7 +962,7 @@ void GBSArea::setLayoutName(const QString& newname)
 {
     if (layoutname != newname) {
         layoutname = newname;
-        setModified(true);
+        modified = true;
     }
 }
 
@@ -1488,8 +1493,7 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
                 return;
             }
 
-            el->showPropertyDlg();
-            el->setClassId(classIdByName(el->sSoldIcon));
+            setModified(el->showPropertyDlg());
             e->accept();
         }
 

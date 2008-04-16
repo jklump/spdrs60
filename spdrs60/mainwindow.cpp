@@ -2,10 +2,10 @@
                            mainwindow.cpp
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-                         : (C) 2004-2007 Guido Scholz
+                         : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-14 20:38:24 $
-                           $Revision: 1.144 $
+    last modified        : $Date: 2008-04-16 19:51:04 $
+                           $Revision: 1.145 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -89,8 +89,8 @@
 #define GF_FV            "2"
 
 /*string constants for personal config file*/
-#define KS              "="
-#define CF_DS           ":"
+#define KS              '='
+#define CF_DS           ':'
 #define CF_SHOWHP2      "showhp2"
 #define CF_TURNOUTBLINK "blinkingturnouts"
 #define CF_TOOLTIPS     "tooltips"
@@ -379,7 +379,7 @@ void MainWindow::writeConfigFile()
         << CF_TOOLTIPS     << KS << (int) QToolTip::isGloballyEnabled() << endl
 #endif
         << CF_DATATOOLTIPS << KS << (int) pref.datatooltips << endl
-        << CF_ADDRESSLABEL    KS << (int) pref.addresslabeling << endl
+        << CF_ADDRESSLABEL << KS << (int) pref.addresslabeling << endl
         << CF_INITSIGNALS  << KS << (int) pref.initsignalsred << endl
         << CF_LAYOUTCOLS   << KS << pref.layoutcols << endl
         << CF_LAYOUTROWS   << KS << pref.layoutrows << endl
@@ -1648,12 +1648,12 @@ void MainWindow::newFile()
         delete nlDlg;
         return;
     }
+    CloseSRCPServerConnection();
+
     int newcols = nlDlg->getColumns();
     int newrows = nlDlg->getRows();
     unsigned int newid = nlDlg->getLayoutId();
     QString newname = nlDlg->getLayoutName();
-
-    CloseSRCPServerConnection();
     commandPort->setServer(nlDlg->getHost(), nlDlg->getPort());
     infoPort->setServer(nlDlg->getHost(), nlDlg->getPort());
     feedbackPort->setServer(nlDlg->getHost(), nlDlg->getPort());
@@ -2818,7 +2818,6 @@ void MainWindow::updateDaemonMenu()
     actionDaemonInfo->setEnabled(connected);
     
     actionLayoutPower->setEnabled(connected);
-
     actionLayoutToggleAll->setEnabled(LayoutPowerIsOn);
     actionLayoutSendAll->setEnabled(LayoutPowerIsOn);
     actionLayoutUpdateFB->setEnabled(LayoutPowerIsOn &&
@@ -2829,12 +2828,6 @@ void MainWindow::updateDaemonMenu()
 /*show spdrs60 copyright message window*/
 void MainWindow::slotAbout()
 {
-    /*
-       "For more information please have a look at the\n"
-       "documentation (see Help menu or press F1).\n\n"
-       "Please report ANY bugs, hints and thanks to:\n") +
-       PACKAGE_BUGREPORT);
-     */
     AboutDialog* ad = new AboutDialog(this);
     if (ad == NULL)
         return;
@@ -2872,9 +2865,8 @@ void MainWindow::slotEditGBSFiles()
     proc->addArgument(pref.editor);
     proc->addArgument(fileName);
 
-    if (!proc->start()) {
+    if (!proc->start())
         statusMessage(tr("Error starting editor '%1'!").arg(pref.editor));
-    }
 }
 
 
@@ -2885,37 +2877,31 @@ void MainWindow::slotEditConfigFile()
     proc->addArgument(pref.editor);
     proc->addArgument(QDir::homeDirPath() + "/" SPDRS60_INIT);
 
-    if (!proc->start()) {
+    if (!proc->start())
         statusMessage(tr("Error starting editor '%1'!").arg(pref.editor));
-    }
 }
 
 
 /*switch edit modes of layout area*/
 void MainWindow::slotViewSwitchMode(QAction* ac)
 {
-    bool rtvIsVisible = rtViewer->isVisible();
-
     if (ac == actionViewNormalMode) {
-            visualMode = kvmNormal;
-            updateRouteMenu(rtvIsVisible);
-            statusMessage(tr("Layout in normal view mode"));
+        visualMode = kvmNormal;
+        updateRouteMenu(rtViewer->isVisible());
+        statusMessage(tr("Layout in normal view mode"));
     }
     else if (ac == actionViewLayoutEditMode) {
-            visualMode = kvmEditLayout;
-            // when layout was in edit mode, it is
-            // assumed to be modified
-            gbs->setModified(true);
-            rtViewer->hide();
-            updateRouteMenu(false);
-            statusMessage(tr("Entering layout edit mode"));
+        visualMode = kvmEditLayout;
+        rtViewer->hide();
+        updateRouteMenu(false);
+        statusMessage(tr("Entering layout edit mode"));
     }
     else if (ac == actionViewRouteEditMode) {
-            visualMode = kvmEditRoute;
-            rtViewer->show();
-            updateRouteMenu(true);
-            statusMessage(tr("Entering route edit mode"));
-        }
+        visualMode = kvmEditRoute;
+        rtViewer->show();
+        updateRouteMenu(true);
+        statusMessage(tr("Entering route edit mode"));
+    }
     // send new visual mode to router, gbs and route list window
     emit switchedVisualMode(visualMode);
 
@@ -3158,6 +3144,7 @@ void MainWindow::slotEditOptions()
 void MainWindow::slotFileNewWin()
 {
     MainWindow *sw = new MainWindow();
+    Q_CHECK_PTR(sw);
     sw->resize(740, 480);
     sw->show();
 }
@@ -3167,6 +3154,7 @@ void MainWindow::slotFileNewWin()
 void MainWindow::openFileWindow(const QString& fn)
 {
     MainWindow *sw = new MainWindow();
+    Q_CHECK_PTR(sw);
     sw->resize(740, 480);
     sw->show();
     sw->openFile(fn);

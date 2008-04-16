@@ -1,3 +1,8 @@
+2008-04-16 Guido Scholz <guido.scholz@bayernline.de>
+	* mainwindow.cpp, gbsarea.c, element.*: Modified flag for layout
+	data is only set for real changes (e.g. element property dialog
+	result = OK).
+
 2008-04-06 Guido Scholz <guido.scholz@bayernline.de>
 	* doc/de/index.sgml: Chapter about Generic Messages/CRCF usage
 	added.

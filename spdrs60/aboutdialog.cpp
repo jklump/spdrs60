@@ -5,8 +5,8 @@
  *   2007-08-26
  * 
  * Last modified
- *   $Date: 2007-10-19 18:24:04 $
- *   $Revision: 1.6 $
+ *   $Date: 2008-04-16 19:51:04 $
+ *   $Revision: 1.7 $
  *
  * Copyright
  *   (C) 2007 Guido Scholz <guido.scholz@bayernline.de>
@@ -88,8 +88,8 @@ AboutDialog::AboutDialog(QWidget* parent): QDialog(parent,
 
     label = new QLabel("(C) 1999-2003 Stefan Preis <stefan.preis@wdr.de>",
             authorGB);
-    label = new QLabel("(C) 2004-2007 Guido Scholz <guido.scholz@bayernline.de>",
-            authorGB);
+    label = new QLabel("(C) 2004-2008 Guido Scholz "
+            "<guido.scholz@bayernline.de>", authorGB);
 
     // contributors groupbox, names in two vertical columns
     QGroupBox* contribGB = new QGroupBox(2, Qt::Horizontal,

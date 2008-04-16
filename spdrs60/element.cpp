@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-03-22 19:52:17 $
-                           $Revision: 1.157 $
+    last modified        : $Date: 2008-04-16 19:51:04 $
+                           $Revision: 1.158 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -901,86 +901,88 @@ void element::processInfoPortMessage(unsigned int bus,
 }
 
 /**
- * show element property dialog
+ * show element property dialog, return true if element data was changed
  */
-void element::showPropertyDlg()
+bool element::showPropertyDlg()
 {
-    /* when dialog is already open just bring it to front
-       else create new dialog */
-        ElementDialog* eDlg = new ElementDialog(this, iSoldIndex);
-        if (eDlg == NULL)
-            return;
-        
-        eDlg->setSymbolText(sSoldText);
-        eDlg->setRotated(iSoldRotate);
-        eDlg->setInverted(iSoldInvert);
-        eDlg->setGASubType(iSoldSubType);
-        eDlg->setProtocol((int) protocol);
-        eDlg->setDecoder(sSoldDecoder);
-        eDlg->setSRCPBus1(iGA1BusNo);
-        eDlg->setAddress1(iSoldAddress_1);
-        eDlg->setXChangeConn1(iSoldChangeConn[0]);
-        eDlg->setSRCPBus2(iGA2BusNo);
-        eDlg->setAddress2(iSoldAddress_2);
-        eDlg->setXChangeConn2(iSoldChangeConn[1]);
-        eDlg->setDirection(iSoldDirection);
-        eDlg->setActiveTime(iSoldActiveTime);
-        eDlg->setLEDsAreOff(iSoldLEDoff);
-        eDlg->setFBBus(iFBBusNo);
-        eDlg->setFBContact(iFBContact);
-        // this must be the last one, because it triggers enabling and
-        // disabling of all element dependent widgets
-        eDlg->setClassId(classid);
-        //FIXME: minvalues and maxvalues of port spin boxes are set too late
-        eDlg->setPort1(port1);
-        eDlg->setPort2(port2);
+    bool returnvalue = false;
 
-        connect(eDlg, SIGNAL(sigShowFBmodules()),
-                this, SIGNAL(sigShowFBmodules()));
-        
-        if (eDlg->exec() == QDialog::Accepted) {
+    ElementDialog* eDlg = new ElementDialog(this, iSoldIndex);
+    if (eDlg == NULL)
+        return false;
 
-            sSoldText = eDlg->getSymbolText();
-            iSoldRotate = eDlg->getRotated();
-            iSoldInvert = eDlg->getInverted();
-            iSoldLEDoff = eDlg->getLEDsAreOff();
+    eDlg->setSymbolText(sSoldText);
+    eDlg->setRotated(iSoldRotate);
+    eDlg->setInverted(iSoldInvert);
+    eDlg->setGASubType(iSoldSubType);
+    eDlg->setProtocol((int) protocol);
+    eDlg->setDecoder(sSoldDecoder);
+    eDlg->setSRCPBus1(iGA1BusNo);
+    eDlg->setAddress1(iSoldAddress_1);
+    eDlg->setXChangeConn1(iSoldChangeConn[0]);
+    eDlg->setSRCPBus2(iGA2BusNo);
+    eDlg->setAddress2(iSoldAddress_2);
+    eDlg->setXChangeConn2(iSoldChangeConn[1]);
+    eDlg->setDirection(iSoldDirection);
+    eDlg->setActiveTime(iSoldActiveTime);
+    eDlg->setLEDsAreOff(iSoldLEDoff);
+    eDlg->setFBBus(iFBBusNo);
+    eDlg->setFBContact(iFBContact);
+    // this must be the last one, because it triggers enabling and
+    // disabling of all element dependent widgets
+    eDlg->setClassId(classid);
+    //FIXME: minvalues and maxvalues of port spin boxes are set too late
+    eDlg->setPort1(port1);
+    eDlg->setPort2(port2);
 
-            // force display update
-            if (siciAdr == classid) {
-                if (iSoldInvert == 1)
-                    editsAddress = 0;
-                else
-                    editsAddress = sSoldText.toUInt();
-                setupElementIcon();
-            }
+    connect(eDlg, SIGNAL(sigShowFBmodules()),
+            this, SIGNAL(sigShowFBmodules()));
 
-            iSoldSubType = eDlg->getGASubType();
-            protocol =
-                (SrcpMessage::Protocol) eDlg->getProtocol();
-            sSoldDecoder = eDlg->getDecoder();
-            iGA1BusNo = eDlg->getSRCPBus1();
-            iSoldAddress_1 = eDlg->getAddress1();
-            iSoldChangeConn[0] = eDlg->getXChangeConn1();
-            port1 = eDlg->getPort1();
-            iGA2BusNo = eDlg->getSRCPBus2();
-            iSoldAddress_2 = eDlg->getAddress2();
-            iSoldChangeConn[1] = eDlg->getXChangeConn2();
-            port2 = eDlg->getPort2();
-            iSoldDirection = eDlg->getDirection();
-            iSoldActiveTime = eDlg->getActiveTime();
-            iFBBusNo = eDlg->getFBBus();
-            iFBContact = eDlg->getFBContact();
-            
-            updateProperties();
-            //updateLEDState();
+    if (eDlg->exec() == QDialog::Accepted) {
+
+        sSoldText = eDlg->getSymbolText();
+        iSoldRotate = eDlg->getRotated();
+        iSoldInvert = eDlg->getInverted();
+        iSoldLEDoff = eDlg->getLEDsAreOff();
+
+        // force display update
+        if (siciAdr == classid) {
+            if (iSoldInvert == 1)
+                editsAddress = 0;
+            else
+                editsAddress = sSoldText.toUInt();
             setupElementIcon();
-            // ask server for current occupation state
-            updateFeedbackState();
         }
-        disconnect(eDlg, SIGNAL(sigShowFBmodules()),
-                this, SIGNAL(sigShowFBmodules()));
-        
-        delete eDlg;
+
+        iSoldSubType = eDlg->getGASubType();
+        protocol =
+            (SrcpMessage::Protocol) eDlg->getProtocol();
+        sSoldDecoder = eDlg->getDecoder();
+        iGA1BusNo = eDlg->getSRCPBus1();
+        iSoldAddress_1 = eDlg->getAddress1();
+        iSoldChangeConn[0] = eDlg->getXChangeConn1();
+        port1 = eDlg->getPort1();
+        iGA2BusNo = eDlg->getSRCPBus2();
+        iSoldAddress_2 = eDlg->getAddress2();
+        iSoldChangeConn[1] = eDlg->getXChangeConn2();
+        port2 = eDlg->getPort2();
+        iSoldDirection = eDlg->getDirection();
+        iSoldActiveTime = eDlg->getActiveTime();
+        iFBBusNo = eDlg->getFBBus();
+        iFBContact = eDlg->getFBContact();
+
+        updateProperties();
+        //updateLEDState();
+        setupElementIcon();
+        // ask server for current occupation state
+        updateFeedbackState();
+        returnvalue = true;
+    }
+    disconnect(eDlg, SIGNAL(sigShowFBmodules()),
+            this, SIGNAL(sigShowFBmodules()));
+
+    delete eDlg;
+    return returnvalue;
 }
 
 
