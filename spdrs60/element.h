@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-16 19:51:04 $
-                           $Revision: 1.89 $
+    last modified        : $Date: 2008-04-20 17:48:47 $
+                           $Revision: 1.90 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -254,7 +254,7 @@ class element: public QWidget
 public:
     enum SpdrItemClassId {
         siciNone = 0,
-        siciGer = 100, siciTrv, siciDir, siciDil,
+        siciTrh = 100, siciTrv, siciDir, siciDil,
         siciCrb = 120, siciCrt, siciClt, siciClb,
         siciTtl = 125, siciTtr, siciTbl, siciTbr,
         siciKrh = 150, siciKrr, siciKrl,
@@ -288,8 +288,10 @@ public:
         siciRel = 710,
         siciMdc = 720,
         siciBsr = 800, siciBsl,
-        siciLsr = 820, siciLsl, siciSho, siciShu,
-        siciBuc = 840, siciBul, siciBur,
+        siciLsr = 820, siciLsl,
+        siciLtr = 830, siciLtl,
+        siciLbr = 840, siciLbl,
+        siciBuc = 850, siciBul, siciBur,
         siciLee = 900,
         siciFeg = 1100, siciTaf, siciTau,
         siciFeb = 1200, siciTaw,

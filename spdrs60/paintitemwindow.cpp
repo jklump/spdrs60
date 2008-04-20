@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-26
- * Last modified: $Date: 2008-03-22 16:09:16 $
- *                $Revision: 1.13 $
+ * Last modified: $Date: 2008-04-20 17:48:48 $
+ *                $Revision: 1.14 $
  *
  * This code creates a dockable window with a set of paint items 
  */
@@ -107,10 +107,12 @@
 #include "pixmaps/spdritem_bul.xpm"
 #include "pixmaps/spdritem_bur.xpm"
 #include "pixmaps/spdritem_lee.xpm"
-#include "pixmaps/spdritem_shb.xpm"
+#include "pixmaps/spdritem_ltr.xpm" //sht
+#include "pixmaps/spdritem_ltl.xpm"
+#include "pixmaps/spdritem_lbr.xpm" //shb
+#include "pixmaps/spdritem_lbl.xpm"
 #include "pixmaps/spdritem_lsl.xpm"
 #include "pixmaps/spdritem_lsr.xpm"
-#include "pixmaps/spdritem_sht.xpm"
 
 /*external group panels*/
 #include "pixmaps/spdritem_feb.xpm"
@@ -146,7 +148,7 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
     PaintItemButton* pib;
     pib = new PaintItemButton(QPixmap(spdritem_trh_xpm),
             tr("Horizontal track"),
-            element::siciGer, paintItemBG, "horizontaltrackPanel");
+            element::siciTrh, paintItemBG, "horizontaltrackPanel");
     pib->setOn(true);
 
     new PaintItemButton(QPixmap(spdritem_trv_xpm), tr("Vertical track"),
@@ -414,8 +416,11 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
     new PaintItemButton(QPixmap(spdritem_bur_xpm), tr("Building right wing"),
             element::siciBur, paintItemBG, "buildingrightwingPanel");
 
-    new PaintItemButton(QPixmap(spdritem_sht_xpm), tr("Top loco shed"),
-            element::siciSho, paintItemBG, "locoshedtPanel");
+    new PaintItemButton(QPixmap(spdritem_ltr_xpm), tr("Top right loco shed"),
+            element::siciLtr, paintItemBG, "locoshedtrPanel");
+
+    new PaintItemButton(QPixmap(spdritem_lbr_xpm), tr("Bottom right loco shed"),
+            element::siciLbr, paintItemBG, "locoshedbrPanel");
 
     new PaintItemButton(QPixmap(spdritem_lsr_xpm), tr("Middle loco shed right"),
             element::siciLsr, paintItemBG, "locoshedmrightPanel");
@@ -423,8 +428,11 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
     new PaintItemButton(QPixmap(spdritem_lsl_xpm), tr("Middle loco shed left"),
             element::siciLsl, paintItemBG, "locoshedmleftPanel");
 
-    new PaintItemButton(QPixmap(spdritem_shb_xpm), tr("Bottom loco shed"),
-            element::siciShu, paintItemBG, "locoshedbPanel");
+    new PaintItemButton(QPixmap(spdritem_ltl_xpm), tr("Top left loco shed"),
+            element::siciLtl, paintItemBG, "locoshedtlPanel");
+
+    new PaintItemButton(QPixmap(spdritem_lbl_xpm), tr("Bottom left loco shed"),
+            element::siciLbl, paintItemBG, "locoshedblPanel");
 
     /*external group panels*/
     new PaintItemButton(QPixmap(spdritem_feg_xpm),

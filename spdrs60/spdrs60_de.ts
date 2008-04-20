@@ -1159,14 +1159,6 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <translation>Haus, Mittelflügel</translation>
     </message>
     <message>
-        <source>Top loco shed</source>
-        <translation>Lokschuppen oben</translation>
-    </message>
-    <message>
-        <source>Bottom loco shed</source>
-        <translation>Lokschuppen unten</translation>
-    </message>
-    <message>
         <source>Horizontal track</source>
         <translation>Horizontales Gleis</translation>
     </message>
@@ -1493,6 +1485,22 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     <message>
         <source>Horizontal Tunnel</source>
         <translation>Horizontaler Tunnel</translation>
+    </message>
+    <message>
+        <source>Top right loco shed</source>
+        <translation>Lokschuppen oben rechts</translation>
+    </message>
+    <message>
+        <source>Top left loco shed</source>
+        <translation>Lokschuppen oben links</translation>
+    </message>
+    <message>
+        <source>Bottom right loco shed</source>
+        <translation>Lokschuppen unten rechts</translation>
+    </message>
+    <message>
+        <source>Bottom left loco shed</source>
+        <translation>Lokschuppen unten links</translation>
     </message>
 </context>
 <context>

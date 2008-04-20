@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-16 19:51:04 $
-                           $Revision: 1.99 $
+    last modified        : $Date: 2008-04-20 17:48:47 $
+                           $Revision: 1.100 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -78,7 +78,7 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
     gkbState = kNoneClicked;
     visualMode = kvmNormal;
     lyeditMode = lemSelect;
-    paintItem = element::siciGer;
+    paintItem = element::siciTrh;
     modified = false;
     cols = 0;
     rows = 0;
@@ -1493,7 +1493,9 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
                 return;
             }
 
-            setModified(el->showPropertyDlg());
+            if (el->showPropertyDlg())
+                setModified(true);
+
             e->accept();
         }
 
@@ -1816,7 +1818,7 @@ void GBSArea::initSpdrMap()
     spdrmap[element::siciDkl] = SYM_DKL;
     spdrmap[element::siciDkr] = SYM_DKR;
 
-    spdrmap[element::siciGer] = SYM_GER;
+    spdrmap[element::siciTrh] = SYM_GER;
     spdrmap[element::siciTrv] = SYM_TRV;
     spdrmap[element::siciDir] = SYM_DIR;
     spdrmap[element::siciDil] = SYM_DIL;
@@ -1853,10 +1855,12 @@ void GBSArea::initSpdrMap()
     spdrmap[element::siciBuc] = SYM_BUC;
     spdrmap[element::siciBul] = SYM_BUL;
     spdrmap[element::siciBur] = SYM_BUR;
-    spdrmap[element::siciSho] = SYM_SHO;
+    spdrmap[element::siciLtr] = SYM_SHO;
+    spdrmap[element::siciLtl] = SYM_SHO;
     spdrmap[element::siciLsr] = SYM_LSR;
     spdrmap[element::siciLsl] = SYM_LSL;
-    spdrmap[element::siciShu] = SYM_SHU;
+    spdrmap[element::siciLbr] = SYM_SHU;
+    spdrmap[element::siciLbl] = SYM_SHU;
 
     spdrmap[element::siciFeg] = SYM_FEG;
     spdrmap[element::siciTaf] = SYM_TAF;

@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-16 19:51:04 $
-                           $Revision: 1.158 $
+    last modified        : $Date: 2008-04-20 17:48:47 $
+                           $Revision: 1.159 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -151,10 +151,14 @@ void element::initVariables()
     ttComm = NULL;
 }
 
-
+/* Read the layout element data from stream, old data style containing
+ * an icon name is translated to new style using class ids.
+ * Lines starting with # are recognized as comments, lines starting with
+ * % are recognized as end of dataset marker (new style file format)*/
 void element::readFileTextFromStream(QTextStream& ats)
 {
     QString s, key, value;
+    bool translate = false;
 
     while (!ats.eof()) {
         s = ats.readLine();
@@ -163,14 +167,19 @@ void element::readFileTextFromStream(QTextStream& ats)
             value = s.section(DS, 1, 1).stripWhiteSpace();
 
             /* key/value pairs are read sequence independent */
-            if (key.compare(GF_INDEX) == 0) {
+            if (key.compare(GF_CLASSID) == 0) {
+                  classid = (SpdrItemClassId)value.toInt();
+            }
+            else if (key.compare(GF_INDEX) == 0) {
                   iSoldIndex = value.stripWhiteSpace().toUInt();
             }
-            else if (key.compare(GF_CLASSID) == 0) {
-                  classid = (SpdrItemClassId)value.toInt();
+            else if (key.startsWith("%")) {
+                /*end of dataset, exit while loop*/
+                  break;
             }
             else if (key.compare(GF_NAME) == 0) {
                   sSoldIcon = value.stripWhiteSpace();
+                  translate = true;
             }
             else if (key.compare(GF_ROTATE) == 0) {
                 iSoldRotate = value.toInt();
@@ -235,10 +244,15 @@ void element::readFileTextFromStream(QTextStream& ats)
             }
             else if (key.compare(GF_HIDELEDS) == 0) {
                 iSoldLEDoff = value.toInt();
-                /*this is the last parameter, now exit while loop*/
+                /*this is the last parameter for old style format;
+                 * now exit while loop*/
                 break;
             }
         }
+    }
+    if (translate) {
+        //TODO:
+        //classid = translateItem(sSoldIcon, iSoldRotate);
     }
 }
 
@@ -3113,7 +3127,7 @@ void element::setupElementIcon()
     }
     
     // straight track
-    else if (classid == siciGer) {
+    else if (classid == siciTrh) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -7516,10 +7530,10 @@ void element::setupElementIcon()
         setPaletteBackgroundPixmap(pm);
     }
 
-    // track with loco shed (lokschuppen)
-    else if (classid == siciSho || classid == siciShu) {
+    // track with right top or bottom loco shed (lokschuppen)
+    else if (classid == siciLtr || classid == siciLbl) {
 
-        bool istop = (classid == siciSho);
+        bool istop = (classid == siciLtr);
         
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
@@ -7529,36 +7543,57 @@ void element::setupElementIcon()
         // translate origin to center of pixmap
         p.translate(pm.width()/2, pm.height()/2);
 
-        int tracklen = pm.width() / 2;
-        int shedwidth = pm.height();
-        int shedxoffset = 0;
-        int shedyoffset = 0;
+        int tracklen = pm.width() / 2 + 5;
+        int shedwidth = pm.height() + 8;
+        int shedxoffset = 9;
+        int shedyoffset = 8;
 
-        if (istop) {
-            tracklen += 5;
-            shedwidth += 8;
-            shedxoffset += 9;
-            shedyoffset += 8;
-            if (iSoldRotate == 1) 
-                p.rotate(WANGLE);
-            else 
-                p.rotate(-SANGLE);
-        }
-        else {
-            tracklen += 5;
-            shedwidth += 8;
-            shedxoffset += 9;
-            shedyoffset -= 8;
-            if (iSoldRotate == 1) 
-                p.rotate(-WANGLE);
-            else 
-                p.rotate(SANGLE);
-        }
+        if (istop)
+            p.rotate(-SANGLE);
+        else
+            p.rotate(WANGLE);
         
         // paint track
         p.fillRect(0, -3, -tracklen, 7, QBrush(Qt::black));
         
-        // paint schuppen
+        // paint shed
+        p.setBrush(QColor(192, 0 ,0));
+        p.drawRect(0 - shedxoffset, -shedwidth/2 + shedyoffset,
+                pm.width()/2, shedwidth);
+        p.drawLine(pm.width() / 4 - shedxoffset, -shedwidth / 2 + shedyoffset,
+                pm.width() / 4 - shedxoffset, shedwidth / 2 + shedyoffset);
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+
+    // track with left top or bottom loco shed (lokschuppen)
+    else if (classid == siciLtl || classid == siciLbr) {
+
+        bool istop = (classid == siciLtl);
+        
+        QPixmap pm = QPixmap(size());
+        pm.fill(QColor(Qt::lightGray));
+        QPainter p;
+        p.begin(&pm);
+
+        // translate origin to center of pixmap
+        p.translate(pm.width()/2, pm.height()/2);
+
+        int tracklen = pm.width() / 2 + 5;
+        int shedwidth = pm.height() + 8;
+        int shedxoffset = 9;
+        int shedyoffset = -8;
+
+        if (istop)
+            p.rotate(-WANGLE);
+        else
+            p.rotate(SANGLE);
+        
+        // paint track
+        p.fillRect(0, -3, -tracklen, 7, QBrush(Qt::black));
+        
+        // paint shed
         p.setBrush(QColor(192, 0 ,0));
         p.drawRect(0 - shedxoffset, -shedwidth/2 + shedyoffset,
                 pm.width()/2, shedwidth);
@@ -7868,7 +7903,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     unsigned int returnvalue = rdCenter;
 
     /* - */
-    if (classid == siciGer || classid == siciEnk
+    if (classid == siciTrh || classid == siciEnk
             || classid == siciHsr || classid == siciHsl
             || classid == siciRbr || classid == siciRbl
             || classid == siciSbl || classid == siciSbl
@@ -8922,8 +8957,15 @@ void element::slotRepaintLayout()
 
 void element::writeFileTextToStream(QTextStream& ts)
 {
-    ts << GF_INDEX     << DS << iSoldIndex<< endl
-      // << GF_CLASSID   << DS << classid << endl
+    //TODO: check
+    //switch (classid) {
+    //case siciFer:
+    //break;
+    //default:
+    //  ---
+    //}
+    ts << GF_CLASSID   << DS << classid << endl
+       << GF_INDEX     << DS << iSoldIndex<< endl
        << GF_NAME      << DS << sSoldIcon << endl
        << GF_ROTATE    << DS << iSoldRotate << endl
        << GF_INVERSTO  << DS << iSoldInvert << endl
@@ -8944,7 +8986,8 @@ void element::writeFileTextToStream(QTextStream& ts)
        << GF_TEXT      << DS << sSoldText << endl
        << GF_ACTTIME   << DS << iSoldActiveTime << endl
        << GF_FBPORT    << DS << iFBBusNo << DS << iFBContact << endl
-       << GF_HIDELEDS  << DS << iSoldLEDoff << endl;
+       << GF_HIDELEDS  << DS << iSoldLEDoff << endl
+       << '%' << endl;
 }
 
 

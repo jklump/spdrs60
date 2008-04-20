@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-03-22 19:52:17 $
-                           $Revision: 1.63 $
+    last modified        : $Date: 2008-04-20 17:48:47 $
+                           $Revision: 1.64 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -739,7 +739,7 @@ void ElementDialog::slotSymbolChanged()
         classid == element::siciShr || classid == element::siciShl ||
         classid == element::siciSdr || classid == element::siciSdl ||
         classid == element::siciEnk || classid == element::siciRel ||
-        classid == element::siciGer || classid == element::siciLee ||
+        classid == element::siciTrh || classid == element::siciLee ||
         classid == element::siciRbr || classid == element::siciRbl ||
         classid == element::siciSbr || classid == element::siciSbl ||
         classid == element::siciMdc ||
@@ -804,12 +804,10 @@ void ElementDialog::slotSymbolChanged()
 #endif
 
     // show rotate data
-    // element::siciGer: only for text placement
+    // element::siciTrh: only for text placement
     enabled =
         classid == element::siciEkl || classid == element::siciEkr ||
-        classid == element::siciGer ||
-        classid == element::siciTul || classid == element::siciTur ||
-        classid == element::siciSho || classid == element::siciShu;
+        classid == element::siciTrh;
 
     cbRotate->setEnabled(enabled);
 
@@ -818,7 +816,7 @@ void ElementDialog::slotSymbolChanged()
         classid == element::siciClt || classid == element::siciCrb ||
         classid == element::siciCrt || classid == element::siciClb ||
         classid == element::siciDil || classid == element::siciDir ||
-        classid == element::siciGer || classid == element::siciTrv ||
+        classid == element::siciTrh || classid == element::siciTrv ||
         classid == element::siciTdr || classid == element::siciTdl ||
         classid == element::siciTdb ||
         classid == element::siciRbr || classid == element::siciRbl ||
@@ -879,8 +877,8 @@ void ElementDialog::slotSymbolChanged()
           classid == element::siciDbl || classid == element::siciDbr ||
           classid == element::siciDtl || classid == element::siciDtr ||
           classid == element::siciDil || classid == element::siciDir ||
-          classid == element::siciGer || classid == element::siciTdr ||
-          classid == element::siciTdl || classid == element::siciTrv ||
+          classid == element::siciTrh || classid == element::siciTrv ||
+          classid == element::siciTdl || classid == element::siciTdr ||
           classid == element::siciTtl || classid == element::siciTtr ||
           classid == element::siciTbl || classid == element::siciTbr ||
           classid == element::siciRbr || classid == element::siciRbl ||
