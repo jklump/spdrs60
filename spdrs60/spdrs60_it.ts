@@ -1473,6 +1473,14 @@ the server daemon after shutdown has finished)</source>
         <source>Bottom left loco shed</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Top buffer stop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bottom buffer stop</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>

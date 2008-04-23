@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-26
- * Last modified: $Date: 2008-04-20 17:48:48 $
- *                $Revision: 1.14 $
+ * Last modified: $Date: 2008-04-23 19:02:51 $
+ *                $Revision: 1.15 $
  *
  * This code creates a dockable window with a set of paint items 
  */
@@ -41,20 +41,20 @@
 #include "pixmaps/spdritem_tur.xpm"
 
 /*curved track panels*/
-#include "pixmaps/spdritem_clb.xpm"
-#include "pixmaps/spdritem_clt.xpm"
-#include "pixmaps/spdritem_crb.xpm"
-#include "pixmaps/spdritem_crt.xpm"
-#include "pixmaps/spdritem_tbl.xpm"
-#include "pixmaps/spdritem_tbr.xpm"
-#include "pixmaps/spdritem_ttl.xpm"
-#include "pixmaps/spdritem_ttr.xpm"
+#include "pixmaps/spdritem_cl3.xpm"
+#include "pixmaps/spdritem_cl1.xpm"
+#include "pixmaps/spdritem_cr1.xpm"
+#include "pixmaps/spdritem_cr3.xpm"
+#include "pixmaps/spdritem_cl4.xpm"
+#include "pixmaps/spdritem_cr4.xpm"
+#include "pixmaps/spdritem_cl2.xpm"
+#include "pixmaps/spdritem_cr2.xpm"
 
 /*switch panels */
-#include "pixmaps/spdritem_slt.xpm" //wel
-#include "pixmaps/spdritem_slb.xpm"
-#include "pixmaps/spdritem_srb.xpm" //wer
-#include "pixmaps/spdritem_srt.xpm"
+#include "pixmaps/spdritem_tl1.xpm" //wel
+#include "pixmaps/spdritem_tl3.xpm"
+#include "pixmaps/spdritem_tr1.xpm" //wer
+#include "pixmaps/spdritem_tr3.xpm"
 #include "pixmaps/spdritem_dbl.xpm" //dwl
 #include "pixmaps/spdritem_dbr.xpm"
 #include "pixmaps/spdritem_dtr.xpm" //dwr
@@ -101,8 +101,10 @@
 #include "pixmaps/spdritem_trt.xpm"
 
 /*decorative panels*/
-#include "pixmaps/spdritem_bsl.xpm"
-#include "pixmaps/spdritem_bsr.xpm"
+#include "pixmaps/spdritem_bs1.xpm"
+#include "pixmaps/spdritem_bs2.xpm"
+#include "pixmaps/spdritem_bs3.xpm"
+#include "pixmaps/spdritem_bs4.xpm"
 #include "pixmaps/spdritem_buc.xpm"
 #include "pixmaps/spdritem_bul.xpm"
 #include "pixmaps/spdritem_bur.xpm"
@@ -194,54 +196,54 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
             element::siciTur, paintItemBG, "diagonaltunnelrightPanel");
 
     /*curved track panels*/
-    new PaintItemButton(QPixmap(spdritem_crb_xpm),
+    new PaintItemButton(QPixmap(spdritem_cr1_xpm),
             tr("Curve right bottom"),
-            element::siciCrb, paintItemBG, "curverbotPanel");
+            element::siciCr1, paintItemBG, "curveright1Panel");
 
-    new PaintItemButton(QPixmap(spdritem_clt_xpm),
+    new PaintItemButton(QPixmap(spdritem_cl1_xpm),
             tr("Curve left top"),
-            element::siciClt, paintItemBG, "curveltopPanel");
+            element::siciCl1, paintItemBG, "curveleft1Panel");
 
-    new PaintItemButton(QPixmap(spdritem_crt_xpm),
+    new PaintItemButton(QPixmap(spdritem_cr3_xpm),
             tr("Curve right top"),
-            element::siciCrt, paintItemBG, "curvertopPanel");
+            element::siciCr3, paintItemBG, "curveright3Panel");
 
-    new PaintItemButton(QPixmap(spdritem_clb_xpm),
+    new PaintItemButton(QPixmap(spdritem_cl3_xpm),
             tr("Curve left bottom"),
-            element::siciClb, paintItemBG, "curvelbotPanel");
+            element::siciCl3, paintItemBG, "curveleft3Panel");
 
-    new PaintItemButton(QPixmap(spdritem_ttl_xpm),
+    new PaintItemButton(QPixmap(spdritem_cl2_xpm),
             tr("Curve top vertical left"),
-            element::siciTtl, paintItemBG, "curvetvlPanel");
+            element::siciCl2, paintItemBG, "curveleft2Panel");
 
-    new PaintItemButton(QPixmap(spdritem_ttr_xpm),
+    new PaintItemButton(QPixmap(spdritem_cr2_xpm),
             tr("Curve top vertical right"),
-            element::siciTtr, paintItemBG, "curvetvrPanel");
+            element::siciCr2, paintItemBG, "curveright2Panel");
 
-    new PaintItemButton(QPixmap(spdritem_tbr_xpm),
+    new PaintItemButton(QPixmap(spdritem_cr4_xpm),
             tr("Curve bottom vertical right"),
-            element::siciTbr, paintItemBG, "curvebvrPanel");
+            element::siciCr4, paintItemBG, "curveright4Panel");
 
-    new PaintItemButton(QPixmap(spdritem_tbl_xpm),
+    new PaintItemButton(QPixmap(spdritem_cl4_xpm),
             tr("Curve bottom vertical left"),
-            element::siciTbl, paintItemBG, "curvebvlPanel");
+            element::siciCl4, paintItemBG, "curveleft4Panel");
 
     /*switch panels */
-    new PaintItemButton(QPixmap(spdritem_slt_xpm),
+    new PaintItemButton(QPixmap(spdritem_tl1_xpm),
             tr("Switch top left"),
-            element::siciSlt, paintItemBG, "switchtopleftPanel");
+            element::siciTl1, paintItemBG, "turnoutleft1Panel");
 
-    new PaintItemButton(QPixmap(spdritem_srb_xpm),
+    new PaintItemButton(QPixmap(spdritem_tr1_xpm),
             tr("Switch bottom right"),
-            element::siciSrb, paintItemBG, "switchbottomrightPanel");
+            element::siciTr1, paintItemBG, "turnoutright1Panel");
 
-    new PaintItemButton(QPixmap(spdritem_srt_xpm),
+    new PaintItemButton(QPixmap(spdritem_tr3_xpm),
             tr("Switch top right"),
-            element::siciSrt, paintItemBG, "switchtoprightPanel");
+            element::siciTr3, paintItemBG, "turnoutright3Panel");
 
-    new PaintItemButton(QPixmap(spdritem_slb_xpm),
+    new PaintItemButton(QPixmap(spdritem_tl3_xpm),
             tr("Switch bottom left"),
-            element::siciSlb, paintItemBG, "switchbottomleftPanel");
+            element::siciTl3, paintItemBG, "turnoutleft3Panel");
 
     new PaintItemButton(QPixmap(spdritem_dtr_xpm),
             tr("Diagonal switch top right"),
@@ -398,11 +400,17 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
             element::siciSbn, paintItemBG, "transfertablePanel");
 
     /*decorative panels*/
-    new PaintItemButton(QPixmap(spdritem_bsl_xpm), tr("Left buffer stop"),
-            element::siciBsl, paintItemBG, "leftbufferstopPanel");
+    new PaintItemButton(QPixmap(spdritem_bs1_xpm), tr("Right buffer stop"),
+            element::siciBs1, paintItemBG, "bufferstop1Panel");
 
-    new PaintItemButton(QPixmap(spdritem_bsr_xpm), tr("Right buffer stop"),
-            element::siciBsr, paintItemBG, "rightbufferstopPanel");
+    new PaintItemButton(QPixmap(spdritem_bs2_xpm), tr("Top buffer stop"),
+            element::siciBs2, paintItemBG, "bufferstop2Panel");
+
+    new PaintItemButton(QPixmap(spdritem_bs3_xpm), tr("Left buffer stop"),
+            element::siciBs3, paintItemBG, "bufferstop3Panel");
+
+    new PaintItemButton(QPixmap(spdritem_bs4_xpm), tr("Bottom buffer stop"),
+            element::siciBs4, paintItemBG, "bufferstop4Panel");
 
     new PaintItemButton(QPixmap(spdritem_lee_xpm), tr("Text field panel"),
             element::siciLee, paintItemBG, "textfieldPanel");

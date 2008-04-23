@@ -1502,6 +1502,14 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <source>Bottom left loco shed</source>
         <translation>Lokschuppen unten links</translation>
     </message>
+    <message>
+        <source>Top buffer stop</source>
+        <translation>Prellbock oben</translation>
+    </message>
+    <message>
+        <source>Bottom buffer stop</source>
+        <translation>Prellbock oben</translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>

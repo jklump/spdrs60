@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-20 17:48:47 $
-                           $Revision: 1.90 $
+    last modified        : $Date: 2008-04-23 19:02:51 $
+                           $Revision: 1.91 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -255,8 +255,8 @@ public:
     enum SpdrItemClassId {
         siciNone = 0,
         siciTrh = 100, siciTrv, siciDir, siciDil,
-        siciCrb = 120, siciCrt, siciClt, siciClb,
-        siciTtl = 125, siciTtr, siciTbl, siciTbr,
+        siciCr1 = 120, siciCr2, siciCr3, siciCr4,
+        siciCl1 = 130, siciCl2, siciCl3, siciCl4,
         siciKrh = 150, siciKrr, siciKrl,
         siciTuh = 160, siciTuv, siciTul, siciTur,
         siciTdr = 170, siciTdl, siciTdb,
@@ -274,8 +274,8 @@ public:
         siciVsr = 360, siciVsl,
         siciAdr = 400,
         siciBue = 420,
-        siciSrb = 500, siciSrt,
-        siciSlb = 510, siciSlt,
+        siciTr1 = 500, siciTr2, siciTr3, siciTr4,
+        siciTl1 = 510, siciTl2, siciTl3, siciTl4,
         siciDbl = 520, siciDtl,
         siciDtr = 530, siciDbr,
         siciSyr = 550, siciSyl,
@@ -287,7 +287,7 @@ public:
         siciDre = 700, siciSbn,
         siciRel = 710,
         siciMdc = 720,
-        siciBsr = 800, siciBsl,
+        siciBs1 = 800, siciBs2, siciBs3, siciBs4,
         siciLsr = 820, siciLsl,
         siciLtr = 830, siciLtl,
         siciLbr = 840, siciLbl,

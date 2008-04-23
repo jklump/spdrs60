@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-20 17:48:47 $
-                           $Revision: 1.159 $
+    last modified        : $Date: 2008-04-23 19:02:51 $
+                           $Revision: 1.160 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1259,8 +1259,8 @@ void element::setupElementIcon()
         setPaletteBackgroundPixmap(pm);
     }
    
-    // buffer stop (prellbock)
-    else if (classid == siciBsr) {
+    // buffer stop right (prellbock)
+    else if (classid == siciBs1) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -1278,8 +1278,22 @@ void element::setupElementIcon()
         setPaletteBackgroundPixmap(pm);
     }
    
-    // left buffer stop (prellbock)
-    else if (classid == siciBsl) {
+    // buffer stop top
+    else if (classid == siciBs2) {
+        QPixmap pm = QPixmap(size());
+        pm.fill(QColor(Qt::lightGray));
+        QPainter p;
+        p.begin(&pm);
+            
+        // paint panel
+        p.fillRect(pm.width() / 2 - 6, 0, 13, 5, QBrush(Qt::black));
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+   
+    // buffer stop left
+    else if (classid == siciBs3) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -1287,6 +1301,22 @@ void element::setupElementIcon()
             
         // paint panel
         p.fillRect(0, pm.height() / 2 - 6, 5, 13, QBrush(Qt::black));
+
+        p.end();
+        setPaletteBackgroundPixmap(pm);
+    }
+   
+    // buffer stop bottom
+    else if (classid == siciBs4) {
+        QPixmap pm = QPixmap(size());
+        pm.fill(QColor(Qt::lightGray));
+        QPainter p;
+        p.begin(&pm);
+            
+        // paint panel
+        int w = pm.width();
+        int h = pm.height();
+        p.fillRect(w / 2 - 6, h - 5, 13, 5, QBrush(Qt::black));
 
         p.end();
         setPaletteBackgroundPixmap(pm);
@@ -3227,7 +3257,7 @@ void element::setupElementIcon()
     }
     
     // vertical turn top left
-    else if (classid == siciTtl) {
+    else if (classid == siciCl2) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -3284,7 +3314,7 @@ void element::setupElementIcon()
     }
     
     // vertical turn top right
-    else if (classid == siciTtr) {
+    else if (classid == siciCr2) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -3341,7 +3371,7 @@ void element::setupElementIcon()
     }
     
     // vertical turn bottom left
-    else if (classid == siciTbl) {
+    else if (classid == siciCl4) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -3398,7 +3428,7 @@ void element::setupElementIcon()
     }
     
     // vertical turn bottom right
-    else if (classid == siciTbr) {
+    else if (classid == siciCr4) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -3455,8 +3485,8 @@ void element::setupElementIcon()
     }
     
     // track turn right and left
-    else if (classid == siciCrb || classid == siciClt) {
-        bool left = (classid == siciClt);
+    else if (classid == siciCr1 || classid == siciCl1) {
+        bool left = (classid == siciCl1);
 
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
@@ -3571,8 +3601,8 @@ void element::setupElementIcon()
     }
 
     // (rotated) track turn right and left
-    else if (classid == siciCrt || classid == siciClb) {
-        bool left = (classid == siciClb);
+    else if (classid == siciCr3 || classid == siciCl3) {
+        bool left = (classid == siciCl3);
 
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
@@ -5382,7 +5412,7 @@ void element::setupElementIcon()
     }
 
     // switch left top (+ old left bottom)
-    else if (classid == siciSlt) {
+    else if (classid == siciTl1) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -5533,7 +5563,7 @@ void element::setupElementIcon()
     }
 
     // switch left bottom
-    else if (classid == siciSlb) {
+    else if (classid == siciTl3) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -5663,7 +5693,7 @@ void element::setupElementIcon()
     }
 
     // switch right top
-    else if (classid == siciSrt) {
+    else if (classid == siciTr3) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -5793,7 +5823,7 @@ void element::setupElementIcon()
     }
 
     // switch right bottom (+ old right top)
-    else if (classid == siciSrb) {
+    else if (classid == siciTr1) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -7935,7 +7965,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     
     /* \
        | */
-    else if (classid == siciTtl) {
+    else if (classid == siciCl2) {
             if (entrydir == rdNW)
                 returnvalue = rdS;
             else if (entrydir == rdS)
@@ -7944,7 +7974,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     
     /* /
        | */
-    else if (classid == siciTtr) {
+    else if (classid == siciCr2) {
             if (entrydir == rdNE)
                 returnvalue = rdS;
             else if (entrydir == rdS)
@@ -7953,7 +7983,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     
     /* |
        \ */
-    else if (classid == siciTbl) {
+    else if (classid == siciCl4) {
             if (entrydir == rdN)
                 returnvalue = rdSE;
             else if (entrydir == rdSE)
@@ -7962,14 +7992,14 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     
     /* |
        / */
-    else if (classid == siciTbr) {
+    else if (classid == siciCr4) {
             if (entrydir == rdN)
                 returnvalue = rdSW;
             else if (entrydir == rdSW)
                 returnvalue = rdN;
     }
     
-    else if (classid == siciSlt) {
+    else if (classid == siciTl1) {
         // --
         if (iSoldDirection == 0) {
             if (entrydir == rdW)
@@ -7995,7 +8025,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
     }
 
-    else if (classid == siciSlb) {
+    else if (classid == siciTl3) {
         // --
         if (iSoldDirection == 0) {
             if (entrydir == rdW)
@@ -8012,7 +8042,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
     }
 
-    else if (classid == siciSrt) {
+    else if (classid == siciTr3) {
         // --
         if (iSoldDirection == 0) {
             if (entrydir == rdW)
@@ -8029,7 +8059,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
     }
 
-    else if (classid == siciSrb) {
+    else if (classid == siciTr1) {
         // --
         if (iSoldDirection == 0) {
             if (entrydir == rdW)
@@ -8071,7 +8101,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
             returnvalue = rdNW;
     }
 
-    else if (classid == siciClt) {
+    else if (classid == siciCl1) {
         /* /- */
         if (iSoldRotate == 1) {
             if (entrydir == rdE)
@@ -8088,7 +8118,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
     }
 
-    else if (classid == siciClb) {
+    else if (classid == siciCl3) {
         /* /- */
             if (entrydir == rdE)
                 returnvalue = rdSW;
@@ -8096,7 +8126,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
                 returnvalue = rdE;
     }
 
-    else if (classid == siciCrb) {
+    else if (classid == siciCr1) {
         /* \- */
         if (iSoldRotate == 1) {
             if (entrydir == rdE)
@@ -8113,7 +8143,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
     }
 
-    else if (classid == siciCrt) {
+    else if (classid == siciCr3) {
         /* \- */
         if (entrydir == rdE)
             returnvalue = rdNW;
@@ -9312,12 +9342,12 @@ void element::setClassId(SpdrItemClassId id)
 
     // translate old nonrotated ids
     if (iSoldRotate == 1) {
-        if (id == siciCrb) {
-            classid = siciCrt;
+        if (id == siciCr1) {
+            classid = siciCr3;
             iSoldRotate = -1;
         }
-        else if (id == siciClt) {
-            classid = siciClb;
+        else if (id == siciCl1) {
+            classid = siciCl3;
             iSoldRotate = -1;
         }
         else if (id == siciTdr) {
@@ -9368,12 +9398,12 @@ void element::setClassId(SpdrItemClassId id)
             classid = siciBur;
             iSoldRotate = -1;
         }
-        else if (id == siciSlt) {
-            classid = siciSlb;
+        else if (id == siciTl1) {
+            classid = siciTl3;
             iSoldRotate = -1;
         }
-        else if (id == siciSrb) {
-            classid = siciSrt;
+        else if (id == siciTr1) {
+            classid = siciTr3;
             iSoldRotate = -1;
         }
         else if (id == siciDbl) {
