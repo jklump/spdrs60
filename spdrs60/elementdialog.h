@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-07 17:31:03 $
-                           $Revision: 1.21 $
+    last modified        : $Date: 2008-04-24 19:37:39 $
+                           $Revision: 1.22 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -52,8 +52,6 @@ public:
    int getSRCPBus2();
    void setSRCPBus2(int);
    void setClassId(element::SpdrItemClassId);
-   int getRotated();
-   void setRotated(int);
    int getInverted();
    void setInverted(int);
    int getLEDsAreOff();
@@ -98,7 +96,6 @@ private:
    QGroupBox*   feedbackGB;
 
    QCheckBox    *cbAddrLabeling;
-   QCheckBox    *cbRotate;
    QCheckBox    *cbInvert;
    QCheckBox    *cbLEDoff;
    QCheckBox    *xchConn1CB;

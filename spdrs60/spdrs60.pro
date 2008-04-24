@@ -157,8 +157,10 @@ HEADERS += aboutdialog.h \
 	pixmaps/spdritem_dkr.xpm \
 	pixmaps/spdritem_dtl.xpm \
 	pixmaps/spdritem_dtr.xpm \
-	pixmaps/spdritem_ekl.xpm \
-	pixmaps/spdritem_ekr.xpm \
+	pixmaps/spdritem_sl1.xpm \
+	pixmaps/spdritem_sl3.xpm \
+	pixmaps/spdritem_sr1.xpm \
+	pixmaps/spdritem_sr3.xpm \
 	pixmaps/spdritem_feb.xpm \
 	pixmaps/spdritem_fee.xpm \
 	pixmaps/spdritem_feg.xpm \
@@ -174,7 +176,7 @@ HEADERS += aboutdialog.h \
 	pixmaps/spdritem_krr.xpm \
 	pixmaps/spdritem_lbr.xpm \
 	pixmaps/spdritem_lcr.xpm \
-	pixmaps/spdritem_lee.xpm \
+	pixmaps/spdritem_txt.xpm \
 	pixmaps/spdritem_lsl.xpm \
 	pixmaps/spdritem_lsr.xpm \
 	pixmaps/spdritem_ltr.xpm \

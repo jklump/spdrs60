@@ -45,10 +45,6 @@ SRCP server (e.g. erddcd or srcpd) as hardware link.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Rotation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&amp;Inverted use</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1194,14 +1190,6 @@ the server daemon after shutdown has finished)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Single-slip switch left</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Single-slip switch right</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Double-slip switch left</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1479,6 +1467,22 @@ the server daemon after shutdown has finished)</source>
     </message>
     <message>
         <source>Bottom buffer stop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Single-slip switch top left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Single-slip switch bottom left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Single-slip switch top right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Single-slip switch bottom right</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

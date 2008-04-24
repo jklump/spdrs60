@@ -1,3 +1,7 @@
+2008-04-24 Guido Scholz <guido.scholz@bayernline.de>
+	* element.cpp: Text content of text element is painted on white
+	background. Empty text element shows eye-catching white rectangle.
+
 2008-04-23 Guido Scholz <guido.scholz@bayernline.de>
 	* element.*, gbsarea.cpp, paintitemwindow.cpp: New paint items
 	for top and bottom bufferstop.

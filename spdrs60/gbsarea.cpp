@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-23 19:02:51 $
-                           $Revision: 1.101 $
+    last modified        : $Date: 2008-04-24 19:37:39 $
+                           $Revision: 1.102 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1813,8 +1813,8 @@ void GBSArea::initSpdrMap()
     spdrmap[element::siciSyl] = SYM_SYL;
     spdrmap[element::siciTwr] = SYM_TWR;
     spdrmap[element::siciTwl] = SYM_TWL;
-    spdrmap[element::siciEkl] = SYM_EKL;
-    spdrmap[element::siciEkr] = SYM_EKR;
+    spdrmap[element::siciSl1] = SYM_EKL;
+    spdrmap[element::siciSr1] = SYM_EKR;
     spdrmap[element::siciDkl] = SYM_DKL;
     spdrmap[element::siciDkr] = SYM_DKR;
 
@@ -1851,7 +1851,7 @@ void GBSArea::initSpdrMap()
     spdrmap[element::siciTul] = SYM_TUL;
     spdrmap[element::siciTur] = SYM_TUR;
     spdrmap[element::siciTuv] = SYM_TUV;
-    spdrmap[element::siciLee] = SYM_LEE;
+    spdrmap[element::siciTxt] = SYM_LEE;
     spdrmap[element::siciBuc] = SYM_BUC;
     spdrmap[element::siciBul] = SYM_BUL;
     spdrmap[element::siciBur] = SYM_BUR;

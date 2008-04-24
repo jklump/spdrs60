@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60, pixmaps included by cpp-files
 # (c) Guido Scholz
-# version: $Revision: 1.37 $
-# last update: $Date: 2008-04-23 19:02:51 $
+# version: $Revision: 1.38 $
+# last update: $Date: 2008-04-24 19:37:39 $
 
 EXTRA_DIST = filenew.xpm filesave.xpm fileopen.xpm \
 	fileclose.xpm filenewwindow.xpm \
@@ -57,14 +57,15 @@ EXTRA_DIST = filenew.xpm filesave.xpm fileopen.xpm \
 	spdritem_dil.xpm spdritem_dir.xpm \
 	spdritem_dkl.xpm spdritem_dkr.xpm \
 	spdritem_dtr.xpm spdritem_dtl.xpm \
-	spdritem_ekl.xpm spdritem_ekr.xpm \
+	spdritem_sl1.xpm spdritem_sl3.xpm \
+	spdritem_sr1.xpm spdritem_sr3.xpm \
 	spdritem_feb.xpm spdritem_fee.xpm spdritem_feg.xpm \
 	spdritem_fen.xpm spdritem_fer.xpm spdritem_fey.xpm \
 	spdritem_hsr.xpm spdritem_hsl.xpm \
 	spdritem_hssr.xpm spdritem_hssl.xpm \
 	spdritem_krh.xpm spdritem_krl.xpm spdritem_krr.xpm \
 	spdritem_lcr.xpm spdritem_rel.xpm spdritem_mdc.xpm \
-	spdritem_lee.xpm \
+	spdritem_txt.xpm \
 	spdritem_rbr.xpm spdritem_rbl.xpm \
 	spdritem_sbr.xpm spdritem_sbl.xpm \
 	spdritem_sdr.xpm spdritem_sdl.xpm \

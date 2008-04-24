@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-26
- * Last modified: $Date: 2008-04-23 19:02:51 $
- *                $Revision: 1.15 $
+ * Last modified: $Date: 2008-04-24 19:37:39 $
+ *                $Revision: 1.16 $
  *
  * This code creates a dockable window with a set of paint items 
  */
@@ -63,8 +63,10 @@
 #include "pixmaps/spdritem_syl.xpm"
 #include "pixmaps/spdritem_twr.xpm" //drw
 #include "pixmaps/spdritem_twl.xpm"
-#include "pixmaps/spdritem_ekl.xpm" //ekl
-#include "pixmaps/spdritem_ekr.xpm" //ekr
+#include "pixmaps/spdritem_sl1.xpm" //ekl
+#include "pixmaps/spdritem_sl3.xpm"
+#include "pixmaps/spdritem_sr1.xpm" //ekr
+#include "pixmaps/spdritem_sr3.xpm"
 #include "pixmaps/spdritem_dkl.xpm"
 #include "pixmaps/spdritem_dkr.xpm"
 
@@ -108,7 +110,7 @@
 #include "pixmaps/spdritem_buc.xpm"
 #include "pixmaps/spdritem_bul.xpm"
 #include "pixmaps/spdritem_bur.xpm"
-#include "pixmaps/spdritem_lee.xpm"
+#include "pixmaps/spdritem_txt.xpm"
 #include "pixmaps/spdritem_ltr.xpm" //sht
 #include "pixmaps/spdritem_ltl.xpm"
 #include "pixmaps/spdritem_lbr.xpm" //shb
@@ -277,13 +279,21 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
             tr("Three way turnout left"),
             element::siciTwl, paintItemBG, "threewayleftPanel");
 
-    new PaintItemButton(QPixmap(spdritem_ekl_xpm),
-            tr("Single-slip switch left"),
-            element::siciEkl, paintItemBG, "singleleftPanel");
+    new PaintItemButton(QPixmap(spdritem_sl1_xpm),
+            tr("Single-slip switch top left"),
+            element::siciSl1, paintItemBG, "singleslipleft1Panel");
 
-    new PaintItemButton(QPixmap(spdritem_ekr_xpm),
-            tr("Single-slip switch right"),
-            element::siciEkr, paintItemBG, "singlerightPanel");
+    new PaintItemButton(QPixmap(spdritem_sl3_xpm),
+            tr("Single-slip switch bottom left"),
+            element::siciSl3, paintItemBG, "singleslipleft3Panel");
+
+    new PaintItemButton(QPixmap(spdritem_sr1_xpm),
+            tr("Single-slip switch top right"),
+            element::siciSr1, paintItemBG, "singleslipright1Panel");
+
+    new PaintItemButton(QPixmap(spdritem_sr3_xpm),
+            tr("Single-slip switch bottom right"),
+            element::siciSr3, paintItemBG, "singleslipright3Panel");
 
     new PaintItemButton(QPixmap(spdritem_dkl_xpm),
             tr("Double-slip switch left"),
@@ -412,8 +422,8 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
     new PaintItemButton(QPixmap(spdritem_bs4_xpm), tr("Bottom buffer stop"),
             element::siciBs4, paintItemBG, "bufferstop4Panel");
 
-    new PaintItemButton(QPixmap(spdritem_lee_xpm), tr("Text field panel"),
-            element::siciLee, paintItemBG, "textfieldPanel");
+    new PaintItemButton(QPixmap(spdritem_txt_xpm), tr("Text field panel"),
+            element::siciTxt, paintItemBG, "textfieldPanel");
 
     new PaintItemButton(QPixmap(spdritem_buc_xpm), tr("House center wing"),
             element::siciBuc, paintItemBG, "centerwingPanel");

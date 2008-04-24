@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-23 19:02:51 $
-                           $Revision: 1.91 $
+    last modified        : $Date: 2008-04-24 19:37:39 $
+                           $Revision: 1.92 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -279,10 +279,10 @@ public:
         siciDbl = 520, siciDtl,
         siciDtr = 530, siciDbr,
         siciSyr = 550, siciSyl,
-        siciEkl = 600,
-        siciEkr = 602,
-        siciDkl = 610,
-        siciDkr = 612,
+        siciSl1 = 600, siciSl2, siciSl3, siciSl4,
+        siciSr1 = 610, siciSr2, siciSr3, siciSr4,
+        siciDkl = 620,
+        siciDkr = 622,
         siciTwr = 650, siciTwl,
         siciDre = 700, siciSbn,
         siciRel = 710,
@@ -292,7 +292,7 @@ public:
         siciLtr = 830, siciLtl,
         siciLbr = 840, siciLbl,
         siciBuc = 850, siciBul, siciBur,
-        siciLee = 900,
+        siciTxt = 900,
         siciFeg = 1100, siciTaf, siciTau,
         siciFeb = 1200, siciTaw,
         siciFer = 1300, siciTas,
@@ -300,7 +300,7 @@ public:
         siciFen = 1500,
         siciFee = 1600};
     
-    element(QWidget* parent = NULL, SpdrItemClassId ci = siciLee,
+    element(QWidget* parent = NULL, SpdrItemClassId ci = siciTxt,
             const char * si = SYM_LEE, elemVisualMode vm = kvmNormal);
     element(QTextStream&, QWidget* parent=0);
 

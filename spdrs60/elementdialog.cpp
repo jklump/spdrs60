@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-23 19:02:51 $
-                           $Revision: 1.65 $
+    last modified        : $Date: 2008-04-24 19:37:39 $
+                           $Revision: 1.66 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -114,10 +114,6 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     rfDataGBLayout->addWidget(cbAddrLabeling);
     connect(cbAddrLabeling, SIGNAL(toggled(bool)), this,
             SLOT(letteringChanged(bool))); 
-
-    /* line with rotate checkbox*/
-    cbRotate = new QCheckBox(tr("&Rotation"), frData, "rotateCB");
-    rfDataGBLayout->addWidget(cbRotate);
 
     /* line with invert checkbox*/
     cbInvert = new QCheckBox(tr("&Inverted use"), frData, "invertCB");
@@ -679,7 +675,8 @@ void ElementDialog::slotSymbolChanged()
         classid == element::siciTl1 || classid == element::siciTl3 ||
         classid == element::siciDbl || classid == element::siciDbr ||
         classid == element::siciDtl || classid == element::siciDtr ||
-        classid == element::siciEkl || classid == element::siciEkr ||
+        classid == element::siciSl1 || classid == element::siciSl3 ||
+        classid == element::siciSr1 || classid == element::siciSr3 ||
         classid == element::siciDkl || classid == element::siciDkr ||
         classid == element::siciTwr || classid == element::siciTwl ||
         classid == element::siciEnk || classid == element::siciRel ||
@@ -732,14 +729,15 @@ void ElementDialog::slotSymbolChanged()
         classid == element::siciTl1 || classid == element::siciTl3 ||
         classid == element::siciDbl || classid == element::siciDbr ||
         classid == element::siciDtl || classid == element::siciDtr ||
-        classid == element::siciEkl || classid == element::siciEkr ||
+        classid == element::siciSl1 || classid == element::siciSl3 ||
+        classid == element::siciSr1 || classid == element::siciSr3 ||
         classid == element::siciDkl || classid == element::siciDkr ||
         classid == element::siciTwr || classid == element::siciTwl ||
         classid == element::siciSsr || classid == element::siciSsl ||
         classid == element::siciShr || classid == element::siciShl ||
         classid == element::siciSdr || classid == element::siciSdl ||
         classid == element::siciEnk || classid == element::siciRel ||
-        classid == element::siciTrh || classid == element::siciLee ||
+        classid == element::siciTrh || classid == element::siciTxt ||
         classid == element::siciRbr || classid == element::siciRbl ||
         classid == element::siciSbr || classid == element::siciSbl ||
         classid == element::siciMdc ||
@@ -762,7 +760,8 @@ void ElementDialog::slotSymbolChanged()
         classid == element::siciHssr || classid == element::siciHssl ||
         classid == element::siciTwr || classid == element::siciTwl ||
         classid == element::siciDkl || classid == element::siciDkr || 
-        classid == element::siciEkl || classid == element::siciEkr || 
+        classid == element::siciSl1 || classid == element::siciSl3 ||
+        classid == element::siciSr1 || classid == element::siciSr3 ||
         classid == element::siciMdc || classid == element::siciDre || 
         classid == element::siciSbn || 
         (classid == element::siciVsr && gaSubType == 4) || 
@@ -803,14 +802,6 @@ void ElementDialog::slotSymbolChanged()
         address2LE->setFocusPolicy(QWidget::StrongFocus);
 #endif
 
-    // show rotate data
-    // element::siciTrh: only for text placement
-    enabled =
-        classid == element::siciEkl || classid == element::siciEkr ||
-        classid == element::siciTrh;
-
-    cbRotate->setEnabled(enabled);
-
     // show LEDoff data (Gleismelder)
     enabled =
         classid == element::siciCl1 || classid == element::siciCr1 ||
@@ -836,7 +827,8 @@ void ElementDialog::slotSymbolChanged()
         classid == element::siciTwr || classid == element::siciTwl ||
         classid == element::siciDbl || classid == element::siciDbr ||
         classid == element::siciDtl || classid == element::siciDtr ||
-        classid == element::siciEkl || classid == element::siciEkr ||
+        classid == element::siciSl1 || classid == element::siciSl3 ||
+        classid == element::siciSr1 || classid == element::siciSr3 ||
         classid == element::siciDkl || classid == element::siciDkr ||
         classid == element::siciEnk || classid == element::siciBld;
 
@@ -846,10 +838,11 @@ void ElementDialog::slotSymbolChanged()
     enabled =
         classid == element::siciTr3 || classid == element::siciTr1 ||
         classid == element::siciTl1 || classid == element::siciTl3 ||
-        classid == element::siciEkl || classid == element::siciEkr ||
+        classid == element::siciSl1 || classid == element::siciSl3 ||
+        classid == element::siciSr1 || classid == element::siciSr3 ||
         classid == element::siciDbl || classid == element::siciDbr ||
         classid == element::siciDtl || classid == element::siciDtr ||
-        classid == element::siciLee || classid == element::siciAdr;
+        classid == element::siciTxt || classid == element::siciAdr;
 
     cbInvert->setEnabled(enabled);
     invertedChanged(cbInvert->isChecked());
@@ -868,7 +861,8 @@ void ElementDialog::slotSymbolChanged()
         ((classid == element::siciCl1 || classid == element::siciCr1 ||
           classid == element::siciCr3 || classid == element::siciCl3 || 
           classid == element::siciEnk || classid == element::siciBld || 
-          classid == element::siciEkl || classid == element::siciEkr ||
+          classid == element::siciSl1 || classid == element::siciSl3 ||
+          classid == element::siciSr1 || classid == element::siciSr3 ||
           classid == element::siciDkl || classid == element::siciDkr ||
           classid == element::siciTwr || classid == element::siciTwl ||
           classid == element::siciSyr || classid == element::siciSyl ||
@@ -925,7 +919,8 @@ void ElementDialog::slotSymbolChanged()
         classid == element::siciTl1 || classid == element::siciTl3 ||
         classid == element::siciDbl || classid == element::siciDbr ||
         classid == element::siciDtl || classid == element::siciDtr ||
-        classid == element::siciEkl || classid == element::siciEkr ||
+        classid == element::siciSl1 || classid == element::siciSl3 ||
+        classid == element::siciSr1 || classid == element::siciSr3 ||
         classid == element::siciDkl || classid == element::siciDkr ||
         classid == element::siciTwr || classid == element::siciTwl ||
         classid == element::siciSsr || classid == element::siciSsl ||
@@ -951,7 +946,8 @@ void ElementDialog::slotSymbolChanged()
         classid == element::siciTl1 || classid == element::siciTl3 ||
         classid == element::siciDbl || classid == element::siciDbr ||
         classid == element::siciDtl || classid == element::siciDtr ||
-        classid == element::siciEkl || classid == element::siciEkr ||
+        classid == element::siciSl1 || classid == element::siciSl3 ||
+        classid == element::siciSr1 || classid == element::siciSr3 ||
         classid == element::siciDkl || classid == element::siciDkr ||
         classid == element::siciTwr || classid == element::siciTwl ||
         classid == element::siciSsr || classid == element::siciSsl ||
@@ -1465,21 +1461,6 @@ void ElementDialog::setClassId(element::SpdrItemClassId ci)
 {
     classid = ci;
     slotSymbolChanged();
-}
-
-
-int ElementDialog::getRotated()
-{
-    return cbRotate->isEnabled() ? (cbRotate->isChecked()? 1 : 0) : -1;
-}
-
-
-void ElementDialog::setRotated(int rotated)
-{
-    if (rotated == -1)
-        cbRotate->setChecked(false);
-    else
-        cbRotate->setChecked(rotated);
 }
 
 
