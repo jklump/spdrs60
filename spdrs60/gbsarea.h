@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.5.2 $Revision: 1.49 $
+                           version 0.5.2 $Revision: 1.50 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-14 20:38:24 $
+    last modified        : $Date: 2008-04-30 20:35:31 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -55,7 +55,6 @@ class GBSArea: public QWidget
    Q_PROPERTY(bool modified READ isModified WRITE setModified DESIGNABLE false)
 
 public:
-   typedef QMap<element::SpdrItemClassId, QString> SpdrMap;
    enum LayoutEditMode {lemSelect = 0, lemPaint, lemErase};
 
    GBSArea(QWidget* parent = 0, const char* name = 0);
@@ -106,7 +105,6 @@ private:
    QPopupMenu* ctxNorm;
    
    QPtrVector<element> elements;
-   SpdrMap spdrmap;
 
    int         cols;
    int         rows;
@@ -136,9 +134,6 @@ private:
    void updateSRCP08GABusList();
    void updateSRCP08FBBusList();
    void updateSRCP08BusLists();
-   void initSpdrMap();
-   element::SpdrItemClassId classIdByName(const QString&);
-   QString nameByClassId(element::SpdrItemClassId);
    void sendGmCrcfMessage(unsigned int, unsigned int, const QString&);
     QString getCrcfInfoMessage(CrcfMessage::CrcfAttribute) const;
    

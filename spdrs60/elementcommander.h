@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementcommander.h
-                           version 0.5.2 $Revision: 1.7 $
+                           version 0.5.2 $Revision: 1.8 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-10 19:41:51 $
+    last modified        : $Date: 2008-04-30 20:35:31 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -37,12 +37,13 @@
 #include <qtooltip.h>
 
 
+
 class elementCommander: public QDialog
 {
    Q_OBJECT
 
 public:
-   elementCommander(QWidget* parent = 0, QString sType_ =""); // creator of  gui
+   elementCommander(QWidget* parent = 0, int = 0);
 
 private:
    void buildCommand(int, int);       // creates and sends the "keys"
@@ -71,8 +72,7 @@ private:
 #else
    QButtonGroup* bgButton;            // moving/rotating
 #endif
-
-   QString       sSoldIcon;           // save the icon relevant for commander
+   int classid;
 };
 
 #endif

@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-24 19:37:39 $
-                           $Revision: 1.102 $
+    last modified        : $Date: 2008-04-30 20:35:31 $
+                           $Revision: 1.103 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -92,7 +92,6 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
     painting = false;
 
     elements.setAutoDelete(true);
-    initSpdrMap();
 
     // SRCP 0.8 data
     SRCP08GA1InitWalker = 0;
@@ -338,20 +337,15 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
                 if (idx < ecount) {
                     moveElementToIndexPos(el, idx);
                     elements.insert(idx, el);
-
-                    // FIXME: temporary solution until all stored
-                    // items have a valid class id
-                    element::SpdrItemClassId ci = el->classId();
-
-                    if (ci == element::siciNone) {
-                        //TODO: derive id from icon name + rotate flag
-                        el->setClassId(classIdByName(el->sSoldIcon));
-                        el->sSoldIcon = nameByClassId(el->classId());
-                    }
-
                     connectElement(el);
                     el->show();
                 }
+                else {
+                    qWarning("Error: Element outside of layout found "
+                            "(Index = %d).", el->getIndexNo());
+                    delete el;
+                }
+                //qWarning("Element number %d inserted.", el->getIndexNo());
             }
         }
         else if (s.startsWith("%% route"))
@@ -1555,8 +1549,7 @@ void GBSArea::mousePressEvent(QMouseEvent* e)
                 if (el != NULL) {
                     if (el->classId() != paintItem) {
                         elements.remove(idx);
-                        el = new element(this, paintItem,
-                                nameByClassId(paintItem), visualMode);
+                        el = new element(this, paintItem, visualMode);
                         el->setIndexNo(idx);
                         moveElementToIndexPos(el, idx);
                         elements.insert(idx, el);
@@ -1566,8 +1559,7 @@ void GBSArea::mousePressEvent(QMouseEvent* e)
                     }
                 }
                 else {
-                    el = new element(this, paintItem,
-                            nameByClassId(paintItem), visualMode);
+                    el = new element(this, paintItem, visualMode);
                     el->setIndexNo(idx);
                     moveElementToIndexPos(el, idx);
                     elements.insert(idx, el);
@@ -1636,8 +1628,7 @@ void GBSArea::mouseMoveEvent(QMouseEvent* e)
                 if (el != NULL) {
                     if (el->classId() != paintItem) {
                         elements.remove(idx);
-                        el = new element(this, paintItem,
-                                nameByClassId(paintItem), visualMode);
+                        el = new element(this, paintItem, visualMode);
                         el->setIndexNo(idx);
                         moveElementToIndexPos(el, idx);
                         elements.insert(idx, el);
@@ -1647,8 +1638,7 @@ void GBSArea::mouseMoveEvent(QMouseEvent* e)
                     }
                 }
                 else {
-                    el = new element(this, paintItem,
-                            nameByClassId(paintItem), visualMode);
+                    el = new element(this, paintItem, visualMode);
                     el->setIndexNo(idx);
                     moveElementToIndexPos(el, idx);
                     elements.insert(idx, el);
@@ -1775,140 +1765,6 @@ void GBSArea::changeLayoutPaintItem(element::SpdrItemClassId sici)
         paintItem = sici;
 }
 
-/*
- * setup map to translate between item ids and item names
- */
-void GBSArea::initSpdrMap()
-{
-    spdrmap[element::siciHsr] = SYM_HSR;
-    spdrmap[element::siciHsl] = SYM_HSL;
-    spdrmap[element::siciHssl] = SYM_HSSL;
-    spdrmap[element::siciHssr] = SYM_HSSR;
-    spdrmap[element::siciSsr] = SYM_SSR;
-    spdrmap[element::siciSsl] = SYM_SSL;
-    spdrmap[element::siciShr] = SYM_SHR;
-    spdrmap[element::siciShl] = SYM_SHL;
-    spdrmap[element::siciSdr] = SYM_SDR;
-    spdrmap[element::siciSdl] = SYM_SDL;
-    spdrmap[element::siciWsr] = SYM_WSR;
-    spdrmap[element::siciWsl] = SYM_WSL;
-    spdrmap[element::siciVsr] = SYM_VSR;
-    spdrmap[element::siciVsl] = SYM_VSL;
-    spdrmap[element::siciZpr] = SYM_ZPR;
-    spdrmap[element::siciZpl] = SYM_ZPL;
-    spdrmap[element::siciRbr] = SYM_RBR;
-    spdrmap[element::siciRbl] = SYM_RBL;
-    spdrmap[element::siciSbr] = SYM_SBR;
-    spdrmap[element::siciSbl] = SYM_SBL;
-
-    spdrmap[element::siciTl1] = SYM_SLT;
-    spdrmap[element::siciTl3] = SYM_SLB;
-    spdrmap[element::siciTr1] = SYM_SRB;
-    spdrmap[element::siciTr3] = SYM_SRT;
-    spdrmap[element::siciDbl] = SYM_DBL;
-    spdrmap[element::siciDtl] = SYM_DTL;
-    spdrmap[element::siciDtr] = SYM_DTR;
-    spdrmap[element::siciDbr] = SYM_DBR;
-    spdrmap[element::siciSyr] = SYM_SYR;
-    spdrmap[element::siciSyl] = SYM_SYL;
-    spdrmap[element::siciTwr] = SYM_TWR;
-    spdrmap[element::siciTwl] = SYM_TWL;
-    spdrmap[element::siciSl1] = SYM_EKL;
-    spdrmap[element::siciSr1] = SYM_EKR;
-    spdrmap[element::siciDkl] = SYM_DKL;
-    spdrmap[element::siciDkr] = SYM_DKR;
-
-    spdrmap[element::siciTrh] = SYM_GER;
-    spdrmap[element::siciTrv] = SYM_TRV;
-    spdrmap[element::siciDir] = SYM_DIR;
-    spdrmap[element::siciDil] = SYM_DIL;
-    spdrmap[element::siciCl1] = SYM_CLT;
-    spdrmap[element::siciCl2] = SYM_TTL;
-    spdrmap[element::siciCl3] = SYM_CLB;
-    spdrmap[element::siciCl4] = SYM_TBL;
-    spdrmap[element::siciCr1] = SYM_CRB;
-    spdrmap[element::siciCr2] = SYM_TTR;
-    spdrmap[element::siciCr3] = SYM_CRT;
-    spdrmap[element::siciCr4] = SYM_TBR;
-    spdrmap[element::siciKrh] = SYM_KRH;
-    spdrmap[element::siciKrr] = SYM_KRR;
-    spdrmap[element::siciKrl] = SYM_KRL;
-    spdrmap[element::siciTdr] = SYM_TDR;
-    spdrmap[element::siciTdl] = SYM_TDL;
-    spdrmap[element::siciTdb] = SYM_TDB;
-
-    spdrmap[element::siciEnk] = SYM_ENK;
-    spdrmap[element::siciBld] = SYM_BLD;
-    spdrmap[element::siciAdr] = SYM_ADR;
-    spdrmap[element::siciBue] = SYM_BUE;
-    spdrmap[element::siciRel] = SYM_REL;
-    spdrmap[element::siciMdc] = SYM_MDC;
-    spdrmap[element::siciDre] = SYM_DRE;
-    spdrmap[element::siciSbn] = SYM_SBN;
-    spdrmap[element::siciBs1] = SYM_BSR;
-    spdrmap[element::siciBs3] = SYM_BSL;
-    spdrmap[element::siciTuh] = SYM_TUH;
-    spdrmap[element::siciTul] = SYM_TUL;
-    spdrmap[element::siciTur] = SYM_TUR;
-    spdrmap[element::siciTuv] = SYM_TUV;
-    spdrmap[element::siciTxt] = SYM_LEE;
-    spdrmap[element::siciBuc] = SYM_BUC;
-    spdrmap[element::siciBul] = SYM_BUL;
-    spdrmap[element::siciBur] = SYM_BUR;
-    spdrmap[element::siciLtr] = SYM_SHO;
-    spdrmap[element::siciLtl] = SYM_SHO;
-    spdrmap[element::siciLsr] = SYM_LSR;
-    spdrmap[element::siciLsl] = SYM_LSL;
-    spdrmap[element::siciLbr] = SYM_SHU;
-    spdrmap[element::siciLbl] = SYM_SHU;
-
-    spdrmap[element::siciFeg] = SYM_FEG;
-    spdrmap[element::siciTaf] = SYM_TAF;
-    spdrmap[element::siciTau] = SYM_TAU;
-    spdrmap[element::siciFeb] = SYM_FEB;
-    spdrmap[element::siciTaw] = SYM_TAW;
-    spdrmap[element::siciFer] = SYM_FER;
-    spdrmap[element::siciTas] = SYM_TAS;
-    spdrmap[element::siciFey] = SYM_FEY;
-    spdrmap[element::siciFen] = SYM_FEN;
-    spdrmap[element::siciFee] = SYM_FEE;
-}
-
-
-/*
- * return name of spdr item from id
- */
-element::SpdrItemClassId GBSArea::classIdByName(const QString& name)
-{
-    element::SpdrItemClassId returnvalue = element::siciNone;
-
-    SpdrMap::Iterator it;
-    for (it = spdrmap.begin(); it != spdrmap.end(); ++it ) {
-        if (QString(it.data()) == name) {
-            returnvalue = (element::SpdrItemClassId)it.key();
-            break;
-        }
-    }
-
-    return returnvalue;
-}
-
-
-/*
- * return classid of spdr item from name
- */
-QString GBSArea::nameByClassId(element::SpdrItemClassId id)
-{
-    QString returnvalue = "";
-
-    SpdrMap::Iterator it;
-    it = spdrmap.find(id);
-
-    if (it != spdrmap.end())
-        returnvalue = it.data();
-
-    return returnvalue;
-}
 
 /*
  * respond to incomming Generic Messages

@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-24 19:37:39 $
-                           $Revision: 1.92 $
+    last modified        : $Date: 2008-04-30 20:35:31 $
+                           $Revision: 1.93 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -48,40 +48,24 @@
 
 // symbol names
 // signals
-#define SYM_HSR  "signal_hs"
-#define SYM_HSL  "signal_hsl"
-#define SYM_HSSR  "signal_hss"
-#define SYM_HSSL  "signal_hssl"
-#define SYM_SSR  "signal_ss"
-#define SYM_SSL  "signal_ssl"
-#define SYM_SHR  "signal_ssh" 
-#define SYM_SHL  "signal_shl"
-#define SYM_SDR  "signal_sss" 
-#define SYM_SDL  "signal_sdl" 
-#define SYM_WSR  "signal_ws"
-#define SYM_WSL  "signal_wsl"
-#define SYM_VSR  "signal_vs"
-#define SYM_VSL  "signal_vsl"
-#define SYM_ZPR  "signal_zp"
-#define SYM_ZPL  "signal_zpl"
-#define SYM_RBR  "signal_nrb" // not really signals but rails
-#define SYM_RBL  "signal_rbl"
-#define SYM_SBR  "signal_srb" // with a routing button
-#define SYM_SBL  "signal_sbl"
+#define SYM_HS   "signal_hs"
+#define SYM_HSS  "signal_hss"
+#define SYM_SS   "signal_ss"
+#define SYM_SSH  "signal_ssh" 
+#define SYM_SSS  "signal_sss"
+#define SYM_WS   "signal_ws"
+#define SYM_VS   "signal_vs"
+#define SYM_ZP   "signal_zp"
+#define SYM_NRB  "signal_nrb" // not really signals but rails
+#define SYM_SRB  "signal_srb" // with a routing button
 
 // turnouts
-#define SYM_SLB  "switch_left_bottom"
-#define SYM_SLT  "weiche_links" //turnout left
-#define SYM_SRB  "weiche_rechts" //turnout right
-#define SYM_SRT  "switch_right_top"
-#define SYM_DBL  "weiche_diag_links" //turnoutdiagonalleft
-#define SYM_DTL  "switch_diag_topleft"
-#define SYM_DTR  "weiche_diag_rechts" //turnoutdiagonalright
-#define SYM_DBR  "weiche_diag_bottomright"
-#define SYM_SYR  "weiche_y"
-#define SYM_SYL  "switch_y_left"
-#define SYM_TWR  "dreier_weiche" //3-way turnout
-#define SYM_TWL  "switch_treeway_left"
+#define SYM_WEL  "weiche_links" //turnout left
+#define SYM_WER  "weiche_rechts" //turnout right
+#define SYM_DWL  "weiche_diag_links" //turnoutdiagonalleft
+#define SYM_DWR  "weiche_diag_rechts" //turnoutdiagonalright
+#define SYM_WEY  "weiche_y"
+#define SYM_DRW  "dreier_weiche" //3-way turnout
 #define SYM_EKL  "ekw_links"  // single-slip switch left
 #define SYM_EKR  "ekw_rechts" // single-slip switch right
 #define SYM_DKL  "dkw_links"  // double-slip switch left
@@ -93,17 +77,14 @@
 #define SYM_DIL  "diagonale_links"
 #define SYM_DIR  "diagonale_rechts"
 #define SYM_TDR  "richtung_1" //track direction right
-#define SYM_TDL  "direction_l" //track direction left
 #define SYM_TDB  "richtung_2" //track both directions
 #define SYM_KRH  "kreuzung_hose"   //crossing
 #define SYM_KRR  "kreuzung_rechts" //crossing right
 #define SYM_KRL  "kreuzung_links"  //crossing left
 
 // curved tracks
-#define SYM_CRB  "kurve_rechts" //curved track right bottom (KUR)
-#define SYM_CLT  "kurve_links"  //left top (KUL)
-#define SYM_CRT  "turn_tophor_right" //right top
-#define SYM_CLB  "turn_bothor_left"  //curved track left bottom
+#define SYM_KUR  "kurve_rechts" //curved track right bottom (KUR)
+#define SYM_KUL  "kurve_links"  //left top (KUL)
 #define SYM_TTL  "turn_topvert_left"
 #define SYM_TTR  "turn_topvert_right"
 #define SYM_TBL  "turn_botvert_left"
@@ -120,19 +101,15 @@
 #define SYM_SBN  "schiebebuehne" // transfer table (trt)
 
 // decorative items
-#define SYM_BSR  "prellbock"  // buffer stop, bumper
-#define SYM_BSL  "bufferstopleft"
-#define SYM_TUH  "gerade_tl"  // tunnel straight left/right (tug)
-#define SYM_TUV  "gerade_tunnel_left"
+#define SYM_PRE  "prellbock"  // buffer stop, bumper
+#define SYM_GET  "gerade_tl"  // tunnel straight left/right (tug)
 #define SYM_TUL  "diagonale_links_tl" //tunnelbottomleft /top left
 #define SYM_TUR  "diagonale_rechts_tl" // right
 #define SYM_LEE  "leer" // (txt)
 #define SYM_BUC  "haus_1"
 #define SYM_BUL  "haus_2"
-#define SYM_BUR  "buildingright"
 #define SYM_SHO  "schuppen_o" // loco shed
 #define SYM_LSR  "schuppen_m"
-#define SYM_LSL  "locoshed_m_left"
 #define SYM_SHU  "schuppen_u"
 
 // external group buttons
@@ -301,15 +278,13 @@ public:
         siciFee = 1600};
     
     element(QWidget* parent = NULL, SpdrItemClassId ci = siciTxt,
-            const char * si = SYM_LEE, elemVisualMode vm = kvmNormal);
+            elemVisualMode vm = kvmNormal);
     element(QTextStream&, QWidget* parent=0);
 
 
     /*this variables should also be private*/
-    QString  sSoldIcon;
     QString  sSoldText;
     int      iSoldAddress_2;
-    int      iSoldRotate;
     int      iSoldSubType;
     unsigned int routedtrack;
 
@@ -353,11 +328,9 @@ public:
     int getGA2BusNo();
     void rotate();
     void toggle();
-    bool isRotatable();
     bool ctxCanSwitch();
     void updateTrainNumber(unsigned int);
     element::SpdrItemClassId classId();
-    void setClassId(SpdrItemClassId);
     unsigned int entryDir();
 
 private:
@@ -399,7 +372,6 @@ private:
     bool     switched;
     bool     turnout;
     bool     lightson;
-    bool     isright;
     QString  sSoldDecoder;
     SrcpMessage::Protocol protocol;
     QTimer*  locateTimer;
@@ -416,6 +388,10 @@ private:
     void updateEDiTSAddress(unsigned int, bool);
     void updateFeedbackState();
     void switchAddress(bool);
+    /*temporary functions to convert old file types*/
+    element::SpdrItemClassId translateItem(QString&, bool);
+    element::SpdrItemClassId translateRotatedItem(QString&);
+    element::SpdrItemClassId translateNotRotatedItem(QString&);
 
 public slots:
     void runTurnoutBlinkTimer();

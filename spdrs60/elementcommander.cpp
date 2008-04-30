@@ -2,10 +2,10 @@
                            elementcommander.cpp
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-                         : (C) 2004-2007 Guido Scholz
+                         : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-10 19:41:51 $ 
-                           $Revision: 1.9 $
+    last modified        : $Date: 2008-04-30 20:35:31 $ 
+                           $Revision: 1.10 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -40,13 +40,13 @@
 
 
 
-elementCommander::elementCommander(QWidget * parent, QString sSoldIcon_)
-:  QDialog(0, "elementCommander", false)
+elementCommander::elementCommander(QWidget* parent, int cid)
+    : QDialog(0, "elementCommander", false)
 {
     // true, parent window not usable until this closed
     // dummy command to avoid compiler warning
     if (parent);
-    sSoldIcon = sSoldIcon_;
+    classid = cid;
 
     // create a button group for standard buttons ...
     bgButton = new QButtonGroup(this, "commandBG");
@@ -63,7 +63,7 @@ elementCommander::elementCommander(QWidget * parent, QString sSoldIcon_)
     buttStop->setEnabled(false);
     connect(buttStop, SIGNAL(clicked()), this, SLOT(slotStop()));
 
-    if (sSoldIcon == SYM_SBN)   // setup the remaining buttons
+    if (classid == element::siciSbn)   // setup the remaining buttons
         setupBridge();
     else
         setupMotor();
@@ -172,14 +172,14 @@ void elementCommander::slotStop()
 {
     buttStop->setEnabled(false);
 
-    if (sSoldIcon == SYM_SBN) {
+    if (classid == element::siciSbn) {
         buttMoveUp->setEnabled(true);
         buttMoveDown->setEnabled(true);
         buttMoveUp->setOn(false);
         buttMoveDown->setOn(false);
         buildCommand(2, 1);     // stop moving
     }
-    else if (sSoldIcon == SYM_MDC) {
+    else if (classid == element::siciMdc) {
         buttRotateLeft->setEnabled(true);
         buttRotateRight->setEnabled(true);
         buttRotateLeft->setOn(false);
