@@ -50,10 +50,6 @@ wird ein SRCP-Server (z.B. erddcd oder srcpd) benötigt.</translation>
         <translation>Mit Adresse &amp;beschriften</translation>
     </message>
     <message>
-        <source>&amp;Rotation</source>
-        <translation>&amp;Rotiert</translation>
-    </message>
-    <message>
         <source>&amp;Inverted use</source>
         <translation>&amp;Invertieren</translation>
     </message>
@@ -1223,14 +1219,6 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <translation>Rechtskurve nach unten</translation>
     </message>
     <message>
-        <source>Single-slip switch left</source>
-        <translation>Einfachkreuzungsweiche links</translation>
-    </message>
-    <message>
-        <source>Single-slip switch right</source>
-        <translation>Einfachkreuzungsweiche rechts</translation>
-    </message>
-    <message>
         <source>Double-slip switch left</source>
         <translation>Doppelte Kreuzungsweiche links</translation>
     </message>
@@ -1509,6 +1497,22 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     <message>
         <source>Bottom buffer stop</source>
         <translation>Prellbock oben</translation>
+    </message>
+    <message>
+        <source>Single-slip switch top left</source>
+        <translation>Einfachkreuzungsweiche oben links</translation>
+    </message>
+    <message>
+        <source>Single-slip switch bottom left</source>
+        <translation>Einfachkreuzungsweiche unten links</translation>
+    </message>
+    <message>
+        <source>Single-slip switch top right</source>
+        <translation>Einfachkreuzungsweiche oben rechts</translation>
+    </message>
+    <message>
+        <source>Single-slip switch bottom right</source>
+        <translation>Einfachkreuzungsweiche unten rechts</translation>
     </message>
 </context>
 <context>
@@ -2195,13 +2199,6 @@ pick up this information so update its route.</source>
     <message>
         <source>Enter the train number for the selected route</source>
         <translation>Zugnummer für gewählte Fahrstraße eingeben</translation>
-    </message>
-</context>
-<context>
-    <name>element</name>
-    <message>
-        <source>Text</source>
-        <translation type="obsolete">Text</translation>
     </message>
 </context>
 <context>

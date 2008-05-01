@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-30 20:35:30 $
-                           $Revision: 1.162 $
+    last modified        : $Date: 2008-05-01 08:28:15 $
+                           $Revision: 1.163 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -171,10 +171,10 @@ void element::readFileTextFromStream(QTextStream& ats)
             else if (key.compare(GF_INDEX) == 0) {
                   iSoldIndex = value.stripWhiteSpace().toUInt();
             }
-            /*else if (key.startsWith("%")) {
-                end of dataset, exit while loop
+            else if (key.startsWith("%")) {
+                /*end of dataset, exit while loop*/
                   break;
-            }*/
+            }
             else if (key.compare(GF_NAME) == 0) {
                   oldname = value.stripWhiteSpace();
                   translate = true;

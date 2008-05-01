@@ -33,6 +33,11 @@
 2007-10-21 Guido Scholz <guido.scholz@bayernline.de>
 	* element.cpp: Fixed routing for three way turnouts
 
+2007-10-14 Ullrich Schicke <ullrich.schicke@gmx.de>
+	* qt3to4portingpatch.xml: qt3to4 rules file added to prevent
+	QActionGroup conversion. spdrs60 now is compilable under Windows
+	using the Qt4 library.
+
 2007-09-30 Guido Scholz <guido.scholz@bayernline.de>
 	* element.*, gbsarea.cpp, paintitemwindow.cpp: New paint item
 	for left direction panel.

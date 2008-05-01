@@ -38,7 +38,7 @@
         <revhistory>
             <revision>
                 <revnumber>0.10</revnumber>
-                <date>Mi Sep 05 22:19:58 CET 2007</date>
+                <date>So Mai 01 07:38:18 CEST 2008</date>
             </revision>
             <revision>
                 <revnumber>0.9</revnumber>
@@ -183,6 +183,16 @@ Veröffentlicht am --.--.2008
 <itemizedlist mark="bullet">
 
   <listitem><para>
+  Der Fehler, der das richtige Sortieren von numerischen Einträgen
+  in der Fahrstraßenliste und der Fahrstraßenelementeliste verhinderte,
+  wurde beseitigt.                      
+  </para></listitem>
+  
+  <listitem><para>
+  Ein Kompilierproblem, das auf bestimmten 64Bit-Systemen ein einfaches
+  Erkennen der 64Bit-Qt-Bibliothek verhinderte, wurde beseitigt.                  </para></listitem>
+  
+  <listitem><para>
   Der Informationsdialog über spdrs60 wurde neu gestaltet.                      
   </para></listitem>
   
@@ -219,10 +229,11 @@ Veröffentlicht am --.--.2008
   Zugnummernverfolgung. Die Nummer wird von einer Fahrstraße zur
   nächsten weitergereicht, wenn das Startsignal der übernehmenden
   Fahrstraße beim Auflösen auf Halt zurück fällt. Das entspricht
-  näherungsweise dem Verfahren beim Original. Die Zugnummern werden
-  nicht nur in der Fahrstraßentabelle angezeigt, sondern lassen sich
-  auch im Gleisbild durch ein zugeordnetes Adressanzeige-Element
-  darstellen.
+  näherungsweise dem Verfahren beim Original, berücksichtigt aber noch
+  nicht, dass dort die Zugnummern Gleisen zugeordnet sind. Die
+  Zugnummern werden nicht nur in der Fahrstraßentabelle angezeigt,
+  sondern lassen sich auch im Gleisbild durch ein zugeordnetes
+  Adressanzeige-Element darstellen.
   </para></listitem>
 
   <listitem><para>
@@ -257,19 +268,19 @@ Veröffentlicht am --.--.2008
   </para></listitem>
   
   <listitem><para>
-  Der Grenzwert für die maximale Anzahl an Zeilen im Gleisbild wurde von
-  30 auf 120 erhöht.
+  Die Grenzwerte für die maximale Anzahl an Zeilen und Spalten im
+  Gleisbild wurden auf 200 erhöht.
   </para></listitem>
   
-  <listitem>
-      <para>
-          Der Editor für Gleisbilder wurde überarbeitet und erlaubt nun ein
-          rasches und kontinuierliches Zeichnen oder Löschen von
-          Gleisverläufen. Die Auswahl der Gleisbildelemente erfolgt nun
-          nicht mehr über den Eigenschaftsdialog, sondern über eine
-          Werkzeugauswahl.
-      </para>
-  </listitem>
+  <listitem><para>
+  Der Editor für Gleisbilder wurde überarbeitet und erlaubt nun ein
+  rasches und kontinuierliches Zeichnen oder Löschen von
+  Gleisverläufen. Die Auswahl der Gleisbildelemente erfolgt nun
+  nicht mehr über den Eigenschaftsdialog, sondern über eine
+  Werkzeugauswahl. Die bisherige Möglichkeit, bestimmte Elemente zu
+  rotieren, ist entfallen, da die gedrehten Elemente nun einzeln für
+  sich existieren.
+  </para></listitem>
   
   <listitem><para>
   Die bisher nur dekorativen Zwecken dienenden Tunnelelemente wurden
@@ -279,12 +290,34 @@ Veröffentlicht am --.--.2008
   </para></listitem>
   
   <listitem><para>
+  Das Prellbockelement wurde um zwei vertikale Varianten ergänzt.
+  </para></listitem>
+  
+  <listitem><para>
   Eine Unterstützung für Standardnachrichten (Generic Messages, GM)
   wurde ergänzt. Eine kleinere Auswahl an statischen und dynamischen
   CRCF-Daten läßt sich nun abfragen und ändern. Diese Fähigkeit läßt
   sich beispielsweise zum skriptgesteuerten Einstellen von Fahrstraßen
   nutzen. Ein neues Kapitel im Handbuch widmet sich speziell diesem
   Thema.
+  </para></listitem>
+  
+  <listitem><para>
+  Die programminterne Identifizierung von Gleisbildelementen wurde von
+  Namen auf numerische Werte umgestellt. Als Folge davon mußte auch das
+  Dateiformat für die Gleisbilder leicht geändert werden, denn auch dort
+  werden nun diese Kennummern abgelegt. Gleisbildelemente, die keinen
+  Decoder oder ähnliche Zusatzfunktionen nutzen, speichern diese
+  Informationen nun nicht mehr ab. Dadurch wurde das Dateiformat um ca.
+  20&nbsp;- 40&nbsp;% kompakter. Auch das Lesen des neuen Dateiformats
+  erfolgt ca. um diesen Prozentsatz schneller. Dateien im älteren Format
+  werden ohne spezielle Benutzerinteraktionen eingelesen.
+  </para></listitem>
+  
+  <listitem><para>
+  Das Programm läßt sich nun mit geringer Nachbearbeitung unter Windows
+  mit der Qt-Bibliothek in der Version 4.3 kompilieren. Näheres
+  beschreibt das Handbuch-Kapitel &raquo;Installation&laquo;.
   </para></listitem>
   
 </itemizedlist>
@@ -1140,14 +1173,18 @@ Für ein erfolgreiches Arbeiten mit diesem Programm müssen folgende
 generelle Voraussetzungen erfüllt sein:
 <itemizedlist mark="bullet">
   <listitem><para>Installierter X-Server mit beliebigem
-Windowmanager. Die für die grafische Oberfläche notwendige Auflösung
-richtet sich weitgehend nach den eigenen Ansprüchen. Kleinere
-Gleisbilder finden noch vollständig auf 800x600 Pixeln Platz, für größere
-können sogar 1280x1024 Pixel schon knapp werden.</para></listitem>
+  Windowmanager. Die für die grafische Oberfläche notwendige Auflösung
+  richtet sich weitgehend nach den eigenen Ansprüchen. Kleinere
+  Gleisbilder finden noch vollständig auf 800x600 Pixeln Platz, für
+  größere können sogar 1280x1024 Pixel schon knapp werden.
+  </para></listitem>
+
   <listitem><para>Für die aktuelle Qt3-Version mu&szlig; die
-Qt-Laufzeit-Bibliothek installiert sein (SuSE Paket
-&raquo;qt3&laquo;, Fedora Paket &raquo;qt&laquo;, Debian/Ubuntu Paket
-&raquo;libqt3-mt&laquo;).</para></listitem>
+  Qt-Laufzeit-Bibliothek installiert sein (SuSE Paket
+  &raquo;qt3&laquo;, Fedora Paket &raquo;qt&laquo;, Debian/Ubuntu Paket
+  &raquo;libqt3-mt&laquo;).
+  </para></listitem>
+
   <listitem><para>Soll das Programm nicht über ein fertiges Paket
   installiert, sondern aus dem Quellcode kompiliert werden,
   benötigt man einen C++-Compiler (z.B. g++), sowie verschiedene
@@ -1155,25 +1192,27 @@ Qt-Laufzeit-Bibliothek installiert sein (SuSE Paket
   beim Kompilieren auch dieses HTML-Handbuch erzeugt wird, sind
   zusätzlich noch die dafür notwendigen Werkzeuge (openjade, docbook,
   docbook-dsssl) zu installieren.</para></listitem>
+
   <listitem><para>Zum Anzeigen dieses Handbuchs aus dem Programm
   heraus wird ein Webbrowser benötigt (z.B. Firefox, Mozilla, Konqueror,
-Opera)</para></listitem>
+  Opera)</para></listitem>
+
   <listitem><para>Optional ein Text-Editor (z.B. &raquo;kwrite&laquo;),
   der ein Bearbeiten oder Betrachten der Datendateien erlaubt. Dieser
   ist mit beschränkter Auswahl über das Dialogfenster für die
   persönlichen Einstellungen konfigurierbar.</para></listitem>
+
   <listitem><para>Damit die Befehle überhaupt auf der Anlage
 ankommen, benötigt man einen SRCP-Server, wie den Daemon &raquo;erddcd&laquo;
 aus dem <ulink url="http://www.vogt-it.com/OpenSource/DDL/">DDL-Paket</ulink>
-von Torsten Vogt. Alternativ funktioniert spdrs60 auch mit dem
-Übersetzer-Server &raquo;m6051d&laquo; bzw. dessen Nachfolger
-&raquo;srcpd&laquo; von Matthias Trute. Dieser übersetzt zwischen
-SRCP-Clients und einer Digitalzentrale, wie z.B. dem Original
-6051-Interface von Märklin, der Intellibox von Uhlenbrock und anderen
-Zentralen mit Computerschnittstellen. Aktuelle RPM-Pakete von diesen Programmen
-gibt es zum Teil von den Webseiten der
+von Torsten Vogt, oder mit dem &raquo;srcpd&laquo; (<ulink
+url="http://srcpd.sourceforge.net/">srcpd-Projektablage</ulink>) von
+Matthias Trute et al., der auch das Ansteuern einiger etablierter
+Digitalzentralen erlaubt. Pakete von diesen Programmen gibt es zum
+Teil von den Webseiten der
 <ulink url="http://www.lug-burghausen.org/">LUG-Burghausen</ulink>.
-Allgemein gilt, dass die Version des vom Server angebotenen SRCP-Protokolls
+Allgemein gilt für den Betrieb von spdrs60, dass die Version des vom
+Server angebotenen SRCP-Protokolls
 &gt;=&nbsp;0.7.0 und &lt;&nbsp;0.9.0 sein mu&szlig;.</para></listitem>
 </itemizedlist>
 </para>
@@ -1181,7 +1220,14 @@ Allgemein gilt, dass die Version des vom Server angebotenen SRCP-Protokolls
 <para>spdrs60 läuft unter den verschiedensten Linux-Distributionen,
 solange diese die Qt-Bibliothek in der Version 3.x mitliefern.
 Getestet wurde diese Version unter Qt 3.0.5 bis 3.3.6 mit SuSE, Fedora,
-Debian und Ubuntu in unterschiedlichen Versionsständen.
+Debian und Ubuntu in unterschiedlichen Versionsständen. Auch die
+64Bit-Versionen werden unterstützt.
+</para>
+<para>
+Mit Hilfe des Qt4-Werkzeugs <emphasis>qt3to4</emphasis> läßt sich
+der Quellcode von spdrs60 soweit konvertieren, dass er sich auch
+unter Qt4 kompilieren läßt. Diese Konvertierung ist z.B. notwendig,
+um spdrs60 unter Windows zu kompilieren.
 </para>
 </sect2>
 
@@ -1285,11 +1331,22 @@ entsprechenden Entwicklerpakete (qt3-devel bzw. qt-devel) installiert.
 Da die HTML-Dateien dieser Dokumentation ebenfalls beim Aufrufen von
 &raquo;make&laquo; erstellt werden, benötigen Sie außerdem noch das
 Programmpaket &raquo;jade&laquo; bzw. &raquo;openjade&laquo; sowie
-&raquo;docbook&laquo; und die
-DSSSL-Stylesheets. Das Vorhandensein dieser Pakete wird bereits beim
-Aufruf von &raquo;./configure&laquo; überprüft und das Fehlen gegebenenfalls
-bemängelt.
+&raquo;docbook&laquo; und die DSSSL-Stylesheets. Das Vorhandensein
+dieser Pakete wird bereits beim Aufruf von &raquo;./configure&laquo;
+überprüft und das Fehlen gegebenenfalls bemängelt.
 </para>
+
+<para>spdrs60 läßt sich unter Windows mit der Qt4-Bibliothek zu
+    einem generischen Windows-Programm kompilieren. Dazu sind im
+    Projektverzeichnis die folgenden vier Kommandos nacheinander
+    auszuführen:
+</para>
+<screen>
+qmake -project
+qmake
+qt3to4 -rulesFile qt3to4portingpatch.xml spdrs60.pro
+nmake
+</screen>
 
 <para>
 Bei Problemen und Fragestellungen zur Installation oder zu speziellen
@@ -1361,7 +1418,8 @@ abgelegt werden.
     </row>
     <row>
       <entry>dedorf.spdrs60</entry>
-      <entry>Schulungsbeispiel aus "Sp Dr 60- Stellwerke bedienen"</entry>
+      <entry>Schulungsbeispiel aus &raquo;Sp&nbsp;Dr&nbsp;60-
+          Stellwerke bedienen&laquo;</entry>
     </row>
     <row>
       <entry>flandersbach.spdrs60</entry>
