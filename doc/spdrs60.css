@@ -39,14 +39,31 @@ p {
     margin: 0 0 0.7em 0;
 }
 
-.table {
-    margin-top: 2em;
+/*class of data tables within text*/
+.TABLE {
+    margin-top: 2.5em;
     margin-bottom: 2em;
 }
 
-table {
-    margin-bottom: 1em;
+.TOC {
+    line-height: 1.4em;
+    margin: 0 0 0.7em 0;
 }
+
+.LOT {
+    line-height: 1.4em;
+    margin: 0 0 0.7em 0;
+}
+
+.FIGURE {
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+/* class identifier of preformated text for screen section
+.SCREEN {
+    margin-bottom: 2em;
+}
+*/
 
 td {
     line-height: 1.4em;
@@ -60,7 +77,3 @@ hr {
   background-color: black;
 }
 
-.FIGURE {
-    margin-top: 2em;
-    margin-bottom: 2em;
-}

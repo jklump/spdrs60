@@ -1390,8 +1390,8 @@ abgelegt werden.
   <colspec colname="c2" colwidth="2*">
   <thead>
     <row rowsep="1">
-      <entry>Gleisbilddatei</entry>
-      <entry>Beschreibung</entry>
+      <entry align="left">Gleisbilddatei</entry>
+      <entry align="left">Beschreibung</entry>
     </row>
   </thead>
   
@@ -2683,32 +2683,180 @@ nicht, wird sie beim Speichern automatisch angehängt.
 <sect1 id="sect-symbole-uebersicht">
   <title>Übersicht</title>
 
-<para>Die folgende Tabelle bietet eine Übersicht der im Programm zur
-    Verfügung stehenden Gleisbildelemente und deren Eigenschaften. Für
-    Signale bzw.
-Weichen wird in <xref linkend="chapter-anschluesse"> zusätzlich
-beschrieben, wie Anschlüsse auszuführen sind. Auf besondere Elemente
-wie die Drehscheibe wird im <xref linkend="sect-drehscheibe"> näher
-eingegangen.
+<para>
+Die folgenden Tabellen bietet eine Übersicht der im Programm zur
+Verfügung stehenden Gleisbildelemente und deren Eigenschaften. Für
+Signale bzw. Weichen wird in <xref linkend="chapter-anschluesse">
+zusätzlich beschrieben, wie Anschlüsse auszuführen sind. Auf
+besondere Elemente wie die Drehscheibe wird im
+<xref linkend="sect-drehscheibe"> näher eingegangen.
+</para>
+<para>
+    In <xref linkend="tabelle-simple-tracks"> sind die einfachen
+    Gleiselemente aufgelistet. Diesen lassen sich Rückmeldekontakte
+    zuweisen, damit der Gleismelder eine Belegung anzeigen kann.
+    Ohne diese Zuweisung wird der Gleisabschnitt so dargestellt, als
+    würde er keiner Freimeldeeinrichtung angehören. Einzelne
+    Elemente lassen sich mit einem Text versehen.
 </para>
 
-<table frame="topbot" id="tabelle-symbole">
-  <title>Auflistung aller Elementsymbole</title>
-  <tgroup cols="6" align="left" colsep="0" rowsep="1">   
-  <colspec colname="c1" colwidth="2*" colsep="0">
-  <colspec colname="c2" colwidth="3*" colsep="0">
-  <colspec colname="c3" colwidth="3*" colsep="0">
-  <colspec colname="c4" colwidth="3*" colsep="0">
-  <colspec colname="c5" colwidth="3*" colsep="0">
-  <colspec colname="c6" colwidth="3*" colsep="0">
+<table frame="topbot" id="tabelle-simple-tracks">
+  <title>Einfache Gleissegmente</title>
+  <tgroup cols="6" align="left" colsep="0" rowsep="0">
+  <colspec colname="c1" colwidth="1*" colsep="0">
+  <colspec colname="c2" colwidth="2*" colsep="0">
+  <colspec colname="c3" colwidth="2*" colsep="0">
+  <colspec colname="c5" colwidth="5*" colsep="0">
   <thead>
     <row>
-      <entry>Symbol</entry>
-      <entry>Name</entry>
-      <entry>Beschreibung</entry>
+      <entry align="left">Symbol</entry>
+      <entry align="left">Name</entry>
+      <entry align="left">Beschreibung</entry>
+      <entry align="left">Bemerkung</entry>
+    </row>
+  </thead>
+  <tbody>
+    <row>
+      <entry><graphic fileref="../commonimages/gerade.png"> </entry>
+      <entry>gerade</entry>
+      <entry>Gerade Strecke horizontal</entry>
+      <entry>Oberhalb des Gleises wird optional ein kurzer Text
+          angezeigt.</entry>
+    </row>
+    <row>
+      <entry><graphic fileref="../commonimages/trackvertical.png"></entry>
+      <entry>trackvertical</entry>
+      <entry>Gerade Strecke vertikal</entry>
+      <entry>&nbsp;</entry>
+    </row>
+    <row>
+      <entry><graphic fileref="../commonimages/diagonale-links.png"></entry>
+      <entry>diagonale_links</entry>
+      <entry>Links diagonale Strecke</entry>
+      <entry>&nbsp;</entry>
+    </row>
+    <row>
+      <entry><graphic fileref="../commonimages/diagonale-rechts.png"></entry>
+      <entry>diagonale_rechts</entry>
+      <entry>Rechts diagonale Strecke</entry>
+      <entry>&nbsp;</entry>
+    </row>
+    <row>
+      <entry><graphic fileref="../commonimages/kurve-links.png"></entry>
+      <entry>kurve_links</entry>
+      <entry>Linkskurve horizontal</entry>
+      <entry>&nbsp;</entry>
+    </row>
+    <row>
+      <entry><graphic fileref="../commonimages/kurve-rechts.png"></entry>
+      <entry>kurve_rechts</entry>
+      <entry>Rechtskurve horizontal</entry>
+      <entry>&nbsp;</entry>
+    </row>
+    <row>
+      <entry><graphic fileref="../commonimages/turn_topvert_left.png"></entry>
+      <entry>turn_topvert_left</entry>
+      <entry>Linkskurve vertikal oben</entry>
+      <entry>&nbsp;</entry>
+    </row>
+    <row>
+      <entry><graphic fileref="../commonimages/turn_topvert_right.png"></entry>
+      <entry>turn_topvert_right</entry>
+      <entry>Rechtskurve vertikal oben</entry>
+      <entry>&nbsp;</entry>
+    </row>
+    <row>
+      <entry><graphic fileref="../commonimages/turn_botvert_left.png"></entry>
+      <entry>turn_botvert_left</entry>
+      <entry>Linkskurve vertikal unten</entry>
+      <entry>&nbsp;</entry>
+    </row>
+    <row>
+      <entry><graphic fileref="../commonimages/turn_botvert_right.png"></entry>
+      <entry>turn_botvert_right</entry>
+      <entry>Rechtskurve vertikal unten</entry>
+      <entry>&nbsp;</entry>
+    </row>
+    <row>
+      <entry><graphic fileref="../commonimages/kreuzung-hose.png"></entry>
+      <entry>kreuzung_hose</entry>
+      <entry>Hosenträgerverbindung</entry>
+      <entry>Eine Sperrung gegen kreuzende Überfahrten wird zurzeit
+          nicht unterstützt.</entry>
+    </row>
+    <row>
+      <entry><graphic fileref="../commonimages/kreuzung-links.png"></entry>
+      <entry>kreuzung_links</entry>
+      <entry>Normale Kreuzung links</entry>
+      <entry>Eine Sperrung gegen kreuzende Überfahrten wird zurzeit
+          nicht unterstützt.</entry>
+    </row>
+    <row>
+      <entry><graphic fileref="../commonimages/kreuzung-rechts.png"></entry>
+      <entry>kreuzung_rechts</entry>
+      <entry>Normale Kreuzung rechts</entry>
+      <entry>Eine Sperrung gegen kreuzende Überfahrten wird zurzeit
+          nicht unterstützt.</entry>
+    </row>
+    <row>
+      <entry><graphic fileref="../commonimages/gerade-tl.png"></entry>
+      <entry>gerade_tl</entry>
+      <entry>Gerade Tunneldurchfahrt</entry>
+      <entry>Als vertikale und horizontale Variante vorhanden</entry>
+    </row>
+    <row>
+      <entry><graphic fileref="../commonimages/diagonale-rechts-tl.png"></entry>
+      <entry>diagonale_rechts_tl</entry>
+      <entry>Diagonale Tunneldurchfahrt</entry>
+      <entry>Als linke und rechte Variante vorhanden</entry>
+    </row>
+    <row>
+      <entry><graphic fileref="../commonimages/richtung-1.png"></entry>
+      <entry>richtung_1</entry>
+      <entry>ein Richtungspfeil</entry>
+      <entry>Oberhalb des Gleises wird optional ein kurzer Text
+          angezeigt.</entry>
+    </row>
+    <row>
+      <entry><graphic fileref="../commonimages/richtung-2.png"></entry>
+      <entry>richtung_2</entry>
+      <entry>Doppelter Richtungspfeil</entry>
+      <entry>Oberhalb des Gleises wird optional ein kurzer Text
+          angezeigt.</entry>
+  </row>
+  </tbody>
+  </tgroup>
+</table>
+
+<para>
+    In <xref linkend="tabelle-turnouts"> sind die unterstützten
+    Weichensymbole aufgelistet. Diesen lassen sich Rückmeldekontakte
+    zuweisen, damit der Gleismelder eine Belegung anzeigen kann.
+    Ohne diese Zuweisung wird der Gleisabschnitt so dargestellt, als
+    würde er keiner Freimeldeeinrichtung angehören. Alle Elemente
+    lassen sich mit einem kurzen Text versehen, der zur Identifizierung
+    der Weiche genutzt werden kann. Da Weichen zum Umstellen von einem
+    oder zwei Decodern angesteuert werden, lassen sich auch deren
+    Adressdaten zuordnen.
+</para>
+
+<table frame="topbot" id="tabelle-turnouts">
+  <title>Auflistung der Weichensymbole</title>
+  <tgroup cols="6" align="left" colsep="0" rowsep="1">   
+  <colspec colname="c1" colwidth="1*" colsep="0">
+  <colspec colname="c2" colwidth="2*" colsep="0">
+  <colspec colname="c3" colwidth="4*" colsep="0">
+  <colspec colname="c4" colwidth="1*" colsep="0">
+  <colspec colname="c5" colwidth="3*" colsep="0">
+  <colspec colname="c6" colwidth="4*" colsep="0">
+  <thead>
+    <row>
+      <entry align="left">Symbol</entry>
+      <entry align="left">Name</entry>
+      <entry align="left">Beschreibung</entry>
       <entry>Adressen</entry>
-      <entry>Bemerkung</entry>
-      <entry>Status<footnote id="fntabsym1"><para>Diese Werte
+      <entry align="left">Bemerkung</entry>
+      <entry align="left">Status<footnote id="fntabsym1"><para>Diese Werte
       kann man z.B. durch die Tooltip-Hilfe zu jedem Element überprüfen
       (wenn diese Hilfe über das Optionen-Menü eingeschaltet wurde,
       Zeile: direction).</para></footnote></entry>
@@ -2716,139 +2864,10 @@ eingegangen.
   </thead>
   <tbody>
     <row>
-      <entry><graphic fileref="../commonimages/leer.png"> </entry>
-      <entry>leer</entry>
-      <entry>Leerfeld</entry>
-      <entry>0</entry>
-      <entry>Kann Hintergrundfarbe annehmen, Textanzeige möglich</entry>
-      <entry>&nbsp;</entry>
-    </row>
-    <row>
-      <entry><graphic fileref="../commonimages/gerade.png"> </entry>
-      <entry>gerade</entry>
-      <entry>Gerade Strecke horizontal</entry>
-      <entry>0</entry>
-      <entry>Gedreht wird nur ein eventuell vorhandener Text (ober- oder
-              unterhalb des Gleises)</entry>
-      <entry>&nbsp;</entry>
-    </row>
-    <row>
-      <entry><graphic fileref="../commonimages/diagonale-links.png"></entry>
-      <entry>diagonale_links</entry>
-      <entry>Links diagonale Strecke</entry>
-      <entry>0</entry>
-      <entry>&nbsp;</entry>
-      <entry>&nbsp;</entry>
-    </row>
-    <row>
-      <entry><graphic fileref="../commonimages/diagonale-rechts.png"></entry>
-      <entry>diagonale_rechts</entry>
-      <entry>Rechts diagonale Strecke</entry>
-      <entry>0</entry>
-      <entry>&nbsp;</entry>
-      <entry>&nbsp;</entry>
-    </row>
-    <row>
-      <entry><graphic fileref="../commonimages/kurve-links.png"></entry>
-      <entry>kurve_links</entry>
-      <entry>Linkskurve horizontal</entry>
-      <entry>0</entry>
-      <entry>&nbsp;</entry>
-      <entry>&nbsp;</entry>
-    </row>
-    <row>
-      <entry><graphic fileref="../commonimages/kurve-rechts.png"></entry>
-      <entry>kurve_rechts</entry>
-      <entry>Rechtskurve horizontal</entry>
-      <entry>0</entry>
-      <entry>&nbsp;</entry>
-      <entry>&nbsp;</entry>
-    </row>
-    <row>
-      <entry><graphic fileref="../commonimages/trackvertical.png"></entry>
-      <entry>trackvertical</entry>
-      <entry>Gerade Strecke vertikal</entry>
-      <entry>0</entry>
-      <entry>&nbsp;</entry>
-      <entry>&nbsp;</entry>
-    </row>
-    <row>
-      <entry><graphic fileref="../commonimages/turn_topvert_left.png"></entry>
-      <entry>turn_topvert_left</entry>
-      <entry>Linkskurve vertikal oben</entry>
-      <entry>0</entry>
-      <entry>&nbsp;</entry>
-      <entry>&nbsp;</entry>
-    </row>
-    <row>
-      <entry><graphic fileref="../commonimages/turn_topvert_right.png"></entry>
-      <entry>turn_topvert_right</entry>
-      <entry>Rechtskurve vertikal oben</entry>
-      <entry>0</entry>
-      <entry>&nbsp;</entry>
-      <entry>&nbsp;</entry>
-    </row>
-    <row>
-      <entry><graphic fileref="../commonimages/turn_botvert_left.png"></entry>
-      <entry>turn_botvert_left</entry>
-      <entry>Linkskurve vertikal unten</entry>
-      <entry>0</entry>
-      <entry>&nbsp;</entry>
-      <entry>&nbsp;</entry>
-    </row>
-    <row>
-      <entry><graphic fileref="../commonimages/turn_botvert_right.png"></entry>
-      <entry>turn_botvert_right</entry>
-      <entry>Rechtskurve vertikal unten</entry>
-      <entry>0</entry>
-      <entry>&nbsp;</entry>
-      <entry>&nbsp;</entry>
-    </row>
-    <row>
-      <entry><graphic fileref="../commonimages/kreuzung-hose.png"></entry>
-      <entry>kreuzung_hose</entry>
-      <entry>Hosenträgerverbindung</entry>
-      <entry>0</entry>
-      <entry>&nbsp;</entry>
-      <entry>&nbsp;</entry>
-    </row>
-    <row>
-      <entry><graphic fileref="../commonimages/kreuzung-links.png"></entry>
-      <entry>kreuzung_links</entry>
-      <entry>Normale Kreuzung links</entry>
-      <entry>0</entry>
-      <entry>&nbsp;</entry>
-      <entry>&nbsp;</entry>
-    </row>
-    <row>
-      <entry><graphic fileref="../commonimages/kreuzung-rechts.png"></entry>
-      <entry>kreuzung_rechts</entry>
-      <entry>Normale Kreuzung rechts</entry>
-      <entry>0</entry>
-      <entry>&nbsp;</entry>
-      <entry>&nbsp;</entry>
-    </row>
-    <row>
-      <entry><graphic fileref="../commonimages/richtung-1.png"></entry>
-      <entry>richtung_1</entry>
-      <entry>ein Richtungspfeil</entry>
-      <entry>0</entry>
-      <entry>&nbsp;</entry>
-      <entry>&nbsp;</entry>
-    </row>
-    <row>
-      <entry><graphic fileref="../commonimages/richtung-2.png"></entry>
-      <entry>richtung_2</entry>
-      <entry>Doppelter Richtungspfeil</entry>
-      <entry>0</entry>
-      <entry>&nbsp;</entry>
-      <entry>&nbsp;</entry>
-    </row>
-    <row>
       <entry><graphic fileref="../commonimages/weiche-links-0.png"></entry>
       <entry>weiche_links</entry>
       <entry>Linke Weiche</entry>
-      <entry>1</entry>
+      <entry align="center">1</entry>
       <entry>&nbsp;</entry>
       <entry>0 = gerade, 1 = abzweig</entry>
     </row>
@@ -2856,7 +2875,7 @@ eingegangen.
       <entry><graphic fileref="../commonimages/weiche-rechts-0.png"></entry>
       <entry>weiche_rechts</entry>
       <entry>Rechte Weiche</entry>
-      <entry>1</entry>
+      <entry align="center">1</entry>
       <entry>&nbsp;</entry>
       <entry>0 = gerade, 1 = abzweig</entry>
     </row>
@@ -2864,7 +2883,7 @@ eingegangen.
       <entry><graphic fileref="../commonimages/weiche-diag-links-0.png"></entry>
       <entry>weiche_diag_links</entry>
       <entry>Diagonale Weiche links</entry>
-      <entry>1</entry>
+      <entry align="center">1</entry>
       <entry>&nbsp;</entry>
       <entry>0 = gerade (Diagonale), 1 = abzweig</entry>
     </row>
@@ -2872,7 +2891,7 @@ eingegangen.
       <entry><graphic fileref="../commonimages/weiche-diag-rechts-0.png"></entry>
       <entry>weiche_diag_rechts</entry>
       <entry>Diagonale Weiche rechts</entry>
-      <entry>1</entry>
+      <entry align="center">1</entry>
       <entry>&nbsp;</entry>
       <entry>0 = gerade (Diagonale), 1 = abzweig</entry>
     </row>
@@ -2880,7 +2899,7 @@ eingegangen.
       <entry><graphic fileref="../commonimages/switch-y-0.png"></entry>
       <entry>weiche_y</entry>
       <entry>Y-Weiche</entry>
-      <entry>1</entry>
+      <entry align="center">1</entry>
       <entry>&nbsp;</entry>
       <entry>0 = rechts, 1 = links</entry>
     </row>
@@ -2888,7 +2907,7 @@ eingegangen.
       <entry><graphic fileref="../commonimages/dreier-weiche-0.png"></entry>
       <entry>dreier_weiche</entry>
       <entry>Dreiwegweiche</entry>
-      <entry>2</entry>
+      <entry align="center">2</entry>
       <entry>in der Realität nicht vorhanden (dort immer zwei normale
               Weichen)</entry>
       <entry>0 = gerade, 1 = abzweigen links, 2 = abzweigen rechts</entry>
@@ -2897,7 +2916,7 @@ eingegangen.
       <entry morerows="1" valign="middle"><graphic fileref="../commonimages/dkw-links-0.png"></entry>
       <entry>dkw_links</entry>
       <entry>Doppelte Kreuzungsweiche links</entry>
-      <entry>1</entry>
+      <entry align="center">1</entry>
       <entry><footnote id="fntabsym2"><para>Die Übersicht über einzelne
       Artikel der Hersteller befindet sich im
       <xref linkend="chapter-anschluesse">.</para></footnote> Subtyp = 0</entry>
@@ -2906,7 +2925,7 @@ eingegangen.
     <row>
       <entry>dkw_links</entry>
       <entry>Doppelte Kreuzungsweiche links</entry>
-      <entry>2</entry>
+      <entry align="center">2</entry>
       <entry><footnoteref linkend="fntabsym2"/> Subtyp = 1</entry>
       <entry>0 = gerades Stammgleis, 1 = abzweigen oben, 2 = gerade
       Quergleis, 3 = abzweigen unten</entry>
@@ -2915,14 +2934,14 @@ eingegangen.
       <entry morerows="1" valign="middle"><graphic fileref="../commonimages/dkw-rechts-0.png"></entry>
       <entry>dkw_rechts</entry>
       <entry>Doppelte Kreuzungsweiche links</entry>
-      <entry>1</entry>
+      <entry align="center">1</entry>
       <entry><footnoteref linkend="fntabsym2"/> Subtyp = 0</entry>
       <entry>0 = gerade Gleisführung, 1 = abzweigende Führung</entry>
     </row>
     <row>
       <entry>dkw_rechts</entry>
       <entry>Doppelte Kreuzungsweiche links</entry>
-      <entry>2</entry>
+      <entry align="center">2</entry>
       <entry><footnoteref linkend="fntabsym2"/> Subtyp = 1</entry>
       <entry>0 = gerades Stammgleis, 1 = abzweigen oben, 2 = gerade
       Quergleis, 3 = abzweigen unten</entry>
@@ -2931,7 +2950,7 @@ eingegangen.
       <entry><graphic fileref="../commonimages/ekw-links-0.png"></entry>
       <entry>ekw_links</entry>
       <entry>Einfache Kreuzungsweiche links</entry>
-      <entry>2</entry>
+      <entry align="center">2</entry>
       <entry>&nbsp;</entry>
       <entry>0 = gerade Stammgleis, 1 = abzweigen, 2 = gerade
       Diagonalgleis</entry>
@@ -2940,16 +2959,51 @@ eingegangen.
       <entry><graphic fileref="../commonimages/ekw-rechts-0.png"></entry>
       <entry>ekw_rechts</entry>
       <entry>Einfache Kreuzungsweiche rechts</entry>
-      <entry>2</entry>
+      <entry align="center">2</entry>
       <entry>&nbsp;</entry>
       <entry>0 = gerade Stammgleis, 1 = abzweigen, 2 = gerade
       Diagonalgleis</entry>
     </row>
+  </tbody>
+  </tgroup>
+</table>
+
+<para>
+    In <xref linkend="tabelle-signals"> sind die unterstützten
+        Signalsymbole aufgelistet. Wie bei den Weichen lassen sich
+        Rückmeldekontakte und Decoderdaten zuweisen; auch die Eingabe
+        eines kurzen Textes zur Identifizierung auf dem Gleisbild ist 
+    vorgesehen.
+</para>
+
+<table frame="topbot" id="tabelle-signals">
+  <title>Auflistung der Signalsymbole</title>
+  <tgroup cols="6" align="left" colsep="0" rowsep="1">   
+  <colspec colname="c1" colwidth="1*" colsep="0">
+  <colspec colname="c2" colwidth="1*" colsep="0">
+  <colspec colname="c3" colwidth="3*" colsep="0">
+  <colspec colname="c4" colwidth="1*" colsep="0">
+  <colspec colname="c5" colwidth="3*" colsep="0">
+  <colspec colname="c6" colwidth="3*" colsep="0">
+  <thead>
+    <row>
+      <entry align="left">Symbol</entry>
+      <entry align="left">Name</entry>
+      <entry align="left">Beschreibung</entry>
+      <entry>Adressen</entry>
+      <entry align="left">Bemerkung</entry>
+      <entry align="left">Status<footnote id="fntabsym4"><para>Diese Werte
+      kann man z.B. durch die Tooltip-Hilfe zu jedem Element überprüfen
+      (wenn diese Hilfe über das Optionen-Menü eingeschaltet wurde,
+      Zeile: direction).</para></footnote></entry>
+    </row>
+  </thead>
+  <tbody>
     <row>
       <entry><graphic fileref="../commonimages/signal-hs-0.png"></entry>
       <entry>signal_hs</entry>
       <entry>Hauptsignal mit max. Hp0, Hp1 und Hp2</entry>
-      <entry>1 oder 2</entry>
+      <entry align="center">1 oder 2</entry>
       <entry>Bei Kombination Hp0/Hp1 oder Hp0/Hp2 nur 1 Adresse, sonst
       2 Adressen</entry>
       <entry>0 = Hp0, 1 = Hp1, 2 = Hp2</entry>
@@ -2959,7 +3013,7 @@ eingegangen.
       <entry>signal_hss</entry>
       <entry>Hauptsperrsignal (Ausfahrsignal) mit allen Begriffen Hp00,
       Hp1, Hp2 und Sh1, Tasten für Zug- und Rangierfahrstraßen</entry>
-      <entry>2</entry>
+      <entry align="center">2</entry>
       <entry>&nbsp;</entry>
       <entry>0 = Hp00, 1 = Hp1, 2 = Hp2, 3 = Sh1</entry>
     </row>
@@ -2968,7 +3022,7 @@ eingegangen.
       <entry>signal_ss</entry>
       <entry>Schutzsignal (Rangiersignal) mit den Begriffen Sh0 und Sh1,
       Taste für Rangierfahrstraßen</entry>
-      <entry>1</entry>
+      <entry align="center">1</entry>
       <entry>&nbsp;</entry>
       <entry>0 = Sh0, 1 = Sh1</entry>
     </row>
@@ -2977,7 +3031,7 @@ eingegangen.
       <entry>signal_ssh</entry>
       <entry>Schutzsignal (Rangiersignal) mit den Begriffen Sh0 und Sh1,
       Taste für Zughilfsstraßen</entry>
-      <entry>1</entry>
+      <entry align="center">1</entry>
       <entry>&nbsp;</entry>
       <entry>0 = Sh0, 1 = Sh1</entry>
     </row>
@@ -2986,7 +3040,7 @@ eingegangen.
       <entry>signal_sss</entry>
       <entry>Schutzsignal (Rangiersignal) mit den Begriffen Sh0 und Sh1,
       Start- und Zieltasten für Rangierfahrstraßen</entry>
-      <entry>1</entry>
+      <entry align="center">1</entry>
       <entry>&nbsp;</entry>
       <entry>0 = Sh0, 1 = Sh1</entry>
     </row>
@@ -2994,7 +3048,7 @@ eingegangen.
       <entry><graphic fileref="../commonimages/signal-nrb.png"></entry>
       <entry>signal_nrb</entry>
       <entry>Gerades Gleis mit Taste für Zugfahrstraßen</entry>
-      <entry>1</entry>
+      <entry align="center">1</entry>
       <entry>Adresse wird nur Programm intern zur Identifizierung
       benötigt</entry>
       <entry>&nbsp;</entry>
@@ -3003,7 +3057,7 @@ eingegangen.
       <entry><graphic fileref="../commonimages/signal-srb.png"></entry>
       <entry>signal_srb</entry>
       <entry>Gerades Gleis mit Taste für Rangierfahrstraßen</entry>
-      <entry>1</entry>
+      <entry align="center">1</entry>
       <entry>Adresse wird nur Programm intern zur Identifizierung
       benötigt</entry>
       <entry>&nbsp;</entry>
@@ -3012,16 +3066,16 @@ eingegangen.
       <entry><graphic fileref="../commonimages/signal-vs-0.png"></entry>
       <entry>signal_vs</entry>
       <entry>Vorsignal</entry>
-      <entry>1 oder 2</entry>
-      <entry>Bei Kombination Vr0/Vr1 oder Vr0/Vr2 nur 1 Adresse, sonst
-      2 Adressen</entry>
+      <entry align="center">1 oder 2</entry>
+      <entry>Bei Kombination Vr0/Vr1 oder Vr0/Vr2 nur eine Adresse, sonst
+      zwei Adressen</entry>
       <entry>0 = Vr0, 1 = Vr1, 2 = Vr2</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/signal-zf-1.png"></entry>
       <entry>signal_zp</entry>
       <entry>Abfahrsignal Zp9</entry>
-      <entry>1</entry>
+      <entry align="center">1</entry>
       <entry>&nbsp;</entry>
       <entry>&nbsp;</entry>
     </row>
@@ -3029,17 +3083,50 @@ eingegangen.
       <entry><graphic fileref="../commonimages/signal-ws-0.png"></entry>
       <entry>signal_ws</entry>
       <entry>Wartesignal mit Taste für Rangierfahrstraßen</entry>
-      <entry>1</entry>
+      <entry align="center">1</entry>
       <entry>&nbsp;</entry>
       <entry>&nbsp;</entry>
     </row>
+  </tbody>
+  </tgroup>
+</table>
+
+<para>
+    In <xref linkend="tabelle-special"> sind die Symbole mit speziellen
+        Funktionen aufgelistet. Diese Elemente bieten unterschiedliche
+        Einstellmöglichkeiten.
+</para>
+
+<table frame="topbot" id="tabelle-special">
+  <title>Auflistung von Symbolen mit speziellen Funktionen</title>
+  <tgroup cols="6" align="left" colsep="0" rowsep="1">   
+  <colspec colname="c1" colwidth="1*" colsep="0">
+  <colspec colname="c2" colwidth="1*" colsep="0">
+  <colspec colname="c3" colwidth="2*" colsep="0">
+  <colspec colname="c4" colwidth="1*" colsep="0">
+  <colspec colname="c5" colwidth="3*" colsep="0">
+  <colspec colname="c6" colwidth="3*" colsep="0">
+  <thead>
+    <row>
+      <entry align="left">Symbol</entry>
+      <entry align="left">Name</entry>
+      <entry align="left">Beschreibung</entry>
+      <entry align="left">Adressen</entry>
+      <entry align="left">Bemerkung</entry>
+      <entry align="left">Status<footnote id="fntabsym5"><para>Diese Werte
+      kann man z.B. durch die Tooltip-Hilfe zu jedem Element überprüfen
+      (wenn diese Hilfe über das Optionen-Menü eingeschaltet wurde,
+      Zeile: direction).</para></footnote></entry>
+    </row>
+  </thead>
+  <tbody>
     <row>
       <entry morerows="1" valign="middle"><graphic fileref="../commonimages/entkoppler.png"></entry>
       <entry>entkoppler</entry>
       <entry>Entkupplungsgleis</entry>
       <entry>1</entry>
       <entry><footnoteref linkend="fntabsym2"/> Motorantrieb (Subtyp = -1)</entry>
-      <entry><para>0 = Koppler aus</para><para>1 = Koppler an</para></entry>
+      <entry>0 = Koppler aus, 1 = Koppler an</entry>
     </row>
     <row>
       <entry>entkoppler</entry>
@@ -3099,120 +3186,133 @@ eingegangen.
       <entry>Die Anzahl der schaltbaren Kontakte ist unerheblich</entry>
       <entry>0 = Relais aus, 1 = Relais an</entry>
     </row>
+  </tbody>
+  </tgroup>
+</table>
+
+<para>
+    In <xref linkend="tabelle-decoration"> sind Symbole aufgelistet, die
+        lediglich dekorativen Zwecken dienen. Einzelne Elemente
+        können optional eine Beschriftung anzeigen.
+</para>
+
+<table frame="topbot" id="tabelle-decoration">
+  <title>Auflistung der dekorativen Elementsymbole</title>
+  <tgroup cols="6" align="left" colsep="0" rowsep="0">   
+  <colspec colname="c1" colwidth="1*" colsep="0">
+  <colspec colname="c2" colwidth="2*" colsep="0">
+  <colspec colname="c3" colwidth="3*" colsep="0">
+  <colspec colname="c4" colwidth="4*" colsep="0">
+  <thead>
+    <row>
+      <entry align="left">Symbol</entry>
+      <entry align="left">Name</entry>
+      <entry align="left">Beschreibung</entry>
+      <entry align="left">Bemerkung</entry>
+    </row>
+  </thead>
+  <tbody>
     <row>
       <entry><graphic fileref="../commonimages/prellbock.png"></entry>
       <entry>prellbock</entry>
       <entry>Puffergleisstück</entry>
-      <entry>0</entry>
-      <entry>&nbsp;</entry>
-      <entry>&nbsp;</entry>
+      <entry>In vier Richtungsvarianten vorhanden</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/diagonale-links-tl.png"></entry>
-      <entry>diagonale_links_tl</entry>
-      <entry>Diagonale links in Tunnel</entry>
-      <entry>0</entry>
-      <entry>&nbsp;</entry>
-      <entry>&nbsp;</entry>
-    </row>
-    <row>
-      <entry><graphic fileref="../commonimages/diagonale-rechts-tl.png"></entry>
-      <entry>diagonale_rechts_tl</entry>
-      <entry>Diagonale rechts in Tunnel</entry>
-      <entry>0</entry>
-      <entry>&nbsp;</entry>
-      <entry>&nbsp;</entry>
-    </row>
-    <row>
-      <entry><graphic fileref="../commonimages/gerade-tl.png"></entry>
-      <entry>gerade_tl</entry>
-      <entry>Gerade in Tunnel</entry>
-      <entry>0</entry>
-      <entry>&nbsp;</entry>
-      <entry>&nbsp;</entry>
+      <entry><graphic fileref="../commonimages/leer.png"> </entry>
+      <entry>leer</entry>
+      <entry>Textfeld</entry>
+      <entry>Kann Hintergrundfarbe annehmen, Textanzeige möglich</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/schuppen-o.png"></entry>
       <entry>schuppen_o</entry>
       <entry>Lockschuppen oben</entry>
-      <entry>0</entry>
-      <entry>&nbsp;</entry>
-      <entry>&nbsp;</entry>
+      <entry>Linke und rechte Variante vorhanden</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/schuppen-m.png"></entry>
       <entry>schuppen_m</entry>
       <entry>Lockschuppen Mitte</entry>
-      <entry>0</entry>
-      <entry>&nbsp;</entry>
-      <entry>&nbsp;</entry>
+      <entry>Linke und rechte Variante vorhanden</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/schuppen-u.png"></entry>
       <entry>schuppen_u</entry>
       <entry>Lockschuppen unten</entry>
-      <entry>0</entry>
-      <entry>&nbsp;</entry>
-      <entry>&nbsp;</entry>
+      <entry>Linke und rechte Variante vorhanden</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/haus-1.png"></entry>
       <entry>haus_1</entry>
       <entry>Bahnhofsgebäude Mittelteil</entry>
-      <entry>0</entry>
-      <entry>&nbsp;</entry>
       <entry>&nbsp;</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/haus-2.png"></entry>
       <entry>haus_2</entry>
       <entry>Bahnhofsgebäude Seitenteil</entry>
-      <entry>0</entry>
-      <entry>&nbsp;</entry>
-      <entry>&nbsp;</entry>
+      <entry>Linke und rechte Variante vorhanden</entry>
     </row>
+  </tbody>
+  </tgroup>
+</table>
+
+<para>
+    In <xref linkend="tabelle-groupbuttonblock"> sind die unterstützten
+        Symbole für den Gruppentastenblock aufgelistet. Diese Elemente
+        haben keine variablen Einstellungen.
+</para>
+
+
+<table frame="topbot" id="tabelle-groupbuttonblock">
+  <title>Elemente des Gruppentastenblocks</title>
+  <tgroup cols="6" align="left" colsep="0" rowsep="0">   
+  <colspec colname="c1" colwidth="1*" colsep="0">
+  <colspec colname="c2" colwidth="1*" colsep="0">
+  <colspec colname="c3" colwidth="4*" colsep="0">
+  <colspec colname="c4" colwidth="4*" colsep="0">
+  <thead>
+    <row>
+      <entry align="left">Symbol</entry>
+      <entry align="left">Name</entry>
+      <entry align="left">Beschreibung</entry>
+      <entry align="left">Bemerkung</entry>
+    </row>
+  </thead>
+  <tbody>
     <row>
       <entry><graphic fileref="../commonimages/taste-wgt.png"></entry>
       <entry>taste_wgt</entry>
       <entry>Weichengruppentaste zum manuellen Einstellen von Weichen</entry>
-      <entry>0</entry>
       <entry>Hindergrundfarbe nicht veränderbar</entry>
-      <entry>&nbsp;</entry>
-    </row>
-    <row>
-      <entry><graphic fileref="../commonimages/panel-blue.png"></entry>
-      <entry>panel_blue</entry>
-      <entry>Leeres Element zum Gestalten von Gruppentastenblöcken</entry>
-      <entry>0</entry>
-      <entry>In folgenden Farben verfügbar: blau (Weichen),
-      gelb (Bahnübergang), rot (Signale), grün (Fahrstraßen),
-      braun (Achszählkreise) und grau (Stromversorgung)</entry>
-      <entry>&nbsp;</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/taste-fht.png"></entry>
       <entry>taste_fht</entry>
       <entry>Fahrstraßenhilfsauflösetaste zum Auflösen von Fahrstraßen</entry>
-      <entry>0</entry>
       <entry>Hindergrundfarbe nicht veränderbar</entry>
-      <entry>&nbsp;</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/taste-ufgt.png"></entry>
       <entry>taste_ufgt</entry>
       <entry>Umfahrgruppentaste zum Einstellen von Umfahrstraßen;
       Mittelweichengruppentaste hat noch keine Funktion</entry>
-      <entry>0</entry>
       <entry>Hindergrundfarbe nicht veränderbar</entry>
-      <entry>&nbsp;</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/taste-sgt.png"></entry>
       <entry>taste_sgt</entry>
       <entry>Signalgruppentaste zum manuellen Einstellen von Signalen</entry>
-      <entry>0</entry>
       <entry>Hindergrundfarbe nicht veränderbar</entry>
-      <entry>&nbsp;</entry>
+    </row>
+    <row>
+      <entry><graphic fileref="../commonimages/panel-blue.png"></entry>
+      <entry>panel_blue</entry>
+      <entry>Leeres Element zum Gestalten von Gruppentastenblöcken</entry>
+      <entry>In folgenden Farben verfügbar: blau (Weichen),
+      gelb (Bahnübergang), rot (Signale), grün (Fahrstraßen),
+      braun (Achszählkreise) und grau (Stromversorgung)</entry>
     </row>
   </tbody>
   </tgroup>
@@ -3229,10 +3329,10 @@ vorhanden).</para>
 <table frame="topbot" id="tabelle-positions">
   <title>Auflistung aller Elementstellungen</title>
   <tgroup cols="4" align="left" colsep="1" rowsep="1">
-  <colspec colnum="1" colname="c1" colwidth="3cm" colsep="0">
-  <colspec colnum="2" colname="c2" colwidth="3cm" colsep="0">
-  <colspec colnum="3" colname="c3" colwidth="4cm" colsep="0">
-  <colspec colnum="4" colname="c4" colwidth="4cm" colsep="0">
+  <colspec colnum="1" colname="c1" colwidth="3*" colsep="0">
+  <colspec colnum="2" colname="c2" colwidth="3*" colsep="0">
+  <colspec colnum="3" colname="c3" colwidth="4*" colsep="0">
+  <colspec colnum="4" colname="c4" colwidth="4*" colsep="0">
   <thead>
     <row>
       <entry>Name</entry>
