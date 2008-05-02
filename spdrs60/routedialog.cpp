@@ -3,8 +3,8 @@
                            -------------------------------
     copyright            : (C) 2005-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-10 19:41:51 $
-                           $Revision: 1.49 $
+    last modified        : $Date: 2008-05-02 04:29:07 $
+                           $Revision: 1.50 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -53,7 +53,6 @@ RouteDialog::RouteDialog(QWidget* parent): QTabDialog(parent,
     addElementsTab();
     addRouteTypeTab();
     addAutomaticTab();
-    addTrainNumberForwardingTab();
 
     setOKButton();
     setCancelButton();
@@ -461,26 +460,9 @@ void RouteDialog::addRouteTypeTab()
             typeBG);
     typeL->addWidget(normalRouteRB);
 
-    /*line with radio button and uzs detour level spinbox*/
-    QBoxLayout* uzsLayout = new QHBoxLayout(typeL, 16);
-    
     QRadioButton* detourRouteRB = new QRadioButton(tr("&Detour route"),
             typeBG);
-    uzsLayout->addWidget(detourRouteRB);
-
-    uzsLayout->addItem(new QSpacerItem(0, 0,
-                QSizePolicy::Expanding, QSizePolicy::Minimum));
-    
-    /*sublayout for label and spinbox*/
-    //TODO: check this
-    //QBoxLayout* uzsLevelLayout = new QHBoxLayout(uzsLayout, 6);
-    
-    QLabel* label = new QLabel(tr("&Level:"), typeBG);
-    uzsLayout->addWidget(label);
-    uzsLevelSB = new QSpinBox(1, 9, 1, typeBG, "uzsDetourLevelSB");
-    uzsLevelSB->setWrapping(false);
-    uzsLayout->addWidget(uzsLevelSB);
-    label->setBuddy(uzsLevelSB);
+    typeL->addWidget(detourRouteRB);
 
     QRadioButton* helpRouteRB = new QRadioButton(tr("&Help route"),
             typeBG);
@@ -490,27 +472,9 @@ void RouteDialog::addRouteTypeTab()
             typeBG);
     typeL->addWidget(normalShuntingRB);
 
-    /*line with radio button and urs detour level spinbox*/
-    QBoxLayout* ursLayout = new QHBoxLayout(typeL, 16);
-    
     QRadioButton* detourShuntingRB = new QRadioButton(tr("Detour shuntin&g"),
             typeBG);
-    ursLayout->addWidget(detourShuntingRB);
-
-    ursLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
-    
-    /*sublayout for label ans spinbox*/
-    //TODO: check this
-    // QBoxLayout* ursLevelLayout = new QHBoxLayout(ursLayout, 6);
-    
-    label = new QLabel(tr("Le&vel:"), typeBG);
-    ursLayout->addWidget(label);
-    ursLevelSB = new QSpinBox(1, 9, 1, typeBG, "ursDetourLevelSB");
-    ursLevelSB->setWrapping(false);
-    ursLayout->addWidget(ursLevelSB);
-    label->setBuddy(ursLevelSB);
-    connect(typeBG, SIGNAL(pressed(int)), this, SLOT(typeBGPressed(int)));
+    typeL->addWidget(detourShuntingRB);
 
     // push groub box to top
     tabLayout->addItem(new QSpacerItem(0, 0 , QSizePolicy::Minimum,
@@ -586,74 +550,6 @@ void RouteDialog::addElementsTab()
                 QSizePolicy::Minimum));
 
     addTab(w, tr("&Elements"));
-}
-
-/*
- * add tab with options for train number forwarding
- */
-void RouteDialog::addTrainNumberForwardingTab()
-{
-    QWidget *w = new QWidget(this, "trainnumberTab");
-    QVBoxLayout* tabLayout = new QVBoxLayout(w, 10, 10);
-
-
-    /* 1. general options group box*/
-    interlockingGB = new QGroupBox(2, Qt::Vertical,
-            tr("General options"), w, "interlockingGB");
-    tabLayout->addWidget(interlockingGB);
-
-    enableforwardingCB = new QCheckBox(tr("&Activate train number "
-                "forwarding"), interlockingGB, "enableforwardingCB");
-    connect(enableforwardingCB, SIGNAL(toggled(bool)),
-            this, SLOT(detectionChanged(bool)));
-
-    interlockingCB = new QCheckBox(tr("Send train number to adjacent "
-                "&interlocking"), interlockingGB, "interlockingCB");
-    QToolTip::add(interlockingCB, tr(
-                "Send a Generic Message with route id and\n"
-                "train id, so an interessted interlocking can\n"
-                "pick up this information so update its route."));
-
-
-    /* layout for two boxes side by side*/
-    QHBoxLayout* lrLayout = new QHBoxLayout(tabLayout, 10);
-
-    /* 2. left group box to choose target*/
-    targetBG = new QButtonGroup(2, Qt::Vertical,
-            tr("Target type"), w, "targetBG");
-    lrLayout->addWidget(targetBG);
-    targetBG->setExclusive(true);
-    
-    new QRadioButton(tr("&Route"), targetBG);
-    new QRadioButton(tr("&Block"), targetBG);
-
-    targetBG->setButton(0);
-
-    /* 3. right group box to input message target id*/
-    targetidGB = new QGroupBox(0, Qt::Vertical,
-            tr("Target identification"), w, "targetidGB");
-    lrLayout->addWidget(targetidGB);
-
-    /*line with SRCP bus for activation by feedback*/
-    QHBoxLayout* targetidLayout = new QHBoxLayout(targetidGB->layout(), 6);
-    QLabel* numberLbl = new QLabel(tr("&Track number"), targetidGB);
-    targetidLayout->addWidget(numberLbl);
-    targetidLayout->addItem(new QSpacerItem(0, 0,
-                QSizePolicy::Expanding, QSizePolicy::Minimum));
-    forwardidLE = new QLineEdit("1", targetidGB, "forwardidLE");
-    forwardidLE->setMaximumWidth(LEMAXWIDTH);
-    forwardidLE->setValidator(tracknumberValidator);
-    numberLbl->setBuddy(forwardidLE);
-    targetidLayout->addWidget(forwardidLE);
-
-
-    tabLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum,
-                QSizePolicy::Expanding));
-
-    // preset selection
-    detectionChanged(enableforwardingCB->isChecked());
-
-    addTab(w, tr("Train number &forwarding"));
 }
 
 
@@ -789,15 +685,9 @@ void RouteDialog::getReleaseData(PortState& port)
 }
 
 
-void RouteDialog::setRouteType(int type, unsigned int dl)
+void RouteDialog::setRouteType(int type)
 {
     typeBG->setButton(type);
-    typeBGPressed(type);
-
-    if (type == 1)
-        uzsLevelSB->setValue(dl);
-    else if (type == 4)
-        ursLevelSB->setValue(dl);
 }
 
 
@@ -808,22 +698,6 @@ int RouteDialog::getRouteType()
 #else
     return typeBG->id(typeBG->selected());
 #endif
-}
-
-
-unsigned int RouteDialog::getDetourLevel()
-{
-    int returnvalue = 0;
-#if QT_VERSION >= 0x030300
-    int type = typeBG->selectedId();
-#else
-    int type = typeBG->id(typeBG->selected());
-#endif
-    if (type == 1)
-        returnvalue = uzsLevelSB->value();
-    else if (type == 4)
-        returnvalue = ursLevelSB->value();
-    return returnvalue;
 }
 
 
@@ -861,46 +735,6 @@ void RouteDialog::getRouteElements(QPtrList<stateElement>& items)
             ++it;
         }
     }
-}
-
-/*
- * set data for the whole train number forwarding tab page
- */
-void RouteDialog::setTrainNumberForwardData(bool forward, bool external,
-        Route::TrainNumberTarget targettype, unsigned int targetid)
-{
-    enableforwardingCB->setChecked(forward);
-    interlockingCB->setChecked(external);
-    targetBG->setButton(targettype);
-    forwardidLE->setText(QString::number(targetid));
-}
-
-
-bool RouteDialog::getForwardTrainNumber()
-{
-    return enableforwardingCB->isChecked();
-}
-
-
-bool RouteDialog::getInterlocking()
-{
-    return interlockingCB->isChecked();
-}
-
-
-int RouteDialog::getTrainNumberTarget()
-{
-#if QT_VERSION >= 0x030300
-    return targetBG->selectedId();
-#else
-    return targetBG->id(targetBG->selected());
-#endif
-}
-
-
-unsigned int RouteDialog::getTargetId()
-{
-    return forwardidLE->text().toUInt();
 }
 
 
@@ -950,13 +784,6 @@ void RouteDialog::releaseContactSBChanged(int contact)
     int port = contact - (module - 1) * inputs;
     releaseModuleLE->setText(QString::number(module));
     releasePortLE->setText(QString::number(port));
-}
-
-
-void RouteDialog::typeBGPressed(int btn)
-{
-    uzsLevelSB->setEnabled(btn == 1);
-    ursLevelSB->setEnabled(btn == 4);
 }
 
 
@@ -1208,14 +1035,3 @@ void RouteDialog::updateListIndexNumbersFrom(QListViewItem* lvi)
     }
 }
 
-/*
- * response to detection changes
- */
-void RouteDialog::detectionChanged(bool enable)
-{
-    interlockingCB->setEnabled(enable);
-    if (!enable)
-        interlockingCB->setChecked(false);
-    targetBG->setEnabled(enable);
-    targetidGB->setEnabled(enable);
-}

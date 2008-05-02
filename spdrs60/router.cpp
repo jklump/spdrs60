@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.3 $Revision: 1.65 $
+                           version 0.5.3 $Revision: 1.66 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-12 14:22:14 $
+    last modified        : $Date: 2008-05-02 04:29:07 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -367,67 +367,19 @@ void Router::transferTrainNumber(Route* nr)
     if (sr == NULL)
         return;
 
-    //train number forwarding
-    if (nr->forwardTrainNumber()) {
-        // route
-        // TODO: target = nr->forwardTarget();
-        // switch(target) {
-        if (nr->forwardTargetType() == Route::tntRoute) {
-            if (nr->forwardExternal()) {
-                emit statusMessage(tr("Error forwarding train number: "
-                            "External targets are not supported yet."));
-                //sendGmRouteTrain();
-                //ROUTE <rid> INFO TRAIN <tid>
-            }
-            else {
-                Route* mr = getRouteWithId(nr->forwardTargetId());
-                if (mr == NULL)
-                    emit statusMessage(tr("Error forwarding train number: "
-                            "Unknown route id '%1'")
-                            .arg(nr->forwardTargetId()));
-                else {
-                    mr->setTrain(sr->getTrain());
-                    emit routeDataChanged(mr);
+    nr->setTrain(sr->getTrain());
+    emit routeDataChanged(nr);
 
-                    sr->clearTrain();
-                    emit routeDataChanged(sr);
+    sr->clearTrain();
+    emit routeDataChanged(sr);
 
-                    modified = true;
-                    //TODO: send train message (Zugmeldung)
-                    // if (pref.sendtrainmessages) {
-                    //QString cms;
-                    //cms = mr->getCrcfInfoMessage(CrcfMessage::atTrain);
-                    //sendGmCrcfMessage(0, reply_sid, cms);
-                    //}
-                }
-            }
-        }
-        // block
-        else if (nr->forwardTargetType() == Route::tntBlock) {
-            emit statusMessage(tr("Error forwarding train number: "
-                    "Block is not a supported target yet."));
-        }
-        else {
-            emit statusMessage(tr("Error forwarding train number: "
-                    "Unknown target '%1'.").arg(nr->forwardTargetType()));
-        }
-    }
-    // no train number forwarding
-    else {
-        nr->setTrain(sr->getTrain());
-        emit routeDataChanged(nr);
-
-        sr->clearTrain();
-        emit routeDataChanged(sr);
-
-        modified = true;
-        //TODO: send train message (Zugmeldung)
-        // if (pref.sendtrainmessages) {
-        //QString cms;
-        //cms = mr->getCrcfInfoMessage(CrcfMessage::atTrain);
-        //sendGmCrcfMessage(0, reply_sid, cms);
-        //}
-    }
+    modified = true;
+    //TODO: send train message (Zugmeldung)
+    // if (pref.sendtrainmessages) {
+    //QString cms;
+    //cms = mr->getCrcfInfoMessage(CrcfMessage::atTrain);
+    //sendGmCrcfMessage(0, reply_sid, cms);
+    //}
 }
 
 /*
@@ -542,7 +494,7 @@ void Router::withdrawRoute(Route* rt)
     rt->stopRouting();
     emit statusMessage(tr("Route '%1' withdrawn").arg(rt->getSectionName()));
     // only for debugging purposes:
-    // transferTrainNumber(resetRt);
+    // transferTrainNumber(rt);
 }
 
 

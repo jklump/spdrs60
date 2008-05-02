@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-10
- * Last modified: $Date: 2008-04-12 14:22:14 $
- *                $Revision: 1.2 $
+ * Last modified: $Date: 2008-05-02 04:29:07 $
+ *                $Revision: 1.3 $
  *
  * This code implements the section class to handle train ids and train
  * locations. This is a base class for routes and blocks.
@@ -51,10 +51,6 @@ Section::~Section()
 void Section::initVariables()
 {
     // user selectable data
-    forwardnumber = false;
-    forwardexternal = false;
-    forwardtargetid = 0;
-    forwardtargettype = tntRoute;
 }
 
 
@@ -138,37 +134,5 @@ void Section::updateTrainNumberDisplay()
 {
     if (trainNumberDisplay.elemPtr != NULL)
         trainNumberDisplay.elemPtr->updateTrainNumber(trainid);
-}
-
-/*
- * return true if train number forwarding is enabled
- */
-bool Section::forwardTrainNumber()
-{
-    return forwardnumber;
-}
-
-/*
- * return true if train number forwarding is external
- */
-bool Section::forwardExternal()
-{
-    return forwardexternal;
-}
-
-/*
- * return type of train number forwarding target
- */
-int Section::forwardTargetId()
-{
-    return forwardtargetid;
-}
-
-/*
- * return type of train number forwarding target
- */
-int Section::forwardTargetType()
-{
-    return forwardtargettype;
 }
 

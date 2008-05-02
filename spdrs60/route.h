@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.5.3 $Revision: 1.39 $
+                           version 0.5.3 $Revision: 1.40 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-03-30 08:57:07 $
+    last modified        : $Date: 2008-05-02 04:29:07 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -72,7 +72,6 @@ public:
           const stateElement& tnDisplay,
           const PortState& arePort,
           const PortState& aacPort,
-          unsigned int adetourLevel,
           const QPtrList<stateElement>& swis,
           QObject* parent = NULL, const char* name = NULL);
     
@@ -133,7 +132,6 @@ private:
     stateElement exitSignal, entrySignal;
     RouteType routeType;
     PortState acPort, rePort;
-    unsigned int detourLevel;
     RouteState routestate;
     int turnouts;
     int tocounter;

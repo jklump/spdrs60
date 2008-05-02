@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.67 $
+                           version 0.5.2 $Revision: 1.68 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-12 14:22:14 $
+    last modified        : $Date: 2008-05-02 04:29:07 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -36,7 +36,6 @@
 #define RF_RELEASEPORT  "release port"
 #define RF_ACTIVATEPORT "activate port"
 #define RF_TYPE         "type"
-#define RF_FORWARDTRAIN "forwardtrain"
 
 
 Route::Route(unsigned int anid,
@@ -47,7 +46,6 @@ Route::Route(unsigned int anid,
         const stateElement& tnDisplay,
         const PortState& arePort,
         const PortState& aacPort,
-        unsigned int adetourLevel,
         const QPtrList<stateElement>& swis,
         QObject* parent, const char* name): Section(aName, anid, 0, parent, name)
 {
@@ -83,8 +81,6 @@ Route::Route(unsigned int anid,
     acPort.bus = aacPort.bus;
     acPort.address = aacPort.address;
     
-    detourLevel = adetourLevel;
-
     /*copy switchitem list*/
     QPtrListIterator<stateElement> it(swis);
     stateElement* swElement;
@@ -227,7 +223,6 @@ void Route::initVariables()
 
     // user selectable data
     routeType = rtRZS;
-    detourLevel = 0;
 }
 /* 
  * Update route element names and pointers when layout was edited
@@ -378,14 +373,6 @@ void Route::readFileTextFromStream(QTextStream& ts)
             }
             else if (key.compare(RF_TYPE) == 0){
                 routeType = (RouteType)s.section(DS, 1, 1).toUInt();
-                detourLevel = s.section(DS, 2, 2).toUInt();
-            }
-            else if (key.compare(RF_FORWARDTRAIN) == 0) {
-                forwardnumber = s.section(DS, 1, 1).toInt();
-                forwardexternal = s.section(DS, 2, 2).toInt();
-                forwardtargettype = (TrainNumberTarget)
-                    s.section(DS, 3, 3).toInt();
-                forwardtargetid = s.section(DS, 4, 4).toUInt();
             }
             /*end of route data*/
             else if (s.startsWith("%%"))
@@ -411,10 +398,7 @@ void Route::writeFileTextToStream(QTextStream& ts)
         << DS << rePort.used << DS << rePort.switchtooff << endl
         << RF_ACTIVATEPORT << DS << acPort.bus << DS << acPort.address
         << DS << acPort.used << DS << acPort.switchtooff << endl
-        << RF_TYPE << DS << routeType << DS << detourLevel << endl
-        << RF_FORWARDTRAIN << DS << forwardnumber
-            << DS << forwardexternal <<  DS << forwardtargettype
-            << DS << forwardtargetid <<endl;
+        << RF_TYPE << DS << routeType << endl;
 
     QPtrListIterator<stateElement> it(switchItems);
     stateElement* swElement;
@@ -431,8 +415,8 @@ void Route::writeFileTextToStream(QTextStream& ts)
 
 Route* Route::getClone()
 {
-    return new Route(sectionid, routeType, sectionName, exitSignal, entrySignal,
-            trainNumberDisplay, rePort, acPort, detourLevel,
+    return new Route(sectionid, routeType, sectionName, exitSignal,
+            entrySignal, trainNumberDisplay, rePort, acPort, 
             switchItems, parent(), "clonedRoute");
 }
 
@@ -483,8 +467,8 @@ QString Route::getTypeStr() const
         case rtRZS:
             typeStr = QString(QObject::tr("NR")); // normal route
             break;
-        case rtUZS:                                 // detour route
-            typeStr = QString(QObject::tr("DR%1").arg(detourLevel));
+        case rtUZS:                               // detour route
+            typeStr = QString(QObject::tr("DR"));
             break;
         case rtZHS:
             typeStr = QString(QObject::tr("HR")); // help route
@@ -492,8 +476,8 @@ QString Route::getTypeStr() const
         case rtRRS:
             typeStr = QString(QObject::tr("NS")); // normal shunting
             break;
-        case rtURS:                                 // detour shunting
-            typeStr = QString(QObject::tr("DS%1").arg(detourLevel));
+        case rtURS:                               // detour shunting
+            typeStr = QString(QObject::tr("DS"));
             break;
     }
     return typeStr;
@@ -1075,10 +1059,8 @@ bool Route::runEditDialog(QWidget* dlgparent)
     rtDlg->setExitSignalData(exitSignal);
     rtDlg->setActivateData(acPort);
     rtDlg->setReleaseData(rePort);
-    rtDlg->setRouteType(routeType, detourLevel);
+    rtDlg->setRouteType(routeType);
     rtDlg->setRouteElements(switchItems);
-    rtDlg->setTrainNumberForwardData(forwardnumber, forwardexternal,
-           forwardtargettype, forwardtargetid);
 
     if (rtDlg->exec() == QDialog::Accepted) {
         // update gbs: 1) hide old route 2) show new route
@@ -1091,14 +1073,8 @@ bool Route::runEditDialog(QWidget* dlgparent)
         rtDlg->getActivateData(acPort);
         rtDlg->getReleaseData(rePort);
         routeType = (RouteType) rtDlg->getRouteType();
-        detourLevel = rtDlg->getDetourLevel();
         switchItems.clear();
         rtDlg->getRouteElements(switchItems);
-        forwardnumber = rtDlg->getForwardTrainNumber();
-        forwardexternal = rtDlg->getInterlocking();
-        forwardtargettype = (Route::TrainNumberTarget)
-            rtDlg->getTrainNumberTarget();
-        forwardtargetid = rtDlg->getTargetId();
 
         showRoute();
         returnvalue = true;

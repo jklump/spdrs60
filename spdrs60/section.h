@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-10
- * Last modified: $Date: 2008-04-12 14:22:14 $
- *                $Revision: 1.2 $
+ * Last modified: $Date: 2008-05-02 04:29:07 $
+ *                $Revision: 1.3 $
  *
  * This is the header file for section.cpp.
  */
@@ -54,10 +54,6 @@ public:
     void setSectionName(const QString&);
     bool hasTrainNumberDisplay();
     void setTrainNumberDisplay(element*);
-    bool forwardTrainNumber();
-    bool forwardExternal();
-    int forwardTargetId();
-    int forwardTargetType();
     
 signals:
 
@@ -67,10 +63,6 @@ protected:
     QString sectionName;
     unsigned int sectionid;
     unsigned int trainid;
-    unsigned int forwardtargetid;
-    bool forwardnumber;
-    bool forwardexternal;
-    TrainNumberTarget forwardtargettype;
     stateElement trainNumberDisplay;
 
     virtual void initVariables();

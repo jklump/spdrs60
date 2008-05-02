@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60 documentation
 # last changes by: Guido Scholz
-# Version: $Revision: 1.17 $
-# last update: $Date: 2008-04-09 19:36:13 $
+# Version: $Revision: 1.18 $
+# last update: $Date: 2008-05-02 04:29:06 $
 
 # HTML_DOC_DIR is defined in configure.ac
 htmldir = @HTML_DOC_DIR@
@@ -114,7 +114,6 @@ dist_deimages_DATA = \
 	de/schnapp-route-rec1.png \
 	de/schnapp-route-rec6.png \
         de/schnapp-routemenu.png \
-	de/schnapp-routing-table-all.png \
 	de/schnapp-routing-table.png \
 	de/schnapp-save.png \
 	de/schnapp-sbn-comm.png \
@@ -123,7 +122,11 @@ dist_deimages_DATA = \
 	de/schnapp-viewmenu.png \
 	de/shot-pref-elements.png \
 	de/shot-pref-feedback.png \
-	de/shot-pref-feedbacktype.png
+	de/shot-pref-feedbacktype.png \
+	de/shot-routedialog1.png \
+	de/shot-routedialog2.png \
+	de/shot-routedialog3.png \
+	de/shot-routedialog4.png
 
 
 dist_commonimages_DATA = \

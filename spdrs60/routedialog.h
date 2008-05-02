@@ -1,11 +1,11 @@
 /***************************************************************************
                            routedialog.h
-                           version 0.5.2 $Revision: 1.27 $
+                           version 0.5.2 $Revision: 1.28 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-07 17:31:03 $
+    last modified        : $Date: 2008-05-02 04:29:07 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -54,7 +54,7 @@ public:
     void setRouteName(const QString&);
     void setRouteNumber(unsigned int);
     void setRouteTrain(unsigned int);
-    void setRouteType(int, unsigned int);
+    void setRouteType(int);
     void setEntrySignalData(const stateElement&);
     void setExitSignalData(const stateElement&);
     void setActivateData(const PortState&);
@@ -67,15 +67,8 @@ public:
     void getActivateData(PortState&);
     void getReleaseData(PortState&);
     int getRouteType();
-    unsigned int getDetourLevel();
     void setRouteElements(const QPtrList<stateElement>&);
     void getRouteElements(QPtrList<stateElement>&);
-    void setTrainNumberForwardData(bool, bool, Route::TrainNumberTarget,
-            unsigned int);
-    bool getForwardTrainNumber();
-    bool getInterlocking();
-    int getTrainNumberTarget();
-    unsigned int getTargetId();
   
 public slots:
 
@@ -84,7 +77,6 @@ private slots:
     void releaseCBchanged(bool);
     void activateContactSBChanged(int);
     void releaseContactSBChanged(int);
-    void typeBGPressed(int);
     void elementsLVChanged(QListViewItem*);
     void removeElementFromList();
     void startSignalBusChanged(const QString&);
@@ -95,7 +87,6 @@ private slots:
     void downListElement();
     void editListElement();
     void addElementToList();
-    void detectionChanged(bool);
 
 signals:
     void getElementByAddress(const int, const int, element**);
@@ -155,22 +146,10 @@ private:
    QPushButton*  addPB;
    QPushButton*  removePB;
 
-   QSpinBox*     uzsLevelSB;
-   QSpinBox*     ursLevelSB;
-
-   // train number forwarding page
-   QButtonGroup* targetBG;
-   QCheckBox*    enableforwardingCB;
-   QCheckBox*    interlockingCB;
-   QLineEdit*    forwardidLE;
-   QGroupBox*    targetidGB;
-   QGroupBox*    interlockingGB;
-
    void addIdentificationTab();
    void addElementsTab();
    void addRouteTypeTab();
    void addAutomaticTab();
-   void addTrainNumberForwardingTab();
    void updateEntrySignalName(int, int);
    void updateExitSignalName(int, int);
    void updateListIndexNumbersFrom(QListViewItem*);
