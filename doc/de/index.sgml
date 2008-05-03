@@ -27,7 +27,7 @@
         </author>
         <author>
             <firstname>Björn</firstname>
-            <surname>Schlie&szlig;mann</surname>
+            <surname>Schließmann</surname>
             <affiliation>
                 <address>
                     <email>chr0n0ss@despammed.com</email>
@@ -109,23 +109,23 @@ vorhandenen Funktionen bieten:
   <listitem><para>Einfaches, grafisches Erfassen von Fahrstraßen
   </para></listitem>
 
-  <listitem><para>Einstellen von Fahrstra&szlig;en durch Anklicken der
+  <listitem><para>Einstellen von Fahrstraßen durch Anklicken der
   Start- und Zielsignale</para></listitem>
 
   <listitem><para>Automatisches Einstellen und Auflösen von
-  Fahrstra&szlig;en durch Rückmeldungen</para></listitem>
+  Fahrstraßen durch Rückmeldungen</para></listitem>
 
-  <listitem><para>Automatische Zugnummerverfolgung über das Einstellen
-  und Auflösen von Fahrstra&szlig;en</para></listitem>
+  <listitem><para>Automatische Zugnummernverfolgung über das Einstellen
+  und Auflösen von Fahrstraßen</para></listitem>
 
   <listitem><para>Sicherheitstechnische Unterscheidung von Rangier- und
-  Zugfahrstra&szlig;en</para></listitem>
+  Zugfahrstraßen</para></listitem>
 
-  <listitem><para>Einstellen von Umfahrstra&szlig;en durch Betätigen der
+  <listitem><para>Einstellen von Umfahrstraßen durch Betätigen der
   Umfahrgruppentaste UfGT</para></listitem>
 
-  <listitem><para>Rücknahme von Fahrstra&szlig;en durch Betätigen der
-  Fahrstra&szlig;enauflösehilfstaste FHT</para></listitem>
+  <listitem><para>Rücknahme von Fahrstraßen durch Betätigen der
+  Fahrstraßenauflösehilfstaste FHT</para></listitem>
 
   <listitem><para>Stellen von einzelnen Weichen mit der
   Weichengruppentaste WGT</para></listitem>
@@ -219,9 +219,9 @@ Veröffentlicht am --.--.2008
   
   <listitem><para>
   Der Dialog zum Einstellen der Fahrstraßendaten wurde mit Reitern
-  gestaltet und ist dadurch wesentlich kompakter. Zusätzlich wurden
-  Eingabemöglichkeiten für die Fahrstraßenidentifikationsnummer (Id) und
-  die Zugnummer des belegenden Zuges ergänzt.
+  gestaltet und ist dadurch wesentlich kompakter als vorher. Zusätzlich
+  wurden Eingabemöglichkeiten für die Fahrstraßenidentifikationsnummer
+  (Id) und die Zugnummer des belegenden Zuges ergänzt.
   </para></listitem>
   
   <listitem><para>
@@ -717,10 +717,10 @@ Veröffentlicht am 01.01.2005
 <itemizedlist mark="bullet">
 
   <listitem><para>Ein Fehler, der nach dem Wechseln zu einem anderen
-Gleisbild ein Schalten von Fahrstra&szlig;en verhinderte, wurde
+Gleisbild ein Schalten von Fahrstraßen verhinderte, wurde
 beseitigt.</para></listitem>
 
-  <listitem><para>Das Aktivieren und Deaktivieren von Fahrstra&szlig;en
+  <listitem><para>Das Aktivieren und Deaktivieren von Fahrstraßen
 wird nun optisch durch ein wechselndes Cursor-Design angezeigt. Die
 Zeitspanne für die Schaltvorgänge wurde von 3&nbsp;s auf vorbildgerechte
 5&nbsp;s verlängert.</para></listitem>
@@ -739,10 +739,10 @@ Veröffentlicht am 11.12.2004
 <itemizedlist mark="bullet">
 
   <listitem><para>Ein Fehler, der zum Absturz des Programms bei
-fehlerhafter Fahrstra&szlig;eneingabe führen konnte, wurde
+fehlerhafter Fahrstraßeneingabe führen konnte, wurde
 beseitigt.</para></listitem>
 
-  <listitem><para>Fahrstra&szlig;en lassen sich nun auch durch eingehende
+  <listitem><para>Fahrstraßen lassen sich nun auch durch eingehende
 Rückmeldungen aktivieren.</para></listitem>
 
   <listitem><para>Dem Paket liegt nun auch eine spec-Datei für
@@ -791,11 +791,11 @@ Gleisbildern</para></listitem>
 Deutsche</para></listitem>
 
   <listitem><para>Integration der Kommandohistorie als dynamisch sich der
-Fenstergrö&szlig;e anpassende Fu&szlig;leiste, dadurch lä&szlig;t sich
+Fenstergröße anpassende Fußleiste, dadurch läßt sich
 nun auch die Toolbar beliebig platzieren</para></listitem>
 
   <listitem><para>Überarbeitung des Dialogs zur
-Fahrstra&szlig;enkonfiguration in ein kompakteres
+Fahrstraßenkonfiguration in ein kompakteres
 Format</para></listitem>
 
   <listitem><para>Integration des Handbuchs in die
@@ -827,7 +827,7 @@ Veröffentlicht am 03.03.2003
 
   <listitem><para>Deutlich erhöhte Stabilität</para></listitem>
 
-  <listitem><para>Korrigierte Rotausleuchtung der Fahrstra&szlig;en bei
+  <listitem><para>Korrigierte Rotausleuchtung der Fahrstraßen bei
 besetzten Gleisen</para></listitem>
 
 </itemizedlist>
@@ -858,16 +858,16 @@ Veröffentlicht am 25.11.2001
 <itemizedlist mark="bullet">
 
   <listitem><para>Komplett neu erstellt wurde eine grafische Oberfläche
-zum Verwalten von Fahrstra&szlig;en: Neu anlegen, Ändern der
-geschalteten Elemente oder löschen von Fahrstra&szlig;en sind nur die
+zum Verwalten von Fahrstraßen: Neu anlegen, Ändern der
+geschalteten Elemente oder löschen von Fahrstraßen sind nur die
 Basis der neuen Funktionen. Auch eine Anzeige, der in einer
-Fahrstra&szlig;e eingebundenen Elemente im Gleisbild selber ist möglich.
+Fahrstraße eingebundenen Elemente im Gleisbild selber ist möglich.
 Damit ist jetzt die Bedienung des Programms in einem soliden Grundstück
 komplett grafisch möglich.</para></listitem>
 
-  <listitem><para>Automatisches Erstellen von Fahrstra&szlig;en-Dateien,
+  <listitem><para>Automatisches Erstellen von Fahrstraßen-Dateien,
 wenn diese nicht vorhanden sind; Konvertierung von
-Fahrstra&szlig;en-Dateien, die bis zur Version 0.3.4 benutzt
+Fahrstraßen-Dateien, die bis zur Version 0.3.4 benutzt
 wurden.</para></listitem>
 
   <listitem><para>Korrektur in der Scrolleiste des Hauptfensters: ab
@@ -1017,7 +1017,7 @@ der Module</para></listitem>
 Rückmeldekontakt gehört, leuchten jetzt nach der Erzeugung/Änderung im
 Besetztmodus</para></listitem>
   <listitem><para>Bugfix beim Benutzen von Dateien ohne
-Fahrstra&szlig;en-Datei, wenn ein Rückmeldekontakt sich
+Fahrstraßen-Datei, wenn ein Rückmeldekontakt sich
 ändert</para></listitem>
 </itemizedlist>
 </sect1>
@@ -1041,7 +1041,7 @@ v0.6.1</para></listitem>
 Laufzeit einzustellen</para></listitem>
   <listitem><para>Unterstützung von Rückmelde-Decodern: Ausleuchten von
 besetzten Gleisen und automatische Rücknahme von
-Fahrstra&szlig;en</para></listitem>
+Fahrstraßen</para></listitem>
   <listitem><para>Gesamtübersicht über die Stati der einzelnen Anschlüsse der
 Rückmeldedecoder</para></listitem>
   <listitem><para>Neue Symbole: Wartesignal, Abfahrsignal,
@@ -1135,7 +1135,7 @@ DKW (dient nur zum Senden des richtigen Befehls)</para></listitem>
   <listitem><para>Antriebe mit mehr als zwei Zuständen können jetzt mittels
 WGT oder Kontextmenü &raquo;im Kreis&laquo; ihre Richtung ändern; d.h.
 alle verfügbaren Richtungen können so erreicht werden, ohne das
-Fahrstra&szlig;en dafür benutzt werden müssten</para></listitem>
+Fahrstraßen dafür benutzt werden müssten</para></listitem>
 </itemizedlist>
 </sect1>
 </chapter>
@@ -1179,7 +1179,7 @@ generelle Voraussetzungen erfüllt sein:
   größere können sogar 1280x1024 Pixel schon knapp werden.
   </para></listitem>
 
-  <listitem><para>Für die aktuelle Qt3-Version mu&szlig; die
+  <listitem><para>Für die aktuelle Qt3-Version muß die
   Qt-Laufzeit-Bibliothek installiert sein (SuSE Paket
   &raquo;qt3&laquo;, Fedora Paket &raquo;qt&laquo;, Debian/Ubuntu Paket
   &raquo;libqt3-mt&laquo;).
@@ -1213,13 +1213,13 @@ Teil von den Webseiten der
 <ulink url="http://www.lug-burghausen.org/">LUG-Burghausen</ulink>.
 Allgemein gilt für den Betrieb von spdrs60, dass die Version des vom
 Server angebotenen SRCP-Protokolls
-&gt;=&nbsp;0.7.0 und &lt;&nbsp;0.9.0 sein mu&szlig;.</para></listitem>
+&gt;=&nbsp;0.7.0 und &lt;&nbsp;0.9.0 sein muß.</para></listitem>
 </itemizedlist>
 </para>
 
 <para>spdrs60 läuft unter den verschiedensten Linux-Distributionen,
 solange diese die Qt-Bibliothek in der Version 3.x mitliefern.
-Getestet wurde diese Version unter Qt 3.0.5 bis 3.3.6 mit SuSE, Fedora,
+Getestet wurde diese Version unter Qt 3.0.5 bis 3.3.7 mit SuSE, Fedora,
 Debian und Ubuntu in unterschiedlichen Versionsständen. Auch die
 64Bit-Versionen werden unterstützt.
 </para>
@@ -1301,7 +1301,7 @@ $ tar -xvjf spdrs60-&ver;.tar.bz2
 </screen>
 
 <para>
-Anschlie&szlig;end ist ins Basisverzeichnis des Paketes zu wechseln und
+Anschließend ist ins Basisverzeichnis des Paketes zu wechseln und
 folgendes einzugeben:
 </para>
 <screen>
@@ -1384,7 +1384,7 @@ abgelegt werden.
 
 <para>
 <table frame="topbot" id="tabelle-layoutdateien">
-  <title>Auflistung der mitgelieferten Beispiel-Gleisbilddateien</title>
+  <title>Mitgelieferten Beispiel-Gleisbilddateien</title>
 <tgroup cols="2" align="left" colsep="0" rowsep="0">   
   <colspec colname="c1" colwidth="1*">
   <colspec colname="c2" colwidth="2*">
@@ -1406,7 +1406,7 @@ abgelegt werden.
     </row>
     <row>
       <entry>bahnhof_gross.spdrs60</entry>
-      <entry>Ein gro&szlig;er Beispielbahnhof</entry>
+      <entry>Ein großer Beispielbahnhof</entry>
     </row>
     <row>
       <entry>kleinmaschen.spdrs60</entry>
@@ -1520,9 +1520,9 @@ Die Menüpunkte haben folgende Funktionen:
   sowie Anpassungen gleisbildspezifischer Daten</para></listitem>
 </varlistentry>
 <varlistentry>
-  <term><emphasis>Fahrstra&szlig;e</emphasis></term>
+  <term><emphasis>Fahrstraße</emphasis></term>
   <listitem><para>Interaktionen mit der aktuell in der Fahrstraßenliste
-  ausgew&auml;hlten Fahrstra&szlig;e</para></listitem>
+  ausgew&auml;hlten Fahrstraße</para></listitem>
 </varlistentry>
 <varlistentry>
   <term><emphasis>Hilfe</emphasis></term>
@@ -1793,7 +1793,7 @@ Die Bedeutung der Einträge im Einzelnen von oben nach unten:
 <sect2>
   <title>Ansicht</title>
 <figure id="abb-menuview">
-  <title>Fahrstra&szlig;en-Menü</title>
+  <title>Fahrstraßen-Menü</title>
   <mediaobject><imageobject>
     <imagedata fileref="schnapp-viewmenu.png">
   </imageobject></mediaobject>
@@ -1804,7 +1804,7 @@ Die Bedeutung der Einträge im Einzelnen von oben nach unten:
 
 <itemizedlist mark="bullet">
   <listitem><para>Zeigt die Rückmeldemodule an</para></listitem>
-  <listitem><para>Zeigt die Fahrstra&szlig;entabelle an</para></listitem>
+  <listitem><para>Zeigt die Fahrstraßentabelle an</para></listitem>
   <listitem><para>Zeigt die Bahnhofsuhr an</para></listitem>
   <listitem><para>Öffnet ein einfaches Schaltpult zum Testen von
 Antrieben</para></listitem>
@@ -1814,7 +1814,7 @@ Antrieben</para></listitem>
   <listitem><para>Umschalten der Gleisbildansicht in den
   Fahrstraßenbearbeitungsmodus</para></listitem>
   <listitem><para>Weiterschalten der verschiedenen Meldezeilen am
-  Fu&szlig; des Progammfensters</para></listitem>
+  Fuß des Progammfensters</para></listitem>
 </itemizedlist>
 </sect2>
 
@@ -1862,8 +1862,8 @@ Die Bedeutung der Einträge im Einzelnen von oben nach unten:
 <itemizedlist mark="bullet">
   <listitem><para>An- und Ausschalten des Anlagenstroms</para></listitem>
   
-  <listitem><para>Benutzt die Fahrstra&szlig;enhilfsauflösetaste zum
-  Auflösen von Fahrstra&szlig;en, auch wenn diese nicht als Symbol mit
+  <listitem><para>Benutzt die Fahrstraßenhilfsauflösetaste zum
+  Auflösen von Fahrstraßen, auch wenn diese nicht als Symbol mit
   im Gleisbild liegt</para></listitem>
   
   <listitem><para>Benutzt die Umfahrgruppentaste, auch wenn diese nicht
@@ -1888,7 +1888,7 @@ weiter</para></listitem>
 an die Anlage (so kann man nach Handstellungen wieder einen Abgleich
 herbeiführen)</para></listitem>
 
-  <listitem><para>Alle aktiven Fahrstra&szlig;en werden zurückgenommen und
+  <listitem><para>Alle aktiven Fahrstraßen werden zurückgenommen und
 deren Startsignale auf Halt gestellt</para></listitem>
 
   <listitem><para>Fragt den aktuellen Zustand aller Rückmeldemodule beim
@@ -1987,19 +1987,19 @@ zum Erstellen von eigenen Gleisbildern befindet im
 </sect2>
 
 <sect2>
-  <title>Bearbeiten von Fahrstra&szlig;en</title>
+  <title>Bearbeiten von Fahrstraßen</title>
 <para>
 Wenn das Gleisbild fertig ist und alle fahrstraßenrelevanten Elemente
 eine gültige Adresse haben, kann man mit der Erstellung der Fahrstraßen
 beginnen. Um diese zu bearbeiten, muß man zunächst in den
 Fahrstraßenbearbeitungsmodus wechseln. Das erreicht man über das
 Tastaturkürzel <keycap>Strg-B</keycap>, den Menüpunkt
-&raquo;Ansicht/Fahrstra&szlig;enbearbeitungsmodus&laquo; oder über
+&raquo;Ansicht/Fahrstraßenbearbeitungsmodus&laquo; oder über
 den entsprechenden Schaltknopf in der Werkzeugleiste (blaues Gitter
 auf grauem Grund). Man erkennt diesen Modus an den blauen Linien
 zwischen den Elementen. Zusätzlich benötigt man die Fahrstraßentabelle,
 die durch Aktivieren des Menüpunktes
-&raquo;Ansicht/Fahrstra&szlig;entabelle&laquo; sichtbar wird.
+&raquo;Ansicht/Fahrstraßentabelle&laquo; sichtbar wird.
 </para>
 <para>
 Eine neue Fahrstraße kann man nun durch das Menü
@@ -2063,7 +2063,7 @@ Anschließend wählt man, in welcher Elementeigenschaft der Elementfinder
 suchen soll; z.B. in Textfeldern, in den Hauptadressen
 (bei Einfachantrieben ist es
 die einzige Adresse, bei Mehrfachantrieben die Adresse, die auch in den
-Fahrstra&szlig;en angegeben wird) oder in den zusätzlichen Adressen bei
+Fahrstraßen angegeben wird) oder in den zusätzlichen Adressen bei
 Mehrfachantrieben. Des Weiteren ist auswählbar, ob nur der erste Treffer
 zählt, oder ob alle Vorkommen angezeigt werden.
 </para>
@@ -2131,12 +2131,12 @@ Gleisbildeinstellungen konfigurierbar.
 <sect2>
   <title>Anlage starten</title>
 <para>
-Bevor es möglich ist, Fahrstra&szlig;en zu stellen oder andere Aktionen
+Bevor es möglich ist, Fahrstraßen zu stellen oder andere Aktionen
 auf der Anlage zu veranlassen, muß der Digitalstrom auf der Anlage
 eingeschaltet werden. Erst dann sendet der SRCP-Daemon Befehle an die
 Hardware. Dies geschieht am einfachsten durch das Zp&nbsp;9-Symbol in
 der Werkzeugleiste. Analog kann man über das Symbol für die
-Notbremse die Anlage strommä&szlig;ig wieder abschalten. Zur einfachen
+Notbremse die Anlage strommäßig wieder abschalten. Zur einfachen
 Bedienung dieser Funktion ohne Maus existiert das
 Tastaturkürzel <keycap>F4</keycap>. Auch das automatische Einschalten
 des Anlagenstroms nach dem Laden der Gleisbilddatei läßt sich über die
@@ -2156,15 +2156,15 @@ Details sind im <xref linkend="chapter-rueckmeldung"> beschrieben.
 </sect2>
 
 <sect2>
-  <title>Fahrstra&szlig;en manuell zurücknehmen</title>
+  <title>Fahrstraßen manuell zurücknehmen</title>
 <para>
 Bei Betriebssituationen, in denen eine bereits eingestellte, aber noch
 nicht befahrene Fahrstraße manuell zurückgenommen werden muß, kommt die
 in <xref linkend="abb-fht"> dargestellte 
-Fahrstra&szlig;enauflösehilfstaste (FHT) zur Anwendung.
+Fahrstraßenauflösehilfstaste (FHT) zur Anwendung.
 </para>
 <figure id="abb-fht">
-  <title>Fahrstra&szlig;enauflösehilfstaste</title>
+  <title>Fahrstraßenauflösehilfstaste</title>
   <mediaobject><imageobject>
     <imagedata fileref="../commonimages/taste-fht.png">
   </imageobject></mediaobject>
@@ -2183,7 +2183,7 @@ Sie im <xref linkend="chapter-fahrstrassen-allg">.
 <para>
 Einzelne Antriebe kann man - nicht originalgetreu - über das Kontextmenü
 &raquo;Umschalten&laquo; eines schaltbaren Elements ansprechen. Dieser
-Eintrag ist nur aktiv bei nicht durch Fahrstra&szlig;en benutzen
+Eintrag ist nur aktiv bei nicht durch Fahrstraßen benutzen
 Antrieben und wenn die Weichen o.ä. nicht durch ein Fahrzeug besetzt
 sind, was am rot leuchtenden Gleismelder erkennbar ist. Dabei wird
 &raquo;im Kreis&laquo; umgeschaltet; d.h. bei mehr als zwei möglichen
@@ -2233,7 +2233,7 @@ Synchronität abgehalten.
 Mit dem Signalsymbol in der Werkzeugleiste oder auch mit
 <keycap>F12</keycap> können alle Signale, die nicht auf Halt stehen, auf
 Halt gestellt werden. Dies geschieht unabhängig von einer eingestellten
-Fahrstra&szlig;e mit gegenseitigem Verschlie&szlig;en von Antrieben und
+Fahrstraße mit gegenseitigem Verschließen von Antrieben und
 dient als alternative Notbremse, wenn es auf der Anlage mal brenzlig
 wird.
 </para>
@@ -2379,7 +2379,7 @@ möglichen Modi</entry>
     </row>
     <row>
       <entry><keycap>Strg-R</keycap></entry>
-      <entry>Anzeigen der Fahrstra&szlig;entabelle</entry>
+      <entry>Anzeigen der Fahrstraßentabelle</entry>
     </row>
     <row>
       <entry><keycap>Strg-F</keycap></entry>
@@ -2395,7 +2395,7 @@ möglichen Modi</entry>
     </row>
     <row>
       <entry><keycap>Strg-U</keycap></entry>
-      <entry>Alle Fahrstra&szlig;en zurücknehmen und deren
+      <entry>Alle Fahrstraßen zurücknehmen und deren
 Startsignale auf Halt stellen</entry>
     </row>
     <row>
@@ -2404,7 +2404,7 @@ Startsignale auf Halt stellen</entry>
     </row>
     <row>
       <entry><keycap>F5</keycap></entry>
-      <entry>Aktivieren der Fahrstra&szlig;enauflösehilfstaste FHT</entry>
+      <entry>Aktivieren der Fahrstraßenauflösehilfstaste FHT</entry>
     </row>
     <row>
       <entry><keycap>F6</keycap></entry>
@@ -2466,7 +2466,7 @@ senden</entry>
 </table>
 
 <table frame="topbot" id="tabelle-tastatur3">
-  <title>Tastaturkürzel im Fahrstra&szlig;enbearbeitungsmodus</title>
+  <title>Tastaturkürzel im Fahrstraßenbearbeitungsmodus</title>
 <tgroup cols="2" align="left" colsep="0" rowsep="0">   
   <colspec colname="c1" colwidth="1*">
   <colspec colname="c2" colwidth="3*">
@@ -2590,7 +2590,7 @@ Abschnitt &raquo;Speichern&laquo;.
 </para>
 
 <para>
-Die Ladezeit kann sich je nach Grö&szlig;e des Gleisbilds und
+Die Ladezeit kann sich je nach Größe des Gleisbilds und
 Anzahl der darin befindlichen schaltbaren Elemente im Bereich von
 mehreren Sekunden bewegen. Ursache hierfür ist der Abgleich der
 Gleisbild-Daten mit der Anlage.
@@ -2602,7 +2602,7 @@ Zustand einer Anlage einzulesen. Im Unterschied zum Original melden
 die Weichen oder Signale ihren Zustand nicht an den SRCP-Server
 und damit weiter an dieses Programm. Je nach Ausführung der
 Weichenantriebe wäre es zwar möglich Rückmeldekontakte
-anzuschlie&szlig;en, was wirklichkeitsgetreuer wäre, softwaretechnisch
+anzuschließen, was wirklichkeitsgetreuer wäre, softwaretechnisch
 ist das jedoch noch nicht realisiert.
 Die hier praktizierte Methode ist einfacher, da die
 Anlage auf den gespeicherten Zustand der Gleisbilddatei eingestellt wird.
@@ -2841,7 +2841,7 @@ besondere Elemente wie die Drehscheibe wird im
 </para>
 
 <table frame="topbot" id="tabelle-turnouts">
-  <title>Auflistung der Weichensymbole</title>
+  <title>Weichensymbole</title>
   <tgroup cols="6" align="left" colsep="0" rowsep="1">   
   <colspec colname="c1" colwidth="1*" colsep="0">
   <colspec colname="c2" colwidth="2*" colsep="0">
@@ -2977,7 +2977,7 @@ besondere Elemente wie die Drehscheibe wird im
 </para>
 
 <table frame="topbot" id="tabelle-signals">
-  <title>Auflistung der Signalsymbole</title>
+  <title>Signalsymbole</title>
   <tgroup cols="6" align="left" colsep="0" rowsep="1">   
   <colspec colname="c1" colwidth="1*" colsep="0">
   <colspec colname="c2" colwidth="1*" colsep="0">
@@ -3197,7 +3197,7 @@ besondere Elemente wie die Drehscheibe wird im
 </para>
 
 <table frame="topbot" id="tabelle-decoration">
-  <title>Auflistung der dekorativen Elementsymbole</title>
+  <title>Dekorative Elementsymbole</title>
   <tgroup cols="6" align="left" colsep="0" rowsep="0">   
   <colspec colname="c1" colwidth="1*" colsep="0">
   <colspec colname="c2" colwidth="2*" colsep="0">
@@ -3449,8 +3449,8 @@ vorhanden).</para>
       Antrieb (K-Gleis 2260, M-Gleis 5207 oder 5128, C-Gleis 24620)
       haben nur zwei verschiedene Richtungsmöglichkeiten. Die
       Anzeige bei diesen Symbolen richtet sich daher auch nach einer
-      eingestellten Fahrstra&szlig;e, die über ein solches Element
-      verläuft (siehe auch Kapitel &raquo;Fahrstra&szlig;en&laquo;).
+      eingestellten Fahrstraße, die über ein solches Element
+      verläuft (siehe auch Kapitel &raquo;Fahrstraßen&laquo;).
       </para></footnote></entry>
     </row>
     <row>
@@ -3723,8 +3723,8 @@ nicht mehr mit dieser zu erreichen. Man kann also keine Antriebe mehr
 einzeln umschalten (auch nicht, wenn man vorher die Taste
 <keycap>F6</keycap> drückt, da danach ein Linksklick erwartet wird).
 Ebenso verhält es sich mit der mausgesteuerten Aktivierung und
-Deaktivierung von Fahrstra&szlig;en. Diese können nur noch über die
-Fahrstra&szlig;entabelle geschaltet werden.
+Deaktivierung von Fahrstraßen. Diese können nur noch über die
+Fahrstraßentabelle geschaltet werden.
 </para>
 </sect1>
   
@@ -3817,7 +3817,7 @@ automatisch das zugehörige Protokoll in der oberen Hälfte des Fensters an.
 <para>
 Anschließend vergibt man die Adresse für den Artikel. In manchen Fällen,
 wie z.B. bei Weichen, kann es sinnvoll sein, in den Antriebselementen die
-Decoderadresse anzeigen lassen. Deshalb wird standardmä&szlig;ig bei Eingabe
+Decoderadresse anzeigen lassen. Deshalb wird standardmäßig bei Eingabe
 einer Adresse diese automatisch in das Textfeld übertragen. Möchte man
 aber die Vorbildbezeichnungen für Weichen, Signale etc. benutzen, muß
 man nachträglich den Eintrag im Textfeld ändern (z.B. P1 für ein
@@ -3925,7 +3925,7 @@ immer um zwei getrennte Signale handelt.
 <para>
 Auf der Modellbahn kommen meist Doppelkreuzweichen (DKW) mit zwei
 Antrieben zur Anwendung, wie es im Vorbild auch der
-Fall ist. Deshalb wird standardmä&szlig;ig der untere Schalter mit den
+Fall ist. Deshalb wird standardmäßig der untere Schalter mit den
 vier möglichen Weichenstellungen (<xref linkend="abb-dkw">) aktiviert.
 Somit sind in den meisten Fällen auch hier wieder zwei Decoderadressen
 einzugeben.
@@ -3991,7 +3991,7 @@ vergibt dazu ganz
 normal die Adresse. Aber es gibt auch Entkoppler, die einen
 Momentkontakt aufweisen, dementsprechend auch nur einen Ausgang einer
 Adresse belegen (z.B. Märklin K-2297, M-5112 oder C-24997). Man kann
-daher an eine Adresse gleich zwei Entkoppler anschlie&szlig;en. Hierbei
+daher an eine Adresse gleich zwei Entkoppler anschließen. Hierbei
 ist also auch auf ein eventuell notwendiges Häkchen im Feld
 &raquo;Vertauschen&laquo; zu achten.
 </para>
@@ -4035,7 +4035,7 @@ Die Zeitschrift Elektor hat Ende
 der 80er Jahre ein Selbstbau-Projekt zu einer Märklin-kompatiblen
 digitalen Steuerung namens EDiTS entwickelt (Elektor Digital Train
 System). Dies zeichnete sich schon damals gegenüber den Originalbauteilen
-durch äu&szlig;erst geringe Kosten aus. Auch Selbstbau-Lokdecoder
+durch äußerst geringe Kosten aus. Auch Selbstbau-Lokdecoder
 gehörten damals schon zum Programm.
 </para>
 <para>
@@ -4102,17 +4102,17 @@ eingestellten Adresse nicht entsprechen sollte.
 
 
 <chapter id="chapter-fahrstrassen-allg">
-  <title>Fahrstra&szlig;en</title>
+  <title>Fahrstraßen</title>
 <sect1 id="sect-fahrstrassen-vorwort">
   <title>Vorwort</title>
 <para>
 In der Einleitung zu dieser Dokumentation wurde bereits angesprochen,
 dass die hervorstechende Eigenschaft eines Spurplan-Drucktasten-Stellwerks
-das Arbeiten mit Fahrstra&szlig;en ist. Der Fahrdienstleiter sucht sich nicht
+das Arbeiten mit Fahrstraßen ist. Der Fahrdienstleiter sucht sich nicht
 selbst eine mögliche Strecke über die vorhandenen Weichen aus und stellt
 jede Weiche einzeln; es werden vielmehr durch in Spurplantechnik
-verschaltete Relaisgruppen vorprogrammierte Fahrstra&szlig;en aktiviert
-(sämtliche Fahrstra&szlig;en sind vorbestimmt, d.h. es gibt keine
+verschaltete Relaisgruppen vorprogrammierte Fahrstraßen aktiviert
+(sämtliche Fahrstraßen sind vorbestimmt, d.h. es gibt keine
 &raquo;Intelligenz&laquo; im System, die aus Start- und Zielsignal denn
 besten/schnellsten Weg durch ein Weichenfeld findet). Dies geschieht
 durch das gleichzeitige Drücken von entweder zwei Zugstraßentasten oder
@@ -4139,18 +4139,18 @@ werden müssen, dennoch sind dafür Bedienmöglichkeiten vorhanden.
 <para>
 Wurden die Tasten gedrückt, dann laufen zunächst alle beteiligten
 Weichen in die erforderliche neue Lage und werden dort verriegelt. Die
-Fahrstra&szlig;e wird auf dem Stelltisch mit gelben Lampen ausgeleuchtet,
+Fahrstraße wird auf dem Stelltisch mit gelben Lampen ausgeleuchtet,
 damit man den gestellen Fahrweg direkt erkennen kann. Danach erst schaltet
 sich das Startsignal auf Fahrt (Hp&nbsp;1 oder Hp&nbsp;2), und der Zug
 kann losfahren; dabei meldet er über Gleismeldekontakte seine Position
-an den Stelltisch, der diese durch Ausleuchten der Fahrstra&szlig;e mit
+an den Stelltisch, der diese durch Ausleuchten der Fahrstraße mit
 roten Lampen anzeigt. Wenn der Zug das Zielsignal passiert hat, wird
-die Fahrstra&szlig;e über Gleismeldekontakte automatisch aufgelöst. Die
-darin befindlichen Weichen stehen dann wieder für Fahrstra&szlig;en
+die Fahrstraße über Gleismeldekontakte automatisch aufgelöst. Die
+darin befindlichen Weichen stehen dann wieder für Fahrstraßen
 zur Verfügung. Besteht die Fahrstraße aus mehreren
 Gleisbelegtmeldeabschnitte, dann erfolgt die Auflösung der Fahrstraße
 und die Freigabe der entsprechenden Weichen abschnittsweise.
-Selbstverständlich sind auch bei der gro&szlig;en
+Selbstverständlich sind auch bei der großen
 Bahn Weichen einzeln stellbar, dies ist z.B. allein für Wartungsarbeiten
 notwendig.
 </para>
@@ -4167,8 +4167,8 @@ ausscheidet. Es bleibt das Arbeiten mit der Maus, welches allerdings
 nur sequentiell erfolgen kann und nie parallel.
 Ansonsten ist alles sehr ähnlich: Die Weichen werden hintereinander
 angesteuert, das Startsignal wird zuletzt auf Fahrt gestellt, und die
-Fahrstra&szlig;e wird in gelber Ausleuchtung angezeigt. Auch die
-manuelle Rücknahme von Fahrstra&szlig;en ist mit diesem Bedienkonzept
+Fahrstraße wird in gelber Ausleuchtung angezeigt. Auch die
+manuelle Rücknahme von Fahrstraßen ist mit diesem Bedienkonzept
 möglich.
 </para>
 <para>
@@ -4186,7 +4186,7 @@ ein stelltischartiger Aufbau resultieren kann.
 <sect1 id="sect-fahrstrassen-bedienung">
   <title>Bedienung</title>
 <sect2>
-  <title>Fahrstra&szlig;e einstellen</title>
+  <title>Fahrstraße einstellen</title>
 <para>
 Dem Programmpaket liegen einige Beispielgleisbilder bei, an denen sich
 das Einstellen von Fahrstraßen anschaulich darstellen läßt. Für die folgenden
@@ -4194,24 +4194,24 @@ Abbildungen dient die Datei <filename>bahnhof_klein.spdrs60</filename>
 als Vorlage.
 </para>
 <figure id="abb-routing1">
-  <title>Fahrstra&szlig;enkonfiguration, Ausgangssituation</title>
+  <title>Fahrstraßenkonfiguration, Ausgangssituation</title>
   <mediaobject><imageobject>
     <imagedata fileref="../commonimages/schnapp-routing-none.png">
   </imageobject></mediaobject>
 </figure>
 <para>
 In <xref linkend="abb-routing1"> erkennt man einen Gleisbild-Ausschnitt,
-in welchem die Fahrstra&szlig;e von (Start-)Signal P2 in die freie
+in welchem die Fahrstraße von (Start-)Signal P2 in die freie
 Strecke zur Gleistaste &raquo;n.L.&laquo; geschaltet
 werden soll. Dazu klickt man zuerst auf die Zugstraßentaste (rot) des
 Startsignals und dann innerhalb eines 5-Sekunden-Zeitraums auf die
 Zugstraßentaste des Zielgleises. Anschließend kann man verfolgen, wie die
-für die Fahrstra&szlig;e benötigten Weichen in die richtige Stellung
-laufen. Sind alle Weichen gestellt, wird die Fahrstra&szlig;e in
+für die Fahrstraße benötigten Weichen in die richtige Stellung
+laufen. Sind alle Weichen gestellt, wird die Fahrstraße in
 gelber Ausleuchtung angezeigt (<xref linkend="abb-routing2">).
 </para>
 <figure id="abb-routing2">
-  <title>Eingestellte Fahrstra&szlig;e</title>
+  <title>Eingestellte Fahrstraße</title>
   <mediaobject><imageobject>
     <imagedata fileref="../commonimages/schnapp-routing-show.png">
   </imageobject></mediaobject>
@@ -4220,20 +4220,20 @@ gelber Ausleuchtung angezeigt (<xref linkend="abb-routing2">).
 Man erkennt weiterhin als Unterschied zum ersten Bild kleine gelb
 ausgefüllte Kreise an den Weichen (Verschlußmelder) und an den
 Signalen (Sperrmelder). Diese zeigen an, dass der entsprechende Antrieb
-in einer aktivierten Fahrstra&szlig;e benötigt wird und deshalb nicht
+in einer aktivierten Fahrstraße benötigt wird und deshalb nicht
 durch die Weichengruppentaste (WGT) bzw. die Signalgruppentaste (SGT)
-oder durch eine andere Fahrstra&szlig;e gestellt werden kann.
+oder durch eine andere Fahrstraße gestellt werden kann.
 Wird dieses dennoch versucht, gibt es eine Fehlermeldung in der
 Meldezeile.
 </para>
 <para>
-Hat eine Weiche schon die für die Fahrstra&szlig;e benötigte Stellung,
+Hat eine Weiche schon die für die Fahrstraße benötigte Stellung,
 dann wird sie nicht noch einmal gestellt. Es wird
 auch kein Stellbefehl an den SRCP-Server geschickt, um unnötige
 Kommandos zu vermeiden (es sei denn, dies ist als spezielle Einstellung
 konfiguriert). Selbstverständlich wird diese Weiche
 ebenfalls durch einen aktivierten Sperrmelder als einer
-Fahrstra&szlig;e zugehörig gekennzeichnet.
+Fahrstraße zugehörig gekennzeichnet.
 </para>
 </sect2>
 
@@ -4246,7 +4246,7 @@ sehr schön über die Rotausleuchtung der Gleisabschnitte erkennen.
 Weichenfeld befindet.
 </para>
 <figure id="abb-routing3">
-  <title>Eingestellte Fahrstra&szlig;e mit Gleisbesetztmeldern</title>
+  <title>Eingestellte Fahrstraße mit Gleisbesetztmeldern</title>
   <mediaobject><imageobject>
     <imagedata fileref="../commonimages/schnapp-routing-occu.png">
   </imageobject></mediaobject>
@@ -4254,25 +4254,25 @@ Weichenfeld befindet.
 </sect2>
 
 <sect2>
-  <title>Fahrstra&szlig;e auflösen</title>
+  <title>Fahrstraße auflösen</title>
 <para>
 Passiert der Zug einen Rückmeldekontakt, der eine
-Fahrstra&szlig;e auflöst, so wird diese automatisch aufgelöst, d.h.
+Fahrstraße auflöst, so wird diese automatisch aufgelöst, d.h.
 die gelben Gleismelder verlöschen. Befindet sich aus welchen Gründen
 auch immer noch ein Zug oder Wagen auf den Gleisen, so wird dies natürlich
 weiterhin angezeigt. Mit einem Rückmeldekontakt können auch mehrere
-Fahrstra&szlig;en gleichzeitig aufgelöst werden.
+Fahrstraßen gleichzeitig aufgelöst werden.
 </para>
 <para>
 <emphasis>ACHTUNG:</emphasis> Der Rückmeldekontakt für das Auflösen wird
-über den Fahrstra&szlig;endialog eingetragen, während
+über den Fahrstraßendialog eingetragen, während
 der Rückmeldekontakt des Gleismelders im Eigenschaftsdialog des
 entsprechenden Elements eingetragen wird.
 </para>
 <para>
-Muß eine Fahrstra&szlig;e wegen irrtümlicher Einstellung, oder weil
+Muß eine Fahrstraße wegen irrtümlicher Einstellung, oder weil
 sie nicht mehr benötigt wird, zurückgenommen werden, so benutzt man die
-auch im Original vorhandene Fahrstra&szlig;enauflösehilfstaste (FHT)
+auch im Original vorhandene Fahrstraßenauflösehilfstaste (FHT)
 (<xref linkend="abb-routing5">). Diese sollte auf keinem Gleisbild
 fehlen.
 </para>
@@ -4287,10 +4287,10 @@ Man klickt zunächst auf das FHT-Element und hat dann
 maximal fünf Sekunden Zeit, um wie beim Aktivieren zuerst das
 Startsignal und dann wiederum innerhalb eines 5-Sekunden-Zeitraums das
 Zielsignal anzuklicken. Als Folge davon erlischt die gelbe
-Fahrstra&szlig;enausleuchtung (nicht jedoch die Stellungsmelder der
+Fahrstraßenausleuchtung (nicht jedoch die Stellungsmelder der
 Weichen). Weiterhin verlöschen die gelben Verschlußmelder; das Startsignal
 sowie eventuelle Rangiersignale auf dem Fahrweg springen
-auf Halt. Ab jetzt sind die Weichen wieder für andere Fahrstra&szlig;en
+auf Halt. Ab jetzt sind die Weichen wieder für andere Fahrstraßen
 benutzbar oder können einzeln geschaltet werden. Möchte man sich ein
 Stück Mausbewegung sparen, drückt man zuerst die Taste
 <keycap>F5</keycap> und dann spätestens nach den erwähnten fünf Sekunden
@@ -4299,26 +4299,26 @@ das erste Signal, nach weiteren maximal fünf Sekunden das zweite Signal.
 </sect2>
 
 <sect2>
-  <title>Fahrstra&szlig;enübersicht</title>
+  <title>Fahrstraßenübersicht</title>
 <para>
-In der normalen Gleisbild-Darstellung erkennt man nicht,
-welche Fahrstra&szlig;en schon existieren. Man kann solch eine Anzeige
-(<xref linkend="abb-routing6">) aber durch das
-Fahrstra&szlig;en-Symbol in der Werkzeugleiste, die Tasten
-<keycap>Strg-R</keycap> oder den Menüpunkt &raquo;Ansicht/Fahrstraßentabelle&laquo; aktivieren.
+In der normalen Gleisbild-Darstellung erkennt man nicht, welche
+Fahrstraßen schon existieren. Man kann solch eine Anzeige
+(<xref linkend="abb-routing6">) aber durch das Fahrstraßen-Symbol
+in der Werkzeugleiste, die Tasten <keycap>Strg-R</keycap> oder den
+Menüpunkt &raquo;Ansicht/Fahrstraßentabelle&laquo; aktivieren.
 </para>
 <figure id="abb-routing6">
-  <title>Fahrstra&szlig;entabelle</title>
+  <title>Fahrstraßentabelle</title>
   <mediaobject><imageobject>
     <imagedata fileref="schnapp-routing-table.png">
   </imageobject></mediaobject>
 </figure>
 <para>
 Es öffnet sich eine tabellarische Liste, in der alle existierenden
-Fahrstra&szlig;en mit Namen, Startsignal, Zielsignal und Typ aufgeführt
+Fahrstraßen mit Namen, Startsignal, Zielsignal und Typ aufgeführt
 sind. Bereits eingestellte Fahrstraßen erkennt man sofort an dem gelben
 rechteckigen Symbol in der ersten Spalte. Auch aus diesem Fenster heraus
-können die Fahrstra&szlig;en beeinflußt werden. Dazu wählt man zunächst
+können die Fahrstraßen beeinflußt werden. Dazu wählt man zunächst
 durch einfachen Mausklick oder mit Hilfe der Pfeiltasten die zu
 stellende Straße aus. Ist diese noch nicht eingestellt, erscheint
 das rechteckige Grafiksymbol am Anfang der Tabellenzeile grau. Durch
@@ -4330,15 +4330,15 @@ wird gelb.
 <para>
 Ist eine Straße bereits eingestellt, wird das Stopsignal in der
 Werkzeugleiste aktivierbar. Durch einen Klick darauf oder durch drücken
-der Leerzeichentaste wird die Fahrstra&szlig;e wieder zurückgenommen, als
+der Leerzeichentaste wird die Fahrstraße wieder zurückgenommen, als
 hätte man die Kombination FHT + Start- + Zielsignal benutzt.
 </para>
 </sect2>
 
 <sect2>
-  <title>Alle Fahrstra&szlig;en zurücknehmen</title>
+  <title>Alle Fahrstraßen zurücknehmen</title>
 <para>
-Unter Umständen kann es nötig sein, alle eingestellten Fahrstra&szlig;en
+Unter Umständen kann es nötig sein, alle eingestellten Fahrstraßen
 zurückzunehmen. Bei einer oder zwei eingestellten Straßen ist dies noch
 bequem über die FHT zu schaffen, für eine flächendeckende Anwendung
 steht der Menübefehl &raquo;Fahrstraße/Alle zurücknehmen&laquo;
@@ -4349,7 +4349,7 @@ steht der Menübefehl &raquo;Fahrstraße/Alle zurücknehmen&laquo;
 
 
 <sect1 id="sect-fahrstrassen">
-  <title>Verwaltung von Fahrstra&szlig;en</title>
+  <title>Verwaltung von Fahrstraßen</title>
 <para>
 Eine Übersicht über die schon vorhandenen Fahrstraßen erhält man
 jederzeit durch die Fahrstraßentabelle
@@ -4369,7 +4369,7 @@ und die übrigen schaltenden Elemente gelb. In
 <xref linkend="abb-routing15"> ist ein Beispiel dafür wiedergegeben.
 </para>
 <figure id="abb-routing15">
-  <title>Visuelle Überprüfung einer Fahrstra&szlig;e</title>
+  <title>Visuelle Überprüfung einer Fahrstraße</title>
   <mediaobject><imageobject>
     <imagedata fileref="../commonimages/schnapp-route-pruef.png">
   </imageobject></mediaobject>
@@ -4395,17 +4395,17 @@ Reiter am oberen Rand gewechselt werden kann.
 <sect3>
   <title>Identifikation</title>
 <figure id="abb-routing8">
-  <title>Identifikation einer Fahrstra&szlig;e</title>
+  <title>Identifikation einer Fahrstraße</title>
   <mediaobject><imageobject>
-    <imagedata fileref="hot-routedialog1.png">
+    <imagedata fileref="shot-routedialog1.png">
   </imageobject></mediaobject>
 </figure>
 <para>
-Auf dieser Seite läßt sich der Name der Fahrstraße, die gerade genutzte
-Zugnummer, sowie das
+Auf dieser Seite läßt sich der Name der Fahrstraße, die
+Identifikationsnummer, die gerade genutzte Zugnummer, sowie das
 Start- und das Zielsignal festlegen bzw. bearbeiten. Nur am
 Startsignal gibt es ein Feld für die Signalstellung, das Zielsignal ist
-immer auf Halt, bis es selbst bei einer anderen Fahrstra&szlig;e
+immer auf Halt, bis es selbst bei einer anderen Fahrstraße
 zum Startsignal wird. Angezeigt wird in der Zeile &raquo;Adresse&laquo;
 die Hauptadresse des Antriebs; bei Mehrfachantriebs-Elementen
 entspricht das der Adresse 1. Im Eingabefeld &raquo;Status&laquo; ist
@@ -4422,13 +4422,13 @@ Gleisbild verfügbaren Elemente ermittelt.
 <sect3>
   <title>Elemente</title>
 <figure id="abb-routedialog2">
-  <title>Elemente einer Fahrstra&szlig;e</title>
+  <title>Elemente einer Fahrstraße</title>
   <mediaobject><imageobject>
     <imagedata fileref="shot-routedialog2.png">
   </imageobject></mediaobject>
 </figure>
 <para>
-Auf dieser Seite sind die Elemente der Fahrstra&szlig;e aufgelistet,
+Auf dieser Seite sind die Elemente der Fahrstraße aufgelistet,
 die zusätzlich zum Startsignal geschaltet werden müssen. Die Anzahl
 dieser Elemente ist nicht limitiert. Hier werden nicht nur Weichen oder
 andere Signale wie Schutzsignale, die auf dem Fahrweg liegen, sondern
@@ -4446,7 +4446,7 @@ entfernt werden können.
 <sect3>
   <title>Typ</title>
 <figure id="abb-routedialog3">
-  <title>Type einer Fahrstra&szlig;e</title>
+  <title>Type einer Fahrstraße</title>
   <mediaobject><imageobject>
     <imagedata fileref="shot-routedialog3.png">
   </imageobject></mediaobject>
@@ -4464,7 +4464,7 @@ mehrere Umfahrstufen, ist zur Zeit noch nicht implementiert.
 <sect3>
   <title>Automatikbetrieb</title>
 <figure id="abb-routedialog4">
-  <title>Fahrstra&szlig;en automatisch ansteuern</title>
+  <title>Fahrstraßen automatisch ansteuern</title>
   <mediaobject><imageobject>
     <imagedata fileref="shot-routedialog4.png">
   </imageobject></mediaobject>
@@ -4482,7 +4482,7 @@ sowie dessen Eingang werden automatisch berechnet.
 </sect2>
     
 <sect2>
-  <title>Hinzufügen einer Fahrstra&szlig;e</title>
+  <title>Hinzufügen einer Fahrstraße</title>
 <para>
 Für das Erstellen neuer Fahrstraßen bietet das Programm prinzipiell zwei
 Möglichkeiten.
@@ -4502,7 +4502,7 @@ einfach ist und zum anderen das Ändern spezieller Einstellungen, wie
 z.B. des Automatikbetriebs, nur über das Dialogfenster erfolgen kann.
 </para>
 <figure id="abb-routing7">
-  <title>Hinzufügen einer Fahrstra&szlig;e</title>
+  <title>Hinzufügen einer Fahrstraße</title>
   <mediaobject><imageobject>
     <imagedata fileref="schnapp-route-add.png">
   </imageobject></mediaobject>
@@ -4540,7 +4540,7 @@ eventuell auch eine Korrektur des Typs.
 </para>
 
 <sect3>
-  <title>Fahrstra&szlig;en über das Gleisbild eingeben</title>
+  <title>Fahrstraßen über das Gleisbild eingeben</title>
 <para>
 Im Einzelnen sieht das grafische Erstellen einer Fahrstraße wie folgt
 aus. Hat das gewünschte Element noch den falschen Status, klickt man
@@ -4597,7 +4597,7 @@ zum Zielsignal hatten alle schon die richtige Stellung, so dass sich ein
 Umschalten erübrigte.
 </para>
 <figure id="abb-routing21">
-  <title>Zu schaltende Fahrstra&szlig;enelemente erfaßt</title>
+  <title>Zu schaltende Fahrstraßenelemente erfaßt</title>
   <mediaobject><imageobject>
     <imagedata fileref="../commonimages/schnapp-route-rec5.png">
   </imageobject></mediaobject>
@@ -4627,7 +4627,7 @@ Antriebe stehen zwei oder vier verschiedene Zustände zur Auswahl (siehe
 hierzu <xref linkend="tabelle-positions">).
 Dies gilt sowohl für die Eingabe der Signale als auch für die übrigen zu
 schaltenden Elemente. Start- und Zielsignale müssen auf jeden Fall
-eingegeben werden, da sonst die Fahrstra&szlig;e nicht geschaltet werden
+eingegeben werden, da sonst die Fahrstraße nicht geschaltet werden
 kann. Die Eingabe weiterer Elemente ist optional.
 </para>
 <figure id="abb-routing11">
@@ -4648,14 +4648,14 @@ Elements und die Auswahl der erlaubten Schaltzustände vom Programm
 automatisch ermittelt.
 </para>
 <figure id="abb-routing22">
-  <title>Fahrstra&szlig;enelement hinzufügen</title>
+  <title>Fahrstraßenelement hinzufügen</title>
   <mediaobject><imageobject>
     <imagedata fileref="schnapp-route-rec6.png">
   </imageobject></mediaobject>
 </figure>
 <para>
 Wurden alle Fahrstraßenelemente hinzugefügt, kann das Dialogfenster
-über &raquo;OK&laquo; geschlossen werden. Die Fahrstra&szlig;e
+über &raquo;OK&laquo; geschlossen werden. Die Fahrstraße
 erscheint dann sofort mit ihrem neuen Namen, sowie den Start- und
 Zielsignalen in der Fahrstraßentabelle. Sie kann sofort
 über die Signaltasten eingestellt und zurückgenommen werden. Nach
@@ -4663,7 +4663,7 @@ wechseln in den Betriebsmodus können die neu erstellten Fahrstraßen mit
 dem Menü &raquo;Datei/Speichern&laquo; gespeichert werden.
 </para>
 <para>
-Wenn für ein Gleisbild eine weitere Fahrstra&szlig;e erstellt werden
+Wenn für ein Gleisbild eine weitere Fahrstraße erstellt werden
 soll, für die es schon eine ähnliche Vorlage gibt, kann man das
 Menü &raquo;Fahrstraße/Duplizieren&laquo; nutzen. Damit wird eine
 exakte Kopie der gewählten Fahrstraße erstellt. Die Anpassungen
@@ -4676,18 +4676,171 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
   
 </chapter>
 
-<!--
+
 <chapter id="chapter-trainnumbertracing">
     <title>Zugnummernverfolgung</title>
 
-    <sect1 id="sect-trainnumber-allgemein">
+    <sect1 id="sect-trainnumber-introduction">
         <title>Allgemeines</title>
 
         <para>
+            Eine Zugnummernverfolgung dient im allgemeinen dazu, den
+            Fahrtverlauf eines Zuges für Beobachter sichtbar zu
+            machen. Diese &raquo;Beobachter&laquo; können Bediener von
+            Steuer- oder Überwachungseinrichtungen, aber auch
+            elektronische Einrichtungen sein. Mit Hilfe eines
+            Adressanzeigefeldes, das diese Zugnummer auf dem Gleisbild
+            wiedergibt, läßt sich für Bediener leicht
+            erkennen, welcher Zug sich auf welchem Gleis befindet. Im
+            Modellbahnbereich ist das besonders für die nicht
+            sichtbaren Teile einer Anlage interessant, z.B.
+            Schattenbahnhöfe.
+        </para>
+        <para>
+            Die Zugnummernverfolgung in spdrs60 basiert auf der
+            Verwendung von Fahrstraßen, die die Zugnummer des
+            augenblicklich belegenden Zuges tragen und an folgende
+            Fahrstraßen weiterreichen. Das entspricht nicht ganz der im
+            Original verwendeten Technik, wo die Zugnummer einzelnen
+            Gleisen zugeordnet wird. Die aktuelle Realisierung ist aber
+            für einfache Einsatzzwecke brauchbar und kann als Grundlage
+            für eine weitere, dem Original näher angelehnte Technik
+            dienen.
         </para>
     </sect1>
+
+    <sect1 id="sect-trainnumber-usage">
+        <title>Anwendung</title>
+
+        <para>
+           Um im praktischen Einsatz von spdrs60 die Zugnummernverfolgung
+           ans Laufen zu bringen, ist es lediglich notwendig, die
+           Zugnummer bei der zuletzt vom Zug genutzten Fahrstraße
+           einzugeben. Die Zugnummer wird wie beim Original sechstellig
+           angezeigt und ist ein rein numerischer Wert.
+           Buchstabenkennungen werden nicht unterstützt. Die Eingabe der
+           Zugnummer bzw. Zuordnung einer Zugnummer zu einer Fahrstraße
+           kann an zwei Stellen erfolgen:
+        </para>
+        <itemizedlist mark="bullet">
+            <listitem>
+                <para>
+                    Über den Eigenschaftsdialog der Fahrstraße, auf der
+                    Seite &raquo;Identifikation&laquo;, oder
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    über ein Schnellzugriffsfenster (<xref
+                    linkend="abb-trainnumber-dialog">), dass sich
+                    über die Werkzeugleiste (Symbol mit Zugnummer)
+                    öffnen läßt. Dieses Fenster ist nicht modal, kann
+                    also im laufenden Betrieb ständig geöffnet bleiben,
+                    um bei Bedarf schnell Eingaben entgegenzunehmen. Die
+                    angesprochene Fahrstraße wird anhand ihrer
+                    Identifikationsnummer eindeutig zugeordnet. Diese
+                    Nummer muß als gültiger Wert vorhanden sein und
+                    darf tatsächlich auch nur von einer einzigen
+                    Fahrstraße genutz werden.
+                </para>
+            </listitem>
+        </itemizedlist>
+        <figure id="abb-trainnumber-dialog">
+            <title>Zugnummerneingabe</title>
+            <mediaobject><imageobject>
+                    <imagedata fileref="shot-trainnumberdialog.png">
+                </imageobject></mediaobject>
+            </figure>
+        <para>
+           Sobald diese Eingabe erfolgt ist, und der Zug sich über
+           Fahrstraßen gesteuert weiterbewegt, wird diese Zugnummer von
+           einer Fahrstraße zur nächsten weitergeleitet. Die
+           Weiterleitung selbst erfolgt originalgetreu beim Haltfall
+           des Startsignals der übernehmenden Fahrstraße. Das Wandern
+           dieser Zugnummer läßt sich auch ohne Einsatz von
+           Adressanzeigefeldern im Fahrstraßenübersichtsfenster verfolgen.
+        </para>
+        <para>
+           Ein Nachteil der derzeitigen Implementierung ist, dass die
+           Weiterleitung der Zugnummer nur bei hintereinanderfolgenden
+           Fahrstraßen funktioniert. Führt eine Fahstraße in eine Sackgasse,
+           z.B. in ein Rangiergleis, und eine weitere von dort rückwärts
+           wieder hinaus, kann keine Weitergabe an die hinausführende
+           Fahrstraße erfolgen. Die Verbesserung dieser Situation wird
+           Thema weiterer Programmentwicklungen sein.
+        </para>
+        <figure id="abb-trainnumber-display1">
+            <title>Zugnummernanzeige</title>
+            <mediaobject><imageobject>
+                    <imagedata
+                        fileref="../commonimages/shot-trainnumber-display1.png">
+                </imageobject></mediaobject>
+            </figure>
+        <para>
+            Eine sehr anschauliche Überwachung der Zugaufenthalte läßt
+            sich durch Konfiguration von Adressanzeigeelementen
+            erreichen (<xref linkend="abb-trainnumber-display1">). Pro
+            Fahrstraße läßt sich genau eine dieser Anzeigeelemente
+            festlegen. Am günstigsten platziert man diese direkt vor dem
+            Zielsignal der entsprechenden Fahrstraße. Die Konfiguration
+            erfolgt im Einzelnen über folgende Schritte:
+        </para>
+        <orderedlist>
+            <listitem>
+                <para>
+                    Die Platzierung des Anzeigeelementes erfolgt im
+                    Gleisbildbearbeitungsmodus. Das Element muß nicht
+                    zwingend in der Gleisstrecke liegen, sondern kann
+                    auch daneben, z.B. im Falle von senkrechten
+                    Streckenverläufen, angeordnet sein.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Die Vergabe einer eindeutigen Identifikationsnummer
+                    erfolgt über den
+                    Eigenschaftsdialog des Anzeigeelementes. Dieser
+                    Zahlenwert wird im Feld für die Adresse&nbsp;1
+                    eingetragen und muß im Bereich von 6000 bis 6999
+                    liegen. Die Datendarstellung muß gleichzeitig auf
+                    &raquo;Invertieren&laquo; eingestellt werden
+                    (<xref linkend="abb-trainnumber-display2">),
+                    damit die Anzeige nicht als EDiTS-Pro-Element
+                    arbeitet.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    Die Zuordnung der Anzeige zu einer Fahrstraße
+                    erfolgt im
+                    Fahrstraßenbearbeitungsmodus. Das Element wird wie
+                    die übrigen schaltbaren Elemente einer Fahrstraße
+                    behandelt und bekommt bei der Auswahl eine
+                    magentafarbene Umrandung
+                    (<xref linkend="abb-trainnumber-display3">).
+                </para>
+            </listitem>
+        </orderedlist>
+        <figure id="abb-trainnumber-display2">
+            <title>Identifikationsnummer vergeben</title>
+            <mediaobject><imageobject>
+                    <imagedata
+                        fileref="shot-trainnumber-display2.png">
+                </imageobject></mediaobject>
+            </figure>
+        <figure id="abb-trainnumber-display3">
+            <title>Zugnummernanzeige zuordnen</title>
+            <mediaobject><imageobject>
+                    <imagedata
+                        fileref="../commonimages/shot-trainnumber-display3.png">
+                </imageobject></mediaobject>
+            </figure>
+        <para>
+        </para>
+    </sect1>
+
 </chapter>
--->
+
 
 <chapter id="chapter-standardnachrichten">
   <title>Standardnachrichten</title>
@@ -5855,7 +6008,7 @@ Richtungswert 3) ist ein eigenständiges Signal mit eigenem Antrieb.
 Bei Lichtsignalen gibt es 4-begriffige zu kaufen (Busch,
 Viessmann etc.), die eine separate Ansteuerlogik benötigen. Man
 kann nicht einfach die LEDs der Signale an die Decoder
-anschlie&szlig;en, sie würden dabei Schaden nehmen.
+anschließen, sie würden dabei Schaden nehmen.
 </para>
 <para>
 Ansteuerelektroniken erhält man z.B. bei:
@@ -6036,7 +6189,7 @@ Bedienerhäuschens auf der Schwenkbühne). Ist die Position erreicht,
 klicke man auf &raquo;Save position #1&laquo;.
 </para>
 <para>
-Jetzt hei&szlig;t es, alle anderen vorhandenen Gleise in der Reihenfolge
+Jetzt heißt es, alle anderen vorhandenen Gleise in der Reihenfolge
 ihres Auftretens zu speichern. Dazu fährt man nacheinander im oder gegen
 den Uhrzeigersinn mit dem Referenzende der Bühne die Gleise an. Jedesmal
 nach Erreichen eines Gleises wird dessen Position durch Klicken des
@@ -6081,7 +6234,7 @@ ist nur separat erhältlich (Märklin Art.-Nr. 7687).
 Die Schiebebühne ist im Gegensatz zur digitalen Drehscheibe
 ein sehr einfaches Element. Es benötigt auch keinen speziellen Decoder,
 stattdessen muß man die Schiebebühne, wie <xref linkend="abb-schiebebuehne"> zeigt, an einen völlig beliebigen
-Schaltdecoder anschlie&szlig;en.
+Schaltdecoder anschließen.
 </para>
 <figure id="abb-schiebebuehne">
   <title>Schiebebühnenbeschaltung aus dem Märklin Digital-Buch 0308</title>
@@ -6166,7 +6319,7 @@ Man wähle hier zwischen Links- und Rechtslauf oder Anhalten.
   Stellung als im Programm?
   </emphasis></term>
   <listitem><para>
-  Das lä&szlig;t sich durch Vertauschen der Anschlüsse konfigurieren. Man
+  Das läßt sich durch Vertauschen der Anschlüsse konfigurieren. Man
   steckt dazu entweder die beiden Weichenanschlüsse am Decoder um oder,
   wenn das nicht oder nur mühsam geht, benutzt über die
   Elementeigenschaften die Option &raquo;Vertauschen&laquo;. Damit wird
@@ -6291,7 +6444,7 @@ automatisch beim Programmstart aufgerufen werden soll. Wenn man das genaue
 Verzeichnis nicht kennt, kann man diese Datei über den Schalter
 &raquo;Wählen...&laquo; aussuchen. Aktiviert man mit einem Haken den
 Autolade-Mechnanismus, vergißt dann aber, einen Dateinamen anzugeben, so
- führt das beim Schlie&szlig;en des Dialogs zu folgender Fehlermeldung:
+ führt das beim Schließen des Dialogs zu folgender Fehlermeldung:
 </para>
 <figure id="abb-optlayouterr">
   <title>Gleisbild-Fehlermeldung</title>
@@ -6319,7 +6472,7 @@ Durch die erste Option (<xref linkend="abb-optelements">) läßt sich
 einstellen, ob die Signale mit Begriff Hp&nbsp;2 DB-konform in grün
 (wie Hp&nbsp;1-Signale auch), oder für den
 Benutzer leichter zu unterscheiden eben in Orange angezeigt werden. Man
-kann au&szlig;erdem wählen, ob es zu den einzelnen Bedienelementen einen
+kann außerdem wählen, ob es zu den einzelnen Bedienelementen einen
 Kurzhilfe gibt und ob die aktuellen Daten jedes Elements als Kurzhilfe
 angezeigt werden sollen (letzteres nur im Fehlersuchfall zu empfehlen!)
   </para></listitem>
@@ -6409,9 +6562,9 @@ passiert, wählt man eine weitere Option: Alle Signal beim Laden auf
 <para>
 Im obersten Bereich dieser in <xref linkend="abb-optdata"> dargestellen
 Seite kann man das Protokoll wählen,
-welches man standardmä&szlig;ig bei den Elementeigenschaften
+welches man standardmäßig bei den Elementeigenschaften
 eingeblendet haben will. Auch der entsprechende Decoder ist hier
-voreinstellbar. Zweckmä&szlig;igerweise wählt man an beiden Punkten
+voreinstellbar. Zweckmäßigerweise wählt man an beiden Punkten
 diejenigen Eigenschaften aus, die bei einem gemischten Betrieb am
 häufigsten vorkommt. Auch die Aktivierungszeit jedes einzelnen Ausgangs
 läßt sich hier voreinstellen (nachdem man am besten diesen Wert vorher
@@ -6425,11 +6578,11 @@ durchschnittlich ermittelt hat).
 </figure>
 <para>
 Die Einstellungen für die Drehscheibe besagen, dass die Drehrichtung vom
-Programm automatisch ermittelt wird (kürzester Drehweg). Au&szlig;erdem
+Programm automatisch ermittelt wird (kürzester Drehweg). Außerdem
 muß man angeben, wie lange eine komplette 360°-Drehung der Bühne
 dauert. Damit ist gewährleistet, dass die grafische Anzeige in etwa
 während des Drehvorgangs mit dem realen Stand der Bühne übereinstimmt.
-Wird keine Zeit eingeben, so erhält man beim Schlie&szlig;en der
+Wird keine Zeit eingeben, so erhält man beim Schließen der
 Optionen die in <xref linkend="abb-optdataerr2"> dargestellte
 Fehlermeldung (eine Eingabe ist immer nötig, auch wenn
 man gar keine Drehscheibe hat):
@@ -6572,11 +6725,10 @@ separaten Rückmeldeserver dient bisher nur als Platzhalter.
 
 <screen>
 # spdrs60 data file
-# version=0.4.8
-# last modified=2006-01-21T21:37:01
-formatversion;1
+# version=0.5.3
+# last modified=2008-05-01T21:37:01
+formatversion;2
 cmdhost;localhost;4303;0;0
-fbhost;localhost;4303;0
 </screen>
 
 <para>
@@ -6592,40 +6744,52 @@ Elemente werden in der Datei nicht abgespeichert.
 # layout dimensions=columns;rows
 dimensions;19;10
 # start of element section
-%% element 2
-index;2
-icon;leer
-rotate;-1
-invers turnout;0
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;Linksd.
-active time;-1
-feedback port;1;-1
+%% element 5
+classid;121
+index;5
+feedback port;1;1
+hide LEDs;0
+text;-1
+%
+%% element 6
+classid;101
+index;6
+feedback port;1;1
 hide LEDs;-1
-%% element 3
-index;3
-icon;leer
-rotate;-1
-invers turnout;0
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;nach
-active time;-1
-feedback port;1;-1
+text;-1
+%
+%% element 7
+classid;101
+index;7
+feedback port;1;1
+hide LEDs;0
+text;-1
+%
+%% element 8
+classid;133
+index;8
+feedback port;1;1
+hide LEDs;0
+text;-1
+%
+%% element 14
+classid;800
+index;14
+%
+%% element 15
+classid;132
+index;15
+feedback port;1;1
+hide LEDs;0
+text;-1
+%
+%% element 20
+classid;122
+index;20
+feedback port;1;1
 hide LEDs;-1
+text;-1
+%
 </screen>
     
 <para>Jedes Element wird mit der Kennung &raquo;%% element
@@ -6638,15 +6802,21 @@ schlüssel;wert1;wert2;wert3
 </screen>
 <para>
 Die Anzahl der Wertangaben pro Schlüssel ist dabei variabel und abhängig
-von der Art des Schlüssels. Die Reihenfolge der Schlüssel ist beliebig,
-ein und der selbe Schlüssel darf aber pro Gleisbildelement nur
+von der Art des Schlüssels. Die Reihenfolge der Schlüssel ist weitgehend
+beliebig, ein und der selbe Schlüssel darf aber pro Gleisbildelement nur
 einmal genutzt werden.
 </para>
 <para>
-Die erste Datenzeile enthält die Indexnummer des entsprechenden
+Die erste Datenzeile enthält die Klassennummer des entsprechenden
+Elements. Diese Zahl kodiert den Typ und damit das Aussehen und
+Verhalten des Elements.
+</para>
+<para>
+Die zweite Datenzeile enthält die Indexnummer des entsprechenden
 Elements. Diese Zahl ist für die Positionierung des Elements
 innerhalb des Gleisbilds verantwortlich. Die Numerierung erfolgt
-spaltenweise von links oben nach rechts unten. Diese Nummer stimmt
+mit Null beginnend spaltenweise von links oben nach rechts unten.
+Der Wert stimmt
 mit der Zahl überein, die über eine kleine Tooltip-Hilfe bei einer
 geladenen Gleisbilddatei angezeigt wird. So kann man notfalls recht
 schnell den entsprechenden Eintrag in der Datei finden und dort manuell
@@ -6655,16 +6825,18 @@ nach dieser Nummer sortiert aufgelistet werden.
 Spätestens beim Speichern einer Datei wird die richtige Reihenfolge
 wieder hergestellt.
 </para>
-<para>Es folgt der Name des Symbols, das angezeigt werden soll, danach
-ein Eintrag, ob das Symbol um 180° verdreht abgebildet ist oder nicht.
-Es schlie&szlig;t sich der Invers-Wert an (<emphasis>ACHTUNG:</emphasis>
+<para>
+Die weiteren Zeilen sind abhängig von den Einstellmöglichkeiten
+des Elementes. Hat es keinerlei Variationsmöglichkeiten, folgt
+direkt die Kennung für das Datensatzende (%).
+Optional schließt sich der Invers-Wert an (<emphasis>ACHTUNG:</emphasis>
 Ein Eintrag hier ist noch völlig irrelevant, da die Anzeige
 programmiertechnisch noch nicht umgesetzt ist; Ausnahme: Leer-Element).
 </para>
 <para>
 Es folgt der Decoder-Typ und anschließend das Protokoll, hier
 steht entweder der Wert &raquo;M&laquo; für Märklin-Decoder oder
-&raquo;N&laquo; für DCC-Decoder zur Verfügung. Eine -1 hei&szlig;t wieder,
+&raquo;N&laquo; für DCC-Decoder zur Verfügung. Eine -1 heißt wieder,
 dass dieser Wert für das zugehörige Symbol irrelevant ist.
 </para>
 <para>
@@ -6704,13 +6876,15 @@ wird im Programm beim Lesen der Datei nicht ausgewertet.
 # start of route section
 # routes=48
 %% route 1
+id;1
 name;a3
+train;0
 to signal;1;32
 from signal;1;21;2
 release port;1;0
 activate port;1;0
 active by loco;1;0
-type;0;0 
+type;0
 switch x to y;1;3;1
 switch x to y;1;22;1
 switch x to y;1;2;3
@@ -6718,13 +6892,15 @@ switch x to y;1;1;0
 switch x to y;1;23;0
 switch x to y;1;30;0
 %% route 2
+id;2
 name;f3
+train;0
 to signal;1;31
 from signal;1;15;2
 release port;1;0
 activate port;1;0
 active by loco;1;0
-type;0;0
+type;0
 switch x to y;1;6;1
 switch x to y;1;5;2
 switch x to y;1;4;1
@@ -6751,8 +6927,9 @@ einmal genutzt werden. Die Anzahl der Fahrstraßen ist weitgehend
 beliebig und nur durch den verfügbaren Programmspeicher begrenzt.
 </para>
 <para>
-In der ersten Datenzeile steht der Name der Straße, wie er in der
-Fahrstraßen-Übersicht angezeigt wird. Es folgt die Adresse des
+In der ersten Datenzeile steht die numerische Id der Straße, wie sie in
+Fahrstraßen-Übersicht angezeigt wird. Es folgt der Name, die Nummer
+eines eventuell belegenden Zuges, die Adresse des
 Zielsignals mit der zugehörigen SRCP-Busnummer, sowie die Adresse des
 Startsignals mit einer zusätzlichen Information über den beim Schalten
 anzusteuernden Status.
@@ -6778,7 +6955,7 @@ Existieren außer Start- und Zielsignal weitere Antriebe, die geschaltet
 werden müssen, dann folgen diese Daten in den folgenden
 Zeilen. Die Anzahl dieser Zeilen ist prinzipiell unbegrenzt. In der
 Datenzeile findet man hier den SRCP-Bus, die Adresse und Richtungswert,
-auf den dieser Antrieb in der Fahrstra&szlig;e eingestellt wird.
+auf den dieser Antrieb in der Fahrstraße eingestellt wird.
 Bei Elementen mit einem Antrieb sind hier die Werte 0 und 1, bei solchen
 mit zwei Antrieben die Werte 0, 1, 2 oder 3 verfügbar.
 Welcher Wert hier sinnvollerweise eingegeben werden kann, ist der
@@ -6820,7 +6997,7 @@ angeführt.
 <para>
 Als wertvolle Informationsquelle im Internet sei noch 
 <ulink url="http://www.stellwerke.de/">http://www.stellwerke.de/</ulink>
-angeführt. Dort findet man nicht nur zahlreiche Abbildungen von
+erwähnt. Dort findet man nicht nur zahlreiche Abbildungen von
 original SpDr-Stellwerken, sondern auch theoretisches zur
  Eisenbahnsicherungstechnik.
 </para>
@@ -6830,7 +7007,7 @@ original SpDr-Stellwerken, sondern auch theoretisches zur
   <title>Copyright</title>
 <para>
 Copyright 2000-2003 Stefan Preis,
-Copyright 2004-2007 Guido Scholz.
+Copyright 2004-2008 Guido Scholz.
 </para>
 <para>
 This program is free software; you can redistribute it

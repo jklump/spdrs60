@@ -33,7 +33,7 @@
 #define MIN_RB         5000    // min value of route button addresses
 #define MAX_RB         6000    // max value of route button addresses
 #define MIN_DISP       6000    // min value of train number displays
-#define MAX_DISP       7000    // max value of train number displays
+#define MAX_DISP       6999    // max value of train number displays
 
 /*maximal length of an address edit line in dialogs*/
 #define LEMAXWIDTH 55

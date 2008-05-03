@@ -1,24 +1,27 @@
 Stefan Preis <stefan.preis@wdr.de>
- * maintainer up to 2004
+ * Maintainer up to 2004
 
 Rüdiger Seidel <>
- * qt2 port
- * bug fixing
+ * Qt2 port
+ * Bug fixing
 
 Guido Scholz <guido.scholz@bayernline.de>
- * qt3 port
- * bug fixing
- * german translation
- * maintainer since 2004
- * example layout "dedorf"
+ * Qt3 port
+ * Bug fixing
+ * German translation
+ * Maintainer since 2004
+ * Example layout "dedorf"
 
 Dirk Armbrust <dirk.armbrust@freenet.de>
- * bug fixing
+ * Bug fixing
 
 Dietmar Toelg <dietmar.toelg@arcor.de>
- * example layout "flandersbach"
- * example layout "lintorf"
- * bug fixing layout "dedorf"
+ * Example layout "flandersbach"
+ * Example layout "lintorf"
+ * Bug fixing layout "dedorf"
 
 Björn Schließmann <b.schliessmann@web.de>
- * documentation port from Linuxdoc to Docbook/SGML
+ * Documentation port from Linuxdoc to Docbook/SGML
+
+Ullrich Schicke <ullrich.schicke@gmx.de>
+ * Windows/Qt4 port

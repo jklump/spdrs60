@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60 documentation
 # last changes by: Guido Scholz
-# Version: $Revision: 1.18 $
-# last update: $Date: 2008-05-02 04:29:06 $
+# Version: $Revision: 1.19 $
+# last update: $Date: 2008-05-03 09:37:56 $
 
 # HTML_DOC_DIR is defined in configure.ac
 htmldir = @HTML_DOC_DIR@
@@ -126,7 +126,9 @@ dist_deimages_DATA = \
 	de/shot-routedialog1.png \
 	de/shot-routedialog2.png \
 	de/shot-routedialog3.png \
-	de/shot-routedialog4.png
+	de/shot-routedialog4.png \
+	de/shot-trainnumberdialog.png \
+	de/shot-trainnumber-display2.png
 
 
 dist_commonimages_DATA = \
@@ -222,6 +224,8 @@ dist_commonimages_DATA = \
 	commonimages/taste-sgt.png \
 	commonimages/taste-ufgt.png \
 	commonimages/trackvertical.png \
+	commonimages/shot-trainnumber-display1.png \
+	commonimages/shot-trainnumber-display3.png \
 	commonimages/turn_botvert_left.png \
 	commonimages/turn_botvert_right.png \
 	commonimages/turn_topvert_left.png \
@@ -303,6 +307,7 @@ dehtml_DATA = \
 	de/sect-symboleigenschaften.html \
 	de/sect-symbole-uebersicht.html \
 	de/sect-tastaturkuerzel.html \
+	de/sect-trainnumber-usage.html \
 	de/sect-voraussetzungen.html \
 	de/v0.2.1.html \
 	de/v0.2.html \

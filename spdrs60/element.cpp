@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-01 08:28:15 $
-                           $Revision: 1.163 $
+    last modified        : $Date: 2008-05-03 09:37:56 $
+                           $Revision: 1.164 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -7770,7 +7770,7 @@ void element::addTooltip()
             -1 ? "N/A" : (iSoldChangeConn[1] == 0 ? "No" : "Yes"),
             iSoldChangeConn[1], iSoldDirection, iSoldSubType,
             sSoldText == "-1" ? "N/A (=-1)" : (char*)sSoldText.data(),
-            lockCounter == -1 ? "N/A" : (isLocked() ? "No" : "Yes"),
+            lockCounter == -1 ? "N/A" : (isLocked() ? "Yes" : "No"),
             lockCounter, iSoldActiveTime, iFBContact);
 
     tip1.append(tip2);

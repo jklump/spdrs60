@@ -3,8 +3,8 @@
  * ---------------------
  * copyright            : (C) 2007 Guido Scholz
  * email                : guido.scholz@bayernline.de
- * last modified        : $Date: 2007-10-04 18:04:40 $
- *                        $Revision: 1.2 $
+ * last modified        : $Date: 2008-05-03 09:37:56 $
+ *                        $Revision: 1.3 $
  *
  * this code shows a window with a manual trainnumberdialog to switch solenoids
  */
@@ -82,7 +82,7 @@ TrainNumberDialog::TrainNumberDialog(QWidget* parent, const char* name)
     buttonLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
                 QSizePolicy::Minimum));
 
-    QPushButton* redPB = new QPushButton("&Apply", this, "applyBtn");
+    QPushButton* redPB = new QPushButton(tr("&Apply"), this, "applyBtn");
     connect(redPB, SIGNAL(clicked()), this, SLOT(setTrainNumber()));
     buttonLayout->addWidget(redPB);
     redPB->setDefault(true);

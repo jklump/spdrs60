@@ -1493,10 +1493,6 @@ the server daemon after shutdown has finished)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>DR%1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>HR</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1505,7 +1501,11 @@ the server daemon after shutdown has finished)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>DS%1</source>
+        <source>DR</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>DS</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1666,10 +1666,6 @@ The valid range is %1 to %2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Level:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&amp;Help route</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1679,10 +1675,6 @@ The valid range is %1 to %2.</source>
     </message>
     <message>
         <source>Detour shuntin&amp;g</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Le&amp;vel:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1731,48 +1723,6 @@ The valid range is %1 to %2.</source>
     </message>
     <message>
         <source>&amp;Elements</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>General options</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Activate train number forwarding</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Send train number to adjacent &amp;interlocking</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Send a Generic Message with route id and
-train id, so an interessted interlocking can
-pick up this information so update its route.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Target type</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Route</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Block</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Target identification</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Track number</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Train number &amp;forwarding</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1869,22 +1819,6 @@ pick up this information so update its route.</source>
     <name>Router</name>
     <message>
         <source>New route</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Error forwarding train number: External targets are not supported yet.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Error forwarding train number: Unknown route id &apos;%1&apos;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Error forwarding train number: Block is not a supported target yet.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Error forwarding train number: Unknown target &apos;%1&apos;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2166,6 +2100,10 @@ pick up this information so update its route.</source>
     </message>
     <message>
         <source>Enter the train number for the selected route</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Apply</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

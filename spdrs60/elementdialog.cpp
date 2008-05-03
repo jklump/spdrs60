@@ -2,10 +2,10 @@
                            elementdialog.cpp
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-                         : (C) 2004-2007 Guido Scholz
+                         : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-24 19:37:39 $
-                           $Revision: 1.66 $
+    last modified        : $Date: 2008-05-03 09:37:56 $
+                           $Revision: 1.67 $
 ***************************************************************************/
 
 /***************************************************************************

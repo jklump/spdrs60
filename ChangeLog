@@ -3,7 +3,7 @@
 	are no longer identified by a name, but by a classid number.
 	Rotate flag is completely removed. Fileformat is changed
 	appropriately. Simple elements now only store a reduced data
-	set to reduce file size.
+	set to reduce file size and improve file read speed.
 
 2008-04-24 Guido Scholz <guido.scholz@bayernline.de>
 	* element.cpp: Text content of text element is painted on white

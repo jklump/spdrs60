@@ -1102,7 +1102,7 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     </message>
     <message>
         <source>Show train number input dialog</source>
-        <translation>Dialog zur Eingabe von Zugnummern anzeigen</translation>
+        <translation>Dialog zur Eingabe von Zugnummern öffnen</translation>
     </message>
     <message>
         <source>Unknown Generic Message type &apos;%1&apos; detected.</source>
@@ -1522,10 +1522,6 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <translation>RZS</translation>
     </message>
     <message>
-        <source>DR%1</source>
-        <translation>UZS%1</translation>
-    </message>
-    <message>
         <source>HR</source>
         <translation>ZHS</translation>
     </message>
@@ -1534,8 +1530,12 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <translation>RRS</translation>
     </message>
     <message>
-        <source>DS%1</source>
-        <translation>URS%1</translation>
+        <source>DR</source>
+        <translation>UZS</translation>
+    </message>
+    <message>
+        <source>DS</source>
+        <translation>URS</translation>
     </message>
 </context>
 <context>
@@ -1600,10 +1600,6 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <translation>U&amp;mfahrrangierstraße</translation>
     </message>
     <message>
-        <source>&amp;Level:</source>
-        <translation>&amp;Stufe:</translation>
-    </message>
-    <message>
         <source>Edit route</source>
         <translation>Fahrstraße bearbeiten</translation>
     </message>
@@ -1662,10 +1658,6 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     <message>
         <source>Bus (s&amp;88/SRCP)</source>
         <translation>Bus (s&amp;88/SRCP)</translation>
-    </message>
-    <message>
-        <source>Le&amp;vel:</source>
-        <translation>Stu&amp;fe:</translation>
     </message>
     <message>
         <source>Route elements</source>
@@ -1774,50 +1766,8 @@ Zugs eingeben, der augenblicklich die Fahrstraße belegt.
 Erlaubt sind Werte von %1 bis %2.</translation>
     </message>
     <message>
-        <source>&amp;Route</source>
-        <translation>&amp;Fahrstraße</translation>
-    </message>
-    <message>
-        <source>&amp;Block</source>
-        <translation>&amp;Streckenblock</translation>
-    </message>
-    <message>
-        <source>&amp;Track number</source>
-        <translation>&amp;Gleisnummer</translation>
-    </message>
-    <message>
-        <source>Target type</source>
-        <translation>Empfänger der Nummer</translation>
-    </message>
-    <message>
-        <source>Train number &amp;forwarding</source>
-        <translation>Zugnummerweiterleitung</translation>
-    </message>
-    <message>
         <source>Bus</source>
         <translation>Bus</translation>
-    </message>
-    <message>
-        <source>Target identification</source>
-        <translation>Identifikationsnummer des Empfängers</translation>
-    </message>
-    <message>
-        <source>General options</source>
-        <translation>Allgemeine Einstellungen</translation>
-    </message>
-    <message>
-        <source>&amp;Activate train number forwarding</source>
-        <translation>&amp;Zgnummerweiterleitung aktivieren</translation>
-    </message>
-    <message>
-        <source>Send a Generic Message with route id and
-train id, so an interessted interlocking can
-pick up this information so update its route.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Send train number to adjacent &amp;interlocking</source>
-        <translation>Zugnummer an benachbartes &amp;Stellwerk senden</translation>
     </message>
 </context>
 <context>
@@ -1962,22 +1912,6 @@ pick up this information so update its route.</source>
     <message>
         <source>Route &apos;%1&apos; withdrawn</source>
         <translation>Fahrstraße &apos;%1&apos; zurückgenommen</translation>
-    </message>
-    <message>
-        <source>Error forwarding train number: Unknown route id &apos;%1&apos;</source>
-        <translation>Fehler beim Weiterleiten der Zugnummer: Unbekannte Fahrstraßennummer &apos;%1&apos;</translation>
-    </message>
-    <message>
-        <source>Error forwarding train number: Block is not a supported target yet.</source>
-        <translation>Fehler beim Weiterleiten der Zugnummer: Streckenblock wird als Ziel noch nicht unterstüzt</translation>
-    </message>
-    <message>
-        <source>Error forwarding train number: Unknown target &apos;%1&apos;.</source>
-        <translation>Fehler beim Weiterleiten der Zugnummer: Unbekanntes Ziel &apos;%1&apos;.</translation>
-    </message>
-    <message>
-        <source>Error forwarding train number: External targets are not supported yet.</source>
-        <translation>Fehler beim Weiterleiten der Zugnummer: Externe Ziele werden noch nicht unterstüzt.</translation>
     </message>
     <message>
         <source>Error setting train number: Route id &apos;%1&apos; not found.</source>
@@ -2186,7 +2120,7 @@ pick up this information so update its route.</source>
     </message>
     <message>
         <source>Change train number</source>
-        <translation>zugnummer ändern</translation>
+        <translation>Zugnummer ändern</translation>
     </message>
     <message>
         <source>&amp;Train number:</source>
@@ -2199,6 +2133,10 @@ pick up this information so update its route.</source>
     <message>
         <source>Enter the train number for the selected route</source>
         <translation>Zugnummer für gewählte Fahrstraße eingeben</translation>
+    </message>
+    <message>
+        <source>&amp;Apply</source>
+        <translation>&amp;Anwenden</translation>
     </message>
 </context>
 <context>
