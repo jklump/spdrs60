@@ -2201,18 +2201,8 @@ Srv: Protocol by server
         <translation>&amp;Colonne:</translation>
     </message>
     <message>
-        <source>Choose or enter the number of
-columns for your layout</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&amp;Rows:</source>
         <translation>&amp;File:</translation>
-    </message>
-    <message>
-        <source>Choose or enter the number
-of rows for your layout</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>&amp;Hostname:</source>
@@ -2288,6 +2278,32 @@ Valid range is 0..999999.</source>
     </message>
     <message>
         <source>&amp;Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the name of this layout.
+This data is currently only used
+for CRCF/Generic Message purposes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose or enter the number of
+columns for your layout.
+Valid range is %1..%2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose or enter the number
+of rows for your layout.
+Valid range is %1..%2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>CRCF Identification</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SRCP-Server</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

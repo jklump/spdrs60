@@ -1,11 +1,11 @@
 /***************************************************************************
                            newlayoutdialog.cpp
-                           version 0.5.2 $Revision: 1.21 $
+                           version 0.5.3 $Revision: 1.22 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-                           (C) 2004-2007 by Guido Scholz
+                           (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-14 20:38:24 $
+    last modified        : $Date: 2008-05-04 18:44:44 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -58,7 +58,8 @@ newLayoutDialog::newLayoutDialog(QWidget* parent)
     sbEnterCols->setWrapping(true);     // enables to spin "over" the limits
     QToolTip::add(sbEnterCols, tr(
                 "Choose or enter the number of\n"
-                "columns for your layout"));
+                "columns for your layout.\n"
+                "Valid range is %1..%2.").arg(MIN_COLS).arg(MAX_COLS));
 
     //line with row number
     QHBoxLayout* rowsLayout = new QHBoxLayout(boxL);
@@ -74,11 +75,12 @@ newLayoutDialog::newLayoutDialog(QWidget* parent)
     sbEnterRows->setWrapping(true);     // enables to spin "over" the limits
     QToolTip::add(sbEnterRows, tr(
                 "Choose or enter the number\n"
-                "of rows for your layout"));
+                "of rows for your layout.\n"
+                "Valid range is %1..%2.").arg(MIN_ROWS).arg(MAX_ROWS));
 
     // identification group box
     QGroupBox *identificationGB = new QGroupBox(0, Qt::Horizontal,
-            "Identification", this, "identificationGB");
+            tr("CRCF Identification"), this, "identificationGB");
     baseLayout->addWidget(identificationGB);
     QVBoxLayout* identificationGBL = new QVBoxLayout(
             identificationGB->layout(), 6);
@@ -114,14 +116,18 @@ newLayoutDialog::newLayoutDialog(QWidget* parent)
     nameL->addWidget(nameLE);
     nameLE->setMaximumWidth(100);
     label->setBuddy(nameLE);
+    QToolTip::add(nameLE, tr(
+                "Enter the name of this layout.\n"
+                "This data is currently only used\n"
+                "for CRCF/Generic Message purposes."));
 
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
     identificationGBL->addItem(spacer);
 
     // server group box
-    QGroupBox *serverGB = new QGroupBox(0, Qt::Horizontal, "SRCP-Server",
-            this, "serverGB");
+    QGroupBox *serverGB = new QGroupBox(0, Qt::Horizontal,
+            tr("SRCP-Server"), this, "serverGB");
     baseLayout->addWidget(serverGB);
     QVBoxLayout* serverGBL = new QVBoxLayout(serverGB->layout(), 6);
 
@@ -170,16 +176,12 @@ newLayoutDialog::newLayoutDialog(QWidget* parent)
     baseLayout->addWidget(startBG);
     autologinCB = new QCheckBox(tr("Autoconnect to &server"),
             startBG, "autologinCB");
-    connect(autologinCB, SIGNAL(stateChanged(int)), this,
-            SLOT(autologinChanged(int)));
     QToolTip::add(autologinCB, tr(
                 "The SRCP server will be automatically\n"
                 "connected when this file is loaded.\n"));
 
     autopowerCB = new QCheckBox(tr("Autostart layout &voltage"),
             startBG, "autopowerCB");
-    connect(autopowerCB, SIGNAL(stateChanged(int)), this,
-            SLOT(autopowerChanged(int)));
     QToolTip::add(autopowerCB, tr(
                 "Power of your layout will be automatically\n"
                 "switched on after server connect.\n"));
@@ -187,7 +189,7 @@ newLayoutDialog::newLayoutDialog(QWidget* parent)
     autosendallCB = new QCheckBox(tr("Send all &solenoid states after"
                 " power on"),
             startBG, "autosendallCB");
-    QToolTip::add(autopowerCB, tr(
+    QToolTip::add(autosendallCB, tr(
                 "The configured states of all solenoids will\n"
                 "be automatically send to the SRCP server\n"
                 "after layout power is switched on.\n"));
@@ -315,26 +317,12 @@ bool newLayoutDialog::getAutoSendAll()
 void newLayoutDialog::setAutoLogin(bool login)
 {
     autologinCB->setChecked(login);
-
-    if (!login)
-#if QT_VERSION >= 0x040000
-        autologinChanged(QCheckBox::Off);
-#else
-        autologinChanged(QButton::Off);
-#endif
 }
 
 
 void newLayoutDialog::setAutoPower(bool power)
 {
     autopowerCB->setChecked(power);
-
-    if (!power)
-#if QT_VERSION >= 0x040000
-        autopowerChanged(QCheckBox::Off);
-#else
-        autopowerChanged(QButton::Off);
-#endif
 }
 
 
@@ -343,34 +331,3 @@ void newLayoutDialog::setAutoSendAll(bool power)
     autosendallCB->setChecked(power);
 }
 
-/* enable/disable autopower option depending on autologin state */
-void newLayoutDialog::autologinChanged(int state)
-{
-#if QT_VERSION >= 0x040000
-    if (state == QCheckBox::On)
-#else
-    if (state == QButton::On)
-#endif
-        autopowerCB->setEnabled(true);
-    else {
-        autopowerCB->setChecked(false);
-        autopowerCB->setEnabled(false);
-        autosendallCB->setChecked(false);
-        autosendallCB->setEnabled(false);
-    }
-}
-
-/* enable/disable autosendall option depending on autopower state */
-void newLayoutDialog::autopowerChanged(int state)
-{
-#if QT_VERSION >= 0x040000
-    if (state == QCheckBox::On)
-#else
-    if (state == QButton::On)
-#endif
-        autosendallCB->setEnabled(true);
-    else {
-        autosendallCB->setChecked(false);
-        autosendallCB->setEnabled(false);
-    }
-}

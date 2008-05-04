@@ -1,11 +1,11 @@
 /***************************************************************************
-                           newLayoutDialog.h
-                           version 0.5.2 $Revision: 1.11 $
+                           newlayoutdialog.h
+                           version 0.5.3 $Revision: 1.12 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-                           (C) 2004-2007 by Guido Scholz
+                           (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-14 20:38:24 $
+    last modified        : $Date: 2008-05-04 18:44:44 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -18,7 +18,7 @@
  **************************************************************************/
 
 /***************************************************************************
-   this is the header file to newDialog.cpp
+   this is the header file to newlayoutdialog.cpp
  **************************************************************************/
 
 #ifndef NEWLAYOUTDIALOG_H
@@ -71,8 +71,6 @@ private:
     QCheckBox* autosendallCB;
 
 private slots:
-    void autologinChanged(int);
-    void autopowerChanged(int);
 
 };
 

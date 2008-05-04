@@ -262,12 +262,6 @@ Veröffentlicht am --.--.2008
   </para></listitem>
   
   <listitem><para>
-  Im Dialog zu den Gleisbildeinstellungen sind nun die Optionen für
-  automatische Abläufe beim Laden der Datei der Bedienlogik nach
-  anwählbar.
-  </para></listitem>
-  
-  <listitem><para>
   Die Grenzwerte für die maximale Anzahl an Zeilen und Spalten im
   Gleisbild wurden auf 200 erhöht.
   </para></listitem>
