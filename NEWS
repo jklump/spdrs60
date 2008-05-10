@@ -1,11 +1,89 @@
+spdrs60-0.5.3 (2008-05-??)
+  o The error preventing correct sorting of numerical list entries in
+    route list and route element list was removed.
+
+  o A compiling issue occurring on systems using the 64bit-Qt library was
+    solved.
+
+  o The about dialog of spdrs60 was redesigned.
+
+  o The dialog window showing the SRCP server information was redesigned
+    now presenting more connection details.
+
+  o The command history line at the layout window bottom can be
+    configured to translate server time information to human readable
+    format. The fourth history level for SRCP 0.7 feedback sessions was
+    removed; this kind of information now is listed in the info session
+    line, what is comparable to the SRCP 0.8 behavior.
+
+  o Changes to user specific options for tool-tip help messages now take
+    effect without program restart.
+
+  o The dialog window for route properties was redesigned using
+    tabbed sections. It is compacter now and also contains input
+    options for route identification number and the utilizing train.
+
+  o A train tracing function was added to visualize whereabouts of
+    trains. Forwarding of train numbers is realized by routes, which get
+    the new train number when entry signal falls back to stop. This is
+    not perfectly the behavior of the original, which handles this
+    information using track numbers. The train number itself is not only
+    shown in the route list but can also be displayed in address elements.
+
+  o A new dialog window accessible via toolbar can be used to easily
+    assign a train number to a specified route.
+
+  o The route menu was extended by an entry to release (not withdraw)
+    a route. This is for experimental applications only to verify train
+    number forwarding.
+
+  o The view menu was extended by entries to hide and unhide toolbar,
+    message line an menu.
+
+  o The source code handling the server communication was rewritten to
+    be more modular. Connecting the different server sessions now is
+    done sequentially which improves readability of incoming server
+    messages.
+
+  o The limits for maximum layout rows and columns was increased to 200.
+
+  o The layout editor was improved and can now be used to draw and clear
+    layouts much faster than before. Selection of elements now is done
+    using a new element toolbox. The rotate attribute of some elements
+    was removed, which also makes layout sketching much easier.
+
+  o The old tunnel elements were redesigned to be applicable for real
+    routes.
+
+  o The buffer stop element now is available also in two vertical
+    versions.
+
+  o Support for Generic Messages (GM) was added. A limited selection of
+    CRCF data can be read an written by this new designed communication
+    channel. These data can be used for scripting purposes. A new
+    (German) handbook chapter explains the usage in detail.
+
+  o Program internal identification of element types was rewritten to
+    use numerical values instead of string values. This again makes the
+    program faster but also has an effect on the file format. The new
+    identification for elements is also used in layout files; old format
+    files are imported without special user interaction. The file format
+    itself now also is more compact, because most of the elements do not
+    longer store information they never used.
+
+  o The program now can be compiled under Windows using the free Qt4
+    library available from Trolltech. More detailed information can be
+    found in the handbook &raquo;Installation&laquo; section.
+
+
 spdrs60-0.5.2 (2007-02-17)
   o A basic support for Drag-and-Drop was added. Single elements can now
     be moved by mouse in layout edit mode.
 
   o Internal management of popupmenues and empty elements was
-    reorganzied to improve memory consumption and file loading a lot.
+    reorganized to improve memory consumption and file loading a lot.
 
-  o Route data ist automatically updated when layout edit mode is left.
+  o Route data is automatically updated when layout edit mode is left.
     Errors in route elements are shown if address values are no longer
     valid.
 
@@ -21,7 +99,7 @@ spdrs60-0.5.1 (2007-02-04)
   o Activation of misconfigured routes now gives better feedback to the
     user using more detailed error messages.
 
-  o An error upon updating the context menu of relais, blind element and
+  o An error upon updating the context menu of relays, blind element and
     DC motor was fixed.
 
   o The program now interprets the command line to open more than one
@@ -29,7 +107,7 @@ spdrs60-0.5.1 (2007-02-04)
     several files to be opened at the same time.
 
   o The default value for the SRCP server network port was changed from
-    12345 to 4303. Tha later number was assigned by IANA officially at
+    12345 to 4303. The later number was assigned by IANA officially at
     2007-01-19.
 
   o A new user option was added to disable blinking for switched
@@ -44,13 +122,13 @@ spdrs60-0.5.0 (2006-12-02)
     added. This facilitates storing the last achieved game positions.
 
   o The file format for user preferences (~/.spdrs60rc) was changed. Now
-    it is more compact and more flexilbe for future changes.
+    it is more compact and more flexible for future changes.
 
   o The code for the feedback module window has been rewritten
     completely.  Now this window behaves similar to the route list
     window; it is resizeable and much less cumbersome than the old one.
 
-  o Support for SRCP protocol version 0.8 hase been added. Now also the
+  o Support for SRCP protocol version 0.8 has been added. Now also the
     current version of "srcpd" can be used as controlling server.
 
   o Simple solenoids like relays now again can be switched by routes.
@@ -59,12 +137,12 @@ spdrs60-0.5.0 (2006-12-02)
   o Routes now can be lead over decouplers and blind elements.
 
   o The dialog window for user preferences has completely been
-    redesigned. It is now more compact and uses automatical layout
-    management. Quantity and numbering of feedback busses now is
+    redesigned. It is now more compact and uses automatic layout
+    management. Quantity and numbering of feedback buses now is
     configurable more flexible.
 
   o The dialog window for finding elements has been redesigned to use
-    automatical layout management.
+    automatic layout management.
 
   o The dialog window for route editing was optimized to sort more than
     nine route elements correctly. The corresponding list edit buttons
@@ -80,7 +158,7 @@ spdrs60-0.5.0 (2006-12-02)
     HaGT.
 
   o The code painting the layout elements completely has been rewritten.
-    Now it is mainly vector based and much more flexilbe for further
+    Now it is mainly vector based and much more flexible for further
     optimizations. Appearance of some elements is closer to the original
     than before. All switches now blink when they are switched. The FHT
     panel has got a efficient working counter; but without any
@@ -96,11 +174,11 @@ spdrs60-0.5.0 (2006-12-02)
     segmented addressing of this protocol variants at this time this
     protocols are not well suited to be used in routes.
 
-  o Usage of Qt library translations now is optimized and preselectad at
-    compile time. Usage at runtime now does not depend on whether QTDIR
+  o Usage of Qt library translations now is optimized and preselected at
+    compile time. Usage at run time now does not depend on whether QTDIR
     is set or not.
 
-  o German and english handbooks were updated.
+  o German and English handbooks were updated.
 
   o The route toolbar now is shown and hidden together with the route
     list window.
@@ -115,7 +193,7 @@ spdrs60-0.4.8 (2005-12-11)
     was created. The suffix for this format is »spdrs60«. Files in old
     format (»dat.gbs«) can easily be imported.
 
-  o Like in the original switchbox now normal train routes can not be
+  o Like in the original switchbacks now normal train routes can not be
     routed over occupied tracks.
 
   o Entry signals of normal train routes now have a
@@ -132,7 +210,7 @@ spdrs60-0.4.8 (2005-12-11)
   o The route edit dialog window has completely been rewritten
     respecting new data fields for SRCP 0.8.
 
-  o Routing beond layout edges is possible now if a entry or exit signal
+  o Routing beyond layout edges is possible now if a entry or exit signal
     is doubled. At a minimum there must be one continuous track from entry
     to exit signal. The sample file »bahnhof_klein« shows how is works.
 
@@ -150,15 +228,15 @@ spdrs60-0.4.8 (2005-12-11)
     interfaces. Middle mouse button pops up the painting context menu.
 
   o Size limit for layout is (mainly) gone now. For reasons not to
-    compromise the computer system by spending to much memmory, maximum
+    compromise the computer system by spending to much memory, maximum
     size is limited to 30 rows and 120 columns.
 
   o Toolbox has been revised completely and restructured in analogy to
-    menue entries. A lot of icons have been added leading to a faster
+    menu entries. A lot of icons have been added leading to a faster
     access of program functions.
 
   o The first argument given to the program now is interpreted as a
-    filename to load.
+    file name to load.
 
   o Menu item »File/New window«, which has gone some times ago, now is
     reimplemented and working without errors.
@@ -167,7 +245,7 @@ spdrs60-0.4.8 (2005-12-11)
     much better user interaction especially when layout is switched
     between different edit modes.
 
-  o Informations comming in over SRCP info channel now are interpreted
+  o Information coming in over SRCP info channel now are interpreted
     for solenoids connected to a decoder with a single address.
 
   o German handbook was revised respecting stylistic and orthographic
@@ -177,11 +255,11 @@ spdrs60-0.4.8 (2005-12-11)
     Font size is set relative to system font size as adjustable by
     configuration tool »qtconfig«.
 
-  o The simple switch box activatable by menu item »View/Switchbox« now
+  o The simple switch box activatable by menu item »View/Switch-box« now
     works again.
 
   o The element properties dialog window was revised now using automatic
-    layout management and additionaly respecting new edit lines for SRCP
+    layout management and additionally respecting new edit lines for SRCP
     0.8 bus data.
 
 
@@ -195,7 +273,7 @@ spdrs60-0.4.7 (2005-01-23)
   o route edit bug fixed
   o added support for five different route types
   o port of HTML-documentation generation from Linuxdoc to Docbook/SGML,
-    screenshots and text updates
+    screen-shots and text updates
   o added four new rail elements, UfGT button element, six colored panel
     elements
   o on activation rail buttons now show context sensitive cursors
@@ -220,16 +298,16 @@ spdrs60-0.4.5 (2004-12-11)
 spdrs60-0.4.4 (2004-11-18)
   o optimised feedback network code, now reading all send lines
   o some speed optimization for element painting
-  o Guido Scholz took over maintainment from Stefan Preis
+  o Guido Scholz took over maintaining from Stefan Preis
 
 
 spdrs60-0.4.3-qt3-19 (2004-10-27)
-  o now realy the feedback visualisation bug is fixed
+  o now really the feedback visualisation bug is fixed
 
 
 spdrs60-0.4.3-qt3-18 (2004-10-23)
   o small fixes in RouteDialog.cpp (strings without format parameters)
-  o fixes in spdrs/ Makefile.am and clock/Makefile.am (moc + LDADD)
+  o fixes in spdrs60/Makefile.am and clock/Makefile.am (moc + LDADD)
   o numbering schema changed due to debian dh_make errors
   o fixed bug in feedback visualisation (LEDs were not updated)
 
@@ -239,19 +317,19 @@ spdrs60-0.4.3-qt3_17 (20041016)
   o some cleanups using socket variables
   o networking code is completely rewritten (pooh!), now event driven
     and hopefully much more stable
-  o server connetion now can be (de)activated by menu
+  o server connection now can be (de)activated by menu
   o some nice greater icons added
 
 
 spdrs60-0.4.3-qt3_16 (20041002)
   o moved directory spdrs60/docs to doc
-  o substituted more englisch snapshots in german html documentation
+  o substituted more English snapshots in German HTML documentation
   o cleanups in some 'Makefile.am's
   o changed moc-file naming from moc_* to *.moc.cpp due to incompatibility
     with qt translation tool 'lupdate'
   o fixed bug in feedback history, which came in using 'tr()' for feedback
     messages
-  o introduced english and german man pages for spdrs60, convertRTS and
+  o introduced English and German man pages for spdrs60, convertRTS and
     CentralClock
   o fixed two bugs in CentralClock (second hand was too fast and painted
     wrong, covering hour hand)
@@ -261,22 +339,22 @@ spdrs60-0.4.3-qt3_16 (20041002)
 spdrs60-0.4.3-qt3_15 (20040928)
   o current 16x16-icon got lost, reintroduced; icons renamed
   o some cleanups for package building with sgmltools
-  o substituted some english pictures in german handbook
+  o substituted some English pictures in German handbook
 
 
 spdrs60-0.4.3-qt3_14 (20040923)
   o (re)integrated CentralClock and convertRTS
-  o integrated and redesigned online documentation, for now based on old
+  o integrated and redesigned on-line documentation, for now based on old
     but simple "sgmltools"
   o redesigned routing dialog
   o fixed bug in turntable commander
   o compressed package file format now is bz2
-  o removed kdevelop files, because it is allways a mess together with
+  o removed kdevelop files, because it is always a mess together with
     autotools
 
 
 spdrs60-0.4.3-qt3_13 (20040913)
-  o new linewidths and positions for layout modes and element selections
+  o new line widths and positions for layout modes and element selections
   o layout now is movable by keys when it does not fit to visible window
   o three files for version 0.5 are removed
 
@@ -287,7 +365,7 @@ spdrs60-0.4.3-qt3_12 (20040825)
 
 
 spdrs60-0.4.3-qt3_9 (20040304)
-  o finished german translation
+  o finished German translation
 
 
 spdrs60-0.4.3-qt3_8 (20040304)
@@ -296,14 +374,14 @@ spdrs60-0.4.3-qt3_8 (20040304)
 
 
 spdrs60-0.4.3-qt3_2 (20040217)
-  o start with german translation
+  o start with German translation
 
 
 spdrs60-0.4.3-qt3_1 (20040216)
-  o port to qt3
+  o port to Qt3
   o fix a lot of little bugs
   o debug window now sticks to window bottom
 
 
 spdrs60-0.4.3 (20030316)
-  o port to qt2
+  o port to Qt2

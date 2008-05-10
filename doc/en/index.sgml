@@ -1,11 +1,11 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.2//EN" [
-<!-- current version: --> <!ENTITY ver "0.5.2">
+<!-- current version: --> <!ENTITY ver "0.5.3">
 ]>
 
 <article lang="en">
 
 <articleinfo>
-<title>The SpDrS60 Handbook</title>
+<title>The spdrs60 Handbook</title>
 
 <author>
 <firstname>Stefan</firstname>
@@ -39,8 +39,12 @@
 
 <revhistory>
   <revision>
+    <revnumber>0.9</revnumber>
+    <date>Sat May 10 21:20:55 CEST 2008</date>
+  </revision>
+  <revision>
     <revnumber>0.8</revnumber>
-    <date><emphasis>Sat Jan 17 08:49:55 CET 2007</emphasis></date>
+    <date>Sat Jan 17 08:49:55 CET 2007</date>
   </revision>
   <revision>
     <revnumber>0.7</revnumber>
@@ -61,7 +65,7 @@
 </revhistory>
 
 <abstract>
-<para>This handbook describes SRCP client SpDrS60 version &ver; for Qt3.</para>
+<para>This handbook describes SRCP client spdrs60 version &ver; for Qt3.</para>
 </abstract>
 
 </articleinfo>
@@ -107,6 +111,139 @@ features.</para>
 </sect1>
 
 <sect1 id="sect-changes"><title>Changes</title>
+
+<sect2 id="ver-0.5.3">
+<title>Version 0.5.3</title>
+<para>
+Release date: 2008-05-??
+</para>
+
+<itemizedlist mark="bullet">
+
+    <listitem><para>
+            The error preventing correct sorting of numerical list
+            entries in route list and route element list was removed.
+  </para></listitem>
+
+  <listitem><para>
+          A compiling issue occuring on systems using the 64bit-Qt
+          library was solved.
+  </para></listitem>
+
+  <listitem><para>
+          The about dialog of spdrs60 was redesigned.
+  </para></listitem>
+
+  <listitem><para>
+          The dialog window showing the SRCP server information was
+          redesigned now presenting more connection details.
+  </para></listitem>
+
+  <listitem><para>
+          The command history line at the layout window bottom can be
+          configured to translate server time information to human
+          readable format. The fourth history level for SRCP 0.7
+          feedback sessions was removed; this kind of information now is
+          listed in the info session line, what is comparable to the
+          SRCP 0.8 behavior.
+  </para></listitem>
+
+  <listitem><para>
+          Changes to user specific options for tooltip help messages now
+          take effect without program restart.
+  </para></listitem>
+
+  <listitem><para>
+          The dialog window for route properties was redesigned using a
+          tabbed sections. It is compacter now and also contains input
+          options for route identification number and the utilizing
+          train.
+  </para></listitem>
+
+  <listitem><para>
+          A train tracing function was added to visualize whereabouts of
+          trains. Forwarding of train numbers is realized by routes,
+          which get the new train number when entry signal falls back to
+          stop. This is not perfectly the behavior of the original,
+          which handles thsi information using track numbers. The train
+          number itself is not only shown in the route list but can also
+          be displayed in address elements.
+  </para></listitem>
+
+  <listitem><para>
+          A new dialog window accessible via toolbar can be used to
+          easily assign a train number to a specified route.
+  </para></listitem>
+
+  <listitem><para>
+          The route menu was extended by an entry to release (not
+          withdraw) a route. This is for experimental applications only
+          to verify train number forwarding.
+  </para></listitem>
+
+  <listitem><para>
+          The view menu was extended by entries to hide and unhide
+          toolbar, message line an menu.
+  </para></listitem>
+
+  <listitem><para>
+          The source code handling the server communication was
+          rewritten to be more modular. Connecting the different server
+          sessions now is done sequentially which improves readability
+          of incomming server messages.
+  </para></listitem>
+
+  <listitem><para>
+          The limits for maximum layout rows and columns was increased
+          to 200.
+  </para></listitem>
+
+  <listitem><para>
+          The layout editor was improved and can now be used to draw
+          and clear layouts much faster than before. Selection of
+          elements now is done using a new element toolbox. The rotate
+          attribute of some elements was removed, which also makes
+          layout sketching much easier.
+  </para></listitem>
+
+  <listitem><para>
+          The old tunnel elements were redesigned to be applicable for
+          real routes.
+  </para></listitem>
+
+  <listitem><para>
+          The buffer stop element now is availabel also in two vertical
+          versions.
+  </para></listitem>
+
+  <listitem><para>
+          Support for Generic Messages (GM) was added. A limited
+          selection of CRCF data can be read an written by this new
+          designed communication channel. These data can be used for
+          scripting purposes. A new (German) handbook chapter explains
+          the usage in detail.
+  </para></listitem>
+
+  <listitem><para>
+          Program internal identification of element types was rewritten
+          to use numerical values instead of string values. This again
+          makes the program faster but also has an effect on the file
+          format. The new identification for elements is also used in
+          layout files; old format files are imported without special
+          user interaction. The file format itself now also is more
+          compact, because most of the elements do not longer store
+          information they never used.
+  </para></listitem>
+
+  <listitem><para>
+          The program now can be compiled under Windows using the free
+          Qt 4 library available from Trolltech. More detailed
+          information can be found in the handbook
+          &raquo;Installation&laquo; section.
+  </para></listitem>
+
+</itemizedlist>
+</sect2>
 
 <sect2 id="ver-0.5.2">
 <title>Version 0.5.2</title>
@@ -203,7 +340,7 @@ added. This facilitates storing the last achieved game positions.
 
 <listitem><para>
 The file format for user preferences (~/.spdrs60rc) was changed. Now it
-is more compact and more flexilbe for future changes.
+is more compact and more flexible for future changes.
 </para></listitem>
 
 <listitem><para>
@@ -504,7 +641,7 @@ built-in search command you search for "drehscheibe"). Please change the
 number of "address_2" to 225 (if you use the standard Maerklin
 turntable) or 209 (if you use a [secondary] specially ordered turntable
 with another address range. Save file and open it normally under
-SpDrS60.</para>
+spdrs60.</para>
 
 <para>What&apos;s happening else:</para>
 
@@ -567,7 +704,7 @@ of a SRCP controlling system. Everything worked: linux client with
 windows server and vice versa. Those who want to see some pictures
 follow this link.</para>
 
-<para>There are some consequences to SpDrS60:</para>
+<para>There are some consequences to spdrs60:</para>
 
 <itemizedlist mark="bullet">
 <listitem><para>A new SRCP protocol will be published (v 0.8.0) which is
@@ -609,7 +746,7 @@ version is in preparation.</para>
 
 <para>
 Short report about the 1st DDL meeting this weekend in Ruedesheim
-concerning SpDrS60 for Linux is in preparation and will be published
+concerning spdrs60 for Linux is in preparation and will be published
 within the next week.</para>
 </sect2>
 
@@ -619,23 +756,64 @@ Release date: ?
 </para>
 
 <itemizedlist mark="bullet">
-<listitem><para>New added graphical user interface for maintaining of routes: adding, changing of switched elements or deleting of routes are only a few of the numerous features. Also a graphical check of a route&apos;s elements is now possible. That means: no more adding and changing of routes with an ASCII editor!</para></listitem>
-<listitem><para>Automatically created routing files if there are none for a chosen layout, even a converting from older routing file versions is now available</para></listitem>
-<listitem><para>Corrected use of scrollbar at bottom of main window; from now on the whole space can be used again for your biggggest layouts.</para></listitem>
-<listitem><para>Corrected saving code</para></listitem>
-<listitem><para>Improved options dialog: better usable, prepared config for use of this program with serial interfaces (such as original Maerklin IF); when the original program init file is lost, a default one will be automtically loaded</para></listitem>
-<listitem><para>New searchmode: find your query in textfields, main addresses or supplementary address fields.</para></listitem>
-<listitem><para>Corrected usage of feedback data in properties dialog to each layout element</para></listitem>
-<listitem><para>Improved usage while selecting the right feedback module and port in properties dialog to each layout element</para></listitem>
-<listitem><para>Switch off occupance feedback LEDs in certain elements</para></listitem>
-<listitem><para>New elements: semaphores (still without automatical controling by a main semaphore), shed elements for use with turntables</para></listitem>
-<listitem><para>Display of actual turntable track in turntable layout element;</para></listitem>
-<listitem><para>corrected display of special turntable decoder in turntable properties dialog</para></listitem>
-<listitem><para>Most of program code has now been revisited, corrected and documented</para></listitem>
-<listitem><para>New structured and improved online help</para></listitem>
-<listitem><para>Start a new SpDrS60 for Linux program instance right from your menubar</para></listitem>
-<listitem><para>New webpages, now also available in English</para></listitem>
-<listitem><para>Questionnaire about this program for a better user feedback</para></listitem>
+    <listitem><para>New added graphical user interface for maintaining
+            of routes: adding, changing of switched elements or
+            deleting of routes are only a few of the numerous features.
+            Also a graphical check of a route&apos;s elements now is
+            possible. That means: no more adding and changing of routes
+            with an ASCII editor!</para></listitem>
+    
+    <listitem><para>Automatically created routing files if there are
+            none for a chosen layout, even a converting from older
+            routing file versions is now available</para></listitem>
+    
+    <listitem><para>Corrected use of scrollbar at bottom of main
+            window; from now on the whole space can be used again
+            for your biggest layouts.</para></listitem>
+    
+    <listitem><para>Corrected saving code</para></listitem>
+    
+    <listitem><para>Improved options dialog: better usable, prepared
+            config for use of this program with serial interfaces (such
+            as original Maerklin IF); when the original program init file
+            is lost, a default one will be automtically loaded</para></listitem>
+    
+    <listitem><para>New searchmode: find your query in textfields,
+            main addresses or supplementary address fields.</para></listitem>
+    
+    <listitem><para>Corrected usage of feedback data in properties
+            dialog to each layout element</para></listitem>
+    
+    <listitem><para>Improved usage while selecting the right feedback
+            module and port in properties dialog to each layout
+            element</para></listitem>
+    
+    <listitem><para>Switch off occupance feedback LEDs in certain
+            elements</para></listitem>
+    
+    <listitem><para>New elements: semaphores (still without
+            automatical controling by a main semaphore), shed elements
+            for use with turntables</para></listitem>
+    
+    <listitem><para>Display of actual turntable track in turntable
+            layout element;</para></listitem>
+    
+    <listitem><para>corrected display of special turntable decoder in
+            turntable properties dialog</para></listitem>
+    
+    <listitem><para>Most of program code has now been revisited,
+            corrected and documented</para></listitem>
+    
+    <listitem><para>New structured and improved online help</para></listitem>
+    
+    <listitem><para>Start a new spdrs60 for Linux program instance
+            right from your menubar</para></listitem>
+    
+    <listitem><para>New webpages, now also available in English
+    </para></listitem>
+    
+    <listitem><para>Questionnaire about this program for a better
+            user feedback</para></listitem>
 </itemizedlist>
 
 </sect2>
@@ -648,7 +826,7 @@ Release date: ?
 
 
 <sect2 id="sect-obtain">
-<title>How to obtain SpDrS60</title> 
+<title>How to obtain spdrs60</title> 
 <para>
 Home of this project is this internet site:
 </para>
@@ -751,8 +929,8 @@ $ tar -xvjf spdrs60-&ver;.tar.bz2
 </screen>
 
 <para>
-In order to compile and install SpDrS60 on your system, type the
-following in the base directory of the SpDrS60 distribution:
+In order to compile and install spdrs60 on your system, type the
+following in the base directory of the spdrs60 distribution:
 </para>
 
 <screen>
@@ -762,14 +940,33 @@ following in the base directory of the SpDrS60 distribution:
 </screen>
 
 <para>
-Since SpDrS60 uses <filename class="directory">autoconf</filename> you
+Since spdrs60 uses <filename class="directory">autoconf</filename> you
 should not have trouble compiling it, assumed the required development
 packages are installed. Also the HTML-documentation like this handbook
 is build during compile time. So you will also need
 &raquo;openjade&laquo;, &raquo;docbook&laquo; and the set of
 &raquo;dsssl-stylesheets&laquo;. &raquo;./configure&laquo; will check
 for this software and find fault with missing packages.
+</para>
 
+<para>It is also possible to compile spdrs60 in a Windows environment
+    using the free Qt4 library available by Trolltech. In order to do
+    this the source code must be converted to Qt4 syntax in advance.
+    The following commands must be executed to receive the desired
+    binary:
+</para>
+<screen>
+qmake -project
+qmake
+qt3to4 -rulesFile qt3to4portingpatch.xml spdrs60.pro
+nmake
+</screen>
+
+<para>
+    For upcoming issues and questions about installation or other special
+    topics please contact the user mailinglist of this project. It is
+    available at this URL: <ulink
+     url="http://spdrs60.sourceforge.net/">http://spdrs60.sourceforge.net/</ulink>
 </para>
 </sect2>
 </sect1>
