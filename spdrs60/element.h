@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-30 20:35:31 $
-                           $Revision: 1.93 $
+    last modified        : $Date: 2008-05-11 19:22:09 $
+                           $Revision: 1.94 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -48,13 +48,13 @@
 
 // symbol names
 // signals
-#define SYM_HS   "signal_hs"
-#define SYM_HSS  "signal_hss"
-#define SYM_SS   "signal_ss"
-#define SYM_SSH  "signal_ssh" 
-#define SYM_SSS  "signal_sss"
-#define SYM_WS   "signal_ws"
-#define SYM_VS   "signal_vs"
+#define SYM_HS   "signal_hs"  // Hauptsignal
+#define SYM_HSS  "signal_hss" // Hauptsperrsignal
+#define SYM_SS   "signal_ss"  // Schutzhaltsignal
+#define SYM_SSH  "signal_ssh" // Schutzhaltsignal Falschfahrt
+#define SYM_SSS  "signal_sss" // Schutzhaltsignal zwei Gleistasten
+#define SYM_WS   "signal_ws"  // Rangierhaltsignal (Ra 11)
+#define SYM_VS   "signal_vs"  // Vorsignal
 #define SYM_ZP   "signal_zp"
 #define SYM_NRB  "signal_nrb" // not really signals but rails
 #define SYM_SRB  "signal_srb" // with a routing button
@@ -231,45 +231,50 @@ class element: public QWidget
 public:
     enum SpdrItemClassId {
         siciNone = 0,
-        siciTrh = 100, siciTrv, siciDir, siciDil,
+        siciSt1 = 100, siciSt2, siciSt3, siciSt4,
         siciCr1 = 120, siciCr2, siciCr3, siciCr4,
         siciCl1 = 130, siciCl2, siciCl3, siciCl4,
-        siciKrh = 150, siciKrr, siciKrl,
+        siciKrh = 150, siciKr1, siciKr2, siciKl1, siciKl2, //Kr2, Kl2 not used
         siciTuh = 160, siciTuv, siciTul, siciTur,
         siciTdr = 170, siciTdl, siciTdb,
-        siciRbr = 200, siciRbl,
-        siciSbr = 210, siciSbl,
-        siciZpr = 250, siciZpl,
-        siciEnk = 252,
-        siciBld = 255,
-        siciHsr = 300, siciHsl,
-        siciHssr = 310, siciHssl,
-        siciSsr = 320, siciSsl,
-        siciShr = 330, siciShl,
-        siciSdr = 340, siciSdl,
-        siciWsr = 350, siciWsl,
-        siciVsr = 360, siciVsl,
-        siciAdr = 400,
-        siciBue = 420,
+        siciZt1 = 200, siciZt2, siciZt3, siciZt4, //2, 4 not used
+        siciRt1 = 210, siciRt2, siciRt3, siciRt4, //2, 4 not used
+        siciZp1 = 250, siciZp2, siciZp3, siciZp4, //2, 4 not used
+        siciHs1 = 300, siciHs2, siciHs3, siciHs4, //2, 4 not used
+        siciHv1 = 310, siciHv2, siciHv3, siciHv4, //Hs + Vs not used
+        siciHss1 = 320, siciHss2, siciHss3, siciHss4,//2 + 4 not used
+        siciHvs1 = 330, siciHvs2, siciHvs3, siciHvs4,//Hss + Vs ext. not used
+        siciSs1 = 340, siciSs2, siciSs3, siciSs4, //2, 4 not used
+        siciSh1 = 350, siciSh2, siciSh3, siciSh4, //2, 4 not used
+        siciSd1 = 360, siciSd2, siciSd3, siciSd4, //2, 4 not used
+        siciWs1 = 370, siciWs2, siciWs3, siciWs4, //2, 4 not used
+        siciVs1 = 380, siciVs2, siciVs3, siciVs4, //2, 4 not used
+        siciVx1 = 390, siciVx2, siciVx3, siciVx4, // Vs extension for Hss n. u.
+        siciSb1 = 400, siciSb2, siciSb3, siciSb4, // Selbstblocksignal
+        siciZb1 = 410, siciZb2, siciZb3, siciZb4, // Zentralblocksignal
+        siciZv1 = 420, siciZv2, siciZv3, siciZv4, // Zentralblocksignal + Vs
         siciTr1 = 500, siciTr2, siciTr3, siciTr4,
         siciTl1 = 510, siciTl2, siciTl3, siciTl4,
-        siciDbl = 520, siciDtl,
-        siciDtr = 530, siciDbr,
-        siciSyr = 550, siciSyl,
-        siciSl1 = 600, siciSl2, siciSl3, siciSl4,
-        siciSr1 = 610, siciSr2, siciSr3, siciSr4,
-        siciDkl = 620,
-        siciDkr = 622,
-        siciTwr = 650, siciTwl,
+        siciIr1 = 520, siciIr2, siciIr3, siciIr4, //2, 4 not used
+        siciIl1 = 530, siciIl2, siciIl3, siciIl4, //2, 4 not used
+        siciSy1 = 550, siciSy2, siciSy3, siciSy4, //2, 4 not used
+        siciSr1 = 600, siciSr2, siciSr3, siciSr4,
+        siciSl1 = 610, siciSl2, siciSl3, siciSl4,
+        siciDr1 = 620, siciDr2, siciDl1, siciDl2, //2 not used
+        siciTw1 = 650, siciTw2, siciTw3, siciTw4, //2, 4 not used
         siciDre = 700, siciSbn,
         siciRel = 710,
         siciMdc = 720,
         siciBs1 = 800, siciBs2, siciBs3, siciBs4,
-        siciLsr = 820, siciLsl,
-        siciLtr = 830, siciLtl,
-        siciLbr = 840, siciLbl,
+        siciLs1 = 820, siciLs2, siciLs3, siciLs4, //2, 4 not used
+        siciLt1 = 830, siciLt2, siciLt3, siciLt4, //2, 4 not used
+        siciLb1 = 840, siciLb2, siciLb3, siciLb4, //2, 4 not used
         siciBuc = 850, siciBul, siciBur,
-        siciTxt = 900,
+        siciAdr = 900,
+        siciEnk = 930,
+        siciBld = 940,
+        siciBue = 950,
+        siciTxt = 1000,
         siciFeg = 1100, siciTaf, siciTau,
         siciFeb = 1200, siciTaw,
         siciFer = 1300, siciTas,

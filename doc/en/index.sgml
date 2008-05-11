@@ -154,7 +154,7 @@ Release date: 2008-05-??
   </para></listitem>
 
   <listitem><para>
-          The dialog window for route properties was redesigned using a
+          The dialog window for route properties was redesigned using
           tabbed sections. It is compacter now and also contains input
           options for route identification number and the utilizing
           train.
@@ -165,9 +165,9 @@ Release date: 2008-05-??
           trains. Forwarding of train numbers is realized by routes,
           which get the new train number when entry signal falls back to
           stop. This is not perfectly the behavior of the original,
-          which handles thsi information using track numbers. The train
-          number itself is not only shown in the route list but can also
-          be displayed in address elements.
+          which handles this information using track section numbers. The
+          train number itself is not only shown in the route list but can
+          also be displayed in address elements.
   </para></listitem>
 
   <listitem><para>
@@ -190,7 +190,7 @@ Release date: 2008-05-??
           The source code handling the server communication was
           rewritten to be more modular. Connecting the different server
           sessions now is done sequentially which improves readability
-          of incomming server messages.
+          of incomming server messages during login.
   </para></listitem>
 
   <listitem><para>
@@ -228,16 +228,16 @@ Release date: 2008-05-??
           Program internal identification of element types was rewritten
           to use numerical values instead of string values. This again
           makes the program faster but also has an effect on the file
-          format. The new identification for elements is also used in
+          format. The new element identification variant is also used in
           layout files; old format files are imported without special
           user interaction. The file format itself now also is more
           compact, because most of the elements do not longer store
-          information they never used.
+          information they never use.
   </para></listitem>
 
   <listitem><para>
           The program now can be compiled under Windows using the free
-          Qt 4 library available from Trolltech. More detailed
+          Qt4 library available from Trolltech. More detailed
           information can be found in the handbook
           &raquo;Installation&laquo; section.
   </para></listitem>

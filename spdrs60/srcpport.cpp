@@ -2,8 +2,8 @@
  srcpport.cpp
  ------------
  Begin        : 17.08.2007
- Last modified: $Date: 2008-04-14 20:38:24 $
-                $Revision: 1.5 $
+ Last modified: $Date: 2008-05-11 19:22:09 $
+                $Revision: 1.6 $
  Copyright    : (C) 2007 by Guido Scholz <guido.scholz@bayernline.de>
  Description  : Abstract class for network communication with SRCP server.
                 Communication styles SRCP 0.7 and 0.8 are supported.
@@ -157,7 +157,7 @@ void SrcpPort::setCommunicationStyle(CommunicationStyle style)
 void SrcpPort::serverConnect()
 {
     emit statusMessage(tr("%1: Try to connect host '%2' on port '%3'")
-            .arg(name()).arg(host).arg(port));
+            .arg(getConnectionMode()).arg(host).arg(port));
 
     if (commStyle == csOld) {
         srcpState = sRun;
@@ -187,7 +187,7 @@ void SrcpPort::serverDisconnect()
             clearConnectionData();
             emit connectionStateChanged(false);
             emit statusMessage(tr("%1: Socket immediately closed.")
-                    .arg(name()));
+                    .arg(getConnectionMode()));
 
             if (reconnect) {
                 reconnect = false;
@@ -290,12 +290,12 @@ void SrcpPort::readData()
                             emit statusMessage(
                                 tr("%1: Parse error, parameter list too "
                                     "long '%2'.")
-                                .arg(name()).arg(QString(*it)));
+                                .arg(getConnectionMode()).arg(QString(*it)));
                         else
                             emit statusMessage(
                                 tr("%1: Parse error, parameter list too "
                                     "short '%2'.")
-                                .arg(name()).arg(QString(*it)));
+                                .arg(getConnectionMode()).arg(QString(*it)));
 
                         wmt.clear();
                         ++it;
@@ -306,7 +306,7 @@ void SrcpPort::readData()
                     if (srcpVersion.isEmpty()) {
                         emit statusMessage(
                                 tr("%1: Communication error, no SRCP "
-                                    "version found.").arg(name()));
+                                    "version found.").arg(getConnectionMode()));
                         serverDisconnect();
                     }
 
@@ -317,7 +317,7 @@ void SrcpPort::readData()
                             emit statusMessage(
                                     tr("%1: Communication error, wrong SRCP "
                                         "version '%2'.")
-                                    .arg(name()).arg(srcpVersion));
+                                    .arg(getConnectionMode()).arg(srcpVersion));
                             serverDisconnect();
                         }
                         else {
@@ -335,7 +335,7 @@ void SrcpPort::readData()
                             emit statusMessage(
                                     tr("%1: Communication error, wrong SRCP "
                                         "version '%2'.")
-                                    .arg(name()).arg(srcpVersion));
+                                    .arg(getConnectionMode()).arg(srcpVersion));
                             serverDisconnect();
                         }
                         else {
@@ -364,7 +364,7 @@ void SrcpPort::readData()
                         emit statusMessage(
                                 tr("%1: Communication error, wrong SRCP "
                                     "version '%2'.")
-                                .arg(name()).arg(srcpVersion));
+                                .arg(getConnectionMode()).arg(srcpVersion));
                         serverDisconnect();
                     }
 
@@ -378,7 +378,7 @@ void SrcpPort::readData()
                     if ((tokens.count() < 4) || (tokens[2] != "OK")) {
                         emit statusMessage(tr("%1: Communication error "
                                     "PROTOCOL '%2'")
-                                .arg(name()).arg(line));
+                                .arg(getConnectionMode()).arg(line));
                         serverDisconnect();
                     }
                     else {
@@ -398,7 +398,7 @@ void SrcpPort::readData()
                     if ((tokens.count() < 4) || (tokens[2] != "OK")) {
                         emit statusMessage(tr("%1: Communication error "
                                     "CONNECTIONMODE '%2'")
-                                .arg(name()).arg(line));
+                                .arg(getConnectionMode()).arg(line));
                         serverDisconnect();
                     }
                     else {
@@ -416,7 +416,7 @@ void SrcpPort::readData()
                     if ((tokens.count() < 5) || (tokens[2] != "OK")) {
                         emit statusMessage(
                                 tr("%1: Communication error GO '%2'")
-                                .arg(name()).arg(line));
+                                .arg(getConnectionMode()).arg(line));
                         serverDisconnect();
                     }
                     else {
@@ -432,7 +432,7 @@ void SrcpPort::readData()
                     // should never be reached
                     emit statusMessage(
                             tr("%1: Error, wrong SRCP state: %2")
-                            .arg(name()).arg(srcpState));
+                            .arg(getConnectionMode()).arg(srcpState));
                     break;
             }
         }
@@ -447,7 +447,7 @@ void SrcpPort::readData()
 void SrcpPort::socketConnected()
 {
     emit statusMessage(tr("%1: Socket connected to "
-                "host '%2' on port '%3'").arg(name()).arg(host).arg(port));
+                "host '%2' on port '%3'").arg(getConnectionMode()).arg(host).arg(port));
 
     if (srcpState == sRun)
         emit connectionStateChanged(true);
@@ -459,7 +459,7 @@ void SrcpPort::socketConnected()
  */
 void SrcpPort::hostFound()
 {
-    emit statusMessage(tr("%1: Host '%2' found").arg(name()).arg(host));
+    emit statusMessage(tr("%1: Host '%2' found").arg(getConnectionMode()).arg(host));
 }
 
 
@@ -473,7 +473,7 @@ void SrcpPort::socketClosed()
 
     clearConnectionData();
     emit connectionStateChanged(false);
-    emit statusMessage(tr("%1: Socket closed by foreign host.").arg(name()));
+    emit statusMessage(tr("%1: Socket closed by foreign host.").arg(getConnectionMode()));
 }
 
 /*
@@ -484,7 +484,7 @@ void SrcpPort::socketDelayedClosed()
 {
     clearConnectionData();
     emit connectionStateChanged(false);
-    emit statusMessage(tr("%1: Socket delayed closed.").arg(name()));
+    emit statusMessage(tr("%1: Socket delayed closed.").arg(getConnectionMode()));
 
     if (reconnect) {
         reconnect = false;
@@ -500,7 +500,7 @@ void SrcpPort::socketError(int error)
 {
     QString errorMsg = getSocketErrorString(error);
     emit statusMessage(tr("%1: Socket error %2 occured (%3).")
-            .arg(name()).arg(error).arg(errorMsg));
+            .arg(getConnectionMode()).arg(error).arg(errorMsg));
 }
 
 

@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.68 $
+                           version 0.5.2 $Revision: 1.69 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-02 04:29:07 $
+    last modified        : $Date: 2008-05-11 19:22:09 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -516,6 +516,7 @@ int Route::startRouting()
                 (el->hasDifferentDirection(se->state) ||
                  el->is2StateDKW()))
             return 0;
+
         // count turnouts for timer activation
         if (el != NULL && el->isTurnout() &&
                 el->hasDifferentDirection(se->state)) {

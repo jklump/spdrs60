@@ -1144,7 +1144,7 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     <name>PaintItemWindow</name>
     <message>
         <source>Paint items</source>
-        <translation></translation>
+        <translation>Gleisbildelemente</translation>
     </message>
     <message>
         <source>Text field panel</source>
@@ -2041,7 +2041,7 @@ Erlaubt sind Werte von %1 bis %2.</translation>
     </message>
     <message>
         <source>%1: Parse error, parameter list too long &apos;%2&apos;.</source>
-        <translation>1%: Fehler beim Auswerten, Parameterliste zu lang &apos;%1&apos;.</translation>
+        <translation>%1: Fehler beim Auswerten, Parameterliste zu lang &apos;%1&apos;.</translation>
     </message>
     <message>
         <source>%1: Parse error, parameter list too short &apos;%2&apos;.</source>
@@ -2053,27 +2053,27 @@ Erlaubt sind Werte von %1 bis %2.</translation>
     </message>
     <message>
         <source>%1: Communication error, wrong SRCP version &apos;%2&apos;.</source>
-        <translation>1%: Kommunikationsfehler, falsche SRCP-Version &apos;%2&apos;.</translation>
+        <translation>%1: Kommunikationsfehler, falsche SRCP-Version &apos;%2&apos;.</translation>
     </message>
     <message>
         <source>%1: Communication error PROTOCOL &apos;%2&apos;</source>
-        <translation>1%: Kommunikationsfehler PROTOCOL &apos;%2&apos;</translation>
+        <translation>%1: Kommunikationsfehler PROTOCOL &apos;%2&apos;</translation>
     </message>
     <message>
         <source>%1: Communication error CONNECTIONMODE &apos;%2&apos;</source>
-        <translation>1%: Kommunikationsfehler CONNECTIONMODE &apos;%2&apos;</translation>
+        <translation>%1: Kommunikationsfehler CONNECTIONMODE &apos;%2&apos;</translation>
     </message>
     <message>
         <source>%1: Communication error GO &apos;%2&apos;</source>
-        <translation>1%: Kommunikationsfehler GO &apos;%2&apos;</translation>
+        <translation>%1: Kommunikationsfehler GO &apos;%2&apos;</translation>
     </message>
     <message>
         <source>%1: Error, wrong SRCP state: %2</source>
-        <translation>1%: Fehler, falscher SRCP-Status: %2</translation>
+        <translation>%1: Fehler, falscher SRCP-Status: %2</translation>
     </message>
     <message>
         <source>%1: Socket connected to host &apos;%2&apos; on port &apos;%3&apos;</source>
-        <translation>1%: Socket mit Host &apos;%2&apos; auf Port &apos;%3&apos; verbunden</translation>
+        <translation>%1: Socket mit Host &apos;%2&apos; auf Port &apos;%3&apos; verbunden</translation>
     </message>
     <message>
         <source>%1: Host &apos;%2&apos; found</source>
@@ -2081,7 +2081,7 @@ Erlaubt sind Werte von %1 bis %2.</translation>
     </message>
     <message>
         <source>%1: Socket closed by foreign host.</source>
-        <translation>1%: Socket durch Server geschlossen.</translation>
+        <translation>%1: Socket durch Server geschlossen.</translation>
     </message>
     <message>
         <source>%1: Socket delayed closed.</source>

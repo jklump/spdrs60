@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-30 20:35:31 $
-                           $Revision: 1.103 $
+    last modified        : $Date: 2008-05-11 19:22:09 $
+                           $Revision: 1.104 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -78,7 +78,7 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
     gkbState = kNoneClicked;
     visualMode = kvmNormal;
     lyeditMode = lemSelect;
-    paintItem = element::siciTrh;
+    paintItem = element::siciSt1;
     modified = false;
     cols = 0;
     rows = 0;

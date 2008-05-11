@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60 documentation
 # last changes by: Guido Scholz
-# Version: $Revision: 1.19 $
-# last update: $Date: 2008-05-03 09:37:56 $
+# Version: $Revision: 1.20 $
+# last update: $Date: 2008-05-11 19:22:05 $
 
 # HTML_DOC_DIR is defined in configure.ac
 htmldir = @HTML_DOC_DIR@
@@ -74,7 +74,6 @@ dist_deimages_DATA = \
 	de/schnapp-daemoninfo.png \
 	de/schnapp-daemonmenu.png \
 	de/schnapp-deb-cmd2.png \
-	de/schnapp-editctx.png \
 	de/schnapp-editfilemenu.png \
 	de/schnapp-editmenu.png \
 	de/schnapp-feedbacks.png \
@@ -108,7 +107,6 @@ dist_deimages_DATA = \
 	de/schnapp-prop-normal.png \
 	de/schnapp-prop-signal-1.png \
 	de/schnapp-prop-signal-2.png \
-	de/schnapp-prop-signal-3.png \
 	de/schnapp-route-adderror1.png \
 	de/schnapp-route-add.png \
 	de/schnapp-route-rec1.png \
@@ -120,6 +118,7 @@ dist_deimages_DATA = \
 	de/schnapp-tt-comm.png \
 	de/schnapp-tt-comm-prog.png \
 	de/schnapp-viewmenu.png \
+	de/shot-paintitemtoolbox.png \
 	de/shot-pref-elements.png \
 	de/shot-pref-feedback.png \
 	de/shot-pref-feedbacktype.png \
@@ -175,6 +174,7 @@ dist_commonimages_DATA = \
 	commonimages/kurve-links.png \
 	commonimages/kurve-rechts.png \
 	commonimages/leer.png \
+	commonimages/motor.png \
 	commonimages/prellbock.png \
 	commonimages/relais.png \
 	commonimages/richtung-1.png \

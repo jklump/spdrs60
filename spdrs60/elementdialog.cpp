@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-03 09:37:56 $
-                           $Revision: 1.67 $
+    last modified        : $Date: 2008-05-11 19:22:09 $
+                           $Revision: 1.68 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -434,8 +434,8 @@ void ElementDialog::updateValidators()
      *  -------------
      */
     
-    if (classid == element::siciRbr || classid == element::siciRbl ||
-            classid == element::siciSbr || classid == element::siciSbl) {
+    if (classid == element::siciZt1 || classid == element::siciZt3 ||
+            classid == element::siciRt1 || classid == element::siciRt3) {
         a1Validator->setTop(MAX_RB);
         a2Validator->setTop(MAX_RB);
     }
@@ -665,28 +665,28 @@ void ElementDialog::slotSymbolChanged()
     
     // show protocol data => element->hasAddress() or isSwitchable()
     enabled =
-        classid == element::siciHsr || classid == element::siciHsl ||
-        classid == element::siciHssr || classid == element::siciHssl ||
-        classid == element::siciSsr || classid == element::siciSsl ||
-        classid == element::siciWsr || classid == element::siciWsl ||
-        classid == element::siciShr || classid == element::siciShl ||
-        classid == element::siciSdr || classid == element::siciSdl ||
+        classid == element::siciHs1 || classid == element::siciHs3 ||
+        classid == element::siciHss1 || classid == element::siciHss3 ||
+        classid == element::siciSs1 || classid == element::siciSs3 ||
+        classid == element::siciWs1 || classid == element::siciWs3 ||
+        classid == element::siciSh1 || classid == element::siciSh3 ||
+        classid == element::siciSd1 || classid == element::siciSd3 ||
         classid == element::siciTr3 || classid == element::siciTr1 ||
         classid == element::siciTl1 || classid == element::siciTl3 ||
-        classid == element::siciDbl || classid == element::siciDbr ||
-        classid == element::siciDtl || classid == element::siciDtr ||
+        classid == element::siciIl1 || classid == element::siciIr3 ||
+        classid == element::siciIl3 || classid == element::siciIr1 ||
         classid == element::siciSl1 || classid == element::siciSl3 ||
         classid == element::siciSr1 || classid == element::siciSr3 ||
-        classid == element::siciDkl || classid == element::siciDkr ||
-        classid == element::siciTwr || classid == element::siciTwl ||
+        classid == element::siciDl1 || classid == element::siciDr1 ||
+        classid == element::siciTw1 || classid == element::siciTw3 ||
         classid == element::siciEnk || classid == element::siciRel ||
         classid == element::siciMdc ||
-        classid == element::siciSyr || classid == element::siciSyl ||
+        classid == element::siciSy1 || classid == element::siciSy3 ||
         classid == element::siciSbn || classid == element::siciBld ||
-        classid == element::siciRbr || classid == element::siciRbl ||
-        classid == element::siciSbr || classid == element::siciSbl ||
-        classid == element::siciZpr || classid == element::siciZpl ||
-        classid == element::siciVsr || classid == element::siciVsl;
+        classid == element::siciZt1 || classid == element::siciZt3 ||
+        classid == element::siciRt1 || classid == element::siciRt3 ||
+        classid == element::siciZp1 || classid == element::siciZp3 ||
+        classid == element::siciVs1 || classid == element::siciVs3;
 
     rbProtocol_MS->setEnabled(enabled || classid == element::siciDre);
     rbProtocol_NA->setEnabled(enabled);
@@ -721,31 +721,31 @@ void ElementDialog::slotSymbolChanged()
 
     // show text data
     enabled = 
-        classid == element::siciHsr || classid == element::siciHsl ||
-        classid == element::siciHssr || classid == element::siciHssl ||
-        classid == element::siciWsr || classid == element::siciWsl ||
-        classid == element::siciVsr || classid == element::siciVsl ||
+        classid == element::siciHs1 || classid == element::siciHs3 ||
+        classid == element::siciHss1 || classid == element::siciHss3 ||
+        classid == element::siciWs1 || classid == element::siciWs3 ||
+        classid == element::siciVs1 || classid == element::siciVs3 ||
         classid == element::siciTr3 || classid == element::siciTr1 ||
         classid == element::siciTl1 || classid == element::siciTl3 ||
-        classid == element::siciDbl || classid == element::siciDbr ||
-        classid == element::siciDtl || classid == element::siciDtr ||
+        classid == element::siciIl1 || classid == element::siciIr3 ||
+        classid == element::siciIl3 || classid == element::siciIr1 ||
         classid == element::siciSl1 || classid == element::siciSl3 ||
         classid == element::siciSr1 || classid == element::siciSr3 ||
-        classid == element::siciDkl || classid == element::siciDkr ||
-        classid == element::siciTwr || classid == element::siciTwl ||
-        classid == element::siciSsr || classid == element::siciSsl ||
-        classid == element::siciShr || classid == element::siciShl ||
-        classid == element::siciSdr || classid == element::siciSdl ||
+        classid == element::siciDl1 || classid == element::siciDr1 ||
+        classid == element::siciTw1 || classid == element::siciTw3 ||
+        classid == element::siciSs1 || classid == element::siciSs3 ||
+        classid == element::siciSh1 || classid == element::siciSh3 ||
+        classid == element::siciSd1 || classid == element::siciSd3 ||
         classid == element::siciEnk || classid == element::siciRel ||
-        classid == element::siciTrh || classid == element::siciTxt ||
-        classid == element::siciRbr || classid == element::siciRbl ||
-        classid == element::siciSbr || classid == element::siciSbl ||
+        classid == element::siciSt1 || classid == element::siciTxt ||
+        classid == element::siciZt1 || classid == element::siciZt3 ||
+        classid == element::siciRt1 || classid == element::siciRt3 ||
         classid == element::siciMdc ||
-        classid == element::siciSyr || classid == element::siciSyl ||
+        classid == element::siciSy1 || classid == element::siciSy3 ||
         classid == element::siciSbn || classid == element::siciAdr ||
         classid == element::siciTdr || classid == element::siciTdl ||
         classid == element::siciTdb || classid == element::siciDre ||
-        classid == element::siciZpr || classid == element::siciZpl ||
+        classid == element::siciZp1 || classid == element::siciZp3 ||
         classid == element::siciBld;
 
     if (!enabled)
@@ -757,17 +757,17 @@ void ElementDialog::slotSymbolChanged()
     // show address_2 data
     // Hp0+Hp1+Hp2
     enabled =
-        classid == element::siciHssr || classid == element::siciHssl ||
-        classid == element::siciTwr || classid == element::siciTwl ||
-        classid == element::siciDkl || classid == element::siciDkr || 
+        classid == element::siciHss1 || classid == element::siciHss3 ||
+        classid == element::siciTw1 || classid == element::siciTw3 ||
+        classid == element::siciDl1 || classid == element::siciDr1 || 
         classid == element::siciSl1 || classid == element::siciSl3 ||
         classid == element::siciSr1 || classid == element::siciSr3 ||
         classid == element::siciMdc || classid == element::siciDre || 
         classid == element::siciSbn || 
-        (classid == element::siciVsr && gaSubType == 4) || 
-        (classid == element::siciVsl && gaSubType == 4) || 
-        (classid == element::siciHsr && gaSubType == 4) || 
-        (classid == element::siciHsl && gaSubType == 4);
+        (classid == element::siciVs1 && gaSubType == 4) || 
+        (classid == element::siciVs3 && gaSubType == 4) || 
+        (classid == element::siciHs1 && gaSubType == 4) || 
+        (classid == element::siciHs3 && gaSubType == 4);
     
     if (enabled) {
         /*
@@ -806,30 +806,30 @@ void ElementDialog::slotSymbolChanged()
     enabled =
         classid == element::siciCl1 || classid == element::siciCr1 ||
         classid == element::siciCr3 || classid == element::siciCl3 ||
-        classid == element::siciDil || classid == element::siciDir ||
-        classid == element::siciTrh || classid == element::siciTrv ||
+        classid == element::siciSt4 || classid == element::siciSt3 ||
+        classid == element::siciSt1 || classid == element::siciSt2 ||
         classid == element::siciTdr || classid == element::siciTdl ||
         classid == element::siciTdb ||
-        classid == element::siciRbr || classid == element::siciRbl ||
-        classid == element::siciSbr || classid == element::siciSbl ||
+        classid == element::siciZt1 || classid == element::siciZt3 ||
+        classid == element::siciRt1 || classid == element::siciRt3 ||
         classid == element::siciKrh ||
-        classid == element::siciKrl || classid == element::siciKrr ||
+        classid == element::siciKl1 || classid == element::siciKr1 ||
         classid == element::siciTuh || classid == element::siciTuv ||
         classid == element::siciTul || classid == element::siciTur ||
-        classid == element::siciSsr || classid == element::siciSsl ||
-        classid == element::siciShr || classid == element::siciShl ||
-        classid == element::siciSdr || classid == element::siciSdl ||
+        classid == element::siciSs1 || classid == element::siciSs3 ||
+        classid == element::siciSh1 || classid == element::siciSh3 ||
+        classid == element::siciSd1 || classid == element::siciSd3 ||
         classid == element::siciCl2 || classid == element::siciCr2 ||
         classid == element::siciCl4 || classid == element::siciCr4 ||
         classid == element::siciTr3 || classid == element::siciTr1 ||
         classid == element::siciTl1 || classid == element::siciTl3 ||
-        classid == element::siciSyr || classid == element::siciSyl ||
-        classid == element::siciTwr || classid == element::siciTwl ||
-        classid == element::siciDbl || classid == element::siciDbr ||
-        classid == element::siciDtl || classid == element::siciDtr ||
+        classid == element::siciSy1 || classid == element::siciSy3 ||
+        classid == element::siciTw1 || classid == element::siciTw3 ||
+        classid == element::siciIl1 || classid == element::siciIr3 ||
+        classid == element::siciIl3 || classid == element::siciIr1 ||
         classid == element::siciSl1 || classid == element::siciSl3 ||
         classid == element::siciSr1 || classid == element::siciSr3 ||
-        classid == element::siciDkl || classid == element::siciDkr ||
+        classid == element::siciDl1 || classid == element::siciDr1 ||
         classid == element::siciEnk || classid == element::siciBld;
 
     cbLEDoff->setEnabled(enabled);
@@ -840,8 +840,8 @@ void ElementDialog::slotSymbolChanged()
         classid == element::siciTl1 || classid == element::siciTl3 ||
         classid == element::siciSl1 || classid == element::siciSl3 ||
         classid == element::siciSr1 || classid == element::siciSr3 ||
-        classid == element::siciDbl || classid == element::siciDbr ||
-        classid == element::siciDtl || classid == element::siciDtr ||
+        classid == element::siciIl1 || classid == element::siciIr3 ||
+        classid == element::siciIl3 || classid == element::siciIr1 ||
         classid == element::siciTxt || classid == element::siciAdr;
 
     cbInvert->setEnabled(enabled);
@@ -849,36 +849,36 @@ void ElementDialog::slotSymbolChanged()
 
     // element gets feedback messages
     enabled =
-        classid == element::siciHsr || classid == element::siciHsl ||
-        classid == element::siciHssr || classid == element::siciHssl ||
-        classid == element::siciShr || classid == element::siciShl ||
-        classid == element::siciSdr || classid == element::siciSdl ||
+        classid == element::siciHs1 || classid == element::siciHs3 ||
+        classid == element::siciHss1 || classid == element::siciHss3 ||
+        classid == element::siciSh1 || classid == element::siciSh3 ||
+        classid == element::siciSd1 || classid == element::siciSd3 ||
         classid == element::siciBue || classid == element::siciAdr ||
-        classid == element::siciVsr || classid == element::siciVsl ||
-        classid == element::siciWsr || classid == element::siciWsl ||
-        classid == element::siciSsr || classid == element::siciSsl || 
-        classid == element::siciZpr || classid == element::siciZpl ||
+        classid == element::siciVs1 || classid == element::siciVs3 ||
+        classid == element::siciWs1 || classid == element::siciWs3 ||
+        classid == element::siciSs1 || classid == element::siciSs3 || 
+        classid == element::siciZp1 || classid == element::siciZp3 ||
         ((classid == element::siciCl1 || classid == element::siciCr1 ||
           classid == element::siciCr3 || classid == element::siciCl3 || 
           classid == element::siciEnk || classid == element::siciBld || 
           classid == element::siciSl1 || classid == element::siciSl3 ||
           classid == element::siciSr1 || classid == element::siciSr3 ||
-          classid == element::siciDkl || classid == element::siciDkr ||
-          classid == element::siciTwr || classid == element::siciTwl ||
-          classid == element::siciSyr || classid == element::siciSyl ||
+          classid == element::siciDl1 || classid == element::siciDr1 ||
+          classid == element::siciTw1 || classid == element::siciTw3 ||
+          classid == element::siciSy1 || classid == element::siciSy3 ||
           classid == element::siciTr3 || classid == element::siciTr1 ||
           classid == element::siciTl1 || classid == element::siciTl3 ||
-          classid == element::siciDbl || classid == element::siciDbr ||
-          classid == element::siciDtl || classid == element::siciDtr ||
-          classid == element::siciDil || classid == element::siciDir ||
-          classid == element::siciTrh || classid == element::siciTrv ||
+          classid == element::siciIl1 || classid == element::siciIr3 ||
+          classid == element::siciIl3 || classid == element::siciIr1 ||
+          classid == element::siciSt4 || classid == element::siciSt3 ||
+          classid == element::siciSt1 || classid == element::siciSt2 ||
           classid == element::siciTdl || classid == element::siciTdr ||
           classid == element::siciCl2 || classid == element::siciCr2 ||
           classid == element::siciCl4 || classid == element::siciCr4 ||
-          classid == element::siciRbr || classid == element::siciRbl ||
-          classid == element::siciSbr || classid == element::siciSbl ||
+          classid == element::siciZt1 || classid == element::siciZt3 ||
+          classid == element::siciRt1 || classid == element::siciRt3 ||
           classid == element::siciTdb || classid == element::siciKrh ||
-          classid == element::siciKrl || classid == element::siciKrr) &&
+          classid == element::siciKl1 || classid == element::siciKr1) &&
          !cbLEDoff->isChecked());
 
     buttFBmodules->setEnabled(enabled);
@@ -894,8 +894,8 @@ void ElementDialog::slotSymbolChanged()
         cbAdrMod->setChecked(false);
         contactSB->setEnabled(true);
         //contactSBChanged(sListText.toInt() + 1);
-        if (classid == element::siciRbr || classid == element::siciRbl ||
-                classid == element::siciSbr || classid == element::siciSbl)
+        if (classid == element::siciZt1 || classid == element::siciZt3 ||
+                classid == element::siciRt1 || classid == element::siciRt3)
             if (address1LE->text() == "-1")
                 address1LE->setText(QString::number(MIN_RB));
     }
@@ -911,53 +911,53 @@ void ElementDialog::slotSymbolChanged()
 
     // show active time
     enabled =
-        classid == element::siciHsr || classid == element::siciHsl ||
-        classid == element::siciHssr || classid == element::siciHssl ||
-        classid == element::siciVsr || classid == element::siciVsl ||
-        classid == element::siciWsr || classid == element::siciWsl ||
+        classid == element::siciHs1 || classid == element::siciHs3 ||
+        classid == element::siciHss1 || classid == element::siciHss3 ||
+        classid == element::siciVs1 || classid == element::siciVs3 ||
+        classid == element::siciWs1 || classid == element::siciWs3 ||
         classid == element::siciTr3 || classid == element::siciTr1 ||
         classid == element::siciTl1 || classid == element::siciTl3 ||
-        classid == element::siciDbl || classid == element::siciDbr ||
-        classid == element::siciDtl || classid == element::siciDtr ||
+        classid == element::siciIl1 || classid == element::siciIr3 ||
+        classid == element::siciIl3 || classid == element::siciIr1 ||
         classid == element::siciSl1 || classid == element::siciSl3 ||
         classid == element::siciSr1 || classid == element::siciSr3 ||
-        classid == element::siciDkl || classid == element::siciDkr ||
-        classid == element::siciTwr || classid == element::siciTwl ||
-        classid == element::siciSsr || classid == element::siciSsl ||
-        classid == element::siciShr || classid == element::siciShl ||
-        classid == element::siciSdr || classid == element::siciSdl ||
+        classid == element::siciDl1 || classid == element::siciDr1 ||
+        classid == element::siciTw1 || classid == element::siciTw3 ||
+        classid == element::siciSs1 || classid == element::siciSs3 ||
+        classid == element::siciSh1 || classid == element::siciSh3 ||
+        classid == element::siciSd1 || classid == element::siciSd3 ||
         classid == element::siciEnk || classid == element::siciRel ||
         classid == element::siciDre ||
-        classid == element::siciSyr || classid == element::siciSyl ||
+        classid == element::siciSy1 || classid == element::siciSy3 ||
         classid == element::siciSbn || classid == element::siciMdc ||
         classid == element::siciBld ||
-        classid == element::siciZpr || classid == element::siciZpl;
+        classid == element::siciZp1 || classid == element::siciZp3;
 
     activeTimeSB->setEnabled(enabled);
     labelTime->setEnabled(enabled);
 
     // show decoder data
     enabled =
-        classid == element::siciHsr || classid == element::siciHsl ||
-        classid == element::siciHssr || classid == element::siciHssl ||
-        classid == element::siciVsr || classid == element::siciVsl ||
-        classid == element::siciWsr || classid == element::siciWsl ||
+        classid == element::siciHs1 || classid == element::siciHs3 ||
+        classid == element::siciHss1 || classid == element::siciHss3 ||
+        classid == element::siciVs1 || classid == element::siciVs3 ||
+        classid == element::siciWs1 || classid == element::siciWs3 ||
         classid == element::siciTr3 || classid == element::siciTr1 ||
         classid == element::siciTl1 || classid == element::siciTl3 ||
-        classid == element::siciDbl || classid == element::siciDbr ||
-        classid == element::siciDtl || classid == element::siciDtr ||
+        classid == element::siciIl1 || classid == element::siciIr3 ||
+        classid == element::siciIl3 || classid == element::siciIr1 ||
         classid == element::siciSl1 || classid == element::siciSl3 ||
         classid == element::siciSr1 || classid == element::siciSr3 ||
-        classid == element::siciDkl || classid == element::siciDkr ||
-        classid == element::siciTwr || classid == element::siciTwl ||
-        classid == element::siciSsr || classid == element::siciSsl ||
-        classid == element::siciShr || classid == element::siciShl ||
-        classid == element::siciSdr || classid == element::siciSdl ||
+        classid == element::siciDl1 || classid == element::siciDr1 ||
+        classid == element::siciTw1 || classid == element::siciTw3 ||
+        classid == element::siciSs1 || classid == element::siciSs3 ||
+        classid == element::siciSh1 || classid == element::siciSh3 ||
+        classid == element::siciSd1 || classid == element::siciSd3 ||
         classid == element::siciEnk || classid == element::siciRel ||
-        classid == element::siciSyr || classid == element::siciSyl ||
+        classid == element::siciSy1 || classid == element::siciSy3 ||
         classid == element::siciSbn || classid == element::siciMdc ||
         classid == element::siciBld ||
-        classid == element::siciZpr || classid == element::siciZpl;
+        classid == element::siciZp1 || classid == element::siciZp3;
 
     if (!enabled && classid != element::siciDre)
         coboDecoder->setCurrentItem(coboDecoder->count() - 1);  // == -1
@@ -981,11 +981,11 @@ void ElementDialog::slotSymbolChanged()
 
     // show subtype data
     enabled =
-        classid == element::siciHsr || classid == element::siciHsl ||
-        classid == element::siciHssr || classid == element::siciHssl ||
-        classid == element::siciDkl || classid == element::siciDkr ||
+        classid == element::siciHs1 || classid == element::siciHs3 ||
+        classid == element::siciHss1 || classid == element::siciHss3 ||
+        classid == element::siciDl1 || classid == element::siciDr1 ||
         classid == element::siciEnk || classid == element::siciDre ||
-        classid == element::siciVsr || classid == element::siciVsl;
+        classid == element::siciVs1 || classid == element::siciVs3;
 
     if (!enabled)
         gaSubType = -1;
@@ -1031,32 +1031,32 @@ void ElementDialog::showSubTypes(int iShow_)
     buttSubType[1]->show();
     buttSubType[2]->show();
     // show appropriate text ...
-    if (classid == element::siciHsr || classid == element::siciHsl ||
-            classid == element::siciHssr || classid == element::siciHssl ||
-            classid == element::siciVsr || classid == element::siciVsl) {
-        if (classid == element::siciHsr || classid == element::siciHsl){
+    if (classid == element::siciHs1 || classid == element::siciHs3 ||
+            classid == element::siciHss1 || classid == element::siciHss3 ||
+            classid == element::siciVs1 || classid == element::siciVs3) {
+        if (classid == element::siciHs1 || classid == element::siciHs3){
             buttSubType[0]->setPixmap(QPixmap(signal_hs_st1_xpm));
             buttSubType[1]->setPixmap(QPixmap(signal_hs_st2_xpm));
             buttSubType[2]->setPixmap(QPixmap(signal_hs_st3_xpm));
         }
-        else if (classid == element::siciHssr || classid == element::siciHssl){
+        else if (classid == element::siciHss1 || classid == element::siciHss3){
             buttSubType[0]->setPixmap(QPixmap(signal_hss_st1_xpm));
             buttSubType[1]->setPixmap(QPixmap(signal_hss_st2_xpm));
             buttSubType[2]->setPixmap(QPixmap(signal_hss_st3_xpm));
         }
-        else if (classid == element::siciVsr || classid == element::siciVsl){
+        else if (classid == element::siciVs1 || classid == element::siciVs3){
             buttSubType[0]->setPixmap(QPixmap(signal_vs_st1_xpm));
             buttSubType[1]->setPixmap(QPixmap(signal_vs_st2_xpm));
             buttSubType[2]->setPixmap(QPixmap(signal_vs_st3_xpm));
         }
     }
     
-    else if (classid == element::siciDkl || classid == element::siciDkr) {
-        if (classid == element::siciDkl){
+    else if (classid == element::siciDl1 || classid == element::siciDr1) {
+        if (classid == element::siciDl1){
             buttSubType[1]->setPixmap(QPixmap(dkw_links_st2_xpm));
             buttSubType[2]->setPixmap(QPixmap(dkw_links_st3_xpm));
         }
-        else if (classid == element::siciDkr){
+        else if (classid == element::siciDr1){
             buttSubType[1]->setPixmap(QPixmap(dkw_rechts_st2_xpm));
             buttSubType[2]->setPixmap(QPixmap(dkw_rechts_st3_xpm));
         }
@@ -1075,10 +1075,10 @@ void ElementDialog::showSubTypes(int iShow_)
 
 
     // activate the subtype dependant button
-    if (classid == element::siciHsr || classid == element::siciHsl ||
-            classid == element::siciHssr || classid == element::siciHssl ||
-            classid == element::siciVsr || classid == element::siciVsl) {
-        if (classid == element::siciHsr || classid == element::siciHsl) {
+    if (classid == element::siciHs1 || classid == element::siciHs3 ||
+            classid == element::siciHss1 || classid == element::siciHss3 ||
+            classid == element::siciVs1 || classid == element::siciVs3) {
+        if (classid == element::siciHs1 || classid == element::siciHs3) {
             QToolTip::add(buttSubType[0],
                           tr("Allows to switch this signal to:\n"
                              "Hp0, Hp1"));
@@ -1089,7 +1089,7 @@ void ElementDialog::showSubTypes(int iShow_)
                           tr("Allows to switch this signal to:\n"
                              "Hp0, Hp1 and Hp2"));
         }
-        if (classid == element::siciHssr || classid == element::siciHssl) {
+        if (classid == element::siciHss1 || classid == element::siciHss3) {
             QToolTip::add(buttSubType[0],
                           tr("Allows to switch this signal to:\n"
                              "Hp0, Hp1 and Sh1"));
@@ -1100,7 +1100,7 @@ void ElementDialog::showSubTypes(int iShow_)
                           tr("Allows to switch this signal to:\n"
                              "Hp0, Hp1, Hp2 and Sh1"));
         }
-        if (classid == element::siciVsr || classid == element::siciVsl) {
+        if (classid == element::siciVs1 || classid == element::siciVs3) {
             QToolTip::add(buttSubType[0],
                           tr("Allows to switch this signal to:\n"
                              "Vr0, Vr1"));
@@ -1156,7 +1156,7 @@ void ElementDialog::showSubTypes(int iShow_)
         }
     }
 
-    if (classid == element::siciDkl || classid == element::siciDkr) {
+    if (classid == element::siciDl1 || classid == element::siciDr1) {
         QToolTip::add(buttSubType[1],
                 tr("Allows to use a:\n"
                     "2 state double turnout\n(f.e. Maerklin 2264)"
@@ -1205,8 +1205,8 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
 {
     switch (stBtn) {
         case 0:                    // == subType 1
-            if (classid == element::siciHsr || classid == element::siciHsl ||
-                    classid == element::siciVsr || classid == element::siciVsl) {
+            if (classid == element::siciHs1 || classid == element::siciHs3 ||
+                    classid == element::siciVs1 || classid == element::siciVs3) {
                 srcpBus2Label->setEnabled(false);
                 srcpBus2LE->setEnabled(false);
                 address2LE->setEnabled(false);
@@ -1219,8 +1219,8 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
                 gaSubType = 0;
             }
 
-            else if (classid == element::siciHssr ||
-                    classid == element::siciHssl) {
+            else if (classid == element::siciHss1 ||
+                    classid == element::siciHss3) {
                 gaSubType = 1;
             }
 
@@ -1238,8 +1238,8 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
             break;
 
         case 1:                    // == subType 2
-            if (classid == element::siciHsr || classid == element::siciHsl ||
-                    classid == element::siciVsr || classid == element::siciVsl) {
+            if (classid == element::siciHs1 || classid == element::siciHs3 ||
+                    classid == element::siciVs1 || classid == element::siciVs3) {
                 srcpBus2Label->setEnabled(false);
                 srcpBus2LE->setEnabled(false);
                 address2LE->setEnabled(false);
@@ -1251,7 +1251,7 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
                 gaSubType = 6;
             }
 
-            else if (classid == element::siciDkl || classid == element::siciDkr) {
+            else if (classid == element::siciDl1 || classid == element::siciDr1) {
                 srcpBus2Label->setEnabled(false);
                 srcpBus2LE->setEnabled(false);
                 address2LE->setEnabled(false);
@@ -1262,8 +1262,8 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
                 gaSubType = 0;
             }
 
-            else if (classid == element::siciHssr ||
-                    classid == element::siciHssl)
+            else if (classid == element::siciHss1 ||
+                    classid == element::siciHss3)
                 gaSubType = 7;
 
             else if (classid == element::siciEnk)
@@ -1275,8 +1275,8 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
             break;
 
         case 2:                    // == subType 3
-            if (classid == element::siciHsr || classid == element::siciHsl ||
-                    classid == element::siciVsr || classid == element::siciVsl) {
+            if (classid == element::siciHs1 || classid == element::siciHs3 ||
+                    classid == element::siciVs1 || classid == element::siciVs3) {
                 srcpBus2Label->setEnabled(true);
                 srcpBus2LE->setEnabled(true);
                 address2LE->setEnabled(true);
@@ -1287,7 +1287,7 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
                 gaSubType = 4;
             }
 
-            else if (classid == element::siciDkl || classid == element::siciDkr) {
+            else if (classid == element::siciDl1 || classid == element::siciDr1) {
                 srcpBus2Label->setEnabled(true);
                 srcpBus2LE->setEnabled(true);
                 address2LE->setEnabled(true);
@@ -1298,8 +1298,8 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
                 gaSubType = 1;
             }
 
-            else if (classid == element::siciHssr ||
-                    classid == element::siciHssl)
+            else if (classid == element::siciHss1 ||
+                    classid == element::siciHss3)
                 gaSubType = 5;
 
             else if (classid == element::siciEnk)
@@ -1358,7 +1358,7 @@ void ElementDialog::setGASubType(int sType)
      *     5            2
      * --------------------------
     */
-    else if (classid == element::siciHssr || classid == element::siciHssl) {
+    else if (classid == element::siciHss1 || classid == element::siciHss3) {
         switch (gaSubType) {
             case 1:
                 btn = 0;
@@ -1385,8 +1385,8 @@ void ElementDialog::setGASubType(int sType)
      *     4            2
      * --------------------------
     */
-    else if (classid == element::siciHsr || classid == element::siciHsl ||
-            classid == element::siciVsr || classid == element::siciVsl) {
+    else if (classid == element::siciHs1 || classid == element::siciHs3 ||
+            classid == element::siciVs1 || classid == element::siciVs3) {
         switch (gaSubType) {
             case 0:
                 btn = 0;
@@ -1404,7 +1404,7 @@ void ElementDialog::setGASubType(int sType)
     }
     
     /*
-     * for element::siciDkl and element::siciDkr:
+     * for element::siciDl1 and element::siciDr1:
      *
      * gaSubType   pressed button
      * --------------------------
@@ -1413,7 +1413,7 @@ void ElementDialog::setGASubType(int sType)
      *     1            2
      * --------------------------
     */
-    else if (classid == element::siciDkl || classid == element::siciDkr) {
+    else if (classid == element::siciDl1 || classid == element::siciDr1) {
         switch (gaSubType) {
             case 0:
                 btn = 1;

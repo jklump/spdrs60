@@ -2704,7 +2704,7 @@ besondere Elemente wie die Drehscheibe wird im
   <thead>
     <row>
       <entry align="left">Symbol</entry>
-      <entry align="left">Name</entry>
+      <entry align="left">Id</entry>
       <entry align="left">Beschreibung</entry>
       <entry align="left">Bemerkung</entry>
     </row>
@@ -2712,108 +2712,108 @@ besondere Elemente wie die Drehscheibe wird im
   <tbody>
     <row>
       <entry><graphic fileref="../commonimages/gerade.png"> </entry>
-      <entry>gerade</entry>
+      <entry>100</entry>
       <entry>Gerade Strecke horizontal</entry>
       <entry>Oberhalb des Gleises wird optional ein kurzer Text
           angezeigt.</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/trackvertical.png"></entry>
-      <entry>trackvertical</entry>
+      <entry>101</entry>
       <entry>Gerade Strecke vertikal</entry>
       <entry>&nbsp;</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/diagonale-links.png"></entry>
-      <entry>diagonale_links</entry>
-      <entry>Links diagonale Strecke</entry>
-      <entry>&nbsp;</entry>
-    </row>
-    <row>
       <entry><graphic fileref="../commonimages/diagonale-rechts.png"></entry>
-      <entry>diagonale_rechts</entry>
+      <entry>102</entry>
       <entry>Rechts diagonale Strecke</entry>
       <entry>&nbsp;</entry>
     </row>
     <row>
+      <entry><graphic fileref="../commonimages/diagonale-links.png"></entry>
+      <entry>103</entry>
+      <entry>Links diagonale Strecke</entry>
+      <entry>&nbsp;</entry>
+    </row>
+    <row>
       <entry><graphic fileref="../commonimages/kurve-links.png"></entry>
-      <entry>kurve_links</entry>
+      <entry>130</entry>
       <entry>Linkskurve horizontal</entry>
       <entry>&nbsp;</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/kurve-rechts.png"></entry>
-      <entry>kurve_rechts</entry>
+      <entry>120</entry>
       <entry>Rechtskurve horizontal</entry>
       <entry>&nbsp;</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/turn_topvert_left.png"></entry>
-      <entry>turn_topvert_left</entry>
+      <entry>131</entry>
       <entry>Linkskurve vertikal oben</entry>
       <entry>&nbsp;</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/turn_topvert_right.png"></entry>
-      <entry>turn_topvert_right</entry>
+      <entry>121</entry>
       <entry>Rechtskurve vertikal oben</entry>
       <entry>&nbsp;</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/turn_botvert_left.png"></entry>
-      <entry>turn_botvert_left</entry>
+      <entry>133</entry>
       <entry>Linkskurve vertikal unten</entry>
       <entry>&nbsp;</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/turn_botvert_right.png"></entry>
-      <entry>turn_botvert_right</entry>
+      <entry>123</entry>
       <entry>Rechtskurve vertikal unten</entry>
       <entry>&nbsp;</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/kreuzung-hose.png"></entry>
-      <entry>kreuzung_hose</entry>
+      <entry>150</entry>
       <entry>Hosenträgerverbindung</entry>
       <entry>Eine Sperrung gegen kreuzende Überfahrten wird zurzeit
           nicht unterstützt.</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/kreuzung-links.png"></entry>
-      <entry>kreuzung_links</entry>
+      <entry>153</entry>
       <entry>Normale Kreuzung links</entry>
       <entry>Eine Sperrung gegen kreuzende Überfahrten wird zurzeit
           nicht unterstützt.</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/kreuzung-rechts.png"></entry>
-      <entry>kreuzung_rechts</entry>
+      <entry>151</entry>
       <entry>Normale Kreuzung rechts</entry>
       <entry>Eine Sperrung gegen kreuzende Überfahrten wird zurzeit
           nicht unterstützt.</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/gerade-tl.png"></entry>
-      <entry>gerade_tl</entry>
+      <entry>160</entry>
       <entry>Gerade Tunneldurchfahrt</entry>
       <entry>Als vertikale und horizontale Variante vorhanden</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/diagonale-rechts-tl.png"></entry>
-      <entry>diagonale_rechts_tl</entry>
+      <entry>163</entry>
       <entry>Diagonale Tunneldurchfahrt</entry>
       <entry>Als linke und rechte Variante vorhanden</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/richtung-1.png"></entry>
-      <entry>richtung_1</entry>
+      <entry>170, 171</entry>
       <entry>ein Richtungspfeil</entry>
       <entry>Oberhalb des Gleises wird optional ein kurzer Text
           angezeigt.</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/richtung-2.png"></entry>
-      <entry>richtung_2</entry>
+      <entry>172</entry>
       <entry>Doppelter Richtungspfeil</entry>
       <entry>Oberhalb des Gleises wird optional ein kurzer Text
           angezeigt.</entry>
@@ -2846,7 +2846,7 @@ besondere Elemente wie die Drehscheibe wird im
   <thead>
     <row>
       <entry align="left">Symbol</entry>
-      <entry align="left">Name</entry>
+      <entry align="left">Id</entry>
       <entry align="left">Beschreibung</entry>
       <entry>Adressen</entry>
       <entry align="left">Bemerkung</entry>
@@ -2859,7 +2859,7 @@ besondere Elemente wie die Drehscheibe wird im
   <tbody>
     <row>
       <entry><graphic fileref="../commonimages/weiche-links-0.png"></entry>
-      <entry>weiche_links</entry>
+      <entry>510</entry>
       <entry>Linke Weiche</entry>
       <entry align="center">1</entry>
       <entry>&nbsp;</entry>
@@ -2867,7 +2867,7 @@ besondere Elemente wie die Drehscheibe wird im
     </row>
     <row>
       <entry><graphic fileref="../commonimages/weiche-rechts-0.png"></entry>
-      <entry>weiche_rechts</entry>
+      <entry>500</entry>
       <entry>Rechte Weiche</entry>
       <entry align="center">1</entry>
       <entry>&nbsp;</entry>
@@ -2875,7 +2875,7 @@ besondere Elemente wie die Drehscheibe wird im
     </row>
     <row>
       <entry><graphic fileref="../commonimages/weiche-diag-links-0.png"></entry>
-      <entry>weiche_diag_links</entry>
+      <entry>530</entry>
       <entry>Diagonale Weiche links</entry>
       <entry align="center">1</entry>
       <entry>&nbsp;</entry>
@@ -2883,7 +2883,7 @@ besondere Elemente wie die Drehscheibe wird im
     </row>
     <row>
       <entry><graphic fileref="../commonimages/weiche-diag-rechts-0.png"></entry>
-      <entry>weiche_diag_rechts</entry>
+      <entry>520</entry>
       <entry>Diagonale Weiche rechts</entry>
       <entry align="center">1</entry>
       <entry>&nbsp;</entry>
@@ -2891,7 +2891,7 @@ besondere Elemente wie die Drehscheibe wird im
     </row>
     <row>
       <entry><graphic fileref="../commonimages/switch-y-0.png"></entry>
-      <entry>weiche_y</entry>
+      <entry>550</entry>
       <entry>Y-Weiche</entry>
       <entry align="center">1</entry>
       <entry>&nbsp;</entry>
@@ -2899,7 +2899,7 @@ besondere Elemente wie die Drehscheibe wird im
     </row>
     <row>
       <entry><graphic fileref="../commonimages/dreier-weiche-0.png"></entry>
-      <entry>dreier_weiche</entry>
+      <entry>650</entry>
       <entry>Dreiwegweiche</entry>
       <entry align="center">2</entry>
       <entry>in der Realität nicht vorhanden (dort immer zwei normale
@@ -2908,7 +2908,7 @@ besondere Elemente wie die Drehscheibe wird im
     </row>
     <row>
       <entry morerows="1" valign="middle"><graphic fileref="../commonimages/dkw-links-0.png"></entry>
-      <entry>dkw_links</entry>
+      <entry>622</entry>
       <entry>Doppelte Kreuzungsweiche links</entry>
       <entry align="center">1</entry>
       <entry><footnote id="fntabsym2"><para>Die Übersicht über einzelne
@@ -2917,7 +2917,7 @@ besondere Elemente wie die Drehscheibe wird im
       <entry>0 = gerade Gleisführung, 1 = abzweigende Führung</entry>
     </row>
     <row>
-      <entry>dkw_links</entry>
+      <entry>622</entry>
       <entry>Doppelte Kreuzungsweiche links</entry>
       <entry align="center">2</entry>
       <entry><footnoteref linkend="fntabsym2"/> Subtyp = 1</entry>
@@ -2926,14 +2926,14 @@ besondere Elemente wie die Drehscheibe wird im
     </row>
     <row>
       <entry morerows="1" valign="middle"><graphic fileref="../commonimages/dkw-rechts-0.png"></entry>
-      <entry>dkw_rechts</entry>
+      <entry>620</entry>
       <entry>Doppelte Kreuzungsweiche links</entry>
       <entry align="center">1</entry>
       <entry><footnoteref linkend="fntabsym2"/> Subtyp = 0</entry>
       <entry>0 = gerade Gleisführung, 1 = abzweigende Führung</entry>
     </row>
     <row>
-      <entry>dkw_rechts</entry>
+      <entry>620</entry>
       <entry>Doppelte Kreuzungsweiche links</entry>
       <entry align="center">2</entry>
       <entry><footnoteref linkend="fntabsym2"/> Subtyp = 1</entry>
@@ -2942,7 +2942,7 @@ besondere Elemente wie die Drehscheibe wird im
     </row>
     <row>
       <entry><graphic fileref="../commonimages/ekw-links-0.png"></entry>
-      <entry>ekw_links</entry>
+      <entry>600</entry>
       <entry>Einfache Kreuzungsweiche links</entry>
       <entry align="center">2</entry>
       <entry>&nbsp;</entry>
@@ -2951,7 +2951,7 @@ besondere Elemente wie die Drehscheibe wird im
     </row>
     <row>
       <entry><graphic fileref="../commonimages/ekw-rechts-0.png"></entry>
-      <entry>ekw_rechts</entry>
+      <entry>610</entry>
       <entry>Einfache Kreuzungsweiche rechts</entry>
       <entry align="center">2</entry>
       <entry>&nbsp;</entry>
@@ -2982,7 +2982,7 @@ besondere Elemente wie die Drehscheibe wird im
   <thead>
     <row>
       <entry align="left">Symbol</entry>
-      <entry align="left">Name</entry>
+      <entry align="left">Id</entry>
       <entry align="left">Beschreibung</entry>
       <entry>Adressen</entry>
       <entry align="left">Bemerkung</entry>
@@ -2995,7 +2995,7 @@ besondere Elemente wie die Drehscheibe wird im
   <tbody>
     <row>
       <entry><graphic fileref="../commonimages/signal-hs-0.png"></entry>
-      <entry>signal_hs</entry>
+      <entry>300</entry>
       <entry>Hauptsignal mit max. Hp0, Hp1 und Hp2</entry>
       <entry align="center">1 oder 2</entry>
       <entry>Bei Kombination Hp0/Hp1 oder Hp0/Hp2 nur 1 Adresse, sonst
@@ -3004,7 +3004,7 @@ besondere Elemente wie die Drehscheibe wird im
     </row>
     <row>
       <entry><graphic fileref="../commonimages/signal-hss-0.png"></entry>
-      <entry>signal_hss</entry>
+      <entry>320</entry>
       <entry>Hauptsperrsignal (Ausfahrsignal) mit allen Begriffen Hp00,
       Hp1, Hp2 und Sh1, Tasten für Zug- und Rangierfahrstraßen</entry>
       <entry align="center">2</entry>
@@ -3013,7 +3013,7 @@ besondere Elemente wie die Drehscheibe wird im
     </row>
     <row>
       <entry><graphic fileref="../commonimages/signal-ss-0.png"></entry>
-      <entry>signal_ss</entry>
+      <entry>340</entry>
       <entry>Schutzsignal (Rangiersignal) mit den Begriffen Sh0 und Sh1,
       Taste für Rangierfahrstraßen</entry>
       <entry align="center">1</entry>
@@ -3022,7 +3022,7 @@ besondere Elemente wie die Drehscheibe wird im
     </row>
     <row>
       <entry><graphic fileref="../commonimages/signal-ssh-0.png"></entry>
-      <entry>signal_ssh</entry>
+      <entry>350</entry>
       <entry>Schutzsignal (Rangiersignal) mit den Begriffen Sh0 und Sh1,
       Taste für Zughilfsstraßen</entry>
       <entry align="center">1</entry>
@@ -3031,7 +3031,7 @@ besondere Elemente wie die Drehscheibe wird im
     </row>
     <row>
       <entry><graphic fileref="../commonimages/signal-sss-0.png"></entry>
-      <entry>signal_sss</entry>
+      <entry>360</entry>
       <entry>Schutzsignal (Rangiersignal) mit den Begriffen Sh0 und Sh1,
       Start- und Zieltasten für Rangierfahrstraßen</entry>
       <entry align="center">1</entry>
@@ -3040,7 +3040,7 @@ besondere Elemente wie die Drehscheibe wird im
     </row>
     <row>
       <entry><graphic fileref="../commonimages/signal-nrb.png"></entry>
-      <entry>signal_nrb</entry>
+      <entry>200</entry>
       <entry>Gerades Gleis mit Taste für Zugfahrstraßen</entry>
       <entry align="center">1</entry>
       <entry>Adresse wird nur Programm intern zur Identifizierung
@@ -3049,7 +3049,7 @@ besondere Elemente wie die Drehscheibe wird im
     </row>
     <row>
       <entry><graphic fileref="../commonimages/signal-srb.png"></entry>
-      <entry>signal_srb</entry>
+      <entry>210</entry>
       <entry>Gerades Gleis mit Taste für Rangierfahrstraßen</entry>
       <entry align="center">1</entry>
       <entry>Adresse wird nur Programm intern zur Identifizierung
@@ -3058,7 +3058,7 @@ besondere Elemente wie die Drehscheibe wird im
     </row>
     <row>
       <entry><graphic fileref="../commonimages/signal-vs-0.png"></entry>
-      <entry>signal_vs</entry>
+      <entry>380</entry>
       <entry>Vorsignal</entry>
       <entry align="center">1 oder 2</entry>
       <entry>Bei Kombination Vr0/Vr1 oder Vr0/Vr2 nur eine Adresse, sonst
@@ -3067,7 +3067,7 @@ besondere Elemente wie die Drehscheibe wird im
     </row>
     <row>
       <entry><graphic fileref="../commonimages/signal-zf-1.png"></entry>
-      <entry>signal_zp</entry>
+      <entry>250</entry>
       <entry>Abfahrsignal Zp9</entry>
       <entry align="center">1</entry>
       <entry>&nbsp;</entry>
@@ -3075,7 +3075,7 @@ besondere Elemente wie die Drehscheibe wird im
     </row>
     <row>
       <entry><graphic fileref="../commonimages/signal-ws-0.png"></entry>
-      <entry>signal_ws</entry>
+      <entry>370</entry>
       <entry>Wartesignal mit Taste für Rangierfahrstraßen</entry>
       <entry align="center">1</entry>
       <entry>&nbsp;</entry>
@@ -3103,7 +3103,7 @@ besondere Elemente wie die Drehscheibe wird im
   <thead>
     <row>
       <entry align="left">Symbol</entry>
-      <entry align="left">Name</entry>
+      <entry align="left">Id</entry>
       <entry align="left">Beschreibung</entry>
       <entry align="left">Adressen</entry>
       <entry align="left">Bemerkung</entry>
@@ -3116,14 +3116,14 @@ besondere Elemente wie die Drehscheibe wird im
   <tbody>
     <row>
       <entry morerows="1" valign="middle"><graphic fileref="../commonimages/entkoppler.png"></entry>
-      <entry>entkoppler</entry>
+      <entry>930</entry>
       <entry>Entkupplungsgleis</entry>
       <entry>1</entry>
       <entry><footnoteref linkend="fntabsym2"/> Motorantrieb (Subtyp = -1)</entry>
       <entry>0 = Koppler aus, 1 = Koppler an</entry>
     </row>
     <row>
-      <entry>entkoppler</entry>
+      <entry>930</entry>
       <entry>Entkupplungsgleis</entry>
       <entry>0,5</entry>
       <entry><footnoteref linkend="fntabsym2"/> Monostabiler Antrieb
@@ -3132,7 +3132,7 @@ besondere Elemente wie die Drehscheibe wird im
     </row>
     <row>
       <entry><graphic fileref="../commonimages/blind-0.png"></entry>
-      <entry>blind</entry>
+      <entry>940</entry>
       <entry>Blindschaltelement</entry>
       <entry>1</entry>
       <entry>&nbsp;</entry>
@@ -3141,7 +3141,7 @@ besondere Elemente wie die Drehscheibe wird im
     </row>
     <row>
       <entry><graphic fileref="../commonimages/adresse.png"></entry>
-      <entry>adresse</entry>
+      <entry>900</entry>
       <entry>Adressanzeigefeld</entry>
       <entry>1</entry>
       <entry>&nbsp;</entry>
@@ -3149,7 +3149,7 @@ besondere Elemente wie die Drehscheibe wird im
     </row>
     <row>
       <entry><graphic fileref="../commonimages/uebergang.png"></entry>
-      <entry>uebergang</entry>
+      <entry>950</entry>
       <entry>Bahnübergang</entry>
       <entry>0</entry>
       <entry>Eventuell in Zukunft einmal fernsteuerbar</entry>
@@ -3157,7 +3157,7 @@ besondere Elemente wie die Drehscheibe wird im
     </row>
     <row>
       <entry><graphic fileref="../commonimages/drehscheibe.png"></entry>
-      <entry>drehscheibe</entry>
+      <entry>700</entry>
       <entry>Drehscheibe</entry>
       <entry>spezieller Decoder</entry>
       <entry>Nur für Märklin Protokoll verwendbar</entry>
@@ -3165,7 +3165,7 @@ besondere Elemente wie die Drehscheibe wird im
     </row>
     <row>
       <entry><graphic fileref="../commonimages/schiebebuehne.png"></entry>
-      <entry>schiebebuehne</entry>
+      <entry>701</entry>
       <entry>Schiebebühne</entry>
       <entry>2</entry>
       <entry>Märklin Schiebebühne kann mit Decodern beider Protokolle
@@ -3174,11 +3174,19 @@ besondere Elemente wie die Drehscheibe wird im
     </row>
     <row>
       <entry><graphic fileref="../commonimages/relais.png"></entry>
-      <entry>relais</entry>
+      <entry>710</entry>
       <entry>Relais</entry>
       <entry>1</entry>
       <entry>Die Anzahl der schaltbaren Kontakte ist unerheblich</entry>
       <entry>0 = Relais aus, 1 = Relais an</entry>
+    </row>
+    <row>
+      <entry><graphic fileref="../commonimages/motor.png"></entry>
+      <entry>720</entry>
+      <entry>Gleichstrommotor</entry>
+      <entry>1</entry>
+      <entry>&nbsp;</entry>
+      <entry>0 = Motor aus, 1 = Motor an</entry>
     </row>
   </tbody>
   </tgroup>
@@ -3200,7 +3208,7 @@ besondere Elemente wie die Drehscheibe wird im
   <thead>
     <row>
       <entry align="left">Symbol</entry>
-      <entry align="left">Name</entry>
+      <entry align="left">Id</entry>
       <entry align="left">Beschreibung</entry>
       <entry align="left">Bemerkung</entry>
     </row>
@@ -3208,43 +3216,43 @@ besondere Elemente wie die Drehscheibe wird im
   <tbody>
     <row>
       <entry><graphic fileref="../commonimages/prellbock.png"></entry>
-      <entry>prellbock</entry>
+      <entry>800</entry>
       <entry>Puffergleisstück</entry>
       <entry>In vier Richtungsvarianten vorhanden</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/leer.png"> </entry>
-      <entry>leer</entry>
+      <entry>1000</entry>
       <entry>Textfeld</entry>
       <entry>Kann Hintergrundfarbe annehmen, Textanzeige möglich</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/schuppen-o.png"></entry>
-      <entry>schuppen_o</entry>
+      <entry>830</entry>
       <entry>Lockschuppen oben</entry>
       <entry>Linke und rechte Variante vorhanden</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/schuppen-m.png"></entry>
-      <entry>schuppen_m</entry>
+      <entry>820</entry>
       <entry>Lockschuppen Mitte</entry>
       <entry>Linke und rechte Variante vorhanden</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/schuppen-u.png"></entry>
-      <entry>schuppen_u</entry>
+      <entry>840</entry>
       <entry>Lockschuppen unten</entry>
       <entry>Linke und rechte Variante vorhanden</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/haus-1.png"></entry>
-      <entry>haus_1</entry>
+      <entry>850</entry>
       <entry>Bahnhofsgebäude Mittelteil</entry>
       <entry>&nbsp;</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/haus-2.png"></entry>
-      <entry>haus_2</entry>
+      <entry>851</entry>
       <entry>Bahnhofsgebäude Seitenteil</entry>
       <entry>Linke und rechte Variante vorhanden</entry>
     </row>
@@ -3269,7 +3277,7 @@ besondere Elemente wie die Drehscheibe wird im
   <thead>
     <row>
       <entry align="left">Symbol</entry>
-      <entry align="left">Name</entry>
+      <entry align="left">Id</entry>
       <entry align="left">Beschreibung</entry>
       <entry align="left">Bemerkung</entry>
     </row>
@@ -3277,32 +3285,32 @@ besondere Elemente wie die Drehscheibe wird im
   <tbody>
     <row>
       <entry><graphic fileref="../commonimages/taste-wgt.png"></entry>
-      <entry>taste_wgt</entry>
+      <entry>1201</entry>
       <entry>Weichengruppentaste zum manuellen Einstellen von Weichen</entry>
       <entry>Hindergrundfarbe nicht veränderbar</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/taste-fht.png"></entry>
-      <entry>taste_fht</entry>
+      <entry>1101</entry>
       <entry>Fahrstraßenhilfsauflösetaste zum Auflösen von Fahrstraßen</entry>
       <entry>Hindergrundfarbe nicht veränderbar</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/taste-ufgt.png"></entry>
-      <entry>taste_ufgt</entry>
+      <entry>1102</entry>
       <entry>Umfahrgruppentaste zum Einstellen von Umfahrstraßen;
       Mittelweichengruppentaste hat noch keine Funktion</entry>
       <entry>Hindergrundfarbe nicht veränderbar</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/taste-sgt.png"></entry>
-      <entry>taste_sgt</entry>
+      <entry>1301</entry>
       <entry>Signalgruppentaste zum manuellen Einstellen von Signalen</entry>
       <entry>Hindergrundfarbe nicht veränderbar</entry>
     </row>
     <row>
       <entry><graphic fileref="../commonimages/panel-blue.png"></entry>
-      <entry>panel_blue</entry>
+      <entry>1200</entry>
       <entry>Leeres Element zum Gestalten von Gruppentastenblöcken</entry>
       <entry>In folgenden Farben verfügbar: blau (Weichen),
       gelb (Bahnübergang), rot (Signale), grün (Fahrstraßen),
@@ -3679,37 +3687,26 @@ Einstellungen des Elements variiert werden (siehe <xref
 linkend="sect-symboleigenschaften">).
 </para>
 <para>
-Hat man ein Element hinzugefügt, welches im Gleisbild häufiger nebeneinander
-liegen soll, wie z.B. gerade Gleisabschnitte, dann erleichtert das
-über die mittlere Maustaste erreichbare Kontextmenü die Arbeit (<xref
-linkend="abb-editcx">).
+    Die Auswahl der zu zeichnenden Gleisbildelemente erfolg über das in
+    <xref linkend="abb-paintitemtoolbox"> dargestellte Fenster. Dieses
+        wird beim Aktivieren des Gleisbildbearbeitungsmodus automatisch
+        eingeblendet und beim Verlassen wieder ausgeblendet. Dieser
+        Bearbeitungsmodus unterscheidet die drei folgenden Aktionsmodi,
+        zwischen denen man über die Werkzeugleiste umschalten kann.
 </para>
+<itemizedlist mark="bullet">
+  <listitem><para>Auswahlmodus</para></listitem>
+  <listitem><para>Zeichnenmodus</para></listitem>
+  <listitem><para>Löschmodus</para></listitem>
+</itemizedlist>
     
-<figure id="abb-editcx">
-  <title>Kontextmenü im Bearbeitungsmodus</title>
+<figure id="abb-paintitemtoolbox">
+  <title>Gleisbildelemente</title>
   <mediaobject><imageobject>
-    <imagedata fileref="schnapp-editctx.png">
+    <imagedata fileref="shot-paintitemtoolbox.png">
   </imageobject></mediaobject>
 </figure>
 
-<para>
-Klickt man mit der mittleren Maustaste auf ein anderes Element als das
-eben erstellte, dann
-steht an oberster Stelle des Kontextmenüs der Name des zuletzt
-erstellten Elementes (also z.B. &raquo;gerade&laquo;, wenn man zuvor
-eine Gerade ausgewählt hat). Damit kann man sehr schnell viele gleiche
-aufeinanderfolgende Elemente erstellen.
-</para>
-<para>
-Das nachträgliche Drehen eines Elements läßt sich ebenfalls durch einen
-Eintrag im Kontextmenü erledigen, ohne dass man die Eigenschaften des
-Elementes bearbeiten müßte. Das Löschen eines Elementes geschieht mit
-dem Punkt &raquo;Löschen&laquo;. Für die Schnellauswahl der am
-häufigsten gewählten Elemente stehen die unteren Menüpunkte zur Verfügung.
-Mit dieser Methode richtet man zwar grundsätzlich neue Elemente ein, vergibt
-aber keine weiteren Werte wie Decoder-Adressen etc. Dafür ist weiterhin
-das Eigenschaftenfenster zuständig.
-</para>
 <para>
 <emphasis>WICHTIG:</emphasis> Alle Aktionen, für die im Betriebsmodus
 bei den Elementen die Maus zuständig war, sind jetzt
@@ -3735,7 +3732,7 @@ variieren lassen.
 </para>
 
 <figure id="abb-normal">
-  <title>Eigenschaften-Fenster des leeren Elementsymbols</title>
+  <title>Eigenschaften-Fenster eines einfachen Elements</title>
   <mediaobject><imageobject>
     <imagedata fileref="schnapp-prop-normal.png">
   </imageobject></mediaobject>
@@ -3774,8 +3771,8 @@ Beschriftungstext ein. Je nach Art des gewählten Symbols kann das eine
 oder andere Eigenschaftsfeld deaktiviert sein.
 </para>
 <para>
-Bei Leerelementen ist z.B. das Feld &raquo;Invertieren&laquo; aktiviert.
-Damit läßt sich einstellen, ob der Hintergrund eines Leerelements in
+Bei Textelementen ist z.B. das Feld &raquo;Invertieren&laquo; aktiviert.
+Damit läßt sich einstellen, ob der Hintergrund eines Textelements in
 dunklem oder hellem Grau dargestellt wird.
 </para>
 <para>
@@ -3860,10 +3857,8 @@ steuert dann den Gleismelder im Element (rot = Gleis besetzt).
 <sect2>
   <title>Signale</title>
 <para>
-        <xref linkend="abb-sig1">, 
-        <xref linkend="abb-sig2"> und
-        <xref linkend="abb-sig3"> zeigen die
-        Eigenschaftsdialogfenster für die wichtigsten Signale.
+        <xref linkend="abb-sig1"> und <xref linkend="abb-sig2"> 
+        zeigen beispielhaft die Eigenschaftsdialogfenster für Signale.
 </para>
 <para>
 In <xref linkend="abb-sig1"> erkennt man die
@@ -3906,12 +3901,6 @@ beachten ist dabei aber der etwas andere Anschluß von
 Form-Hauptsignal und Form-Schutzsignal an den Decoder, da es sich hier
 immer um zwei getrennte Signale handelt.
 </para>
-<figure id="abb-sig3">
-  <title>Eigenschaften-Fenster des Elementsymbols für Signale (3)</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="schnapp-prop-signal-3.png">
-  </imageobject></mediaobject>
-</figure>
 </sect2>
     
 <sect2>
@@ -4006,15 +3995,38 @@ ist ebenfalls nur eine Adresse einzugeben.
 </para>
 </sect2>
     
-<sect2>
-  <title>Adressanzeigeelemente</title>
+<sect2 id="sect-addressindicator">
+  <title>Adressanzeigeelement</title>
+  <para>
+      Dieses Element kann in zwei Betriebsvarianten genutzt werden, die
+      über die Option &raquo;Invertieren&laquo; konfigurierbar sind. Zum
+      einen zur Darstellung von Zugadressen für die automatische
+      Zugnummernverfolgung (invertiert) oder als EDiTS-Adressanzeige
+      (nicht invertiert). 
+  </para>
+
+<sect3>
+  <title>Automatische Zugnummernverfolgung</title>
+  <para>
+      Die automatische Zugnummernverfolgung benötigt zur Identifizierung
+      dieser Anzeigeelemente eine eindeutige Nummer, die dem Element als
+      Adresse mitgegeben wird. In <xref linkend="abb-adr"> ist dieses
+      beispielhaft über den Zahlenwert 6002 realisiert; der gültige
+      Wertebereich beträgt hier 6000 - 6999. <xref
+      linkend="sect-trainnumber-usage"> geht näher auf die Anwendung
+      der Zugnummernverfolgung ein.
+</para>
+</sect3>
+
+<sect3>
+  <title>EDiTS-Zugadressen</title>
 <para>
 Diese Elemente sind etwas ganz besonderes, so dass sich ein Rückblick in
 die Historie lohnt. Obwohl das System der digitalen Zugsteuerungen nun
 seit schon ca. 20 Jahren existiert und bereits in vielerlei
 Hinsicht verfeinert wurde, fehlt immer noch ein entscheidendes
-Element bei allen Anbietern: Die Rückmeldung der Lokadresse einer an
-einem bestimmten Punkt vorbeifahrenden Lok. Seit wenigen Jahren gibt es
+Element bei vielen Anbietern: Die Rückmeldung der Lokadresse einer an
+einem bestimmten Punkt vorbeifahrenden Lok. Seit einigen Jahren gibt es
 bereits Zuglesesysteme (Holtermann etc.), die jedoch sehr teuer sind.
 </para>
 <figure id="abb-adr">
@@ -4090,6 +4102,7 @@ sein. Bitte Rückmeldung an die Programmentwickler, wenn die Anzeige der
 eingestellten Adresse nicht entsprechen sollte.
 </para>
 
+</sect3>
 </sect2>
 </sect1>
 </chapter>
@@ -4792,8 +4805,9 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
             <listitem>
                 <para>
                     Die Vergabe einer eindeutigen Identifikationsnummer
-                    erfolgt über den
-                    Eigenschaftsdialog des Anzeigeelementes. Dieser
+                    erfolgt über den Eigenschaftsdialog des
+                    Anzeigeelementes (siehe auch <xref
+                    linkend="sect-addressindicator">). Dieser
                     Zahlenwert wird im Feld für die Adresse&nbsp;1
                     eingetragen und muß im Bereich von 6000 bis 6999
                     liegen. Die Datendarstellung muß gleichzeitig auf

@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-03 09:37:56 $
-                           $Revision: 1.164 $
+    last modified        : $Date: 2008-05-11 19:22:09 $
+                           $Revision: 1.165 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -270,16 +270,16 @@ void element::updateProperties()
     if (classid == siciEnk)
         iSoldDirection = 0; 
 
-    signal =  classid == siciHsr || classid == siciHsl
-        || classid == siciHssr || classid == siciHssl
-        || classid == siciSsr || classid == siciSsl
-        || classid == siciShr || classid == siciShl
-        || classid == siciSdr || classid == siciSdl
-        || classid == siciWsr || classid == siciWsl
-        || classid == siciVsr || classid == siciVsl
-        || classid == siciZpr || classid == siciZpl
-        || classid == siciRbr || classid == siciRbl
-        || classid == siciSbr || classid == siciSbl;
+    signal =  classid == siciHs1 || classid == siciHs3
+        || classid == siciHss1 || classid == siciHss3
+        || classid == siciSs1 || classid == siciSs3
+        || classid == siciSh1 || classid == siciSh3
+        || classid == siciSd1 || classid == siciSd3
+        || classid == siciWs1 || classid == siciWs3
+        || classid == siciVs1 || classid == siciVs3
+        || classid == siciZp1 || classid == siciZp3
+        || classid == siciZt1 || classid == siciZt3
+        || classid == siciRt1 || classid == siciRt3;
 
 
     // init signals as they were saved in layout file or with red state
@@ -289,19 +289,19 @@ void element::updateProperties()
     }
 
     if (signal)
-        ffm = (classid == siciHsr || classid == siciHsl
-                || classid == siciHssr || classid == siciHssl
-                || classid == siciShr || classid == siciShl);
+        ffm = (classid == siciHs1 || classid == siciHs3
+                || classid == siciHss1 || classid == siciHss3
+                || classid == siciSh1 || classid == siciSh3);
 
     else if (classid == siciTl1 || classid == siciTl3 ||
             classid == siciTr1 || classid == siciTr3 ||
-            classid == siciDbl || classid == siciDbr ||
-            classid == siciDtl || classid == siciDtr ||
-            classid == siciSyl || classid == siciSyr ||
-            classid == siciTwl || classid == siciTwr ||
+            classid == siciIl1 || classid == siciIr3 ||
+            classid == siciIl3 || classid == siciIr1 ||
+            classid == siciSy3 || classid == siciSy1 ||
+            classid == siciTw3 || classid == siciTw1 ||
             classid == siciSl1 || classid == siciSl3 ||
             classid == siciSr1 || classid == siciSr3 ||
-            classid == siciDkl || classid == siciDkr)
+            classid == siciDl1 || classid == siciDr1)
         turnout = true;
 
     else if (classid == siciBld || classid == siciEnk ||
@@ -310,24 +310,24 @@ void element::updateProperties()
 
     /*element can be a part of a route*/
     routable = signal || turnout ||
-        classid == siciTrh || classid == siciTrv ||
-        classid == siciDir || classid == siciDil ||
+        classid == siciSt1 || classid == siciSt2 ||
+        classid == siciSt3 || classid == siciSt4 ||
         classid == siciCr1 || classid == siciCr2 ||
         classid == siciCr3 || classid == siciCr4 ||
         classid == siciCl1 || classid == siciCl2 ||
         classid == siciCl3 || classid == siciCl4 ||
         classid == siciTdr || classid == siciTdl ||
         classid == siciTdb || classid == siciKrh ||
-        classid == siciKrr || classid == siciKrl ||
+        classid == siciKr1 || classid == siciKl1 ||
         classid == siciBue || classid == siciAdr ||
         classid == siciBld || classid == siciEnk;
     
     /*element has decoder connected*/
     switchable = (signal || turnout || simplega) &&
-        classid != siciRbl && classid != siciRbr &&
-        classid != siciSbl && classid != siciSbr;
+        classid != siciZt3 && classid != siciZt1 &&
+        classid != siciRt3 && classid != siciRt1;
 
-    state2dkw = (classid == siciDkl || classid == siciDkr)
+    state2dkw = (classid == siciDl1 || classid == siciDr1)
         && iSoldSubType == 0;
 }
 
@@ -438,17 +438,17 @@ void element::mousePressEvent(QMouseEvent* e)
             // TODO: if (hasButton())
             else if ((iSoldAddress_1 != -1) && (classid != siciAdr)) {
 
-                if (classid == siciHsr || classid == siciHsl
-                        || classid == siciRbr || classid == siciRbl)
+                if (classid == siciHs1 || classid == siciHs3
+                        || classid == siciZt1 || classid == siciZt3)
                     ctrlButton = kZfsClicked;
 
-                else if (classid == siciSsr || classid == siciSsl ||
-                        classid == siciSdr || classid == siciSdl ||
-                        classid == siciWsr || classid == siciWsl ||
-                        classid == siciSbr || classid == siciSbl)
+                else if (classid == siciSs1 || classid == siciSs3 ||
+                        classid == siciSd1 || classid == siciSd3 ||
+                        classid == siciWs1 || classid == siciWs3 ||
+                        classid == siciRt1 || classid == siciRt3)
                     ctrlButton = kRfsClicked;
 
-                else if (classid == siciHssr) {
+                else if (classid == siciHss1) {
                     /* two different buttons on this panel */
                     if (CursorPos.x() > (width() >> 1))
                         ctrlButton = kZfsClicked;
@@ -456,7 +456,7 @@ void element::mousePressEvent(QMouseEvent* e)
                         ctrlButton = kRfsClicked;
                 }
 
-                else if (classid == siciHssl) {
+                else if (classid == siciHss3) {
                     /* two different buttons on this panel */
                     if (CursorPos.x() > (width() >> 1))
                         ctrlButton = kRfsClicked;
@@ -464,7 +464,7 @@ void element::mousePressEvent(QMouseEvent* e)
                         ctrlButton = kZfsClicked; 
                 }
 
-                else if (classid == siciShr || classid == siciShl)
+                else if (classid == siciSh1 || classid == siciSh3)
                     ctrlButton = kZhsClicked;
 
                 else
@@ -547,13 +547,13 @@ void element::mouseReleaseEvent(QMouseEvent* e)
     else if (visualMode == kvmEditRoute) {
         if (e->button() == LeftButton) {
             /*select/deselect start or stop signal*/
-            if ((classid == siciHsr || classid == siciHsl ||
-                        classid == siciHssr || classid == siciHssl ||
-                        classid == siciSsr || classid == siciSsl || 
-                        classid == siciShr || classid == siciShl ||
-                        classid == siciSdr || classid == siciSdl ||
-                        classid == siciRbr || classid == siciRbl ||
-                        classid == siciSbr || classid == siciSbl)) {
+            if ((classid == siciHs1 || classid == siciHs3 ||
+                        classid == siciHss1 || classid == siciHss3 ||
+                        classid == siciSs1 || classid == siciSs3 || 
+                        classid == siciSh1 || classid == siciSh3 ||
+                        classid == siciSd1 || classid == siciSd3 ||
+                        classid == siciZt1 || classid == siciZt3 ||
+                        classid == siciRt1 || classid == siciRt3)) {
                 /*send record signal to router*/
                 if (ksmNormal == selectionMode)
                     emit recordElement(this, krecStartStop);
@@ -568,15 +568,15 @@ void element::mouseReleaseEvent(QMouseEvent* e)
             /*and send record signal to router*/
             if (turnout || classid == siciMdc ||
                 classid == siciRel ||
-                classid == siciZpr || classid == siciZpl || 
-                classid == siciHsr || classid == siciHsl ||
-                classid == siciHssr || classid == siciHssl ||
-                classid == siciSsr || classid == siciSsl ||
-                classid == siciSdr || classid == siciSdl ||
-                classid == siciShr || classid == siciShl ||
+                classid == siciZp1 || classid == siciZp3 || 
+                classid == siciHs1 || classid == siciHs3 ||
+                classid == siciHss1 || classid == siciHss3 ||
+                classid == siciSs1 || classid == siciSs3 ||
+                classid == siciSd1 || classid == siciSd3 ||
+                classid == siciSh1 || classid == siciSh3 ||
                 classid == siciBld ||
-                classid == siciVsr || classid == siciVsl ||
-                classid == siciWsr || classid == siciWsl) {
+                classid == siciVs1 || classid == siciVs3 ||
+                classid == siciWs1 || classid == siciWs3) {
                 if (ksmNormal == selectionMode)
                     emit recordElement(this, krecNormal);
                 else
@@ -695,9 +695,9 @@ void element::switchAddress(bool secondone)
         iRealDirection = iSoldSubType;  // copy subtype as realDirection
 
     // element contains a main signal with direction >= 2
-    else if ((classid == siciHsr || classid == siciHsl ||
-                classid == siciHssr || classid == siciHssl ||
-              classid == siciVsr || classid == siciVsl)
+    else if ((classid == siciHs1 || classid == siciHs3 ||
+                classid == siciHss1 || classid == siciHss3 ||
+              classid == siciVs1 || classid == siciVs3)
             && iSoldDirection >= 2) {
 
         // Hp0+Hp1 not considered, is done by default copy
@@ -726,7 +726,7 @@ void element::switchAddress(bool secondone)
     }
 
     // element contains a 3-way-turnout
-    else if (classid == siciTwr || classid == siciTwl) {
+    else if (classid == siciTw1 || classid == siciTw3) {
 
         // send second address data
         if (secondone) {
@@ -743,7 +743,7 @@ void element::switchAddress(bool secondone)
     // element contains a 4-state-DKW or EKW
     else if ((classid == siciSl1 || classid == siciSl3 ||
                 classid == siciSr1 || classid == siciSr3) ||
-            ((classid == siciDkl || classid == siciDkr) &&
+            ((classid == siciDl1 || classid == siciDr1) &&
              iSoldSubType == 1)) {
 
         // send second address data
@@ -812,18 +812,18 @@ void element::switchAddress(bool secondone)
 void element::sendSrcpState()
 {
     /* do not send anything for rail buttons without signals */
-    if (classid == siciSbr || classid == siciSbl ||
-            classid == siciRbr || classid == siciRbl)
+    if (classid == siciRt1 || classid == siciRt3 ||
+            classid == siciZt1 || classid == siciZt3)
         return;
 
     // switch only first address
     switchAddress(false);
 
     // switch also second address if there is one
-    if ((classid == siciTwr || classid == siciTwl ||
+    if ((classid == siciTw1 || classid == siciTw3 ||
                 classid == siciSl1 || classid == siciSl3 ||
                 classid == siciSr1 || classid == siciSr3 ||
-                ((classid == siciDkl || classid == siciDkr) &&
+                ((classid == siciDl1 || classid == siciDr1) &&
                  iSoldSubType == 1))) {
         switchAddress(true);
     }
@@ -998,7 +998,7 @@ bool element::showPropertyDlg()
 void element::toggle()
 {
     // toggles cyclic for 3-state-solenoids
-    if (classid == siciTwr ||classid == siciTwl ||
+    if (classid == siciTw1 ||classid == siciTw3 ||
         classid == siciSl1 || classid == siciSl3 ||
         classid == siciSr1 || classid == siciSr3) {
         if (iSoldDirection < 2)
@@ -1007,8 +1007,8 @@ void element::toggle()
             switchToDir(0);
     }
 
-    else if (classid == siciHsr || classid == siciHsl ||
-            classid == siciVsr || classid == siciVsl) {
+    else if (classid == siciHs1 || classid == siciHs3 ||
+            classid == siciVs1 || classid == siciVs3) {
         switch (iSoldDirection) {
             case 0:
                 if (iSoldSubType != 6)
@@ -1028,7 +1028,7 @@ void element::toggle()
         } 
     }
 
-    else if (classid == siciHssr || classid == siciHssl) {
+    else if (classid == siciHss1 || classid == siciHss3) {
         switch (iSoldDirection) {
             case 0:
                 if (iSoldSubType < 6)
@@ -1052,7 +1052,7 @@ void element::toggle()
     }
 
     // toggles cyclic for 4-state-solenoids
-    else if ((classid == siciDkl || classid == siciDkr)
+    else if ((classid == siciDl1 || classid == siciDr1)
              && iSoldSubType == 1) {
         if (iSoldDirection < 3)
             switchToDir(iSoldDirection + 1);
@@ -1493,7 +1493,7 @@ void element::setupElementIcon()
         QFontMetrics fm(f);
         QRect br = fm.boundingRect(sSoldText);
         br.moveTopLeft(QPoint(pm.width() / 2 - br.width() / 2,
-                    pm.height() / 2 - br.height() / 2 - 1));
+                    pm.height() / 2 - br.height() / 2));
 	p.drawText(br, Qt::AlignCenter | Qt::SingleLine | Qt::DontClip,
                 sSoldText);
         
@@ -1814,7 +1814,7 @@ void element::setupElementIcon()
     }
     
     // right shunt wait signal
-    else if (classid == siciWsr) {
+    else if (classid == siciWs1) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -1902,7 +1902,7 @@ void element::setupElementIcon()
     }
     
     // left shunt wait signal
-    else if (classid == siciWsl) {
+    else if (classid == siciWs3) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -1990,7 +1990,7 @@ void element::setupElementIcon()
     }
 
     // right signal HSS
-    else if (classid == siciHssr) {
+    else if (classid == siciHss1) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2136,7 +2136,7 @@ void element::setupElementIcon()
     }
     
     // left signal HSS
-    else if (classid == siciHssl) {
+    else if (classid == siciHss3) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2282,7 +2282,7 @@ void element::setupElementIcon()
     }
     
     // signal right HS
-    else if (classid == siciHsr) {
+    else if (classid == siciHs1) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2414,7 +2414,7 @@ void element::setupElementIcon()
     }
     
     // signal left HS
-    else if (classid == siciHsl) {
+    else if (classid == siciHs3) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2544,7 +2544,7 @@ void element::setupElementIcon()
     }
     
     // right signal VS
-    else if (classid == siciVsr) {
+    else if (classid == siciVs1) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2657,7 +2657,7 @@ void element::setupElementIcon()
     }
     
     // left signal VS
-    else if (classid == siciVsl) {
+    else if (classid == siciVs3) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2770,7 +2770,7 @@ void element::setupElementIcon()
     }
     
     // right signal ZP
-    else if (classid == siciZpr) {
+    else if (classid == siciZp1) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2857,7 +2857,7 @@ void element::setupElementIcon()
     }
     
     // left signal ZP
-    else if (classid == siciZpl) {
+    else if (classid == siciZp3) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -2944,7 +2944,7 @@ void element::setupElementIcon()
     }
     
     // straight track
-    else if (classid == siciTrh) {
+    else if (classid == siciSt1) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -3001,7 +3001,7 @@ void element::setupElementIcon()
     }
     
     // vertical track
-    else if (classid == siciTrv) {
+    else if (classid == siciSt2) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -3412,8 +3412,8 @@ void element::setupElementIcon()
     }
 
     // diagonal track right and left
-    else if (classid == siciDir || classid == siciDil) {
-        bool left = (classid == siciDil);
+    else if (classid == siciSt3 || classid == siciSt4) {
+        bool left = (classid == siciSt4);
 
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
@@ -3564,7 +3564,7 @@ void element::setupElementIcon()
     }
     
     // left crossing
-    else if (classid == siciKrl) {
+    else if (classid == siciKl1) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -3654,7 +3654,7 @@ void element::setupElementIcon()
     }
     
     // right crossing
-    else if (classid == siciKrr) {
+    else if (classid == siciKr1) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -4578,7 +4578,7 @@ void element::setupElementIcon()
     }
     
     // double slip switch left
-    else if (classid == siciDkl) {
+    else if (classid == siciDl1) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -4834,7 +4834,7 @@ void element::setupElementIcon()
     }
     
     // double slip switch right
-    else if (classid == siciDkr) {
+    else if (classid == siciDr1) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -5090,7 +5090,7 @@ void element::setupElementIcon()
     }
     
     // right track with normal route button
-    else if (classid == siciRbr || classid == siciSbr) {
+    else if (classid == siciZt1 || classid == siciRt1) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -5122,7 +5122,7 @@ void element::setupElementIcon()
         }
 
         // paint track button
-        if (classid == siciRbr)
+        if (classid == siciZt1)
             p.drawPixmap(5 * w / 6 - 4 , h / 2 - 3, 
                     QPixmap(button_red_xpm));
         else
@@ -5158,7 +5158,7 @@ void element::setupElementIcon()
     }
 
     // left track with normal route button
-    else if (classid == siciRbl || classid == siciSbl) {
+    else if (classid == siciZt3 || classid == siciRt3) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -5190,7 +5190,7 @@ void element::setupElementIcon()
         }
 
         // paint track button
-            if (classid == siciRbl)
+            if (classid == siciZt3)
                 p.drawPixmap(w / 6  - 4, h / 2 - 3,
                         QPixmap(button_red_xpm));
             else
@@ -5226,8 +5226,8 @@ void element::setupElementIcon()
     }
 
     // right shunting signals SS, SSH, SSS
-    else if (classid == siciSsr || classid == siciShr ||
-            classid == siciSdr) {
+    else if (classid == siciSs1 || classid == siciSh1 ||
+            classid == siciSd1) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -5261,17 +5261,17 @@ void element::setupElementIcon()
         int xpos1 = w / 6  - 4;
         int xpos2 = 5 * w / 6 - 4;
 
-        if (classid == siciSdr) {
+        if (classid == siciSd1) {
             p.drawPixmap(xpos1, h / 2 - 3, QPixmap(button_gray_xpm));
             p.drawPixmap(xpos2, h / 2 - 3, QPixmap(button_gray_xpm));
         }
 
         xpos1 = xpos2;
 
-        if (classid == siciShr)
+        if (classid == siciSh1)
             p.drawPixmap(xpos1, h / 2 - 3, QPixmap(button_red_xpm));
 
-        else if (classid == siciSsr) {
+        else if (classid == siciSs1) {
             p.drawPixmap(xpos1, h / 2 - 3, QPixmap(button_gray_xpm));
         }
 
@@ -5353,8 +5353,8 @@ void element::setupElementIcon()
     }
 
     // left shunting signals SS, SSH, SSS
-    else if (classid == siciSsl || classid == siciShl ||
-            classid == siciSdl) {
+    else if (classid == siciSs3 || classid == siciSh3 ||
+            classid == siciSd3) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -5388,15 +5388,15 @@ void element::setupElementIcon()
         int xpos1 = w / 6  - 4;
         int xpos2 = 5 * w / 6 - 4;
 
-        if (classid == siciSdl) {
+        if (classid == siciSd3) {
             p.drawPixmap(xpos1, h / 2 - 3, QPixmap(button_gray_xpm));
             p.drawPixmap(xpos2, h / 2 - 3, QPixmap(button_gray_xpm));
         }
 
-        if (classid == siciShl)
+        if (classid == siciSh3)
             p.drawPixmap(xpos1, h / 2 - 3, QPixmap(button_red_xpm));
 
-        else if (classid == siciSsl) {
+        else if (classid == siciSs3) {
             p.drawPixmap(xpos1, h / 2 - 3, QPixmap(button_gray_xpm));
         }
 
@@ -5994,7 +5994,7 @@ void element::setupElementIcon()
     }
 
     // diagonal turnout left top
-    else if (classid == siciDtl) {
+    else if (classid == siciIl3) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -6130,7 +6130,7 @@ void element::setupElementIcon()
     }
 
     // diagonal turnout left bottom (+ old top)
-    else if (classid == siciDbl) {
+    else if (classid == siciIl1) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -6267,7 +6267,7 @@ void element::setupElementIcon()
     }
 
     // diagonal turnout right top (+ old bottom)
-    else if (classid == siciDtr) {
+    else if (classid == siciIr1) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -6404,7 +6404,7 @@ void element::setupElementIcon()
     }
 
     // diagonal turnout right bottom
-    else if (classid == siciDbr) {
+    else if (classid == siciIr3) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -6540,7 +6540,7 @@ void element::setupElementIcon()
     }
 
     // y-turnout right (+ old left)
-    else if (classid == siciSyr) {
+    else if (classid == siciSy1) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -6679,7 +6679,7 @@ void element::setupElementIcon()
     }
 
     // y-turnout left
-    else if (classid == siciSyl) {
+    else if (classid == siciSy3) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -6816,7 +6816,7 @@ void element::setupElementIcon()
     }
 
     // 3-way turnout right (+ old left)
-    else if (classid == siciTwr) {
+    else if (classid == siciTw1) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -6971,7 +6971,7 @@ void element::setupElementIcon()
     }
 
     // 3-way turnout left
-    else if (classid == siciTwl) {
+    else if (classid == siciTw3) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -7437,9 +7437,9 @@ void element::setupElementIcon()
     }
 
     // track with right top or bottom loco shed (lokschuppen)
-    else if (classid == siciLtr || classid == siciLbl) {
+    else if (classid == siciLt1 || classid == siciLb3) {
 
-        bool istop = (classid == siciLtr);
+        bool istop = (classid == siciLt1);
         
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
@@ -7474,9 +7474,9 @@ void element::setupElementIcon()
     }
 
     // track with left top or bottom loco shed (lokschuppen)
-    else if (classid == siciLtl || classid == siciLbr) {
+    else if (classid == siciLt3 || classid == siciLb1) {
 
-        bool istop = (classid == siciLtl);
+        bool istop = (classid == siciLt3);
         
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
@@ -7511,7 +7511,7 @@ void element::setupElementIcon()
     }
 
     // track with right loco shed (+ old left)
-    else if (classid == siciLsr) {
+    else if (classid == siciLs1) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -7540,7 +7540,7 @@ void element::setupElementIcon()
     }
 
     // track with left middle loco shed
-    else if (classid == siciLsl) {
+    else if (classid == siciLs3) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(Qt::lightGray));
         QPainter p;
@@ -7801,19 +7801,19 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     unsigned int returnvalue = rdCenter;
 
     /* - */
-    if (classid == siciTrh || classid == siciEnk
-            || classid == siciHsr || classid == siciHsl
-            || classid == siciRbr || classid == siciRbl
-            || classid == siciSbl || classid == siciSbl
-            || classid == siciHssr || classid == siciHssl
-            || classid == siciSsr || classid == siciSsl
-            || classid == siciShr || classid == siciShl
-            || classid == siciSdr || classid == siciSdl
+    if (classid == siciSt1 || classid == siciEnk
+            || classid == siciHs1 || classid == siciHs3
+            || classid == siciZt1 || classid == siciZt3
+            || classid == siciRt3 || classid == siciRt3
+            || classid == siciHss1 || classid == siciHss3
+            || classid == siciSs1 || classid == siciSs3
+            || classid == siciSh1 || classid == siciSh3
+            || classid == siciSd1 || classid == siciSd3
             || classid == siciBue || classid == siciTdr
             || classid == siciTdl || classid == siciTdb 
-            || classid == siciVsr || classid == siciVsl
-            || classid == siciWsr || classid == siciWsl
-            || classid == siciZpr || classid == siciZpl
+            || classid == siciVs1 || classid == siciVs3
+            || classid == siciWs1 || classid == siciWs3
+            || classid == siciZp1 || classid == siciZp3
             || classid == siciBld
             || classid == siciAdr) {
 
@@ -7824,7 +7824,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     }
 
     /* | */
-    else if (classid == siciTrv) {
+    else if (classid == siciSt2) {
         if (entrydir == rdN)
             returnvalue = rdS;
         else if (entrydir == rdS)
@@ -7936,7 +7936,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     }
 
     /* / */
-    else if (classid == siciDil) {
+    else if (classid == siciSt4) {
         if (entrydir == rdSW)
             returnvalue = rdNE;
         else if (entrydir == rdNE)
@@ -7944,7 +7944,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     }
 
     /* \ */
-    else if (classid == siciDir) {
+    else if (classid == siciSt3) {
         if (entrydir == rdNW)
             returnvalue = rdSE;
         else if (entrydir == rdSE)
@@ -7983,7 +7983,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
             returnvalue = rdE;
     }
 
-    else if (classid == siciTwr) {
+    else if (classid == siciTw1) {
         // --
         if (iSoldDirection == 0) {
             if (entrydir == rdW)
@@ -8009,7 +8009,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
     }
 
-    else if (classid == siciTwl) {
+    else if (classid == siciTw3) {
         // --
         if (iSoldDirection == 0) {
             if (entrydir == rdW)
@@ -8035,7 +8035,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
     }
 
-    else if (classid == siciSyr) {
+    else if (classid == siciSy1) {
         /* -/ */
         if (iSoldDirection == 0) {
             if (entrydir == rdW)
@@ -8052,7 +8052,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
     }
 
-    else if (classid == siciSyl) {
+    else if (classid == siciSy3) {
         /* /- */
         if (iSoldDirection == 0) {
             if (entrydir == rdE)
@@ -8069,7 +8069,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
     }
 
-    else if (classid == siciDbl) {
+    else if (classid == siciIl1) {
         /* \
            \ */
         if (iSoldDirection == 0) {
@@ -8087,7 +8087,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
     }
 
-    else if (classid == siciDtl) {
+    else if (classid == siciIl3) {
         /* \
            \ */
         if (iSoldDirection == 0) {
@@ -8106,7 +8106,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
     }
 
-    else if (classid == siciDtr) {
+    else if (classid == siciIr1) {
         /*  /
             / */
         if (iSoldDirection == 0) {
@@ -8125,7 +8125,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
     }
 
-    else if (classid == siciDbr) {
+    else if (classid == siciIr3) {
         /*  /
             / */
         if (iSoldDirection == 0) {
@@ -8262,7 +8262,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     }
 
     // 4-state-DKWs
-    else if (classid == siciDkl && iSoldSubType == 1) {
+    else if (classid == siciDl1 && iSoldSubType == 1) {
         // --
         if (iSoldDirection == 0) {
             if (entrydir == rdE)
@@ -8299,7 +8299,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         return returnvalue;
     }
 
-    else if (classid == siciDkr && iSoldSubType == 1) {
+    else if (classid == siciDr1 && iSoldSubType == 1) {
         // --
         if (iSoldDirection == 0) {
             if (entrydir == rdE)
@@ -8338,7 +8338,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
 
 
     // 2-state-DKWs
-    else if (classid == siciDkl && iSoldSubType == 0) {
+    else if (classid == siciDl1 && iSoldSubType == 0) {
         // --
         if (iSoldDirection == 0) {
             if (entrydir == rdE)
@@ -8365,7 +8365,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         return returnvalue;
     }
 
-    else if (classid == siciDkr && iSoldSubType == 0) {
+    else if (classid == siciDr1 && iSoldSubType == 0) {
         // --
         if (iSoldDirection == 0) {
             if (entrydir == rdE)
@@ -8421,7 +8421,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
             routedtrack = 0;
     }
 
-    else if (classid == siciKrl) {
+    else if (classid == siciKl1) {
         // --
         if (entrydir == rdW) {
             returnvalue = rdE;
@@ -8449,7 +8449,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
     }
 
-    else if (classid == siciKrr) {
+    else if (classid == siciKr1) {
         // --
         if (entrydir == rdW) {
             returnvalue = rdE;
@@ -8827,17 +8827,17 @@ void element::writeFileTextToStream(QTextStream& ts)
         case siciBuc:
         case siciBul:
         case siciBur:
-        case siciLtr:
-        case siciLsr:
-        case siciLbr:
-        case siciLtl:
-        case siciLsl:
-        case siciLbl:
+        case siciLt1:
+        case siciLs1:
+        case siciLb1:
+        case siciLt3:
+        case siciLs3:
+        case siciLb3:
             break;
 
-        case siciTrv:
-        case siciDir:
-        case siciDil:
+        case siciSt2:
+        case siciSt3:
+        case siciSt4:
         case siciCr1:
         case siciCr2:
         case siciCr3:
@@ -8847,12 +8847,12 @@ void element::writeFileTextToStream(QTextStream& ts)
         case siciCl3:
         case siciCl4:
         case siciKrh:
-        case siciKrr:
-        case siciKrl:
+        case siciKr1:
+        case siciKl1:
             ts << GF_FBPORT << DS << iFBBusNo << DS << iFBContact << endl
                 << GF_HIDELEDS << DS << iSoldLEDoff << endl;
             // fall through
-        case siciTrh:
+        case siciSt1:
         case siciTdr:
         case siciTdb:
             ts << GF_TEXT << DS << sSoldText << endl;
@@ -8986,10 +8986,10 @@ bool element::hasDifferentDirection(int dir)
 
 bool element::hasShuntingRouteButtonOnly()
 {
-    return (classid == siciSsr || classid == siciSsl ||
-            classid == siciSdr || classid == siciSdl ||
-            classid == siciSbr || classid == siciSbl ||
-            classid == siciWsr || classid == siciWsl);
+    return (classid == siciSs1 || classid == siciSs3 ||
+            classid == siciSd1 || classid == siciSd3 ||
+            classid == siciRt1 || classid == siciRt3 ||
+            classid == siciWs1 || classid == siciWs3);
 }
 
 
@@ -9099,8 +9099,8 @@ int element::getFBBusNo()
 
 bool element::hasThreeStates()
 {
-    return (classid == siciHsr || classid == siciHsl ||
-            classid == siciVsr || classid == siciVsl) &&
+    return (classid == siciHs1 || classid == siciHs3 ||
+            classid == siciVs1 || classid == siciVs3) &&
         iSoldSubType == 6;
 }
 
@@ -9206,19 +9206,19 @@ unsigned int element::entryDir()
 
     // all signals starting routes to right
     if (
-            classid == siciHsr || classid == siciHssr || 
-            classid == siciSsr || classid == siciShr || 
-            classid == siciSdr || classid == siciWsr || 
-            classid == siciRbr || classid == siciSbr 
+            classid == siciHs1 || classid == siciHss1 || 
+            classid == siciSs1 || classid == siciSh1 || 
+            classid == siciSd1 || classid == siciWs1 || 
+            classid == siciZt1 || classid == siciRt1 
        )
         returnvalue = rdW;
 
     // all signals starting routes to left
     else if (
-            classid == siciHsl || classid == siciHssl || 
-            classid == siciSsl || classid == siciShl || 
-            classid == siciSdl || classid == siciWsl || 
-            classid == siciRbl || classid == siciSbl 
+            classid == siciHs3 || classid == siciHss3 || 
+            classid == siciSs3 || classid == siciSh3 || 
+            classid == siciSd3 || classid == siciWs3 || 
+            classid == siciZt3 || classid == siciRt3 
             )
         returnvalue = rdE;
 
@@ -9240,29 +9240,29 @@ element::SpdrItemClassId element::translateRotatedItem(QString& name)
     SpdrItemClassId returnvalue = siciNone;
 
     // signals
-    if (name == SYM_HS) returnvalue = siciHsl;
-    else if (name == SYM_HSS) returnvalue = siciHssl;
-    else if (name == SYM_SS) returnvalue = siciSsl;
-    else if (name == SYM_SSH) returnvalue = siciShl;
-    else if (name == SYM_SSS) returnvalue = siciSdl;
-    else if (name == SYM_WS) returnvalue = siciWsl;
-    else if (name == SYM_VS) returnvalue = siciVsl;
-    else if (name == SYM_ZP) returnvalue = siciZpl;
-    else if (name == SYM_NRB) returnvalue = siciRbl;
-    else if (name == SYM_SRB) returnvalue = siciSbl;
+    if (name == SYM_HS) returnvalue = siciHs3;
+    else if (name == SYM_HSS) returnvalue = siciHss3;
+    else if (name == SYM_SS) returnvalue = siciSs3;
+    else if (name == SYM_SSH) returnvalue = siciSh3;
+    else if (name == SYM_SSS) returnvalue = siciSd3;
+    else if (name == SYM_WS) returnvalue = siciWs3;
+    else if (name == SYM_VS) returnvalue = siciVs3;
+    else if (name == SYM_ZP) returnvalue = siciZp3;
+    else if (name == SYM_NRB) returnvalue = siciZt3;
+    else if (name == SYM_SRB) returnvalue = siciRt3;
 
     // turnouts
     else if (name == SYM_WEL) returnvalue = siciTl3;
     else if (name == SYM_WER) returnvalue = siciTr3;
-    else if (name == SYM_DWL) returnvalue = siciDtl;
-    else if (name == SYM_DWR) returnvalue = siciDbr;
-    else if (name == SYM_WEY) returnvalue = siciSyl;
-    else if (name == SYM_DRW) returnvalue = siciTwl;
+    else if (name == SYM_DWL) returnvalue = siciIl3;
+    else if (name == SYM_DWR) returnvalue = siciIr3;
+    else if (name == SYM_WEY) returnvalue = siciSy3;
+    else if (name == SYM_DRW) returnvalue = siciTw3;
     else if (name == SYM_EKL) returnvalue = siciSl3;
     else if (name == SYM_EKR) returnvalue = siciSr3;
 
     // tracks
-    else if (name == SYM_GER) returnvalue = siciTrh;
+    else if (name == SYM_GER) returnvalue = siciSt1;
     else if (name == SYM_KUR) returnvalue = siciCr3;
     else if (name == SYM_KUL) returnvalue = siciCl3;
     else if (name == SYM_TDR) returnvalue = siciTdl;
@@ -9274,9 +9274,9 @@ element::SpdrItemClassId element::translateRotatedItem(QString& name)
     else if (name == SYM_TUL) returnvalue = siciTul;
     else if (name == SYM_TUR) returnvalue = siciTur;
     else if (name == SYM_BUL) returnvalue = siciBur;
-    else if (name == SYM_SHO) returnvalue = siciLtl;
-    else if (name == SYM_LSR) returnvalue = siciLsl;
-    else if (name == SYM_SHU) returnvalue = siciLbl;
+    else if (name == SYM_SHO) returnvalue = siciLt3;
+    else if (name == SYM_LSR) returnvalue = siciLs3;
+    else if (name == SYM_SHU) returnvalue = siciLb3;
 
     return returnvalue;
 }
@@ -9287,34 +9287,34 @@ element::SpdrItemClassId element::translateNotRotatedItem(QString& name)
     SpdrItemClassId returnvalue = siciNone;
 
     // signals
-    if (name == SYM_HS) returnvalue = siciHsr;
-    else if (name == SYM_HSS) returnvalue = siciHssr;
-    else if (name == SYM_SS) returnvalue = siciSsr;
-    else if (name == SYM_SSH) returnvalue = siciShr;
-    else if (name == SYM_SSS) returnvalue = siciSdr;
-    else if (name == SYM_WS) returnvalue = siciWsr;
-    else if (name == SYM_VS) returnvalue = siciVsr;
-    else if (name == SYM_ZP) returnvalue = siciZpr;
-    else if (name == SYM_NRB) returnvalue = siciRbr;
-    else if (name == SYM_SRB) returnvalue = siciSbr;
+    if (name == SYM_HS) returnvalue = siciHs1;
+    else if (name == SYM_HSS) returnvalue = siciHss1;
+    else if (name == SYM_SS) returnvalue = siciSs1;
+    else if (name == SYM_SSH) returnvalue = siciSh1;
+    else if (name == SYM_SSS) returnvalue = siciSd1;
+    else if (name == SYM_WS) returnvalue = siciWs1;
+    else if (name == SYM_VS) returnvalue = siciVs1;
+    else if (name == SYM_ZP) returnvalue = siciZp1;
+    else if (name == SYM_NRB) returnvalue = siciZt1;
+    else if (name == SYM_SRB) returnvalue = siciRt1;
 
     // turnouts
     else if (name == SYM_WEL) returnvalue = siciTl1;
     else if (name == SYM_WER) returnvalue = siciTr1;
-    else if (name == SYM_DWL) returnvalue = siciDbl;
-    else if (name == SYM_DWR) returnvalue = siciDtr;
-    else if (name == SYM_WEY) returnvalue = siciSyr;
-    else if (name == SYM_DRW) returnvalue = siciTwr;
+    else if (name == SYM_DWL) returnvalue = siciIl1;
+    else if (name == SYM_DWR) returnvalue = siciIr1;
+    else if (name == SYM_WEY) returnvalue = siciSy1;
+    else if (name == SYM_DRW) returnvalue = siciTw1;
     else if (name == SYM_EKL) returnvalue = siciSl1;
     else if (name == SYM_EKR) returnvalue = siciSr1;
-    else if (name == SYM_DKL) returnvalue = siciDkl;
-    else if (name == SYM_DKR) returnvalue = siciDkr;
+    else if (name == SYM_DKL) returnvalue = siciDl1;
+    else if (name == SYM_DKR) returnvalue = siciDr1;
 
     // tracks
-    else if (name == SYM_GER) returnvalue = siciTrh;
-    else if (name == SYM_TRV) returnvalue = siciTrv;
-    else if (name == SYM_DIR) returnvalue = siciDir;
-    else if (name == SYM_DIL) returnvalue = siciDil;
+    else if (name == SYM_GER) returnvalue = siciSt1;
+    else if (name == SYM_TRV) returnvalue = siciSt2;
+    else if (name == SYM_DIR) returnvalue = siciSt3;
+    else if (name == SYM_DIL) returnvalue = siciSt4;
     else if (name == SYM_KUR) returnvalue = siciCr1;
     else if (name == SYM_KUL) returnvalue = siciCl1;
     else if (name == SYM_TTL) returnvalue = siciCl2;
@@ -9324,8 +9324,8 @@ element::SpdrItemClassId element::translateNotRotatedItem(QString& name)
     else if (name == SYM_TDR) returnvalue = siciTdr;
     else if (name == SYM_TDB) returnvalue = siciTdb;
     else if (name == SYM_KRH) returnvalue = siciKrh;
-    else if (name == SYM_KRR) returnvalue = siciKrr;
-    else if (name == SYM_KRL) returnvalue = siciKrl;
+    else if (name == SYM_KRR) returnvalue = siciKr1;
+    else if (name == SYM_KRL) returnvalue = siciKl1;
 
     // miscellaneous
     else if (name == SYM_ENK) returnvalue = siciEnk;
@@ -9343,9 +9343,9 @@ element::SpdrItemClassId element::translateNotRotatedItem(QString& name)
     else if (name == SYM_LEE) returnvalue = siciTxt;
     else if (name == SYM_BUC) returnvalue = siciBuc;
     else if (name == SYM_BUL) returnvalue = siciBul;
-    else if (name == SYM_SHO) returnvalue = siciLtr;
-    else if (name == SYM_LSR) returnvalue = siciLsr;
-    else if (name == SYM_SHU) returnvalue = siciLbr;
+    else if (name == SYM_SHO) returnvalue = siciLt1;
+    else if (name == SYM_LSR) returnvalue = siciLs1;
+    else if (name == SYM_SHU) returnvalue = siciLb1;
 
     // not rotatables
     else if (name == SYM_FEB) returnvalue = siciFeb;
