@@ -1,11 +1,11 @@
 /***************************************************************************
                            newlayoutdialog.cpp
-                           version 0.5.3 $Revision: 1.22 $
+                           version 0.5.3 $Revision: 1.23 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-04 18:44:44 $
+    last modified        : $Date: 2008-05-12 09:59:17 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -33,15 +33,25 @@
 
 
 newLayoutDialog::newLayoutDialog(QWidget* parent)
-: QDialog(parent, "newLayoutDialog", true)
+: QTabDialog(parent, "newLayoutDialog", true)
 {
     setCaption(tr("Create new layout"));
-    QVBoxLayout* baseLayout = new QVBoxLayout(this, 10, 6);
+    setupGeneralTab();
+    setupCrcfTab();
+
+    setOKButton();
+    setCancelButton();
+}
+
+void newLayoutDialog::setupGeneralTab()
+{
+    QWidget *w = new QWidget(this, "tabPageOne");
+    QVBoxLayout* tabL = new QVBoxLayout(w, 10);
 
     // layout dimensions group box
     QGroupBox* dimensionsGB = new QGroupBox(0, Qt::Horizontal,
-            tr("Layout dimensions"), this, "dimensionsGB");
-    baseLayout->addWidget(dimensionsGB);
+            tr("Layout dimensions"), w, "dimensionsGB");
+    tabL->addWidget(dimensionsGB);
     QVBoxLayout* boxL = new QVBoxLayout(dimensionsGB->layout(), 6);
 
     //line with column number
@@ -78,57 +88,10 @@ newLayoutDialog::newLayoutDialog(QWidget* parent)
                 "of rows for your layout.\n"
                 "Valid range is %1..%2.").arg(MIN_ROWS).arg(MAX_ROWS));
 
-    // identification group box
-    QGroupBox *identificationGB = new QGroupBox(0, Qt::Horizontal,
-            tr("CRCF Identification"), this, "identificationGB");
-    baseLayout->addWidget(identificationGB);
-    QVBoxLayout* identificationGBL = new QVBoxLayout(
-            identificationGB->layout(), 6);
-
-    // line with id
-    QHBoxLayout* idL = new QHBoxLayout(identificationGBL);
-    label = new QLabel(tr("&Id:"), identificationGB);
-    idL->addWidget(label);
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    idL->addItem(spacer);
-    idLE = new QLineEdit(identificationGB, "idLE");
-    idL->addWidget(idLE);
-    idLE->setMaximumWidth(100);
-    idLE->setMaxLength(6);
-    QValidator* idValidator = new QIntValidator(0, 999999, identificationGB);
-    idLE->setValidator(idValidator);
-    label->setBuddy(idLE);
-    QToolTip::add(idLE, tr(
-                "Enter the identification\n"
-                "number of this layout.\n"
-                "Valid range is 0..999999."));
-
-    // line with layout name
-    QHBoxLayout* nameL = new QHBoxLayout(identificationGBL);
-    label = new QLabel(tr("&Name:"), identificationGB);
-    nameL->addWidget(label);
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    nameL->addItem(spacer);
-
-    nameLE = new QLineEdit(identificationGB, "nameLE");
-    nameL->addWidget(nameLE);
-    nameLE->setMaximumWidth(100);
-    label->setBuddy(nameLE);
-    QToolTip::add(nameLE, tr(
-                "Enter the name of this layout.\n"
-                "This data is currently only used\n"
-                "for CRCF/Generic Message purposes."));
-
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    identificationGBL->addItem(spacer);
-
     // server group box
     QGroupBox *serverGB = new QGroupBox(0, Qt::Horizontal,
-            tr("SRCP-Server"), this, "serverGB");
-    baseLayout->addWidget(serverGB);
+            tr("SRCP-Server"), w, "serverGB");
+    tabL->addWidget(serverGB);
     QVBoxLayout* serverGBL = new QVBoxLayout(serverGB->layout(), 6);
 
     // line with host name
@@ -172,8 +135,8 @@ newLayoutDialog::newLayoutDialog(QWidget* parent)
 
     // start options group box
     QButtonGroup *startBG = new QButtonGroup(3, Qt::Vertical,
-            tr("Actions on file loading"), this);
-    baseLayout->addWidget(startBG);
+            tr("Actions on file loading"), w);
+    tabL->addWidget(startBG);
     autologinCB = new QCheckBox(tr("Autoconnect to &server"),
             startBG, "autologinCB");
     QToolTip::add(autologinCB, tr(
@@ -194,22 +157,113 @@ newLayoutDialog::newLayoutDialog(QWidget* parent)
                 "be automatically send to the SRCP server\n"
                 "after layout power is switched on.\n"));
 
-    // line with OK/Cancel buttons
-    QHBoxLayout* buttonLayout = new QHBoxLayout(0, 0, 6);
+    // spacer to push group boxes to top
+    tabL->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum,
+                QSizePolicy::Expanding));
+
+    addTab(w, tr("&General"));
+}
+
+
+void newLayoutDialog::setupCrcfTab()
+{
+    QWidget *w = new QWidget(this, "crcfTabPage");
+    QVBoxLayout* tabL = new QVBoxLayout(w, 10);
+
+    // switch box identification group box
+    QGroupBox *switchboxGB = new QGroupBox(0, Qt::Horizontal,
+            tr("Switchbox Identification"), w, "switchboxGB");
+    tabL->addWidget(switchboxGB);
+    QVBoxLayout* switchboxGBL = new QVBoxLayout(
+            switchboxGB->layout(), 6);
+
+    // line with id
+    QHBoxLayout* switchboxidL = new QHBoxLayout(switchboxGBL);
+    QLabel* label = new QLabel(tr("&Id:"), switchboxGB);
+    switchboxidL->addWidget(label);
+    QSpacerItem* spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    switchboxidL->addItem(spacer);
+    switchboxidLE = new QLineEdit(switchboxGB, "switchboxidLE");
+    switchboxidL->addWidget(switchboxidLE);
+    switchboxidLE->setMaximumWidth(100);
+    switchboxidLE->setMaxLength(6);
+    QValidator* idValidator = new QIntValidator(0, 999999, switchboxGB);
+    switchboxidLE->setValidator(idValidator);
+    label->setBuddy(switchboxidLE);
+    QToolTip::add(switchboxidLE, tr(
+                "Enter the CRCF-identification\n"
+                "number of this switchbox.\n"
+                "Valid range is 0..999999."));
+
+    // line with layout name
+    QHBoxLayout* switchboxnameL = new QHBoxLayout(switchboxGBL);
+    label = new QLabel(tr("&Name:"), switchboxGB);
+    switchboxnameL->addWidget(label);
     spacer = new QSpacerItem(0, 0,
             QSizePolicy::Expanding, QSizePolicy::Minimum);
-    buttonLayout->addItem(spacer);
+    switchboxnameL->addItem(spacer);
 
-    QPushButton* buttOK = new QPushButton(tr("OK"), this);
-    buttonLayout->addWidget(buttOK);
-    buttOK->setDefault(true);
-    connect(buttOK, SIGNAL(clicked()), this, SLOT(accept()));
+    switchboxnameLE = new QLineEdit(switchboxGB, "switchboxnameLE");
+    switchboxnameL->addWidget(switchboxnameLE);
+    switchboxnameLE->setMaximumWidth(100);
+    label->setBuddy(switchboxnameLE);
+    QToolTip::add(switchboxnameLE, tr(
+                "Enter the CRCF-name of this switchbox."));
 
-    QPushButton* buttCancel = new QPushButton(tr("Cancel"), this);
-    buttonLayout->addWidget(buttCancel);
-    connect(buttCancel, SIGNAL(clicked()), this, SLOT(reject()));
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    switchboxGBL->addItem(spacer);
 
-    baseLayout->addLayout(buttonLayout);
+    // layout identification group box
+    QGroupBox *layoutGB = new QGroupBox(0, Qt::Horizontal,
+            tr("Layout Identification"), w, "layoutGB");
+    tabL->addWidget(layoutGB);
+    QVBoxLayout* layoutGBL = new QVBoxLayout(
+            layoutGB->layout(), 6);
+
+    // line with id
+    QHBoxLayout* layoutidL = new QHBoxLayout(layoutGBL);
+    label = new QLabel(tr("I&d:"), layoutGB);
+    layoutidL->addWidget(label);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    layoutidL->addItem(spacer);
+    layoutidLE = new QLineEdit(layoutGB, "layoutidLE");
+    layoutidL->addWidget(layoutidLE);
+    layoutidLE->setMaximumWidth(100);
+    layoutidLE->setMaxLength(6);
+    layoutidLE->setValidator(idValidator);
+    label->setBuddy(layoutidLE);
+    QToolTip::add(layoutidLE, tr(
+                "Enter the CRCF-identification\n"
+                "number of this layout.\n"
+                "Valid range is 0..999999."));
+
+    // line with layout name
+    QHBoxLayout* layoutnameL = new QHBoxLayout(layoutGBL);
+    label = new QLabel(tr("N&ame:"), layoutGB);
+    layoutnameL->addWidget(label);
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    layoutnameL->addItem(spacer);
+
+    layoutnameLE = new QLineEdit(layoutGB, "layoutnameLE");
+    layoutnameL->addWidget(layoutnameLE);
+    layoutnameLE->setMaximumWidth(100);
+    label->setBuddy(layoutnameLE);
+    QToolTip::add(layoutnameLE, tr(
+                "Enter the CRCF-name of this layout."));
+
+    spacer = new QSpacerItem(0, 0,
+            QSizePolicy::Expanding, QSizePolicy::Minimum);
+    layoutGBL->addItem(spacer);
+
+    // spacer to push group boxes to top
+    tabL->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum,
+                QSizePolicy::Expanding));
+
+    addTab(w, tr("&CRCF-Data"));
 }
 
 
@@ -225,15 +279,27 @@ int newLayoutDialog::getRows()
 }
 
 
+unsigned int newLayoutDialog::getSwitchboxId()
+{
+    return switchboxidLE->text().toUInt();
+}
+
+
+QString newLayoutDialog::getSwitchboxName()
+{
+    return switchboxnameLE->text();
+}
+
+
 unsigned int newLayoutDialog::getLayoutId()
 {
-    return idLE->text().toUInt();
+    return layoutidLE->text().toUInt();
 }
 
 
 QString newLayoutDialog::getLayoutName()
 {
-    return nameLE->text();
+    return layoutnameLE->text();
 }
 
 
@@ -251,13 +317,13 @@ void newLayoutDialog::setRows(int rows)
 
 void newLayoutDialog::setLayoutId(unsigned int id)
 {
-    return idLE->setText(QString::number(id));
+    return layoutidLE->setText(QString::number(id));
 }
 
 
 void newLayoutDialog::setLayoutName(const QString& name)
 {
-    return nameLE->setText(name);
+    return layoutnameLE->setText(name);
 }
 
 

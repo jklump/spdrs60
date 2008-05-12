@@ -1,11 +1,11 @@
 /***************************************************************************
                            newlayoutdialog.h
-                           version 0.5.3 $Revision: 1.12 $
+                           version 0.5.3 $Revision: 1.13 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-04 18:44:44 $
+    last modified        : $Date: 2008-05-12 09:59:17 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -25,7 +25,7 @@
 #define NEWLAYOUTDIALOG_H
 
 #include <qcheckbox.h>                     
-#include <qdialog.h>                     
+#include <qtabdialog.h>                     
 #include <qframe.h>
 #include <qlabel.h>
 #include <qlineedit.h>
@@ -34,7 +34,7 @@
 #include <qtooltip.h>
 
 
-class newLayoutDialog: public QDialog
+class newLayoutDialog: public QTabDialog
 {
     Q_OBJECT
 
@@ -42,6 +42,8 @@ public:
     newLayoutDialog(QWidget* parent = 0);
     int getColumns();
     int getRows();
+    unsigned int getSwitchboxId();
+    QString getSwitchboxName();
     unsigned int getLayoutId();
     QString getLayoutName();
     QString getHost();
@@ -51,6 +53,8 @@ public:
     bool getAutoSendAll();
     void setColumns(int);
     void setRows(int);
+    void setSwitchboxId(unsigned int);
+    void setSwitchboxName(const QString&);
     void setLayoutId(unsigned int);
     void setLayoutName(const QString&);
     void setHost(const QString&);
@@ -60,10 +64,15 @@ public:
     void setAutoSendAll(bool);
 
 private:
+    void setupGeneralTab();
+    void setupCrcfTab();
+
     QSpinBox* sbEnterCols;
     QSpinBox* sbEnterRows;
-    QLineEdit* idLE;
-    QLineEdit* nameLE;
+    QLineEdit* switchboxidLE;
+    QLineEdit* switchboxnameLE;
+    QLineEdit* layoutidLE;
+    QLineEdit* layoutnameLE;
     QLineEdit* hostLE;
     QLineEdit* portLE;
     QCheckBox* autologinCB;

@@ -2260,30 +2260,18 @@ after layout power is switched on.
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="obsolete">OK</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation>Cancella</translation>
+        <translation type="obsolete">Cancella</translation>
     </message>
     <message>
         <source>&amp;Id:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Enter the identification
-number of this layout.
-Valid range is 0..999999.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&amp;Name:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enter the name of this layout.
-This data is currently only used
-for CRCF/Generic Message purposes.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2299,11 +2287,51 @@ Valid range is %1..%2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>CRCF Identification</source>
+        <source>SRCP-Server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>SRCP-Server</source>
+        <source>&amp;General</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Layout Identification</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;CRCF-Data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switchbox Identification</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the CRCF-identification
+number of this switchbox.
+Valid range is 0..999999.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the CRCF-name of this switchbox.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the CRCF-identification
+number of this layout.
+Valid range is 0..999999.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter the CRCF-name of this layout.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>I&amp;d:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>N&amp;ame:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2629,10 +2657,6 @@ route (SET) or requesting the currently used section number (GET).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Generic &amp;messages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Layouts</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2676,6 +2700,10 @@ is connected to bus #1.</source>
     <message>
         <source>&amp;Yes</source>
         <translation>&amp;Si</translation>
+    </message>
+    <message>
+        <source>Generic &amp;Messages</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

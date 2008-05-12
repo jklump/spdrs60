@@ -2242,14 +2242,6 @@ Srv: Protokoll durch Server
         <translation>&amp;Zeilen:</translation>
     </message>
     <message>
-        <source>OK</source>
-        <translation>OK</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation>Abbrechen</translation>
-    </message>
-    <message>
         <source>&amp;Hostname:</source>
         <translation>&amp;Hostname:</translation>
     </message>
@@ -2314,23 +2306,8 @@ für SRCP 0.7 ist der Wert 12345.</translation>
         <translation>&amp;Id:</translation>
     </message>
     <message>
-        <source>Enter the identification
-number of this layout.
-Valid range is 0..999999.</source>
-        <translation>Identifikationsnummer dieses Gleisbilds eingeben.
-Der gültige Wertebereich ist 0..999999.</translation>
-    </message>
-    <message>
         <source>&amp;Name:</source>
         <translation>&amp;Name:</translation>
-    </message>
-    <message>
-        <source>Enter the name of this layout.
-This data is currently only used
-for CRCF/Generic Message purposes.</source>
-        <translation>Name für das Gleisbild eingeben.
-Diese Daten werden zurzeit nur für
-CRCF/Standardnachrichten genutzt.</translation>
     </message>
     <message>
         <source>Choose or enter the number of
@@ -2349,12 +2326,54 @@ Gleisbild wählen oder eingeben.
 Der gültige Wertebereich ist %1..%2.</translation>
     </message>
     <message>
-        <source>CRCF Identification</source>
-        <translation>CRCF-Identifikation</translation>
-    </message>
-    <message>
         <source>SRCP-Server</source>
         <translation>SRCP-Server</translation>
+    </message>
+    <message>
+        <source>&amp;General</source>
+        <translation>&amp;Allgemeines</translation>
+    </message>
+    <message>
+        <source>Layout Identification</source>
+        <translation>Gleisbildidentifikation</translation>
+    </message>
+    <message>
+        <source>&amp;CRCF-Data</source>
+        <translation>&amp;CRCF-Daten</translation>
+    </message>
+    <message>
+        <source>Switchbox Identification</source>
+        <translation>Stellwerkidentifikation</translation>
+    </message>
+    <message>
+        <source>Enter the CRCF-identification
+number of this switchbox.
+Valid range is 0..999999.</source>
+        <translation>Identifikationsnummer dieses Stellwerks eingeben.
+Der gültige Wertebereich ist 0..999999.</translation>
+    </message>
+    <message>
+        <source>Enter the CRCF-name of this switchbox.</source>
+        <translation>CRCF-Name dieses Stellwerks eingeben.</translation>
+    </message>
+    <message>
+        <source>Enter the CRCF-identification
+number of this layout.
+Valid range is 0..999999.</source>
+        <translation>Identifikationsnummer dieses Gleisbilds eingeben.
+Der gültige Wertebereich ist 0..999999.</translation>
+    </message>
+    <message>
+        <source>Enter the CRCF-name of this layout.</source>
+        <translation>CRCF-Name dieses Gleisbilds eingeben.</translation>
+    </message>
+    <message>
+        <source>I&amp;d:</source>
+        <translation>I&amp;d:</translation>
+    </message>
+    <message>
+        <source>N&amp;ame:</source>
+        <translation>N&amp;ame:</translation>
     </message>
 </context>
 <context>
@@ -2668,8 +2687,8 @@ ein Modul an Bus Nr. 1 angeschlossen ist.</translation>
         <translation>Tooltips für Daten der Gleisbildelemente anzeigen</translation>
     </message>
     <message>
-        <source>Generic &amp;messages</source>
-        <translation>Generische &amp;Meldungen</translation>
+        <source>Generic &amp;Messages</source>
+        <translation>&amp;Standardnachrichten</translation>
     </message>
     <message>
         <source>Dynamic route data</source>

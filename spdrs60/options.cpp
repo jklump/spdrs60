@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.cpp
-                           version 0.5.2 $Revision: 1.29 $
+                           version 0.5.2 $Revision: 1.30 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-10 19:41:51 $
+    last modified        : $Date: 2008-05-12 09:59:17 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -613,7 +613,7 @@ void optionsDialog::setupGenericMessagesTab()
     // spacer to push group boxes to top
     tabL->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum,
                 QSizePolicy::Expanding));
-    addTab(w, tr("Generic &messages"));
+    addTab(w, tr("Generic &Messages"));
 }
 
 

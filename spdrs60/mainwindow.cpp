@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-16 19:51:04 $
-                           $Revision: 1.145 $
+    last modified        : $Date: 2008-05-12 09:59:17 $
+                           $Revision: 1.146 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -3258,3 +3258,24 @@ void MainWindow::slotRouteDelete()
     if (rtViewer != NULL)
         rtViewer->slotRouteDelete();
 }
+
+/*TODO: for FDL info
+ * stdlib.h, 
+void MainWindow::initUserInfo()
+{
+    struct passwd* pwentry;
+    char* user;
+
+    user = getenv("USER");
+    if (user != NULL) {
+        pwentry = getpwnam(user);
+
+        if (pwentry != NULL)
+            username = pwentry.pw_gecos*;
+        else
+            qWarning("Error reading passwd entry.")
+    }
+    else
+        qWarning("Error reading environment variable USER.")
+}
+*/
