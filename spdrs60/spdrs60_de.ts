@@ -2691,71 +2691,31 @@ ein Modul an Bus Nr. 1 angeschlossen ist.</translation>
         <translation>&amp;Standardnachrichten</translation>
     </message>
     <message>
-        <source>Dynamic route data</source>
-        <translation>Dynamische Fahrstraßendaten</translation>
+        <source>Dynamic CRCF Data</source>
+        <translation>Dynamische CRCF-Daten</translation>
     </message>
     <message>
-        <source>Static route data</source>
-        <translation>Statische Fahrstraßendaten</translation>
-    </message>
-    <message>
-        <source>Enable route &amp;type editing</source>
-        <translation>Verändern des &amp;Fahrstraßentyps erlauben</translation>
-    </message>
-    <message>
-        <source>Enable track &amp;section editing</source>
-        <translation>Ändern des &amp;Streckenabschnitts erlauben</translation>
-    </message>
-    <message>
-        <source>Send train &amp;number messages</source>
-        <translation>Versand von &amp;Zugmeldungen aktivieren</translation>
-    </message>
-    <message>
-        <source>Pro&amp;cess incoming route state change messages</source>
-        <translation>Eingehende &amp;Änderungen zum Fahrstraßenstatus bearbeiten</translation>
-    </message>
-    <message>
-        <source>&amp;Process incoming train number messages</source>
-        <translation>Eingehende Zug&amp;nummeränderungen entgegennehmen</translation>
-    </message>
-    <message>
-        <source>Send a state change message when a route is released or
-successfully activated. This is typically used for scripting.</source>
-        <translation>Eine Statusänderungsmeldung senden, wenn eine Fahrstraße
+        <source>Send a broadcasted state change message when a
+route is released or successfully activated. This
+is typically used for CRCF scripting.</source>
+        <translation>Eine Statusänderungsmeldung als Rundruf senden, wenn eine Fahrstraße
 aufgelöst oder erfolgreich eingestellt wurde. Typischerweise wird diese
 Funktion bei der Programmsteuerung mit Skripten genutzt.</translation>
     </message>
     <message>
-        <source>Process incoming state change messages to release or
-activate routes. This is typically used for scripting.</source>
-        <translation type="unfinished"></translation>
+        <source>Send a broadcasted generic message when a train number is
+assigned to a new route. This is used for train tracking.</source>
+        <translation>Eine Standardnachricht als Rundruf versenden, wenn eine
+Fahrstraße eine neue Zugnummer zugewiesen bekommt. Diese
+Option wird in der Regel für eine Zugnummernverfolgung benötigt.</translation>
     </message>
     <message>
-        <source>Send a generic message when a train number is assigned
-to a new route. This is used for train tracking.</source>
-        <translation>Eine Standardnachricht versenden, wenn eine
-Zugnummer einer neuen Fahrstraße zugewiesen wird. Das
-wird in der Regel für eine Zugverfolgung benötigt.</translation>
+        <source>Send broadcasted &amp;route state change messages</source>
+        <translation>&amp;Fahrstraßenstatusänderungen als CRCF-Rundruf versenden</translation>
     </message>
     <message>
-        <source>Process a generic message assigning a new train number to a
-route (SET) or requesting the currently used train number (GET).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Process a generic message assigning a new type to a
-route (SET) or requesting the currently used type (GET).
-This is used as a CRCF service example.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Process a generic message assigning a new section number to a
-route (SET) or requesting the currently used section number (GET).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>S&amp;end route state change messages</source>
-        <translation>Änderungen von Fa&amp;hrstraßenstati melden</translation>
+        <source>Send broadcasted &amp;train number messages</source>
+        <translation>Änderungen von &amp;Zugnummern als CRCF-Rundruf versenden</translation>
     </message>
 </context>
 <context>

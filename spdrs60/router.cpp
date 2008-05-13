@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.3 $Revision: 1.66 $
+                           version 0.5.3 $Revision: 1.67 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-02 04:29:07 $
+    last modified        : $Date: 2008-05-13 09:56:04 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -17,14 +17,15 @@
  ***************************************************************************/
 
 /***************************************************************************
-  This code implements the router object. This object cares for the routing
-  list, loads it from file, save it to file, shows routing edit window.
+  This code implements the router object. This object cares for the route
+  list, loads it from file, save it to file, shows route edit window etc.
  ***************************************************************************/
 
 #include <qapplication.h>
 #include <qfile.h>
 #include <qdatetime.h>
 
+#include "preferences.h"
 #include "resources.h"
 #include "router.h"
 
@@ -374,12 +375,15 @@ void Router::transferTrainNumber(Route* nr)
     emit routeDataChanged(sr);
 
     modified = true;
-    //TODO: send train message (Zugmeldung)
-    // if (pref.sendtrainmessages) {
-    //QString cms;
-    //cms = mr->getCrcfInfoMessage(CrcfMessage::atTrain);
-    //sendGmCrcfMessage(0, reply_sid, cms);
-    //}
+
+    //TODO: send not only broadcasted train message (Zugmeldung)
+    if (pref.gmbroadcasttrainnumber) {
+        QString cms;
+        cms = sr->getCrcfInfoMessage(CrcfMessage::atTrain);
+        sendGmCrcfMessage(0, 0, cms);
+        cms = nr->getCrcfInfoMessage(CrcfMessage::atTrain);
+        sendGmCrcfMessage(0, 0, cms);
+    }
 }
 
 /*
@@ -394,16 +398,22 @@ void Router::processRouteState(Route* rt, int rs)
 
     switch ((Route::RouteState)rs) {
         case Route::rsUnlocked:
-            //TODO: send route state message (scripting)
-            //rt->sendGmRouteState();
-            //ROUTE <rid> INFO STATE 0
+            //TODO: send not only broadcasted route state message
+            if (pref.gmbroadcastroutestate) {
+                QString cms;
+                cms = rt->getCrcfInfoMessage(CrcfMessage::atState);
+                sendGmCrcfMessage(0, 0, cms);
+            }
             break;
         case Route::rsLocked:
-            //TODO: send route state message (scripting)
-            //rt->sendGmRouteState();
-            //ROUTE <rid> INFO STATE 1
             emit statusMessage(tr("Route '%1' activated")
                     .arg(rt->getSectionName()));
+            //TODO: send not only route state message
+            if (pref.gmbroadcastroutestate) {
+                QString cms;
+                cms = rt->getCrcfInfoMessage(CrcfMessage::atState);
+                sendGmCrcfMessage(0, 0, cms);
+            }
             break;
         case Route::rsWfLock:
             emit statusMessage(tr("Route '%1' waiting for activation")

@@ -1,10 +1,10 @@
 /***************************************************************************
                            preferences.h
-                           version 0.5.2 $Revision: 1.10 $
+                           version 0.5.2 $Revision: 1.11 $
                            -------------------------------
     copyright            : (C) 2006-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-05 17:39:48 $
+    last modified        : $Date: 2008-05-13 09:56:04 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -60,6 +60,8 @@ struct Preferences {
     BusModules fbbus3;
     BusModules fbbus4;
     int keyboardprot;
+    bool gmbroadcastroutestate;
+    bool gmbroadcasttrainnumber;
 };
 
 extern Preferences pref;

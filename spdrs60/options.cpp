@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.cpp
-                           version 0.5.2 $Revision: 1.30 $
+                           version 0.5.2 $Revision: 1.31 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-12 09:59:17 $
+    last modified        : $Date: 2008-05-13 09:56:04 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -149,7 +149,7 @@ void optionsDialog::setupLayoutTab()
             autolayoutGB, "autoloadCB");
     chooseLayout->addWidget(cbAutoload);
     connect(cbAutoload, SIGNAL(toggled(bool)),
-            this, SLOT(slotAutoload(bool)));
+            this, SLOT(slotAutoloadToggled(bool)));
     chooseLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
                 QSizePolicy::Minimum));
     buttGetAutofile = new QPushButton(tr("C&hoose..."), autolayoutGB,
@@ -561,39 +561,42 @@ void optionsDialog::setupGenericMessagesTab()
     
 
     // dynamic data groupbox
-    QButtonGroup* dynamicdataBG = new QButtonGroup(4, Qt::Vertical,
-            tr("Dynamic route data"), w, "dynamicdataBG");
+    QButtonGroup* dynamicdataBG = new QButtonGroup(2, Qt::Vertical,
+            tr("Dynamic CRCF Data"), w, "dynamicdataBG");
     tabL->addWidget(dynamicdataBG);
 
-    sroutestateCB = new QCheckBox(tr("S&end route state change messages"),
+    sroutestateCB = new QCheckBox(
+            tr("Send broadcasted &route state change messages"),
             dynamicdataBG, "sroutestateCB");
     QToolTip::add(sroutestateCB, tr(
-                "Send a state change message when a route is released or\n"
-                "successfully activated. This is typically used for scripting."));
-
+                "Send a broadcasted state change message when a\n"
+                "route is released or successfully activated. This\n"
+                "is typically used for CRCF scripting."));
+/*
     rroutestateCB = new QCheckBox(tr(
                 "Pro&cess incoming route state change messages"),
             dynamicdataBG, "rroutestateCB");
     QToolTip::add(rroutestateCB, tr(
                 "Process incoming state change messages to release or\n"
                 "activate routes. This is typically used for scripting."));
-
-    strainnumberCB = new QCheckBox(tr("Send train &number messages"),
+*/
+    strainnumberCB = new QCheckBox(
+            tr("Send broadcasted &train number messages"),
             dynamicdataBG, "strainnumberCB");
     QToolTip::add(strainnumberCB, tr(
-                "Send a generic message when a train number is assigned\n"
-                "to a new route. This is used for train tracking."));
-
+                "Send a broadcasted generic message when a train number is\n"
+                "assigned to a new route. This is used for train tracking."));
+/*
     rtrainnumberCB = new QCheckBox(tr("&Process incoming train number messages"),
             dynamicdataBG, "rtrainnumberCB");
     QToolTip::add(rtrainnumberCB, tr(
                 "Process a generic message assigning a new train number to a\n"
                 "route (SET) or requesting the currently used train number (GET)."));
-    
-
+*/  
+/*
     // static data groupbox
     QButtonGroup* staticdataBG = new QButtonGroup(2, Qt::Vertical,
-            tr("Static route data"), w, "staticdataBG");
+            tr("Static CRCF Data"), w, "staticdataBG");
     tabL->addWidget(staticdataBG);
 
     routetypeCB = new QCheckBox(tr("Enable route &type editing"),
@@ -608,7 +611,7 @@ void optionsDialog::setupGenericMessagesTab()
     QToolTip::add(rtrainnumberCB, tr(
                 "Process a generic message assigning a new section number to a\n"
                 "route (SET) or requesting the currently used section number (GET)."));
-    
+*/  
 
     // spacer to push group boxes to top
     tabL->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum,
@@ -628,7 +631,7 @@ void optionsDialog::slotGetAutofile()
 }
 
 
-void optionsDialog::slotAutoload(bool load)
+void optionsDialog::slotAutoloadToggled(bool load)
 {
     // if autoload is (de-)selected, do the same with filebutton and
     // namefield
@@ -791,25 +794,36 @@ void optionsDialog::fixFBBusNumbers(int fixed)
 
 void optionsDialog::getPreferences(Preferences& prf)
 {
+    // Layout Page
     prf.layoutcols = sbDefaultCols->value();
     prf.layoutrows = sbDefaultRows->value();
+
+    prf.editor = coboEditor->currentText();
+    prf.browser = coboBrowser->currentText();
+    
+    prf.autosave = cbAutosave->isChecked();
+    prf.autoload = cbAutoload->isChecked();
+    prf.autolayout = leAutoload->text();
+
+    prf.converttime = cbConvertTime->isChecked();
+    prf.showtime = cbShowTime->isChecked();
+
+    // Element Page
     prf.hp2 = cbShowHp2->isChecked();
     prf.blinkingturnouts = cbShowBlinkingTurnouts->isChecked();
     prf.sendstate = allwaysSendState->isChecked();
+
 #if QT_VERSION >= 0x040000
 #else
     QToolTip::setGloballyEnabled(cbGenBubble->isChecked());
 #endif
     prf.datatooltips = cbDataBubble->isChecked();
-    prf.converttime = cbConvertTime->isChecked();
-    prf.showtime = cbShowTime->isChecked();
+    
     prf.addresslabeling = rbShowAddr->isChecked();
+    
     prf.initsignalsred = rbSignalRed->isChecked();
-    prf.autoload = cbAutoload->isChecked();
-    prf.autosave = cbAutosave->isChecked();
-    prf.autolayout = leAutoload->text();
-    prf.editor = coboEditor->currentText();
-    prf.browser = coboBrowser->currentText();
+    
+    // Digital Page
     if (rbProtMS->isChecked())
         prf.protocol = 1;
     else if (rbProtNA->isChecked())
@@ -819,20 +833,20 @@ void optionsDialog::getPreferences(Preferences& prf)
     else
         prf.protocol = 2;
     prf.decoder = coboDecoder->currentText();
-    prf.autottdir = cbAutoTTDir->isChecked();
     prf.activetime = sbActiveTime->value();
     prf.routingtime = sbRoutingTime->value();
+
+    prf.autottdir = cbAutoTTDir->isChecked();
     prf.ttroundtime = leTTRoundTime->text().toDouble();
+
+    // Feedback Page
     if (rb16inputs->isChecked())
         prf.fbfactor = 0;
     else 
         prf.fbfactor = 1;
-#if QT_VERSION >= 0x030300
-    prf.fbmoduletype = feedbackTypeGB->selectedId();
-#else
-    prf.fbmoduletype = feedbackTypeGB->id(feedbackTypeGB->selected());
-#endif
+
     prf.fixedbusnum = fixedBusesRB->isChecked();
+
     prf.fbbus1.modules = sbFBmod_1->value();
     prf.fbbus2.modules = sbFBmod_2->value();
     prf.fbbus3.modules = sbFBmod_3->value();
@@ -841,46 +855,26 @@ void optionsDialog::getPreferences(Preferences& prf)
     prf.fbbus2.number = bus2LE->text().toUInt();
     prf.fbbus3.number = bus3LE->text().toUInt();
     prf.fbbus4.number = bus4LE->text().toUInt();
+
+    // Feedback Type Page
+#if QT_VERSION >= 0x030300
+    prf.fbmoduletype = feedbackTypeGB->selectedId();
+#else
+    prf.fbmoduletype = feedbackTypeGB->id(feedbackTypeGB->selected());
+#endif
+    // TODO: Selectrix stuff
+
+    // Generic Messages Page
+    prf.gmbroadcastroutestate = sroutestateCB->isChecked();
+    prf.gmbroadcasttrainnumber = strainnumberCB->isChecked();
 }
 
 
 void optionsDialog::setPreferences(const Preferences& prf)
 {
+    // Layout Page
     sbDefaultCols->setValue(prf.layoutcols);
     sbDefaultRows->setValue(prf.layoutrows);
-    cbShowHp2->setChecked(prf.hp2);
-    cbShowBlinkingTurnouts->setChecked(prf.blinkingturnouts);
-    allwaysSendState->setChecked(prf.sendstate);
-#if QT_VERSION >= 0x040000
-#else
-    cbGenBubble->setChecked(QToolTip::isGloballyEnabled());
-#endif
-    globalBubbleHelpChanged(cbGenBubble->isChecked());
-    cbDataBubble->setChecked(prf.datatooltips);
-    cbConvertTime->setChecked(prf.converttime);
-    cbShowTime->setChecked(prf.showtime);
-    
-    if (prf.addresslabeling)
-        rbShowAddr->setChecked(true);
-    else
-        rbShowTxt->setChecked(true);
-
-    if (prf.initsignalsred)
-        rbSignalRed->setChecked(true);
-    else
-        rbSignalLay->setChecked(true);
-    
-    if (prf.autoload) {
-        cbAutoload->setChecked(true);
-        leAutoload->setText(prf.autolayout);
-    }
-    else
-        rbSignalLay->setChecked(false);
-
-    slotAutoload(prf.autoload);
-
-    if (prf.autosave)
-        cbAutosave->setChecked(true);
 
     bool found = false;
     for (int i = 0; i < coboEditor->count(); i++) {
@@ -910,6 +904,38 @@ void optionsDialog::setPreferences(const Preferences& prf)
         coboBrowser->setCurrentItem(coboBrowser->count() - 1);
     }
 
+    cbAutosave->setChecked(prf.autosave);
+    cbAutoload->setChecked(prf.autoload);
+    if (prf.autoload)
+        leAutoload->setText(prf.autolayout);
+    slotAutoloadToggled(prf.autoload);
+
+    cbConvertTime->setChecked(prf.converttime);
+    cbShowTime->setChecked(prf.showtime);
+
+    // Element Page
+    cbShowHp2->setChecked(prf.hp2);
+    cbShowBlinkingTurnouts->setChecked(prf.blinkingturnouts);
+    allwaysSendState->setChecked(prf.sendstate);
+
+#if QT_VERSION >= 0x040000
+#else
+    cbGenBubble->setChecked(QToolTip::isGloballyEnabled());
+#endif
+    globalBubbleHelpChanged(cbGenBubble->isChecked());
+    cbDataBubble->setChecked(prf.datatooltips);
+    
+    if (prf.addresslabeling)
+        rbShowAddr->setChecked(true);
+    else
+        rbShowTxt->setChecked(true);
+
+    if (prf.initsignalsred)
+        rbSignalRed->setChecked(true);
+    else
+        rbSignalLay->setChecked(true);
+    
+    // Digital Page
     switch (prf.protocol) {
         case 0:
             rbProtNA->setChecked(true);
@@ -945,6 +971,7 @@ void optionsDialog::setPreferences(const Preferences& prf)
     t.sprintf("%.2f", prf.ttroundtime);
     leTTRoundTime->setText(t);
 
+    // Feedback Page
     if (prf.fbfactor == 0) {
         rb16inputs->setChecked(true);
         slotLimitModules(0);
@@ -972,8 +999,13 @@ void optionsDialog::setPreferences(const Preferences& prf)
     bus4LE->setText(QString::number(prf.fbbus4.number));
     sbFBmod_4->setValue(prf.fbbus4.modules);
     
+    // Feedback type Page
     feedbackTypeGB->setButton(prf.fbmoduletype);
     selectFbModuleType(prf.fbmoduletype);
+
+    // Generic Messages Page
+    sroutestateCB->setChecked(prf.gmbroadcastroutestate);
+    strainnumberCB->setChecked(prf.gmbroadcasttrainnumber);
 }
 
 /*

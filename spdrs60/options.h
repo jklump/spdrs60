@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.h
-                           version 0.5.2 $Revision: 1.20 $
+                           version 0.5.2 $Revision: 1.21 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-09 13:13:38 $
+    last modified        : $Date: 2008-05-13 09:56:04 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -66,7 +66,7 @@ private:
 
 private slots:
    void slotGetAutofile();
-   void slotAutoload(bool);
+   void slotAutoloadToggled(bool);
    void slotDecoderChanged(int);
    void slotProtChanged(int);
    void slotLimitModules(int);

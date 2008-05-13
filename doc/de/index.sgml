@@ -5007,7 +5007,7 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
 </para>
 <screen>SET 0 GM 2 3 CRCF ROUTE 23 SET STATE 1</screen>
 <para>
-    Der eigentliche Inhalt der SRCP-Standardnachricht ist also folgende
+    Der eigentliche Inhalt der SRCP-Standardnachricht ist demnach folgende
     CRCF-Nachricht:
 </para>
 <screen>ROUTE 23 SET STATE 1</screen>
@@ -5150,7 +5150,7 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
           Der Wert des Attributs, das von der Nachricht betroffen ist.
           Die Angabe dieses Wertes ist abhängig von der verwendeten
           Methode; bei der Methode GET findet er keine Verwendung.
-          Abhängig vom Attribut kann es sich hierbei um einen positiven
+          Je nach Attribut kann es sich hierbei um einen positiven
           Ganzzahlwert &gt;=&nbsp;0 (z.B. Nummer eines Zuges), oder eine
           alphanumerische Kennung (z.B. Name einer Fahrstraße) handeln.
           Handelt es sich um einen alphanumerischen Wert, wird dieser
@@ -5161,11 +5161,6 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
   </listitem>
   </varlistentry>
 </variablelist>
-
-<para>
-    Die bisher von spdrs60 unterstützten Akteure gibt <xref
-    linkend="tabelle-crcf-akteure"> wieder.
-</para>
 
 <table frame="topbot" id="tabelle-crcf-akteure">
   <title>Akteure in spdrs60</title>
@@ -5194,8 +5189,8 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
 <sect2 id="sect-crcf-gleisbilder">
     <title>Gleisbildattribute</title>
 <para>
-    Die <xref linkend="tabelle-crcf-gleisbildattribute"> listet die
-    Attribute eines Gleisbild-Akteurs (LAYOUT) auf, soweit sie bisher
+    In <xref linkend="tabelle-crcf-gleisbildattribute"> sind die Attribute
+    eines Gleisbild-Akteurs (LAYOUT) aufgelistet, soweit sie bisher
     durch spdrs60 in Form von CRCF-Daten unterstützt werden. Diese Daten
     lassen sich unabhängig vom aktuellen Modus lesen, aber nur im
     Gleisbildeditiermodus schreibend verändern, da es sich hierbei um

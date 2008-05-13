@@ -2594,69 +2594,6 @@ Valid range is 0..999999.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Dynamic route data</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>S&amp;end route state change messages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Send a state change message when a route is released or
-successfully activated. This is typically used for scripting.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Pro&amp;cess incoming route state change messages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Process incoming state change messages to release or
-activate routes. This is typically used for scripting.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Send train &amp;number messages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Send a generic message when a train number is assigned
-to a new route. This is used for train tracking.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Process incoming train number messages</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Process a generic message assigning a new train number to a
-route (SET) or requesting the currently used train number (GET).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Static route data</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enable route &amp;type editing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Process a generic message assigning a new type to a
-route (SET) or requesting the currently used type (GET).
-This is used as a CRCF service example.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enable track &amp;section editing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Process a generic message assigning a new section number to a
-route (SET) or requesting the currently used section number (GET).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Layouts</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2703,6 +2640,29 @@ is connected to bus #1.</source>
     </message>
     <message>
         <source>Generic &amp;Messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dynamic CRCF Data</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send a broadcasted state change message when a
+route is released or successfully activated. This
+is typically used for CRCF scripting.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send a broadcasted generic message when a train number is
+assigned to a new route. This is used for train tracking.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send broadcasted &amp;route state change messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send broadcasted &amp;train number messages</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

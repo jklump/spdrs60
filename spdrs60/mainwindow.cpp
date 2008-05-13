@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-12 09:59:17 $
-                           $Revision: 1.146 $
+    last modified        : $Date: 2008-05-13 09:56:04 $
+                           $Revision: 1.147 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -123,6 +123,8 @@
 #define CF_FBBUS4       "fbbus4"
 #define CF_LASTDIR      "lastdir"
 #define CF_KEYBOARD     "keyboardprotocol"
+#define CF_GMROUTESTATE "gmroutestate"
+#define CF_GMTRAINNUMBER "gmtrainnumber"
 
 #define SPDRS60_INIT   ".spdrs60rc" // program init filename
 
@@ -335,6 +337,12 @@ void MainWindow::readConfigFile()
             else if (key.compare(CF_KEYBOARD) == 0) {
                 pref.keyboardprot = value.toInt();
             }
+            else if (key.compare(CF_GMROUTESTATE) == 0) {
+                pref.gmbroadcastroutestate = value.toInt();
+            }
+            else if (key.compare(CF_GMTRAINNUMBER) == 0) {
+                pref.gmbroadcasttrainnumber = value.toInt();
+            }
         }
     }
     file.close();
@@ -411,7 +419,9 @@ void MainWindow::writeConfigFile()
         << CF_FBBUS4       << KS << pref.fbbus4.number
                            << CF_DS << pref.fbbus4.modules << endl
         << CF_LASTDIR      << KS << lastDir << endl
-        << CF_KEYBOARD     << KS << pref.keyboardprot << endl;
+        << CF_KEYBOARD     << KS << pref.keyboardprot << endl
+        << CF_GMROUTESTATE << KS << pref.gmbroadcastroutestate << endl
+        << CF_GMTRAINNUMBER << KS << pref.gmbroadcasttrainnumber << endl;
 
     file.close();
 }
