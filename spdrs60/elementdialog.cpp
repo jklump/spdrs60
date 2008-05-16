@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-11 19:22:09 $
-                           $Revision: 1.68 $
+    last modified        : $Date: 2008-05-16 18:53:05 $
+                           $Revision: 1.69 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1034,16 +1034,19 @@ void ElementDialog::showSubTypes(int iShow_)
     if (classid == element::siciHs1 || classid == element::siciHs3 ||
             classid == element::siciHss1 || classid == element::siciHss3 ||
             classid == element::siciVs1 || classid == element::siciVs3) {
+
         if (classid == element::siciHs1 || classid == element::siciHs3){
             buttSubType[0]->setPixmap(QPixmap(signal_hs_st1_xpm));
             buttSubType[1]->setPixmap(QPixmap(signal_hs_st2_xpm));
             buttSubType[2]->setPixmap(QPixmap(signal_hs_st3_xpm));
         }
+        
         else if (classid == element::siciHss1 || classid == element::siciHss3){
             buttSubType[0]->setPixmap(QPixmap(signal_hss_st1_xpm));
             buttSubType[1]->setPixmap(QPixmap(signal_hss_st2_xpm));
             buttSubType[2]->setPixmap(QPixmap(signal_hss_st3_xpm));
         }
+        
         else if (classid == element::siciVs1 || classid == element::siciVs3){
             buttSubType[0]->setPixmap(QPixmap(signal_vs_st1_xpm));
             buttSubType[1]->setPixmap(QPixmap(signal_vs_st2_xpm));
@@ -1074,7 +1077,7 @@ void ElementDialog::showSubTypes(int iShow_)
     }
 
 
-    // activate the subtype dependant button
+    // activate the subtype dependent button
     if (classid == element::siciHs1 || classid == element::siciHs3 ||
             classid == element::siciHss1 || classid == element::siciHss3 ||
             classid == element::siciVs1 || classid == element::siciVs3) {

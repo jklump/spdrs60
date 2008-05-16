@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-11 19:22:09 $
-                           $Revision: 1.165 $
+    last modified        : $Date: 2008-05-16 18:53:05 $
+                           $Revision: 1.166 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -79,16 +79,16 @@ element::element(QWidget* parent, SpdrItemClassId ci, elemVisualMode vm)
     iSoldInvert = -1;
     sSoldDecoder = "-1";
     protocol = SrcpMessage::proNone;
-    iSoldAddress_1 = -1;
-    iSoldAddress_2 = -1;
-    iSoldChangeConn[0] = -1;
-    iSoldChangeConn[1] = -1;
-    iSoldDirection = -1;
+    address1 = -1;
+    address2 = -1;
+    xchangeport1 = -1;
+    xchangeport2 = -1;
+    state = -1;
     iSoldSubType = -1;
     sSoldText = "-1";
-    iSoldActiveTime = -1;
+    activetime = -1;
     iFBContact = 1;
-    iSoldLEDoff = 1;
+    trackindicatoroff = 1;
 
     updateProperties();
     setupElementIcon();
@@ -129,7 +129,7 @@ void element::initVariables()
     lightson = true;
     lastdir = 0;
     newdir = 0;
-    iGA1BusNo = iGA2BusNo = iFBBusNo = 1;
+    bus1 = bus2 = iFBBusNo = 1;
     port1 = 1;
     port2 = 1;
 
@@ -142,7 +142,7 @@ void element::initVariables()
 
     lockCounter = 0;
     blinkcounter = 0;
-    iSoldLEDstate = LED_OFF;
+    trackindicator = LED_OFF;
 
     turntableProperties = NULL;
     ttComm = NULL;
@@ -201,27 +201,27 @@ void element::readFileTextFromStream(QTextStream& ats)
                     protocol = SrcpMessage::proNone;
             }
             else if (key.compare(GF_ADDRESS1) == 0) {
-                iGA1BusNo = value.toInt();
+                bus1 = value.toInt();
                 value = s.section(DS, 2, 2).stripWhiteSpace();
-                iSoldAddress_1 = value.toInt();
+                address1 = value.toInt();
                 value = s.section(DS, 3, 3).stripWhiteSpace();
                 port1 = value.toUInt();
             }
             else if (key.compare(GF_ADDRESS2) == 0) {
-                iGA2BusNo = value.toInt();
+                bus2 = value.toInt();
                 value = s.section(DS, 2, 2).stripWhiteSpace();
-                iSoldAddress_2 = value.toInt();
+                address2 = value.toInt();
                 value = s.section(DS, 3, 3).stripWhiteSpace();
                 port2 = value.toUInt();
             }
             else if (key.compare(GF_XCHCONN1) == 0) {
-                iSoldChangeConn[0] = value.toInt();
+                xchangeport1 = value.toInt();
             }
             else if (key.compare(GF_XCHCONN2) == 0) {
-                iSoldChangeConn[1] = value.toInt();
+                xchangeport2 = value.toInt();
             }
             else if (key.compare(GF_DIRECTION) == 0) {
-                iSoldDirection = value.toInt();
+                state = value.toInt();
             }
             else if (key.compare(GF_SUBTYPE) == 0) {
                 iSoldSubType = value.toInt();
@@ -231,7 +231,7 @@ void element::readFileTextFromStream(QTextStream& ats)
                 sSoldText = s.section(DS, 1).stripWhiteSpace();
             }
             else if (key.compare(GF_ACTTIME) == 0) {
-                iSoldActiveTime = value.toInt();
+                activetime = value.toInt();
             }
             else if (key.compare(GF_FBPORT) == 0) {
                 iFBBusNo = value.toUInt();
@@ -241,7 +241,7 @@ void element::readFileTextFromStream(QTextStream& ats)
                     iFBContact = 1;
             }
             else if (key.compare(GF_HIDELEDS) == 0) {
-                iSoldLEDoff = value.toInt();
+                trackindicatoroff = value.toInt();
                 /*this is the last parameter for old style format;
                  * now exit while loop*/
                 break;
@@ -252,7 +252,7 @@ void element::readFileTextFromStream(QTextStream& ats)
         classid = translateItem(oldname, rotated);
         //TODO: remove this
         if (classid == 0)
-            qWarning("Translated '%s', rotate: %d, result: %d",
+            qWarning("Translation failed. Item: '%s', rotate: %d, result: %d",
                     oldname.data(), rotated, classid);
     }
 }
@@ -268,7 +268,7 @@ void element::updateProperties()
 {
     // couplers get the non-active direction on setup
     if (classid == siciEnk)
-        iSoldDirection = 0; 
+        state = 0; 
 
     signal =  classid == siciHs1 || classid == siciHs3
         || classid == siciHss1 || classid == siciHss3
@@ -285,7 +285,7 @@ void element::updateProperties()
     // init signals as they were saved in layout file or with red state
     if (pref.initsignalsred) {
         if (signal || classid == siciRel || classid == siciBld)
-            iSoldDirection = 0;
+            state = 0;
     }
 
     if (signal)
@@ -386,8 +386,8 @@ void element::switchToDir(int newdir)
         // or deactivated, these are treated the same
         // TODO: option to repaint only when INFO messages came back from
         // srcp server
-        if (newdir != iSoldDirection || classid == siciEnk) {
-            iSoldDirection = newdir;
+        if (newdir != state || classid == siciEnk) {
+            state = newdir;
             setupElementIcon();
             sendSrcpState();
         }
@@ -436,7 +436,7 @@ void element::mousePressEvent(QMouseEvent* e)
              * corresponding value to GBSArea to change cursor shape etc.*/
             // if element contains a solenoid or is a external button
             // TODO: if (hasButton())
-            else if ((iSoldAddress_1 != -1) && (classid != siciAdr)) {
+            else if ((address1 != -1) && (classid != siciAdr)) {
 
                 if (classid == siciHs1 || classid == siciHs3
                         || classid == siciZt1 || classid == siciZt3)
@@ -618,23 +618,23 @@ void element::mouseReleaseEvent(QMouseEvent* e)
 }
 
 
-void element::slotShowElement(int address, int state,
+void element::slotShowElement(int address, int ns,
                               elemSelectionMode sm)
 {
-    if (address == iSoldAddress_1) {
+    if (address == address1) {
         selectionMode = sm;
-        if (state != -1)
-            iSoldDirection = state;
+        if (ns != -1)
+            state = ns;
         setupElementIcon();
     }
 }
 
 
-void element::showElementState(int state, elemSelectionMode sm)
+void element::showElementState(int ns, elemSelectionMode sm)
 {
     selectionMode = sm;
-    if (state != -1)
-        iSoldDirection = state;
+    if (ns != -1)
+        state = ns;
     setupElementIcon();
 }
 
@@ -685,42 +685,42 @@ void element::switchVisualMode(elemVisualMode vm)
 void element::switchAddress(bool secondone)
 {
     // default copy of direction + address
-    int iRealDirection = iSoldDirection;
-    int iRealAddress = iSoldAddress_1;
-    int iRealBus = iGA1BusNo;
+    int realstate = state;
+    int iRealAddress = address1;
+    int iRealBus = bus1;
 
 
     // element contains a momentarily activated coupler
     if (classid == siciEnk && iSoldSubType != -1)
-        iRealDirection = iSoldSubType;  // copy subtype as realDirection
+        realstate = iSoldSubType;  // copy subtype as realDirection
 
     // element contains a main signal with direction >= 2
     else if ((classid == siciHs1 || classid == siciHs3 ||
                 classid == siciHss1 || classid == siciHss3 ||
               classid == siciVs1 || classid == siciVs3)
-            && iSoldDirection >= 2) {
+            && state >= 2) {
 
         // Hp0+Hp1 not considered, is done by default copy
         switch (iSoldSubType) {
-            case 6:            // Hp0+Hp2,     --> iSoldDirection = 2
-            case 7:            // Hp0+Hp2+Sh1, --> iSoldDirection = 2 or 3
-                iRealDirection = 1;
+            case 6:            // Hp0+Hp2,     --> state = 2
+            case 7:            // Hp0+Hp2+Sh1, --> state = 2 or 3
+                realstate = 1;
                 // Sh1, case 7, HSS
-                if (iSoldDirection == 3) {
-                    iRealAddress = iSoldAddress_2;
-                    iRealBus = iGA2BusNo;
+                if (state == 3) {
+                    iRealAddress = address2;
+                    iRealBus = bus2;
                 }
                 break;
-            case 4:            // Hp0+Hp1+Hp2, --> iSoldDirection = 2
-                iRealDirection = 0;
-                iRealAddress = iSoldAddress_2;
-                iRealBus = iGA2BusNo;
+            case 4:            // Hp0+Hp1+Hp2, --> state = 2
+                realstate = 0;
+                iRealAddress = address2;
+                iRealBus = bus2;
                 break;
-            case 1:            // Hp0+Hp1+Sh1, --> iSoldDirection = 3
-            case 5:            // Hp0+Hp1+Hp2+Sh1, --> iSoldDirection = 2 or 3
-                iRealDirection = iSoldDirection - 2;
-                iRealAddress = iSoldAddress_2;
-                iRealBus = iGA2BusNo;
+            case 1:            // Hp0+Hp1+Sh1, --> state = 3
+            case 5:            // Hp0+Hp1+Hp2+Sh1, --> state = 2 or 3
+                realstate = state - 2;
+                iRealAddress = address2;
+                iRealBus = bus2;
                 break;
         }
     }
@@ -730,13 +730,13 @@ void element::switchAddress(bool secondone)
 
         // send second address data
         if (secondone) {
-            iRealDirection = (iSoldDirection > 1);
-            iRealAddress = iSoldAddress_2;
-            iRealBus = iGA2BusNo;
+            realstate = (state > 1);
+            iRealAddress = address2;
+            iRealBus = bus2;
         }
         // send first address data
         else {
-            iRealDirection = iSoldDirection % 2;
+            realstate = state % 2;
         }
     }
 
@@ -748,13 +748,13 @@ void element::switchAddress(bool secondone)
 
         // send second address data
         if (secondone) {
-            iRealDirection = (iSoldDirection == 1 || iSoldDirection == 2);
-            iRealAddress = iSoldAddress_2;
-            iRealBus = iGA2BusNo;
+            realstate = (state == 1 || state == 2);
+            iRealAddress = address2;
+            iRealBus = bus2;
         }
         // send first address data
         else {
-            iRealDirection = (iSoldDirection >= 2);
+            realstate = (state >= 2);
         }
     }
 
@@ -767,10 +767,10 @@ void element::switchAddress(bool secondone)
      * outputs of one address.
      */
     if (classid != siciDre) {
-        if (iRealAddress == iSoldAddress_1)
-            iRealDirection = iRealDirection ^ iSoldChangeConn[0];
-        if (iRealAddress == iSoldAddress_2)
-            iRealDirection = iRealDirection ^ iSoldChangeConn[1];
+        if (iRealAddress == address1)
+            realstate = realstate ^ xchangeport1;
+        if (iRealAddress == address2)
+            realstate = realstate ^ xchangeport2;
     }
 
     int port = 0;
@@ -778,21 +778,21 @@ void element::switchAddress(bool secondone)
 
     switch (protocol) {
         case SrcpMessage::proMM:
-            port = iRealDirection;
+            port = realstate;
             value = 1;
             break; 
         case SrcpMessage::proDCC: 
-            port = !iRealDirection;
+            port = !realstate;
             value = 1;
             break;
         default:
             //TODO: translate Selectrix address to flat address
-            if (iRealAddress == iSoldAddress_1)
+            if (iRealAddress == address1)
                 port = port1;
             else
                 port = port2;
 
-            value = iRealDirection;
+            value = realstate;
             break;
     }
 
@@ -801,10 +801,13 @@ void element::switchAddress(bool secondone)
         return;
 
     sm->setGaData(protocol, iRealBus, iRealAddress, port,
-            value, iSoldActiveTime);
+            value, activetime);
     emit sendSrcpMessage(sm);
 
     delete sm;
+    /*qWarning("Class: %d, Stype: %d, Dir: %d, A1: %d, A2: %d, RA: %d, P: %d",
+            classid, iSoldSubType, state, address1,
+            address2, iRealAddress, port);*/
     qApp->processEvents();
 }
 
@@ -833,17 +836,95 @@ void element::sendSrcpState()
      * and deactivate it graphically
      */
     else if (classid == siciEnk && iSoldSubType != -1)
-        QTimer::singleShot(iSoldActiveTime, this,
+        QTimer::singleShot(activetime, this,
                 SLOT(repaintTimeOutEnk()));
 }
 
 
 void element::repaintTimeOutEnk()
 {
-    iSoldDirection = !iSoldDirection;
+    state = !state;
     setupElementIcon();
 }
 
+/*handle info messages for items with two decoders*/
+void element::switch2AddressItem(unsigned int addr, unsigned int port)
+{
+    int realport;
+
+    if (addr == (unsigned int)address1) {
+        realport = port ^ xchangeport1;
+        if (protocol == SrcpMessage::proDCC)
+            realport = realport == 0 ? 1 : 0;
+
+        if (classid == siciHss1 || classid == siciHss3) {
+            // Subtype 7
+            if (iSoldSubType == 7) {
+                if (realport == 0 && state != 0) {
+                    state = 0;
+                    setupElementIcon();
+                }
+                else if (realport == 1 && state == 0) {
+                    state = 2;
+                    setupElementIcon();
+                }
+            }
+            // Subtype 1 + 5
+            else if (state != realport) {
+                state = realport;
+                setupElementIcon();
+            }
+        }
+
+        else if (classid == siciHs1 || classid == siciHs3 ||
+               classid == siciVs1 || classid == siciVs3) {
+            if (state != realport) {
+                state = realport;
+                setupElementIcon();
+            }
+        }
+        //qWarning("A1, State: %d, RealPort: %d\n", state, realport);
+
+    }
+    else if (addr == (unsigned int)address2) {
+        realport = port ^ xchangeport2;
+        if (protocol == SrcpMessage::proDCC)
+            realport = realport == 0 ? 1 : 0;
+
+        if (classid == siciHss1 || classid == siciHss3) {
+            // Subtype 1 + 7
+            if (iSoldSubType == 1 || iSoldSubType == 7) {
+                // TODO: Check, realport should be compared to 0!
+                if (realport == 1 && state != 3) {
+                    state = 3;
+                    setupElementIcon();
+                }
+            }
+            // Subtype 5
+            else {
+                if (realport == 0 && state != 2) {
+                    state = 2;
+                    setupElementIcon();
+                }
+                else if (realport == 1 && state != 3) {
+                    state = 3;
+                    setupElementIcon();
+                }
+            }
+        }
+        // Subtype 6
+        else if (classid == siciHs1 || classid == siciHs3 ||
+                classid == siciVs1 || classid == siciVs3) {
+            if (realport == 0 && state != 2) {
+                state = 2;
+                setupElementIcon();
+            }
+        }
+        //qWarning("A2, State: %d, RealPort: %d\n", state, realport);
+    }
+    else
+        return;
+}
 
 /**
  * this is the reverse case of "sendSrcpState()"
@@ -864,47 +945,47 @@ void element::processInfoPortMessage(unsigned int bus,
     if (classid == siciEnk && iSoldSubType != -1)
         return;
     
-    if (!(bus == (unsigned int)iGA1BusNo &&
-                addr == (unsigned int)iSoldAddress_1) ||
-            (bus == (unsigned int)iGA2BusNo &&
-             addr == (unsigned int)iSoldAddress_2))
-        return;
+    if ((bus == (unsigned int)bus1 &&
+                addr == (unsigned int)address1) ||
+            (bus == (unsigned int)bus2 &&
+             addr == (unsigned int)address2)) {
     
     /*TODO: add elements with two addresses*/
-    if (iSoldAddress_2 != -1 || iSoldDirection > 2)
+    if (address2 != -1) {
+        //qWarning("InfoPass, Bus: %d, Addr: %d, Port: %d, Value: %d", bus,
+        //        addr, port, value);
+        switch2AddressItem(addr, port);
         return;
-
-    //FIXME: only MM and DCC is accepted
-    if (protocol != SrcpMessage::proDCC && protocol != SrcpMessage::proMM)
-        return;
-
-    int realDir = iSoldDirection;
-    if (realDir == 2) //Hp0-Hp2-Type (iSoldSubType == 6)
-        realDir = 1;
+    }
+    
+    int realstate = state;
+    if (realstate == 2) //Hp0-Hp2-Type (iSoldSubType == 6)
+        realstate = 1;
     
     bool isDCC = (protocol == SrcpMessage::proDCC);
     if (isDCC)
-        realDir = !realDir;
+        realstate = !realstate;
 
     /*invert direction if connectors are exchanged*/
-    realDir = realDir ^ iSoldChangeConn[0];
+    realstate = realstate ^ xchangeport1;
         
-    if (port != (unsigned int)realDir) {
-        realDir = port;
+    if (port != (unsigned int)realstate) {
+        realstate = port;
 
         /*again invert direction if connectors are exchanged*/
-        realDir = realDir ^ iSoldChangeConn[0];
+        realstate = realstate ^ xchangeport1;
         
         if (isDCC)
-            realDir = !realDir;
+            realstate = !realstate;
 
         //Hp0-Hp2-Type (iSoldSubType == 6)
-        if (iSoldSubType == 6 && realDir == 1)
-            realDir = 2;
+        if (iSoldSubType == 6 && realstate == 1)
+            realstate = 2;
 
-        iSoldDirection = realDir;
+        state = realstate;
         setupElementIcon();
         // TODO: show warning message when element is locked
+    }
     }
 }
 
@@ -924,15 +1005,15 @@ bool element::showPropertyDlg()
     eDlg->setGASubType(iSoldSubType);
     eDlg->setProtocol((int) protocol);
     eDlg->setDecoder(sSoldDecoder);
-    eDlg->setSRCPBus1(iGA1BusNo);
-    eDlg->setAddress1(iSoldAddress_1);
-    eDlg->setXChangeConn1(iSoldChangeConn[0]);
-    eDlg->setSRCPBus2(iGA2BusNo);
-    eDlg->setAddress2(iSoldAddress_2);
-    eDlg->setXChangeConn2(iSoldChangeConn[1]);
-    eDlg->setDirection(iSoldDirection);
-    eDlg->setActiveTime(iSoldActiveTime);
-    eDlg->setLEDsAreOff(iSoldLEDoff);
+    eDlg->setSRCPBus1(bus1);
+    eDlg->setAddress1(address1);
+    eDlg->setXChangeConn1(xchangeport1);
+    eDlg->setSRCPBus2(bus2);
+    eDlg->setAddress2(address2);
+    eDlg->setXChangeConn2(xchangeport2);
+    eDlg->setDirection(state);
+    eDlg->setActiveTime(activetime);
+    eDlg->setLEDsAreOff(trackindicatoroff);
     eDlg->setFBBus(iFBBusNo);
     eDlg->setFBContact(iFBContact);
     // this must be the last one, because it triggers enabling and
@@ -949,7 +1030,7 @@ bool element::showPropertyDlg()
 
         sSoldText = eDlg->getSymbolText();
         iSoldInvert = eDlg->getInverted();
-        iSoldLEDoff = eDlg->getLEDsAreOff();
+        trackindicatoroff = eDlg->getLEDsAreOff();
 
         // force display update
         if (siciAdr == classid) {
@@ -964,16 +1045,16 @@ bool element::showPropertyDlg()
         protocol =
             (SrcpMessage::Protocol) eDlg->getProtocol();
         sSoldDecoder = eDlg->getDecoder();
-        iGA1BusNo = eDlg->getSRCPBus1();
-        iSoldAddress_1 = eDlg->getAddress1();
-        iSoldChangeConn[0] = eDlg->getXChangeConn1();
+        bus1 = eDlg->getSRCPBus1();
+        address1 = eDlg->getAddress1();
+        xchangeport1 = eDlg->getXChangeConn1();
         port1 = eDlg->getPort1();
-        iGA2BusNo = eDlg->getSRCPBus2();
-        iSoldAddress_2 = eDlg->getAddress2();
-        iSoldChangeConn[1] = eDlg->getXChangeConn2();
+        bus2 = eDlg->getSRCPBus2();
+        address2 = eDlg->getAddress2();
+        xchangeport2 = eDlg->getXChangeConn2();
         port2 = eDlg->getPort2();
-        iSoldDirection = eDlg->getDirection();
-        iSoldActiveTime = eDlg->getActiveTime();
+        state = eDlg->getDirection();
+        activetime = eDlg->getActiveTime();
         iFBBusNo = eDlg->getFBBus();
         iFBContact = eDlg->getFBContact();
 
@@ -997,24 +1078,29 @@ bool element::showPropertyDlg()
  */
 void element::toggle()
 {
-    // toggles cyclic for 3-state-solenoids
+    // toggles direction for 3-state-solenoids
+    // 0 -> 1 -> 2 -> 0
     if (classid == siciTw1 ||classid == siciTw3 ||
         classid == siciSl1 || classid == siciSl3 ||
         classid == siciSr1 || classid == siciSr3) {
-        if (iSoldDirection < 2)
-            switchToDir(iSoldDirection + 1);
+        if (state < 2)
+            switchToDir(state + 1);
         else
             switchToDir(0);
     }
 
+    // 0: Hp0, 1: Hp1, 2: Hp2 (resp. Vr...)
+    // SubType 0: 0 -> 1 -> 0
+    // SubType 4: 0 -> 1 -> 2 -> 0
+    // SubType 6: 0 -> 2 -> 0
     else if (classid == siciHs1 || classid == siciHs3 ||
             classid == siciVs1 || classid == siciVs3) {
-        switch (iSoldDirection) {
+        switch (state) {
             case 0:
-                if (iSoldSubType != 6)
-                    switchToDir(1);
-                else 
+                if (iSoldSubType == 6)
                     switchToDir(2);
+                else 
+                    switchToDir(1);
                 break;
             case 1:
                 if (iSoldSubType == 0)
@@ -1028,13 +1114,17 @@ void element::toggle()
         } 
     }
 
+    // 0: Hp0, 1: Hp1, 2: Hp2, 3: Sh1
+    // SubType 1: 0 -> 1 -> 3 -> 0
+    // SubType 5: 0 -> 1 -> 2 -> 3 -> 0
+    // SubType 7: 0 -> 2 -> 3 -> 0
     else if (classid == siciHss1 || classid == siciHss3) {
-        switch (iSoldDirection) {
+        switch (state) {
             case 0:
-                if (iSoldSubType < 6)
-                    switchToDir(1);
-                else 
+                if (iSoldSubType == 7)
                     switchToDir(2);
+                else 
+                    switchToDir(1);
                 break;
             case 1:
                 if (iSoldSubType == 1)
@@ -1052,17 +1142,19 @@ void element::toggle()
     }
 
     // toggles cyclic for 4-state-solenoids
+    // 0 -> 1 -> 2 -> 3 -> 0
     else if ((classid == siciDl1 || classid == siciDr1)
              && iSoldSubType == 1) {
-        if (iSoldDirection < 3)
-            switchToDir(iSoldDirection + 1);
+        if (state < 3)
+            switchToDir(state + 1);
         else
             switchToDir(0);
     }
 
     // toggles cyclic for 2-state-solenoids
+    // TODO: state == 1 ? 0 : 1
     else
-        switchToDir(!iSoldDirection);
+        switchToDir(!state);
 }
 
 /**
@@ -1355,7 +1447,7 @@ void element::setupElementIcon()
         p.drawPolygon(rightarrow);
         
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -1417,7 +1509,7 @@ void element::setupElementIcon()
         p.drawPolygon(leftarrow);
         
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -1563,7 +1655,7 @@ void element::setupElementIcon()
             QString s;
             
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -1579,7 +1671,7 @@ void element::setupElementIcon()
         }
 
         // paint signalization (black or yellow filled circle)
-        if (iSoldDirection == 1)
+        if (state == 1)
             p.setBrush(QColor(Qt::yellow));
         else
             p.setBrush(QColor(Qt::black));
@@ -1603,7 +1695,7 @@ void element::setupElementIcon()
         // paint signalization (black or yellow filled circle)
         p.setPen(QPen(black, 2));
 
-        if (iSoldDirection == 1)
+        if (state == 1)
             p.setBrush(QColor(Qt::yellow));
 
         p.drawEllipse(w / 2 - 9, h - 18 - 1, 17, 17);
@@ -1647,7 +1739,7 @@ void element::setupElementIcon()
             QString s;
             
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_2);
+                s.setNum(address2);
             else
                 s = sSoldText;
 
@@ -1681,7 +1773,7 @@ void element::setupElementIcon()
         p.fillRect(21, 10, 14, 3, QBrush(Qt::black));
         
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, pm.height() / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -1711,7 +1803,7 @@ void element::setupElementIcon()
             QString s;
             
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -1728,7 +1820,7 @@ void element::setupElementIcon()
         }
 
         // paint signalization (white triangle)
-        if (iSoldDirection == 1) {
+        if (state == 1) {
             p.setPen(Qt::white);
             p.setBrush(QColor(Qt::white));
             QPointArray triangle = QPointArray(4);
@@ -1754,7 +1846,7 @@ void element::setupElementIcon()
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
         
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -1783,7 +1875,7 @@ void element::setupElementIcon()
             QString s;
             
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -1799,7 +1891,7 @@ void element::setupElementIcon()
         }
 
         // paint signalization
-        if (iSoldDirection == 1)
+        if (state == 1)
             p.setPen(Qt::green);
         else
             p.setPen(Qt::red);
@@ -1827,7 +1919,7 @@ void element::setupElementIcon()
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
         
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
         }
@@ -1863,7 +1955,7 @@ void element::setupElementIcon()
         p.drawLine(w - 15, 27, w - 23, 27);
 
         // paint signal light
-        if (iSoldDirection == 1) {
+        if (state == 1) {
             p.setPen(QPen(Qt::white));
             p.setBrush(Qt::white);
         }
@@ -1882,7 +1974,7 @@ void element::setupElementIcon()
             QString s;
             
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -1915,7 +2007,7 @@ void element::setupElementIcon()
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
         
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
         }
@@ -1951,7 +2043,7 @@ void element::setupElementIcon()
             p.drawLine(13, 7, 21, 7);
  
         // paint signal light
-        if (iSoldDirection == 1) {
+        if (state == 1) {
             p.setPen(QPen(Qt::white));
             p.setBrush(Qt::white);
         }
@@ -1970,7 +2062,7 @@ void element::setupElementIcon()
             QString s;
 
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -2003,7 +2095,7 @@ void element::setupElementIcon()
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
 
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
         }
@@ -2047,14 +2139,22 @@ void element::setupElementIcon()
          * -------------------------------------------------------------
          **/
  
-        // fprintf(stderr, "dir: %d type: %d\n", iSoldDirection, iSoldSubType);
+        // fprintf(stderr, "dir: %d type: %d\n", state, iSoldSubType);
 
         // paint signal light
         // fix potential wrong direction value
-        if (iSoldSubType == 6 && iSoldDirection == DIR_HP1)
-            iSoldDirection = DIR_HP2;
+        if (iSoldSubType == 6 && state == DIR_HP1)
+            state = DIR_HP2;
 
-        switch (iSoldDirection) {
+        switch (state) {
+            case DIR_HP0:              // HP0 => 0
+                p.setBrush(Qt::red);
+                // bottom
+                p.drawEllipse(w - 22, h - 11, 7, 7);
+                // top
+                p.setBrush(Qt::black);
+                p.drawEllipse(w - 12, h - 11, 7, 7);
+                break;
             case DIR_HP2:              // HP2 => 2
                 if (pref.hp2) {
                     p.setBrush(Qt::yellow);
@@ -2065,6 +2165,7 @@ void element::setupElementIcon()
                     p.drawEllipse(w - 22, h - 11, 7, 7);
                     break;
                 }
+                // fall through
             case DIR_HP1:              // HP1 => 1
                 p.setBrush(Qt::green);
                 // top
@@ -2081,16 +2182,10 @@ void element::setupElementIcon()
                 p.drawLine(startx, h - 10, startx + 4, h - 6);
                 p.drawLine(startx + 1, h - 10, startx + 5, h - 6);
                 p.setPen(Qt::black);
-                break;
-                }
-            case DIR_HP0:              // HP0 => 0
-                p.setBrush(Qt::red);
-                // bottom
-                p.drawEllipse(w - 22, h - 11, 7, 7);
                 // top
-                p.setBrush(Qt::black);
                 p.drawEllipse(w - 12, h - 11, 7, 7);
                 break;
+                }
         }
 
         // paint lock light
@@ -2116,7 +2211,7 @@ void element::setupElementIcon()
             QString s;
             
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -2149,7 +2244,7 @@ void element::setupElementIcon()
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
 
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
         }
@@ -2181,7 +2276,7 @@ void element::setupElementIcon()
         p.drawLine(38, 7, 40, 7);
 
         /**
-         * direction subtype bottom-left bottom-right top-left top-right
+         *   state  subtype bottom-left bottom-right top-left top-right
          * -------------------------------------------------------------
          *     0       0          y           y
          *     1       0                                 g        g
@@ -2193,14 +2288,22 @@ void element::setupElementIcon()
          * -------------------------------------------------------------
          **/
  
-        // fprintf(stderr, "dir: %d type: %d\n", iSoldDirection, iSoldSubType);
+        // fprintf(stderr, "dir: %d type: %d\n", state, iSoldSubType);
 
         // paint signal light
         // fix potential wrong direction value
-        if (iSoldSubType == 6 && iSoldDirection == DIR_HP1)
-            iSoldDirection = DIR_HP2;
+        if (iSoldSubType == 6 && state == DIR_HP1)
+            state = DIR_HP2;
 
-        switch (iSoldDirection) {
+        switch (state) {
+            case DIR_HP0:              // HP0 => 0
+                p.setBrush(Qt::red);
+                // bottom
+                p.drawEllipse(14, 4, 7, 7);
+                // top
+                p.setBrush(Qt::black);
+                p.drawEllipse(4, 4, 7, 7);
+                break;
             case DIR_HP2:              // HP2 => 2
                 if (pref.hp2) {
                     p.setBrush(Qt::yellow);
@@ -2211,6 +2314,7 @@ void element::setupElementIcon()
                     p.drawEllipse(14, 4, 7, 7);
                     break;
                 }
+                // fall through
             case DIR_HP1:              // HP1 => 1
                 p.setBrush(Qt::green);
                 // top
@@ -2227,16 +2331,10 @@ void element::setupElementIcon()
                     p.drawLine(startx, 9, startx - 4, 5);
                     p.drawLine(startx + 1, 9, startx - 3, 5);
                     p.setPen(Qt::black);
+                    // top
+                    p.drawEllipse(4, 4, 7, 7);
                     break;
                 }
-            case DIR_HP0:              // HP0 => 0
-                p.setBrush(Qt::red);
-                // bottom
-                p.drawEllipse(14, 4, 7, 7);
-                // top
-                p.setBrush(Qt::black);
-                p.drawEllipse(4, 4, 7, 7);
-                break;
         }
 
         // paint lock light
@@ -2262,7 +2360,7 @@ void element::setupElementIcon()
             QString s;
             
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -2295,7 +2393,7 @@ void element::setupElementIcon()
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
         
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
         }
@@ -2335,14 +2433,14 @@ void element::setupElementIcon()
          * -------------------------------------------------------------
          **/
  
-        // fprintf(stderr, "dir: %d type: %d\n", iSoldDirection, iSoldSubType);
+        // fprintf(stderr, "dir: %d type: %d\n", state, iSoldSubType);
 
         // paint signal light
         // fix potential wrong direction value
-        if (iSoldSubType == 6 && iSoldDirection == DIR_HP1)
-            iSoldDirection = DIR_HP2;
+        if (iSoldSubType == 6 && state == DIR_HP1)
+            state = DIR_HP2;
 
-        switch (iSoldDirection) {
+        switch (state) {
             case DIR_HP0:              // HP0 => 0
                 p.setBrush(Qt::red);
                 // bottom
@@ -2361,6 +2459,7 @@ void element::setupElementIcon()
                     p.drawEllipse(w - 22, h - 11, 7, 7);
                     break;
                 }
+                // fall through
             case DIR_HP1:              // HP1 => 1
                 p.setBrush(Qt::green);
                 // top
@@ -2394,7 +2493,7 @@ void element::setupElementIcon()
             QString s;
             
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -2427,7 +2526,7 @@ void element::setupElementIcon()
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
         
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
         }
@@ -2469,10 +2568,10 @@ void element::setupElementIcon()
  
         // paint signal light
         // fix potential wrong direction value
-        if (iSoldSubType == 6 && iSoldDirection == DIR_HP1)
-            iSoldDirection = DIR_HP2;
+        if (iSoldSubType == 6 && state == DIR_HP1)
+            state = DIR_HP2;
 
-        switch (iSoldDirection) {
+        switch (state) {
             case DIR_HP0:              // HP0 => 0
                 p.setBrush(Qt::red);
                 // bottom
@@ -2491,6 +2590,7 @@ void element::setupElementIcon()
                     p.drawEllipse(14, 4, 7, 7);
                     break;
                 }
+                // fall through
             case DIR_HP1:              // HP1 => 1
                 p.setBrush(Qt::green);
                 // top
@@ -2524,7 +2624,7 @@ void element::setupElementIcon()
             QString s;
             
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -2579,14 +2679,14 @@ void element::setupElementIcon()
          * -------------------------------------------------------------
          **/
  
-        // fprintf(stderr, "dir: %d type: %d\n", iSoldDirection, iSoldSubType);
+        // fprintf(stderr, "dir: %d type: %d\n", state, iSoldSubType);
 
         // paint signal light
         // fix potential wrong direction value
-        if (iSoldSubType == 6 && iSoldDirection == DIR_HP1)
-            iSoldDirection = DIR_HP2;
+        if (iSoldSubType == 6 && state == DIR_HP1)
+            state = DIR_HP2;
 
-        switch (iSoldDirection) {
+        switch (state) {
             case DIR_HP0:              // VS0 => 0
                 // bottom left
                 p.fillRect(w - 17, h - 10, 2, 2, QBrush(Qt::yellow));
@@ -2610,7 +2710,7 @@ void element::setupElementIcon()
         }
 
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
         }
@@ -2637,7 +2737,7 @@ void element::setupElementIcon()
             QString s;
             
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -2692,14 +2792,14 @@ void element::setupElementIcon()
          * -------------------------------------------------------------
          **/
  
-        // fprintf(stderr, "dir: %d type: %d\n", iSoldDirection, iSoldSubType);
+        // fprintf(stderr, "dir: %d type: %d\n", state, iSoldSubType);
 
         // paint signal light
         // fix potential wrong direction value
-        if (iSoldSubType == 6 && iSoldDirection == DIR_HP1)
-            iSoldDirection = DIR_HP2;
+        if (iSoldSubType == 6 && state == DIR_HP1)
+            state = DIR_HP2;
 
-        switch (iSoldDirection) {
+        switch (state) {
             case DIR_HP0:              // VS0 => 0
                 // bottom left
                 p.fillRect(14, 8, 2, 2, QBrush(Qt::yellow));
@@ -2723,7 +2823,7 @@ void element::setupElementIcon()
         }
 
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
         }
@@ -2750,7 +2850,7 @@ void element::setupElementIcon()
             QString s;
             
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -2802,7 +2902,7 @@ void element::setupElementIcon()
 
         lights.translate(w - 15, 23);
 
-        if (iSoldDirection == 1)
+        if (state == 1)
             p.setPen(QPen(Qt::green));
         else
             p.setPen(QPen(Qt::darkGray));
@@ -2810,7 +2910,7 @@ void element::setupElementIcon()
         p.drawPoints(lights);
         
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
         }
@@ -2837,7 +2937,7 @@ void element::setupElementIcon()
             QString s;
             
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -2889,7 +2989,7 @@ void element::setupElementIcon()
 
         lights.translate(6, 3);
 
-        if (iSoldDirection == 1)
+        if (state == 1)
             p.setPen(QPen(Qt::green));
         else
             p.setPen(QPen(Qt::darkGray));
@@ -2897,7 +2997,7 @@ void element::setupElementIcon()
         p.drawPoints(lights);
         
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
         }
@@ -2924,7 +3024,7 @@ void element::setupElementIcon()
             QString s;
             
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -2957,7 +3057,7 @@ void element::setupElementIcon()
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
         
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -3014,7 +3114,7 @@ void element::setupElementIcon()
         p.fillRect(w / 2 - 3, 0, 7, h, QBrush(Qt::black));
         
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 4; ++i)
                 p.fillRect(w / 2 - 2 , 4 + 7 * i, 5, 5,
                         QBrush(Qt::lightGray));
@@ -3059,7 +3159,7 @@ void element::setupElementIcon()
         p.restore();
         
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 2; ++i)
                 p.fillRect(w / 2 - 2 , h / 2 + 2 + 7 * i, 5, 5,
                         QBrush(Qt::lightGray));
@@ -3116,7 +3216,7 @@ void element::setupElementIcon()
         p.restore();
         
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 2; ++i)
                 p.fillRect(w / 2 - 2 , h / 2 + 2 + 7 * i, 5, 5,
                         QBrush(Qt::lightGray));
@@ -3173,7 +3273,7 @@ void element::setupElementIcon()
         p.restore();
         
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 2; ++i)
                 p.fillRect(w / 2 - 2 , 4 + 7 * i, 5, 5,
                         QBrush(Qt::lightGray));
@@ -3230,7 +3330,7 @@ void element::setupElementIcon()
         p.restore();
         
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 2; ++i)
                 p.fillRect(w / 2 - 2 , 4 + 7 * i, 5, 5,
                         QBrush(Qt::lightGray));
@@ -3294,7 +3394,7 @@ void element::setupElementIcon()
         p.restore();
 
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 3; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -3366,7 +3466,7 @@ void element::setupElementIcon()
         p.restore();
 
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 4; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -3431,7 +3531,7 @@ void element::setupElementIcon()
             p.drawLine(0, 0, w, h - 1);
 
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             p.save();
             p.translate(w / 2, h / 2);
 
@@ -3488,7 +3588,7 @@ void element::setupElementIcon()
         p.drawLine(0, h - 1, w, 0);
         
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             p.save();
             p.translate(w / 2, h / 2);
 
@@ -3579,7 +3679,7 @@ void element::setupElementIcon()
         p.drawLine(0, h - 1, w, 0);
         
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -3669,7 +3769,7 @@ void element::setupElementIcon()
         p.drawLine(0, 0, w, h - 1);
         
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -3773,7 +3873,7 @@ void element::setupElementIcon()
         p.drawEllipse(w / 4, 6, 5, 5);
 
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -3806,19 +3906,19 @@ void element::setupElementIcon()
         else {
             QColor c1, c2, c3, c4;
             if (occupied) {
-                if (iSoldDirection == 0) {
+                if (state == 0) {
                     c1 = QColor(Qt::red);
                     c2 = QColor(Qt::red);
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::darkGray);
                 }
-                else if (iSoldDirection == 1) {
+                else if (state == 1) {
                     c1 = QColor(Qt::red);
                     c2 = QColor(Qt::darkGray);
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::red);
                 }
-                else if (iSoldDirection == 2) {
+                else if (state == 2) {
                     c1 = QColor(Qt::darkGray);
                     c2 = QColor(Qt::darkGray);
                     c3 = QColor(Qt::red);
@@ -3833,7 +3933,7 @@ void element::setupElementIcon()
                 }
             }
             else {
-                if (iSoldDirection == 0) {
+                if (state == 0) {
                     if (!lightson && ((lastdir == 0 && newdir == 2) ||
                             (lastdir == 2 && newdir == 0)))
                         c1 = QColor(Qt::darkGray);
@@ -3849,7 +3949,7 @@ void element::setupElementIcon()
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::darkGray);
                 }
-                else if (iSoldDirection == 1) {
+                else if (state == 1) {
                     if (!lightson && ((lastdir == 1 && newdir == 2) ||
                         (lastdir == 2 && newdir == 1)))
                         c1 = QColor(Qt::darkGray);
@@ -3865,7 +3965,7 @@ void element::setupElementIcon()
                     else
                         c4 = QColor(255, 225, 0);
                 }
-                else if (iSoldDirection == 2) {
+                else if (state == 2) {
                     c1 = QColor(Qt::darkGray);
                     c2 = QColor(Qt::darkGray);
                     
@@ -3928,7 +4028,7 @@ void element::setupElementIcon()
             QString s;
 
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -3981,7 +4081,7 @@ void element::setupElementIcon()
         p.drawEllipse(3 * w / 4 - 2, h - 11, 5, 5);
 
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -4014,19 +4114,19 @@ void element::setupElementIcon()
         else {
             QColor c1, c2, c3, c4;
             if (occupied) {
-                if (iSoldDirection == 0) {
+                if (state == 0) {
                     c1 = QColor(Qt::red);
                     c2 = QColor(Qt::red);
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::darkGray);
                 }
-                else if (iSoldDirection == 1) {
+                else if (state == 1) {
                     c1 = QColor(Qt::red);
                     c2 = QColor(Qt::darkGray);
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::red);
                 }
-                else if (iSoldDirection == 2) {
+                else if (state == 2) {
                     c1 = QColor(Qt::darkGray);
                     c2 = QColor(Qt::darkGray);
                     c3 = QColor(Qt::red);
@@ -4041,7 +4141,7 @@ void element::setupElementIcon()
                 }
             }
             else {
-                if (iSoldDirection == 0) {
+                if (state == 0) {
                     if (!lightson && ((lastdir == 0 && newdir == 2) ||
                             (lastdir == 2 && newdir == 0)))
                         c1 = QColor(Qt::darkGray);
@@ -4057,7 +4157,7 @@ void element::setupElementIcon()
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::darkGray);
                 }
-                else if (iSoldDirection == 1) {
+                else if (state == 1) {
                     if (!lightson && ((lastdir == 1 && newdir == 2) ||
                         (lastdir == 2 && newdir == 1)))
                         c1 = QColor(Qt::darkGray);
@@ -4073,7 +4173,7 @@ void element::setupElementIcon()
                     else
                         c4 = QColor(255, 225, 0);
                 }
-                else if (iSoldDirection == 2) {
+                else if (state == 2) {
                     c1 = QColor(Qt::darkGray);
                     c2 = QColor(Qt::darkGray);
                     
@@ -4135,7 +4235,7 @@ void element::setupElementIcon()
             QString s;
 
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -4188,7 +4288,7 @@ void element::setupElementIcon()
         p.drawEllipse(3 * w/ 4 - 2 - 2  , 6, 5, 5);
 
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -4221,19 +4321,19 @@ void element::setupElementIcon()
         else {
             QColor c1, c2, c3, c4;
             if (occupied) {
-                if (iSoldDirection == 0) {
+                if (state == 0) {
                     c1 = QColor(Qt::red);
                     c2 = QColor(Qt::red);
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::darkGray);
                 }
-                else if (iSoldDirection == 1) {
+                else if (state == 1) {
                     c1 = QColor(Qt::red);
                     c2 = QColor(Qt::darkGray);
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::red);
                 }
-                else if (iSoldDirection == 2) {
+                else if (state == 2) {
                     c1 = QColor(Qt::darkGray);
                     c2 = QColor(Qt::darkGray);
                     c3 = QColor(Qt::red);
@@ -4248,7 +4348,7 @@ void element::setupElementIcon()
                 }
             }
             else {
-                if (iSoldDirection == 0) {
+                if (state == 0) {
                     if (!lightson && ((lastdir == 0 && newdir == 2) ||
                             (lastdir == 2 && newdir == 0)))
                         c1 = QColor(Qt::darkGray);
@@ -4264,7 +4364,7 @@ void element::setupElementIcon()
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::darkGray);
                 }
-                else if (iSoldDirection == 1) {
+                else if (state == 1) {
                     if (!lightson && ((lastdir == 1 && newdir == 2) ||
                         (lastdir == 2 && newdir == 1)))
                         c1 = QColor(Qt::darkGray);
@@ -4280,7 +4380,7 @@ void element::setupElementIcon()
                     else
                         c4 = QColor(255, 225, 0);
                 }
-                else if (iSoldDirection == 2) {
+                else if (state == 2) {
                     c1 = QColor(Qt::darkGray);
                     c2 = QColor(Qt::darkGray);
                     
@@ -4344,7 +4444,7 @@ void element::setupElementIcon()
             QString s;
 
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -4397,7 +4497,7 @@ void element::setupElementIcon()
         p.drawEllipse(w / 4, h - 11, 5, 5);
 
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -4430,19 +4530,19 @@ void element::setupElementIcon()
         else {
             QColor c1, c2, c3, c4;
             if (occupied) {
-                if (iSoldDirection == 0) {
+                if (state == 0) {
                     c1 = QColor(Qt::red);
                     c2 = QColor(Qt::red);
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::darkGray);
                 }
-                else if (iSoldDirection == 1) {
+                else if (state == 1) {
                     c1 = QColor(Qt::red);
                     c2 = QColor(Qt::darkGray);
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::red);
                 }
-                else if (iSoldDirection == 2) {
+                else if (state == 2) {
                     c1 = QColor(Qt::darkGray);
                     c2 = QColor(Qt::darkGray);
                     c3 = QColor(Qt::red);
@@ -4457,7 +4557,7 @@ void element::setupElementIcon()
                 }
             }
             else {
-                if (iSoldDirection == 0) {
+                if (state == 0) {
                     if (!lightson && ((lastdir == 0 && newdir == 2) ||
                             (lastdir == 2 && newdir == 0)))
                         c1 = QColor(Qt::darkGray);
@@ -4473,7 +4573,7 @@ void element::setupElementIcon()
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::darkGray);
                 }
-                else if (iSoldDirection == 1) {
+                else if (state == 1) {
                     if (!lightson && ((lastdir == 1 && newdir == 2) ||
                         (lastdir == 2 && newdir == 1)))
                         c1 = QColor(Qt::darkGray);
@@ -4489,7 +4589,7 @@ void element::setupElementIcon()
                     else
                         c4 = QColor(255, 225, 0);
                 }
-                else if (iSoldDirection == 2) {
+                else if (state == 2) {
                     c1 = QColor(Qt::darkGray);
                     c2 = QColor(Qt::darkGray);
                     
@@ -4553,7 +4653,7 @@ void element::setupElementIcon()
             QString s;
 
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -4609,7 +4709,7 @@ void element::setupElementIcon()
         p.drawEllipse(w / 4, 6, 5, 5);
 
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -4653,25 +4753,25 @@ void element::setupElementIcon()
         else {
             QColor c1, c2, c3, c4;
             if (occupied) {
-                if (iSoldDirection == 0) {
+                if (state == 0) {
                     c1 = QColor(Qt::red);
                     c2 = QColor(Qt::red);
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::darkGray);
                 }
-                else if (iSoldDirection == 1) {
+                else if (state == 1) {
                     c1 = QColor(Qt::red);
                     c2 = QColor(Qt::darkGray);
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::red);
                 }
-                else if (iSoldDirection == 2) {
+                else if (state == 2) {
                     c1 = QColor(Qt::darkGray);
                     c2 = QColor(Qt::darkGray);
                     c3 = QColor(Qt::red);
                     c4 = QColor(Qt::red);
                 }
-                else if (iSoldDirection == 3) {
+                else if (state == 3) {
                     c1 = QColor(Qt::darkGray);
                     c2 = QColor(Qt::red);
                     c3 = QColor(Qt::red);
@@ -4686,7 +4786,7 @@ void element::setupElementIcon()
                 }
             }
             else {
-                if (iSoldDirection == 0) {
+                if (state == 0) {
                     if (!lightson && ((lastdir == 0 && newdir >= 2) ||
                             (lastdir >= 2 && newdir == 0)))
                         c1 = QColor(Qt::darkGray);
@@ -4703,7 +4803,7 @@ void element::setupElementIcon()
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::darkGray);
                 }
-                else if (iSoldDirection == 1) {
+                else if (state == 1) {
                     if (!lightson && ((lastdir == 1 &&
                                     (newdir == 2) || newdir == 3) ||
                                 ((lastdir == 2 || newdir == 3) &&
@@ -4723,7 +4823,7 @@ void element::setupElementIcon()
                     else
                         c4 = QColor(255, 225, 0);
                 }
-                else if (iSoldDirection == 2) {
+                else if (state == 2) {
                     c1 = QColor(Qt::darkGray);
                     c2 = QColor(Qt::darkGray);
                     
@@ -4743,7 +4843,7 @@ void element::setupElementIcon()
                     else
                         c4 = QColor(255, 225, 0);
                 }
-                else if (iSoldDirection == 3) {
+                else if (state == 3) {
                     c1 = QColor(Qt::darkGray);
                     
                     if (!lightson && ((lastdir == 3 &&
@@ -4811,7 +4911,7 @@ void element::setupElementIcon()
             QString s;
 
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -4865,7 +4965,7 @@ void element::setupElementIcon()
         p.drawEllipse(3 * w/ 4 - 2 - 2  , 6, 5, 5);
 
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -4908,25 +5008,25 @@ void element::setupElementIcon()
         else {
             QColor c1, c2, c3, c4;
             if (occupied) {
-                if (iSoldDirection == 0) {
+                if (state == 0) {
                     c1 = QColor(Qt::red);
                     c2 = QColor(Qt::red);
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::darkGray);
                 }
-                else if (iSoldDirection == 1) {
+                else if (state == 1) {
                     c1 = QColor(Qt::red);
                     c2 = QColor(Qt::darkGray);
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::red);
                 }
-                else if (iSoldDirection == 2) {
+                else if (state == 2) {
                     c1 = QColor(Qt::darkGray);
                     c2 = QColor(Qt::darkGray);
                     c3 = QColor(Qt::red);
                     c4 = QColor(Qt::red);
                 }
-                else if (iSoldDirection == 3) {
+                else if (state == 3) {
                     c1 = QColor(Qt::darkGray);
                     c2 = QColor(Qt::red);
                     c3 = QColor(Qt::red);
@@ -4941,7 +5041,7 @@ void element::setupElementIcon()
                 }
             }
             else {
-                if (iSoldDirection == 0) {
+                if (state == 0) {
                     if (!lightson && ((lastdir == 0 && newdir >= 2) ||
                             (lastdir >= 2 && newdir == 0)))
                         c1 = QColor(Qt::darkGray);
@@ -4958,7 +5058,7 @@ void element::setupElementIcon()
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::darkGray);
                 }
-                else if (iSoldDirection == 1) {
+                else if (state == 1) {
                     if (!lightson && ((lastdir == 1 &&
                                     (newdir == 2) || newdir == 3) ||
                                 ((lastdir == 2 || newdir == 3) &&
@@ -4978,7 +5078,7 @@ void element::setupElementIcon()
                     else
                         c4 = QColor(255, 225, 0);
                 }
-                else if (iSoldDirection == 2) {
+                else if (state == 2) {
                     c1 = QColor(Qt::darkGray);
                     c2 = QColor(Qt::darkGray);
                     
@@ -4998,7 +5098,7 @@ void element::setupElementIcon()
                     else
                         c4 = QColor(255, 225, 0);
                 }
-                else if (iSoldDirection == 3) {
+                else if (state == 3) {
                     c1 = QColor(Qt::darkGray);
                     
                     if (!lightson && ((lastdir == 3 &&
@@ -5067,7 +5167,7 @@ void element::setupElementIcon()
             QString s;
 
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -5103,7 +5203,7 @@ void element::setupElementIcon()
         p.fillRect(0, h/2 - 3, w, 7, QBrush(Qt::black));
         
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -5138,7 +5238,7 @@ void element::setupElementIcon()
             QString s;
 
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -5171,7 +5271,7 @@ void element::setupElementIcon()
         p.fillRect(0, h/2 - 3, w, 7, QBrush(Qt::black));
         
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -5206,7 +5306,7 @@ void element::setupElementIcon()
             QString s;
 
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -5240,7 +5340,7 @@ void element::setupElementIcon()
         p.fillRect(0, h/2 - 3, w, 7, QBrush(Qt::black));
         
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h/2 - 2, 5, 5, QBrush(Qt::lightGray));
         }
@@ -5290,7 +5390,7 @@ void element::setupElementIcon()
 
         // paint signal light
         // SH0
-        if (iSoldDirection == 0) {
+        if (state == 0) {
             p.setPen(QPen(Qt::red));
             p.drawLine(7, 5, 7, 9);
             p.drawLine(8, 5, 8, 9);
@@ -5328,7 +5428,7 @@ void element::setupElementIcon()
             QString s;
 
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -5367,7 +5467,7 @@ void element::setupElementIcon()
         p.fillRect(0, h/2 - 3, w, 7, QBrush(Qt::black));
         
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h/2 - 2, 5, 5, QBrush(Qt::lightGray));
         }
@@ -5412,7 +5512,7 @@ void element::setupElementIcon()
 
         // paint signal light
         // SH0
-        if (iSoldDirection == 0) {
+        if (state == 0) {
             p.setPen(QPen(Qt::red));
             p.drawLine(7, 5, 7, 9);
             p.drawLine(8, 5, 8, 9);
@@ -5449,7 +5549,7 @@ void element::setupElementIcon()
             QString s;
 
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -5496,7 +5596,7 @@ void element::setupElementIcon()
         p.restore();
 
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h/2 - 2, 5, 5, QBrush(Qt::lightGray));
             // short track
@@ -5526,7 +5626,7 @@ void element::setupElementIcon()
             p.drawLine(5, h / 2 , 19,  h / 2);
 
             // second light
-            if (iSoldDirection == 0 && lightson)
+            if (state == 0 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
                 else
@@ -5539,7 +5639,7 @@ void element::setupElementIcon()
             p.drawLine(w - 5, h / 2 , w - 19,  h / 2);
 
             // third light
-            if (iSoldDirection == 1 && lightson)
+            if (state == 1 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
                 else
@@ -5580,7 +5680,7 @@ void element::setupElementIcon()
             QString s;
 
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -5626,7 +5726,7 @@ void element::setupElementIcon()
         p.restore();
 
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h/2 - 2, 5, 5, QBrush(Qt::lightGray));
             // short track
@@ -5656,7 +5756,7 @@ void element::setupElementIcon()
             p.drawLine(w - 5, h / 2 , w - 19,  h / 2);
 
             // second light
-            if (iSoldDirection == 0 && lightson)
+            if (state == 0 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
                 else
@@ -5669,7 +5769,7 @@ void element::setupElementIcon()
             p.drawLine(5, h / 2 , 19,  h / 2);
 
             // third light
-            if (iSoldDirection == 1 && lightson)
+            if (state == 1 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
                 else
@@ -5710,7 +5810,7 @@ void element::setupElementIcon()
             QString s;
 
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -5756,7 +5856,7 @@ void element::setupElementIcon()
         p.restore();
 
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h/2 - 2, 5, 5, QBrush(Qt::lightGray));
             // short track
@@ -5786,7 +5886,7 @@ void element::setupElementIcon()
             p.drawLine(w - 5, h / 2 , w - 19,  h / 2);
 
             // second light
-            if (iSoldDirection == 0 && lightson)
+            if (state == 0 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
                 else
@@ -5799,7 +5899,7 @@ void element::setupElementIcon()
             p.drawLine(5, h / 2 , 19,  h / 2);
 
             // third light
-            if (iSoldDirection == 1 && lightson)
+            if (state == 1 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
                 else
@@ -5840,7 +5940,7 @@ void element::setupElementIcon()
             QString s;
 
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -5886,7 +5986,7 @@ void element::setupElementIcon()
         p.restore();
 
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h/2 - 2, 5, 5, QBrush(Qt::lightGray));
             // short track
@@ -5916,7 +6016,7 @@ void element::setupElementIcon()
             p.drawLine(5, h / 2 , 19,  h / 2);
 
             // second light
-            if (iSoldDirection == 0 && lightson)
+            if (state == 0 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
                 else
@@ -5929,7 +6029,7 @@ void element::setupElementIcon()
             p.drawLine(w - 5, h / 2 , w - 19,  h / 2);
 
             // third light
-            if (iSoldDirection == 1 && lightson)
+            if (state == 1 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
                 else
@@ -5970,7 +6070,7 @@ void element::setupElementIcon()
             QString s;
 
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -6016,7 +6116,7 @@ void element::setupElementIcon()
         p.restore();
 
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             // short track
             for (int i = 0; i < 3; ++i)
                 p.fillRect(4 + 7 * i, h/2-2, 5, 5, QBrush(Qt::lightGray));
@@ -6056,7 +6156,7 @@ void element::setupElementIcon()
             p.drawLine(10, 0, 24, 0);
 
             // second light
-            if (iSoldDirection == 0 && lightson)
+            if (state == 0 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
                 else
@@ -6071,7 +6171,7 @@ void element::setupElementIcon()
             p.restore();
                 
             // third light
-            if (iSoldDirection == 1 && lightson)
+            if (state == 1 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
                 else
@@ -6106,7 +6206,7 @@ void element::setupElementIcon()
             QString s;
 
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -6152,7 +6252,7 @@ void element::setupElementIcon()
         p.restore();
 
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             // short track
             for (int i = 0; i < 3; ++i)
                 p.fillRect(w / 2 + 5 + 7 * i, h / 2 - 2, 5, 5,
@@ -6193,7 +6293,7 @@ void element::setupElementIcon()
             p.drawLine(-10, 0, -24, 0);
 
             // second light
-            if (iSoldDirection == 0 && lightson)
+            if (state == 0 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
                 else
@@ -6208,7 +6308,7 @@ void element::setupElementIcon()
             p.restore();
                 
             // third light
-            if (iSoldDirection == 1 && lightson)
+            if (state == 1 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
                 else
@@ -6243,7 +6343,7 @@ void element::setupElementIcon()
             QString s;
 
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -6289,7 +6389,7 @@ void element::setupElementIcon()
         p.restore();
 
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             // short track
             for (int i = 0; i < 3; ++i)
                 p.fillRect(w / 2 + 5 + 7 * i, h / 2 - 2, 5, 5,
@@ -6330,7 +6430,7 @@ void element::setupElementIcon()
             p.drawLine(-10, 0, -24, 0);
 
             // second light
-            if (iSoldDirection == 0 && lightson)
+            if (state == 0 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
                 else
@@ -6345,7 +6445,7 @@ void element::setupElementIcon()
             p.restore();
                 
             // third light
-            if (iSoldDirection == 1 && lightson)
+            if (state == 1 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
                 else
@@ -6380,7 +6480,7 @@ void element::setupElementIcon()
             QString s;
 
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -6426,7 +6526,7 @@ void element::setupElementIcon()
         p.restore();
 
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             // short track
             for (int i = 0; i < 3; ++i)
                 p.fillRect(4 + 7 * i, h/2-2, 5, 5, QBrush(Qt::lightGray));
@@ -6466,7 +6566,7 @@ void element::setupElementIcon()
             p.drawLine(10, 0, 24, 0);
 
             // second light
-            if (iSoldDirection == 0 && lightson)
+            if (state == 0 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
                 else
@@ -6481,7 +6581,7 @@ void element::setupElementIcon()
             p.restore();
 
             // third light
-            if (iSoldDirection == 1 && lightson)
+            if (state == 1 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
                 else
@@ -6516,7 +6616,7 @@ void element::setupElementIcon()
             QString s;
 
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -6563,7 +6663,7 @@ void element::setupElementIcon()
         p.restore();
 
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             // short track
             p.save();
             p.translate(w / 2, h / 2);
@@ -6595,7 +6695,7 @@ void element::setupElementIcon()
             p.drawLine(5, h / 2 , 19,  h / 2);
 
             // second light
-            if (iSoldDirection == 0 && lightson)
+            if (state == 0 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
                 else
@@ -6614,7 +6714,7 @@ void element::setupElementIcon()
             p.restore();
 
             // third light
-            if (iSoldDirection == 1 && lightson)
+            if (state == 1 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
                 else
@@ -6655,7 +6755,7 @@ void element::setupElementIcon()
             QString s;
 
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -6702,7 +6802,7 @@ void element::setupElementIcon()
         p.restore();
 
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             // short track
             p.save();
             p.translate(w / 2, h / 2);
@@ -6734,7 +6834,7 @@ void element::setupElementIcon()
             p.drawLine(w - 5, h / 2 , w - 19,  h / 2);
 
             // second light
-            if (iSoldDirection == 0 && lightson)
+            if (state == 0 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
                 else
@@ -6753,7 +6853,7 @@ void element::setupElementIcon()
             p.restore();
 
             // third light
-            if (iSoldDirection == 1 && lightson)
+            if (state == 1 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
                 else
@@ -6792,7 +6892,7 @@ void element::setupElementIcon()
             QString s;
 
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -6840,7 +6940,7 @@ void element::setupElementIcon()
         p.restore();
 
         // paint track lights (track indicator)
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             p.save();
             p.translate(w / 2, h / 2);
 
@@ -6874,7 +6974,7 @@ void element::setupElementIcon()
             p.drawLine(5, h / 2 , 19,  h / 2);
 
             // second light
-            if (iSoldDirection == 0 && lightson)
+            if (state == 0 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
                 else
@@ -6887,7 +6987,7 @@ void element::setupElementIcon()
             p.drawLine(w - 5, h / 2 , w - 19,  h / 2);
 
             // third light
-            if (iSoldDirection == 1 && lightson)
+            if (state == 1 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
                 else
@@ -6906,7 +7006,7 @@ void element::setupElementIcon()
             p.restore();
 
             // fourth light
-            if (iSoldDirection == 2 && lightson)
+            if (state == 2 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
                 else
@@ -6947,7 +7047,7 @@ void element::setupElementIcon()
             QString s;
 
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -6995,7 +7095,7 @@ void element::setupElementIcon()
         p.restore();
 
         // paint track lights (track indicator)
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             p.save();
             p.translate(w / 2, h / 2);
 
@@ -7029,7 +7129,7 @@ void element::setupElementIcon()
             p.drawLine(w - 5, h / 2 , w - 19,  h / 2);
 
             // second light
-            if (iSoldDirection == 0 && lightson)
+            if (state == 0 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
                 else
@@ -7042,7 +7142,7 @@ void element::setupElementIcon()
             p.drawLine(5, h / 2 , 19,  h / 2);
 
             // third light
-            if (iSoldDirection == 1 && lightson)
+            if (state == 1 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
                 else
@@ -7061,7 +7161,7 @@ void element::setupElementIcon()
             p.restore();
 
             // fourth light
-            if (iSoldDirection == 2 && lightson)
+            if (state == 2 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
                 else
@@ -7102,7 +7202,7 @@ void element::setupElementIcon()
             QString s;
 
             if (pref.addresslabeling)
-                s.setNum(iSoldAddress_1);
+                s.setNum(address1);
             else
                 s = sSoldText;
 
@@ -7193,7 +7293,7 @@ void element::setupElementIcon()
         p.fillRect(w / 2 - 3, 0, 7, h, QBrush(Qt::black));
 
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 4; ++i)
                 p.fillRect(w / 2 - 2 , 4 + 7 * i, 5, 5,
                         QBrush(Qt::lightGray));
@@ -7250,7 +7350,7 @@ void element::setupElementIcon()
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
 
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -7309,7 +7409,7 @@ void element::setupElementIcon()
         p.drawLine(0, 0, w, h - 1);
 
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             p.save();
             p.translate(w / 2, h / 2);
             p.rotate(SANGLE);
@@ -7381,7 +7481,7 @@ void element::setupElementIcon()
         p.drawLine(0, h - 1, w, 0);
 
         // paint track lights
-        if (iSoldLEDoff == 1) {
+        if (trackindicatoroff == 1) {
             p.save();
             p.translate(w / 2, h / 2);
             p.rotate(-SANGLE);
@@ -7587,8 +7687,8 @@ void element::setupElementIcon()
         f.setPointSize(QApplication::font().pointSize() - 3);
         p.setFont(f);
         QFontMetrics fm(f);
-        if (iSoldAddress_2 - iSoldAddress_1 == 0)
-            sSoldText.setNum(iSoldDirection);
+        if (address2 - address1 == 0)
+            sSoldText.setNum(state);
         QRect br = fm.boundingRect(sSoldText);
         br.setWidth(br.width() + 4);
         br.setHeight(br.height() + 2);
@@ -7668,11 +7768,11 @@ void element::setupElementIcon()
 /*this draws only foreground lines on background pixmap*/
 void element::paintEvent(QPaintEvent*)
 {
-    QPainter p(this);
-    QColor c;
-
     /* paint optional selection rectangle*/
     if (selectionMode != ksmNormal) {
+        QPainter p(this);
+        QColor c;
+
         switch (selectionMode) {
             case ksmStopSig:
                 // red if in show route mode, stop signal
@@ -7721,8 +7821,8 @@ void element::addTooltip()
         return;
 
     QToolTip::remove(this);
-    QString a1 = QString::number(iSoldAddress_1);
-    QString a2 = QString::number(iSoldAddress_2);
+    QString a1 = QString::number(address1);
+    QString a2 = QString::number(address2);
 
     QString tip1, tip2;
 
@@ -7736,9 +7836,9 @@ void element::addTooltip()
             "Address 1: %s\n",
             iSoldIndex,
             classid,
-            iSoldLEDoff == -1 ? "N/A" : (iSoldLEDoff ==
+            trackindicatoroff == -1 ? "N/A" : (trackindicatoroff ==
                 0 ? "No" : "Yes"),
-            iSoldLEDoff,
+            trackindicatoroff,
             iSoldInvert == -1 ? "N/A" : (iSoldInvert ==
                 0 ? "No" : "Yes"),
             iSoldInvert,
@@ -7750,7 +7850,7 @@ void element::addTooltip()
                             : (protocol == SrcpMessage::proSelectrix ?
                                 "Selectrix"
                                 : "Server"))),
-            iSoldAddress_1 == -1 ?  "N/A (=-1)" : (char*)a1.data());
+            address1 == -1 ?  "N/A (=-1)" : (char*)a1.data());
 
     tip2.sprintf(
             "Address 2: %s\n"
@@ -7762,16 +7862,16 @@ void element::addTooltip()
             "Locked: %s (=%1d)\n"
             "Time (ms): %d\n"
             "FB Contact: %d\n",
-            iSoldAddress_2 == -1 ? "N/A (=-1)" : (char*)a2.data(),
-            iSoldChangeConn[0] ==
-            -1 ? "N/A" : (iSoldChangeConn[0] == 0 ? "No" : "Yes"),
-            iSoldChangeConn[0],
-            iSoldChangeConn[1] ==
-            -1 ? "N/A" : (iSoldChangeConn[1] == 0 ? "No" : "Yes"),
-            iSoldChangeConn[1], iSoldDirection, iSoldSubType,
+            address2 == -1 ? "N/A (=-1)" : (char*)a2.data(),
+            xchangeport1 ==
+            -1 ? "N/A" : (xchangeport1 == 0 ? "No" : "Yes"),
+            xchangeport1,
+            xchangeport2 ==
+            -1 ? "N/A" : (xchangeport2 == 0 ? "No" : "Yes"),
+            xchangeport2, state, iSoldSubType,
             sSoldText == "-1" ? "N/A (=-1)" : (char*)sSoldText.data(),
             lockCounter == -1 ? "N/A" : (isLocked() ? "Yes" : "No"),
-            lockCounter, iSoldActiveTime, iFBContact);
+            lockCounter, activetime, iFBContact);
 
     tip1.append(tip2);
 
@@ -7869,7 +7969,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
 
     else if (classid == siciTl1) {
         // --
-        if (iSoldDirection == 0) {
+        if (state == 0) {
             if (entrydir == rdW)
                 returnvalue = rdE;
             else if (entrydir == rdE)
@@ -7886,7 +7986,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
 
     else if (classid == siciTl3) {
         // --
-        if (iSoldDirection == 0) {
+        if (state == 0) {
             if (entrydir == rdW)
                 returnvalue = rdE;
             else if (entrydir == rdE)
@@ -7903,7 +8003,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
 
     else if (classid == siciTr3) {
         // --
-        if (iSoldDirection == 0) {
+        if (state == 0) {
             if (entrydir == rdW)
                 returnvalue = rdE;
             else if (entrydir == rdE)
@@ -7920,7 +8020,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
 
     else if (classid == siciTr1) {
         // --
-        if (iSoldDirection == 0) {
+        if (state == 0) {
             if (entrydir == rdW)
                 returnvalue = rdE;
             else if (entrydir == rdE)
@@ -7985,7 +8085,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
 
     else if (classid == siciTw1) {
         // --
-        if (iSoldDirection == 0) {
+        if (state == 0) {
             if (entrydir == rdW)
                 returnvalue = rdE;
             else if (entrydir == rdE)
@@ -7993,7 +8093,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
         else {
             /* -/ */
-            if (iSoldDirection == 1) {
+            if (state == 1) {
                 if (entrydir == rdW)
                     returnvalue = rdNE;
                 else if (entrydir == rdNE)
@@ -8011,7 +8111,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
 
     else if (classid == siciTw3) {
         // --
-        if (iSoldDirection == 0) {
+        if (state == 0) {
             if (entrydir == rdW)
                 returnvalue = rdE;
             else if (entrydir == rdE)
@@ -8019,7 +8119,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
         else {
             /* /- */
-            if (iSoldDirection == 1) {
+            if (state == 1) {
                 if (entrydir == rdE)
                     returnvalue = rdSW;
                 else if (entrydir == rdSW)
@@ -8037,7 +8137,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
 
     else if (classid == siciSy1) {
         /* -/ */
-        if (iSoldDirection == 0) {
+        if (state == 0) {
             if (entrydir == rdW)
                 returnvalue = rdNE;
             else if (entrydir == rdNE)
@@ -8054,7 +8154,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
 
     else if (classid == siciSy3) {
         /* /- */
-        if (iSoldDirection == 0) {
+        if (state == 0) {
             if (entrydir == rdE)
                 returnvalue = rdSW;
             else if (entrydir == rdSW)
@@ -8072,7 +8172,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     else if (classid == siciIl1) {
         /* \
            \ */
-        if (iSoldDirection == 0) {
+        if (state == 0) {
             if (entrydir == rdNW)
                 returnvalue = rdSE;
             else if (entrydir == rdSE)
@@ -8090,7 +8190,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     else if (classid == siciIl3) {
         /* \
            \ */
-        if (iSoldDirection == 0) {
+        if (state == 0) {
             if (entrydir == rdNW)
                 returnvalue = rdSE;
             else if (entrydir == rdSE)
@@ -8109,7 +8209,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     else if (classid == siciIr1) {
         /*  /
             / */
-        if (iSoldDirection == 0) {
+        if (state == 0) {
             if (entrydir == rdNE)
                 returnvalue = rdSW;
             else if (entrydir == rdSW)
@@ -8128,7 +8228,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     else if (classid == siciIr3) {
         /*  /
             / */
-        if (iSoldDirection == 0) {
+        if (state == 0) {
             if (entrydir == rdNE)
                 returnvalue = rdSW;
             else if (entrydir == rdSW)
@@ -8145,7 +8245,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
 
     else if (classid == siciSl1) {
         // --
-        if (iSoldDirection == 0) {
+        if (state == 0) {
             if (entrydir == rdE)
                 returnvalue = rdW;
             else if (entrydir == rdW)
@@ -8153,7 +8253,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
         //  /
         // /
-        else if (iSoldDirection == 2) {
+        else if (state == 2) {
             if (entrydir == rdNE)
                 returnvalue = rdSW;
             else if (entrydir == rdSW)
@@ -8175,7 +8275,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
 
     else if (classid == siciSl3) {
         // --
-        if (iSoldDirection == 0) {
+        if (state == 0) {
             if (entrydir == rdE)
                 returnvalue = rdW;
             else if (entrydir == rdW)
@@ -8183,7 +8283,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
         //  /
         // /
-        else if (iSoldDirection == 2) {
+        else if (state == 2) {
             if (entrydir == rdNE)
                 returnvalue = rdSW;
             else if (entrydir == rdSW)
@@ -8204,7 +8304,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
 
     else if (classid == siciSr1) {
         // --
-        if (iSoldDirection == 0) {
+        if (state == 0) {
             if (entrydir == rdE)
                 returnvalue = rdW;
             else if (entrydir == rdW)
@@ -8212,7 +8312,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
         /* \
            \ */
-        else if (iSoldDirection == 2) {
+        else if (state == 2) {
             if (entrydir == rdNW)
                 returnvalue = rdSE;
             else if (entrydir == rdSE)
@@ -8234,7 +8334,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
 
     else if (classid == siciSr3) {
         // --
-        if (iSoldDirection == 0) {
+        if (state == 0) {
             if (entrydir == rdE)
                 returnvalue = rdW;
             else if (entrydir == rdW)
@@ -8242,7 +8342,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
         /* \
            \ */
-        else if (iSoldDirection == 2) {
+        else if (state == 2) {
             if (entrydir == rdNW)
                 returnvalue = rdSE;
             else if (entrydir == rdSE)
@@ -8264,14 +8364,14 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     // 4-state-DKWs
     else if (classid == siciDl1 && iSoldSubType == 1) {
         // --
-        if (iSoldDirection == 0) {
+        if (state == 0) {
             if (entrydir == rdE)
                 returnvalue = rdW;
             else if (entrydir == rdW)
                 returnvalue = rdE;
         }
         // _/
-        else if (iSoldDirection == 1) {
+        else if (state == 1) {
             if (entrydir == rdNE)
                 returnvalue = rdW;
             else if (entrydir == rdW)
@@ -8279,7 +8379,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
         //  /
         // /
-        else if (iSoldDirection == 2) {
+        else if (state == 2) {
             if (entrydir == rdNE)
                 returnvalue = rdSW;
             else if (entrydir == rdSW)
@@ -8287,7 +8387,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
         /*  _
             /  */
-        else if (iSoldDirection == 3) {
+        else if (state == 3) {
             if (entrydir == rdSW)
                 returnvalue = rdE;
             else if (entrydir == rdE)
@@ -8301,14 +8401,14 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
 
     else if (classid == siciDr1 && iSoldSubType == 1) {
         // --
-        if (iSoldDirection == 0) {
+        if (state == 0) {
             if (entrydir == rdE)
                 returnvalue = rdW;
             else if (entrydir == rdW)
                 returnvalue = rdE;
         }
         // \_
-        else if (iSoldDirection == 1) {
+        else if (state == 1) {
             if (entrydir == rdE)
                 returnvalue = rdNW;
             else if (entrydir == rdNW)
@@ -8316,7 +8416,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
         /* \
            \ */
-        else if (iSoldDirection == 2) {
+        else if (state == 2) {
             if (entrydir == rdNW)
                 returnvalue = rdSE;
             else if (entrydir == rdSE)
@@ -8324,7 +8424,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
         /* _
            \ */
-        else if (iSoldDirection == 3) {
+        else if (state == 3) {
             if (entrydir == rdW)
                 returnvalue = rdSE;
             else if (entrydir == rdSE)
@@ -8340,7 +8440,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     // 2-state-DKWs
     else if (classid == siciDl1 && iSoldSubType == 0) {
         // --
-        if (iSoldDirection == 0) {
+        if (state == 0) {
             if (entrydir == rdE)
                 returnvalue = rdW;
             else if (entrydir == rdW)
@@ -8349,7 +8449,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         /* _/
            _
            /  */
-        else if (iSoldDirection == 1) {
+        else if (state == 1) {
             if (entrydir == rdW)
                 returnvalue = rdNE;
             else if (entrydir == rdNE)
@@ -8367,7 +8467,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
 
     else if (classid == siciDr1 && iSoldSubType == 0) {
         // --
-        if (iSoldDirection == 0) {
+        if (state == 0) {
             if (entrydir == rdE)
                 returnvalue = rdW;
             else if (entrydir == rdW)
@@ -8376,7 +8476,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         /* \_
            _
            \ */
-        else if (iSoldDirection == 1) {
+        else if (state == 1) {
             if (entrydir == rdNW)
                 returnvalue = rdE;
             else if (entrydir == rdE)
@@ -8654,7 +8754,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
  * This slot is always called if a feedback port toggles.
  */
 void element::slotOccupyElement(unsigned int bus, unsigned int contact,
-        bool state)
+        bool ostate)
 {
     if (bus == iFBBusNo) {
         if (classid == siciAdr && iSoldInvert != 1) {
@@ -8662,10 +8762,10 @@ void element::slotOccupyElement(unsigned int bus, unsigned int contact,
             unsigned int selfmod = (iFBContact - 1) / 8 + 1;
 
             if (targetmod == selfmod)
-                updateEDiTSAddress(contact, state);
+                updateEDiTSAddress(contact, ostate);
         }
         else if (contact == (unsigned int)iFBContact)
-            setOccupied(state);
+            setOccupied(ostate);
     }
 }
 
@@ -8673,7 +8773,7 @@ void element::slotOccupyElement(unsigned int bus, unsigned int contact,
 /**
  * calculate the EDiTS address by bit field manipulation
  */
-void element::updateEDiTSAddress(unsigned int contact, bool state)
+void element::updateEDiTSAddress(unsigned int contact, bool bstate)
 {
     /*
      * address range for contact is 1..8, 9..16, 17..24, etc.
@@ -8682,7 +8782,7 @@ void element::updateEDiTSAddress(unsigned int contact, bool state)
     unsigned int address = (contact - 1) & 7u;
     unsigned int bit = 1u << address;
    
-    if (state)
+    if (bstate)
         editsAddress = editsAddress | bit;
     else
         editsAddress = editsAddress & ~bit;
@@ -8737,11 +8837,11 @@ void element::setRouted(bool rstate)
     }
 }
 
-
+//TODO: check if this may be obsolete
 void element::updateLEDState()
 {
     /*
-     * routed occupied iSoldLEDstate
+     * routed occupied trackindicator
      * -----------------------------
      *   0       0         LED_OFF
      *   1       0         LED_YEL
@@ -8760,8 +8860,8 @@ void element::updateLEDState()
             newLEDState = LED_OFF;
     }
 
-    if (iSoldLEDstate != newLEDState || routedtrack != 0) {
-        iSoldLEDstate = newLEDState;
+    if (trackindicator != newLEDState || routedtrack != 0) {
+        trackindicator = newLEDState;
         setupElementIcon();
     }
 }
@@ -8769,8 +8869,8 @@ void element::updateLEDState()
 
 void element::slotUpdateTurntableData(QPoint newCmd_)
 {
-    iSoldAddress_1 = iSoldAddress_2 + newCmd_.x() - 1;
-    iSoldDirection = newCmd_.y();
+    address1 = address2 + newCmd_.x() - 1;
+    state = newCmd_.y();
 
     // save track# in subtype if a track key was pressed
     if (classid == siciDre && newCmd_.x() >= 4)
@@ -8850,7 +8950,7 @@ void element::writeFileTextToStream(QTextStream& ts)
         case siciKr1:
         case siciKl1:
             ts << GF_FBPORT << DS << iFBBusNo << DS << iFBContact << endl
-                << GF_HIDELEDS << DS << iSoldLEDoff << endl;
+                << GF_HIDELEDS << DS << trackindicatoroff << endl;
             // fall through
         case siciSt1:
         case siciTdr:
@@ -8871,18 +8971,18 @@ void element::writeFileTextToStream(QTextStream& ts)
                  (protocol == SrcpMessage::proDCC) ? "N" :
                  (protocol == SrcpMessage::proServer) ? "P" :
                  (protocol == SrcpMessage::proSelectrix) ? "S" : "-1") << endl
-                << GF_ADDRESS1  << DS << iGA1BusNo << DS << iSoldAddress_1 <<
+                << GF_ADDRESS1  << DS << bus1 << DS << address1 <<
                 DS << port1 << endl
-                << GF_ADDRESS2  << DS << iGA2BusNo << DS << iSoldAddress_2 <<
+                << GF_ADDRESS2  << DS << bus2 << DS << address2 <<
                 DS << port2 << endl
-                << GF_XCHCONN1  << DS << iSoldChangeConn[0] << endl
-                << GF_XCHCONN2  << DS << iSoldChangeConn[1] << endl
-                << GF_DIRECTION << DS << iSoldDirection << endl
+                << GF_XCHCONN1  << DS << xchangeport1 << endl
+                << GF_XCHCONN2  << DS << xchangeport2 << endl
+                << GF_DIRECTION << DS << state << endl
                 << GF_SUBTYPE   << DS << iSoldSubType << endl
                 << GF_TEXT      << DS << sSoldText << endl
-                << GF_ACTTIME   << DS << iSoldActiveTime << endl
+                << GF_ACTTIME   << DS << activetime << endl
                 << GF_FBPORT    << DS << iFBBusNo << DS << iFBContact << endl
-                << GF_HIDELEDS  << DS << iSoldLEDoff << endl;
+                << GF_HIDELEDS  << DS << trackindicatoroff << endl;
             break;
     }
     ts << '%' << endl;
@@ -8897,8 +8997,8 @@ QString element::getLabelText() const
 
 bool element::hasSameAddress(int bus, int address)
 {
-    return (bus == iGA1BusNo && address == iSoldAddress_1
-            && iSoldAddress_1 > 0);
+    return (bus == bus1 && address == address1
+            && address1 > 0);
 }
 
 
@@ -8965,9 +9065,9 @@ unsigned int element::getIndexNo()
 void element::getStateData(stateElement& se)
 {
     se.name = sSoldText;
-    se.bus = iGA1BusNo;
-    se.address = iSoldAddress_1;
-    se.state = iSoldDirection;
+    se.bus = bus1;
+    se.address = address1;
+    se.state = state;
     se.elemPtr = this;
 }
 
@@ -8980,7 +9080,7 @@ elemSelectionMode element::getSelectionMode()
 
 bool element::hasDifferentDirection(int dir)
 {
-    return iSoldDirection != dir;
+    return state != dir;
 }
 
 
@@ -8995,16 +9095,16 @@ bool element::hasShuntingRouteButtonOnly()
 
 bool element::hasLEDsOn()
 {
-    return (iSoldLEDoff != 1);
+    return (trackindicatoroff != 1);
 }
 
 
 int element::getAddressCount()
 {
     int returnvalue = 0;
-    if (iSoldAddress_1 != -1) {
+    if (address1 != -1) {
         ++returnvalue;
-        if (iSoldAddress_2 != -1) 
+        if (address2 != -1) 
             ++returnvalue;
     }
     return returnvalue;
@@ -9014,7 +9114,7 @@ int element::getAddressCount()
 void element::updateFeedbackState()
 {
     // get current feedback status from server to update LEDstate
-    if ((iSoldLEDoff != 1) && (iFBContact > 0)) {
+    if ((trackindicatoroff != 1) && (iFBContact > 0)) {
         
         SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgFbGet);
         if (sm == NULL)
@@ -9024,7 +9124,6 @@ void element::updateFeedbackState()
                 (SrcpMessage::Feedback) pref.fbmoduletype, iFBContact);
         
         emit sendSrcpMessage(sm);
-
         delete sm;
     }
 }
@@ -9054,9 +9153,9 @@ bool element::sendSRCP08InitGA(unsigned int gano)
             return returnvalue;
         
         if (gano == 1)
-            sm->setGaData(protocol, iGA1BusNo, iSoldAddress_1, 0, 0, 0);
+            sm->setGaData(protocol, bus1, address1, 0, 0, 0);
         else
-            sm->setGaData(protocol, iGA2BusNo, iSoldAddress_2, 0, 0, 0);
+            sm->setGaData(protocol, bus2, address2, 0, 0, 0);
 
         emit sendSrcpMessage(sm);
         delete sm;
@@ -9069,25 +9168,25 @@ bool element::sendSRCP08InitGA(unsigned int gano)
 
 int element::getAddress1()
 {               
-    return iSoldAddress_1;
+    return address1;
 }   
             
             
 int element::getAddress2()
 {
-    return iSoldAddress_2;
+    return address2;
 }   
 
                         
 int element::getGA1BusNo()
 {               
-    return iGA1BusNo;
+    return bus1;
 }   
             
             
 int element::getGA2BusNo()
 {
-    return iGA2BusNo;
+    return bus2;
 }   
 
                         
@@ -9133,7 +9232,7 @@ void element::setSwitched(bool sw)
 void element::switchToDirBlinking(int ndir)
 {
     // save last state for single-slip and double-slip switches
-    lastdir = iSoldDirection;
+    lastdir = state;
 
     if (blinkcounter != 0) {
         blinkcounter = 1;
@@ -9150,8 +9249,8 @@ void element::switchToDirBlinking(int ndir)
 void element::runTurnoutBlinkTimer()
 {
     if (blinkcounter == 1) {
-         int olddir = iSoldDirection;
-         iSoldDirection = newdir;
+         int olddir = state;
+         state = newdir;
          sendSrcpState();
          // shortcut to prevent blinking
          if (!pref.blinkingturnouts) {
@@ -9159,13 +9258,13 @@ void element::runTurnoutBlinkTimer()
              setLightsOn(false);
          }
          else
-             iSoldDirection = olddir;
+             state = olddir;
     }
     if (blinkcounter % 2 == 1)
         setLightsOn(false);
     else {
         if (blinkcounter == 4)
-            iSoldDirection = newdir;
+            state = newdir;
         setLightsOn(true);
     }
     ++blinkcounter;   

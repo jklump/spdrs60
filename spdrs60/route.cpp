@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.69 $
+                           version 0.5.2 $Revision: 1.70 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-11 19:22:09 $
+    last modified        : $Date: 2008-05-16 18:53:05 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -418,6 +418,25 @@ Route* Route::getClone()
     return new Route(sectionid, routeType, sectionName, exitSignal,
             entrySignal, trainNumberDisplay, rePort, acPort, 
             switchItems, parent(), "clonedRoute");
+}
+
+
+/*function to update route state visualisation*/
+void Route::setState(Route::RouteState state)
+{
+    if (routestate != state) {
+        RouteSetAction rsa = rsaReset;
+        routestate = state;
+
+        if (routestate != rsUnlocked)
+            if (routeType == rtRRS || routeType == rtURS)
+                rsa = rsaRfs;
+            else
+                rsa = rsaZfs;
+
+        emit updateRoutePathLEDs(entrySignal, exitSignal, rsa);
+        emit stateChanged(this, routestate);
+    }
 }
 
 

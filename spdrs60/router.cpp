@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.3 $Revision: 1.67 $
+                           version 0.5.3 $Revision: 1.68 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-13 09:56:04 $
+    last modified        : $Date: 2008-05-16 18:53:05 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -408,7 +408,7 @@ void Router::processRouteState(Route* rt, int rs)
         case Route::rsLocked:
             emit statusMessage(tr("Route '%1' activated")
                     .arg(rt->getSectionName()));
-            //TODO: send not only route state message
+            //TODO: send not only broadcasted route state message
             if (pref.gmbroadcastroutestate) {
                 QString cms;
                 cms = rt->getCrcfInfoMessage(CrcfMessage::atState);
@@ -959,6 +959,28 @@ void Router::processGenericMessage(unsigned int sendto,
                     break;
 
                 default:
+                    break;
+            }
+            break;
+
+        case CrcfMessage::meInfo:
+            /* ROUTE <routeid> INFO <attribute> <att_value> */
+            switch (cm->getAttribute()) {
+
+                /* ROUTE <routeid> INFO STATE <att_value> */
+                case CrcfMessage::atState:
+                    rt->setState((Route::RouteState)cm->getAttValue());
+                    break;
+
+                /* ROUTE <routeid> INFO TRAIN <att_value> */
+                case CrcfMessage::atTrain:
+                    rt->setTrain((Route::RouteState)cm->getAttValue());
+                    emit routeDataChanged(rt);
+                    break;
+
+                default:
+                    emit statusMessage(tr("Unsupported CRCF attribute '%1' "
+                                "detected.").arg(cm->getAttributeStr()));
                     break;
             }
             break;

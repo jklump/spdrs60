@@ -1,3 +1,7 @@
+2008-05-16 Guido Scholz <guido.scholz@bayernline.de>
+	* element.*: Fixed info message handling for signals with more
+	than two states.
+
 2008-04-30 Guido Scholz <guido.scholz@bayernline.de>
 	* element.*, gbsarea.cpp, elementcommader.*: Layout elements
 	are no longer identified by a name, but by a classid number.

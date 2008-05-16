@@ -139,7 +139,7 @@ wird ein SRCP-Server (z.B. erddcd oder srcpd) benötigt.</translation>
     </message>
     <message>
         <source>Show feedback module window</source>
-        <translation></translation>
+        <translation>Rückmeldemodule anzeigen</translation>
     </message>
     <message>
         <source>OK</source>

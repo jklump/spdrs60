@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-11 19:22:09 $
-                           $Revision: 1.94 $
+    last modified        : $Date: 2008-05-16 18:53:05 $
+                           $Revision: 1.95 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -289,7 +289,6 @@ public:
 
     /*this variables should also be private*/
     QString  sSoldText;
-    int      iSoldAddress_2;
     int      iSoldSubType;
     unsigned int routedtrack;
 
@@ -350,17 +349,19 @@ private:
     int iFBContact;
     unsigned int editsAddress;
     unsigned int countervalue;
-    int      iGA1BusNo;
-    int      iGA2BusNo;
+    int      address1;
+    int      address2;
+    int      bus1;
+    int      bus2;
     int      port1;
     int      port2;
-    int      iSoldActiveTime;
-    int      iSoldAddress_1;
-    int      iSoldChangeConn[2];
-    int      iSoldDirection;
+    int      xchangeport1;
+    int      xchangeport2;
+    int      activetime;
+    int      state;
     int      iSoldInvert;
-    int      iSoldLEDoff;
-    int      iSoldLEDstate;
+    int      trackindicatoroff;
+    int      trackindicator;
     int      lockCounter;
     int      blinkcounter;
     int      lastdir;
@@ -393,6 +394,7 @@ private:
     void updateEDiTSAddress(unsigned int, bool);
     void updateFeedbackState();
     void switchAddress(bool);
+    void switch2AddressItem(unsigned int, unsigned int);
     /*temporary functions to convert old file types*/
     element::SpdrItemClassId translateItem(QString&, bool);
     element::SpdrItemClassId translateRotatedItem(QString&);
