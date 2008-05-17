@@ -314,6 +314,13 @@ Veröffentlicht am --.--.2008
   beschreibt das Handbuch-Kapitel &raquo;Installation&laquo;.
   </para></listitem>
   
+  <listitem><para>
+  Die Darstellung der Elemente, die zwei Decoder nutzen und damit mehr
+  als zwei Status-Varianten anzeigen können, wird nun auch über die
+  Auswertung von INFO-Meldungen, die ander SRCP-Clients verursachen,
+  aktualisiert.
+  </para></listitem>
+  
 </itemizedlist>
 </sect1>
 
@@ -888,7 +895,7 @@ auch bestehen!</para></listitem>
   Rückmeldeanschlüssen und -Modulen unter Berücksichtigung von eventuell
  fehlenden Modulen an einem oder mehreren Buszweigen.</para></listitem>
 
-  <listitem><para>Möglichkeit der Ausblendung der LED-Anzeigen in
+  <listitem><para>Möglichkeit der Ausblendung der Gleismelder in
 bestimmten Elementen; damit ist z.B. der unschöne Fehler, dass normale
 Kreuzungen manchmal etwas komisch als besetzt gemeldet wurden,
 kosmetisch beseitigt.</para></listitem>

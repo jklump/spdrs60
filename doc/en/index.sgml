@@ -242,6 +242,12 @@ Release date: 2008-05-??
           &raquo;Installation&laquo; section.
   </para></listitem>
 
+  <listitem><para>
+          Visualization of elements using two decoders and having more
+          than two state options now is updated evaluating INFO port
+          messages caused by other SRCP clients.
+  </para></listitem>
+
 </itemizedlist>
 </sect2>
 
