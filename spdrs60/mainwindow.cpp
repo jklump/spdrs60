@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-13 09:56:04 $
-                           $Revision: 1.147 $
+    last modified        : $Date: 2008-05-17 09:34:32 $
+                           $Revision: 1.148 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -193,9 +193,9 @@ MainWindow::~MainWindow()
     CloseSRCPServerConnection();
 
     // port destructors take care to close server connection
-    delete commandPort;
-    delete infoPort;
-    delete feedbackPort;
+    //delete commandPort;
+    //delete infoPort;
+    //delete feedbackPort;
 }
 
 /**

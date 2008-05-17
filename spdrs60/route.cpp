@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.70 $
+                           version 0.5.2 $Revision: 1.71 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-16 18:53:05 $
+    last modified        : $Date: 2008-05-17 09:34:32 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -282,14 +282,17 @@ void Route::setupElementList(QPtrVector<element>* elements)
         }
 
         /*add exit signal*/
-        if (el->hasSameAddress(exitSignal.bus,
+        // FIXME: this finds also Vr-types with same address, check also
+        // route start/ end point
+        if (el->isSignal() && el->hasSameAddress(exitSignal.bus,
                     exitSignal.address)) {
             exitSignal.name = el->getLabelText();
             exitSignal.elemPtr = el;
         }
 
         /*add entry signal*/
-        if (el->hasSameAddress(entrySignal.bus,
+        // FIXME: this finds also Vr-types with same address
+        if (el->isSignal() && el->hasSameAddress(entrySignal.bus,
                     entrySignal.address)) {
             entrySignal.name = el->getLabelText();
             entrySignal.elemPtr = el;
@@ -520,7 +523,7 @@ int Route::startRouting()
                return 0;
 
     if (exitSignal.elemPtr != NULL && exitSignal.elemPtr->isLocked() &&
-                exitSignal.elemPtr->hasDifferentDirection(exitSignal.state))
+                exitSignal.elemPtr->hasDifferentState(exitSignal.state))
                return 0;
 
     turnouts = 0;
@@ -532,13 +535,13 @@ int Route::startRouting()
         ++it;
         element* el = se->elemPtr;
         if (el != NULL && el->isLocked() &&
-                (el->hasDifferentDirection(se->state) ||
+                (el->hasDifferentState(se->state) ||
                  el->is2StateDKW()))
             return 0;
 
         // count turnouts for timer activation
         if (el != NULL && el->isTurnout() &&
-                el->hasDifferentDirection(se->state)) {
+                el->hasDifferentState(se->state)) {
             ++turnouts;
             el->setSwitched(false);
             if (el->isOccupied())
@@ -577,7 +580,7 @@ void Route::switchTurnouts()
             element* el = se->elemPtr;
 
             if (el != NULL && el->isTurnout() && !el->isSwitched())
-                if (el->hasDifferentDirection(se->state)) {
+                if (el->hasDifferentState(se->state)) {
 
                     ++tocounter;
                     // last turnout will trigger route path highlighting

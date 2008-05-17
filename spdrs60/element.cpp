@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-16 18:53:05 $
-                           $Revision: 1.166 $
+    last modified        : $Date: 2008-05-17 09:34:32 $
+                           $Revision: 1.167 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -76,20 +76,6 @@ element::element(QWidget* parent, SpdrItemClassId ci, elemVisualMode vm)
     visualMode = vm;
     classid = ci;
     iSoldIndex = 0;
-    iSoldInvert = -1;
-    sSoldDecoder = "-1";
-    protocol = SrcpMessage::proNone;
-    address1 = -1;
-    address2 = -1;
-    xchangeport1 = -1;
-    xchangeport2 = -1;
-    state = -1;
-    iSoldSubType = -1;
-    sSoldText = "-1";
-    activetime = -1;
-    iFBContact = 1;
-    trackindicatoroff = 1;
-
     updateProperties();
     setupElementIcon();
 }
@@ -113,6 +99,20 @@ void element::initVariables()
 #if QT_VERSION >= 0x040000
     setAutoFillBackground(true);
 #endif
+    iSoldInvert = -1;
+    sSoldDecoder = "-1";
+    protocol = SrcpMessage::proNone;
+    address1 = -1;
+    address2 = -1;
+    xchangeport1 = -1;
+    xchangeport2 = -1;
+    state = -1;
+    iSoldSubType = -1;
+    sSoldText = "-1";
+    activetime = -1;
+    iFBContact = 1;
+    trackindicatoroff = 1;
+
     editsAddress = 0;
     countervalue = 0;
     ffmactive = false;
@@ -877,12 +877,47 @@ void element::switch2AddressItem(unsigned int addr, unsigned int port)
         }
 
         else if (classid == siciHs1 || classid == siciHs3 ||
-               classid == siciVs1 || classid == siciVs3) {
+                classid == siciVs1 || classid == siciVs3 || 
+                classid == siciTw1 || classid == siciTw3) {
             if (state != realport) {
                 state = realport;
                 setupElementIcon();
             }
         }
+
+        // Crossing Subtype 1, decoder 1
+        else if (classid == siciDl1 || classid == siciDr1) {
+            if (state == 0 && realport == 1) {
+                state = 3;
+                setupElementIcon();
+            }
+            else if (state == 1 && realport == 1) {
+                state = 2;
+                setupElementIcon();
+            }
+            else if (state == 2 && realport == 0) {
+                state = 1;
+                setupElementIcon();
+            }
+            else if (state == 3 && realport == 0) {
+                state = 0;
+                setupElementIcon();
+            }
+        }
+
+        // simple crossings, decoder 2
+        else if (classid == siciSl1 || classid == siciSl3 ||
+                classid == siciSr1 || classid == siciSr3) {
+            if (state == 1 && realport == 1) {
+                state = 2;
+                setupElementIcon();
+            }
+            else if (state == 2 && realport == 0) {
+                state = 1;
+                setupElementIcon();
+            }
+        }
+
         //qWarning("A1, State: %d, RealPort: %d\n", state, realport);
 
     }
@@ -915,8 +950,49 @@ void element::switch2AddressItem(unsigned int addr, unsigned int port)
         // Subtype 6
         else if (classid == siciHs1 || classid == siciHs3 ||
                 classid == siciVs1 || classid == siciVs3) {
-            if (realport == 0 && state != 2) {
+            if (state != 2 && realport == 0) {
                 state = 2;
+                setupElementIcon();
+            }
+        }
+
+        // Crossing Subtype 1, decoder 2
+        else if (classid == siciDl1 || classid == siciDr1) {
+            if (state == 0 && realport == 1) {
+                state = 1;
+                setupElementIcon();
+            }
+            else if (state == 1 && realport == 0) {
+                state = 0;
+                setupElementIcon();
+            }
+            else if (state == 2 && realport == 0) {
+                state = 3;
+                setupElementIcon();
+            }
+            else if (state == 3 && realport == 1) {
+                state = 2;
+                setupElementIcon();
+            }
+        }
+
+        // Tree way turnout, decoder 2
+        else if (classid == siciTw1 || classid == siciTw3) {
+            if (state != 2 && realport == 1) {
+                state = 2;
+                setupElementIcon();
+            }
+        }
+
+        // simple crossings, decoder 1
+        else if (classid == siciSl1 || classid == siciSl3 ||
+                classid == siciSr1 || classid == siciSr3) {
+            if (state == 0 && realport == 1) {
+                state = 1;
+                setupElementIcon();
+            }
+            else if (state == 1 && realport == 0) {
+                state = 0;
                 setupElementIcon();
             }
         }
@@ -7856,7 +7932,7 @@ void element::addTooltip()
             "Address 2: %s\n"
             "xc Conn 1: %s (=%1d)\n"
             "xc Conn 2: %s (=%1d)\n"
-            "Direction: %d\n"
+            "State: %d\n"
             "Subtype: %d\n"
             "Text: %s\n"
             "Locked: %s (=%1d)\n"
@@ -8386,7 +8462,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
                 returnvalue = rdNE;
         }
         /*  _
-            /  */
+           /  */
         else if (state == 3) {
             if (entrydir == rdSW)
                 returnvalue = rdE;
@@ -8415,7 +8491,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
                 returnvalue = rdE;
         }
         /* \
-           \ */
+            \ */
         else if (state == 2) {
             if (entrydir == rdNW)
                 returnvalue = rdSE;
@@ -8423,7 +8499,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
                 returnvalue = rdNW;
         }
         /* _
-           \ */
+            \ */
         else if (state == 3) {
             if (entrydir == rdW)
                 returnvalue = rdSE;
@@ -8448,7 +8524,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
         /* _/
            _
-           /  */
+          /  */
         else if (state == 1) {
             if (entrydir == rdW)
                 returnvalue = rdNE;
@@ -8475,7 +8551,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
         /* \_
            _
-           \ */
+            \ */
         else if (state == 1) {
             if (entrydir == rdNW)
                 returnvalue = rdE;
@@ -8507,7 +8583,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
 
         /* \
-           \ */
+            \ */
         else if (entrydir == rdNW) {
             returnvalue = rdSE;
             routedtrack = 2;
@@ -8560,7 +8636,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
             routedtrack = 2;
         }
         /* \
-           \ */
+            \ */
         else if (entrydir == rdNW) {
             returnvalue = rdSE;
             routedtrack = 1;
@@ -8678,7 +8754,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
 
         /* \  (tunnel)
-           \ */
+            \ */
         else if (entrydir == rdNW) {
             returnvalue = rdSE;
             if (setroute) 
@@ -8723,7 +8799,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
 
         /* \  (top)
-           \ */
+            \ */
         else if (entrydir == rdNW) {
             returnvalue = rdSE;
             if (setroute) 
@@ -8935,6 +9011,11 @@ void element::writeFileTextToStream(QTextStream& ts)
         case siciLb3:
             break;
 
+        case siciSt1:
+        case siciTdr:
+        case siciTdb:
+            ts << GF_TEXT << DS << sSoldText << endl;
+            // fall through
         case siciSt2:
         case siciSt3:
         case siciSt4:
@@ -8951,11 +9032,6 @@ void element::writeFileTextToStream(QTextStream& ts)
         case siciKl1:
             ts << GF_FBPORT << DS << iFBBusNo << DS << iFBContact << endl
                 << GF_HIDELEDS << DS << trackindicatoroff << endl;
-            // fall through
-        case siciSt1:
-        case siciTdr:
-        case siciTdb:
-            ts << GF_TEXT << DS << sSoldText << endl;
             break;
 
         case siciTxt:
@@ -9078,7 +9154,7 @@ elemSelectionMode element::getSelectionMode()
 }
 
 
-bool element::hasDifferentDirection(int dir)
+bool element::hasDifferentState(int dir)
 {
     return state != dir;
 }

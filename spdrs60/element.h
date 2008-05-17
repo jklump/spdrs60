@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-16 18:53:05 $
-                           $Revision: 1.95 $
+    last modified        : $Date: 2008-05-17 09:34:32 $
+                           $Revision: 1.96 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -300,7 +300,7 @@ public:
     QString getLabelText() const;
     bool hasSameAddress(int, int);
     bool hasShuntingRouteButtonOnly();
-    bool hasDifferentDirection(int);
+    bool hasDifferentState(int);
     bool hasFfMLock();
     bool hasLEDsOn();
     bool is2StateDKW();
