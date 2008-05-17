@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-17 09:34:32 $
-                           $Revision: 1.167 $
+    last modified        : $Date: 2008-05-17 15:57:29 $
+                           $Revision: 1.168 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -120,6 +120,7 @@ void element::initVariables()
     occupied = false;
     routable = false;
     routed = false;
+    routemark = false;
     signal = false;
     state2dkw = false;
     switchable = false;
@@ -270,16 +271,20 @@ void element::updateProperties()
     if (classid == siciEnk)
         state = 0; 
 
-    signal =  classid == siciHs1 || classid == siciHs3
+    // route marks are entry or exit points of routes
+    routemark =  classid == siciHs1 || classid == siciHs3
         || classid == siciHss1 || classid == siciHss3
         || classid == siciSs1 || classid == siciSs3
-        || classid == siciSh1 || classid == siciSh3
         || classid == siciSd1 || classid == siciSd3
+        || classid == siciSh1 || classid == siciSh3
         || classid == siciWs1 || classid == siciWs3
-        || classid == siciVs1 || classid == siciVs3
-        || classid == siciZp1 || classid == siciZp3
         || classid == siciZt1 || classid == siciZt3
         || classid == siciRt1 || classid == siciRt3;
+
+    // signals include also not route mark type signals
+    signal = routemark
+        || classid == siciVs1 || classid == siciVs3
+        || classid == siciZp1 || classid == siciZp3;
 
 
     // init signals as they were saved in layout file or with red state
@@ -335,6 +340,12 @@ void element::updateProperties()
 bool element::is2StateDKW()
 {
     return state2dkw;
+}
+
+
+bool element::isRouteMark()
+{
+    return routemark;
 }
 
 
@@ -547,13 +558,7 @@ void element::mouseReleaseEvent(QMouseEvent* e)
     else if (visualMode == kvmEditRoute) {
         if (e->button() == LeftButton) {
             /*select/deselect start or stop signal*/
-            if ((classid == siciHs1 || classid == siciHs3 ||
-                        classid == siciHss1 || classid == siciHss3 ||
-                        classid == siciSs1 || classid == siciSs3 || 
-                        classid == siciSh1 || classid == siciSh3 ||
-                        classid == siciSd1 || classid == siciSd3 ||
-                        classid == siciZt1 || classid == siciZt3 ||
-                        classid == siciRt1 || classid == siciRt3)) {
+            if (routemark) {
                 /*send record signal to router*/
                 if (ksmNormal == selectionMode)
                     emit recordElement(this, krecStartStop);
@@ -567,14 +572,13 @@ void element::mouseReleaseEvent(QMouseEvent* e)
             /*select/deselect switchable element*/
             /*and send record signal to router*/
             if (turnout || classid == siciMdc ||
-                classid == siciRel ||
+                classid == siciRel || classid == siciBld ||
                 classid == siciZp1 || classid == siciZp3 || 
                 classid == siciHs1 || classid == siciHs3 ||
                 classid == siciHss1 || classid == siciHss3 ||
                 classid == siciSs1 || classid == siciSs3 ||
                 classid == siciSd1 || classid == siciSd3 ||
                 classid == siciSh1 || classid == siciSh3 ||
-                classid == siciBld ||
                 classid == siciVs1 || classid == siciVs3 ||
                 classid == siciWs1 || classid == siciWs3) {
                 if (ksmNormal == selectionMode)

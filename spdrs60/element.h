@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-17 09:34:32 $
-                           $Revision: 1.96 $
+    last modified        : $Date: 2008-05-17 15:57:30 $
+                           $Revision: 1.97 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -307,6 +307,7 @@ public:
     bool isLocked();
     bool isOccupied();
     bool isRoutable();
+    bool isRouteMark();
     bool isSignal();
     bool isSimpleGA();
     bool isSwitchable();
@@ -371,6 +372,7 @@ private:
     bool     occupied;
     bool     routable;
     bool     routed;
+    bool     routemark;
     bool     signal;
     bool     simplega;
     bool     state2dkw;

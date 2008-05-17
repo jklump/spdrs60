@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.71 $
+                           version 0.5.2 $Revision: 1.72 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-17 09:34:32 $
+    last modified        : $Date: 2008-05-17 15:57:30 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -284,7 +284,7 @@ void Route::setupElementList(QPtrVector<element>* elements)
         /*add exit signal*/
         // FIXME: this finds also Vr-types with same address, check also
         // route start/ end point
-        if (el->isSignal() && el->hasSameAddress(exitSignal.bus,
+        if (el->isRouteMark() && el->hasSameAddress(exitSignal.bus,
                     exitSignal.address)) {
             exitSignal.name = el->getLabelText();
             exitSignal.elemPtr = el;
@@ -292,7 +292,7 @@ void Route::setupElementList(QPtrVector<element>* elements)
 
         /*add entry signal*/
         // FIXME: this finds also Vr-types with same address
-        if (el->isSignal() && el->hasSameAddress(entrySignal.bus,
+        if (el->isRouteMark() && el->hasSameAddress(entrySignal.bus,
                     entrySignal.address)) {
             entrySignal.name = el->getLabelText();
             entrySignal.elemPtr = el;
