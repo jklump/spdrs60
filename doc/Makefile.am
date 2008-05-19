@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60 documentation
 # last changes by: Guido Scholz
-# Version: $Revision: 1.20 $
-# last update: $Date: 2008-05-11 19:22:05 $
+# Version: $Revision: 1.21 $
+# last update: $Date: 2008-05-19 21:19:38 $
 
 # HTML_DOC_DIR is defined in configure.ac
 htmldir = @HTML_DOC_DIR@
@@ -15,58 +15,8 @@ deimagesdir=$(dehtmldir)
 commonimagesdir = $(htmldir)/commonimages
 
 dist_enimages_DATA = \
-	en/schnapp-bhf-klein.png \
-	en/schnapp-daemoninfo.png \
-	en/schnapp-daemonmenu.png \
-	en/schnapp-deb-cmd2.png \
-	en/schnapp-editctx.png \
-	en/schnapp-editfilemenu.png \
-	en/schnapp-editmenu.png \
-	en/schnapp-feedbacks.png \
-	en/schnapp-filemenu.png \
-	en/schnapp-findnone.png \
-	en/schnapp-find.png \
-	en/schnapp-helpmenu.png \
-	en/schnapp-historyfb.png \
-	en/schnapp-historyinf.png \
-	en/schnapp-history.png \
-	en/schnapp-kdemenu.png \
-	en/schnapp-keyboard.png \
-	en/schnapp-layoutmenu.png \
-	en/schnapp-mdc-comm.png \
-	en/schnapp-menubar.png \
-	en/schnapp-newlayout.png \
-	en/schnapp-open.png \
-	en/schnapp-pref-data-err1.png \
-	en/schnapp-pref-data-err2.png \
-	en/schnapp-pref-data.png \
-	en/schnapp-pref-inter.png \
-	en/schnapp-pref-layout-err1.png \
-	en/schnapp-pref-layout.png \
-	en/schnapp-pref-server-err1.png \
-	en/schnapp-pref-server-err2.png \
-	en/schnapp-prog-empty.png \
-	en/schnapp-prop-adr.png \
-	en/schnapp-prop-antrieb.png \
-	en/schnapp-prop-dkw.png \
-	en/schnapp-prop-dreh.png \
-	en/schnapp-prop-entk.png \
-	en/schnapp-prop-normal.png \
-	en/schnapp-prop-signal-1.png \
-	en/schnapp-prop-signal-2.png \
-	en/schnapp-prop-signal-3.png \
-	en/schnapp-route-adderror1.png \
-	en/schnapp-route-add.png \
-	en/schnapp-route-rec1.png \
-	en/schnapp-route-rec6.png \
 	en/schnapp-routing-table2-all.png \
-	en/schnapp-routing-table-all.png \
-	en/schnapp-routing-table.png \
-	en/schnapp-save.png \
-	en/schnapp-sbn-comm.png \
-	en/schnapp-tt-comm.png \
-	en/schnapp-tt-comm-prog.png \
-	en/schnapp-viewmenu.png
+	en/schnapp-routing-table-all.png
 
 
 dist_deimages_DATA = \

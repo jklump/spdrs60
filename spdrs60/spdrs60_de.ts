@@ -565,8 +565,8 @@ den Suchkriterien entspricht.</translation>
         <translation>Gleisbilddatei öffnen</translation>
     </message>
     <message>
-        <source>Show routing table</source>
-        <translation>Fahrstraßentabelle anzeigen</translation>
+        <source>Show route list</source>
+        <translation>Fahrstraßenliste anzeigen</translation>
     </message>
     <message>
         <source>Show basic keyboard</source>
@@ -659,10 +659,6 @@ den Suchkriterien entspricht.</translation>
     <message>
         <source>&amp;Paste</source>
         <translation>&amp;Einfügen</translation>
-    </message>
-    <message>
-        <source>Routing &amp;table</source>
-        <translation>&amp;Fahrstraßentabelle</translation>
     </message>
     <message>
         <source>&amp;Feedback modules</source>
@@ -1069,7 +1065,7 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <translation>Statuszeile umschalten</translation>
     </message>
     <message>
-        <source>Status&amp;line</source>
+        <source>&amp;Statusline</source>
         <translation>Status&amp;zeile</translation>
     </message>
     <message>
@@ -1097,10 +1093,6 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <translation>Gleisbildbearbeitungsfunktionen</translation>
     </message>
     <message>
-        <source>&amp;Train number dialog</source>
-        <translation>&amp;Zugnummerneingabedialog</translation>
-    </message>
-    <message>
         <source>Show train number input dialog</source>
         <translation>Dialog zur Eingabe von Zugnummern öffnen</translation>
     </message>
@@ -1119,6 +1111,14 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     <message>
         <source>Unsupported CRCF actor detected.</source>
         <translation>Nicht unterstützter CRCF-Akteur gefunden.</translation>
+    </message>
+    <message>
+        <source>Rou&amp;te list</source>
+        <translation>&amp;Fahrstraßenliste</translation>
+    </message>
+    <message>
+        <source>Tr&amp;ain number dialog</source>
+        <translation>&amp;Zugnummerneingabedialog</translation>
     </message>
 </context>
 <context>
@@ -2123,10 +2123,6 @@ Erlaubt sind Werte von %1 bis %2.</translation>
         <translation>Zugnummer ändern</translation>
     </message>
     <message>
-        <source>&amp;Train number:</source>
-        <translation>&amp;Zugnummer:</translation>
-    </message>
-    <message>
         <source>Enter the route id for the train number</source>
         <translation>Fahrstraßennummer für Zugnummer eingeben</translation>
     </message>
@@ -2137,6 +2133,10 @@ Erlaubt sind Werte von %1 bis %2.</translation>
     <message>
         <source>&amp;Apply</source>
         <translation>&amp;Anwenden</translation>
+    </message>
+    <message>
+        <source>&amp;Train number:</source>
+        <translation>&amp;Zugnummer:</translation>
     </message>
 </context>
 <context>
@@ -2291,7 +2291,7 @@ be automatically send to the SRCP server
 after layout power is switched on.
 </source>
         <translation>Nach dem Einschalten der Digitalspannung wird die Stellung
-aller Magnetartikel automatisch an den SRCP-Server gesand.</translation>
+aller Magnetartikel automatisch an den SRCP-Server gesandt.</translation>
     </message>
     <message>
         <source>Enter the portnumber of your srcp service.
@@ -2299,7 +2299,7 @@ Default value for SRCP 0.8 is 4303,
 for a SRCP 0.7 server choose 12345.</source>
         <translation>Hier die Portnummer des srcp-Dienstes eingeben.
 Die Voreinstellung für SRCP 0.8 ist 4303,
-für SRCP 0.7 ist der Wert 12345.</translation>
+für SRCP 0.7 beträgt der Wert 12345.</translation>
     </message>
     <message>
         <source>&amp;Id:</source>

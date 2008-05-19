@@ -489,7 +489,7 @@ matches your search criteria.</source>
     </message>
     <message>
         <source>Save &amp;as...</source>
-        <translation>Salva &amp;come...</translation>
+        <translation>Salva c&amp;ome...</translation>
     </message>
     <message>
         <source>New &amp;window</source>
@@ -509,7 +509,7 @@ matches your search criteria.</source>
     </message>
     <message>
         <source>&amp;Layout</source>
-        <translation>&amp;Disposizione</translation>
+        <translation>Dis&amp;posizione</translation>
     </message>
     <message>
         <source>Edit layout file with external editor</source>
@@ -584,14 +584,6 @@ matches your search criteria.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Routing &amp;table</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Show routing table</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&amp;Central clock</source>
         <translation type="unfinished"></translation>
     </message>
@@ -633,10 +625,6 @@ matches your search criteria.</source>
     </message>
     <message>
         <source>Show the toolbars</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Status&amp;line</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1068,10 +1056,6 @@ the server daemon after shutdown has finished)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Train number dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Show train number input dialog</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1089,6 +1073,22 @@ the server daemon after shutdown has finished)</source>
     </message>
     <message>
         <source>Unsupported CRCF actor detected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rou&amp;te list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show route list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tr&amp;ain number dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Statusline</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

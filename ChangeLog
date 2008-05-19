@@ -1,3 +1,8 @@
+2008-05-19 Guido Scholz <guido.scholz@bayernline.de>
+	* main.cpp: Fixed warning message if program runs under locale
+	"C".
+	* doc/en/*.png: Outdated screenshot files removed.
+
 2008-05-17 Guido Scholz <guido.scholz@bayernline.de>
 	* element.cpp: Fixed info message handling for single and double
 	slip switches with more than two states.

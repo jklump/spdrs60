@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-17 09:34:32 $
-                           $Revision: 1.148 $
+    last modified        : $Date: 2008-05-19 21:19:40 $
+                           $Revision: 1.149 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -847,12 +847,12 @@ void MainWindow::initMainWindow()
 
 #if QT_VERSION >= 0x030200
     actionViewRoutes = new QAction(QPixmap(viewroute_xpm),
-            tr("Routing &table"), Qt::CTRL + Qt::Key_R, this, "viewRoutes");
-    actionViewRoutes->setToolTip(tr("Show routing table"));
+            tr("Rou&te list"), Qt::CTRL + Qt::Key_R, this, "viewRoutes");
+    actionViewRoutes->setToolTip(tr("Show route list"));
 #else
-    actionViewRoutes = new QAction(tr("Show routing table"),
+    actionViewRoutes = new QAction(tr("Show route list"),
             QPixmap(viewroute_xpm),
-            tr("Routing &table"), Qt::CTRL + Qt::Key_R, this, "viewRoutes");
+            tr("Rou&te list"), Qt::CTRL + Qt::Key_R, this, "viewRoutes");
 #endif
     connect(actionViewRoutes, SIGNAL(activated()), this,
             SLOT(slotShowRoutes()));
@@ -875,12 +875,12 @@ void MainWindow::initMainWindow()
 
 #if QT_VERSION >= 0x030200
     actionViewTrainNumberDialog = new QAction(QPixmap(viewtrainnumber_xpm),
-            tr("&Train number dialog"), 0, this, "viewTrainNumberDlg");
+            tr("Tr&ain number dialog"), 0, this, "viewTrainNumberDlg");
     actionViewTrainNumberDialog->setToolTip(tr("Show train number input dialog"));
 #else
     actionViewTrainNumberDialog = new QAction(
             tr("Show train number input dialog"), QPixmap(viewtrainnumber_xpm),
-            tr("&Keyboard"), 0, this, "viewTrainNumberDlr");
+            tr("Tr&ain number dialog"), 0, this, "viewTrainNumberDlr");
 #endif
     connect(actionViewTrainNumberDialog, SIGNAL(activated()), this,
             SLOT(slotViewTrainNumberDialog()));
@@ -978,14 +978,14 @@ void MainWindow::initMainWindow()
 
 #if QT_VERSION >= 0x040000
     QAction* actionViewStatusline = new QAction(
-            tr("Status&line"), 0, this, "viewStatusline");
+            tr("&Statusline"), 0, this, "viewStatusline");
 #elif QT_VERSION >= 0x030200
     QAction* actionViewStatusline = new QAction(NULL,
-            tr("Status&line"), 0, this, "viewStatusline");
+            tr("&Statusline"), 0, this, "viewStatusline");
     actionViewStatusline->setToolTip(tr("Show the statusline"));
 #else
     QAction* actionViewStatusline = new QAction(tr("Show the statusline"),
-            tr("Status&line"), 0, this, "viewStatusline");
+            tr("&Statusline"), 0, this, "viewStatusline");
 #endif
     actionViewStatusline->setToggleAction(true);
     actionViewStatusline->setOn(true);

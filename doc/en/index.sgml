@@ -217,6 +217,12 @@ Release date: 2008-05-??
   </para></listitem>
 
   <listitem><para>
+          The element displaying text labels was redesigned to show
+          text on white background. This is closer to the original and
+          also makes detecting of empty labels easier.
+  </para></listitem>
+
+  <listitem><para>
           Support for Generic Messages (GM) was added. A limited
           selection of CRCF data can be read an written by this new
           designed communication channel. These data can be used for
@@ -998,7 +1004,24 @@ nmake
 
 <sect1 id="sect-routes">
 <title>Routes</title>
-<para></para>
+<para>
+    In normal run mode the already configured routes are not visible.
+    They are displayed in a list window (<xref linkend="abb-routelist1">)
+        if the program is switched to route edit mode or by activating
+        menu  &raquo;View/Route list&laquo;
+</para>
+<figure id="abb-routelist1">
+  <title>Route List</title>
+  <mediaobject><imageobject>
+    <imagedata fileref="schnapp-routing-table2-all.png">
+  </imageobject></mediaobject>
+</figure>
+<figure id="abb-routelist2">
+  <title>Activated Routes</title>
+  <mediaobject><imageobject>
+    <imagedata fileref="schnapp-routing-table-all.png">
+  </imageobject></mediaobject>
+</figure>
 </sect1>
 
 

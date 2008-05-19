@@ -197,7 +197,7 @@ Veröffentlicht am --.--.2008
   </para></listitem>
   
   <listitem><para>
-  Der Informationsdialog zur Anzeige der SRCP-Serverinformationen wurde
+  Der Dialog zur Anzeige der SRCP-Serverinformationen wurde
   neu gestaltet und gibt nun detailiertere Angaben zu den bestehenden
   Verbindungen wieder.
   </para></listitem>
@@ -205,7 +205,7 @@ Veröffentlicht am --.--.2008
   <listitem><para>
   Für die Kommandohistorie im unteren Bereich des Programmfensters kann
   nun über eine neue Benutzereinstellung die Anzeige der Zeit einzelner
-  Meldungen ein- bzw. ausgeschaltet werden. Die vierte Historieenebene
+  Meldungen ein- bzw. ausgeschaltet werden. Die vierte Historienebene
   der SRCP 0.7-Rückmeldeinformationen ist nun entfallen; diese
   Informationsdaten werden bei SRCP 0.7-Verbindungen zusammen mit den
   Info-Meldungen angezeigt. Das entspricht im Prinzip der Situation
@@ -233,12 +233,13 @@ Veröffentlicht am --.--.2008
   nicht, dass dort die Zugnummern Gleisen zugeordnet sind. Die
   Zugnummern werden nicht nur in der Fahrstraßentabelle angezeigt,
   sondern lassen sich auch im Gleisbild durch ein zugeordnetes
-  Adressanzeige-Element darstellen.
+  Adressanzeige-Element darstellen. Ein neues Kapitel im Handbuch geht
+  näher auf dieses Thema ein.
   </para></listitem>
 
   <listitem><para>
   Ein neues Dialogfenster, das über einen Schalter in der Werkzeugleiste
-  erreichbar ist, erlaubt ein einfachen Eingeben von Zugnummern anhand
+  erreichbar ist, erlaubt ein einfaches Eingeben von Zugnummern anhand
   der gewählten Fahrstraßennummer.
   </para></listitem>
   
@@ -288,6 +289,13 @@ Veröffentlicht am --.--.2008
   </para></listitem>
   
   <listitem><para>
+  Das Element zur Anzeige von Beschriftungen wurde überarbeitet und
+  zeigt Texte nun vor weißem Hintergrund an. Die Darstellung ist damit
+  näher am Original, und Elemente ohne Text lassen sich nun besser
+  auffinden.
+  </para></listitem>
+  
+  <listitem><para>
   Eine Unterstützung für Standardnachrichten (Generic Messages, GM)
   wurde ergänzt. Eine kleinere Auswahl an statischen und dynamischen
   CRCF-Daten läßt sich nun abfragen und ändern. Diese Fähigkeit läßt
@@ -317,7 +325,7 @@ Veröffentlicht am --.--.2008
   <listitem><para>
   Die Darstellung der Elemente, die zwei Decoder nutzen und damit mehr
   als zwei Status-Varianten anzeigen können, wird nun auch über die
-  Auswertung von INFO-Meldungen, die ander SRCP-Clients verursachen,
+  Auswertung von INFO-Meldungen, die andere SRCP-Clients verursachen,
   aktualisiert.
   </para></listitem>
   
