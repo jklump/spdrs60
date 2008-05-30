@@ -1,11 +1,11 @@
 /***************************************************************************
                            main.cpp
-                           version 0.5.2 $Revision: 1.17 $
+                           version 0.5.2 $Revision: 1.18 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-19 21:19:40 $
+    last modified        : $Date: 2008-05-30 20:14:43 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -25,7 +25,7 @@
 
 #include <qapplication.h>
 #include <qstring.h>
-#include <qlocale.h>
+#include <qtextcodec.h>
 #include <qtranslator.h>
 
 #ifdef WIN32
@@ -41,34 +41,25 @@ int main(int argc, char* argv[])
 {
    QApplication a(argc, argv);  // create a new Qt application
 
-   if (QLocale::system().language() != QLocale::C) {
+   // translation file for Qt
+   QTranslator qtTr(0);
 
 #ifdef QT_TRANSLATIONS_DIR
-       QTranslator* qtTr = new QTranslator(0);
-       Q_CHECK_PTR(qtTr);
-
-       if (qtTr->load(QString("qt_") + QLocale::system().name(),
-                   QT_TRANSLATIONS_DIR))
-           a.installTranslator(qtTr);
-       else {
-           delete qtTr;
-           qWarning("No Qt translation for locale '%s' found.",
-                   QLocale::system().name().data());
-       }
+   if (qtTr.load(QString("qt_") + QTextCodec::locale(), QT_TRANSLATIONS_DIR))
+       a.installTranslator(&qtTr);
+   else
+       qWarning("No Qt translation for locale '%s' found.",
+               QTextCodec::locale());
 #endif
+   
+   // translation file for application strings
+   QTranslator spdrs60Tr(0);
 
-       QTranslator* spdrs60Tr = new QTranslator(0);
-       Q_CHECK_PTR(spdrs60Tr);
-
-       if (spdrs60Tr->load(QString("spdrs60_") + QLocale::system().name(),
-                   RES_DIR))
-           a.installTranslator(spdrs60Tr);
-       else {
-           delete spdrs60Tr;
-           qWarning("No spdrs60 translation for locale '%s' in '%s' found.",
-                   QLocale::system().name().data(), RES_DIR);
-       }
-   }
+   if (spdrs60Tr.load(QString("spdrs60_") + QTextCodec::locale(), RES_DIR))
+       a.installTranslator(&spdrs60Tr);
+   else
+       qWarning("No spdrs60 translation for locale '%s' in '%s' found.",
+               QTextCodec::locale(), RES_DIR);
 
    MainWindow* spdrs60Window = new MainWindow();
    Q_CHECK_PTR(spdrs60Window);
