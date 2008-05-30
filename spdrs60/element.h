@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-17 15:57:30 $
-                           $Revision: 1.97 $
+    last modified        : $Date: 2008-05-30 18:16:23 $
+                           $Revision: 1.98 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -81,6 +81,9 @@
 #define SYM_KRH  "kreuzung_hose"   //crossing
 #define SYM_KRR  "kreuzung_rechts" //crossing right
 #define SYM_KRL  "kreuzung_links"  //crossing left
+#define SYM_GET  "gerade_tl"  // tunnel straight left/right (tug)
+#define SYM_TUL  "diagonale_links_tl" //tunnelbottomleft /top left
+#define SYM_TUR  "diagonale_rechts_tl" // right
 
 // curved tracks
 #define SYM_KUR  "kurve_rechts" //curved track right bottom (KUR)
@@ -102,9 +105,6 @@
 
 // decorative items
 #define SYM_PRE  "prellbock"  // buffer stop, bumper
-#define SYM_GET  "gerade_tl"  // tunnel straight left/right (tug)
-#define SYM_TUL  "diagonale_links_tl" //tunnelbottomleft /top left
-#define SYM_TUR  "diagonale_rechts_tl" // right
 #define SYM_LEE  "leer" // (txt)
 #define SYM_BUC  "haus_1"
 #define SYM_BUL  "haus_2"

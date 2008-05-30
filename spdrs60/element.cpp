@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-17 15:57:29 $
-                           $Revision: 1.168 $
+    last modified        : $Date: 2008-05-30 18:16:23 $
+                           $Revision: 1.169 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -322,6 +322,8 @@ void element::updateProperties()
         classid == siciCl1 || classid == siciCl2 ||
         classid == siciCl3 || classid == siciCl4 ||
         classid == siciTdr || classid == siciTdl ||
+        classid == siciTul || classid == siciTur ||
+        classid == siciTuh || classid == siciTuv ||
         classid == siciTdb || classid == siciKrh ||
         classid == siciKr1 || classid == siciKl1 ||
         classid == siciBue || classid == siciAdr ||
