@@ -1,6 +1,8 @@
+2008-05-31 Guido Scholz <guido.scholz@bayernline.de>
+	* element.*, elementdialog.cpp, route.cpp: Simple crossings are
+	now lockable against traversing routes.
+
 2008-05-19 Guido Scholz <guido.scholz@bayernline.de>
-	* main.cpp: Fixed warning message if program runs under locale
-	"C".
 	* doc/en/*.png: Outdated screenshot files removed.
 
 2008-05-17 Guido Scholz <guido.scholz@bayernline.de>

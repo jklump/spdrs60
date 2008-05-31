@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-16 18:53:05 $
-                           $Revision: 1.69 $
+    last modified        : $Date: 2008-05-31 17:57:34 $
+                           $Revision: 1.70 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -661,8 +661,16 @@ void ElementDialog::slotShowFBmodules()
 void ElementDialog::slotSymbolChanged()
 {
     int enabled;
+    bool hasvirtualaddress;
     QString sListText;
     
+    // elements with virtual addresses need an address, but no protokoll
+    hasvirtualaddress =
+        classid == element::siciZt1 || classid == element::siciZt3 ||
+        classid == element::siciRt1 || classid == element::siciRt3 ||
+        classid == element::siciKr1 || classid == element::siciKl1 ||
+        classid == element::siciKrh || classid == element::siciAdr;
+
     // show protocol data => element->hasAddress() or isSwitchable()
     enabled =
         classid == element::siciHs1 || classid == element::siciHs3 ||
@@ -683,8 +691,6 @@ void ElementDialog::slotSymbolChanged()
         classid == element::siciMdc ||
         classid == element::siciSy1 || classid == element::siciSy3 ||
         classid == element::siciSbn || classid == element::siciBld ||
-        classid == element::siciZt1 || classid == element::siciZt3 ||
-        classid == element::siciRt1 || classid == element::siciRt3 ||
         classid == element::siciZp1 || classid == element::siciZp3 ||
         classid == element::siciVs1 || classid == element::siciVs3;
 
@@ -699,7 +705,7 @@ void ElementDialog::slotSymbolChanged()
     enabled = enabled && classid != element::siciSbn &&
         classid != element::siciMdc;
 
-    if (enabled || classid == element::siciAdr) {
+    if (enabled || hasvirtualaddress) {
         // set direction to 0 if it was -1 before and address_1 is now enabled
         if (gaDirection == -1)
             gaDirection = 0;
@@ -710,11 +716,12 @@ void ElementDialog::slotSymbolChanged()
         addresscount = 0;
     }
 
-    srcpBus1Label->setEnabled(enabled || classid == element::siciAdr);
-    srcpBus1LE->setEnabled(enabled || classid == element::siciAdr);
-    address1LE->setEnabled(enabled || classid == element::siciAdr);
-    cbAddrLabeling->setEnabled(enabled);
-    address1Lbl->setEnabled(enabled || classid == element::siciAdr);
+    srcpBus1Label->setEnabled(enabled || hasvirtualaddress);
+    srcpBus1LE->setEnabled(enabled || hasvirtualaddress);
+    address1Lbl->setEnabled(enabled || hasvirtualaddress);
+    address1LE->setEnabled(enabled || hasvirtualaddress);
+    cbAddrLabeling->setEnabled(classid != element::siciAdr &&
+            (enabled || hasvirtualaddress));
     port1Label->setEnabled(rbProtocol_SE->isChecked());
     port1SB->setEnabled(rbProtocol_SE->isChecked());
     xchConn1CB->setEnabled(enabled);

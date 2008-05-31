@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.72 $
+                           version 0.5.2 $Revision: 1.73 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-17 15:57:30 $
+    last modified        : $Date: 2008-05-31 17:57:34 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -536,7 +536,7 @@ int Route::startRouting()
         element* el = se->elemPtr;
         if (el != NULL && el->isLocked() &&
                 (el->hasDifferentState(se->state) ||
-                 el->is2StateDKW()))
+                 el->is2StateDKW() || !el->isLockable()))
             return 0;
 
         // count turnouts for timer activation

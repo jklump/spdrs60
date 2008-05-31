@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-30 18:16:23 $
-                           $Revision: 1.169 $
+    last modified        : $Date: 2008-05-31 17:57:34 $
+                           $Revision: 1.170 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -267,11 +267,12 @@ void element::readFileTextFromStream(QTextStream& ats)
  * */
 void element::updateProperties()
 {
-    // couplers get the non-active direction on setup
-    if (classid == siciEnk)
+    // couplers and crossings get the non-active direction on setup
+    if (classid == siciEnk || classid == siciKrh ||
+        classid == siciKr1 || classid == siciKl1)
         state = 0; 
 
-    // route marks are entry or exit points of routes
+    // route marks are entry or exit points of routes (limits)
     routemark =  classid == siciHs1 || classid == siciHs3
         || classid == siciHss1 || classid == siciHss3
         || classid == siciSs1 || classid == siciSs3
@@ -582,7 +583,9 @@ void element::mouseReleaseEvent(QMouseEvent* e)
                 classid == siciSd1 || classid == siciSd3 ||
                 classid == siciSh1 || classid == siciSh3 ||
                 classid == siciVs1 || classid == siciVs3 ||
-                classid == siciWs1 || classid == siciWs3) {
+                classid == siciWs1 || classid == siciWs3 ||
+                classid == siciKr1 || classid == siciKl1 ||
+                classid == siciKrh) {
                 if (ksmNormal == selectionMode)
                     emit recordElement(this, krecNormal);
                 else
@@ -3741,6 +3744,15 @@ void element::setupElementIcon()
                     h - stopy - 1);
         }
 
+        // paint lock light
+        p.setPen(QPen(black, 1));
+        if (lockCounter == 0)
+            p.setBrush(Qt::darkGray);
+        else
+            p.setBrush(QColor(255, 225, 0));
+
+        p.drawEllipse(w / 4 - 3, h / 2 - 2, 5, 5);
+
         p.end();
         setPaletteBackgroundPixmap(pm);
     }
@@ -3830,6 +3842,15 @@ void element::setupElementIcon()
             p.drawLine(startx, h /2, stopx, h / 2);
             p.drawLine(w - startx - 1, h / 2, w - stopx - 1, h / 2);
         }
+
+        // paint lock light
+        p.setPen(QPen(black, 1));
+        if (lockCounter == 0)
+            p.setBrush(Qt::darkGray);
+        else
+            p.setBrush(QColor(255, 225, 0));
+
+        p.drawEllipse(w / 4, 6, 5, 5);
 
         p.end();
         setPaletteBackgroundPixmap(pm);
@@ -3921,6 +3942,15 @@ void element::setupElementIcon()
             p.drawLine(startx, h / 2, stopx, h / 2);
             p.drawLine(w - startx - 1, h / 2, w - stopx - 1, h / 2);
         }
+
+        // paint lock light
+        p.setPen(QPen(black, 1));
+        if (lockCounter == 0)
+            p.setBrush(Qt::darkGray);
+        else
+            p.setBrush(QColor(255, 225, 0));
+
+        p.drawEllipse(3 * w/ 4 - 4, 6, 5, 5);
 
         p.end();
         setPaletteBackgroundPixmap(pm);
@@ -4367,7 +4397,7 @@ void element::setupElementIcon()
         else
             p.setBrush(QColor(255, 225, 0));
 
-        p.drawEllipse(3 * w/ 4 - 2 - 2  , 6, 5, 5);
+        p.drawEllipse(3 * w/ 4 - 4, 6, 5, 5);
 
         // paint track lights
         if (trackindicatoroff == 1) {
@@ -9033,9 +9063,6 @@ void element::writeFileTextToStream(QTextStream& ts)
         case siciCl2:
         case siciCl3:
         case siciCl4:
-        case siciKrh:
-        case siciKr1:
-        case siciKl1:
             ts << GF_FBPORT << DS << iFBBusNo << DS << iFBContact << endl
                 << GF_HIDELEDS << DS << trackindicatoroff << endl;
             break;
@@ -9054,12 +9081,16 @@ void element::writeFileTextToStream(QTextStream& ts)
                  (protocol == SrcpMessage::proServer) ? "P" :
                  (protocol == SrcpMessage::proSelectrix) ? "S" : "-1") << endl
                 << GF_ADDRESS1  << DS << bus1 << DS << address1 <<
-                DS << port1 << endl
-                << GF_ADDRESS2  << DS << bus2 << DS << address2 <<
-                DS << port2 << endl
-                << GF_XCHCONN1  << DS << xchangeport1 << endl
-                << GF_XCHCONN2  << DS << xchangeport2 << endl
-                << GF_DIRECTION << DS << state << endl
+                DS << port1 << endl;
+            if (address2 != -1) {
+                ts << GF_ADDRESS2  << DS << bus2 << DS << address2 <<
+                    DS << port2 << endl;
+            }
+            ts << GF_XCHCONN1  << DS << xchangeport1 << endl;
+            if (address2 != -1) {
+                ts << GF_XCHCONN2  << DS << xchangeport2 << endl;
+            }
+            ts << GF_DIRECTION << DS << state << endl
                 << GF_SUBTYPE   << DS << iSoldSubType << endl
                 << GF_TEXT      << DS << sSoldText << endl
                 << GF_ACTTIME   << DS << activetime << endl
@@ -9087,6 +9118,19 @@ bool element::hasSameAddress(int bus, int address)
 bool element::isLocked()
 {
     return (lockCounter > 0);
+}
+
+
+/*already locked crossings are not lockable for a second time*/
+bool element::isLockable()
+{
+    bool result = true;
+
+    if ((classid == siciKrh || classid == siciKr1 || classid == siciKl1)
+        && (lockCounter > 0))
+            result = false;
+
+    return result;
 }
 
 

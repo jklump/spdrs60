@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-30 18:16:23 $
-                           $Revision: 1.98 $
+    last modified        : $Date: 2008-05-31 17:57:34 $
+                           $Revision: 1.99 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -305,6 +305,7 @@ public:
     bool hasLEDsOn();
     bool is2StateDKW();
     bool isLocked();
+    bool isLockable();
     bool isOccupied();
     bool isRoutable();
     bool isRouteMark();

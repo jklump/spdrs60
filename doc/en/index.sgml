@@ -254,6 +254,10 @@ Release date: 2008-05-??
           messages caused by other SRCP clients.
   </para></listitem>
 
+  <listitem><para>
+          Simple crossings now are lockabla against traversing routes.
+  </para></listitem>
+
 </itemizedlist>
 </sect2>
 
