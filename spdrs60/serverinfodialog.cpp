@@ -2,8 +2,8 @@
  * serverinfodialog.cpp
  * --------------------
  * Begin        : 2007-08-22
- * Last modified: $Date: 2007-10-14 10:49:40 $
- *                $Revision: 1.5 $
+ * Last modified: $Date: 2008-06-11 17:51:49 $
+ *                $Revision: 1.6 $
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Description  : Dialog window to display SRCP server information
@@ -57,26 +57,68 @@ ServerInfoDialog::ServerInfoDialog(SrcpPort::CommunicationStyle style,
     // 3. line
     label = new QLabel(tr("Other SRCP version:"), commandGB);
     cmdLayout->addWidget(label, 2, 0);
+#if QT_VERSION >= 0x030100
     label->setHidden(SrcpPort::csOld == style);
+#else
+    if (SrcpPort::csOld == style)
+        label->hide();
+    else
+        label->show();
+#endif
     cmdSrcpOtherLbl = new QLabel("", commandGB);
     cmdLayout->addWidget(cmdSrcpOtherLbl, 2, 1);
+#if QT_VERSION >= 0x030100
     cmdSrcpOtherLbl->setHidden(SrcpPort::csOld == style);
+#else
+    if (SrcpPort::csOld == style)
+        cmdSrcpOtherLbl->hide();
+    else
+        cmdSrcpOtherLbl->show();
+#endif
 
     // 4. line
     label = new QLabel(tr("SRCP session id:"), commandGB);
     cmdLayout->addWidget(label, 3, 0);
+#if QT_VERSION >= 0x030100
     label->setHidden(SrcpPort::csOld == style);
+#else
+    if (SrcpPort::csOld == style)
+        label->hide();
+    else
+        label->show();
+#endif
     cmdSessionIdLbl = new QLabel("", commandGB);
     cmdLayout->addWidget(cmdSessionIdLbl, 3, 1);
+#if QT_VERSION >= 0x030100
     cmdSessionIdLbl->setHidden(SrcpPort::csOld == style);
+#else
+    if (SrcpPort::csOld == style)
+        cmdSessionIdLbl->hide();
+    else
+        cmdSessionIdLbl->show();
+#endif
 
     // 5. line
     label = new QLabel(tr("Generic Messages:"), commandGB);
     cmdLayout->addWidget(label, 4, 0);
+#if QT_VERSION >= 0x030100
     label->setHidden(SrcpPort::csOld == style);
+#else
+    if (SrcpPort::csOld == style)
+        label->hide();
+    else
+        label->show();
+#endif
     cmdGmLbl = new QLabel("No", commandGB);
     cmdLayout->addWidget(cmdGmLbl, 4, 1);
+#if QT_VERSION >= 0x030100
     cmdGmLbl->setHidden(SrcpPort::csOld == style);
+#else
+    if (SrcpPort::csOld == style)
+        cmdGmLbl->hide();
+    else
+        cmdGmLbl->show();
+#endif
 
 
     // info session groupbox
@@ -110,7 +152,14 @@ ServerInfoDialog::ServerInfoDialog(SrcpPort::CommunicationStyle style,
     infoSessionIdLbl = new QLabel("", infoGB);
     infoLayout->addWidget(infoSessionIdLbl, 3, 1);
 
+#if QT_VERSION >= 0x030100
     infoGB->setHidden(SrcpPort::csOld == style);
+#else
+    if (SrcpPort::csOld == style)
+        infoGB->hide();
+    else
+        infoGB->show();
+#endif
 
 
     // ports groupbox for old style information
@@ -132,7 +181,14 @@ ServerInfoDialog::ServerInfoDialog(SrcpPort::CommunicationStyle style,
     infoPortLbl = new QLabel("Not Connected", portsGB);
     portsLayout->addWidget(infoPortLbl, 1, 1);
 
+#if QT_VERSION >= 0x030100
     portsGB->setHidden(SrcpPort::csOld != style);
+#else
+    if (SrcpPort::csOld == style)
+        portsGB->hide();
+    else
+        portsGB->show();
+#endif
 
 
     // OK button
