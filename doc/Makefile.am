@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60 documentation
 # last changes by: Guido Scholz
-# Version: $Revision: 1.21 $
-# last update: $Date: 2008-05-19 21:19:38 $
+# Version: $Revision: 1.22 $
+# last update: $Date: 2008-06-11 17:53:11 $
 
 # HTML_DOC_DIR is defined in configure.ac
 htmldir = @HTML_DOC_DIR@
@@ -230,6 +230,9 @@ dehtml_DATA = \
 	de/sect-bedienelemente.html \
 	de/sect-bezugsquellen.html \
 	de/sect-bugs.html \
+        de/sect-crcf-datenabfrage.html \
+        de/sect-crcf-dateneinstellung.html \
+        de/sect-crcf-rundruf.html \
 	de/sect-copyright.html \
 	de/sect-gm-allgemein.html \
 	de/sect-gm-anwendung.html \
@@ -257,6 +260,7 @@ dehtml_DATA = \
 	de/sect-symboleigenschaften.html \
 	de/sect-symbole-uebersicht.html \
 	de/sect-tastaturkuerzel.html \
+        de/sect-trainnumber-introduction.html \
 	de/sect-trainnumber-usage.html \
 	de/sect-voraussetzungen.html \
 	de/v0.2.1.html \
