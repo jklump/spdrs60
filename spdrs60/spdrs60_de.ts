@@ -247,6 +247,11 @@ Controlled via keyboard #15</source>
 Controlled via keyboard #14</source>
         <translation>Extra-Drehscheibe: Steuerung über Schaltpult Nr. 14</translation>
     </message>
+    <message>
+        <source>Enter address of decoder 1.
+Valid range is %1..%2.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FeedbackViewer</name>
@@ -311,7 +316,7 @@ Controlled via keyboard #14</source>
     </message>
     <message>
         <source>Match counter</source>
-        <translation>Trefferanzahl</translation>
+        <translation>Treffer anzeigen</translation>
     </message>
 </context>
 <context>
@@ -2022,7 +2027,7 @@ Erlaubt sind Werte von %1 bis %2.</translation>
     </message>
     <message>
         <source>Generic Messages:</source>
-        <translation>Standardnachrichten</translation>
+        <translation>Standardnachrichten:</translation>
     </message>
     <message>
         <source>Yes</source>
@@ -2206,7 +2211,7 @@ Erlaubt sind Werte von %1 bis %2.</translation>
     </message>
     <message>
         <source>&amp;Protocol:</source>
-        <translation>&amp;Protokoll</translation>
+        <translation>&amp;Protokoll:</translation>
     </message>
     <message>
         <source>Select the decoder protocol

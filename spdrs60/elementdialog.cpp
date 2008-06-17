@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-31 17:57:34 $
-                           $Revision: 1.70 $
+    last modified        : $Date: 2008-06-17 19:02:09 $
+                           $Revision: 1.71 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -239,6 +239,11 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     a1Validator = new QIntValidator(-1, MAX_GADCC, this);
     address1LE->setValidator(a1Validator);
     address1Lbl->setBuddy(address1LE);
+    QToolTip::add(address1LE, tr(
+                "Enter address of decoder 1.\n"
+                "Valid range is %1..%2.")
+            .arg(a1Validator->bottom())
+            .arg(a1Validator->top()));
 
     /*line with port 1 spinbox */
     port1Label = new QLabel(tr("&Port 1:"), decoderGB);
@@ -271,6 +276,12 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     a2Validator = new QIntValidator(-1, MAX_GADCC, this);
     address2LE->setValidator(a2Validator);
     address2Lbl->setBuddy(address2LE);
+    QToolTip::add(address2LE, tr(
+                "Enter address of decoder 1.\n"
+                "Valid range is %1..%2.")
+            .arg(a2Validator->bottom())
+            .arg(a2Validator->top()));
+    //TODO: update tooltip text if validator limits change
 
     /*line with port 1 spinbox */
     port2Label = new QLabel(tr("&Port 2:"), decoderGB);
@@ -438,12 +449,22 @@ void ElementDialog::updateValidators()
             classid == element::siciRt1 || classid == element::siciRt3) {
         a1Validator->setTop(MAX_RB);
         a2Validator->setTop(MAX_RB);
+        a1Validator->setBottom(MIN_RB);
+        a2Validator->setBottom(MIN_RB);
     }
     else if (classid == element::siciAdr) {
         a1Validator->setTop(MAX_DISP);
         a2Validator->setTop(MAX_DISP);
-        //a1Validator->setBottom(MAX_RB);
-        //a2Validator->setBottom(MAX_RB);
+        a1Validator->setBottom(MIN_DISP);
+        a2Validator->setBottom(MIN_DISP);
+    }
+
+    else if (classid == element::siciKrh || classid == element::siciKr1
+            || classid == element::siciKl1) {
+        a1Validator->setTop(MAX_CROSS);
+        a2Validator->setTop(MAX_CROSS);
+        a1Validator->setBottom(MIN_CROSS);
+        a2Validator->setBottom(MIN_CROSS);
     }
 
     else { 
@@ -452,6 +473,9 @@ void ElementDialog::updateValidators()
 #else
         int prot = protocolBG->id(protocolBG->selected());
 #endif
+        a1Validator->setBottom(0);
+        a2Validator->setBottom(0);
+
         switch (prot) {
             case 0:
                 // MM

@@ -227,6 +227,11 @@ Controlled via keyboard #15</source>
 Controlled via keyboard #14</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Enter address of decoder 1.
+Valid range is %1..%2.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FeedbackViewer</name>

@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-19 21:19:40 $
-                           $Revision: 1.149 $
+    last modified        : $Date: 2008-06-17 19:02:09 $
+                           $Revision: 1.150 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -946,14 +946,14 @@ void MainWindow::initMainWindow()
 
 #if QT_VERSION >= 0x040000
     QAction* actionViewMenu = new QAction(
-            tr("&Menu"), Qt::CTRL + Qt::Key_U, this, "viewMenu");
+            tr("&Menu"), Qt::CTRL + Qt::Key_H, this, "viewMenu");
 #elif QT_VERSION >= 0x030200
     QAction* actionViewMenu = new QAction(NULL,
-            tr("&Menu"), Qt::CTRL + Qt::Key_U, this, "viewMenu");
+            tr("&Menu"), Qt::CTRL + Qt::Key_H, this, "viewMenu");
     actionViewMenu->setToolTip(tr("Show the main menu"));
 #else
     QAction* actionViewMenu = new QAction(tr("Show the main menu"),
-            tr("&Menu"), Qt::CTRL + Qt::Key_U, this, "viewMenu");
+            tr("&Menu"), Qt::CTRL + Qt::Key_H, this, "viewMenu");
 #endif
     actionViewMenu->setToggleAction(true);
     actionViewMenu->setOn(true);

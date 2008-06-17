@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60 documentation
 # last changes by: Guido Scholz
-# Version: $Revision: 1.22 $
-# last update: $Date: 2008-06-11 17:53:11 $
+# Version: $Revision: 1.23 $
+# last update: $Date: 2008-06-17 19:02:05 $
 
 # HTML_DOC_DIR is defined in configure.ac
 htmldir = @HTML_DOC_DIR@
@@ -28,12 +28,10 @@ dist_deimages_DATA = \
 	de/schnapp-editmenu.png \
 	de/schnapp-feedbacks.png \
 	de/schnapp-filemenu.png \
-	de/schnapp-findnone.png \
 	de/schnapp-find.png \
 	de/schnapp-helpmenu.png \
 	de/schnapp-hints.png \
 	de/schnapp-historyhints.png \
-	de/schnapp-historyfb.png \
 	de/schnapp-historyinf.png \
 	de/schnapp-history.png \
 	de/schnapp-kdemenu.png \
@@ -43,10 +41,7 @@ dist_deimages_DATA = \
 	de/schnapp-menubar.png \
 	de/schnapp-newlayout.png \
 	de/schnapp-open.png \
-	de/schnapp-pref-data-err1.png \
-	de/schnapp-pref-data-err2.png \
 	de/schnapp-pref-data.png \
-	de/schnapp-pref-layout-err1.png \
 	de/schnapp-pref-layout.png \
 	de/schnapp-prog-empty.png \
 	de/schnapp-prop-adr.png \

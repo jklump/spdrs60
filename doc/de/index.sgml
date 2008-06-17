@@ -146,7 +146,7 @@ vorhandenen Funktionen bieten:
 &raquo;spdrs60 für Linux&laquo; kann nicht eigenständig benutzt werden.
 Das Programm benötigt grundsätzlich einen SRCP-Server zur Anbindung an
 die Hardware der Modellbahnanlage. Zur Auswahl stehen beispielsweise
-folgende Linuxprogramme:
+folgende Linux-Programme:
 </para>
 <itemizedlist>
     <listitem>
@@ -312,8 +312,8 @@ Veröffentlicht am --.--.2008
   Decoder oder ähnliche Zusatzfunktionen nutzen, speichern diese
   Informationen nun nicht mehr ab. Dadurch wurde das Dateiformat um ca.
   20&nbsp;- 40&nbsp;% kompakter. Auch das Lesen des neuen Dateiformats
-  erfolgt ca. um diesen Prozentsatz schneller. Dateien im älteren Format
-  werden ohne spezielle Benutzerinteraktionen eingelesen.
+  erfolgt näherungsweise um diesen Prozentsatz schneller. Dateien im
+  älteren Format werden ohne spezielle Benutzerinteraktionen eingelesen.
   </para></listitem>
   
   <listitem><para>
@@ -1181,20 +1181,20 @@ http://www.linux-modellbahn.de/
 <sect1 id="sect-voraussetzungen">
   <title>Voraussetzungen</title>
 <sect2>
-  <title>Allgemeines</title>
+  <title>Software</title>
 <para>
 Für ein erfolgreiches Arbeiten mit diesem Programm müssen folgende
-generelle Voraussetzungen erfüllt sein:
+Software-Voraussetzungen erfüllt sein:
 <itemizedlist mark="bullet">
   <listitem><para>Installierter X-Server mit beliebigem
   Windowmanager. Die für die grafische Oberfläche notwendige Auflösung
   richtet sich weitgehend nach den eigenen Ansprüchen. Kleinere
   Gleisbilder finden noch vollständig auf 800x600 Pixeln Platz, für
-  größere können sogar 1280x1024 Pixel schon knapp werden.
+  größere können sogar 1600x1200 Pixel schon knapp werden.
   </para></listitem>
 
-  <listitem><para>Für die aktuelle Qt3-Version muß die
-  Qt-Laufzeit-Bibliothek installiert sein (SuSE Paket
+  <listitem><para>Für die aktuelle spdrs60-Version muß die
+  Qt3-Laufzeit-Bibliothek installiert sein (SuSE Paket
   &raquo;qt3&laquo;, Fedora Paket &raquo;qt&laquo;, Debian/Ubuntu Paket
   &raquo;libqt3-mt&laquo;).
   </para></listitem>
@@ -1233,7 +1233,7 @@ Server angebotenen SRCP-Protokolls
 
 <para>spdrs60 läuft unter den verschiedensten Linux-Distributionen,
 solange diese die Qt-Bibliothek in der Version 3.x mitliefern.
-Getestet wurde diese Version unter Qt 3.0.5 bis 3.3.7 mit SuSE, Fedora,
+Getestet wurde diese Version unter Qt 3.0.5 bis 3.3.8 mit SuSE, Fedora,
 Debian und Ubuntu in unterschiedlichen Versionsständen. Auch die
 64Bit-Versionen werden unterstützt.
 </para>
@@ -1246,7 +1246,7 @@ um spdrs60 unter Windows zu kompilieren.
 </sect2>
 
 <sect2>
-  <title>Rechnersystem</title>
+  <title>Hardware</title>
 <para>
 Die Leistungsfähigkeit des Rechners wird zum einen über die Performance
 des X-Window Systems
@@ -1256,6 +1256,13 @@ für den Betrieb aus. Ein einfacher Windowmanager kann beispielsweise
 helfen, das grafische System zu entlasten. Eine etwas luxuriösere
 Variante ist ein kleines Netzwerk, bei dem der SRCP-Server auf einem
 anderen Rechner läuft, als die SRCP-Clients.
+</para>
+<para>
+    spdrs60 ist sehr speicherschonend programmiert und sollte auf jedem
+    System laufen, das einen X-Window-System besitzt. Der benötigte
+    Arbeitsspeicher wird dynamisch belegt und hängt weitestgehend von
+    der Anzahl der genutzten Gleisbildelemente, sowie von der Anzahl der
+    konfigurierten Fahrstraßen ab.
 </para>
 
 </sect2>
@@ -1398,7 +1405,7 @@ abgelegt werden.
 
 <para>
 <table frame="topbot" id="tabelle-layoutdateien">
-  <title>Mitgelieferten Beispiel-Gleisbilddateien</title>
+  <title>Mitgelieferte Beispiel-Gleisbilddateien</title>
 <tgroup cols="2" align="left" colsep="0" rowsep="0">   
   <colspec colname="c1" colwidth="1*">
   <colspec colname="c2" colwidth="2*">
@@ -1424,7 +1431,7 @@ abgelegt werden.
     </row>
     <row>
       <entry>kleinmaschen.spdrs60</entry>
-      <entry>Der Modell-Bahnhof von Klein Maschen</entry>
+      <entry>Ein Modell-Bahnhof</entry>
     </row>
     <row>
       <entry>abzw-bf.spdrs60</entry>
@@ -1594,14 +1601,14 @@ Rückmeldeunterstützung, dann erscheint das Rückmeldesymbol ausgegraut.
 <para>
 Am unteren Rand des Anwendungsfensters befindet sich eine Statuszeile
 für unterschiedliche Meldungen. Sie kann zwischen den vier Anzeigenarten
-&raquo;Hinweise&laquo;, &raquo;Kommandos&laquo;, &raquo;Infoport&laquo; und
-&raquo;Rückmeldung&laquo; umgeschaltet werden. Erreichen kann man das durch
+&raquo;Hinweise&laquo;, &raquo;Kommandos&laquo; und &raquo;Infoport&laquo;
+umgeschaltet werden. Erreichen kann man das durch
 Drücken von <keycap>Strg-D</keycap> bzw. durch Wählen des Menüeintrages
 &raquo;Ansicht/Statuszeile umschalten&laquo;. Diese
-Anzeigeelemente sind programmtechnisch als Dropdownlistenfelder
+Anzeigeelemente sind programmtechnisch als Dropdown-Listenfelder
 implementiert, in denen eine festgelegte Anzahl aufgelaufener Meldungen
 chronologisch sortiert zwischengespeichert wird. Die Meldungen werden
-jeweils mit Uhrzeit protokolliert, so dass eine Millisekunden genaue
+jeweils mit Uhrzeit protokolliert, so dass eine auf Millisekunden genaue
 Zuordnung möglich ist.
 </para>
 
@@ -1645,7 +1652,7 @@ sind durch ein &apos;#&apos; hinter der Uhrzeit gekennzeichnet; es
 folgt der genaue gesendete Befehl. Ein &apos;&gt;&apos; dagegen zeigt an,
 dass es sich um eine SRCP-Meldung vom Server handelt. Wird das
 Programm als Client mit einem SRCP&nbsp;0.8-fähigen Server betrieben,
-erscheinen die Zeitagaben der Serverbefehle je nach persönlicher
+erscheinen die Zeitangaben der Serverbefehle je nach persönlicher
 Einstellung als dezimaler Zahlenwert oder interpretierte Uhrzeit.
 </para>
 
@@ -1680,9 +1687,9 @@ nach der Uhrzeit. Damit kann ermittelt werden, welche Befehle andere
 SRCP-Programme an den Server geschickt haben. Auch hier kann beim
 Betrieb mit einem SRCP&nbsp;0.8-Server über die persönlichen
 Einstellungen die Zeitinformation des Servers als dezimaler Zahlenwert
-oder als interpretierte Uhrzeit dargestellt werden. Bei
-SRCP&nbsp;0.8-Betrieb laufen auch die Statusänderungen der Rückmeldungen
-hier ein.
+oder als interpretierte Uhrzeit dargestellt werden. Sowohl bei
+SRCP&nbsp;0.7- als auch SRCP&nbsp;0.8-Betrieb laufen hier die
+Statusänderungen der Rückmeldungen ein.
 </para>
 <figure id="abb-historyinf">
   <title>Infoport-Historie</title>
@@ -1690,41 +1697,8 @@ hier ein.
     <imagedata fileref="schnapp-historyinf.png">
   </imageobject></mediaobject>
 </figure>
-<para>
-Zur Zeit werden die Info-Meldungen zu angesteuerten Magnetartikel nur
-für solche mit einem Antrieb
-ausgewertet. In Zukunft sollen alle Änderungen von Elementzuständen,
-wie sie z.B. durch eine zweite Instanz von spdrs60 für Linux oder durch
-andere SRCP-Clients erzeugt werden, über die Auswertung dieser
-Infoport-Meldungen visualisiert werden. Bis zur vollständigen Umsetzung
-dieser Funktion gilt daher, dass bei
-einem Betrieb mit mehreren SRCP-Clients angezeigte Weichen- und
-Signalstellungen bei Magnetartikeln mit zwei Antrieben vom
-tatsächlichen Zustand der Anlage abweichen können.
-</para>
 </sect3>
 
-<sect3>
-  <title>Rückmeldeanzeige</title>
-<para>
-Die dritte Anzeigeart (<xref linkend="abb-historyfb">) enthält
-Informationen zu den Rückmeldemodulen. Ein &apos;&gt;&apos; bedeutet
-dabei wiederum, dass es sich um Informationen an den Benutzer, diesmal
-bezogen auf die Rückmeldefunktionen, handelt. Ein &apos;#&apos;
-signalisiert die Zustandsänderung eines Rückmeldeanschlusses, die vom
-SRCP-Server gemeldet wurde. Diese Informationszeile wird nur bei
-SRCP&nbsp;0.7-Betrieb genutzt.
-</para>
-
-<figure id="abb-historyfb">
-  <title>Rückmeldehistorie</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="schnapp-historyfb.png">
-  </imageobject></mediaobject>
-</figure>
-
-
-</sect3>
 </sect2>
 </sect1>
 
@@ -1761,7 +1735,7 @@ Namen</para></listitem>
 
 <para>
 Über den Punkt &raquo;Datei/Neues Fenster&laquo; kann ganz einfach eine
-neue Instanz von &raquo;spdrs60
+neues Programmfenster von &raquo;spdrs60
 für Linux&laquo; gestartet werden. Auch dort gelten die Parameter,
 die über den Einstellungsdialog gemacht wurden.
 </para>
@@ -1772,8 +1746,8 @@ die über den Einstellungsdialog gemacht wurden.
 
 <para>
 Ändert man während der Laufzeit die eine oder andere Programmoption, so
-läßt sich zwar jede Instanz einzeln konfigurieren, auf der Festplatte
-gespeichert wird jedoch immer nur die letzte Änderung.
+läßt sich zwar jedes Programmfenster einzeln konfigurieren, auf der
+Festplatte gespeichert wird jedoch immer nur die letzte Änderung.
 </para>
 </sect2>
 
@@ -1817,9 +1791,10 @@ Die Bedeutung der Einträge im Einzelnen von oben nach unten:
 </para>
 
 <itemizedlist mark="bullet">
-  <listitem><para>Zeigt die Rückmeldemodule an</para></listitem>
+  <listitem><para>Zeigt eine Übersich der Rückmeldemodule an</para></listitem>
   <listitem><para>Zeigt die Fahrstraßentabelle an</para></listitem>
   <listitem><para>Zeigt die Bahnhofsuhr an</para></listitem>
+  <listitem><para>Zeigt ein Dialogfenster zur Eingabe von Zugnummern an</para></listitem>
   <listitem><para>Öffnet ein einfaches Schaltpult zum Testen von
 Antrieben</para></listitem>
   <listitem><para>Umschalten der Gleisbildansicht in den Betriebsmodus</para></listitem>
@@ -1827,6 +1802,9 @@ Antrieben</para></listitem>
   Gleisbildbearbeitungsmodus</para></listitem>
   <listitem><para>Umschalten der Gleisbildansicht in den
   Fahrstraßenbearbeitungsmodus</para></listitem>
+  <listitem><para>Blendet das Menü ein bzw. aus</para></listitem>
+  <listitem><para>Blendet die Symbolleiste ein bzw. aus</para></listitem>
+  <listitem><para>Blendet die Statuszeile ein bzw. aus</para></listitem>
   <listitem><para>Weiterschalten der verschiedenen Meldezeilen am
   Fuß des Progammfensters</para></listitem>
 </itemizedlist>
@@ -1850,11 +1828,12 @@ Die Bedeutung der Einträge im Einzelnen von oben nach unten:
   
   <listitem><para>Daemon erhält einen Reset</para></listitem>
   <listitem><para>Der Daemon wird heruntergefahren</para></listitem>
-  <listitem><para>Information über die Version des Daemon sowie über die
-verwendete SRCP-Version (<xref linkend="abb-daemoninfo">)</para></listitem>
+  <listitem><para>Information über die Version des verbundenen
+          SRCP-Daemon sowie über die verwendete SRCP-Version
+          (<xref linkend="abb-daemoninfo">)</para></listitem>
 </itemizedlist>
 <figure id="abb-daemoninfo">
-  <title>Daemon Info</title>
+  <title>Information zum verbundenen SRCP-Server</title>
   <mediaobject><imageobject>
     <imagedata fileref="schnapp-daemoninfo.png">
   </imageobject></mediaobject>
@@ -1876,20 +1855,20 @@ Die Bedeutung der Einträge im Einzelnen von oben nach unten:
 <itemizedlist mark="bullet">
   <listitem><para>An- und Ausschalten des Anlagenstroms</para></listitem>
   
-  <listitem><para>Benutzt die Fahrstraßenhilfsauflösetaste zum
+  <listitem><para>Aktiviert die Fahrstraßenhilfsauflösetaste zum
   Auflösen von Fahrstraßen, auch wenn diese nicht als Symbol mit
   im Gleisbild liegt</para></listitem>
   
-  <listitem><para>Benutzt die Umfahrgruppentaste, auch wenn diese nicht
+  <listitem><para>Aktiviert die Umfahrgruppentaste, auch wenn diese nicht
 als Symbol mit im Gleisbild liegt</para></listitem>
 
-  <listitem><para>Benutzt die Weichengruppentaste, auch wenn diese nicht
+  <listitem><para>Aktiviert die Weichengruppentaste, auch wenn diese nicht
 als Symbol mit im Gleisbild liegt</para></listitem>
 
-  <listitem><para>Benutzt die Signalgruppentaste, auch wenn diese nicht
+  <listitem><para>Aktiviert die Signalgruppentaste, auch wenn diese nicht
 als Symbol mit im Gleisbild liegt</para></listitem>
 
-  <listitem><para>Benutzt die Haltgruppentaste, auch wenn diese nicht
+  <listitem><para>Aktiviert die Haltgruppentaste, auch wenn diese nicht
 als Symbol mit im Gleisbild liegt</para></listitem>
 
   <listitem><para>Setzt alle von Halt verschiedenen Signale auf
@@ -1931,6 +1910,7 @@ folgende:
 <itemizedlist mark="bullet">
   <listitem><para>Ausgewählte Fahrstraße einstellen</para></listitem>
   <listitem><para>Ausgewählte Fahrstraße zurücknehmen</para></listitem>
+  <listitem><para>Ausgewählte Fahrstraße auflösen</para></listitem>
   <listitem><para>Neue Fahrstraße zur Liste hinzufügen</para></listitem>
   <listitem><para>Ausgewählte Fahrstraße bearbeiten</para></listitem>
   <listitem><para>Ausgewählte Fahrstraße duplizieren</para></listitem>
@@ -1954,10 +1934,11 @@ Die Bedeutung der Einträge im Einzelnen von oben nach unten:
 
 <itemizedlist mark="bullet">
   <listitem><para>Öffnet diese Online-Hilfe</para></listitem>
-  <listitem><para>Öffnen der spdrs60-für-Linux-Webseiten (benötigt einen
+  <listitem><para>Öffnen der Internetseiten des
+          spdrs60-für-Linux-Projektes (benötigt einen
 Internet-Zugang)</para></listitem>
-  <listitem><para>Über dieses Programm</para></listitem>
-  <listitem><para>Über das in diesem Programm verwendete
+  <listitem><para>Information über dieses Programm</para></listitem>
+  <listitem><para>Information über die in diesem Programm verwendete
 Qt-Grafikbibliothek</para></listitem>
 </itemizedlist>
 </sect2>
@@ -2004,9 +1985,9 @@ zum Erstellen von eigenen Gleisbildern befindet im
   <title>Bearbeiten von Fahrstraßen</title>
 <para>
 Wenn das Gleisbild fertig ist und alle fahrstraßenrelevanten Elemente
-eine gültige Adresse haben, kann man mit der Erstellung der Fahrstraßen
-beginnen. Um diese zu bearbeiten, muß man zunächst in den
-Fahrstraßenbearbeitungsmodus wechseln. Das erreicht man über das
+mit einer gültige Adresse versehen sind, kann man mit der Erstellung
+der Fahrstraßen beginnen. Um diese zu bearbeiten, muß man zunächst in
+den Fahrstraßenbearbeitungsmodus wechseln. Das erreicht man über das
 Tastaturkürzel <keycap>Strg-B</keycap>, den Menüpunkt
 &raquo;Ansicht/Fahrstraßenbearbeitungsmodus&laquo; oder über
 den entsprechenden Schaltknopf in der Werkzeugleiste (blaues Gitter
@@ -2031,18 +2012,19 @@ Fahrstraßendialog ändern. Diesen erreicht man über das Menü
 &raquo;Fahrstraße/Bearbeiten&laquo;, oder das entsprechende Symbol
 in der Werkzeugleiste.
 </para>
-<para>Hat man alle gewünschten Fahrstraßen erstellt, wechselt man wieder
-in den Betriebsmodus (<keycap>Strg-L</keycap>) und speichert die Datei
-erneut. Weitere, ausführliche Informationen zu diesem Thema findet man im
-<xref linkend="sect-fahrstrassen">. 
+<para>
+    Hat man alle gewünschten Fahrstraßen erstellt, wechselt man wieder
+    in den Betriebsmodus (<keycap>Strg-L</keycap>) und speichert die Datei
+    erneut. <xref linkend="sect-fahrstrassen"> beschäftigt sich
+    ausführlicher mit diesem Thema. 
 </para>
 </sect2>
 
 <sect2>
   <title>Bearbeiten von Datendateien</title>
 <para>
-Sollte man mal in die Notwendigkeit kommen, die dem Gleisbild
-zugrundeliegende Datei bearbeiten zu wollen, so kann man das über den
+    Sollte es notwendig sein, eine der Konfigurationsdateien manuell zu
+    bearbeiten, so kann man das über den
 Menüpunkt &raquo;Bearbeiten/Datendateien/&lt;Dateiname&gt;&laquo;
 erreichen. Das Programm öffnet dann den über den Einstellungsdialog
 konfigurierten Texteditor mit der entsprechenden Datei.
@@ -2083,17 +2065,9 @@ zählt, oder ob alle Vorkommen angezeigt werden.
 </para>
 <para>
 Nach dem Klick auf &raquo;Suchen&laquo; erscheint entweder eine Meldung,
-dass nichts gefunden werden konnte (<xref linkend="abb-findnone">),
-</para>
-<figure id="abb-findnone">
-  <title>Kein Element gefunden</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="schnapp-findnone.png">
-  </imageobject></mediaobject>
-</figure>
-<para>
-oder alle gefundenen Elemente werden im Gleisbild mit einem rötlichen
-Rahmen angezeigt (<xref linkend="abb-found">).
+dass nichts gefunden werden konnte, oder die gefundenen Elemente werden
+im Gleisbild mit einem rötlichen Rahmen hervorgehoben
+(<xref linkend="abb-found">).
 </para>
 <figure id="abb-found">
   <title>Element gefunden</title>
@@ -2103,8 +2077,7 @@ Rahmen angezeigt (<xref linkend="abb-found">).
 </figure>
 
 <para>
-Nach einer erfolgreichen Suche wird die farbliche Hervorhebung für die
-gefundenen Elemente nur für fünf Sekunden eingeschaltet. Erscheint
+Diese Markierung bleibt nur für fünf Sekunden eingeschaltet. Erscheint
 keine Negativmeldung, obwohl kein roter Rahmen sichtbar ist, so liegt
 das gefundene Element eventuell im nicht sichtbaren Bereich des
 Gleisbilds.
@@ -2112,13 +2085,67 @@ Gleisbilds.
 </sect2>
 
 <sect2>
-  <title>Ändern der Programmoptionen</title>
+  <title>Benutzereinstellungen</title>
 <para>
 Die benutzerspezifischen Einstellungen des Programms lassen sich über
 dem Menüpunkt &raquo;Bearbeiten/Einstellungen...&laquo; ändern. Diese Daten
 werden in der Datei <command>.spdrs60rc</command> im Heimatverzeichnis
 des Benutzers gespeichert. Weitere Details sind im
 <xref linkend="sect-optionen"> beschrieben.
+</para>
+</sect2>
+
+<sect2>
+  <title>Bahnhofsuhr starten</title>
+<para>
+    Über das Menü &raquo;Ansicht/Bahnhofsuhr&laquo; oder durch Klick auf das
+    Uhr-Symbol der Werkzeugleiste erhält man eine Uhr im Stil der
+Deutschen Bahn AG. Sie weist zudem den originalgetreuen Minutensprung
+auf. Die Uhr kann z. Zt. noch nicht langsamer oder schneller geschaltet
+werden und ermöglicht auch keine Koppelung mit der Modellzeit des
+SRCP-Servers.
+</para>
+<figure id="abb-uhr">
+  <title>Bahnhofsuhr</title>
+  <mediaobject><imageobject>
+    <imagedata fileref="../commonimages/schnapp-uhr.png">
+  </imageobject></mediaobject>
+</figure>
+</sect2>
+
+<sect2 id="sect-keyboard">
+  <title>Einfaches Schaltpult</title>
+<para>
+Durch Drücken der Tasten <keycap>Strg-K</keycap> bzw. Auswahl im Menü
+&raquo;Ansicht/Schaltpult&laquo; erscheint das in
+<xref linkend="abb-viewkeyboard"> dargestellte Fenster zum Schalten
+einzelner Antriebe oder Programmieren der Schaltdecoderadresse.
+</para>
+<figure id="abb-viewkeyboard">
+  <title>Einfaches Schaltpult</title>
+  <mediaobject><imageobject>
+    <imagedata fileref="schnapp-keyboard.png">
+  </imageobject></mediaobject>
+</figure>
+<para>
+    Nach der Auwahl des Digitalprotokolls gibt man in der Adresszeile
+    die Nummer des Antriebs ein und klickt dann auf der dem Ausgang
+    zugeordnete farbigen Taste entsprechend dem Ausgangskontakt am
+    Decoder. Ein im Gleisbild vorhandener Antrieb mit dieser Adresse
+    wird durch den gesendeten Stellbefehl nicht direkt visuell
+    umgeschaltet, sondern nur über die Auswertung der vom SRCP-Server
+    zurücklaufenden INFO-Mitteilungen.
+</para>
+</sect2>
+
+<sect2>
+  <title>Übersicht der Rückmeldemodule</title>
+<para>
+Die Rückmeldeübersicht ist durch <keycap>Strg-M</keycap> oder das Menü
+&raquo;Ansicht/Rückmeldemodule&laquo; erreichbar. Es erscheint dann ein
+Fenster mit der vorkonfigurierten Anzahl an Rückmeldemodulen, die
+jeweils den aktuellen Zustand der Kontakte farblich anzeigen. Weitere
+Details sind im <xref linkend="chapter-rueckmeldung"> beschrieben.
 </para>
 </sect2>
 
@@ -2130,10 +2157,9 @@ kann man z. B. die Netzwerkverbindung manuell starten oder beenden.
 Weiterhin kann man den Server zurücksetzen, oder auch komplett
 abschalten (&raquo;Daemon/Beenden&laquo;). Danach ist ein Versenden von
 Befehlen an den Daemon selbstverständlich nicht mehr möglich. Gleichwohl
-kann man die grafische Oberfläche weiterhin wie gewohnt
-bedienen, es werden nur keine Befehle mehr geschickt. Ein einmal
-heruntergefahrener Daemon kann aus dem Programm nicht wieder neu
-gestartet werden.</para>
+kann man die grafische Oberfläche weiterhin wie gewohnt bedienen. Ein
+einmal heruntergefahrener Daemon kann aus dem Programm heraus nicht
+wieder neu gestartet werden.</para>
 <para>
 Das automatische Anmelden beim Daemon beim Laden einer Gleisbilddatei,
 sowie die Auswahl des SRCP-Servers selbst, sind im Dialog für die
@@ -2149,23 +2175,12 @@ Bevor es möglich ist, Fahrstraßen zu stellen oder andere Aktionen
 auf der Anlage zu veranlassen, muß der Digitalstrom auf der Anlage
 eingeschaltet werden. Erst dann sendet der SRCP-Daemon Befehle an die
 Hardware. Dies geschieht am einfachsten durch das Zp&nbsp;9-Symbol in
-der Werkzeugleiste. Analog kann man über das Symbol für die
-Notbremse die Anlage strommäßig wieder abschalten. Zur einfachen
+der Werkzeugleiste. Analog kann man über das Symbol für die Notbremse
+den Digitalstrom der Anlage wieder abschalten. Zur einfachen
 Bedienung dieser Funktion ohne Maus existiert das
 Tastaturkürzel <keycap>F4</keycap>. Auch das automatische Einschalten
 des Anlagenstroms nach dem Laden der Gleisbilddatei läßt sich über die
 Gleisbildeinstellungen konfigurieren.
-</para>
-</sect2>
-
-<sect2>
-  <title>Übersicht der Rückmeldemodule</title>
-<para>
-Die Rückmeldeübersicht ist durch <keycap>Strg-M</keycap> oder das Menü
-&raquo;Ansicht/Rückmeldemodule&laquo; erreichbar. Es erscheint dann ein
-Fenster mit der vorkonfigurierten Anzahl an Rückmeldemodulen, die
-jeweils den aktuellen Zustand der Kontakte farblich anzeigen. Weitere
-Details sind im <xref linkend="chapter-rueckmeldung"> beschrieben.
 </para>
 </sect2>
 
@@ -2273,61 +2288,6 @@ Handeingriffen an die Anlage zu übermitteln, benutzt man den Menüpunkt
 </sect2>
 
 <sect2>
-  <title>Bahnhofsuhr starten</title>
-<para>
-    Über das Menü &raquo;Ansicht/Bahnhofsuhr&laquo; oder durch Klick auf das
-    Uhr-Symbol der Werkzeugleiste erhält man eine Uhr im Stil der
-Deutschen Bahn AG. Sie weist zudem den originalgetreuen Minutensprung
-auf. Die Uhr kann z. Zt. noch nicht langsamer oder schneller geschaltet
-werden und ermöglicht auch keine Koppelung mit der Modellzeit des
-SRCP-Servers.
-</para>
-<figure id="abb-uhr">
-  <title>Bahnhofsuhr</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="../commonimages/schnapp-uhr.png">
-  </imageobject></mediaobject>
-</figure>
-</sect2>
-
-<sect2 id="sect-keyboard">
-  <title>Einfaches Schaltpult</title>
-<para>
-Durch Drücken der Tasten <keycap>Strg-K</keycap> bzw. Auswahl im Menü
-&raquo;Ansicht/Schaltpult&laquo; erscheint das in
-<xref linkend="abb-viewkeyboard"> dargestellte Fenster zum Schalten
-einzelner Antriebe.
-</para>
-<figure id="abb-viewkeyboard">
-  <title>Einfaches Schaltpult</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="schnapp-keyboard.png">
-  </imageobject></mediaobject>
-</figure>
-<para>
-In der Adresszeile gibt man die Nummer des Antriebs ein und
-klickt dann auf der dem Ausgang zugeordnete farbigen Taste
-entsprechend dem Ausgangskontakt am Decoder.
-</para>
-<para>
-Bei der Adresseingabe wird überprüft, ob der eingegebene Zahlenwert
-in dem für DCC gültigen Bereich (1 bis 4096) liegt. Ein im Gleisbild
-vorhandener Antrieb mit dieser Adresse wird durch den gesendeten
-Stellbefehl nicht direkt visuell umgeschaltet, sondern nur über die
-Auswertung der vom SRCP-Server kommenden INFO-Mitteilungen. Bei
-Verwendung dieses Schaltpults ist es unerheblich, ob der Antrieb über
-das Motorola- oder das DCC-Format angesteuert wird. Die Befehle für
-beide Protokolle werden mit gleicher Adresse, aber unterschiedlichem
-Format direkt
-hintereinander zum Server gesendet. So muß man sich nicht merken, zu
-welchem Format welche Nummer gehört. Da der Adressbereich im
-Motorola-Format nur bis 324 reicht, werden Adresseingaben oberhalb
-dieser Grenze nur im DCC-Format gesendet.
-</para>
-</sect2>
-
-
-<sect2>
   <title>Hilfe</title>
 <para>
 Durch die Taste <keycap>F1</keycap> oder den Menüpunkt
@@ -2362,55 +2322,61 @@ in Abhängigkeit vom gerade aktiven Modus auf.
   
   <tbody>
     <row>
-      <entry><keycap>Strg-N</keycap></entry>
-      <entry>Neues Gleisbild anlegen</entry>
+      <entry><keycap>Strg-B</keycap></entry>
+      <entry>Umschalten in den Fahrstraßenbearbeitungsmodus</entry>
     </row>
     <row>
       <entry><keycap>Strg-D</keycap></entry>
-      <entry>Schaltet das Debugging-Fenster in einen von drei
-möglichen Modi</entry>
-    </row>
-    <row>
-      <entry><keycap>Strg-O</keycap></entry>
-      <entry>Öffnen eines Gleisbilds</entry>
-    </row>
-    <row>
-      <entry><keycap>Strg-S</keycap></entry>
-      <entry>Speichern des aktiven Gleisbilds</entry>
-    </row>
-    <row>
-    
-<entry><keycap>Strg-Q</keycap>/<keycap>Alt-F4</keycap></entry>
-      <entry>Beenden des Programms</entry>
+      <entry>
+          Schaltet das Debugging-Fenster in einen von drei möglichen Modi
+      </entry>
     </row>
     <row>
       <entry><keycap>Strg-E</keycap></entry>
       <entry>Umschalten in den Gleisbildbearbeitungsmodus</entry>
     </row>
     <row>
-      <entry><keycap>Strg-B</keycap></entry>
-      <entry>Umschalten in den Fahrstraßenbearbeitungsmodus</entry>
-    </row>
-    <row>
-      <entry><keycap>Strg-R</keycap></entry>
-      <entry>Anzeigen der Fahrstraßentabelle</entry>
-    </row>
-    <row>
       <entry><keycap>Strg-F</keycap></entry>
       <entry>Finden von Elementen</entry>
     </row>
     <row>
-      <entry><keycap>Strg-P</keycap></entry>
-      <entry>Verwalten der Programmoptionen</entry>
+      <entry><keycap>Strg-H</keycap></entry>
+      <entry>Menü verbergen oder anzeigen</entry>
     </row>
     <row>
       <entry><keycap>Strg-K</keycap></entry>
       <entry>Öffnet ein einfaches Schaltpult</entry>
     </row>
     <row>
+      <entry><keycap>Strg-N</keycap></entry>
+      <entry>Neues Gleisbild anlegen</entry>
+    </row>
+    <row>
+      <entry><keycap>Strg-O</keycap></entry>
+      <entry>Öffnen einer Gleisbilddatei</entry>
+    </row>
+    <row>
+      <entry><keycap>Strg-P</keycap></entry>
+      <entry>Verwalten der Benutzereinstellungen</entry>
+    </row>
+    <row>
+        <entry><keycap>Strg-Q</keycap>/<keycap>Alt-F4</keycap></entry>
+      <entry>Beenden des Programms</entry>
+    </row>
+    <row>
+      <entry><keycap>Strg-R</keycap></entry>
+      <entry>Anzeigen der Fahrstraßentabelle</entry>
+    </row>
+    <row>
+      <entry><keycap>Strg-S</keycap></entry>
+      <entry>Speichern des aktiven Gleisbilds</entry>
+    </row>
+    <row>
       <entry><keycap>Strg-U</keycap></entry>
-      <entry>Alle Fahrstraßen zurücknehmen und deren
-Startsignale auf Halt stellen</entry>
+      <entry>
+          Alle Fahrstraßen zurücknehmen und deren Startsignale auf Halt
+          stellen
+      </entry>
     </row>
     <row>
       <entry><keycap>F4</keycap></entry>
@@ -2532,18 +2498,22 @@ der Spalten und Zeilen) sowie weitere Einstellungen einzugeben.
 </figure>
 
 <para>
-Der gültige Wertebereich liegt für die Spaltenanzahl zwischen
-minimal vier und maximal 120; für die Zeilenanzahl zwischen minimal vier
-und maximal 30, was der maximalen Höhe einer originalen SpDrS60-Stelltafel
-entspricht. Dieses Beschränkung ergibt sich zum einen durch das
-zugrundeliegende X-Window-System und zum anderen durch die
-programmtechnisch zur Anzeige des Gleisbilds genutzten Softwaremodule.
+    Der gültige Wertebereich liegt für die Spalten- und Zeilenanzahl
+    zwischen minimal vier und maximal 200. Dieses Beschränkung ist
+    willkürlich festgelegt, um eine versehentliche Überforderung des
+    Systems durch eine zu große Werteingabe zu verhindern.
 Jedes Element benötigt 56 x 35 Pixel (im Original 54 x 34&nbsp;mm),
 so dass mit diesen Grenzwerten im Verhältnis zu gängigen
 Bildschirmgrößen schon recht stattliche Abbildungen entstehen. Für die
 meisten Gleisbilder sollten diese Grenzen daher keine wirklich relevante
 Einschränkung darstellen. Der Speicherbedarf für die Elemente wird dynamisch
-belegt, richtet sich also nach der tatsächlichen Größe der Darstellung.
+belegt und richtet sich nach der tatsächlichen Größe der Darstellung,
+sowie der Anzahl der effektiv genutzten Gleisbildelemente.
+</para>
+<para>
+    Die Dimensionierung des Gleisbildes hat einen unmittelbaren Einfluß
+    auf die Geschwindigkeit des Programms. Es ist daher anzuraten, das
+    Gleisbild nur so groß zu gestalten, wie es tatsächlich genutzt wird.
 </para>
 
 <para>
@@ -2601,13 +2571,6 @@ geschlossen. Handelte es sich dabei um ein noch nicht
 gesichertes oder verändertes Gleisbild, wird hierzu zunächst abgefragt,
 ob eine Sicherung des neuen Gleisbilds gewünscht wird. Mehr dazu im
 Abschnitt &raquo;Speichern&laquo;.
-</para>
-
-<para>
-Die Ladezeit kann sich je nach Größe des Gleisbilds und
-Anzahl der darin befindlichen schaltbaren Elemente im Bereich von
-mehreren Sekunden bewegen. Ursache hierfür ist der Abgleich der
-Gleisbild-Daten mit der Anlage.
 </para>
 
 <para>
@@ -2711,129 +2674,132 @@ besondere Elemente wie die Drehscheibe wird im
     zuweisen, damit der Gleismelder eine Belegung anzeigen kann.
     Ohne diese Zuweisung wird der Gleisabschnitt so dargestellt, als
     würde er keiner Freimeldeeinrichtung angehören. Einzelne
-    Elemente lassen sich mit einem Text versehen.
+    Elemente lassen sich mit einer Beschriftung versehen.
 </para>
 
 <table frame="topbot" id="tabelle-simple-tracks">
   <title>Einfache Gleissegmente</title>
-  <tgroup cols="6" align="left" colsep="0" rowsep="0">
+  <tgroup cols="4" align="left" colsep="0" rowsep="0">
   <colspec colname="c1" colwidth="1*" colsep="0">
-  <colspec colname="c2" colwidth="2*" colsep="0">
-  <colspec colname="c3" colwidth="2*" colsep="0">
-  <colspec colname="c5" colwidth="5*" colsep="0">
+  <colspec colname="c2" colwidth="1*" colsep="0">
+  <colspec colname="c3" colwidth="3*" colsep="0">
+  <colspec colname="c4" colwidth="5*" colsep="0">
   <thead>
     <row>
-      <entry align="left">Symbol</entry>
-      <entry align="left">Id</entry>
+      <entry>Symbol</entry>
+      <entry align="center">Id</entry>
       <entry align="left">Beschreibung</entry>
-      <entry align="left">Bemerkung</entry>
+      <entry>Bemerkung</entry>
     </row>
   </thead>
   <tbody>
     <row>
-      <entry><graphic fileref="../commonimages/gerade.png"> </entry>
-      <entry>100</entry>
+      <entry align="center"><graphic fileref="../commonimages/gerade.png"></entry>
+      <entry align="center">100</entry>
       <entry>Gerade Strecke horizontal</entry>
       <entry>Oberhalb des Gleises wird optional ein kurzer Text
           angezeigt.</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/trackvertical.png"></entry>
-      <entry>101</entry>
+      <entry align="center"><graphic fileref="../commonimages/trackvertical.png"></entry>
+      <entry align="center">101</entry>
       <entry>Gerade Strecke vertikal</entry>
       <entry>&nbsp;</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/diagonale-rechts.png"></entry>
-      <entry>102</entry>
+      <entry align="center"><graphic fileref="../commonimages/diagonale-rechts.png"></entry>
+      <entry align="center">102</entry>
       <entry>Rechts diagonale Strecke</entry>
       <entry>&nbsp;</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/diagonale-links.png"></entry>
-      <entry>103</entry>
+      <entry align="center"><graphic fileref="../commonimages/diagonale-links.png"></entry>
+      <entry align="center">103</entry>
       <entry>Links diagonale Strecke</entry>
       <entry>&nbsp;</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/kurve-links.png"></entry>
-      <entry>130</entry>
+      <entry align="center"><graphic fileref="../commonimages/kurve-links.png"></entry>
+      <entry align="center">130</entry>
       <entry>Linkskurve horizontal</entry>
       <entry>&nbsp;</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/kurve-rechts.png"></entry>
-      <entry>120</entry>
+      <entry align="center"><graphic fileref="../commonimages/kurve-rechts.png"></entry>
+      <entry align="center">120</entry>
       <entry>Rechtskurve horizontal</entry>
       <entry>&nbsp;</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/turn_topvert_left.png"></entry>
-      <entry>131</entry>
+      <entry align="center"><graphic fileref="../commonimages/turn_topvert_left.png"></entry>
+      <entry align="center">131</entry>
       <entry>Linkskurve vertikal oben</entry>
       <entry>&nbsp;</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/turn_topvert_right.png"></entry>
-      <entry>121</entry>
+      <entry align="center"><graphic fileref="../commonimages/turn_topvert_right.png"></entry>
+      <entry align="center">121</entry>
       <entry>Rechtskurve vertikal oben</entry>
       <entry>&nbsp;</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/turn_botvert_left.png"></entry>
-      <entry>133</entry>
+      <entry align="center"><graphic fileref="../commonimages/turn_botvert_left.png"></entry>
+      <entry align="center">133</entry>
       <entry>Linkskurve vertikal unten</entry>
       <entry>&nbsp;</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/turn_botvert_right.png"></entry>
-      <entry>123</entry>
+      <entry align="center"><graphic fileref="../commonimages/turn_botvert_right.png"></entry>
+      <entry align="center">123</entry>
       <entry>Rechtskurve vertikal unten</entry>
       <entry>&nbsp;</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/kreuzung-hose.png"></entry>
-      <entry>150</entry>
+      <entry align="center"><graphic fileref="../commonimages/kreuzung-hose.png"></entry>
+      <entry align="center">150</entry>
       <entry>Hosenträgerverbindung</entry>
-      <entry>Eine Sperrung gegen kreuzende Überfahrten wird zurzeit
-          nicht unterstützt.</entry>
+      <entry>Die Sperrung gegen kreuzende Überfahrten erfolgt durch
+          Verwendung einer virtuellen Adresse (7000 - 7999) und Hinzufügen
+          zu einer Fahrstraße.</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/kreuzung-links.png"></entry>
-      <entry>153</entry>
+      <entry align="center"><graphic fileref="../commonimages/kreuzung-links.png"></entry>
+      <entry align="center">153</entry>
       <entry>Normale Kreuzung links</entry>
-      <entry>Eine Sperrung gegen kreuzende Überfahrten wird zurzeit
-          nicht unterstützt.</entry>
+      <entry>Die Sperrung gegen kreuzende Überfahrten erfolgt durch
+          Verwendung einer virtuellen Adresse (7000 - 7999) und Hinzufügen
+          zu einer Fahrstraße.</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/kreuzung-rechts.png"></entry>
-      <entry>151</entry>
+      <entry align="center"><graphic fileref="../commonimages/kreuzung-rechts.png"></entry>
+      <entry align="center">151</entry>
       <entry>Normale Kreuzung rechts</entry>
-      <entry>Eine Sperrung gegen kreuzende Überfahrten wird zurzeit
-          nicht unterstützt.</entry>
+      <entry>Die Sperrung gegen kreuzende Überfahrten erfolgt durch
+          Verwendung einer virtuellen Adresse (7000 - 7999) und Hinzufügen
+          zu einer Fahrstraße.</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/gerade-tl.png"></entry>
-      <entry>160</entry>
+      <entry align="center"><graphic fileref="../commonimages/gerade-tl.png"></entry>
+      <entry align="center">160</entry>
       <entry>Gerade Tunneldurchfahrt</entry>
       <entry>Als vertikale und horizontale Variante vorhanden</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/diagonale-rechts-tl.png"></entry>
-      <entry>163</entry>
+      <entry align="center"><graphic fileref="../commonimages/diagonale-rechts-tl.png"></entry>
+      <entry align="center">163</entry>
       <entry>Diagonale Tunneldurchfahrt</entry>
       <entry>Als linke und rechte Variante vorhanden</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/richtung-1.png"></entry>
-      <entry>170, 171</entry>
+      <entry align="center"><graphic fileref="../commonimages/richtung-1.png"></entry>
+      <entry align="center">170/1</entry>
       <entry>ein Richtungspfeil</entry>
       <entry>Oberhalb des Gleises wird optional ein kurzer Text
           angezeigt.</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/richtung-2.png"></entry>
-      <entry>172</entry>
+      <entry align="center"><graphic fileref="../commonimages/richtung-2.png"></entry>
+      <entry align="center">172</entry>
       <entry>Doppelter Richtungspfeil</entry>
       <entry>Oberhalb des Gleises wird optional ein kurzer Text
           angezeigt.</entry>
@@ -2866,9 +2832,9 @@ besondere Elemente wie die Drehscheibe wird im
   <thead>
     <row>
       <entry align="left">Symbol</entry>
-      <entry align="left">Id</entry>
+      <entry align="center">Id</entry>
       <entry align="left">Beschreibung</entry>
-      <entry>Adressen</entry>
+      <entry align="center">Adressen</entry>
       <entry align="left">Bemerkung</entry>
       <entry align="left">Status<footnote id="fntabsym1"><para>Diese Werte
       kann man z.B. durch die Tooltip-Hilfe zu jedem Element überprüfen
@@ -2878,48 +2844,48 @@ besondere Elemente wie die Drehscheibe wird im
   </thead>
   <tbody>
     <row>
-      <entry><graphic fileref="../commonimages/weiche-links-0.png"></entry>
-      <entry>510</entry>
+      <entry align="center"><graphic fileref="../commonimages/weiche-links-0.png"></entry>
+      <entry align="center">510</entry>
       <entry>Linke Weiche</entry>
       <entry align="center">1</entry>
       <entry>&nbsp;</entry>
       <entry>0 = gerade, 1 = abzweig</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/weiche-rechts-0.png"></entry>
-      <entry>500</entry>
+      <entry align="center"><graphic fileref="../commonimages/weiche-rechts-0.png"></entry>
+      <entry align="center">500</entry>
       <entry>Rechte Weiche</entry>
       <entry align="center">1</entry>
       <entry>&nbsp;</entry>
       <entry>0 = gerade, 1 = abzweig</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/weiche-diag-links-0.png"></entry>
-      <entry>530</entry>
+      <entry align="center"><graphic fileref="../commonimages/weiche-diag-links-0.png"></entry>
+      <entry align="center">530</entry>
       <entry>Diagonale Weiche links</entry>
       <entry align="center">1</entry>
       <entry>&nbsp;</entry>
       <entry>0 = gerade (Diagonale), 1 = abzweig</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/weiche-diag-rechts-0.png"></entry>
-      <entry>520</entry>
+      <entry align="center"><graphic fileref="../commonimages/weiche-diag-rechts-0.png"></entry>
+      <entry align="center">520</entry>
       <entry>Diagonale Weiche rechts</entry>
       <entry align="center">1</entry>
       <entry>&nbsp;</entry>
       <entry>0 = gerade (Diagonale), 1 = abzweig</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/switch-y-0.png"></entry>
-      <entry>550</entry>
+      <entry align="center"><graphic fileref="../commonimages/switch-y-0.png"></entry>
+      <entry align="center">550</entry>
       <entry>Y-Weiche</entry>
       <entry align="center">1</entry>
       <entry>&nbsp;</entry>
       <entry>0 = rechts, 1 = links</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/dreier-weiche-0.png"></entry>
-      <entry>650</entry>
+      <entry align="center"><graphic fileref="../commonimages/dreier-weiche-0.png"></entry>
+      <entry align="center">650</entry>
       <entry>Dreiwegweiche</entry>
       <entry align="center">2</entry>
       <entry>in der Realität nicht vorhanden (dort immer zwei normale
@@ -2928,7 +2894,7 @@ besondere Elemente wie die Drehscheibe wird im
     </row>
     <row>
       <entry morerows="1" valign="middle"><graphic fileref="../commonimages/dkw-links-0.png"></entry>
-      <entry>622</entry>
+      <entry align="center">622</entry>
       <entry>Doppelte Kreuzungsweiche links</entry>
       <entry align="center">1</entry>
       <entry><footnote id="fntabsym2"><para>Die Übersicht über einzelne
@@ -2937,7 +2903,7 @@ besondere Elemente wie die Drehscheibe wird im
       <entry>0 = gerade Gleisführung, 1 = abzweigende Führung</entry>
     </row>
     <row>
-      <entry>622</entry>
+      <entry align="center">622</entry>
       <entry>Doppelte Kreuzungsweiche links</entry>
       <entry align="center">2</entry>
       <entry><footnoteref linkend="fntabsym2"/> Subtyp = 1</entry>
@@ -2946,14 +2912,14 @@ besondere Elemente wie die Drehscheibe wird im
     </row>
     <row>
       <entry morerows="1" valign="middle"><graphic fileref="../commonimages/dkw-rechts-0.png"></entry>
-      <entry>620</entry>
+      <entry align="center">620</entry>
       <entry>Doppelte Kreuzungsweiche links</entry>
       <entry align="center">1</entry>
       <entry><footnoteref linkend="fntabsym2"/> Subtyp = 0</entry>
       <entry>0 = gerade Gleisführung, 1 = abzweigende Führung</entry>
     </row>
     <row>
-      <entry>620</entry>
+      <entry align="center">620</entry>
       <entry>Doppelte Kreuzungsweiche links</entry>
       <entry align="center">2</entry>
       <entry><footnoteref linkend="fntabsym2"/> Subtyp = 1</entry>
@@ -2961,8 +2927,8 @@ besondere Elemente wie die Drehscheibe wird im
       Quergleis, 3 = abzweigen unten</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/ekw-links-0.png"></entry>
-      <entry>600</entry>
+      <entry align="center"><graphic fileref="../commonimages/ekw-links-0.png"></entry>
+      <entry align="center">600</entry>
       <entry>Einfache Kreuzungsweiche links</entry>
       <entry align="center">2</entry>
       <entry>&nbsp;</entry>
@@ -2970,8 +2936,8 @@ besondere Elemente wie die Drehscheibe wird im
       Diagonalgleis</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/ekw-rechts-0.png"></entry>
-      <entry>610</entry>
+      <entry align="center"><graphic fileref="../commonimages/ekw-rechts-0.png"></entry>
+      <entry align="center">610</entry>
       <entry>Einfache Kreuzungsweiche rechts</entry>
       <entry align="center">2</entry>
       <entry>&nbsp;</entry>
@@ -3002,9 +2968,9 @@ besondere Elemente wie die Drehscheibe wird im
   <thead>
     <row>
       <entry align="left">Symbol</entry>
-      <entry align="left">Id</entry>
+      <entry align="center">Id</entry>
       <entry align="left">Beschreibung</entry>
-      <entry>Adressen</entry>
+      <entry align="center">Adressen</entry>
       <entry align="left">Bemerkung</entry>
       <entry align="left">Status<footnote id="fntabsym4"><para>Diese Werte
       kann man z.B. durch die Tooltip-Hilfe zu jedem Element überprüfen
@@ -3014,8 +2980,8 @@ besondere Elemente wie die Drehscheibe wird im
   </thead>
   <tbody>
     <row>
-      <entry><graphic fileref="../commonimages/signal-hs-0.png"></entry>
-      <entry>300</entry>
+      <entry align="center"><graphic fileref="../commonimages/signal-hs-0.png"></entry>
+      <entry align="center">300</entry>
       <entry>Hauptsignal mit max. Hp0, Hp1 und Hp2</entry>
       <entry align="center">1 oder 2</entry>
       <entry>Bei Kombination Hp0/Hp1 oder Hp0/Hp2 nur 1 Adresse, sonst
@@ -3023,8 +2989,8 @@ besondere Elemente wie die Drehscheibe wird im
       <entry>0 = Hp0, 1 = Hp1, 2 = Hp2</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/signal-hss-0.png"></entry>
-      <entry>320</entry>
+      <entry align="center"><graphic fileref="../commonimages/signal-hss-0.png"></entry>
+      <entry align="center">320</entry>
       <entry>Hauptsperrsignal (Ausfahrsignal) mit allen Begriffen Hp00,
       Hp1, Hp2 und Sh1, Tasten für Zug- und Rangierfahrstraßen</entry>
       <entry align="center">2</entry>
@@ -3032,8 +2998,8 @@ besondere Elemente wie die Drehscheibe wird im
       <entry>0 = Hp00, 1 = Hp1, 2 = Hp2, 3 = Sh1</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/signal-ss-0.png"></entry>
-      <entry>340</entry>
+      <entry align="center"><graphic fileref="../commonimages/signal-ss-0.png"></entry>
+      <entry align="center">340</entry>
       <entry>Schutzsignal (Rangiersignal) mit den Begriffen Sh0 und Sh1,
       Taste für Rangierfahrstraßen</entry>
       <entry align="center">1</entry>
@@ -3041,8 +3007,8 @@ besondere Elemente wie die Drehscheibe wird im
       <entry>0 = Sh0, 1 = Sh1</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/signal-ssh-0.png"></entry>
-      <entry>350</entry>
+      <entry align="center"><graphic fileref="../commonimages/signal-ssh-0.png"></entry>
+      <entry align="center">350</entry>
       <entry>Schutzsignal (Rangiersignal) mit den Begriffen Sh0 und Sh1,
       Taste für Zughilfsstraßen</entry>
       <entry align="center">1</entry>
@@ -3050,8 +3016,8 @@ besondere Elemente wie die Drehscheibe wird im
       <entry>0 = Sh0, 1 = Sh1</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/signal-sss-0.png"></entry>
-      <entry>360</entry>
+      <entry align="center"><graphic fileref="../commonimages/signal-sss-0.png"></entry>
+      <entry align="center">360</entry>
       <entry>Schutzsignal (Rangiersignal) mit den Begriffen Sh0 und Sh1,
       Start- und Zieltasten für Rangierfahrstraßen</entry>
       <entry align="center">1</entry>
@@ -3059,26 +3025,26 @@ besondere Elemente wie die Drehscheibe wird im
       <entry>0 = Sh0, 1 = Sh1</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/signal-nrb.png"></entry>
-      <entry>200</entry>
+      <entry align="center"><graphic fileref="../commonimages/signal-nrb.png"></entry>
+      <entry align="center">200</entry>
       <entry>Gerades Gleis mit Taste für Zugfahrstraßen</entry>
       <entry align="center">1</entry>
-      <entry>Adresse wird nur Programm intern zur Identifizierung
-      benötigt</entry>
+      <entry>Virtuelle Adresse (5000 - 5999) wird nur Programm intern
+          zur Identifizierung benötigt</entry>
       <entry>&nbsp;</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/signal-srb.png"></entry>
-      <entry>210</entry>
+      <entry align="center"><graphic fileref="../commonimages/signal-srb.png"></entry>
+      <entry align="center">210</entry>
       <entry>Gerades Gleis mit Taste für Rangierfahrstraßen</entry>
       <entry align="center">1</entry>
-      <entry>Adresse wird nur Programm intern zur Identifizierung
-      benötigt</entry>
+      <entry>Virtuelle Adresse (5000 - 5999) wird nur Programm intern
+          zur Identifizierung benötigt</entry>
       <entry>&nbsp;</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/signal-vs-0.png"></entry>
-      <entry>380</entry>
+      <entry align="center"><graphic fileref="../commonimages/signal-vs-0.png"></entry>
+      <entry align="center">380</entry>
       <entry>Vorsignal</entry>
       <entry align="center">1 oder 2</entry>
       <entry>Bei Kombination Vr0/Vr1 oder Vr0/Vr2 nur eine Adresse, sonst
@@ -3086,16 +3052,16 @@ besondere Elemente wie die Drehscheibe wird im
       <entry>0 = Vr0, 1 = Vr1, 2 = Vr2</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/signal-zf-1.png"></entry>
-      <entry>250</entry>
+      <entry align="center"><graphic fileref="../commonimages/signal-zf-1.png"></entry>
+      <entry align="center">250</entry>
       <entry>Abfahrsignal Zp9</entry>
       <entry align="center">1</entry>
       <entry>&nbsp;</entry>
       <entry>&nbsp;</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/signal-ws-0.png"></entry>
-      <entry>370</entry>
+      <entry align="center"><graphic fileref="../commonimages/signal-ws-0.png"></entry>
+      <entry align="center">370</entry>
       <entry>Wartesignal mit Taste für Rangierfahrstraßen</entry>
       <entry align="center">1</entry>
       <entry>&nbsp;</entry>
@@ -3112,7 +3078,7 @@ besondere Elemente wie die Drehscheibe wird im
 </para>
 
 <table frame="topbot" id="tabelle-special">
-  <title>Auflistung von Symbolen mit speziellen Funktionen</title>
+  <title>Symbole mit speziellen Funktionen</title>
   <tgroup cols="6" align="left" colsep="0" rowsep="1">   
   <colspec colname="c1" colwidth="1*" colsep="0">
   <colspec colname="c2" colwidth="1*" colsep="0">
@@ -3123,9 +3089,9 @@ besondere Elemente wie die Drehscheibe wird im
   <thead>
     <row>
       <entry align="left">Symbol</entry>
-      <entry align="left">Id</entry>
+      <entry align="center">Id</entry>
       <entry align="left">Beschreibung</entry>
-      <entry align="left">Adressen</entry>
+      <entry align="center">Adressen</entry>
       <entry align="left">Bemerkung</entry>
       <entry align="left">Status<footnote id="fntabsym5"><para>Diese Werte
       kann man z.B. durch die Tooltip-Hilfe zu jedem Element überprüfen
@@ -3135,76 +3101,78 @@ besondere Elemente wie die Drehscheibe wird im
   </thead>
   <tbody>
     <row>
-      <entry morerows="1" valign="middle"><graphic fileref="../commonimages/entkoppler.png"></entry>
-      <entry>930</entry>
+      <entry align="center" morerows="1" valign="middle"><graphic fileref="../commonimages/entkoppler.png"></entry>
+      <entry align="center">930</entry>
       <entry>Entkupplungsgleis</entry>
-      <entry>1</entry>
+      <entry align="center">1</entry>
       <entry><footnoteref linkend="fntabsym2"/> Motorantrieb (Subtyp = -1)</entry>
       <entry>0 = Koppler aus, 1 = Koppler an</entry>
     </row>
     <row>
-      <entry>930</entry>
+      <entry align="center">930</entry>
       <entry>Entkupplungsgleis</entry>
-      <entry>0,5</entry>
+      <entry align="center">0,5</entry>
       <entry><footnoteref linkend="fntabsym2"/> Monostabiler Antrieb
       (Subtyp 0 oder 1)</entry>
       <entry>&nbsp;</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/blind-0.png"></entry>
-      <entry>940</entry>
+      <entry align="center"><graphic fileref="../commonimages/blind-0.png"></entry>
+      <entry align="center">940</entry>
       <entry>Blindschaltelement</entry>
-      <entry>1</entry>
-      <entry>&nbsp;</entry>
+      <entry align="center">1</entry>
       <entry>Dient zur Anzeige von versteckten Bahnstromrelais zum
       Rückwärtsbefahren von Signalen</entry>
-    </row>
-    <row>
-      <entry><graphic fileref="../commonimages/adresse.png"></entry>
-      <entry>900</entry>
-      <entry>Adressanzeigefeld</entry>
-      <entry>1</entry>
       <entry>&nbsp;</entry>
-      <entry>Nur mit einem EDiTS-Pro Adressrückmeldemodul anwendbar</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/uebergang.png"></entry>
-      <entry>950</entry>
+      <entry align="center"><graphic fileref="../commonimages/adresse.png"></entry>
+      <entry align="center">900</entry>
+      <entry>Adressanzeigefeld</entry>
+      <entry align="center">1</entry>
+      <entry>Für EDiTS-Pro Adressrückmeldemodul oder
+          Zugnummernverfolgung mit virtueller Adresse (6000 - 6999)
+          anwendbar</entry>
+      <entry>&nbsp;</entry>
+    </row>
+    <row>
+      <entry align="center"><graphic fileref="../commonimages/uebergang.png"></entry>
+      <entry align="center">950</entry>
       <entry>Bahnübergang</entry>
-      <entry>0</entry>
+      <entry align="center">0</entry>
       <entry>Eventuell in Zukunft einmal fernsteuerbar</entry>
       <entry>&nbsp;</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/drehscheibe.png"></entry>
-      <entry>700</entry>
+      <entry align="center"><graphic fileref="../commonimages/drehscheibe.png"></entry>
+      <entry align="center">700</entry>
       <entry>Drehscheibe</entry>
-      <entry>spezieller Decoder</entry>
-      <entry>Nur für Märklin Protokoll verwendbar</entry>
+      <entry align="center">1</entry>
+      <entry>spezieller Decoder, nur für Märklin Protokoll verwendbar</entry>
       <entry>Eigener Drehscheiben-Commander</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/schiebebuehne.png"></entry>
-      <entry>701</entry>
+      <entry align="center"><graphic fileref="../commonimages/schiebebuehne.png"></entry>
+      <entry align="center">701</entry>
       <entry>Schiebebühne</entry>
-      <entry>2</entry>
+      <entry align="center">2</entry>
       <entry>Märklin Schiebebühne kann mit Decodern beider Protokolle
       angesprochen werden</entry>
       <entry>Eigener Schiebebühnen-Commander</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/relais.png"></entry>
-      <entry>710</entry>
+      <entry align="center"><graphic fileref="../commonimages/relais.png"></entry>
+      <entry align="center">710</entry>
       <entry>Relais</entry>
-      <entry>1</entry>
+      <entry align="center">1</entry>
       <entry>Die Anzahl der schaltbaren Kontakte ist unerheblich</entry>
       <entry>0 = Relais aus, 1 = Relais an</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/motor.png"></entry>
-      <entry>720</entry>
+      <entry align="center"><graphic fileref="../commonimages/motor.png"></entry>
+      <entry align="center">720</entry>
       <entry>Gleichstrommotor</entry>
-      <entry>1</entry>
+      <entry align="center">1</entry>
       <entry>&nbsp;</entry>
       <entry>0 = Motor aus, 1 = Motor an</entry>
     </row>
@@ -3220,7 +3188,7 @@ besondere Elemente wie die Drehscheibe wird im
 
 <table frame="topbot" id="tabelle-decoration">
   <title>Dekorative Elementsymbole</title>
-  <tgroup cols="6" align="left" colsep="0" rowsep="0">   
+  <tgroup cols="4" align="left" colsep="0" rowsep="0">   
   <colspec colname="c1" colwidth="1*" colsep="0">
   <colspec colname="c2" colwidth="2*" colsep="0">
   <colspec colname="c3" colwidth="3*" colsep="0">
@@ -3228,51 +3196,51 @@ besondere Elemente wie die Drehscheibe wird im
   <thead>
     <row>
       <entry align="left">Symbol</entry>
-      <entry align="left">Id</entry>
+      <entry align="center">Id</entry>
       <entry align="left">Beschreibung</entry>
       <entry align="left">Bemerkung</entry>
     </row>
   </thead>
   <tbody>
     <row>
-      <entry><graphic fileref="../commonimages/prellbock.png"></entry>
-      <entry>800</entry>
+      <entry align="center"><graphic fileref="../commonimages/prellbock.png"></entry>
+      <entry align="center">800</entry>
       <entry>Puffergleisstück</entry>
       <entry>In vier Richtungsvarianten vorhanden</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/leer.png"> </entry>
-      <entry>1000</entry>
+      <entry align="center"><graphic fileref="../commonimages/leer.png"> </entry>
+      <entry align="center">1000</entry>
       <entry>Textfeld</entry>
       <entry>Kann Hintergrundfarbe annehmen, Textanzeige möglich</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/schuppen-o.png"></entry>
-      <entry>830</entry>
+      <entry align="center"><graphic fileref="../commonimages/schuppen-o.png"></entry>
+      <entry align="center">830</entry>
       <entry>Lockschuppen oben</entry>
       <entry>Linke und rechte Variante vorhanden</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/schuppen-m.png"></entry>
-      <entry>820</entry>
+      <entry align="center"><graphic fileref="../commonimages/schuppen-m.png"></entry>
+      <entry align="center">820</entry>
       <entry>Lockschuppen Mitte</entry>
       <entry>Linke und rechte Variante vorhanden</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/schuppen-u.png"></entry>
-      <entry>840</entry>
+      <entry align="center"><graphic fileref="../commonimages/schuppen-u.png"></entry>
+      <entry align="center">840</entry>
       <entry>Lockschuppen unten</entry>
       <entry>Linke und rechte Variante vorhanden</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/haus-1.png"></entry>
-      <entry>850</entry>
+      <entry align="center"><graphic fileref="../commonimages/haus-1.png"></entry>
+      <entry align="center">850</entry>
       <entry>Bahnhofsgebäude Mittelteil</entry>
       <entry>&nbsp;</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/haus-2.png"></entry>
-      <entry>851</entry>
+      <entry align="center"><graphic fileref="../commonimages/haus-2.png"></entry>
+      <entry align="center">851</entry>
       <entry>Bahnhofsgebäude Seitenteil</entry>
       <entry>Linke und rechte Variante vorhanden</entry>
     </row>
@@ -3289,7 +3257,7 @@ besondere Elemente wie die Drehscheibe wird im
 
 <table frame="topbot" id="tabelle-groupbuttonblock">
   <title>Elemente des Gruppentastenblocks</title>
-  <tgroup cols="6" align="left" colsep="0" rowsep="0">   
+  <tgroup cols="4" align="left" colsep="0" rowsep="0">   
   <colspec colname="c1" colwidth="1*" colsep="0">
   <colspec colname="c2" colwidth="1*" colsep="0">
   <colspec colname="c3" colwidth="4*" colsep="0">
@@ -3297,40 +3265,40 @@ besondere Elemente wie die Drehscheibe wird im
   <thead>
     <row>
       <entry align="left">Symbol</entry>
-      <entry align="left">Id</entry>
+      <entry align="center">Id</entry>
       <entry align="left">Beschreibung</entry>
       <entry align="left">Bemerkung</entry>
     </row>
   </thead>
   <tbody>
     <row>
-      <entry><graphic fileref="../commonimages/taste-wgt.png"></entry>
-      <entry>1201</entry>
+      <entry align="center"><graphic fileref="../commonimages/taste-wgt.png"></entry>
+      <entry align="center">1201</entry>
       <entry>Weichengruppentaste zum manuellen Einstellen von Weichen</entry>
       <entry>Hindergrundfarbe nicht veränderbar</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/taste-fht.png"></entry>
-      <entry>1101</entry>
+      <entry align="center"><graphic fileref="../commonimages/taste-fht.png"></entry>
+      <entry align="center">1101</entry>
       <entry>Fahrstraßenhilfsauflösetaste zum Auflösen von Fahrstraßen</entry>
       <entry>Hindergrundfarbe nicht veränderbar</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/taste-ufgt.png"></entry>
-      <entry>1102</entry>
+      <entry align="center"><graphic fileref="../commonimages/taste-ufgt.png"></entry>
+      <entry align="center">1102</entry>
       <entry>Umfahrgruppentaste zum Einstellen von Umfahrstraßen;
       Mittelweichengruppentaste hat noch keine Funktion</entry>
       <entry>Hindergrundfarbe nicht veränderbar</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/taste-sgt.png"></entry>
-      <entry>1301</entry>
+      <entry align="center"><graphic fileref="../commonimages/taste-sgt.png"></entry>
+      <entry align="center">1301</entry>
       <entry>Signalgruppentaste zum manuellen Einstellen von Signalen</entry>
       <entry>Hindergrundfarbe nicht veränderbar</entry>
     </row>
     <row>
-      <entry><graphic fileref="../commonimages/panel-blue.png"></entry>
-      <entry>1200</entry>
+      <entry align="center"><graphic fileref="../commonimages/panel-blue.png"></entry>
+      <entry align="center">1200</entry>
       <entry>Leeres Element zum Gestalten von Gruppentastenblöcken</entry>
       <entry>In folgenden Farben verfügbar: blau (Weichen),
       gelb (Bahnübergang), rot (Signale), grün (Fahrstraßen),
@@ -3784,26 +3752,22 @@ Anlage notwendig sind.</para>
 </variablelist>
 <para>
 Das Beispiel oben zeigt das Eigenschaftsfenster für Symbole, die keinen
-Antrieb besitzen, also z.B. einfache Gleiselemente. Im Pull-Down-Menü
-wählt man zunächst das Elementsymbol, dreht es bedarfsweise, schaltet
-ggf. den Gleismelder für die Besetztmeldung aus oder gibt einen
-Beschriftungstext ein. Je nach Art des gewählten Symbols kann das eine
-oder andere Eigenschaftsfeld deaktiviert sein.
-</para>
-<para>
+Antrieb besitzen, also z.B. einfache Gleiselemente. Je nach Art des
+gewählten Symbols kann das eine oder andere Eigenschaftsfeld
+deaktiviert sein.
 Bei Textelementen ist z.B. das Feld &raquo;Invertieren&laquo; aktiviert.
 Damit läßt sich einstellen, ob der Hintergrund eines Textelements in
 dunklem oder hellem Grau dargestellt wird.
 </para>
 <para>
 Um eine Gleisbesetztmeldung zu bekommen, muß man im rechten unteren
-Bereich noch das Rückmeldemodul und den verwendeten Eingang einstellen,
+Bereich das Rückmeldemodul und den verwendeten Eingang einstellen,
 an dem die Gleisbesetztmeldung für dieses Gleisstück angeschlossen ist.
 Beim Einstellen der Kontaktnummer springt die Anzeige der Modulnummer
 und dessen Eingang automatisch auf den entsprechend umgerechneten Wert.
-Braucht man mal
-mehr Übersicht, kann man über den Rückmeldeknopf rechts neben dem
-Modulselektor die grafische Übersicht über alle Rückmeldemodule öffnen.
+Durch Aktiviern des Rückmeldeknopfes rechts neben dem Modulselektor
+erscheint die grafische Übersicht aller konfigurierter Rückmeldemodule.
+Ein weiteres Aktivieren des Schalters blendet diese wieder aus.
 </para>
 </sect2>
     
@@ -3812,12 +3776,13 @@ Modulselektor die grafische Übersicht über alle Rückmeldemodule öffnen.
 <para>
 Wählt man ein Symbol aus, welches einen Antrieb besitzt,
 ergeben sich hier im einfachsten Fall die in <xref linkend="abb-antrieb">
-gezeigten Einstellungen. In der linken Hälfte ist nun eine
+gezeigten Einstellungen. In der rechten Hälfte ist nun eine
 Eingabemöglichkeit für den verwendeten Decoder sichtbar. Hier wird
 zunächst bei einem noch nicht mit einem Typ versehenen Element der
 Standard-Decoder eingetragen, wie er über die persönlichen Einstellungen
 festgelegt wurde. Wählt man hier einen anderen, so paßt sich auch
-automatisch das zugehörige Protokoll in der oberen Hälfte des Fensters an.
+automatisch das zugehörige Protokoll in der unteren Hälfte des Fensters
+an.
 </para>
 <figure id="abb-antrieb">
   <title>Eigenschaften-Fenster des Elementsymbols für normale Antriebe</title>
@@ -3833,38 +3798,39 @@ einer Adresse diese automatisch in das Textfeld übertragen. Möchte man
 aber die Vorbildbezeichnungen für Weichen, Signale etc. benutzen, muß
 man nachträglich den Eintrag im Textfeld ändern (z.B. P1 für ein
 Ausfahrsignal). Welche Anzeige auf dem Element dann letztendlich
-erscheint, bestimmt der Benutzer selbst über die Programmeinstellungen.
-Dort läßt sich zwischen dem Textfeld oder der Adresse wählen.
+erscheint, bestimmt der Benutzer selbst über seine persönlichen
+Einstellungen. Dort läßt sich zwischen der Textfeldbeschriftung oder
+dem Zahlenwert der Adresse beliebig umschalten.
 </para>
 <para>
 Die Eingabefelder für die Decoderadressen werden vom Programm auf ihre
 Gültigkeit hin überprüft. Es sind nur Wertangaben innerhalb des vom
-Digitalprotokoll definierten Adressbereichs erlaubt. Lediglich die beiden
-Symbole für die Gleistasten bilden eine Ausnahme. Hier sind Adresswerte
-bis 6000 erlaubt, da dieser Wert nur programmintern zur Identifizierung
-beim Schalten von Fahrstraßen benötigt wird.
+Digitalprotokoll definierten Adressbereichs erlaubt. Verschiedene
+Symbole, die eine virtuelle Adresse nutzen, sind hiervon ausgenommen.
+Für diese gelten Adresswerte aus anderen vordefinierten Zahlenbereichen,
+die oberhalb der Digitalprotokolle liegen. Diese Werte werden
+programmintern zur Identifizierung dieser Gleisbildelemente benötigt.
 </para>
 <para>
 Die Anfangsstellung eines Antriebs kann nicht voreingestellt
-werden. Wenn ein Element vorher nicht schaltbar war, bekommt
-es anfangs den Richtungswert 0, ansonsten übernimmt es den Richtungswert,
-der vor dem Öffnen des Eigenschaftsfensters aktuell war.
+werden. Ein neues Element bekommt den Richtungswert 0, ansonsten
+übernimmt es den Richtungswert, der vor dem Öffnen des
+Eigenschaftsfensters aktuell war.
 </para>
 <para>
-Das Feld &raquo;Invertieren&laquo; ist zwar aktiviert, hat aber bei
-Weichenantrieben noch keinerlei Konsequenzen. Interessant zum Einstellen
+Interessant zum Einstellen
 sind die Felder &raquo;Vertauschen&laquo;, &raquo;Zurücksetzen nach&laquo; und
 &raquo;Rückmeldung&laquo;. Das erste ermöglicht es durch einen einfachen
 Klick, die Ausgänge zu einer Decoderadresse elektronisch zu vertauschen.
 Wenn also die Weiche nicht so schaltet, wie es die Grafik anzeigt, dann
 kann dies durch einen einfachen Haken korrigiert werden. Man muß also
 nicht unter die Anlage, um Kabel umzustecken oder sogar zu löten. Für
-ältere Weichen (wie z.B. häufig bei älteren Märklin-M-Weichen) kann es
-nötig sein, dass der Stellbefehl etwas länger anstehen werden muß. Die
-Spule bekommt erst dann genug Zeit, sich in die andere Stellung zu
-bewegen. Die im Feld &raquo;Zurücksetzen nach&laquo; angegebene Zeit
-in Millisekunden kann entsprechend erhöht werden, um eine ausreichende
-Funktion zu gewährleisten.
+ältere Weichen mit Spulenantrieben (wie z.B. häufig bei älteren
+Märklin-M-Weichen) kann es nötig sein, dass der Stellbefehl etwas
+länger anstehen werden muß. Die Spule bekommt erst dann genug Zeit,
+sich in die andere Stellung zu bewegen. Die im Feld &raquo;Zurücksetzen
+nach&laquo; angegebene Zeit in Millisekunden kann entsprechend erhöht
+werden, um eine ausreichende Funktion zu gewährleisten.
 </para>
 <para>
 Für eine korrekte Funktion eines Gleisbilds sind die Einträge in den Feldern zu
@@ -3877,10 +3843,8 @@ steuert dann den Gleismelder im Element (rot = Gleis besetzt).
 <sect2>
   <title>Signale</title>
 <para>
-        <xref linkend="abb-sig1"> und <xref linkend="abb-sig2"> 
-        zeigen beispielhaft die Eigenschaftsdialogfenster für Signale.
-</para>
-<para>
+<xref linkend="abb-sig1"> und <xref linkend="abb-sig2"> 
+zeigen beispielhaft die Eigenschaftsdialogfenster für Signale.
 In <xref linkend="abb-sig1"> erkennt man die
 Einstellungen zu einem Standard-Hauptsignal oder Blocksignal. Zunächst
 vergibt man die Daten wie bei einer normalen Weiche. Dann allerdings
@@ -4030,9 +3994,9 @@ ist ebenfalls nur eine Adresse einzugeben.
   <para>
       Die automatische Zugnummernverfolgung benötigt zur Identifizierung
       dieser Anzeigeelemente eine eindeutige Nummer, die dem Element als
-      Adresse mitgegeben wird. In <xref linkend="abb-adr"> ist dieses
-      beispielhaft über den Zahlenwert 6002 realisiert; der gültige
-      Wertebereich beträgt hier 6000 - 6999. <xref
+      virtuelle Adresse mitgegeben wird. In <xref linkend="abb-adr"> ist
+      dieses beispielhaft über den Zahlenwert 6002 realisiert; der
+      gültige Wertebereich beträgt hier 6000 - 6999. <xref
       linkend="sect-trainnumber-usage"> geht näher auf die Anwendung
       der Zugnummernverfolgung ein.
 </para>
@@ -4161,7 +4125,7 @@ einer zweiten Taste zur Festlegung der Länge des Durchrutschweges.
 <para>
 Auf freier Strecke wird meistens im selbsttätigen Blockbetrieb
 gefahren, so dass hier im allgemeinen keine Stellvorgänge ausgelöst
-werden müssen, dennoch sind dafür Bedienmöglichkeiten vorhanden.
+werden müssen; dennoch sind dafür Bedienmöglichkeiten vorhanden.
 </para>
 <para>
 Wurden die Tasten gedrückt, dann laufen zunächst alle beteiligten
@@ -4255,12 +4219,12 @@ Meldezeile.
 </para>
 <para>
 Hat eine Weiche schon die für die Fahrstraße benötigte Stellung,
-dann wird sie nicht noch einmal gestellt. Es wird
-auch kein Stellbefehl an den SRCP-Server geschickt, um unnötige
-Kommandos zu vermeiden (es sei denn, dies ist als spezielle Einstellung
-konfiguriert). Selbstverständlich wird diese Weiche
-ebenfalls durch einen aktivierten Sperrmelder als einer
-Fahrstraße zugehörig gekennzeichnet.
+dann wird sie nicht noch einmal gestellt. Es wird auch kein
+Stellbefehl an den SRCP-Server geschickt, um unnötige Kommandos zu
+vermeiden (es sei denn, dies ist als spezielle Benutzereinstellung
+konfiguriert). Selbstverständlich wird diese Weiche ebenfalls durch
+einen aktivierten Sperrmelder als einer Fahrstraße zugehörig
+gekennzeichnet.
 </para>
 </sect2>
 
@@ -4342,7 +4306,8 @@ Menüpunkt &raquo;Ansicht/Fahrstraßentabelle&laquo; aktivieren.
 </figure>
 <para>
 Es öffnet sich eine tabellarische Liste, in der alle existierenden
-Fahrstraßen mit Namen, Startsignal, Zielsignal und Typ aufgeführt
+Fahrstraßen mit Namen, Startsignal, Zielsignal, Typ,
+Identifikationsnummer und der aktuellen Zugnummer aufgeführt
 sind. Bereits eingestellte Fahrstraßen erkennt man sofort an dem gelben
 rechteckigen Symbol in der ersten Spalte. Auch aus diesem Fenster heraus
 können die Fahrstraßen beeinflußt werden. Dazu wählt man zunächst
@@ -4377,13 +4342,6 @@ steht der Menübefehl &raquo;Fahrstraße/Alle zurücknehmen&laquo;
 
 <sect1 id="sect-fahrstrassen">
   <title>Verwaltung von Fahrstraßen</title>
-<para>
-Eine Übersicht über die schon vorhandenen Fahrstraßen erhält man
-jederzeit durch die Fahrstraßentabelle
- (&raquo;Ansicht/Fahrstraßentabelle&laquo; oder <keycap>Strg-R</keycap>).
-Diese kann unabhängig vom aktuellen Anzeigemodus des Gleisbilds
-eingesetzt werden.
-</para>
 <para>
 Das Bearbeiten von Fahrstraßen, also sowohl das Erstellen von neuen als
 auch das Verändern oder Löschen von schon vorhandenen Fahrstraßen, kann
@@ -4441,9 +4399,9 @@ der Dezimalwert der Antriebsstellung (siehe auch
 des Elements kann hier zwischen zwei oder vier Zuständen ausgewählt
 werden. Das Feld &raquo;Name&laquo; gibt die Klartextanzeige des
 Elementes wieder, bei Signalen also z.B. &raquo;P 1&laquo; für ein
-Ausfahrsignal. Nur die Adresse, der SRCP-Bus und der
-Status sind editierbar, der Name wird automatisch aus dem Vorrat der im
-Gleisbild verfügbaren Elemente ermittelt.
+Ausfahrsignal. Nur die Adresse, der SRCP-Bus und der Status sind
+editierbar, der Name wird bei Eingabe der Adresse automatisch aus dem
+Vorrat der im Gleisbild verfügbaren Elemente ermittelt.
 </para>
 </sect3>
 <sect3>
@@ -4473,7 +4431,7 @@ entfernt werden können.
 <sect3>
   <title>Typ</title>
 <figure id="abb-routedialog3">
-  <title>Type einer Fahrstraße</title>
+  <title>Typ einer Fahrstraße</title>
   <mediaobject><imageobject>
     <imagedata fileref="shot-routedialog3.png">
   </imageobject></mediaobject>
@@ -4484,8 +4442,7 @@ und Rangierfahrstraßen werden sicherheitstechnisch unterschiedlich
 behandelt. Zugfahrstraßen lassen sich im Gegensatz zu Rangierfahrstraßen
 nicht in belegte Gleisabschnitte einrichten. Beim Einstellen von
 Umfahrstraßen ist die Bedienung der Umfahrgruppentaste (UfGT) vor den
-Start- und Zieltasten notwendig. Die hier vorgesehene Option für
-mehrere Umfahrstufen, ist zur Zeit noch nicht implementiert.
+Start- und Zieltasten notwendig.
 </para>
 </sect3>
 <sect3>
@@ -4497,8 +4454,9 @@ mehrere Umfahrstufen, ist zur Zeit noch nicht implementiert.
   </imageobject></mediaobject>
 </figure>
 <para>
-Auf dieser Seite sich Bedienelemente zur Konfiguration des
-Automatikbetriebs. Fahrstraßen lassen sich sowohl automatisch
+Auf dieser Seite befinden sich Bedienelemente zur Konfiguration des
+Automatikbetriebs mit Hilfe von Rückmeldungen. Fahrstraßen lassen sich
+sowohl automatisch
 einstellen, als auch automatisch auflösen. Zusätzlich ist wählbar, ob
 der Schaltvorgang bei einer Belegtmeldung oder bei einer Freimeldung
 ausgelöst wird. Editierbar sind das Eingabefeld für den SRCP-Bus und die
@@ -4827,10 +4785,11 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
                     Die Vergabe einer eindeutigen Identifikationsnummer
                     erfolgt über den Eigenschaftsdialog des
                     Anzeigeelementes (siehe auch <xref
-                    linkend="sect-addressindicator">). Dieser
-                    Zahlenwert wird im Feld für die Adresse&nbsp;1
+                    linkend="sect-addressindicator">). Dieser Zahlenwert
+                    wird im Feld für die Adresse&nbsp;1
                     eingetragen und muß im Bereich von 6000 bis 6999
-                    liegen. Die Datendarstellung muß gleichzeitig auf
+                    (viruelle Adresse) liegen. Die Datendarstellung muß
+                    gleichzeitig auf
                     &raquo;Invertieren&laquo; eingestellt werden
                     (<xref linkend="abb-trainnumber-display2">),
                     damit die Anzeige nicht als EDiTS-Pro-Element
@@ -4840,24 +4799,24 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
             <listitem>
                 <para>
                     Die Zuordnung der Anzeige zu einer Fahrstraße
-                    erfolgt im
-                    Fahrstraßenbearbeitungsmodus. Das Element wird wie
+                    erfolgt im Fahrstraßenbearbeitungsmodus. Das Element
+                    wird wie
                     die übrigen schaltbaren Elemente einer Fahrstraße
-                    behandelt und bekommt bei der Auswahl eine
-                    magentafarbene Umrandung
+                    behandelt (Auswahl über mittlere Maustaste) und
+                    bekommt bei der Auswahl eine magentafarbene Umrandung
                     (<xref linkend="abb-trainnumber-display3">).
                 </para>
             </listitem>
         </orderedlist>
         <figure id="abb-trainnumber-display2">
-            <title>Identifikationsnummer vergeben</title>
+            <title>Identifikationsnummer als virtuelle Adresse vergeben</title>
             <mediaobject><imageobject>
                     <imagedata
                         fileref="shot-trainnumber-display2.png">
                 </imageobject></mediaobject>
             </figure>
         <figure id="abb-trainnumber-display3">
-            <title>Zugnummernanzeige zuordnen</title>
+            <title>Zugnummernanzeige einer Fahrstraße zuordnen</title>
             <mediaobject><imageobject>
                     <imagedata
                         fileref="../commonimages/shot-trainnumber-display3.png">
@@ -4918,6 +4877,12 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
         </para>
     </listitem>
 </itemizedlist>
+<para>
+    Dieses Kapitel beschreibt die Verwendung von Standardnachrichten als
+    Programmierschnittstelle von spdrs60 für andere SRCP-Clients.
+    Benutzer, die an dieser Art von Detailinformation nicht interessiert
+    sind, sollten dieses Kapitel überschlagen.
+</para>
 
 </sect1>
 <sect1 id="sect-gm-anwendung">
@@ -5878,9 +5843,9 @@ erster Abzweig links (Adresse 1), zweiter Abzweig rechts (Adresse 2)
 <table frame=topbot>
   <title>Weichenübersicht Tillig</title>
       <tgroup cols="3" align="left" colsep="0" rowsep="0">   
-      <colspec colname="c1" colwidth="4*">
+      <colspec colname="c1" colwidth="5*">
       <colspec colname="c2" colwidth="2*">
-      <colspec colname="c3" colwidth="4*">
+      <colspec colname="c3" colwidth="5*">
       <thead>
         <row rowsep="1">
           <entry>Artikel</entry>
@@ -6146,7 +6111,7 @@ automatisch wählen soll. Ist erstgenannte Eigenschaft aktiv, dann kann
 man durch vorheriges Klicken auf den Links- oder Rechtspfeil die
 Drehrichtung der Bühne bestimmen. Es ist also so möglich, von Gleis 3 zu
 Gleis 4 über Gleis 2, 1, 24, 23, ... zu kommen. Beim automatischen
-Auswählen der Drehrichtung sind die Buttons mit den Drehpfeilen
+Auswählen der Drehrichtung sind die Tasten mit den Drehpfeilen
 deaktiviert.
 </para>
 </sect2>
@@ -6187,15 +6152,18 @@ Wie geht man also vor?
 </para>
 <para>
 <itemizedlist mark="bullet">
-  <listitem><para>Man starte den Rechner mit dem
-DDL-Daemon sowie den spdrs60-Client und lädt das
-Anlagen-Layout.</para></listitem>
-  <listitem><para>Danach aktiviere man den Commander und
-öffne das Programmierfenster.</para></listitem>
+    <listitem>
+        <para>
+            Man starte den Rechner mit dem SRCP-Server sowie den
+            spdrs60-Client und lädt das passende Gleisbild.
+        </para>
+    </listitem>
+  <listitem><para>Danach aktiviert man den Commander und
+öffnet das Programmierfenster.</para></listitem>
   <listitem><para>Jetzt wird die Versorgungsspannung eingeschaltet
 (Central-Unit, Verstärker (&raquo;Booster&laquo;) oder ähnliches)
 </para></listitem>
-  <listitem><para>Innerhalb von fünf Sekunden klicke man
+  <listitem><para>Innerhalb von fünf Sekunden klickt man
 nun auf die Taste &raquo;Start programming&laquo;</para></listitem>
 </itemizedlist>
 </para>
@@ -6235,7 +6203,7 @@ völlig unabhängig davon!)
   <title>Anschluss-Schema</title>
 <para> Für den Fall, dass man den Anschlussplan verlegt hat, kann man
 diesen in <xref linkend="abb-drehscheibe"> nochmal einsehen. Er
-funktioniert NUR mit dem seinerzeit der Drehscheibe beiliegenden
+funktioniert nur mit dem seinerzeit der Drehscheibe beiliegenden
 Spezialdecoder. Die Drehscheibe Märklin Art.-Nr.
 7286 wird mittlerweile von der Firma Märklin nur mit einem
 konventionellen Steuergerät und ohne eine digitale Steuerelektronik
@@ -6465,16 +6433,8 @@ Zustand befinden.
 Als letztes folgt noch eine Auswahlmöglichkeit für ein Gleisbild, das
 automatisch beim Programmstart aufgerufen werden soll. Wenn man das genaue
 Verzeichnis nicht kennt, kann man diese Datei über den Schalter
-&raquo;Wählen...&laquo; aussuchen. Aktiviert man mit einem Haken den
-Autolade-Mechnanismus, vergißt dann aber, einen Dateinamen anzugeben, so
- führt das beim Schließen des Dialogs zu folgender Fehlermeldung:
+&raquo;Wählen...&laquo; aussuchen.
 </para>
-<figure id="abb-optlayouterr">
-  <title>Gleisbild-Fehlermeldung</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="schnapp-pref-layout-err1.png">
-  </imageobject></mediaobject>
-</figure>
 </sect2>
 
 <sect2>
@@ -6497,7 +6457,8 @@ einstellen, ob die Signale mit Begriff Hp&nbsp;2 DB-konform in grün
 Benutzer leichter zu unterscheiden eben in Orange angezeigt werden. Man
 kann außerdem wählen, ob es zu den einzelnen Bedienelementen einen
 Kurzhilfe gibt und ob die aktuellen Daten jedes Elements als Kurzhilfe
-angezeigt werden sollen (letzteres nur im Fehlersuchfall zu empfehlen!)
+angezeigt werden sollen (letzteres ist nur für den Fehlersuchfall zu
+empfehlen).
   </para></listitem>
   </varlistentry>
   
@@ -6505,7 +6466,7 @@ angezeigt werden sollen (letzteres nur im Fehlersuchfall zu empfehlen!)
       <term><emphasis>Weichen blinkend umschalten</emphasis></term>
   <listitem><para>
     Über diese Option läßt sich das Blinken der Weichen beim
-    umschalten abschalten. Das Einstellen der Fahrstraße erfolgt dadurch
+    Umschalten abschalten. Das Einstellen der Fahrstraße erfolgt dadurch
     schneller.
   </para></listitem>
   </varlistentry>
@@ -6515,18 +6476,18 @@ angezeigt werden sollen (letzteres nur im Fehlersuchfall zu empfehlen!)
               senden</emphasis></term>
   <listitem><para>
     Ist diese Option aktiviert, dann wird der aktuelle Status des
-    Magnetartikels auch dann als SRCP-Befehl gesendet, wenn wer sich in
-    der Darstellung schon in der Soll-Stellung befindet. Damit lassen
+    Magnetartikels auch dann als SRCP-Befehl gesendet, wenn dieser sich
+    in der Darstellung schon in der Soll-Stellung befindet. Damit lassen
     sich potentielle Fehlstellungen, die z.B. über Handbedienung
     entstehen, vermeiden.
   </para></listitem>
   </varlistentry>
 
   <varlistentry>
-      <term><emphasis>Allgemeine Tooltip-Hilfe (benötigt Programmneustart)
+      <term><emphasis>Allgemeine Tooltip-Hilfe
       </emphasis></term>
       <listitem><para>
-              Erweiterte, kontextsensitive Hilfe.
+              Anzeigen einer erweiterten kontextsensitiven Hilfe.
   </para></listitem>
   </varlistentry>
 
@@ -6544,7 +6505,7 @@ angezeigt werden sollen (letzteres nur im Fehlersuchfall zu empfehlen!)
   <term><emphasis>Serverzeitangabe bei SRCP 0.8-Meldungen lesbar
           darstellen</emphasis></term>
   <listitem><para>
-Benutzt man SpDrs60 mit eimen SRCP&nbsp;0.8-Server, so kann man hier
+Benutzt man spdrs60 mit eimen SRCP&nbsp;0.8-Server, so kann man hier
 festlegen, ob die vom Server gelieferten Zeitangaben als numerischer
 Wert oder lesbare Uhrzeit in der Meldezeile angezeigt werden.
   </para></listitem>
@@ -6605,17 +6566,6 @@ Programm automatisch ermittelt wird (kürzester Drehweg). Außerdem
 muß man angeben, wie lange eine komplette 360°-Drehung der Bühne
 dauert. Damit ist gewährleistet, dass die grafische Anzeige in etwa
 während des Drehvorgangs mit dem realen Stand der Bühne übereinstimmt.
-Wird keine Zeit eingeben, so erhält man beim Schließen der
-Optionen die in <xref linkend="abb-optdataerr2"> dargestellte
-Fehlermeldung (eine Eingabe ist immer nötig, auch wenn
-man gar keine Drehscheibe hat):
-</para>
-<figure id="abb-optdataerr2">
-  <title>Fehlermeldung Drehscheibe</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="schnapp-pref-data-err2.png">
-  </imageobject></mediaobject>
-</figure>
 </sect2>
 
 <sect2 id="sect-opt-feedback">
@@ -6636,14 +6586,6 @@ Anzahl der Rückmeldebusse (maximal vier Busse mit je 31 Modulen zu
 ist Abhängig davon, ob die Rückmeldungen über einen SRCP&nbsp;0.7- oder
 einen SRCP&nbsp;08.-Server laufen.
 </para>
-<figure id="abb-optdataerr1">
-  <title>Fehlermeldung Rückmeldung</title>
-  <mediaobject>
-  <imageobject>
-    <imagedata fileref="schnapp-pref-data-err1.png">
-  </imageobject>
-  </mediaobject>
-</figure>
 </sect2>
 
 <sect2>
@@ -6676,24 +6618,6 @@ http://www.linux-modellbahn.de/</ulink>.</para>
 Die folgenden Fehler sind bekannt:
 </para>
 <itemizedlist mark="bullet">
-
-<listitem><para>Liegt auf einer Fahrstraße eine Kreuzung,
-dann können über diese Kreuzung zwei Fahrstraßen aktiviert werden (von denen
-jedoch immer die zuletzt aktivierte die Kreuzung selbst grafisch
-routet). Es findet bei den Kreuzungen (die ja nicht schaltbar sind)
-keine Prüfung statt, ob sie schon durch andere Fahrstraßen benutzt werden.
-Eventuell muß dies bis auf weiteres durch Aktivieren von (Flankenschutz-)
-Weichen in der Umgebung der Kreuzung verhindert werden.</para></listitem>
-
-<listitem><para>Wenn man mit dem Schnelleditor ein
-Element über den Wiederhol-Modus einfügt, welches drehbar sein sollte, dann
-ist es nicht über das Kontextmenü drehbar. Man sollte dann einmal auf das
-Element linksklicken und direkt danach Okay im Eigenschaften-Fenster,
-dann werden die entsprechenden Bits richtig gesetzt und es kann danach
-gedreht werden. Da man aber im Normalfall sowieso noch Rückmeldekontakte
-eintragen muß, wird diese Notwendigkeit kaum ins Gewicht
-fallen.</para></listitem>
-
 <listitem><para>Die Auswahl für die Rückmeldekontakte in den
 Element-Eigenschaften berücksichtigt nicht, dass gemäß der
 Benutzereinstellungen nur eine beschränkte Anzahl an Modulen
