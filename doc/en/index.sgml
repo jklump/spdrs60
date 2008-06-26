@@ -255,7 +255,7 @@ Release date: 2008-05-??
   </para></listitem>
 
   <listitem><para>
-          Simple crossings now are lockabla against traversing routes.
+          Simple crossings now are lockable against traversing routes.
   </para></listitem>
 
 </itemizedlist>

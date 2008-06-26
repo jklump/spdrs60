@@ -1219,7 +1219,7 @@ Software-Voraussetzungen erfüllt sein:
   <listitem><para>Damit die Befehle überhaupt auf der Anlage
 ankommen, benötigt man einen SRCP-Server, wie den Daemon &raquo;erddcd&laquo;
 aus dem <ulink url="http://www.vogt-it.com/OpenSource/DDL/">DDL-Paket</ulink>
-von Torsten Vogt, oder mit dem &raquo;srcpd&laquo; (<ulink
+von Torsten Vogt, oder den &raquo;srcpd&laquo; (<ulink
 url="http://srcpd.sourceforge.net/">srcpd-Projektablage</ulink>) von
 Matthias Trute et al., der auch das Ansteuern einiger etablierter
 Digitalzentralen erlaubt. Pakete von diesen Programmen gibt es zum
@@ -1259,7 +1259,7 @@ anderen Rechner läuft, als die SRCP-Clients.
 </para>
 <para>
     spdrs60 ist sehr speicherschonend programmiert und sollte auf jedem
-    System laufen, das einen X-Window-System besitzt. Der benötigte
+    System laufen, das ein X-Window-System besitzt. Der benötigte
     Arbeitsspeicher wird dynamisch belegt und hängt weitestgehend von
     der Anzahl der genutzten Gleisbildelemente, sowie von der Anzahl der
     konfigurierten Fahrstraßen ab.
@@ -1874,15 +1874,15 @@ als Symbol mit im Gleisbild liegt</para></listitem>
   <listitem><para>Setzt alle von Halt verschiedenen Signale auf
 Halt/Hp0/Sh0... (Nothalt)</para></listitem>
 
+  <listitem><para>Alle aktiven Fahrstraßen werden zurückgenommen und
+deren Startsignale auf Halt gestellt</para></listitem>
+
   <listitem><para>Schaltet alle Antriebe einen Zustand
 weiter</para></listitem>
 
   <listitem><para>Sendet den aktuellen Zustand des grafischen Gleisbilds
 an die Anlage (so kann man nach Handstellungen wieder einen Abgleich
 herbeiführen)</para></listitem>
-
-  <listitem><para>Alle aktiven Fahrstraßen werden zurückgenommen und
-deren Startsignale auf Halt gestellt</para></listitem>
 
   <listitem><para>Fragt den aktuellen Zustand aller Rückmeldemodule beim
   Server ab (nur unter SRCP&nbsp;0.7)</para></listitem>
@@ -1993,7 +1993,8 @@ Tastaturkürzel <keycap>Strg-B</keycap>, den Menüpunkt
 den entsprechenden Schaltknopf in der Werkzeugleiste (blaues Gitter
 auf grauem Grund). Man erkennt diesen Modus an den blauen Linien
 zwischen den Elementen. Zusätzlich benötigt man die Fahrstraßentabelle,
-die durch Aktivieren des Menüpunktes
+die automatisch beim Wechseln in den Fahrstraßenbearbeitungsmodus
+oder bedarfsweise durch Aktivieren des Menüpunktes
 &raquo;Ansicht/Fahrstraßentabelle&laquo; sichtbar wird.
 </para>
 <para>
@@ -2128,13 +2129,14 @@ einzelner Antriebe oder Programmieren der Schaltdecoderadresse.
   </imageobject></mediaobject>
 </figure>
 <para>
-    Nach der Auwahl des Digitalprotokolls gibt man in der Adresszeile
-    die Nummer des Antriebs ein und klickt dann auf der dem Ausgang
-    zugeordnete farbigen Taste entsprechend dem Ausgangskontakt am
-    Decoder. Ein im Gleisbild vorhandener Antrieb mit dieser Adresse
+    Nach der Auswahl des Digitalprotokolls gibt man in der Adresszeile
+    die Nummer des Antriebs ein und klickt dann auf eine der farbigen
+    Tasten, die dem entsprechenden Ausgangskontakt am Decoder
+    zugeordnet sind. Ein im Gleisbild vorhandener Antrieb mit dieser Adresse
     wird durch den gesendeten Stellbefehl nicht direkt visuell
     umgeschaltet, sondern nur über die Auswertung der vom SRCP-Server
-    zurücklaufenden INFO-Mitteilungen.
+    zurücklaufenden INFO-Mitteilungen. Das Schaltpult läßt sich daher
+    nur einblenden, wenn eine Verbindung zum SRCP-Server besteht.
 </para>
 </sect2>
 
@@ -2143,8 +2145,9 @@ einzelner Antriebe oder Programmieren der Schaltdecoderadresse.
 <para>
 Die Rückmeldeübersicht ist durch <keycap>Strg-M</keycap> oder das Menü
 &raquo;Ansicht/Rückmeldemodule&laquo; erreichbar. Es erscheint dann ein
-Fenster mit der vorkonfigurierten Anzahl an Rückmeldemodulen, die
-jeweils den aktuellen Zustand der Kontakte farblich anzeigen. Weitere
+Fenster mit der in den Benutzereinstellungen vorkonfigurierten Anzahl
+an Rückmeldemodulen. Diese zeigen jeweils den aktuellen Zustand der
+Kontakte in Form einer entsprechenden Markierung an. Weitere
 Details sind im <xref linkend="chapter-rueckmeldung"> beschrieben.
 </para>
 </sect2>
@@ -2292,7 +2295,7 @@ Handeingriffen an die Anlage zu übermitteln, benutzt man den Menüpunkt
 <para>
 Durch die Taste <keycap>F1</keycap> oder den Menüpunkt
 &raquo;Hilfe/Hilfe&laquo; öffnet der über die persönlichen
-Einstellungen gewählte Browser diese Hilfedokumentation. Bei Mozilla
+Einstellungen gewählte Browser diese Hilfe-Dokumentation. Bei Mozilla
 und Firefox wird, wenn schon eine Programminstanz läuft, ein neues
 Tab-Fenster geöffnet.
 </para>
@@ -2553,7 +2556,7 @@ Gleisbildbearbeitungsmodus umschaltet.
 Es erscheint jeweils zunächst das in <xref linkend="abb-openlayout">
 dargestellte Dialogfenster, mit dem der Benutzer
 aufgefordert wird, die gewünschte Gleisbilddatei durch Doppelklicken
-auszuwählen. In dieder Liste können ein oder auch mehrere Dateinamen
+auszuwählen. In dieser Liste können ein oder auch mehrere Dateinamen
 gleichzeitig zum Öffnen ausgewählt werden.
 </para>
     
@@ -2588,7 +2591,7 @@ Schiebebühne) wird ein entsprechendes SRCP-Steuerkommando generiert.
 </para>
 
 <para>
-Nach der Ladezeit erhält man beispielsweise das in <xref
+Nach dem Laden erhält man beispielsweise das in <xref
 linkend="abb-bahnhofklein"> dargestellte Bild, welches auf der
 mitgelieferten Gleisbilddatei <filename>bahnhof_klein.spdrs60</filename>
 basiert.
@@ -2913,14 +2916,14 @@ besondere Elemente wie die Drehscheibe wird im
     <row>
       <entry morerows="1" valign="middle"><graphic fileref="../commonimages/dkw-rechts-0.png"></entry>
       <entry align="center">620</entry>
-      <entry>Doppelte Kreuzungsweiche links</entry>
+      <entry>Doppelte Kreuzungsweiche rechts</entry>
       <entry align="center">1</entry>
       <entry><footnoteref linkend="fntabsym2"/> Subtyp = 0</entry>
       <entry>0 = gerade Gleisführung, 1 = abzweigende Führung</entry>
     </row>
     <row>
       <entry align="center">620</entry>
-      <entry>Doppelte Kreuzungsweiche links</entry>
+      <entry>Doppelte Kreuzungsweiche rechts</entry>
       <entry align="center">2</entry>
       <entry><footnoteref linkend="fntabsym2"/> Subtyp = 1</entry>
       <entry>0 = gerades Stammgleis, 1 = abzweigen oben, 2 = gerade
@@ -3821,7 +3824,7 @@ Eigenschaftsfensters aktuell war.
 Interessant zum Einstellen
 sind die Felder &raquo;Vertauschen&laquo;, &raquo;Zurücksetzen nach&laquo; und
 &raquo;Rückmeldung&laquo;. Das erste ermöglicht es durch einen einfachen
-Klick, die Ausgänge zu einer Decoderadresse elektronisch zu vertauschen.
+Klick, die Ausgänge zu einer Decoderadresse logisch zu vertauschen.
 Wenn also die Weiche nicht so schaltet, wie es die Grafik anzeigt, dann
 kann dies durch einen einfachen Haken korrigiert werden. Man muß also
 nicht unter die Anlage, um Kabel umzustecken oder sogar zu löten. Für
@@ -4416,7 +4419,8 @@ Vorrat der im Gleisbild verfügbaren Elemente ermittelt.
 Auf dieser Seite sind die Elemente der Fahrstraße aufgelistet,
 die zusätzlich zum Startsignal geschaltet werden müssen. Die Anzahl
 dieser Elemente ist nicht limitiert. Hier werden nicht nur Weichen oder
-andere Signale wie Schutzsignale, die auf dem Fahrweg liegen, sondern
+andere Signale wie Schutzsignale, die auf dem Fahrweg liegen oder dem
+Flankenschutz dienen, sondern
 auch Blindelemente (zum Durchfahren eines Signals mit Zugbeeinflussung
 aus der anderen Richtung) oder sonstige schaltbare Elemente
 eintragen (im Extremfall auch Entkoppler). Relais können beispielsweise
@@ -4765,8 +4769,8 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
             Eine sehr anschauliche Überwachung der Zugaufenthalte läßt
             sich durch Konfiguration von Adressanzeigeelementen
             erreichen (<xref linkend="abb-trainnumber-display1">). Pro
-            Fahrstraße läßt sich genau eine dieser Anzeigeelemente
-            festlegen. Am günstigsten platziert man diese direkt vor dem
+            Fahrstraße läßt sich genau eines dieser Anzeigeelemente
+            festlegen. Am günstigsten platziert man dieses direkt vor dem
             Zielsignal der entsprechenden Fahrstraße. Die Konfiguration
             erfolgt im Einzelnen über folgende Schritte:
         </para>
@@ -4776,8 +4780,8 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
                     Die Platzierung des Anzeigeelementes erfolgt im
                     Gleisbildbearbeitungsmodus. Das Element muß nicht
                     zwingend in der Gleisstrecke liegen, sondern kann
-                    auch daneben, z.B. im Falle von senkrechten
-                    Streckenverläufen, angeordnet sein.
+                    auch daneben angeordnet sein, z.B. im Falle von
+                    senkrechten Streckenverläufen.
                 </para>
             </listitem>
             <listitem>
@@ -4788,7 +4792,7 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
                     linkend="sect-addressindicator">). Dieser Zahlenwert
                     wird im Feld für die Adresse&nbsp;1
                     eingetragen und muß im Bereich von 6000 bis 6999
-                    (viruelle Adresse) liegen. Die Datendarstellung muß
+                    (virtuelle Adresse) liegen. Die Datendarstellung muß
                     gleichzeitig auf
                     &raquo;Invertieren&laquo; eingestellt werden
                     (<xref linkend="abb-trainnumber-display2">),
@@ -4939,19 +4943,19 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
 <variablelist>
   <varlistentry>
       <term>
-          &lt;sendto_id&gt;
+          &lt;sendto_sid&gt;
       </term>
   <listitem>
       <para>
-         Nummer der Info-Sitzung des Empfängers der Nachricht. Ist der
-         Wert 0, wird die Nachricht an alle Info-Sitzungen
-         weitergeleitet.
+          Nummer der Info-Sitzung (Session ID) des Empfängers der
+          Nachricht. Ist der Wert 0, wird die Nachricht an alle
+          Info-Sitzungen weitergeleitet.
       </para>
   </listitem>
   </varlistentry>
   <varlistentry>
       <term>
-          &lt;replyto_id&gt;
+          &lt;replyto_sid&gt;
       </term>
   <listitem>
       <para>
@@ -5046,7 +5050,7 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
       <para>
         Hierbei handelt es sich um Zustandsdaten, die sich im laufenden
         Betrieb der Anlage ständig ändern; beispielsweise der Status
-        einer Fahrstraße (eingstellt, aufgelöst) oder der Aufenthaltsort
+        einer Fahrstraße (eingestellt, aufgelöst) oder der Aufenthaltsort
         eines Zuges. In der
         Regel werden diese auch beim Speichern eines Gleisbildes
         gesichert, um den letzten Spielstand der Anlage zu erhalten.
@@ -5562,7 +5566,9 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
         dann nicht den aktuellen Status eines Parameters abfragen,
         sondern bekommen diesen unaufgefordert zugestellt, sobald sich
         dieser ändert. Diese Funktion läßt sich z.B. zum Verfolgen von
-        Zugläufen mit Hilfe von Zugmeldungen nutzen. Beispiel:
+        Zugläufen mit Hilfe von Zugmeldungen nutzen. Das folgende
+        Beispiel zeigt eine Meldung, die durch das Belegen der
+        Fahrstraße 65 durch Zug 4227 entsteht:
     </para>
     <screen>&lt;time&gt; INFO 0 GM 0 15 CRCF ROUTE 65 INFO TRAIN 4227</screen>
     <para>
@@ -6584,7 +6590,7 @@ Einstellmöglichkeiten für die Anzahl der Eingänge der Module, der
 Anzahl der Rückmeldebusse (maximal vier Busse mit je 31 Modulen zu
 16 Anschlüssen sind möglich) und der Nummerierung der Busse. Letztere
 ist Abhängig davon, ob die Rückmeldungen über einen SRCP&nbsp;0.7- oder
-einen SRCP&nbsp;08.-Server laufen.
+einen SRCP&nbsp;0.8-Server laufen.
 </para>
 </sect2>
 
