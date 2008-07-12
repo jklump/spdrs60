@@ -1,1 +1,11 @@
-Please refer to spdrs60 handbook available as HTML or pdf files.
+spdrs60
+-------
+
+If you start with a fresh cvs checkout, please first apply
+
+  autoreconf -i
+
+to get a proper configure script. For more instructions about compiling
+and installing this application please refer to the INSTALL file or the
+spdrs60 handbook available as HTML or pdf files.
+
