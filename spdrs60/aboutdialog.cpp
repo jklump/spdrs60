@@ -5,8 +5,8 @@
  *   2007-08-26
  * 
  * Last modified
- *   $Date: 2008-04-16 19:51:04 $
- *   $Revision: 1.7 $
+ *   $Date: 2008-07-22 18:14:47 $
+ *   $Revision: 1.8 $
  *
  * Copyright
  *   (C) 2007 Guido Scholz <guido.scholz@bayernline.de>
@@ -49,7 +49,7 @@ AboutDialog::AboutDialog(QWidget* parent): QDialog(parent,
 
     QLabel* label;
 
-    // first line: pixmap, programname, version
+    // first line: pixmap, program name, version
     QHBoxLayout* pixmapLayout = new QHBoxLayout(baseLayout, 20, "xpmLayout");
     label = new QLabel(this, "pixmapLabel");
     pixmapLayout->addWidget(label);

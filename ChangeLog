@@ -1,3 +1,7 @@
+2008-07-22 Guido Scholz <guido.scholz@bayernline.de>
+	* mainwindow.*: Menu for recently opened files added,
+	configuration file is saved on program exit.
+
 2008-05-31 Guido Scholz <guido.scholz@bayernline.de>
 	* element.*, elementdialog.cpp, route.cpp: Simple crossings are
 	now lockable against traversing routes.

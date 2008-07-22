@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-06-17 19:02:09 $
-                           $Revision: 1.150 $
+    last modified        : $Date: 2008-07-22 18:14:47 $
+                           $Revision: 1.151 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -125,6 +125,7 @@
 #define CF_KEYBOARD     "keyboardprotocol"
 #define CF_GMROUTESTATE "gmroutestate"
 #define CF_GMTRAINNUMBER "gmtrainnumber"
+#define CF_RECENTFILE   "recentfile"
 
 #define SPDRS60_INIT   ".spdrs60rc" // program init filename
 
@@ -222,7 +223,7 @@ void MainWindow::readConfigFile()
         s = ts.readLine();
         if (!s.startsWith("#")) {
             key = s.section(KS, 0, 0);
-            value = s.section(KS, 1, 1).stripWhiteSpace();
+            value = s.section(KS, 1).stripWhiteSpace();
 
             if (key.compare(CF_SHOWHP2) == 0) {
                 pref.hp2 = value.toInt();
@@ -343,6 +344,9 @@ void MainWindow::readConfigFile()
             else if (key.compare(CF_GMTRAINNUMBER) == 0) {
                 pref.gmbroadcasttrainnumber = value.toInt();
             }
+            else if (key.compare(CF_RECENTFILE) == 0) {
+                addRecentlyOpenedFile(value, recentFiles);
+            }
         }
     }
     file.close();
@@ -423,6 +427,10 @@ void MainWindow::writeConfigFile()
         << CF_GMROUTESTATE << KS << pref.gmbroadcastroutestate << endl
         << CF_GMTRAINNUMBER << KS << pref.gmbroadcasttrainnumber << endl;
 
+    QStringList::Iterator it = recentFiles.begin();
+    for (; it != recentFiles.end(); ++it) {
+        ts << CF_RECENTFILE << KS << *it << endl;
+    }
     file.close();
 }
 
@@ -630,6 +638,10 @@ void MainWindow::initMainWindow()
     actionFileOpen->addTo(filemenu);
     actionFileOpen->addTo(filetb);
 
+    fileRecentlyOpenedFiles = new QPopupMenu(this);
+    filemenu->insertItem(tr("&Recently opened files"),
+            fileRecentlyOpenedFiles);
+
 #if QT_VERSION >= 0x030200
     actionFileSave = new QAction(QPixmap(filesave_xpm), tr("&Save"),
             Qt::CTRL + Qt::Key_S, this, "fileSave");
@@ -692,6 +704,14 @@ void MainWindow::initMainWindow()
             SLOT(closeAllWindows()));
     actionFileQuit->addTo(filemenu);
     //actionFileQuit->addTo(filetb);
+
+    // when the last window is closed, the application should quit
+    connect(qApp, SIGNAL(lastWindowClosed()), qApp, SLOT(quit()));
+
+    connect(filemenu, SIGNAL(aboutToShow()), this,
+            SLOT(setupRecentFilesMenu()));
+    connect(fileRecentlyOpenedFiles, SIGNAL(activated(int)), this,
+            SLOT(recentFileActivated(int)));
 
     /*edit toolbar*/
     QToolBar* edittb = new QToolBar(this, "edittb");
@@ -1570,34 +1590,21 @@ void MainWindow::readAutoloadFile()
 void MainWindow::closeEvent(QCloseEvent* e)
 {
     if (pref.autosave) {
-        if (saveFile())
+        if (saveFile()) {
+            writeConfigFile();
             e->accept();
+        }
         else 
             e->ignore();
         return;
     }
 
-    if (!isModified()) {
+    if (isSave()) {
+        writeConfigFile();
         e->accept();
-        return;
     }
-
-    int choice = querySaveChanges();
-    switch (choice) {
-        case 0:
-            if (saveFile())
-                e->accept();
-            else 
-                e->ignore();
-            break;
-        case 1:
-            e->accept();
-            break;
-        case 2:
-        default:
-            e->ignore();
-            break;
-    }
+    else 
+        e->ignore();
 }
 
 
@@ -1618,24 +1625,8 @@ int MainWindow::querySaveChanges()
 
 void MainWindow::slotFileNew()
 {
-    if (isModified()) {
-        int choice = querySaveChanges();
-        switch (choice) {
-            case 0:
-                if (saveFile())
-                    newFile();
-                break;
-            case 1:
-                newFile();
-                break;
-            case 2:
-            default:
-                break;
-        }
-    }
-    else {
+    if (isSave())
         newFile();
-    }
 }
 
 
@@ -1800,26 +1791,35 @@ void MainWindow::slotFileSaveAs()
 }
 
 
-void MainWindow::slotFileOpen()
+bool MainWindow::isSave()
 {
+    bool result = false;
+
     if (isModified()) {
         int choice = querySaveChanges();
         switch (choice) {
             case 0:
                 if (saveFile())
-                    chooseFile();
+                    result = true;
                 break;
             case 1:
-                chooseFile();
+                result = true;
                 break;
             case 2:
             default:
                 break;
         }
     }
-    else {
+    else
+        result = true;
+    return result;
+}
+
+
+void MainWindow::slotFileOpen()
+{
+    if (isSave())
         chooseFile();
-    }
 }
 
 
@@ -1865,6 +1865,7 @@ void MainWindow::openFile(const QString& fn)
     qApp->processEvents();
 
     fileName = fn;
+    addRecentlyOpenedFile(fn, recentFiles);
     QTextStream ts(&f);
     ts.setEncoding(QTextStream::UnicodeUTF8);
     
@@ -3289,3 +3290,43 @@ void MainWindow::initUserInfo()
         qWarning("Error reading environment variable USER.")
 }
 */
+
+void MainWindow::setupRecentFilesMenu()
+{
+    int index = 0;
+
+    fileRecentlyOpenedFiles->clear();
+
+    if (recentFiles.count() > 0) {
+        fileRecentlyOpenedFiles->setEnabled(true);
+        QStringList::Iterator it = recentFiles.begin();
+        for (; it != recentFiles.end(); ++it) {
+            fileRecentlyOpenedFiles->insertItem(*it, index);
+            index++;
+        }
+    }
+    else
+        fileRecentlyOpenedFiles->setEnabled(false);
+}
+
+
+void MainWindow::recentFileActivated(int idx)
+{
+    if (!fileRecentlyOpenedFiles->text(idx).isEmpty()) {
+        if (isSave())
+            openFile(fileRecentlyOpenedFiles->text(idx));
+    }
+}
+
+
+void MainWindow::addRecentlyOpenedFile(const QString &fn, QStringList &lst)
+{
+    QFileInfo fi(fn);
+    if (lst.contains(fi.absFilePath()))
+        return;
+    if (lst.count() >= 6 )
+        lst.pop_back();
+
+    lst.prepend(fi.absFilePath());
+}
+

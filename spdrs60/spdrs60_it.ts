@@ -1096,6 +1096,10 @@ the server daemon after shutdown has finished)</source>
         <source>&amp;Statusline</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>&amp;Recently opened files</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MessageHistory</name>

@@ -258,6 +258,11 @@ Release date: 2008-05-??
           Simple crossings now are lockable against traversing routes.
   </para></listitem>
 
+  <listitem><para>
+          A new entry for faster access to recently opened files was
+          added to the file menu.
+  </para></listitem>
+
 </itemizedlist>
 </sect2>
 

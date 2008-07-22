@@ -1125,6 +1125,10 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <source>Tr&amp;ain number dialog</source>
         <translation>&amp;Zugnummerneingabedialog</translation>
     </message>
+    <message>
+        <source>&amp;Recently opened files</source>
+        <translation>&amp;Zuletzt geöffnete Dateien</translation>
+    </message>
 </context>
 <context>
     <name>MessageHistory</name>

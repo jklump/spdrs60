@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.5.2 $Revision: 1.50 $
+                           version 0.5.2 $Revision: 1.51 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-    copyright            : (C) 2004-2007 by Guido Scholz
+    copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-25 18:14:50 $
+    last modified        : $Date: 2008-07-22 18:14:47 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -31,6 +31,7 @@
 #include <qkeycode.h>
 #include <qmessagebox.h>
 #include <qpixmap.h>
+#include <qpopupmenu.h>
 #include <qscrollview.h>
 #include <qsocket.h>
 #include <qwidgetstack.h>
@@ -128,12 +129,14 @@ private:
    QAction         *actionRouteCopy;
    QAction         *actionRouteDelete;
    QAction         *actionRouteUnlockAll;
-   
+
+   QPopupMenu* fileRecentlyOpenedFiles;
+   QStringList recentFiles;
+   elemVisualMode  visualMode;
    bool            LayoutPowerIsOn;
    bool            isFBInitMode;
    QString         fileName;
    QString         lastDir;
-   elemVisualMode  visualMode;
 
    SrcpPort::CommunicationStyle infoStyle;
    SrcpPort::CommunicationStyle commandStyle;
@@ -165,9 +168,11 @@ private:
    void chooseFile();
    int querySaveChanges();
    bool isModified();
+   bool isSave();
    void writeConfigFile();
    void readConfigFile();
    void runBrowserUrl(const QString&);
+   void addRecentlyOpenedFile(const QString &fn, QStringList &lst);
 
    /* New Networking code: */
    void ConnectCommandPort();
@@ -225,6 +230,8 @@ private slots:
    void updateInfoConnectionState(bool);
    void updateFeedbackConnectionState(bool);
    void saveKeyboardProtocol(int);
+   void recentFileActivated(int);
+   void setupRecentFilesMenu();
 
 signals:
    void findElement(const QString&, int, int);
