@@ -10,6 +10,5 @@
 
 SUBDIRS = de
 
-man_MANS = spdrs60.1x centralclock.1x
-EXTRA_DIST = $(man_MANS)
+dist_man_MANS = spdrs60.1x centralclock.1x
 
