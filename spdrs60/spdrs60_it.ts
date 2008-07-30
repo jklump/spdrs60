@@ -232,6 +232,25 @@ Controlled via keyboard #14</source>
 Valid range is %1..%2.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Unvalid address detected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of address 1 is not valid.
+Valid range is %1..%2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of address 2 is not valid.
+Valid range is %1..%2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter address of decoder 2.
+Valid range is %1..%2.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FeedbackViewer</name>

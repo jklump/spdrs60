@@ -1,3 +1,15 @@
+2008-07-30 Guido Scholz <guido.scholz@bayernline.de>
+	* elementdialog.*: Decoder address values are validated if
+	dialog is closed confirming changes (OK). Tooltips for address
+	edit lines are updated accordingly to display the current valid
+	value range.
+
+2008-07-29 Guido Scholz <guido.scholz@bayernline.de>
+	* mainwindow.*: Fixed string handling of external process names
+	to edit data files or view documentation. Process names containing
+	one or more arguments (e.g. "xterm -e vim") are started properly
+	now.
+
 2008-07-22 Guido Scholz <guido.scholz@bayernline.de>
 	* mainwindow.*: Menu for recently opened files added,
 	configuration file is saved on program exit.

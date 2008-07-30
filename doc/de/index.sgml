@@ -335,8 +335,15 @@ Veröffentlicht am --.--.2008
   </para></listitem>
   
   <listitem><para>
-  Dem Datei-Menü wurde ein Eintrag zum schnelleren Zugriff auf die
-  zuletzt geöffneten Dateien hinzugefügt.
+  Das Datei-Menü wurde um einen Eintrag zum schnelleren Zugriff auf bis
+  zu sechs der zuletzt geöffneten Dateien ergänzt.
+  </para></listitem>
+  
+  <listitem><para>
+  Die Addresseingaben für Decoder im Dialog zum Bearbeiten der
+  Elementeigenschaften werden nun beim Bestätigen von Änderungen auf
+  ihre Gültikeit hin überprüft. Fehlerhafte Eingaben werden durch
+  eine entsprechende Rückmeldung an den Benutzer verhindert. 
   </para></listitem>
   
 </itemizedlist>

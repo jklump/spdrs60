@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-06-17 19:02:09 $
-                           $Revision: 1.71 $
+    last modified        : $Date: 2008-07-30 17:06:29 $
+                           $Revision: 1.72 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -32,6 +32,7 @@
 
 #include <qlayout.h>
 #include <qlabel.h>
+#include <qmessagebox.h>
 #include <qpixmap.h>
 
 #include "elementdialog.h"
@@ -236,14 +237,9 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     address1LE->setMaximumWidth(LEMAXWIDTH);
     connect(address1LE, SIGNAL(textChanged(const QString&)),
             this, SLOT(slotAddress1Changed(const QString&)));
-    a1Validator = new QIntValidator(-1, MAX_GADCC, this);
-    address1LE->setValidator(a1Validator);
+    addressVdt = new QIntValidator(0, MAX_GADCC, this);
+    address1LE->setValidator(addressVdt);
     address1Lbl->setBuddy(address1LE);
-    QToolTip::add(address1LE, tr(
-                "Enter address of decoder 1.\n"
-                "Valid range is %1..%2.")
-            .arg(a1Validator->bottom())
-            .arg(a1Validator->top()));
 
     /*line with port 1 spinbox */
     port1Label = new QLabel(tr("&Port 1:"), decoderGB);
@@ -273,15 +269,10 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     decdataLayout->addWidget(address2LE, 4, 1);
     address2LE->setMaxLength(4);
     address2LE->setMaximumWidth(LEMAXWIDTH);
-    a2Validator = new QIntValidator(-1, MAX_GADCC, this);
-    address2LE->setValidator(a2Validator);
+    address2LE->setValidator(addressVdt);
     address2Lbl->setBuddy(address2LE);
-    QToolTip::add(address2LE, tr(
-                "Enter address of decoder 1.\n"
-                "Valid range is %1..%2.")
-            .arg(a2Validator->bottom())
-            .arg(a2Validator->top()));
-    //TODO: update tooltip text if validator limits change
+    //update all address tooltips due to validator limit change
+    updateAddressTooltips();
 
     /*line with port 1 spinbox */
     port2Label = new QLabel(tr("&Port 2:"), decoderGB);
@@ -322,7 +313,7 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     busLayout->addWidget(fbBusLE);
     fbBusLE->setMaximumWidth(LEMAXWIDTH);
     labelFBBus->setBuddy(fbBusLE);
-    QValidator* busValidator = new QIntValidator(1, 999, this);
+    QIntValidator* busValidator = new QIntValidator(1, 999, this);
     fbBusLE->setValidator(busValidator);
 
     /*line with contact*/
@@ -397,7 +388,8 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     /*button line at bottom*/
     buttOK = new QPushButton(tr("OK"), this);
     buttOK->setDefault(true);
-    connect(buttOK, SIGNAL(clicked()), this, SLOT(accept()));
+    connect(buttOK, SIGNAL(clicked()), this, SLOT(validate()));
+    //connect(buttOK, SIGNAL(clicked()), this, SLOT(accept()));
     buttonLayout->addWidget(buttOK);
 
     QPushButton *CancelButton = new QPushButton(tr("Cancel"), this);
@@ -431,6 +423,35 @@ void ElementDialog::letteringChanged(bool takeaddr)
 #endif
 }
 
+void ElementDialog::updateAddress1Tooltip()
+{
+    if (address1LE->isEnabled())
+        QToolTip::add(address1LE, tr(
+                    "Enter address of decoder 1.\n"
+                    "Valid range is %1..%2.")
+                .arg(addressVdt->bottom())
+                .arg(addressVdt->top()));
+    else
+        QToolTip::remove(address1LE);
+}
+
+void ElementDialog::updateAddress2Tooltip()
+{
+    if (address2LE->isEnabled())
+        QToolTip::add(address2LE, tr(
+                    "Enter address of decoder 2.\n"
+                    "Valid range is %1..%2.")
+                .arg(addressVdt->bottom())
+                .arg(addressVdt->top()));
+    else
+        QToolTip::remove(address2LE);
+}
+
+void ElementDialog::updateAddressTooltips()
+{
+    updateAddress1Tooltip();
+    updateAddress2Tooltip();
+}
 
 void ElementDialog::updateValidators()
 {
@@ -447,24 +468,18 @@ void ElementDialog::updateValidators()
     
     if (classid == element::siciZt1 || classid == element::siciZt3 ||
             classid == element::siciRt1 || classid == element::siciRt3) {
-        a1Validator->setTop(MAX_RB);
-        a2Validator->setTop(MAX_RB);
-        a1Validator->setBottom(MIN_RB);
-        a2Validator->setBottom(MIN_RB);
+        addressVdt->setTop(MAX_RB);
+        addressVdt->setBottom(MIN_RB);
     }
     else if (classid == element::siciAdr) {
-        a1Validator->setTop(MAX_DISP);
-        a2Validator->setTop(MAX_DISP);
-        a1Validator->setBottom(MIN_DISP);
-        a2Validator->setBottom(MIN_DISP);
+        addressVdt->setTop(MAX_DISP);
+        addressVdt->setBottom(MIN_DISP);
     }
 
     else if (classid == element::siciKrh || classid == element::siciKr1
             || classid == element::siciKl1) {
-        a1Validator->setTop(MAX_CROSS);
-        a2Validator->setTop(MAX_CROSS);
-        a1Validator->setBottom(MIN_CROSS);
-        a2Validator->setBottom(MIN_CROSS);
+        addressVdt->setTop(MAX_CROSS);
+        addressVdt->setBottom(MIN_CROSS);
     }
 
     else { 
@@ -473,14 +488,12 @@ void ElementDialog::updateValidators()
 #else
         int prot = protocolBG->id(protocolBG->selected());
 #endif
-        a1Validator->setBottom(0);
-        a2Validator->setBottom(0);
 
         switch (prot) {
             case 0:
                 // MM
-                a1Validator->setTop(MAX_GAMM);
-                a2Validator->setTop(MAX_GAMM);
+                addressVdt->setTop(MAX_GAMM);
+                updateAddressTooltips();
                 
                 port1Label->setEnabled(false);
                 port2Label->setEnabled(false);
@@ -516,8 +529,8 @@ void ElementDialog::updateValidators()
 
             case 1:
                 //DCC
-                a1Validator->setTop(MAX_GADCC);
-                a2Validator->setTop(MAX_GADCC);
+                addressVdt->setTop(MAX_GADCC);
+                updateAddressTooltips();
                 
                 port1Label->setEnabled(false);
                 port2Label->setEnabled(false);
@@ -549,8 +562,8 @@ void ElementDialog::updateValidators()
             case 2:
                 // Server
                 // MAGIC: Validator limits for Protocol by Server
-                a1Validator->setTop(9999);
-                a2Validator->setTop(9999);
+                addressVdt->setTop(9999);
+                updateAddressTooltips();
                 
                 // new range for port spinboxes
                 port1SB->setMinValue(MINSVPORT);
@@ -586,8 +599,8 @@ void ElementDialog::updateValidators()
                 
             case 3:
                 //Selectrix
-                a1Validator->setTop(MAX_GASX);
-                a2Validator->setTop(MAX_GASX);
+                addressVdt->setTop(MAX_GASX);
+                updateAddressTooltips();
                 
                 // new range for port spinboxes
                 port1SB->setMinValue(MINSXPORT);
@@ -744,6 +757,7 @@ void ElementDialog::slotSymbolChanged()
     srcpBus1LE->setEnabled(enabled || hasvirtualaddress);
     address1Lbl->setEnabled(enabled || hasvirtualaddress);
     address1LE->setEnabled(enabled || hasvirtualaddress);
+    updateAddress1Tooltip();
     cbAddrLabeling->setEnabled(classid != element::siciAdr &&
             (enabled || hasvirtualaddress));
     port1Label->setEnabled(rbProtocol_SE->isChecked());
@@ -814,6 +828,7 @@ void ElementDialog::slotSymbolChanged()
     srcpBus2Label->setEnabled(enabled);
     srcpBus2LE->setEnabled(enabled);
     address2LE->setEnabled(enabled);
+    updateAddress2Tooltip();
     address2Lbl->setEnabled(enabled);
     port2Label->setEnabled(rbProtocol_SE->isChecked());
     port2SB->setEnabled(rbProtocol_SE->isChecked());
@@ -1244,6 +1259,7 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
                 srcpBus2Label->setEnabled(false);
                 srcpBus2LE->setEnabled(false);
                 address2LE->setEnabled(false);
+                updateAddress2Tooltip();
                 address2Lbl->setEnabled(false);
                 port2Label->setEnabled(false);
                 port2SB->setEnabled(false);
@@ -1262,6 +1278,7 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
                 srcpBus2Label->setEnabled(false);
                 srcpBus2LE->setEnabled(false);
                 address2LE->setEnabled(false);
+                updateAddress2Tooltip();
                 address2Lbl->setEnabled(false);
                 port2Label->setEnabled(false);
                 port2SB->setEnabled(false);
@@ -1277,6 +1294,7 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
                 srcpBus2Label->setEnabled(false);
                 srcpBus2LE->setEnabled(false);
                 address2LE->setEnabled(false);
+                updateAddress2Tooltip();
                 address2Lbl->setEnabled(false);
                 port2Label->setEnabled(false);
                 port2SB->setEnabled(false);
@@ -1289,6 +1307,7 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
                 srcpBus2Label->setEnabled(false);
                 srcpBus2LE->setEnabled(false);
                 address2LE->setEnabled(false);
+                updateAddress2Tooltip();
                 address2Lbl->setEnabled(false);
                 port2Label->setEnabled(false);
                 port2SB->setEnabled(false);
@@ -1314,6 +1333,7 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
                 srcpBus2Label->setEnabled(true);
                 srcpBus2LE->setEnabled(true);
                 address2LE->setEnabled(true);
+                updateAddress2Tooltip();
                 address2Lbl->setEnabled(true);
                 port2Label->setEnabled(true);
                 port2SB->setEnabled(true);
@@ -1325,6 +1345,7 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
                 srcpBus2Label->setEnabled(true);
                 srcpBus2LE->setEnabled(true);
                 address2LE->setEnabled(true);
+                updateAddress2Tooltip();
                 address2Lbl->setEnabled(true);
                 port2Label->setEnabled(true);
                 port2SB->setEnabled(true);
@@ -1754,5 +1775,33 @@ void ElementDialog::invertedChanged(bool inverted)
         srcpBus1LE->setEnabled(inverted);
         address1Lbl->setEnabled(inverted);
         address1LE->setEnabled(inverted);
+        updateAddress1Tooltip();
     }
+}
+
+void ElementDialog::validate()
+{
+    if (address1LE->isEnabled() && !address1LE->hasAcceptableInput()) {
+        address1LE->setFocus();
+        address1LE->selectAll();
+        QMessageBox::warning(this, tr("Unvalid address detected"),
+                tr("Value of address 1 is not valid.\n"
+                    "Valid range is %1..%2.")
+                .arg(addressVdt->bottom())
+                .arg(addressVdt->top())
+        , tr("OK"));
+        return;
+    }
+    if (address2LE->isEnabled() && !address2LE->hasAcceptableInput()) {
+        address2LE->setFocus();
+        address2LE->selectAll();
+        QMessageBox::warning(this, tr("Unvalid address detected"),
+                tr("Value of address 2 is not valid.\n"
+                    "Valid range is %1..%2.")
+                .arg(addressVdt->bottom())
+                .arg(addressVdt->top())
+                , tr("OK"));
+        return;
+    }
+    accept();
 }

@@ -263,6 +263,13 @@ Release date: 2008-05-??
           added to the file menu.
   </para></listitem>
 
+  <listitem><para>
+          Decoder address values are validated if dialog for element
+          properties is closed confirming changes (OK). Tooltips for
+          address edit lines are updated accordingly to display the
+          current valid value range.
+  </para></listitem>
+
 </itemizedlist>
 </sect2>
 

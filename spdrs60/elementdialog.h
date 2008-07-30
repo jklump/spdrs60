@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-24 19:37:39 $
-                           $Revision: 1.22 $
+    last modified        : $Date: 2008-07-30 17:06:29 $
+                           $Revision: 1.23 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -134,8 +134,7 @@ private:
    QSpinBox     *port1SB;
    QSpinBox     *port2SB;
 
-   QIntValidator* a1Validator;
-   QIntValidator* a2Validator;
+   QIntValidator* addressVdt;
 
    int          gaSubType;
    int          gaDirection;
@@ -145,6 +144,9 @@ private:
 
    void showSubTypes(int);
    void updateValidators();
+   void updateAddress1Tooltip();
+   void updateAddress2Tooltip();
+   void updateAddressTooltips();
 
 private slots:
    void slotAddress1Changed(const QString&);
@@ -157,6 +159,7 @@ private slots:
    void contactSBChanged(int);
    void letteringChanged(bool);
    void invertedChanged(bool);
+   void validate();
 
 signals:
    void sigShowFBmodules();

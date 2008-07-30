@@ -250,7 +250,30 @@ Controlled via keyboard #14</source>
     <message>
         <source>Enter address of decoder 1.
 Valid range is %1..%2.</source>
-        <translation type="unfinished"></translation>
+        <translation>Adresse von Decoder 1 eingeben.
+Der gültige Wertebereich ist %1..%2.</translation>
+    </message>
+    <message>
+        <source>Unvalid address detected</source>
+        <translation>Ungültige Adresse gefunden</translation>
+    </message>
+    <message>
+        <source>Value of address 1 is not valid.
+Valid range is %1..%2.</source>
+        <translation>Der Zahlenwert für Adresse 1 ist ungültig.
+Der gültige Wertebereich ist %1..%2.</translation>
+    </message>
+    <message>
+        <source>Value of address 2 is not valid.
+Valid range is %1..%2.</source>
+        <translation>Der Zahlenwert für Adresse 1 ist ungültig.
+Der gültige Wertebereich ist %1..%2.</translation>
+    </message>
+    <message>
+        <source>Enter address of decoder 2.
+Valid range is %1..%2.</source>
+        <translation type="unfinished">Adresse von Decoder 2 eingeben.
+Der gültige Wertebereich ist %1..%2. {1 or 2?}</translation>
     </message>
 </context>
 <context>
