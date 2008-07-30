@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-07-22 18:14:47 $
-                           $Revision: 1.151 $
+    last modified        : $Date: 2008-07-30 17:05:22 $
+                           $Revision: 1.152 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -192,11 +192,7 @@ MainWindow::~MainWindow()
 {
     // send LOGOUT command to daemon
     CloseSRCPServerConnection();
-
-    // port destructors take care to close server connection
-    //delete commandPort;
-    //delete infoPort;
-    //delete feedbackPort;
+    writeConfigFile();
 }
 
 /**
@@ -733,7 +729,7 @@ void MainWindow::initMainWindow()
             "editFileLayout");
 #endif
     connect(actionEditFileLayout, SIGNAL(activated()), this,
-            SLOT(slotEditGBSFiles()));
+            SLOT(slotEditLayoutFile()));
     actionEditFileLayout->addTo(editfilemenu);
     //actionEditFileLayout->addTo(edittb);
 
@@ -1590,19 +1586,15 @@ void MainWindow::readAutoloadFile()
 void MainWindow::closeEvent(QCloseEvent* e)
 {
     if (pref.autosave) {
-        if (saveFile()) {
-            writeConfigFile();
+        if (saveFile())
             e->accept();
-        }
         else 
             e->ignore();
         return;
     }
 
-    if (isSave()) {
-        writeConfigFile();
+    if (isSave())
         e->accept();
-    }
     else 
         e->ignore();
 }
@@ -2870,10 +2862,13 @@ void MainWindow::slotShowRoutes()
 
 
 /* edit layout file with external editor*/
-void MainWindow::slotEditGBSFiles()
+void MainWindow::slotEditLayoutFile()
 {
-    QProcess* proc = new QProcess(this, "browserProcess");
-    proc->addArgument(pref.editor);
+    QProcess* proc = new QProcess(this, "editorProcess");
+    if (pref.editor.contains(' '))
+        proc->setArguments(QStringList::split(' ', pref.editor));
+    else
+        proc->addArgument(pref.editor);
     proc->addArgument(fileName);
 
     if (!proc->start())
@@ -2884,8 +2879,11 @@ void MainWindow::slotEditGBSFiles()
 /*open config file with external editor*/
 void MainWindow::slotEditConfigFile()
 {
-    QProcess* proc = new QProcess(this, "browserProcess");
-    proc->addArgument(pref.editor);
+    QProcess* proc = new QProcess(this, "editorProcess");
+    if (pref.editor.contains(' '))
+        proc->setArguments(QStringList::split(' ', pref.editor));
+    else
+        proc->addArgument(pref.editor);
     proc->addArgument(QDir::homeDirPath() + "/" SPDRS60_INIT);
 
     if (!proc->start())
@@ -3004,12 +3002,14 @@ void MainWindow::updateRouteListMenuItems()
 void MainWindow::runBrowserUrl(const QString& url)
 {
     QProcess* proc = new QProcess(this, "browserProcess");
-    proc->addArgument(pref.browser);
+    if (pref.browser.contains(' '))
+        proc->setArguments(QStringList::split(' ', pref.browser));
+    else
+        proc->addArgument(pref.browser);
     proc->addArgument(url);
 
-    if (!proc->start()) {
+    if (!proc->start())
         statusMessage(tr("Error starting browser '%1'!").arg(pref.browser));
-    }
 }
 
 /*
@@ -3271,7 +3271,9 @@ void MainWindow::slotRouteDelete()
 }
 
 /*TODO: for FDL info
- * stdlib.h, 
+ * stdlib.h,
+ * #ifdef LINU
+ * #ifdef LINUX 
 void MainWindow::initUserInfo()
 {
     struct passwd* pwentry;
@@ -3282,7 +3284,7 @@ void MainWindow::initUserInfo()
         pwentry = getpwnam(user);
 
         if (pwentry != NULL)
-            username = pwentry.pw_gecos*;
+            username = pwentry->pw_gecos;
         else
             qWarning("Error reading passwd entry.")
     }

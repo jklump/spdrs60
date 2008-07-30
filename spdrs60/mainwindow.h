@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.5.2 $Revision: 1.51 $
+                           version 0.5.2 $Revision: 1.52 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-07-22 18:14:47 $
+    last modified        : $Date: 2008-07-30 17:05:22 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -192,7 +192,7 @@ private slots:
    void slotEditCopy();
    void slotEditCut();
    void slotEditFind();
-   void slotEditGBSFiles();
+   void slotEditLayoutFile();
    void slotEditPaste();
    void slotEditOptions();
    void slotFileNew();
@@ -200,11 +200,11 @@ private slots:
    void slotFileOpen();
    void slotFileSave();
    void slotFileSaveAs();
-   void slotRouteAdd();
-   void slotRouteDelete();
    void slotDaemonReset();
    void slotDaemonKill();
    void slotDaemonInfo();
+   void slotRouteAdd();
+   void slotRouteDelete();
    void slotShowClock();
    void slotShowModules();
    void slotShowRoutes();
