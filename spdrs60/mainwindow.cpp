@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-07-30 17:05:22 $
-                           $Revision: 1.152 $
+    last modified        : $Date: 2008-07-30 19:06:10 $
+                           $Revision: 1.153 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1536,6 +1536,7 @@ void MainWindow::resetMenu()
     actionLayoutWgt->setEnabled(false);
     actionLayoutUfgt->setEnabled(false);
     actionLayoutSgt->setEnabled(false);
+    actionLayoutHagt->setEnabled(false);
     actionLayoutNotRot->setEnabled(false);
     actionLayoutChangeSize->setEnabled(false);
     actionRouteUnlockAll->setEnabled(false);
@@ -1684,6 +1685,7 @@ void MainWindow::updateFileMenuItems()
     actionLayoutWgt->setEnabled(true);
     actionLayoutUfgt->setEnabled(true);
     actionLayoutSgt->setEnabled(true);
+    actionLayoutHagt->setEnabled(true);
     actionLayoutNotRot->setEnabled(true);
     actionLayoutChangeSize->setEnabled(true);
 
