@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.73 $
+                           version 0.5.2 $Revision: 1.74 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-31 17:57:34 $
+    last modified        : $Date: 2008-07-31 18:21:32 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -223,6 +223,7 @@ void Route::initVariables()
 
     // user selectable data
     routeType = rtRZS;
+    replyid = 0;
 }
 /* 
  * Update route element names and pointers when layout was edited
@@ -1147,5 +1148,20 @@ QString Route::getCrcfInfoMessage(CrcfMessage::CrcfAttribute at) const
 
     return CrcfMessage::message(CrcfMessage::acRoute, sectionid,
             CrcfMessage::meInfo, at, result);
+}
+
+void Route::setCrcfMessageReplyId(unsigned int id)
+{
+    replyid = id;
+}
+
+unsigned int Route::getCrcfMessageReplyId()
+{
+    return replyid;
+}
+
+bool Route::isCrcfMessageRequested()
+{
+    return (replyid != 0);
 }
 

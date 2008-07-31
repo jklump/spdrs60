@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.3 $Revision: 1.68 $
+                           version 0.5.3 $Revision: 1.69 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-16 18:53:05 $
+    last modified        : $Date: 2008-07-31 18:21:32 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -63,6 +63,7 @@ void Router::initVariables()
     modified = false;
     serverhasgm = false;
     visualmode = kvmNormal;
+    infosessionid = 0;
 }
 
 /*
@@ -380,9 +381,9 @@ void Router::transferTrainNumber(Route* nr)
     if (pref.gmbroadcasttrainnumber) {
         QString cms;
         cms = sr->getCrcfInfoMessage(CrcfMessage::atTrain);
-        sendGmCrcfMessage(0, 0, cms);
+        sendGmCrcfMessage(0, infosessionid, cms);
         cms = nr->getCrcfInfoMessage(CrcfMessage::atTrain);
-        sendGmCrcfMessage(0, 0, cms);
+        sendGmCrcfMessage(0, infosessionid, cms);
     }
 }
 
@@ -398,21 +399,31 @@ void Router::processRouteState(Route* rt, int rs)
 
     switch ((Route::RouteState)rs) {
         case Route::rsUnlocked:
-            //TODO: send not only broadcasted route state message
-            if (pref.gmbroadcastroutestate) {
-                QString cms;
-                cms = rt->getCrcfInfoMessage(CrcfMessage::atState);
-                sendGmCrcfMessage(0, 0, cms);
+            {
+            QString cms;
+            cms = rt->getCrcfInfoMessage(CrcfMessage::atState);
+            if (pref.gmbroadcastroutestate)
+                sendGmCrcfMessage(0, infosessionid, cms);
+            else
+                if (rt->isCrcfMessageRequested()) {
+                    sendGmCrcfMessage(rt->getCrcfMessageReplyId(),
+                            infosessionid, cms);
+                }
             }
             break;
         case Route::rsLocked:
+            {
             emit statusMessage(tr("Route '%1' activated")
                     .arg(rt->getSectionName()));
-            //TODO: send not only broadcasted route state message
-            if (pref.gmbroadcastroutestate) {
                 QString cms;
                 cms = rt->getCrcfInfoMessage(CrcfMessage::atState);
-                sendGmCrcfMessage(0, 0, cms);
+            if (pref.gmbroadcastroutestate)
+                sendGmCrcfMessage(0, infosessionid, cms);
+            else
+                if (rt->isCrcfMessageRequested()) {
+                    sendGmCrcfMessage(rt->getCrcfMessageReplyId(),
+                            infosessionid, cms);
+                }
             }
             break;
         case Route::rsWfLock:
@@ -850,11 +861,15 @@ void Router::processGenericMessage(unsigned int sendto,
                 /* ROUTE <routeid> SET STATE <att_value> */
                 case CrcfMessage::atState:
                     if (0 == cm->getAttValue() &&
-                            rt->getState() != Route::rsUnlocked)
+                            rt->getState() != Route::rsUnlocked) {
+                        rt->setCrcfMessageReplyId(sendto);
                         withdrawRoute(rt);
+                    }
                     else if (1 == cm->getAttValue() &&
-                            rt->getState() == Route::rsUnlocked)
+                            rt->getState() == Route::rsUnlocked) {
+                        rt->setCrcfMessageReplyId(sendto);
                         activateRoute(rt);
+                    }
                     else
                         emit statusMessage(tr("Unvalid STATE "
                                     "value '%1' detected.")
@@ -867,8 +882,12 @@ void Router::processGenericMessage(unsigned int sendto,
                     emit routeDataChanged(rt);
                     modified = true;
                     cms = rt->getCrcfInfoMessage(CrcfMessage::atTrain);
-                    if (!cms.isEmpty())
-                        sendGmCrcfMessage(sendto, replyto, cms);
+                    if (!cms.isEmpty()) {
+                        if (pref.gmbroadcasttrainnumber)
+                            sendGmCrcfMessage(0, replyto, cms);
+                        else
+                            sendGmCrcfMessage(sendto, replyto, cms);
+                    }
                     else
                         emit statusMessage(tr("Error assembling "
                                     "CRCF message for route TRAIN "
@@ -1004,4 +1023,9 @@ void Router::sendGmCrcfMessage(unsigned int sendto,
     sm->setGmData(sendto, replyto, "CRCF", cms);
     emit sendSrcpMessage(sm);
     delete sm;
+}
+
+void Router::setInfoSessionId(unsigned int id)
+{
+    infosessionid = id;
 }

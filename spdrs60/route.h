@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.h
-                           version 0.5.3 $Revision: 1.41 $
+                           version 0.5.3 $Revision: 1.42 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-16 18:53:05 $
+    last modified        : $Date: 2008-07-31 18:21:32 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -117,6 +117,9 @@ public:
     void removeElement(element*);
     bool canActivateByFeedbackPort(unsigned int, unsigned int, bool);
     bool canReleaseByFeedbackPort(unsigned int, unsigned int, bool);
+    void setCrcfMessageReplyId(unsigned int);
+    unsigned int getCrcfMessageReplyId();
+    bool isCrcfMessageRequested();
     
 signals:
     void stateChanged(Route*, int);
@@ -137,6 +140,7 @@ private:
     int turnouts;
     int tocounter;
     element* triggerto;
+    unsigned int replyid;
 
     /*list with raw item data*/
     QPtrList<stateElement> switchItems;

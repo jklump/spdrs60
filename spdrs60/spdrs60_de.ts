@@ -11,7 +11,7 @@ Visual appearance and usage comply to the original SpDrS60
 switchbox (Spurplandrucktastenstellwerk Bauart Siemens 60)
 of the german national railroad company. spdrs60 needs a
 SRCP server (e.g. erddcd or srcpd) as hardware link.</source>
-        <translation> ist ein SRCP-Client zur Steuerung von digitalen
+        <translation>spdrs60 ist ein SRCP-Client zur Steuerung von digitalen
 Modelleisenbahnen. Das Aussehen und die Bedienung orien-
 tieren sich weitgehend vorbildgetreu am SpDrS60-Stellwerk
 (Spurplandrucktastenstellwerk Bauart Siemens 60) der

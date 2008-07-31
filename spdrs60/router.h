@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.h
-                           version 0.5.3 $Revision: 1.30 $
+                           version 0.5.3 $Revision: 1.31 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-03-30 08:57:07 $
+    last modified        : $Date: 2008-07-31 18:21:32 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -66,6 +66,7 @@ public:
     void releaseRoute(Route*);
     void releaseRouteAt(unsigned int);
     void withdrawRoute(Route*);
+    void setInfoSessionId(unsigned int);
     void setServerHasGm(bool);
     bool serverHasGm();
     void processGenericMessage(unsigned int, unsigned int,
@@ -93,6 +94,7 @@ private:
     bool serverhasgm;
     elemVisualMode visualmode;
     GbsButtonState lastcb;
+    unsigned int infosessionid;
 
     void initVariables();
     void setupRouteElements();

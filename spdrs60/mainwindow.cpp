@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-07-30 19:06:10 $
-                           $Revision: 1.153 $
+    last modified        : $Date: 2008-07-31 18:21:32 $
+                           $Revision: 1.154 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2313,6 +2313,7 @@ void MainWindow::updateInfoConnectionState(bool connected)
 
     if (connected) {
         SRCPInfoState = srcp08RunInfoMode;
+        router->setInfoSessionId(infoPort->getSessionId());
 
         //connect feedback port depending on command session style
         if (SrcpPort::csOld == infoStyle) {
@@ -2333,6 +2334,7 @@ void MainWindow::updateInfoConnectionState(bool connected)
     }
     else {
         SRCPInfoState = srcpUndefined;
+        router->setInfoSessionId(0);
     }
 }
 
