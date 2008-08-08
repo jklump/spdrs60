@@ -1,7 +1,7 @@
 dnl configure.ac for spdrs60
 dnl Guido Scholz
-dnl last update: $Date: 2008-08-06 20:44:04 $
-dnl version: $Revision: 1.23 $
+dnl last update: $Date: 2008-08-08 17:10:40 $
+dnl version: $Revision: 1.24 $
 dnl Process this file with autoconf to produce a configure script.
 
 AC_INIT([spdrs60],[0.5.3],[Guido Scholz <guido.scholz@bayernline.de>])
@@ -19,7 +19,7 @@ fi
 dnl generate the config header
 AC_CONFIG_HEADERS([spdrs60/config.h])
 
-dnl if test "x$CFLAGS" = "x"; then CFLAGS="-Wall"; fi
+if test "x$CXXFLAGS" = "x"; then CXXFLAGS="-Wall -Wno-long-long -pedantic"; fi
 
 dnl Checks for programs
 AC_PROG_CXX
@@ -31,14 +31,27 @@ AC_ARG_ENABLE(html-doc, AC_HELP_STRING([--disable-html-doc],
 
 AM_CONDITIONAL(HTML_DOC, test x${enable_html_doc} = xyes)
 if test x$enable_html_doc = xyes; then
-
-    dnl check for jade or openjade to generate html documentation
+  dnl check for jade or openjade to generate html documentation
   AC_PATH_PROGS(JADE, jade openjade, no)
   if test "x$JADE" = "xno" ; then
     AC_MSG_ERROR(
       [cannot find 'jade' or 'openjade', please install the adequate package.])
   fi
+fi
 
+
+dnl option to enable pdf doc generation 
+AC_ARG_ENABLE(pdf-doc, AC_HELP_STRING([--enable-pdf-doc],
+            [enable building and installation of pdf documentation]),, enable_pdf_doc=yes)
+
+AM_CONDITIONAL(PDF_DOC, test x${enable_pdf_doc} = xyes)
+if test x$enable_pdf_doc = xyes; then
+  dnl check for pdfjadetex to generate pdf documentation
+  AC_PATH_PROG(PDFJADETEX, pdfjadetex, no)
+  if test "x$PDFJADETEX" = "xno" ; then
+    AC_MSG_ERROR(
+      [cannot find 'pdfjadetex', please install the adequate package.])
+  fi
 fi
 
 dnl AC_REQUIRE([KDE_CHECK_EXTRA_LIBS])
@@ -51,25 +64,36 @@ AC_PATH_X
 KDE_USE_QT(3.0)
 AC_PATH_QT
 
-dnl TODO: check for QTDIR
-
 dnl check for lupdate
-AC_PATH_PROG(LUPDATE, lupdate, no, [$PATH:$QTDIR/bin])
+AC_PATH_PROGS(LUPDATE, lupdate-qt3 lupdate, no, [$PATH:$QTDIR/bin])
 if test "x$LUPDATE" = "xno" ; then
   AC_MSG_ERROR(
-    [cannot find 'lupdate', please install the Qt development tools package.])
+    [cannot find 'lupdate', please install the Qt3 development tools package.])
+else
+  AC_MSG_CHECKING([for lupdate version])
+  lupdate_version=`$LUPDATE -version 2>&1 | awk '{print $3}'`
+  AC_MSG_RESULT([$lupdate_version])
+    
+  AC_MSG_CHECKING([whether lupdate supports -ts])
+  lupdate_tsline=`$LUPDATE -help 2>&1| sed -n '/-ts/p'`
+  if test -z "$lupdate_tsline"; then
+    lupdate_ts=no 
+  else
+    lupdate_ts=yes
+  fi
+  AC_MSG_RESULT([$lupdate_ts])
 fi
+AM_CONDITIONAL(LUPDATE_TS, test x$lupdate_ts = xyes)
 
 dnl check for lrelease
-AC_PATH_PROG(LRELEASE, lrelease, no, [$PATH:$QTDIR/bin])
+AC_PATH_PROGS(LRELEASE, lrelease-qt3 lrelease, no, [$PATH:$QTDIR/bin])
 if test "x$LRELEASE" = "xno" ; then
   AC_MSG_ERROR(
-    [cannot find 'lrelease', please install the Qt development tools package.])
+    [cannot find 'lrelease', please install the Qt3 development tools package.])
 else
   AC_MSG_CHECKING([for lrelease version])
-  LRELEASE_VERSION=`$LRELEASE -version 2>&1 | awk '{print $3}'`
-  AC_SUBST(LRELEASE_VERSION)
-  AC_MSG_RESULT([$LRELEASE_VERSION])
+  lrelease_version=`$LRELEASE -version 2>&1 | awk '{print $3}'`
+  AC_MSG_RESULT([$lrelease_version])
     
   AC_MSG_CHECKING([whether lrelease supports -qm])
   lrelease_mqline=`$LRELEASE -help 2>&1| sed -n '/-qm/p'`
@@ -83,6 +107,7 @@ fi
 AM_CONDITIONAL(LRELEASE_QM, test x$lrelease_qm = xyes)
 
 
+dnl check for Qt library translations
 AC_MSG_CHECKING([for Qt translations])
     qt_dirs="$QTDIR /usr/lib/qt3 /usr/lib/qt /usr/share/qt3"
     for dir in $qt_dirs
@@ -105,8 +130,10 @@ AC_MSG_CHECKING([for Qt translations])
 AM_CONDITIONAL(TRANSLATE_QT, test x${translate_qt} = xyes)
 
 
+dnl check for math library
 AC_CHECK_LIB(m, roundf,,AC_MSG_ERROR([required library missing]))
 
+dnl check for some header files
 AC_CHECK_HEADERS(signal.h math.h,,AC_MSG_ERROR([required header file missing]))
 
 
@@ -161,6 +188,8 @@ if test x$enable_html_doc = xyes; then
   AC_SUBST(DOCBOOK_PRINT)
 fi
     
+
+dnl check setting for documentation directory
 AC_ARG_WITH(doc-dir,
   [AC_HELP_STRING([--with-doc-dir=DIR],
     [directory for documentation (e.g. html files)])],
@@ -168,23 +197,20 @@ AC_ARG_WITH(doc-dir,
      DOC_DIR="$withval"
     fi ],
   [DOC_DIR="${prefix}/share/doc"])
-
-dnl define this variable for Makefiles
 AC_SUBST(DOC_DIR)
 dnl define this variable for source files (config.h)
-AC_DEFINE_UNQUOTED([DOC_DIR], ["$DOC_DIR"], \
-  [directory for package documentation])
+dnl AC_DEFINE_UNQUOTED([DOC_DIR], ["$DOC_DIR"], \
+dnl   [directory for package documentation])
 
 
+dnl set variable for HTML documentation directory
 HTML_DOC_DIR="$DOC_DIR/$PACKAGE/html"
 AC_SUBST(HTML_DOC_DIR)
 AC_DEFINE_UNQUOTED([HTML_DOC_DIR], ["$HTML_DOC_DIR"], \
   [directory html package documentation in html])
 
 
-AC_DEFINE_UNQUOTED([RES_DIR], ["${prefix}/share/$PACKAGE/"], \
-  [directory for shared data])
-
+dnl directory for application icons
 AC_ARG_WITH(icon-dir,
   [AC_HELP_STRING([--with-icon-dir=DIR],
     [directory for icons])],
@@ -193,13 +219,8 @@ AC_ARG_WITH(icon-dir,
     fi ],
   [ICONDIR="${prefix}/share/pixmaps"])
 AC_SUBST(ICONDIR)
-AC_DEFINE_UNQUOTED([ICONDIR], ["$ICONDIR"], [directory for icons])
+dnl AC_DEFINE_UNQUOTED([ICONDIR], ["$ICONDIR"], [directory for icons])
 
-
-RES_DIR_LAYT="${prefix}/share/$PACKAGE/layouts/"
-AC_SUBST(RES_DIR_LAYT)
-AC_DEFINE_UNQUOTED([RES_DIR_LAYT], ["$RES_DIR_LAYT"], \
-  [directory for layouts])
 
 dnl add here all your Makefiles. This are created by configure
 AC_CONFIG_FILES([Makefile])

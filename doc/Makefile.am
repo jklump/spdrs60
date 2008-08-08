@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60 documentation
 # last changes by: Guido Scholz
-# Version: $Revision: 1.23 $
-# last update: $Date: 2008-06-17 19:02:05 $
+# Version: $Revision: 1.24 $
+# last update: $Date: 2008-08-08 17:10:41 $
 
 # HTML_DOC_DIR is defined in configure.ac
 htmldir = @HTML_DOC_DIR@
@@ -291,6 +291,10 @@ tex_files = \
 CLEANFILES = \
 	$(enhtml_DATA) $(dehtml_DATA) $(tex_files)
 
+#dist_sgml_DATA = \
+#	en/index.sgml \
+#	de/index.sgml
+
 # distributed with package but not installed
 EXTRA_DIST = en/index.sgml de/index.sgml \
     spdrs60.dsl jadetex.cfg
@@ -306,23 +310,29 @@ EXTRA_DIST = en/index.sgml de/index.sgml \
 
 # Sprache aus den ersten zwei Zeichen von "Target" ermitteln, 
 # entsprechend den Unterverzeichnissen der sgml-Dateien
-
+# langdir=`echo $@ | sed -e 's#^\([^/]*\)/.*#\1#'`; \
 # use jade rules only if html documentation is enabled
-if HTML_DOC
+#if HTML_DOC
+#.sgml.html:
+#	langdir=`echo $@ | sed -e 's#/.*$##'`; \
+#	cd $$langdir; \
+#	$(JADE) -b ISO-8859-1 -t sgml -i html -d "../spdrs60.dsl#html" $@; \
+#	cd ..
+#endif
 
+if HTML_DOC
 en/index.html: en/index.sgml $(dist_commonimages_DATA) $(dist_enimages_DATA) spdrs60.dsl
 	cd en; $(JADE) -b ISO-8859-1 -t sgml -i html -d "../spdrs60.dsl#html" index.sgml; cd ..
 
-#en/index.tex: en/index.sgml $(dist_commonimages_DATA) $(dist_enimages_DATA) spdrs60.dsl
-#	cd en; $(JADE) -b ISO-8859-1 -t tex -d "../spdrs60.dsl#print" index.sgml; cd ..
-
 de/index.html: de/index.sgml $(dist_commonimages_DATA) $(dist_deimages_DATA) spdrs60.dsl
 	cd de; $(JADE) -b ISO-8859-1 -t sgml -i html -d "../spdrs60.dsl#html" index.sgml; cd ..
+endif
 
+# use pdfjadetex rule only if pdf documentation is enabled
+if PDF_DOC
 de/index.tex: de/index.sgml $(dist_commonimages_DATA) $(dist_deimages_DATA) spdrs60.dsl
 	cd de; $(JADE) -b ISO-8859-1 -t tex -d "../spdrs60.dsl#print" index.sgml; cd ..
 
-# this is not complete, just a shortcut to generate a pdf handbook
 pdf: de/index.tex
-	cd de; pdfjadetex index.tex; cd ..
+	cd de; $(PDFJADETEX) index.tex; cd ..
 endif

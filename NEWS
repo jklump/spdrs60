@@ -1,4 +1,4 @@
-spdrs60-0.5.3 (2008-06-??)
+spdrs60-0.5.3 (2008-08-??)
   o The error preventing correct sorting of numerical list entries in
     route list and route element list was removed.
 
@@ -74,6 +74,19 @@ spdrs60-0.5.3 (2008-06-??)
   o The program now can be compiled under Windows using the free Qt4
     library available from Trolltech. More detailed information can be
     found in the handbook &raquo;Installation&laquo; section.
+          
+  o Visualization of elements using two decoders and having more than
+    two state options now is updated evaluating INFO port messages
+    caused by other SRCP clients.
+
+  o Simple crossings now are lockable against traversing routes.
+
+  o A new entry for faster access to recently opened files was added to
+    the file menu.
+
+  o Decoder address values are validated if element property dialog
+    is closed confirming changes (OK). Tooltips for address edit lines
+    are updated accordingly to display the current valid value range.
 
 
 spdrs60-0.5.2 (2007-02-17)

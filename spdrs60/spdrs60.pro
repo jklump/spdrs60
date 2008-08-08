@@ -272,5 +272,8 @@ SOURCES += \
 	turntablecommander.cpp
 
 
-TRANSLATIONS += spdrs60_de.ts spdrs60_it.ts
+TRANSLATIONS = \
+	translations/spdrs60_de.ts \
+	translations/spdrs60_it.ts
+
 QT +=  qt3support

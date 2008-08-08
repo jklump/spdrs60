@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.37 $
-# last update: $Date: 2008-03-27 21:54:28 $
+# version: $Revision: 1.38 $
+# last update: $Date: 2008-08-08 17:10:41 $
 
 SUBDIRS = pixmaps
 
@@ -28,25 +28,23 @@ nodist_spdrs60_SOURCES = \
 	options_moc.cpp \
 	paintitembutton_moc.cpp \
 	paintitemwindow_moc.cpp \
-        route_moc.cpp \
+	route_moc.cpp \
 	routedialog_moc.cpp \
 	routeelementdialog_moc.cpp \
-        router_moc.cpp \
-        routelistview_moc.cpp \
-        routelistwindow_moc.cpp \
-        section_moc.cpp \
+	router_moc.cpp \
+	routelistview_moc.cpp \
+	routelistwindow_moc.cpp \
+	section_moc.cpp \
 	serverinfodialog_moc.cpp \
 	srcpport_moc.cpp \
 	trainnumberdialog_moc.cpp \
 	turntablecommander_moc.cpp
 
-
-
 # list of all sources and headers
 spdrs60_SOURCES = main.cpp resources.h \
 	aboutdialog.cpp aboutdialog.h \
 	commandport.cpp commandport.h \
-        crcfmessage.cpp crcfmessage.h \
+	crcfmessage.cpp crcfmessage.h \
 	elementcommander.cpp elementcommander.h \
 	element.cpp element.h \
 	elementdialog.cpp elementdialog.h \
@@ -65,74 +63,39 @@ spdrs60_SOURCES = main.cpp resources.h \
 	options.cpp options.h \
 	paintitembutton.cpp paintitembutton.h \
 	paintitemwindow.cpp paintitemwindow.h \
-        preferences.cpp preferences.h \
-        route.cpp route.h \
+	preferences.cpp preferences.h \
+	route.cpp route.h \
 	routedialog.cpp routedialog.h \
 	routeelementdialog.cpp routeelementdialog.h \
 	routeelementlvi.cpp routeelementlvi.h \
 	routelvi.cpp routelvi.h \
 	routelistview.cpp routelistview.h \
 	routelistwindow.cpp routelistwindow.h \
-        router.cpp router.h \
+	router.cpp router.h \
 	section.cpp section.h \
 	serverinfodialog.cpp serverinfodialog.h \
-        srcpmessage.cpp srcpmessage.h \
+	srcpmessage.cpp srcpmessage.h \
 	srcpport.cpp srcpport.h \
 	trainnumberdialog.cpp trainnumberdialog.h \
 	turntablecommander.cpp turntablecommander.h
 
-
-# This is the same list which is assembled in spdrs60.pro under SOURCES.
-# Watch out to keep it synchronized. Only files containing translatable
-# strings are listed here (and in spdrs60.pro).
-translated_source_files = \
-	aboutdialog.cpp \
-	elementcommander.cpp \
-	element.cpp \
-	elementdialog.cpp \
-	feedbacklistbox.cpp \
-	feedbackviewer.cpp \
-	finder.cpp \
-	gbsarea.cpp \
-	gbsscrollview.cpp \
-	keyboard.cpp \
-	layouteditmodeagrp.cpp \
-	main.cpp \
-	mainwindow.cpp \
-	messagehistory.cpp \
-	newlayoutdialog.cpp \
-	options.cpp \
-	paintitembutton.cpp \
-	paintitemwindow.cpp \
-	routedialog.cpp \
-	routeelementdialog.cpp \
-	routeelementlvi.cpp \
-	route.cpp \
-	router.cpp \
-	routelistview.cpp \
-	routelistwindow.cpp \
-	section.cpp \
-	serverinfodialog.cpp \
-	srcpport.cpp \
-	trainnumberdialog.cpp \
-	turntablecommander.cpp
-
-
-# generated files containing translations, installed but not distributed
-pkgdata_DATA = spdrs60_de.qm spdrs60_it.qm
-
-
 # list here all files containing string translations
-translatedstrings = spdrs60_de.ts spdrs60_it.ts
+translations = \
+	translations/spdrs60_de.ts \
+	translations/spdrs60_it.ts
 
+translationsdir = $(pkgdatadir)/translations
+
+# generated message files, installed but not distributed
+translations_DATA = \
+	translations/spdrs60_de.qm \
+	translations/spdrs60_it.qm
 
 # misc files which are distributed but not installed
-EXTRA_DIST = spdrs60.pro $(translatedstrings) config_w32.h
-
+EXTRA_DIST = spdrs60.pro $(translations) config_w32.h
 
 # all generated files to be removed by "make clean"
-CLEANFILES = $(nodist_spdrs60_SOURCES) $(pkgdata_DATA)
-
+CLEANFILES = $(nodist_spdrs60_SOURCES) $(translations_DATA)
 
 spdrs60_LDADD = @LIB_QT@
 
@@ -146,27 +109,31 @@ INCLUDES= $(all_includes)
 if TRANSLATE_QT
 TRANSLATE_DEF = -DQT_TRANSLATIONS_DIR=\"@QT_TRANSLATIONS_DIR@\"
 endif
-AM_CXXFLAGS = $(TRANSLATE_DEF) -Wall -Wno-long-long -pedantic
-
+AM_CXXFLAGS = $(TRANSLATE_DEF) -DTRANSLATIONSDIR=\"$(translationsdir)\"
 
 # rule for moc-file generation
 SUFFIXES = _moc.cpp
 
-.h_moc.cpp: $(spdrs60_SOURCES)
+.h_moc.cpp:
 	$(MOC) $< -o $@
 
-
-# rule for translation file generation
-# lrelease 3.0 does not understand option -qm
-if LRELEASE_QM
-.ts.qm: $(translatedstrings)
-	$(LRELEASE) -verbose $< -qm $@
+# rule for translation file updates
+# lrelease 3.0 does not understand option -ts
+if LUPDATE_TS
+$(translations): $(spdrs60_SOURCES)
+	$(LUPDATE) -verbose $(spdrs60_SOURCES) -ts $@
 else
-.ts.qm: $(translatedstrings)
-	$(LRELEASE) -verbose spdrs60.pro
+$(translations): spdrs60.pro $(spdrs60_SOURCES)
+	$(LUPDATE) -verbose spdrs60.pro
 endif
 
-# rule for translation file updates
-%.ts: spdrs60.pro $(translated_source_files)
-	$(LUPDATE) -verbose spdrs60.pro
+# rule for message file generation
+# lrelease 3.0 does not understand option -qm
+if LRELEASE_QM
+.ts.qm:
+	$(LRELEASE) -verbose $< -qm $@
+else
+.ts.qm:
+	$(LRELEASE) -verbose spdrs60.pro
+endif
 

@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.5.2 $Revision: 1.52 $
+                           version 0.5.2 $Revision: 1.53 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-07-30 17:05:22 $
+    last modified        : $Date: 2008-08-08 17:10:41 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -37,6 +37,7 @@
 #include <qwidgetstack.h>
 
 #include "commandport.h"
+#include "crcfmessage.h"
 #include "feedbackviewer.h"
 #include "gbsarea.h"
 #include "infoport.h"
@@ -173,6 +174,8 @@ private:
    void readConfigFile();
    void runBrowserUrl(const QString&);
    void addRecentlyOpenedFile(const QString &fn, QStringList &lst);
+   void processGenericMessage(unsigned int, unsigned int,
+            const CrcfMessage*);
 
    /* New Networking code: */
    void ConnectCommandPort();

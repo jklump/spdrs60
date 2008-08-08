@@ -1152,6 +1152,10 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <source>&amp;Recently opened files</source>
         <translation>&amp;Zuletzt geöffnete Dateien</translation>
     </message>
+    <message>
+        <source>Unsupported CRCF method &apos;%1&apos; detected.</source>
+        <translation type="unfinished">Nicht unterstützte CRCF-Methode &apos;%1&apos; gefunden.</translation>
+    </message>
 </context>
 <context>
     <name>MessageHistory</name>

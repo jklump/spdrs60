@@ -1119,6 +1119,10 @@ the server daemon after shutdown has finished)</source>
         <source>&amp;Recently opened files</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Unsupported CRCF method &apos;%1&apos; detected.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MessageHistory</name>

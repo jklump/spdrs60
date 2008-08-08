@@ -1,3 +1,10 @@
+2008-08-07 Guido Scholz <guido.scholz@bayernline.de>
+	* configure.ac, spdrs60/Makefile.am: Moved translated strings
+	files to separate subdirectory. Rules for translations updates
+	reworked.
+	* configure.ac, Makefile.am: Removed debian control files from
+	distribution.
+
 2008-07-30 Guido Scholz <guido.scholz@bayernline.de>
 	* elementdialog.*: Decoder address values are validated if
 	dialog is closed confirming changes (OK). Tooltips for address

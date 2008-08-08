@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-07-31 18:21:32 $
-                           $Revision: 1.154 $
+    last modified        : $Date: 2008-08-08 17:10:41 $
+                           $Revision: 1.155 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -29,7 +29,6 @@
 #include <qvbox.h>
 
 #include "aboutdialog.h"
-#include "crcfmessage.h"
 #include "finder.h"
 #include "gbsscrollview.h"
 #include "layouteditmodeagrp.h"
@@ -2473,13 +2472,13 @@ void MainWindow::processInfoMessage(const QString& info)
              *   0     1   2     3   4     5        6          7        8
              */
             else if (devGroup == "GM") {
-                unsigned int recsid;
-                recsid = info.section(' ', 5, 5).toUInt();
+                unsigned int receiveid = info.section(' ', 5, 5).toUInt();
+                unsigned int replyid = info.section(' ', 6, 6).toUInt();
                 QString gmtype = info.section(' ', 7, 7);
                 QString gmcontent = info.section(' ', 8);
                 CrcfMessage* cm; 
 
-                if (recsid == 0 || infoPort->getSessionId() == recsid) {
+                if (receiveid == 0 || infoPort->getSessionId() == receiveid) {
                     if ("CRCF" == gmtype) {
                         cm = CrcfMessage::parse(gmcontent);
                         if (cm != NULL) {
@@ -2488,24 +2487,18 @@ void MainWindow::processInfoMessage(const QString& info)
                             /*adjust send/reply session-ids*/
                             switch (cac) {
                                 case CrcfMessage::acRoute:
-                                    router->processGenericMessage(
-                                            info.section(' ', 6, 6).toUInt(),
+                                    router->processGenericMessage(replyid,
                                             infoPort->getSessionId(), cm);
                                     break;
                                 case CrcfMessage::acLayout:
-                                    gbs->processGenericMessage(
-                                            info.section(' ', 6, 6).toUInt(),
+                                    gbs->processGenericMessage(replyid,
                                             infoPort->getSessionId(), cm);
                                     break;
                                 case CrcfMessage::acRwcc:
-                                    /*
-                                    processGenericMessage(
-                                            info.section(' ', 6, 6).toUInt(),
+                                    processGenericMessage(replyid,
                                             infoPort->getSessionId(), cm);
-                                    */
                                     break;
                                 default:
-                                    /*only for debugging*/
                                     statusMessage(tr("Unsupported CRCF "
                                                 "actor detected."));
                                     break;
@@ -2522,7 +2515,7 @@ void MainWindow::processInfoMessage(const QString& info)
                 }
                 else
                     statusMessage(tr("Misleaded Generic Message detected "
-                                "(receiver session ID = %1).").arg(recsid));
+                                "(receiver session ID = %1).").arg(receiveid));
             }
 
             /*
@@ -3336,3 +3329,33 @@ void MainWindow::addRecentlyOpenedFile(const QString &fn, QStringList &lst)
     lst.prepend(fi.absFilePath());
 }
 
+/*
+ * respond to incomming Generic Messages with "RWCC" actor
+ */
+void MainWindow::processGenericMessage(unsigned int sendto,
+        unsigned int replyto, const CrcfMessage* cm)
+{
+    QString cms = "";
+
+    if (NULL == cm)
+        return;
+
+    /*if (rwccid != cm->getActorId());
+        return;*/
+
+    switch (cm->getMethod()) {
+        case CrcfMessage::meGet:
+            break;
+
+        case CrcfMessage::meSet:
+            break;
+
+        case CrcfMessage::meInfo:
+            break;
+
+        default:
+            statusMessage(tr("Unsupported CRCF method '%1' "
+                        "detected.").arg(cm->getMethodStr()));
+            break;
+    }
+}

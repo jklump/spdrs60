@@ -5,7 +5,7 @@
 bin_PROGRAMS = centralclock
 
 # list of all generated (and not distributed) moc-files
-nodist_centralclock_SOURCES = centralclock.moc.cpp
+nodist_centralclock_SOURCES = centralclock_moc.cpp
 
 centralclock_SOURCES = main.cpp centralclock.cpp centralclock.h
 
@@ -20,6 +20,8 @@ INCLUDES= $(all_includes)
 CLEANFILES = $(nodist_centralclock_SOURCES)
 
 # rule for moc-file generation
-%.moc.cpp: %.h
+SUFFIXES = _moc.cpp
+
+.h_moc.cpp:
 	$(MOC) $< -o $@
 

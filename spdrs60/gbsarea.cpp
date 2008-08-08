@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-11 19:22:09 $
-                           $Revision: 1.104 $
+    last modified        : $Date: 2008-08-08 17:10:41 $
+                           $Revision: 1.105 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1803,45 +1803,41 @@ void GBSArea::processGenericMessage(unsigned int sendto,
                     /* LAYOUT <layoutid> SET COLUMNS <att_value> */
                     case CrcfMessage::atColumns:
                         {
-                        int cc = cm->getAttValue();
-                        if (cc != cols) {
-                        if (cc > 0 && cc <= MAX_COLS) {
-                            setLayoutSize(cc, rows);
-                            cms = getCrcfInfoMessage(CrcfMessage::atColumns);
-                            if (!cms.isEmpty())
-                                sendGmCrcfMessage(sendto, replyto, cms);
+                            int cc = cm->getAttValue();
+                            if ((cc != cols) && (cc > 0) && (cc <= MAX_COLS)) {
+                                setLayoutSize(cc, rows);
+                                cms = getCrcfInfoMessage(CrcfMessage::atColumns);
+                                if (!cms.isEmpty())
+                                    sendGmCrcfMessage(sendto, replyto, cms);
+                                else
+                                    emit statusMessage(tr("Error assembling "
+                                                "CRCF message for layout "
+                                                "COLUMNS '%1'.").arg(cc));
+                            }
                             else
-                                emit statusMessage(tr("Error assembling "
-                                            "CRCF message for layout "
-                                            "COLUMNS '%1'.").arg(cc));
-                        }
-                        else
-                            emit statusMessage(tr("Unvalid COLUMNS "
-                                        "value '%1' detected.").arg(cc));
-                        }
+                                emit statusMessage(tr("Unvalid COLUMNS "
+                                            "value '%1' detected.").arg(cc));
                         }
                         break;
 
                         /* LAYOUT <routeid> SET ROWS <att_value> */
                     case CrcfMessage::atRows:
                         {
-                        int cr = cm->getAttValue();
-                        if (cr != rows) {
-                        if (cr > 0 && cr <= MAX_ROWS) {
-                            setLayoutSize(cols, cr);
-                            cms = getCrcfInfoMessage(CrcfMessage::atRows);
-                            if (!cms.isEmpty())
-                                sendGmCrcfMessage(sendto, replyto, cms);
+                            int cr = cm->getAttValue();
+                            if (cr != rows && (cr > 0) && cr <= MAX_ROWS) {
+                                setLayoutSize(cols, cr);
+                                cms = getCrcfInfoMessage(CrcfMessage::atRows);
+                                if (!cms.isEmpty())
+                                    sendGmCrcfMessage(sendto, replyto, cms);
+                                else
+                                    emit statusMessage(tr("Error assembling "
+                                                "CRCF message for layout "
+                                                "ROWS '%1'.").arg(cr));
+                            }
                             else
-                                emit statusMessage(tr("Error assembling "
-                                            "CRCF message for layout "
-                                            "ROWS '%1'.").arg(cr));
-                        }
-                        else
-                            emit statusMessage(tr("Unvalid ROWS "
-                                        "value '%1' detected.")
-                                    .arg(cm->getAttValue()));
-                        }
+                                emit statusMessage(tr("Unvalid ROWS "
+                                            "value '%1' detected.")
+                                        .arg(cm->getAttValue()));
                         }
                         break;
 

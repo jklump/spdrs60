@@ -1,11 +1,11 @@
 /***************************************************************************
                            main.cpp
-                           version 0.5.2 $Revision: 1.18 $
+                           version 0.5.2 $Revision: 1.19 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-30 20:14:43 $
+    last modified        : $Date: 2008-08-08 17:10:41 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -55,11 +55,12 @@ int main(int argc, char* argv[])
    // translation file for application strings
    QTranslator spdrs60Tr(0);
 
-   if (spdrs60Tr.load(QString("spdrs60_") + QTextCodec::locale(), RES_DIR))
+   if (spdrs60Tr.load(QString("spdrs60_") + QTextCodec::locale(),
+               TRANSLATIONSDIR))
        a.installTranslator(&spdrs60Tr);
    else
        qWarning("No spdrs60 translation for locale '%s' in '%s' found.",
-               QTextCodec::locale(), RES_DIR);
+               QTextCodec::locale(), TRANSLATIONSDIR);
 
    MainWindow* spdrs60Window = new MainWindow();
    Q_CHECK_PTR(spdrs60Window);
