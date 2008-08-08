@@ -3099,43 +3099,6 @@ the end of config.log])
 ])
 
 
-AC_DEFUN([KDE_INIT_DOXYGEN],
-[
-AC_MSG_CHECKING([for Qt docs])
-kde_qtdir=
-if test "${with_qt_dir+set}" = set; then
-  kde_qtdir="$with_qt_dir"
-fi
-
-AC_FIND_FILE(qsql.html, [ $kde_qtdir/doc/html $QTDIR/doc/html /usr/share/doc/packages/qt3/html /usr/lib/qt/doc /usr/lib/qt3/doc /usr/lib/qt3/doc/html /usr/doc/qt3/html /usr/doc/qt3 /usr/share/doc/qt3-doc /usr/share/qt3/doc/html /usr/X11R6/share/doc/qt/html ], QTDOCDIR)
-AC_MSG_RESULT($QTDOCDIR)
-
-AC_SUBST(QTDOCDIR)
-
-KDE_FIND_PATH(dot, DOT, [], [])
-if test -n "$DOT"; then
-  KDE_HAVE_DOT="YES"
-else
-  KDE_HAVE_DOT="NO"
-fi
-AC_SUBST(KDE_HAVE_DOT)
-KDE_FIND_PATH(doxygen, DOXYGEN, [], [])
-AC_SUBST(DOXYGEN)
-
-DOXYGEN_PROJECT_NAME="$1"
-DOXYGEN_PROJECT_NUMBER="$2"
-AC_SUBST(DOXYGEN_PROJECT_NAME)
-AC_SUBST(DOXYGEN_PROJECT_NUMBER)
-
-KDE_HAS_DOXYGEN=no
-if test -n "$DOXYGEN" && test -x "$DOXYGEN" && test -f $QTDOCDIR/qsql.html; then
-  KDE_HAS_DOXYGEN=yes
-fi
-AC_SUBST(KDE_HAS_DOXYGEN)
-
-])
-
-
 AC_DEFUN([KDE_CHECK_STRLCPY],
 [
   AC_REQUIRE([AC_CHECK_STRLCAT])
@@ -3157,50 +3120,3 @@ AC_DEFUN([KDE_CHECK_STRLCPY],
   ])
 ])
 
-AC_DEFUN([KDE_CHECK_BINUTILS],
-[
-  AC_MSG_CHECKING([if ld supports unversioned version maps])
-
-  kde_save_LDFLAGS="$LDFLAGS"
-  LDFLAGS="$LDFLAGS -Wl,--version-script=conftest.map"
-  echo "{ local: extern \"C++\" { foo }; };" > conftest.map
-  AC_TRY_LINK([int foo;],
-[
-#ifdef __INTEL_COMPILER
-icc apparently does not support libtools version-info and version-script
-at the same time. Dunno where the bug is, but until somebody figured out,
-better disable the optional version scripts.
-#endif
-
-  foo = 42;
-], kde_supports_versionmaps=yes, kde_supports_versionmaps=no)
-  LDFLAGS="$kde_save_LDFLAGS"
-  rm -f conftest.map
-  AM_CONDITIONAL(include_VERSION_SCRIPT, 
-    [test "$kde_supports_versionmaps" = "yes" && test "$kde_use_debug_code" = "no"])
-
-  AC_MSG_RESULT($kde_supports_versionmaps)
-])
-
-AC_DEFUN([AM_PROG_OBJC],[
-AC_CHECK_PROGS(OBJC, gcc, gcc)
-test -z "$OBJC" && AC_MSG_ERROR([no acceptable objective-c gcc found in \$PATH])
-if test "x${OBJCFLAGS-unset}" = xunset; then
-   OBJCFLAGS="-g -O2"
-fi
-AC_SUBST(OBJCFLAGS)
-_AM_IF_OPTION([no-dependencies],, [_AM_DEPENDENCIES(OBJC)])
-])
-
-AC_DEFUN([KDE_CHECK_LARGEFILE],
-[
-AC_SYS_LARGEFILE
-if test "$ac_cv_sys_file_offset_bits" != no; then
-  CPPFLAGS="$CPPFLAGS -D_FILE_OFFSET_BITS=$ac_cv_sys_file_offset_bits"
-fi
-
-if test "x$ac_cv_sys_large_files" != "xno"; then
-  CPPFLAGS="$CPPFLAGS -D_LARGE_FILES=1"
-fi
-
-])
