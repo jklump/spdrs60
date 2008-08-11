@@ -270,6 +270,12 @@ Release date: 2008-05-??
           current valid value range.
   </para></listitem>
 
+  <listitem><para>
+          The locking table lights can now be switched on and off
+          according to the original one. This function is operated via a
+          new group button element.
+  </para></listitem>
+
 </itemizedlist>
 </sect2>
 

@@ -1,3 +1,7 @@
+2008-08-11 Guido Scholz <guido.scholz@bayernline.de>
+	* gbsarea.cpp, element.*, paintitemwindow.cpp: Lights of locking
+	table can be switched on or off now.
+
 2008-08-07 Guido Scholz <guido.scholz@bayernline.de>
 	* configure.ac, spdrs60/Makefile.am: Moved translated strings
 	files to separate subdirectory. Rules for translations updates

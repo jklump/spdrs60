@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-31 17:57:34 $
-                           $Revision: 1.99 $
+    last modified        : $Date: 2008-08-11 16:59:30 $
+                           $Revision: 1.100 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -141,7 +141,9 @@ enum GbsButtonState {
     kMgtClicked,
     kSgtClicked,
     kHagtClicked,
-    kFrtClicked
+    kFrtClicked,
+    kEinClicked,
+    kAusClicked
 };
 
 /*element selection modes, shown as an inner rectangle*/
@@ -280,7 +282,7 @@ public:
         siciFer = 1300, siciTas,
         siciFey = 1400,
         siciFen = 1500,
-        siciFee = 1600};
+        siciFee = 1600, siciTal};
     
     element(QWidget* parent = NULL, SpdrItemClassId ci = siciTxt,
             elemVisualMode vm = kvmNormal);
@@ -338,6 +340,7 @@ public:
     void updateTrainNumber(unsigned int);
     element::SpdrItemClassId classId();
     unsigned int entryDir();
+    void setTableLight(bool);
 
 private:
     elementCommander*   turntableProperties;
@@ -381,6 +384,7 @@ private:
     bool     switched;
     bool     turnout;
     bool     lightson;
+    bool     tablelight;
     QString  sSoldDecoder;
     SrcpMessage::Protocol protocol;
     QTimer*  locateTimer;

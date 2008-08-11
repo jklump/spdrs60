@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-26
- * Last modified: $Date: 2008-05-11 19:22:09 $
- *                $Revision: 1.17 $
+ * Last modified: $Date: 2008-08-11 16:59:30 $
+ *                $Revision: 1.18 $
  *
  * This code creates a dockable window with a set of paint items 
  */
@@ -129,6 +129,7 @@
 #include "pixmaps/spdritem_tas.xpm"
 #include "pixmaps/spdritem_tau.xpm"
 #include "pixmaps/spdritem_taw.xpm"
+#include "pixmaps/spdritem_tal.xpm"
 
 
 PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
@@ -491,6 +492,9 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
             tr("Power supply group panel"),
             element::siciFee, paintItemBG, "powerPanel");
 
+    new PaintItemButton(QPixmap(spdritem_tal_xpm),
+            tr("Table light panel"),
+            element::siciTal, paintItemBG, "lightPanel");
 }
 
 /*

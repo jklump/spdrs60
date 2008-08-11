@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-06-11 17:51:49 $
-                           $Revision: 1.171 $
+    last modified        : $Date: 2008-08-11 16:59:30 $
+                           $Revision: 1.172 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -43,6 +43,8 @@
 #include "pixmaps/label-sgt.xpm"
 #include "pixmaps/label-ufgt.xpm"
 #include "pixmaps/label-wgt.xpm"
+#include "pixmaps/label-ein.xpm"
+#include "pixmaps/label-aus.xpm"
 #include "pixmaps/transfertable.xpm"
 #include "pixmaps/signal-w.xpm"
 #include "pixmaps/signal-wr.xpm"
@@ -147,6 +149,7 @@ void element::initVariables()
 
     turntableProperties = NULL;
     ttComm = NULL;
+    tablelight = true;
 }
 
 /* Read the layout element data from stream, old data style containing
@@ -488,41 +491,54 @@ void element::mousePressEvent(QMouseEvent* e)
             }
 
             /*add here new external button functions*/
-            //TODO: remove double compairs
-            else if (classid == siciTaf || classid == siciTau ||
-                    classid == siciTaw || classid == siciTas) {
-
-                if (classid == siciTaw)
-                    ctrlButton = kWgtClicked;
-
-                else if (classid == siciTaf) {
-                    ctrlButton = kFhtClicked;
-
-                    /*
-                     * increment counter and repaint symbol, if value
-                     * has more than four digits, reset to zero
-                     */
-                    ++countervalue;
-                    if (countervalue == 10000)
-                        countervalue = 0;
-                    setupElementIcon();
-                }
-
-                else if (classid == siciTau) {
-                    if (CursorPos.x() < (width() >> 1))
-                        ctrlButton = kUfgtClicked; 
-                    else
-                        ctrlButton = kMgtClicked;
-                }
-
-                else if (classid == siciTas) {
-                    if (CursorPos.x() < (width() >> 1))
-                        ctrlButton = kSgtClicked; 
-                    else
-                        ctrlButton = kHagtClicked;
-                }
+            /*WGT button*/
+            else if (classid == siciTaw) {
+                ctrlButton = kWgtClicked;
                 emit elementClicked(this, ctrlButton);
             }
+
+            /*FHT button*/
+            else if (classid == siciTaf) {
+                ctrlButton = kFhtClicked;
+
+                /*
+                 * increment counter and repaint symbol, if value
+                 * has more than four digits, reset to zero
+                 */
+                ++countervalue;
+                if (countervalue == 10000)
+                    countervalue = 0;
+                setupElementIcon();
+                emit elementClicked(this, ctrlButton);
+            }
+
+            /*UfGT/HaGT button*/
+            else if (classid == siciTau) {
+                if (CursorPos.x() < (width() >> 1))
+                    ctrlButton = kUfgtClicked; 
+                else
+                    ctrlButton = kMgtClicked;
+                emit elementClicked(this, ctrlButton);
+            }
+
+            /*SGT/HaGT button*/
+            else if (classid == siciTas) {
+                if (CursorPos.x() < (width() >> 1))
+                    ctrlButton = kSgtClicked; 
+                else
+                    ctrlButton = kHagtClicked;
+                emit elementClicked(this, ctrlButton);
+            }
+
+            /*Ein/Aus button*/
+            else if (classid == siciTal) {
+                if (CursorPos.x() < (width() >> 1))
+                    ctrlButton = kEinClicked; 
+                else
+                    ctrlButton = kAusClicked;
+                emit elementClicked(this, ctrlButton);
+            }
+
             e->accept();
         }
     }
@@ -1435,6 +1451,26 @@ void element::setupElementIcon()
     else if (classid == siciFee) {
         QPixmap pm = QPixmap(size());
         pm.fill(QColor(128, 128, 128));
+        setPaletteBackgroundPixmap(pm);
+    }
+   
+    // grey panel with light Ein and Aus buttons
+    else if (classid == siciTal) {
+        QPixmap pm = QPixmap(size());
+        pm.fill(Qt::darkGray);
+        QPainter p;
+        p.begin(&pm);
+            
+        // paint buttons
+        p.setBrush(Qt::darkGray);
+        p.drawEllipse(7, pm.height() / 2 - 4, 9, 9);
+        p.drawEllipse(pm.width() - 16, pm.height() / 2 - 4, 9, 9);
+        
+        // paint button labels
+        p.drawPixmap(2, 24, QPixmap(label_ein_xpm));
+        p.drawPixmap(34, 24, QPixmap(label_aus_xpm));
+
+        p.end();
         setPaletteBackgroundPixmap(pm);
     }
    
@@ -4054,14 +4090,22 @@ void element::setupElementIcon()
                     if (!lightson && ((lastdir == 0 && newdir == 2) ||
                             (lastdir == 2 && newdir == 0)))
                         c1 = QColor(Qt::darkGray);
-                    else
-                        c1 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c1 = QColor(255, 225, 0);
+                        else 
+                            c1 = QColor(Qt::darkGray);
+                    }
                     
                     if (!lightson && ((lastdir != 0 && newdir == 0) ||
                             (lastdir == 0 && newdir != 0)))
                         c2 = QColor(Qt::darkGray);
-                    else
-                        c2 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c2 = QColor(255, 225, 0);
+                        else 
+                            c2 = QColor(Qt::darkGray);
+                    }
                     
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::darkGray);
@@ -4070,8 +4114,12 @@ void element::setupElementIcon()
                     if (!lightson && ((lastdir == 1 && newdir == 2) ||
                         (lastdir == 2 && newdir == 1)))
                         c1 = QColor(Qt::darkGray);
-                    else
-                        c1 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c1 = QColor(255, 225, 0);
+                        else 
+                            c1 = QColor(Qt::darkGray);
+                    }
                     
                     c2 = QColor(Qt::darkGray);
                     c3 = QColor(Qt::darkGray);
@@ -4079,8 +4127,12 @@ void element::setupElementIcon()
                     if (!lightson && ((lastdir == 1 && newdir == 0) ||
                                 (lastdir == 0 && newdir == 1)))
                         c4 = QColor(Qt::darkGray);
-                    else
-                        c4 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c4 = QColor(255, 225, 0);
+                        else 
+                            c4 = QColor(Qt::darkGray);
+                    }
                 }
                 else if (state == 2) {
                     c1 = QColor(Qt::darkGray);
@@ -4089,14 +4141,22 @@ void element::setupElementIcon()
                     if (!lightson && ((lastdir == 2 && newdir != 2) ||
                                 (lastdir != 2 && newdir == 2)))
                         c3 = QColor(Qt::darkGray);
-                    else
-                        c3 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c3 = QColor(255, 225, 0);
+                        else 
+                            c3 = QColor(Qt::darkGray);
+                    }
                     
                     if (!lightson && ((lastdir == 2 && newdir == 0) ||
                                 (lastdir == 0 && newdir == 2)))
                         c4 = QColor(Qt::darkGray);
-                    else
-                        c4 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c4 = QColor(255, 225, 0);
+                        else 
+                            c4 = QColor(Qt::darkGray);
+                    }
                 }
                 // error indication
                 else {
@@ -4262,14 +4322,22 @@ void element::setupElementIcon()
                     if (!lightson && ((lastdir == 0 && newdir == 2) ||
                             (lastdir == 2 && newdir == 0)))
                         c1 = QColor(Qt::darkGray);
-                    else
-                        c1 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c1 = QColor(255, 225, 0);
+                        else 
+                            c1 = QColor(Qt::darkGray);
+                    }
                     
                     if (!lightson && ((lastdir != 0 && newdir == 0) ||
                             (lastdir == 0 && newdir != 0)))
                         c2 = QColor(Qt::darkGray);
-                    else
-                        c2 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c2 = QColor(255, 225, 0);
+                        else 
+                            c2 = QColor(Qt::darkGray);
+                    }
                     
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::darkGray);
@@ -4278,8 +4346,12 @@ void element::setupElementIcon()
                     if (!lightson && ((lastdir == 1 && newdir == 2) ||
                         (lastdir == 2 && newdir == 1)))
                         c1 = QColor(Qt::darkGray);
-                    else
-                        c1 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c1 = QColor(255, 225, 0);
+                        else 
+                            c1 = QColor(Qt::darkGray);
+                    }
                     
                     c2 = QColor(Qt::darkGray);
                     c3 = QColor(Qt::darkGray);
@@ -4287,8 +4359,12 @@ void element::setupElementIcon()
                     if (!lightson && ((lastdir == 1 && newdir == 0) ||
                                 (lastdir == 0 && newdir == 1)))
                         c4 = QColor(Qt::darkGray);
-                    else
-                        c4 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c4 = QColor(255, 225, 0);
+                        else 
+                            c4 = QColor(Qt::darkGray);
+                    }
                 }
                 else if (state == 2) {
                     c1 = QColor(Qt::darkGray);
@@ -4297,14 +4373,22 @@ void element::setupElementIcon()
                     if (!lightson && ((lastdir == 2 && newdir != 2) ||
                                 (lastdir != 2 && newdir == 2)))
                         c3 = QColor(Qt::darkGray);
-                    else
-                        c3 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c3 = QColor(255, 225, 0);
+                        else 
+                            c3 = QColor(Qt::darkGray);
+                    }
                     
                     if (!lightson && ((lastdir == 2 && newdir == 0) ||
                                 (lastdir == 0 && newdir == 2)))
                         c4 = QColor(Qt::darkGray);
-                    else
-                        c4 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c4 = QColor(255, 225, 0);
+                        else 
+                            c4 = QColor(Qt::darkGray);
+                    }
                 }
                 // error indication
                 else {
@@ -4469,14 +4553,22 @@ void element::setupElementIcon()
                     if (!lightson && ((lastdir == 0 && newdir == 2) ||
                             (lastdir == 2 && newdir == 0)))
                         c1 = QColor(Qt::darkGray);
-                    else
-                        c1 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c1 = QColor(255, 225, 0);
+                        else 
+                            c1 = QColor(Qt::darkGray);
+                    }
                     
                     if (!lightson && ((lastdir == 0 && newdir != 0) ||
                             (lastdir != 0 && newdir == 0)))
                         c2 = QColor(Qt::darkGray);
-                    else
-                        c2 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c2 = QColor(255, 225, 0);
+                        else 
+                            c2 = QColor(Qt::darkGray);
+                    }
                     
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::darkGray);
@@ -4485,8 +4577,12 @@ void element::setupElementIcon()
                     if (!lightson && ((lastdir == 1 && newdir == 2) ||
                         (lastdir == 2 && newdir == 1)))
                         c1 = QColor(Qt::darkGray);
-                    else
-                        c1 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c1 = QColor(255, 225, 0);
+                        else 
+                            c1 = QColor(Qt::darkGray);
+                    }
                     
                     c2 = QColor(Qt::darkGray);
                     c3 = QColor(Qt::darkGray);
@@ -4494,8 +4590,12 @@ void element::setupElementIcon()
                     if (!lightson && ((lastdir == 1 && newdir == 0) ||
                                 (lastdir == 0 && newdir == 1)))
                         c4 = QColor(Qt::darkGray);
-                    else
-                        c4 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c4 = QColor(255, 225, 0);
+                        else 
+                            c4 = QColor(Qt::darkGray);
+                    }
                 }
                 else if (state == 2) {
                     c1 = QColor(Qt::darkGray);
@@ -4504,14 +4604,22 @@ void element::setupElementIcon()
                     if (!lightson && ((lastdir == 2 && newdir != 2) ||
                                 (lastdir != 2 && newdir == 2)))
                         c3 = QColor(Qt::darkGray);
-                    else
-                        c3 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c3 = QColor(255, 225, 0);
+                        else 
+                            c3 = QColor(Qt::darkGray);
+                    }
                     
                     if (!lightson && ((lastdir == 2 && newdir == 0) ||
                                 (lastdir == 0 && newdir == 2)))
                         c4 = QColor(Qt::darkGray);
-                    else
-                        c4 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c4 = QColor(255, 225, 0);
+                        else 
+                            c4 = QColor(Qt::darkGray);
+                    }
                 }
                 // error indication
                 else {
@@ -4678,14 +4786,22 @@ void element::setupElementIcon()
                     if (!lightson && ((lastdir == 0 && newdir == 2) ||
                             (lastdir == 2 && newdir == 0)))
                         c1 = QColor(Qt::darkGray);
-                    else
-                        c1 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c1 = QColor(255, 225, 0);
+                        else 
+                            c1 = QColor(Qt::darkGray);
+                    }
                     
                     if (!lightson && ((lastdir == 0 && newdir != 0) ||
                             (lastdir != 0 && newdir == 0)))
                         c2 = QColor(Qt::darkGray);
-                    else
-                        c2 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c2 = QColor(255, 225, 0);
+                        else 
+                            c2 = QColor(Qt::darkGray);
+                    }
                     
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::darkGray);
@@ -4694,8 +4810,12 @@ void element::setupElementIcon()
                     if (!lightson && ((lastdir == 1 && newdir == 2) ||
                         (lastdir == 2 && newdir == 1)))
                         c1 = QColor(Qt::darkGray);
-                    else
-                        c1 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c1 = QColor(255, 225, 0);
+                        else 
+                            c1 = QColor(Qt::darkGray);
+                    }
                     
                     c2 = QColor(Qt::darkGray);
                     c3 = QColor(Qt::darkGray);
@@ -4703,8 +4823,12 @@ void element::setupElementIcon()
                     if (!lightson && ((lastdir == 1 && newdir == 0) ||
                                 (lastdir == 0 && newdir == 1)))
                         c4 = QColor(Qt::darkGray);
-                    else
-                        c4 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c4 = QColor(255, 225, 0);
+                        else 
+                            c4 = QColor(Qt::darkGray);
+                    }
                 }
                 else if (state == 2) {
                     c1 = QColor(Qt::darkGray);
@@ -4713,14 +4837,22 @@ void element::setupElementIcon()
                     if (!lightson && ((lastdir == 2 && newdir != 2) ||
                                 (lastdir != 2 && newdir == 2)))
                         c3 = QColor(Qt::darkGray);
-                    else
-                        c3 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c3 = QColor(255, 225, 0);
+                        else 
+                            c3 = QColor(Qt::darkGray);
+                    }
                     
                     if (!lightson && ((lastdir == 2 && newdir == 0) ||
                                 (lastdir == 0 && newdir == 2)))
                         c4 = QColor(Qt::darkGray);
-                    else
-                        c4 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c4 = QColor(255, 225, 0);
+                        else 
+                            c4 = QColor(Qt::darkGray);
+                    }
                 }
                 // error indication
                 else {
@@ -4907,15 +5039,23 @@ void element::setupElementIcon()
                     if (!lightson && ((lastdir == 0 && newdir >= 2) ||
                             (lastdir >= 2 && newdir == 0)))
                         c1 = QColor(Qt::darkGray);
-                    else
-                        c1 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c1 = QColor(255, 225, 0);
+                        else 
+                            c1 = QColor(Qt::darkGray);
+                    }
                     
                     if (!lightson && (((lastdir == 1 || lastdir == 2) &&
                                     newdir == 0) ||
                             (lastdir == 0 && (newdir == 1 || newdir == 2))))
                         c2 = QColor(Qt::darkGray);
-                    else
-                        c2 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c2 = QColor(255, 225, 0);
+                        else 
+                            c2 = QColor(Qt::darkGray);
+                    }
                     
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::darkGray);
@@ -4926,8 +5066,12 @@ void element::setupElementIcon()
                                 ((lastdir == 2 || newdir == 3) &&
                                  newdir == 1)))
                         c1 = QColor(Qt::darkGray);
-                    else
-                        c1 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c1 = QColor(255, 225, 0);
+                        else 
+                            c1 = QColor(Qt::darkGray);
+                    }
                     
                     c2 = QColor(Qt::darkGray);
                     c3 = QColor(Qt::darkGray);
@@ -4937,8 +5081,12 @@ void element::setupElementIcon()
                                 ((lastdir == 0 || lastdir == 3) &&
                                  newdir == 1)))
                         c4 = QColor(Qt::darkGray);
-                    else
-                        c4 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c4 = QColor(255, 225, 0);
+                        else 
+                            c4 = QColor(Qt::darkGray);
+                    }
                 }
                 else if (state == 2) {
                     c1 = QColor(Qt::darkGray);
@@ -4949,16 +5097,24 @@ void element::setupElementIcon()
                                 ((lastdir == 0 || lastdir == 1) &&
                                  newdir == 2)))
                         c3 = QColor(Qt::darkGray);
-                    else
-                        c3 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c3 = QColor(255, 225, 0);
+                        else 
+                            c3 = QColor(Qt::darkGray);
+                    }
                     
                     if (!lightson && ((lastdir == 2 &&
                                     (newdir == 0 || newdir == 3)) ||
                                 ((lastdir == 0 || lastdir == 3) &&
                                  newdir == 2)))
                         c4 = QColor(Qt::darkGray);
-                    else
-                        c4 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c4 = QColor(255, 225, 0);
+                        else 
+                            c4 = QColor(Qt::darkGray);
+                    }
                 }
                 else if (state == 3) {
                     c1 = QColor(Qt::darkGray);
@@ -4968,16 +5124,24 @@ void element::setupElementIcon()
                                 ((lastdir == 1 || lastdir == 2) &&
                                  newdir == 3)))
                         c2 = QColor(Qt::darkGray);
-                    else
-                        c2 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c2 = QColor(255, 225, 0);
+                        else 
+                            c2 = QColor(Qt::darkGray);
+                    }
                     
                     if (!lightson && ((lastdir == 3 &&
                                     (newdir == 0 || newdir == 1)) ||
                                 ((lastdir == 0 || lastdir == 1) &&
                                  newdir == 3)))
                         c3 = QColor(Qt::darkGray);
-                    else
-                        c3 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c3 = QColor(255, 225, 0);
+                        else 
+                            c3 = QColor(Qt::darkGray);
+                    }
 
                     c4 = QColor(Qt::darkGray);
                 }
@@ -5162,15 +5326,23 @@ void element::setupElementIcon()
                     if (!lightson && ((lastdir == 0 && newdir >= 2) ||
                             (lastdir >= 2 && newdir == 0)))
                         c1 = QColor(Qt::darkGray);
-                    else
-                        c1 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c1 = QColor(255, 225, 0);
+                        else 
+                            c1 = QColor(Qt::darkGray);
+                    }
                     
                     if (!lightson && (((lastdir == 1 || lastdir == 2) &&
                                     newdir == 0) ||
                             (lastdir == 0 && (newdir == 1 || newdir == 2))))
                         c2 = QColor(Qt::darkGray);
-                    else
-                        c2 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c2 = QColor(255, 225, 0);
+                        else 
+                            c2 = QColor(Qt::darkGray);
+                    }
                     
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::darkGray);
@@ -5181,8 +5353,12 @@ void element::setupElementIcon()
                                 ((lastdir == 2 || newdir == 3) &&
                                  newdir == 1)))
                         c1 = QColor(Qt::darkGray);
-                    else
-                        c1 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c1 = QColor(255, 225, 0);
+                        else 
+                            c1 = QColor(Qt::darkGray);
+                    }
                     
                     c2 = QColor(Qt::darkGray);
                     c3 = QColor(Qt::darkGray);
@@ -5192,8 +5368,12 @@ void element::setupElementIcon()
                                 ((lastdir == 0 || lastdir == 3) &&
                                  newdir == 1)))
                         c4 = QColor(Qt::darkGray);
-                    else
-                        c4 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c4 = QColor(255, 225, 0);
+                        else 
+                            c4 = QColor(Qt::darkGray);
+                    }
                 }
                 else if (state == 2) {
                     c1 = QColor(Qt::darkGray);
@@ -5204,16 +5384,24 @@ void element::setupElementIcon()
                                 ((lastdir == 0 || lastdir == 1) &&
                                  newdir == 2)))
                         c3 = QColor(Qt::darkGray);
-                    else
-                        c3 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c3 = QColor(255, 225, 0);
+                        else 
+                            c3 = QColor(Qt::darkGray);
+                    }
                     
                     if (!lightson && ((lastdir == 2 &&
                                     (newdir == 0 || newdir == 3)) ||
                                 ((lastdir == 0 || lastdir == 3) &&
                                  newdir == 2)))
                         c4 = QColor(Qt::darkGray);
-                    else
-                        c4 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c4 = QColor(255, 225, 0);
+                        else 
+                            c4 = QColor(Qt::darkGray);
+                    }
                 }
                 else if (state == 3) {
                     c1 = QColor(Qt::darkGray);
@@ -5223,16 +5411,24 @@ void element::setupElementIcon()
                                 ((lastdir == 1 || lastdir == 2) &&
                                  newdir == 3)))
                         c2 = QColor(Qt::darkGray);
-                    else
-                        c2 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c2 = QColor(255, 225, 0);
+                        else 
+                            c2 = QColor(Qt::darkGray);
+                    }
                     
                     if (!lightson && ((lastdir == 3 &&
                                     (newdir == 0 || newdir == 1)) ||
                                 ((lastdir == 0 || lastdir == 1) &&
                                  newdir == 3)))
                         c3 = QColor(Qt::darkGray);
-                    else
-                        c3 = QColor(255, 225, 0);
+                    else {
+                        if ((blinkcounter > 0) || tablelight)
+                            c3 = QColor(255, 225, 0);
+                        else 
+                            c3 = QColor(Qt::darkGray);
+                    }
 
                     c4 = QColor(Qt::darkGray);
                 }
@@ -5746,8 +5942,12 @@ void element::setupElementIcon()
             if (state == 0 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
-                else
-                    c = QColor(255, 225, 0);
+                else {
+                    if ((blinkcounter > 0) || tablelight)
+                        c = QColor(255, 225, 0);
+                    else 
+                        c = QColor(Qt::darkGray);
+                }
             else
                 c = QColor(Qt::darkGray);
 
@@ -5759,8 +5959,12 @@ void element::setupElementIcon()
             if (state == 1 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
-                else
-                    c = QColor(255, 225, 0);
+                else {
+                    if ((blinkcounter > 0) || tablelight)
+                        c = QColor(255, 225, 0);
+                    else 
+                        c = QColor(Qt::darkGray);
+                }
             else
                 c = QColor(Qt::darkGray);
 
@@ -5876,8 +6080,12 @@ void element::setupElementIcon()
             if (state == 0 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
-                else
-                    c = QColor(255, 225, 0);
+                else {
+                    if ((blinkcounter > 0) || tablelight)
+                        c = QColor(255, 225, 0);
+                    else 
+                        c = QColor(Qt::darkGray);
+                }
             else
                 c = QColor(Qt::darkGray);
 
@@ -5889,8 +6097,12 @@ void element::setupElementIcon()
             if (state == 1 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
-                else
-                    c = QColor(255, 225, 0);
+                else {
+                    if ((blinkcounter > 0) || tablelight)
+                        c = QColor(255, 225, 0);
+                    else 
+                        c = QColor(Qt::darkGray);
+                }
             else
                 c = QColor(Qt::darkGray);
 
@@ -6006,8 +6218,12 @@ void element::setupElementIcon()
             if (state == 0 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
-                else
-                    c = QColor(255, 225, 0);
+                else {
+                    if ((blinkcounter > 0) || tablelight)
+                        c = QColor(255, 225, 0);
+                    else 
+                        c = QColor(Qt::darkGray);
+                }
             else
                 c = QColor(Qt::darkGray);
 
@@ -6019,8 +6235,12 @@ void element::setupElementIcon()
             if (state == 1 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
-                else
-                    c = QColor(255, 225, 0);
+                else {
+                    if ((blinkcounter > 0) || tablelight)
+                        c = QColor(255, 225, 0);
+                    else 
+                        c = QColor(Qt::darkGray);
+                }
             else
                 c = QColor(Qt::darkGray);
 
@@ -6136,8 +6356,12 @@ void element::setupElementIcon()
             if (state == 0 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
-                else
-                    c = QColor(255, 225, 0);
+                else {
+                    if ((blinkcounter > 0) || tablelight)
+                        c = QColor(255, 225, 0);
+                    else 
+                        c = QColor(Qt::darkGray);
+                }
             else
                 c = QColor(Qt::darkGray);
 
@@ -6149,8 +6373,12 @@ void element::setupElementIcon()
             if (state == 1 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
-                else
-                    c = QColor(255, 225, 0);
+                else {
+                    if ((blinkcounter > 0) || tablelight)
+                        c = QColor(255, 225, 0);
+                    else 
+                        c = QColor(Qt::darkGray);
+                }
             else
                 c = QColor(Qt::darkGray);
 
@@ -6276,8 +6504,12 @@ void element::setupElementIcon()
             if (state == 0 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
-                else
-                    c = QColor(255, 225, 0);
+                else {
+                    if ((blinkcounter > 0) || tablelight)
+                        c = QColor(255, 225, 0);
+                    else 
+                        c = QColor(Qt::darkGray);
+                }
             else
                 c = QColor(Qt::darkGray);
 
@@ -6291,8 +6523,12 @@ void element::setupElementIcon()
             if (state == 1 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
-                else
-                    c = QColor(255, 225, 0);
+                else {
+                    if ((blinkcounter > 0) || tablelight)
+                        c = QColor(255, 225, 0);
+                    else 
+                        c = QColor(Qt::darkGray);
+                }
             else
                 c = QColor(Qt::darkGray);
 
@@ -6413,8 +6649,12 @@ void element::setupElementIcon()
             if (state == 0 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
-                else
-                    c = QColor(255, 225, 0);
+                else {
+                    if ((blinkcounter > 0) || tablelight)
+                        c = QColor(255, 225, 0);
+                    else 
+                        c = QColor(Qt::darkGray);
+                }
             else
                 c = QColor(Qt::darkGray);
 
@@ -6428,8 +6668,12 @@ void element::setupElementIcon()
             if (state == 1 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
-                else
-                    c = QColor(255, 225, 0);
+                else {
+                    if ((blinkcounter > 0) || tablelight)
+                        c = QColor(255, 225, 0);
+                    else 
+                        c = QColor(Qt::darkGray);
+                }
             else
                 c = QColor(Qt::darkGray);
 
@@ -6550,8 +6794,12 @@ void element::setupElementIcon()
             if (state == 0 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
-                else
-                    c = QColor(255, 225, 0);
+                else {
+                    if ((blinkcounter > 0) || tablelight)
+                        c = QColor(255, 225, 0);
+                    else 
+                        c = QColor(Qt::darkGray);
+                }
             else
                 c = QColor(Qt::darkGray);
 
@@ -6565,8 +6813,12 @@ void element::setupElementIcon()
             if (state == 1 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
-                else
-                    c = QColor(255, 225, 0);
+                else {
+                    if ((blinkcounter > 0) || tablelight)
+                        c = QColor(255, 225, 0);
+                    else 
+                        c = QColor(Qt::darkGray);
+                }
             else
                 c = QColor(Qt::darkGray);
 
@@ -6686,8 +6938,12 @@ void element::setupElementIcon()
             if (state == 0 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
-                else
-                    c = QColor(255, 225, 0);
+                else {
+                    if ((blinkcounter > 0) || tablelight)
+                        c = QColor(255, 225, 0);
+                    else 
+                        c = QColor(Qt::darkGray);
+                }
             else
                 c = QColor(Qt::darkGray);
 
@@ -6701,8 +6957,12 @@ void element::setupElementIcon()
             if (state == 1 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
-                else
-                    c = QColor(255, 225, 0);
+                else {
+                    if ((blinkcounter > 0) || tablelight)
+                        c = QColor(255, 225, 0);
+                    else 
+                        c = QColor(Qt::darkGray);
+                }
             else
                 c = QColor(Qt::darkGray);
 
@@ -6815,8 +7075,12 @@ void element::setupElementIcon()
             if (state == 0 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
-                else
-                    c = QColor(255, 225, 0);
+                else {
+                    if ((blinkcounter > 0) || tablelight)
+                        c = QColor(255, 225, 0);
+                    else 
+                        c = QColor(Qt::darkGray);
+                }
             else
                 c = QColor(Qt::darkGray);
 
@@ -6834,8 +7098,12 @@ void element::setupElementIcon()
             if (state == 1 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
-                else
-                    c = QColor(255, 225, 0);
+                else {
+                    if ((blinkcounter > 0) || tablelight)
+                        c = QColor(255, 225, 0);
+                    else 
+                        c = QColor(Qt::darkGray);
+                }
             else
                 c = QColor(Qt::darkGray);
 
@@ -6954,8 +7222,12 @@ void element::setupElementIcon()
             if (state == 0 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
-                else
-                    c = QColor(255, 225, 0);
+                else {
+                    if ((blinkcounter > 0) || tablelight)
+                        c = QColor(255, 225, 0);
+                    else 
+                        c = QColor(Qt::darkGray);
+                }
             else
                 c = QColor(Qt::darkGray);
 
@@ -6973,8 +7245,12 @@ void element::setupElementIcon()
             if (state == 1 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
-                else
-                    c = QColor(255, 225, 0);
+                else {
+                    if ((blinkcounter > 0) || tablelight)
+                        c = QColor(255, 225, 0);
+                    else 
+                        c = QColor(Qt::darkGray);
+                }
             else
                 c = QColor(Qt::darkGray);
 
@@ -7094,8 +7370,12 @@ void element::setupElementIcon()
             if (state == 0 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
-                else
-                    c = QColor(255, 225, 0);
+                else {
+                    if ((blinkcounter > 0) || tablelight)
+                        c = QColor(255, 225, 0);
+                    else 
+                        c = QColor(Qt::darkGray);
+                }
             else
                 c = QColor(Qt::darkGray);
 
@@ -7107,8 +7387,12 @@ void element::setupElementIcon()
             if (state == 1 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
-                else
-                    c = QColor(255, 225, 0);
+                else {
+                    if ((blinkcounter > 0) || tablelight)
+                        c = QColor(255, 225, 0);
+                    else 
+                        c = QColor(Qt::darkGray);
+                }
             else
                 c = QColor(Qt::darkGray);
 
@@ -7126,8 +7410,12 @@ void element::setupElementIcon()
             if (state == 2 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
-                else
-                    c = QColor(255, 225, 0);
+                else {
+                    if ((blinkcounter > 0) || tablelight)
+                        c = QColor(255, 225, 0);
+                    else 
+                        c = QColor(Qt::darkGray);
+                }
             else
                 c = QColor(Qt::darkGray);
 
@@ -7249,8 +7537,12 @@ void element::setupElementIcon()
             if (state == 0 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
-                else
-                    c = QColor(255, 225, 0);
+                else {
+                    if ((blinkcounter > 0) || tablelight)
+                        c = QColor(255, 225, 0);
+                    else 
+                        c = QColor(Qt::darkGray);
+                }
             else
                 c = QColor(Qt::darkGray);
 
@@ -7262,8 +7554,12 @@ void element::setupElementIcon()
             if (state == 1 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
-                else
-                    c = QColor(255, 225, 0);
+                else {
+                    if ((blinkcounter > 0) || tablelight)
+                        c = QColor(255, 225, 0);
+                    else 
+                        c = QColor(Qt::darkGray);
+                }
             else
                 c = QColor(Qt::darkGray);
 
@@ -7281,8 +7577,12 @@ void element::setupElementIcon()
             if (state == 2 && lightson)
                 if (occupied)
                     c = QColor(Qt::red);
-                else
-                    c = QColor(255, 225, 0);
+                else {
+                    if ((blinkcounter > 0) || tablelight)
+                        c = QColor(255, 225, 0);
+                    else 
+                        c = QColor(Qt::darkGray);
+                }
             else
                 c = QColor(Qt::darkGray);
 
@@ -9035,6 +9335,7 @@ void element::writeFileTextToStream(QTextStream& ts)
         case siciTas:
         case siciTau:
         case siciTaw:
+        case siciTal:
         case siciTul:
         case siciTur:
         case siciBs1:
@@ -9403,6 +9704,10 @@ void element::runTurnoutBlinkTimer()
         QTimer::singleShot(500, this, SLOT(runTurnoutBlinkTimer()));
     else {
         blinkcounter = 0;
+        if (!tablelight) {
+            setupElementIcon();
+            //repaint();
+        }
         emit turnoutIsSwitched();
     }
 } 
@@ -9592,3 +9897,12 @@ element::SpdrItemClassId element::translateNotRotatedItem(QString& name)
     return returnvalue;
 }
 
+/*change table light state for trunouts*/
+void element::setTableLight(bool ison)
+{
+    if (tablelight != ison) {
+        tablelight = ison;
+        if (turnout)
+            setupElementIcon();
+    }
+}

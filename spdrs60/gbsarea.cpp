@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-08-08 17:10:41 $
-                           $Revision: 1.105 $
+    last modified        : $Date: 2008-08-11 16:59:30 $
+                           $Revision: 1.106 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -545,6 +545,18 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
                 emit statusMessage(tr("Operation not allowed"));
             }
             slotElementClickedTimeout();
+            break;
+
+        /*light on button*/
+        case kEinClicked:
+            switchTablelight(true);
+            emit statusMessage(tr("Table light switched on"));
+            break;
+
+        /*light off button*/
+        case kAusClicked:
+            switchTablelight(false);
+            emit statusMessage(tr("Table light switched off"));
             break;
 
         default:
@@ -1930,3 +1942,12 @@ QString GBSArea::getCrcfInfoMessage(CrcfMessage::CrcfAttribute at) const
             CrcfMessage::meInfo, at, result);
 }
 
+/*switch table light nn/off*/
+void GBSArea::switchTablelight(bool on)
+{
+    for (unsigned int i = 0; i < elements.size(); i++) {
+            element* el = elements[i];
+            if (el != NULL)
+                el->setTableLight(on);
+    }
+}

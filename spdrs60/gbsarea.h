@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.5.2 $Revision: 1.50 $
+                           version 0.5.2 $Revision: 1.51 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-30 20:35:31 $
+    last modified        : $Date: 2008-08-11 16:59:30 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -135,7 +135,8 @@ private:
    void updateSRCP08FBBusList();
    void updateSRCP08BusLists();
    void sendGmCrcfMessage(unsigned int, unsigned int, const QString&);
-    QString getCrcfInfoMessage(CrcfMessage::CrcfAttribute) const;
+   QString getCrcfInfoMessage(CrcfMessage::CrcfAttribute) const;
+   void switchTablelight(bool);
    
 public slots:
     void newFile(int, int, unsigned int, const QString&);

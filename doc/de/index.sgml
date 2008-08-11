@@ -346,6 +346,12 @@ Veröffentlicht am --.--.2008
   eine entsprechende Rückmeldung an den Benutzer verhindert. 
   </para></listitem>
   
+  <listitem><para>
+  Wie beim Original kann nun die Beleuchtung des Telltisches ein und
+  ausgeschaltet werden. Die Bedienung wird über ein neues Element im
+  Gruppentastenblock ermöglicht.
+  </para></listitem>
+  
 </itemizedlist>
 </sect1>
 
