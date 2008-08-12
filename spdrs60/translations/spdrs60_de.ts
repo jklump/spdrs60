@@ -272,8 +272,8 @@ Der gültige Wertebereich ist %1..%2.</translation>
     <message>
         <source>Enter address of decoder 2.
 Valid range is %1..%2.</source>
-        <translation type="unfinished">Adresse von Decoder 2 eingeben.
-Der gültige Wertebereich ist %1..%2. {1 or 2?}</translation>
+        <translation>Adresse von Decoder 2 eingeben.
+Der gültige Wertebereich ist %1..%2.</translation>
     </message>
 </context>
 <context>
@@ -477,6 +477,14 @@ den Suchkriterien entspricht.</translation>
     <message>
         <source>Error assembling CRCF message for layout ROWS &apos;%1&apos;.</source>
         <translation>Fehler beim Erstellen einer CRCF-Nachricht für Gleisbild ROWS &apos;%1&apos;.</translation>
+    </message>
+    <message>
+        <source>Table light switched on</source>
+        <translation>Stelltischbeleuchtung eingeschaltet</translation>
+    </message>
+    <message>
+        <source>Table light switched off</source>
+        <translation>Stelltischbeleuchtung ausgeschaltet</translation>
     </message>
 </context>
 <context>
@@ -1154,7 +1162,7 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     </message>
     <message>
         <source>Unsupported CRCF method &apos;%1&apos; detected.</source>
-        <translation type="unfinished">Nicht unterstützte CRCF-Methode &apos;%1&apos; gefunden.</translation>
+        <translation>Nicht unterstützte CRCF-Methode &apos;%1&apos; gefunden.</translation>
     </message>
 </context>
 <context>
@@ -1549,6 +1557,10 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     <message>
         <source>Single-slip switch bottom right</source>
         <translation>Einfachkreuzungsweiche unten rechts</translation>
+    </message>
+    <message>
+        <source>Table light panel</source>
+        <translation>Stelltischbeleuchtung schalten</translation>
     </message>
 </context>
 <context>

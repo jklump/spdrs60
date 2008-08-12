@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-08-11 16:59:30 $
-                           $Revision: 1.172 $
+    last modified        : $Date: 2008-08-12 16:03:46 $
+                           $Revision: 1.173 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -9321,8 +9321,8 @@ void element::slotRepaintLayout()
 
 void element::writeFileTextToStream(QTextStream& ts)
 {
-    ts << GF_CLASSID   << DS << classid << endl
-        << GF_INDEX     << DS << iSoldIndex<< endl;
+    ts << GF_CLASSID << DS << classid << endl
+        << GF_INDEX << DS << iSoldIndex<< endl;
 
     switch (classid) {
         case siciFeb:
@@ -9897,7 +9897,7 @@ element::SpdrItemClassId element::translateNotRotatedItem(QString& name)
     return returnvalue;
 }
 
-/*change table light state for trunouts*/
+/*change table light state for turnouts*/
 void element::setTableLight(bool ison)
 {
     if (tablelight != ison) {

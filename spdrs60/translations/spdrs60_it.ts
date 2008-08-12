@@ -453,6 +453,14 @@ matches your search criteria.</source>
         <source>Error assembling CRCF message for layout ROWS &apos;%1&apos;.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Table light switched on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Table light switched off</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LayoutEditModeAgrp</name>
@@ -1515,6 +1523,10 @@ the server daemon after shutdown has finished)</source>
     </message>
     <message>
         <source>Single-slip switch bottom right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Table light panel</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

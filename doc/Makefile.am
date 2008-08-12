@@ -1,7 +1,10 @@
 # Makefile.am for spdrs60 documentation
 # last changes by: Guido Scholz
-# Version: $Revision: 1.24 $
-# last update: $Date: 2008-08-08 17:10:41 $
+# Version: $Revision: 1.25 $
+# last update: $Date: 2008-08-12 16:03:46 $
+
+pdfdir = @SPDRS60_DOC_DIR@
+depdfdir = $(pdfdir)/de
 
 # HTML_DOC_DIR is defined in configure.ac
 htmldir = @HTML_DOC_DIR@
@@ -221,6 +224,7 @@ dehtml_DATA = \
 	de/chapter-sonstiges.html \
 	de/chapter-standardnachrichten.html \
 	de/chapter-symbole.html \
+	de/chapter-trainnumbertracing.html \
 	de/sect-anschluesse-weichen.html \
 	de/sect-bedienelemente.html \
 	de/sect-bezugsquellen.html \
@@ -284,6 +288,11 @@ else
 dehtml_DATA =
 endif
 
+if PDF_DOC
+depdf_DATA = \
+	de/index.pdf
+endif
+
 tex_files = \
     de/index.tex de/index.dvi de/index.out de/index.log \
     de/index.aux de/index.pdf
@@ -300,39 +309,32 @@ EXTRA_DIST = en/index.sgml de/index.sgml \
     spdrs60.dsl jadetex.cfg
 
 
-#SUFFIXES= .png .jpg .eps #.sgml .html .ps .pdf
-
-#.png.eps:
-#	convert $< eps2:$@
-
-#.jpg.eps:
-#	convert $< eps2:$@
-
-# Sprache aus den ersten zwei Zeichen von "Target" ermitteln, 
-# entsprechend den Unterverzeichnissen der sgml-Dateien
-# langdir=`echo $@ | sed -e 's#^\([^/]*\)/.*#\1#'`; \
-# use jade rules only if html documentation is enabled
-#if HTML_DOC
-#.sgml.html:
-#	langdir=`echo $@ | sed -e 's#/.*$##'`; \
-#	cd $$langdir; \
-#	$(JADE) -b ISO-8859-1 -t sgml -i html -d "../spdrs60.dsl#html" $@; \
-#	cd ..
-#endif
-
+# use jade rule only if html documentation is enabled
+# dependency for language specific png files is missing so far
 if HTML_DOC
-en/index.html: en/index.sgml $(dist_commonimages_DATA) $(dist_enimages_DATA) spdrs60.dsl
-	cd en; $(JADE) -b ISO-8859-1 -t sgml -i html -d "../spdrs60.dsl#html" index.sgml; cd ..
-
-de/index.html: de/index.sgml $(dist_commonimages_DATA) $(dist_deimages_DATA) spdrs60.dsl
-	cd de; $(JADE) -b ISO-8859-1 -t sgml -i html -d "../spdrs60.dsl#html" index.sgml; cd ..
+.sgml.html: $(dist_commonimages_DATA) spdrs60.dsl
+	@langdir=`echo $@ | sed -e 's#/.*##'`; \
+	cd $$langdir; \
+	echo "Generating HTML files in $$langdir..."; \
+	$(JADE) -b ISO-8859-1 -t sgml -i html -D .. \
+	    -d "../spdrs60.dsl#html" $<; \
+	cd ..
 endif
 
 # use pdfjadetex rule only if pdf documentation is enabled
+# run pdfjadetex three times to get a proper table of contents
 if PDF_DOC
-de/index.tex: de/index.sgml $(dist_commonimages_DATA) $(dist_deimages_DATA) spdrs60.dsl
-	cd de; $(JADE) -b ISO-8859-1 -t tex -d "../spdrs60.dsl#print" index.sgml; cd ..
+.sgml.tex: $(dist_commonimages_DATA) $(dist_deimages_DATA) spdrs60.dsl
+	$(JADE) -b ISO-8859-1 -t tex -d "spdrs60.dsl#print" $<;
 
-pdf: de/index.tex
-	cd de; $(PDFJADETEX) index.tex; cd ..
+.tex.pdf:
+	@langdir=`echo $@ | sed -e 's#/.*##'`; \
+	cd $$langdir; \
+	echo "First run of pdfjadetex..."; \
+	$(PDFJADETEX) "../$<" 2>&1> /dev/null; \
+	echo "Second run of pdfjadetex..."; \
+	$(PDFJADETEX) "../$<" 2>&1> /dev/null; \
+	echo "Third and last run of pdfjadetex..."; \
+	$(PDFJADETEX) "../$<" 2>&1> /dev/null; \
+	cd ..
 endif

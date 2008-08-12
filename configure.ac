@@ -1,7 +1,7 @@
 dnl configure.ac for spdrs60
 dnl Guido Scholz
-dnl last update: $Date: 2008-08-08 17:10:40 $
-dnl version: $Revision: 1.24 $
+dnl last update: $Date: 2008-08-12 16:03:46 $
+dnl version: $Revision: 1.25 $
 dnl Process this file with autoconf to produce a configure script.
 
 AC_INIT([spdrs60],[0.5.3],[Guido Scholz <guido.scholz@bayernline.de>])
@@ -19,7 +19,10 @@ fi
 dnl generate the config header
 AC_CONFIG_HEADERS([spdrs60/config.h])
 
-if test "x$CXXFLAGS" = "x"; then CXXFLAGS="-Wall -Wno-long-long -pedantic"; fi
+dnl Preset CXX compiler flags if no user setting is available
+if test "x$CXXFLAGS" = "x"; then 
+    CXXFLAGS="-g -O2 -Wall -Wno-long-long -pedantic"
+fi
 
 dnl Checks for programs
 AC_PROG_CXX
@@ -39,10 +42,10 @@ if test x$enable_html_doc = xyes; then
   fi
 fi
 
-
+dnl TODO: default should be "disable"
 dnl option to enable pdf doc generation 
 AC_ARG_ENABLE(pdf-doc, AC_HELP_STRING([--enable-pdf-doc],
-            [enable building and installation of pdf documentation]),, enable_pdf_doc=yes)
+            [enable building and installation of pdf documentation]),, enable_pdf_doc=no)
 
 AM_CONDITIONAL(PDF_DOC, test x${enable_pdf_doc} = xyes)
 if test x$enable_pdf_doc = xyes; then
@@ -198,10 +201,10 @@ AC_ARG_WITH(doc-dir,
     fi ],
   [DOC_DIR="${prefix}/share/doc"])
 AC_SUBST(DOC_DIR)
-dnl define this variable for source files (config.h)
-dnl AC_DEFINE_UNQUOTED([DOC_DIR], ["$DOC_DIR"], \
-dnl   [directory for package documentation])
 
+dnl set variable for application documentation directory
+SPDRS60_DOC_DIR="$DOC_DIR/$PACKAGE"
+AC_SUBST(SPDRS60_DOC_DIR)
 
 dnl set variable for HTML documentation directory
 HTML_DOC_DIR="$DOC_DIR/$PACKAGE/html"
