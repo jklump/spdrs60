@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementcommander.h
-                           version 0.5.2 $Revision: 1.8 $
+                           version 0.5.2 $Revision: 1.9 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-30 20:35:31 $
+    last modified        : $Date: 2008-08-12 17:58:27 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -58,7 +58,7 @@ private slots:
    void slotStop();                   // stop any movements
 
 signals:
-   void applyPressed(QPoint);       // sends keys to element
+   void applyPressed(QPoint&);       // sends keys to element
 
 private:
    QPushButton*  buttMoveUp;          // button for moving a bridge up

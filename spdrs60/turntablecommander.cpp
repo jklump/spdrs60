@@ -1,11 +1,11 @@
 /***************************************************************************
                            turntablecommander.cpp
-                           version 0.5.2 $Revision: 1.14 $
+                           version 0.5.2 $Revision: 1.15 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-14 20:38:24 $
+    last modified        : $Date: 2008-08-12 17:58:27 $
 ***************************************************************************/
 
 /******************************************************************************
@@ -578,7 +578,8 @@ void turntableCommander::buildCommand(int keyno, int keycolor)
      * element -> to member function sendCommand which sends it to daemon
      * 0 == red key, 1 == green key, key no from 1 (end, input) to 24 (24)
      */
-    emit applyPressed(QPoint(keyno, keycolor));
+    QPoint point = QPoint(keyno, keycolor);
+    emit applyPressed(point);
 }
 
 

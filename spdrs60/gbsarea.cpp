@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-08-11 16:59:30 $
-                           $Revision: 1.106 $
+    last modified        : $Date: 2008-08-12 17:58:27 $
+                           $Revision: 1.107 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -82,6 +82,8 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
     modified = false;
     cols = 0;
     rows = 0;
+    layoutid = 0;
+    tablelight = true;
     layoutid = 0;
     layoutname = "";
     setPaletteBackgroundColor(QColor(Qt::lightGray));
@@ -277,6 +279,7 @@ void GBSArea::writeFileTextToStream(QTextStream& ts)
        << "# layout dimensions=columns" << DS << "rows" << endl
        << GF_DIMENSIONS << DS << cols << DS << rows << endl
        << GF_ID << DS << layoutid << DS << layoutname << endl
+       << GF_TABLELIGHT << DS << tablelight << endl
        << "# start of element section" << endl;
        //<< "# elements=" << elements.count() << endl;
     
@@ -301,6 +304,7 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
     
     QString s, key, value;
     unsigned int ecount = 0;
+    bool tmptablelight = true;
 
     while (!ts.eof()) {
         s = ts.readLine();
@@ -326,6 +330,9 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
             layoutid = value.toUInt();
             layoutname = s.section(DS, 2).stripWhiteSpace();
         }
+        else if (key.compare(GF_TABLELIGHT) == 0) {
+            tmptablelight = (bool)value.toInt();
+        }
 
         /*here we read allways up to start marker of a new route*/
         else if (s.startsWith("%% element")) {
@@ -342,7 +349,7 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
                 }
                 else {
                     qWarning("Error: Element outside of layout found "
-                            "(Index = %d).", el->getIndexNo());
+                            "(Index = %d).", idx);
                     delete el;
                 }
                 //qWarning("Element number %d inserted.", el->getIndexNo());
@@ -350,7 +357,14 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
         }
         else if (s.startsWith("%% route"))
             break;
+        //TODO:
+        /*else if (s.startsWith("%% fbsection"))
+            break;*/
     }
+
+    if (!tmptablelight)
+        switchTableLight(tmptablelight);
+    
     setModified(false);
 }
 
@@ -549,14 +563,12 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
 
         /*light on button*/
         case kEinClicked:
-            switchTablelight(true);
-            emit statusMessage(tr("Table light switched on"));
+            switchTableLight(true);
             break;
 
         /*light off button*/
         case kAusClicked:
-            switchTablelight(false);
-            emit statusMessage(tr("Table light switched off"));
+            switchTableLight(false);
             break;
 
         default:
@@ -1943,11 +1955,18 @@ QString GBSArea::getCrcfInfoMessage(CrcfMessage::CrcfAttribute at) const
 }
 
 /*switch table light nn/off*/
-void GBSArea::switchTablelight(bool on)
+void GBSArea::switchTableLight(bool ison)
 {
-    for (unsigned int i = 0; i < elements.size(); i++) {
+    if (tablelight != ison) {
+        tablelight = ison;
+        for (unsigned int i = 0; i < elements.size(); i++) {
             element* el = elements[i];
             if (el != NULL)
-                el->setTableLight(on);
+                el->setTableLight(ison);
+        }
+        if (tablelight)
+            emit statusMessage(tr("Table light switched on"));
+        else
+            emit statusMessage(tr("Table light switched off"));
     }
 }

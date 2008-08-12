@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.5.2 $Revision: 1.51 $
+                           version 0.5.2 $Revision: 1.52 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-08-11 16:59:30 $
+    last modified        : $Date: 2008-08-12 17:58:27 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -47,6 +47,7 @@
 #define GF_GBSEXT      ".spdrs60"
 #define GF_DIMENSIONS  "dimensions"
 #define GF_ID          "identification"
+#define GF_TABLELIGHT  "tablelight"
 
 
 class GBSArea: public QWidget
@@ -111,6 +112,7 @@ private:
    unsigned int layoutid;
    QString      layoutname;
 
+   bool        tablelight;
    bool        modified: 1;
    GbsButtonState  gkbState;
    elemVisualMode visualMode;
@@ -136,7 +138,7 @@ private:
    void updateSRCP08BusLists();
    void sendGmCrcfMessage(unsigned int, unsigned int, const QString&);
    QString getCrcfInfoMessage(CrcfMessage::CrcfAttribute) const;
-   void switchTablelight(bool);
+   void switchTableLight(bool);
    
 public slots:
     void newFile(int, int, unsigned int, const QString&);

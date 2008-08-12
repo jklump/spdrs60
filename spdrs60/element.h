@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-08-11 16:59:30 $
-                           $Revision: 1.100 $
+    last modified        : $Date: 2008-08-12 17:58:27 $
+                           $Revision: 1.101 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -366,7 +366,6 @@ private:
     int      state;
     int      iSoldInvert;
     int      trackindicatoroff;
-    int      trackindicator;
     int      lockCounter;
     int      blinkcounter;
     int      lastdir;
@@ -395,7 +394,6 @@ private:
     void setLightsOn(bool);
     void switchToDirBlinking(int);
     void updateProperties();
-    void updateLEDState();
     void setOccupied(bool);
     void setRouted(bool);
     void updateEDiTSAddress(unsigned int, bool);
@@ -419,7 +417,7 @@ public slots:
 
 private slots:
     void slotLocateTimerTimeout();
-    void slotUpdateTurntableData(QPoint);
+    void slotUpdateTurntableData(QPoint&);
     void slotCopyAvailTracks(const QString&);
     void processInfoPortMessage(unsigned int bus,
             unsigned int addr, unsigned int port, unsigned int value);

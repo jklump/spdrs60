@@ -1,11 +1,11 @@
 /***************************************************************************
                            turntablecommander.h
-                           version 0.5.2 $Revision: 1.7 $
+                           version 0.5.2 $Revision: 1.8 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2008-08-12 17:58:27 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -75,7 +75,7 @@ private slots:
    void slotTrackReached();                 // called by timer if a new track is
                                             // reached
 signals:
-   void applyPressed(QPoint);               // send command to element
+   void applyPressed(QPoint&);               // send command to element
    void sendAvailTracks(const QString&);    // send track string to element
 
 private:

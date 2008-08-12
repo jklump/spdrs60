@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-30 20:35:31 $ 
-                           $Revision: 1.10 $
+    last modified        : $Date: 2008-08-12 17:58:27 $ 
+                           $Revision: 1.11 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -192,6 +192,7 @@ void elementCommander::slotStop()
 
 void elementCommander::buildCommand(int iKeyNo_, int iKeyColor_)
 {
-    emit applyPressed(QPoint(iKeyNo_, iKeyColor_));
+    QPoint point = QPoint(iKeyNo_, iKeyColor_);
+    emit applyPressed(point);
     // 0 == red key, 1 == green key
 }

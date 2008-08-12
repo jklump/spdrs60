@@ -1,5 +1,9 @@
+2008-08-12 Guido Scholz <guido.scholz@bayernline.de>
+	* configure.ac, doc/Makefile.am: configure option for pdf
+	handbook creation added.
+
 2008-08-11 Guido Scholz <guido.scholz@bayernline.de>
-	* gbsarea.cpp, element.*, paintitemwindow.cpp: Lights of locking
+	* gbsarea.*, element.*, paintitemwindow.cpp: Lights of locking
 	table can be switched on or off now.
 
 2008-08-07 Guido Scholz <guido.scholz@bayernline.de>
