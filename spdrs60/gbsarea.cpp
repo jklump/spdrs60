@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-08-12 17:58:27 $
-                           $Revision: 1.107 $
+    last modified        : $Date: 2008-08-13 17:50:19 $
+                           $Revision: 1.108 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -84,7 +84,6 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
     rows = 0;
     layoutid = 0;
     tablelight = true;
-    layoutid = 0;
     layoutname = "";
     setPaletteBackgroundColor(QColor(Qt::lightGray));
      
@@ -619,19 +618,12 @@ void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
 
     int idx = fSig.elemPtr->getIndexNo();
     int maxIdx = (int) elements.size();
-    element* endPtr = tSig.elemPtr;
     bool finished = false;
     bool setrt = (Route::rsaReset != setRoute);
     
     unsigned int entrydir;
     unsigned int exitdir;
 
-    /*
-    if (fSig.elemPtr->iSoldRotate == 1)
-        entrydir = rdE;
-    else
-        entrydir = rdW;
-    */
     entrydir = fSig.elemPtr->entryDir();
 
     while (!finished) {
@@ -663,17 +655,19 @@ void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
             return;
         }
 
-        finished = (rel == endPtr);
-
-        // paint yellow track and get back new route direction
+        // paint or remove yellow track and get back new route direction
+        // rel->setRouted(setrt);
+        // rel->getExitDirection(entrydir);
         exitdir = rel->routeElement(entrydir, setrt);
-        entrydir = rdCenter;
         
         if (exitdir == rdCenter) {
             emit statusMessage(tr("Route found dead end at element %1")
                     .arg(idx));
             break;
         }
+
+        entrydir = rdCenter;
+        
         if (exitdir & rdN) {
             --idx;
             entrydir = entrydir | rdS;
@@ -690,6 +684,8 @@ void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
             idx += rows;
             entrydir = entrydir | rdW;
         }
+
+        finished = (rel == tSig.elemPtr);
     }
 }
 
