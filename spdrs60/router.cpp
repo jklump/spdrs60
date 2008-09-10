@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.3 $Revision: 1.69 $
+                           version 0.5.3 $Revision: 1.70 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-07-31 18:21:32 $
+    last modified        : $Date: 2008-09-10 18:34:16 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -25,6 +25,7 @@
 #include <qfile.h>
 #include <qdatetime.h>
 
+#include "element.h"
 #include "preferences.h"
 #include "resources.h"
 #include "router.h"

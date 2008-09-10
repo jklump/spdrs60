@@ -1,10 +1,10 @@
 /***************************************************************************
                            routelvi.h
-                           version 0.5.2 $Revision: 1.4 $
+                           version 0.5.2 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-08-29 17:09:30 $
+    last modified        : $Date: 2008-09-10 18:34:16 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -24,9 +24,11 @@
 #define ROUTELVI_H
 
 #include <qlistview.h>
+#include <qpixmap.h>
 
-#include "route.h"
 
+// forward declaration
+class Route;
 
 class RouteLVI: public QListViewItem
 {

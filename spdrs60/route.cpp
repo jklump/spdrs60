@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.74 $
+                           version 0.5.2 $Revision: 1.75 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-07-31 18:21:32 $
+    last modified        : $Date: 2008-09-10 18:34:16 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -20,6 +20,7 @@
    This code implements the route object.
  ***************************************************************************/
 
+#include "element.h"
 #include "preferences.h"
 #include "route.h"
 #include "routedialog.h"

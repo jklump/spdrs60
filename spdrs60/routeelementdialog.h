@@ -1,10 +1,10 @@
 /***************************************************************************
                            routeelementdialog.h
-                           version 0.5.2 $Revision: 1.5 $
+                           version 0.5.2 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 2005-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2008-09-10 18:34:16 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -28,7 +28,6 @@
 #include <qstring.h>
 
 #include "element.h"
-#include "route.h"
 
 
 class RouteElementDialog: public QDialog

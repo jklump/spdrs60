@@ -1,0 +1,29 @@
+How to add a new translation?
+-----------------------------
+
+1) Edit the file "Makefile.am" in the spdrs60 source directory. In each
+   of the sections "translations" (ts) and "translations_DATA" (qm) add
+   a new file entry for your language.
+
+2) Type
+
+     make
+
+   to get the new but empty files generated.
+
+3) Open the new "ts" file with qlinguist and translate all messages to
+   your new language.
+
+4) Type
+
+     make
+
+   again to get the messages file (qm) updated.
+
+5) Type
+
+     make install
+
+   to get the whole package including the newly translated messages file
+   installed properly.
+

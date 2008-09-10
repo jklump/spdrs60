@@ -1,10 +1,10 @@
 /***************************************************************************
                            routelistwindow.h
-                           version 0.5.2 $Revision: 1.5 $
+                           version 0.5.2 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-01 07:35:33 $
+    last modified        : $Date: 2008-09-10 18:34:16 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -28,7 +28,6 @@
 
 #include "routelistview.h"
 #include "router.h"
-#include "element.h"
 
 class RouteListWindow: public QDockWindow
 {

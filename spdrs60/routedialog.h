@@ -1,11 +1,11 @@
 /***************************************************************************
                            routedialog.h
-                           version 0.5.2 $Revision: 1.28 $
+                           version 0.5.2 $Revision: 1.29 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-02 04:29:07 $
+    last modified        : $Date: 2008-09-10 18:34:16 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -33,9 +33,11 @@
 #include <qtooltip.h>
 #include <qvalidator.h>
 
-#include "element.h"
 #include "route.h"
 
+
+// forward declaration
+class element;
 
 enum RouteType {
     kNormal = 0,

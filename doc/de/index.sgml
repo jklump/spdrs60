@@ -3318,6 +3318,12 @@ besondere Elemente wie die Drehscheibe wird im
       <entry>Hindergrundfarbe nicht veränderbar</entry>
     </row>
     <row>
+      <entry align="center"><graphic fileref="../commonimages/taste-ein.png"></entry>
+      <entry align="center">1601</entry>
+      <entry>Tasten zum Ein- und Ausschalten der Gleisbildausleuchtung</entry>
+      <entry>Hindergrundfarbe nicht veränderbar</entry>
+    </row>
+    <row>
       <entry align="center"><graphic fileref="../commonimages/panel-blue.png"></entry>
       <entry align="center">1200</entry>
       <entry>Leeres Element zum Gestalten von Gruppentastenblöcken</entry>

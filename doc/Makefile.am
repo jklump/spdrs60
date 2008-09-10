@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60 documentation
 # last changes by: Guido Scholz
-# Version: $Revision: 1.25 $
-# last update: $Date: 2008-08-12 16:03:46 $
+# Version: $Revision: 1.26 $
+# last update: $Date: 2008-09-10 18:34:14 $
 
 pdfdir = @SPDRS60_DOC_DIR@
 depdfdir = $(pdfdir)/de
@@ -167,6 +167,7 @@ dist_commonimages_DATA = \
 	commonimages/signal-zf-1.png \
 	commonimages/switch-y-0.png \
 	commonimages/switch-y-1.png \
+	commonimages/taste-ein.png \
 	commonimages/taste-fht.png \
 	commonimages/taste-wgt.png \
 	commonimages/taste-sgt.png \

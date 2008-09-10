@@ -3,8 +3,8 @@
                            -------------------------------
     copyright            : (C) 2005-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-02 04:29:07 $
-                           $Revision: 1.50 $
+    last modified        : $Date: 2008-09-10 18:34:16 $
+                           $Revision: 1.51 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -25,6 +25,7 @@
 #include <qlayout.h>
 #include <qradiobutton.h>
 
+#include "element.h"
 #include "preferences.h"
 #include "resources.h"
 #include "routedialog.h"

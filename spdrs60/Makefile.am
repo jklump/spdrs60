@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.38 $
-# last update: $Date: 2008-08-08 17:10:41 $
+# version: $Revision: 1.39 $
+# last update: $Date: 2008-09-10 18:34:14 $
 
 SUBDIRS = pixmaps
 
@@ -92,7 +92,8 @@ translations_DATA = \
 	translations/spdrs60_it.qm
 
 # misc files which are distributed but not installed
-EXTRA_DIST = spdrs60.pro $(translations) config_w32.h
+EXTRA_DIST = spdrs60.pro $(translations) config_w32.h \
+	     translations/README translations/TRANSLATORS
 
 # all generated files to be removed by "make clean"
 CLEANFILES = $(nodist_spdrs60_SOURCES) $(translations_DATA)

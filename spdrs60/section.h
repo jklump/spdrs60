@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-10
- * Last modified: $Date: 2008-05-02 04:29:07 $
- *                $Revision: 1.3 $
+ * Last modified: $Date: 2008-09-10 18:34:16 $
+ *                $Revision: 1.4 $
  *
  * This is the header file for section.cpp.
  */
@@ -22,9 +22,8 @@
 #ifndef SECTION_H
 #define SECTION_H
 
-//#include <qptrlist.h>
-//#include <qtextstream.h>
-//#include <qptrvector.h>
+#include <qstring.h>
+#include <qwidget.h>
 
 #include "element.h"
 

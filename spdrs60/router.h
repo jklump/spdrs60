@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.h
-                           version 0.5.3 $Revision: 1.31 $
+                           version 0.5.3 $Revision: 1.32 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-07-31 18:21:32 $
+    last modified        : $Date: 2008-09-10 18:34:16 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -28,12 +28,14 @@
 #include <qptrvector.h>
 
 #include "crcfmessage.h"
-#include "element.h"
 #include "route.h"
 #include "srcpmessage.h"
 
 #define RF_OLDROUTEEXT ".dat.rts"
 
+
+// forward declaration
+class element;
 
 class Router: public QObject
 {

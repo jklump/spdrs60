@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-08-08 17:10:41 $
-                           $Revision: 1.155 $
+    last modified        : $Date: 2008-09-10 18:34:15 $
+                           $Revision: 1.156 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -29,15 +29,25 @@
 #include <qvbox.h>
 
 #include "aboutdialog.h"
+#include "commandport.h"
+#include "crcfmessage.h"
+#include "feedbackviewer.h"
 #include "finder.h"
+#include "gbsarea.h"
 #include "gbsscrollview.h"
+#include "infoport.h"
+#include "keyboard.h"
 #include "layouteditmodeagrp.h"
 #include "mainwindow.h"
+#include "messagehistory.h"
+#include "newlayoutdialog.h"
 #include "options.h"
 #include "paintitemwindow.h"
 #include "preferences.h"
 #include "resources.h"
+#include "routelistwindow.h"
 #include "serverinfodialog.h"
+#include "trainnumberdialog.h"
 
 
 #include "../icons/spdrs60_32.xpm"

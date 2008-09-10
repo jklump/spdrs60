@@ -1,10 +1,10 @@
 /***************************************************************************
                            routelistview.h
-                           version 0.5.2 $Revision: 1.3 $
+                           version 0.5.2 $Revision: 1.4 $
                            -------------------------------
     copyright            : (C) 2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2008-09-10 18:34:16 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -25,9 +25,10 @@
 
 #include <qlistview.h>
 
-#include "routelvi.h"
-#include "route.h"
 
+// forward declarations
+class Route;
+class RouteLVI;
 
 class RouteListView: public QListView
 {

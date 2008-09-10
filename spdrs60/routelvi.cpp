@@ -1,10 +1,10 @@
 /***************************************************************************
                            routelvi.cpp
-                           version 0.5.2 $Revision: 1.8 $
+                           version 0.5.2 $Revision: 1.9 $
                            -------------------------------
     copyright            : (C) 2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-25 21:07:42 $
+    last modified        : $Date: 2008-09-10 18:34:16 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -20,6 +20,7 @@
    this code implements a listview item displaying route data
  ***************************************************************************/
 
+#include "route.h"
 #include "routelvi.h"
 
 #include "pixmaps/route_locked.xpm"

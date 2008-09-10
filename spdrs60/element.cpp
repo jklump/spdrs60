@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-08-12 17:58:27 $
-                           $Revision: 1.174 $
+    last modified        : $Date: 2008-09-10 18:34:14 $
+                           $Revision: 1.175 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1050,43 +1050,42 @@ void element::processInfoPortMessage(unsigned int bus,
                 addr == (unsigned int)address1) ||
             (bus == (unsigned int)bus2 &&
              addr == (unsigned int)address2)) {
-    
-    /*TODO: add elements with two addresses*/
-    if (address2 != -1) {
-        //qWarning("InfoPass, Bus: %d, Addr: %d, Port: %d, Value: %d", bus,
-        //        addr, port, value);
-        switch2AddressItem(addr, port);
-        return;
-    }
-    
-    int realstate = state;
-    if (realstate == 2) //Hp0-Hp2-Type (iSoldSubType == 6)
-        realstate = 1;
-    
-    bool isDCC = (protocol == SrcpMessage::proDCC);
-    if (isDCC)
-        realstate = !realstate;
 
-    /*invert direction if connectors are exchanged*/
-    realstate = realstate ^ xchangeport1;
-        
-    if (port != (unsigned int)realstate) {
-        realstate = port;
+        if (address2 != -1) {
+            //qWarning("InfoPass, Bus: %d, Addr: %d, Port: %d, Value: %d",
+            //    bus, addr, port, value);
+            switch2AddressItem(addr, port);
+            return;
+        }
 
-        /*again invert direction if connectors are exchanged*/
-        realstate = realstate ^ xchangeport1;
-        
+        int realstate = state;
+        if (realstate == 2) //Hp0-Hp2-Type (iSoldSubType == 6)
+            realstate = 1;
+
+        bool isDCC = (protocol == SrcpMessage::proDCC);
         if (isDCC)
             realstate = !realstate;
 
-        //Hp0-Hp2-Type (iSoldSubType == 6)
-        if (iSoldSubType == 6 && realstate == 1)
-            realstate = 2;
+        /*invert direction if connectors are exchanged*/
+        realstate = realstate ^ xchangeport1;
 
-        state = realstate;
-        setupElementIcon();
-        // TODO: show warning message when element is locked
-    }
+        if (port != (unsigned int)realstate) {
+            realstate = port;
+
+            /*again invert direction if connectors are exchanged*/
+            realstate = realstate ^ xchangeport1;
+
+            if (isDCC)
+                realstate = !realstate;
+
+            //Hp0-Hp2-Type (iSoldSubType == 6)
+            if (iSoldSubType == 6 && realstate == 1)
+                realstate = 2;
+
+            state = realstate;
+            setupElementIcon();
+            // TODO: show warning message when element is locked
+        }
     }
 }
 
@@ -1252,9 +1251,8 @@ void element::toggle()
     }
 
     // toggles cyclic for 2-state-solenoids
-    // TODO: state == 1 ? 0 : 1
     else
-        switchToDir(!state);
+        switchToDir(state == 1 ? 0 : 1);
 }
 
 /**

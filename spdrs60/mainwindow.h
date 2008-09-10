@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.5.2 $Revision: 1.53 $
+                           version 0.5.2 $Revision: 1.54 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-08-08 17:10:41 $
+    last modified        : $Date: 2008-09-10 18:34:16 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -36,16 +36,20 @@
 #include <qsocket.h>
 #include <qwidgetstack.h>
 
-#include "commandport.h"
-#include "crcfmessage.h"
-#include "feedbackviewer.h"
-#include "gbsarea.h"
-#include "infoport.h"
-#include "keyboard.h"
-#include "messagehistory.h"
-#include "newlayoutdialog.h"
-#include "routelistwindow.h"
-#include "trainnumberdialog.h"
+#include "element.h"
+
+
+// forward declarations to reduce compile time after code changes
+class CommandPort;
+class CrcfMessage;
+class FeedbackViewer;
+class GBSArea;
+class InfoPort;
+class keyboard;
+class MessageHistory;
+class RouteListWindow;
+class Router;
+class TrainNumberDialog;
 
 
 enum SRCPMode {    
@@ -59,9 +63,7 @@ enum SRCPMode {
     srcp08RunInfoMode,
     srcp08ServerError,
     srcp08SetBusPower,
-
     srcp08GoCommandMode,
-
     srcp08TermServer
 };
 
@@ -78,92 +80,92 @@ public:
    void openFileWindow(const QString&);
 
 private:
-   QAction         *actionFileNew;
-   QAction         *actionFileOpen;
-   QAction         *actionFileSave;
-   QAction         *actionFileSaveAs;
-   QAction         *actionFileNewWindow;
-   QAction         *actionFileClose;
-   QAction         *actionFileQuit;
+   QAction *actionFileNew;
+   QAction *actionFileOpen;
+   QAction *actionFileSave;
+   QAction *actionFileSaveAs;
+   QAction *actionFileNewWindow;
+   QAction *actionFileClose;
+   QAction *actionFileQuit;
    
-   QAction         *actionEditCut;
-   QAction         *actionEditCopy;
-   QAction         *actionEditPaste;
-   QAction         *actionEditFind;
-   QAction         *actionEditOptions;
-   QAction         *actionEditFileLayout;
-   QAction         *actionEditFileOptions;
+   QAction *actionEditCut;
+   QAction *actionEditCopy;
+   QAction *actionEditPaste;
+   QAction *actionEditFind;
+   QAction *actionEditOptions;
+   QAction *actionEditFileLayout;
+   QAction *actionEditFileOptions;
    
-   QAction         *actionViewRoutes;
-   QAction         *actionViewFBModules;
-   QAction         *actionViewClock;
-   QAction         *actionViewKeyboard;
-   QAction         *actionViewTrainNumberDialog;
-   QAction         *actionViewToggleHistory;
-   QAction         *actionViewNormalMode;
-   QAction         *actionViewLayoutEditMode;
-   QAction         *actionViewRouteEditMode;
+   QAction *actionViewRoutes;
+   QAction *actionViewFBModules;
+   QAction *actionViewClock;
+   QAction *actionViewKeyboard;
+   QAction *actionViewTrainNumberDialog;
+   QAction *actionViewToggleHistory;
+   QAction *actionViewNormalMode;
+   QAction *actionViewLayoutEditMode;
+   QAction *actionViewRouteEditMode;
    
-   QAction         *actionDaemonConnect;
-   QAction         *actionDaemonDisconnect;
-   QAction         *actionDaemonReset;
-   QAction         *actionDaemonKill;
-   QAction         *actionDaemonInfo;
+   QAction *actionDaemonConnect;
+   QAction *actionDaemonDisconnect;
+   QAction *actionDaemonReset;
+   QAction *actionDaemonKill;
+   QAction *actionDaemonInfo;
    
-   QAction         *actionLayoutPower;
-   QAction         *actionLayoutFht;
-   QAction         *actionLayoutHagt;
-   QAction         *actionLayoutWgt;
-   QAction         *actionLayoutSgt;
-   QAction         *actionLayoutUfgt;
-   QAction         *actionLayoutNotRot;
-   QAction         *actionLayoutToggleAll;
-   QAction         *actionLayoutSendAll;
-   QAction         *actionLayoutUpdateFB;
-   QAction         *actionLayoutChangeSize;
+   QAction *actionLayoutPower;
+   QAction *actionLayoutFht;
+   QAction *actionLayoutHagt;
+   QAction *actionLayoutWgt;
+   QAction *actionLayoutSgt;
+   QAction *actionLayoutUfgt;
+   QAction *actionLayoutNotRot;
+   QAction *actionLayoutToggleAll;
+   QAction *actionLayoutSendAll;
+   QAction *actionLayoutUpdateFB;
+   QAction *actionLayoutChangeSize;
 
-   QAction         *actionRouteActivate;
-   QAction         *actionRouteWithdraw;
-   QAction         *actionRouteRelease;
-   QAction         *actionRouteAdd;
-   QAction         *actionRouteEdit;
-   QAction         *actionRouteCopy;
-   QAction         *actionRouteDelete;
-   QAction         *actionRouteUnlockAll;
+   QAction *actionRouteActivate;
+   QAction *actionRouteWithdraw;
+   QAction *actionRouteRelease;
+   QAction *actionRouteAdd;
+   QAction *actionRouteEdit;
+   QAction *actionRouteCopy;
+   QAction *actionRouteDelete;
+   QAction *actionRouteUnlockAll;
 
    QPopupMenu* fileRecentlyOpenedFiles;
    QStringList recentFiles;
    elemVisualMode  visualMode;
-   bool            LayoutPowerIsOn;
-   bool            isFBInitMode;
-   QString         fileName;
-   QString         lastDir;
+   bool LayoutPowerIsOn;
+   bool isFBInitMode;
+   QString fileName;
+   QString lastDir;
 
    SrcpPort::CommunicationStyle infoStyle;
    SrcpPort::CommunicationStyle commandStyle;
 
-   CommandPort*    commandPort;
-   InfoPort*       infoPort;
-   InfoPort*       feedbackPort;
-   GBSArea         *gbs;
+   CommandPort* commandPort;
+   InfoPort* infoPort;
+   InfoPort* feedbackPort;
+   GBSArea* gbs;
    MessageHistory* messageHistory;
-   FeedbackViewer  *fbViewer;
-   RouteListWindow *rtViewer;
-   Router          *router;
-   keyboard        *keybWindow;
+   FeedbackViewer* fbViewer;
+   RouteListWindow* rtViewer;
+   Router* router;
+   keyboard* keybWindow;
    TrainNumberDialog* trainnumberdialog;
 
-   bool         cmdAutoLogin;
-   bool         cmdAutoPower;
-   bool         cmdAutoSendAll;
-   SRCPMode     SRCPCommandState;
-   SRCPMode     SRCPInfoState;
+   bool cmdAutoLogin;
+   bool cmdAutoPower;
+   bool cmdAutoSendAll;
+   SRCPMode SRCPCommandState;
+   SRCPMode SRCPInfoState;
 
    void initMainWindow();
    void updateDaemonMenu();
    void updateLayoutPowerAction();
    void importFile(const QString&);
-   void resetMenu();           //dirk
+   void resetMenu();
    bool saveFile();
    void newFile();
    void chooseFile();
@@ -173,7 +175,7 @@ private:
    void writeConfigFile();
    void readConfigFile();
    void runBrowserUrl(const QString&);
-   void addRecentlyOpenedFile(const QString &fn, QStringList &lst);
+   void addRecentlyOpenedFile(const QString&, QStringList&);
    void processGenericMessage(unsigned int, unsigned int,
             const CrcfMessage*);
 
@@ -248,7 +250,7 @@ signals:
    void switchedVisualMode(elemVisualMode);
 
 protected:
-   virtual void closeEvent(QCloseEvent* ce);
+   virtual void closeEvent(QCloseEvent*);
 };
 
 #endif  //MAINWINDOW_H

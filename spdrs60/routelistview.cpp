@@ -1,10 +1,10 @@
 /***************************************************************************
                            routelistview.cpp
-                           version 0.5.2 $Revision: 1.9 $
+                           version 0.5.2 $Revision: 1.10 $
                            -------------------------------
     copyright            : (C) 2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-10 19:41:51 $
+    last modified        : $Date: 2008-09-10 18:34:16 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -20,7 +20,9 @@
    this code implements a listview item displaying route data
  ***************************************************************************/
 
+#include "route.h"
 #include "routelistview.h"
+#include "routelvi.h"
 
 
 RouteListView::RouteListView(QWidget* parent, const char* name):

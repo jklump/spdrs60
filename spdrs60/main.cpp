@@ -1,11 +1,11 @@
 /***************************************************************************
                            main.cpp
-                           version 0.5.2 $Revision: 1.19 $
+                           version 0.5.3 $Revision: 1.20 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-                         : (C) 2004-2007 Guido Scholz
+                         : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-08-08 17:10:41 $
+    last modified        : $Date: 2008-09-10 18:34:15 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -18,7 +18,7 @@
  **************************************************************************/
 
 /**************************************************************************
-   this file is the main file and handles all basic setting of a Qt-
+   This file is the main file and handles all basic setting of a Qt-
    application and stores the command line arguments
  **************************************************************************/
 
@@ -39,12 +39,13 @@
 
 int main(int argc, char* argv[])
 {
-   QApplication a(argc, argv);  // create a new Qt application
-
-   // translation file for Qt
-   QTranslator qtTr(0);
+   QApplication a(argc, argv);
 
 #ifdef QT_TRANSLATIONS_DIR
+
+   // translator for Qt library strings
+   QTranslator qtTr(0);
+
    if (qtTr.load(QString("qt_") + QTextCodec::locale(), QT_TRANSLATIONS_DIR))
        a.installTranslator(&qtTr);
    else
@@ -52,7 +53,7 @@ int main(int argc, char* argv[])
                QTextCodec::locale());
 #endif
    
-   // translation file for application strings
+   // translator for application strings
    QTranslator spdrs60Tr(0);
 
    if (spdrs60Tr.load(QString("spdrs60_") + QTextCodec::locale(),
@@ -75,7 +76,7 @@ int main(int argc, char* argv[])
    int ac = qApp->argc();
 
    if (ac == 1)
-           spdrs60Window->readAutoloadFile();
+       spdrs60Window->readAutoloadFile();
    else {
        spdrs60Window->openFile(qApp->argv()[1]);
        // loop over all arguments -> open more application windows

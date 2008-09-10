@@ -3,8 +3,8 @@
                            -------------------
     copyright            : (C) 2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-28 17:24:52 $
-                           $Revision: 1.7 $
+    last modified        : $Date: 2008-09-10 18:34:16 $
+                           $Revision: 1.8 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -20,8 +20,9 @@
    This code creates a dockable window with a routing list 
  ***************************************************************************/
 
-#include "routelistwindow.h"
 #include "route.h"
+#include "routelistwindow.h"
+#include "routelvi.h"
 
 
 #if QT_VERSION >= 0x030100
