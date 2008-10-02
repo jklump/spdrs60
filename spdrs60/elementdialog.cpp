@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-07-30 17:06:29 $
-                           $Revision: 1.72 $
+    last modified        : $Date: 2008-10-02 13:51:57 $
+                           $Revision: 1.73 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -148,10 +148,10 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
                         tr("Protocol"), this, "protocolBG");
     leftColumnLayout->addWidget(protocolBG);
     protocolBG->setExclusive(true);
-    rbProtocol_MS = new QRadioButton("&Maerklin/Motorola", protocolBG);
-    rbProtocol_NA = new QRadioButton("&NMRA/DCC", protocolBG);
-    rbProtocol_PS = new QRadioButton("Protocol by Ser&ver", protocolBG);
-    rbProtocol_SE = new QRadioButton("Selectri&x", protocolBG);
+    rbProtocol_MS = new QRadioButton(tr("&Maerklin/Motorola"), protocolBG);
+    rbProtocol_NA = new QRadioButton(tr("&NMRA/DCC"), protocolBG);
+    rbProtocol_PS = new QRadioButton(tr("Protocol by Ser&ver"), protocolBG);
+    rbProtocol_SE = new QRadioButton(tr("Selectri&x"), protocolBG);
     connect(protocolBG, SIGNAL(clicked(int)),
             this, SLOT(slotProtocolChanged(int)));
     

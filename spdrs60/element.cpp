@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-09-10 18:34:14 $
-                           $Revision: 1.175 $
+    last modified        : $Date: 2008-10-02 13:51:57 $
+                           $Revision: 1.176 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1816,7 +1816,7 @@ void element::setupElementIcon()
         int h = pm.height();
         
         // paint signalization (black or yellow filled circle)
-        p.setPen(QPen(black, 2));
+        p.setPen(QPen(Qt::black, 2));
 
         if (state == 1)
             p.setBrush(QColor(Qt::yellow));
@@ -1834,7 +1834,7 @@ void element::setupElementIcon()
         p.drawLine(5, h - 9 - 8, 5, h - 9 - 4);
         
         // blue connector right
-        p.setPen(blue);
+        p.setPen(Qt::blue);
         p.drawLine(w - 5, h - 9 - 2, w / 2 + 8, h - 9 - 2);
         p.drawLine(w / 2 + 9, h - 9 - 3, w / 2 + 8, h - 9 - 3);
         p.drawLine(w / 2 + 9, h - 9 - 1, w / 2 + 8, h - 9 - 1);
@@ -3277,7 +3277,7 @@ void element::setupElementIcon()
         p.save();
         p.translate(w / 2, h / 2);
         p.rotate(-WANGLE);
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(-1, 0, w / 2 + 5, 0);
         p.restore();
         
@@ -3334,7 +3334,7 @@ void element::setupElementIcon()
         p.save();
         p.translate(w / 2, h / 2);
         p.rotate(-SANGLE);
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(-1, 0, w / 2 + 5, 0);
         p.restore();
         
@@ -3391,7 +3391,7 @@ void element::setupElementIcon()
         p.save();
         p.translate(w / 2, h / 2);
         p.rotate(SANGLE);
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(-1, 0, w / 2 + 5, 0);
         p.restore();
         
@@ -3448,7 +3448,7 @@ void element::setupElementIcon()
         p.save();
         p.translate(w / 2, h / 2);
         p.rotate(WANGLE);
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(-1, 0, w / 2 + 5, 0);
         p.restore();
         
@@ -3512,7 +3512,7 @@ void element::setupElementIcon()
         else
             p.rotate(SANGLE);
 
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(0, 0, w / 2 + 5, 0);
         p.restore();
 
@@ -3584,7 +3584,7 @@ void element::setupElementIcon()
         else
             p.rotate(-WANGLE);
 
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(0, 0, w / 2 + 5, 0);
         p.restore();
 
@@ -3647,7 +3647,7 @@ void element::setupElementIcon()
         int h = pm.height();
         
         // paint track
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
         if (left)
             p.drawLine(0, h - 1, w, 0);
         else
@@ -3706,7 +3706,7 @@ void element::setupElementIcon()
         int h = pm.height();
         
         // paint track
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(0, 0, w, h - 1);
         p.drawLine(0, h - 1, w, 0);
         
@@ -3783,7 +3783,7 @@ void element::setupElementIcon()
         }
 
         // paint lock light
-        p.setPen(QPen(black, 1));
+        p.setPen(QPen(Qt::black, 1));
         if (lockCounter == 0)
             p.setBrush(Qt::darkGray);
         else
@@ -3806,7 +3806,7 @@ void element::setupElementIcon()
         int h = pm.height();
         
         // paint track
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(0, h / 2, w, h / 2);
         p.drawLine(0, h - 1, w, 0);
         
@@ -3882,7 +3882,7 @@ void element::setupElementIcon()
         }
 
         // paint lock light
-        p.setPen(QPen(black, 1));
+        p.setPen(QPen(Qt::black, 1));
         if (lockCounter == 0)
             p.setBrush(Qt::darkGray);
         else
@@ -3905,7 +3905,7 @@ void element::setupElementIcon()
         int h = pm.height();
         
         // paint track
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(0, h / 2, w, h / 2);
         p.drawLine(0, 0, w, h - 1);
         
@@ -3982,7 +3982,7 @@ void element::setupElementIcon()
         }
 
         // paint lock light
-        p.setPen(QPen(black, 1));
+        p.setPen(QPen(Qt::black, 1));
         if (lockCounter == 0)
             p.setBrush(Qt::darkGray);
         else
@@ -4005,12 +4005,12 @@ void element::setupElementIcon()
         int h = pm.height();
         
         // paint track
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(0, h / 2, w, h / 2);
         p.drawLine(0, h - 1, w, 0);
         
         // paint drive symbol
-        p.setPen(QPen(black, 1));
+        p.setPen(QPen(Qt::black, 1));
         p.drawLine(w / 2 - 7, h / 2 - 5, w / 2 - 2, h / 2 - 5);
         p.drawLine(w / 2 - 2, h / 2 - 5, w / 2 + 3, h / 2 - 8);
 
@@ -4186,7 +4186,7 @@ void element::setupElementIcon()
                         Qt::MiterJoin));
             p.drawLine(w - startx - 1, starty, w - stopx - 1, stopy);
 
-            p.setPen(QPen(black, 1));
+            p.setPen(QPen(Qt::black, 1));
         }
 
         // paint track button
@@ -4237,12 +4237,12 @@ void element::setupElementIcon()
         int h = pm.height();
         
         // paint track
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(0, h / 2, w, h / 2);
         p.drawLine(0, h - 1, w, 0);
         
         // paint drive symbol
-        p.setPen(QPen(black, 1));
+        p.setPen(QPen(Qt::black, 1));
         p.drawLine(w / 2 + 1, h / 2 + 5, w / 2 + 7, h / 2 + 5);
         p.drawLine(w / 2 + 2, h / 2 + 5, w / 2 - 3, h / 2 + 7);
 
@@ -4417,7 +4417,7 @@ void element::setupElementIcon()
             p.setPen(QPen(c4, 3, Qt::SolidLine, Qt::RoundCap,
                         Qt::MiterJoin));
             p.drawLine(startx, h - starty - 1, stopx, h - stopy - 1);
-            p.setPen(QPen(black, 1));
+            p.setPen(QPen(Qt::black, 1));
         }
 
         // paint track button
@@ -4468,12 +4468,12 @@ void element::setupElementIcon()
         int h = pm.height();
         
         // paint track
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(0, h / 2, w, h / 2);
         p.drawLine(0, 0, w, h - 1);
         
         // paint drive symbol
-        p.setPen(QPen(black, 1));
+        p.setPen(QPen(Qt::black, 1));
         p.drawLine(w / 2 + 7, h / 2 - 5, w / 2 + 2, h / 2 - 5);
         p.drawLine(w / 2 + 2, h / 2 - 5, w / 2 - 3, h / 2 - 8);
 
@@ -4650,7 +4650,7 @@ void element::setupElementIcon()
                         Qt::MiterJoin));
             p.drawLine(startx, starty, stopx, stopy);
 
-            p.setPen(QPen(black, 1));
+            p.setPen(QPen(Qt::black, 1));
         }
 
         // paint track button
@@ -4701,12 +4701,12 @@ void element::setupElementIcon()
         int h = pm.height();
         
         // paint track
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(0, h / 2, w, h / 2);
         p.drawLine(0, 0, w, h - 1);
         
         // paint drive symbol
-        p.setPen(QPen(black, 1));
+        p.setPen(QPen(Qt::black, 1));
         p.drawLine(w / 2 - 1, h / 2 + 5, w / 2 - 7, h / 2 + 5);
         p.drawLine(w / 2 - 3, h / 2 + 5, w / 2 + 2, h / 2 + 7);
 
@@ -4883,7 +4883,7 @@ void element::setupElementIcon()
             p.drawLine(w - startx - 1, h - starty - 1, w - stopx - 1,
                     h - stopy - 1);
 
-            p.setPen(QPen(black, 1));
+            p.setPen(QPen(Qt::black, 1));
         }
 
         // paint track button
@@ -4934,12 +4934,12 @@ void element::setupElementIcon()
         int h = pm.height();
         
         // paint track
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(0, h / 2, w, h / 2);
         p.drawLine(0, h - 1, w, 0);
         
         // paint drive symbol
-        p.setPen(QPen(black, 1));
+        p.setPen(QPen(Qt::black, 1));
         p.drawLine(w / 2 + 1, h / 2 + 5, w / 2 + 7, h / 2 + 5);
         p.drawLine(w / 2 + 2, h / 2 + 5, w / 2 - 3, h / 2 + 7);
         p.drawLine(w / 2 - 7, h / 2 - 5, w / 2 - 2, h / 2 - 5);
@@ -5173,7 +5173,7 @@ void element::setupElementIcon()
                         Qt::MiterJoin));
             p.drawLine(w - startx - 1, starty, w - stopx - 1, stopy);
 
-            p.setPen(QPen(black, 1));
+            p.setPen(QPen(Qt::black, 1));
         }
 
         // paint track button
@@ -5222,12 +5222,12 @@ void element::setupElementIcon()
         int h = pm.height();
         
         // paint track
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(0, h / 2, w, h / 2);
         p.drawLine(0, 0, w, h - 1);
         
         // paint drive symbol
-        p.setPen(QPen(black, 1));
+        p.setPen(QPen(Qt::black, 1));
         p.drawLine(w / 2 - 1, h / 2 + 5, w / 2 - 7, h / 2 + 5);
         p.drawLine(w / 2 - 3, h / 2 + 5, w / 2 + 2, h / 2 + 7);
         p.drawLine(w / 2 + 7, h / 2 - 5, w / 2 + 2, h / 2 - 5);
@@ -5461,7 +5461,7 @@ void element::setupElementIcon()
                         Qt::MiterJoin));
             p.drawLine(startx, starty, stopx, stopy);
 
-            p.setPen(QPen(black, 1));
+            p.setPen(QPen(Qt::black, 1));
         }
 
         // paint track button
@@ -5901,7 +5901,7 @@ void element::setupElementIcon()
 
         p.rotate(-SANGLE);
 
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(0, 0, w / 2 + 5, 0);
         p.restore();
 
@@ -6039,7 +6039,7 @@ void element::setupElementIcon()
 
         p.rotate(WANGLE);
 
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(0, 0, w / 2 + 5, 0);
         p.restore();
 
@@ -6177,7 +6177,7 @@ void element::setupElementIcon()
 
         p.rotate(-WANGLE);
 
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(0, 0, w / 2 + 5, 0);
         p.restore();
 
@@ -6315,7 +6315,7 @@ void element::setupElementIcon()
 
         p.rotate(SANGLE);
 
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(0, 0, w / 2 + 5, 0);
         p.restore();
 
@@ -6453,7 +6453,7 @@ void element::setupElementIcon()
 
         p.rotate(-WANGLE);
 
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(-w / 2 - 5, 0, w / 2 + 5, 0);
         p.restore();
 
@@ -6597,7 +6597,7 @@ void element::setupElementIcon()
 
         p.rotate(SANGLE);
 
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(-w / 2 - 5, 0, w / 2 + 5, 0);
         p.restore();
 
@@ -6742,7 +6742,7 @@ void element::setupElementIcon()
 
         p.rotate(-SANGLE);
 
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(-w / 2 - 5, 0, w / 2 + 5, 0);
         p.restore();
 
@@ -6887,7 +6887,7 @@ void element::setupElementIcon()
 
         p.rotate(WANGLE);
 
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(-w / 2 - 5, 0, w / 2 + 5, 0);
         p.restore();
 
@@ -7026,7 +7026,7 @@ void element::setupElementIcon()
         // paint track
         p.save();
         p.translate(w / 2, h / 2);
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
 
         p.drawLine(-w / 2, 0, 0, 0);
         p.rotate(-SANGLE);
@@ -7173,7 +7173,7 @@ void element::setupElementIcon()
         // paint track
         p.save();
         p.translate(w / 2, h / 2);
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
 
         p.drawLine(0, 0, w / 2, 0);
         p.rotate(WANGLE);
@@ -7320,7 +7320,7 @@ void element::setupElementIcon()
         
         p.save();
         p.translate(w / 2, h / 2);
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
 
         p.rotate(-SANGLE);
         p.drawLine(0, 0, w / 2 + 5, 0);
@@ -7487,7 +7487,7 @@ void element::setupElementIcon()
         
         p.save();
         p.translate(w / 2, h / 2);
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
 
         p.rotate(WANGLE);
         p.drawLine(0, 0, w / 2 + 5, 0);
@@ -7738,7 +7738,7 @@ void element::setupElementIcon()
         // paint tunnel entry
         QPointArray tunnel = QPointArray(4);
         tunnel.putPoints(0, 4, -8, -14, 0, -6, 0, 6, -8, 14);
-        p.setPen(QPen(darkGray, 2));
+        p.setPen(QPen(Qt::darkGray, 2));
         p.drawPolyline(tunnel);
         p.translate(13, 0);
         p.rotate(180.0);
@@ -7794,7 +7794,7 @@ void element::setupElementIcon()
         // paint tunnel entry
         QPointArray tunnel = QPointArray(4);
         tunnel.putPoints(0, 4, -8, -14, 0, -6, 0, 6, -8, 14);
-        p.setPen(QPen(darkGray, 2));
+        p.setPen(QPen(Qt::darkGray, 2));
 
         p.rotate(90.0);
         p.translate(-6, 0);
@@ -7819,7 +7819,7 @@ void element::setupElementIcon()
         int tracklen = w / 2 + 5;
 
         // paint long diagonal track
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(0, 0, w, h - 1);
 
         // paint track lights
@@ -7865,7 +7865,7 @@ void element::setupElementIcon()
         // paint tunnel entry
         QPointArray tunnel = QPointArray(4);
         tunnel.putPoints(0, 4, -8, -14, 0, -6, 0, 6, -8, 14);
-        p.setPen(QPen(darkGray, 2));
+        p.setPen(QPen(Qt::darkGray, 2));
         p.rotate(SANGLE - WANGLE + 90.0);
         p.translate(-6, -4);
         p.drawPolyline(tunnel);
@@ -7891,7 +7891,7 @@ void element::setupElementIcon()
         int tracklen = w / 2 + 5;
 
         // paint long diagonal track
-        p.setPen(QPen(black, 7));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(0, h - 1, w, 0);
 
         // paint track lights
@@ -7936,7 +7936,7 @@ void element::setupElementIcon()
         // paint tunnel entry
         QPointArray tunnel = QPointArray(4);
         tunnel.putPoints(0, 4, -8, -14, 0, -6, 0, 6, -8, 14);
-        p.setPen(QPen(darkGray, 2));
+        p.setPen(QPen(Qt::darkGray, 2));
         p.rotate(WANGLE - SANGLE + 90.0);
         p.translate(-6, 4);
         p.drawPolyline(tunnel);

@@ -275,6 +275,22 @@ Valid range is %1..%2.</source>
         <translation>Adresse von Decoder 2 eingeben.
 Der gültige Wertebereich ist %1..%2.</translation>
     </message>
+    <message>
+        <source>&amp;Maerklin/Motorola</source>
+        <translation>&amp;Märklin/Motorola</translation>
+    </message>
+    <message>
+        <source>&amp;NMRA/DCC</source>
+        <translation>&amp;NMRA/DCC</translation>
+    </message>
+    <message>
+        <source>Protocol by Ser&amp;ver</source>
+        <translation>Protokol durch Ser&amp;ver</translation>
+    </message>
+    <message>
+        <source>Selectri&amp;x</source>
+        <translation>Selectri&amp;x</translation>
+    </message>
 </context>
 <context>
     <name>FeedbackViewer</name>

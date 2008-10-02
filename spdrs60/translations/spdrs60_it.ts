@@ -251,6 +251,22 @@ Valid range is %1..%2.</source>
 Valid range is %1..%2.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>&amp;Maerklin/Motorola</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;NMRA/DCC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Protocol by Ser&amp;ver</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Selectri&amp;x</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FeedbackViewer</name>
