@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-08-13 17:50:19 $
-                           $Revision: 1.108 $
+    last modified        : $Date: 2008-10-07 17:34:43 $
+                           $Revision: 1.109 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -60,15 +60,19 @@
 #include "pixmaps/cursor_erase_m.xpm"
 
 // search options
-#define SRCH_TX 0   // search string should be in text field
-#define SRCH_A1 1   // search string should be in address 1 field
-#define SRCH_A2 2   // search string should be in address 2 field
+enum {
+    SRCH_TX = 0,   // search string should be in text field
+    SRCH_A1,   // search string should be in address 1 field
+    SRCH_A2   // search string should be in address 2 field
+};
 
 // constants for context menu
-#define   CTX_ID_TOGGLE    900
+enum {
+    CTX_ID_TOGGLE = 900
+};
 
 // mime type for layout elements
-#define MIME_LE "application/x-spdrs60-le"
+static const char MIME_LE[] = "application/x-spdrs60-le";
 
 
 GBSArea::GBSArea(QWidget* parent, const char* name)

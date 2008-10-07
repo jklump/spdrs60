@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-09-10 18:34:15 $
-                           $Revision: 1.156 $
+    last modified        : $Date: 2008-10-07 17:34:43 $
+                           $Revision: 1.157 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -93,50 +93,51 @@
 #include "pixmaps/route_clear.xpm"
 
 /*some constants for data files*/
-#define GF_CMDHOST       "cmdhost"
-#define GF_FORMATVERSION "formatversion"
-#define GF_FV            "2"
+static const char GF_CMDHOST[]       = "cmdhost";
+static const char GF_FORMATVERSION[] = "formatversion";
+static const char GF_FV[]            = "2";
 
 /*string constants for personal config file*/
-#define KS              '='
-#define CF_DS           ':'
-#define CF_SHOWHP2      "showhp2"
-#define CF_TURNOUTBLINK "blinkingturnouts"
-#define CF_TOOLTIPS     "tooltips"
-#define CF_DATATOOLTIPS "datatooltips"
-#define CF_ADDRESSLABEL "addresslabel"
-#define CF_INITSIGNALS  "initsignals"
-#define CF_LAYOUTCOLS   "layoutcolumns"
-#define CF_LAYOUTROWS   "layoutrows"
-#define CF_SENDSTATE    "sendstate"
-#define CF_CONVERTTIME  "converttime"
-#define CF_SHOWTIME     "showtime"
-#define CF_AUTOLOAD     "autoload"
-#define CF_AUTOLAYOUT   "autolayout"
-#define CF_AUTOSAVE     "autosave"
-#define CF_EDITOR       "editor"
-#define CF_BROWSER      "browser"
-#define CF_PROTOCOL     "protocol"
-#define CF_DECODER      "decoder"
-#define CF_ACTIVETIME   "activationtime"
-#define CF_AUTOTTDIR    "autoturntabledir"
-#define CF_TTROUNDTIME  "turntableroundtime"
-#define CF_ROUTINGTIME  "routingtime"
-#define CF_FEEDBACKTYPE "feedbacktype"
-#define CF_FBMODSIZE    "feedbackmodulesize"
-#define CF_FBMODTYPE    "feedbackmoduletype"
-#define CF_FIXEDBUSNUM  "fixedbusnumbers"
-#define CF_FBBUS1       "fbbus1"
-#define CF_FBBUS2       "fbbus2"
-#define CF_FBBUS3       "fbbus3"
-#define CF_FBBUS4       "fbbus4"
-#define CF_LASTDIR      "lastdir"
-#define CF_KEYBOARD     "keyboardprotocol"
-#define CF_GMROUTESTATE "gmroutestate"
-#define CF_GMTRAINNUMBER "gmtrainnumber"
-#define CF_RECENTFILE   "recentfile"
+static const char KS[]              = "=";
+static const char CF_DS[]           = ":";
+static const char CF_SHOWHP2[]      = "showhp2";
+static const char CF_TURNOUTBLINK[] = "blinkingturnouts";
+static const char CF_TOOLTIPS[]     = "tooltips";
+static const char CF_DATATOOLTIPS[] = "datatooltips";
+static const char CF_ADDRESSLABEL[] = "addresslabel";
+static const char CF_INITSIGNALS[]  = "initsignals";
+static const char CF_LAYOUTCOLS[]   = "layoutcolumns";
+static const char CF_LAYOUTROWS[]   = "layoutrows";
+static const char CF_SENDSTATE[]    = "sendstate";
+static const char CF_CONVERTTIME[]  = "converttime";
+static const char CF_SHOWTIME[]     = "showtime";
+static const char CF_AUTOLOAD[]     = "autoload";
+static const char CF_AUTOLAYOUT[]   = "autolayout";
+static const char CF_AUTOSAVE[]     = "autosave";
+static const char CF_EDITOR[]       = "editor";
+static const char CF_BROWSER[]      = "browser";
+static const char CF_PROTOCOL[]     = "protocol";
+static const char CF_DECODER[]      = "decoder";
+static const char CF_ACTIVETIME[]   = "activationtime";
+static const char CF_AUTOTTDIR[]    = "autoturntabledir";
+static const char CF_TTROUNDTIME[]  = "turntableroundtime";
+static const char CF_ROUTINGTIME[]  = "routingtime";
+static const char CF_FEEDBACKTYPE[] = "feedbacktype";
+static const char CF_FBMODSIZE[]    = "feedbackmodulesize";
+static const char CF_FBMODTYPE[]    = "feedbackmoduletype";
+static const char CF_FIXEDBUSNUM[]  = "fixedbusnumbers";
+static const char CF_FBBUS1[]       = "fbbus1";
+static const char CF_FBBUS2[]       = "fbbus2";
+static const char CF_FBBUS3[]       = "fbbus3";
+static const char CF_FBBUS4[]       = "fbbus4";
+static const char CF_LASTDIR[]      = "lastdir";
+static const char CF_KEYBOARD[]     = "keyboardprotocol";
+static const char CF_GMROUTESTATE[] = "gmroutestate";
+static const char CF_GMTRAINNUMBER[] = "gmtrainnumber";
+static const char CF_RECENTFILE[]   = "recentfile";
 
-#define SPDRS60_INIT   ".spdrs60rc" // program init filename
+// user preferences/program init filename
+static const char SPDRS60_INIT[] = ".spdrs60rc";
 
 
 MainWindow::MainWindow(): QMainWindow(NULL, PACKAGE,
@@ -2891,7 +2892,7 @@ void MainWindow::slotEditConfigFile()
         proc->setArguments(QStringList::split(' ', pref.editor));
     else
         proc->addArgument(pref.editor);
-    proc->addArgument(QDir::homeDirPath() + "/" SPDRS60_INIT);
+    proc->addArgument(QDir::homeDirPath() + "/" + SPDRS60_INIT);
 
     if (!proc->start())
         statusMessage(tr("Error starting editor '%1'!").arg(pref.editor));

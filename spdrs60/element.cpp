@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-10-02 13:51:57 $
-                           $Revision: 1.176 $
+    last modified        : $Date: 2008-10-07 17:34:43 $
+                           $Revision: 1.177 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -51,19 +51,20 @@
 
 
 // Element directions
-#define   DIR_HP0          0
-#define   DIR_HP1          1
-#define   DIR_HP2          2
-#define   DIR_SH1          3
-
-#define   LED_OFF          0   // LED states of an element = off
-#define   LED_YEL          1   // route selected
-#define   LED_RED          2   // occupied
+enum {
+   DIR_HP0 = 0,
+   DIR_HP1,
+   DIR_HP2,
+   DIR_SH1
+};
 
 // delay for edit mode after element locating
-#define LOCATE_TIMER 5000
-#define SANGLE 31.264         // small angle
-#define WANGLE (180.0 - SANGLE) // wide angle
+enum {
+    LOCATE_TIMER = 5000
+};
+
+static const float SANGLE = 31.264f;           // small angle
+static const float WANGLE = (180.0f - SANGLE); // wide angle
 
 #if QT_VERSION >= 0x040000
 using namespace Qt;
@@ -145,7 +146,6 @@ void element::initVariables()
 
     lockCounter = 0;
     blinkcounter = 0;
-    //trackindicator = LED_OFF;
 
     turntableProperties = NULL;
     ttComm = NULL;

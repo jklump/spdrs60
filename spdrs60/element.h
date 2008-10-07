@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-08-12 17:58:27 $
-                           $Revision: 1.101 $
+    last modified        : $Date: 2008-10-07 17:34:43 $
+                           $Revision: 1.102 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -48,82 +48,82 @@
 
 // symbol names
 // signals
-#define SYM_HS   "signal_hs"  // Hauptsignal
-#define SYM_HSS  "signal_hss" // Hauptsperrsignal
-#define SYM_SS   "signal_ss"  // Schutzhaltsignal
-#define SYM_SSH  "signal_ssh" // Schutzhaltsignal Falschfahrt
-#define SYM_SSS  "signal_sss" // Schutzhaltsignal zwei Gleistasten
-#define SYM_WS   "signal_ws"  // Rangierhaltsignal (Ra 11)
-#define SYM_VS   "signal_vs"  // Vorsignal
-#define SYM_ZP   "signal_zp"
-#define SYM_NRB  "signal_nrb" // not really signals but rails
-#define SYM_SRB  "signal_srb" // with a routing button
+static const char SYM_HS[]  = "signal_hs"; // Hauptsignal
+static const char SYM_HSS[] = "signal_hss";// Hauptsperrsignal
+static const char SYM_SS[]  = "signal_ss"; // Schutzhaltsignal
+static const char SYM_SSH[] = "signal_ssh";// Schutzhaltsignal Falschfahrt
+static const char SYM_SSS[] = "signal_sss";// Schutzhaltsignal zwei Gleistasten
+static const char SYM_WS[]  = "signal_ws"; // Rangierhaltsignal (Ra 11)
+static const char SYM_VS[]  = "signal_vs"; // Vorsignal
+static const char SYM_ZP[]  = "signal_zp";
+static const char SYM_NRB[] = "signal_nrb";// not really signals but rails
+static const char SYM_SRB[] = "signal_srb";// with a routing button
 
 // turnouts
-#define SYM_WEL  "weiche_links" //turnout left
-#define SYM_WER  "weiche_rechts" //turnout right
-#define SYM_DWL  "weiche_diag_links" //turnoutdiagonalleft
-#define SYM_DWR  "weiche_diag_rechts" //turnoutdiagonalright
-#define SYM_WEY  "weiche_y"
-#define SYM_DRW  "dreier_weiche" //3-way turnout
-#define SYM_EKL  "ekw_links"  // single-slip switch left
-#define SYM_EKR  "ekw_rechts" // single-slip switch right
-#define SYM_DKL  "dkw_links"  // double-slip switch left
-#define SYM_DKR  "dkw_rechts" // double-slip switch right
+static const char SYM_WEL[] = "weiche_links";//turnout left
+static const char SYM_WER[] = "weiche_rechts";//turnout right
+static const char SYM_DWL[] = "weiche_diag_links";//turnoutdiagonalleft
+static const char SYM_DWR[] = "weiche_diag_rechts";//turnoutdiagonalright
+static const char SYM_WEY[] = "weiche_y";
+static const char SYM_DRW[] = "dreier_weiche";//3-way turnout
+static const char SYM_EKL[] = "ekw_links"; // single-slip switch left
+static const char SYM_EKR[] = "ekw_rechts";// single-slip switch right
+static const char SYM_DKL[] = "dkw_links"; // double-slip switch left
+static const char SYM_DKR[] = "dkw_rechts";// double-slip switch right
 
 // straight tracks
-#define SYM_GER  "gerade" // straight track horizontal
-#define SYM_TRV  "trackvertical"
-#define SYM_DIL  "diagonale_links"
-#define SYM_DIR  "diagonale_rechts"
-#define SYM_TDR  "richtung_1" //track direction right
-#define SYM_TDB  "richtung_2" //track both directions
-#define SYM_KRH  "kreuzung_hose"   //crossing
-#define SYM_KRR  "kreuzung_rechts" //crossing right
-#define SYM_KRL  "kreuzung_links"  //crossing left
-#define SYM_GET  "gerade_tl"  // tunnel straight left/right (tug)
-#define SYM_TUL  "diagonale_links_tl" //tunnelbottomleft /top left
-#define SYM_TUR  "diagonale_rechts_tl" // right
+static const char SYM_GER[] = "gerade";// straight track horizontal
+static const char SYM_TRV[] = "trackvertical";
+static const char SYM_DIL[] = "diagonale_links";
+static const char SYM_DIR[] = "diagonale_rechts";
+static const char SYM_TDR[] = "richtung_1";//track direction right
+static const char SYM_TDB[] = "richtung_2";//track both directions
+static const char SYM_KRH[] = "kreuzung_hose";  //crossing
+static const char SYM_KRR[] = "kreuzung_rechts";//crossing right
+static const char SYM_KRL[] = "kreuzung_links"; //crossing left
+static const char SYM_GET[] = "gerade_tl"; // tunnel straight left/right (tug)
+static const char SYM_TUL[] = "diagonale_links_tl";//tunnelbottomleft /top left
+static const char SYM_TUR[] = "diagonale_rechts_tl";// right
 
 // curved tracks
-#define SYM_KUR  "kurve_rechts" //curved track right bottom (KUR)
-#define SYM_KUL  "kurve_links"  //left top (KUL)
-#define SYM_TTL  "turn_topvert_left"
-#define SYM_TTR  "turn_topvert_right"
-#define SYM_TBL  "turn_botvert_left"
-#define SYM_TBR  "turn_botvert_right"
+static const char SYM_KUR[] = "kurve_rechts";//curved track right bottom (KUR)
+static const char SYM_KUL[] = "kurve_links"; //left top (KUL)
+static const char SYM_TTL[] = "turn_topvert_left";
+static const char SYM_TTR[] = "turn_topvert_right";
+static const char SYM_TBL[] = "turn_botvert_left";
+static const char SYM_TBR[] = "turn_botvert_right";
 
 // miscellaneous
-#define SYM_ENK  "entkoppler" // decoupler (dco)
-#define SYM_BLD  "blind"      // blind item, switchable
-#define SYM_ADR  "adresse"    // trackaddressindicator
-#define SYM_BUE  "uebergang"  // level crossing (lcr)
-#define SYM_REL  "relais"
-#define SYM_MDC  "motor_dc"
-#define SYM_DRE  "drehscheibe" // turntable (tnt)
-#define SYM_SBN  "schiebebuehne" // transfer table (trt)
+static const char SYM_ENK[] = "entkoppler";// decoupler (dco)
+static const char SYM_BLD[] = "blind";     // blind item, switchable
+static const char SYM_ADR[] = "adresse";   // trackaddressindicator
+static const char SYM_BUE[] = "uebergang"; // level crossing (lcr)
+static const char SYM_REL[] = "relais";
+static const char SYM_MDC[] = "motor_dc";
+static const char SYM_DRE[] = "drehscheibe";// turntable (tnt)
+static const char SYM_SBN[] = "schiebebuehne";// transfer table (trt)
 
 // decorative items
-#define SYM_PRE  "prellbock"  // buffer stop, bumper
-#define SYM_LEE  "leer" // (txt)
-#define SYM_BUC  "haus_1"
-#define SYM_BUL  "haus_2"
-#define SYM_SHO  "schuppen_o" // loco shed
-#define SYM_LSR  "schuppen_m"
-#define SYM_SHU  "schuppen_u"
+static const char SYM_PRE[] = "prellbock"; // buffer stop, bumper
+static const char SYM_LEE[] = "leer";// (txt)
+static const char SYM_BUC[] = "haus_1";
+static const char SYM_BUL[] = "haus_2";
+static const char SYM_SHO[] = "schuppen_o";// loco shed
+static const char SYM_LSR[] = "schuppen_m";
+static const char SYM_SHU[] = "schuppen_u";
 
 // external group buttons
-#define SYM_TAF  "taste_fht"
-#define SYM_TAU  "taste_ufgt" // combination with MGT
-#define SYM_TAW  "taste_wgt"
-#define SYM_TAS  "taste_sgt"  // combination with HaGT
+static const char SYM_TAF[] = "taste_fht";
+static const char SYM_TAU[] = "taste_ufgt";// combination with MGT
+static const char SYM_TAW[] = "taste_wgt";
+static const char SYM_TAS[] = "taste_sgt"; // combination with HaGT
 
-#define SYM_FEG  "panel_green" // route group
-#define SYM_FEB  "panel_blue"  // turnout group
-#define SYM_FER  "panel_red"   // signal group
-#define SYM_FEY  "panel_yellow"// level crossing group
-#define SYM_FEE  "panel_grey"  // power supply
-#define SYM_FEN  "panel_brown" // axle counter
+static const char SYM_FEG[] = "panel_green";// route group
+static const char SYM_FEB[] = "panel_blue"; // turnout group
+static const char SYM_FER[] = "panel_red";  // signal group
+static const char SYM_FEY[] = "panel_yellow";// level crossing group
+static const char SYM_FEE[] = "panel_grey"; // power supply
+static const char SYM_FEN[] = "panel_brown";// axle counter
 
 
 
@@ -176,7 +176,6 @@ enum elemRecordType {
 };
 
 /*element route directions for 2D-routing*/
-
 const unsigned int rdCenter = 0u;
 const unsigned int rdN = 2u;
 const unsigned int rdS = 4u;
@@ -188,33 +187,35 @@ const unsigned int rdSW = rdS | rdW;
 const unsigned int rdSE = rdS | rdE;
 
 /*some magic strings for reading and writing layout files*/
-#define GF_INDEX      "index"
-#define GF_CLASSID    "classid"
-#define GF_NAME       "icon"
-#define GF_ROTATE     "rotate"
-#define GF_INVERSTO   "invers turnout"
-#define GF_DECODER    "decoder"
-#define GF_PROTOCOL   "protocol"
-#define GF_ADDRESS1   "address_1"
-#define GF_ADDRESS2   "address_2"
-#define GF_XCHCONN1   "change conn 1"
-#define GF_XCHCONN2   "change conn 2"
-#define GF_DIRECTION  "direction"
-#define GF_SUBTYPE    "subtype"
-#define GF_TEXT       "text"
-#define GF_ACTTIME    "active time"
-#define GF_FBPORT     "feedback port"
-#define GF_HIDELEDS   "hide LEDs"
+static const char GF_INDEX[]     = "index";
+static const char GF_CLASSID[]   = "classid";
+static const char GF_NAME[]      = "icon";
+static const char GF_ROTATE[]    = "rotate";
+static const char GF_INVERSTO[]  = "invers turnout";
+static const char GF_DECODER[]   = "decoder";
+static const char GF_PROTOCOL[]  = "protocol";
+static const char GF_ADDRESS1[]  = "address_1";
+static const char GF_ADDRESS2[]  = "address_2";
+static const char GF_XCHCONN1[]  = "change conn 1";
+static const char GF_XCHCONN2[]  = "change conn 2";
+static const char GF_DIRECTION[] = "direction";
+static const char GF_SUBTYPE[]   = "subtype";
+static const char GF_TEXT[]      = "text";
+static const char GF_ACTTIME[]   = "active time";
+static const char GF_FBPORT[]    = "feedback port";
+static const char GF_HIDELEDS[]  = "hide LEDs";
 
-#define DS            ';'    // data separator in spdrs60 files
-#define IDS           ':'    // data separator in imported files
+static const char DS[]  = ";";   // data separator in spdrs60 files
+static const char IDS[] = ":";   // data separator in imported files
+
 // TODO: adjust width to 55 (56 has no center)
-#define EL_WIDTH      56     // width of an element in pixels (orig: 54 mm)
-#define EL_HEIGHT     35     // height of an element in pixels (orig: 34 mm)
-                             // 8 * H = 5 * W = 280
-                             // diagonal: 65.513 pixels (63.812)
-                             // alpha: 31.264° (32.196°)
-                             // beta: 58.736°  (57.804°)
+enum {
+    EL_WIDTH  = 56, // width of an element in pixels (orig: 54 mm)
+    EL_HEIGHT = 35  // height of an element in pixels (orig: 34 mm)
+};                  // 8 * H = 5 * W = 280
+                    // diagonal: 65.513 pixels (63.812)
+                    // alpha: 31.264° (32.196°)
+                    // beta: 58.736°  (57.804°)
 
 // forward declaration
 class element;

@@ -24,7 +24,9 @@
 #include "messagehistory.h"
 
 // max number of history lines
-#define MAX_HISTORY 100
+enum {
+    MAX_HISTORY = 100
+};
 
 
 MessageHistory::MessageHistory(QWidget* parent): QHBox(parent,

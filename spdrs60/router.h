@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.h
-                           version 0.5.3 $Revision: 1.32 $
+                           version 0.5.3 $Revision: 1.33 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-09-10 18:34:16 $
+    last modified        : $Date: 2008-10-07 17:34:43 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -30,8 +30,6 @@
 #include "crcfmessage.h"
 #include "route.h"
 #include "srcpmessage.h"
-
-#define RF_OLDROUTEEXT ".dat.rts"
 
 
 // forward declaration

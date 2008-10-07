@@ -1,10 +1,10 @@
 /***************************************************************************
                            feedbackmodule.cpp
-                           version 0.5.2 $Revision: 1.6 $
+                           version 0.5.2 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 2006-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-13 09:12:20 $
+    last modified        : $Date: 2008-10-07 17:34:43 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -25,9 +25,11 @@
 
 #include "feedbackmodule.h"
 
-#define FBM16WIDTH 140
-#define FBM8WIDTH 80
-#define FBMHEIGHT 80
+enum {
+ FBM16WIDTH = 140,
+ FBM8WIDTH = 80,
+ FBMHEIGHT = 80
+};
 
 
 FeedbackModule::FeedbackModule(QListBox* listbox): QListBoxItem(listbox)

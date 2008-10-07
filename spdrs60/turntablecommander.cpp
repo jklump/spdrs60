@@ -1,11 +1,11 @@
 /***************************************************************************
                            turntablecommander.cpp
-                           version 0.5.2 $Revision: 1.15 $
+                           version 0.5.2 $Revision: 1.16 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-08-12 17:58:27 $
+    last modified        : $Date: 2008-10-07 17:34:43 $
 ***************************************************************************/
 
 /******************************************************************************
@@ -38,12 +38,13 @@
 #include "pixmaps/tt_turn180.xpm"
 
 // turn modes for digital turntable
-#define   LEFT             1
-#define   RIGHT            0
-
-// modes for digital turntable
-#define   USAGE            1
-#define   PROG             0
+// and modes for digital turntable
+enum {
+    LEFT = 1,
+    RIGHT = 0,
+    USAGE = 1,
+    PROG = 0
+};
 
 
 turntableCommander::turntableCommander(QWidget * parent, int iActiveTrack_,

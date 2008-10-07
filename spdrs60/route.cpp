@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.75 $
+                           version 0.5.2 $Revision: 1.76 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-09-10 18:34:16 $
+    last modified        : $Date: 2008-10-07 17:34:43 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -26,17 +26,16 @@
 #include "routedialog.h"
 
 /*some magic strings for reading and writing route data to files*/
-#define RF_ID           "id"
-#define RF_NAME         "name"
-#define RF_TRAIN        "train"
-#define RF_ENTRYSIGNAL  "from signal"
-#define RF_EXITSIGNAL   "to signal"
-#define RF_TNDISPLAY    "trainnumberdisplay"
-#define RF_SWITCHXTOY   "switch x to y"
-#define RF_ACTIVATEPORT "activate port"
-#define RF_RELEASEPORT  "release port"
-#define RF_ACTIVATEPORT "activate port"
-#define RF_TYPE         "type"
+static const char RF_ID[]           = "id";
+static const char RF_NAME[]         = "name";
+static const char RF_TRAIN[]        = "train";
+static const char RF_ENTRYSIGNAL[]  = "from signal";
+static const char RF_EXITSIGNAL[]   = "to signal";
+static const char RF_TNDISPLAY[]    = "trainnumberdisplay";
+static const char RF_SWITCHXTOY[]   = "switch x to y";
+static const char RF_ACTIVATEPORT[] = "activate port";
+static const char RF_RELEASEPORT[]  = "release port";
+static const char RF_TYPE[]         = "type";
 
 
 Route::Route(unsigned int anid,

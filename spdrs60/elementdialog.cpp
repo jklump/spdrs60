@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-10-02 13:51:57 $
-                           $Revision: 1.73 $
+    last modified        : $Date: 2008-10-07 17:34:43 $
+                           $Revision: 1.74 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -60,14 +60,17 @@
 #include "pixmaps/entkoppler_st2.xpm"
 #include "pixmaps/entkoppler_st3.xpm"
 
-#define MINMMPORT 0
-#define MAXMMPORT 1
-#define MINDCCPORT 0
-#define MAXDCCPORT 1
-#define MINSVPORT 0
-#define MAXSVPORT 64535 // no limits
-#define MINSXPORT 1
-#define MAXSXPORT 8
+enum {
+    MINMMPORT = 0,
+    MAXMMPORT = 1,
+    MINDCCPORT = 0,
+    MAXDCCPORT = 1,
+    MINSVPORT = 0,
+    MAXSVPORT = 64535, // no limits
+    MINSXPORT = 1,
+    MAXSXPORT = 8
+};
+
 
 ElementDialog::ElementDialog(QWidget* parent, int idx):
     QDialog(parent, "ElementDialog", true)
