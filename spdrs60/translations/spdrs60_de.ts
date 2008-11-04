@@ -502,6 +502,22 @@ den Suchkriterien entspricht.</translation>
         <source>Table light switched off</source>
         <translation>Stelltischbeleuchtung ausgeschaltet</translation>
     </message>
+    <message>
+        <source>Uneditable CRCF attribute &apos;%1&apos; detected.</source>
+        <translation>Unveränderliches CRCF Attribut &apos;%1&apos; gefunden.</translation>
+    </message>
+    <message>
+        <source>Error assembling CRCF message for layout TABLELIGHT &apos;%1&apos;.</source>
+        <translation>Fehler beim Erstellen der CRCF-Meldung für Gleisbild TABLELIGHT &apos;%1&apos;.</translation>
+    </message>
+    <message>
+        <source>Unvalid TABLELIGHT value &apos;%1&apos; detected.</source>
+        <translation>Ungültiger Wert für TABLELIGHT gefunden: apos;%1&apos;</translation>
+    </message>
+    <message>
+        <source>Untitled</source>
+        <translation>Unbenannt</translation>
+    </message>
 </context>
 <context>
     <name>LayoutEditModeAgrp</name>
@@ -1175,6 +1191,34 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     <message>
         <source>Unsupported CRCF method &apos;%1&apos; detected.</source>
         <translation>Nicht unterstützte CRCF-Methode &apos;%1&apos; gefunden.</translation>
+    </message>
+    <message>
+        <source>SRCP-Service has been terminated. Restart server to reconnect %1 for Linux</source>
+        <translation>Der SRCP-Dienst wurde beendet. Server neu starten, um %1 für Linux wieder zu verbinden.</translation>
+    </message>
+    <message>
+        <source>Untitled</source>
+        <translation>Unbenannt</translation>
+    </message>
+    <message>
+        <source>Unsupported CRCF attribute &apos;%1&apos; detected.</source>
+        <translation>Nicht unterstütztes CRCF-Attribut &apos;%1&apos; gefunden.</translation>
+    </message>
+    <message>
+        <source>Unsupported action detected: &apos;%1&apos;!</source>
+        <translation>Nicht unterstützte Aktion gefunden: &apos;%1&apos;!</translation>
+    </message>
+    <message>
+        <source>Error assembling CRCF message for RWCC MODE &apos;%1&apos;.</source>
+        <translation>Fehler beim Erstellen der CRCF-Meldung für RWCC MODE &apos;%1&apos;.</translation>
+    </message>
+    <message>
+        <source>Unvalid RWCC MODE value &apos;%1&apos; detected.</source>
+        <translation>Ungültiger RWCC MODE Wert &apos;%1&apos; gefunden.</translation>
+    </message>
+    <message>
+        <source>Uneditable CRCF RWCC attribute &apos;%1&apos; detected.</source>
+        <translation>Unveränderliches CRCF RWCC Attribut &apos;%1&apos; gefunden.</translation>
     </message>
 </context>
 <context>

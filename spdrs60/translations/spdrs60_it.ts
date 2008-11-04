@@ -489,6 +489,10 @@ matches your search criteria.</source>
         <source>Unvalid TABLELIGHT value &apos;%1&apos; detected.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Untitled</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LayoutEditModeAgrp</name>

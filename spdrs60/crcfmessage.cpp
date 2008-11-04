@@ -1,10 +1,10 @@
 /***************************************************************************
                            crcfmessage.cpp
-                           version 0.5.3 $Revision: 1.6 $
+                           version 0.5.3 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-04 21:50:49 $
+    last modified        : $Date: 2008-11-04 23:03:05 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -283,6 +283,12 @@ CrcfMessage* CrcfMessage::parse(QString& msg)
     }
     else if ("COLUMNS" == tokens[3]) {
         cat = atColumns;
+    }
+    else if ("MODE" == tokens[3]) {
+        cat = atMode;
+    }
+    else if ("TABLELIGHT" == tokens[3]) {
+        cat = atTableLight;
     }
     else {
         //error unsupported CRCF attribute

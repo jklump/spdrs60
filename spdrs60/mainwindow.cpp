@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-04 21:50:49 $
-                           $Revision: 1.158 $
+    last modified        : $Date: 2008-11-04 23:03:05 $
+                           $Revision: 1.159 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1908,7 +1908,7 @@ void MainWindow::openFile(const QString& fn)
 
             else if (key.compare(GF_RWCC) == 0) {
                 rwccid = value.section(CF_DS, 1, 1).toUInt();
-                rwccname = value.section(CF_DS, 2);
+                rwccname = s.section(CF_DS, 2);
             }
 
             else if (s.startsWith("%% layout"))
@@ -2509,15 +2509,15 @@ void MainWindow::processInfoMessage(const QString& info)
                             switch (cac) {
                                 case CrcfMessage::acRoute:
                                     router->processGenericMessage(replyid,
-                                            infoPort->getSessionId(), cm);
+                                            receiveid, cm);
                                     break;
                                 case CrcfMessage::acLayout:
                                     gbs->processGenericMessage(replyid,
-                                            infoPort->getSessionId(), cm);
+                                            receiveid, cm);
                                     break;
                                 case CrcfMessage::acRwcc:
                                     processGenericMessage(replyid,
-                                            infoPort->getSessionId(), cm);
+                                            receiveid, cm);
                                     break;
                                 default:
                                     statusMessage(tr("Unsupported CRCF "
@@ -3386,7 +3386,7 @@ void MainWindow::processGenericMessage(unsigned int sendto,
     if (NULL == cm)
         return;
 
-    if (rwccid != cm->getActorId());
+    if (rwccid != cm->getActorId())
         return;
 
     QString cms = "";
