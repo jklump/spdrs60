@@ -1,10 +1,10 @@
 /***************************************************************************
                            crcfmessage.cpp
-                           version 0.5.3 $Revision: 1.5 $
+                           version 0.5.3 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-04-14 20:38:24 $
+    last modified        : $Date: 2008-11-04 21:50:49 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -176,6 +176,12 @@ QString CrcfMessage::attributeStr(CrcfAttribute at)
             break;
         case atColumns:
             atStr = "COLUMNS";
+            break;
+        case atMode:
+            atStr = "MODE";
+            break;
+        case atTableLight:
+            atStr = "TABLELIGHT";
             break;
         default:
             break;

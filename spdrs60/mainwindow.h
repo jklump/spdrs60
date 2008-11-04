@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.5.2 $Revision: 1.54 $
+                           version 0.5.2 $Revision: 1.55 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-09-10 18:34:16 $
+    last modified        : $Date: 2008-11-04 21:50:49 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -36,6 +36,7 @@
 #include <qsocket.h>
 #include <qwidgetstack.h>
 
+#include "crcfmessage.h"
 #include "element.h"
 
 
@@ -141,6 +142,10 @@ private:
    QString fileName;
    QString lastDir;
 
+   // CRCF data
+   unsigned int rwccid;
+   QString rwccname;
+
    SrcpPort::CommunicationStyle infoStyle;
    SrcpPort::CommunicationStyle commandStyle;
 
@@ -178,6 +183,12 @@ private:
    void addRecentlyOpenedFile(const QString&, QStringList&);
    void processGenericMessage(unsigned int, unsigned int,
             const CrcfMessage*);
+   QString getCrcfInfoMessage(CrcfMessage::CrcfAttribute) const;
+   void sendGmCrcfMessage(unsigned int, unsigned int, const QString&);
+   void switchToNormalMode();
+   void switchToEditLayoutMode();
+   void switchToEditRouteMode();
+   void propagateViewModeSwitch();
 
    /* New Networking code: */
    void ConnectCommandPort();

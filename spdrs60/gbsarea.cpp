@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-10-07 17:34:43 $
-                           $Revision: 1.109 $
+    last modified        : $Date: 2008-11-04 21:50:49 $
+                           $Revision: 1.110 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1818,56 +1818,60 @@ void GBSArea::processGenericMessage(unsigned int sendto,
         case CrcfMessage::meSet:
             /* LAYOUT <layoutid> SET <attribute> <att_value> */
 
-            /* layout data are static CRCF values, editing is
-             * only allowed in layout edit mode */
-            if (visualMode == kvmEditLayout) {
+            switch (cm->getAttribute()) {
 
-                switch (cm->getAttribute()) {
-
-                    /* LAYOUT <layoutid> SET COLUMNS <att_value> */
-                    case CrcfMessage::atColumns:
-                        {
-                            int cc = cm->getAttValue();
-                            if ((cc != cols) && (cc > 0) && (cc <= MAX_COLS)) {
-                                setLayoutSize(cc, rows);
-                                cms = getCrcfInfoMessage(CrcfMessage::atColumns);
-                                if (!cms.isEmpty())
-                                    sendGmCrcfMessage(sendto, replyto, cms);
-                                else
-                                    emit statusMessage(tr("Error assembling "
-                                                "CRCF message for layout "
-                                                "COLUMNS '%1'.").arg(cc));
-                            }
+                /* LAYOUT <layoutid> SET COLUMNS <att_value> */
+                case CrcfMessage::atColumns:
+                    if (visualMode == kvmEditLayout) {
+                        int cc = cm->getAttValue();
+                        if ((cc != cols) && (cc > 0) && (cc <= MAX_COLS)) {
+                            setLayoutSize(cc, rows);
+                            cms = getCrcfInfoMessage(CrcfMessage::atColumns);
+                            if (!cms.isEmpty())
+                                sendGmCrcfMessage(sendto, replyto, cms);
                             else
-                                emit statusMessage(tr("Unvalid COLUMNS "
-                                            "value '%1' detected.").arg(cc));
+                                emit statusMessage(tr("Error assembling "
+                                            "CRCF message for layout "
+                                            "COLUMNS '%1'.").arg(cc));
                         }
-                        break;
+                        else
+                            emit statusMessage(tr("Unvalid COLUMNS "
+                                        "value '%1' detected.").arg(cc));
+                    }
+                    else
+                        emit statusMessage(tr("Layout data editing via "
+                                    "CRCF messages is only allowed in "
+                                    "layout edit mode."));
+                    break;
 
-                        /* LAYOUT <routeid> SET ROWS <att_value> */
-                    case CrcfMessage::atRows:
-                        {
-                            int cr = cm->getAttValue();
-                            if (cr != rows && (cr > 0) && cr <= MAX_ROWS) {
-                                setLayoutSize(cols, cr);
-                                cms = getCrcfInfoMessage(CrcfMessage::atRows);
-                                if (!cms.isEmpty())
-                                    sendGmCrcfMessage(sendto, replyto, cms);
-                                else
-                                    emit statusMessage(tr("Error assembling "
-                                                "CRCF message for layout "
-                                                "ROWS '%1'.").arg(cr));
-                            }
+                    /* LAYOUT <routeid> SET ROWS <att_value> */
+                case CrcfMessage::atRows:
+                    if (visualMode == kvmEditLayout) {
+                        int cr = cm->getAttValue();
+                        if (cr != rows && (cr > 0) && cr <= MAX_ROWS) {
+                            setLayoutSize(cols, cr);
+                            cms = getCrcfInfoMessage(CrcfMessage::atRows);
+                            if (!cms.isEmpty())
+                                sendGmCrcfMessage(sendto, replyto, cms);
                             else
-                                emit statusMessage(tr("Unvalid ROWS "
-                                            "value '%1' detected.")
-                                        .arg(cm->getAttValue()));
+                                emit statusMessage(tr("Error assembling "
+                                            "CRCF message for layout "
+                                            "ROWS '%1'.").arg(cr));
                         }
-                        break;
+                        else
+                            emit statusMessage(tr("Unvalid ROWS "
+                                        "value '%1' detected.")
+                                    .arg(cm->getAttValue()));
+                    }
+                    else
+                        emit statusMessage(tr("Layout data editing via "
+                                    "CRCF messages is only allowed in "
+                                    "layout edit mode."));
+                    break;
 
-                        /* LAYOUT <layoutid> SET ID <att_value> */
-                    case CrcfMessage::atId:
-                        {
+                    /* LAYOUT <layoutid> SET ID <att_value> */
+                case CrcfMessage::atId:
+                    if (visualMode == kvmEditLayout) {
                         unsigned int mid = cm->getAttValue();
                         if (layoutid != mid) {
                             setLayoutId(mid);
@@ -1879,29 +1883,63 @@ void GBSArea::processGenericMessage(unsigned int sendto,
                                             "CRCF message for layout ID "
                                             "'%1'.").arg(mid));
                         }
+                    }
+                    else
+                        emit statusMessage(tr("Layout data editing via "
+                                    "CRCF messages is only allowed in "
+                                    "layout edit mode."));
+                    break;
+
+                    /* LAYOUT <layoutid> SET NAME <att_value> */
+                case CrcfMessage::atName:
+                    if (visualMode == kvmEditLayout) {
+                        QString ln = cm->getAttValueStr();
+                        if (ln != layoutname) {
+                            setLayoutName(ln);
+                            cms = getCrcfInfoMessage(CrcfMessage::atName);
+                            if (!cms.isEmpty())
+                                sendGmCrcfMessage(sendto, replyto, cms);
+                            else
+                                emit statusMessage(tr("Error assembling "
+                                            "CRCF message for layout NAME "
+                                            "'%1'.").arg(ln));
                         }
-                        break;
+                    }
+                    else
+                        emit statusMessage(tr("Layout data editing via "
+                                    "CRCF messages is only allowed in "
+                                    "layout edit mode."));
+                    break;
 
-                        /* LAYOUT <layoutid> SET NAME <att_value> */
-                    case CrcfMessage::atName:
-                        setLayoutName(cm->getAttValueStr());
-                        cms = getCrcfInfoMessage(CrcfMessage::atName);
-                        if (!cms.isEmpty())
-                            sendGmCrcfMessage(sendto, replyto, cms);
-                        else
-                            emit statusMessage(tr("Error assembling "
-                                        "CRCF message for layout NAME "
-                                        "'%1'.").arg(cm->getAttValueStr()));
-                        break;
+                    /* LAYOUT <layoutid> SET TABLELIGHT <att_value> */
+                case CrcfMessage::atTableLight:
+                    {
+                        unsigned int value = cm->getAttValue();
+                        if (value > 1) 
+                            emit statusMessage(tr("Unvalid TABLELIGHT "
+                                        "value '%1' detected.").arg(value));
+                        else {
+                            bool tl = (bool) value;
+                            if (tl != tablelight) {
+                                switchTableLight(tl);
+                                cms = getCrcfInfoMessage(CrcfMessage::atTableLight);
+                                if (!cms.isEmpty())
+                                    sendGmCrcfMessage(sendto, replyto, cms);
+                                else
+                                    emit statusMessage(tr("Error assembling "
+                                                "CRCF message for layout TABLELIGHT "
+                                                "'%1'.").arg(tl));
+                            }
+                        }
+                    }
+                    break;
 
-                    default:
-                        break;
-                } // end switch
-            }
-            else
-                emit statusMessage(tr("Layout data editing via "
-                            "CRCF messages is only allowed in "
-                            "layout edit mode."));
+                default:
+                    emit statusMessage(tr("Uneditable CRCF attribute '%1' "
+                                "detected.").arg(cm->getAttributeStr()));
+                    break;
+
+            }// end SET switch
             break;
 
         default:
@@ -1935,16 +1973,24 @@ QString GBSArea::getCrcfInfoMessage(CrcfMessage::CrcfAttribute at) const
         case CrcfMessage::atId:
             result = layoutid;
             break;
+
         case CrcfMessage::atName:
             return CrcfMessage::message(CrcfMessage::acLayout, layoutid,
                     CrcfMessage::meInfo, at, layoutname);
             break;
+
         case CrcfMessage::atColumns:
             result = cols;
             break;
+
         case CrcfMessage::atRows:
             result = rows;
             break;
+
+        case CrcfMessage::atTableLight:
+            result = tablelight;
+            break;
+
         default:
             return "";
             break;

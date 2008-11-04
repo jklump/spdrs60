@@ -1,11 +1,11 @@
 /***************************************************************************
                            newlayoutdialog.cpp
-                           version 0.5.3 $Revision: 1.23 $
+                           version 0.5.3 $Revision: 1.24 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-12 09:59:17 $
+    last modified        : $Date: 2008-11-04 21:50:49 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -315,15 +315,27 @@ void newLayoutDialog::setRows(int rows)
 }
 
 
+void newLayoutDialog::setSwitchboxId(unsigned int id)
+{
+    switchboxidLE->setText(QString::number(id));
+}
+
+
+void newLayoutDialog::setSwitchboxName(const QString& name)
+{
+    switchboxnameLE->setText(name);
+}
+
+
 void newLayoutDialog::setLayoutId(unsigned int id)
 {
-    return layoutidLE->setText(QString::number(id));
+    layoutidLE->setText(QString::number(id));
 }
 
 
 void newLayoutDialog::setLayoutName(const QString& name)
 {
-    return layoutnameLE->setText(name);
+    layoutnameLE->setText(name);
 }
 
 

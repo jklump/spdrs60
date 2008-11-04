@@ -1,7 +1,7 @@
 dnl configure.ac for spdrs60
 dnl Guido Scholz
-dnl last update: $Date: 2008-08-12 16:03:46 $
-dnl version: $Revision: 1.25 $
+dnl last update: $Date: 2008-11-04 21:50:49 $
+dnl version: $Revision: 1.26 $
 dnl Process this file with autoconf to produce a configure script.
 
 AC_INIT([spdrs60],[0.5.3],[Guido Scholz <guido.scholz@bayernline.de>])
@@ -26,6 +26,7 @@ fi
 
 dnl Checks for programs
 AC_PROG_CXX
+AC_PROG_CC
 
 
 dnl option to skip html doc generation 
@@ -137,8 +138,19 @@ dnl check for math library
 AC_CHECK_LIB(m, roundf,,AC_MSG_ERROR([required library missing]))
 
 dnl check for some header files
-AC_CHECK_HEADERS(signal.h math.h,,AC_MSG_ERROR([required header file missing]))
+AC_HEADER_STDC
+AC_CHECK_HEADERS([stdlib.h strings.h sys/time.h],,
+                 AC_MSG_ERROR([required header file missing]))
 
+# Checks for typedefs, structures, and compiler characteristics.
+AC_HEADER_STDBOOL
+AC_C_CONST
+AC_TYPE_SIZE_T
+
+# Checks for library functions.
+AC_FUNC_ERROR_AT_LINE
+AC_FUNC_REALLOC
+AC_CHECK_FUNCS([memset])
 
 if test x$enable_html_doc = xyes; then
   dnl this dsssl check is (modified) from the bonsai project

@@ -557,8 +557,8 @@ den Suchkriterien entspricht.</translation>
         <translation>&amp;Zurücksetzen</translation>
     </message>
     <message>
-        <source>&amp;Kill</source>
-        <translation>&amp;Beenden</translation>
+        <source>&amp;Shutdown</source>
+        <translation>&amp;Herunterfahren</translation>
     </message>
     <message>
         <source>&amp;Info...</source>
@@ -653,8 +653,8 @@ den Suchkriterien entspricht.</translation>
         <translation>&amp;Nein</translation>
     </message>
     <message>
-        <source>Kill SRCP daemon</source>
-        <translation>SRCP Daemon beenden</translation>
+        <source>Shutdown SRCP daemon</source>
+        <translation>SRCP Daemon herunterfahren</translation>
     </message>
     <message>
         <source>About Qt</source>
@@ -1045,10 +1045,6 @@ the server daemon after shutdown has finished)</source>
 Wollen damit fortfahren?
 (Anmerkung: Um dieses Programm anschließend weiter
 zu benutzen, starten Sie bitte den Server neu)</translation>
-    </message>
-    <message>
-        <source>&amp;Shutdown</source>
-        <translation>&amp;Herunterfahren</translation>
     </message>
     <message>
         <source>&amp;spdrs60 for Linux on the web</source>

@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-10-07 17:34:43 $
-                           $Revision: 1.157 $
+    last modified        : $Date: 2008-11-04 21:50:49 $
+                           $Revision: 1.158 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -96,6 +96,7 @@
 static const char GF_CMDHOST[]       = "cmdhost";
 static const char GF_FORMATVERSION[] = "formatversion";
 static const char GF_FV[]            = "2";
+static const char GF_RWCC[]          = "rwcc";
 
 /*string constants for personal config file*/
 static const char KS[]              = "=";
@@ -148,6 +149,9 @@ MainWindow::MainWindow(): QMainWindow(NULL, PACKAGE,
     cmdAutoLogin = false;
     cmdAutoPower = false;
     cmdAutoSendAll = true;
+
+    rwccid = 0;
+    rwccname = tr("Untitled");
 
     /*Networking */
     commandStyle = SrcpPort::csNone;
@@ -1098,12 +1102,12 @@ void MainWindow::initMainWindow()
 
 #if QT_VERSION >= 0x030200
     actionDaemonKill = new QAction(QPixmap(daemonkill_xpm),
-            tr("&Kill"), 0, this, "daemonKill");
-    actionDaemonKill->setToolTip(tr("Kill SRCP daemon"));
+            tr("&Shutdown"), 0, this, "daemonKill");
+    actionDaemonKill->setToolTip(tr("Shutdown SRCP daemon"));
 #else
-    actionDaemonKill = new QAction(tr("Kill SRCP daemon"),
+    actionDaemonKill = new QAction(tr("Shutdown SRCP daemon"),
             QPixmap(daemonkill_xpm),
-            tr("&Kill"), 0, this, "daemonKill");
+            tr("&Shutdown"), 0, this, "daemonShutdown");
 #endif
     connect(actionDaemonKill, SIGNAL(activated()), this,
             SLOT(slotDaemonKill()));
@@ -1744,7 +1748,8 @@ bool MainWindow::saveFile()
        << GF_CMDHOST << CF_DS << commandPort->getHostname()
        << CF_DS << commandPort->getPortNumber()
        << CF_DS << cmdAutoLogin << CF_DS << cmdAutoPower
-       << CF_DS << cmdAutoSendAll << endl;
+       << CF_DS << cmdAutoSendAll << endl
+       << GF_RWCC << CF_DS << rwccid << CF_DS << rwccname << endl;
 
     gbs->writeFileTextToStream(ts);
     router->writeFileTextToStream(ts);
@@ -1897,8 +1902,15 @@ void MainWindow::openFile(const QString& fn)
                 cmdAutoPower = tokens[4].toInt() == 1;
                 cmdAutoSendAll = tokens[5].toInt() == 1;
             }
+
             else if (key.compare(GF_FORMATVERSION) == 0)
                 fversion = value.toInt();
+
+            else if (key.compare(GF_RWCC) == 0) {
+                rwccid = value.section(CF_DS, 1, 1).toUInt();
+                rwccname = value.section(CF_DS, 2);
+            }
+
             else if (s.startsWith("%% layout"))
                 break;
         }
@@ -2020,10 +2032,8 @@ void MainWindow::processCommandMessage(const QString& command)
      * respond to SRCP 0.8 messages 
      */
     else if (SRCPCommandState == srcp08TermServer) {
-        if (command.contains("200 OK")) {
+        if (command.contains("200 OK"))
             SRCPCommandState = srcpUndefined;
-            CloseSRCPServerConnection();
-        }
     }
 
     else if (SRCPCommandState == srcp08InitGADevices) {
@@ -2744,7 +2754,7 @@ void MainWindow::slotDaemonKill()
     if (choice == 1)
         return;
 
-    /*TODO:
+    
     SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgServerShutdown);
 
     if (sm == NULL)
@@ -2752,18 +2762,10 @@ void MainWindow::slotDaemonKill()
 
     sendSrcpMessage(sm);
     delete sm;
-    */
-    if (SrcpPort::csOld == commandStyle) {
-        SendCommandToSRCPServer("SHUTDOWN");
-        CloseSRCPServerConnection();
-    }
-    else if (SrcpPort::csNew == commandStyle) {
-        SRCPCommandState = srcp08TermServer;
-        SendCommandToSRCPServer("TERM 0 SERVER");
-    }
 
-    statusMessage(tr("Daemon has been killed. Restart server to "
-             "reconnect " PACKAGE " for Linux"));
+    CloseSRCPServerConnection();
+    statusMessage(tr("SRCP-Service has been terminated. Restart "
+                "server to reconnect %1 for Linux").arg(PACKAGE));
 }
 
 
@@ -2902,23 +2904,22 @@ void MainWindow::slotEditConfigFile()
 /*switch edit modes of layout area*/
 void MainWindow::slotViewSwitchMode(QAction* ac)
 {
-    if (ac == actionViewNormalMode) {
-        visualMode = kvmNormal;
-        updateRouteMenu(rtViewer->isVisible());
-        statusMessage(tr("Layout in normal view mode"));
-    }
-    else if (ac == actionViewLayoutEditMode) {
-        visualMode = kvmEditLayout;
-        rtViewer->hide();
-        updateRouteMenu(false);
-        statusMessage(tr("Entering layout edit mode"));
-    }
-    else if (ac == actionViewRouteEditMode) {
-        visualMode = kvmEditRoute;
-        rtViewer->show();
-        updateRouteMenu(true);
-        statusMessage(tr("Entering route edit mode"));
-    }
+    if (ac == actionViewNormalMode)
+        switchToNormalMode();
+
+    else if (ac == actionViewLayoutEditMode)
+        switchToEditLayoutMode();
+
+    else if (ac == actionViewRouteEditMode)
+        switchToEditRouteMode();
+
+    else
+        statusMessage(tr("Unsupported action detected: '%1'!").arg(ac->text()));
+}
+
+
+void MainWindow::propagateViewModeSwitch()
+{
     // send new visual mode to router, gbs and route list window
     emit switchedVisualMode(visualMode);
 
@@ -2926,6 +2927,33 @@ void MainWindow::slotViewSwitchMode(QAction* ac)
     actionFileNew->setEnabled(visualMode == kvmNormal);
     actionFileOpen->setEnabled(visualMode == kvmNormal);
     actionFileSaveAs->setEnabled(true);
+}
+
+
+void MainWindow::switchToNormalMode()
+{
+    visualMode = kvmNormal;
+    updateRouteMenu(rtViewer->isVisible());
+    statusMessage(tr("Layout in normal view mode"));
+    propagateViewModeSwitch();
+}
+
+void MainWindow::switchToEditLayoutMode()
+{
+    visualMode = kvmEditLayout;
+    rtViewer->hide();
+    updateRouteMenu(false);
+    statusMessage(tr("Entering layout edit mode"));
+    propagateViewModeSwitch();
+}
+
+void MainWindow::switchToEditRouteMode()
+{
+    visualMode = kvmEditRoute;
+    rtViewer->show();
+    updateRouteMenu(true);
+    statusMessage(tr("Entering route edit mode"));
+    propagateViewModeSwitch();
 }
 
 /*
@@ -3187,6 +3215,7 @@ void MainWindow::slotEditFind()
 {
     Finder* findWindow = new Finder(this);
     Q_CHECK_PTR(findWindow);
+
     if (findWindow->exec() == QDialog::Accepted) {
         emit findElement(findWindow->getSearchText(),
                 findWindow->getDataType(),
@@ -3224,14 +3253,17 @@ void MainWindow::layoutChangeSize()
     nlDlg->setCaption(tr("Change layout settings"));
     nlDlg->setColumns(gbs->getColumns());
     nlDlg->setRows(gbs->getRows());
-    nlDlg->setLayoutId(gbs->getLayoutId());
-    nlDlg->setLayoutName(gbs->getLayoutName());
     nlDlg->setHost(commandPort->getHostname());
     nlDlg->setPort(commandPort->getPortNumber());
     nlDlg->setAutoLogin(cmdAutoLogin);
     nlDlg->setAutoPower(cmdAutoPower);
     nlDlg->setAutoSendAll(cmdAutoSendAll);
     
+    nlDlg->setSwitchboxId(rwccid);
+    nlDlg->setSwitchboxName(rwccname);
+    nlDlg->setLayoutId(gbs->getLayoutId());
+    nlDlg->setLayoutName(gbs->getLayoutName());
+
     if (nlDlg->exec() == QDialog::Accepted) {
         gbs->setLayoutSize(nlDlg->getColumns(), nlDlg->getRows());
         gbs->setLayoutId(nlDlg->getLayoutId());
@@ -3244,6 +3276,9 @@ void MainWindow::layoutChangeSize()
         cmdAutoLogin = nlDlg->getAutoLogin();
         cmdAutoPower = nlDlg->getAutoPower();
         cmdAutoSendAll = nlDlg->getAutoSendAll();
+
+        rwccid = nlDlg->getSwitchboxId();
+        rwccname = nlDlg->getSwitchboxName();
     }
     delete nlDlg;
 }
@@ -3279,7 +3314,9 @@ void MainWindow::slotRouteDelete()
 }
 
 /*TODO: for FDL info
- * stdlib.h,
+ * #include <pwd.h>
+ * #include <sys/types.h>
+ * #include <stdlib.h> (getenv)
  * #ifdef LINU
  * #ifdef LINUX 
 void MainWindow::initUserInfo()
@@ -3346,21 +3383,83 @@ void MainWindow::addRecentlyOpenedFile(const QString &fn, QStringList &lst)
 void MainWindow::processGenericMessage(unsigned int sendto,
         unsigned int replyto, const CrcfMessage* cm)
 {
-    QString cms = "";
-
     if (NULL == cm)
         return;
 
-    /*if (rwccid != cm->getActorId());
-        return;*/
+    if (rwccid != cm->getActorId());
+        return;
+
+    QString cms = "";
 
     switch (cm->getMethod()) {
+
+        /* RWCC <rwccid> GET <attribute> */
         case CrcfMessage::meGet:
+            cms = getCrcfInfoMessage(cm->getAttribute());
+            if (cms.isEmpty()) 
+                emit statusMessage(tr("Unsupported CRCF attribute '%1' "
+                            "detected.").arg(cm->getAttributeStr()));
+            else
+                sendGmCrcfMessage(sendto, replyto, cms);
             break;
 
+        /* RWCC <rwccid> SET <attribute> */
         case CrcfMessage::meSet:
+            // handleCrcfSet();
+            switch (cm->getAttribute()) {
+                // handleSetVisualMode(mode);
+                /* RWCC <rwccid> SET MODE <attribute value> */
+                case CrcfMessage::atMode:
+                    {
+                        elemVisualMode mode = (elemVisualMode)cm->getAttValue();
+                        if (mode != visualMode)
+                            switch (mode) {
+                                case kvmNormal:
+                                    switchToNormalMode();
+                                    cms = getCrcfInfoMessage(CrcfMessage::atMode);
+                                    if (!cms.isEmpty())
+                                        sendGmCrcfMessage(sendto, replyto, cms);
+                                    else
+                                        emit statusMessage(tr("Error assembling "
+                                                    "CRCF message for RWCC "
+                                                    "MODE '%1'.").arg(mode));
+                                    break; 
+                                case kvmEditLayout:
+                                    switchToEditLayoutMode();
+                                    cms = getCrcfInfoMessage(CrcfMessage::atMode);
+                                    if (!cms.isEmpty())
+                                        sendGmCrcfMessage(sendto, replyto, cms);
+                                    else
+                                        emit statusMessage(tr("Error assembling "
+                                                    "CRCF message for RWCC "
+                                                    "MODE '%1'.").arg(mode));
+                                    break; 
+                                case kvmEditRoute:
+                                    switchToEditRouteMode();
+                                    cms = getCrcfInfoMessage(CrcfMessage::atMode);
+                                    if (!cms.isEmpty())
+                                        sendGmCrcfMessage(sendto, replyto, cms);
+                                    else
+                                        emit statusMessage(tr("Error assembling "
+                                                    "CRCF message for RWCC "
+                                                    "MODE '%1'.").arg(mode));
+                                    break; 
+                                default:
+                                    emit statusMessage(tr("Unvalid RWCC "
+                                                "MODE value '%1' "
+                                                "detected.").arg(mode));
+                                    break; 
+                            }
+                        break;
+                    }
+                default:
+                    emit statusMessage(tr("Uneditable CRCF RWCC attribute '%1' "
+                                "detected.").arg(cm->getAttributeStr()));
+                    break;
+            }
             break;
 
+        /* RWCC <rwccid> INFO <attribute> */
         case CrcfMessage::meInfo:
             break;
 
@@ -3370,3 +3469,54 @@ void MainWindow::processGenericMessage(unsigned int sendto,
             break;
     }
 }
+
+/*assemble CRCF layout info message string*/
+QString MainWindow::getCrcfInfoMessage(CrcfMessage::CrcfAttribute at) const
+{
+    unsigned int result = 0;
+
+    switch (at) {
+        case CrcfMessage::atId:
+            result = rwccid;
+            break;
+
+        case CrcfMessage::atName:
+            return CrcfMessage::message(CrcfMessage::acRwcc, rwccid,
+                    CrcfMessage::meInfo, at, rwccname);
+            break;
+
+        case CrcfMessage::atMode:
+            result = visualMode;
+            break;
+/*
+        case CrcfMessage::atFdl:
+            {
+            QString fdl = getFdlName();
+            return CrcfMessage::message(CrcfMessage::acRwcc, rwccid,
+                    CrcfMessage::meInfo, at, fdl);
+            break;
+            }
+*/
+        default:
+            return "";
+            break;
+    }
+
+    return CrcfMessage::message(CrcfMessage::acRwcc, rwccid,
+            CrcfMessage::meInfo, at, result);
+}
+
+/* send a SRCP GM CRCF message to server, method identical to router and
+ * gbsarea*/
+void MainWindow::sendGmCrcfMessage(unsigned int sendto,
+        unsigned int replyto, const QString& cms)
+{
+    SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgGmSet);
+    if (sm == NULL)
+        return;
+
+    sm->setGmData(sendto, replyto, "CRCF", cms);
+    sendSrcpMessage(sm); // emit
+    delete sm;
+}
+

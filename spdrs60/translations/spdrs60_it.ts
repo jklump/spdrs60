@@ -477,6 +477,18 @@ matches your search criteria.</source>
         <source>Table light switched off</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Uneditable CRCF attribute &apos;%1&apos; detected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error assembling CRCF message for layout TABLELIGHT &apos;%1&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unvalid TABLELIGHT value &apos;%1&apos; detected.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LayoutEditModeAgrp</name>
@@ -717,14 +729,6 @@ matches your search criteria.</source>
     </message>
     <message>
         <source>Reset SRCP daemon</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Kill</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Kill SRCP daemon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1145,6 +1149,38 @@ the server daemon after shutdown has finished)</source>
     </message>
     <message>
         <source>Unsupported CRCF method &apos;%1&apos; detected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shutdown SRCP daemon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SRCP-Service has been terminated. Restart server to reconnect %1 for Linux</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Untitled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unsupported CRCF attribute &apos;%1&apos; detected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unsupported action detected: &apos;%1&apos;!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error assembling CRCF message for RWCC MODE &apos;%1&apos;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unvalid RWCC MODE value &apos;%1&apos; detected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uneditable CRCF RWCC attribute &apos;%1&apos; detected.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

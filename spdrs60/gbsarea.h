@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.5.2 $Revision: 1.52 $
+                           version 0.5.2 $Revision: 1.53 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-08-12 17:58:27 $
+    last modified        : $Date: 2008-11-04 21:50:49 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -41,13 +41,13 @@
 #include "element.h"
 #include "route.h"
 
+// maximum contacts per bus for SRCP 0.8
+static const int MAXCONTACTS = 496;
 
-#define MAXCONTACTS 496  // maximum contacts per bus for SRCP 0.8
-
-#define GF_GBSEXT      ".spdrs60"
-#define GF_DIMENSIONS  "dimensions"
-#define GF_ID          "identification"
-#define GF_TABLELIGHT  "tablelight"
+static const char GF_GBSEXT[]     = ".spdrs60";
+static const char GF_DIMENSIONS[] = "dimensions";
+static const char GF_ID[]         = "identification";
+static const char GF_TABLELIGHT[] = "tablelight";
 
 
 class GBSArea: public QWidget

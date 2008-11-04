@@ -5188,6 +5188,10 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
   </thead>
   <tbody>
     <row>
+      <entry>Stellwerk</entry>
+      <entry>RWCC</entry>
+    </row>
+    <row>
       <entry>Gleisbild</entry>
       <entry>LAYOUT</entry>
     </row>
@@ -5198,6 +5202,106 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
   </tbody>
 </tgroup>
 </table>
+
+<sect2 id="sect-crcf-stellwerk">
+    <title>Stellwerkattribute</title>
+<para>
+    In <xref linkend="tabelle-crcf-stellwerkattribute"> sind die Attribute
+    eines Stellwerk-Akteurs (RWCC, Railway Control Center) aufgelistet,
+    soweit sie bisher durch spdrs60 in Form von CRCF-Daten unterstützt
+    werden.
+</para>
+
+<table frame="topbot" id="tabelle-crcf-stellwerkattribute">
+    <title>Attribute von Stellwerken (RWCC)</title>
+<tgroup cols="4" align="left" colsep="0" rowsep="0">   
+  <colspec colname="c1" colwidth="3*">
+  <colspec colname="c2" colwidth="2*">
+  <colspec colname="c3" colwidth="2*">
+  <thead>
+    <row rowsep="1">
+      <entry align="left">Bezeichnung</entry>
+      <entry align="left">Kennung</entry>
+      <entry align="left">Datentyp</entry>
+      <entry align="left">Variante</entry>
+    </row>
+  </thead>
+  <tbody>
+    <row>
+      <entry>Identifikationsnummer</entry>
+      <entry>ID</entry>
+      <entry>numerisch</entry>
+      <entry>statisch</entry>
+    </row>
+    <row>
+      <entry>Name</entry>
+      <entry>NAME</entry>
+      <entry>alphanumerisch</entry>
+      <entry>statisch</entry>
+    </row>
+    <row>
+      <entry>Modus</entry>
+      <entry>MODE</entry>
+      <entry>numerisch</entry>
+      <entry>statisch</entry>
+    </row>
+  </tbody>
+</tgroup>
+</table>
+<para>
+    Die Bedeutung der einzelnen Stellwerkattribute wird im Folgenden
+    näher erläutert.
+</para>
+<variablelist>
+  <varlistentry>
+      <term>
+          Identifikationsnummer (ID)
+      </term>
+  <listitem>
+      <para>
+         Mit dieser Nummer lassen sich einzelne Stellwerke voneinander
+         unterscheiden. Bei Anlagen, die auf mehrere Stellwerke (z.B.
+         für verschiedene Bahnhöfe) aufgeteilt sind, sollte jedes
+         Stellwerk eine andere Identifikationsnummer bekommen. Gültig
+         sind ganzzahlige Werte &gt;=&nbsp;0. Der Wert kann über
+         CRCF-Nachrichten zur Zeit nicht geändert, sondern nur abgefragt
+         werden.
+      </para>
+  </listitem>
+  </varlistentry>
+  <varlistentry>
+      <term>
+          Name (NAME)
+      </term>
+  <listitem>
+      <para>
+          Hierbei handelt es sich um eine Namensbezeichnung für das
+          Stellwerk; beispielsweise könnte es sich dabei um eine
+          Bahnhofsbezeichnung handeln. Der Wert kann über
+          CRCF-Nachrichten zur Zeit nicht geändert, sondern nur
+          abgefragt werden.
+      </para>
+  </listitem>
+  </varlistentry>
+  <varlistentry>
+      <term>
+          Modus (MODE)
+      </term>
+  <listitem>
+      <para>
+          Dieser Zahlenwert kodiert den Modus in dem sich das Stellwerk
+          und damit die enthaltenen Gleisbilder befinden. Derzeit werden
+          die folgenden drei Modi
+          unterschieden: 0 = Betriebsmodus, 1 = Gleisbildbearbeitungsmodus,
+          2 = Fahrstraßenbearbeitungsmodus. Das Verändern von statischen
+          CRCF-Daten ist in spdrs60 aus Sicherheitsgründen nur in
+          bestimmten Modi erlaubt.
+      </para>
+  </listitem>
+  </varlistentry>
+</variablelist>
+
+</sect2>
 
 <sect2 id="sect-crcf-gleisbilder">
     <title>Gleisbildattribute</title>
@@ -5238,12 +5342,6 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
       <entry>statisch</entry>
     </row>
     <row>
-      <entry>Modus</entry>
-      <entry>MODE</entry>
-      <entry>numerisch</entry>
-      <entry>statisch</entry>
-    </row>
-    <row>
       <entry>Zeilen</entry>
       <entry>ROWS</entry>
       <entry>numerisch</entry>
@@ -5254,6 +5352,12 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
       <entry>COLUMNS</entry>
       <entry>numerisch</entry>
       <entry>statisch</entry>
+    </row>
+    <row>
+      <entry>Stelltischausleuchtung</entry>
+      <entry>TABLELIGHT</entry>
+      <entry>numerisch</entry>
+      <entry>dynamisch</entry>
     </row>
   </tbody>
 </tgroup>
@@ -5294,21 +5398,6 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
   </varlistentry>
   <varlistentry>
       <term>
-          Modus (MODE)
-      </term>
-  <listitem>
-      <para>
-          Dieser Zahlenwert kodiert den Modus in dem sich das Gleisbild
-          befindet. Derzeit werden die folgenden drei Modi
-          unterschieden: 0 = Betriebsmodus, 1 = Gleisbildbearbeitungsmodus,
-          2 = Fahrstraßenbearbeitungsmodus. Das Verändern von statischen
-          CRCF-Daten ist in spdrs60 aus Sicherheitsgründen nur in
-          bestimmten Modi erlaubt.
-      </para>
-  </listitem>
-  </varlistentry>
-  <varlistentry>
-      <term>
           Zeilen (ROWS)
       </term>
   <listitem>
@@ -5328,6 +5417,20 @@ beschränken sich dann auf die anders geschalteten Elemente der Kopie.
           Dieser Zahlenwert gibt die Anzahl der Spalten des Gleisbildes
           wieder. Er kann nur im Gleisbildbearbeitungsmodus geändert
           werden.
+      </para>
+  </listitem>
+  </varlistentry>
+  <varlistentry>
+      <term>
+          Stelltischausleuchtung (TABLELIGHT)
+      </term>
+  <listitem>
+      <para>
+          Dieser Zahlenwert repräsentiert den Zustand der
+          Stelltischausleuchtung. Der Wert &raquo;0&laquo; entspricht
+          dem Zustand &raquo;aus&laquo;, der Wert &raquo;1&laquo; dem
+          Zustand &raquo;ein&laquo;. Er kann im laufenden Betrieb
+          jederzeit geändert werden.
       </para>
   </listitem>
   </varlistentry>
