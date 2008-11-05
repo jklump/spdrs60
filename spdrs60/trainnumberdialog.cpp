@@ -1,10 +1,10 @@
 /*
  * trainnumberdialog.cpp
  * ---------------------
- * copyright            : (C) 2007 Guido Scholz
+ * copyright            : (C) 2007-2008 Guido Scholz
  * email                : guido.scholz@bayernline.de
- * last modified        : $Date: 2008-05-03 09:37:56 $
- *                        $Revision: 1.3 $
+ * last modified        : $Date: 2008-11-05 08:42:40 $
+ *                        $Revision: 1.4 $
  *
  * this code shows a window with a manual trainnumberdialog to switch solenoids
  */

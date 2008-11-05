@@ -1,10 +1,10 @@
 /***************************************************************************
                            routedialog.cpp
                            -------------------------------
-    copyright            : (C) 2005-2007 Guido Scholz
+    copyright            : (C) 2005-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-09-10 18:34:16 $
-                           $Revision: 1.51 $
+    last modified        : $Date: 2008-11-05 08:42:40 $
+                           $Revision: 1.52 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -48,7 +48,6 @@ RouteDialog::RouteDialog(QWidget* parent): QTabDialog(parent,
     trainidValidator = new QIntValidator(0, 999999, this);
     // Validator for track numbers
     tracknumberValidator = new QIntValidator(1, 99999, this);
-
 
     addIdentificationTab();
     addElementsTab();

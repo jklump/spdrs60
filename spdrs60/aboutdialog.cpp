@@ -5,11 +5,11 @@
  *   2007-08-26
  * 
  * Last modified
- *   $Date: 2008-07-22 18:14:47 $
- *   $Revision: 1.8 $
+ *   $Date: 2008-11-05 08:42:40 $
+ *   $Revision: 1.9 $
  *
  * Copyright
- *   (C) 2007 Guido Scholz <guido.scholz@bayernline.de>
+ *   (C) 2007-2008 Guido Scholz <guido.scholz@bayernline.de>
  * 
  * Description
  *   Dialog window to display program information

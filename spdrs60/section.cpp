@@ -1,11 +1,11 @@
 /*
  * section.cpp
  * -----------
- * Copyright    : (C) 2007 by Guido Scholz
+ * Copyright    : (C) 2007-2008 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-10
- * Last modified: $Date: 2008-05-02 04:29:07 $
- *                $Revision: 1.3 $
+ * Last modified: $Date: 2008-11-05 08:42:40 $
+ *                $Revision: 1.4 $
  *
  * This code implements the section class to handle train ids and train
  * locations. This is a base class for routes and blocks.

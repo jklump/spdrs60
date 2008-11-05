@@ -1,11 +1,11 @@
 /*
  * section.h
  * ---------
- * Copyright    : (C) 2007 by Guido Scholz
+ * Copyright    : (C) 2007-2008 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-10
- * Last modified: $Date: 2008-09-10 18:34:16 $
- *                $Revision: 1.4 $
+ * Last modified: $Date: 2008-11-05 08:42:40 $
+ *                $Revision: 1.5 $
  *
  * This is the header file for section.cpp.
  */

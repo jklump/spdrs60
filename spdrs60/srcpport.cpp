@@ -2,9 +2,9 @@
  srcpport.cpp
  ------------
  Begin        : 17.08.2007
- Last modified: $Date: 2008-05-16 18:53:05 $
-                $Revision: 1.7 $
- Copyright    : (C) 2007 by Guido Scholz <guido.scholz@bayernline.de>
+ Last modified: $Date: 2008-11-05 08:42:40 $
+                $Revision: 1.8 $
+ Copyright    : (C) 2007-2008 by Guido Scholz <guido.scholz@bayernline.de>
  Description  : Abstract class for network communication with SRCP server.
                 Communication styles SRCP 0.7 and 0.8 are supported.
  ***************************************************************************/

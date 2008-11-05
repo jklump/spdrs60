@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-04 23:03:05 $
-                           $Revision: 1.159 $
+    last modified        : $Date: 2008-11-05 08:42:40 $
+                           $Revision: 1.160 $
 ***************************************************************************/
 
 /***************************************************************************

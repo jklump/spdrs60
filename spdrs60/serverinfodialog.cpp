@@ -2,9 +2,9 @@
  * serverinfodialog.cpp
  * --------------------
  * Begin        : 2007-08-22
- * Last modified: $Date: 2008-06-11 17:51:49 $
- *                $Revision: 1.6 $
- * Copyright    : (C) 2007 by Guido Scholz
+ * Last modified: $Date: 2008-11-05 08:42:40 $
+ *                $Revision: 1.7 $
+ * Copyright    : (C) 2007-2008 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Description  : Dialog window to display SRCP server information
  */

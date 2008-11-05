@@ -1,4 +1,4 @@
-spdrs60-0.5.3 (2008-08-??)
+spdrs60-0.5.3 (2008-11-09)
   o The error preventing correct sorting of numerical list entries in
     route list and route element list was removed.
 

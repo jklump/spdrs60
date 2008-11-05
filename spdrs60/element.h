@@ -2,10 +2,10 @@
                            element.h
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-                         : (C) 2004-2007 by Guido Scholz
-    email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-10-07 17:34:43 $
-                           $Revision: 1.102 $
+                         : (C) 2004-2008 by Guido Scholz
+    e-mail               : guido.scholz@bayernline.de
+    last modified        : $Date: 2008-11-05 08:42:40 $
+                           $Revision: 1.103 $
 ****************************************************************************/
 
 /***************************************************************************
