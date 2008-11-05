@@ -1,3 +1,9 @@
++++ Release 0.5.3 (2008-11-09) +++
+
+2008-11-05 Guido Scholz <guido.scholz@bayernline.de>
+	* mainwindow.cpp, gsarea.cppl: Generic Messages/CRCF support for
+	tablelight and edit mode switching added.
+
 2008-08-12 Guido Scholz <guido.scholz@bayernline.de>
 	* configure.ac, doc/Makefile.am: configure option for pdf
 	handbook creation added.
@@ -176,6 +182,8 @@
 2007-08-02 Guido Scholz <guido.scholz@bayernline.de>
 	* resouces.h: Number of maximum layout rows changed to 120
 
++++ Release 0.5.2 (2007-02-17) +++
+
 2007-02-12 Guido Scholz <guido.scholz@bayernline.de>
 	* gbsarea.*: basic drag-and-drop support for a single element
 	added
@@ -195,6 +203,8 @@
 	* mainwindow.cpp, gbsarea.*, element.*: popup menues are moved
 	from element to gbsarea improving memory consumtion and file
 	loading time a lot
+
++++ Release 0.5.1 (2007-02-04) +++
 
 2007-02-04 Guido Scholz <guido.scholz@bayernline.de>
 	* mainwindow.*, router.*, gbsarea.*, element.*: support for old
@@ -216,6 +226,8 @@
 2007-01-09 Guido Scholz <guido.scholz@bayernline.de>
 	* main.cpp, mainwindow.*: analyse command arguments to open more
 	than one layout window
+
++++ Release 0.5.0 (2006-12-02) +++
 
 2006-12-02 Guido Scholz <guido.scholz@bayernline.de>
 	* element.*: two dimensional routing algorithm, five new
@@ -290,6 +302,8 @@
 2005-12-23 Guido Scholz <guido.scholz@bayernline.de>
 	* element.*, route.cpp: make simple GA elements switchable by
 	routes
+
++++ Release 0.4.8 (2005-12-11) +++
 
 2005-12-05 Guido Scholz <guido.scholz@bayernline.de>
 	* element.*: new EDiTS address calculation
@@ -403,8 +417,9 @@
 2005-01-27 Guido Scholz <guido.scholz@bayernline.de>
 	* gbsarea.cpp: fixed Qt 3.1 compile error
 
++++ Release 0.4.7 (2005-01-23) +++
+
 2005-01-23 Guido Scholz <guido.scholz@bayernline.de>
-	* package: spdrs60-0.4.7 released
 	* layouts: new example layout "dedorf", new elements added to
 	layout "alle_elemente" 
 	* *.cpp, *.h: all files renamed to lower case
@@ -434,8 +449,9 @@
 	* doc: port of de/index.sgml from Linuxdoc to Docbook/SGML,
 	en/index.sgml bug fixing
 
++++ Release 0.4.6 (2005-01-01) +++
+
 2005-01-01 Guido Scholz <guido.scholz@bayernline.de>
-	* package: spdrs60-0.4.6 released
 	* ChangeLog: reformated
 	* MainWindow.cpp, GBSaerea.cpp, element.cpp: code cleanups,
 	toolbar icons are included into binary, enabled user feedback by
@@ -444,14 +460,17 @@
 	loaded, fixed blocking of unactive routes by FHS button
 	* pixmaps: design changes for some icons
 
++++ Release 0.4.5 (2004-12-12) +++
+
 2004-12-12 Guido Scholz <guido.scholz@bayernline.de>
-	* package: spdrs60-0.4.5 released
 	* RoutingDialog.cpp, GBSArea.cpp: enabled routing activation
 	by feedback signals
 	* GBSArea.cpp: fixed crash bug by wrong routing calculation
 	* spdrs60.*.spec: added rpm-spec and desktop files for
 	redhat/fedora systems
 	* configure.ac: changed compiler check to only c++
+
++++ Release 0.4.4 (2004-11-18) +++
 
 2004-11-18 Guido Scholz <guido.scholz@bayernline.de>
 	* package: spdrs60-0.4.4 released, Guido Scholz took over
