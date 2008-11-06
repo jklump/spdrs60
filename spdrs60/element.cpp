@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-10-07 17:34:43 $
-                           $Revision: 1.177 $
+    last modified        : $Date: 2008-11-06 20:19:02 $
+                           $Revision: 1.178 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -4088,7 +4088,7 @@ void element::setupElementIcon()
                             (lastdir == 2 && newdir == 0)))
                         c1 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c1 = QColor(255, 225, 0);
                         else 
                             c1 = QColor(Qt::darkGray);
@@ -4098,7 +4098,7 @@ void element::setupElementIcon()
                             (lastdir == 0 && newdir != 0)))
                         c2 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c2 = QColor(255, 225, 0);
                         else 
                             c2 = QColor(Qt::darkGray);
@@ -4112,7 +4112,7 @@ void element::setupElementIcon()
                         (lastdir == 2 && newdir == 1)))
                         c1 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c1 = QColor(255, 225, 0);
                         else 
                             c1 = QColor(Qt::darkGray);
@@ -4125,7 +4125,7 @@ void element::setupElementIcon()
                                 (lastdir == 0 && newdir == 1)))
                         c4 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c4 = QColor(255, 225, 0);
                         else 
                             c4 = QColor(Qt::darkGray);
@@ -4139,7 +4139,7 @@ void element::setupElementIcon()
                                 (lastdir != 2 && newdir == 2)))
                         c3 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c3 = QColor(255, 225, 0);
                         else 
                             c3 = QColor(Qt::darkGray);
@@ -4149,7 +4149,7 @@ void element::setupElementIcon()
                                 (lastdir == 0 && newdir == 2)))
                         c4 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c4 = QColor(255, 225, 0);
                         else 
                             c4 = QColor(Qt::darkGray);
@@ -4320,7 +4320,7 @@ void element::setupElementIcon()
                             (lastdir == 2 && newdir == 0)))
                         c1 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c1 = QColor(255, 225, 0);
                         else 
                             c1 = QColor(Qt::darkGray);
@@ -4330,7 +4330,7 @@ void element::setupElementIcon()
                             (lastdir == 0 && newdir != 0)))
                         c2 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c2 = QColor(255, 225, 0);
                         else 
                             c2 = QColor(Qt::darkGray);
@@ -4344,7 +4344,7 @@ void element::setupElementIcon()
                         (lastdir == 2 && newdir == 1)))
                         c1 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c1 = QColor(255, 225, 0);
                         else 
                             c1 = QColor(Qt::darkGray);
@@ -4357,7 +4357,7 @@ void element::setupElementIcon()
                                 (lastdir == 0 && newdir == 1)))
                         c4 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c4 = QColor(255, 225, 0);
                         else 
                             c4 = QColor(Qt::darkGray);
@@ -4371,7 +4371,7 @@ void element::setupElementIcon()
                                 (lastdir != 2 && newdir == 2)))
                         c3 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c3 = QColor(255, 225, 0);
                         else 
                             c3 = QColor(Qt::darkGray);
@@ -4381,7 +4381,7 @@ void element::setupElementIcon()
                                 (lastdir == 0 && newdir == 2)))
                         c4 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c4 = QColor(255, 225, 0);
                         else 
                             c4 = QColor(Qt::darkGray);
@@ -4551,7 +4551,7 @@ void element::setupElementIcon()
                             (lastdir == 2 && newdir == 0)))
                         c1 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c1 = QColor(255, 225, 0);
                         else 
                             c1 = QColor(Qt::darkGray);
@@ -4561,7 +4561,7 @@ void element::setupElementIcon()
                             (lastdir != 0 && newdir == 0)))
                         c2 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c2 = QColor(255, 225, 0);
                         else 
                             c2 = QColor(Qt::darkGray);
@@ -4575,7 +4575,7 @@ void element::setupElementIcon()
                         (lastdir == 2 && newdir == 1)))
                         c1 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c1 = QColor(255, 225, 0);
                         else 
                             c1 = QColor(Qt::darkGray);
@@ -4588,7 +4588,7 @@ void element::setupElementIcon()
                                 (lastdir == 0 && newdir == 1)))
                         c4 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c4 = QColor(255, 225, 0);
                         else 
                             c4 = QColor(Qt::darkGray);
@@ -4602,7 +4602,7 @@ void element::setupElementIcon()
                                 (lastdir != 2 && newdir == 2)))
                         c3 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c3 = QColor(255, 225, 0);
                         else 
                             c3 = QColor(Qt::darkGray);
@@ -4612,7 +4612,7 @@ void element::setupElementIcon()
                                 (lastdir == 0 && newdir == 2)))
                         c4 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c4 = QColor(255, 225, 0);
                         else 
                             c4 = QColor(Qt::darkGray);
@@ -4784,7 +4784,7 @@ void element::setupElementIcon()
                             (lastdir == 2 && newdir == 0)))
                         c1 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c1 = QColor(255, 225, 0);
                         else 
                             c1 = QColor(Qt::darkGray);
@@ -4794,7 +4794,7 @@ void element::setupElementIcon()
                             (lastdir != 0 && newdir == 0)))
                         c2 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c2 = QColor(255, 225, 0);
                         else 
                             c2 = QColor(Qt::darkGray);
@@ -4808,7 +4808,7 @@ void element::setupElementIcon()
                         (lastdir == 2 && newdir == 1)))
                         c1 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c1 = QColor(255, 225, 0);
                         else 
                             c1 = QColor(Qt::darkGray);
@@ -4821,7 +4821,7 @@ void element::setupElementIcon()
                                 (lastdir == 0 && newdir == 1)))
                         c4 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c4 = QColor(255, 225, 0);
                         else 
                             c4 = QColor(Qt::darkGray);
@@ -4835,7 +4835,7 @@ void element::setupElementIcon()
                                 (lastdir != 2 && newdir == 2)))
                         c3 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c3 = QColor(255, 225, 0);
                         else 
                             c3 = QColor(Qt::darkGray);
@@ -4845,7 +4845,7 @@ void element::setupElementIcon()
                                 (lastdir == 0 && newdir == 2)))
                         c4 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c4 = QColor(255, 225, 0);
                         else 
                             c4 = QColor(Qt::darkGray);
@@ -5037,7 +5037,7 @@ void element::setupElementIcon()
                             (lastdir >= 2 && newdir == 0)))
                         c1 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c1 = QColor(255, 225, 0);
                         else 
                             c1 = QColor(Qt::darkGray);
@@ -5048,7 +5048,7 @@ void element::setupElementIcon()
                             (lastdir == 0 && (newdir == 1 || newdir == 2))))
                         c2 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c2 = QColor(255, 225, 0);
                         else 
                             c2 = QColor(Qt::darkGray);
@@ -5064,7 +5064,7 @@ void element::setupElementIcon()
                                  newdir == 1)))
                         c1 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c1 = QColor(255, 225, 0);
                         else 
                             c1 = QColor(Qt::darkGray);
@@ -5079,7 +5079,7 @@ void element::setupElementIcon()
                                  newdir == 1)))
                         c4 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c4 = QColor(255, 225, 0);
                         else 
                             c4 = QColor(Qt::darkGray);
@@ -5095,7 +5095,7 @@ void element::setupElementIcon()
                                  newdir == 2)))
                         c3 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c3 = QColor(255, 225, 0);
                         else 
                             c3 = QColor(Qt::darkGray);
@@ -5107,7 +5107,7 @@ void element::setupElementIcon()
                                  newdir == 2)))
                         c4 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c4 = QColor(255, 225, 0);
                         else 
                             c4 = QColor(Qt::darkGray);
@@ -5122,7 +5122,7 @@ void element::setupElementIcon()
                                  newdir == 3)))
                         c2 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c2 = QColor(255, 225, 0);
                         else 
                             c2 = QColor(Qt::darkGray);
@@ -5134,7 +5134,7 @@ void element::setupElementIcon()
                                  newdir == 3)))
                         c3 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c3 = QColor(255, 225, 0);
                         else 
                             c3 = QColor(Qt::darkGray);
@@ -5324,7 +5324,7 @@ void element::setupElementIcon()
                             (lastdir >= 2 && newdir == 0)))
                         c1 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c1 = QColor(255, 225, 0);
                         else 
                             c1 = QColor(Qt::darkGray);
@@ -5335,7 +5335,7 @@ void element::setupElementIcon()
                             (lastdir == 0 && (newdir == 1 || newdir == 2))))
                         c2 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c2 = QColor(255, 225, 0);
                         else 
                             c2 = QColor(Qt::darkGray);
@@ -5351,7 +5351,7 @@ void element::setupElementIcon()
                                  newdir == 1)))
                         c1 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c1 = QColor(255, 225, 0);
                         else 
                             c1 = QColor(Qt::darkGray);
@@ -5366,7 +5366,7 @@ void element::setupElementIcon()
                                  newdir == 1)))
                         c4 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c4 = QColor(255, 225, 0);
                         else 
                             c4 = QColor(Qt::darkGray);
@@ -5382,7 +5382,7 @@ void element::setupElementIcon()
                                  newdir == 2)))
                         c3 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c3 = QColor(255, 225, 0);
                         else 
                             c3 = QColor(Qt::darkGray);
@@ -5394,7 +5394,7 @@ void element::setupElementIcon()
                                  newdir == 2)))
                         c4 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c4 = QColor(255, 225, 0);
                         else 
                             c4 = QColor(Qt::darkGray);
@@ -5409,7 +5409,7 @@ void element::setupElementIcon()
                                  newdir == 3)))
                         c2 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c2 = QColor(255, 225, 0);
                         else 
                             c2 = QColor(Qt::darkGray);
@@ -5421,7 +5421,7 @@ void element::setupElementIcon()
                                  newdir == 3)))
                         c3 = QColor(Qt::darkGray);
                     else {
-                        if ((blinkcounter > 0) || tablelight || routed)
+                        if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                             c3 = QColor(255, 225, 0);
                         else 
                             c3 = QColor(Qt::darkGray);
@@ -5940,7 +5940,7 @@ void element::setupElementIcon()
                 if (occupied)
                     c = QColor(Qt::red);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed)
+                    if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                         c = QColor(255, 225, 0);
                     else 
                         c = QColor(Qt::darkGray);
@@ -5957,7 +5957,7 @@ void element::setupElementIcon()
                 if (occupied)
                     c = QColor(Qt::red);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed)
+                    if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                         c = QColor(255, 225, 0);
                     else 
                         c = QColor(Qt::darkGray);
@@ -6078,7 +6078,7 @@ void element::setupElementIcon()
                 if (occupied)
                     c = QColor(Qt::red);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed)
+                    if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                         c = QColor(255, 225, 0);
                     else 
                         c = QColor(Qt::darkGray);
@@ -6095,7 +6095,7 @@ void element::setupElementIcon()
                 if (occupied)
                     c = QColor(Qt::red);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed)
+                    if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                         c = QColor(255, 225, 0);
                     else 
                         c = QColor(Qt::darkGray);
@@ -6216,7 +6216,7 @@ void element::setupElementIcon()
                 if (occupied)
                     c = QColor(Qt::red);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed)
+                    if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                         c = QColor(255, 225, 0);
                     else 
                         c = QColor(Qt::darkGray);
@@ -6233,7 +6233,7 @@ void element::setupElementIcon()
                 if (occupied)
                     c = QColor(Qt::red);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed)
+                    if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                         c = QColor(255, 225, 0);
                     else 
                         c = QColor(Qt::darkGray);
@@ -6354,7 +6354,7 @@ void element::setupElementIcon()
                 if (occupied)
                     c = QColor(Qt::red);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed)
+                    if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                         c = QColor(255, 225, 0);
                     else 
                         c = QColor(Qt::darkGray);
@@ -6371,7 +6371,7 @@ void element::setupElementIcon()
                 if (occupied)
                     c = QColor(Qt::red);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed)
+                    if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                         c = QColor(255, 225, 0);
                     else 
                         c = QColor(Qt::darkGray);
@@ -6502,7 +6502,7 @@ void element::setupElementIcon()
                 if (occupied)
                     c = QColor(Qt::red);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed)
+                    if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                         c = QColor(255, 225, 0);
                     else 
                         c = QColor(Qt::darkGray);
@@ -6521,7 +6521,7 @@ void element::setupElementIcon()
                 if (occupied)
                     c = QColor(Qt::red);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed)
+                    if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                         c = QColor(255, 225, 0);
                     else 
                         c = QColor(Qt::darkGray);
@@ -6647,7 +6647,7 @@ void element::setupElementIcon()
                 if (occupied)
                     c = QColor(Qt::red);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed)
+                    if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                         c = QColor(255, 225, 0);
                     else 
                         c = QColor(Qt::darkGray);
@@ -6666,7 +6666,7 @@ void element::setupElementIcon()
                 if (occupied)
                     c = QColor(Qt::red);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed)
+                    if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                         c = QColor(255, 225, 0);
                     else 
                         c = QColor(Qt::darkGray);
@@ -6792,7 +6792,7 @@ void element::setupElementIcon()
                 if (occupied)
                     c = QColor(Qt::red);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed)
+                    if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                         c = QColor(255, 225, 0);
                     else 
                         c = QColor(Qt::darkGray);
@@ -6811,7 +6811,7 @@ void element::setupElementIcon()
                 if (occupied)
                     c = QColor(Qt::red);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed)
+                    if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                         c = QColor(255, 225, 0);
                     else 
                         c = QColor(Qt::darkGray);
@@ -6936,7 +6936,7 @@ void element::setupElementIcon()
                 if (occupied)
                     c = QColor(Qt::red);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed)
+                    if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                         c = QColor(255, 225, 0);
                     else 
                         c = QColor(Qt::darkGray);
@@ -6955,7 +6955,7 @@ void element::setupElementIcon()
                 if (occupied)
                     c = QColor(Qt::red);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed)
+                    if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                         c = QColor(255, 225, 0);
                     else 
                         c = QColor(Qt::darkGray);
@@ -7073,7 +7073,7 @@ void element::setupElementIcon()
                 if (occupied)
                     c = QColor(Qt::red);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed)
+                    if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                         c = QColor(255, 225, 0);
                     else 
                         c = QColor(Qt::darkGray);
@@ -7096,7 +7096,7 @@ void element::setupElementIcon()
                 if (occupied)
                     c = QColor(Qt::red);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed)
+                    if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                         c = QColor(255, 225, 0);
                     else 
                         c = QColor(Qt::darkGray);
@@ -7220,7 +7220,7 @@ void element::setupElementIcon()
                 if (occupied)
                     c = QColor(Qt::red);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed)
+                    if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                         c = QColor(255, 225, 0);
                     else 
                         c = QColor(Qt::darkGray);
@@ -7243,7 +7243,7 @@ void element::setupElementIcon()
                 if (occupied)
                     c = QColor(Qt::red);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed)
+                    if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                         c = QColor(255, 225, 0);
                     else 
                         c = QColor(Qt::darkGray);
@@ -7368,7 +7368,7 @@ void element::setupElementIcon()
                 if (occupied)
                     c = QColor(Qt::red);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed)
+                    if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                         c = QColor(255, 225, 0);
                     else 
                         c = QColor(Qt::darkGray);
@@ -7385,7 +7385,7 @@ void element::setupElementIcon()
                 if (occupied)
                     c = QColor(Qt::red);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed)
+                    if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                         c = QColor(255, 225, 0);
                     else 
                         c = QColor(Qt::darkGray);
@@ -7408,7 +7408,7 @@ void element::setupElementIcon()
                 if (occupied)
                     c = QColor(Qt::red);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed)
+                    if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                         c = QColor(255, 225, 0);
                     else 
                         c = QColor(Qt::darkGray);
@@ -7535,7 +7535,7 @@ void element::setupElementIcon()
                 if (occupied)
                     c = QColor(Qt::red);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed)
+                    if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                         c = QColor(255, 225, 0);
                     else 
                         c = QColor(Qt::darkGray);
@@ -7552,7 +7552,7 @@ void element::setupElementIcon()
                 if (occupied)
                     c = QColor(Qt::red);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed)
+                    if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                         c = QColor(255, 225, 0);
                     else 
                         c = QColor(Qt::darkGray);
@@ -7575,7 +7575,7 @@ void element::setupElementIcon()
                 if (occupied)
                     c = QColor(Qt::red);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed)
+                    if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
                         c = QColor(255, 225, 0);
                     else 
                         c = QColor(Qt::darkGray);

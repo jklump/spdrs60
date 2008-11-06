@@ -305,7 +305,7 @@ spdrs60-0.4.6 (2005-01-01)
   o toolbar icons are included into binary
 
 
-spdrs60-0.4.5 (2004-12-11)
+spdrs60-0.4.5 (2004-12-12)
   o enabled routing activation by feedback signals
   o fixed crash bug by wrong routing calculation
   o added rpm-spec and desktop files for redhat/fedora systems

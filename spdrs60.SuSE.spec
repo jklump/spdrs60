@@ -1,7 +1,7 @@
 Summary: SpDrS60, Switchbox for digital model railroads 
-Summary(de): SpDrS60, Spurplan-Drucktastenstellwerk für digitale Modelleisenbahnen
+Summary(de): SpDrS60, Spurplan-Drucktastenstellwerk fÃ¼r digitale Modelleisenbahnen
 Name: spdrs60
-Version: 0.5.2
+Version: 0.5.3
 Release: 1%{?dist}
 License: GPL
 Group: Amusements/Games
@@ -32,7 +32,7 @@ Grafisches Programm zur komfortablen Steuerung von Weichen und Signalen.
 Visuelle Darstellung und Bedienung sind eng an das
 Spurplandrucktastenstellwerk Bauart Siemens 60 (SpDrS60) der Deutschen
 Bundesbahn angelehnt. Zur Steuerung der Modellbahn wird ein
-SRCP-konformer Server (z.B. erddcd oder srcpd) benötigt.
+SRCP-konformer Server (z.B. erddcd oder srcpd) benÃ¶tigt.
 
 Autoren:
 --------
@@ -79,6 +79,9 @@ done
 %{_docdir}/%{name}
 
 %changelog
+* Thu Nov 06 2008 Guido Scholz <guido.scholz@bayernline.de>
+- Update to spdrs60-0.5.3
+
 * Sat Feb 17 2007 Guido Scholz <guido.scholz@bayernline.de>
 - Update to spdrs60-0.5.2
 
