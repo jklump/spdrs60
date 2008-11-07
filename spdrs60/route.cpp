@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.76 $
+                           version 0.5.2 $Revision: 1.77 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-10-07 17:34:43 $
+    last modified        : $Date: 2008-11-07 19:13:18 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -432,11 +432,12 @@ void Route::setState(Route::RouteState state)
         RouteSetAction rsa = rsaReset;
         routestate = state;
 
-        if (routestate != rsUnlocked)
+        if (routestate != rsUnlocked) {
             if (routeType == rtRRS || routeType == rtURS)
                 rsa = rsaRfs;
             else
                 rsa = rsaZfs;
+        }
 
         emit updateRoutePathLEDs(entrySignal, exitSignal, rsa);
         emit stateChanged(this, routestate);
@@ -580,7 +581,7 @@ void Route::switchTurnouts()
             ++it;
             element* el = se->elemPtr;
 
-            if (el != NULL && el->isTurnout() && !el->isSwitched())
+            if (el != NULL && el->isTurnout() && !el->isSwitched()) {
                 if (el->hasDifferentState(se->state)) {
 
                     ++tocounter;
@@ -604,6 +605,7 @@ void Route::switchTurnouts()
                 // no blink animation but command sending necessary
                 else if (pref.sendstate)
                     el->sendSrcpState();
+            }
         }
     }
     // if there is no single turnout go ahead anyway

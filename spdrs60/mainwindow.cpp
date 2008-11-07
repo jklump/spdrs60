@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-05 08:42:40 $
-                           $Revision: 1.160 $
+    last modified        : $Date: 2008-11-07 19:13:18 $
+                           $Revision: 1.161 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2066,7 +2066,7 @@ void MainWindow::processCommandMessage(const QString& command)
          * walk through FB bus list step by step
          * keep SRCPCommandState while initialization is not finished
          */
-        if (!gbs->sendSRCP08BusMessage(SrcpMessage::msgPowerInit))
+        if (!gbs->sendSRCP08BusMessage(SrcpMessage::msgPowerInit)) {
             if (cmdAutoPower) {
                 SRCPCommandState = srcp08GetBusPower;
                 if (!gbs->sendSRCP08BusMessage(
@@ -2080,6 +2080,7 @@ void MainWindow::processCommandMessage(const QString& command)
             }
             else
                 SRCPCommandState = srcpConnected;
+        }
     }
 
     else if (SRCPCommandState == srcp08SetBusPower) {
@@ -2860,7 +2861,7 @@ void MainWindow::slotAboutQt()
 /*show/hide route list window*/
 void MainWindow::slotShowRoutes()
 {
-    if (rtViewer!= NULL)
+    if (rtViewer!= NULL) {
         if (rtViewer->isVisible())
             rtViewer->hide();
         else {
@@ -2868,6 +2869,7 @@ void MainWindow::slotShowRoutes()
             rtViewer->setActiveWindow();
             rtViewer->raise();
         }
+    }
 }
 
 
@@ -3095,7 +3097,7 @@ void MainWindow::slotShowClock()
  */
 void MainWindow::slotShowModules()
 {
-    if (fbViewer != NULL)
+    if (fbViewer != NULL) {
         if (fbViewer->isVisible())
             fbViewer->hide();
         else {
@@ -3103,6 +3105,7 @@ void MainWindow::slotShowModules()
             fbViewer->setActiveWindow();
             fbViewer->raise();
         }
+    }
 }
 
 

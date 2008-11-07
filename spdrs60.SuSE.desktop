@@ -9,5 +9,5 @@ Icon=spdrs60_16.xpm
 TryExec=spdrs60
 Exec=spdrs60 %f
 Terminal=0
-Categories=Game;Simulation
+Categories=Game;Simulation;
 

@@ -1,10 +1,10 @@
 /***************************************************************************
                            crcfmessage.cpp
-                           version 0.5.3 $Revision: 1.8 $
+                           version 0.5.3 $Revision: 1.9 $
                            -------------------------------
     copyright            : (C) 2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-05 08:42:40 $
+    last modified        : $Date: 2008-11-07 19:13:18 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -296,7 +296,7 @@ CrcfMessage* CrcfMessage::parse(QString& msg)
     }
 
     // token 5: attribute value
-    if (meSet == cm || meInfo == cm)
+    if (meSet == cm || meInfo == cm) {
         if (tokens.count() == 5) {
             if (cat == atName)
                 return new CrcfMessage(actor, aid, cm, cat, tokens[4]);
@@ -306,6 +306,7 @@ CrcfMessage* CrcfMessage::parse(QString& msg)
             //error unsupported CRCF operation
             return NULL;
         }
+    }
 
     return new CrcfMessage(actor, aid, cm, cat, value);
 }

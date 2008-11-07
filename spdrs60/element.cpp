@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-06 20:19:02 $
-                           $Revision: 1.178 $
+    last modified        : $Date: 2008-11-07 19:13:18 $
+                           $Revision: 1.179 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -5033,8 +5033,12 @@ void element::setupElementIcon()
             }
             else {
                 if (state == 0) {
-                    if (!lightson && ((lastdir == 0 && newdir >= 2) ||
-                            (lastdir >= 2 && newdir == 0)))
+                    if (!lightson && (
+                                (lastdir == 0 && newdir >= 2)
+                                ||
+                                (lastdir >= 2 && newdir == 0)
+                                )
+                       )
                         c1 = QColor(Qt::darkGray);
                     else {
                         if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
@@ -5043,9 +5047,12 @@ void element::setupElementIcon()
                             c1 = QColor(Qt::darkGray);
                     }
                     
-                    if (!lightson && (((lastdir == 1 || lastdir == 2) &&
-                                    newdir == 0) ||
-                            (lastdir == 0 && (newdir == 1 || newdir == 2))))
+                    if (!lightson && (
+                                (lastdir == 0 && (newdir == 1 || newdir == 2))
+                                ||
+                                ((lastdir == 1 || lastdir == 2) && newdir == 0)
+                                )
+                       )
                         c2 = QColor(Qt::darkGray);
                     else {
                         if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
@@ -5057,11 +5064,14 @@ void element::setupElementIcon()
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::darkGray);
                 }
+
                 else if (state == 1) {
-                    if (!lightson && ((lastdir == 1 &&
-                                    (newdir == 2) || newdir == 3) ||
-                                ((lastdir == 2 || newdir == 3) &&
-                                 newdir == 1)))
+                    if (!lightson && (
+                                (lastdir == 1 && (newdir == 2 || newdir == 3))
+                                ||
+                                ((lastdir == 2 || lastdir == 3) && newdir == 1)
+                                )
+                       )
                         c1 = QColor(Qt::darkGray);
                     else {
                         if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
@@ -5073,10 +5083,12 @@ void element::setupElementIcon()
                     c2 = QColor(Qt::darkGray);
                     c3 = QColor(Qt::darkGray);
                     
-                    if (!lightson && ((lastdir == 1 &&
-                                    (newdir == 0) || newdir == 3) ||
-                                ((lastdir == 0 || lastdir == 3) &&
-                                 newdir == 1)))
+                    if (!lightson && (
+                                (lastdir == 1 && (newdir == 0 || newdir == 3))
+                                ||
+                                ((lastdir == 0 || lastdir == 3) && newdir == 1)
+                                )
+                       )
                         c4 = QColor(Qt::darkGray);
                     else {
                         if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
@@ -5085,14 +5097,17 @@ void element::setupElementIcon()
                             c4 = QColor(Qt::darkGray);
                     }
                 }
+
                 else if (state == 2) {
                     c1 = QColor(Qt::darkGray);
                     c2 = QColor(Qt::darkGray);
                     
-                    if (!lightson && ((lastdir == 2 &&
-                                    (newdir == 0 || newdir == 1)) ||
-                                ((lastdir == 0 || lastdir == 1) &&
-                                 newdir == 2)))
+                    if (!lightson && (
+                                (lastdir == 2 && (newdir == 0 || newdir == 1))
+                                ||
+                                ((lastdir == 0 || lastdir == 1) && newdir == 2)
+                                )
+                       )
                         c3 = QColor(Qt::darkGray);
                     else {
                         if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
@@ -5101,10 +5116,12 @@ void element::setupElementIcon()
                             c3 = QColor(Qt::darkGray);
                     }
                     
-                    if (!lightson && ((lastdir == 2 &&
-                                    (newdir == 0 || newdir == 3)) ||
-                                ((lastdir == 0 || lastdir == 3) &&
-                                 newdir == 2)))
+                    if (!lightson && (
+                                (lastdir == 2 && (newdir == 0 || newdir == 3))
+                                ||
+                                ((lastdir == 0 || lastdir == 3) && newdir == 2)
+                                )
+                       )
                         c4 = QColor(Qt::darkGray);
                     else {
                         if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
@@ -5113,13 +5130,16 @@ void element::setupElementIcon()
                             c4 = QColor(Qt::darkGray);
                     }
                 }
+
                 else if (state == 3) {
                     c1 = QColor(Qt::darkGray);
                     
-                    if (!lightson && ((lastdir == 3 &&
-                                    (newdir == 1 || newdir == 2)) ||
-                                ((lastdir == 1 || lastdir == 2) &&
-                                 newdir == 3)))
+                    if (!lightson && (
+                                (lastdir == 3 && (newdir == 1 || newdir == 2))
+                                ||
+                                ((lastdir == 1 || lastdir == 2) && newdir == 3)
+                                )
+                       )
                         c2 = QColor(Qt::darkGray);
                     else {
                         if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
@@ -5128,10 +5148,12 @@ void element::setupElementIcon()
                             c2 = QColor(Qt::darkGray);
                     }
                     
-                    if (!lightson && ((lastdir == 3 &&
-                                    (newdir == 0 || newdir == 1)) ||
-                                ((lastdir == 0 || lastdir == 1) &&
-                                 newdir == 3)))
+                    if (!lightson && (
+                                (lastdir == 3 && (newdir == 0 || newdir == 1))
+                                ||
+                                ((lastdir == 0 || lastdir == 1) && newdir == 3)
+                                )
+                       )
                         c3 = QColor(Qt::darkGray);
                     else {
                         if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
@@ -5320,8 +5342,12 @@ void element::setupElementIcon()
             }
             else {
                 if (state == 0) {
-                    if (!lightson && ((lastdir == 0 && newdir >= 2) ||
-                            (lastdir >= 2 && newdir == 0)))
+                    if (!lightson && (
+                                (lastdir == 0 && newdir >= 2)
+                                ||
+                                (lastdir >= 2 && newdir == 0)
+                                )
+                       )
                         c1 = QColor(Qt::darkGray);
                     else {
                         if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
@@ -5330,9 +5356,12 @@ void element::setupElementIcon()
                             c1 = QColor(Qt::darkGray);
                     }
                     
-                    if (!lightson && (((lastdir == 1 || lastdir == 2) &&
-                                    newdir == 0) ||
-                            (lastdir == 0 && (newdir == 1 || newdir == 2))))
+                    if (!lightson && (
+                                ((lastdir == 1 || lastdir == 2) && newdir == 0)
+                                ||
+                                (lastdir == 0 && (newdir == 1 || newdir == 2))
+                                )
+                       )
                         c2 = QColor(Qt::darkGray);
                     else {
                         if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
@@ -5345,10 +5374,12 @@ void element::setupElementIcon()
                     c4 = QColor(Qt::darkGray);
                 }
                 else if (state == 1) {
-                    if (!lightson && ((lastdir == 1 &&
-                                    (newdir == 2) || newdir == 3) ||
-                                ((lastdir == 2 || newdir == 3) &&
-                                 newdir == 1)))
+                    if (!lightson && (
+                                (lastdir == 1 && (newdir == 2 || newdir == 3))
+                                ||
+                                ((lastdir == 2 || lastdir == 3) && newdir == 1)
+                                )
+                       )
                         c1 = QColor(Qt::darkGray);
                     else {
                         if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
@@ -5360,10 +5391,12 @@ void element::setupElementIcon()
                     c2 = QColor(Qt::darkGray);
                     c3 = QColor(Qt::darkGray);
                     
-                    if (!lightson && ((lastdir == 1 &&
-                                    (newdir == 0) || newdir == 3) ||
-                                ((lastdir == 0 || lastdir == 3) &&
-                                 newdir == 1)))
+                    if (!lightson && (
+                                (lastdir == 1 && (newdir == 0 || newdir == 3))
+                                ||
+                                ((lastdir == 0 || lastdir == 3) && newdir == 1)
+                                )
+                       )
                         c4 = QColor(Qt::darkGray);
                     else {
                         if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
@@ -5376,10 +5409,12 @@ void element::setupElementIcon()
                     c1 = QColor(Qt::darkGray);
                     c2 = QColor(Qt::darkGray);
                     
-                    if (!lightson && ((lastdir == 2 &&
-                                    (newdir == 0 || newdir == 1)) ||
-                                ((lastdir == 0 || lastdir == 1) &&
-                                 newdir == 2)))
+                    if (!lightson && (
+                                (lastdir == 2 && (newdir == 0 || newdir == 1))
+                                ||
+                                ((lastdir == 0 || lastdir == 1) && newdir == 2)
+                                )
+                       )
                         c3 = QColor(Qt::darkGray);
                     else {
                         if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
@@ -5388,10 +5423,12 @@ void element::setupElementIcon()
                             c3 = QColor(Qt::darkGray);
                     }
                     
-                    if (!lightson && ((lastdir == 2 &&
-                                    (newdir == 0 || newdir == 3)) ||
-                                ((lastdir == 0 || lastdir == 3) &&
-                                 newdir == 2)))
+                    if (!lightson && (
+                                (lastdir == 2 && (newdir == 0 || newdir == 3))
+                                ||
+                                ((lastdir == 0 || lastdir == 3) && newdir == 2)
+                                )
+                       )
                         c4 = QColor(Qt::darkGray);
                     else {
                         if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
@@ -5403,10 +5440,12 @@ void element::setupElementIcon()
                 else if (state == 3) {
                     c1 = QColor(Qt::darkGray);
                     
-                    if (!lightson && ((lastdir == 3 &&
-                                    (newdir == 1 || newdir == 2)) ||
-                                ((lastdir == 1 || lastdir == 2) &&
-                                 newdir == 3)))
+                    if (!lightson && (
+                                (lastdir == 3 && (newdir == 1 || newdir == 2))
+                                ||
+                                ((lastdir == 1 || lastdir == 2) && newdir == 3)
+                                )
+                       )
                         c2 = QColor(Qt::darkGray);
                     else {
                         if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
@@ -5415,10 +5454,12 @@ void element::setupElementIcon()
                             c2 = QColor(Qt::darkGray);
                     }
                     
-                    if (!lightson && ((lastdir == 3 &&
-                                    (newdir == 0 || newdir == 1)) ||
-                                ((lastdir == 0 || lastdir == 1) &&
-                                 newdir == 3)))
+                    if (!lightson && (
+                                (lastdir == 3 && (newdir == 0 || newdir == 1))
+                                ||
+                                ((lastdir == 0 || lastdir == 1) && newdir == 3)
+                                )
+                       )
                         c3 = QColor(Qt::darkGray);
                     else {
                         if ((blinkcounter > 0) || tablelight || routed || (lockCounter > 0))
