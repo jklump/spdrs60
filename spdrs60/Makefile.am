@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.39 $
-# last update: $Date: 2008-09-10 18:34:14 $
+# version: $Revision: 1.40 $
+# last update: $Date: 2008-11-08 21:23:48 $
 
 SUBDIRS = pixmaps
 
@@ -101,16 +101,14 @@ CLEANFILES = $(nodist_spdrs60_SOURCES) $(translations_DATA)
 spdrs60_LDADD = @LIB_QT@
 
 # the library search path. 
-spdrs60_LDFLAGS = $(all_libraries) 
+spdrs60_LDFLAGS = @QT_LDFLAGS@
 
-# set the include path for X and Qt
-INCLUDES= $(all_includes)
 
 # define path to Qt translations if configure found it
 if TRANSLATE_QT
 TRANSLATE_DEF = -DQT_TRANSLATIONS_DIR=\"@QT_TRANSLATIONS_DIR@\"
 endif
-AM_CXXFLAGS = $(TRANSLATE_DEF) -DTRANSLATIONSDIR=\"$(translationsdir)\"
+AM_CXXFLAGS = $(TRANSLATE_DEF) -DTRANSLATIONSDIR=\"$(translationsdir)\" @QT_INCLUDES@
 
 # rule for moc-file generation
 SUFFIXES = _moc.cpp

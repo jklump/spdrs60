@@ -12,10 +12,8 @@ centralclock_SOURCES = main.cpp centralclock.cpp centralclock.h
 centralclock_LDADD = @LIB_QT@
 
 # the library search path. 
-#centralclock_LDFLAGS = $(all_libraries) 
 centralclock_LDFLAGS = @QT_LDFLAGS@ 
 
-#INCLUDES= $(all_includes)
 AM_CXXFLAGS = @QT_INCLUDES@
 
 # remove generated moc-files
