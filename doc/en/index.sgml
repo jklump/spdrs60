@@ -900,7 +900,7 @@ railway controller running a SRCP-server and some SRCP-clients like
   <title>Software</title>
 <para>Spdrs60 runs with different Linux distributions as far as they
 include the Qt-library version 3.x. The current &raquo;spdrs60&laquo;
-version was hot tested against Qt 3.0.5 to 3.3.6 under SuSE, Fedora,
+version was hot tested against Qt 3.0.5 to 3.3.8 under SuSE, Fedora,
 Debian and Ubuntu considering different distribution releases.</para>
 
 <para>Because &raquo;spdrs60&laquo; is a SRCP-client the programm itself
@@ -979,7 +979,7 @@ should not have trouble compiling it, assumed the required development
 packages are installed. Also the HTML-documentation like this handbook
 is build during compile time. So you will also need
 &raquo;openjade&laquo;, &raquo;docbook&laquo; and the set of
-&raquo;dsssl-stylesheets&laquo;. &raquo;./configure&laquo; will check
+&raquo;DSSSL-stylesheets&laquo;. &raquo;./configure&laquo; will check
 for this software and find fault with missing packages.
 </para>
 
@@ -1117,7 +1117,7 @@ nmake
 <sect2 id="sect-copyright">
 <title>Copyright</title>
 <para>
-SpDrs60 Copyright 2002 Stefan Preis, 2004-2006 Guido Scholz
+spdrs60 Copyright 2000-2003 Stefan Preis, 2004-2008 Guido Scholz
 </para>
 <para>
 This program is free software; you can redistribute it and/or modify

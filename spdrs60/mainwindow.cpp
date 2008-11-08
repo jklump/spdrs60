@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-07 19:13:18 $
-                           $Revision: 1.161 $
+    last modified        : $Date: 2008-11-08 12:26:38 $
+                           $Revision: 1.162 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -95,7 +95,7 @@
 /*some constants for data files*/
 static const char GF_CMDHOST[]       = "cmdhost";
 static const char GF_FORMATVERSION[] = "formatversion";
-static const char GF_FV[]            = "2";
+static const char GF_FV[]            = "3";
 static const char GF_RWCC[]          = "rwcc";
 
 /*string constants for personal config file*/
@@ -1744,12 +1744,12 @@ bool MainWindow::saveFile()
     ts << "# spdrs60 data file" << endl
        << "# version=" << VERSION << endl
        << "# last modified=" << dt.toString(Qt::ISODate) << endl
-       << GF_FORMATVERSION << CF_DS << GF_FV << endl
-       << GF_CMDHOST << CF_DS << commandPort->getHostname()
-       << CF_DS << commandPort->getPortNumber()
-       << CF_DS << cmdAutoLogin << CF_DS << cmdAutoPower
-       << CF_DS << cmdAutoSendAll << endl
-       << GF_RWCC << CF_DS << rwccid << CF_DS << rwccname << endl;
+       << GF_FORMATVERSION << DS << GF_FV << endl
+       << GF_CMDHOST << DS << commandPort->getHostname()
+       << DS << commandPort->getPortNumber()
+       << DS << cmdAutoLogin << DS << cmdAutoPower
+       << DS << cmdAutoSendAll << endl
+       << GF_RWCC << DS << rwccid << DS << rwccname << endl;
 
     gbs->writeFileTextToStream(ts);
     router->writeFileTextToStream(ts);
