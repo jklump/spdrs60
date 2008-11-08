@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-08 12:26:38 $
-                           $Revision: 1.162 $
+    last modified        : $Date: 2008-11-08 13:36:30 $
+                           $Revision: 1.163 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -437,8 +437,8 @@ void MainWindow::writeConfigFile()
         << CF_GMROUTESTATE << KS << pref.gmbroadcastroutestate << endl
         << CF_GMTRAINNUMBER << KS << pref.gmbroadcasttrainnumber << endl;
 
-    QStringList::Iterator it = recentFiles.begin();
-    for (; it != recentFiles.end(); ++it) {
+    QStringList::Iterator it;
+    for (it = recentFiles.fromLast(); it != recentFiles.end(); --it) {
         ts << CF_RECENTFILE << KS << *it << endl;
     }
     file.close();
