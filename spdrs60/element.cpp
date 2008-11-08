@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-07 19:13:18 $
-                           $Revision: 1.179 $
+    last modified        : $Date: 2008-11-08 12:46:37 $
+                           $Revision: 1.180 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1297,11 +1297,11 @@ void element::setupElementIcon()
             br.setWidth(br.width() + 6);
             br.setHeight(br.height() + 4);
 #if QT_VERSION >= 0x030100
-            br.moveLeft(pm.width()/2 - br.width()/2 - 1);
-            br.moveTop(pm.height()/2 - br.height()/2 + 2);
+            br.moveLeft((pm.width() - br.width())/2);
+            br.moveTop((pm.height() - br.height())/2);
 #else
-            br.moveTopLeft(QPoint(pm.width()/2 - br.width()/2 - 1,
-                        pm.height()/2 - br.height()/2 + 2));
+            br.moveTopLeft(QPoint((pm.width() - br.width())/2,
+                        (pm.height() - br.height())/2));
 #endif
             p.fillRect(br, QBrush(Qt::white));
             p.drawText(pm.rect(), Qt::AlignCenter | Qt::SingleLine |
