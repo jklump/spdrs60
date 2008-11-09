@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-10-07 17:34:43 $
-                           $Revision: 1.74 $
+    last modified        : $Date: 2008-11-09 20:54:53 $
+                           $Revision: 1.75 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1784,7 +1784,17 @@ void ElementDialog::invertedChanged(bool inverted)
 
 void ElementDialog::validate()
 {
-    if (address1LE->isEnabled() && !address1LE->hasAcceptableInput()) {
+#if QT_VERSION < 0x030200
+    int pos = 0;
+    QString value = address1LE->text();
+#endif
+    if (address1LE->isEnabled() &&
+#if QT_VERSION >= 0x030200
+            !address1LE->hasAcceptableInput()
+#else
+            (addressVdt->validate(value, pos) == QValidator::Invalid)
+#endif
+            ) {
         address1LE->setFocus();
         address1LE->selectAll();
         QMessageBox::warning(this, tr("Unvalid address detected"),
@@ -1795,7 +1805,17 @@ void ElementDialog::validate()
         , tr("OK"));
         return;
     }
-    if (address2LE->isEnabled() && !address2LE->hasAcceptableInput()) {
+#if QT_VERSION < 0x030200
+    int pos = 0;
+    QString value = address2LE->text();
+#endif
+    if (address2LE->isEnabled() &&
+#if QT_VERSION >= 0x030200
+            !address2LE->hasAcceptableInput()
+#else
+            (addressVdt->validate(value, pos) == QValidator::Invalid)
+#endif
+            ) {
         address2LE->setFocus();
         address2LE->selectAll();
         QMessageBox::warning(this, tr("Unvalid address detected"),

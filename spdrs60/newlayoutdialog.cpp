@@ -1,11 +1,11 @@
 /***************************************************************************
                            newlayoutdialog.cpp
-                           version 0.5.3 $Revision: 1.24 $
+                           version 0.5.3 $Revision: 1.25 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-04 21:50:49 $
+    last modified        : $Date: 2008-11-09 20:54:53 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -25,7 +25,6 @@
 #include <qgroupbox.h>
 #include <qhbox.h>
 #include <qlayout.h>
-#include <qvalidator.h>
 
 #include "newlayoutdialog.h"
 #include "preferences.h"
@@ -122,7 +121,7 @@ void newLayoutDialog::setupGeneralTab()
     portLE->setMaximumWidth(100);
     label->setBuddy(portLE);
     portLE->setMaxLength(5);
-    QValidator* portValidator = new QIntValidator(1, 65535, serverGB);
+    portValidator = new QIntValidator(1, 65535, serverGB);
     portLE->setValidator(portValidator);
     QToolTip::add(portLE, tr(
                 "Enter the portnumber of your srcp service.\n"
@@ -352,6 +351,10 @@ unsigned int newLayoutDialog::getPort()
 {
 #if QT_VERSION >= 0x030200
     if (portLE->hasAcceptableInput())
+#else
+    int pos = 0;
+    QString value = portLE->text();
+    if (portValidator->validate(value, pos) == QValidator::Acceptable)
 #endif
         return portLE->text().toUInt();
 #if QT_VERSION >= 0x030200

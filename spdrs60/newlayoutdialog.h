@@ -1,11 +1,11 @@
 /***************************************************************************
                            newlayoutdialog.h
-                           version 0.5.3 $Revision: 1.13 $
+                           version 0.5.3 $Revision: 1.14 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-05-12 09:59:17 $
+    last modified        : $Date: 2008-11-09 20:54:53 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -32,6 +32,7 @@
 #include <qpushbutton.h>
 #include <qspinbox.h>
 #include <qtooltip.h>
+#include <qvalidator.h>
 
 
 class newLayoutDialog: public QTabDialog
@@ -78,6 +79,7 @@ private:
     QCheckBox* autologinCB;
     QCheckBox* autopowerCB;
     QCheckBox* autosendallCB;
+    QValidator* portValidator;
 
 private slots:
 
