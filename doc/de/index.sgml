@@ -6699,6 +6699,7 @@ Programm automatisch ermittelt wird (kürzester Drehweg). Außerdem
 muß man angeben, wie lange eine komplette 360°-Drehung der Bühne
 dauert. Damit ist gewährleistet, dass die grafische Anzeige in etwa
 während des Drehvorgangs mit dem realen Stand der Bühne übereinstimmt.
+</para>
 </sect2>
 
 <sect2 id="sect-opt-feedback">
