@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-09 20:54:53 $
-                           $Revision: 1.75 $
+    last modified        : $Date: 2008-11-10 18:17:25 $
+                           $Revision: 1.76 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1805,10 +1805,6 @@ void ElementDialog::validate()
         , tr("OK"));
         return;
     }
-#if QT_VERSION < 0x030200
-    int pos = 0;
-    QString value = address2LE->text();
-#endif
     if (address2LE->isEnabled() &&
 #if QT_VERSION >= 0x030200
             !address2LE->hasAcceptableInput()
