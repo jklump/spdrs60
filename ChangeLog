@@ -1,3 +1,7 @@
+2008-11-09 Guido Scholz <guido.scholz@bayernline.de>
+	* elementdialog.cpp, newlayoutdialog.*: Qt3.1 compile error
+	fixed.
+
 +++ Release 0.5.3 (2008-11-09) +++
 
 2008-11-05 Guido Scholz <guido.scholz@bayernline.de>
