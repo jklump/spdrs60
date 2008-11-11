@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-08 13:36:30 $
-                           $Revision: 1.163 $
+    last modified        : $Date: 2008-11-11 17:41:29 $
+                           $Revision: 1.164 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1886,12 +1886,12 @@ void MainWindow::openFile(const QString& fn)
         
         /* ignore comment lines */
         if (!s.startsWith("#")) {
-            key = s.section(CF_DS, 0, 0);
-            value = s.section(CF_DS, 1, 1).stripWhiteSpace();
+            key = s.section(DS, 0, 0);
+            value = s.section(DS, 1, 1).stripWhiteSpace();
 
             /* key/value pairs are read sequence independent */
             if (key.compare(GF_CMDHOST) == 0) {
-                QStringList tokens = QStringList::split(CF_DS, s);
+                QStringList tokens = QStringList::split(DS, s);
 
                 unsigned int prt = tokens[2].toUInt();
                 commandPort->setServer(tokens[1], prt);
@@ -1907,8 +1907,8 @@ void MainWindow::openFile(const QString& fn)
                 fversion = value.toInt();
 
             else if (key.compare(GF_RWCC) == 0) {
-                rwccid = value.section(CF_DS, 1, 1).toUInt();
-                rwccname = s.section(CF_DS, 2);
+                rwccid = value.section(DS, 1, 1).toUInt();
+                rwccname = s.section(DS, 2);
             }
 
             else if (s.startsWith("%% layout"))

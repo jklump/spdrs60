@@ -1,3 +1,6 @@
+2008-11-11 Guido Scholz <guido.scholz@bayernline.de>
+	* mainwindow.cpp: Read bug for server information fixed.
+
 2008-11-09 Guido Scholz <guido.scholz@bayernline.de>
 	* elementdialog.cpp, newlayoutdialog.*: Qt3.1 compile error
 	fixed.
