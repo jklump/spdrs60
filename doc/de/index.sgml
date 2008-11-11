@@ -1,5 +1,5 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.2//EN" [
-<!-- Aktuelle Version: --> <!ENTITY ver "0.5.3">
+<!-- Aktuelle Version: --> <!ENTITY ver "0.5.4">
 ]>
 
 <book lang="de">
@@ -36,6 +36,10 @@
         </author>
 
         <revhistory>
+            <revision>
+                <revnumber>0.11</revnumber>
+                <date>Mi Nov 12 18:52:00 CET 2008</date>
+            </revision>
             <revision>
                 <revnumber>0.10</revnumber>
                 <date>Mi Nov 04 20:47:00 CET 2008</date>
@@ -175,6 +179,26 @@ empfehlenswert, diese Dokumentation durchzuarbeiten.
 <chapter id="chapter-aenderungen">
   <title>Änderungen</title>
 
+<sect1 id="ver-0.5.4">
+  <title>Version 0.5.4</title>
+<para>
+Veröffentlicht am 12.11.2008
+</para>
+<itemizedlist mark="bullet">
+
+    <listitem><para>
+            Ein Fehler beim Lesen der Serverinformationen einer
+            Gleisbilddatei wurde behoben.
+    </para></listitem>
+
+    <listitem><para>
+            Ein Compilierfehler bei Verwendung der Qt Version 3.1 wurde
+            behoben.
+    </para></listitem>
+
+</itemizedlist>
+</sect1>
+  
 <sect1 id="ver-0.5.3">
   <title>Version 0.5.3</title>
 <para>

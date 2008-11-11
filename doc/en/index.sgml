@@ -1,5 +1,5 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.2//EN" [
-<!-- current version: --> <!ENTITY ver "0.5.3">
+<!-- current version: --> <!ENTITY ver "0.5.4">
 ]>
 
 <article lang="en">
@@ -38,6 +38,10 @@
 </author>
 
 <revhistory>
+  <revision>
+    <revnumber>0.10</revnumber>
+    <date>wed Nov 12 18:53:00 CET 2008</date>
+  </revision>
   <revision>
     <revnumber>0.9</revnumber>
     <date>Mon Aug 11 18:15:00 CEST 2008</date>
@@ -111,6 +115,25 @@ features.</para>
 </sect1>
 
 <sect1 id="sect-changes"><title>Changes</title>
+
+<sect2 id="ver-0.5.4">
+<title>Version 0.5.5</title>
+<para>
+Release date: 2008-11-12
+</para>
+
+<itemizedlist mark="bullet">
+
+    <listitem><para>
+            Read bug for server information in layout file fixed.
+    </para></listitem>
+
+    <listitem><para>
+            Qt3.1 compile error fixed.
+    </para></listitem>
+
+</itemizedlist>
+</sect2>
 
 <sect2 id="ver-0.5.3">
 <title>Version 0.5.3</title>
