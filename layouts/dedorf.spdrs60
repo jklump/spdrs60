@@ -419,7 +419,7 @@ hide LEDs;0
 classid;100
 index;84
 text;-1
-feedback port;1;7
+feedback port;1;8
 hide LEDs;0
 %
 %% element 85
