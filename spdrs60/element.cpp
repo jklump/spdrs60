@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-12 17:51:46 $
-                           $Revision: 1.181 $
+    last modified        : $Date: 2008-11-12 21:58:55 $
+                           $Revision: 1.182 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -9289,10 +9289,16 @@ bool element::isTrainNumberDisplay()
 }
 
 
+/**
+ * Switch occupational state. If element was routed and occupation is
+ * removed, route state is also removed.
+ */
 void element::setOccupied(bool ostate)
 {
     if (occupied != ostate) {
         occupied = ostate;
+        if (!ostate && routed)
+            routed = false;
         setupElementIcon();
     }
 }
