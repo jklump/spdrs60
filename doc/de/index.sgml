@@ -196,6 +196,12 @@ Veröffentlicht am 12.11.2008
             behoben.
     </para></listitem>
 
+    <listitem><para>
+            Das Gruppentastenblockelement zum Umschalten der
+            Stelltischbeleuchtung zeigt nun den aktuellen Status durch
+            Hervorhebung von Ein oder Aus an.
+    </para></listitem>
+
 </itemizedlist>
 </sect1>
   

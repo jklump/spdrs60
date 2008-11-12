@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-08 12:46:37 $
-                           $Revision: 1.180 $
+    last modified        : $Date: 2008-11-12 17:51:46 $
+                           $Revision: 1.181 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -43,8 +43,10 @@
 #include "pixmaps/label-sgt.xpm"
 #include "pixmaps/label-ufgt.xpm"
 #include "pixmaps/label-wgt.xpm"
-#include "pixmaps/label-ein.xpm"
-#include "pixmaps/label-aus.xpm"
+#include "pixmaps/label-ein-on.xpm"
+#include "pixmaps/label-ein-off.xpm"
+#include "pixmaps/label-aus-on.xpm"
+#include "pixmaps/label-aus-off.xpm"
 #include "pixmaps/transfertable.xpm"
 #include "pixmaps/signal-w.xpm"
 #include "pixmaps/signal-wr.xpm"
@@ -1464,8 +1466,14 @@ void element::setupElementIcon()
         p.drawEllipse(pm.width() - 16, pm.height() / 2 - 4, 9, 9);
         
         // paint button labels
-        p.drawPixmap(2, 24, QPixmap(label_ein_xpm));
-        p.drawPixmap(34, 24, QPixmap(label_aus_xpm));
+        if (tablelight) {
+            p.drawPixmap(2, 24, QPixmap(label_ein_on_xpm));
+            p.drawPixmap(34, 24, QPixmap(label_aus_off_xpm));
+        }
+        else {
+            p.drawPixmap(2, 24, QPixmap(label_ein_off_xpm));
+            p.drawPixmap(34, 24, QPixmap(label_aus_on_xpm));
+        }
 
         p.end();
         setPaletteBackgroundPixmap(pm);
@@ -9917,7 +9925,7 @@ void element::setTableLight(bool ison)
 {
     if (tablelight != ison) {
         tablelight = ison;
-        if (turnout)
+        if (turnout || (classid == siciTal))
             setupElementIcon();
     }
 }

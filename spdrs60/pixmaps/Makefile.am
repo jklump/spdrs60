@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60, pixmaps included by cpp-files
 # (c) Guido Scholz
-# version: $Revision: 1.39 $
-# last update: $Date: 2008-08-11 16:59:30 $
+# version: $Revision: 1.40 $
+# last update: $Date: 2008-11-12 17:51:46 $
 
 EXTRA_DIST = filenew.xpm filesave.xpm fileopen.xpm \
 	fileclose.xpm filenewwindow.xpm \
@@ -44,7 +44,8 @@ EXTRA_DIST = filenew.xpm filesave.xpm fileopen.xpm \
 	button-black.xpm button-gray.xpm button-red.xpm \
 	button-yellow.xpm label-fht.xpm label-hagt.xpm label-mgt.xpm \
 	label-sgt.xpm label-ufgt.xpm label-wgt.xpm \
-	label-ein.xpm label-aus.xpm \
+	label-ein-on.xpm label-ein-off.xpm \
+	label-aus-on.xpm label-aus-off.xpm \
 	transfertable.xpm signal-w.xpm signal-wr.xpm \
 	layoutitemerasemode.xpm layoutitempaintmode.xpm \
 	layoutitemselectmode.xpm \

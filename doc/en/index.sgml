@@ -132,6 +132,11 @@ Release date: 2008-11-12
             Qt3.1 compile error fixed.
     </para></listitem>
 
+    <listitem><para>
+            The element to switch table light now shows the current
+            state by highlighting On or Off.
+    </para></listitem>
+
 </itemizedlist>
 </sect2>
 

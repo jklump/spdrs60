@@ -1,5 +1,9 @@
 +++ Release 0.5.4 (2008-11-12) +++
 
+2008-11-12 Guido Scholz <guido.scholz@bayernline.de>
+	* element.cpp: State showing On/Off labels for tablelight
+	switching.
+
 2008-11-11 Guido Scholz <guido.scholz@bayernline.de>
 	* mainwindow.cpp: Read bug for server information in layout
 	file fixed.
