@@ -1,7 +1,7 @@
 dnl configure.ac for spdrs60
 dnl Guido Scholz
-dnl last update: $Date: 2008-11-11 17:41:29 $
-dnl version: $Revision: 1.27 $
+dnl last update: $Date: 2008-11-12 21:57:24 $
+dnl version: $Revision: 1.28 $
 dnl Process this file with autoconf to produce a configure script.
 
 AC_INIT([spdrs60],[0.5.4],[Guido Scholz <guido.scholz@bayernline.de>])
@@ -58,15 +58,9 @@ if test x$enable_pdf_doc = xyes; then
   fi
 fi
 
-dnl AC_REQUIRE([KDE_CHECK_EXTRA_LIBS])
-all_libraries="$all_libraries $USER_LDFLAGS"
-all_includes="$all_includes $USER_INCLUDES"
-AC_SUBST(all_includes)
-AC_SUBST(all_libraries)
-
+dnl Check for Qt3 library files
 AC_PATH_X
-KDE_USE_QT(3.0)
-AC_PATH_QT
+AC_PATH_QT3
 
 dnl check for lupdate
 AC_PATH_PROGS(LUPDATE, lupdate-qt3 lupdate, no, [$PATH:$QTDIR/bin])

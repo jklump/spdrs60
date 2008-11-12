@@ -181,7 +181,6 @@ dnl ------------------------------------------------------------------------
 dnl
 AC_DEFUN([AC_PATH_QT_MOC_UIC],
 [
-   dnl AC_REQUIRE([KDE_CHECK_PERL])
    qt_bindirs=""
    for dir in $kde_qt_dirs; do
       qt_bindirs="$qt_bindirs $dir/bin $dir/src/moc"
@@ -200,16 +199,14 @@ AC_DEFUN([AC_PATH_QT_MOC_UIC],
      else
        UIC=$UIC_PATH
 
-       if test $kde_qtver = 3; then
-         KDE_CHECK_UIC_FLAG(L,[/nonexistent],ac_uic_supports_libpath=yes,ac_uic_supports_libpath=no)
-         KDE_CHECK_UIC_FLAG(nounload,,ac_uic_supports_nounload=yes,ac_uic_supports_nounload=no)
+       KDE_CHECK_UIC_FLAG(L,[/nonexistent],ac_uic_supports_libpath=yes,ac_uic_supports_libpath=no)
+       KDE_CHECK_UIC_FLAG(nounload,,ac_uic_supports_nounload=yes,ac_uic_supports_nounload=no)
 
-         if test x$ac_uic_supports_libpath = xyes; then
-             UIC="$UIC -L \$(kde_widgetdir)"
-         fi
-         if test x$ac_uic_supports_nounload = xyes; then
-             UIC="$UIC -nounload"
-         fi
+       if test x$ac_uic_supports_libpath = xyes; then
+           UIC="$UIC -L \$(kde_widgetdir)"
+       fi
+       if test x$ac_uic_supports_nounload = xyes; then
+           UIC="$UIC -nounload"
        fi
      fi
    else
@@ -219,10 +216,7 @@ AC_DEFUN([AC_PATH_QT_MOC_UIC],
    AC_SUBST(MOC)
    AC_SUBST(UIC)
 
-   UIC_TR="i18n"
-   if test $kde_qtver = 3; then
-     UIC_TR="tr2i18n"
-   fi
+   UIC_TR="tr2i18n"
 
    AC_SUBST(UIC_TR)
 ])
@@ -231,35 +225,15 @@ AC_DEFUN([AC_PATH_QT_MOC_UIC],
 dnl
 AC_DEFUN([KDE_PRINT_QT_PROGRAM],
 [
-AC_REQUIRE([KDE_USE_QT])
+AC_REQUIRE([KDE_USE_QT3])
 cat > conftest.$ac_ext <<EOF
 #include "confdefs.h"
 #include <qglobal.h>
 #include <qapplication.h>
-EOF
-if test "$kde_qtver" = "2"; then
-cat >> conftest.$ac_ext <<EOF
-#include <qevent.h>
-#include <qstring.h>
-#include <qstyle.h>
-EOF
-
-if test $kde_qtsubver -gt 0; then
-cat >> conftest.$ac_ext <<EOF
-#if QT_VERSION < 210
-#error 1
-#endif
-EOF
-fi
-fi
-
-if test "$kde_qtver" = "3"; then
-cat >> conftest.$ac_ext <<EOF
 #include <qcursor.h>
 #include <qstylefactory.h>
 #include <private/qucomextra_p.h>
 EOF
-fi
 
 echo "#if ! ($kde_qt_verstring)" >> conftest.$ac_ext
 cat >> conftest.$ac_ext <<EOF
@@ -268,24 +242,10 @@ cat >> conftest.$ac_ext <<EOF
 
 int main() {
 EOF
-if test "$kde_qtver" = "2"; then
-cat >> conftest.$ac_ext <<EOF
-    QStringList *t = new QStringList();
-    Q_UNUSED(t);
-EOF
-if test $kde_qtsubver -gt 0; then
-cat >> conftest.$ac_ext <<EOF
-    QString s;
-    s.setLatin1("Elvis is alive", 14);
-EOF
-fi
-fi
-if test "$kde_qtver" = "3"; then
 cat >> conftest.$ac_ext <<EOF
     (void)QStyleFactory::create(QString::null);
     QCursor c(Qt::WhatsThisCursor);
 EOF
-fi
 cat >> conftest.$ac_ext <<EOF
     return 0;
 }
@@ -294,149 +254,12 @@ EOF
 
 
 dnl
-AC_DEFUN([KDE_USE_QT],
+AC_DEFUN([KDE_USE_QT3],
 [
-if test -z "$1"; then
-  # Current default Qt version: 3.3
-  kde_qtver=3
-  kde_qtsubver=3
-else
-  kde_qtsubver=`echo "$1" | sed -e 's#[0-9][0-9]*\.\([0-9][0-9]*\).*#\1#'`
-  # following is the check if subversion isnt found in passed argument
-  if test "$kde_qtsubver" = "$1"; then
-    kde_qtsubver=1
-  fi
-  kde_qtver=`echo "$1" | sed -e 's#^\([0-9][0-9]*\)\..*#\1#'`
-  if test "$kde_qtver" = "1"; then
-    kde_qtsubver=42
-  fi
-fi
-
-if test -z "$2"; then
-  if test "$kde_qtver" = "2"; then
-    if test $kde_qtsubver -gt 0; then
-      kde_qt_minversion=">= Qt 2.2.2"
-    else
-      kde_qt_minversion=">= Qt 2.0.2"
-    fi
-  fi
-  if test "$kde_qtver" = "3"; then
-    if test $kde_qtsubver -gt 0; then
-         if test $kde_qtsubver -gt 1; then
-            if test $kde_qtsubver -gt 2; then
-                kde_qt_minversion=">= Qt 3.3 and < 4.0"
-            else
-                kde_qt_minversion=">= Qt 3.2 and < 4.0"
-            fi
-         else
-            kde_qt_minversion=">= Qt 3.1 (20021021) and < 4.0"
-         fi
-    else
-      kde_qt_minversion=">= Qt 3.0 and < 4.0"
-    fi
-  fi
-  if test "$kde_qtver" = "1"; then
-    kde_qt_minversion=">= 1.42 and < 2.0"
-  fi
-else
-   kde_qt_minversion="$2"
-fi
-
-if test -z "$3"; then
-   if test $kde_qtver = 3; then
-     if test $kde_qtsubver -gt 0; then
-       kde_qt_verstring="QT_VERSION >= 0x03@VER@00 && QT_VERSION < 0x040000"
-       qtsubver=`echo "00$kde_qtsubver" | sed -e 's,.*\(..\)$,\1,'`
-       kde_qt_verstring=`echo $kde_qt_verstring | sed -e "s,@VER@,$qtsubver,"`
-     else
-       kde_qt_verstring="QT_VERSION >= 300 && QT_VERSION < 0x040000"
-     fi
-   fi
-   if test $kde_qtver = 2; then
-     if test $kde_qtsubver -gt 0; then
-       kde_qt_verstring="QT_VERSION >= 222"
-     else
-       kde_qt_verstring="QT_VERSION >= 200"
-     fi
-   fi
-   if test $kde_qtver = 1; then
-    kde_qt_verstring="QT_VERSION >= 142 && QT_VERSION < 200"
-   fi
-else
-   kde_qt_verstring="$3"
-fi
-
-if test $kde_qtver = 4; then
-  kde_qt_dirs="$QTDIR /usr/lib/qt4 /usr/lib/qt /usr/share/qt4"
-fi
-if test $kde_qtver = 3; then
-  kde_qt_dirs="$QTDIR /usr/lib/qt3 /usr/lib/qt /usr/share/qt3"
-fi
-if test $kde_qtver = 2; then
-   kde_qt_dirs="$QTDIR /usr/lib/qt2 /usr/lib/qt"
-fi
-if test $kde_qtver = 1; then
-   kde_qt_dirs="$QTDIR /usr/lib/qt"
-fi
-])
-
-
-dnl
-AC_DEFUN([KDE_CHECK_QT_DIRECT],
-[
-AC_REQUIRE([KDE_USE_QT])
-AC_MSG_CHECKING([if Qt compiles without flags])
-AC_CACHE_VAL(kde_cv_qt_direct,
-[
-AC_LANG_SAVE
-AC_LANG_CPLUSPLUS
-ac_LD_LIBRARY_PATH_safe=$LD_LIBRARY_PATH
-ac_LIBRARY_PATH="$LIBRARY_PATH"
-ac_cxxflags_safe="$CXXFLAGS"
-ac_ldflags_safe="$LDFLAGS"
-ac_libs_safe="$LIBS"
-
-CXXFLAGS="$CXXFLAGS -I$qt_includes"
-LDFLAGS="$LDFLAGS $X_LDFLAGS"
-if test "x$kde_use_qt_emb" != "xyes" && test "x$kde_use_qt_mac" != "xyes"; then
-LIBS="$LIBQT -lXext -lX11 $LIBSOCKET"
-else
-LIBS="$LIBQT $LIBSOCKET"
-fi
-LD_LIBRARY_PATH=
-export LD_LIBRARY_PATH
-LIBRARY_PATH=
-export LIBRARY_PATH
-
-KDE_PRINT_QT_PROGRAM
-
-if AC_TRY_EVAL(ac_link) && test -s conftest; then
-  kde_cv_qt_direct="yes"
-else
-  kde_cv_qt_direct="no"
-  echo "configure: failed program was:" >&AC_FD_CC
-  cat conftest.$ac_ext >&AC_FD_CC
-fi
-
-rm -f conftest*
-CXXFLAGS="$ac_cxxflags_safe"
-LDFLAGS="$ac_ldflags_safe"
-LIBS="$ac_libs_safe"
-
-LD_LIBRARY_PATH="$ac_LD_LIBRARY_PATH_safe"
-export LD_LIBRARY_PATH
-LIBRARY_PATH="$ac_LIBRARY_PATH"
-export LIBRARY_PATH
-AC_LANG_RESTORE
-])
-
-if test "$kde_cv_qt_direct" = "yes"; then
-  AC_MSG_RESULT(yes)
-  $1
-else
-  AC_MSG_RESULT(no)
-  $2
-fi
+# Current default Qt version: 3.0
+kde_qt_minversion=">= Qt 3.0 and < 4.0"
+kde_qt_verstring="QT_VERSION >= 300 && QT_VERSION < 0x040000"
+kde_qt_dirs="$QTDIR /usr/lib/qt3 /usr/lib/qt /usr/share/qt3"
 ])
 
 
@@ -446,27 +269,10 @@ dnl $(QT_LDFLAGS) will be -Lqtliblocation (if needed)
 dnl and $(QT_INCLUDES) will be -Iqthdrlocation (if needed)
 dnl ------------------------------------------------------------------------
 dnl
-AC_DEFUN([AC_PATH_QT_1_3],
+AC_DEFUN([AC_PATH_QT3],
 [
-AC_REQUIRE([KDE_USE_QT])
+AC_REQUIRE([KDE_USE_QT3])
 AC_REQUIRE([KDE_CHECK_LIB64])
-
-dnl ------------------------------------------------------------------------
-dnl Add configure flag to enable linking to MT version of Qt library.
-dnl ------------------------------------------------------------------------
-
-AC_ARG_ENABLE(
-  mt,
-  AC_HELP_STRING([--disable-mt],[link to non-threaded Qt (deprecated)]),
-  kde_use_qt_mt=$enableval,
-  [
-    if test $kde_qtver = 3; then
-      kde_use_qt_mt=yes
-    else
-      kde_use_qt_mt=no
-    fi
-  ]
-)
 
 USING_QT_MT=""
 
@@ -476,15 +282,11 @@ dnl ------------------------------------------------------------------------
 
 KDE_MT_LDFLAGS=
 KDE_MT_LIBS=
-if test "x$kde_use_qt_mt" = "xyes"; then
-  KDE_CHECK_THREADING
-  if test "x$kde_use_threading" = "xyes"; then
-    CPPFLAGS="$USE_THREADS -DQT_THREAD_SUPPORT $CPPFLAGS"
-    KDE_MT_LDFLAGS="$USE_THREADS"
-    KDE_MT_LIBS="$LIBPTHREAD"
-  else
-    kde_use_qt_mt=no
-  fi
+KDE_CHECK_THREADING
+if test "x$kde_use_threading" = "xyes"; then
+  CPPFLAGS="$USE_THREADS -DQT_THREAD_SUPPORT $CPPFLAGS"
+  KDE_MT_LDFLAGS="$USE_THREADS"
+  KDE_MT_LIBS="$LIBPTHREAD"
 fi
 AC_SUBST(KDE_MT_LDFLAGS)
 AC_SUBST(KDE_MT_LIBS)
@@ -495,67 +297,33 @@ dnl ------------------------------------------------------------------------
 dnl If we haven't been told how to link to Qt, we work it out for ourselves.
 dnl ------------------------------------------------------------------------
 if test -z "$LIBQT_GLOB"; then
-  if test "x$kde_use_qt_emb" = "xyes"; then
-    LIBQT_GLOB="libqte.*"
-  else
     LIBQT_GLOB="libqt.*"
-  fi
 fi
 
 if test -z "$LIBQT"; then
-dnl ------------------------------------------------------------
-dnl If we got --enable-embedded then adjust the Qt library name.
-dnl ------------------------------------------------------------
-  if test "x$kde_use_qt_emb" = "xyes"; then
-    qtlib="qte"
-  else
-    qtlib="qt"
-  fi
-
+  qtlib="qt"
   kde_int_qt="-l$qtlib"
 else
   kde_int_qt="$LIBQT"
   kde_lib_qt_set=yes
 fi
 
-if test -z "$LIBQPE"; then
-dnl ------------------------------------------------------------
-dnl If we got --enable-palmtop then add -lqpe to the link line
-dnl ------------------------------------------------------------
-  if test "x$kde_use_qt_emb" = "xyes"; then
-    if test "x$kde_use_qt_emb_palm" = "xyes"; then
-      LIB_QPE="-lqpe"
-    else
-      LIB_QPE=""
-    fi
-  else
-    LIB_QPE=""
-  fi
-fi
-
 dnl ------------------------------------------------------------------------
 dnl If we got --enable-qt-mt then adjust the Qt library name for the host.
 dnl ------------------------------------------------------------------------
 
-if test "x$kde_use_qt_mt" = "xyes"; then
-  if test -z "$LIBQT"; then
-    LIBQT="-l$qtlib-mt"
-    kde_int_qt="-l$qtlib-mt"
-  else
-    LIBQT="$qtlib-mt"
-    kde_int_qt="$qtlib-mt"
-  fi
-  LIBQT_GLOB="lib$qtlib-mt.*"
-  USING_QT_MT="using -mt"
+if test -z "$LIBQT"; then
+  LIBQT="-l$qtlib-mt"
+  kde_int_qt="-l$qtlib-mt"
 else
-  LIBQT="-l$qtlib"
+  LIBQT="$qtlib-mt"
+  kde_int_qt="$qtlib-mt"
 fi
+LIBQT_GLOB="lib$qtlib-mt.*"
+USING_QT_MT="using -mt"
 
-AC_MSG_CHECKING([for Qt])
+AC_MSG_CHECKING([for Qt3])
 
-if test "x$kde_use_qt_emb" != "xyes" && test "x$kde_use_qt_mac" != "xyes"; then
-LIBQT="$LIBQT $X_PRE_LIBS"
-fi
 ac_qt_includes=NO ac_qt_libraries=NO ac_qt_bindir=NO
 qt_libraries=""
 qt_includes=""
@@ -587,16 +355,12 @@ qt_incdirs=""
 for dir in $kde_qt_dirs; do
    qt_incdirs="$qt_incdirs $dir/include $dir"
 done
-qt_incdirs="$QTINC $qt_incdirs /usr/local/qt/include /usr/include/qt /usr/include /usr/X11R6/include/X11/qt /usr/X11R6/include/qt /usr/X11R6/include/qt2 /usr/include/qt3 $x_includes"
+qt_incdirs="$QTINC $qt_incdirs /usr/local/qt/include /usr/include/qt /usr/include /usr/X11R6/include/X11/qt /usr/X11R6/include/qt /usr/include/qt3 $x_includes"
 if test ! "$ac_qt_includes" = "NO"; then
    qt_incdirs="$ac_qt_includes $qt_incdirs"
 fi
 
-if test "$kde_qtver" != "1"; then
-  kde_qt_header=qstyle.h
-else
-  kde_qt_header=qglobal.h
-fi
+kde_qt_header=qstyle.h
 
 AC_FIND_FILE($kde_qt_header, $qt_incdirs, qt_incdir)
 ac_qt_includes="$qt_incdir"
@@ -663,13 +427,9 @@ if test "$ac_qt_includes" = NO || test "$ac_qt_libraries" = NO; then
       ac_qt_notfound="(headers)";
     fi
   else
-    if test "x$kde_use_qt_mt" = "xyes"; then
        missing_qt_mt="
 Make sure that you have compiled Qt with thread support!"
        ac_qt_notfound="(library $qtlib-mt)";
-    else
-       ac_qt_notfound="(library $qtlib)";
-    fi
   fi
 
   AC_MSG_ERROR([Qt ($kde_qt_minversion) $ac_qt_notfound not found. Please check your installation!
@@ -690,10 +450,6 @@ else
 
   qt_libraries="$ac_qt_libraries"
   qt_includes="$ac_qt_includes"
-fi
-
-if test ! "$kde_qt_libs_given" = "yes" && test ! "$kde_qtver" = 3; then
-     KDE_CHECK_QT_DIRECT(qt_libraries= ,[])
 fi
 
 AC_SUBST(qt_libraries)
@@ -729,16 +485,6 @@ for a in $qt_libdir/lib`echo ${kde_int_qt} | sed 's,^-l,,'`_incremental.*; do
 done
 
 AC_SUBST(LIB_QT)
-AC_SUBST(LIB_QPE)
-
-AC_SUBST(kde_qtver)
-])
-
-
-dnl
-AC_DEFUN([AC_PATH_QT],
-[
-AC_PATH_QT_1_3
 ])
 
 
