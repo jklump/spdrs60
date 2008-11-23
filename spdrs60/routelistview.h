@@ -1,10 +1,10 @@
 /***************************************************************************
                            routelistview.h
-                           version 0.5.3 $Revision: 1.5 $
+                           version 0.5.3 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 2007-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-05 08:42:40 $
+    last modified        : $Date: 2008-11-23 21:05:25 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -39,7 +39,7 @@ public:
     RouteLVI* getRouteLVIByRoute(Route*);
     
 protected:
-    virtual void keyPressEvent(QKeyEvent *e);
+    void keyPressEvent(QKeyEvent *e);
 
 signals:
     void insertPressed();

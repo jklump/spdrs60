@@ -1,10 +1,10 @@
 /***************************************************************************
                            routeelementlvi.h
-                           version 0.5.2 $Revision: 1.7 $
+                           version 0.5.2 $Revision: 1.8 $
                            -------------------------------
     copyright            : (C) 2005-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2008-11-23 21:05:25 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -38,7 +38,7 @@ public:
     RouteElementLVI(QListView *parent=0, int index = 0, stateElement* se = 0);
     void getStateElementData(stateElement* se = 0);
     void setStateElementData(const stateElement* se = 0);
-    virtual int compare(QListViewItem* i, int col, bool ascending) const;    
+    int compare(QListViewItem* i, int col, bool ascending) const;    
 };
 #endif // ROUTEELEMENTLVI_H
 

@@ -1,10 +1,10 @@
 /***************************************************************************
                            feedbackmodule.h
-                           version 0.5.2 $Revision: 1.4 $
+                           version 0.5.2 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 2006-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2008-11-23 21:05:25 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -44,9 +44,9 @@ public:
 public slots:
 
 protected:
-    virtual int height(const QListBox* lb) const;
-    virtual int width(const QListBox* lb) const;
-    virtual void paint(QPainter* p = 0);
+    int height(const QListBox* lb) const;
+    int width(const QListBox* lb) const;
+    void paint(QPainter* p = 0);
     
 signals:
     

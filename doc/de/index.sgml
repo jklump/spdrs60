@@ -37,6 +37,10 @@
 
         <revhistory>
             <revision>
+                <revnumber>0.12</revnumber>
+                <date>So Nov 23 21:50:02 CET 2008</date>
+            </revision>
+            <revision>
                 <revnumber>0.11</revnumber>
                 <date>Mi Nov 12 18:52:00 CET 2008</date>
             </revision>
@@ -182,7 +186,7 @@ empfehlenswert, diese Dokumentation durchzuarbeiten.
 <sect1 id="ver-0.5.4">
   <title>Version 0.5.4</title>
 <para>
-Veröffentlicht am 12.11.2008
+Veröffentlicht am 23.11.2008
 </para>
 <itemizedlist mark="bullet">
 
@@ -202,6 +206,17 @@ Veröffentlicht am 12.11.2008
             Hervorhebung von Ein oder Aus an.
     </para></listitem>
 
+    <listitem><para>
+            Die zuletzt geöffnete Datei wird nun in der Liste der
+            zuletzt genutzten Dateien immer nach oben sortiert.
+    </para></listitem>
+
+    <listitem><para>
+            Ein Fehler, der zum Verbergen der ansichtsmodusspezifischen
+            Werkzeugleisten beim doppelten Betätigen der Tastenkürzel
+            Strg&nbsp;L, Strg&nbsp;E und Strg&nbsp;B führte, wurde
+            beseitigt.
+    </para></listitem>
 </itemizedlist>
 </sect1>
   

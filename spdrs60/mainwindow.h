@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.5.2 $Revision: 1.55 $
+                           version 0.5.2 $Revision: 1.56 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-04 21:50:49 $
+    last modified        : $Date: 2008-11-23 21:05:25 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -48,9 +48,11 @@ class GBSArea;
 class InfoPort;
 class keyboard;
 class MessageHistory;
+class PaintItemWindow;
 class RouteListWindow;
 class Router;
 class TrainNumberDialog;
+class QToolBar;
 
 
 enum SRCPMode {    
@@ -75,7 +77,7 @@ class MainWindow: public QMainWindow
 
 public:
    MainWindow();
-   virtual ~MainWindow();
+   ~MainWindow();
    void readAutoloadFile();
    void openFile(const QString&);
    void openFileWindow(const QString&);
@@ -134,6 +136,10 @@ private:
    QAction *actionRouteDelete;
    QAction *actionRouteUnlockAll;
 
+   QToolBar* layoutedittb;
+   QToolBar* daemontb;
+   QToolBar* layouttb;
+
    QPopupMenu* fileRecentlyOpenedFiles;
    QStringList recentFiles;
    elemVisualMode  visualMode;
@@ -156,6 +162,7 @@ private:
    MessageHistory* messageHistory;
    FeedbackViewer* fbViewer;
    RouteListWindow* rtViewer;
+   PaintItemWindow* piw;
    Router* router;
    keyboard* keybWindow;
    TrainNumberDialog* trainnumberdialog;
@@ -261,7 +268,7 @@ signals:
    void switchedVisualMode(elemVisualMode);
 
 protected:
-   virtual void closeEvent(QCloseEvent*);
+   void closeEvent(QCloseEvent*);
 };
 
 #endif  //MAINWINDOW_H

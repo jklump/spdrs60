@@ -1,4 +1,10 @@
-+++ Release 0.5.4 (2008-11-12) +++
++++ Release 0.5.4 (2008-11-23) +++
+
+2008-11-23 Guido Scholz <guido.scholz@bayernline.de>
+	* mainwindow.cpp: Last opened file is sorted to top of recently
+	opened files list.
+	* mainwindow.*: Fixed hiding of view mode specific toolbars if
+	accelerator key is hit twice.
 
 2008-11-12 Guido Scholz <guido.scholz@bayernline.de>
 	* element.cpp: State showing On/Off labels for tablelight

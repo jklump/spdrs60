@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-11 17:41:29 $
-                           $Revision: 1.164 $
+    last modified        : $Date: 2008-11-23 21:05:25 $
+                           $Revision: 1.165 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -204,7 +204,6 @@ MainWindow::MainWindow(): QMainWindow(NULL, PACKAGE,
 /* Cleanup by destructor */
 MainWindow::~MainWindow()
 {
-    // send LOGOUT command to daemon
     CloseSRCPServerConnection();
     writeConfigFile();
 }
@@ -603,7 +602,7 @@ void MainWindow::initMainWindow()
             SLOT(getElementByAddress(const int, const int, element**)));
 
     /*paint item window*/
-    PaintItemWindow* piw = new PaintItemWindow(this, "piw");
+    piw = new PaintItemWindow(this, "piw");
     Q_CHECK_PTR(piw);
     moveDockWindow(piw, Qt::DockLeft);
     piw->hide();
@@ -935,8 +934,6 @@ void MainWindow::initMainWindow()
     viewtb->addSeparator();
 
     QActionGroup *ViewGrp = new QActionGroup(this);
-    connect(ViewGrp, SIGNAL(selected(QAction*)), this,
-            SLOT(slotViewSwitchMode(QAction*)));
     
 #if QT_VERSION >= 0x030200
     actionViewNormalMode = new QAction(QPixmap(viewnormalmode_xpm),
@@ -946,6 +943,7 @@ void MainWindow::initMainWindow()
             tr("&Normal mode"), Qt::CTRL + Qt::Key_L, ViewGrp, "normalmode");
 #endif
     actionViewNormalMode->setToggleAction(true);
+    actionViewNormalMode->setOn(true);
     
 #if QT_VERSION >= 0x030200
     actionViewLayoutEditMode = new QAction(QPixmap(viewlayouteditmode_xpm),
@@ -971,6 +969,8 @@ void MainWindow::initMainWindow()
     
     ViewGrp->addTo(viewmenu);
     ViewGrp->addTo(viewtb);
+    connect(ViewGrp, SIGNAL(selected(QAction*)), this,
+            SLOT(slotViewSwitchMode(QAction*)));
 
     viewmenu->insertSeparator();
 
@@ -1046,11 +1046,11 @@ void MainWindow::initMainWindow()
 
 
     /*daemon toolbar*/
-    QToolBar* daemontb = new QToolBar(this, "daemontb");
+    daemontb = new QToolBar(this, "daemontb");
     Q_CHECK_PTR(daemontb);
     daemontb->setLabel(tr("Daemon operations"));
-    connect(actionViewNormalMode, SIGNAL(toggled(bool)),
-            daemontb, SLOT(setShown(bool)));
+    /*connect(actionViewNormalMode, SIGNAL(toggled(bool)),
+            daemontb, SLOT(setShown(bool)));*/
 
     QPopupMenu* daemonmenu = new QPopupMenu(this);
     //daemonmenu = new QPopupMenu(this);
@@ -1130,11 +1130,11 @@ void MainWindow::initMainWindow()
 
 
     /*layout toolbar*/
-    QToolBar* layouttb = new QToolBar(this, "layouttb");
+    layouttb = new QToolBar(this, "layouttb");
     Q_CHECK_PTR(layouttb);
     layouttb->setLabel(tr("Layout operations"));
-    connect(actionViewNormalMode, SIGNAL(toggled(bool)),
-            layouttb, SLOT(setShown(bool)));
+    /*connect(actionViewNormalMode, SIGNAL(toggled(bool)),
+            layouttb, SLOT(setShown(bool)));*/
 
     QPopupMenu* layoutmenu = new QPopupMenu(this);
     menuBar()->insertItem(tr("&Layout"), layoutmenu);
@@ -1464,22 +1464,15 @@ void MainWindow::initMainWindow()
 
 
     /*layout edit toolbar*/
-    QToolBar* layoutedittb = new QToolBar(this, "layoutedittb");
+    layoutedittb = new QToolBar(this, "layoutedittb");
     Q_CHECK_PTR(layoutedittb);
     layoutedittb->setLabel(tr("Layout edit operations"));
     layoutedittb->hide();
     layoutedittb->setEnabled(false);
 
-    //connect visibility of toolbar to toggle state of layout edit mode
-    //action 
-    connect(actionViewLayoutEditMode, SIGNAL(toggled(bool)),
-            layoutedittb, SLOT(setShown(bool)));
-    connect(actionViewLayoutEditMode, SIGNAL(toggled(bool)),
-            layoutedittb, SLOT(setEnabled(bool)));
-
-    //connect visibility of paint item window 
-    connect(actionViewLayoutEditMode, SIGNAL(toggled(bool)),
-            piw, SLOT(setShown(bool)));
+    //connect visibility of toolbar to visibility of paintitemwindow
+    connect(piw, SIGNAL(visibilityChanged(bool)),
+               layoutedittb, SLOT(setShown(bool)));
 
     LayoutEditModeAgrp *layoutEditGrp = new LayoutEditModeAgrp(this,
             "layoutEditModeGroup");
@@ -1524,9 +1517,6 @@ void MainWindow::initMainWindow()
     //        SLOT(setShown(bool)));
 
     resetMenu(); //may be is obsolete
-
-    // method causes segfault if called too early (?)
-    actionViewNormalMode->setOn(true);
 }
 
 
@@ -2906,13 +2896,13 @@ void MainWindow::slotEditConfigFile()
 /*switch edit modes of layout area*/
 void MainWindow::slotViewSwitchMode(QAction* ac)
 {
-    if (ac == actionViewNormalMode)
+    if ((ac == actionViewNormalMode) && (visualMode != kvmNormal))
         switchToNormalMode();
 
-    else if (ac == actionViewLayoutEditMode)
+    else if ((ac == actionViewLayoutEditMode) && (visualMode != kvmEditLayout))
         switchToEditLayoutMode();
 
-    else if (ac == actionViewRouteEditMode)
+    else if ((ac == actionViewRouteEditMode) && (visualMode != kvmEditRoute))
         switchToEditRouteMode();
 
     else
@@ -2935,7 +2925,12 @@ void MainWindow::propagateViewModeSwitch()
 void MainWindow::switchToNormalMode()
 {
     visualMode = kvmNormal;
-    updateRouteMenu(rtViewer->isVisible());
+    rtViewer->hide();
+    updateRouteMenu(false);
+    piw->hide();
+    daemontb->show();
+    layouttb->show();
+    layoutedittb->setEnabled(false);
     statusMessage(tr("Layout in normal view mode"));
     propagateViewModeSwitch();
 }
@@ -2943,7 +2938,11 @@ void MainWindow::switchToNormalMode()
 void MainWindow::switchToEditLayoutMode()
 {
     visualMode = kvmEditLayout;
+    daemontb->hide();
+    layouttb->hide();
     rtViewer->hide();
+    piw->show();
+    layoutedittb->setEnabled(true);
     updateRouteMenu(false);
     statusMessage(tr("Entering layout edit mode"));
     propagateViewModeSwitch();
@@ -2952,6 +2951,10 @@ void MainWindow::switchToEditLayoutMode()
 void MainWindow::switchToEditRouteMode()
 {
     visualMode = kvmEditRoute;
+    daemontb->hide();
+    layouttb->hide();
+    piw->hide();
+    layoutedittb->setEnabled(false);
     rtViewer->show();
     updateRouteMenu(true);
     statusMessage(tr("Entering route edit mode"));
@@ -2964,16 +2967,7 @@ void MainWindow::switchToEditRouteMode()
  */
 void MainWindow::updateRouteMenu(bool rtvIsVisible)
 {
-    if (!rtvIsVisible) {
-        actionRouteActivate->setEnabled(false);
-        actionRouteWithdraw->setEnabled(false);
-        actionRouteRelease->setEnabled(false);
-        actionRouteAdd->setEnabled(false);
-        actionRouteEdit->setEnabled(false);
-        actionRouteCopy->setEnabled(false);
-        actionRouteDelete->setEnabled(false);
-    }
-    else {
+    if (rtvIsVisible) {
         updateRouteMenuActivateItems();
 
         if (visualMode == kvmEditRoute) {
@@ -2990,6 +2984,15 @@ void MainWindow::updateRouteMenu(bool rtvIsVisible)
             actionRouteCopy->setEnabled(false);
             actionRouteDelete->setEnabled(false);
         }
+    }
+    else {
+        actionRouteActivate->setEnabled(false);
+        actionRouteWithdraw->setEnabled(false);
+        actionRouteRelease->setEnabled(false);
+        actionRouteAdd->setEnabled(false);
+        actionRouteEdit->setEnabled(false);
+        actionRouteCopy->setEnabled(false);
+        actionRouteDelete->setEnabled(false);
     }
 }
 
@@ -3372,12 +3375,24 @@ void MainWindow::recentFileActivated(int idx)
 void MainWindow::addRecentlyOpenedFile(const QString &fn, QStringList &lst)
 {
     QFileInfo fi(fn);
-    if (lst.contains(fi.absFilePath()))
-        return;
-    if (lst.count() >= 6 )
-        lst.pop_back();
+    QString path = fi.absFilePath();
+    int index = lst.findIndex(path);
 
-    lst.prepend(fi.absFilePath());
+    // already first entry
+    if (index == 0)
+        return;
+
+    // not first entry but found
+    else if (index > 0)
+        lst.remove(lst.at(index));
+    
+    // not found and new entry necessary
+    else  {
+        if (lst.count() >= 6)
+        lst.pop_back();
+    }
+
+    lst.prepend(path);
 }
 
 /*

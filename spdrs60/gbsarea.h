@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.5.3 $Revision: 1.54 $
+                           version 0.5.3 $Revision: 1.55 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-05 08:42:40 $
+    last modified        : $Date: 2008-11-23 21:05:25 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -59,7 +59,7 @@ public:
    enum LayoutEditMode {lemSelect = 0, lemPaint, lemErase};
 
    GBSArea(QWidget* parent = 0, const char* name = 0);
-   virtual ~GBSArea();
+   ~GBSArea();
 
    bool isModified() const;
    void setModified(bool);
