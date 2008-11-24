@@ -19,13 +19,6 @@ dnl    along with this library; see the file COPYING.LIB.  If not, write to
 dnl    the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 dnl    Boston, MA 02111-1307, USA.
 
-dnl IMPORTANT NOTE:
-dnl Please do not modify this file unless you expect your modifications to be
-dnl carried into every other module in the repository. 
-dnl
-dnl Single-module modifications are best placed in configure.in for kdelibs
-dnl and kdebase or configure.in.in if present.
-
 
 dnl ------------------------------------------------------------------------
 dnl Find a file (or one of more files in a list of dirs)
@@ -129,57 +122,12 @@ configure.
 ])
 
 
-dnl
-AC_DEFUN([KDE_UIC_ERROR_MESSAGE],
-[
-    AC_MSG_WARN([No Qt ui compiler (uic) found!
-Please check whether you installed Qt correctly.
-You need to have a running uic binary.
-configure tried to run $ac_cv_path_uic and the test didn't
-succeed. If configure shouldn't have tried this one, set
-the environment variable UIC to the right one before running
-configure.
-])
-])
-
-
-dnl
-AC_DEFUN([KDE_CHECK_UIC_FLAG],
-[
-    AC_MSG_CHECKING([whether uic supports -$1 ])
-    kde_cache=`echo $1 | sed 'y% .=/+-%____p_%'`
-    AC_CACHE_VAL(kde_cv_prog_uic_$kde_cache,
-    [
-        cat >conftest.ui <<EOT
-        <!DOCTYPE UI><UI version="3" stdsetdef="1"></UI>
-EOT
-        ac_uic_testrun="$UIC_PATH -$1 $2 conftest.ui >/dev/null"
-        if AC_TRY_EVAL(ac_uic_testrun); then
-            eval "kde_cv_prog_uic_$kde_cache=yes"
-        else
-            eval "kde_cv_prog_uic_$kde_cache=no"
-        fi
-        rm -f conftest*
-    ])
-
-    if eval "test \"`echo '$kde_cv_prog_uic_'$kde_cache`\" = yes"; then
-        AC_MSG_RESULT([yes])
-        :
-        $3
-    else
-        AC_MSG_RESULT([no])
-        :
-        $4
-    fi
-])
-
-
 dnl ------------------------------------------------------------------------
-dnl Find the meta object compiler and the ui compiler in the PATH,
+dnl Find the meta object compiler in the PATH,
 dnl in $QTDIR/bin, and some more usual places
 dnl ------------------------------------------------------------------------
 dnl
-AC_DEFUN([AC_PATH_QT_MOC_UIC],
+AC_DEFUN([AC_PATH_QT_MOC],
 [
    qt_bindirs=""
    for dir in $kde_qt_dirs; do
@@ -191,34 +139,7 @@ AC_DEFUN([AC_PATH_QT_MOC_UIC],
    fi
 
    KDE_FIND_PATH(moc, MOC, [$qt_bindirs], [KDE_MOC_ERROR_MESSAGE])
-   if test -z "$UIC_NOT_NEEDED"; then
-     KDE_FIND_PATH(uic, UIC_PATH, [$qt_bindirs], [UIC_PATH=""])
-     if test -z "$UIC_PATH" ; then
-       KDE_UIC_ERROR_MESSAGE
-       exit 1
-     else
-       UIC=$UIC_PATH
-
-       KDE_CHECK_UIC_FLAG(L,[/nonexistent],ac_uic_supports_libpath=yes,ac_uic_supports_libpath=no)
-       KDE_CHECK_UIC_FLAG(nounload,,ac_uic_supports_nounload=yes,ac_uic_supports_nounload=no)
-
-       if test x$ac_uic_supports_libpath = xyes; then
-           UIC="$UIC -L \$(kde_widgetdir)"
-       fi
-       if test x$ac_uic_supports_nounload = xyes; then
-           UIC="$UIC -nounload"
-       fi
-     fi
-   else
-     UIC="echo uic not available: "
-   fi
-
    AC_SUBST(MOC)
-   AC_SUBST(UIC)
-
-   UIC_TR="tr2i18n"
-
-   AC_SUBST(UIC_TR)
 ])
 
 
@@ -397,8 +318,8 @@ ac_cxxflags_safe="$CXXFLAGS"
 ac_ldflags_safe="$LDFLAGS"
 ac_libs_safe="$LIBS"
 
-CXXFLAGS="$CXXFLAGS -I$qt_incdir $all_includes"
-LDFLAGS="$LDFLAGS -L$qt_libdir $all_libraries $USER_LDFLAGS $KDE_MT_LDFLAGS"
+CXXFLAGS="$CXXFLAGS -I$qt_incdir"
+LDFLAGS="$LDFLAGS -L$qt_libdir $USER_LDFLAGS $KDE_MT_LDFLAGS"
 LIBS="$LIBS $LIBQT $KDE_MT_LIBS"
 
 KDE_PRINT_QT_PROGRAM
@@ -459,20 +380,17 @@ if test "$qt_includes" = "$x_includes" || test -z "$qt_includes"; then
  QT_INCLUDES=""
 else
  QT_INCLUDES="-I$qt_includes"
- all_includes="$QT_INCLUDES $all_includes"
 fi
 
 if test "$qt_libraries" = "$x_libraries" || test -z "$qt_libraries"; then
  QT_LDFLAGS=""
 else
  QT_LDFLAGS="-L$qt_libraries"
- all_libraries="$all_libraries $QT_LDFLAGS"
 fi
-test -z "$KDE_MT_LDFLAGS" || all_libraries="$all_libraries $KDE_MT_LDFLAGS"
 
 AC_SUBST(QT_INCLUDES)
 AC_SUBST(QT_LDFLAGS)
-AC_PATH_QT_MOC_UIC
+AC_PATH_QT_MOC
 
 LIB_QT="$kde_int_qt "
 
@@ -630,24 +548,6 @@ AC_DEFUN([KDE_CHECK_THREADING],
   if test "x$kde_use_threading" = "xyes"; then
     AC_DEFINE(HAVE_LIBPTHREAD, 1, [Define if you have a working libpthread (will enable threaded code)])
   fi
-])
-
-
-dnl
-AC_DEFUN([KDE_CHECK_LIB],
-[
-     kde_save_LDFLAGS="$LDFLAGS"
-     dnl AC_CHECK_LIB modifies LIBS, so save it here
-     kde_save_LIBS="$LIBS"
-     LDFLAGS="$LDFLAGS $all_libraries"
-     case $host_os in
-      aix*) LDFLAGS="-brtl $LDFLAGS"
-	test "$GCC" = yes && LDFLAGS="-Wl,$LDFLAGS"
-	;;
-     esac
-     AC_CHECK_LIB($1, $2, $3, $4, $5)
-     LDFLAGS="$kde_save_LDFLAGS"
-     LIBS="$kde_save_LIBS"
 ])
 
 

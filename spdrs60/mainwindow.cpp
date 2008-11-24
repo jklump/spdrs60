@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-23 21:05:25 $
-                           $Revision: 1.165 $
+    last modified        : $Date: 2008-11-24 17:56:54 $
+                           $Revision: 1.166 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -521,12 +521,6 @@ void MainWindow::initMainWindow()
     connect(feedbackPort, SIGNAL(statusMessage(const QString&)),
             messageHistory, SLOT(addHint(const QString&)));
 
-    // FIXME: this will cause doubled messages or there will be no
-    // server time translation
-    //connect(this, SIGNAL(commandMessage(const QString&)),
-    //        messageHistory, SLOT(addCommand(const QString&)));
-    //connect(this, SIGNAL(infoMessage(const QString&)),
-    //        messageHistory, SLOT(addInfo(const QString&)));
     connect(this, SIGNAL(statusMessage(const QString&)),
             messageHistory, SLOT(addHint(const QString&)));
     connect(gbs, SIGNAL(statusMessage(const QString&)),
@@ -1049,8 +1043,6 @@ void MainWindow::initMainWindow()
     daemontb = new QToolBar(this, "daemontb");
     Q_CHECK_PTR(daemontb);
     daemontb->setLabel(tr("Daemon operations"));
-    /*connect(actionViewNormalMode, SIGNAL(toggled(bool)),
-            daemontb, SLOT(setShown(bool)));*/
 
     QPopupMenu* daemonmenu = new QPopupMenu(this);
     //daemonmenu = new QPopupMenu(this);
@@ -1133,8 +1125,6 @@ void MainWindow::initMainWindow()
     layouttb = new QToolBar(this, "layouttb");
     Q_CHECK_PTR(layouttb);
     layouttb->setLabel(tr("Layout operations"));
-    /*connect(actionViewNormalMode, SIGNAL(toggled(bool)),
-            layouttb, SLOT(setShown(bool)));*/
 
     QPopupMenu* layoutmenu = new QPopupMenu(this);
     menuBar()->insertItem(tr("&Layout"), layoutmenu);

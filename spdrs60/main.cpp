@@ -1,11 +1,11 @@
 /***************************************************************************
                            main.cpp
-                           version 0.5.3 $Revision: 1.20 $
+                           version 0.5.3 $Revision: 1.21 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-09-10 18:34:15 $
+    last modified        : $Date: 2008-11-24 17:56:54 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -85,6 +85,6 @@ int main(int argc, char* argv[])
                spdrs60Window->openFileWindow(qApp->argv()[i]);
    }
    
-   return a.exec();                                     
+   return a.exec();
 }
 
