@@ -10,7 +10,8 @@ Vendor: Stefan Preis, Guido Scholz
 URL: http://spdrs60.sourceforge.net/
 Provides: spdrs60
 Requires: qt3
-BuildRequires: glibc-devel qt3-devel qt3-devel-tools openjade docbook-dsssl-stylesheets make
+BuildRequires: glibc-devel make qt3-devel qt3-devel-tools
+BuildRequires: openjade sgml-skel docbook-dsssl-stylesheets
 Prefix: /usr
 Source: %{name}-%{version}.tar.bz2
 Buildroot: %{_tmppath}/%{name}-%{version}-buildroot
