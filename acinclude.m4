@@ -492,10 +492,10 @@ AC_DEFUN([KDE_CHECK_LIBPTHREAD],
 dnl
 AC_DEFUN([KDE_CHECK_PTHREAD_OPTION],
 [
-      USE_THREADS=""
-      if test -z "$LIBPTHREAD"; then
-        KDE_CHECK_COMPILER_FLAG(pthread, [USE_THREADS="-D_THREAD_SAFE -pthread"])
-      fi
+    USE_THREADS=""
+    if test -z "$LIBPTHREAD"; then
+      KDE_CHECK_COMPILER_FLAG(pthread, [USE_THREADS="-D_THREAD_SAFE -pthread"])
+    fi
 
     AH_VERBATIM(__svr_define, [
 #if defined(__SVR4) && !defined(__svr4__)
@@ -555,15 +555,12 @@ dnl this is a redefinition of autoconf 2.5x's AC_FOREACH.
 dnl When the argument list becomes big, as in KDE for AC_OUTPUT in
 dnl big packages, m4_foreach is dog-slow.  So use our own version of
 dnl it.  (matz@kde.org)
-m4_define([mm_foreach],
-[m4_pushdef([$1])_mm_foreach($@)m4_popdef([$1])])
+m4_define([mm_foreach], [m4_pushdef([$1])_mm_foreach($@)m4_popdef([$1])])
 m4_define([mm_car], [[$1]])
 m4_define([mm_car2], [[$@]])
-m4_define([_mm_foreach],
-[m4_if(m4_quote($2), [], [],
-       [m4_define([$1], mm_car($2))$3[]_mm_foreach([$1],
-                                                   mm_car2(m4_shift($2)),
-                                                   [$3])])])
+m4_define([_mm_foreach], [m4_if(m4_quote($2), [], [],
+    [m4_define([$1], mm_car($2))$3[]_mm_foreach([$1],
+        mm_car2(m4_shift($2)), [$3])])])
 m4_define([AC_FOREACH],
-[mm_foreach([$1], m4_split(m4_normalize([$2])), [$3])])
+    [mm_foreach([$1], m4_split(m4_normalize([$2])), [$3])])
 

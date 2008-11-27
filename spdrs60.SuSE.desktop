@@ -10,4 +10,4 @@ TryExec=spdrs60
 Exec=spdrs60 %f
 Terminal=0
 Categories=Game;Simulation;
-
+X-SuSE-translate=true
