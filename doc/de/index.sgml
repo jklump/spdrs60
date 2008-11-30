@@ -38,7 +38,7 @@
         <revhistory>
             <revision>
                 <revnumber>0.12</revnumber>
-                <date>So Nov 23 21:50:02 CET 2008</date>
+                <date>So Nov 30 08:44:02 CET 2008</date>
             </revision>
             <revision>
                 <revnumber>0.11</revnumber>
@@ -186,7 +186,7 @@ empfehlenswert, diese Dokumentation durchzuarbeiten.
 <sect1 id="ver-0.5.4">
   <title>Version 0.5.4</title>
 <para>
-Veröffentlicht am 23.11.2008
+Veröffentlicht am 30.11.2008
 </para>
 <itemizedlist mark="bullet">
 

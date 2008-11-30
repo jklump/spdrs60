@@ -40,11 +40,11 @@
 <revhistory>
   <revision>
     <revnumber>0.11</revnumber>
-    <date>wed Nov 23 21:47:59 CET 2008</date>
+    <date>Sun Nov 30 08:44:45 CET 2008</date>
   </revision>
   <revision>
     <revnumber>0.10</revnumber>
-    <date>wed Nov 12 18:53:00 CET 2008</date>
+    <date>Wed Nov 12 18:53:00 CET 2008</date>
   </revision>
   <revision>
     <revnumber>0.9</revnumber>
@@ -123,7 +123,7 @@ features.</para>
 <sect2 id="ver-0.5.4">
 <title>Version 0.5.5</title>
 <para>
-Release date: 2008-11-23
+Release date: 2008-11-30
 </para>
 
 <itemizedlist mark="bullet">
