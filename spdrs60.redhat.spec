@@ -1,14 +1,13 @@
-Summary: SpDrS60, Switchbox for digital model railroads 
-Summary(de): SpDrS60, Spurplan-Drucktastenstellwerk für digitale Modelleisenbahnen
+Summary: Switchbox for digital model railroads 
+Summary(de): Spurplan-Drucktastenstellwerk für digitale Modelleisenbahnen
 Name: spdrs60
 Version: 0.5.4
 Release: 1%{?dist}
 License: GPL
 Group: Amusements/Games
 Distribution: Fedora Core Linux
-Vendor: Stefan Preis, Guido Scholz
+Vendor: Guido Scholz
 URL: http://spdrs60.sourceforge.net/
-Provides: spdrs60
 Requires: qt
 BuildRequires: glibc-devel qt-devel qt-designer openjade docbook-style-dsssl
 Prefix: /usr
