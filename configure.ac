@@ -1,10 +1,10 @@
 dnl configure.ac for spdrs60
 dnl Guido Scholz
-dnl last update: $Date: 2008-11-12 21:57:24 $
-dnl version: $Revision: 1.28 $
+dnl last update: $Date: 2008-12-25 18:21:26 $
+dnl version: $Revision: 1.29 $
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT([spdrs60],[0.5.4],[Guido Scholz <guido.scholz@bayernline.de>])
+AC_INIT([spdrs60],[0.5.5],[Guido Scholz <guido.scholz@bayernline.de>])
 AC_CONFIG_SRCDIR([spdrs60/main.cpp])
 AC_CANONICAL_TARGET
 AM_INIT_AUTOMAKE([dist-bzip2])
@@ -43,7 +43,6 @@ if test x$enable_html_doc = xyes; then
   fi
 fi
 
-dnl TODO: default should be "disable"
 dnl option to enable pdf doc generation 
 AC_ARG_ENABLE(pdf-doc, AC_HELP_STRING([--enable-pdf-doc],
             [enable building and installation of pdf documentation]),, enable_pdf_doc=no)
@@ -228,7 +227,6 @@ AC_ARG_WITH(icon-dir,
     fi ],
   [ICONDIR="${prefix}/share/pixmaps"])
 AC_SUBST(ICONDIR)
-dnl AC_DEFINE_UNQUOTED([ICONDIR], ["$ICONDIR"], [directory for icons])
 
 
 dnl add here all your Makefiles. This are created by configure

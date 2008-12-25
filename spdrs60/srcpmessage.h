@@ -1,10 +1,10 @@
 /***************************************************************************
                            srcpmessage.h
-                           version 0.5.3 $Revision: 1.18 $
+                           version 0.5.3 $Revision: 1.19 $
                            -------------------------------
     copyright            : (C) 2005-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-03-30 08:57:07 $
+    last modified        : $Date: 2008-12-25 18:21:26 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -26,6 +26,7 @@
 #include <qstring.h>
 
 #include "srcpport.h"
+
 
 class SrcpMessage
 {

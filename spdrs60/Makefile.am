@@ -1,9 +1,19 @@
 # Makefile.am for spdrs60
 # (c) Guido Scholz
-# version: $Revision: 1.40 $
-# last update: $Date: 2008-11-08 21:23:48 $
+# version: $Revision: 1.41 $
+# last update: $Date: 2008-12-25 18:21:26 $
 
 SUBDIRS = pixmaps
+
+# test to run by "make check"
+check_PROGRAMS = srcp_test
+TESTS = $(check_PROGRAMS)
+srcp_test_SOURCES = \
+	srcp_test.cpp srcpmessage.h srcpmessage.cpp
+srcp_test_LDADD = @LIB_QT@
+srcp_test_LDFLAGS = @QT_LDFLAGS@
+srcp_test_CXXFLAGS = @QT_INCLUDES@
+
 
 bin_PROGRAMS = spdrs60
 

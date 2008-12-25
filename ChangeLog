@@ -1,3 +1,10 @@
++++ Release 0.5.5 (2009-??-??) +++
+
+2008-12-23 Guido Scholz <guido.scholz@bayernline.de>
+	* spdrs60/srcp_test.cpp, spdrs60/Makefile.am: Preliminary test
+	for SRCP message generation added, runned by "make check".
+
+
 +++ Release 0.5.4 (2008-11-23) +++
 
 2008-11-23 Guido Scholz <guido.scholz@bayernline.de>
