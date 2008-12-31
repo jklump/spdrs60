@@ -1,10 +1,10 @@
 /***************************************************************************
                            srcpmessage.h
-                           version 0.5.3 $Revision: 1.19 $
+                           version 0.5.3 $Revision: 1.20 $
                            -------------------------------
     copyright            : (C) 2005-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-12-25 18:21:26 $
+    last modified        : $Date: 2008-12-31 07:39:01 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -32,7 +32,7 @@ class SrcpMessage
 {
     public:
         enum Message {msgNoMsg = 0,
-            msgServerLogin, msgServerReset, msgServerShutdown,
+            msgServerReset, msgServerShutdown,
             msgSessionTerm,
             msgPowerInit, msgPowerSet, msgPowerGet, msgPowerTerm,
             msgPowerInfo,

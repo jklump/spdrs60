@@ -1,10 +1,11 @@
 /***************************************************************************
-                           srcp_test.cpp
-                           version 0.5.5 $Revision: 1.1 $
-                           -------------------------------
-    copyright            :(C) 2008 Guido Scholz
-    email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-12-25 18:23:51 $
+ srcp_test.cpp
+ -------------
+ Copyright    : (C) 2008 Guido Scholz
+ E-Mail       : guido.scholz@bayernline.de
+ Begin        : 16.12.2008
+ Last modified: $Date: 2008-12-31 07:39:01 $
+                $Revision: 1.2 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -27,7 +28,7 @@
 #include "srcpmessage.h"
 
 
-bool checkOldSrcpString(const QString& nominal, SrcpMessage* sm)
+bool checkSrcp07String(const QString& nominal, SrcpMessage* sm)
 {
     QString result = sm->getSrcpMessageStr(SrcpPort::csOld);
     bool isOK = (nominal == result);
@@ -38,7 +39,7 @@ bool checkOldSrcpString(const QString& nominal, SrcpMessage* sm)
 }
 
 
-bool checkNewSrcpString(const QString& nominal, SrcpMessage* sm)
+bool checkSrcp08String(const QString& nominal, SrcpMessage* sm)
 {
     QString result = sm->getSrcpMessageStr(SrcpPort::csNew);
     bool isOK = (nominal == result);
@@ -49,7 +50,7 @@ bool checkNewSrcpString(const QString& nominal, SrcpMessage* sm)
 }
 
 
-bool runSrcp07Test()
+bool runSrcpTest()
 {
     QString nominal, result;
     bool returnvalue = true;
@@ -58,157 +59,175 @@ bool runSrcp07Test()
     if (sm == NULL)
         return false;
 
-    /*SRCP 0.7*/
-    qWarning("Testing old SRCP messages...");
 
-    /*Server*/
+    /*SRCP Server*/
+    qWarning("Testing SRCP Server messages...");
+
+    /*Reset*/
     sm->setMessage(SrcpMessage::msgServerReset);
-    if (!checkOldSrcpString("RESET", sm))
+    if (!checkSrcp07String("RESET", sm))
         returnvalue = false;
 
+    if (!checkSrcp08String("RESET 0 SERVER", sm))
+        returnvalue =  false;
+
+    /*Term*/
     sm->setMessage(SrcpMessage::msgServerShutdown);
-    if (!checkOldSrcpString("SHUTDOWN", sm))
+    if (!checkSrcp07String("SHUTDOWN", sm))
         returnvalue =  false;
 
-    /*Session*/
+    if (!checkSrcp08String("TERM 0 SERVER", sm))
+        returnvalue =  false;
+
+
+    /*SRCP Session*/
+    qWarning("Testing SRCP Session messages...");
+
+    /*Term*/
     sm->setMessage(SrcpMessage::msgSessionTerm);
-    if (!checkOldSrcpString("LOGOUT", sm))
+    if (!checkSrcp07String("LOGOUT", sm))
         returnvalue = false;
 
-    /*Power*/
-    sm->setMessage(SrcpMessage::msgPowerSet);
-    sm->setPowerData(0, false);
-    if (!checkOldSrcpString("SET POWER OFF", sm))
-        returnvalue = false;
-
-    // sm->setMessage(SrcpMessage::msgPowerSet);
-    sm->setPowerData(0, true);
-    if (!checkOldSrcpString("SET POWER ON", sm))
-        returnvalue = false;
-
-    sm->setMessage(SrcpMessage::msgPowerGet);
-    if (!checkOldSrcpString("GET POWER", sm))
-        returnvalue =  false;
-
-    /*GA*/
-    // MM protocol
-    sm->setMessage(SrcpMessage::msgGaInit);
-    sm->setGaData(SrcpMessage::proMM, 1, 2, 3, 4, 5);
-    if (!checkOldSrcpString("", sm))
-        returnvalue = false;
-
-    sm->setMessage(SrcpMessage::msgGaSet);
-    sm->setGaData(SrcpMessage::proMM, 1, 2, 3, 4, 5);
-    if (!checkOldSrcpString("SET GA M 2 3 4 5", sm))
-        returnvalue = false;
-
-    sm->setMessage(SrcpMessage::msgGaGet);
-    sm->setGaData(SrcpMessage::proMM, 1, 2, 3, 4, 5);
-    if (!checkOldSrcpString("GET GA M 2 3", sm))
-        returnvalue = false;
-
-    sm->setMessage(SrcpMessage::msgGaInfo);
-    sm->setGaData(SrcpMessage::proMM, 1, 2, 3, 4, 5);
-    if (!checkOldSrcpString("INFO GA M 2 3 4", sm))
-        returnvalue = false;
-
-    // DCC protocol
-    sm->setMessage(SrcpMessage::msgGaInit);
-    sm->setGaData(SrcpMessage::proDCC, 1, 2, 3, 4, 5);
-    if (!checkOldSrcpString("", sm))
-        returnvalue = false;
-
-    sm->setMessage(SrcpMessage::msgGaSet);
-    sm->setGaData(SrcpMessage::proDCC, 1, 2, 3, 4, 5);
-    if (!checkOldSrcpString("SET GA N 2 3 4 5", sm))
-        returnvalue = false;
-
-    sm->setMessage(SrcpMessage::msgGaGet);
-    sm->setGaData(SrcpMessage::proDCC, 1, 2, 3, 4, 5);
-    if (!checkOldSrcpString("GET GA N 2 3", sm))
-        returnvalue = false;
-
-    sm->setMessage(SrcpMessage::msgGaInfo);
-    sm->setGaData(SrcpMessage::proDCC, 1, 2, 3, 4, 5);
-    if (!checkOldSrcpString("INFO GA N 2 3 4", sm))
-        returnvalue = false;
-
-    // Server protocol
-    sm->setMessage(SrcpMessage::msgGaInit);
-    sm->setGaData(SrcpMessage::proServer, 1, 2, 3, 4, 5);
-    if (!checkOldSrcpString("", sm))
-        returnvalue = false;
-
-    sm->setMessage(SrcpMessage::msgGaSet);
-    sm->setGaData(SrcpMessage::proServer, 1, 2, 3, 4, 5);
-    if (!checkOldSrcpString("SET GA P 2 3 4 5", sm))
-        returnvalue = false;
-
-    sm->setMessage(SrcpMessage::msgGaGet);
-    sm->setGaData(SrcpMessage::proServer, 1, 2, 3, 4, 5);
-    if (!checkOldSrcpString("GET GA P 2 3", sm))
-        returnvalue = false;
-
-    sm->setMessage(SrcpMessage::msgGaInfo);
-    sm->setGaData(SrcpMessage::proServer, 1, 2, 3, 4, 5);
-    if (!checkOldSrcpString("INFO GA P 2 3 4", sm))
+    if (!checkSrcp08String("TERM 0 SESSION", sm))
         returnvalue = false;
 
 
-    /*SRCP 0.8*/
-    qWarning("Testing new SRCP messages...");
+    /*SRCP Power*/
+    qWarning("Testing SRCP Power messages...");
 
-    /*Server*/
-    sm->setMessage(SrcpMessage::msgServerReset);
-    if (!checkNewSrcpString("RESET 0 SERVER", sm))
-        returnvalue =  false;
-
-    sm->setMessage(SrcpMessage::msgServerShutdown);
-    if (!checkNewSrcpString("TERM 0 SERVER", sm))
-        returnvalue =  false;
-
-    /*Session*/
-    sm->setMessage(SrcpMessage::msgSessionTerm);
-    if (!checkNewSrcpString("TERM 0 SESSION", sm))
-        returnvalue = false;
-
-    /*Power*/
+    /*  SET OFF*/
     sm->setMessage(SrcpMessage::msgPowerSet);
     sm->setPowerData(1, false);
-    if (!checkNewSrcpString("SET 1 POWER OFF", sm))
+    if (!checkSrcp07String("SET POWER OFF", sm))
         returnvalue = false;
 
-    // sm->setMessage(SrcpMessage::msgPowerSet);
+    if (!checkSrcp08String("SET 1 POWER OFF", sm))
+        returnvalue = false;
+
+    /*  SET ON*/
+    sm->setPowerData(0, true);
+    if (!checkSrcp07String("SET POWER ON", sm))
+        returnvalue = false;
+
     sm->setPowerData(1, true);
-    if (!checkNewSrcpString("SET 1 POWER ON", sm))
+    if (!checkSrcp08String("SET 1 POWER ON", sm))
         returnvalue = false;
 
+    /*  GET*/
     sm->setMessage(SrcpMessage::msgPowerGet);
     sm->setPowerData(1, true);
-    if (!checkNewSrcpString("GET 1 POWER", sm))
+    if (!checkSrcp07String("GET POWER", sm))
         returnvalue =  false;
 
-    /*GA*/
-    // TODO: loop over protocol
+    if (!checkSrcp08String("GET 1 POWER", sm))
+        returnvalue =  false;
+
+
+    /*SRCP Ga*/
+    qWarning("Testing SRCP Ga messages...");
+
+    /*MM protocol*/
+    /*  GA INIT*/
     sm->setMessage(SrcpMessage::msgGaInit);
     sm->setGaData(SrcpMessage::proMM, 1, 2, 3, 4, 5);
-    if (!checkNewSrcpString("INIT 1 GA 2 M", sm))
+    if (!checkSrcp07String("", sm))
         returnvalue = false;
 
+    if (!checkSrcp08String("INIT 1 GA 2 M", sm))
+        returnvalue = false;
+
+    /*  GA SET*/
     sm->setMessage(SrcpMessage::msgGaSet);
     sm->setGaData(SrcpMessage::proMM, 1, 2, 3, 4, 5);
-    if (!checkNewSrcpString("SET 1 GA 2 3 4 5", sm))
+    if (!checkSrcp07String("SET GA M 2 3 4 5", sm))
         returnvalue = false;
 
+    if (!checkSrcp08String("SET 1 GA 2 3 4 5", sm))
+        returnvalue = false;
+
+    /*  GA GET*/
     sm->setMessage(SrcpMessage::msgGaGet);
     sm->setGaData(SrcpMessage::proMM, 1, 2, 3, 4, 5);
-    if (!checkNewSrcpString("GET 1 GA 2 3", sm))
+    if (!checkSrcp07String("GET GA M 2 3", sm))
         returnvalue = false;
 
+    sm->setGaData(SrcpMessage::proMM, 1, 2, 3, 4, 5);
+    if (!checkSrcp08String("GET 1 GA 2 3", sm))
+        returnvalue = false;
+
+    /*  GA INFO*/
     sm->setMessage(SrcpMessage::msgGaInfo);
     sm->setGaData(SrcpMessage::proMM, 1, 2, 3, 4, 5);
-    if (!checkNewSrcpString("INFO 1 GA 2 3 4", sm))
+    if (!checkSrcp07String("INFO GA M 2 3 4", sm))
         returnvalue = false;
+
+    if (!checkSrcp08String("100 INFO 1 GA 2 3 4", sm))
+        returnvalue = false;
+
+
+    /* DCC protocol*/
+    /*  GA INIT*/
+    sm->setMessage(SrcpMessage::msgGaInit);
+    sm->setGaData(SrcpMessage::proDCC, 1, 2, 3, 4, 5);
+    if (!checkSrcp07String("", sm))
+        returnvalue = false;
+
+    if (!checkSrcp08String("INIT 1 GA 2 N", sm))
+        returnvalue = false;
+
+    /*  GA SET*/
+    sm->setMessage(SrcpMessage::msgGaSet);
+    sm->setGaData(SrcpMessage::proDCC, 1, 2, 3, 4, 5);
+    if (!checkSrcp07String("SET GA N 2 3 4 5", sm))
+        returnvalue = false;
+
+    /*  GA GET*/
+    sm->setMessage(SrcpMessage::msgGaGet);
+    sm->setGaData(SrcpMessage::proDCC, 1, 2, 3, 4, 5);
+    if (!checkSrcp07String("GET GA N 2 3", sm))
+        returnvalue = false;
+
+    /*  GA INFO*/
+    sm->setMessage(SrcpMessage::msgGaInfo);
+    sm->setGaData(SrcpMessage::proDCC, 1, 2, 3, 4, 5);
+    if (!checkSrcp07String("INFO GA N 2 3 4", sm))
+        returnvalue = false;
+
+    /*Server protocol*/
+    /*  GA INIT*/
+    sm->setMessage(SrcpMessage::msgGaInit);
+    sm->setGaData(SrcpMessage::proServer, 1, 2, 3, 4, 5);
+    if (!checkSrcp07String("", sm))
+        returnvalue = false;
+
+    if (!checkSrcp08String("INIT 1 GA 2 P", sm))
+        returnvalue = false;
+
+    /*  GA SET*/
+    sm->setMessage(SrcpMessage::msgGaSet);
+    sm->setGaData(SrcpMessage::proServer, 1, 2, 3, 4, 5);
+    if (!checkSrcp07String("SET GA P 2 3 4 5", sm))
+        returnvalue = false;
+
+    /*  GA GET*/
+    sm->setMessage(SrcpMessage::msgGaGet);
+    sm->setGaData(SrcpMessage::proServer, 1, 2, 3, 4, 5);
+    if (!checkSrcp07String("GET GA P 2 3", sm))
+        returnvalue = false;
+
+    /*  GA INFO*/
+    sm->setMessage(SrcpMessage::msgGaInfo);
+    sm->setGaData(SrcpMessage::proServer, 1, 2, 3, 4, 5);
+    if (!checkSrcp07String("INFO GA P 2 3 4", sm))
+        returnvalue = false;
+
+    /*SRCP Gl*/
+    qWarning("Testing SRCP Gl messages...");
+    qWarning("Testing SRCP Fb messages...");
+    qWarning("Testing SRCP Lock messages...");
+    qWarning("Testing SRCP Time messages...");
+    qWarning("Testing SRCP Sm messages...");
+    qWarning("Testing SRCP Description messages...");
 
 
     delete sm;
@@ -219,9 +238,9 @@ bool runSrcp07Test()
 /*create and run console application*/
 int main(int argc, char* argv[])
 {
-   QApplication a(argc, argv, false);
+   QApplication testApp(argc, argv, false);
 
-   bool success = runSrcp07Test();
+   bool success = runSrcpTest();
 
    return (success) ? 0 : 1;
 }
