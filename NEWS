@@ -1,3 +1,16 @@
+spdrs60-0.5.5 (2009-??-??)
+  o Fixed routing over element, if track indicator is off and
+    configured feedback contact is occupied.
+
+  o Fixed route withdrawal by spacebar hit for reserved routes.
+
+  o Show error message if start signal is in stop position while
+    recorded.
+
+  o Set start signals back to stop position if route selection is
+    changed in route edit mode.
+
+
 spdrs60-0.5.4 (2008-11-30)
   o State showing On/Off labels for tablelight switching.
 
@@ -9,6 +22,7 @@ spdrs60-0.5.4 (2008-11-30)
 
   o Fixed hiding of view mode specific toolbars if accelerator key is
     hit twice.
+
 
 spdrs60-0.5.3 (2008-11-09)
   o The error preventing correct sorting of numerical list entries in

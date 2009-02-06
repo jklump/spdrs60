@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.2 $Revision: 1.77 $
+                           version 0.5.2 $Revision: 1.78 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-07 19:13:18 $
+    last modified        : $Date: 2009-02-06 20:52:11 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -748,8 +748,10 @@ void Route::hideRoute()
     if (exitSignal.elemPtr != NULL)
         exitSignal.elemPtr->switchSelectionMode(ksmNormal);
 
-    if (entrySignal.elemPtr != NULL)
+    if (entrySignal.elemPtr != NULL) {
+        entrySignal.elemPtr->switchToDir(0);
         entrySignal.elemPtr->switchSelectionMode(ksmNormal);
+    }
 
     if (trainNumberDisplay.elemPtr != NULL) {
         trainNumberDisplay.elemPtr->updateTrainNumber(0);

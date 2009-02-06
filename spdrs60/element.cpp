@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-23 21:05:24 $
-                           $Revision: 1.183 $
+    last modified        : $Date: 2009-02-06 20:52:11 $
+                           $Revision: 1.184 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -9299,6 +9299,7 @@ void element::setOccupied(bool ostate)
         occupied = ostate;
         if (!ostate && routed)
             routed = false;
+        /*TODO: repaint only if (trackindicatoroff == 0)*/
         setupElementIcon();
     }
 }
@@ -9308,6 +9309,7 @@ void element::setRouted(bool rstate)
 {
     if (routed != rstate || routedtrack != 0) {
         routed = rstate;
+        /*TODO: repaint only if (trackindicatoroff == 0)*/
         setupElementIcon();
     }
 }
@@ -9468,9 +9470,12 @@ bool element::isLockable()
     return result;
 }
 
-
+/*return occupancy state condering current track indicator state*/
 bool element::isOccupied()
 {
+    if (trackindicatoroff == 1)
+        return false;
+
     return occupied;
 }
 
@@ -9934,4 +9939,10 @@ void element::setTableLight(bool ison)
         if (turnout || (classid == siciTal))
             setupElementIcon();
     }
+}
+
+
+bool element::showsStop()
+{
+    return (signal && (state == 0));
 }

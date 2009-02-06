@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.3 $Revision: 1.70 $
+                           version 0.5.3 $Revision: 1.71 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-09-10 18:34:16 $
+    last modified        : $Date: 2009-02-06 20:52:11 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -290,15 +290,34 @@ void Router::recordElement(element* el, elemRecordType rtype)
         switch (rtype) {
 
             case krecStartStop:
-                if (!selectedRoute->hasEntrySignal())
-                    selectedRoute->setEntrySignal(el);
-                else if (!selectedRoute->hasExitSignal())
+                if (!selectedRoute->hasEntrySignal()) {
+                    if (el->showsStop()) {
+                        QApplication::beep();
+                        emit statusMessage(
+                                tr("Error: Start signal '%1' in stop position")
+                                .arg(el->getLabelText()));
+                    }
+                    else {
+                        selectedRoute->setEntrySignal(el);
+
+                        /*send update signal to routingviewer to show
+                          changed route name*/
+                        emit routeDataChanged(selectedRoute);
+                        modified = true;
+                    }
+                }
+                else if (!selectedRoute->hasExitSignal()) {
                     selectedRoute->setExitSignal(el);
-               
-                /*send update signal to routingviewer to show changed
-                  route name*/
-                emit routeDataChanged(selectedRoute);
-                modified = true;
+
+                    /*send update signal to routingviewer to show changed
+                      route name*/
+                    emit routeDataChanged(selectedRoute);
+                    modified = true;
+                }
+                else
+                    emit statusMessage(
+                            tr("Recording of signal '%1' failed")
+                            .arg(el->getLabelText()));
                 break;
 
             case krecDisplay:

@@ -3,8 +3,8 @@
                            -------------------
     copyright            : (C) 2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-09-10 18:34:16 $
-                           $Revision: 1.8 $
+    last modified        : $Date: 2009-02-06 20:52:11 $
+                           $Revision: 1.9 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -158,7 +158,7 @@ void RouteListWindow::slotToggleRouteState(QListViewItem * lvi)
     Route* sr = static_cast<RouteLVI*>(lvi)->getRoute();
 
     if (sr != NULL) {
-        if (sr->getState() == Route::rsLocked)
+        if (sr->getState() != Route::rsUnlocked)
             slotWithdrawRoute(sr);
         else
             slotActivateRoute(sr);

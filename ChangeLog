@@ -1,5 +1,15 @@
 +++ Release 0.5.5 (2009-??-??) +++
 
+2009-02-06 Guido Scholz <guido.scholz@bayernline.de>
+	* spdrs60/element.cpp: Fixed routing over element, if track
+	indicator is off and configured feedback contact is occupied.
+	* spdrs60/routelistwindow.cpp: Fixed route withdrawal by
+	spacebar hit for reserved routes.
+	* spdrs60/element.*, spdrs60/router.cpp: Show error message if
+	start signal is in stop position while recorded.
+	* spdrs60/router.cpp: Set start signals back to stop position
+	if route selection is changed in route edit mode.
+
 2008-12-23 Guido Scholz <guido.scholz@bayernline.de>
 	* spdrs60/srcp_test.cpp, spdrs60/Makefile.am: Preliminary test
 	for SRCP message generation added, runned by "make check".
