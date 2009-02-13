@@ -1,5 +1,13 @@
 +++ Release 0.5.5 (2009-??-??) +++
 
+2009-02-13 Guido Scholz <guido.scholz@bayernline.de>
+	* spdrs60/gbsarea.cpp: Fixed drag pixmap creation and set
+	modified flag for drop action.
+
+2009-02-11 Guido Scholz <guido.scholz@bayernline.de>
+	* spdrs60/routeelementlvi.cpp: Fixed memory leak while sorting
+	route elements in list view.
+
 2009-02-06 Guido Scholz <guido.scholz@bayernline.de>
 	* spdrs60/element.cpp: Fixed routing over element, if track
 	indicator is off and configured feedback contact is occupied.

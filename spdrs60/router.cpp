@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.3 $Revision: 1.71 $
+                           version 0.5.3 $Revision: 1.72 $
                            -------------------------------
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-02-06 20:52:11 $
+    last modified        : $Date: 2009-02-13 18:20:09 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -314,10 +314,12 @@ void Router::recordElement(element* el, elemRecordType rtype)
                     emit routeDataChanged(selectedRoute);
                     modified = true;
                 }
-                else
+                else {
+                    QApplication::beep();
                     emit statusMessage(
                             tr("Recording of signal '%1' failed")
                             .arg(el->getLabelText()));
+                }
                 break;
 
             case krecDisplay:

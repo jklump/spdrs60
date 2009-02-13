@@ -2033,6 +2033,14 @@ The valid range is %1 to %2.</source>
         <source>Error assembling CRCF message for route TYPE &apos;%1&apos;.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Error: Start signal &apos;%1&apos; in stop position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Recording of signal &apos;%1&apos; failed</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ServerInfoDialog</name>

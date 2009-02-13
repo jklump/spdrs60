@@ -1,10 +1,10 @@
 /***************************************************************************
                            routeelementlvi.cpp
-                           version 0.5.2 $Revision: 1.10 $
+                           version 0.5.2 $Revision: 1.11 $
                            -------------------------------
     copyright            : (C) 2005-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-11 19:20:49 $
+    last modified        : $Date: 2009-02-13 18:20:09 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -96,11 +96,9 @@ int RouteElementLVI::compare(QListViewItem* i, int col,
         bool ascending) const
 {
     int returnvalue = 0;
-    stateElement* ce = new stateElement;
-    if (ce == NULL)
-        return returnvalue;
+    stateElement ce;
     RouteElementLVI* item = (RouteElementLVI*) i;
-    item->getStateElementData(ce);
+    item->getStateElementData(&ce);
     
     int key1 = key(col, ascending).toInt();
     int key2 = i->key(col, ascending).toInt();
@@ -117,21 +115,21 @@ int RouteElementLVI::compare(QListViewItem* i, int col,
                     ascending).localeAwareCompare(i->key(col, ascending));
             break;
         case 2:
-            if (routeElement.bus > ce->bus)
+            if (routeElement.bus > ce.bus)
                 returnvalue = 1;
-            else if (routeElement.bus < ce->bus)
+            else if (routeElement.bus < ce.bus)
                 returnvalue = -1;
             break;
         case 3:
-            if (routeElement.address > ce->address)
+            if (routeElement.address > ce.address)
                 returnvalue = 1;
-            else if (routeElement.address < ce->address)
+            else if (routeElement.address < ce.address)
                 returnvalue = -1;
             break;
         case 4:
-            if (routeElement.state > ce->state)
+            if (routeElement.state > ce.state)
                 returnvalue = 1;
-            else if (routeElement.state < ce->state)
+            else if (routeElement.state < ce.state)
                 returnvalue = -1;
             break;
     }

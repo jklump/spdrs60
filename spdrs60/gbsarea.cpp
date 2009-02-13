@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-05 08:42:40 $
-                           $Revision: 1.112 $
+    last modified        : $Date: 2009-02-13 18:20:08 $
+                           $Revision: 1.113 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1620,8 +1620,8 @@ void GBSArea::mouseMoveEvent(QMouseEvent* e)
                             QPoint(EL_WIDTH / 2, EL_HEIGHT / 2));
                 else {
                     QPixmap pm;
-                    pm.grabWidget(this);
-                    d->setPixmap(pm);
+                    pm = QPixmap::grabWidget(el);
+                    d->setPixmap(pm, QPoint(EL_WIDTH / 2, EL_HEIGHT / 2));
                 }
 
                 d->dragMove();
@@ -1711,6 +1711,7 @@ void GBSArea::dropEvent(QDropEvent *e)
             el->setIndexNo(pidx);
             moveElementToIndexPos(el, pidx);
             elements.insert(pidx, el);
+            modified = true;
         }
         e->accept();
     }

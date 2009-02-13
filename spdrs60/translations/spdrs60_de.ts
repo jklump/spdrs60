@@ -2069,6 +2069,14 @@ Erlaubt sind Werte von %1 bis %2.</translation>
         <source>Error assembling CRCF message for route TYPE &apos;%1&apos;.</source>
         <translation>Fehler beim Erstellen einer CRCF-Nachricht für Fahrstraße TYPE &apos;%1&apos;.</translation>
     </message>
+    <message>
+        <source>Error: Start signal &apos;%1&apos; in stop position</source>
+        <translation>Fehler: Startsignal &apos;%1&apos; ist in Halt-Position</translation>
+    </message>
+    <message>
+        <source>Recording of signal &apos;%1&apos; failed</source>
+        <translation>Aufnahme von Signal &apos;%1&apos; ist fehlgeschlagen</translation>
+    </message>
 </context>
 <context>
     <name>ServerInfoDialog</name>
