@@ -2,10 +2,10 @@
                            element.cpp
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-                         : (C) 2004-2008 Guido Scholz
+                         : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-02-06 20:52:11 $
-                           $Revision: 1.184 $
+    last modified        : $Date: 2009-02-21 12:22:07 $
+                           $Revision: 1.185 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -60,8 +60,10 @@ enum {
    DIR_SH1
 };
 
+// signal light size parameter
 // delay for edit mode after element locating
 enum {
+    LIGHTSIZE = 7,
     LOCATE_TIMER = 5000
 };
 
@@ -143,7 +145,8 @@ void element::initVariables()
     routedtrack = 0;
 
     setFixedSize(QSize(EL_WIDTH, EL_HEIGHT));
-    setPaletteBackgroundColor(QColor(Qt::lightGray));
+    background = QPixmap(size());
+    background.fill(Qt::lightGray);
     selectionMode = ksmNormal;
 
     lockCounter = 0;
@@ -1276,18 +1279,16 @@ void element::setupElementIcon()
 {
     // empty symbol
     if (classid == siciTxt) {
-        QPixmap pm = QPixmap(size());
         QRect br;
 
         if (iSoldInvert == 1) 
-            pm.fill(QColor(Qt::darkGray));
-        else
-            pm.fill(QColor(Qt::lightGray));
+            background.fill(QColor(Qt::darkGray));
             
         // paint text label
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
 
+        int w = background.width();
+        int h = background.height();
 
         // text and white rectangle for background
         if (sSoldText != "-1" && !sSoldText.isEmpty()) {
@@ -1299,14 +1300,14 @@ void element::setupElementIcon()
             br.setWidth(br.width() + 6);
             br.setHeight(br.height() + 4);
 #if QT_VERSION >= 0x030100
-            br.moveLeft((pm.width() - br.width())/2);
-            br.moveTop((pm.height() - br.height())/2);
+            br.moveLeft((w - br.width())/2);
+            br.moveTop((h - br.height())/2);
 #else
-            br.moveTopLeft(QPoint((pm.width() - br.width())/2,
-                        (pm.height() - br.height())/2));
+            br.moveTopLeft(QPoint((w - br.width())/2,
+                        (h - br.height())/2));
 #endif
             p.fillRect(br, QBrush(Qt::white));
-            p.drawText(pm.rect(), Qt::AlignCenter | Qt::SingleLine |
+            p.drawText(background.rect(), Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, sSoldText);
         }
         // no text available -> show white rectangle only
@@ -1315,155 +1316,149 @@ void element::setupElementIcon()
             p.fillRect(br, QBrush(Qt::white));
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
    
     // blue panel
     else if (classid == siciFeb) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(0, 0, 192));
-        setPaletteBackgroundPixmap(pm);
+        background.fill(QColor(0, 0, 192));
+        setPaletteBackgroundPixmap(background);
     }
    
     // blue panel with wgt button
     else if (classid == siciTaw) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(0, 0, 192));
-        QPainter p;
-        p.begin(&pm);
+        background.fill(QColor(0, 0, 192));
+        QPainter p(&background);
             
+        int w = background.width();
+        int h = background.height();
+
         // paint red light
         p.setBrush(Qt::red);
-        p.drawEllipse(pm.width() / 2 - 2, pm.height() / 4 - 3, 5, 5);
+        p.drawEllipse(w / 2 - 2, h / 4 - 3, 5, 5);
         
         // paint button
         p.setBrush(Qt::darkGray);
-        p.drawEllipse(pm.width() / 2 - 4, pm.height() / 2 - 4, 9, 9);
+        p.drawEllipse(w / 2 - 4, h / 2 - 4, 9, 9);
         
         // paint button label
         p.drawPixmap(18, 24, QPixmap(label_wgt_xpm));
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
    
     // green panel
     else if (classid == siciFeg) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(0, 160, 0));
-        setPaletteBackgroundPixmap(pm);
+        background.fill(QColor(0, 160, 0));
+        setPaletteBackgroundPixmap(background);
     }
    
     // green panel with FHT button and counter
     else if (classid == siciTaf) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(0, 160, 0));
-        QPainter p;
-        p.begin(&pm);
+        background.fill(QColor(0, 160, 0));
+        QPainter p(&background);
             
+        int w = background.width();
+        int h = background.height();
+
         // paint button
         p.setBrush(Qt::darkGray);
-        p.drawEllipse(7, pm.height() / 2 - 4, 9, 9);
+        p.drawEllipse(7, h / 2 - 4, 9, 9);
         
         // paint button label
         p.drawPixmap(2, 24, QPixmap(label_fht_xpm));
 
         // paint counter
         p.setBrush(Qt::white);
-        p.drawRect(pm.width() / 2 , pm.height() / 2 - 5, 24, 11);
+        p.drawRect(w / 2 , h / 2 - 5, 24, 11);
         sSoldText.sprintf("%04d", countervalue);
         QFont f(QApplication::font());
         f.setPointSize(7);
         p.setFont(f);
         QRect br = p.fontMetrics().boundingRect(sSoldText);
-        br.moveTopRight(QPoint(pm.width() / 2 + 21, pm.height() / 2 - 3));
+        br.moveTopRight(QPoint(w / 2 + 21, h / 2 - 3));
         p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                 Qt::DontClip, sSoldText);
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
    
     // green panel with ufgt and mgt buttons
     else if (classid == siciTau) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(0, 160, 0));
-        QPainter p;
-        p.begin(&pm);
+        background.fill(QColor(0, 160, 0));
+        QPainter p(&background);
             
+        int w = background.width();
+        int h = background.height();
+
         // paint buttons
         p.setBrush(Qt::darkGray);
-        p.drawEllipse(7, pm.height() / 2 - 4, 9, 9);
-        p.drawEllipse(pm.width() - 16, pm.height() / 2 - 4, 9, 9);
+        p.drawEllipse(7, h / 2 - 4, 9, 9);
+        p.drawEllipse(w - 16, h / 2 - 4, 9, 9);
         
         // paint button labels
         p.drawPixmap(2, 24, QPixmap(label_ufgt_xpm));
         p.drawPixmap(34, 24, QPixmap(label_mgt_xpm));
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
    
     // red panel
     else if (classid == siciFer) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(221, 0, 0));
-        setPaletteBackgroundPixmap(pm);
+        background.fill(QColor(221, 0, 0));
+        setPaletteBackgroundPixmap(background);
     }
    
     // red panel with sgt and hagt buttons
     else if (classid == siciTas) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(221, 0, 0));
-        QPainter p;
-        p.begin(&pm);
+        background.fill(QColor(221, 0, 0));
+        QPainter p(&background);
             
+        int w = background.width();
+        int h = background.height();
+
         // paint buttons
         p.setBrush(Qt::darkGray);
-        p.drawEllipse(7, pm.height() / 2 - 4, 9, 9);
-        p.drawEllipse(pm.width() - 16, pm.height() / 2 - 4, 9, 9);
+        p.drawEllipse(7, h / 2 - 4, 9, 9);
+        p.drawEllipse(w - 16, h / 2 - 4, 9, 9);
         
         // paint button labels
         p.drawPixmap(2, 24, QPixmap(label_sgt_xpm));
         p.drawPixmap(31, 24, QPixmap(label_hagt_xpm));
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
    
     // yellow panel
     else if (classid == siciFey) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(224, 224, 0));
-        setPaletteBackgroundPixmap(pm);
+        background.fill(QColor(224, 224, 0));
+        setPaletteBackgroundPixmap(background);
     }
    
     // brown panel
     else if (classid == siciFen) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(112, 48, 0));
-        setPaletteBackgroundPixmap(pm);
+        background.fill(QColor(112, 48, 0));
+        setPaletteBackgroundPixmap(background);
     }
    
     // gray panel
     else if (classid == siciFee) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(128, 128, 128));
-        setPaletteBackgroundPixmap(pm);
+        background.fill(QColor(128, 128, 128));
+        setPaletteBackgroundPixmap(background);
     }
    
     // grey panel with light Ein and Aus buttons
     else if (classid == siciTal) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(Qt::darkGray);
-        QPainter p;
-        p.begin(&pm);
+        background.fill(Qt::darkGray);
+        QPainter p(&background);
             
+        int w = background.width();
+        int h = background.height();
+
         // paint buttons
         p.setBrush(Qt::darkGray);
-        p.drawEllipse(7, pm.height() / 2 - 4, 9, 9);
-        p.drawEllipse(pm.width() - 16, pm.height() / 2 - 4, 9, 9);
+        p.drawEllipse(7, h / 2 - 4, 9, 9);
+        p.drawEllipse(w - 16, h / 2 - 4, 9, 9);
         
         // paint button labels
         if (tablelight) {
@@ -1475,78 +1470,66 @@ void element::setupElementIcon()
             p.drawPixmap(34, 24, QPixmap(label_aus_on_xpm));
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
    
     // buffer stop right (prellbock)
     else if (classid == siciBs1) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
             
+        int w = background.width();
+        int h = background.height();
+
         // paint panel
-        p.fillRect(pm.width() - 5, pm.height() / 2 - 6, pm.width(),
+        p.fillRect(w - 5, h / 2 - 6, w,
                 13, QBrush(Qt::black));
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
    
     // buffer stop top
     else if (classid == siciBs2) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
             
-        // paint panel
-        p.fillRect(pm.width() / 2 - 6, 0, 13, 5, QBrush(Qt::black));
+        int w = background.width();
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        // paint panel
+        p.fillRect(w / 2 - 6, 0, 13, 5, QBrush(Qt::black));
+
+        setPaletteBackgroundPixmap(background);
     }
    
     // buffer stop left
     else if (classid == siciBs3) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
             
-        // paint panel
-        p.fillRect(0, pm.height() / 2 - 6, 5, 13, QBrush(Qt::black));
+        int h = background.height();
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        // paint panel
+        p.fillRect(0, h / 2 - 6, 5, 13, QBrush(Qt::black));
+
+        setPaletteBackgroundPixmap(background);
     }
    
     // buffer stop bottom
     else if (classid == siciBs4) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
             
         // paint panel
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
+
         p.fillRect(w / 2 - 6, h - 5, 13, 5, QBrush(Qt::black));
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
    
     // direction arrows
     else if (classid == siciTdr || classid == siciTdb) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
@@ -1615,19 +1598,15 @@ void element::setupElementIcon()
                     Qt::DontClip, sSoldText);
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // left direction arrow
     else if (classid == siciTdl) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
@@ -1677,28 +1656,27 @@ void element::setupElementIcon()
                     Qt::DontClip, sSoldText);
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // address
     else if (classid == siciAdr) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
+        
+        int w = background.width();
+        int h = background.height();
         
         // paint track
-        p.fillRect(0, pm.height() / 2 - 3, 2, 7,
+        p.fillRect(0, h / 2 - 3, 2, 7,
                 QBrush(Qt::black));
-        p.fillRect(pm.width() - 2, pm.height() / 2 - 3, 2, 7,
+        p.fillRect(w - 2, h / 2 - 3, 2, 7,
                 QBrush(Qt::black));
 
         // paint address field
         p.setPen(QPen(Qt::black));
         p.setBrush(QColor(Qt::black));
 
-        p.drawRect(2, 8, pm.width() - 4, pm.height() - 16);
+        p.drawRect(2, 8, w - 4, h - 16);
 
         // paint address value
         p.setPen(QPen(Qt::red));
@@ -1715,53 +1693,48 @@ void element::setupElementIcon()
         sSoldText.sprintf("%06d", editsAddress);
         QFontMetrics fm(f);
         QRect br = fm.boundingRect(sSoldText);
-        br.moveTopLeft(QPoint(pm.width() / 2 - br.width() / 2,
-                    pm.height() / 2 - br.height() / 2));
+        br.moveTopLeft(QPoint(w / 2 - br.width() / 2,
+                    h / 2 - br.height() / 2));
 	p.drawText(br, Qt::AlignCenter | Qt::SingleLine | Qt::DontClip,
                 sSoldText);
         
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // level crossing
     else if (classid == siciBue) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
+        
+        int w = background.width();
+        int h = background.height();
         
         // paint road
-        p.fillRect(pm.width() / 2 - 7, 0, 15, pm.height(),
+        p.fillRect(w / 2 - 7, 0, 15, h,
                 QBrush(Qt::darkGray));
 
         // paint track
-        p.fillRect(0, pm.height() / 2 - 3, pm.width(), 7,
+        p.fillRect(0, h / 2 - 3, w, 7,
                 QBrush(Qt::black));
 
         // paint track button
-        p.drawPixmap(pm.width() / 2  - 4, pm.height() / 2 - 3,
+        p.drawPixmap(w / 2  - 4, h / 2 - 3,
                 QPixmap(button_yellow_xpm));
         
         // paint lights
         p.setBrush(Qt::darkGray);
         p.drawEllipse(6, 4, 6, 6);
-        p.drawEllipse(pm.width() - 12, 4, 6, 6);
-        //p.drawRect(pm.width()/2 - 3, 4, 6, 6);
+        p.drawEllipse(w - 12, 4, 6, 6);
+        //p.drawRect(w / 2 - 3, 4, 6, 6);
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // relay
     else if (classid == siciRel) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
 
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint symbol
         p.drawLine(1, h / 8, w / 6 + 3, h / 8);
@@ -1809,19 +1782,15 @@ void element::setupElementIcon()
 
         p.drawEllipse(w * 3 / 4 - 3, h / 2 - 5, 11, 11);
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // motor
     else if (classid == siciMdc) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
 
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint signalization (black or yellow filled circle)
         p.setPen(QPen(Qt::black, 2));
@@ -1885,19 +1854,18 @@ void element::setupElementIcon()
                     Qt::DontClip, s);
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // decoupler
     else if (classid == siciEnk) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
+
+        int w = background.width();
+        int h = background.height();
         
         // paint track
-        p.fillRect(0, pm.height() / 2 - 3, pm.width(), 7,
+        p.fillRect(0, background.height() / 2 - 3, w, 7,
                 QBrush(Qt::black));
         
         // paint symbol
@@ -1906,7 +1874,7 @@ void element::setupElementIcon()
         // paint track lights
         if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
-                p.fillRect(4 + 7 * i, pm.height() / 2 - 2, 5, 5,
+                p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
         }
         else {
@@ -1920,8 +1888,8 @@ void element::setupElementIcon()
                     c = QColor(Qt::darkGray);
             }
             p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
-            p.drawLine(pm.width() / 3, pm.height() / 2,
-                    2 * pm.width() / 3, pm.height() / 2);
+            p.drawLine(w / 3, h / 2,
+                    2 * w / 3, h / 2);
             p.setPen(Qt::black);
         }
 
@@ -1942,8 +1910,8 @@ void element::setupElementIcon()
             br.setWidth(br.width() + 4);
             br.setHeight(br.height() + 2);
 
-            br.moveBottomRight(QPoint(pm.width()/2 + br.width()/2,
-                        pm.height() - 3));
+            br.moveBottomRight(QPoint(w / 2 + br.width()/2,
+                        h - 3));
             
             p.fillRect(br, QBrush(Qt::white));
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
@@ -1959,19 +1927,15 @@ void element::setupElementIcon()
             p.drawPolygon(triangle);
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // blind element
     else if (classid == siciBld) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
@@ -2014,7 +1978,7 @@ void element::setupElementIcon()
             br.setWidth(br.width() + 4);
             br.setHeight(br.height() + 2);
 
-            br.moveBottomRight(QPoint(w/2 + br.width()/2, h - 3));
+            br.moveBottomRight(QPoint(w / 2 + br.width()/2, h - 3));
             
             p.fillRect(br, QBrush(Qt::white));
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
@@ -2032,19 +1996,15 @@ void element::setupElementIcon()
         p.drawLine(18, 21, 18 + 19, 21);
         p.drawLine(19, 22, 19 + 17, 22);
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // right shunt wait signal
     else if (classid == siciWs1) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
@@ -2113,26 +2073,22 @@ void element::setupElementIcon()
             br.setWidth(br.width() + 4);
             br.setHeight(br.height() + 2);
 
-            br.moveTopLeft(QPoint(w/2 - br.width()/2, 2));
+            br.moveTopLeft(QPoint(w / 2 - br.width()/2, 2));
             
             p.fillRect(br, QBrush(Qt::white));
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, s);
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // left shunt wait signal
     else if (classid == siciWs3) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
@@ -2201,26 +2157,22 @@ void element::setupElementIcon()
             br.setWidth(br.width() + 4);
             br.setHeight(br.height() + 2);
 
-            br.moveBottomRight(QPoint(w/2 + br.width()/2, h - 3));
+            br.moveBottomRight(QPoint(w / 2 + br.width()/2, h - 3));
 
             p.fillRect(br, QBrush(Qt::white));
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, s);
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // right signal HSS
     else if (classid == siciHss1) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
 
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
 
         // paint track
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
@@ -2252,13 +2204,13 @@ void element::setupElementIcon()
 
         // paint signal icon
         p.setBrush(Qt::black);
-        p.drawEllipse(17, h - 11, 7, 7);
+        p.drawEllipse(17, h - 11, LIGHTSIZE, LIGHTSIZE);
         p.fillRect(22, h - 11, 24, 7, QBrush(Qt::black));
         p.fillRect(12, 25, 2, 5, QBrush(Qt::black));
         p.drawLine(14, 27, 16, 27);
 
         /**
-         * direction subtype bottom-left bottom-right top-left top-right
+         *   state subtype bottom-left bottom-right top-left top-right
          * -------------------------------------------------------------
          *     0       0          y           y
          *     1       0                                 g        g
@@ -2281,29 +2233,29 @@ void element::setupElementIcon()
             case DIR_HP0:              // HP0 => 0
                 p.setBrush(Qt::red);
                 // bottom
-                p.drawEllipse(w - 22, h - 11, 7, 7);
+                p.drawEllipse(w - 22, h - 11, LIGHTSIZE, LIGHTSIZE);
                 // top
                 p.setBrush(Qt::black);
-                p.drawEllipse(w - 12, h - 11, 7, 7);
+                p.drawEllipse(w - 12, h - 11, LIGHTSIZE, LIGHTSIZE);
                 break;
             case DIR_HP2:              // HP2 => 2
                 if (pref.hp2) {
                     p.setBrush(Qt::yellow);
                     // top
-                    p.drawEllipse(w - 12, h - 11, 7, 7);
+                    p.drawEllipse(w - 12, h - 11, LIGHTSIZE, LIGHTSIZE);
                     // bottom
                     p.setBrush(Qt::black);
-                    p.drawEllipse(w - 22, h - 11, 7, 7);
+                    p.drawEllipse(w - 22, h - 11, LIGHTSIZE, LIGHTSIZE);
                     break;
                 }
                 // fall through
             case DIR_HP1:              // HP1 => 1
                 p.setBrush(Qt::green);
                 // top
-                p.drawEllipse(w - 12, h - 11, 7, 7);
+                p.drawEllipse(w - 12, h - 11, LIGHTSIZE, LIGHTSIZE);
                 // bottom
                 p.setBrush(Qt::black);
-                p.drawEllipse(w - 22, h - 11, 7, 7);
+                p.drawEllipse(w - 22, h - 11, LIGHTSIZE, LIGHTSIZE);
                 break;
             case DIR_SH1:              // SH1 => 3
                 {
@@ -2314,7 +2266,7 @@ void element::setupElementIcon()
                 p.drawLine(startx + 1, h - 10, startx + 5, h - 6);
                 p.setPen(Qt::black);
                 // top
-                p.drawEllipse(w - 12, h - 11, 7, 7);
+                p.drawEllipse(w - 12, h - 11, LIGHTSIZE, LIGHTSIZE);
                 break;
                 }
         }
@@ -2350,26 +2302,22 @@ void element::setupElementIcon()
             br.setWidth(br.width() + 4);
             br.setHeight(br.height() + 2);
 
-            br.moveTopLeft(QPoint(w/2 - br.width()/2, 2));
+            br.moveTopLeft(QPoint(w / 2 - br.width()/2, 2));
             
             p.fillRect(br, QBrush(Qt::white));
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, s);
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // left signal HSS
     else if (classid == siciHss3) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
 
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
 
         // paint track
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
@@ -2401,7 +2349,7 @@ void element::setupElementIcon()
 
         // paint signal icon
         p.setBrush(Qt::black);
-        p.drawEllipse(31, 4, 7, 7);
+        p.drawEllipse(31, 4, LIGHTSIZE, LIGHTSIZE);
         p.fillRect(9, 4, 24, 7, QBrush(Qt::black));
         p.fillRect(41, 5, 2, 5, QBrush(Qt::black));
         p.drawLine(38, 7, 40, 7);
@@ -2430,29 +2378,29 @@ void element::setupElementIcon()
             case DIR_HP0:              // HP0 => 0
                 p.setBrush(Qt::red);
                 // bottom
-                p.drawEllipse(14, 4, 7, 7);
+                p.drawEllipse(14, 4, LIGHTSIZE, LIGHTSIZE);
                 // top
                 p.setBrush(Qt::black);
-                p.drawEllipse(4, 4, 7, 7);
+                p.drawEllipse(4, 4, LIGHTSIZE, LIGHTSIZE);
                 break;
             case DIR_HP2:              // HP2 => 2
                 if (pref.hp2) {
                     p.setBrush(Qt::yellow);
                     // top
-                    p.drawEllipse(4, 4, 7, 7);
+                    p.drawEllipse(4, 4, LIGHTSIZE, LIGHTSIZE);
                     // bottom
                     p.setBrush(Qt::black);
-                    p.drawEllipse(14, 4, 7, 7);
+                    p.drawEllipse(14, 4, LIGHTSIZE, LIGHTSIZE);
                     break;
                 }
                 // fall through
             case DIR_HP1:              // HP1 => 1
                 p.setBrush(Qt::green);
                 // top
-                p.drawEllipse(4, 4, 7, 7);
+                p.drawEllipse(4, 4, LIGHTSIZE, LIGHTSIZE);
                 // bottom
                 p.setBrush(Qt::black);
-                p.drawEllipse(14, 4, 7, 7);
+                p.drawEllipse(14, 4, LIGHTSIZE, LIGHTSIZE);
                 break;
             case DIR_SH1:              // SH1 => 3
                 {
@@ -2463,7 +2411,7 @@ void element::setupElementIcon()
                     p.drawLine(startx + 1, 9, startx - 3, 5);
                     p.setPen(Qt::black);
                     // top
-                    p.drawEllipse(4, 4, 7, 7);
+                    p.drawEllipse(4, 4, LIGHTSIZE, LIGHTSIZE);
                     break;
                 }
         }
@@ -2499,26 +2447,22 @@ void element::setupElementIcon()
             br.setWidth(br.width() + 4);
             br.setHeight(br.height() + 2);
 
-            br.moveBottomRight(QPoint(w/2 + br.width()/2, h - 3));
+            br.moveBottomRight(QPoint(w / 2 + br.width()/2, h - 3));
             
             p.fillRect(br, QBrush(Qt::white));
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, s);
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // signal right HS
     else if (classid == siciHs1) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
@@ -2552,7 +2496,7 @@ void element::setupElementIcon()
         p.drawLine(w - 23, 27, w - 25, 27);
 
         /**
-         * direction subtype bottom-left bottom-right top-left top-right
+         *   state subtype bottom-left bottom-right top-left top-right
          * -------------------------------------------------------------
          *     0       0          y           y
          *     1       0                                 g        g
@@ -2575,29 +2519,29 @@ void element::setupElementIcon()
             case DIR_HP0:              // HP0 => 0
                 p.setBrush(Qt::red);
                 // bottom
-                p.drawEllipse(w - 22, h - 11, 7, 7);
+                p.drawEllipse(w - 22, h - 11, LIGHTSIZE, LIGHTSIZE);
                 // top
                 p.setBrush(Qt::black);
-                p.drawEllipse(w - 12, h - 11, 7, 7);
+                p.drawEllipse(w - 12, h - 11, LIGHTSIZE, LIGHTSIZE);
                 break;
             case DIR_HP2:              // HP2 => 2
                 if (pref.hp2) {
                     p.setBrush(Qt::yellow);
                     // top
-                    p.drawEllipse(w - 12, h - 11, 7, 7);
+                    p.drawEllipse(w - 12, h - 11, LIGHTSIZE, LIGHTSIZE);
                     // bottom
                     p.setBrush(Qt::black);
-                    p.drawEllipse(w - 22, h - 11, 7, 7);
+                    p.drawEllipse(w - 22, h - 11, LIGHTSIZE, LIGHTSIZE);
                     break;
                 }
                 // fall through
             case DIR_HP1:              // HP1 => 1
                 p.setBrush(Qt::green);
                 // top
-                p.drawEllipse(w - 12, h - 11, 7, 7);
+                p.drawEllipse(w - 12, h - 11, LIGHTSIZE, LIGHTSIZE);
                 // bottom
                 p.setBrush(Qt::black);
-                p.drawEllipse(w - 22, h - 11, 7, 7);
+                p.drawEllipse(w - 22, h - 11, LIGHTSIZE, LIGHTSIZE);
                 break;
         }
 
@@ -2632,26 +2576,22 @@ void element::setupElementIcon()
             br.setWidth(br.width() + 4);
             br.setHeight(br.height() + 2);
 
-            br.moveTopLeft(QPoint(w/2 - br.width()/2, 2));
+            br.moveTopLeft(QPoint(w / 2 - br.width()/2, 2));
             
             p.fillRect(br, QBrush(Qt::white));
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, s);
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // signal left HS
     else if (classid == siciHs3) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
@@ -2685,7 +2625,7 @@ void element::setupElementIcon()
         p.drawLine(21, 7, 24, 7);
 
         /**
-         * direction subtype bottom-left bottom-right top-left top-right
+         *   state subtype bottom-left bottom-right top-left top-right
          * -------------------------------------------------------------
          *     0       0          y           y
          *     1       0                                 g        g
@@ -2706,29 +2646,29 @@ void element::setupElementIcon()
             case DIR_HP0:              // HP0 => 0
                 p.setBrush(Qt::red);
                 // bottom
-                p.drawEllipse(14, 4, 7, 7);
+                p.drawEllipse(14, 4, LIGHTSIZE, LIGHTSIZE);
                 // top
                 p.setBrush(Qt::black);
-                p.drawEllipse(4, 4, 7, 7);
+                p.drawEllipse(4, 4, LIGHTSIZE, LIGHTSIZE);
                 break;
             case DIR_HP2:              // HP2 => 2
                 if (pref.hp2) {
                     p.setBrush(Qt::yellow);
                     // top
-                    p.drawEllipse(4, 4, 7, 7);
+                    p.drawEllipse(4, 4, LIGHTSIZE, LIGHTSIZE);
                     // bottom
                     p.setBrush(Qt::black);
-                    p.drawEllipse(14, 4, 7, 7);
+                    p.drawEllipse(14, 4, LIGHTSIZE, LIGHTSIZE);
                     break;
                 }
                 // fall through
             case DIR_HP1:              // HP1 => 1
                 p.setBrush(Qt::green);
                 // top
-                p.drawEllipse(4, 4, 7, 7);
+                p.drawEllipse(4, 4, LIGHTSIZE, LIGHTSIZE);
                 // bottom
                 p.setBrush(Qt::black);
-                p.drawEllipse(14, 4, 7, 7);
+                p.drawEllipse(14, 4, LIGHTSIZE, LIGHTSIZE);
                 break;
         }
 
@@ -2763,26 +2703,22 @@ void element::setupElementIcon()
             br.setWidth(br.width() + 4);
             br.setHeight(br.height() + 2);
 
-            br.moveBottomRight(QPoint(w/2 + br.width()/2, h - 3));
+            br.moveBottomRight(QPoint(w / 2 + br.width()/2, h - 3));
             
             p.fillRect(br, QBrush(Qt::white));
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, s);
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // right signal VS
     else if (classid == siciVs1) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
@@ -2798,7 +2734,7 @@ void element::setupElementIcon()
         p.drawLine(w - 18, 27, w - 21, 27);
 
         /**
-         * direction subtype bottom-left bottom-right top-left top-right
+         *   state subtype bottom-left bottom-right top-left top-right
          * -------------------------------------------------------------
          *     0       0          y           y
          *     1       0                                 g        g
@@ -2876,26 +2812,22 @@ void element::setupElementIcon()
             br.setWidth(br.width() + 4);
             br.setHeight(br.height() + 2);
 
-            br.moveTopLeft(QPoint(w/2 - br.width()/2, 2));
+            br.moveTopLeft(QPoint(w / 2 - br.width()/2, 2));
             
             p.fillRect(br, QBrush(Qt::white));
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, s);
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // left signal VS
     else if (classid == siciVs3) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
@@ -2911,7 +2843,7 @@ void element::setupElementIcon()
         p.drawLine(17, 7, 20, 7);
 
         /**
-         * direction subtype bottom-left bottom-right top-left top-right
+         *   state subtype bottom-left bottom-right top-left top-right
          * -------------------------------------------------------------
          *     0       0          y           y
          *     1       0                                 g        g
@@ -2989,26 +2921,22 @@ void element::setupElementIcon()
             br.setWidth(br.width() + 4);
             br.setHeight(br.height() + 2);
 
-            br.moveBottomRight(QPoint(w/2 + br.width()/2, h - 3));
+            br.moveBottomRight(QPoint(w / 2 + br.width()/2, h - 3));
             
             p.fillRect(br, QBrush(Qt::white));
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, s);
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // right signal ZP
     else if (classid == siciZp1) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
@@ -3076,26 +3004,22 @@ void element::setupElementIcon()
             br.setWidth(br.width() + 4);
             br.setHeight(br.height() + 2);
 
-            br.moveTopLeft(QPoint(w/2 - br.width()/2, 2));
+            br.moveTopLeft(QPoint(w / 2 - br.width()/2, 2));
             
             p.fillRect(br, QBrush(Qt::white));
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, s);
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // left signal ZP
     else if (classid == siciZp3) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
@@ -3163,26 +3087,22 @@ void element::setupElementIcon()
             br.setWidth(br.width() + 4);
             br.setHeight(br.height() + 2);
 
-            br.moveBottomRight(QPoint(w/2 + br.width()/2, h - 3));
+            br.moveBottomRight(QPoint(w / 2 + br.width()/2, h - 3));
             
             p.fillRect(br, QBrush(Qt::white));
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, s);
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // straight track
     else if (classid == siciSt1) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
@@ -3214,7 +3134,7 @@ void element::setupElementIcon()
             f.setPointSize(QApplication::font().pointSize() - 1);
             p.setFont(f);
 
-            QRect br = pm.rect();
+            QRect br = background.rect();
             br.setHeight(h / 2 - 7);
 
 #if QT_VERSION >= 0x030100
@@ -3227,19 +3147,15 @@ void element::setupElementIcon()
                     Qt::DontClip, sSoldText);
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // vertical track
     else if (classid == siciSt2) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
         p.fillRect(w / 2 - 3, 0, 7, h, QBrush(Qt::black));
@@ -3265,19 +3181,15 @@ void element::setupElementIcon()
             p.setPen(QPen(Qt::black));
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // vertical turn top left
     else if (classid == siciCl2) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
         p.fillRect(w / 2 - 3, h / 2 - 1, 7, h  - 1, QBrush(Qt::black));
@@ -3322,19 +3234,15 @@ void element::setupElementIcon()
             p.setPen(QPen(Qt::black));
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // vertical turn top right
     else if (classid == siciCr2) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
         p.fillRect(w / 2 - 3, h / 2 - 1, 7, h  - 1, QBrush(Qt::black));
@@ -3379,19 +3287,15 @@ void element::setupElementIcon()
             p.setPen(QPen(Qt::black));
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // vertical turn bottom left
     else if (classid == siciCl4) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
         p.fillRect(w / 2 - 3, 0, 7, h / 2 + 2, QBrush(Qt::black));
@@ -3436,19 +3340,15 @@ void element::setupElementIcon()
             p.setPen(QPen(Qt::black));
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // vertical turn bottom right
     else if (classid == siciCr4) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
         p.fillRect(w / 2 - 3, 0, 7, h / 2 + 2, QBrush(Qt::black));
@@ -3493,21 +3393,17 @@ void element::setupElementIcon()
             p.setPen(QPen(Qt::black));
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // track turn right and left
     else if (classid == siciCr1 || classid == siciCl1) {
         bool left = (classid == siciCl1);
 
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
         p.fillRect(0, h / 2 - 3, w / 2 + 2, 7, QBrush(Qt::black));
@@ -3565,21 +3461,17 @@ void element::setupElementIcon()
             p.restore();
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // (rotated) track turn right and left
     else if (classid == siciCr3 || classid == siciCl3) {
         bool left = (classid == siciCl3);
 
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
         p.fillRect(w / 2 - 1, h / 2 - 3, w, 7, QBrush(Qt::black));
@@ -3638,21 +3530,17 @@ void element::setupElementIcon()
             p.restore();
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // diagonal track right and left
     else if (classid == siciSt3 || classid == siciSt4) {
         bool left = (classid == siciSt4);
 
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
         p.setPen(QPen(Qt::black, 7));
@@ -3699,19 +3587,15 @@ void element::setupElementIcon()
 
             p.restore();
         }
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // diagonal crossing (hosentraeger)
     else if (classid == siciKrh) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
         p.setPen(QPen(Qt::black, 7));
@@ -3799,19 +3683,15 @@ void element::setupElementIcon()
 
         p.drawEllipse(w / 4 - 3, h / 2 - 2, 5, 5);
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // left crossing
     else if (classid == siciKl1) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
         p.setPen(QPen(Qt::black, 7));
@@ -3898,19 +3778,15 @@ void element::setupElementIcon()
 
         p.drawEllipse(w / 4, 6, 5, 5);
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // right crossing
     else if (classid == siciKr1) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
         p.setPen(QPen(Qt::black, 7));
@@ -3998,19 +3874,15 @@ void element::setupElementIcon()
 
         p.drawEllipse(3 * w/ 4 - 4, 6, 5, 5);
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // single slip switch left position 1
     else if (classid == siciSl1) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
         p.setPen(QPen(Qt::black, 7));
@@ -4230,19 +4102,15 @@ void element::setupElementIcon()
                     Qt::DontClip, s);
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // single slip switch left position 3
     else if (classid == siciSl3) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
         p.setPen(QPen(Qt::black, 7));
@@ -4461,19 +4329,15 @@ void element::setupElementIcon()
                     Qt::DontClip, s);
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // single slip switch right position 1
     else if (classid == siciSr1) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
         p.setPen(QPen(Qt::black, 7));
@@ -4694,22 +4558,18 @@ void element::setupElementIcon()
                     Qt::DontClip, s);
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // single slip switch right position 3
     else if (classid == siciSr3) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
-        p.setPen(QPen(Qt::black, 7));
+        p.setPen(QPen(Qt::black, LIGHTSIZE));
         p.drawLine(0, h / 2, w, h / 2);
         p.drawLine(0, 0, w, h - 1);
         
@@ -4927,22 +4787,18 @@ void element::setupElementIcon()
                     Qt::DontClip, s);
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // double slip switch left
     else if (classid == siciDl1) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
-        p.setPen(QPen(Qt::black, 7));
+        p.setPen(QPen(Qt::black, LIGHTSIZE));
         p.drawLine(0, h / 2, w, h / 2);
         p.drawLine(0, h - 1, w, 0);
         
@@ -5237,22 +5093,18 @@ void element::setupElementIcon()
                     Qt::DontClip, s);
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // double slip switch right
     else if (classid == siciDr1) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
-        p.setPen(QPen(Qt::black, 7));
+        p.setPen(QPen(Qt::black, LIGHTSIZE));
         p.drawLine(0, h / 2, w, h / 2);
         p.drawLine(0, 0, w, h - 1);
         
@@ -5544,22 +5396,18 @@ void element::setupElementIcon()
                     Qt::DontClip, s);
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // right track with normal route button
     else if (classid == siciZt1 || classid == siciRt1) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
-        p.fillRect(0, h/2 - 3, w, 7, QBrush(Qt::black));
+        p.fillRect(0, h / 2 - 3, w, LIGHTSIZE, QBrush(Qt::black));
         
         // paint track lights
         if (trackindicatoroff == 1) {
@@ -5605,29 +5453,25 @@ void element::setupElementIcon()
             br.setWidth(br.width() + 4);
             br.setHeight(br.height() + 2);
 
-            br.moveBottomRight(QPoint(w/2 + br.width()/2, h - 3));
+            br.moveBottomRight(QPoint(w / 2 + br.width()/2, h - 3));
 
             p.fillRect(br, QBrush(Qt::white));
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, s);
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // left track with normal route button
     else if (classid == siciZt3 || classid == siciRt3) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
-        p.fillRect(0, h/2 - 3, w, 7, QBrush(Qt::black));
+        p.fillRect(0, h / 2 - 3, w, LIGHTSIZE, QBrush(Qt::black));
         
         // paint track lights
         if (trackindicatoroff == 1) {
@@ -5673,35 +5517,31 @@ void element::setupElementIcon()
             br.setWidth(br.width() + 4);
             br.setHeight(br.height() + 2);
 
-            br.moveTopLeft(QPoint(w/2 - br.width()/2, 2));
+            br.moveTopLeft(QPoint(w / 2 - br.width()/2, 2));
 
             p.fillRect(br, QBrush(Qt::white));
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, s);
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // right shunting signals SS, SSH, SSS
     else if (classid == siciSs1 || classid == siciSh1 ||
             classid == siciSd1) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
-        p.fillRect(0, h/2 - 3, w, 7, QBrush(Qt::black));
+        p.fillRect(0, h / 2 - 3, w, LIGHTSIZE, QBrush(Qt::black));
         
         // paint track lights
         if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
-                p.fillRect(4 + 7 * i, h/2 - 2, 5, 5, QBrush(Qt::lightGray));
+                p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
         }
         else {
             QColor c;
@@ -5743,15 +5583,15 @@ void element::setupElementIcon()
         p.drawRect(5, 5, 15, 5);
         p.drawLine(6, 4, 18, 4);
         p.drawLine(6, 10, 18, 10);
-        p.drawLine(5 + 15, 7, 6 + 16, 7);
-        p.drawLine(7 + 16, 5, 7 + 16, 9);
-        p.drawLine(7 + 17, 5, 7 + 17, 9);
+        p.drawLine(5 + 15, LIGHTSIZE, 6 + 16, LIGHTSIZE);
+        p.drawLine(7 + 16, 5, LIGHTSIZE + 16, 9);
+        p.drawLine(7 + 17, 5, LIGHTSIZE + 17, 9);
 
         // paint signal light
         // SH0
         if (state == 0) {
             p.setPen(QPen(Qt::red));
-            p.drawLine(7, 5, 7, 9);
+            p.drawLine(7, 5, LIGHTSIZE, 9);
             p.drawLine(8, 5, 8, 9);
         }
         // SH1
@@ -5795,7 +5635,7 @@ void element::setupElementIcon()
             br.setWidth(br.width() + 4);
             br.setHeight(br.height() + 2);
 
-            br.moveTopLeft(QPoint(w/2 - br.width()/2, 2));
+            br.moveTopLeft(QPoint(w / 2 - br.width()/2, 2));
 
             p.fillRect(br, QBrush(Qt::white));
             p.setBrush(Qt::white);
@@ -5807,28 +5647,24 @@ void element::setupElementIcon()
                     Qt::DontClip, s);
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // left shunting signals SS, SSH, SSS
     else if (classid == siciSs3 || classid == siciSh3 ||
             classid == siciSd3) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
-        p.fillRect(0, h/2 - 3, w, 7, QBrush(Qt::black));
+        p.fillRect(0, h / 2 - 3, w, LIGHTSIZE, QBrush(Qt::black));
         
         // paint track lights
         if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
-                p.fillRect(4 + 7 * i, h/2 - 2, 5, 5, QBrush(Qt::lightGray));
+                p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
         }
         else {
             QColor c;
@@ -5865,15 +5701,15 @@ void element::setupElementIcon()
         p.drawRect(5, 5, 15, 5);
         p.drawLine(6, 4, 18, 4);
         p.drawLine(6, 10, 18, 10);
-        p.drawLine(5 + 15, 7, 6 + 16, 7);
-        p.drawLine(7 + 16, 5, 7 + 16, 9);
-        p.drawLine(7 + 17, 5, 7 + 17, 9);
+        p.drawLine(5 + 15, LIGHTSIZE, 6 + 16, LIGHTSIZE);
+        p.drawLine(7 + 16, 5, LIGHTSIZE + 16, 9);
+        p.drawLine(7 + 17, 5, LIGHTSIZE + 17, 9);
 
         // paint signal light
         // SH0
         if (state == 0) {
             p.setPen(QPen(Qt::red));
-            p.drawLine(7, 5, 7, 9);
+            p.drawLine(7, 5, LIGHTSIZE, 9);
             p.drawLine(8, 5, 8, 9);
         }
         // SH1
@@ -5916,7 +5752,7 @@ void element::setupElementIcon()
             br.setWidth(br.width() + 4);
             br.setHeight(br.height() + 2);
 
-            br.moveBottomRight(QPoint(w/2 + br.width()/2, h - 3));
+            br.moveBottomRight(QPoint(w / 2 + br.width()/2, h - 3));
 
             p.fillRect(br, QBrush(Qt::white));
             p.setBrush(Qt::white);
@@ -5928,36 +5764,32 @@ void element::setupElementIcon()
                     Qt::DontClip, s);
         }
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // switch left top (+ old left bottom)
     else if (classid == siciTl1) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
-        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
+        p.fillRect(0, h / 2 - 3, w, LIGHTSIZE, QBrush(Qt::black));
         
         p.save();
         p.translate(w / 2, h / 2);
 
         p.rotate(-SANGLE);
 
-        p.setPen(QPen(Qt::black, 7));
+        p.setPen(QPen(Qt::black, LIGHTSIZE));
         p.drawLine(0, 0, w / 2 + 5, 0);
         p.restore();
 
         // paint track lights
         if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
-                p.fillRect(4 + 7 * i, h/2 - 2, 5, 5, QBrush(Qt::lightGray));
+                p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
             // short track
             p.save();
             p.translate(w / 2, h / 2);
@@ -6066,36 +5898,32 @@ void element::setupElementIcon()
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, s);
         }
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // switch left bottom
     else if (classid == siciTl3) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
-        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
+        p.fillRect(0, h / 2 - 3, w, LIGHTSIZE, QBrush(Qt::black));
         
         p.save();
         p.translate(w / 2, h / 2);
 
         p.rotate(WANGLE);
 
-        p.setPen(QPen(Qt::black, 7));
+        p.setPen(QPen(Qt::black, LIGHTSIZE));
         p.drawLine(0, 0, w / 2 + 5, 0);
         p.restore();
 
         // paint track lights
         if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
-                p.fillRect(4 + 7 * i, h/2 - 2, 5, 5, QBrush(Qt::lightGray));
+                p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
             // short track
             p.save();
             p.translate(w / 2, h / 2);
@@ -6204,36 +6032,32 @@ void element::setupElementIcon()
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, s);
         }
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // switch right top
     else if (classid == siciTr3) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
-        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
+        p.fillRect(0, h / 2 - 3, w, LIGHTSIZE, QBrush(Qt::black));
         
         p.save();
         p.translate(w / 2, h / 2);
 
         p.rotate(-WANGLE);
 
-        p.setPen(QPen(Qt::black, 7));
+        p.setPen(QPen(Qt::black, LIGHTSIZE));
         p.drawLine(0, 0, w / 2 + 5, 0);
         p.restore();
 
         // paint track lights
         if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
-                p.fillRect(4 + 7 * i, h/2 - 2, 5, 5, QBrush(Qt::lightGray));
+                p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
             // short track
             p.save();
             p.translate(w / 2, h / 2);
@@ -6342,36 +6166,32 @@ void element::setupElementIcon()
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, s);
         }
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // switch right bottom (+ old right top)
     else if (classid == siciTr1) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
-        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
+        p.fillRect(0, h / 2 - 3, w, LIGHTSIZE, QBrush(Qt::black));
         
         p.save();
         p.translate(w / 2, h / 2);
 
         p.rotate(SANGLE);
 
-        p.setPen(QPen(Qt::black, 7));
+        p.setPen(QPen(Qt::black, LIGHTSIZE));
         p.drawLine(0, 0, w / 2 + 5, 0);
         p.restore();
 
         // paint track lights
         if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
-                p.fillRect(4 + 7 * i, h/2 - 2, 5, 5, QBrush(Qt::lightGray));
+                p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
             // short track
             p.save();
             p.translate(w / 2, h / 2);
@@ -6480,29 +6300,25 @@ void element::setupElementIcon()
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, s);
         }
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // diagonal turnout left top
     else if (classid == siciIl3) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
-        p.fillRect(0, h / 2 - 3, w / 2, 7, QBrush(Qt::black));
+        p.fillRect(0, h / 2 - 3, w / 2, LIGHTSIZE, QBrush(Qt::black));
  
         p.save();
         p.translate(w / 2, h / 2);
 
         p.rotate(-WANGLE);
 
-        p.setPen(QPen(Qt::black, 7));
+        p.setPen(QPen(Qt::black, LIGHTSIZE));
         p.drawLine(-w / 2 - 5, 0, w / 2 + 5, 0);
         p.restore();
 
@@ -6510,7 +6326,7 @@ void element::setupElementIcon()
         if (trackindicatoroff == 1) {
             // short track
             for (int i = 0; i < 3; ++i)
-                p.fillRect(4 + 7 * i, h/2-2, 5, 5, QBrush(Qt::lightGray));
+                p.fillRect(4 + 7 * i, h / 2-2, 5, 5, QBrush(Qt::lightGray));
 
             // long track
             p.save();
@@ -6624,29 +6440,25 @@ void element::setupElementIcon()
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, s);
         }
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // diagonal turnout left bottom (+ old top)
     else if (classid == siciIl1) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
-        p.fillRect(w / 2, h / 2 - 3, w, 7, QBrush(Qt::black));
+        p.fillRect(w / 2, h / 2 - 3, w, LIGHTSIZE, QBrush(Qt::black));
  
         p.save();
         p.translate(w / 2, h / 2);
 
         p.rotate(SANGLE);
 
-        p.setPen(QPen(Qt::black, 7));
+        p.setPen(QPen(Qt::black, LIGHTSIZE));
         p.drawLine(-w / 2 - 5, 0, w / 2 + 5, 0);
         p.restore();
 
@@ -6769,29 +6581,25 @@ void element::setupElementIcon()
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, s);
         }
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // diagonal turnout right top (+ old bottom)
     else if (classid == siciIr1) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
-        p.fillRect(w / 2, h / 2 - 3, w, 7, QBrush(Qt::black));
+        p.fillRect(w / 2, h / 2 - 3, w, LIGHTSIZE, QBrush(Qt::black));
  
         p.save();
         p.translate(w / 2, h / 2);
 
         p.rotate(-SANGLE);
 
-        p.setPen(QPen(Qt::black, 7));
+        p.setPen(QPen(Qt::black, LIGHTSIZE));
         p.drawLine(-w / 2 - 5, 0, w / 2 + 5, 0);
         p.restore();
 
@@ -6914,29 +6722,25 @@ void element::setupElementIcon()
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, s);
         }
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // diagonal turnout right bottom
     else if (classid == siciIr3) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
 
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
 
         // paint track
-        p.fillRect(0, h / 2 - 3, w / 2, 7, QBrush(Qt::black));
+        p.fillRect(0, h / 2 - 3, w / 2, LIGHTSIZE, QBrush(Qt::black));
 
         p.save();
         p.translate(w / 2, h / 2);
 
         p.rotate(WANGLE);
 
-        p.setPen(QPen(Qt::black, 7));
+        p.setPen(QPen(Qt::black, LIGHTSIZE));
         p.drawLine(-w / 2 - 5, 0, w / 2 + 5, 0);
         p.restore();
 
@@ -6944,7 +6748,7 @@ void element::setupElementIcon()
         if (trackindicatoroff == 1) {
             // short track
             for (int i = 0; i < 3; ++i)
-                p.fillRect(4 + 7 * i, h/2-2, 5, 5, QBrush(Qt::lightGray));
+                p.fillRect(4 + 7 * i, h / 2-2, 5, 5, QBrush(Qt::lightGray));
 
             // long track
             p.save();
@@ -7058,24 +6862,20 @@ void element::setupElementIcon()
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, s);
         }
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // y-turnout right (+ old left)
     else if (classid == siciSy1) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
         p.save();
         p.translate(w / 2, h / 2);
-        p.setPen(QPen(Qt::black, 7));
+        p.setPen(QPen(Qt::black, LIGHTSIZE));
 
         p.drawLine(-w / 2, 0, 0, 0);
         p.rotate(-SANGLE);
@@ -7205,24 +7005,20 @@ void element::setupElementIcon()
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, s);
         }
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // y-turnout left
     else if (classid == siciSy3) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
         p.save();
         p.translate(w / 2, h / 2);
-        p.setPen(QPen(Qt::black, 7));
+        p.setPen(QPen(Qt::black, LIGHTSIZE));
 
         p.drawLine(0, 0, w / 2, 0);
         p.rotate(WANGLE);
@@ -7350,26 +7146,22 @@ void element::setupElementIcon()
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, s);
         }
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // 3-way turnout right (+ old left)
     else if (classid == siciTw1) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
-        p.fillRect(0, h/2 - 3, w, 7, QBrush(Qt::black));
+        p.fillRect(0, h / 2 - 3, w, LIGHTSIZE, QBrush(Qt::black));
         
         p.save();
         p.translate(w / 2, h / 2);
-        p.setPen(QPen(Qt::black, 7));
+        p.setPen(QPen(Qt::black, LIGHTSIZE));
 
         p.rotate(-SANGLE);
         p.drawLine(0, 0, w / 2 + 5, 0);
@@ -7517,26 +7309,22 @@ void element::setupElementIcon()
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, s);
         }
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // 3-way turnout left
     else if (classid == siciTw3) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         
         // paint track
-        p.fillRect(0, h/2 - 3, w, 7, QBrush(Qt::black));
+        p.fillRect(0, h / 2 - 3, w, LIGHTSIZE, QBrush(Qt::black));
         
         p.save();
         p.translate(w / 2, h / 2);
-        p.setPen(QPen(Qt::black, 7));
+        p.setPen(QPen(Qt::black, LIGHTSIZE));
 
         p.rotate(WANGLE);
         p.drawLine(0, 0, w / 2 + 5, 0);
@@ -7684,32 +7472,27 @@ void element::setupElementIcon()
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, s);
         }
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // house 1 (train station middle section)
     else if (classid == siciBuc) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
 
+        int w = background.width();
+        int h = background.height();
+        
         // paint house
         p.setBrush(QColor(192, 0 ,0));
-        p.drawRect(0, 9, pm.width(), 17);
-        p.drawLine(0, pm.height() / 2, pm.width(), pm.height() / 2);
+        p.drawRect(0, 9, w, 17);
+        p.drawLine(0, h / 2, w, h / 2);
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // house 2 (building left wing)
     else if (classid == siciBul) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
 
         // paint house
         p.setBrush(QColor(192, 0 ,0));
@@ -7718,16 +7501,12 @@ void element::setupElementIcon()
         p.drawLine(26, 29, 50, 5);
         p.drawRect(50, 9, 6, 17);
         
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
    
     // building right wing
     else if (classid == siciBur) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
 
         // paint house
         p.setBrush(QColor(192, 0 ,0));
@@ -7736,24 +7515,20 @@ void element::setupElementIcon()
         p.drawLine(4, 29, 28, 5);
         p.drawRect(0, 9, 5, 17);
         
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
    
     // straight track with horizontal tunnel (old left + right)
     else if (classid == siciTuh) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
 
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         int tracklen = w / 2 - 8;
 
         // paint track
         // vertical section
-        p.fillRect(w / 2 - 3, 0, 7, h, QBrush(Qt::black));
+        p.fillRect(w / 2 - 3, 0, LIGHTSIZE, h, QBrush(Qt::black));
 
         // paint track lights
         if (trackindicatoroff == 1) {
@@ -7777,12 +7552,12 @@ void element::setupElementIcon()
         }
 
         // horizontal sections
-        p.fillRect(0, h / 2 - 3, tracklen, 7, QBrush(Qt::black));
-        p.fillRect(w - tracklen + 1, h / 2 - 3, tracklen -1, 7,
+        p.fillRect(0, h / 2 - 3, tracklen, LIGHTSIZE, QBrush(Qt::black));
+        p.fillRect(w - tracklen + 1, h / 2 - 3, tracklen -1, LIGHTSIZE,
                 QBrush(Qt::black));
 
         // translate origin to center of pixmap
-        p.translate(pm.width()/2 - 6, pm.height()/2);
+        p.translate(w / 2 - 6, h / 2);
         
         // paint tunnel entry
         QPointArray tunnel = QPointArray(4);
@@ -7793,24 +7568,20 @@ void element::setupElementIcon()
         p.rotate(180.0);
         p.drawPolyline(tunnel);
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // straight track with vertical tunnel
     else if (classid == siciTuv) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
 
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         int tracklen = h / 2 - 8;
 
         // paint track
         // horizontal section
-        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
+        p.fillRect(0, h / 2 - 3, w, LIGHTSIZE, QBrush(Qt::black));
 
         // paint track lights
         if (trackindicatoroff == 1) {
@@ -7834,8 +7605,8 @@ void element::setupElementIcon()
         }
 
         // vertical sections
-        p.fillRect(w / 2 - 3, 0, 7, tracklen, QBrush(Qt::black));
-        p.fillRect(w / 2 - 3, h - tracklen, 7, tracklen, QBrush(Qt::black));
+        p.fillRect(w / 2 - 3, 0, LIGHTSIZE, tracklen, QBrush(Qt::black));
+        p.fillRect(w / 2 - 3, h - tracklen, LIGHTSIZE, tracklen, QBrush(Qt::black));
         
         // translate origin to center of pixmap
         p.translate(w / 2, h / 2);
@@ -7852,23 +7623,19 @@ void element::setupElementIcon()
         p.rotate(180.0);
         p.drawPolyline(tunnel);
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // left diagonal track with tunnel
     else if (classid == siciTul) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
 
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         int tracklen = w / 2 + 5;
 
         // paint long diagonal track
-        p.setPen(QPen(Qt::black, 7));
+        p.setPen(QPen(Qt::black, LIGHTSIZE));
         p.drawLine(0, 0, w, h - 1);
 
         // paint track lights
@@ -7903,7 +7670,7 @@ void element::setupElementIcon()
         }
 
         // translate origin to center of pixmap
-        p.translate(pm.width()/2, pm.height()/2);
+        p.translate(w / 2, h / 2);
 
         p.rotate(-SANGLE);
         
@@ -7924,23 +7691,19 @@ void element::setupElementIcon()
         p.translate(-6, -4);
         p.drawPolyline(tunnel);
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // right diagonal track with tunnel
     else if (classid == siciTur) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
 
-        int w = pm.width();
-        int h = pm.height();
+        int w = background.width();
+        int h = background.height();
         int tracklen = w / 2 + 5;
 
         // paint long diagonal track
-        p.setPen(QPen(Qt::black, 7));
+        p.setPen(QPen(Qt::black, LIGHTSIZE));
         p.drawLine(0, h - 1, w, 0);
 
         // paint track lights
@@ -7975,7 +7738,7 @@ void element::setupElementIcon()
         }
 
         // translate origin to center of pixmap
-        p.translate(pm.width()/2, pm.height()/2);
+        p.translate(w / 2, h / 2);
         p.rotate(-WANGLE);
         
         // paint two short tracks
@@ -7995,25 +7758,23 @@ void element::setupElementIcon()
         p.translate(-6, 4);
         p.drawPolyline(tunnel);
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // track with right top or bottom loco shed (lokschuppen)
     else if (classid == siciLt1 || classid == siciLb3) {
 
         bool istop = (classid == siciLt1);
+        int w = background.width();
+        int h = background.height();
         
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
 
         // translate origin to center of pixmap
-        p.translate(pm.width()/2, pm.height()/2);
+        p.translate(w / 2, h / 2);
 
-        int tracklen = pm.width() / 2 + 5;
-        int shedwidth = pm.height() + 8;
+        int tracklen = w / 2 + 5;
+        int shedwidth = h + 8;
         int shedxoffset = 9;
         int shedyoffset = 8;
 
@@ -8023,34 +7784,32 @@ void element::setupElementIcon()
             p.rotate(WANGLE);
         
         // paint track
-        p.fillRect(0, -3, -tracklen, 7, QBrush(Qt::black));
+        p.fillRect(0, -3, -tracklen, LIGHTSIZE, QBrush(Qt::black));
         
         // paint shed
         p.setBrush(QColor(192, 0 ,0));
-        p.drawRect(0 - shedxoffset, -shedwidth/2 + shedyoffset,
-                pm.width()/2, shedwidth);
-        p.drawLine(pm.width() / 4 - shedxoffset, -shedwidth / 2 + shedyoffset,
-                pm.width() / 4 - shedxoffset, shedwidth / 2 + shedyoffset);
+        p.drawRect(0 - shedxoffset, -shedwidth / 2 + shedyoffset,
+                w / 2, shedwidth);
+        p.drawLine(w / 4 - shedxoffset, -shedwidth / 2 + shedyoffset,
+                w / 4 - shedxoffset, shedwidth / 2 + shedyoffset);
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // track with left top or bottom loco shed (lokschuppen)
     else if (classid == siciLt3 || classid == siciLb1) {
 
         bool istop = (classid == siciLt3);
+        int w = background.width();
+        int h = background.height();
         
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
 
         // translate origin to center of pixmap
-        p.translate(pm.width()/2, pm.height()/2);
+        p.translate(w / 2, h / 2);
 
-        int tracklen = pm.width() / 2 + 5;
-        int shedwidth = pm.height() + 8;
+        int tracklen = w / 2 + 5;
+        int shedwidth = h + 8;
         int shedxoffset = 9;
         int shedyoffset = -8;
 
@@ -8060,86 +7819,82 @@ void element::setupElementIcon()
             p.rotate(SANGLE);
         
         // paint track
-        p.fillRect(0, -3, -tracklen, 7, QBrush(Qt::black));
+        p.fillRect(0, -3, -tracklen, LIGHTSIZE, QBrush(Qt::black));
         
         // paint shed
         p.setBrush(QColor(192, 0 ,0));
-        p.drawRect(0 - shedxoffset, -shedwidth/2 + shedyoffset,
-                pm.width()/2, shedwidth);
-        p.drawLine(pm.width() / 4 - shedxoffset, -shedwidth / 2 + shedyoffset,
-                pm.width() / 4 - shedxoffset, shedwidth / 2 + shedyoffset);
+        p.drawRect(0 - shedxoffset, -shedwidth / 2 + shedyoffset,
+                w / 2, shedwidth);
+        p.drawLine(w / 4 - shedxoffset, -shedwidth / 2 + shedyoffset,
+                w / 4 - shedxoffset, shedwidth / 2 + shedyoffset);
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // track with right loco shed (+ old left)
     else if (classid == siciLs1) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
+
+        int w = background.width();
+        int h = background.height();
 
         // translate origin to center of pixmap
-        p.translate(pm.width()/2, pm.height()/2);
+        p.translate(w / 2, h / 2);
 
-        int tracklen = pm.width() / 2;
-        int shedwidth = pm.height();
+        int tracklen = w / 2;
+        int shedwidth = h;
         int shedxoffset = 0;
         int shedyoffset = 0;
 
         // paint track
-        p.fillRect(0, -3, -tracklen, 7, QBrush(Qt::black));
+        p.fillRect(0, -3, -tracklen, LIGHTSIZE, QBrush(Qt::black));
         
         // paint schuppen
         p.setBrush(QColor(192, 0 ,0));
-        p.drawRect(0 - shedxoffset, -shedwidth/2 + shedyoffset,
-                pm.width()/2, shedwidth);
-        p.drawLine(pm.width() / 4 - shedxoffset, -shedwidth / 2 + shedyoffset,
-                pm.width() / 4 - shedxoffset, shedwidth / 2 + shedyoffset);
+        p.drawRect(0 - shedxoffset, -shedwidth / 2 + shedyoffset,
+                w / 2, shedwidth);
+        p.drawLine(w / 4 - shedxoffset, -shedwidth / 2 + shedyoffset,
+                w / 4 - shedxoffset, shedwidth / 2 + shedyoffset);
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // track with left middle loco shed
     else if (classid == siciLs3) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
+
+        int w = background.width();
+        int h = background.height();
 
         // translate origin to center of pixmap
-        p.translate(pm.width() / 2, pm.height() / 2);
+        p.translate(w / 2, h / 2);
 
-        int tracklen = pm.width() / 2;
-        int shedwidth = pm.height();
+        int tracklen = w / 2;
+        int shedwidth = h;
 
         p.rotate(180.0);
         
         // paint track
-        p.fillRect(0, -3, -tracklen, 7, QBrush(Qt::black));
+        p.fillRect(0, -3, -tracklen, LIGHTSIZE, QBrush(Qt::black));
         
         // paint schuppen
         p.setBrush(QColor(192, 0 ,0));
-        p.drawRect(0 , -shedwidth / 2, pm.width() / 2, shedwidth);
-        p.drawLine(pm.width() / 4, -shedwidth / 2,
-                pm.width() / 4, shedwidth / 2);
+        p.drawRect(0 , -shedwidth / 2, w / 2, shedwidth);
+        p.drawLine(w / 4, -shedwidth / 2, w / 4, shedwidth / 2);
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
 
     // transfer table
     else if (classid == siciSbn) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
         
+        int w = background.width();
+        int h = background.height();
+
         // paint track
-        p.fillRect(0, pm.height() / 2 - 3, 4, 7, QBrush(Qt::black));
-        p.fillRect(pm.width() - 4, pm.height() / 2 - 3, 4, 7,
+        p.fillRect(0, h / 2 - 3, 4, LIGHTSIZE, QBrush(Qt::black));
+        p.fillRect(w - 4, h / 2 - 3, 4, LIGHTSIZE,
                 QBrush(Qt::black));
 
         // paint table icon
@@ -8155,52 +7910,50 @@ void element::setupElementIcon()
         QRect br = fm.boundingRect(sSoldText);
         br.setWidth(br.width() + 4);
         br.setHeight(br.height() + 2);
-        br.moveTopLeft(QPoint(pm.width()/2 - br.width()/2,
-                    pm.height()/2 - br.height()/2));
+        br.moveTopLeft(QPoint(w / 2 - br.width()/2,
+                    h / 2 - br.height()/2));
         p.fillRect(br, QBrush(Qt::white));
         p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                 Qt::DontClip, sSoldText);
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     // turntable
     else if (classid == siciDre) {
-        QPixmap pm = QPixmap(size());
-        pm.fill(QColor(Qt::lightGray));
-        QPainter p;
-        p.begin(&pm);
+        QPainter p(&background);
+        
+        int w = background.width();
+        int h = background.height();
         
         // translate origin to center of pixmap
-        p.translate(pm.width()/2, pm.height()/2);
+        p.translate(w / 2, h / 2);
 
         // paint track s
-        int tracklen = pm.width() / 4;
-        int startx = -pm.height() / 2;
-        p.fillRect(startx, -3, -tracklen, 7, QBrush(Qt::black));
+        int tracklen = w / 4;
+        int startx = -h / 2;
+        p.fillRect(startx, -3, -tracklen, LIGHTSIZE, QBrush(Qt::black));
         p.rotate(SANGLE);
-        p.fillRect(startx, -3, -tracklen - 1, 7, QBrush(Qt::black));
+        p.fillRect(startx, -3, -tracklen - 1, LIGHTSIZE, QBrush(Qt::black));
         p.rotate(-2 * SANGLE);
-        p.fillRect(startx, -3, -tracklen - 1, 7, QBrush(Qt::black));
+        p.fillRect(startx, -3, -tracklen - 1, LIGHTSIZE, QBrush(Qt::black));
         p.rotate(180.0);
-        p.fillRect(startx, -3, -tracklen - 1, 7, QBrush(Qt::black));
+        p.fillRect(startx, -3, -tracklen - 1, LIGHTSIZE, QBrush(Qt::black));
         p.rotate(SANGLE);
-        p.fillRect(startx, -3, -tracklen, 7, QBrush(Qt::black));
+        p.fillRect(startx, -3, -tracklen, LIGHTSIZE, QBrush(Qt::black));
         p.rotate(SANGLE);
-        p.fillRect(startx, -3, -tracklen - 1, 7, QBrush(Qt::black));
+        p.fillRect(startx, -3, -tracklen - 1, LIGHTSIZE, QBrush(Qt::black));
 
         // paint icon
         p.setBrush(Qt::darkGray);
         p.setPen(QPen(QColor(128, 0, 0), 2));
-        p.drawEllipse(-pm.height() / 2 + 1, -pm.height() / 2 + 1,
-                pm.height() - 2, pm.height() - 2);
+        p.drawEllipse(-h / 2 + 1, -h / 2 + 1, h - 2, h - 2);
 
         // turning track, may be animated later
         p.setBrush(Qt::white);
         p.rotate(-180.0 -SANGLE/2);
-        p.drawRect(-pm.height() / 2 + 2, -3, pm.height() - 4, 7);
-        p.drawLine(-pm.height() / 2 + 2, 0, pm.height() / 2 - 2, 0);
+        p.drawRect(-h / 2 + 2, -3, h - 4, LIGHTSIZE);
+        p.drawLine(-h / 2 + 2, 0, h / 2 - 2, 0);
         p.drawRect(6, -6, 6, 3);
 
         //paint label
@@ -8220,8 +7973,7 @@ void element::setupElementIcon()
         p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                 Qt::DontClip, s);
 
-        p.end();
-        setPaletteBackgroundPixmap(pm);
+        setPaletteBackgroundPixmap(background);
     }
     
     addTooltip();

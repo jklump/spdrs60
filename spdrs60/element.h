@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 by Guido Scholz
     e-mail               : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-02-06 20:52:11 $
-                           $Revision: 1.104 $
+    last modified        : $Date: 2009-02-21 12:22:10 $
+                           $Revision: 1.105 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -348,6 +348,7 @@ private:
     elementCommander*   turntableProperties;
     turntableCommander* ttComm;
 
+    QPixmap background;
     elemSelectionMode selectionMode;
     elemVisualMode visualMode;
     SpdrItemClassId classid;

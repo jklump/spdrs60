@@ -1,10 +1,10 @@
 /***************************************************************************
                            feedbackmodule.cpp
-                           version 0.5.3 $Revision: 1.8 $
+                           version 0.5.3 $Revision: 1.9 $
                            -------------------------------
     copyright            : (C) 2006-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-05 08:42:40 $
+    last modified        : $Date: 2009-02-21 12:22:10 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -26,9 +26,9 @@
 #include "feedbackmodule.h"
 
 enum {
- FBM16WIDTH = 140,
- FBM8WIDTH = 80,
- FBMHEIGHT = 80
+    FBM16WIDTH = 140,
+    FBM8WIDTH = 80,
+    FBMHEIGHT = 80
 };
 
 

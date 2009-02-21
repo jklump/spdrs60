@@ -3,8 +3,8 @@
                            -------------------------------
     copyright            : (C) 2004-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-13 09:12:20 $
-                           $Revision: 1.7 $
+    last modified        : $Date: 2009-02-21 12:22:10 $
+                           $Revision: 1.8 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -20,6 +20,8 @@
  ***************************************************************************/
 
 #include "gbsscrollview.h"
+
+
 GBSScrollView::GBSScrollView(QWidget* parent, const char* name,
                              Qt::WFlags f): QScrollView(parent, name, f)
 {

@@ -1,5 +1,8 @@
 +++ Release 0.5.5 (2009-??-??) +++
 
+2009-02-20 Guido Scholz <guido.scholz@bayernline.de>
+	* spdrs60/element.*: Background icon painting optimized.
+
 2009-02-13 Guido Scholz <guido.scholz@bayernline.de>
 	* spdrs60/gbsarea.cpp: Fixed drag pixmap creation and set
 	modified flag for drop action.
