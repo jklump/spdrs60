@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-02-24 18:34:27 $
-                           $Revision: 1.167 $
+    last modified        : $Date: 2009-02-24 18:54:49 $
+                           $Revision: 1.168 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1902,7 +1902,7 @@ void MainWindow::openFile(const QString& fn)
                 fversion = value.toInt();
 
             else if (key.compare(GF_RWCC) == 0) {
-                rwccid = value.section(DS, 1, 1).toUInt();
+                rwccid = value.toUInt();
                 rwccname = s.section(DS, 2);
             }
 
