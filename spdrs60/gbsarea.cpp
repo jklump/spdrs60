@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-02-24 18:34:27 $
-                           $Revision: 1.115 $
+    last modified        : $Date: 2009-02-24 21:01:58 $
+                           $Revision: 1.116 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1150,16 +1150,12 @@ bool GBSArea::switchSRCP08FBBusState(bool setInitOn)
         && (SRCP08FBBusWalker < SRCP08FBBusCount)) {
 
         //TODO: (SrcpMessage::Feedback) pref.fbmoduletype
-        SrcpMessage* sm = new SrcpMessage(setInitOn ?
+        SrcpMessage sm = SrcpMessage(setInitOn ?
                 SrcpMessage::msgFbInit : SrcpMessage::msgFbTerm);
-        if (sm == NULL)
-            return WalkerChanged;
        
-        sm->setBus(pSRCP08FBBusList[SRCP08FBBusWalker]);
+        sm.setBus(pSRCP08FBBusList[SRCP08FBBusWalker]);
         
-        emit sendSrcpMessage(sm);
-
-        delete sm;
+        emit sendSrcpMessage(&sm);
 
         SRCP08FBBusWalker++;
         WalkerChanged = true;
@@ -1188,13 +1184,9 @@ bool GBSArea::sendSRCP08BusMessage(SrcpMessage::Message smt)
         && (SRCP08GABusWalker < SRCP08GABusCount)) {
 
         //SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgPowerGet);
-        SrcpMessage* sm = new SrcpMessage(smt);
-        if (sm == NULL)
-            return WalkerChanged;
-       
-        sm->setBus(pSRCP08GABusList[SRCP08GABusWalker]);
-        emit sendSrcpMessage(sm);
-        delete sm;
+        SrcpMessage sm = SrcpMessage(smt);
+        sm.setBus(pSRCP08GABusList[SRCP08GABusWalker]);
+        emit sendSrcpMessage(&sm);
 
         SRCP08GABusWalker++;
         WalkerChanged = true;
@@ -1208,13 +1200,9 @@ bool GBSArea::sendSRCP08BusMessage(SrcpMessage::Message smt)
         (SRCP08FBBusWalker < SRCP08FBBusCount)) {
 
         //SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgPowerGet);
-        SrcpMessage* sm = new SrcpMessage(smt);
-        if (sm == NULL)
-            return WalkerChanged;
-       
-        sm->setBus(pSRCP08FBBusList[SRCP08FBBusWalker]);
-        emit sendSrcpMessage(sm);
-        delete sm;
+        SrcpMessage sm = SrcpMessage(smt);
+        sm.setBus(pSRCP08FBBusList[SRCP08FBBusWalker]);
+        emit sendSrcpMessage(&sm);
         
         SRCP08FBBusWalker++;
         WalkerChanged = true;
@@ -1244,14 +1232,10 @@ bool GBSArea::setSRCP08BusPower(bool setPowerOn)
      */
     if ((SRCP08GABusCount > 0)
         && (SRCP08GABusWalker < SRCP08GABusCount)) {
-        SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgPowerSet);
-        if (sm == NULL)
-            CounterChanged = true;
-       
-        sm->setPowerData(pSRCP08GABusList[SRCP08GABusWalker],
+        SrcpMessage sm = SrcpMessage(SrcpMessage::msgPowerSet);
+        sm.setPowerData(pSRCP08GABusList[SRCP08GABusWalker],
                 setPowerOn);
-        emit sendSrcpMessage(sm);
-        delete sm;
+        emit sendSrcpMessage(&sm);
 
         SRCP08GABusWalker++;
         CounterChanged = true;
@@ -1263,14 +1247,10 @@ bool GBSArea::setSRCP08BusPower(bool setPowerOn)
      */
     if (!CounterChanged && (SRCP08FBBusCount > 0) &&
         (SRCP08FBBusWalker < SRCP08FBBusCount)) {
-        SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgPowerSet);
-        if (sm == NULL)
-            CounterChanged = true;
-       
-        sm->setPowerData(pSRCP08FBBusList[SRCP08FBBusWalker],
+        SrcpMessage sm = SrcpMessage(SrcpMessage::msgPowerSet);
+        sm.setPowerData(pSRCP08FBBusList[SRCP08FBBusWalker],
                 setPowerOn);
-        emit sendSrcpMessage(sm);
-        delete sm;
+        emit sendSrcpMessage(&sm);
 
         SRCP08FBBusWalker++;
         CounterChanged = true;
@@ -1958,13 +1938,9 @@ void GBSArea::processGenericMessage(unsigned int sendto,
 void GBSArea::sendGmCrcfMessage(unsigned int sendto,
         unsigned int replyto, const QString& cms)
 {
-    SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgGmSet);
-    if (sm == NULL)
-        return;
-
-    sm->setGmData(sendto, replyto, "CRCF", cms);
-    emit sendSrcpMessage(sm);
-    delete sm;
+    SrcpMessage sm = SrcpMessage(SrcpMessage::msgGmSet);
+    sm.setGmData(sendto, replyto, "CRCF", cms);
+    emit sendSrcpMessage(&sm);
 }
 
 

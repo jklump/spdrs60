@@ -1,11 +1,11 @@
 /***************************************************************************
                            element.cpp
                            -------------------------------
-    copyright            : (C) 1999-2003 by Stefan Preis
+    Copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-02-21 12:22:07 $
-                           $Revision: 1.185 $
+    last modified        : $Date: 2009-02-24 21:01:58 $
+                           $Revision: 1.186 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -826,15 +826,11 @@ void element::switchAddress(bool secondone)
             break;
     }
 
-    SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgGaSet);
-    if (sm == NULL)
-        return;
-
-    sm->setGaData(protocol, iRealBus, iRealAddress, port,
+    SrcpMessage sm = SrcpMessage(SrcpMessage::msgGaSet);
+    sm.setGaData(protocol, iRealBus, iRealAddress, port,
             value, activetime);
-    emit sendSrcpMessage(sm);
+    emit sendSrcpMessage(&sm);
 
-    delete sm;
     /*qWarning("Class: %d, Stype: %d, Dir: %d, A1: %d, A2: %d, RA: %d, P: %d",
             classid, iSoldSubType, state, address1,
             address2, iRealAddress, port);*/
@@ -9334,15 +9330,10 @@ void element::updateFeedbackState()
     // get current feedback status from server to update LEDstate
     if ((trackindicatoroff != 1) && (iFBContact > 0)) {
         
-        SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgFbGet);
-        if (sm == NULL)
-            return;
-
-        sm->setFbData(iFBBusNo,
+        SrcpMessage sm = SrcpMessage(SrcpMessage::msgFbGet);
+        sm.setFbData(iFBBusNo,
                 (SrcpMessage::Feedback) pref.fbmoduletype, iFBContact);
-        
-        emit sendSrcpMessage(sm);
-        delete sm;
+        emit sendSrcpMessage(&sm);
     }
 }
 
@@ -9366,17 +9357,14 @@ bool element::sendSRCP08InitGA(unsigned int gano)
 
     if (isSwitchable()) {
 
-        SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgGaInit);
-        if (sm == NULL)
-            return returnvalue;
+        SrcpMessage sm = SrcpMessage(SrcpMessage::msgGaInit);
         
         if (gano == 1)
-            sm->setGaData(protocol, bus1, address1, 0, 0, 0);
+            sm.setGaData(protocol, bus1, address1, 0, 0, 0);
         else
-            sm->setGaData(protocol, bus2, address2, 0, 0, 0);
+            sm.setGaData(protocol, bus2, address2, 0, 0, 0);
 
-        emit sendSrcpMessage(sm);
-        delete sm;
+        emit sendSrcpMessage(&sm);
 
         returnvalue = true;
     }

@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.3 $Revision: 1.72 $
+                           version 0.5.3 $Revision: 1.73 $
                            -------------------------------
-    copyright            : (C) 2004-2008 by Guido Scholz
+    Copyright            : (C) 2004-2009 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-02-13 18:20:09 $
+    last modified        : $Date: 2009-02-24 21:01:58 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -1038,13 +1038,9 @@ void Router::processGenericMessage(unsigned int sendto,
 void Router::sendGmCrcfMessage(unsigned int sendto,
         unsigned int replyto, const QString& cms)
 {
-    SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgGmSet);
-    if (sm == NULL)
-        return;
-
-    sm->setGmData(sendto, replyto, "CRCF", cms);
-    emit sendSrcpMessage(sm);
-    delete sm;
+    SrcpMessage sm = SrcpMessage(SrcpMessage::msgGmSet);
+    sm.setGmData(sendto, replyto, "CRCF", cms);
+    emit sendSrcpMessage(&sm);
 }
 
 void Router::setInfoSessionId(unsigned int id)

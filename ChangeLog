@@ -5,7 +5,12 @@
 	* spdrs60/resources.h: Maximum valid GA address for DCC fixed (now
 	is 2044).
 	* spdrs60/mainwindow.cpp: Fixed dialog for new file to save also
-	CRCF data for control center name and id.
+	CRCF data for control center name and id. Fixed reading of
+	control center id.
+	* spdrs60/gbsarea.cpp, spdrs60/router.cpp,
+	spdrs60/mainwindow.cpp, spdrs60/element.cpp,
+	spdrs60/keyboad.cpp: Changed SRCP message variables to use stack
+	instead of heap.
 
 2009-02-20 Guido Scholz <guido.scholz@bayernline.de>
 	* spdrs60/element.*: Background icon painting optimized.
@@ -31,7 +36,6 @@
 2008-12-23 Guido Scholz <guido.scholz@bayernline.de>
 	* spdrs60/srcp_test.cpp, spdrs60/Makefile.am: Preliminary test
 	for SRCP message generation added, runned by "make check".
-
 
 +++ Release 0.5.4 (2008-11-23) +++
 
@@ -247,7 +251,7 @@
 
 2007-02-07 Guido Scholz <guido.scholz@bayernline.de>
 	* gbsarea.*, element.*, route.cpp: handling of empty elements
-	improved, loading files is much faster now, memory consumtion
+	improved, loading files is much faster now, memory consumption
 	is much lower than before
 
 2007-02-06 Guido Scholz <guido.scholz@bayernline.de>

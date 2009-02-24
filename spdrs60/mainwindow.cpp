@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.cpp
                            -------------------------------
-    copyright            : (C) 1999-2003 by Stefan Preis
-                         : (C) 2004-2008 Guido Scholz
+    Copyright            : (C) 1999-2003 by Stefan Preis
+                         : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-02-24 18:54:49 $
-                           $Revision: 1.168 $
+    last modified        : $Date: 2009-02-24 21:01:58 $
+                           $Revision: 1.169 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -2365,13 +2365,9 @@ void MainWindow::updateFeedbackConnectionState(bool connected)
         // flag to avoid history line flooding by startup feedback
         isFBInitMode = true;
 
-        SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgFbInit);
-        if (sm == NULL)
-            return;
-
-        sm->setFbData(0, (SrcpMessage::Feedback) pref.fbmoduletype, 0);
-        sendSrcpMessage(sm);
-        delete sm;
+        SrcpMessage sm = SrcpMessage(SrcpMessage::msgFbInit);
+        sm.setFbData(0, (SrcpMessage::Feedback) pref.fbmoduletype, 0);
+        sendSrcpMessage(&sm);
 
         statusMessage(tr("Feedback port changes should be avoided during "
                     "initialization"));
@@ -2678,14 +2674,9 @@ void MainWindow::slotToggleLayoutPower()
     LayoutPowerIsOn = !LayoutPowerIsOn;
 
     if (SrcpPort::csOld == commandStyle) {
-        SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgPowerSet);
-
-        if (sm == NULL)
-            return;
-
-        sm->setPowerData(0, LayoutPowerIsOn);
-        sendSrcpMessage(sm);
-        delete sm;
+        SrcpMessage sm = SrcpMessage(SrcpMessage::msgPowerSet);
+        sm.setPowerData(0, LayoutPowerIsOn);
+        sendSrcpMessage(&sm);
 
         if (LayoutPowerIsOn && cmdAutoSendAll)
             layoutSendAll();
@@ -2726,13 +2717,8 @@ void MainWindow::updateLayoutPowerAction()
 // reset the daemon
 void MainWindow::slotDaemonReset()
 {
-    SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgServerReset);
-
-    if (sm == NULL)
-        return;
-
-    sendSrcpMessage(sm);
-    delete sm;
+    SrcpMessage sm = SrcpMessage(SrcpMessage::msgServerReset);
+    sendSrcpMessage(&sm);
 }
 
 
@@ -2751,13 +2737,8 @@ void MainWindow::slotDaemonKill()
         return;
 
     
-    SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgServerShutdown);
-
-    if (sm == NULL)
-        return;
-
-    sendSrcpMessage(sm);
-    delete sm;
+    SrcpMessage sm = SrcpMessage(SrcpMessage::msgServerShutdown);
+    sendSrcpMessage(&sm);
 
     CloseSRCPServerConnection();
     statusMessage(tr("SRCP-Service has been terminated. Restart "
@@ -3244,13 +3225,9 @@ void MainWindow::layoutUpdateFB()
 {
     if (SrcpPort::csOld == commandStyle) {
         SRCPCommandState = srcp07GetFBStates;
-        SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgFbGet);
-        if (sm == NULL)
-            return;
-
-        sm->setFbData(0, (SrcpMessage::Feedback) pref.fbmoduletype, 0);
-        sendSrcpMessage(sm);
-        delete sm;
+        SrcpMessage sm = SrcpMessage(SrcpMessage::msgFbGet);
+        sm.setFbData(0, (SrcpMessage::Feedback) pref.fbmoduletype, 0);
+        sendSrcpMessage(&sm);
     }
 }
 
@@ -3534,12 +3511,8 @@ QString MainWindow::getCrcfInfoMessage(CrcfMessage::CrcfAttribute at) const
 void MainWindow::sendGmCrcfMessage(unsigned int sendto,
         unsigned int replyto, const QString& cms)
 {
-    SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgGmSet);
-    if (sm == NULL)
-        return;
-
-    sm->setGmData(sendto, replyto, "CRCF", cms);
-    sendSrcpMessage(sm); // emit
-    delete sm;
+    SrcpMessage sm = SrcpMessage(SrcpMessage::msgGmSet);
+    sm.setGmData(sendto, replyto, "CRCF", cms);
+    sendSrcpMessage(&sm); // emit
 }
 

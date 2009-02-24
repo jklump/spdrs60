@@ -1,11 +1,11 @@
 /***************************************************************************
                            keyboard.cpp
-                           version 0.5.2 $Revision: 1.20 $
+                           version 0.5.2 $Revision: 1.21 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-                         : (C) 2004-2007 Guido Scholz
+                         : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-09-05 17:39:48 $
+    last modified        : $Date: 2009-02-24 21:01:58 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -166,23 +166,19 @@ void keyboard::slotActivateRed()
             protocol = SrcpMessage::proMM;
     }
 
-    SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgGaSet);
-    if (sm == NULL)
-        return;
-
-    sm->setGaData(protocol, bus, adr, 0, 1, 200);
+    SrcpMessage sm = SrcpMessage(SrcpMessage::msgGaSet);
+    sm.setGaData(protocol, bus, adr, 0, 1, 200);
 
     // send also init message if is new style
     if (SrcpPort::csNew == srcpStyle) {
-        sm->setMessage(SrcpMessage::msgGaInit);
-        emit sendSrcpMessage(sm);
+        sm.setMessage(SrcpMessage::msgGaInit);
+        emit sendSrcpMessage(&sm);
         // give time to show effect
         qApp->processEvents();
-        sm->setMessage(SrcpMessage::msgGaSet);
+        sm.setMessage(SrcpMessage::msgGaSet);
     }
 
-    emit sendSrcpMessage(sm);
-    delete sm;
+    emit sendSrcpMessage(&sm);
 }
 
 
@@ -209,22 +205,18 @@ void keyboard::slotActivateGreen()
             protocol = SrcpMessage::proMM;
     }
 
-    SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgGaSet);
-    if (sm == NULL)
-        return;
-
-    sm->setGaData(protocol, bus, adr, 1, 1, 200);
+    SrcpMessage sm = SrcpMessage(SrcpMessage::msgGaSet);
+    sm.setGaData(protocol, bus, adr, 1, 1, 200);
 
     // send also init message if is new style
     if (SrcpPort::csNew == srcpStyle) {
-        sm->setMessage(SrcpMessage::msgGaInit);
-        emit sendSrcpMessage(sm);
+        sm.setMessage(SrcpMessage::msgGaInit);
+        emit sendSrcpMessage(&sm);
         // give time to show effect
         qApp->processEvents();
-        sm->setMessage(SrcpMessage::msgGaSet);
+        sm.setMessage(SrcpMessage::msgGaSet);
     }
 
-    emit sendSrcpMessage(sm);
-    delete sm;
+    emit sendSrcpMessage(&sm);
 }
 
