@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-02-21 12:22:10 $
-                           $Revision: 1.114 $
+    last modified        : $Date: 2009-02-24 18:34:27 $
+                           $Revision: 1.115 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -268,6 +268,7 @@ void GBSArea::newFile(int newcols, int newrows, unsigned int newid,
     rows = newrows;
     layoutid = newid;
     layoutname = newname;
+    tablelight = true;
 
     elements.resize(rows * cols);
     adjustSize();
@@ -282,7 +283,7 @@ void GBSArea::writeFileTextToStream(QTextStream& ts)
        << "# layout dimensions=columns" << DS << "rows" << endl
        << GF_DIMENSIONS << DS << cols << DS << rows << endl
        << GF_ID << DS << layoutid << DS << layoutname << endl
-       << GF_TABLELIGHT << DS << tablelight << endl
+       << GF_TABLELIGHT << DS << (tablelight ? 1 : 0) << endl
        << "# start of element section" << endl;
        //<< "# elements=" << elements.count() << endl;
     
@@ -304,10 +305,12 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
         emit clearRoutes();
         elements.clear();
     }
+    /*set default value to make light switchable*/
+    tablelight = true;
     
     QString s, key, value;
     unsigned int ecount = 0;
-    bool tmptablelight = true;
+    bool tablelighton = true;
 
     while (!ts.eof()) {
         s = ts.readLine();
@@ -334,7 +337,7 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
             layoutname = s.section(DS, 2).stripWhiteSpace();
         }
         else if (key.compare(GF_TABLELIGHT) == 0) {
-            tmptablelight = (bool)value.toInt();
+            tablelighton = (value.toInt() == 1);
         }
 
         /*here we read allways up to start marker of a new route*/
@@ -365,8 +368,9 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
             break;*/
     }
 
-    if (!tmptablelight)
-        switchTableLight(tmptablelight);
+    /*switch table light only off if this state was saved, default is on*/
+    if (!tablelighton)
+        switchTableLight(false);
     
     setModified(false);
 }

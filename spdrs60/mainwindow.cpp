@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-24 17:56:54 $
-                           $Revision: 1.166 $
+    last modified        : $Date: 2009-02-24 18:34:27 $
+                           $Revision: 1.167 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -619,8 +619,8 @@ void MainWindow::initMainWindow()
     actionFileNew->setToolTip(tr("Create empty layout"));
 #else
     actionFileNew = new QAction(tr("Create empty layout"),
-		    QPixmap(filenew_xpm), tr("&New..."), Qt::CTRL + Qt::Key_N,
-                    this, "fileNew");
+            QPixmap(filenew_xpm), tr("&New..."), Qt::CTRL + Qt::Key_N,
+            this, "fileNew");
 #endif
     connect(actionFileNew, SIGNAL(activated()), this,
             SLOT(slotFileNew()));
@@ -658,11 +658,11 @@ void MainWindow::initMainWindow()
     actionFileSave->addTo(filetb);
 
 #if QT_VERSION >= 0x030200
-    actionFileSaveAs = new QAction(QPixmap(filesaveas_xpm), tr("Save &as..."),
-            Qt::CTRL + Qt::Key_A, this, "fileSaveAs");
+    actionFileSaveAs = new QAction(QPixmap(filesaveas_xpm),
+            tr("Save &as..."), Qt::CTRL + Qt::Key_A, this, "fileSaveAs");
 #else
-    actionFileSaveAs = new QAction("", QPixmap(filesaveas_xpm), tr("Save &as..."),
-            Qt::CTRL + Qt::Key_A, this, "fileSaveAs");
+    actionFileSaveAs = new QAction("", QPixmap(filesaveas_xpm),
+            tr("Save &as..."), Qt::CTRL + Qt::Key_A, this, "fileSaveAs");
 #endif
     connect(actionFileSaveAs, SIGNAL(activated()), this,
             SLOT(slotFileSaveAs()));
@@ -834,11 +834,13 @@ void MainWindow::initMainWindow()
 
 #if QT_VERSION >= 0x030200
     actionEditOptions = new QAction(QPixmap(editoptions_xpm),
-            tr("Pr&eferences..."), Qt::CTRL + Qt::Key_P, this, "editPreferences");
+            tr("Pr&eferences..."), Qt::CTRL + Qt::Key_P, this,
+            "editPreferences");
     actionEditOptions->setToolTip(tr("Edit application preferences"));
 #else
     actionEditOptions = new QAction("", QPixmap(editoptions_xpm),
-            tr("Pr&eferences..."), Qt::CTRL + Qt::Key_P, this, "editPreferences");
+            tr("Pr&eferences..."), Qt::CTRL + Qt::Key_P, this,
+            "editPreferences");
 #endif
     connect(actionEditOptions, SIGNAL(activated()), this,
             SLOT(slotEditOptions()));
@@ -856,12 +858,14 @@ void MainWindow::initMainWindow()
 
 #if QT_VERSION >= 0x030200
     actionViewFBModules = new QAction(QPixmap(viewfeedback_xpm),
-            tr("&Feedback modules"), Qt::CTRL + Qt::Key_M, this, "viewFBModules");
+            tr("&Feedback modules"), Qt::CTRL + Qt::Key_M, this,
+            "viewFBModules");
     actionViewFBModules->setToolTip(tr("Show feedback module window"));
 #else
     actionViewFBModules = new QAction(tr("Show feedback module window"),
             QPixmap(viewfeedback_xpm),
-            tr("&Feedback modules"), Qt::CTRL + Qt::Key_M, this, "viewFBModules");
+            tr("&Feedback modules"), Qt::CTRL + Qt::Key_M, this,
+            "viewFBModules");
 #endif
     connect(actionViewFBModules, SIGNAL(activated()), this,
             SLOT(slotShowModules()));
@@ -899,7 +903,8 @@ void MainWindow::initMainWindow()
 #if QT_VERSION >= 0x030200
     actionViewTrainNumberDialog = new QAction(QPixmap(viewtrainnumber_xpm),
             tr("Tr&ain number dialog"), 0, this, "viewTrainNumberDlg");
-    actionViewTrainNumberDialog->setToolTip(tr("Show train number input dialog"));
+    actionViewTrainNumberDialog->setToolTip(
+            tr("Show train number input dialog"));
 #else
     actionViewTrainNumberDialog = new QAction(
             tr("Show train number input dialog"), QPixmap(viewtrainnumber_xpm),
@@ -1632,6 +1637,11 @@ void MainWindow::newFile()
     nlDlg->setAutoPower(cmdAutoPower);
     nlDlg->setAutoSendAll(cmdAutoSendAll);
     
+    nlDlg->setSwitchboxId(rwccid);
+    nlDlg->setSwitchboxName(rwccname);
+    nlDlg->setLayoutId(gbs->getLayoutId());
+    nlDlg->setLayoutName(gbs->getLayoutName());
+
     if (nlDlg->exec() != QDialog::Accepted) {
         delete nlDlg;
         return;
@@ -1642,6 +1652,7 @@ void MainWindow::newFile()
     int newrows = nlDlg->getRows();
     unsigned int newid = nlDlg->getLayoutId();
     QString newname = nlDlg->getLayoutName();
+
     commandPort->setServer(nlDlg->getHost(), nlDlg->getPort());
     infoPort->setServer(nlDlg->getHost(), nlDlg->getPort());
     feedbackPort->setServer(nlDlg->getHost(), nlDlg->getPort());
@@ -1649,6 +1660,10 @@ void MainWindow::newFile()
     cmdAutoLogin = nlDlg->getAutoLogin();
     cmdAutoPower = nlDlg->getAutoPower();
     cmdAutoSendAll = nlDlg->getAutoSendAll();
+
+    rwccid = nlDlg->getSwitchboxId();
+    rwccname = nlDlg->getSwitchboxName();
+
     delete nlDlg;
     
     fileName = "";

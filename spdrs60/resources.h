@@ -22,7 +22,7 @@ enum {
 
     MAX_FB = 1984,    // number of total s88 feedback ports
     MAX_GAMM = 324,   // max number of motorola addresses
-    MAX_GADCC = 4096, // max number of DCC addresses
+    MAX_GADCC = 2044, // max number of DCC addresses
     MAX_GASX = 114,   // max value of Selectrix addresses
 
     MIN_RB = 5000,    // min value of route button addresses

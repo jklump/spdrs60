@@ -10,6 +10,16 @@ spdrs60-0.5.5 (2009-??-??)
   o Set start signals back to stop position if route selection is
     changed in route edit mode.
 
+  o Fixed missing set of "file is modified" flag for drag-and-drop
+    actions.
+
+  o Fixed handling of tablelight state if new file is loaded.
+
+  o Maximum valid GA address for DCC fixed to 2044.
+
+  o Fixed dialog for new file to save also CRCF data for control
+    center name and id.
+
 
 spdrs60-0.5.4 (2008-11-30)
   o State showing On/Off labels for tablelight switching.

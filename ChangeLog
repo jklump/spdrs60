@@ -1,5 +1,12 @@
 +++ Release 0.5.5 (2009-??-??) +++
 
+2009-02-24 Guido Scholz <guido.scholz@bayernline.de>
+	* spdrs60/gbsarea.cpp: Handling of tablelight variable fixed.
+	* spdrs60/resources.h: Maximum valid GA address for DCC fixed (now
+	is 2044).
+	* spdrs60/mainwindow.cpp: Fixed dialog for new file to save also
+	CRCF data for control center name and id.
+
 2009-02-20 Guido Scholz <guido.scholz@bayernline.de>
 	* spdrs60/element.*: Background icon painting optimized.
 

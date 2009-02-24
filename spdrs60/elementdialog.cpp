@@ -2,10 +2,10 @@
                            elementdialog.cpp
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-                         : (C) 2004-2008 Guido Scholz
+                         : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-10 18:17:25 $
-                           $Revision: 1.76 $
+    last modified        : $Date: 2009-02-24 18:34:26 $
+                           $Revision: 1.77 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 /***************************************************************************
- this file provides an user interface to change properties of an element
+ This file provides an user interface to change properties of an element
  ***************************************************************************/
 
 #if QT_VERSION >= 0x040000
