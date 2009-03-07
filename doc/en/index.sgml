@@ -184,6 +184,23 @@ Release date: 2009-03-14
             properties dialog.
     </para></listitem>
 
+    <listitem><para>
+            Route light for y-turnouts fixed.
+    </para></listitem>
+
+    <listitem><para>
+            Label painting of wait signal in clear position fixed.
+    </para></listitem>
+
+    <listitem><para>
+            Routing over double slip switches with single engine fixed.
+    </para></listitem>
+
+    <listitem><para>
+            In element proterties dialog feedback options now are
+            disabled for level crossing element.
+    </para></listitem>
+
 </itemizedlist>
 </sect2>
 

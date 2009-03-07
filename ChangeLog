@@ -2,9 +2,11 @@
 
 2009-03-07 Guido Scholz <guido.scholz@bayernline.de>
 	* spdrs60/element.cpp: Fixed track indicator light for shunting
-	route state of track button element.
+	route state of track button element. Route light for y-turnouts
+	fixed. Label painting of wait signal fixed. Routing over double
+	slip switches with single engine fixed.
 	* spdrs60/elementdialog.cpp: Fixed updating of address line edit
-	tooltips.
+	tooltips. Feedback disabled for level crossing element.
 
 2009-03-01 Guido Scholz <guido.scholz@bayernline.de>
 	* doc/Makefile.am: Fixed lost handbook page for 0.5.4 version

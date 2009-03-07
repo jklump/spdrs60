@@ -4,8 +4,8 @@
     Copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-03-07 11:27:17 $
-                           $Revision: 1.187 $
+    last modified        : $Date: 2009-03-07 18:09:30 $
+                           $Revision: 1.188 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -311,7 +311,7 @@ void element::updateProperties()
             classid == siciTr1 || classid == siciTr3 ||
             classid == siciIl1 || classid == siciIr3 ||
             classid == siciIl3 || classid == siciIr1 ||
-            classid == siciSy3 || classid == siciSy1 ||
+            classid == siciSy1 || classid == siciSy3 ||
             classid == siciTw3 || classid == siciTw1 ||
             classid == siciSl1 || classid == siciSl3 ||
             classid == siciSr1 || classid == siciSr3 ||
@@ -1705,16 +1705,13 @@ void element::setupElementIcon()
         int h = background.height();
         
         // paint road
-        p.fillRect(w / 2 - 7, 0, 15, h,
-                QBrush(Qt::darkGray));
+        p.fillRect(w / 2 - 7, 0, 15, h, QBrush(Qt::darkGray));
 
         // paint track
-        p.fillRect(0, h / 2 - 3, w, 7,
-                QBrush(Qt::black));
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
 
         // paint track button
-        p.drawPixmap(w / 2  - 4, h / 2 - 3,
-                QPixmap(button_yellow_xpm));
+        p.drawPixmap(w / 2  - 4, h / 2 - 3, QPixmap(button_yellow_xpm));
         
         // paint lights
         p.setBrush(Qt::darkGray);
@@ -2051,6 +2048,7 @@ void element::setupElementIcon()
 
         p.drawRect(w - 18, h / 2 + 6, 3, 3);
         p.drawRect(w - 8, h / 2 + 13, 3, 3);
+        p.setPen(QPen(Qt::black));
 
         // paint text label
         if (sSoldText != "-1" && !sSoldText.isEmpty()) {
@@ -2121,9 +2119,9 @@ void element::setupElementIcon()
         p.drawEllipse(w / 2 - 1, 5, 5, 5);
 
         // paint signal icon
-            p.drawPixmap(6, 2, QPixmap(signal_wr_xpm));
-            p.fillRect(22, 5, 2, 5, QBrush(Qt::black));
-            p.drawLine(13, 7, 21, 7);
+        p.drawPixmap(6, 2, QPixmap(signal_wr_xpm));
+        p.fillRect(22, 5, 2, 5, QBrush(Qt::black));
+        p.drawLine(13, 7, 21, 7);
  
         // paint signal light
         if (state == 1) {
@@ -2135,6 +2133,7 @@ void element::setupElementIcon()
 
         p.drawRect(4, 2, 3, 3);
         p.drawRect(14, 9, 3, 3);
+        p.setPen(QPen(Qt::black));
 
         // paint text label
         if (sSoldText != "-1" && !sSoldText.isEmpty()) {
@@ -6861,7 +6860,7 @@ void element::setupElementIcon()
         setPaletteBackgroundPixmap(background);
     }
 
-    // y-turnout right (+ old left)
+    // y-turnout right (0: -\  1: -/)
     else if (classid == siciSy1) {
         QPainter p(&background);
         
@@ -8347,35 +8346,35 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     }
 
     else if (classid == siciSy1) {
-        /* -/ */
-        if (state == 0) {
-            if (entrydir == rdW)
-                returnvalue = rdNE;
-            else if (entrydir == rdNE)
-                returnvalue = rdW;
-        }
         /* -\ */
-        else {
+        if (state == 0) {
             if (entrydir == rdW)
                 returnvalue = rdSE;
             else if (entrydir == rdSE)
                 returnvalue = rdW;
         }
+        /* -/ */
+        else {
+            if (entrydir == rdW)
+                returnvalue = rdNE;
+            else if (entrydir == rdNE)
+                returnvalue = rdW;
+        }
     }
 
     else if (classid == siciSy3) {
-        /* /- */
-        if (state == 0) {
-            if (entrydir == rdE)
-                returnvalue = rdSW;
-            else if (entrydir == rdSW)
-                returnvalue = rdE;
-        }
         /* \- */
-        else {
+        if (state == 0) {
             if (entrydir == rdE)
                 returnvalue = rdNW;
             else if (entrydir == rdNW)
+                returnvalue = rdE;
+        }
+        /* /- */
+        else {
+            if (entrydir == rdE)
+                returnvalue = rdSW;
+            else if (entrydir == rdSW)
                 returnvalue = rdE;
         }
     }
@@ -8454,7 +8453,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
     }
 
-    else if (classid == siciSl1) {
+    else if (classid == siciSl3) {
         // --
         if (state == 0) {
             if (entrydir == rdE)
@@ -8472,7 +8471,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         }
         else {
             /*  _
-                /  */
+               /  */
             if (entrydir == rdSW)
                 returnvalue = rdE;
             else if (entrydir == rdE)
@@ -8485,7 +8484,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         return returnvalue;
     }
 
-    else if (classid == siciSl3) {
+    else if (classid == siciSl1) {
         // --
         if (state == 0) {
             if (entrydir == rdE)
@@ -8515,7 +8514,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         return returnvalue;
     }
 
-    else if (classid == siciSr1) {
+    else if (classid == siciSr3) {
         // --
         if (state == 0) {
             if (entrydir == rdE)
@@ -8532,7 +8531,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
                 returnvalue = rdNW;
         }
         else {
-            /* _
+           /* _
                \ */
             if (entrydir == rdW)
                 returnvalue = rdSE;
@@ -8546,7 +8545,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
         return returnvalue;
     }
 
-    else if (classid == siciSr3) {
+    else if (classid == siciSr1) {
         // --
         if (state == 0) {
             if (entrydir == rdE)

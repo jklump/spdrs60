@@ -255,8 +255,27 @@ Veröffentlicht am 14.03.2009
     <listitem><para>
             Das Aktualisieren der Tooltip-Hilfe für die
             Adresseingabefelder im Eingenschaftsdialog der
-            Gleisbildelemente wurde verbessert und zeigt num immer die
+            Gleisbildelemente wurde verbessert und zeigt nun die
             aktuell gültigen Grenzwerte.
+    </para></listitem>
+
+    <listitem><para>
+            Die Fahrstraßenausleuchtung bei Y-Weichen wurde repariert.
+    </para></listitem>
+
+    <listitem><para>
+            Die Darstellung der Beschriftung des Wartesignals in
+            Fahrtposition wurde repariert.
+    </para></listitem>
+
+    <listitem><para>
+            Der Fahrstraßenverlauf über abzweigende EKWs wurde repariert.
+    </para></listitem>
+
+    <listitem><para>
+            Im Eigenschaftsdialog für Gleisbildelemente wurde für das
+            Bahnübergangelement die Konfigurationsmöglichkeit von
+            Rückmeldekontakten abgeschaltet.
     </para></listitem>
 
 </itemizedlist>

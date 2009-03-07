@@ -29,6 +29,15 @@ spdrs60-0.5.5 (2009-03-??)
   o Fixed updating of address line edit tooltips in element properties
     dialog.
 
+  o Route light for y-turnouts fixed.
+
+  o Label painting of wait signal in clear position fixed.
+
+  o Routing over double slip switches with single engine fixed.
+
+  o In element proterties dialog feedback options now are disabled for
+    level crossing element.
+
 
 spdrs60-0.5.4 (2008-11-30)
   o State showing On/Off labels for tablelight switching.
