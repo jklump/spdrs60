@@ -4,8 +4,8 @@
     Copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-02-24 21:01:58 $
-                           $Revision: 1.186 $
+    last modified        : $Date: 2009-03-07 11:27:17 $
+                           $Revision: 1.187 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -8115,7 +8115,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
     if (classid == siciSt1 || classid == siciEnk
             || classid == siciHs1 || classid == siciHs3
             || classid == siciZt1 || classid == siciZt3
-            || classid == siciRt3 || classid == siciRt3
+            || classid == siciRt1 || classid == siciRt3
             || classid == siciHss1 || classid == siciHss3
             || classid == siciSs1 || classid == siciSs3
             || classid == siciSh1 || classid == siciSh3
