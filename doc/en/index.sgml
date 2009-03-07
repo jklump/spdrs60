@@ -39,6 +39,10 @@
 
 <revhistory>
   <revision>
+    <revnumber>0.12</revnumber>
+    <date>Sat MAr 07 12:54:39 CET 2009</date>
+  </revision>
+  <revision>
     <revnumber>0.11</revnumber>
     <date>Sun Nov 30 08:44:45 CET 2008</date>
   </revision>
@@ -120,8 +124,71 @@ features.</para>
 
 <sect1 id="sect-changes"><title>Changes</title>
 
-<sect2 id="ver-0.5.4">
+<sect2 id="ver-0.5.5">
 <title>Version 0.5.5</title>
+<para>
+Release date: 2009-03-14
+</para>
+
+<itemizedlist mark="bullet">
+
+    <listitem><para>
+            Fixed routing over element, if track indicator is off and
+            configured feedback contact is occupied.
+    </para></listitem>
+
+    <listitem><para>
+            Fixed route withdrawal by spacebar hit for reserved routes.
+    </para></listitem>
+
+    <listitem><para>
+            Show error message if start signal is in stop position while
+            recorded.
+    </para></listitem>
+
+    <listitem><para>
+            Set start signals back to stop position if route selection is
+            changed in route edit mode.
+    </para></listitem>
+
+    <listitem><para>
+            Fixed missing set of "file is modified" flag for drag-and-drop
+            actions.
+    </para></listitem>
+
+    <listitem><para>
+            Handling of tablelight variable fixed, got no properly reset
+            for new layout files.
+    </para></listitem>
+
+    <listitem><para>
+            Maximum valid GA address for DCC fixed to 2044.
+    </para></listitem>
+
+    <listitem><para>
+            Fixed dialog for new file to save also CRCF data for control
+            center name and id. Fixed reading of control center id.
+    </para></listitem>
+
+    <listitem><para>
+            Fixed lost handbook page for 0.5.4 version changes.
+    </para></listitem>
+
+    <listitem><para>
+            Fixed track indicator light for the right directed shunting
+            route state of track button element.
+    </para></listitem>
+
+    <listitem><para>
+            Fixed updating of address line edit tooltips in element
+            properties dialog.
+    </para></listitem>
+
+</itemizedlist>
+</sect2>
+
+<sect2 id="ver-0.5.4">
+<title>Version 0.5.4</title>
 <para>
 Release date: 2008-11-30
 </para>

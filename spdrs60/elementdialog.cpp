@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-02-24 18:34:26 $
-                           $Revision: 1.77 $
+    last modified        : $Date: 2009-03-07 12:49:36 $
+                           $Revision: 1.78 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1041,6 +1041,7 @@ void ElementDialog::slotSymbolChanged()
 
     showSubTypes(enabled);
     updateValidators();
+    updateAddressTooltips();
 }
 
 

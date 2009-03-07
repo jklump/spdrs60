@@ -2,10 +2,10 @@
                            gbsarea.cpp
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-                         : (C) 2004-2008 by Guido Scholz
+                         : (C) 2004-2009 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-02-24 21:01:58 $
-                           $Revision: 1.116 $
+    last modified        : $Date: 2009-03-07 12:49:36 $
+                           $Revision: 1.117 $
 ***************************************************************************/
 
 /***************************************************************************

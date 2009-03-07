@@ -1,4 +1,14 @@
-+++ Release 0.5.5 (2009-??-??) +++
++++ Release 0.5.5 (2009-03-??) +++
+
+2009-03-07 Guido Scholz <guido.scholz@bayernline.de>
+	* spdrs60/element.cpp: Fixed track indicator light for shunting
+	route state of track button element.
+	* spdrs60/elementdialog.cpp: Fixed updating of address line edit
+	tooltips.
+
+2009-03-01 Guido Scholz <guido.scholz@bayernline.de>
+	* doc/Makefile.am: Fixed lost handbook page for 0.5.4 version
+	changes.
 
 2009-02-24 Guido Scholz <guido.scholz@bayernline.de>
 	* spdrs60/gbsarea.cpp: Handling of tablelight variable fixed.

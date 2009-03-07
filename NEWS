@@ -1,4 +1,4 @@
-spdrs60-0.5.5 (2009-??-??)
+spdrs60-0.5.5 (2009-03-??)
   o Fixed routing over element, if track indicator is off and
     configured feedback contact is occupied.
 
@@ -13,12 +13,21 @@ spdrs60-0.5.5 (2009-??-??)
   o Fixed missing set of "file is modified" flag for drag-and-drop
     actions.
 
-  o Fixed handling of tablelight state if new file is loaded.
+  o Handling of tablelight variable fixed, got no properly reset for
+    new layout files.
 
   o Maximum valid GA address for DCC fixed to 2044.
 
   o Fixed dialog for new file to save also CRCF data for control
-    center name and id.
+    center name and id. Fixed reading of control center id.
+
+  o Fixed lost handbook page for 0.5.4 version changes.
+
+  o Fixed track indicator light for shunting route state of track
+    button element.
+
+  o Fixed updating of address line edit tooltips in element properties
+    dialog.
 
 
 spdrs60-0.5.4 (2008-11-30)

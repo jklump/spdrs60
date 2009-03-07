@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60 documentation
 # last changes by: Guido Scholz
-# Version: $Revision: 1.27 $
-# last update: $Date: 2009-03-01 20:04:44 $
+# Version: $Revision: 1.28 $
+# last update: $Date: 2009-03-07 12:49:36 $
 
 pdfdir = @SPDRS60_DOC_DIR@
 depdfdir = $(pdfdir)/de
@@ -284,7 +284,8 @@ dehtml_DATA = \
 	de/ver-0.5.1.html \
 	de/ver-0.5.2.html \
 	de/ver-0.5.3.html \
-	de/ver-0.5.4.html
+	de/ver-0.5.4.html \
+	de/ver-0.5.5.html
 
 else
 dehtml_DATA =

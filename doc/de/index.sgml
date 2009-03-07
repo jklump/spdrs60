@@ -37,6 +37,10 @@
 
         <revhistory>
             <revision>
+                <revnumber>0.13</revnumber>
+                <date>Sa Mär 07 12:59:43 CET 2009</date>
+            </revision>
+            <revision>
                 <revnumber>0.12</revnumber>
                 <date>So Nov 30 08:44:02 CET 2008</date>
             </revision>
@@ -183,6 +187,81 @@ empfehlenswert, diese Dokumentation durchzuarbeiten.
 <chapter id="chapter-aenderungen">
   <title>Änderungen</title>
 
+<sect1 id="ver-0.5.5">
+  <title>Version 0.5.5</title>
+<para>
+Veröffentlicht am 14.03.2009
+</para>
+<itemizedlist mark="bullet">
+
+    <listitem><para>
+            Bei Elementen mit abgeschaltetem Gleismelder wird der Status
+            eines dort eventuell konfigurierten Rückmeldekontaktes nicht
+            mehr berücksichtig. Dieser Fehler verhinderte das Einstellen
+            von Zugfahrstraßen über solche Elemente.
+    </para></listitem>
+
+    <listitem><para>
+            Das Zurücknehmen von teileingestellten (reservierten)
+            Fahrstraßen durch Drücken der Leertaste ist nun möglich.
+    </para></listitem>
+
+    <listitem><para>
+            Bei der Konfiguration neuer Fahrstraßen erfolgt nun eine
+            Fehlermeldung, wenn das gewählte Startsignal nicht auf
+            Fahrt steht.
+    </para></listitem>
+
+    <listitem><para>
+            Startsignale werden nun auf Halt zurückgestellt, wenn im
+            Fahrstraßenbearbeitungsmodus die gewählte Fahrstraße
+            wechselt.
+    </para></listitem>
+
+    <listitem><para>
+            Bei "Drag-and-Drop"-Operationen wird die bearbeitete
+            Gleisbilddatei nun auf "modifiziert" gesetzt.
+    </para></listitem>
+
+    <listitem><para>
+            Die Handhabung der Stelltischausleuchtung wurde repariert.
+            Beim Wechsel zwischen verschiedenen Dateien wurde der Status
+            nicht aktualisiert.
+    </para></listitem>
+
+    <listitem><para>
+            Das Maximum für eingebbare DCC/NMRA-Adressen wurde auf 2044
+            korrigiert.
+    </para></listitem>
+
+    <listitem><para>
+            Der Dialog für die Gleisbildeigenschaften übernimmt nun auch
+            die CRCF-Daten für "Name" und "Id". Auch das Einlesen des
+            "Id"-Wertes beim Laden einer Datei wurde repariert.
+    </para></listitem>
+
+    <listitem><para>
+            Bei der Installation des Handbuchs im HTML-Format ging die
+            Seite mit den Änderungen der Version 0.5.4 verloren. Dieser
+            Fehler wurde repariert.
+    </para></listitem>
+
+    <listitem><para>
+            Der Gleismelder eines nach rechts führenden Gleistastenelementes
+            für Rangierstraßen zeigt beim Einstellen einer Fahrstraße nun
+            die korrekte Ausleuchtung.
+    </para></listitem>
+
+    <listitem><para>
+            Das Aktualisieren der Tooltip-Hilfe für die
+            Adresseingabefelder im Eingenschaftsdialog der
+            Gleisbildelemente wurde verbessert und zeigt num immer die
+            aktuell gültigen Grenzwerte.
+    </para></listitem>
+
+</itemizedlist>
+</sect1>
+  
 <sect1 id="ver-0.5.4">
   <title>Version 0.5.4</title>
 <para>
