@@ -1,10 +1,10 @@
 /***************************************************************************
                            routeelementlvi.cpp
-                           version 0.5.5 $Revision: 1.12 $
+                           version 0.5.5 $Revision: 1.13 $
                            -------------------------------
     copyright            : (C) 2005-2009 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-03-07 12:49:36 $
+    last modified        : $Date: 2009-03-08 08:24:06 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -88,7 +88,7 @@ void RouteElementLVI::getStateElementData(stateElement* se)
  * 0  No        int
  * 1  Name      QString
  * 2  SRCP-Bus  unsigned int
- * 3  Addres    unsigned int
+ * 3  Address   unsigned int
  * 4  State     unsigned int
  * -------------------------
  */

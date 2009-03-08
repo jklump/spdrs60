@@ -1,10 +1,10 @@
 /***************************************************************************
                            crcfmessage.h
-                           version 0.5.3 $Revision: 1.6 $
+                           version 0.5.3 $Revision: 1.7 $
                            -------------------------------
     copyright            : (C) 2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-04 21:50:49 $
+    last modified        : $Date: 2009-03-08 08:24:06 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -39,7 +39,7 @@ class CrcfMessage
         CrcfMessage(CrcfActor, unsigned int, CrcfMethod,
                 CrcfAttribute, unsigned int);
         CrcfMessage(CrcfActor, unsigned int, CrcfMethod,
-                CrcfAttribute, const QString);
+                CrcfAttribute, const QString&);
         virtual ~CrcfMessage();
 
         CrcfMessage::CrcfActor getActor() const;
@@ -55,7 +55,7 @@ class CrcfMessage
         static QString message(CrcfActor, unsigned int, CrcfMethod,
                 CrcfAttribute, unsigned int);
         static QString message(CrcfActor, unsigned int, CrcfMethod,
-                CrcfAttribute, const QString);
+                CrcfAttribute, const QString&);
         static CrcfMessage* parse(QString&);
 
     private:

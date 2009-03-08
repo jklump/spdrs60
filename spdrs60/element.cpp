@@ -4,8 +4,8 @@
     Copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-03-07 18:09:30 $
-                           $Revision: 1.188 $
+    last modified        : $Date: 2009-03-08 08:24:06 $
+                           $Revision: 1.189 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -4564,7 +4564,7 @@ void element::setupElementIcon()
         int h = background.height();
         
         // paint track
-        p.setPen(QPen(Qt::black, LIGHTSIZE));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(0, h / 2, w, h / 2);
         p.drawLine(0, 0, w, h - 1);
         
@@ -4793,7 +4793,7 @@ void element::setupElementIcon()
         int h = background.height();
         
         // paint track
-        p.setPen(QPen(Qt::black, LIGHTSIZE));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(0, h / 2, w, h / 2);
         p.drawLine(0, h - 1, w, 0);
         
@@ -5099,7 +5099,7 @@ void element::setupElementIcon()
         int h = background.height();
         
         // paint track
-        p.setPen(QPen(Qt::black, LIGHTSIZE));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(0, h / 2, w, h / 2);
         p.drawLine(0, 0, w, h - 1);
         
@@ -5402,7 +5402,7 @@ void element::setupElementIcon()
         int h = background.height();
         
         // paint track
-        p.fillRect(0, h / 2 - 3, w, LIGHTSIZE, QBrush(Qt::black));
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
         
         // paint track lights
         if (trackindicatoroff == 1) {
@@ -5466,7 +5466,7 @@ void element::setupElementIcon()
         int h = background.height();
         
         // paint track
-        p.fillRect(0, h / 2 - 3, w, LIGHTSIZE, QBrush(Qt::black));
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
         
         // paint track lights
         if (trackindicatoroff == 1) {
@@ -5531,7 +5531,7 @@ void element::setupElementIcon()
         int h = background.height();
         
         // paint track
-        p.fillRect(0, h / 2 - 3, w, LIGHTSIZE, QBrush(Qt::black));
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
         
         // paint track lights
         if (trackindicatoroff == 1) {
@@ -5654,7 +5654,7 @@ void element::setupElementIcon()
         int h = background.height();
         
         // paint track
-        p.fillRect(0, h / 2 - 3, w, LIGHTSIZE, QBrush(Qt::black));
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
         
         // paint track lights
         if (trackindicatoroff == 1) {
@@ -5770,14 +5770,14 @@ void element::setupElementIcon()
         int h = background.height();
         
         // paint track
-        p.fillRect(0, h / 2 - 3, w, LIGHTSIZE, QBrush(Qt::black));
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
         
         p.save();
         p.translate(w / 2, h / 2);
 
         p.rotate(-SANGLE);
 
-        p.setPen(QPen(Qt::black, LIGHTSIZE));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(0, 0, w / 2 + 5, 0);
         p.restore();
 
@@ -5904,14 +5904,14 @@ void element::setupElementIcon()
         int h = background.height();
         
         // paint track
-        p.fillRect(0, h / 2 - 3, w, LIGHTSIZE, QBrush(Qt::black));
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
         
         p.save();
         p.translate(w / 2, h / 2);
 
         p.rotate(WANGLE);
 
-        p.setPen(QPen(Qt::black, LIGHTSIZE));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(0, 0, w / 2 + 5, 0);
         p.restore();
 
@@ -6038,14 +6038,14 @@ void element::setupElementIcon()
         int h = background.height();
         
         // paint track
-        p.fillRect(0, h / 2 - 3, w, LIGHTSIZE, QBrush(Qt::black));
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
         
         p.save();
         p.translate(w / 2, h / 2);
 
         p.rotate(-WANGLE);
 
-        p.setPen(QPen(Qt::black, LIGHTSIZE));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(0, 0, w / 2 + 5, 0);
         p.restore();
 
@@ -6172,14 +6172,14 @@ void element::setupElementIcon()
         int h = background.height();
         
         // paint track
-        p.fillRect(0, h / 2 - 3, w, LIGHTSIZE, QBrush(Qt::black));
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
         
         p.save();
         p.translate(w / 2, h / 2);
 
         p.rotate(SANGLE);
 
-        p.setPen(QPen(Qt::black, LIGHTSIZE));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(0, 0, w / 2 + 5, 0);
         p.restore();
 
@@ -6306,14 +6306,14 @@ void element::setupElementIcon()
         int h = background.height();
         
         // paint track
-        p.fillRect(0, h / 2 - 3, w / 2, LIGHTSIZE, QBrush(Qt::black));
+        p.fillRect(0, h / 2 - 3, w / 2, 7, QBrush(Qt::black));
  
         p.save();
         p.translate(w / 2, h / 2);
 
         p.rotate(-WANGLE);
 
-        p.setPen(QPen(Qt::black, LIGHTSIZE));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(-w / 2 - 5, 0, w / 2 + 5, 0);
         p.restore();
 
@@ -6446,14 +6446,14 @@ void element::setupElementIcon()
         int h = background.height();
         
         // paint track
-        p.fillRect(w / 2, h / 2 - 3, w, LIGHTSIZE, QBrush(Qt::black));
+        p.fillRect(w / 2, h / 2 - 3, w, 7, QBrush(Qt::black));
  
         p.save();
         p.translate(w / 2, h / 2);
 
         p.rotate(SANGLE);
 
-        p.setPen(QPen(Qt::black, LIGHTSIZE));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(-w / 2 - 5, 0, w / 2 + 5, 0);
         p.restore();
 
@@ -6587,14 +6587,14 @@ void element::setupElementIcon()
         int h = background.height();
         
         // paint track
-        p.fillRect(w / 2, h / 2 - 3, w, LIGHTSIZE, QBrush(Qt::black));
+        p.fillRect(w / 2, h / 2 - 3, w, 7, QBrush(Qt::black));
  
         p.save();
         p.translate(w / 2, h / 2);
 
         p.rotate(-SANGLE);
 
-        p.setPen(QPen(Qt::black, LIGHTSIZE));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(-w / 2 - 5, 0, w / 2 + 5, 0);
         p.restore();
 
@@ -6728,14 +6728,14 @@ void element::setupElementIcon()
         int h = background.height();
 
         // paint track
-        p.fillRect(0, h / 2 - 3, w / 2, LIGHTSIZE, QBrush(Qt::black));
+        p.fillRect(0, h / 2 - 3, w / 2, 7, QBrush(Qt::black));
 
         p.save();
         p.translate(w / 2, h / 2);
 
         p.rotate(WANGLE);
 
-        p.setPen(QPen(Qt::black, LIGHTSIZE));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(-w / 2 - 5, 0, w / 2 + 5, 0);
         p.restore();
 
@@ -6870,7 +6870,7 @@ void element::setupElementIcon()
         // paint track
         p.save();
         p.translate(w / 2, h / 2);
-        p.setPen(QPen(Qt::black, LIGHTSIZE));
+        p.setPen(QPen(Qt::black, 7));
 
         p.drawLine(-w / 2, 0, 0, 0);
         p.rotate(-SANGLE);
@@ -7013,7 +7013,7 @@ void element::setupElementIcon()
         // paint track
         p.save();
         p.translate(w / 2, h / 2);
-        p.setPen(QPen(Qt::black, LIGHTSIZE));
+        p.setPen(QPen(Qt::black, 7));
 
         p.drawLine(0, 0, w / 2, 0);
         p.rotate(WANGLE);
@@ -7152,11 +7152,11 @@ void element::setupElementIcon()
         int h = background.height();
         
         // paint track
-        p.fillRect(0, h / 2 - 3, w, LIGHTSIZE, QBrush(Qt::black));
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
         
         p.save();
         p.translate(w / 2, h / 2);
-        p.setPen(QPen(Qt::black, LIGHTSIZE));
+        p.setPen(QPen(Qt::black, 7));
 
         p.rotate(-SANGLE);
         p.drawLine(0, 0, w / 2 + 5, 0);
@@ -7315,11 +7315,11 @@ void element::setupElementIcon()
         int h = background.height();
         
         // paint track
-        p.fillRect(0, h / 2 - 3, w, LIGHTSIZE, QBrush(Qt::black));
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
         
         p.save();
         p.translate(w / 2, h / 2);
-        p.setPen(QPen(Qt::black, LIGHTSIZE));
+        p.setPen(QPen(Qt::black, 7));
 
         p.rotate(WANGLE);
         p.drawLine(0, 0, w / 2 + 5, 0);
@@ -7523,7 +7523,7 @@ void element::setupElementIcon()
 
         // paint track
         // vertical section
-        p.fillRect(w / 2 - 3, 0, LIGHTSIZE, h, QBrush(Qt::black));
+        p.fillRect(w / 2 - 3, 0, 7, h, QBrush(Qt::black));
 
         // paint track lights
         if (trackindicatoroff == 1) {
@@ -7547,8 +7547,8 @@ void element::setupElementIcon()
         }
 
         // horizontal sections
-        p.fillRect(0, h / 2 - 3, tracklen, LIGHTSIZE, QBrush(Qt::black));
-        p.fillRect(w - tracklen + 1, h / 2 - 3, tracklen -1, LIGHTSIZE,
+        p.fillRect(0, h / 2 - 3, tracklen, 7, QBrush(Qt::black));
+        p.fillRect(w - tracklen + 1, h / 2 - 3, tracklen -1, 7,
                 QBrush(Qt::black));
 
         // translate origin to center of pixmap
@@ -7576,7 +7576,7 @@ void element::setupElementIcon()
 
         // paint track
         // horizontal section
-        p.fillRect(0, h / 2 - 3, w, LIGHTSIZE, QBrush(Qt::black));
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
 
         // paint track lights
         if (trackindicatoroff == 1) {
@@ -7600,8 +7600,8 @@ void element::setupElementIcon()
         }
 
         // vertical sections
-        p.fillRect(w / 2 - 3, 0, LIGHTSIZE, tracklen, QBrush(Qt::black));
-        p.fillRect(w / 2 - 3, h - tracklen, LIGHTSIZE, tracklen, QBrush(Qt::black));
+        p.fillRect(w / 2 - 3, 0, 7, tracklen, QBrush(Qt::black));
+        p.fillRect(w / 2 - 3, h - tracklen, 7, tracklen, QBrush(Qt::black));
         
         // translate origin to center of pixmap
         p.translate(w / 2, h / 2);
@@ -7630,7 +7630,7 @@ void element::setupElementIcon()
         int tracklen = w / 2 + 5;
 
         // paint long diagonal track
-        p.setPen(QPen(Qt::black, LIGHTSIZE));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(0, 0, w, h - 1);
 
         // paint track lights
@@ -7698,7 +7698,7 @@ void element::setupElementIcon()
         int tracklen = w / 2 + 5;
 
         // paint long diagonal track
-        p.setPen(QPen(Qt::black, LIGHTSIZE));
+        p.setPen(QPen(Qt::black, 7));
         p.drawLine(0, h - 1, w, 0);
 
         // paint track lights
@@ -7779,7 +7779,7 @@ void element::setupElementIcon()
             p.rotate(WANGLE);
         
         // paint track
-        p.fillRect(0, -3, -tracklen, LIGHTSIZE, QBrush(Qt::black));
+        p.fillRect(0, -3, -tracklen, 7, QBrush(Qt::black));
         
         // paint shed
         p.setBrush(QColor(192, 0 ,0));
@@ -7814,7 +7814,7 @@ void element::setupElementIcon()
             p.rotate(SANGLE);
         
         // paint track
-        p.fillRect(0, -3, -tracklen, LIGHTSIZE, QBrush(Qt::black));
+        p.fillRect(0, -3, -tracklen, 7, QBrush(Qt::black));
         
         // paint shed
         p.setBrush(QColor(192, 0 ,0));
@@ -7842,7 +7842,7 @@ void element::setupElementIcon()
         int shedyoffset = 0;
 
         // paint track
-        p.fillRect(0, -3, -tracklen, LIGHTSIZE, QBrush(Qt::black));
+        p.fillRect(0, -3, -tracklen, 7, QBrush(Qt::black));
         
         // paint schuppen
         p.setBrush(QColor(192, 0 ,0));
@@ -7870,7 +7870,7 @@ void element::setupElementIcon()
         p.rotate(180.0);
         
         // paint track
-        p.fillRect(0, -3, -tracklen, LIGHTSIZE, QBrush(Qt::black));
+        p.fillRect(0, -3, -tracklen, 7, QBrush(Qt::black));
         
         // paint schuppen
         p.setBrush(QColor(192, 0 ,0));
@@ -7888,8 +7888,8 @@ void element::setupElementIcon()
         int h = background.height();
 
         // paint track
-        p.fillRect(0, h / 2 - 3, 4, LIGHTSIZE, QBrush(Qt::black));
-        p.fillRect(w - 4, h / 2 - 3, 4, LIGHTSIZE,
+        p.fillRect(0, h / 2 - 3, 4, 7, QBrush(Qt::black));
+        p.fillRect(w - 4, h / 2 - 3, 4, 7,
                 QBrush(Qt::black));
 
         // paint table icon
@@ -7927,17 +7927,17 @@ void element::setupElementIcon()
         // paint track s
         int tracklen = w / 4;
         int startx = -h / 2;
-        p.fillRect(startx, -3, -tracklen, LIGHTSIZE, QBrush(Qt::black));
+        p.fillRect(startx, -3, -tracklen, 7, QBrush(Qt::black));
         p.rotate(SANGLE);
-        p.fillRect(startx, -3, -tracklen - 1, LIGHTSIZE, QBrush(Qt::black));
+        p.fillRect(startx, -3, -tracklen - 1, 7, QBrush(Qt::black));
         p.rotate(-2 * SANGLE);
-        p.fillRect(startx, -3, -tracklen - 1, LIGHTSIZE, QBrush(Qt::black));
+        p.fillRect(startx, -3, -tracklen - 1, 7, QBrush(Qt::black));
         p.rotate(180.0);
-        p.fillRect(startx, -3, -tracklen - 1, LIGHTSIZE, QBrush(Qt::black));
+        p.fillRect(startx, -3, -tracklen - 1, 7, QBrush(Qt::black));
         p.rotate(SANGLE);
-        p.fillRect(startx, -3, -tracklen, LIGHTSIZE, QBrush(Qt::black));
+        p.fillRect(startx, -3, -tracklen, 7, QBrush(Qt::black));
         p.rotate(SANGLE);
-        p.fillRect(startx, -3, -tracklen - 1, LIGHTSIZE, QBrush(Qt::black));
+        p.fillRect(startx, -3, -tracklen - 1, 7, QBrush(Qt::black));
 
         // paint icon
         p.setBrush(Qt::darkGray);
@@ -7947,7 +7947,7 @@ void element::setupElementIcon()
         // turning track, may be animated later
         p.setBrush(Qt::white);
         p.rotate(-180.0 -SANGLE/2);
-        p.drawRect(-h / 2 + 2, -3, h - 4, LIGHTSIZE);
+        p.drawRect(-h / 2 + 2, -3, h - 4, 7);
         p.drawLine(-h / 2 + 2, 0, h / 2 - 2, 0);
         p.drawRect(6, -6, 6, 3);
 

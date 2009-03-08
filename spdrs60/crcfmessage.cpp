@@ -1,10 +1,10 @@
 /***************************************************************************
                            crcfmessage.cpp
-                           version 0.5.3 $Revision: 1.9 $
+                           version 0.5.3 $Revision: 1.10 $
                            -------------------------------
     copyright            : (C) 2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-07 19:13:18 $
+    last modified        : $Date: 2009-03-08 08:24:06 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -43,7 +43,7 @@ CrcfMessage::CrcfMessage(CrcfActor cac, unsigned int aid, CrcfMethod cme,
 
 /*constructor with string attribute value*/
 CrcfMessage::CrcfMessage(CrcfActor cac, unsigned int aid, CrcfMethod cme,
-        CrcfAttribute cat, const QString valuestr)
+        CrcfAttribute cat, const QString& valuestr)
 {
     actor = cac;
     actor_id = aid;
@@ -339,7 +339,7 @@ QString CrcfMessage::message(CrcfActor cac, unsigned int aid, CrcfMethod cme,
 /* Static assemble CRCF message string, string attribute value.
  * The value string gets URL encoded.*/
 QString CrcfMessage::message(CrcfActor cac, unsigned int aid, CrcfMethod cme,
-        CrcfAttribute cat, const QString valuestr)
+        CrcfAttribute cat, const QString& valuestr)
 {
     QString result;
     QString crcfurl;

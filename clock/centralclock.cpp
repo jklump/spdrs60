@@ -21,10 +21,6 @@
 #include <math.h>
 #include "centralclock.h"
 
-#define BACKGROUND white
-#define TICKS black
-#define HANDS TICKS        // normally same colour for tickmarks and hands
-#define SECOND_HAND red
 
 
 AnalogClock::AnalogClock(QWidget *parent, const char *name)
@@ -35,7 +31,7 @@ AnalogClock::AnalogClock(QWidget *parent, const char *name)
     connect(secondTimer, SIGNAL(timeout()), SLOT(timeout()));
     secondTimer->start(100);		        // emit signal every second
 
-    setBackgroundColor(BACKGROUND);
+    setBackgroundColor(Qt::white);
     setMinimumWidth (110);
     setMinimumHeight(110);
 }
@@ -57,8 +53,8 @@ void AnalogClock::paintEvent(QPaintEvent *)	// paint clock
 
     QPointArray pts;
     QPainter paint(this);
-    paint.setBrush(TICKS);	                // set color for tickmarks
-    paint.setPen(TICKS);	                // set color for tickmarks
+    paint.setBrush(Qt::black);	                // set color for tickmarks
+    paint.setPen(Qt::black);	                // and hands
 
     QPoint cp = rect().center();		// widget center point
     int d = QMIN(width(), height());		// we want a circular clock
@@ -78,8 +74,6 @@ void AnalogClock::paintEvent(QPaintEvent *)	// paint clock
     }
 
     // draw hour hand
-    paint.setBrush(HANDS);              // set color for minute and hour hand
-    paint.setBrush(TICKS);              // set color for minute and hour hand
     float h_angle = 30 * (time.hour() % 12 - 3) + time.minute() / 2;
     matrix.rotate(h_angle);			// rotate to draw hour hand
     paint.setWorldMatrix(matrix);
@@ -96,8 +90,8 @@ void AnalogClock::paintEvent(QPaintEvent *)	// paint clock
     matrix.rotate(-m_angle);			// rotate back to zero
 
     // draw second hand
-    paint.setBrush(SECOND_HAND);
-    paint.setPen(SECOND_HAND);	        // fill with foreground color
+    paint.setBrush(Qt::red);
+    paint.setPen(Qt::red);	        // fill with foreground color
     float s_angle = (time.second() - 15) * 6;
     matrix.rotate(s_angle);			// rotate to draw second hand
     paint.setWorldMatrix(matrix);
@@ -111,10 +105,10 @@ void AnalogClock::paintEvent(QPaintEvent *)	// paint clock
     if (time.second() != time.minute() &&
             time.second() != 5 * (time.hour() % 12) +
             roundf((float)time.minute() / 12.0))
-        paint.setBrush(BACKGROUND);
+        paint.setBrush(Qt::white);
     else
-        paint.setBrush(HANDS);
-    paint.setPen(QPen(SECOND_HAND, 2, SolidLine));
+        paint.setBrush(Qt::black);
+    paint.setPen(QPen(Qt::red, 2, Qt::SolidLine));
     paint.drawEllipse(300, -25, 50, 50);
     matrix.rotate(-s_angle);			// rotate back to zero
 }
