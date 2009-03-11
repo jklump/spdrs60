@@ -1,14 +1,11 @@
 spdrs60-0.5.5 (2009-03-??)
+
+  Fixed Bugs
+
   o Fixed routing over element, if track indicator is off and
     configured feedback contact is occupied.
 
   o Fixed route withdrawal by spacebar hit for reserved routes.
-
-  o Show error message if start signal is in stop position while
-    recorded.
-
-  o Set start signals back to stop position if route selection is
-    changed in route edit mode.
 
   o Fixed missing set of "file is modified" flag for drag-and-drop
     actions.
@@ -37,6 +34,17 @@ spdrs60-0.5.5 (2009-03-??)
 
   o In element proterties dialog feedback options now are disabled for
     level crossing element.
+
+
+  New Features
+
+  o Show error message if start signal is in stop position while
+    recorded.
+
+  o Set start signals back to stop position if route selection is
+    changed in route edit mode.
+
+  o Drag and Drop of feedback contacts to layout elements implemented.
 
 
 spdrs60-0.5.4 (2008-11-30)

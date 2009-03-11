@@ -1,10 +1,10 @@
 /***************************************************************************
                            feedbackmodule.cpp
-                           version 0.5.5 $Revision: 1.10 $
+                           version 0.5.5 $Revision: 1.11 $
                            -------------------------------
     copyright            : (C) 2006-2009 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-03-07 12:49:36 $
+    last modified        : $Date: 2009-03-11 19:36:38 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -25,6 +25,7 @@
 
 #include "feedbackmodule.h"
 
+
 enum {
     FBM16WIDTH = 140,
     FBM8WIDTH = 80,
@@ -32,11 +33,15 @@ enum {
 };
 
 
-FeedbackModule::FeedbackModule(QListBox* listbox): QListBoxItem(listbox)
+FeedbackModule::FeedbackModule(QListBox* listbox, unsigned int b)
+: QListBoxItem(listbox)
 {
     moduleType = fbm16;
     id = 0;
     ocstate = 0;
+    fbc.bus = b;
+    fbc.contact = 0;
+    fbc.state = false;
     setSelectable(false);
 }
 
@@ -222,4 +227,61 @@ void FeedbackModule::processSrcpMessage(message)
 {
 }
 */
+
+bool FeedbackModule::isContactPosition16(const QPoint& pos)
+{
+    bool result = false;
+    QRect br;
+
+    //first top row
+    for (int i = 0; i < 8; i++) {
+        br = QRect(13 + i * 15, 4, 8, 8);
+        if (br.contains(pos)) {
+            result = true;
+            fbc.contact = i + 1 + (id - 1) * 16;
+            unsigned int bit = 1u << i;
+            fbc.state = (ocstate & bit) == bit;
+            break;
+        }
+    }
+
+    //if not matched, bottom row
+    if (!result) {
+        for (int i = 0; i < 8; i++) {
+            br = QRect(13 + i * 15, FBMHEIGHT - 12, 8, 8);
+            if (br.contains(pos)) {
+                result = true;
+                fbc.contact = i + 8 + 1 + (id - 1) * 16;
+                unsigned int bit = 1u << (i + 8);
+                fbc.state = (ocstate & bit) == bit;
+                break;
+            }
+        }
+    }
+
+    return result;
+}
+
+
+bool FeedbackModule::isContactPosition8(const QPoint& pos)
+{
+    return true;
+}
+
+
+bool FeedbackModule::isContactPosition(const QPoint& pos)
+{
+    if (moduleType == fbm16)
+        return isContactPosition16(pos);
+    else
+        return isContactPosition8(pos);
+}
+
+
+bool FeedbackModule::getContactData(QByteArray& data)
+{
+    data.resize(sizeof(fbc));
+    memcpy(data.data(), &fbc, sizeof(fbc));
+    return fbc.state;
+}
 

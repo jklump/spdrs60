@@ -1,10 +1,10 @@
 /***************************************************************************
                            feedbacklistbox.h
-                           version 0.5.2 $Revision: 1.5 $
+                           version 0.5.2 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 2006-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2009-03-11 19:36:38 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -33,7 +33,8 @@ class FeedbackListBox: public QListBox
     Q_OBJECT
         
 public:
-    FeedbackListBox(QWidget* parent=0, const char* name=0);
+    FeedbackListBox(QWidget* parent = 0, const char* name = 0,
+            unsigned int b = 1);
     void updateModuleSetup(int, unsigned int);
     
 public slots:
@@ -43,10 +44,18 @@ public slots:
 signals:
     
 private:
+    unsigned int bus;
+    QPoint presspos;
+    bool mousePressed;
     FeedbackModule::ModuleType moduleType;
+
     void updateModuleNumber(unsigned int);
     void updateModulesType();
 
+protected:
+    void contentsMousePressEvent(QMouseEvent*);
+    void contentsMouseReleaseEvent(QMouseEvent*);
+    void contentsMouseMoveEvent(QMouseEvent*);
 };
 #endif // FEEDBACKLISTBOX_H
 

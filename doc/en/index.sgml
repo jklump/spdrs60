@@ -201,6 +201,11 @@ Release date: 2009-03-14
             disabled for level crossing element.
     </para></listitem>
 
+    <listitem><para>
+            Drag and Drop of feedback contacts to layout elements
+            implemented.
+    </para></listitem>
+
 </itemizedlist>
 </sect2>
 

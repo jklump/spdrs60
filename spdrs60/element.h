@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 by Guido Scholz
     e-mail               : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-02-21 12:22:10 $
-                           $Revision: 1.105 $
+    last modified        : $Date: 2009-03-11 19:36:38 $
+                           $Revision: 1.106 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -154,7 +154,8 @@ enum elemSelectionMode {
     ksmStartSig,
     ksmDisplay,
     ksmSwitchEl,
-    ksmFoundEl
+    ksmFoundEl,
+    ksmDropTarget
 };
 
 /*element visual modes, shown as colored right and bottom line*/
@@ -343,6 +344,8 @@ public:
     element::SpdrItemClassId classId();
     unsigned int entryDir();
     void setTableLight(bool);
+    void setDropTargetView(bool);
+    void setDroppedFbContact(QByteArray&);
 
 private:
     elementCommander*   turntableProperties;

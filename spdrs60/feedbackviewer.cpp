@@ -1,10 +1,10 @@
 /***************************************************************************
                            feedbackviewer.cpp
-                           version 0.5.2 $Revision: 1.4 $
+                           version 0.5.2 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 2006-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2009-03-11 19:36:38 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -124,14 +124,14 @@ void FeedbackViewer::updateBusAndModuleStructure()
 
 void FeedbackViewer::addTab1()
 {
-    fbLB1 = new FeedbackListBox(fbTW, "fbmodlist1");
+    fbLB1 = new FeedbackListBox(fbTW, "fbmodlist1", pref.fbbus1.number);
     fbLB1->updateModuleSetup(pref.fbfactor, pref.fbbus1.modules);
     fbTW->addTab(fbLB1, tr("Bus &%1").arg(pref.fbbus1.number));
 }
 
 void FeedbackViewer::addTab2()
 {
-    fbLB2 = new FeedbackListBox(fbTW, "fbmodlist2");
+    fbLB2 = new FeedbackListBox(fbTW, "fbmodlist2", pref.fbbus2.number);
     fbLB2->updateModuleSetup(pref.fbfactor, pref.fbbus2.modules);
     fbTW->addTab(fbLB2, tr("Bus &%1").arg(pref.fbbus2.number));
 }
@@ -148,7 +148,7 @@ void FeedbackViewer::removeTab2()
 
 void FeedbackViewer::addTab3()
 {
-    fbLB3 = new FeedbackListBox(fbTW, "fbmodlist3");
+    fbLB3 = new FeedbackListBox(fbTW, "fbmodlist3", pref.fbbus3.number);
     fbLB3->updateModuleSetup(pref.fbfactor, pref.fbbus3.modules);
     fbTW->addTab(fbLB3, tr("Bus &%1").arg(pref.fbbus3.number));
 }
@@ -165,7 +165,7 @@ void FeedbackViewer::removeTab3()
 
 void FeedbackViewer::addTab4()
 {
-    fbLB4 = new FeedbackListBox(fbTW, "fbmodlist4");
+    fbLB4 = new FeedbackListBox(fbTW, "fbmodlist4", pref.fbbus4.number);
     fbLB4->updateModuleSetup(pref.fbfactor, pref.fbbus4.modules);
     fbTW->addTab(fbLB4, tr("Bus &%1").arg(pref.fbbus4.number));
 }

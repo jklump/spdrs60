@@ -278,6 +278,12 @@ Veröffentlicht am 14.03.2009
             Rückmeldekontakten abgeschaltet.
     </para></listitem>
 
+    <listitem><para>
+            Die Zuordnung von Rückmeldekontakten läßt sich nun über
+            einen Drag-and-Drop-Mechanismus von der
+            Rückmeldemodulübersicht auf das Gleisbild vornehmen.
+    </para></listitem>
+
 </itemizedlist>
 </sect1>
   

@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.5.3 $Revision: 1.55 $
+                           version 0.5.3 $Revision: 1.56 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-23 21:05:25 $
+    last modified        : $Date: 2009-03-11 19:36:38 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -118,6 +118,7 @@ private:
    elemVisualMode visualMode;
    LayoutEditMode lyeditMode;
    element::SpdrItemClassId paintItem;
+   element* lastelement;
 
    // for SRCP 0.8
    unsigned int SRCP08GA1InitWalker;
@@ -169,12 +170,12 @@ protected:
     bool painting;
     unsigned int indexOf(int row, int col) const;
     unsigned int indexOf(QPoint) const;
-    void mousePressEvent(QMouseEvent *);
-    void mouseMoveEvent(QMouseEvent *);
-    void mouseReleaseEvent(QMouseEvent *);
+    void mousePressEvent(QMouseEvent*);
+    void mouseMoveEvent(QMouseEvent*);
+    void mouseReleaseEvent(QMouseEvent*);
     void paintEvent(QPaintEvent*);
-    void dragEnterEvent(QDragEnterEvent* e);
-    void dropEvent(QDropEvent *);
+    void dragMoveEvent(QDragMoveEvent*);
+    void dropEvent(QDropEvent*);
 
 signals:
     void statusMessage(const QString&);

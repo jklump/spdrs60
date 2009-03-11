@@ -1,5 +1,5 @@
 /****************************************************************************
-** $Id: main.cpp,v 1.1 2005-01-26 21:29:31 gscholz Exp $
+** $Id: main.cpp,v 1.2 2009-03-11 19:36:37 gscholz Exp $
 **
 ** Copyright (C) 1992-1998 Troll Tech AS.  All rights reserved.
 **
@@ -9,8 +9,9 @@
 *****************************************************************************/
 /* this file is derived from the qt 'aclock' example */
 
-#include "centralclock.h"
 #include <qapplication.h>
+
+#include "centralclock.h"
 
 
 int main(int argc, char **argv)

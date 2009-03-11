@@ -1,10 +1,10 @@
 /***************************************************************************
                            feedbacklistbox.cpp
-                           version 0.5.2 $Revision: 1.4 $
+                           version 0.5.2 $Revision: 1.5 $
                            -------------------------------
     copyright            : (C) 2006-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-02-17 07:23:32 $
+    last modified        : $Date: 2009-03-11 19:36:38 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -20,12 +20,19 @@
    This code handles a list of feedback modules 
  ***************************************************************************/
 
+#include <qapplication.h>
+#include <qdragobject.h>
 
 #include "feedbacklistbox.h"
+#include "resources.h"
+
+#include "pixmaps/feedback_red.xpm"
+#include "pixmaps/feedback_white.xpm"
 
 
 FeedbackListBox::FeedbackListBox(QWidget* parent,
-        const char* name): QListBox(parent, name)
+        const char* name, unsigned int b): QListBox(parent, name),
+    bus(b), mousePressed(false)
 {
     setRowMode(FitToHeight);
     setSelectionMode(NoSelection);
@@ -77,7 +84,7 @@ void FeedbackListBox::updateModuleNumber(unsigned int mc)
         // add some modules
         delta = mc - count();
         for (i = 0; i < delta; i++) {
-            fbm = new FeedbackModule(this);
+            fbm = new FeedbackModule(this, bus);
             fbm->setId(count());
             fbm->setModuleType(moduleType);
         }
@@ -102,9 +109,50 @@ void FeedbackListBox::updateFeedbackPortState(unsigned int contact, bool state)
 }
 
 
-/*
-void FeedbackListBox::processSrcpMessage(message)
+void FeedbackListBox::contentsMousePressEvent(QMouseEvent* e)
 {
+    QListBox::contentsMousePressEvent(e);
+    QPoint p(contentsToViewport(e->pos()));
+    QListBoxItem* i = itemAt(p);
+    if (i != NULL) {
+        QRect r = itemRect(i);
+        if (dynamic_cast<FeedbackModule*>(i)->isContactPosition(
+                    QPoint(p.x() - r.x(), p.y() - r.y()))) {
+            presspos = e->pos();
+            mousePressed = true;
+        }
+    }
 }
-stBoxItem * firstItem () const*/
+
+
+void FeedbackListBox::contentsMouseReleaseEvent(QMouseEvent*)
+{
+    mousePressed = false;
+}
+
+
+void FeedbackListBox::contentsMouseMoveEvent(QMouseEvent* e)
+{
+    QByteArray data;
+    bool occupied = false;
+
+    QPoint p(contentsToViewport(e->pos())); //presspos?
+    if (mousePressed && (presspos - e->pos()).manhattanLength()
+            > QApplication::startDragDistance()) {
+        mousePressed = false;
+        QListBoxItem* i = itemAt(p);
+        if (i != NULL) {
+            occupied = dynamic_cast<FeedbackModule*>(i)->getContactData(data);
+            if (data.size() > 0) {
+                QStoredDrag* d = new QStoredDrag(MIME_FBC, this, "spdrs60-fbc");
+                d->setEncodedData(data);
+                if (occupied)
+                    d->setPixmap(QPixmap(feedback_red_xpm));
+                else
+                    d->setPixmap(QPixmap(feedback_white_xpm));
+                d->dragMove();
+            }
+        }
+    }
+}
 

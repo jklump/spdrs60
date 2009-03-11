@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-03-07 12:49:36 $
-                           $Revision: 1.117 $
+    last modified        : $Date: 2009-03-11 19:36:38 $
+                           $Revision: 1.118 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -71,8 +71,6 @@ enum {
     CTX_ID_TOGGLE = 900
 };
 
-// mime type for layout elements
-static const char MIME_LE[] = "application/x-spdrs60-le";
 
 
 GBSArea::GBSArea(QWidget* parent, const char* name)
@@ -83,6 +81,7 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
     visualMode = kvmNormal;
     lyeditMode = lemSelect;
     paintItem = element::siciSt1;
+    lastelement = NULL;
     modified = false;
     cols = 0;
     rows = 0;
@@ -1661,12 +1660,48 @@ void GBSArea::mouseMoveEvent(QMouseEvent* e)
 /**
  * give feedback if this widget cares about the offered data
  * */
-void GBSArea::dragEnterEvent(QDragEnterEvent* e)
+void GBSArea::dragMoveEvent(QDragMoveEvent* e)
 {
     if (visualMode == kvmEditLayout) {
         //TODO: enable DnD between different windows
-        if (e->provides(MIME_LE) && e->source() == this) {
+        if (e->provides(MIME_LE) && e->source() == this)
             e->accept();
+
+        else if (e->provides(MIME_FBC)) {
+            element* el = (element*)childAt(e->pos());
+            
+            if (el == NULL) {
+                if (lastelement != NULL) {
+                    lastelement->switchSelectionMode(ksmNormal);
+                    lastelement = NULL;
+                    e->ignore();
+                }  
+                return;
+            }
+            
+            if (el->isRoutable()) {
+                if (lastelement != NULL) {
+                    if (lastelement != el) {
+                        lastelement->setDropTargetView(false);
+                        lastelement = NULL;
+                        el->setDropTargetView(true);
+                        lastelement = el;
+                        e->accept();
+                    }
+                }
+                else {
+                    el->setDropTargetView(true);
+                    lastelement = el;
+                    e->accept();
+                }
+            }
+            else {
+                if (lastelement != NULL) {
+                    lastelement->setDropTargetView(false);
+                    lastelement = NULL;
+                    e->ignore();
+                }  
+            }
         }
     }
 }
@@ -1678,25 +1713,41 @@ void GBSArea::dropEvent(QDropEvent *e)
 {
     if (visualMode == kvmEditLayout) {
 
-        // decode data and insert element
-        QByteArray data = e->encodedData(MIME_LE);
-        unsigned int idx = 0;
+        if (e->provides(MIME_LE)) {
+            // decode data and insert element
+            QByteArray data = e->encodedData(MIME_LE);
+            unsigned int idx = 0;
 
-        if (data.size() != sizeof(idx))
-            return;
-        
-        memcpy(&idx, data.data(), sizeof(idx));
-        
-        // move element from old position to new position
-        element* el = elements.take(idx);
-        if (el != NULL) {
-            unsigned int pidx = indexOf(e->pos());
-            el->setIndexNo(pidx);
-            moveElementToIndexPos(el, pidx);
-            elements.insert(pidx, el);
-            modified = true;
+            if (data.size() != sizeof(idx))
+                return;
+
+            memcpy(&idx, data.data(), sizeof(idx));
+
+            // move element from old position to new position
+            element* el = elements.take(idx);
+            if (el != NULL) {
+                unsigned int pidx = indexOf(e->pos());
+                el->setIndexNo(pidx);
+                moveElementToIndexPos(el, pidx);
+                elements.insert(pidx, el);
+                modified = true;
+            }
+            e->accept();
         }
-        e->accept();
+
+        else if (e->provides(MIME_FBC)) {
+            if (lastelement != NULL) {
+                lastelement->setDropTargetView(false);
+                lastelement = NULL;
+            }  
+            element* el = (element*)childAt(e->pos());
+            if (el != NULL && el->isRoutable()) {
+                QByteArray data = e->encodedData(MIME_FBC);
+                el->setDroppedFbContact(data);
+                modified = true;
+            }
+            e->accept();
+        }
     }
 }
 

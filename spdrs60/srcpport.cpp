@@ -2,8 +2,8 @@
  srcpport.cpp
  ------------
  Begin        : 17.08.2007
- Last modified: $Date: 2008-11-05 08:42:40 $
-                $Revision: 1.8 $
+ Last modified: $Date: 2009-03-11 19:36:38 $
+                $Revision: 1.9 $
  Copyright    : (C) 2007-2008 by Guido Scholz <guido.scholz@bayernline.de>
  Description  : Abstract class for network communication with SRCP server.
                 Communication styles SRCP 0.7 and 0.8 are supported.
@@ -152,6 +152,15 @@ void SrcpPort::setCommunicationStyle(CommunicationStyle style)
 }
 
 /*
+ * return presetted srcp state; SRCP 0.7 info port jumps directly to run
+ * state
+ */
+void SrcpPort::setPresetState()
+{
+    srcpState = sLogin;
+}
+
+/*
  * initiate server connection and start handshake phase
  */
 void SrcpPort::serverConnect()
@@ -159,13 +168,7 @@ void SrcpPort::serverConnect()
     emit statusMessage(tr("%1: Try to connect host '%2' on port '%3'")
             .arg(getConnectionMode()).arg(host).arg(port));
 
-    if (commStyle == csOld) {
-        srcpState = sRun;
-        currentStyle = csOld;
-    }
-    else
-        srcpState = sLogin;
-
+    setPresetState();
     srcpSocket->connectToHost(host, port);
 }
 
@@ -235,7 +238,7 @@ void SrcpPort::readData()
         // normal operation mode, comes first to be faster
         // incoming messages are send als command messages
         if (srcpState == sRun) {
-            //fprintf(stderr, "Info: %s\n", line.data());
+            //qWarning("Info: %s\n", line.data());
             if ((currentStyle == csNew) && translateservertime)
                 line = translateServerTime(line);
             emit messageReceived(line);
@@ -244,7 +247,7 @@ void SrcpPort::readData()
         // handshake, only initial phase of a new connection
         // incoming messages are send als status messages
         else {
-            //fprintf(stderr, "Login: %s\n", line.data());
+            //qWarning("Login: %s\n", line.data());
             if ((currentStyle == csNew) && translateservertime)
                 line = translateServerTime(line);
             emit statusMessage(line);
@@ -516,7 +519,7 @@ void SrcpPort::sendToServer(const QString& cs)
         if (!cs.endsWith("\n"))
             cmd.append("\n");
 
-        //fprintf(stderr, "Send: %s", cmd.data());
+        //qWarning("Send: %s", cmd.data());
         srcpSocket->writeBlock(cmd, (ulong) cmd.length());
 
         // give application some time to send message

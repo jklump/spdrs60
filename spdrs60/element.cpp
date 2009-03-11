@@ -4,8 +4,8 @@
     Copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-03-08 08:24:06 $
-                           $Revision: 1.189 $
+    last modified        : $Date: 2009-03-11 19:36:38 $
+                           $Revision: 1.190 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -428,7 +428,7 @@ void element::mousePressEvent(QMouseEvent* e)
 {
     /*normal mode*/
     if (visualMode == kvmNormal) {
-        if (e->button() == LeftButton) {
+        if (e->button() == Qt::LeftButton) {
             GbsButtonState ctrlButton = kNoneClicked;
             QPoint CursorPos = mapFromGlobal(QCursor::pos());
 
@@ -549,7 +549,7 @@ void element::mousePressEvent(QMouseEvent* e)
     }
     /*layout edit mode*/
     else if (visualMode == kvmEditLayout) {
-        if (e->button() == LeftButton) {
+        if (e->button() == Qt::LeftButton) {
             /*handled by gbsarea*/
             e->ignore();
         }
@@ -568,7 +568,7 @@ void element::mouseReleaseEvent(QMouseEvent* e)
 {
     /*normal mode*/
     if (visualMode == kvmNormal) {
-        if (e->button() == RightButton) {
+        if (e->button() == Qt::RightButton) {
             // handled by gbsarea
             e->ignore();
         }
@@ -580,7 +580,7 @@ void element::mouseReleaseEvent(QMouseEvent* e)
     }
     /*route edit mode*/
     else if (visualMode == kvmEditRoute) {
-        if (e->button() == LeftButton) {
+        if (e->button() == Qt::LeftButton) {
             /*select/deselect start or stop signal*/
             if (routemark) {
                 /*send record signal to router*/
@@ -591,7 +591,7 @@ void element::mouseReleaseEvent(QMouseEvent* e)
                 e->accept();
             }
         }
-        else if (e->button() == MidButton) {
+        else if (e->button() == Qt::MidButton) {
 
             /*select/deselect switchable element*/
             /*and send record signal to router*/
@@ -624,7 +624,7 @@ void element::mouseReleaseEvent(QMouseEvent* e)
                 e->accept();
             }
         }
-        else if (e->button() == RightButton) {
+        else if (e->button() == Qt::RightButton) {
             // handled by gbsarea
             e->ignore();
         }
@@ -632,7 +632,7 @@ void element::mouseReleaseEvent(QMouseEvent* e)
 
     /*track clear detection / track occupancy detection*/
     else if (visualMode == kvmEditClearance) {
-        if (e->button() == LeftButton) {
+        if (e->button() == Qt::LeftButton) {
 
             /*select/deselect track indicator elements*/
             /*and send record signal to element recorder*/
@@ -648,8 +648,7 @@ void element::mouseReleaseEvent(QMouseEvent* e)
 }
 
 
-void element::slotShowElement(int address, int ns,
-                              elemSelectionMode sm)
+void element::slotShowElement(int address, int ns, elemSelectionMode sm)
 {
     if (address == address1) {
         selectionMode = sm;
@@ -5578,15 +5577,15 @@ void element::setupElementIcon()
         p.drawRect(5, 5, 15, 5);
         p.drawLine(6, 4, 18, 4);
         p.drawLine(6, 10, 18, 10);
-        p.drawLine(5 + 15, LIGHTSIZE, 6 + 16, LIGHTSIZE);
-        p.drawLine(7 + 16, 5, LIGHTSIZE + 16, 9);
-        p.drawLine(7 + 17, 5, LIGHTSIZE + 17, 9);
+        p.drawLine(5 + 15, 7, 6 + 16, 7);
+        p.drawLine(7 + 16, 5, 7 + 16, 9);
+        p.drawLine(7 + 17, 5, 7 + 17, 9);
 
         // paint signal light
         // SH0
         if (state == 0) {
             p.setPen(QPen(Qt::red));
-            p.drawLine(7, 5, LIGHTSIZE, 9);
+            p.drawLine(7, 5, 7, 9);
             p.drawLine(8, 5, 8, 9);
         }
         // SH1
@@ -8004,6 +8003,9 @@ void element::paintEvent(QPaintEvent*)
                 // found: orange
                 c = QColor("DarkOrange");
                 break;
+            case ksmDropTarget:
+                c = QColor(Qt::white);
+                break;
             default:
                 c = QColor(Qt::black);
                 break;
@@ -9684,4 +9686,31 @@ void element::setTableLight(bool ison)
 bool element::showsStop()
 {
     return (signal && (state == 0));
+}
+
+
+void element::setDropTargetView(bool on)
+{
+    if (on)
+        switchSelectionMode(ksmDropTarget);
+    else
+        switchSelectionMode(ksmNormal);
+}
+
+
+void element::setDroppedFbContact(QByteArray& data)
+{
+    //TODO: wrap iFBBusNo, iFBContact, occupied
+    FbContact fbc;
+
+    if (data.size() != sizeof(fbc))
+        return;
+
+    memcpy(&fbc, data.data(), data.size());
+    selectionMode = ksmNormal;
+    iFBBusNo = fbc.bus;
+    iFBContact = fbc.contact;
+    occupied = fbc.state;
+    trackindicatoroff = 0;
+    setupElementIcon();
 }

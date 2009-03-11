@@ -1,11 +1,20 @@
 +++ Release 0.5.5 (2009-03-??) +++
 
+2009-03-11 Guido Scholz <guido.scholz@bayernline.de>
+	* spdrs60/element.*, gbsarea.*, feedbackviewer.cpp,
+	feedbacklistbox.*, feedbackmodule.*, resources.h: Drag and Drop
+	for feedback contacts to layout elements implemented.
+
+2009-03-08 Guido Scholz <guido.scholz@bayernline.de>
+	* spdrs60/srcpport.*, infoport.*: Info port state handling
+	improved for SRCP 0.7 logins (from dtcltiny).
+
 2009-03-07 Guido Scholz <guido.scholz@bayernline.de>
 	* spdrs60/element.cpp: Fixed track indicator light for shunting
 	route state of track button element. Route light for y-turnouts
 	fixed. Label painting of wait signal fixed. Routing over double
 	slip switches with single engine fixed.
-	* spdrs60/elementdialog.cpp: Fixed updating of address line edit
+	* spdrs60/elementdialog.cpp: Fixed updating of address edit line 
 	tooltips. Feedback disabled for level crossing element.
 
 2009-03-01 Guido Scholz <guido.scholz@bayernline.de>

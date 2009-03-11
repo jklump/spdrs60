@@ -36,4 +36,15 @@ enum {
     LEMAXWIDTH = 55
 };
 
+// mime type for feedback contact data
+static const char MIME_FBC[] = "application/x-spdrs60-fbc";
+// mime type for layout elements
+static const char MIME_LE[] = "application/x-spdrs60-le";
+
+struct FbContact {
+    unsigned int bus;
+    unsigned int contact;
+    bool state;
+};
+
 #endif

@@ -2,8 +2,8 @@
  infoport.h
  ------------
  Begin        : 17.08.2007
- Last modified: $Date: 2007-09-04 19:27:47 $
-                $Revision: 1.3 $
+ Last modified: $Date: 2009-03-11 19:36:38 $
+                $Revision: 1.4 $
  Copyright    : (C) 2007 by Guido Scholz <guido.scholz@bayernline.de>
  Description  : Class for info port network communication with a
                 SRCP 0.8 server.
@@ -33,6 +33,7 @@ public:
             CommunicationStyle commstyle = csBoth, bool translate = false);
 
 protected:
+    void setPresetState();
     QString getConnectionMode();
 };
 
