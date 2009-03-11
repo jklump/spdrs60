@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-03-11 19:36:38 $
-                           $Revision: 1.118 $
+    last modified        : $Date: 2009-03-11 21:37:40 $
+                           $Revision: 1.119 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1679,7 +1679,7 @@ void GBSArea::dragMoveEvent(QDragMoveEvent* e)
                 return;
             }
             
-            if (el->isRoutable()) {
+            if (el->canReceiveFbcDrop()) {
                 if (lastelement != NULL) {
                     if (lastelement != el) {
                         lastelement->setDropTargetView(false);
@@ -1741,7 +1741,7 @@ void GBSArea::dropEvent(QDropEvent *e)
                 lastelement = NULL;
             }  
             element* el = (element*)childAt(e->pos());
-            if (el != NULL && el->isRoutable()) {
+            if (el != NULL && el->canReceiveFbcDrop()) {
                 QByteArray data = e->encodedData(MIME_FBC);
                 el->setDroppedFbContact(data);
                 modified = true;

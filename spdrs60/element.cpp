@@ -4,8 +4,8 @@
     Copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-03-11 19:36:38 $
-                           $Revision: 1.190 $
+    last modified        : $Date: 2009-03-11 21:37:40 $
+                           $Revision: 1.191 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -9686,6 +9686,14 @@ void element::setTableLight(bool ison)
 bool element::showsStop()
 {
     return (signal && (state == 0));
+}
+
+
+/*all elements that can receive feedback contact information via
+ * drag-and-drop*/
+bool element::canReceiveFbcDrop()
+{
+    return routable && !(siciBue || siciAdr);
 }
 
 

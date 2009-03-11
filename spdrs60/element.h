@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 by Guido Scholz
     e-mail               : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-03-11 19:36:38 $
-                           $Revision: 1.106 $
+    last modified        : $Date: 2009-03-11 21:37:40 $
+                           $Revision: 1.107 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -346,6 +346,7 @@ public:
     void setTableLight(bool);
     void setDropTargetView(bool);
     void setDroppedFbContact(QByteArray&);
+    bool canReceiveFbcDrop();
 
 private:
     elementCommander*   turntableProperties;

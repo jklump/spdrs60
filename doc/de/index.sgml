@@ -5900,6 +5900,17 @@ einfach über den Reiter am oberen Fensterrand umschalten.
 Alle aktiven, d.h. geschlossenen Kontakte an den
 Modulen sind in dieser Übersicht mit einem roten Quadrat gekennzeichnet.
 </para>
+<para>
+Dieses Modulfenster kann dazu genutzt werden, über ein einfaches
+Drag-and-Drop Rückmeldekontakte den Gleisbildelementen zuzuordnen. Dazu
+klickt man mit der Maus auf den gewünschten Kontakt und zieht diesen bei
+gedrückt gehaltener Maustaste auf das zu konfigurierende
+Gleisbildelement. Beim Loslassen der Maustaste werden die
+Kontaktinformationen (SRCP-Bus, Kontaktnummer und aktueller Belegtstatus)
+auf das Gleiselement übertragen. Dieses Vorgehen ist schneller und
+einfacher, als die Konfiguration über den Dialog für die Einstellungen
+der Gleisbildelemente.
+</para>
 </chapter>
 
 <chapter id="chapter-anschluesse">
