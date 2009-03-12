@@ -1,5 +1,9 @@
 +++ Release 0.5.5 (2009-03-??) +++
 
+2009-03-12 Guido Scholz <guido.scholz@bayernline.de>
+	* spdrs60/route.cpp: Set signals on route back to stop position
+	if route selection is changed in route edit mode.
+
 2009-03-11 Guido Scholz <guido.scholz@bayernline.de>
 	* spdrs60/element.*, gbsarea.*, feedbackviewer.cpp,
 	feedbacklistbox.*, feedbackmodule.*, resources.h: Drag and Drop

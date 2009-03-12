@@ -147,8 +147,8 @@ Release date: 2009-03-14
     </para></listitem>
 
     <listitem><para>
-            Set start signals back to stop position if route selection is
-            changed in route edit mode.
+            Set start signals and signals on route back to stop position
+            if route selection is changed in route edit mode.
     </para></listitem>
 
     <listitem><para>

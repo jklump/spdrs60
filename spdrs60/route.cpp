@@ -1,10 +1,10 @@
 /***************************************************************************
                            route.cpp
-                           version 0.5.5 $Revision: 1.79 $
+                           version 0.5.5 $Revision: 1.80 $
                            -------------------------------
     copyright            : (C) 2004-2009 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-03-07 12:49:36 $
+    last modified        : $Date: 2009-03-12 16:48:56 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -763,8 +763,11 @@ void Route::hideRoute()
 
     while ((swe = it.current()) != 0) {
         ++it;
-        if (swe->elemPtr != NULL)
+        if (swe->elemPtr != NULL) {
             swe->elemPtr->switchSelectionMode(ksmNormal);
+            if (swe->elemPtr->isSignal())
+                swe->elemPtr->switchToDir(0);
+        }
     }
 }
 

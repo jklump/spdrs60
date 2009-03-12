@@ -213,9 +213,9 @@ Veröffentlicht am 14.03.2009
     </para></listitem>
 
     <listitem><para>
-            Startsignale werden nun auf Halt zurückgestellt, wenn im
-            Fahrstraßenbearbeitungsmodus die gewählte Fahrstraße
-            wechselt.
+            Start- und Zwischensignale werden nun auf Halt
+            zurückgestellt, wenn im Fahrstraßenbearbeitungsmodus die
+            gewählte Fahrstraße wechselt.
     </para></listitem>
 
     <listitem><para>
