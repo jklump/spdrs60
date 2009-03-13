@@ -1,10 +1,10 @@
 /***************************************************************************
                            router.cpp
-                           version 0.5.3 $Revision: 1.73 $
+                           version 0.5.3 $Revision: 1.74 $
                            -------------------------------
     Copyright            : (C) 2004-2009 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-02-24 21:01:58 $
+    last modified        : $Date: 2009-03-13 17:18:16 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -278,9 +278,14 @@ void Router::switchVisualMode(elemVisualMode vm)
     if (visualmode == kvmEditLayout)
         updateRouteElements();
 
+    if (visualmode == kvmEditRoute && vm != kvmEditRoute) {
+        if (selectedRoute != NULL) {
+            selectedRoute->hideRoute();
+            selectedRoute = NULL;
+        }
+    }
+
     visualmode = vm;
-    if (vm != kvmEditRoute)
-        selectedRoute = NULL;
 }
 
 

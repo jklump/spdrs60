@@ -4,8 +4,8 @@
     Copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-03-11 21:37:40 $
-                           $Revision: 1.191 $
+    last modified        : $Date: 2009-03-13 17:18:16 $
+                           $Revision: 1.192 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -9693,7 +9693,7 @@ bool element::showsStop()
  * drag-and-drop*/
 bool element::canReceiveFbcDrop()
 {
-    return routable && !(siciBue || siciAdr);
+    return routable && !(classid == siciBue || classid == siciAdr);
 }
 
 
