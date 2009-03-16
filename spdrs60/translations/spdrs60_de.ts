@@ -399,30 +399,6 @@ den Suchkriterien entspricht.</translation>
         <translation>Kein Umschalten möglich; Signal &apos;%1&apos; ist durch eine aktive Fahrstraße gesperrt.</translation>
     </message>
     <message>
-        <source>Layout does not contain a SRCP bus configuration for GAs</source>
-        <translation>Gleisbild enthält keine SRCP-Bus Konfiguration für Magnetartikel (GA)</translation>
-    </message>
-    <message>
-        <source>Layout contains 1 configured GA bus</source>
-        <translation>Gleisbild enthält einen konfigurierten SRCP-Bus für Magnetartikel (GA)</translation>
-    </message>
-    <message>
-        <source>Layout contains %1 configured GA busses</source>
-        <translation>Gleisbild enthält %1 konfigurierte SRCP-Busse für Magnetartikel (GA)</translation>
-    </message>
-    <message>
-        <source>Layout does not contain a SRCP bus configuration for FBs</source>
-        <translation>Gleisbild enthält keine SRCP-Bus Konfiguration für Rückmeldungen (FB)</translation>
-    </message>
-    <message>
-        <source>Layout contains 1 configured FB bus</source>
-        <translation>Gleisbild enthält einen konfigurierten SRCP-Bus für Rückmeldungen (FB)</translation>
-    </message>
-    <message>
-        <source>Layout contains %1 configured FB busses</source>
-        <translation>Gleisbild enthält %1 konfigurierte SRCP-Busse für Rückmeldungen (FB)</translation>
-    </message>
-    <message>
         <source>Signals can not be switched using WGT</source>
         <translation>Signal können mit einer WGT nicht umgeschaltet werden</translation>
     </message>
@@ -517,6 +493,18 @@ den Suchkriterien entspricht.</translation>
     <message>
         <source>Untitled</source>
         <translation>Unbenannt</translation>
+    </message>
+    <message>
+        <source>Layout does not contain a SRCP bus configuration</source>
+        <translation>Gleisbild enthält keine SRCP-Bus Konfiguration</translation>
+    </message>
+    <message>
+        <source>Layout contains 1 configured bus</source>
+        <translation>Gleisbild enthält einen konfigurierten SRCP-Bus</translation>
+    </message>
+    <message>
+        <source>Layout contains %1 configured busses</source>
+        <translation>Gleisbild enthält %1 konfigurierte SRCP-Busse</translation>
     </message>
 </context>
 <context>
@@ -1617,6 +1605,10 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     <message>
         <source>Table light panel</source>
         <translation>Stelltischbeleuchtung schalten</translation>
+    </message>
+    <message>
+        <source>WHT panel</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

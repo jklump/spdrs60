@@ -1,5 +1,5 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.2//EN" [
-<!-- Aktuelle Version: --> <!ENTITY ver "0.5.4">
+<!-- Aktuelle Version: --> <!ENTITY ver "0.5.5">
 ]>
 
 <book lang="de">
@@ -38,7 +38,7 @@
         <revhistory>
             <revision>
                 <revnumber>0.13</revnumber>
-                <date>Sa Mär 07 12:59:43 CET 2009</date>
+                <date>Mo Mär 18 18:19:33 CET 2009</date>
             </revision>
             <revision>
                 <revnumber>0.12</revnumber>
@@ -190,7 +190,7 @@ empfehlenswert, diese Dokumentation durchzuarbeiten.
 <sect1 id="ver-0.5.5">
   <title>Version 0.5.5</title>
 <para>
-Veröffentlicht am 14.03.2009
+Veröffentlicht am 20.03.2009
 </para>
 <itemizedlist mark="bullet">
 
@@ -282,6 +282,12 @@ Veröffentlicht am 14.03.2009
             Die Zuordnung von Rückmeldekontakten läßt sich nun über
             einen Drag-and-Drop-Mechanismus von der
             Rückmeldemodulübersicht auf das Gleisbild vornehmen.
+    </para></listitem>
+
+    <listitem><para>
+            Für den Gruppentastenblock wurde ein neues Gleisbildelement
+            mit der Weichenhilfstaste (WHT) zum Einstellen von belegten
+            Weichen aufgenommen.
     </para></listitem>
 
 </itemizedlist>
@@ -2389,13 +2395,17 @@ sind, was am rot leuchtenden Gleismelder erkennbar ist. Dabei wird
 Elementstellungen wird bei jeder Benutzung von &raquo;Umschalten&laquo;
 die nächste mögliche Stellung angezeigt. Alternativ - und vorbildgetreuer -
 benutzt man zum Schalten von einzelnen Weichen die Weichengruppentaste
-(WGT) bzw. bei Signalen die Signalgruppentaste (SGT) oder die
+(WGT) oder die Weichenhilfstaste (WHT) bzw. bei Signalen die
+Signalgruppentaste (SGT) oder die
 Haltgruppentaste (HaGT). Diese sind in <xref linkend="abb-wgt"> dargestellt.
 </para>
 <figure id="abb-wgt">
-  <title>Weichengruppentaste und Signalgruppentaste</title>
+  <title>Weichengruppentaste, Weichenhilfstaste  und Signalgruppentaste</title>
   <mediaobject><imageobject>
     <imagedata fileref="../commonimages/taste-wgt.png">
+  </imageobject></mediaobject>
+  <mediaobject><imageobject>
+    <imagedata fileref="../commonimages/taste-wht.png">
   </imageobject></mediaobject>
   <mediaobject><imageobject>
     <imagedata fileref="../commonimages/taste-sgt.png">
@@ -3445,6 +3455,13 @@ besondere Elemente wie die Drehscheibe wird im
       <entry align="center"><graphic fileref="../commonimages/taste-wgt.png"></entry>
       <entry align="center">1201</entry>
       <entry>Weichengruppentaste zum manuellen Einstellen von Weichen</entry>
+      <entry>Hindergrundfarbe nicht veränderbar</entry>
+    </row>
+    <row>
+      <entry align="center"><graphic fileref="../commonimages/taste-wht.png"></entry>
+      <entry align="center">1202</entry>
+      <entry>Weichenhilfstaste zum manuellen Einstellen von belegten
+          Weichen</entry>
       <entry>Hindergrundfarbe nicht veränderbar</entry>
     </row>
     <row>

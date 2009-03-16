@@ -46,6 +46,8 @@ spdrs60-0.5.5 (2009-03-??)
 
   o Drag and Drop of feedback contacts to layout elements implemented.
 
+  o New WHT element implemented to switch occupied turnouts.
+
 
 spdrs60-0.5.4 (2008-11-30)
   o State showing On/Off labels for tablelight switching.

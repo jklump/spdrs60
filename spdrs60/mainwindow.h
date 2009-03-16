@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.5.2 $Revision: 1.56 $
+                           version 0.5.2 $Revision: 1.57 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-23 21:05:25 $
+    last modified        : $Date: 2009-03-16 17:38:04 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -240,11 +240,12 @@ private slots:
    void layoutSendAll();
    void updateCaption();
    void updateFileMenuItems();
+   void saveKeyboardProtocol(int);
+   void recentFileActivated(int);
+   void setupRecentFilesMenu();
    /* New Networking code: */
    void ConnectToSRCPServer();
    void CloseSRCPServerConnection();
-   void SendCommandToSRCPServer(const QString&);
-   void SendInfoCommandToSRCPServer(const QString&);
    void sendSrcpMessage(SrcpMessage*);
    void processCommandMessage(const QString&);
    void processFeedbackMessage(const QString&);
@@ -252,9 +253,6 @@ private slots:
    void updateCommandConnectionState(bool);
    void updateInfoConnectionState(bool);
    void updateFeedbackConnectionState(bool);
-   void saveKeyboardProtocol(int);
-   void recentFileActivated(int);
-   void setupRecentFilesMenu();
 
 signals:
    void findElement(const QString&, int, int);
@@ -263,8 +261,6 @@ signals:
    void sendFBChangeModule(unsigned int, unsigned int, unsigned int);
    void sendFBChangeRoute(unsigned int, unsigned int, bool);
    void statusMessage(const QString&);
-   void commandMessage(const QString&);
-   void infoMessage(const QString&);
    void switchedVisualMode(elemVisualMode);
 
 protected:

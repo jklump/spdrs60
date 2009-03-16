@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-03-11 21:37:40 $
-                           $Revision: 1.119 $
+    last modified        : $Date: 2009-03-16 17:38:04 $
+                           $Revision: 1.120 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -33,6 +33,8 @@
 /*cursor pixmaps*/
 #include "pixmaps/cursor_wgt_b.xpm"
 #include "pixmaps/cursor_wgt_m.xpm"
+#include "pixmaps/cursor_wht_b.xpm"
+#include "pixmaps/cursor_wht_m.xpm"
 #include "pixmaps/cursor_fht_b.xpm"
 #include "pixmaps/cursor_fht_m.xpm"
 #include "pixmaps/cursor_ufgt_b.xpm"
@@ -72,7 +74,6 @@ enum {
 };
 
 
-
 GBSArea::GBSArea(QWidget* parent, const char* name)
 : QWidget(parent, name)
 {
@@ -100,12 +101,9 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
     // SRCP 0.8 data
     SRCP08GA1InitWalker = 0;
     SRCP08GA2InitWalker = 0;
-    SRCP08GABusCount = 0;
-    SRCP08GABusWalker = 0;
-    pSRCP08GABusList = NULL;
-    SRCP08FBBusCount = 0;
-    SRCP08FBBusWalker = 0;
-    pSRCP08FBBusList = NULL;
+    SRCP08BusCount = 0;
+    SRCP08BusWalker = 0;
+    pSRCP08BusList = NULL;
     
     /*cursor setup */
     QPixmap cb = QPixmap(cursor_wgt_b_xpm);
@@ -116,6 +114,15 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
     cb.setMask(*cm.mask());
 #endif
     WGTCursor = QCursor(cb, 0, 0);
+
+    cb = QPixmap(cursor_wht_b_xpm);
+    cm = QPixmap(cursor_wht_m_xpm);
+#if QT_VERSION >= 0x040000
+    cb.setMask(cm.mask());
+#else
+    cb.setMask(*cm.mask());
+#endif
+    WHTCursor = QCursor(cb, 0, 0);
 
     cb = QPixmap(cursor_fht_b_xpm);
     cm = QPixmap(cursor_fht_m_xpm);
@@ -239,11 +246,8 @@ GBSArea::~GBSArea()
     elements.clear();
 
     /* clear SRCP bus lists */
-    if ((SRCP08GABusCount > 0) && (pSRCP08GABusList != NULL))
-        free(pSRCP08GABusList);
-    if ((SRCP08FBBusCount > 0) && (pSRCP08FBBusList != NULL))
-        free(pSRCP08FBBusList);
-
+    if ((SRCP08BusCount > 0) && (pSRCP08BusList != NULL))
+        free(pSRCP08BusList);
 }
 
 
@@ -442,6 +446,9 @@ void GBSArea::externalButtonClicked(GbsButtonState externalButton)
         case kWgtClicked:
             setCursor(WGTCursor);
             break;
+        case kWhtClicked:
+            setCursor(WHTCursor);
+            break;
         case kSgtClicked:
             setCursor(SGTCursor);
             break;
@@ -471,6 +478,7 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
         case kMgtClicked:
         case kUfgtClicked:
         case kWgtClicked:
+        case kWhtClicked:
         case kSgtClicked:
             externalButtonClicked(gbsButton);
             break;
@@ -545,21 +553,36 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
                 else
                     el->toggle();
             }
+
+            else if (kWhtClicked == gkbState) {
+                if (el->isLocked()) {
+                    QApplication::beep();
+                    emit statusMessage(tr("No switching possible, "
+                                "solenoid '%1' is locked by an active route.")
+                            .arg(el->getLabelText()));
+                }
+                else
+                    el->toggle();
+            }
+
             else if (kFhtClicked == gkbState) {
                 QApplication::beep();
                 emit statusMessage(tr("Turnouts can not be switched "
                             "using FHT"));
             }
+
             else if (kSgtClicked == gkbState) {
                 QApplication::beep();
                 emit statusMessage(tr("Turnouts can not be switched "
                             "using SGT"));
             }
+
             else if (kUfgtClicked == gkbState) {
                 QApplication::beep();
                 emit statusMessage(tr("Turnouts can not be switched "
                             "using UfGT"));
             }
+
             else {
                 QApplication::beep();
                 emit statusMessage(tr("Operation not allowed"));
@@ -886,7 +909,7 @@ void GBSArea::setModified(bool m)
     //  - removed
     //  - added
     //  - edited
-    updateSRCP08BusLists();
+    updateSRCP08BusList();
 }
 
 
@@ -1131,87 +1154,32 @@ bool GBSArea::runSRCP08GAInitSequence()
 
 
 /*
- * init or term every single FB bus, but only one at a time
- * return true while there are unchanged busses left
- */
-/*
-bool GBSArea::switchSRCP08FBBusState(bool setInitOn)
-{
-    bool WalkerChanged = false;
-
-    *
-     * generate
-     *   INIT <bus> FB
-     * or
-     *   TERM <bus> FB
-     *
-    if ((SRCP08FBBusCount > 0)
-        && (SRCP08FBBusWalker < SRCP08FBBusCount)) {
-
-        //TODO: (SrcpMessage::Feedback) pref.fbmoduletype
-        SrcpMessage sm = SrcpMessage(setInitOn ?
-                SrcpMessage::msgFbInit : SrcpMessage::msgFbTerm);
-       
-        sm.setBus(pSRCP08FBBusList[SRCP08FBBusWalker]);
-        
-        emit sendSrcpMessage(&sm);
-
-        SRCP08FBBusWalker++;
-        WalkerChanged = true;
-    }
-
-    if (!WalkerChanged)
-        SRCP08FBBusWalker = 0;
-
-    return WalkerChanged;
-}
-*/
-/*
  * ask server about power status off every single bus, but only one at
  * a time return true while there are unasked busses left
  */
-// sendSRCP08BusMessage()
 bool GBSArea::sendSRCP08BusMessage(SrcpMessage::Message smt)
 {
     bool WalkerChanged = false;
 
     /*
-     * first all GA busses are asked step by step, allways waiting
+     * all busses are asked step by step, allways waiting
      * for server OK
      */
-    if ((SRCP08GABusCount > 0)
-        && (SRCP08GABusWalker < SRCP08GABusCount)) {
+    if ((SRCP08BusCount > 0)
+        && (SRCP08BusWalker < SRCP08BusCount)) {
 
         //SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgPowerGet);
         SrcpMessage sm = SrcpMessage(smt);
-        sm.setBus(pSRCP08GABusList[SRCP08GABusWalker]);
+        sm.setBus(pSRCP08BusList[SRCP08BusWalker].id);
         emit sendSrcpMessage(&sm);
 
-        SRCP08GABusWalker++;
-        WalkerChanged = true;
-    }
-
-    /*
-     * when GAs are ready, ask attached FB busses,
-     * also after each bus waiting for server OK
-     */
-    if (!WalkerChanged && (SRCP08FBBusCount > 0) &&
-        (SRCP08FBBusWalker < SRCP08FBBusCount)) {
-
-        //SrcpMessage* sm = new SrcpMessage(SrcpMessage::msgPowerGet);
-        SrcpMessage sm = SrcpMessage(smt);
-        sm.setBus(pSRCP08FBBusList[SRCP08FBBusWalker]);
-        emit sendSrcpMessage(&sm);
-        
-        SRCP08FBBusWalker++;
+        SRCP08BusWalker++;
         WalkerChanged = true;
     }
 
     /* reset when this process is finished for all busses */
-    if (!WalkerChanged) {
-        SRCP08GABusWalker = 0;
-        SRCP08FBBusWalker = 0;
-    }
+    if (!WalkerChanged)
+        SRCP08BusWalker = 0;
 
     return WalkerChanged;
 }
@@ -1226,57 +1194,33 @@ bool GBSArea::setSRCP08BusPower(bool setPowerOn)
     bool CounterChanged = false;
 
     /*
-     * first all GA busses are initialized step by step, allways waiting
+     * all busses are switched step by step, allways waiting
      * for server OK
      */
-    if ((SRCP08GABusCount > 0)
-        && (SRCP08GABusWalker < SRCP08GABusCount)) {
+    if ((SRCP08BusCount > 0)
+        && (SRCP08BusWalker < SRCP08BusCount)) {
         SrcpMessage sm = SrcpMessage(SrcpMessage::msgPowerSet);
-        sm.setPowerData(pSRCP08GABusList[SRCP08GABusWalker],
+        sm.setPowerData(pSRCP08BusList[SRCP08BusWalker].id,
                 setPowerOn);
         emit sendSrcpMessage(&sm);
 
-        SRCP08GABusWalker++;
-        CounterChanged = true;
-    }
-
-    /*
-     * when GAs are ready, start init process of all attached FB busses,
-     * also after each bus init waiting for server OK
-     */
-    if (!CounterChanged && (SRCP08FBBusCount > 0) &&
-        (SRCP08FBBusWalker < SRCP08FBBusCount)) {
-        SrcpMessage sm = SrcpMessage(SrcpMessage::msgPowerSet);
-        sm.setPowerData(pSRCP08FBBusList[SRCP08FBBusWalker],
-                setPowerOn);
-        emit sendSrcpMessage(&sm);
-
-        SRCP08FBBusWalker++;
+        SRCP08BusWalker++;
         CounterChanged = true;
     }
 
     /* reset when init process for all busses is finished */
-    if (!CounterChanged) {
-        SRCP08GABusWalker = 0;
-        SRCP08FBBusWalker = 0;
-    }
+    if (!CounterChanged)
+        SRCP08BusWalker = 0;
 
     return CounterChanged;
 }
 
 
-void GBSArea::updateSRCP08BusLists()
-{
-    updateSRCP08GABusList();
-    updateSRCP08FBBusList();
-}
-
-
-void GBSArea::updateSRCP08GABusList()
+void GBSArea::updateSRCP08BusList()
 {
     unsigned int count = 0, busno = 0;
     bool busNoIsKnown;
-    unsigned int *tempbuslist;
+    SrcpBus *tempbuslist;
 
     /*how many different GA busses do we have? */
     for (unsigned int i = 0; i < elements.size(); i++) {
@@ -1285,38 +1229,49 @@ void GBSArea::updateSRCP08GABusList()
         if (el == NULL)
             continue;
 
-        if (!el->isSwitchable())
-            continue;
-
-        for (int k = 0; k < 2; k++) {
+        for (int k = 0; k <= 2; k++) {
             switch (k) {
-            case 0:
-                busno = el->getGA1BusNo();
-                break;
-            case 1:
-                busno = el->getGA2BusNo();
-                break;
+                case 0:
+                    busno = el->getGA1BusNo();
+                    break;
+                case 1:
+                    busno = el->getGA2BusNo();
+                    break;
+                case 2:
+                    busno = el->getFBBusNo();
+                    break;
             }
 
             if (busno > 0) {
                 if (count == 0) {
                     count++;
 
-                    pSRCP08GABusList = (unsigned int *) calloc(count,
-                            sizeof(unsigned int));
-                    if (pSRCP08GABusList == NULL) {
-                        fprintf(stderr, "Memory allocation error!");
-                        SRCP08GABusCount = count - 1;
+                    pSRCP08BusList = (SrcpBus *) calloc(count,
+                            sizeof(SrcpBus));
+                    if (pSRCP08BusList == NULL) {
+                        qWarning("Memory allocation error!");
+                        SRCP08BusCount = count - 1;
                         return;
                     }
-                    pSRCP08GABusList[0] = busno;
+                    pSRCP08BusList[0].id = busno;
+                    pSRCP08BusList[0].hasFb = false;
+                    pSRCP08BusList[0].hasGa = false;
+
+                    if (k == 2)
+                        pSRCP08BusList[0].hasFb = true;
+                    else 
+                        pSRCP08BusList[0].hasGa = true;
                 }
                 /*count > 0 */
                 else {
                     busNoIsKnown = false;
                     for (unsigned int j = 0; j < count; j++) {
-                        if (pSRCP08GABusList[j] == busno) {
+                        if (pSRCP08BusList[j].id == busno) {
                             busNoIsKnown = true;
+                            if (k == 2)
+                                pSRCP08BusList[count - 1].hasFb = true;
+                            else 
+                                pSRCP08BusList[count - 1].hasGa = true;
                             break;
                         }
                     }
@@ -1324,119 +1279,49 @@ void GBSArea::updateSRCP08GABusList()
                         count++;
 
                         tempbuslist =
-                            (unsigned int *) realloc(pSRCP08GABusList,
-                                            sizeof(unsigned int) * count);
+                            (SrcpBus *) realloc(pSRCP08BusList,
+                                            sizeof(SrcpBus) * count);
 
                         if (tempbuslist == NULL) {
-                            fprintf(stderr, "Memory allocation error!");
-                            SRCP08GABusCount = count - 1;
+                            qWarning("Memory allocation error!");
+                            SRCP08BusCount = count - 1;
                             return;
                         }
-                        pSRCP08GABusList = tempbuslist;
-                        pSRCP08GABusList[count - 1] = busno;
+                        pSRCP08BusList = tempbuslist;
+                        pSRCP08BusList[count - 1].id = busno;
+                        pSRCP08BusList[count - 1].hasFb = false;
+                        pSRCP08BusList[count - 1].hasGa = false;
+
+                        if (k == 2)
+                            pSRCP08BusList[count - 1].hasFb = true;
+                        else 
+                            pSRCP08BusList[count - 1].hasGa = true;
                     }
                 }
-            }
-        }                       /* for j */
-    }                           /* for i */
+            }   /* for busno */
+        }       /* for k */
+    }           /* for i */
 
     if (count == 0)
         statusMessage(tr("Layout does not contain a SRCP bus"
-                    " configuration for GAs"));
+                    " configuration"));
     else if (count == 1)
-        statusMessage(tr("Layout contains 1 configured GA bus"));
+        statusMessage(tr("Layout contains 1 configured bus"));
     else
-        statusMessage(tr("Layout contains %1 configured GA busses").
+        statusMessage(tr("Layout contains %1 configured busses").
                    arg(count));
 
-    SRCP08GABusCount = count;
+    SRCP08BusCount = count;
 }
 
 
-void GBSArea::updateSRCP08FBBusList()
-{
-    unsigned int count = 0, busno = 0;
-    unsigned int *tempbuslist;
-    bool busNoIsKnown;
-
-    if (pSRCP08FBBusList != NULL) {
-        free(pSRCP08FBBusList);
-        pSRCP08FBBusList = NULL;
-    }
-
-    /*how many different FB busses do we have? */
-    for (unsigned int i = 0; i < elements.size(); i++) {
-
-        element* el = elements[i];
-        if (el == NULL)
-            continue;
-
-        if (!el->isSwitchable())
-            continue;
-
-        busno = el->getFBBusNo();
-
-        if (busno > 0) {
-            if (count == 0) {
-                count++;
-                pSRCP08FBBusList = (unsigned int *) calloc(count,
-                        sizeof(busno));
-                if (pSRCP08FBBusList == NULL) {
-                    fprintf(stderr, "Memory allocation error!");
-                    SRCP08FBBusCount = count - 1;
-                    return;
-                }
-                pSRCP08FBBusList[0] = busno;
-            }
-
-            /*count > 0 */
-            else {
-                busNoIsKnown = false;
-                for (unsigned int j = 0; j < count; j++) {
-                    if (pSRCP08FBBusList[j] == busno) {
-                        busNoIsKnown = true;
-                        break;
-                    }
-                }
-                if (!busNoIsKnown) {
-                    count++;
-                    tempbuslist = (unsigned int *) realloc(pSRCP08FBBusList,
-                                              sizeof(busno) * count);
-                    if (tempbuslist == NULL) {
-                        fprintf(stderr, "Memory allocation error!");
-                        SRCP08FBBusCount = count - 1;
-                        return;
-                    }
-
-                    pSRCP08FBBusList = tempbuslist;
-                    memset(&pSRCP08FBBusList[count - 1], 0,
-                           sizeof(busno));
-                    pSRCP08FBBusList[count - 1] = busno;
-                }
-            }
-        }
-    }                           /* for i */
-
-    if (count == 0)
-        statusMessage(tr("Layout does not contain a SRCP bus"
-                    " configuration for FBs"));
-    else if (count == 1)
-        statusMessage(tr("Layout contains 1 configured FB bus"));
-    else
-        statusMessage(tr("Layout contains %1 configured FB busses").
-                arg(count));
-
-    SRCP08FBBusCount = count;
-}
-
-
-bool GBSArea::hasSrcp08GaBus(unsigned int bus)
+bool GBSArea::hasSrcp08Bus(unsigned int bus)
 {
     bool returnvalue = false;
 
-    if (SRCP08GABusCount > 0) 
-        for (unsigned int i = 0; i < SRCP08GABusCount; i++)
-            if (bus == pSRCP08GABusList[i]) {
+    if (SRCP08BusCount > 0) 
+        for (unsigned int i = 0; i < SRCP08BusCount; i++)
+            if (bus == pSRCP08BusList[i].id) {
                 returnvalue = true;
                 break;
             }

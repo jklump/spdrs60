@@ -1,10 +1,10 @@
 /***************************************************************************
                            feedbacklistbox.cpp
-                           version 0.5.2 $Revision: 1.5 $
+                           version 0.5.2 $Revision: 1.6 $
                            -------------------------------
     copyright            : (C) 2006-2007 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-03-11 19:36:38 $
+    last modified        : $Date: 2009-03-16 17:38:04 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -117,7 +117,7 @@ void FeedbackListBox::contentsMousePressEvent(QMouseEvent* e)
     if (i != NULL) {
         QRect r = itemRect(i);
         if (dynamic_cast<FeedbackModule*>(i)->isContactPosition(
-                    QPoint(p.x() - r.x(), p.y() - r.y()))) {
+                    p - r.topLeft())) {
             presspos = e->pos();
             mousePressed = true;
         }

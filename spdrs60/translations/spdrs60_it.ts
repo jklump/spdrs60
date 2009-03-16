@@ -410,30 +410,6 @@ matches your search criteria.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Layout does not contain a SRCP bus configuration for GAs</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Layout contains 1 configured GA bus</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Layout contains %1 configured GA busses</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Layout does not contain a SRCP bus configuration for FBs</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Layout contains 1 configured FB bus</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Layout contains %1 configured FB busses</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Unsupported CRCF attribute &apos;%1&apos; detected.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -491,6 +467,18 @@ matches your search criteria.</source>
     </message>
     <message>
         <source>Untitled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Layout does not contain a SRCP bus configuration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Layout contains 1 configured bus</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Layout contains %1 configured busses</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1585,6 +1573,10 @@ the server daemon after shutdown has finished)</source>
         <source>Table light panel</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>WHT panel</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -2365,14 +2357,6 @@ be automatically send to the SRCP server
 after layout power is switched on.
 </source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation type="obsolete">OK</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="obsolete">Cancella</translation>
     </message>
     <message>
         <source>&amp;Id:</source>

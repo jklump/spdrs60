@@ -1,5 +1,5 @@
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook V4.2//EN" [
-<!-- current version: --> <!ENTITY ver "0.5.4">
+<!-- current version: --> <!ENTITY ver "0.5.5">
 ]>
 
 <article lang="en">
@@ -40,7 +40,7 @@
 <revhistory>
   <revision>
     <revnumber>0.12</revnumber>
-    <date>Sat MAr 07 12:54:39 CET 2009</date>
+    <date>Mon Mar 18 18:18:49 CET 2009</date>
   </revision>
   <revision>
     <revnumber>0.11</revnumber>
@@ -204,6 +204,10 @@ Release date: 2009-03-14
     <listitem><para>
             Drag and Drop of feedback contacts to layout elements
             implemented.
+    </para></listitem>
+
+    <listitem><para>
+            New WHT element implemented to switch occupied turnouts.
     </para></listitem>
 
 </itemizedlist>

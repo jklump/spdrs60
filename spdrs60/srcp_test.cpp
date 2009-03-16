@@ -4,8 +4,8 @@
  Copyright    : (C) 2008 Guido Scholz
  E-Mail       : guido.scholz@bayernline.de
  Begin        : 16.12.2008
- Last modified: $Date: 2008-12-31 07:39:01 $
-                $Revision: 1.2 $
+ Last modified: $Date: 2009-03-16 17:38:04 $
+                $Revision: 1.3 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -156,6 +156,7 @@ bool runSrcpTest()
         returnvalue = false;
 
     /*  GA INFO*/
+    /*
     sm->setMessage(SrcpMessage::msgGaInfo);
     sm->setGaData(SrcpMessage::proMM, 1, 2, 3, 4, 5);
     if (!checkSrcp07String("INFO GA M 2 3 4", sm))
@@ -163,6 +164,7 @@ bool runSrcpTest()
 
     if (!checkSrcp08String("100 INFO 1 GA 2 3 4", sm))
         returnvalue = false;
+        */
 
 
     /* DCC protocol*/
@@ -188,10 +190,12 @@ bool runSrcpTest()
         returnvalue = false;
 
     /*  GA INFO*/
+    /*
     sm->setMessage(SrcpMessage::msgGaInfo);
     sm->setGaData(SrcpMessage::proDCC, 1, 2, 3, 4, 5);
     if (!checkSrcp07String("INFO GA N 2 3 4", sm))
         returnvalue = false;
+        */
 
     /*Server protocol*/
     /*  GA INIT*/
@@ -216,10 +220,12 @@ bool runSrcpTest()
         returnvalue = false;
 
     /*  GA INFO*/
+    /*
     sm->setMessage(SrcpMessage::msgGaInfo);
     sm->setGaData(SrcpMessage::proServer, 1, 2, 3, 4, 5);
     if (!checkSrcp07String("INFO GA P 2 3 4", sm))
         returnvalue = false;
+        */
 
     /*SRCP Gl*/
     qWarning("Testing SRCP Gl messages...");

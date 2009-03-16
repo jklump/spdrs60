@@ -4,8 +4,8 @@
     Copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-02-24 21:01:58 $
-                           $Revision: 1.169 $
+    last modified        : $Date: 2009-03-16 17:38:04 $
+                           $Revision: 1.170 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1944,14 +1944,6 @@ void MainWindow::updateCaption()
 
 void MainWindow::processCommandMessage(const QString& command)
 {
-
-    if ((SrcpPort::csNew == commandStyle) && pref.converttime) {
-        QString msgstr = ConvertMessageTime(command);
-        commandMessage(msgstr);
-    }
-    else
-        commandMessage(command);
-
     /*
      * respond to SRCP 0.7 messages 
      */
@@ -2104,9 +2096,11 @@ void MainWindow::processCommandMessage(const QString& command)
          *        0          1    2  3   4    5    -> QString sections
          */
         if (command.section(' ', 1, 2) == "100 INFO") {
-            if (command.section(' ', 5, 5) == "OFF") {
-                SendCommandToSRCPServer(QString("SET %1 POWER ON")
-                        .arg(command.section(' ', 3, 3)));
+            if (command.section(' ', 5, 5) == "OFF" && LayoutPowerIsOn) {
+                SrcpMessage sm = SrcpMessage(SrcpMessage::msgPowerSet);
+                sm.setPowerData(command.section(' ', 3, 3).toUInt(),
+                        LayoutPowerIsOn);
+                sendSrcpMessage(&sm);
                 PowerSwitched = true;
             }
             /* echo "200 OK" is only displayed in history line */
@@ -2118,6 +2112,7 @@ void MainWindow::processCommandMessage(const QString& command)
         if (!PowerSwitched)
             if (!gbs->sendSRCP08BusMessage(SrcpMessage::msgPowerGet)) {
                 // all busses are switched on, we are ready 
+                // TODO: check this statement, should be obsolete
                 LayoutPowerIsOn = true;
                 updateLayoutPowerAction();
                 SRCPCommandState = srcpConnected;
@@ -2170,8 +2165,7 @@ void MainWindow::processFeedbackMessage(const QString& info)
     unsigned int fbcontact, fbbus, fbport, fbstate;
 
     // if we got error code, break loop
-    if (info.contains("-", 0)) {
-        infoMessage(info);
+    if (info.contains('-', 0)) {
         return;
     }
 
@@ -2192,8 +2186,6 @@ void MainWindow::processFeedbackMessage(const QString& info)
         if (fbport == MAX_FB)
             isFBInitMode = false;
     }
-    else
-        infoMessage(info);
 
     /* should'nt we only send modules which are realy connected? */
     // send feedback updates to:
@@ -2257,7 +2249,8 @@ void MainWindow::updateCommandConnectionState(bool connected)
              * already switched power on
              */
             SRCPCommandState = srcp07GetPower;
-            SendCommandToSRCPServer("GET POWER");
+            SrcpMessage sm = SrcpMessage(SrcpMessage::msgPowerGet);
+            sendSrcpMessage(&sm);
         }
 
         else if (SrcpPort::csNew == commandStyle) {
@@ -2312,9 +2305,9 @@ void MainWindow::updateCommandConnectionState(bool connected)
         // saveable
         gbs->setModified(true);
     }
-    else {
+    else
         SRCPCommandState = srcpUndefined;
-    }
+
     updateDaemonMenu();
 }
 
@@ -2373,6 +2366,7 @@ void MainWindow::updateFeedbackConnectionState(bool connected)
                     "initialization"));
     }
     else {
+        // do nothing if not connected
     }
 }
 
@@ -2382,7 +2376,6 @@ void MainWindow::processInfoMessage(const QString& info)
     /* reaktions to SRCP 0.7 commands */
     if (SrcpPort::csOld == infoStyle) {
 
-        infoMessage(info);
         QString device = info.section(' ', 1, 1);
         /*
          * check for incomming GA actions and send them to gbs
@@ -2424,13 +2417,6 @@ void MainWindow::processInfoMessage(const QString& info)
 
     /* respond to SRCP 0.8 messages */
     else if (SrcpPort::csNew == infoStyle) {
-        if (pref.converttime) {
-            QString msgstr = ConvertMessageTime(info);
-            infoMessage(msgstr);
-        }
-        else
-            infoMessage(info);
-
 
         /* respond to incomming info messages */
         if (SRCPInfoState == srcp08RunInfoMode) {
@@ -2543,7 +2529,7 @@ void MainWindow::processInfoMessage(const QString& info)
                     bool poweron = info.section(' ', 5, 5) == "ON";
 
                     //check if bus is relevant for this layout
-                    if (gbs->hasSrcp08GaBus(bus)) 
+                    if (gbs->hasSrcp08Bus(bus)) 
                         if (poweron != LayoutPowerIsOn) {
                             LayoutPowerIsOn = poweron;
                             updateLayoutPowerAction();
@@ -2551,7 +2537,7 @@ void MainWindow::processInfoMessage(const QString& info)
                 }
             }
             /*
-             * respond to incomming power messages
+             * respond to incomming description messages
              *
              * <time> 100 INFO <bus> DESCRIPTION <device list>
              *   0     1   2     3     4      5     : Qstring sections
@@ -2602,10 +2588,8 @@ void MainWindow::CloseSRCPServerConnection()
     /* 1. Command socket */
     if (commandPort->hasServerConnection()) {
         
-        if (SrcpPort::csOld == commandStyle)
-            SendCommandToSRCPServer("LOGOUT");
-        else if (SrcpPort::csNew == commandStyle)
-            SendCommandToSRCPServer("TERM 0 SESSION");
+        SrcpMessage sm = SrcpMessage(SrcpMessage::msgSessionTerm);
+        sendSrcpMessage(&sm);
 
         commandPort->serverDisconnect();
         commandStyle = SrcpPort::csNone;
@@ -2627,24 +2611,6 @@ void MainWindow::CloseSRCPServerConnection()
 }
 
 
-void MainWindow::SendCommandToSRCPServer(const QString& cmdstr)
-{
-    if (commandPort->hasServerConnection()) {
-        commandPort->sendToServer(cmdstr);
-        commandMessage(cmdstr);
-    }
-}
-
-/* this is only used in SRCP 0.8 mode */
-void MainWindow::SendInfoCommandToSRCPServer(const QString& cmdstr)
-{
-    if (infoPort->hasServerConnection()) {
-        infoPort->sendToServer(cmdstr);
-        infoMessage(cmdstr);
-    }
-}
-
-
 void MainWindow::sendSrcpMessage(SrcpMessage* sm)
 {
     if (sm == NULL)
@@ -2654,7 +2620,6 @@ void MainWindow::sendSrcpMessage(SrcpMessage* sm)
         return;
 
     QString cmd = sm->getSrcpMessageStr(commandStyle);
-    commandMessage(cmd);
     commandPort->sendToServer(cmd);
 
     switch(sm->getMessage()) {

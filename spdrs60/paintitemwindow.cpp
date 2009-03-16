@@ -4,8 +4,8 @@
  * Copyright    : (C) 2007 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Begin        : 2007-09-26
- * Last modified: $Date: 2008-08-11 16:59:30 $
- *                $Revision: 1.18 $
+ * Last modified: $Date: 2009-03-16 17:38:04 $
+ *                $Revision: 1.19 $
  *
  * This code creates a dockable window with a set of paint items 
  */
@@ -129,6 +129,7 @@
 #include "pixmaps/spdritem_tas.xpm"
 #include "pixmaps/spdritem_tau.xpm"
 #include "pixmaps/spdritem_taw.xpm"
+#include "pixmaps/spdritem_twh.xpm"
 #include "pixmaps/spdritem_tal.xpm"
 
 
@@ -471,6 +472,9 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
 
     new PaintItemButton(QPixmap(spdritem_taw_xpm), tr("WGT panel"),
             element::siciTaw, paintItemBG, "wgtPanel");
+
+    new PaintItemButton(QPixmap(spdritem_twh_xpm), tr("WHT panel"),
+            element::siciTwh, paintItemBG, "whtPanel");
 
     new PaintItemButton(QPixmap(spdritem_fer_xpm),
             tr("Signal group panel"),

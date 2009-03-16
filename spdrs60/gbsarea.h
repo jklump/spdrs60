@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.5.3 $Revision: 1.56 $
+                           version 0.5.3 $Revision: 1.57 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-03-11 19:36:38 $
+    last modified        : $Date: 2009-03-16 17:38:04 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -49,6 +49,12 @@ static const char GF_DIMENSIONS[] = "dimensions";
 static const char GF_ID[]         = "identification";
 static const char GF_TABLELIGHT[] = "tablelight";
 
+struct SrcpBus {
+    unsigned int id;
+    bool hasGa;
+    bool hasFb;
+};
+
 
 class GBSArea: public QWidget
 {
@@ -81,9 +87,8 @@ public:
         unsigned int addr, unsigned int port, unsigned int value);
    bool sendSRCP08BusMessage(SrcpMessage::Message);
    bool setSRCP08BusPower(bool);
-   //bool switchSRCP08FBBusState(bool);
    bool runSRCP08GAInitSequence();
-   bool hasSrcp08GaBus(unsigned int);
+   bool hasSrcp08Bus(unsigned int);
    void processGenericMessage(unsigned int, unsigned int,
            const CrcfMessage*);
     
@@ -98,6 +103,7 @@ private:
    QCursor     URSCursor;
    QCursor     UZSCursor;
    QCursor     WGTCursor;
+   QCursor     WHTCursor;
    QCursor     ZHSCursor;
    QCursor     paintCursor;
    QCursor     eraseCursor;
@@ -123,20 +129,15 @@ private:
    // for SRCP 0.8
    unsigned int SRCP08GA1InitWalker;
    unsigned int SRCP08GA2InitWalker;
-   unsigned int SRCP08GABusCount;
-   unsigned int SRCP08GABusWalker;
-   unsigned int *pSRCP08GABusList;
-   unsigned int SRCP08FBBusCount;
-   unsigned int SRCP08FBBusWalker;
-   unsigned int *pSRCP08FBBusList;
+   unsigned int SRCP08BusCount;
+   unsigned int SRCP08BusWalker;
+   SrcpBus* pSRCP08BusList;
 
    void connectElement(element*);
    void externalButtonClicked(GbsButtonState);
    bool findElement(const QString&, int, int);
    void moveElementToIndexPos(element*, unsigned int);
-   void updateSRCP08GABusList();
-   void updateSRCP08FBBusList();
-   void updateSRCP08BusLists();
+   void updateSRCP08BusList();
    void sendGmCrcfMessage(unsigned int, unsigned int, const QString&);
    QString getCrcfInfoMessage(CrcfMessage::CrcfAttribute) const;
    void switchTableLight(bool);

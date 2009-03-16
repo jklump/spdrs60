@@ -1,7 +1,7 @@
 # Makefile.am for spdrs60, pixmaps included by cpp-files
 # (c) Guido Scholz
-# version: $Revision: 1.41 $
-# last update: $Date: 2009-03-11 21:37:40 $
+# version: $Revision: 1.42 $
+# last update: $Date: 2009-03-16 17:38:04 $
 
 EXTRA_DIST = filenew.xpm filesave.xpm fileopen.xpm \
 	fileclose.xpm filenewwindow.xpm \
@@ -22,6 +22,7 @@ EXTRA_DIST = filenew.xpm filesave.xpm fileopen.xpm \
 	feedback_red.xpm feedback_white.xpm \
 	cursor_fht_b.xpm cursor_fht_m.xpm \
 	cursor_wgt_b.xpm cursor_wgt_m.xpm \
+	cursor_wht_b.xpm cursor_wht_m.xpm \
 	cursor_mgt_b.xpm cursor_mgt_m.xpm \
 	cursor_ufgt_b.xpm cursor_ufgt_m.xpm \
 	cursor_sgt_b.xpm cursor_sgt_m.xpm \
@@ -44,7 +45,7 @@ EXTRA_DIST = filenew.xpm filesave.xpm fileopen.xpm \
 	drehscheibe_st2.xpm drehscheibe_st3.xpm tt_tracks.xpm \
 	button-black.xpm button-gray.xpm button-red.xpm \
 	button-yellow.xpm label-fht.xpm label-hagt.xpm label-mgt.xpm \
-	label-sgt.xpm label-ufgt.xpm label-wgt.xpm \
+	label-sgt.xpm label-ufgt.xpm label-wgt.xpm label-wht.xpm \
 	label-ein-on.xpm label-ein-off.xpm \
 	label-aus-on.xpm label-aus-off.xpm \
 	transfertable.xpm signal-w.xpm signal-wr.xpm \
@@ -81,7 +82,8 @@ EXTRA_DIST = filenew.xpm filesave.xpm fileopen.xpm \
 	spdritem_ssr.xpm spdritem_ssl.xpm \
 	spdritem_syr.xpm spdritem_syl.xpm \
 	spdritem_taf.xpm spdritem_tal.xpm \
-	spdritem_tas.xpm spdritem_tau.xpm spdritem_taw.xpm \
+	spdritem_tas.xpm spdritem_tau.xpm \
+	spdritem_twh.xpm spdritem_taw.xpm \
 	spdritem_cl4.xpm spdritem_cr4.xpm spdritem_trh.xpm \
 	spdritem_tdr.xpm spdritem_tdl.xpm spdritem_tdb.xpm \
 	spdritem_tnt.xpm spdritem_trt.xpm \

@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 by Guido Scholz
     e-mail               : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-03-11 21:37:40 $
-                           $Revision: 1.107 $
+    last modified        : $Date: 2009-03-16 17:38:04 $
+                           $Revision: 1.108 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -137,6 +137,7 @@ enum GbsButtonState {
     kRfsClicked,
     kFhtClicked,
     kWgtClicked,
+    kWhtClicked,
     kUfgtClicked,
     kMgtClicked,
     kSgtClicked,
@@ -280,7 +281,7 @@ public:
         siciBue = 950,
         siciTxt = 1000,
         siciFeg = 1100, siciTaf, siciTau,
-        siciFeb = 1200, siciTaw,
+        siciFeb = 1200, siciTaw, siciTwh,
         siciFer = 1300, siciTas,
         siciFey = 1400,
         siciFen = 1500,
