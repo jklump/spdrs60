@@ -1,6 +1,6 @@
 # spdrs60 data file
-# version=0.5.3
-# last modified=2008-11-08T13:21:01
+# version=0.5.5
+# last modified=2009-03-16T18:55:59
 formatversion;3
 cmdhost;localhost;4303;0;0;1
 rwcc;1;Dedorf
@@ -487,7 +487,7 @@ feedback port;1;13
 hide LEDs;0
 %
 %% element 96
-classid;1200
+classid;1202
 index;96
 %
 %% element 97
