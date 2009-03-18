@@ -38,7 +38,7 @@
         <revhistory>
             <revision>
                 <revnumber>0.13</revnumber>
-                <date>Mo Mär 18 18:19:33 CET 2009</date>
+                <date>Mi Mär 18 18:19:33 CET 2009</date>
             </revision>
             <revision>
                 <revnumber>0.12</revnumber>
@@ -190,7 +190,7 @@ empfehlenswert, diese Dokumentation durchzuarbeiten.
 <sect1 id="ver-0.5.5">
   <title>Version 0.5.5</title>
 <para>
-Veröffentlicht am 20.03.2009
+Veröffentlicht am 18.03.2009
 </para>
 <itemizedlist mark="bullet">
 
@@ -288,6 +288,11 @@ Veröffentlicht am 20.03.2009
             Für den Gruppentastenblock wurde ein neues Gleisbildelement
             mit der Weichenhilfstaste (WHT) zum Einstellen von belegten
             Weichen aufgenommen.
+    </para></listitem>
+
+    <listitem><para>
+            Nur das erste Anwendungsfenster hat einen Menüeintrag zum
+            Beenden der Anwendung.
     </para></listitem>
 
 </itemizedlist>

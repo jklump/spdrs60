@@ -1,4 +1,4 @@
-+++ Release 0.5.5 (2009-03-??) +++
++++ Release 0.5.5 (2009-03-18) +++
 
 2009-03-18 Guido Scholz <guido.scholz@bayernline.de>
 	* spdrs60/main.cpp, mainwindow.cpp: Only first application

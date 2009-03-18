@@ -40,7 +40,7 @@
 <revhistory>
   <revision>
     <revnumber>0.12</revnumber>
-    <date>Mon Mar 18 18:18:49 CET 2009</date>
+    <date>Wed Mar 18 18:18:49 CET 2009</date>
   </revision>
   <revision>
     <revnumber>0.11</revnumber>
@@ -127,7 +127,7 @@ features.</para>
 <sect2 id="ver-0.5.5">
 <title>Version 0.5.5</title>
 <para>
-Release date: 2009-03-14
+Release date: 2009-03-18
 </para>
 
 <itemizedlist mark="bullet">
@@ -208,6 +208,10 @@ Release date: 2009-03-14
 
     <listitem><para>
             New WHT element implemented to switch occupied turnouts.
+    </para></listitem>
+
+    <listitem><para>
+            Only the first application window has an quit menu item.
     </para></listitem>
 
 </itemizedlist>
