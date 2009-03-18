@@ -1,11 +1,11 @@
 /***************************************************************************
                            mainwindow.h
-                           version 0.5.2 $Revision: 1.57 $
+                           version 0.5.2 $Revision: 1.58 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
     copyright            : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-03-16 17:38:04 $
+    last modified        : $Date: 2009-03-18 17:14:03 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -199,7 +199,6 @@ private:
 
    /* New Networking code: */
    void ConnectCommandPort();
-   QString ConvertMessageTime(const QString&);
 
 public slots:
    void updateRouteListMenuItems();
@@ -244,8 +243,8 @@ private slots:
    void recentFileActivated(int);
    void setupRecentFilesMenu();
    /* New Networking code: */
-   void ConnectToSRCPServer();
-   void CloseSRCPServerConnection();
+   void connectToSrcpServer();
+   void closeSrcpServerConnection();
    void sendSrcpMessage(SrcpMessage*);
    void processCommandMessage(const QString&);
    void processFeedbackMessage(const QString&);

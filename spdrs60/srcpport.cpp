@@ -2,8 +2,8 @@
  srcpport.cpp
  ------------
  Begin        : 17.08.2007
- Last modified: $Date: 2009-03-11 19:36:38 $
-                $Revision: 1.9 $
+ Last modified: $Date: 2009-03-18 17:14:03 $
+                $Revision: 1.10 $
  Copyright    : (C) 2007-2008 by Guido Scholz <guido.scholz@bayernline.de>
  Description  : Abstract class for network communication with SRCP server.
                 Communication styles SRCP 0.7 and 0.8 are supported.
@@ -83,7 +83,6 @@ void SrcpPort::setServer(const QString& hn, unsigned int prt)
         host = hn;
         port = prt;
 
-        //if (srcpSocket->isOpen()) {
         if (hasServerConnection()) {
             reconnect = true;
             serverDisconnect();
@@ -449,8 +448,8 @@ void SrcpPort::readData()
  */
 void SrcpPort::socketConnected()
 {
-    emit statusMessage(tr("%1: Socket connected to "
-                "host '%2' on port '%3'").arg(getConnectionMode()).arg(host).arg(port));
+    emit statusMessage(tr("%1: Socket connected to host '%2' on "
+                "port '%3'").arg(getConnectionMode()).arg(host).arg(port));
 
     if (srcpState == sRun)
         emit connectionStateChanged(true);
@@ -462,7 +461,8 @@ void SrcpPort::socketConnected()
  */
 void SrcpPort::hostFound()
 {
-    emit statusMessage(tr("%1: Host '%2' found").arg(getConnectionMode()).arg(host));
+    emit statusMessage(tr("%1: Host '%2' found")
+            .arg(getConnectionMode()).arg(host));
 }
 
 
@@ -476,7 +476,8 @@ void SrcpPort::socketClosed()
 
     clearConnectionData();
     emit connectionStateChanged(false);
-    emit statusMessage(tr("%1: Socket closed by foreign host.").arg(getConnectionMode()));
+    emit statusMessage(tr("%1: Socket closed by foreign host.")
+            .arg(getConnectionMode()));
 }
 
 /*
@@ -487,7 +488,8 @@ void SrcpPort::socketDelayedClosed()
 {
     clearConnectionData();
     emit connectionStateChanged(false);
-    emit statusMessage(tr("%1: Socket delayed closed.").arg(getConnectionMode()));
+    emit statusMessage(tr("%1: Socket delayed closed.")
+            .arg(getConnectionMode()));
 
     if (reconnect) {
         reconnect = false;

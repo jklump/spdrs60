@@ -4,8 +4,8 @@
     Copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-03-16 17:38:04 $
-                           $Revision: 1.170 $
+    last modified        : $Date: 2009-03-18 17:14:03 $
+                           $Revision: 1.171 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -140,11 +140,16 @@ static const char CF_RECENTFILE[]   = "recentfile";
 // user preferences/program init filename
 static const char SPDRS60_INIT[] = ".spdrs60rc";
 
+// make sure only the first window gets group leader
+static bool firstinstance = true;
 
-MainWindow::MainWindow(): QMainWindow(NULL, PACKAGE,
-        Qt::WDestructiveClose | Qt::WGroupLeader)
+
+MainWindow::MainWindow(): QMainWindow(NULL, PACKAGE, Qt::WDestructiveClose)
 {
     setIcon(QPixmap(spdrs60_32));
+
+    if (firstinstance)
+        setWFlags(getWFlags() | Qt::WGroupLeader);
 
     cmdAutoLogin = false;
     cmdAutoPower = false;
@@ -204,7 +209,7 @@ MainWindow::MainWindow(): QMainWindow(NULL, PACKAGE,
 /* Cleanup by destructor */
 MainWindow::~MainWindow()
 {
-    CloseSRCPServerConnection();
+    closeSrcpServerConnection();
     writeConfigFile();
 }
 
@@ -696,6 +701,7 @@ void MainWindow::initMainWindow()
     actionFileClose->addTo(filemenu);
     //actionFileClose->addTo(filetb);
 
+    if (firstinstance) {
 #if QT_VERSION >= 0x030200
     actionFileQuit = new QAction(QPixmap(filequit_xpm), tr("&Quit"),
             Qt::CTRL + Qt::Key_Q, this, "fileQuit");
@@ -707,9 +713,8 @@ void MainWindow::initMainWindow()
             SLOT(closeAllWindows()));
     actionFileQuit->addTo(filemenu);
     //actionFileQuit->addTo(filetb);
-
-    // when the last window is closed, the application should quit
-    connect(qApp, SIGNAL(lastWindowClosed()), qApp, SLOT(quit()));
+      firstinstance = false;
+    }
 
     connect(filemenu, SIGNAL(aboutToShow()), this,
             SLOT(setupRecentFilesMenu()));
@@ -1063,7 +1068,7 @@ void MainWindow::initMainWindow()
             tr("&Connect"), 0, this, "daemonConnect"); // Ctrl D
 #endif
     connect(actionDaemonConnect, SIGNAL(activated()), this,
-            SLOT(ConnectToSRCPServer()));
+            SLOT(connectToSrcpServer()));
     actionDaemonConnect->addTo(daemonmenu);
     actionDaemonConnect->addTo(daemontb);
 
@@ -1077,7 +1082,7 @@ void MainWindow::initMainWindow()
             tr("&Disconnect"), 0, this, "daemonDisconnect");
 #endif
     connect(actionDaemonDisconnect, SIGNAL(activated()), this,
-            SLOT(CloseSRCPServerConnection()));
+            SLOT(closeSrcpServerConnection()));
     actionDaemonDisconnect->addTo(daemonmenu);
     actionDaemonDisconnect->addTo(daemontb);
 
@@ -1646,7 +1651,7 @@ void MainWindow::newFile()
         delete nlDlg;
         return;
     }
-    CloseSRCPServerConnection();
+    closeSrcpServerConnection();
 
     int newcols = nlDlg->getColumns();
     int newrows = nlDlg->getRows();
@@ -1862,7 +1867,7 @@ void MainWindow::openFile(const QString& fn)
         statusMessage(tr("Could not read file '%1'").arg(fn));
         return;
     }
-    CloseSRCPServerConnection();
+    closeSrcpServerConnection();
 
     // give application some time to handle socket closing and toolbar
     // painting
@@ -1922,7 +1927,7 @@ void MainWindow::openFile(const QString& fn)
     updateFileMenuItems();
 
     if (cmdAutoLogin) {
-        ConnectToSRCPServer();
+        connectToSrcpServer();
         qApp->processEvents();
 
         //TODO: check if this is necessary here, effect may be doubled
@@ -2195,28 +2200,6 @@ void MainWindow::processFeedbackMessage(const QString& info)
     emit sendFBChangeModule(fbbus, fbcontact, fbstate);
     emit sendFBChangeLayout(fbbus, fbcontact, fbstate == 1);
     emit sendFBChangeRoute(fbbus, fbcontact, fbstate == 1);
-}
-
-
-
-QString MainWindow::ConvertMessageTime(const QString& msg)
-{
-    QString msgstr;
-    QString timestr = msg.section(' ', 0, 0);
-    if (!timestr.startsWith("0.")) {
-        QDateTime srvtime = QDateTime();
-        srvtime.setTime_t(timestr.section('.', 0 , 0).toUInt());
-        QTime msgtime = srvtime.time();
-        msgstr = msgtime.toString("[hh:mm:ss.");
-
-        msgstr.append(timestr.section('.', 1 , 1));
-        msgstr.append("] ");
-    }
-    else
-        msgstr = "[--:--:--.---] ";
-
-    msgstr.append(msg.section(' ', 1));
-    return msgstr;
 }
 
 
@@ -2566,7 +2549,7 @@ void MainWindow::processInfoMessage(const QString& info)
 }
 
 
-void MainWindow::ConnectToSRCPServer()
+void MainWindow::connectToSrcpServer()
 {
     ConnectCommandPort();
 }
@@ -2583,7 +2566,7 @@ void MainWindow::ConnectCommandPort()
 }
 
 
-void MainWindow::CloseSRCPServerConnection()
+void MainWindow::closeSrcpServerConnection()
 {
     /* 1. Command socket */
     if (commandPort->hasServerConnection()) {
@@ -2705,7 +2688,7 @@ void MainWindow::slotDaemonKill()
     SrcpMessage sm = SrcpMessage(SrcpMessage::msgServerShutdown);
     sendSrcpMessage(&sm);
 
-    CloseSRCPServerConnection();
+    closeSrcpServerConnection();
     statusMessage(tr("SRCP-Service has been terminated. Restart "
                 "server to reconnect %1 for Linux").arg(PACKAGE));
 }

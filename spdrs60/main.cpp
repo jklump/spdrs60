@@ -1,11 +1,11 @@
 /***************************************************************************
                            main.cpp
-                           version 0.5.3 $Revision: 1.21 $
+                           version 0.5.3 $Revision: 1.22 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-24 17:56:54 $
+    last modified        : $Date: 2009-03-18 17:14:03 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -85,6 +85,9 @@ int main(int argc, char* argv[])
                spdrs60Window->openFileWindow(qApp->argv()[i]);
    }
    
+   // when the last window is closed, the application should quit
+   a.connect(&a, SIGNAL(lastWindowClosed()), &a, SLOT(quit()));
+
    return a.exec();
 }
 

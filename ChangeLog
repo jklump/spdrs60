@@ -1,5 +1,9 @@
 +++ Release 0.5.5 (2009-03-??) +++
 
+2009-03-18 Guido Scholz <guido.scholz@bayernline.de>
+	* spdrs60/main.cpp, mainwindow.cpp: Only first application
+	window is session leader and has a quit function.
+
 2009-03-15 Guido Scholz <guido.scholz@bayernline.de>
 	* spdrs60/element.*, gbsarea.*, paintitemwindow.cpp: New WHT
 	element implemented to switch occupied turnouts.
