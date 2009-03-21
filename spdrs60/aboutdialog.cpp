@@ -5,11 +5,11 @@
  *   2007-08-26
  * 
  * Last modified
- *   $Date: 2008-11-05 08:42:40 $
- *   $Revision: 1.9 $
+ *   $Date: 2009-03-21 11:57:09 $
+ *   $Revision: 1.10 $
  *
  * Copyright
- *   (C) 2007-2008 Guido Scholz <guido.scholz@bayernline.de>
+ *   (C) 2007-2009 Guido Scholz <guido.scholz@bayernline.de>
  * 
  * Description
  *   Dialog window to display program information
@@ -88,7 +88,7 @@ AboutDialog::AboutDialog(QWidget* parent): QDialog(parent,
 
     label = new QLabel("(C) 1999-2003 Stefan Preis <stefan.preis@wdr.de>",
             authorGB);
-    label = new QLabel("(C) 2004-2008 Guido Scholz "
+    label = new QLabel("(C) 2004-2009 Guido Scholz "
             "<guido.scholz@bayernline.de>", authorGB);
 
     // contributors groupbox, names in two vertical columns
