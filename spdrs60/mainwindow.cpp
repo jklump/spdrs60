@@ -4,8 +4,8 @@
     Copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-03-18 18:33:31 $
-                           $Revision: 1.172 $
+    last modified        : $Date: 2009-10-26 21:59:44 $
+                           $Revision: 1.173 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -703,17 +703,17 @@ void MainWindow::initMainWindow()
 
     if (firstinstance) {
 #if QT_VERSION >= 0x030200
-        actionFileQuit = new QAction(QPixmap(filequit_xpm), tr("&Quit"),
-                Qt::CTRL + Qt::Key_Q, this, "fileQuit");
+    actionFileQuit = new QAction(QPixmap(filequit_xpm), tr("&Quit"),
+            Qt::CTRL + Qt::Key_Q, this, "fileQuit");
 #else
-        actionFileQuit = new QAction("", QPixmap(filequit_xpm), tr("&Quit"),
-                Qt::CTRL + Qt::Key_Q, this, "fileQuit");
+    actionFileQuit = new QAction("", QPixmap(filequit_xpm), tr("&Quit"),
+            Qt::CTRL + Qt::Key_Q, this, "fileQuit");
 #endif
-        connect(actionFileQuit, SIGNAL(activated()), this,
-                SLOT(closeAllWindows()));
-        actionFileQuit->addTo(filemenu);
-        //actionFileQuit->addTo(filetb);
-        firstinstance = false;
+    connect(actionFileQuit, SIGNAL(activated()), qApp,
+            SLOT(closeAllWindows()));
+    actionFileQuit->addTo(filemenu);
+    //actionFileQuit->addTo(filetb);
+      firstinstance = false;
     }
 
     connect(filemenu, SIGNAL(aboutToShow()), this,

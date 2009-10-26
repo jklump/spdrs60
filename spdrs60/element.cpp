@@ -4,8 +4,8 @@
     Copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-03-16 17:38:04 $
-                           $Revision: 1.193 $
+    last modified        : $Date: 2009-10-26 21:59:44 $
+                           $Revision: 1.194 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -435,24 +435,24 @@ void element::mousePressEvent(QMouseEvent* e)
 
             /*TODO: move this to gbsarea*/
             if (classid == siciDre) {
-                ttComm = new turntableCommander(this, iSoldSubType, sSoldText);
-                connect(ttComm, SIGNAL(applyPressed(QPoint&)),
-                        this, SLOT(slotUpdateTurntableData(QPoint&)));
+                ttComm = new turntableCommander(sSoldText, this, iSoldSubType);
+                connect(ttComm, SIGNAL(sendTtCommand(int, int)),
+                        this, SLOT(slotUpdateTurntableData(int, int)));
                 connect(ttComm, SIGNAL(sendAvailTracks(const QString&)),
                         this, SLOT(slotCopyAvailTracks(const QString&)));
 
                 ttComm->exec();     // parent window NOT usable
-                ttComm->move(QCursor::pos());
+                //ttComm->move(QCursor::pos());
             }
 
             /*TODO: move this to gbsarea*/
             else if (classid == siciSbn || classid == siciMdc) {
                 turntableProperties = new elementCommander(this, classid);
-                connect(turntableProperties, SIGNAL(applyPressed(QPoint&)),
-                        this, SLOT(slotUpdateTurntableData(QPoint&)));
+                connect(turntableProperties, SIGNAL(sendTtCommand(int, int)),
+                        this, SLOT(slotUpdateTurntableData(int, int)));
 
                 turntableProperties->exec();        // parent window NOT usable
-                turntableProperties->move(QCursor::pos());
+                //turntableProperties->move(QCursor::pos());
             }
 
             /* determine what type of button was pressed an send the
@@ -9104,14 +9104,14 @@ void element::setRouted(bool rstate)
 }
 
 
-void element::slotUpdateTurntableData(QPoint& newCmd_)
+void element::slotUpdateTurntableData(int keyno, int keycolor)
 {
-    address1 = address2 + newCmd_.x() - 1;
-    state = newCmd_.y();
+    address1 = address2 + keyno - 1;
+    state = keycolor;
 
     // save track# in subtype if a track key was pressed
-    if (classid == siciDre && newCmd_.x() >= 4)
-        iSoldSubType = newCmd_.x() * 2 - 9 + newCmd_.y();
+    if (classid == siciDre && keyno >= 4)
+        iSoldSubType = keyno * 2 - 9 + keycolor;
 
     setupElementIcon();
     sendSrcpState();

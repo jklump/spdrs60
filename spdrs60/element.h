@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 by Guido Scholz
     e-mail               : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-03-16 17:38:04 $
-                           $Revision: 1.108 $
+    last modified        : $Date: 2009-10-26 21:59:44 $
+                           $Revision: 1.109 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -425,7 +425,7 @@ public slots:
 
 private slots:
     void slotLocateTimerTimeout();
-    void slotUpdateTurntableData(QPoint&);
+    void slotUpdateTurntableData(int, int);
     void slotCopyAvailTracks(const QString&);
     void processInfoPortMessage(unsigned int bus,
             unsigned int addr, unsigned int port, unsigned int value);

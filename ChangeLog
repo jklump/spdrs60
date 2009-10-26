@@ -1,3 +1,18 @@
+2009-10-26 Guido Scholz <guido.scholz@bayernline.de>
+	* turntablecommander.*, element.cpp: Layout management for
+	turntable commander added.
+
+2009-10-22 Guido Scholz <guido.scholz@bayernline.de>
+	* gbsarea.*: Changed handling of QPoint to use reference.
+	* tranlations/spdrs60_de.ts: Fixed arguments for server connect
+	message.
+
+2009-10-17 Guido Scholz <guido.scholz@bayernline.de>
+	* gbsarea.*: Changed toggle menu to action.
+
+2009-09-14 Guido Scholz <guido.scholz@bayernline.de>
+	* Makefile.am: Extra dist files cleaned up.
+
 +++ Release 0.5.5 (2009-03-18) +++
 
 2009-03-18 Guido Scholz <guido.scholz@bayernline.de>
@@ -68,7 +83,7 @@
 
 2008-12-23 Guido Scholz <guido.scholz@bayernline.de>
 	* spdrs60/srcp_test.cpp, spdrs60/Makefile.am: Preliminary test
-	for SRCP message generation added, runned by "make check".
+	for SRCP message generation added, ran by "make check".
 
 +++ Release 0.5.4 (2008-11-23) +++
 

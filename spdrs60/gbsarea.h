@@ -1,11 +1,11 @@
 /**************************************************************************
                            gbsarea.h
-                           version 0.5.3 $Revision: 1.57 $
+                           version 0.5.3 $Revision: 1.58 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-03-16 17:38:04 $
+    last modified        : $Date: 2009-10-26 21:59:44 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -29,11 +29,11 @@
 #endif
 
 #include <qapplication.h>
+#include <qaction.h>
 #include <qdatetime.h>
 #include <qfile.h>
 #include <qmap.h>
 #include <qmessagebox.h>
-#include <qpopupmenu.h>
 #include <qptrvector.h>
 #include <qtextstream.h>
 #include <qtimer.h>
@@ -109,7 +109,7 @@ private:
    QCursor     eraseCursor;
    QTimer*     delayTimer;
 
-   QPopupMenu* ctxNorm;
+   QAction* toggleAction;
    
    QPtrVector<element> elements;
 
@@ -170,7 +170,7 @@ protected:
     bool erasing;
     bool painting;
     unsigned int indexOf(int row, int col) const;
-    unsigned int indexOf(QPoint) const;
+    unsigned int indexOf(const QPoint&) const;
     void mousePressEvent(QMouseEvent*);
     void mouseMoveEvent(QMouseEvent*);
     void mouseReleaseEvent(QMouseEvent*);

@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-08-12 17:58:27 $ 
-                           $Revision: 1.11 $
+    last modified        : $Date: 2009-10-26 21:59:44 $ 
+                           $Revision: 1.12 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -40,12 +40,11 @@
 
 
 
-elementCommander::elementCommander(QWidget* parent, int cid)
-    : QDialog(0, "elementCommander", false)
+elementCommander::elementCommander(QWidget* parent, int cid):
+    QDialog(NULL, "elementCommander", false)
 {
     // true, parent window not usable until this closed
     // dummy command to avoid compiler warning
-    if (parent);
     classid = cid;
 
     // create a button group for standard buttons ...
@@ -133,8 +132,8 @@ void elementCommander::slotMoveUp()
     buttStop->setEnabled(true);
     buttMoveUp->setEnabled(false);
     buttMoveDown->setEnabled(false);
-    buildCommand(1, 0);         // select direction upwards
-    buildCommand(2, 0);         // start moving bridge
+    emit sendTtCommand(1, 0);         // select direction upwards
+    emit sendTtCommand(2, 0);         // start moving bridge
 }
 
 
@@ -143,8 +142,8 @@ void elementCommander::slotMoveDown()
     buttStop->setEnabled(true);
     buttMoveUp->setEnabled(false);
     buttMoveDown->setEnabled(false);
-    buildCommand(1, 1);         // select direction downwards
-    buildCommand(2, 0);         // start moving bridge
+    emit sendTtCommand(1, 1);         // select direction downwards
+    emit sendTtCommand(2, 0);         // start moving bridge
 }
 
 
@@ -153,8 +152,8 @@ void elementCommander::slotRotateLeft()
     buttStop->setEnabled(true);
     buttRotateLeft->setEnabled(false);
     buttRotateRight->setEnabled(false);
-    buildCommand(1, 0);         // select left rotating
-    buildCommand(2, 0);
+    emit sendTtCommand(1, 0);         // select left rotating
+    emit sendTtCommand(2, 0);
 }
 
 
@@ -163,8 +162,8 @@ void elementCommander::slotRotateRight()
     buttStop->setEnabled(true);
     buttRotateLeft->setEnabled(false);
     buttRotateRight->setEnabled(false);
-    buildCommand(1, 1);         // select right rotating
-    buildCommand(2, 1);
+    emit sendTtCommand(1, 1);         // select right rotating
+    emit sendTtCommand(2, 1);
 }
 
 
@@ -177,22 +176,15 @@ void elementCommander::slotStop()
         buttMoveDown->setEnabled(true);
         buttMoveUp->setOn(false);
         buttMoveDown->setOn(false);
-        buildCommand(2, 1);     // stop moving
+        emit sendTtCommand(2, 1);     // stop moving
     }
     else if (classid == element::siciMdc) {
         buttRotateLeft->setEnabled(true);
         buttRotateRight->setEnabled(true);
         buttRotateLeft->setOn(false);
         buttRotateRight->setOn(false);
-        buildCommand(1, 0);     // stop rotating with a red and a green button
-        buildCommand(2, 1);
+        emit sendTtCommand(1, 0);     // stop rotating with a red and a green button
+        emit sendTtCommand(2, 1);
     }
 }
 
-
-void elementCommander::buildCommand(int iKeyNo_, int iKeyColor_)
-{
-    QPoint point = QPoint(iKeyNo_, iKeyColor_);
-    emit applyPressed(point);
-    // 0 == red key, 1 == green key
-}

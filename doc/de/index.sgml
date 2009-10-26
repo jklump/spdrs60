@@ -4823,8 +4823,8 @@ kann. Die Eingabe weiterer Elemente ist optional.
 <para>
 Das Hinzufügen von zusätzlichen geschalteten Elementen, wie den Weichen
 im Fahrweg oder Flankenschutzweichen erfolgt mit Hilfe der im
-Fahrstraßendialog (<xref linkend="abb-routing8">) rechts unten
-sichtbarein Liste. Über
+Fahrstraßendialog (<xref linkend="abb-routing8">) rechts unten sichtbare
+Liste. Über
 den Schaltknopf &raquo;Hinzufügen&laquo; erscheint ein kleines
 Dialogfenster (<xref linkend="abb-routing22">), das Eingaben ähnlich
 wie beim Startsignal erlaubt. Auch hier wird der Name des

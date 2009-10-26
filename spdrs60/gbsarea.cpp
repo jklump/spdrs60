@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-03-16 17:38:04 $
-                           $Revision: 1.120 $
+    last modified        : $Date: 2009-10-26 21:59:44 $
+                           $Revision: 1.121 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -26,6 +26,7 @@
 #include <stdlib.h>            //for free, calloc, realloc
 
 #include <qdragobject.h>
+#include <qpopupmenu.h>
 
 #include "resources.h"
 #include "gbsarea.h"
@@ -68,10 +69,6 @@ enum {
     SRCH_A2   // search string should be in address 2 field
 };
 
-// constants for context menu
-enum {
-    CTX_ID_TOGGLE = 900
-};
 
 
 GBSArea::GBSArea(QWidget* parent, const char* name)
@@ -236,8 +233,7 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
     connect(delayTimer, SIGNAL(timeout()),
             this, SLOT(slotElementClickedTimeout()));
 
-    ctxNorm = new QPopupMenu(this, "ctxNormPM");
-    ctxNorm->insertItem(tr("&Toggle"), CTX_ID_TOGGLE);
+    toggleAction = new QAction(tr("&Toggle"), 0, this, "toggleaction");
 }
 
 
@@ -1045,7 +1041,7 @@ unsigned int GBSArea::indexOf(int row, int col) const
 
 
 // *INDENT-OFF*
-unsigned int GBSArea::indexOf(QPoint ep) const
+unsigned int GBSArea::indexOf(const QPoint& ep) const
 {
     int row = ep.y() / (EL_HEIGHT + 1) + 1;
     int col = ep.x() / (EL_WIDTH + 1) + 1;
@@ -1338,10 +1334,12 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
             element* el = (element*)childAt(e->pos());
 
             if (el != NULL && el->isSwitchable()) {
-                ctxNorm->setItemEnabled(CTX_ID_TOGGLE,
-                        el->ctxCanSwitch());
+                toggleAction->setEnabled(el->ctxCanSwitch());
 
-                if (ctxNorm->exec(QCursor::pos()) != -1)
+                QPopupMenu menu;
+                toggleAction->addTo(&menu);
+
+                if (menu.exec(QCursor::pos()) != -1)
                     el->toggle();
             }
             e->accept();
@@ -1394,10 +1392,12 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
             element* el = (element*)childAt(e->pos());
 
             if (el != NULL && el->isSwitchable()) {
-                ctxNorm->setItemEnabled(CTX_ID_TOGGLE,
-                        el->ctxCanSwitch());
+                toggleAction->setEnabled(el->ctxCanSwitch());
 
-                if (ctxNorm->exec(QCursor::pos()) != -1)
+                QPopupMenu menu;
+                toggleAction->addTo(&menu);
+
+                if (menu.exec(QCursor::pos()) != -1)
                     el->toggle();
             }
             e->accept();

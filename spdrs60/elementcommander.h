@@ -1,11 +1,11 @@
 /***************************************************************************
                            elementcommander.h
-                           version 0.5.3 $Revision: 1.10 $
+                           version 0.5.3 $Revision: 1.11 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-05 08:42:40 $
+    last modified        : $Date: 2009-10-26 21:59:44 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -46,7 +46,6 @@ public:
    elementCommander(QWidget* parent = 0, int = 0);
 
 private:
-   void buildCommand(int, int);       // creates and sends the "keys"
    void setupBridge();                // sets up the bridge buttons
    void setupMotor();                 // sets up the motor buttons
 
@@ -58,7 +57,7 @@ private slots:
    void slotStop();                   // stop any movements
 
 signals:
-   void applyPressed(QPoint&);       // sends keys to element
+   void sendTtCommand(int, int);       // sends keys to element
 
 private:
    QPushButton*  buttMoveUp;          // button for moving a bridge up
