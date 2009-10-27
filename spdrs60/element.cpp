@@ -4,8 +4,8 @@
     Copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-10-27 18:50:31 $
-                           $Revision: 1.196 $
+    last modified        : $Date: 2009-10-27 20:54:53 $
+                           $Revision: 1.197 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -165,7 +165,6 @@ void element::initVariables()
 void element::readFileTextFromStream(QTextStream& ats)
 {
     QString s, key, value, oldname;
-    bool translate = false;
     bool rotated = false;
 
     while (!ats.eof()) {
@@ -184,10 +183,6 @@ void element::readFileTextFromStream(QTextStream& ats)
             else if (key.startsWith("%")) {
                 /*end of dataset, exit while loop*/
                   break;
-            }
-            else if (key.compare(GF_NAME) == 0) {
-                  oldname = value.stripWhiteSpace();
-                  translate = true;
             }
             else if (key.compare(GF_ROTATE) == 0) {
                 rotated = value.toInt() == 1;
@@ -257,13 +252,6 @@ void element::readFileTextFromStream(QTextStream& ats)
                 break;
             }
         }
-    }
-    if (translate) {
-        classid = translateItem(oldname, rotated);
-        //TODO: remove this
-        if (classid == 0)
-            qWarning("Translation failed. Item: '%s', rotate: %d, result: %d",
-                    oldname.data(), rotated, classid);
     }
 }
 
@@ -9580,142 +9568,6 @@ unsigned int element::entryDir()
     return returnvalue;
 }
 
-
-/*translate old style element names to class id*/
-element::SpdrItemClassId element::translateItem(QString& name, bool rotate)
-{
-    if (rotate)
-        return translateRotatedItem(name);
-    return translateNotRotatedItem(name);
-}
-
-/*translate old style rotated elements to class id*/
-element::SpdrItemClassId element::translateRotatedItem(QString& name)
-{
-    SpdrItemClassId returnvalue = siciNone;
-
-    // signals
-    if (name == SYM_HS) returnvalue = siciHs3;
-    else if (name == SYM_HSS) returnvalue = siciHss3;
-    else if (name == SYM_SS) returnvalue = siciSs3;
-    else if (name == SYM_SSH) returnvalue = siciSh3;
-    else if (name == SYM_SSS) returnvalue = siciSd3;
-    else if (name == SYM_WS) returnvalue = siciWs3;
-    else if (name == SYM_VS) returnvalue = siciVs3;
-    else if (name == SYM_ZP) returnvalue = siciZp3;
-    else if (name == SYM_NRB) returnvalue = siciZt3;
-    else if (name == SYM_SRB) returnvalue = siciRt3;
-
-    // turnouts
-    else if (name == SYM_WEL) returnvalue = siciTl3;
-    else if (name == SYM_WER) returnvalue = siciTr3;
-    else if (name == SYM_DWL) returnvalue = siciIl3;
-    else if (name == SYM_DWR) returnvalue = siciIr3;
-    else if (name == SYM_WEY) returnvalue = siciSy3;
-    else if (name == SYM_DRW) returnvalue = siciTw3;
-    else if (name == SYM_EKL) returnvalue = siciSl3;
-    else if (name == SYM_EKR) returnvalue = siciSr3;
-
-    // tracks
-    else if (name == SYM_GER) returnvalue = siciSt1;
-    else if (name == SYM_KUR) returnvalue = siciCr3;
-    else if (name == SYM_KUL) returnvalue = siciCl3;
-    else if (name == SYM_TDR) returnvalue = siciTdl;
-   
-
-    // miscellaneous
-    else if (name == SYM_PRE) returnvalue = siciBs3;
-    else if (name == SYM_GET) returnvalue = siciTuh;
-    else if (name == SYM_TUL) returnvalue = siciTul;
-    else if (name == SYM_TUR) returnvalue = siciTur;
-    else if (name == SYM_BUL) returnvalue = siciBur;
-    else if (name == SYM_SHO) returnvalue = siciLt3;
-    else if (name == SYM_LSR) returnvalue = siciLs3;
-    else if (name == SYM_SHU) returnvalue = siciLb3;
-
-    return returnvalue;
-}
-
-/*translate old style not rotated elements to class id*/
-element::SpdrItemClassId element::translateNotRotatedItem(QString& name)
-{
-    SpdrItemClassId returnvalue = siciNone;
-
-    // signals
-    if (name == SYM_HS) returnvalue = siciHs1;
-    else if (name == SYM_HSS) returnvalue = siciHss1;
-    else if (name == SYM_SS) returnvalue = siciSs1;
-    else if (name == SYM_SSH) returnvalue = siciSh1;
-    else if (name == SYM_SSS) returnvalue = siciSd1;
-    else if (name == SYM_WS) returnvalue = siciWs1;
-    else if (name == SYM_VS) returnvalue = siciVs1;
-    else if (name == SYM_ZP) returnvalue = siciZp1;
-    else if (name == SYM_NRB) returnvalue = siciZt1;
-    else if (name == SYM_SRB) returnvalue = siciRt1;
-
-    // turnouts
-    else if (name == SYM_WEL) returnvalue = siciTl1;
-    else if (name == SYM_WER) returnvalue = siciTr1;
-    else if (name == SYM_DWL) returnvalue = siciIl1;
-    else if (name == SYM_DWR) returnvalue = siciIr1;
-    else if (name == SYM_WEY) returnvalue = siciSy1;
-    else if (name == SYM_DRW) returnvalue = siciTw1;
-    else if (name == SYM_EKL) returnvalue = siciSl1;
-    else if (name == SYM_EKR) returnvalue = siciSr1;
-    else if (name == SYM_DKL) returnvalue = siciDl1;
-    else if (name == SYM_DKR) returnvalue = siciDr1;
-
-    // tracks
-    else if (name == SYM_GER) returnvalue = siciSt1;
-    else if (name == SYM_TRV) returnvalue = siciSt2;
-    else if (name == SYM_DIR) returnvalue = siciSt3;
-    else if (name == SYM_DIL) returnvalue = siciSt4;
-    else if (name == SYM_KUR) returnvalue = siciCr1;
-    else if (name == SYM_KUL) returnvalue = siciCl1;
-    else if (name == SYM_TTL) returnvalue = siciCl2;
-    else if (name == SYM_TTR) returnvalue = siciCr2;
-    else if (name == SYM_TBL) returnvalue = siciCl4;
-    else if (name == SYM_TBR) returnvalue = siciCr4;
-    else if (name == SYM_TDR) returnvalue = siciTdr;
-    else if (name == SYM_TDB) returnvalue = siciTdb;
-    else if (name == SYM_KRH) returnvalue = siciKrh;
-    else if (name == SYM_KRR) returnvalue = siciKr1;
-    else if (name == SYM_KRL) returnvalue = siciKl1;
-
-    // miscellaneous
-    else if (name == SYM_ENK) returnvalue = siciEnk;
-    else if (name == SYM_BLD) returnvalue = siciBld;
-    else if (name == SYM_ADR) returnvalue = siciAdr;
-    else if (name == SYM_BUE) returnvalue = siciBue;
-    else if (name == SYM_REL) returnvalue = siciRel;
-    else if (name == SYM_MDC) returnvalue = siciMdc;
-    else if (name == SYM_DRE) returnvalue = siciDre;
-    else if (name == SYM_SBN) returnvalue = siciSbn;
-    else if (name == SYM_PRE) returnvalue = siciBs1;
-    else if (name == SYM_GET) returnvalue = siciTuh;
-    else if (name == SYM_TUL) returnvalue = siciTul;
-    else if (name == SYM_TUR) returnvalue = siciTur;
-    else if (name == SYM_LEE) returnvalue = siciTxt;
-    else if (name == SYM_BUC) returnvalue = siciBuc;
-    else if (name == SYM_BUL) returnvalue = siciBul;
-    else if (name == SYM_SHO) returnvalue = siciLt1;
-    else if (name == SYM_LSR) returnvalue = siciLs1;
-    else if (name == SYM_SHU) returnvalue = siciLb1;
-
-    // not rotatables
-    else if (name == SYM_FEB) returnvalue = siciFeb;
-    else if (name == SYM_FEE) returnvalue = siciFee;
-    else if (name == SYM_FEG) returnvalue = siciFeg;
-    else if (name == SYM_FEN) returnvalue = siciFen;
-    else if (name == SYM_FER) returnvalue = siciFer;
-    else if (name == SYM_FEY) returnvalue = siciFey;
-    else if (name == SYM_TAF) returnvalue = siciTaf;
-    else if (name == SYM_TAS) returnvalue = siciTas;
-    else if (name == SYM_TAU) returnvalue = siciTau;
-    else if (name == SYM_TAW) returnvalue = siciTaw;
-
-    return returnvalue;
-}
 
 /*change table light state for turnouts*/
 void element::setTableLight(bool ison)

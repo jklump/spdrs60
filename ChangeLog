@@ -1,6 +1,6 @@
 2009-10-27 Guido Scholz <guido.scholz@bayernline.de>
 	* element.cpp: Address items are no longer occupied by feedback
-	events.
+	events, old style element name compatibility removed.
 	* turntablecommander.*: Variables and functions renamed.
 	* aboutdialog.cpp, elementdialog.cpp, keyboard.cpp,
 	newlayoutdialog, options.cpp, routedialog.cpp,
