@@ -1,11 +1,11 @@
 /***************************************************************************
                            turntablecommander.cpp
-                           version 0.5.6 $Revision: 1.18 $
+                           version 0.5.6 $Revision: 1.19 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-10-26 21:59:44 $
+    last modified        : $Date: 2009-10-27 18:14:16 $
 ***************************************************************************/
 
 /******************************************************************************
@@ -60,19 +60,16 @@ enum {
 
 turntableCommander::turntableCommander(const QString& tracks,
         QWidget * parent, int activetrack):
-    QDialog(NULL, "turntableCommander", false)
+    QDialog(NULL, "turntableCommander", false),
+    bStepMode(USAGE),
+    currenttrack(activetrack),
+    targettrack(0)
 {
-    // mode of step buttons is normal use, not programming
-    bStepMode = USAGE;
-    
     // no tracks available on startup
     for (int i = 0; i < 24; i++)
         iTracks[i] = 0;
     
-    // get active track from element data
-    iActiveTrack = activetrack;
-    // no new track selected
-    iNewTrack = 0;
+    targettrack = 0;
     setCaption(tr("Digital turntable commander"));
 
     // save all available tracks from element
@@ -83,7 +80,7 @@ turntableCommander::turntableCommander(const QString& tracks,
         unsigned int pos = 0;
         for (QStringList::Iterator it = list.begin(); it != list.end(); ++it) {
             pos = (*it).toUInt();
-            if ((pos != 0) && (pos < 24)) {
+            if ((pos != 0) && (pos <= 24)) {
                 iTracks[pos - 1] = 1;
             }
         }
@@ -170,7 +167,7 @@ turntableCommander::turntableCommander(const QString& tracks,
     buttSetup->setPixmap(pixButton);
     buttSetup->setToggleButton(true);
     connect(buttSetup, SIGNAL(toggled(bool)),
-            this, SLOT(slotResizeCommander(bool)));
+            this, SLOT(enableProgramming(bool)));
 
     buttonLayout->addStretch();
 
@@ -229,8 +226,7 @@ turntableCommander::turntableCommander(const QString& tracks,
     QToolTip::add(buttChooseRight, tr("Select clockwise\nrotation"));
     QToolTip::add(buttStopCont, tr("Stop rotating"));
     QToolTip::add(listTracks,
-            tr("Choose the new track the turntable\n"
-                "shall go to"));
+            tr("Choose target track for next turntable move"));
     QToolTip::add(buttGoToTrack, tr("Go to selected track"));
     QToolTip::add(buttTurn180, tr("Turn bridge at 180°"));
     QToolTip::add(buttSetup, tr("Setup turntable"));
@@ -242,8 +238,7 @@ turntableCommander::turntableCommander(const QString& tracks,
             tr("Press this button to save the current\n"
                 "bridge position as position #1."));
     QToolTip::add(buttAddPos,
-            tr("Press this button to add an other position\n"
-                "for a track."));
+            tr("Press this button to add an other track position."));
     QToolTip::add(buttEnd,
             tr("Press this button to end programming mode."));
 
@@ -254,18 +249,16 @@ turntableCommander::turntableCommander(const QString& tracks,
 }
 
 
-void turntableCommander::slotResizeCommander(bool bShowProgArea)
+void turntableCommander::enableProgramming(bool enable)
 {
-    if (bShowProgArea)
+    if (enable) {
         bgProg->show();
+        buttInput->setFocus();
+    }
     else {
         bgProg->hide();
         adjustSize();
     }
-
-    // in prog mode set focus to the first programming button
-    if (bShowProgArea == 1)
-        buttInput->setFocus();
 }
 
 
@@ -280,7 +273,7 @@ void turntableCommander::slotProgrammer(int iButtID)
             iTotalProgTracks = 0;
             for (int i = 0; i < 24; i++)
                 iTracks[i] = 0;
-            iActiveTrack = 1;
+            currenttrack = 1;
             displayTracks();
             emit sendTtCommand(KEY_INP);  // "INPUT" key
             buttSave->setFocus();
@@ -299,10 +292,10 @@ void turntableCommander::slotProgrammer(int iButtID)
             break;
 
         case 2: //Pos. #1 is saved!
-            if (iTracks[iActiveTrack - 1] == 0) {
-                iTracks[iActiveTrack - 1] = 1;
+            if (iTracks[currenttrack - 1] == 0) {
+                iTracks[currenttrack - 1] = 1;
                 iTotalProgTracks += 1;
-                buttAddPos->setText(tr("Pos. #%1 saved!").arg(iActiveTrack));
+                buttAddPos->setText(tr("Pos. #%1 saved!").arg(currenttrack));
                 emit sendTtCommand(KEY_INP);      // "INPUT" key
             }
             if (iTotalProgTracks < 24)
@@ -319,11 +312,11 @@ void turntableCommander::slotProgrammer(int iButtID)
             emit sendTtCommand(KEY_END);  // "END" key
 
             buttSetup->toggle();
-            slotResizeCommander(0);
+            enableProgramming(false);
             buttGoToTrack->setFocus();
             sendTracks();
             displayTracks();
-            iNewTrack = 1;
+            targettrack = 1;
             slotGoToTrack();
             break;
     }
@@ -342,30 +335,27 @@ void turntableCommander::activateUsageButtons(bool bState)
 }
 
 
-void turntableCommander::slotSaveNewTrack(const QString & cNewTrack_)
+void turntableCommander::slotSaveNewTrack(const QString& target)
 {
-    bool ok;
-
-    iNewTrack = cNewTrack_.toInt(&ok, 10);
-    // saves new track value selected in drop-down track-list
+    targettrack = target.toInt();
 }
 
 
 void turntableCommander::slotGoToTrack()
 {
-    int iTracksToMove = abs(iActiveTrack - iNewTrack);
+    int iTracksToMove = abs(currenttrack - targettrack);
     // do nothing if new track is old track
-    if (iTracksToMove == 0 || iNewTrack == 0)
+    if (iTracksToMove == 0 || targettrack == 0)
         return;
 
     // autoselect direction of rotating
     if (pref.autottdir || bStep) {
         bgChooseDir->
-            setButton((iTracksToMove > 12) ^ (iNewTrack > iActiveTrack));
-        slotChooseDir((iTracksToMove > 12) ^ (iNewTrack > iActiveTrack));
+            setButton((iTracksToMove > 12) ^ (targettrack > currenttrack));
+        slotChooseDir((iTracksToMove > 12) ^ (targettrack > currenttrack));
     }
     // send command and start timer
-    emit sendTtCommand((iNewTrack + 9) / 2, !(iNewTrack % 2));
+    emit sendTtCommand((targettrack + 9) / 2, !(targettrack % 2));
     startTrackTimer();
 }
 
@@ -405,7 +395,7 @@ void turntableCommander::displayTracks()
             labelTracks[i]->setBackgroundColor(QColor(80, 255, 80));
 
         // draw a yellow frame if active track
-        if (iActiveTrack == i + 1)
+        if (currenttrack == i + 1)
             labelTracks[i]->setBackgroundColor(QColor(255, 255, 0));
     }
 }
@@ -414,18 +404,20 @@ void turntableCommander::displayTracks()
 void turntableCommander::slotTrackReached()
 {
     // calculate new track ( right == bDir=0 )
-    int iTrackID = ((bDir == RIGHT) ? iActiveTrack + 1 : iActiveTrack - 1);
+    int iTrackID = ((bDir == RIGHT) ? currenttrack + 1 : currenttrack - 1);
+    
     // correct trackID if "spin over"
     if (iTrackID == 0)
         iTrackID = 24;
-    if (iTrackID == 25)
+    else if (iTrackID == 25)
         iTrackID = 1;
-    iActiveTrack = iTrackID;
+
+    currenttrack = iTrackID;
     // display tracks
     displayTracks();
 
     // enable most buttons if track is reached
-    if (iNewTrack == iTrackID) {
+    if (targettrack == iTrackID) {
         buttStopCont->setEnabled(false);
         buttChooseLeft->setEnabled(!pref.autottdir);
         buttChooseRight->setEnabled(!pref.autottdir);
@@ -442,9 +434,9 @@ void turntableCommander::slotTrackReached()
 
 void turntableCommander::slotTurn180()
 {
-    iNewTrack = iActiveTrack + 12;
-    if (iNewTrack > 24)         // turns bridge 180 degrees
-        iNewTrack -= 24;
+    targettrack = currenttrack + 12;
+    if (targettrack > 24)         // turns bridge 180 degrees
+        targettrack -= 24;
 
     emit sendTtCommand(KEY_TRN);      // build command and start timer for track
     startTrackTimer();          // display
@@ -457,24 +449,24 @@ void turntableCommander::slotLeftStep()
 
     if (bStepMode == PROG) {
         if (iTracks[0] == 1) {
-            if (iActiveTrack == 1)
-                iActiveTrack = 24;
+            if (currenttrack == 1)
+                currenttrack = 24;
             else
-                iActiveTrack -= 1;
+                currenttrack -= 1;
         }
         QString sText;
 
-        if (iTracks[iActiveTrack - 1] == 0)
-            sText.sprintf(tr("&Add position #%d"), iActiveTrack);
+        if (iTracks[currenttrack - 1] == 0)
+            sText.sprintf(tr("&Add position #%d"), currenttrack);
         else
-            sText.sprintf(tr("Pos. #%d saved!"), iActiveTrack);
+            sText.sprintf(tr("Pos. #%d saved!"), currenttrack);
         buttAddPos->setText(sText);
 
         emit sendTtCommand(KEY_LFT);  // "<" key
     }
     else {
         bStep = true;
-        i = iActiveTrack;
+        i = currenttrack;
         do {
             if (i == 1)
                 i = 24;
@@ -482,7 +474,7 @@ void turntableCommander::slotLeftStep()
                 i -= 1;
         }
         while (iTracks[i - 1] != 1);
-        iNewTrack = i;
+        targettrack = i;
         slotGoToTrack();
         bStep = false;
     }
@@ -495,24 +487,24 @@ void turntableCommander::slotRightStep()
 
     if (bStepMode == PROG) {
         if (iTracks[0] == 1) {
-            if (iActiveTrack == 24)
-                iActiveTrack = 1;
+            if (currenttrack == 24)
+                currenttrack = 1;
             else
-                iActiveTrack += 1;
+                currenttrack += 1;
         }
         QString sText;
 
-        if (iTracks[iActiveTrack - 1] == 0)
-            sText.sprintf(tr("&Add position #%d"), iActiveTrack);
+        if (iTracks[currenttrack - 1] == 0)
+            sText.sprintf(tr("&Add position #%d"), currenttrack);
         else
-            sText.sprintf(tr("Pos. #%d is saved!"), iActiveTrack);
+            sText.sprintf(tr("Pos. #%d is saved!"), currenttrack);
         buttAddPos->setText(sText);
 
         emit sendTtCommand(KEY_RGT);  // ">" key
     }
     else {
         bStep = true;
-        i = iActiveTrack;
+        i = currenttrack;
         // calculation only for display
         do {
             if (i == 24)
@@ -521,17 +513,18 @@ void turntableCommander::slotRightStep()
                 i += 1;
         }
         while (iTracks[i - 1] != 1);
-        iNewTrack = i;
+        targettrack = i;
         slotGoToTrack();
         bStep = false;
     }
 }
 
 
-void turntableCommander::slotChooseDir(int iDir_)
+// changes rotating direction
+void turntableCommander::slotChooseDir(int newdir)
 {
-    bDir = !iDir_;              // changes rotating direction
-    emit sendTtCommand(4, !iDir_);
+    bDir = (newdir = LEFT) ? RIGHT : LEFT;
+    emit sendTtCommand(4, bDir);
 }
 
 

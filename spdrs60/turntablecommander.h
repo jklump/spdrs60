@@ -1,11 +1,11 @@
 /***************************************************************************
                            turntablecommander.h
-                           version 0.5.6 $Revision: 1.10 $
+                           version 0.5.6 $Revision: 1.11 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-10-26 21:59:44 $
+    last modified        : $Date: 2009-10-27 18:14:16 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -38,6 +38,14 @@ class turntableCommander: public QDialog
 {
    Q_OBJECT
 
+   bool          bStepMode;            //
+   int           currenttrack;         // number of active track
+   int           targettrack;            // number of selected new track
+   int           iTracks[24];          // list of available tracks ( == 1 )
+   int           iTotalProgTracks;     // total number of available tracks
+   bool          bStep;                //
+   bool          bDir;                 // saves rotating direction
+
    QButtonGroup *bgProg;
    QButtonGroup* bgChooseDir;          // button group for prog buttons
    QPushButton*  buttLeftStep;         // button to step one track to the left
@@ -58,13 +66,6 @@ class turntableCommander: public QDialog
    QPixmap       pixButton;            // pixmap for different buttons
    QTimer*       tTrackReached;        // timer for a virtual correct track
                                        // position display
-   int           iNewTrack;            // number of selected new track
-   int           iActiveTrack;         // number of active track
-   int           iTracks[24];          // list of available tracks ( == 1 )
-   int           iTotalProgTracks;     // total number of available tracks
-   bool          bStepMode;            //
-   bool          bStep;                //
-   bool          bDir;                 // saves rotating direction
 
    void activateUsageButtons(bool);         // (de)activates normal buttons
                                             // while programming
@@ -84,7 +85,7 @@ private slots:
    void slotLeftStep();                     //
    void slotRightStep();                    //
    void slotStopCont();                     // stop rotating
-   void slotResizeCommander(bool);          // resizes window
+   void enableProgramming(bool);            // resizes window
    void slotProgrammer(int);                //
    void slotTrackReached();                 // called by timer if a new track is
                                             // reached

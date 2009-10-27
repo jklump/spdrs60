@@ -2769,10 +2769,6 @@ assigned to a new route. This is used for train tracking.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Digital turntable programmer:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&amp;Start programming</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2813,11 +2809,6 @@ rotation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Choose the new track the turntable
-shall go to</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Go to selected track</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2841,11 +2832,6 @@ bridge position as position #1.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Press this button to add an other position
-for a track.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Press this button to end programming mode.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2863,6 +2849,22 @@ for a track.</source>
     </message>
     <message>
         <source>Pos. #%d is saved!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Digital turntable programmer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pos. #%1 saved!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose target track for next turntable move</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Press this button to add an other track position.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

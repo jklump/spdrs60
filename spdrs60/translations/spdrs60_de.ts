@@ -2141,11 +2141,11 @@ Erlaubt sind Werte von %1 bis %2.</translation>
     <name>SrcpPort</name>
     <message>
         <source>%1: Try to connect host &apos;%2&apos; on port &apos;%3&apos;</source>
-        <translation>%1: Versuche Verbindung zu Host &apos;%1&apos; auf Port &apos;%2&apos; herzustellen</translation>
+        <translation>%1: Versuche Verbindung zu Host &apos;%2&apos; auf Port &apos;%3&apos; herzustellen</translation>
     </message>
     <message>
         <source>%1: Parse error, parameter list too long &apos;%2&apos;.</source>
-        <translation>%1: Fehler beim Auswerten, Parameterliste zu lang &apos;%1&apos;.</translation>
+        <translation>%1: Fehler beim Auswerten, Parameterliste zu lang &apos;%2&apos;.</translation>
     </message>
     <message>
         <source>%1: Parse error, parameter list too short &apos;%2&apos;.</source>

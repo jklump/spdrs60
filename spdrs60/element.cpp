@@ -4,8 +4,8 @@
     Copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-10-26 21:59:44 $
-                           $Revision: 1.194 $
+    last modified        : $Date: 2009-10-27 18:14:15 $
+                           $Revision: 1.195 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -9015,12 +9015,16 @@ void element::slotOccupyElement(unsigned int bus, unsigned int contact,
         bool ostate)
 {
     if (bus == iFBBusNo) {
-        if (classid == siciAdr && iSoldInvert != 1) {
-            unsigned int targetmod = (contact - 1) / 8 + 1;
-            unsigned int selfmod = (iFBContact - 1) / 8 + 1;
 
-            if (targetmod == selfmod)
-                updateEDiTSAddress(contact, ostate);
+        // address panels don't get occupied
+        if (classid == siciAdr) {
+            if (iSoldInvert != 1) {
+                unsigned int targetmod = (contact - 1) / 8 + 1;
+                unsigned int selfmod = (iFBContact - 1) / 8 + 1;
+
+                if (targetmod == selfmod)
+                    updateEDiTSAddress(contact, ostate);
+            }
         }
         else if (contact == (unsigned int)iFBContact)
             setOccupied(ostate);
