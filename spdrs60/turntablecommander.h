@@ -1,11 +1,11 @@
 /***************************************************************************
                            turntablecommander.h
-                           version 0.5.6 $Revision: 1.11 $
+                           version 0.5.6 $Revision: 1.12 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-10-27 18:14:16 $
+    last modified        : $Date: 2009-10-27 18:50:31 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -67,12 +67,12 @@ class turntableCommander: public QDialog
    QTimer*       tTrackReached;        // timer for a virtual correct track
                                        // position display
 
-   void activateUsageButtons(bool);         // (de)activates normal buttons
-                                            // while programming
-   void startTrackTimer();                  // starts track displaying timer
-   void sendTracks();                       // sends new programmed tracks to
-                                            // element
-   void displayTracks();                    // displays all tracks
+   void activateUsageButtons(bool);    // (de)activates normal buttons
+                                       // while programming
+   void startTrackTimer();             // starts track displaying timer
+   void storeTrackPositions();         // sends new programmed tracks to
+                                       // element
+   void displayTracks();               // displays all tracks
 
 public:
    turntableCommander(const QString&, QWidget* parent=0, int activetrack = 0);
@@ -91,7 +91,7 @@ private slots:
                                             // reached
 signals:
    void sendTtCommand(int, int);            // send turn table control command
-   void sendAvailTracks(const QString&);    // send track string to element
+   void trackPositionsChanged(const QString&);    // send track string to element
 };
 
 #endif

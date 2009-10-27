@@ -1,11 +1,11 @@
 /***************************************************************************
                            turntablecommander.cpp
-                           version 0.5.6 $Revision: 1.19 $
+                           version 0.5.6 $Revision: 1.20 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-10-27 18:14:16 $
+    last modified        : $Date: 2009-10-27 18:50:31 $
 ***************************************************************************/
 
 /******************************************************************************
@@ -314,7 +314,7 @@ void turntableCommander::slotProgrammer(int iButtID)
             buttSetup->toggle();
             enableProgramming(false);
             buttGoToTrack->setFocus();
-            sendTracks();
+            storeTrackPositions();
             displayTracks();
             targettrack = 1;
             slotGoToTrack();
@@ -547,7 +547,7 @@ void turntableCommander::slotStopCont()
 }
 
 
-void turntableCommander::sendTracks()
+void turntableCommander::storeTrackPositions()
 {
     QString s = "";
     bool isfirst = true;
@@ -561,9 +561,9 @@ void turntableCommander::sendTracks()
                 isfirst = false;
             }
             else
-                s.append(";%1").arg(i + 1);
+                s.append(QString(";%1").arg(i + 1));
         }
     }
-    emit sendAvailTracks(s);    // send track string to element
+    emit trackPositionsChanged(s);    // send track string to element
 }
 

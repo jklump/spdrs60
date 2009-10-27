@@ -4,8 +4,8 @@
     Copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-10-27 18:14:15 $
-                           $Revision: 1.195 $
+    last modified        : $Date: 2009-10-27 18:50:31 $
+                           $Revision: 1.196 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -438,7 +438,7 @@ void element::mousePressEvent(QMouseEvent* e)
                 ttComm = new turntableCommander(sSoldText, this, iSoldSubType);
                 connect(ttComm, SIGNAL(sendTtCommand(int, int)),
                         this, SLOT(slotUpdateTurntableData(int, int)));
-                connect(ttComm, SIGNAL(sendAvailTracks(const QString&)),
+                connect(ttComm, SIGNAL(trackPositionsChanged(const QString&)),
                         this, SLOT(slotCopyAvailTracks(const QString&)));
 
                 ttComm->exec();     // parent window NOT usable
