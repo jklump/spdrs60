@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 by Guido Scholz
     e-mail               : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-10-27 21:02:24 $
-                           $Revision: 1.110 $
+    last modified        : $Date: 2009-10-27 21:24:52 $
+                           $Revision: 1.111 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -45,86 +45,6 @@
 #include "elementcommander.h"
 #include "srcpmessage.h"
 #include "turntablecommander.h"
-
-// symbol names
-// signals
-static const char SYM_HS[]  = "signal_hs"; // Hauptsignal
-static const char SYM_HSS[] = "signal_hss";// Hauptsperrsignal
-static const char SYM_SS[]  = "signal_ss"; // Schutzhaltsignal
-static const char SYM_SSH[] = "signal_ssh";// Schutzhaltsignal Falschfahrt
-static const char SYM_SSS[] = "signal_sss";// Schutzhaltsignal zwei Gleistasten
-static const char SYM_WS[]  = "signal_ws"; // Rangierhaltsignal (Ra 11)
-static const char SYM_VS[]  = "signal_vs"; // Vorsignal
-static const char SYM_ZP[]  = "signal_zp";
-static const char SYM_NRB[] = "signal_nrb";// not really signals but rails
-static const char SYM_SRB[] = "signal_srb";// with a routing button
-
-// turnouts
-static const char SYM_WEL[] = "weiche_links";//turnout left
-static const char SYM_WER[] = "weiche_rechts";//turnout right
-static const char SYM_DWL[] = "weiche_diag_links";//turnoutdiagonalleft
-static const char SYM_DWR[] = "weiche_diag_rechts";//turnoutdiagonalright
-static const char SYM_WEY[] = "weiche_y";
-static const char SYM_DRW[] = "dreier_weiche";//3-way turnout
-static const char SYM_EKL[] = "ekw_links"; // single-slip switch left
-static const char SYM_EKR[] = "ekw_rechts";// single-slip switch right
-static const char SYM_DKL[] = "dkw_links"; // double-slip switch left
-static const char SYM_DKR[] = "dkw_rechts";// double-slip switch right
-
-// straight tracks
-static const char SYM_GER[] = "gerade";// straight track horizontal
-static const char SYM_TRV[] = "trackvertical";
-static const char SYM_DIL[] = "diagonale_links";
-static const char SYM_DIR[] = "diagonale_rechts";
-static const char SYM_TDR[] = "richtung_1";//track direction right
-static const char SYM_TDB[] = "richtung_2";//track both directions
-static const char SYM_KRH[] = "kreuzung_hose";  //crossing
-static const char SYM_KRR[] = "kreuzung_rechts";//crossing right
-static const char SYM_KRL[] = "kreuzung_links"; //crossing left
-static const char SYM_GET[] = "gerade_tl"; // tunnel straight left/right (tug)
-static const char SYM_TUL[] = "diagonale_links_tl";//tunnelbottomleft /top left
-static const char SYM_TUR[] = "diagonale_rechts_tl";// right
-
-// curved tracks
-static const char SYM_KUR[] = "kurve_rechts";//curved track right bottom (KUR)
-static const char SYM_KUL[] = "kurve_links"; //left top (KUL)
-static const char SYM_TTL[] = "turn_topvert_left";
-static const char SYM_TTR[] = "turn_topvert_right";
-static const char SYM_TBL[] = "turn_botvert_left";
-static const char SYM_TBR[] = "turn_botvert_right";
-
-// miscellaneous
-static const char SYM_ENK[] = "entkoppler";// decoupler (dco)
-static const char SYM_BLD[] = "blind";     // blind item, switchable
-static const char SYM_ADR[] = "adresse";   // trackaddressindicator
-static const char SYM_BUE[] = "uebergang"; // level crossing (lcr)
-static const char SYM_REL[] = "relais";
-static const char SYM_MDC[] = "motor_dc";
-static const char SYM_DRE[] = "drehscheibe";// turntable (tnt)
-static const char SYM_SBN[] = "schiebebuehne";// transfer table (trt)
-
-// decorative items
-static const char SYM_PRE[] = "prellbock"; // buffer stop, bumper
-static const char SYM_LEE[] = "leer";// (txt)
-static const char SYM_BUC[] = "haus_1";
-static const char SYM_BUL[] = "haus_2";
-static const char SYM_SHO[] = "schuppen_o";// loco shed
-static const char SYM_LSR[] = "schuppen_m";
-static const char SYM_SHU[] = "schuppen_u";
-
-// external group buttons
-static const char SYM_TAF[] = "taste_fht";
-static const char SYM_TAU[] = "taste_ufgt";// combination with MGT
-static const char SYM_TAW[] = "taste_wgt";
-static const char SYM_TAS[] = "taste_sgt"; // combination with HaGT
-
-static const char SYM_FEG[] = "panel_green";// route group
-static const char SYM_FEB[] = "panel_blue"; // turnout group
-static const char SYM_FER[] = "panel_red";  // signal group
-static const char SYM_FEY[] = "panel_yellow";// level crossing group
-static const char SYM_FEE[] = "panel_grey"; // power supply
-static const char SYM_FEN[] = "panel_brown";// axle counter
-
 
 
 /* Click states of layout internal buttons (group key block, signals,
@@ -191,7 +111,6 @@ const unsigned int rdSE = rdS | rdE;
 /*some magic strings for reading and writing layout files*/
 static const char GF_INDEX[]     = "index";
 static const char GF_CLASSID[]   = "classid";
-static const char GF_NAME[]      = "icon";
 static const char GF_ROTATE[]    = "rotate";
 static const char GF_INVERSTO[]  = "invers turnout";
 static const char GF_DECODER[]   = "decoder";
@@ -267,17 +186,17 @@ public:
         siciSl1 = 610, siciSl2, siciSl3, siciSl4,
         siciDr1 = 620, siciDr2, siciDl1, siciDl2, //2 not used
         siciTw1 = 650, siciTw2, siciTw3, siciTw4, //2, 4 not used
-        siciDre = 700, siciSbn,
-        siciRel = 710,
-        siciMdc = 720,
+        siciDre = 700, siciSbn, // turntable, shiftbridge
+        siciRel = 710, //relais
+        siciMdc = 720, //DC motor^
         siciBs1 = 800, siciBs2, siciBs3, siciBs4,
         siciLs1 = 820, siciLs2, siciLs3, siciLs4, //2, 4 not used
         siciLt1 = 830, siciLt2, siciLt3, siciLt4, //2, 4 not used
         siciLb1 = 840, siciLb2, siciLb3, siciLb4, //2, 4 not used
         siciBuc = 850, siciBul, siciBur,
-        siciAdr = 900,
-        siciEnk = 930,
-        siciBld = 940,
+        siciAdr = 900, // address indicator
+        siciEnk = 930, // decoupler
+        siciBld = 940, // blind element
         siciBue = 950,
         siciTxt = 1000,
         siciFeg = 1100, siciTaf, siciTau,
