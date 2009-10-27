@@ -5,8 +5,8 @@
  *   2007-08-26
  * 
  * Last modified
- *   $Date: 2009-03-21 11:57:09 $
- *   $Revision: 1.10 $
+ *   $Date: 2009-10-27 20:29:24 $
+ *   $Revision: 1.11 $
  *
  * Copyright
  *   (C) 2007-2009 Guido Scholz <guido.scholz@bayernline.de>
@@ -62,8 +62,7 @@ AboutDialog::AboutDialog(QWidget* parent): QDialog(parent,
     font.setWeight(QFont::Bold);
     label->setFont(font);
 
-    pixmapLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    pixmapLayout->addStretch();
 
     // second line: description
     label = new QLabel(tr(
@@ -109,15 +108,13 @@ AboutDialog::AboutDialog(QWidget* parent): QDialog(parent,
     // OK button
     QHBoxLayout* buttonLayout = new QHBoxLayout(0, 0, 6);
     baseLayout->addLayout(buttonLayout);
-    buttonLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    buttonLayout->addStretch();
 
     QPushButton* okPB = new QPushButton(tr("OK"), this);
     buttonLayout->addWidget(okPB);
     okPB->setDefault(true);
     connect(okPB, SIGNAL(clicked()), this, SLOT(accept()));
 
-    buttonLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    buttonLayout->addStretch();
 }
 

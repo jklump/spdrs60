@@ -2,8 +2,8 @@
  * serverinfodialog.cpp
  * --------------------
  * Begin        : 2007-08-22
- * Last modified: $Date: 2008-11-05 08:42:40 $
- *                $Revision: 1.7 $
+ * Last modified: $Date: 2009-10-27 20:29:24 $
+ *                $Revision: 1.8 $
  * Copyright    : (C) 2007-2008 by Guido Scholz
  * E-Mail       : guido.scholz@bayernline.de
  * Description  : Dialog window to display SRCP server information
@@ -194,16 +194,14 @@ ServerInfoDialog::ServerInfoDialog(SrcpPort::CommunicationStyle style,
     // OK button
     QHBoxLayout* buttonLayout = new QHBoxLayout(0, 0, 6);
     baseLayout->addLayout(buttonLayout);
-    buttonLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    buttonLayout->addStretch();
 
     QPushButton* okPB = new QPushButton(tr("OK"), this);
     buttonLayout->addWidget(okPB);
     okPB->setDefault(true);
     connect(okPB, SIGNAL(clicked()), this, SLOT(accept()));
 
-    buttonLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    buttonLayout->addStretch();
 }
 
 /*

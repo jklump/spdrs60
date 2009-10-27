@@ -3,8 +3,8 @@
                            -------------------------------
     copyright            : (C) 2005-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-05 08:42:40 $
-                           $Revision: 1.52 $
+    last modified        : $Date: 2009-10-27 20:29:24 $
+                           $Revision: 1.53 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -77,8 +77,7 @@ void RouteDialog::addIdentificationTab()
     QHBoxLayout* nameLayout = new QHBoxLayout(identificationGBL, 6);
     QLabel* lblRouteName = new QLabel(tr("Na&me"), identificationGB);
     nameLayout->addWidget(lblRouteName);
-    nameLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    nameLayout->addStretch();
     routeNameLE = new QLineEdit(identificationGB, "routeNameLE");
     lblRouteName->setBuddy(routeNameLE);
     nameLayout->addWidget(routeNameLE);
@@ -88,8 +87,7 @@ void RouteDialog::addIdentificationTab()
     QLabel* lblRouteNumber = new QLabel(tr("Identification n&umber"),
             identificationGB);
     numberLayout->addWidget(lblRouteNumber);
-    numberLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    numberLayout->addStretch();
     routeNumberLE = new QLineEdit(identificationGB, "routeNumberLE");
     routeNumberLE->setMaximumWidth(LEMAXWIDTH);
     routeNumberLE->setValidator(tracknumberValidator);
@@ -105,8 +103,7 @@ void RouteDialog::addIdentificationTab()
     QHBoxLayout* trainLayout = new QHBoxLayout(identificationGBL, 6);
     QLabel* lblRouteTrain = new QLabel(tr("&Train number"), identificationGB);
     trainLayout->addWidget(lblRouteTrain);
-    trainLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    trainLayout->addStretch();
     routeTrainLE = new QLineEdit(identificationGB, "routeTrainLE");
     routeTrainLE->setMaximumWidth(LEMAXWIDTH);
     routeTrainLE->setValidator(trainidValidator);
@@ -131,8 +128,7 @@ void RouteDialog::addIdentificationTab()
     QHBoxLayout* startSignalLayout = new QHBoxLayout(startSigGBLayout, 6);
     QLabel* startSignalNameLB = new QLabel(tr("Name"), startsignalGB);
     startSignalLayout->addWidget(startSignalNameLB);
-    startSignalLayout->addItem(new QSpacerItem(0, 0,
-                QSizePolicy::Expanding, QSizePolicy::Minimum));
+    startSignalLayout->addStretch();
     startSignalNameLE = new QLineEdit(startsignalGB, "startSignalNameLE");
     startSignalNameLE->setReadOnly(true);
 #if QT_VERSION >= 0x040000
@@ -147,8 +143,7 @@ void RouteDialog::addIdentificationTab()
     QHBoxLayout* startSigSrcpBusLayout = new QHBoxLayout(startSigGBLayout, 6);
     QLabel* startSignalSrcpBusLB = new QLabel(tr("SRC&P-Bus"), startsignalGB);
     startSigSrcpBusLayout->addWidget(startSignalSrcpBusLB);
-    startSigSrcpBusLayout->addItem( new QSpacerItem(0, 0,
-                QSizePolicy::Expanding, QSizePolicy::Minimum));
+    startSigSrcpBusLayout->addStretch();
     startSignalSrcpBusLE = new QLineEdit(startsignalGB, "startSignalSrcpBusLE");
     startSignalSrcpBusLE->setMaximumWidth(LEMAXWIDTH);
     startSignalSrcpBusLE->setValidator(busValidator);
@@ -161,8 +156,7 @@ void RouteDialog::addIdentificationTab()
     QHBoxLayout* startSigAddrLayout = new QHBoxLayout(startSigGBLayout, 6);
     QLabel* startSignalAddressLB = new QLabel(tr("&Address"), startsignalGB);
     startSigAddrLayout->addWidget(startSignalAddressLB);
-    startSigAddrLayout->addItem( new QSpacerItem(0, 0,
-                QSizePolicy::Expanding, QSizePolicy::Minimum));
+    startSigAddrLayout->addStretch();
     startSignalAddressLE = new QLineEdit(startsignalGB, "startSignalAddressLE");
     startSignalAddressLE->setMaximumWidth(LEMAXWIDTH);
     startSignalAddressLE->setMaxLength(4);
@@ -175,16 +169,13 @@ void RouteDialog::addIdentificationTab()
     QHBoxLayout* startSigStateLayout = new QHBoxLayout(startSigGBLayout, 6);
     QLabel* startSignalStateLB = new QLabel(tr("S&tate"), startsignalGB);
     startSigStateLayout->addWidget(startSignalStateLB);
-    startSigStateLayout->addItem(new QSpacerItem(0, 0,
-                QSizePolicy::Expanding, QSizePolicy::Minimum));
+    startSigStateLayout->addStretch();
     startSignalStateSB = new QSpinBox(0, 3, 1 , startsignalGB,
             "startSignalStateSB");
     startSignalStateLB->setBuddy(startSignalStateSB);
     startSigStateLayout->addWidget(startSignalStateSB);
 
-    startSigGBLayout->addItem(new QSpacerItem(0, 0,
-                QSizePolicy::Expanding, QSizePolicy::Minimum));
-
+    startSigGBLayout->addStretch();
 
     /*stop signal group box*/
     QGroupBox* stopSignalGB = new QGroupBox(0, Qt::Horizontal,
@@ -196,8 +187,7 @@ void RouteDialog::addIdentificationTab()
     QHBoxLayout* stopSignalLayout = new QHBoxLayout(stopSigGBLayout, 6);
     QLabel* stopSignalNameLB = new QLabel(tr("Name"), stopSignalGB);
     stopSignalLayout->addWidget(stopSignalNameLB);
-    stopSignalLayout->addItem(new QSpacerItem(0, 0,
-                QSizePolicy::Expanding, QSizePolicy::Minimum));
+    stopSignalLayout->addStretch();
     stopSignalNameLE = new QLineEdit(stopSignalGB, "stopSignalNameLE");
     stopSignalNameLE->setMaximumWidth(LEMAXWIDTH);
     stopSignalNameLE->setReadOnly(true);
@@ -212,8 +202,7 @@ void RouteDialog::addIdentificationTab()
     QHBoxLayout* stopSigSrcpBusLayout = new QHBoxLayout(stopSigGBLayout, 6);
     QLabel* stopSignalSrcpBusLB = new QLabel(tr("SRCP-&Bus"), stopSignalGB);
     stopSigSrcpBusLayout->addWidget(stopSignalSrcpBusLB);
-    stopSigSrcpBusLayout->addItem( new QSpacerItem(0, 0,
-                QSizePolicy::Expanding, QSizePolicy::Minimum));
+    stopSigSrcpBusLayout->addStretch();
     stopSignalSrcpBusLE = new QLineEdit(stopSignalGB, "stopSignalSrcpBusLE");
     stopSignalSrcpBusLE->setMaximumWidth(LEMAXWIDTH);
     stopSignalSrcpBusLE->setValidator(busValidator);
@@ -226,8 +215,7 @@ void RouteDialog::addIdentificationTab()
     QHBoxLayout* stopSigAddrLayout = new QHBoxLayout(stopSigGBLayout, 6);
     QLabel* stopSignalAddressLB = new QLabel(tr("Add&ress"), stopSignalGB);
     stopSigAddrLayout->addWidget(stopSignalAddressLB);
-    stopSigAddrLayout->addItem( new QSpacerItem(0, 0,
-                QSizePolicy::Expanding, QSizePolicy::Minimum));
+    stopSigAddrLayout->addStretch();
     stopSignalAddressLE = new QLineEdit(stopSignalGB, "stopSignalAddressLE");
     stopSignalAddressLE->setMaximumWidth(LEMAXWIDTH);
     stopSignalAddressLE->setMaxLength(4);
@@ -236,12 +224,10 @@ void RouteDialog::addIdentificationTab()
     connect(stopSignalAddressLE, SIGNAL(textChanged(const QString&)),
             this, SLOT(stopSignalAddressChanged(const QString&)));
 
-    stopSigGBLayout->addItem(new QSpacerItem(0, 0,
-                QSizePolicy::Expanding, QSizePolicy::Minimum));
+    stopSigGBLayout->addStretch();
 
     // push group boxes to top
-    tabLayout->addItem(new QSpacerItem(0, 0,
-                QSizePolicy::Minimum, QSizePolicy::Expanding));
+    tabLayout->addStretch();
 
     addTab(w, tr("&Identification"));
 }
@@ -287,8 +273,7 @@ void RouteDialog::addAutomaticTab()
     QHBoxLayout* activateSrcpBusLayout = new QHBoxLayout(activateGBL, 6);
     activateSrcpBusLB = new QLabel(tr("B&us (s88/SRCP)"), activateGB);
     activateSrcpBusLayout->addWidget(activateSrcpBusLB);
-    activateSrcpBusLayout->addItem(new QSpacerItem(0, 0,
-                QSizePolicy::Expanding, QSizePolicy::Minimum));
+    activateSrcpBusLayout->addStretch();
     activateSrcpBusLE = new QLineEdit(activateGB, "activateSrcpBusLE");
     activateSrcpBusLE->setMaximumWidth(LEMAXWIDTH);
     activateSrcpBusLE->setValidator(busValidator);
@@ -300,8 +285,7 @@ void RouteDialog::addAutomaticTab()
     activateContactLB = new QLabel(tr("C&ontact (1 - 496)"),
             activateGB);
     activateContactLayout->addWidget(activateContactLB);
-    activateContactLayout->addItem(new QSpacerItem(0, 0,
-                QSizePolicy::Expanding, QSizePolicy::Minimum));
+    activateContactLayout->addStretch();
     activateContactSB = new QSpinBox(1, 496, 1, activateGB,
             "activateContactSB");
     activateContactLB->setBuddy(activateContactSB);
@@ -314,8 +298,7 @@ void RouteDialog::addAutomaticTab()
     activateModuleLB = new QLabel(tr("Module (1 - %1)")
             .arg(pref.fbfactor == 0 ? 31 : 62), activateGB);
     activateModuleLayout->addWidget(activateModuleLB);
-    activateModuleLayout->addItem(new QSpacerItem(0, 0,
-                QSizePolicy::Expanding, QSizePolicy::Minimum));
+    activateModuleLayout->addStretch();
     activateModuleLE = new QLineEdit(activateGB, "activateModuleLE");
     activateModuleLE->setMaximumWidth(LEMAXWIDTH);
 #if QT_VERSION >= 0x040000
@@ -331,8 +314,7 @@ void RouteDialog::addAutomaticTab()
     activatePortLB = new QLabel(tr("Port (1 - %1)")
             .arg(pref.fbfactor == 0 ? 16 : 8), activateGB);
     activatePortLayout->addWidget(activatePortLB);
-    activatePortLayout->addItem( new QSpacerItem(0, 0,
-                QSizePolicy::Expanding, QSizePolicy::Minimum));
+    activatePortLayout->addStretch();
     activatePortLE = new QLineEdit(activateGB, "activatePortLE");
     activatePortLE->setMaximumWidth(LEMAXWIDTH);
 #if QT_VERSION >= 0x040000
@@ -344,8 +326,7 @@ void RouteDialog::addAutomaticTab()
     activatePortLayout->addWidget(activatePortLE);
 
     // push items to top
-    activateGBL->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum,
-                QSizePolicy::Expanding));
+    activateGBL->addStretch();
 
 
     /*release route group box*/
@@ -380,8 +361,7 @@ void RouteDialog::addAutomaticTab()
     QHBoxLayout* releaseSrcpBusLayout = new QHBoxLayout(releaseGBL, 6);
     releaseSrcpBusLB = new QLabel(tr("Bus (s&88/SRCP)"), releaseGB);
     releaseSrcpBusLayout->addWidget(releaseSrcpBusLB);
-    releaseSrcpBusLayout->addItem(new QSpacerItem(0, 0,
-                QSizePolicy::Expanding, QSizePolicy::Minimum));
+    releaseSrcpBusLayout->addStretch();
     releaseSrcpBusLE = new QLineEdit(releaseGB, "releaseSrcpBusLE");
     releaseSrcpBusLE->setMaximumWidth(LEMAXWIDTH);
     releaseSrcpBusLE->setValidator(busValidator);
@@ -392,8 +372,7 @@ void RouteDialog::addAutomaticTab()
     QHBoxLayout* releaseContactLayout = new QHBoxLayout(releaseGBL, 6);
     releaseContactLB = new QLabel(tr("&Contact (1 - 496)"), releaseGB);
     releaseContactLayout->addWidget(releaseContactLB);
-    releaseContactLayout->addItem(new QSpacerItem(0, 0,
-                QSizePolicy::Expanding, QSizePolicy::Minimum));
+    releaseContactLayout->addStretch();
     releaseContactSB = new QSpinBox(1, 496, 1, releaseGB, "releaseContactSB");
     releaseContactLB->setBuddy(releaseContactSB);
     releaseContactLayout->addWidget(releaseContactSB);
@@ -405,8 +384,7 @@ void RouteDialog::addAutomaticTab()
     releaseModuleLB = new QLabel(tr("Module (1 - %1)")
             .arg(pref.fbfactor == 0 ? 31 : 62), releaseGB);
     releaseModuleLayout->addWidget(releaseModuleLB);
-    releaseModuleLayout->addItem(new QSpacerItem(0, 0,
-                QSizePolicy::Expanding, QSizePolicy::Minimum));
+    releaseModuleLayout->addStretch();
     releaseModuleLE = new QLineEdit(releaseGB, "releaseModuleLE");
     releaseModuleLE->setMaximumWidth(LEMAXWIDTH);
 #if QT_VERSION >= 0x040000
@@ -422,8 +400,7 @@ void RouteDialog::addAutomaticTab()
     releasePortLB = new QLabel(tr("Port (1 - %1)")
             .arg(pref.fbfactor == 0 ? 16 : 8), releaseGB);
     releasePortLayout->addWidget(releasePortLB);
-    releasePortLayout->addItem(new QSpacerItem(0, 0,
-                QSizePolicy::Expanding, QSizePolicy::Minimum));
+    releasePortLayout->addStretch();
     releasePortLE = new QLineEdit(releaseGB, "releasePortLE");
     releasePortLE->setMaximumWidth(LEMAXWIDTH);
 #if QT_VERSION >= 0x040000
@@ -435,8 +412,7 @@ void RouteDialog::addAutomaticTab()
     releasePortLayout->addWidget(releasePortLE);
 
     // push items to top
-    releaseGBL->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum,
-                QSizePolicy::Expanding));
+    releaseGBL->addStretch();
     addTab(w, tr("&Automatic"));
 }
 
@@ -477,8 +453,7 @@ void RouteDialog::addRouteTypeTab()
     typeL->addWidget(detourShuntingRB);
 
     // push groub box to top
-    tabLayout->addItem(new QSpacerItem(0, 0 , QSizePolicy::Minimum,
-                QSizePolicy::Expanding));
+    tabLayout->addStretch();
 
     addTab(w, tr("&Type"));
 }
@@ -518,8 +493,7 @@ void RouteDialog::addElementsTab()
     /*column with Add and Remove buttons*/
     QVBoxLayout* routeElBtnLayout = new QVBoxLayout(routeElL, 6);
 
-    routeElBtnLayout->addItem(new QSpacerItem(0, 0,
-                QSizePolicy::Expanding, QSizePolicy::Minimum));
+    routeElBtnLayout->addStretch();
 
     upPB = new QPushButton(tr("&Up"), routeElementsGB);
     connect(upPB, SIGNAL(clicked()), this, SLOT(upListElement()));
@@ -546,8 +520,7 @@ void RouteDialog::addElementsTab()
     removePB->setEnabled(false);
 
     // push button to the left
-    routeElL->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    routeElL->addStretch();
 
     addTab(w, tr("&Elements"));
 }

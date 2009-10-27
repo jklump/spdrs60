@@ -1,11 +1,11 @@
 /***************************************************************************
                            keyboard.cpp
-                           version 0.5.5 $Revision: 1.22 $
+                           version 0.5.5 $Revision: 1.23 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-03-07 12:49:36 $
+    last modified        : $Date: 2009-10-27 20:29:24 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -47,8 +47,7 @@ keyboard::keyboard(SrcpPort::CommunicationStyle cstyle, int protocol,
             "protocolLayout");
     QLabel* protocolLbl = new QLabel(tr("&Protocol:"), this);
     protocolLayout->addWidget(protocolLbl);
-    protocolLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    protocolLayout->addStretch();
 
     protocolCB = new QComboBox(false, this);
     protocolLayout->addWidget(protocolCB);
@@ -72,8 +71,7 @@ keyboard::keyboard(SrcpPort::CommunicationStyle cstyle, int protocol,
     QLabel *busLbl = new QLabel(tr("SRCP-&Bus:"), this, "busLbl");
     busLayout->addWidget(busLbl);
 
-    busLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    busLayout->addStretch();
 
     busLE = new QLineEdit("1", this, "busLE");
     QFontMetrics fm(busLE->font());
@@ -99,8 +97,7 @@ keyboard::keyboard(SrcpPort::CommunicationStyle cstyle, int protocol,
     QLabel *labelAddress = new QLabel(tr("&Address:"), this, "addressLbl");
     addressLayout->addWidget(labelAddress);
 
-    addressLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    addressLayout->addStretch();
 
     addressLE = new QLineEdit("1", this, "addressLE");
     addressLE->setMaxLength(4);
@@ -115,8 +112,7 @@ keyboard::keyboard(SrcpPort::CommunicationStyle cstyle, int protocol,
     QBoxLayout* buttonLayout = new QHBoxLayout(0, 0, 6);
     baseLayout->addLayout(buttonLayout);
 
-    buttonLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    buttonLayout->addStretch();
 
     QPushButton* redPB = new QPushButton("&0", this, "redBtn");
     redPB->setMaximumWidth(LEwidth);
@@ -125,8 +121,7 @@ keyboard::keyboard(SrcpPort::CommunicationStyle cstyle, int protocol,
     buttonLayout->addWidget(redPB);
     QToolTip::add(redPB, tr("Press this button to activate red connector"));
 
-    buttonLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    buttonLayout->addStretch();
 
     QPushButton* greenPB = new QPushButton("&1", this, "greenBtn");
     greenPB->setMaximumWidth(LEwidth);
@@ -137,8 +132,7 @@ keyboard::keyboard(SrcpPort::CommunicationStyle cstyle, int protocol,
     QToolTip::add(greenPB,
             tr("Press this button to activate green connector"));
 
-    buttonLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    buttonLayout->addStretch();
 }
 
 

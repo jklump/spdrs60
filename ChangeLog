@@ -2,6 +2,10 @@
 	* element.cpp: Address items are no longer occupied by feedback
 	events.
 	* turntablecommander.*: Variables and functions renamed.
+	* aboutdialog.cpp, elementdialog.cpp, keyboard.cpp,
+	newlayoutdialog, options.cpp, routedialog.cpp,
+	routeelementdialog.cpp, serverinfodialog.cpp,
+	trainnumberdialog.cpp: Stretcher usage simplified.
 
 2009-10-26 Guido Scholz <guido.scholz@bayernline.de>
 	* turntablecommander.*, element.cpp: Layout management for

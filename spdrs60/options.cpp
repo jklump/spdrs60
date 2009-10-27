@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.cpp
-                           version 0.5.3 $Revision: 1.32 $
+                           version 0.5.3 $Revision: 1.33 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-05 08:42:40 $
+    last modified        : $Date: 2009-10-27 20:29:24 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -67,8 +67,7 @@ void optionsDialog::setupLayoutTab()
     QLabel* label = new QLabel(tr("&Columns:"),
             newlayoutGB);
     dimcolLayout->addWidget(label);
-    dimcolLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    dimcolLayout->addStretch();
     sbDefaultCols = new QSpinBox(MIN_COLS, MAX_COLS, 1, newlayoutGB,
             "colsSB");
     dimcolLayout->addWidget(sbDefaultCols);
@@ -80,8 +79,7 @@ void optionsDialog::setupLayoutTab()
     label = new QLabel(tr("&Rows:"),
             newlayoutGB);
     dimrowLayout->addWidget(label);
-    dimrowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    dimrowLayout->addStretch();
     sbDefaultRows = new QSpinBox(MIN_ROWS, MAX_ROWS, 1, newlayoutGB,
             "rowsSB");
     dimrowLayout->addWidget(sbDefaultRows);
@@ -100,8 +98,7 @@ void optionsDialog::setupLayoutTab()
     label = new QLabel(tr("&Editor for layout and preferences files:"),
             extprogGB);
     editorLayout->addWidget(label);
-    editorLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    editorLayout->addStretch();
     coboEditor = new QComboBox(true, extprogGB);
     coboEditor->insertItem("kwrite");
     coboEditor->insertItem("kedit");
@@ -115,8 +112,7 @@ void optionsDialog::setupLayoutTab()
     QHBoxLayout* browserLayout = new QHBoxLayout(extprogGBL);
     label = new QLabel(tr("&Browser for documentation:"), extprogGB);
     browserLayout->addWidget(label);
-    browserLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    browserLayout->addStretch();
     coboBrowser = new QComboBox(true, extprogGB);
     coboBrowser->insertItem("firefox");
     coboBrowser->insertItem("konqueror");
@@ -150,8 +146,7 @@ void optionsDialog::setupLayoutTab()
     chooseLayout->addWidget(cbAutoload);
     connect(cbAutoload, SIGNAL(toggled(bool)),
             this, SLOT(slotAutoloadToggled(bool)));
-    chooseLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    chooseLayout->addStretch();
     buttGetAutofile = new QPushButton(tr("C&hoose..."), autolayoutGB,
             "choosePB");
     chooseLayout->addWidget(buttGetAutofile);
@@ -178,8 +173,7 @@ void optionsDialog::setupLayoutTab()
     
 
     // spacer to push group boxes to top
-    tabL->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum,
-                QSizePolicy::Expanding));
+    tabL->addStretch();
 
     addTab(w, tr("&Layout"));
 }
@@ -237,8 +231,7 @@ void optionsDialog::setupElementTab()
 
 
     // spacer to push group boxes to top
-    tabL->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum,
-                QSizePolicy::Expanding));
+    tabL->addStretch();
 
     addTab(w, tr("&Elements"));
 }
@@ -271,8 +264,7 @@ void optionsDialog::setupDigitalTab()
     QHBoxLayout* decoderLayout = new QHBoxLayout(solenoidGBL);
     QLabel* label = new QLabel(tr("Default de&coder:"), solenoidGB);
     decoderLayout->addWidget(label);
-    decoderLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    decoderLayout->addStretch();
     coboDecoder = new QComboBox(false, solenoidGB);
     coboDecoder->insertItem("Märklin k83 WD (M)");
     coboDecoder->insertItem("Märklin k84 SD (M)");
@@ -307,8 +299,7 @@ void optionsDialog::setupDigitalTab()
     QHBoxLayout* atimeLayout = new QHBoxLayout(solenoidGBL);
     label = new QLabel(tr("Default &activation time (ms):"), solenoidGB);
     atimeLayout->addWidget(label);
-    atimeLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    atimeLayout->addStretch();
     // 20 ms steps
     sbActiveTime = new QSpinBox(50, 2000, 50, solenoidGB, "atimeSB");
     label->setBuddy(sbActiveTime);
@@ -319,8 +310,7 @@ void optionsDialog::setupDigitalTab()
     QHBoxLayout* delayLayout = new QHBoxLayout(solenoidGBL);
     label = new QLabel(tr("Routing &delay per element (ms):"), solenoidGB);
     delayLayout->addWidget(label);
-    delayLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    delayLayout->addStretch();
     // 50 ms steps
     sbRoutingTime = new QSpinBox(20, 1000, 20, solenoidGB, "rtSB");
     sbRoutingTime->setWrapping(true);
@@ -343,8 +333,7 @@ void optionsDialog::setupDigitalTab()
     QHBoxLayout* ttLayout = new QHBoxLayout(ttGBL);
     label = new QLabel(tr("T&ime for a 360° turn of turntable (s.ms):"), ttGB);
     ttLayout->addWidget(label);
-    ttLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    ttLayout->addStretch();
     leTTRoundTime = new QLineEdit(ttGB, "roundTime");
     leTTRoundTime->setMaxLength(6);
     leTTRoundTime->setMaximumWidth(60); //MAGIC
@@ -352,8 +341,7 @@ void optionsDialog::setupDigitalTab()
     ttLayout->addWidget(leTTRoundTime);
 
     // spacer to push group boxes to top
-    tabL->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum,
-                QSizePolicy::Expanding));
+    tabL->addStretch();
 
     addTab(w, tr("&Digital Data"));
 }
@@ -403,8 +391,7 @@ void optionsDialog::setupFeedbackTab()
             "busLayout");
     busLayout->addColSpacing(2, 10);
     
-    busGBL->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    busGBL->addStretch();
 
     // 1. line
     QLabel* label = new QLabel(tr("&Bus:"), busGB);
@@ -475,8 +462,7 @@ void optionsDialog::setupFeedbackTab()
     sbFBmod_4->setWrapping(true);
     
     // spacer to push group boxes to top
-    tabL->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum,
-                QSizePolicy::Expanding));
+    tabL->addStretch();
 
     addTab(w, tr("&Feedback modules"));
 }
@@ -518,8 +504,7 @@ void optionsDialog::setupFeedbackTypeTab()
     // 2b: vertical box layout container for buttons 
     QVBoxLayout* sxinitBtnLayout = new QVBoxLayout(sxinitGBL, 6);
 
-    sxinitBtnLayout->addItem(new QSpacerItem(0, 0,
-                QSizePolicy::Expanding, QSizePolicy::Minimum));
+    sxinitBtnLayout->addStretch();
 
     QPushButton* upPB = new QPushButton(tr("&Up"), selectrixGB,
             "upPB");
@@ -546,8 +531,7 @@ void optionsDialog::setupFeedbackTypeTab()
     removePB->setEnabled(false);
 
     // spacer to push buttons to left
-    sxinitGBL->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    sxinitGBL->addStretch();
 
 
     addTab(tab, tr("Feedback &type"));
@@ -614,8 +598,7 @@ void optionsDialog::setupGenericMessagesTab()
 */  
 
     // spacer to push group boxes to top
-    tabL->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum,
-                QSizePolicy::Expanding));
+    tabL->addStretch();
     addTab(w, tr("Generic &Messages"));
 }
 

@@ -3,8 +3,8 @@
  * ---------------------
  * copyright            : (C) 2007-2008 Guido Scholz
  * email                : guido.scholz@bayernline.de
- * last modified        : $Date: 2008-11-05 08:42:40 $
- *                        $Revision: 1.4 $
+ * last modified        : $Date: 2009-10-27 20:29:24 $
+ *                        $Revision: 1.5 $
  *
  * this code shows a window with a manual trainnumberdialog to switch solenoids
  */
@@ -42,8 +42,7 @@ TrainNumberDialog::TrainNumberDialog(QWidget* parent, const char* name)
     QLabel* label = new QLabel(tr("&Route-Id:"), this, "label");
     routeLayout->addWidget(label);
 
-    routeLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    routeLayout->addStretch();
 
     routeLE = new QLineEdit("1", this, "routeLE");
     QFontMetrics fm(routeLE->font());
@@ -63,8 +62,7 @@ TrainNumberDialog::TrainNumberDialog(QWidget* parent, const char* name)
     label = new QLabel(tr("&Train number:"), this, "trainLbl");
     trainLayout->addWidget(label);
 
-    trainLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    trainLayout->addStretch();
 
     trainLE = new QLineEdit("1", this, "trainLE");
     trainLE->setMaxLength(5);
@@ -79,8 +77,7 @@ TrainNumberDialog::TrainNumberDialog(QWidget* parent, const char* name)
     QBoxLayout* buttonLayout = new QHBoxLayout(0, 0, 6);
     baseLayout->addLayout(buttonLayout);
 
-    buttonLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    buttonLayout->addStretch();
 
     QPushButton* redPB = new QPushButton(tr("&Apply"), this, "applyBtn");
     connect(redPB, SIGNAL(clicked()), this, SLOT(setTrainNumber()));
@@ -88,8 +85,7 @@ TrainNumberDialog::TrainNumberDialog(QWidget* parent, const char* name)
     redPB->setDefault(true);
     QToolTip::add(redPB, tr("Press this button to set train number"));
     
-    buttonLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    buttonLayout->addStretch();
 }
 
 

@@ -1,11 +1,11 @@
 /***************************************************************************
                            newlayoutdialog.cpp
-                           version 0.5.3 $Revision: 1.25 $
+                           version 0.5.3 $Revision: 1.26 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                            (C) 2004-2008 by Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2008-11-09 20:54:53 $
+    last modified        : $Date: 2009-10-27 20:29:24 $
 ****************************************************************************/
 
 /***************************************************************************
@@ -57,9 +57,7 @@ void newLayoutDialog::setupGeneralTab()
     QHBoxLayout* columnsLayout = new QHBoxLayout(boxL);
     QLabel* label = new QLabel(tr("&Columns:"), dimensionsGB);
     columnsLayout->addWidget(label);
-    QSpacerItem* spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    columnsLayout->addItem(spacer);
+    columnsLayout->addStretch();
     sbEnterCols = new QSpinBox(MIN_COLS, MAX_COLS, 1, dimensionsGB,
             "sbEnterCols");
     columnsLayout->addWidget(sbEnterCols);
@@ -74,9 +72,7 @@ void newLayoutDialog::setupGeneralTab()
     QHBoxLayout* rowsLayout = new QHBoxLayout(boxL);
     label = new QLabel(tr("&Rows:"), dimensionsGB);
     rowsLayout->addWidget(label);
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    rowsLayout->addItem(spacer);
+    rowsLayout->addStretch();
     sbEnterRows = new QSpinBox(MIN_ROWS, MAX_ROWS, 1, dimensionsGB,
             "sbEnterCols");
     rowsLayout->addWidget(sbEnterRows);
@@ -97,9 +93,7 @@ void newLayoutDialog::setupGeneralTab()
     QHBoxLayout* hostL = new QHBoxLayout(serverGBL);
     label = new QLabel(tr("&Hostname:"), serverGB);
     hostL->addWidget(label);
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    hostL->addItem(spacer);
+    hostL->addStretch();
     hostLE = new QLineEdit(serverGB, "host");
     hostL->addWidget(hostLE);
     hostLE->setMaximumWidth(100);
@@ -112,9 +106,7 @@ void newLayoutDialog::setupGeneralTab()
     QHBoxLayout* portL = new QHBoxLayout(serverGBL);
     label = new QLabel(tr("&Portnumber:"), serverGB);
     portL->addWidget(label);
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    portL->addItem(spacer);
+    portL->addStretch();
 
     portLE = new QLineEdit(serverGB, "port");
     portL->addWidget(portLE);
@@ -128,9 +120,7 @@ void newLayoutDialog::setupGeneralTab()
                 "Default value for SRCP 0.8 is 4303,\n"
                 "for a SRCP 0.7 server choose 12345."));
 
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    serverGBL->addItem(spacer);
+    serverGBL->addStretch();
 
     // start options group box
     QButtonGroup *startBG = new QButtonGroup(3, Qt::Vertical,
@@ -157,8 +147,7 @@ void newLayoutDialog::setupGeneralTab()
                 "after layout power is switched on.\n"));
 
     // spacer to push group boxes to top
-    tabL->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum,
-                QSizePolicy::Expanding));
+    tabL->addStretch();
 
     addTab(w, tr("&General"));
 }
@@ -180,9 +169,7 @@ void newLayoutDialog::setupCrcfTab()
     QHBoxLayout* switchboxidL = new QHBoxLayout(switchboxGBL);
     QLabel* label = new QLabel(tr("&Id:"), switchboxGB);
     switchboxidL->addWidget(label);
-    QSpacerItem* spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    switchboxidL->addItem(spacer);
+    switchboxidL->addStretch();
     switchboxidLE = new QLineEdit(switchboxGB, "switchboxidLE");
     switchboxidL->addWidget(switchboxidLE);
     switchboxidLE->setMaximumWidth(100);
@@ -199,9 +186,7 @@ void newLayoutDialog::setupCrcfTab()
     QHBoxLayout* switchboxnameL = new QHBoxLayout(switchboxGBL);
     label = new QLabel(tr("&Name:"), switchboxGB);
     switchboxnameL->addWidget(label);
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    switchboxnameL->addItem(spacer);
+    switchboxnameL->addStretch();
 
     switchboxnameLE = new QLineEdit(switchboxGB, "switchboxnameLE");
     switchboxnameL->addWidget(switchboxnameLE);
@@ -210,9 +195,7 @@ void newLayoutDialog::setupCrcfTab()
     QToolTip::add(switchboxnameLE, tr(
                 "Enter the CRCF-name of this switchbox."));
 
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    switchboxGBL->addItem(spacer);
+    switchboxGBL->addStretch();
 
     // layout identification group box
     QGroupBox *layoutGB = new QGroupBox(0, Qt::Horizontal,
@@ -225,9 +208,7 @@ void newLayoutDialog::setupCrcfTab()
     QHBoxLayout* layoutidL = new QHBoxLayout(layoutGBL);
     label = new QLabel(tr("I&d:"), layoutGB);
     layoutidL->addWidget(label);
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    layoutidL->addItem(spacer);
+    layoutidL->addStretch();
     layoutidLE = new QLineEdit(layoutGB, "layoutidLE");
     layoutidL->addWidget(layoutidLE);
     layoutidLE->setMaximumWidth(100);
@@ -243,9 +224,7 @@ void newLayoutDialog::setupCrcfTab()
     QHBoxLayout* layoutnameL = new QHBoxLayout(layoutGBL);
     label = new QLabel(tr("N&ame:"), layoutGB);
     layoutnameL->addWidget(label);
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    layoutnameL->addItem(spacer);
+    layoutnameL->addStretch();
 
     layoutnameLE = new QLineEdit(layoutGB, "layoutnameLE");
     layoutnameL->addWidget(layoutnameLE);
@@ -254,13 +233,10 @@ void newLayoutDialog::setupCrcfTab()
     QToolTip::add(layoutnameLE, tr(
                 "Enter the CRCF-name of this layout."));
 
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    layoutGBL->addItem(spacer);
+    layoutGBL->addStretch();
 
     // spacer to push group boxes to top
-    tabL->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum,
-                QSizePolicy::Expanding));
+    tabL->addStretch();
 
     addTab(w, tr("&CRCF-Data"));
 }

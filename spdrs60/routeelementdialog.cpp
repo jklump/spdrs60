@@ -1,10 +1,10 @@
 /***************************************************************************
                            routeelementdialog.cpp
-                           version 0.5.2 $Revision: 1.15 $
+                           version 0.5.2 $Revision: 1.16 $
                            -------------------------------
     copyright            : (C) 2005-2007 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2007-10-10 19:41:51 $
+    last modified        : $Date: 2009-10-27 20:29:24 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -48,9 +48,7 @@ RouteElementDialog::RouteElementDialog(QWidget* parent)
     QHBoxLayout* reLayout = new QHBoxLayout(routeElGBLayout, 6);
     QLabel* reNameLbl = new QLabel(tr("Name"), elDataGB);
     reLayout->addWidget(reNameLbl);
-    QSpacerItem* spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    reLayout->addItem(spacer);
+    reLayout->addStretch();
     reNameLE = new QLineEdit(elDataGB, "reNameLE");
     reNameLE->setReadOnly(true);
 #if QT_VERSION >= 0x040000
@@ -65,9 +63,7 @@ RouteElementDialog::RouteElementDialog(QWidget* parent)
     QHBoxLayout* routeElSrcpBusLayout = new QHBoxLayout(routeElGBLayout, 6);
     QLabel* reSrcpBusLbl = new QLabel(tr("SRCP-&Bus"), elDataGB);
     routeElSrcpBusLayout->addWidget(reSrcpBusLbl);
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    routeElSrcpBusLayout->addItem(spacer);
+    routeElSrcpBusLayout->addStretch();
     reSrcpBusLE = new QLineEdit(elDataGB, "reSrcpBusLE");
     reSrcpBusLE->setMaximumWidth(LEMAXWIDTH);
     reSrcpBusLE->setMaxLength(4);
@@ -82,9 +78,7 @@ RouteElementDialog::RouteElementDialog(QWidget* parent)
     QHBoxLayout* routeElAddrLayout = new QHBoxLayout(routeElGBLayout, 6);
     QLabel* reAddressLbl = new QLabel(tr("&Address"), elDataGB);
     routeElAddrLayout->addWidget(reAddressLbl);
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    routeElAddrLayout->addItem(spacer);
+    routeElAddrLayout->addStretch();
     reAddressLE = new QLineEdit(elDataGB, "reAddressLE");
     reAddressLE->setMaximumWidth(LEMAXWIDTH);
     reAddressLE->setMaxLength(4);
@@ -97,9 +91,7 @@ RouteElementDialog::RouteElementDialog(QWidget* parent)
     QHBoxLayout* routeElStateLayout = new QHBoxLayout(routeElGBLayout, 6);
     QLabel* reStateLbl = new QLabel(tr("&State"), elDataGB);
     routeElStateLayout->addWidget(reStateLbl);
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    routeElStateLayout->addItem(spacer);
+    routeElStateLayout->addStretch();
     reStateSB = new QSpinBox(0, 3, 1 , elDataGB, "reStateSB");
     reStateLbl->setBuddy(reStateSB);
     routeElStateLayout->addWidget(reStateSB);
@@ -109,9 +101,7 @@ RouteElementDialog::RouteElementDialog(QWidget* parent)
     QHBoxLayout* buttonLayout = new QHBoxLayout(0, 0, 6);
     baseLayout->addLayout(buttonLayout);
 
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    buttonLayout->addItem(spacer);
+    buttonLayout->addStretch();
 
     QPushButton* okPB = new QPushButton(tr("OK"), this);
     connect(okPB, SIGNAL(clicked()), this, SLOT(accept()));

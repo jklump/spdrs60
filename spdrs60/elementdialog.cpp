@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-03-07 18:09:30 $
-                           $Revision: 1.79 $
+    last modified        : $Date: 2009-10-27 20:29:24 $
+                           $Revision: 1.80 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -105,8 +105,7 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     QHBoxLayout* textLayout = new QHBoxLayout(rfDataGBLayout);
     labelText = new QLabel(tr("&Text:"), frData);
     textLayout->addWidget(labelText);
-    textLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    textLayout->addStretch();
     leText = new QLineEdit(frData, "text");
     leText->setMaxLength(20);
     textLayout->addWidget(leText);
@@ -126,8 +125,7 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
             SLOT(invertedChanged(bool))); 
 
     /* spacer to shift lines above to top*/
-    rfDataGBLayout->addItem(new QSpacerItem(0, 0,
-                QSizePolicy::Expanding, QSizePolicy::Minimum));
+    rfDataGBLayout->addStretch();
 
     /*group of three buttons*/
     bgSubType = new QButtonGroup(3, Qt::Vertical, tr("Symbol variants"),
@@ -170,8 +168,7 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     QHBoxLayout* decoderLayout = new QHBoxLayout(decoderGBL, 6);
     labelDecoder = new QLabel(tr("T&ype:"), decoderGB);
     decoderLayout->addWidget(labelDecoder);
-    decoderLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    decoderLayout->addStretch();
 
     coboDecoder = new QComboBox(false, decoderGB);
     coboDecoder->insertItem("Maerklin k83 WD (M)");
@@ -211,8 +208,7 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     QHBoxLayout* resetLayout = new QHBoxLayout(decoderGBL, 6);
     labelTime = new QLabel(tr("Reset &after (ms):"), decoderGB);
     resetLayout->addWidget(labelTime);
-    resetLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    resetLayout->addStretch();
 
     activeTimeSB = new QSpinBox(50, 2000, 50, decoderGB, "");
     activeTimeSB->setWrapping(true);
@@ -292,8 +288,7 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     decdataLayout->addWidget(xchConn2CB, 5, 2);
 
     /*spacer to push contents of box to top */
-    decoderGBL->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    decoderGBL->addStretch();
 
     /*feedback LED data group box*/
     feedbackGB = new QGroupBox(0, Qt::Horizontal,
@@ -310,8 +305,7 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     QHBoxLayout* busLayout = new QHBoxLayout(feedbackGBL, 6);
     labelFBBus = new QLabel(tr("Bus (s&88/SRCP):"), feedbackGB);
     busLayout->addWidget(labelFBBus);
-    busLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    busLayout->addStretch();
     fbBusLE = new QLineEdit(feedbackGB, "fbBusLE");
     busLayout->addWidget(fbBusLE);
     fbBusLE->setMaximumWidth(LEMAXWIDTH);
@@ -323,8 +317,7 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     QHBoxLayout* feedbackLayout = new QHBoxLayout(feedbackGBL, 6);
     labelFBContact = new QLabel(tr("C&ontact (1 - 496):"), feedbackGB);
     feedbackLayout->addWidget(labelFBContact);
-    feedbackLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    feedbackLayout->addStretch();
     contactSB = new QSpinBox(1, 496, 1, feedbackGB, "contactSB");
     labelFBContact->setBuddy(contactSB);
     feedbackLayout->addWidget(contactSB);
@@ -336,8 +329,7 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     labelFBmodule = new QLabel(tr("Module (1 - %1):")
             .arg(pref.fbfactor == 0 ? 31 : 62), feedbackGB);
     moduleLayout->addWidget(labelFBmodule);
-    moduleLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    moduleLayout->addStretch();
     moduleLE = new QLineEdit(feedbackGB, "moduleLE");
     moduleLE->setMaximumWidth(LEMAXWIDTH);
 #if QT_VERSION >= 0x040000
@@ -352,8 +344,7 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     labelFBport = new QLabel(tr("Port (1 - %1):")
             .arg(pref.fbfactor == 0 ? 16 : 8), feedbackGB);
     portLayout->addWidget(labelFBport);
-    portLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    portLayout->addStretch();
     portLE = new QLineEdit(feedbackGB, "portLE");
     portLE->setMaximumWidth(LEMAXWIDTH);
 #if QT_VERSION >= 0x040000
@@ -369,8 +360,7 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
                 "AddressmoduleCB");
     mbLayout->addWidget(cbAdrMod);
     cbAdrMod->setEnabled(false);
-    mbLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    mbLayout->addStretch();
     buttFBmodules = new QPushButton(tr("&FB"), feedbackGB);
     mbLayout->addWidget(buttFBmodules);
     buttFBmodules->setPixmap(QPixmap(viewfeedback_xpm));
@@ -379,14 +369,12 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     QToolTip::add(buttFBmodules, tr("Show feedback module window"));
 
     /*spacer to push contents of box to top */
-    feedbackGBL->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    feedbackGBL->addStretch();
 
     
     /*layout with OK and Cancel buttons*/
     QBoxLayout* buttonLayout = new QHBoxLayout(baseLayout, 6);
-    buttonLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                QSizePolicy::Minimum));
+    buttonLayout->addStretch();
 
     /*button line at bottom*/
     buttOK = new QPushButton(tr("OK"), this);
