@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-10-27 20:29:24 $
-                           $Revision: 1.80 $
+    last modified        : $Date: 2009-10-29 20:15:02 $
+                           $Revision: 1.81 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -1315,7 +1315,7 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
                 gaSubType = 0;
 
             else if (classid == element::siciDre)
-                address2LE->setText("240");
+                address2LE->setText("225");  // type 15
 
             break;
 
@@ -1353,7 +1353,7 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
                 gaSubType = 1;
 
             else if (classid == element::siciDre)
-                address2LE->setText("224");
+                address2LE->setText("209"); // type 14
 
             break;
     }
