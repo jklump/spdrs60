@@ -1,11 +1,11 @@
 /***************************************************************************
                            turntablecommander.cpp
-                           version 0.5.6 $Revision: 1.20 $
+                           version 0.5.6 $Revision: 1.21 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-10-27 18:50:31 $
+    last modified        : $Date: 2009-11-01 19:57:41 $
 ***************************************************************************/
 
 /******************************************************************************
@@ -523,7 +523,7 @@ void turntableCommander::slotRightStep()
 // changes rotating direction
 void turntableCommander::slotChooseDir(int newdir)
 {
-    bDir = (newdir = LEFT) ? RIGHT : LEFT;
+    bDir = (newdir == LEFT) ? RIGHT : LEFT;
     emit sendTtCommand(4, bDir);
 }
 
