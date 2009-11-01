@@ -4,8 +4,8 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-10-29 20:15:02 $
-                           $Revision: 1.81 $
+    last modified        : $Date: 2009-11-01 20:40:38 $
+                           $Revision: 1.82 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -182,6 +182,8 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     coboDecoder->insertItem("Littf. SA-DEC-4 SD (M)");
     coboDecoder->insertItem("Littf. M-DEC-MM WD (M)");
     coboDecoder->insertItem("Märklin Drehscheiben (M)");
+    //coboDecoder->insertItem("Littf. TT-DEC (M)");
+    //coboDecoder->insertItem("Littf. TT-DEC (D)");
     // Signalbaustein, extra Code!
     // coboDecoder->insertItem("Littfinsky LS-DEC (M)");
     coboDecoder->insertItem("EDiTS WD (M)");
@@ -722,6 +724,7 @@ void ElementDialog::slotSymbolChanged()
         classid == element::siciZp1 || classid == element::siciZp3 ||
         classid == element::siciVs1 || classid == element::siciVs3;
 
+    //TODO: Littfinski TT-DEC M + D
     rbProtocol_MS->setEnabled(enabled || classid == element::siciDre);
     rbProtocol_NA->setEnabled(enabled);
     rbProtocol_PS->setEnabled(enabled);
@@ -999,6 +1002,7 @@ void ElementDialog::slotSymbolChanged()
     if (!enabled && classid != element::siciDre)
         coboDecoder->setCurrentItem(coboDecoder->count() - 1);  // == -1
     // Maerklin special turntable decoder
+    // TODO: Littfinski TT-DEC M + D
     else if (!enabled && classid == element::siciDre)
         coboDecoder->setCurrentItem(8);
     else {
@@ -1315,7 +1319,7 @@ void ElementDialog::slotSubTypeClicked(int stBtn)
                 gaSubType = 0;
 
             else if (classid == element::siciDre)
-                address2LE->setText("225");  // type 15
+                address2LE->setText("225"); // type 15
 
             break;
 

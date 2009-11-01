@@ -4114,12 +4114,14 @@ Weichenstellungen.
   <title>Drehscheibe</title>
 <para>
 Die Drehscheibe ist ein ganz besonderer Fall, weshalb ihr auch ein
-spezielles Kapitel gewidmet ist. Dort wird
-etwas genauer auf die Bedienung eingegangen. Zunächst einmal ist
-wichtig, dass die Drehscheibe in der Digitalversion nur von Märklin
-erhältlich ist und einen eigenen Decoder mitbringt. Sie läuft daher nur
-im Motorola-Format, welches auch bei voreingestelltem DCC-Protokoll
-unveränderbar automatisch ausgewählt wird. Die Eingabe einer Adresse ist
+spezielles Kapitel gewidmet ist. Dort wird etwas genauer auf die
+Bedienung eingegangen. Zunächst einmal ist wichtig, dass die Drehscheibe
+in der Digitalversion nur von Märklin erhältlich ist und einen eigenen
+Decoder (7687) mitbringt. Sie läuft daher nur im Motorola-Format, welches
+auch bei voreingestelltem DCC-Protokoll unveränderbar automatisch
+ausgewählt wird. Der von Littfinski für den gleichen Zweck lieferbare
+Decoder TT-DEC versteht auch DCC, was bisher aber noch nicht
+berücksichtigt wird. Die Eingabe einer Decoder-Adresse ist
 hier nicht erforderlich, denn diese wird aus der Aktivierung einer der
 beiden Schaltflächen (<xref linkend="abb-dreh">) in der unteren linken
 Hälfte errechnet.
@@ -4132,11 +4134,11 @@ Hälfte errechnet.
 </figure>
 <para>
 Der Decoder der Märklin-Drehscheibe ist standardmäßig so programmiert,
-dass diese mit einem auf Adresse 15 eingestellten Schaltpult betrieben
-werden muß. Benötigt man eine zweite Drehscheibe, so
-muß man diese bei Märklin mit einer anderen Keyboard-Adresse bestellen.
-Diese zweite Adresse (nämlich 14) wird dann extra im Werk eingestellt.
-In diesen
+dass diese mit einem auf Adresse 15 (Motorola Adressen 225 - 240)
+eingestellten Schaltpult betrieben werden muß. Benötigt man eine zweite
+Drehscheibe, so muß man diese bei Märklin mit einer anderen
+Keyboard-Adresse bestellen. Diese zweite Adresse (14, Motorola Adressen
+209 - 224) wird dann extra im Werk eingestellt.  In diesen
 seltenen Fällen (nur die wenigsten Anwender dürften im Besitz von zwei
 digitalen Drehscheiben sein) wählt man die Schaltfläche 14. Mehr braucht man
 hier nicht zu tun; weitere Einstellungen erfolgen über den

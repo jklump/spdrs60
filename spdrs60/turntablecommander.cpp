@@ -1,11 +1,11 @@
 /***************************************************************************
                            turntablecommander.cpp
-                           version 0.5.6 $Revision: 1.21 $
+                           version 0.5.6 $Revision: 1.22 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-11-01 19:57:41 $
+    last modified        : $Date: 2009-11-01 20:40:38 $
 ***************************************************************************/
 
 /******************************************************************************
@@ -65,6 +65,8 @@ turntableCommander::turntableCommander(const QString& tracks,
     currenttrack(activetrack),
     targettrack(0)
 {
+    // no maximize window button 
+    clearWFlags(Qt::WStyle_Maximize | Qt::WStyle_SysMenu);
     // no tracks available on startup
     for (int i = 0; i < 24; i++)
         iTracks[i] = 0;
@@ -126,9 +128,7 @@ turntableCommander::turntableCommander(const QString& tracks,
     connect(buttRightStep, SIGNAL(clicked()), this, SLOT(slotRightStep()));
 
     // create a dropdown list with all available tracks
-    listTracks = new QListBox(this, "trackLB", 0);
-    listTracks->setFixedHeight(24);
-    listTracks->setFixedWidth(44);
+    listTracks = new QComboBox(this, "trackLB");
     buttonLayout->addWidget(listTracks);
     for (int i = 0; i < 24; i++)
         if (iTracks[i] == 1) {
@@ -244,7 +244,7 @@ turntableCommander::turntableCommander(const QString& tracks,
 
 
     displayTracks();            // displays the active position
-    slotChooseDir(0);           // default: bridge turns anti-clockwise
+    slotChooseDir(RIGHT);
     buttGoToTrack->setFocus();  // default button focus
 }
 

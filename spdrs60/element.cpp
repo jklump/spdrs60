@@ -4,8 +4,8 @@
     Copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-10-27 20:54:53 $
-                           $Revision: 1.197 $
+    last modified        : $Date: 2009-11-01 20:40:38 $
+                           $Revision: 1.198 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -9101,7 +9101,7 @@ void element::slotUpdateTurntableData(int keyno, int keycolor)
     address1 = address2 + keyno - 1;
     state = keycolor;
 
-    // save track# in subtype if a track key was pressed
+    // save target track number in subtype if a track key was pressed
     if (classid == siciDre && keyno >= 4)
         iSoldSubType = keyno * 2 - 9 + keycolor;
 

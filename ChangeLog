@@ -1,3 +1,11 @@
+2009-11-01 Guido Scholz <guido.scholz@bayernline.de>
+	* turntablecommander.cpp: Hide maximize window button, list box
+	for track positions changed to combo box.
+
+2009-10-29 Guido Scholz <guido.scholz@bayernline.de>
+	* elementdialog.cpp: Base addresses for turntable decoder
+	variants fixed.
+
 2009-10-27 Guido Scholz <guido.scholz@bayernline.de>
 	* element.cpp: Address items are no longer occupied by feedback
 	events, old style element name compatibility removed.

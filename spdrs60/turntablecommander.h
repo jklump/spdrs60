@@ -1,11 +1,11 @@
 /***************************************************************************
                            turntablecommander.h
-                           version 0.5.6 $Revision: 1.12 $
+                           version 0.5.6 $Revision: 1.13 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-10-27 18:50:31 $
+    last modified        : $Date: 2009-11-01 20:40:38 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -27,7 +27,7 @@
 #include <qbuttongroup.h>
 #include <qdialog.h>
 #include <qlabel.h>
-#include <qlistbox.h>
+#include <qcombobox.h>
 #include <qpixmap.h>
 #include <qpushbutton.h>
 #include <qtimer.h>
@@ -61,7 +61,7 @@ class turntableCommander: public QDialog
    QPushButton*  buttAddPos;           // button to add a position
    QPushButton*  buttEnd;              // button to end programming
    QLabel*       labelTracks[24];      //
-   QListBox*     listTracks;           // drop-down list of available tracks
+   QComboBox*    listTracks;           // drop-down list of available tracks
    QFrame*       line;                 // just a separator line
    QPixmap       pixButton;            // pixmap for different buttons
    QTimer*       tTrackReached;        // timer for a virtual correct track
