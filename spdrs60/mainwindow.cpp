@@ -4,8 +4,8 @@
     Copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2009 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-10-26 21:59:44 $
-                           $Revision: 1.173 $
+    last modified        : $Date: 2009-12-20 20:05:49 $
+                           $Revision: 1.174 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -203,7 +203,7 @@ MainWindow::MainWindow(): QMainWindow(NULL, PACKAGE, Qt::WDestructiveClose)
     initMainWindow();
     // read user dependend config file
     readConfigFile();
-    statusMessage(tr("Program succesfully started!"));
+    statusMessage(tr("Program successfully started!"));
 }
 
 /* Cleanup by destructor */

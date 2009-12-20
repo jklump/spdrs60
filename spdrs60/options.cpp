@@ -1,11 +1,11 @@
 /***************************************************************************
                            options.cpp
-                           version 0.5.6 $Revision: 1.34 $
+                           version 0.5.6 $Revision: 1.35 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-10-27 20:54:53 $
+    last modified        : $Date: 2009-12-20 20:05:49 $
 ***************************************************************************/
 
 /***************************************************************************
@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 /***************************************************************************
-   provides an user interface to change various settings of the programm
+   provides an user interface to change various settings of the program
  ***************************************************************************/
 
 #include <qhbox.h>
@@ -89,7 +89,7 @@ void optionsDialog::setupLayoutTab()
 
     // external program groupbox
     QGroupBox* extprogGB = new QGroupBox(0, Qt::Horizontal,
-            tr("External programms"), w, "extprogGB");
+            tr("External programs"), w, "extprogGB");
     QVBoxLayout* extprogGBL = new QVBoxLayout(extprogGB->layout(), 6);
     tabL->addWidget(extprogGB);
     

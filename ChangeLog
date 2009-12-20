@@ -255,7 +255,7 @@
 
 2007-09-03 Guido Scholz <guido.scholz@bayernline.de>
 	* mainwindow.cpp: Removed stdlib dependency by using QProcess
-	for launching external programms.
+	for launching external programs.
 	* routedialog.cpp: Validators for route id and train mumber
 	added.
 	* router.*, route.*: Automatical route id selection for routes

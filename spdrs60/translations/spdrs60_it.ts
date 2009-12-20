@@ -500,7 +500,7 @@ matches your search criteria.</source>
 <context>
     <name>MainWindow</name>
     <message>
-        <source>Program succesfully started!</source>
+        <source>Program successfully started!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2446,7 +2446,7 @@ Valid range is 0..999999.</source>
         <translation>&amp;File:</translation>
     </message>
     <message>
-        <source>External programms</source>
+        <source>External programs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -669,7 +669,7 @@ den Suchkriterien entspricht.</translation>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <source>Program succesfully started!</source>
+        <source>Program successfully started!</source>
         <translation>Programm erfolgreich gestartet!</translation>
     </message>
     <message>
@@ -2555,7 +2555,7 @@ ein Modul an Bus Nr. 1 angeschlossen ist.</translation>
         <translation>&amp;Zeilen:</translation>
     </message>
     <message>
-        <source>External programms</source>
+        <source>External programs</source>
         <translation>Externe Programme</translation>
     </message>
     <message>
