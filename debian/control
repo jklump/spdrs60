@@ -2,7 +2,7 @@ Source: spdrs60
 Section: x11
 Priority: optional
 Maintainer: Guido Scholz (privat) <guido.scholz@bayernline.de>
-Build-Depends: debhelper (>= 4.0.0), libqt3-mt-dev, libqt3-i18n, qt3-dev-tools, openjade, docbook, docbook-dsssl
+Build-Depends: debhelper (>= 7), libqt3-mt-dev, libqt3-i18n, qt3-dev-tools, openjade, docbook, docbook-dsssl
 Standards-Version: 3.7.2
 
 Package: spdrs60
