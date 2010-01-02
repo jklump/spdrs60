@@ -2286,11 +2286,11 @@ Erlaubt sind Werte von %1 bis %2.</translation>
     </message>
     <message>
         <source>Press this button to activate red connector</source>
-        <translation>Diesen Schalter zur Betätitung des roten Anschlusses drücken</translation>
+        <translation>Diesen Schalter zur Betätigung des roten Anschlusses drücken</translation>
     </message>
     <message>
         <source>Press this button to activate green connector</source>
-        <translation>Diesen Schalter zur Betätitung des grünen Anschlusses drücken</translation>
+        <translation>Diesen Schalter zur Betätigung des grünen Anschlusses drücken</translation>
     </message>
     <message>
         <source>SRCP-&amp;Bus:</source>
