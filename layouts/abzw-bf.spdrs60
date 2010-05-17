@@ -1,380 +1,278 @@
 # spdrs60 data file
-# version=0.4.8
-# last modified=2005-12-02T18:10:14
-formatversion;1
-cmdhost;localhost;4303;0
-fbhost;localhost;4303;0
+# version=0.5.5
+# last modified=2010-05-15T18:25:14
+formatversion;3
+cmdhost;localhost;4303;0;0;0
+rwcc;0;Dedorf
 # start of layout section
 %% layout
 # layout dimensions=columns;rows
 dimensions;21;10
+identification;1;Dedorf
+tablelight;1
 # start of element section
 %% element 2
+classid;172
 index;2
-icon;richtung_2
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 5
+classid;171
 index;5
-icon;richtung_1
-rotate;1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
 change conn 1;-1
-change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 6
+classid;170
 index;6
-icon;richtung_1
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 12
+classid;300
 index;12
-icon;signal_hs
-rotate;0
 invers turnout;-1
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;201
-address_2;1;-1
+address_1;1;201;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;0
 text;B
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 15
+classid;350
 index;15
-icon;signal_ssh
-rotate;0
 invers turnout;-1
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;217
-address_2;1;-1
+address_1;1;217;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;LsfA
 active time;50
 feedback port;1;50
 hide LEDs;-1
+%
 %% element 16
+classid;300
 index;16
-icon;signal_hs
-rotate;0
 invers turnout;-1
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;223
-address_2;1;224
+address_1;1;223;0
+address_2;1;224;0
 change conn 1;0
 change conn 2;0
 direction;0
 subtype;4
 text;A
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 22
+classid;202
 index;22
-icon;signal_nrb
-rotate;1
 invers turnout;-1
 decoder;-1
 protocol;N
-address_1;1;5003
-address_2;1;-1
+address_1;1;5003;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;n.Ahrt.
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 25
+classid;202
 index;25
-icon;signal_nrb
-rotate;1
 invers turnout;-1
 decoder;-1
 protocol;N
-address_1;1;5002
-address_2;1;-1
+address_1;1;5002;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;n.Kobl.
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 26
+classid;202
 index;26
-icon;signal_nrb
-rotate;1
 invers turnout;-1
 decoder;-1
 protocol;N
-address_1;1;5001
-address_2;1;-1
+address_1;1;5001;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;n.Kobl.
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 32
+classid;360
 index;32
-icon;signal_sss
-rotate;0
 invers turnout;-1
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;203
-address_2;1;-1
+address_1;1;203;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;LsW1
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 33
+classid;800
 index;33
-icon;prellbock
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;0
-hide LEDs;-1
+%
 %% element 35
+classid;100
 index;35
-icon;gerade
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
 feedback port;1;50
 hide LEDs;0
+%
 %% element 36
+classid;340
 index;36
-icon;signal_ss
-rotate;0
 invers turnout;-1
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;226
-address_2;1;-1
+address_1;1;226;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;LsW8
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 42
+classid;500
 index;42
-icon;weiche_rechts
-rotate;0
 invers turnout;0
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;1
-address_2;1;-1
+address_1;1;1;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;1
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 43
+classid;360
 index;43
-icon;signal_sss
-rotate;0
 invers turnout;-1
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;210
-address_2;1;-1
+address_1;1;210;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;LsW2
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 45
+classid;510
 index;45
-icon;weiche_links
-rotate;0
 invers turnout;0
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;6
-address_2;1;-1
+address_1;1;6;0
 change conn 1;0
-change conn 2;-1
 direction;1
 subtype;-1
 text;6
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 46
+classid;510
 index;46
-icon;weiche_links
-rotate;0
 invers turnout;0
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;8
-address_2;1;-1
+address_1;1;8;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;8
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 47
+classid;800
 index;47
-icon;prellbock
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;0
-hide LEDs;-1
+%
 %% element 52
+classid;100
 index;52
-icon;gerade
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 53
+classid;502
 index;53
-icon;weiche_rechts
-rotate;1
 invers turnout;0
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;5
-address_2;1;-1
+address_1;1;5;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;5
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 54
+classid;103
 index;54
-icon;diagonale_links
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
 feedback port;1;50
 hide LEDs;0
+%
 %% element 55
+classid;622
 index;55
-icon;dkw_links
-rotate;-1
 invers turnout;-1
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;7
-address_2;1;107
+address_1;1;7;0
+address_2;1;107;0
 change conn 1;0
 change conn 2;0
 direction;0
@@ -383,100 +281,75 @@ text;7
 active time;50
 feedback port;1;50
 hide LEDs;-1
+%
 %% element 56
+classid;500
 index;56
-icon;weiche_rechts
-rotate;0
 invers turnout;0
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;9
-address_2;1;-1
+address_1;1;9;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;9
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 57
+classid;360
 index;57
-icon;signal_sss
-rotate;0
 invers turnout;-1
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;233
-address_2;1;-1
+address_1;1;233;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;LsW10
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 62
+classid;100
 index;62
-icon;gerade
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 63
+classid;622
 index;63
-icon;dkw_links
-rotate;-1
 invers turnout;-1
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;4
-address_2;1;104
+address_1;1;4;0
+address_2;1;104;0
 change conn 1;0
 change conn 2;0
 direction;2
 subtype;1
 text;4
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 64
+classid;103
 index;64
-icon;diagonale_links
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 65
+classid;322
 index;65
-icon;signal_hss
-rotate;1
 invers turnout;-1
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;219
-address_2;1;220
+address_1;1;219;0
+address_2;1;220;0
 change conn 1;0
 change conn 2;0
 direction;0
@@ -485,610 +358,335 @@ text;P3
 active time;50
 feedback port;1;50
 hide LEDs;-1
+%
 %% element 66
+classid;342
 index;66
-icon;signal_ss
-rotate;1
 invers turnout;-1
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;227
-address_2;1;-1
+address_1;1;227;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;Ls4I
 active time;50
 feedback port;1;50
 hide LEDs;-1
+%
 %% element 67
+classid;532
 index;67
-icon;weiche_diag_links
-rotate;1
 invers turnout;0
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;10
-address_2;1;-1
+address_1;1;10;0
 change conn 1;0
-change conn 2;-1
 direction;1
 subtype;-1
 text;10
 active time;50
 feedback port;1;50
 hide LEDs;-1
+%
 %% element 72
+classid;512
 index;72
-icon;weiche_links
-rotate;1
 invers turnout;0
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;2
-address_2;1;-1
+address_1;1;2;0
 change conn 1;0
-change conn 2;-1
 direction;1
 subtype;-1
 text;2
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 73
+classid;512
 index;73
-icon;weiche_links
-rotate;1
 invers turnout;0
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;3
-address_2;1;-1
+address_1;1;3;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;3
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 75
+classid;100
 index;75
-icon;gerade
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 76
+classid;100
 index;76
-icon;gerade
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 78
+classid;122
 index;78
-icon;kurve_rechts
-rotate;1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 80
+classid;1301
 index;80
-icon;taste_sgt
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;0
-hide LEDs;-1
+%
 %% element 82
+classid;322
 index;82
-icon;signal_hss
-rotate;1
 invers turnout;-1
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;204
-address_2;1;205
+address_1;1;204;0
+address_2;1;205;0
 change conn 1;0
 change conn 2;0
 direction;0
 subtype;5
 text;P1
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 83
+classid;342
 index;83
-icon;signal_ss
-rotate;1
 invers turnout;-1
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;211
-address_2;1;-1
+address_1;1;211;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;Ls2I
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 85
+classid;100
 index;85
-icon;gerade
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 86
+classid;100
 index;86
-icon;gerade
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 88
+classid;322
 index;88
-icon;signal_hss
-rotate;1
 invers turnout;-1
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;234
-address_2;1;235
+address_1;1;234;0
+address_2;1;235;0
 change conn 1;0
 change conn 2;0
 direction;0
 subtype;7
 text;P5
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 90
+classid;1201
 index;90
-icon;taste_wgt
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;0
-hide LEDs;-1
+%
 %% element 92
+classid;100
 index;92
-icon;gerade
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 93
+classid;100
 index;93
-icon;gerade
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 95
+classid;100
 index;95
-icon;gerade
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 96
+classid;100
 index;96
-icon;gerade
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 98
+classid;100
 index;98
-icon;gerade
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 100
+classid;1101
 index;100
-icon;taste_fht
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;0
-hide LEDs;-1
+%
 %% element 102
+classid;100
 index;102
-icon;gerade
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 103
+classid;100
 index;103
-icon;gerade
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 105
+classid;100
 index;105
-icon;gerade
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 106
+classid;100
 index;106
-icon;gerade
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 108
+classid;100
 index;108
-icon;gerade
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 110
+classid;1102
 index;110
-icon;taste_ufgt
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;0
-hide LEDs;-1
+%
 %% element 112
+classid;100
 index;112
-icon;gerade
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 113
+classid;100
 index;113
-icon;gerade
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 115
+classid;100
 index;115
-icon;gerade
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 116
+classid;100
 index;116
-icon;gerade
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 118
+classid;100
 index;118
-icon;gerade
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
 feedback port;1;50
 hide LEDs;0
+%
 %% element 122
+classid;340
 index;122
-icon;signal_ss
-rotate;0
 invers turnout;-1
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;206
-address_2;1;-1
+address_1;1;206;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;Ls1I
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 123
+classid;320
 index;123
-icon;signal_hss
-rotate;0
 invers turnout;-1
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;212
-address_2;1;213
+address_1;1;212;0
+address_2;1;213;0
 change conn 1;0
 change conn 2;0
 direction;0
 subtype;1
 text;N2
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 125
+classid;100
 index;125
-icon;gerade
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 126
+classid;320
 index;126
-icon;signal_hss
-rotate;0
 invers turnout;-1
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;228
-address_2;1;229
+address_1;1;228;0
+address_2;1;229;0
 change conn 1;0
 change conn 2;0
 direction;0
 subtype;1
 text;N4
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 128
+classid;320
 index;128
-icon;signal_hss
-rotate;0
 invers turnout;-1
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;236
-address_2;1;237
+address_1;1;236;0
+address_2;1;237;0
 change conn 1;0
 change conn 2;0
 direction;0
@@ -1097,253 +695,174 @@ text;N5
 active time;50
 feedback port;1;50
 hide LEDs;-1
+%
 %% element 132
+classid;500
 index;132
-icon;weiche_rechts
-rotate;0
 invers turnout;0
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;20
-address_2;1;-1
+address_1;1;20;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;20
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 133
+classid;500
 index;133
-icon;weiche_rechts
-rotate;0
 invers turnout;0
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;19
-address_2;1;-1
+address_1;1;19;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;19
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 135
+classid;340
 index;135
-icon;signal_ss
-rotate;0
 invers turnout;-1
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;220
-address_2;1;-1
+address_1;1;220;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;Ls3I
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 136
+classid;510
 index;136
-icon;weiche_links
-rotate;0
 invers turnout;0
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;14
-address_2;1;-1
+address_1;1;14;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;14
 active time;50
 feedback port;1;50
 hide LEDs;-1
+%
 %% element 138
+classid;130
 index;138
-icon;kurve_links
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
 feedback port;1;50
 hide LEDs;0
+%
 %% element 142
+classid;100
 index;142
-icon;gerade
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 143
+classid;620
 index;143
-icon;dkw_rechts
-rotate;-1
 invers turnout;-1
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;18
-address_2;1;-1
+address_1;1;18;0
 change conn 1;0
-change conn 2;0
 direction;0
 subtype;1
 text;18
 active time;50
 feedback port;1;50
 hide LEDs;-1
+%
 %% element 144
+classid;102
 index;144
-icon;diagonale_rechts
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 145
+classid;512
 index;145
-icon;weiche_links
-rotate;1
 invers turnout;0
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;15
-address_2;1;-1
+address_1;1;15;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;15
 active time;50
 feedback port;1;50
 hide LEDs;-1
+%
 %% element 146
+classid;100
 index;146
-icon;gerade
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
 feedback port;1;50
 hide LEDs;0
+%
 %% element 147
+classid;520
 index;147
-icon;weiche_diag_rechts
-rotate;0
 invers turnout;0
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;11
-address_2;1;-1
+address_1;1;11;0
 change conn 1;0
-change conn 2;-1
 direction;1
 subtype;-1
 text;11
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 152
+classid;100
 index;152
-icon;gerade
-rotate;1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
 feedback port;1;50
 hide LEDs;0
+%
 %% element 153
+classid;510
 index;153
-icon;weiche_links
-rotate;0
 invers turnout;0
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;22
-address_2;1;-1
+address_1;1;22;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;22
 active time;50
 feedback port;1;50
 hide LEDs;-1
+%
 %% element 154
+classid;102
 index;154
-icon;diagonale_rechts
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 155
+classid;620
 index;155
-icon;dkw_rechts
-rotate;-1
 invers turnout;-1
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;16
-address_2;1;116
+address_1;1;16;0
+address_2;1;116;0
 change conn 1;0
 change conn 2;0
 direction;0
@@ -1352,456 +871,374 @@ text;16
 active time;50
 feedback port;1;50
 hide LEDs;-1
+%
 %% element 156
+classid;512
 index;156
-icon;weiche_links
-rotate;1
 invers turnout;0
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;13
-address_2;1;-1
+address_1;1;13;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;13
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 157
+classid;362
 index;157
-icon;signal_sss
-rotate;1
 invers turnout;-1
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;238
-address_2;1;-1
+address_1;1;238;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;LsW11
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 162
+classid;512
 index;162
-icon;weiche_links
-rotate;1
 invers turnout;0
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;21
-address_2;1;-1
+address_1;1;21;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;21
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 163
+classid;362
 index;163
-icon;signal_sss
-rotate;1
 invers turnout;-1
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;214
-address_2;1;-1
+address_1;1;214;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;LsW22
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 165
+classid;502
 index;165
-icon;weiche_rechts
-rotate;1
 invers turnout;0
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;17
-address_2;1;-1
+address_1;1;17;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;17
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 166
+classid;502
 index;166
-icon;weiche_rechts
-rotate;1
 invers turnout;0
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;12
-address_2;1;-1
+address_1;1;12;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;12
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 167
+classid;802
 index;167
-icon;prellbock
-rotate;1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;0
-hide LEDs;-1
+%
 %% element 172
+classid;100
 index;172
-icon;gerade
-rotate;1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
 feedback port;1;50
 hide LEDs;0
+%
 %% element 173
+classid;100
 index;173
-icon;gerade
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 175
+classid;100
 index;175
-icon;gerade
-rotate;1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
 feedback port;1;50
 hide LEDs;0
+%
 %% element 176
+classid;362
 index;176
-icon;signal_sss
-rotate;1
 invers turnout;-1
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;230
-address_2;1;-1
+address_1;1;230;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;LsW12
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 182
+classid;200
 index;182
-icon;signal_nrb
-rotate;0
 invers turnout;-1
 decoder;-1
 protocol;N
-address_1;1;5007
-address_2;1;-1
+address_1;1;5007;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;n.Eusk.
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 183
+classid;200
 index;183
-icon;signal_nrb
-rotate;0
 invers turnout;-1
 decoder;-1
 protocol;N
-address_1;1;5006
-address_2;1;-1
+address_1;1;5006;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;n.Eusk.
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 185
+classid;200
 index;185
-icon;signal_nrb
-rotate;0
 invers turnout;-1
 decoder;-1
 protocol;N
-address_1;1;5005
-address_2;1;-1
+address_1;1;5005;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
-text;n.Köl.
+text;n.Kï¿½l.
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 186
+classid;200
 index;186
-icon;signal_nrb
-rotate;0
 invers turnout;-1
 decoder;-1
 protocol;N
-address_1;1;5004
-address_2;1;-1
+address_1;1;5004;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
-text;n.Köl.
+text;n.Kï¿½l.
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 192
+classid;302
 index;192
-icon;signal_hs
-rotate;1
 invers turnout;-1
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;208
-address_2;1;209
+address_1;1;208;0
+address_2;1;209;0
 change conn 1;0
 change conn 2;0
 direction;0
 subtype;4
 text;F
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 193
+classid;352
 index;193
-icon;signal_ssh
-rotate;1
 invers turnout;-1
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;216
-address_2;1;-1
+address_1;1;216;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;LsfF
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 195
+classid;302
 index;195
-icon;signal_hs
-rotate;1
 invers turnout;-1
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;221
-address_2;1;222
+address_1;1;221;0
+address_2;1;222;0
 change conn 1;0
 change conn 2;0
 direction;0
 subtype;4
 text;E
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 196
+classid;352
 index;196
-icon;signal_ssh
-rotate;1
 invers turnout;-1
 decoder;Lenz LS 130 SD (D)
 protocol;N
-address_1;1;232
-address_2;1;-1
+address_1;1;232;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;LsfE
 active time;50
-feedback port;1;0
+feedback port;1;1
 hide LEDs;-1
+%
 %% element 202
+classid;171
 index;202
-icon;richtung_1
-rotate;1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
 change conn 1;-1
-change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 203
+classid;170
 index;203
-icon;richtung_1
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 205
+classid;171
 index;205
-icon;richtung_1
-rotate;1
 invers turnout;-1
 decoder;-1
 protocol;-1
-address_1;1;-1
-address_2;1;-1
+address_1;1;-1;0
 change conn 1;-1
-change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 %% element 206
+classid;170
 index;206
-icon;richtung_1
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1
-address_2;1;-1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
-feedback port;1;0
+feedback port;1;1
 hide LEDs;0
+%
 # start of route section
 # routes=27
 %% route 1
+id;1
 name;A - N4
+train;0
 to signal;1;228
 from signal;1;223;0
+trainnumberdisplay;0;0;0
 release port;1;4;0;0
 activate port;1;4;0;0
-active by loco;1;0
-type;0;0
+type;0
 switch x to y;1;226;1
 switch x to y;1;8;0
 switch x to y;1;9;0
 switch x to y;1;7;0
 %% route 2
+id;2
 name;A - N5
+train;0
 to signal;1;236
 from signal;1;223;0
+trainnumberdisplay;0;0;0
 release port;1;4;0;0
 activate port;1;4;0;0
-active by loco;1;0
-type;0;0
+type;0
 switch x to y;1;226;1
 switch x to y;1;8;0
 switch x to y;1;9;1
 switch x to y;1;10;0
 %% route 3
+id;3
 name;A - N2
+train;0
 to signal;1;212
 from signal;1;223;0
+trainnumberdisplay;0;0;0
 release port;1;2;0;0
 activate port;1;2;0;0
-active by loco;1;0
-type;0;0
+type;0
 switch x to y;1;226;1
 switch x to y;1;8;1
 switch x to y;1;7;2
 switch x to y;1;3;1
 %% route 4
+id;4
 name;B - N2
+train;0
 to signal;1;212
 from signal;1;201;0
+trainnumberdisplay;0;0;0
 release port;1;2;0;0
 activate port;1;2;0;0
-active by loco;1;0
-type;0;0
+type;0
 switch x to y;1;203;1
 switch x to y;1;1;1
 switch x to y;1;5;1
 switch x to y;1;4;0
 switch x to y;1;3;0
 %% route 5
+id;5
 name;E - P3
+train;0
 to signal;1;219
 from signal;1;221;0
+trainnumberdisplay;0;0;0
 release port;1;2;0;0
 activate port;1;2;0;0
-active by loco;1;0
-type;0;0
+type;0
 switch x to y;1;17;0
 switch x to y;1;16;0
 switch x to y;1;15;0
@@ -1810,118 +1247,138 @@ switch x to y;1;12;0
 switch x to y;1;19;0
 switch x to y;1;18;0
 %% route 6
+id;6
 name;E - P1
+train;0
 to signal;1;204
 from signal;1;221;0
+trainnumberdisplay;0;0;0
 release port;1;0;0;0
 activate port;1;0;0;0
-active by loco;1;0
-type;0;0
+type;0
 switch x to y;1;17;1
 switch x to y;1;18;2
 switch x to y;1;20;1
 %% route 7
+id;7
 name;F - P1
+train;0
 to signal;1;204
 from signal;1;208;0
+trainnumberdisplay;0;0;0
 release port;1;0;0;0
 activate port;1;0;0;0
-active by loco;1;0
-type;0;0
+type;0
 switch x to y;1;21;0
 switch x to y;1;22;0
 switch x to y;1;20;0
 %% route 8
+id;8
 name;N2 - n.Eusk.
+train;0
 to signal;1;5006
 from signal;1;212;0
+trainnumberdisplay;0;0;0
 release port;1;0;0;0
 activate port;1;0;0;0
-active by loco;1;0
-type;0;0
+type;0
 switch x to y;1;19;0
 switch x to y;1;18;0
 switch x to y;1;22;0
 switch x to y;1;21;0
 switch x to y;1;17;0
 %% route 9
-name;N2 - n.Köl.
+id;9
+name;N2 - n.Kï¿½l.
+train;0
 to signal;1;5004
 from signal;1;212;0
+trainnumberdisplay;0;0;0
 release port;1;0;0;0
 activate port;1;0;0;0
-active by loco;1;0
-type;0;0
+type;0
 switch x to y;1;19;1
 switch x to y;1;16;2
 switch x to y;1;12;1
 switch x to y;1;17;1
 %% route 10
-name;N4 - n.Köl.
+id;10
+name;N4 - n.Kï¿½l.
+train;0
 to signal;1;5004
 from signal;1;228;0
+trainnumberdisplay;0;0;0
 release port;1;0;0;0
 activate port;1;0;0;0
-active by loco;1;0
-type;0;0
+type;0
 switch x to y;1;14;0
 switch x to y;1;13;0
 switch x to y;1;12;0
 switch x to y;1;16;0
 switch x to y;1;15;0
 %% route 11
-name;N5 - n.Köl.
+id;11
+name;N5 - n.Kï¿½l.
+train;0
 to signal;1;5004
 from signal;1;236;0
+trainnumberdisplay;0;0;0
 release port;1;0;0;0
 activate port;1;0;0;0
-active by loco;1;0
-type;0;0
+type;0
 switch x to y;1;11;0
 switch x to y;1;13;1
 switch x to y;1;12;0
 %% route 12
+id;12
 name;P1 - n.Ahrt.
+train;0
 to signal;1;5003
 from signal;1;204;0
+trainnumberdisplay;0;0;0
 release port;1;0;0;0
 activate port;1;0;0;0
-active by loco;1;0
-type;0;0
+type;0
 switch x to y;1;2;0
 switch x to y;1;1;0
 switch x to y;1;5;0
 %% route 13
+id;13
 name;P3 - n.Kobl.
+train;0
 to signal;1;5002
 from signal;1;219;0
+trainnumberdisplay;0;0;0
 release port;1;0;0;0
 activate port;1;0;0;0
-active by loco;1;0
-type;0;0
+type;0
 switch x to y;1;7;0
 switch x to y;1;6;0
 switch x to y;1;3;0
 switch x to y;1;8;0
 switch x to y;1;4;0
 %% route 14
+id;14
 name;P5 - n.Kobl.
+train;0
 to signal;1;5001
 from signal;1;234;0
+trainnumberdisplay;0;0;0
 release port;1;2;0;0
 activate port;1;2;0;0
-active by loco;1;0
-type;2;0
+type;2
 switch x to y;1;9;1
 switch x to y;1;8;0
 %% route 15
+id;15
 name;N2 - n.Eusk.
+train;0
 to signal;1;5007
 from signal;1;212;0
+trainnumberdisplay;0;0;0
 release port;1;2;0;0
 activate port;1;2;0;0
-active by loco;1;0
-type;2;0
+type;2
 switch x to y;1;19;0
 switch x to y;1;18;0
 switch x to y;1;20;0
@@ -1931,13 +1388,15 @@ switch x to y;1;21;1
 switch x to y;1;214;0
 switch x to y;1;208;0
 %% route 16
-name;N4 - n.Köl.
+id;16
+name;N4 - n.Kï¿½l.
+train;0
 to signal;1;5005
 from signal;1;228;0
+trainnumberdisplay;0;0;0
 release port;1;2;0;0
 activate port;1;2;0;0
-active by loco;1;0
-type;2;0
+type;2
 switch x to y;1;14;1
 switch x to y;1;15;1
 switch x to y;1;16;0
@@ -1947,65 +1406,77 @@ switch x to y;1;12;0
 switch x to y;1;230;0
 switch x to y;1;220;0
 %% route 17
+id;17
 name;LsW8 - Ls3I
+train;0
 to signal;1;220
 from signal;1;226;1
+trainnumberdisplay;0;0;0
 release port;1;0;0;0
 activate port;1;0;0;0
-active by loco;1;0
-type;3;0
+type;3
 switch x to y;1;8;1
 switch x to y;1;7;3
 switch x to y;1;227;0
 switch x to y;1;234;0
 %% route 18
+id;18
 name;P5 - LsW10
+train;0
 to signal;1;233
 from signal;1;234;0
+trainnumberdisplay;0;0;0
 release port;1;0;0;0
 activate port;1;0;0;0
-active by loco;1;0
-type;3;0
+type;3
 switch x to y;1;10;1
 switch x to y;1;9;0
 %% route 19
+id;19
 name;LsW10 - P5
+train;0
 to signal;1;234
 from signal;1;233;0
+trainnumberdisplay;0;0;0
 release port;1;0;0;0
 activate port;1;0;0;0
-active by loco;1;0
-type;3;0
+type;3
 switch x to y;1;10;1
 switch x to y;1;9;0
 %% route 20
+id;20
 name;N5 - LsW11
+train;0
 to signal;1;238
 from signal;1;236;0
+trainnumberdisplay;0;0;0
 release port;1;0;0;0
 activate port;1;0;0;0
-active by loco;1;0
-type;3;0
+type;3
 switch x to y;1;11;1
 switch x to y;1;13;0
 %% route 21
+id;21
 name;LsW11 - N5
+train;0
 to signal;1;236
 from signal;1;238;0
+trainnumberdisplay;0;0;0
 release port;1;0;0;0
 activate port;1;0;0;0
-active by loco;1;0
-type;3;0
+type;3
 switch x to y;1;11;1
 switch x to y;1;13;0
 %% route 22
+id;22
 name;LsW12 - N4
+train;0
 to signal;1;228
 from signal;1;230;0
+trainnumberdisplay;0;0;0
 release port;1;0;0;0
 activate port;1;0;0;0
-active by loco;1;0
-type;3;0
+type;3
 switch x to y;1;12;0
 switch x to y;1;13;0
 switch x to y;1;14;0
@@ -2013,13 +1484,15 @@ switch x to y;1;15;0
 switch x to y;1;16;0
 switch x to y;1;11;1
 %% route 23
+id;23
 name;LsW22 - N2
+train;0
 to signal;1;212
 from signal;1;214;0
+trainnumberdisplay;0;0;0
 release port;1;0;0;0
 activate port;1;0;0;0
-active by loco;1;0
-type;3;0
+type;3
 switch x to y;1;22;0
 switch x to y;1;18;0
 switch x to y;1;19;0
@@ -2028,13 +1501,15 @@ switch x to y;1;21;0
 switch x to y;1;17;0
 switch x to y;1;16;0
 %% route 24
+id;24
 name;LsW22 - Ls2I
+train;0
 to signal;1;211
 from signal;1;214;0
+trainnumberdisplay;0;0;0
 release port;1;0;0;0
 activate port;1;0;0;0
-active by loco;1;0
-type;3;0
+type;3
 switch x to y;1;22;0
 switch x to y;1;18;0
 switch x to y;1;19;0
@@ -2043,13 +1518,15 @@ switch x to y;1;20;0
 switch x to y;1;17;0
 switch x to y;1;16;0
 %% route 25
+id;25
 name;LsW2 - N2
+train;0
 to signal;1;212
 from signal;1;210;0
+trainnumberdisplay;0;0;0
 release port;1;0;0;0
 activate port;1;0;0;0
-active by loco;1;0
-type;3;0
+type;3
 switch x to y;1;5;0
 switch x to y;1;4;0
 switch x to y;1;3;0
@@ -2058,26 +1535,30 @@ switch x to y;1;6;0
 switch x to y;1;7;0
 switch x to y;1;2;0
 %% route 26
+id;26
 name;LsW2 - Ls1I
+train;0
 to signal;1;206
 from signal;1;210;0
+trainnumberdisplay;0;0;0
 release port;1;0;0;0
 activate port;1;0;0;0
-active by loco;1;0
-type;3;0
+type;3
 switch x to y;1;5;0
 switch x to y;1;4;1
 switch x to y;1;211;0
 switch x to y;1;2;1
 switch x to y;1;1;0
 %% route 27
+id;27
 name;P1 - n.Kobl.
+train;0
 to signal;1;5002
 from signal;1;204;0
+trainnumberdisplay;0;0;0
 release port;1;0;0;0
 activate port;1;0;0;0
-active by loco;1;0
-type;0;0
+type;0
 switch x to y;1;2;1
 switch x to y;1;4;2
 switch x to y;1;211;0

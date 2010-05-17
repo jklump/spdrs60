@@ -1,86 +1,60 @@
 # spdrs60 data file
-# version=0.5.1_beta1
-# last modified=2006-12-16T17:42:25
-formatversion;2
+# version=0.5.5
+# last modified=2010-05-15T18:25:22
+formatversion;3
 cmdhost;localhost;4303;0;0;0
-fbhost;localhost;4303;0
+rwcc;0;Dedorf
 # start of layout section
 %% layout
 # layout dimensions=columns;rows
 dimensions;15;7
+identification;1;Dedorf
+tablelight;1
 # start of element section
 %% element 0
+classid;100
 index;0
-icon;gerade
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;-1
-active time;-1
 feedback port;1;1
 hide LEDs;0
+%
 %% element 1
+classid;510
 index;1
-icon;weiche_links
-rotate;0
 invers turnout;0
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
 address_1;1;1;0
-address_2;1;-1;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;1
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%
 %% element 2
+classid;800
 index;2
-icon;prellbock
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;1
-hide LEDs;-1
+%
 %% element 3
+classid;300
 index;3
-icon;signal_hs
-rotate;0
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
 address_1;1;16;0
-address_2;1;-1;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;0
 text;16
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%
 %% element 4
+classid;700
 index;4
-icon;drehscheibe
-rotate;-1
 invers turnout;-1
 decoder;M�klin Drehscheiben (M)
 protocol;N
@@ -94,95 +68,43 @@ text;-1
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%
 %% element 5
+classid;1101
 index;5
-icon;taste_fht
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;0000
-active time;-1
-feedback port;1;1
-hide LEDs;-1
+%
 %% element 6
+classid;851
 index;6
-icon;haus_2
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;1
-hide LEDs;-1
+%
 %% element 7
+classid;130
 index;7
-icon;kurve_links
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
 feedback port;1;1
 hide LEDs;0
+%
 %% element 8
+classid;500
 index;8
-icon;weiche_rechts
-rotate;0
 invers turnout;0
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
 address_1;1;2;0
-address_2;1;-1;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;2
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%
 %% element 9
+classid;162
 index;9
-icon;diagonale_links_tl
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;1
-hide LEDs;-1
+%
 %% element 10
+classid;320
 index;10
-icon;signal_hss
-rotate;0
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
@@ -196,401 +118,229 @@ text;18
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%
 %% element 11
+classid;701
 index;11
-icon;schiebebuehne
-rotate;-1
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
 address_1;1;-1;0
-address_2;1;-1;0
 change conn 1;-1
-change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%
 %% element 12
+classid;1102
 index;12
-icon;taste_ufgt
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;1
-hide LEDs;-1
+%
 %% element 13
+classid;850
 index;13
-icon;haus_1
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;1
-hide LEDs;-1
+%
 %% element 14
+classid;120
 index;14
-icon;kurve_rechts
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
 feedback port;1;1
 hide LEDs;0
+%
 %% element 15
+classid;530
 index;15
-icon;weiche_diag_links
-rotate;0
 invers turnout;0
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
 address_1;1;3;0
-address_2;1;-1;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;3
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%
 %% element 16
+classid;163
 index;16
-icon;diagonale_rechts_tl
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;1
-hide LEDs;-1
+%
 %% element 17
+classid;340
 index;17
-icon;signal_ss
-rotate;0
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
 address_1;1;20;0
-address_2;1;-1;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;20
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%
 %% element 18
+classid;710
 index;18
-icon;relais
-rotate;-1
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
 address_1;1;-1;0
-address_2;1;-1;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;-1
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%
 %% element 19
+classid;1201
 index;19
-icon;taste_wgt
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;1
-hide LEDs;-1
+%
 %% element 20
+classid;1100
 index;20
-icon;panel_green
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;1
-hide LEDs;-1
+%
 %% element 21
+classid;103
 index;21
-icon;diagonale_links
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
 feedback port;1;1
 hide LEDs;0
+%
 %% element 22
+classid;520
 index;22
-icon;weiche_diag_rechts
-rotate;0
 invers turnout;0
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
 address_1;1;4;0
-address_2;1;-1;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;4
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%
 %% element 23
+classid;160
 index;23
-icon;gerade_tl
-rotate;0
 invers turnout;-1
 decoder;-1
 protocol;-1
 address_1;1;-1;0
-address_2;1;-1;0
 change conn 1;-1
-change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
 feedback port;1;1
 hide LEDs;-1
+%
 %% element 24
+classid;350
 index;24
-icon;signal_ssh
-rotate;0
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
 address_1;1;21;0
-address_2;1;-1;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;21
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%
 %% element 25
+classid;720
 index;25
-icon;motor_dc
-rotate;-1
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
 address_1;1;-1;0
-address_2;1;-1;0
 change conn 1;-1
-change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%
 %% element 26
+classid;1301
 index;26
-icon;taste_sgt
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;1
-hide LEDs;-1
+%
 %% element 27
+classid;1200
 index;27
-icon;panel_blue
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;1
-hide LEDs;-1
+%
 %% element 28
+classid;102
 index;28
-icon;diagonale_rechts
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
 feedback port;1;1
 hide LEDs;0
+%
 %% element 29
+classid;550
 index;29
-icon;weiche_y
-rotate;0
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
 address_1;1;5;0
-address_2;1;-1;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;5
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%
 %% element 30
+classid;830
 index;30
-icon;schuppen_o
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;1
-hide LEDs;-1
+%
 %% element 31
+classid;360
 index;31
-icon;signal_sss
-rotate;0
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
 address_1;1;22;0
-address_2;1;-1;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;22
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%
 %% element 34
+classid;1300
 index;34
-icon;panel_red
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;1
-hide LEDs;-1
+%
 %% element 35
+classid;150
 index;35
-icon;kreuzung_hose
-rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
 address_1;1;-1;0
-address_2;1;-1;0
 change conn 1;-1
-change conn 2;-1
-direction;-1
+direction;0
 subtype;-1
 text;-1
 active time;-1
 feedback port;1;1
 hide LEDs;0
+%
 %% element 36
+classid;610
 index;36
-icon;ekw_links
-rotate;0
 invers turnout;0
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
@@ -604,78 +354,48 @@ text;6
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%
 %% element 37
+classid;820
 index;37
-icon;schuppen_m
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;1
-hide LEDs;-1
+%
 %% element 38
+classid;380
 index;38
-icon;signal_vs
-rotate;0
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
 address_1;1;23;0
-address_2;1;-1;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;0
 text;23
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%
 %% element 41
+classid;1400
 index;41
-icon;panel_yellow
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;1
-hide LEDs;-1
+%
 %% element 42
+classid;153
 index;42
-icon;kreuzung_links
-rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
 address_1;1;-1;0
-address_2;1;-1;0
 change conn 1;-1
-change conn 2;-1
-direction;-1
+direction;0
 subtype;-1
 text;-1
 active time;-1
 feedback port;1;1
 hide LEDs;0
+%
 %% element 43
+classid;600
 index;43
-icon;ekw_rechts
-rotate;0
 invers turnout;0
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
@@ -689,78 +409,48 @@ text;8
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%
 %% element 44
+classid;840
 index;44
-icon;schuppen_u
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;1
-hide LEDs;-1
+%
 %% element 45
+classid;370
 index;45
-icon;signal_ws
-rotate;0
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
 address_1;1;24;0
-address_2;1;-1;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;24
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%
 %% element 48
+classid;1600
 index;48
-icon;panel_grey
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;1
-hide LEDs;-1
+%
 %% element 49
+classid;151
 index;49
-icon;kreuzung_rechts
-rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
 address_1;1;-1;0
-address_2;1;-1;0
 change conn 1;-1
-change conn 2;-1
-direction;-1
+direction;0
 subtype;-1
 text;-1
 active time;-1
 feedback port;1;1
 hide LEDs;0
+%
 %% element 50
+classid;622
 index;50
-icon;dkw_links
-rotate;-1
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
@@ -774,61 +464,36 @@ text;10
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%
 %% element 52
+classid;250
 index;52
-icon;signal_zp
-rotate;0
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
 address_1;1;25;0
-address_2;1;-1;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;25
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%
 %% element 55
+classid;1500
 index;55
-icon;panel_brown
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
-feedback port;1;1
-hide LEDs;-1
+%
 %% element 56
+classid;170
 index;56
-icon;richtung_1
-rotate;0
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;n.Rdorf
-active time;-1
 feedback port;1;1
 hide LEDs;0
+%
 %% element 57
+classid;620
 index;57
-icon;dkw_rechts
-rotate;-1
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
@@ -842,44 +507,32 @@ text;12
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%
 %% element 59
+classid;200
 index;59
-icon;signal_nrb
-rotate;0
 invers turnout;-1
 decoder;-1
 protocol;N
 address_1;1;5001;0
-address_2;1;-1;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;5001
 active time;-1
 feedback port;1;1
 hide LEDs;0
+%
 %% element 63
+classid;172
 index;63
-icon;richtung_2
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;0
-address_2;1;-1;0
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
 text;vun Dstd
-active time;-1
 feedback port;1;1
 hide LEDs;0
+%
 %% element 64
+classid;650
 index;64
-icon;dreier_weiche
-rotate;0
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
@@ -893,175 +546,111 @@ text;14
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%
 %% element 66
+classid;210
 index;66
-icon;signal_srb
-rotate;0
 invers turnout;-1
 decoder;-1
 protocol;N
 address_1;1;5002;0
-address_2;1;-1;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;5002
 active time;-1
 feedback port;1;1
 hide LEDs;0
+%
 %% element 70
+classid;101
 index;70
-icon;trackvertical
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;1
-address_2;1;-1;1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
 feedback port;1;1
 hide LEDs;0
+%
 %% element 73
+classid;950
 index;73
-icon;uebergang
-rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
 address_1;1;-1;0
-address_2;1;-1;0
 change conn 1;-1
-change conn 2;-1
 direction;-1
 subtype;-1
 text;-1
 active time;-1
 feedback port;1;1
 hide LEDs;-1
+%
 %% element 77
+classid;131
 index;77
-icon;turn_topvert_left
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;1
-address_2;1;-1;1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
 feedback port;1;1
 hide LEDs;0
+%
 %% element 80
+classid;900
 index;80
-icon;adresse
-rotate;-1
 invers turnout;-1
 decoder;-1
 protocol;-1
 address_1;1;-1;0
-address_2;1;-1;0
 change conn 1;-1
-change conn 2;-1
 direction;-1
 subtype;-1
-text;00000
+text;000000
 active time;-1
 feedback port;1;1
 hide LEDs;-1
+%
 %% element 84
+classid;121
 index;84
-icon;turn_topvert_right
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;1
-address_2;1;-1;1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
 feedback port;1;1
 hide LEDs;0
+%
 %% element 87
+classid;940
 index;87
-icon;blind
-rotate;-1
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
 address_1;1;26;0
-address_2;1;-1;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;26
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%
 %% element 91
+classid;123
 index;91
-icon;turn_botvert_right
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;1
-address_2;1;-1;1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
 feedback port;1;1
 hide LEDs;0
+%
 %% element 94
+classid;930
 index;94
-icon;entkoppler
-rotate;0
 invers turnout;-1
 decoder;Littf. S-DEC-4 WD (D)
 protocol;N
 address_1;1;27;0
-address_2;1;-1;0
 change conn 1;0
-change conn 2;-1
 direction;0
 subtype;-1
 text;27
 active time;50
 feedback port;1;1
 hide LEDs;-1
+%
 %% element 98
+classid;133
 index;98
-icon;turn_botvert_left
-rotate;-1
-invers turnout;-1
-decoder;-1
-protocol;-1
-address_1;1;-1;1
-address_2;1;-1;1
-change conn 1;-1
-change conn 2;-1
-direction;-1
-subtype;-1
-text;-1
-active time;-1
 feedback port;1;1
 hide LEDs;0
+%
 # start of route section
 # routes=0
