@@ -39,12 +39,12 @@ class turntableCommander: public QDialog
    Q_OBJECT
 
    bool          bStepMode;            //
+   bool          bStep;                //
+   bool          bDir;                 // saves rotating direction
    int           currenttrack;         // number of active track
    int           targettrack;            // number of selected new track
    int           iTracks[24];          // list of available tracks ( == 1 )
    int           iTotalProgTracks;     // total number of available tracks
-   bool          bStep;                //
-   bool          bDir;                 // saves rotating direction
 
    QButtonGroup *bgProg;
    QButtonGroup* bgChooseDir;          // button group for prog buttons
@@ -73,6 +73,7 @@ class turntableCommander: public QDialog
    void storeTrackPositions();         // sends new programmed tracks to
                                        // element
    void displayTracks();               // displays all tracks
+   void updatePositionList();
 
 public:
    turntableCommander(const QString&, QWidget* parent=0, int activetrack = 0);
