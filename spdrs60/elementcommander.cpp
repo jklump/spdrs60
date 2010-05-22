@@ -41,12 +41,9 @@
 
 
 elementCommander::elementCommander(QWidget* parent, int cid):
-    QDialog(NULL, "elementCommander", false)
+    QDialog(NULL, "elementCommander", false),
+    classid(cid)
 {
-    // true, parent window not usable until this closed
-    // dummy command to avoid compiler warning
-    classid = cid;
-
     // create a button group for standard buttons ...
     bgButton = new QButtonGroup(this, "commandBG");
     bgButton->move(0, 0);
@@ -54,11 +51,10 @@ elementCommander::elementCommander(QWidget* parent, int cid):
     bgButton->setExclusive(true);
     bgButton->setFrameStyle(QFrame::NoFrame);
 
-    pixButton = QPixmap(tt_stop_xpm);
     buttStop = new QPushButton("o", this);      // ... and a stop button
     buttStop->move(150, 5);
     buttStop->resize(20, 20);
-    buttStop->setPixmap(pixButton);
+    buttStop->setPixmap(QPixmap(tt_stop_xpm));
     buttStop->setEnabled(false);
     connect(buttStop, SIGNAL(clicked()), this, SLOT(slotStop()));
 
@@ -75,18 +71,16 @@ elementCommander::elementCommander(QWidget* parent, int cid):
 
 void elementCommander::setupBridge()
 {
-    pixButton = QPixmap(tt_left_step_xpm);
     buttMoveUp = new QPushButton("<", bgButton);
     buttMoveUp->move(10, 5);
     buttMoveUp->resize(20, 20);
-    buttMoveUp->setPixmap(pixButton);
+    buttMoveUp->setPixmap(QPixmap(tt_left_step_xpm));
     buttMoveUp->setToggleButton(true);
 
-    pixButton = QPixmap(tt_right_step_xpm);
     buttMoveDown = new QPushButton(">", bgButton);
     buttMoveDown->move(40, 5);
     buttMoveDown->resize(20, 20);
-    buttMoveDown->setPixmap(pixButton);
+    buttMoveDown->setPixmap(QPixmap(tt_right_step_xpm));
     buttMoveDown->setToggleButton(true);
 
     setCaption(tr("Shifting bridge commander"));
@@ -101,18 +95,16 @@ void elementCommander::setupBridge()
 
 void elementCommander::setupMotor()
 {
-    pixButton = QPixmap(tt_left_xpm);
     buttRotateLeft = new QPushButton("<<", bgButton);
     buttRotateLeft->move(10, 5);
     buttRotateLeft->resize(20, 20);
+    buttRotateLeft->setPixmap(QPixmap(tt_left_xpm));
     buttRotateLeft->setToggleButton(true);
-    buttRotateLeft->setPixmap(pixButton);
 
-    pixButton = QPixmap(tt_right_xpm);
     buttRotateRight = new QPushButton(">>", bgButton);
     buttRotateRight->move(40, 5);
     buttRotateRight->resize(20, 20);
-    buttRotateRight->setPixmap(pixButton);
+    buttRotateRight->setPixmap(QPixmap(tt_right_xpm));
     buttRotateRight->setToggleButton(true);
 
     this->setCaption(tr("DC-motor commander"));
