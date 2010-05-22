@@ -51,6 +51,66 @@ class RouteDialog: public QTabDialog
 {
     Q_OBJECT
 
+    QIntValidator*   busValidator;
+    QIntValidator*   trainidValidator;
+    QIntValidator*   tracknumberValidator;
+
+    element* startSignalElPtr;
+    element* stopSignalElPtr;
+
+    QLineEdit*    routeNameLE;
+    QLineEdit*    routeNumberLE;
+    QLineEdit*    routeTrainLE;
+
+    QLineEdit*    startSignalNameLE;
+    QLineEdit*    startSignalSrcpBusLE;
+    QLineEdit*    startSignalAddressLE;
+    QSpinBox*     startSignalStateSB;
+
+    QLineEdit*    stopSignalNameLE;
+    QLineEdit*    stopSignalSrcpBusLE;
+    QLineEdit*    stopSignalAddressLE;
+
+    QCheckBox*    activatefbCB;
+    QLabel*       activateSrcpBusLB;
+    QLineEdit*    activateSrcpBusLE;
+    QLabel*       activateContactLB;
+    QSpinBox*     activateContactSB;
+    QLabel*       activateModuleLB;
+    QLineEdit*    activateModuleLE;
+    QLabel*       activatePortLB;
+    QLineEdit*    activatePortLE;
+
+    QCheckBox*    releasefbCB;
+    QLabel*       releaseSrcpBusLB;
+    QLineEdit*    releaseSrcpBusLE;
+    QLabel*       releaseContactLB;
+    QSpinBox*     releaseContactSB;
+    QLabel*       releaseModuleLB;
+    QLineEdit*    releaseModuleLE;
+    QLabel*       releasePortLB;
+    QLineEdit*    releasePortLE;
+
+    QButtonGroup* typeBG;
+    QButtonGroup* activateRouteBG;
+    QButtonGroup* releaseRouteBG;
+
+    QListView*    elementsLV;
+
+    QPushButton*  upPB;
+    QPushButton*  downPB;
+    QPushButton*  editPB;
+    QPushButton*  addPB;
+    QPushButton*  removePB;
+
+    void addIdentificationTab();
+    void addElementsTab();
+    void addRouteTypeTab();
+    void addAutomaticTab();
+    void updateEntrySignalName(int, int);
+    void updateExitSignalName(int, int);
+    void updateListIndexNumbersFrom(QListViewItem*);
+
 public:
     RouteDialog(QWidget* parent = 0);
     void setRouteName(const QString&);
@@ -72,8 +132,6 @@ public:
     void setRouteElements(const QPtrList<stateElement>&);
     void getRouteElements(QPtrList<stateElement>&);
   
-public slots:
-
 private slots:
     void activateCBchanged(bool);
     void releaseCBchanged(bool);
@@ -93,68 +151,6 @@ private slots:
 signals:
     void getElementByAddress(const int, const int, element**);
 
-protected:
-
-private:
-   QIntValidator*   busValidator;
-   QIntValidator*   trainidValidator;
-   QIntValidator*   tracknumberValidator;
-   
-   element* startSignalElPtr;
-   element* stopSignalElPtr;
-    
-   QLineEdit*    routeNameLE;
-   QLineEdit*    routeNumberLE;
-   QLineEdit*    routeTrainLE;
-
-   QLineEdit*    startSignalNameLE;
-   QLineEdit*    startSignalSrcpBusLE;
-   QLineEdit*    startSignalAddressLE;
-   QSpinBox*     startSignalStateSB;
-   
-   QLineEdit*    stopSignalNameLE;
-   QLineEdit*    stopSignalSrcpBusLE;
-   QLineEdit*    stopSignalAddressLE;
-   
-   QCheckBox*    activatefbCB;
-   QLabel*       activateSrcpBusLB;
-   QLineEdit*    activateSrcpBusLE;
-   QLabel*       activateContactLB;
-   QSpinBox*     activateContactSB;
-   QLabel*       activateModuleLB;
-   QLineEdit*    activateModuleLE;
-   QLabel*       activatePortLB;
-   QLineEdit*    activatePortLE;
-
-   QCheckBox*    releasefbCB;
-   QLabel*       releaseSrcpBusLB;
-   QLineEdit*    releaseSrcpBusLE;
-   QLabel*       releaseContactLB;
-   QSpinBox*     releaseContactSB;
-   QLabel*       releaseModuleLB;
-   QLineEdit*    releaseModuleLE;
-   QLabel*       releasePortLB;
-   QLineEdit*    releasePortLE;
-
-   QButtonGroup* typeBG;
-   QButtonGroup* activateRouteBG;
-   QButtonGroup* releaseRouteBG;
-
-   QListView*    elementsLV;
-
-   QPushButton*  upPB;
-   QPushButton*  downPB;
-   QPushButton*  editPB;
-   QPushButton*  addPB;
-   QPushButton*  removePB;
-
-   void addIdentificationTab();
-   void addElementsTab();
-   void addRouteTypeTab();
-   void addAutomaticTab();
-   void updateEntrySignalName(int, int);
-   void updateExitSignalName(int, int);
-   void updateListIndexNumbersFrom(QListViewItem*);
 };
 
 #endif    //ROUTEDIALOG_H
