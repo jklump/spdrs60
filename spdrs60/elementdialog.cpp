@@ -84,7 +84,7 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     /*Layout to separate OK Cancel buttons from the upper rest*/
     QBoxLayout* baseLayout = new QVBoxLayout(this, 12, 12);
 
-    /*Layout to separate left and right groupboxest*/
+    /*Layout to separate left and right groupboxes*/
     QBoxLayout* leftRightLayout = new QHBoxLayout(baseLayout, 12);
 
     /*Layout to separate left column verticaly*/
@@ -275,7 +275,7 @@ ElementDialog::ElementDialog(QWidget* parent, int idx):
     //update all address tooltips due to validator limit change
     updateAddressTooltips();
 
-    /*line with port 1 spinbox */
+    /*line with port 2 spinbox */
     port2Label = new QLabel(tr("&Port 2:"), decoderGB);
     decdataLayout->addWidget(port2Label, 5, 0);
 
@@ -458,7 +458,8 @@ void ElementDialog::updateValidators()
      *   3  Selectrix
      *  -------------
      */
-    
+
+/*virtual address ranges*/    
     if (classid == element::siciZt1 || classid == element::siciZt3 ||
             classid == element::siciRt1 || classid == element::siciRt3) {
         addressVdt->setTop(MAX_RB);
@@ -1727,7 +1728,6 @@ void ElementDialog::setActiveTime(int atime)
     else
         activeTimeSB->setValue(pref.activetime);
 }
-
 
 
 int ElementDialog::getFBBus()
