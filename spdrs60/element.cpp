@@ -270,7 +270,7 @@ void element::updateProperties()
         state = 0; 
 
     // route marks are entry or exit points of routes (limits)
-    routemark =  classid == siciHs1 || classid == siciHs3
+    routemark = classid == siciHs1 || classid == siciHs3
         || classid == siciHss1 || classid == siciHss3
         || classid == siciSs1 || classid == siciSs3
         || classid == siciSd1 || classid == siciSd3
@@ -1100,41 +1100,41 @@ bool element::showPropertyDlg()
 {
     bool returnvalue = false;
 
-    ElementDialog* eDlg = new ElementDialog(this, iSoldIndex);
-    if (eDlg == NULL)
+    ElementDialog* dlg = new ElementDialog(this, iSoldIndex);
+    if (dlg == NULL)
         return false;
 
-    eDlg->setSymbolText(sSoldText);
-    eDlg->setInverted(iSoldInvert);
-    eDlg->setGASubType(iSoldSubType);
-    eDlg->setProtocol((int) protocol);
-    eDlg->setDecoder(sSoldDecoder);
-    eDlg->setSRCPBus1(bus1);
-    eDlg->setAddress1(address1);
-    eDlg->setXChangeConn1(xchangeport1);
-    eDlg->setSRCPBus2(bus2);
-    eDlg->setAddress2(address2);
-    eDlg->setXChangeConn2(xchangeport2);
-    eDlg->setDirection(state);
-    eDlg->setActiveTime(activetime);
-    eDlg->setLEDsAreOff(trackindicatoroff);
-    eDlg->setFBBus(iFBBusNo);
-    eDlg->setFBContact(iFBContact);
+    dlg->setSymbolText(sSoldText);
+    dlg->setInverted(iSoldInvert);
+    dlg->setGASubType(iSoldSubType);
+    dlg->setProtocol((int) protocol);
+    dlg->setDecoder(sSoldDecoder);
+    dlg->setSRCPBus1(bus1);
+    dlg->setAddress1(address1);
+    dlg->setXChangeConn1(xchangeport1);
+    dlg->setSRCPBus2(bus2);
+    dlg->setAddress2(address2);
+    dlg->setXChangeConn2(xchangeport2);
+    dlg->setDirection(state);
+    dlg->setActiveTime(activetime);
+    dlg->setLEDsAreOff(trackindicatoroff);
+    dlg->setFBBus(iFBBusNo);
+    dlg->setFBContact(iFBContact);
     // this must be the last one, because it triggers enabling and
     // disabling of all element dependent widgets
-    eDlg->setClassId(classid);
+    dlg->setClassId(classid);
     //FIXME: minvalues and maxvalues of port spin boxes are set too late
-    eDlg->setPort1(port1);
-    eDlg->setPort2(port2);
+    dlg->setPort1(port1);
+    dlg->setPort2(port2);
 
-    connect(eDlg, SIGNAL(sigShowFBmodules()),
+    connect(dlg, SIGNAL(sigShowFBmodules()),
             this, SIGNAL(sigShowFBmodules()));
 
-    if (eDlg->exec() == QDialog::Accepted) {
+    if (dlg->exec() == QDialog::Accepted) {
 
-        sSoldText = eDlg->getSymbolText();
-        iSoldInvert = eDlg->getInverted();
-        trackindicatoroff = eDlg->getLEDsAreOff();
+        sSoldText = dlg->getSymbolText();
+        iSoldInvert = dlg->getInverted();
+        trackindicatoroff = dlg->getLEDsAreOff();
 
         // force display update
         if (siciAdr == classid) {
@@ -1145,22 +1145,22 @@ bool element::showPropertyDlg()
             setupElementIcon();
         }
 
-        iSoldSubType = eDlg->getGASubType();
+        iSoldSubType = dlg->getGASubType();
         protocol =
-            (SrcpMessage::Protocol) eDlg->getProtocol();
-        sSoldDecoder = eDlg->getDecoder();
-        bus1 = eDlg->getSRCPBus1();
-        address1 = eDlg->getAddress1();
-        xchangeport1 = eDlg->getXChangeConn1();
-        port1 = eDlg->getPort1();
-        bus2 = eDlg->getSRCPBus2();
-        address2 = eDlg->getAddress2();
-        xchangeport2 = eDlg->getXChangeConn2();
-        port2 = eDlg->getPort2();
-        state = eDlg->getDirection();
-        activetime = eDlg->getActiveTime();
-        iFBBusNo = eDlg->getFBBus();
-        iFBContact = eDlg->getFBContact();
+            (SrcpMessage::Protocol) dlg->getProtocol();
+        sSoldDecoder = dlg->getDecoder();
+        bus1 = dlg->getSRCPBus1();
+        address1 = dlg->getAddress1();
+        xchangeport1 = dlg->getXChangeConn1();
+        port1 = dlg->getPort1();
+        bus2 = dlg->getSRCPBus2();
+        address2 = dlg->getAddress2();
+        xchangeport2 = dlg->getXChangeConn2();
+        port2 = dlg->getPort2();
+        state = dlg->getDirection();
+        activetime = dlg->getActiveTime();
+        iFBBusNo = dlg->getFBBus();
+        iFBContact = dlg->getFBContact();
 
         updateProperties();
         setupElementIcon();
@@ -1168,10 +1168,10 @@ bool element::showPropertyDlg()
         updateFeedbackState();
         returnvalue = true;
     }
-    disconnect(eDlg, SIGNAL(sigShowFBmodules()),
+    disconnect(dlg, SIGNAL(sigShowFBmodules()),
             this, SIGNAL(sigShowFBmodules()));
 
-    delete eDlg;
+    delete dlg;
     return returnvalue;
 }
 
