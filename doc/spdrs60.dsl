@@ -73,6 +73,10 @@
   (make formatting-instruction
     data: (string-append "\\path{" (data-of (current-node)) "}")))
 
+;; customize the print file name
+(define %root-filename%
+ "spdrs60")
+
 ;; customize the print stylesheet
 (define %paper-type%
   ;; Name of paper type
