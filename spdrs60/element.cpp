@@ -3161,9 +3161,13 @@ void element::setupElementIcon()
             QFont f(QApplication::font());
             f.setPointSize(QApplication::font().pointSize() - 1);
             p.setFont(f);
+            QFontMetrics fm(f);
 
-            QRect br = background.rect();
-            br.setHeight(h / 2 - 7);
+            QRect br = fm.boundingRect(sSoldText);
+            br.setWidth(br.width() + 4);
+            br.setHeight(br.height() + 2);
+            //QRect br = background.rect();
+            //br.setHeight(h / 2 - 7);
 
 #if QT_VERSION >= 0x030100
             br.moveTop(1);
@@ -3171,6 +3175,7 @@ void element::setupElementIcon()
             br.moveTopLeft(QPoint(br.x(), 1));
 #endif
             
+            p.fillRect(br, QBrush(Qt::white));
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
                     Qt::DontClip, sSoldText);
         }
