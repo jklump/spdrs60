@@ -111,10 +111,11 @@ const unsigned int rdSE = rdS | rdE;
 /*some magic strings for reading and writing layout files*/
 static const char GF_INDEX[]     = "index";
 static const char GF_CLASSID[]   = "classid";
-static const char GF_ROTATE[]    = "rotate";
 static const char GF_INVERSTO[]  = "invers turnout";
 static const char GF_DECODER[]   = "decoder";
 static const char GF_PROTOCOL[]  = "protocol";
+static const char GF_PROTOCOL1[]  = "protocol1";
+static const char GF_PROTOCOL2[]  = "protocol2";
 static const char GF_ADDRESS1[]  = "address_1";
 static const char GF_ADDRESS2[]  = "address_2";
 static const char GF_XCHCONN1[]  = "change conn 1";
@@ -123,6 +124,8 @@ static const char GF_DIRECTION[] = "direction";
 static const char GF_SUBTYPE[]   = "subtype";
 static const char GF_TEXT[]      = "text";
 static const char GF_ACTTIME[]   = "active time";
+static const char GF_ACTTIME1[]   = "active time1";
+static const char GF_ACTTIME2[]   = "active time2";
 static const char GF_FBPORT[]    = "feedback port";
 static const char GF_HIDELEDS[]  = "hide LEDs";
 
@@ -268,6 +271,20 @@ public:
     void setDropTargetView(bool);
     void setDroppedFbContact(QByteArray&);
     bool canReceiveFbcDrop();
+    bool hasLabel();
+    bool hasTrackIndicator();
+    bool hasVirtualAddress();
+    bool hasVariants();
+    int driveCount();
+    int buttonCount();
+    bool showLabelDialog();
+    bool showTrackIndicatorDialog();
+    bool showDriveDialog();
+    bool showDualDriveDialog();
+    bool showVirtualAddressDialog();
+    bool showVariantDialog();
+    bool showButtonDialog();
+    bool showDualButtonDialog();
 
 private:
     elementCommander*   turntableProperties;
@@ -280,6 +297,9 @@ private:
     unsigned int iSoldIndex;
     unsigned int iFBBusNo;
     int iFBContact;
+    bool     enablefbtrigger;
+    unsigned int button1fbbus;
+    unsigned int button1fbcontact;
     unsigned int editsAddress;
     unsigned int countervalue;
     int      address1;
@@ -290,10 +310,11 @@ private:
     int      port2;
     int      xchangeport1;
     int      xchangeport2;
-    int      activetime;
+    int      activetime1;
+    int      activetime2;
     int      state;
     int      iSoldInvert;
-    int      trackindicatoroff;
+    bool     trackindicatoroff;
     int      lockCounter;
     int      blinkcounter;
     int      lastdir;
@@ -313,7 +334,8 @@ private:
     bool     lightson;
     bool     tablelight;
     QString  sSoldDecoder;
-    SrcpMessage::Protocol protocol;
+    SrcpMessage::Protocol protocol1;
+    SrcpMessage::Protocol protocol2;
     QTimer*  locateTimer;
 
     void addTooltip();

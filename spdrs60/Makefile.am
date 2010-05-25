@@ -21,8 +21,11 @@ bin_PROGRAMS = spdrs60
 nodist_spdrs60_SOURCES = \
 	aboutdialog_moc.cpp \
 	commandport_moc.cpp \
+	drivedialog_moc.cpp \
+	dualdrivedialog_moc.cpp \
 	elementcommander_moc.cpp \
 	elementdialog_moc.cpp \
+	elementlabeldialog_moc.cpp \
 	element_moc.cpp \
 	feedbacklistbox_moc.cpp \
 	feedbackviewer_moc.cpp \
@@ -48,16 +51,21 @@ nodist_spdrs60_SOURCES = \
 	serverinfodialog_moc.cpp \
 	srcpport_moc.cpp \
 	trainnumberdialog_moc.cpp \
-	turntablecommander_moc.cpp
+	feedbacktriggerdialog_moc.cpp \
+	turntablecommander_moc.cpp \
+	virtualaddressdialog_moc.cpp
 
 # list of all sources and headers
 spdrs60_SOURCES = main.cpp resources.h \
 	aboutdialog.cpp aboutdialog.h \
 	commandport.cpp commandport.h \
 	crcfmessage.cpp crcfmessage.h \
+	drivedialog.cpp drivedialog.h \
+	dualdrivedialog.cpp dualdrivedialog.h \
 	elementcommander.cpp elementcommander.h \
 	element.cpp element.h \
 	elementdialog.cpp elementdialog.h \
+	elementlabeldialog.cpp elementlabeldialog.h \
 	feedbacklistbox.cpp feedbacklistbox.h \
 	feedbackmodule.cpp feedbackmodule.h \
 	feedbackviewer.cpp feedbackviewer.h \
@@ -87,7 +95,9 @@ spdrs60_SOURCES = main.cpp resources.h \
 	srcpmessage.cpp srcpmessage.h \
 	srcpport.cpp srcpport.h \
 	trainnumberdialog.cpp trainnumberdialog.h \
-	turntablecommander.cpp turntablecommander.h
+	feedbacktriggerdialog.cpp feedbacktriggerdialog.h \
+	turntablecommander.cpp turntablecommander.h \
+	virtualaddressdialog.cpp virtualaddressdialog.h
 
 # list here all files containing string translations
 translations = \
