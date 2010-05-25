@@ -1,8 +1,10 @@
+*.o
 *.moc.cpp
 *_moc.cpp
 *.qm
 *.gz
 *.bz2
+*.html
 Makefile
 Makefile.in
 configure
@@ -11,7 +13,16 @@ config.h.in
 aclocal.m4
 config.guess
 config.sub
+config.log
+config.status
 depcomp
 install-sh
 missing
 mkinstalldirs
+stamp-h1
+INSTALL
+autom4te.cache/
+clock/.deps/
+spdrs60/.deps/
+clock/centralclock
+spdrs60/spdrs60
