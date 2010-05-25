@@ -1,0 +1,17 @@
+*.moc.cpp
+*_moc.cpp
+*.qm
+*.gz
+*.bz2
+Makefile
+Makefile.in
+configure
+config.h
+config.h.in
+aclocal.m4
+config.guess
+config.sub
+depcomp
+install-sh
+missing
+mkinstalldirs
