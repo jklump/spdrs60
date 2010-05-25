@@ -155,12 +155,12 @@ class element: public QWidget
 public:
     enum SpdrItemClassId {
         siciNone = 0,
-        siciSt1 = 100, siciSt2, siciSt3, siciSt4,
-        siciCr1 = 120, siciCr2, siciCr3, siciCr4,
-        siciCl1 = 130, siciCl2, siciCl3, siciCl4,
+        siciSt1 = 100, siciSt2, siciSt3, siciSt4, // straight track
+        siciCr1 = 120, siciCr2, siciCr3, siciCr4, // right curves
+        siciCl1 = 130, siciCl2, siciCl3, siciCl4, // left curves
         siciKrh = 150, siciKr1, siciKr2, siciKl1, siciKl2, //Kr2, Kl2 not used
-        siciTuh = 160, siciTuv, siciTul, siciTur,
-        siciTdr = 170, siciTdl, siciTdb,
+        siciTuh = 160, siciTuv, siciTul, siciTur, // bridges
+        siciTdr = 170, siciTdl, siciTdb,          // arrows
         siciZt1 = 200, siciZt2, siciZt3, siciZt4, //2, 4 not used
         siciRt1 = 210, siciRt2, siciRt3, siciRt4, //2, 4 not used
         siciZp1 = 250, siciZp2, siciZp3, siciZp4, //2, 4 not used
@@ -177,8 +177,8 @@ public:
         siciSb1 = 400, siciSb2, siciSb3, siciSb4, // Selbstblocksignal
         siciZb1 = 410, siciZb2, siciZb3, siciZb4, // Zentralblocksignal
         siciZv1 = 420, siciZv2, siciZv3, siciZv4, // Zentralblocksignal + Vs
-        siciTr1 = 500, siciTr2, siciTr3, siciTr4,
-        siciTl1 = 510, siciTl2, siciTl3, siciTl4,
+        siciTr1 = 500, siciTr2, siciTr3, siciTr4, // right turnouts
+        siciTl1 = 510, siciTl2, siciTl3, siciTl4, // left turnouts
         siciIr1 = 520, siciIr2, siciIr3, siciIr4, //2, 4 not used
         siciIl1 = 530, siciIl2, siciIl3, siciIl4, //2, 4 not used
         siciSy1 = 550, siciSy2, siciSy3, siciSy4, //2, 4 not used
@@ -188,7 +188,7 @@ public:
         siciTw1 = 650, siciTw2, siciTw3, siciTw4, //2, 4 not used
         siciDre = 700, siciSbn, // turntable, shiftbridge
         siciRel = 710, //relais
-        siciMdc = 720, //DC motor^
+        siciMdc = 720, //DC motor
         siciBs1 = 800, siciBs2, siciBs3, siciBs4,
         siciLs1 = 820, siciLs2, siciLs3, siciLs4, //2, 4 not used
         siciLt1 = 830, siciLt2, siciLt3, siciLt4, //2, 4 not used
@@ -197,14 +197,15 @@ public:
         siciAdr = 900, // address indicator
         siciEnk = 930, // decoupler
         siciBld = 940, // blind element
-        siciBue = 950,
-        siciTxt = 1000,
-        siciFeg = 1100, siciTaf, siciTau,
-        siciFeb = 1200, siciTaw, siciTwh,
-        siciFer = 1300, siciTas,
-        siciFey = 1400,
-        siciFen = 1500,
-        siciFee = 1600, siciTal};
+        siciBue = 950, // level crossing
+        siciTxt = 1000, // text only
+        siciFeg = 1100, siciTaf, siciTau, // Green, FHT, UfGT
+        siciFeb = 1200, siciTaw, siciTwh, // Blue, WGT, WHT
+        siciFer = 1300, siciTas, // Red, SGT
+        siciFey = 1400, // Yellow
+        siciFen = 1500, // Brown
+        siciFee = 1600, siciTal // Grey, Ein
+    };
     
     element(QWidget* parent = NULL, SpdrItemClassId ci = siciTxt,
             elemVisualMode vm = kvmNormal);

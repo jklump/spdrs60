@@ -1560,9 +1560,6 @@ void element::setupElementIcon()
         int w = background.width();
         int h = background.height();
         
-        // paint track
-        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
-
         // paint arrows
         /**
          * isri2  rotated  rightarrow  leftarrow
@@ -1589,6 +1586,9 @@ void element::setupElementIcon()
                 w / 2 + 6, h / 2, 1, h - 1);
         p.drawPolygon(rightarrow);
         
+        // paint track
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
+
         // paint track lights
         if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
@@ -1637,9 +1637,6 @@ void element::setupElementIcon()
         int w = background.width();
         int h = background.height();
         
-        // paint track
-        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
-
         // paint arrows
         p.setBrush(QBrush(Qt::black));
         QPointArray leftarrow = QPointArray(4);
@@ -1647,6 +1644,9 @@ void element::setupElementIcon()
                 w - 1, 1, w / 2 - 6, h / 2, w - 1, h - 1);
         p.drawPolygon(leftarrow);
         
+        // paint track
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
+
         // paint track lights
         if (trackindicatoroff == 1) {
             for (int i = 0; i < 7; ++i)
