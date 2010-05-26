@@ -50,7 +50,6 @@ public:
    int getFBContact();
    void setFBContact(int);
    void setCheckBoxText(const QString&);
-   void setGroupBoxText(const QString&);
 
 private slots:
    void contactSBChanged(int);

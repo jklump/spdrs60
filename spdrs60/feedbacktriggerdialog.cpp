@@ -54,7 +54,8 @@ FeedbackTriggerDialog::FeedbackTriggerDialog(QWidget* parent):
     QToolTip::add(buttFBmodules, tr("Show feedback module window"));
 
     /*feedback LED data group box*/
-    feedbackGB = new QGroupBox(0, Qt::Horizontal, "", this, "feedbackGB");
+    feedbackGB = new QGroupBox(0, Qt::Horizontal, "Feedback contact",
+            this, "feedbackGB");
     baseLayout->addWidget(feedbackGB);
     QVBoxLayout* feedbackGBL = new QVBoxLayout(feedbackGB->layout(), 6);
     connect(enableTriggerCB, SIGNAL(clicked()),
@@ -192,10 +193,5 @@ void FeedbackTriggerDialog::slotShowFBmodules()
 void FeedbackTriggerDialog::setCheckBoxText(const QString& text)
 {
    enableTriggerCB->setText(text);;
-}
-
-void FeedbackTriggerDialog::setGroupBoxText(const QString& text)
-{
-    feedbackGB->setTitle(text);
 }
 

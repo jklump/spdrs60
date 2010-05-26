@@ -1321,8 +1321,8 @@ bool GBSArea::hasSrcp08Bus(unsigned int bus)
     return returnvalue;
 }
 
-
-void GBSArea::runPropertyMenue(element* el)
+/*setup property menu and keep click position */
+void GBSArea::runPropertyMenue(element* el, const QPoint& p)
 {
     QPopupMenu* propmenu = new QPopupMenu(this, "propertyMenu");
     int count = 0;
@@ -1351,13 +1351,8 @@ void GBSArea::runPropertyMenue(element* el)
         propmenu->insertItem(tr("&Track indicator..."), 6);
     }
 
-    count = el->buttonCount();
-    if (count == 1) {
+    if (el->buttonCount() > 0)
         propmenu->insertItem(tr("&Button..."), 7);
-    }
-    else if (count > 1) {
-        propmenu->insertItem(tr("&Buttons..."), 8);
-    }
 
     if (propmenu->idAt(0) != -1) {
         int mitem = propmenu->exec(QCursor::pos());
@@ -1383,10 +1378,7 @@ void GBSArea::runPropertyMenue(element* el)
                 elchanged = el->showTrackIndicatorDialog();
                 break;
             case 7:
-                elchanged = el->showButtonDialog();
-                break;
-            case 8:
-                elchanged = el->showDualButtonDialog();
+                elchanged = el->showButtonDialog(p);
                 break;
             case -1: //fall through
             default:
@@ -1452,7 +1444,7 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
 
             //if (el->showPropertyDlg())
             //    setModified(true);
-            runPropertyMenue(el);
+            runPropertyMenue(el, e->pos());
 
             e->accept();
         }

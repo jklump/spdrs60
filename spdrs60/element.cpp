@@ -9767,7 +9767,6 @@ bool element::showTrackIndicatorDialog()
     /*move dialog to mouse click point*/
     dlg->move(QCursor::pos());
     dlg->setCaption(tr("Edit item #%1").arg(iSoldIndex));
-    dlg->setGroupBoxText(tr("Feedback contact"));
     dlg->setCheckBoxText(tr("&Enable track indicator"));
     dlg->enableTrigger(!trackindicatoroff);
     dlg->setFBBus(iFBBusNo);
@@ -9902,22 +9901,48 @@ bool element::showVariantDialog()
     return true;
 }
 
-bool element::showButtonDialog()
+/*show dialog at click position, position is also used to check if left
+ * or right button is edited*/
+bool element::showButtonDialog(const QPoint& p)
 {
-    // select Button names; FHT WGT, WHT UfGT,...
-    bool returnvalue = false;
-
     QString buttontext;
+    bool returnvalue = false;
+    bool hastwo = false;
+
+    // select Button names; FHT WGT, WHT UfGT,...
+    QPoint pos = mapFromParent(p);
+    bool left = pos.x() < (width() / 2);
 
     switch (classid) {
         case siciTaf:
             buttontext = "FHT";
+            break;
+        case siciTau:
+            hastwo = true;
+            if (left)
+                buttontext = "UfGT";
+            else
+                buttontext = "MGT";
+            break;
+        case siciTas:
+            hastwo = true;
+            if (left)
+                buttontext = "SGT";
+            else
+                buttontext = "HaGT";
             break;
         case siciTaw:
             buttontext = "WGT";
             break;
         case siciTwh:
             buttontext = "WHT";
+            break;
+        case siciTal:
+            hastwo = true;
+            if (left)
+                buttontext = "Ein";
+            else
+                buttontext = "Aus";
             break;
         default:
             buttontext = sSoldText;
@@ -9930,19 +9955,35 @@ bool element::showButtonDialog()
 
     /*move dialog to mouse click point*/
     dlg->move(QCursor::pos());
-    dlg->setCaption(tr("Trigger button"));
-    dlg->setGroupBoxText(tr("%1 feedback contact").arg(buttontext));
+    dlg->setCaption(tr("%1 Button").arg(buttontext));
     dlg->setCheckBoxText(tr("&Enable feedback trigger"));
-    dlg->enableTrigger(enablefbtrigger);
-    dlg->setFBBus(button1fbbus);
-    dlg->setFBContact(button1fbcontact);
+    if (left || !hastwo) {
+        dlg->enableTrigger(enablefbtrigger);
+        dlg->setFBBus(button1fbbus);
+        dlg->setFBContact(button1fbcontact);
+    }
+    else {
+        /*
+        dlg->enableTrigger(enablefbtrigger2);
+        dlg->setFBBus(button1fbbus2);
+        dlg->setFBContact(button1fbcontact2);
+         */
+    }
     connect(dlg, SIGNAL(sigShowFBmodules()),
             this, SIGNAL(sigShowFBmodules()));
 
     if (dlg->exec() == QDialog::Accepted) {
-        enablefbtrigger = dlg->isTriggerEnabled();
-        button1fbbus = dlg->getFBBus();
-        button1fbcontact = dlg->getFBContact();
+        if (left || !hastwo) {
+            enablefbtrigger = dlg->isTriggerEnabled();
+            button1fbbus = dlg->getFBBus();
+            button1fbcontact = dlg->getFBContact();
+        }
+        else {/*
+            enablefbtrigger2 = dlg->isTriggerEnabled();
+            button1fbbus2 = dlg->getFBBus();
+            button1fbcontact2 = dlg->getFBContact();
+            */
+        }
         returnvalue = true;
         setupElementIcon();
     }
@@ -9952,10 +9993,5 @@ bool element::showButtonDialog()
     
     delete dlg;
     return returnvalue;
-}
-
-bool element::showDualButtonDialog()
-{
-    return true;
 }
 
