@@ -128,6 +128,8 @@ static const char GF_ACTTIME1[]   = "active time1";
 static const char GF_ACTTIME2[]   = "active time2";
 static const char GF_FBPORT[]    = "feedback port";
 static const char GF_HIDELEDS[]  = "hide LEDs";
+static const char GF_BUTTON1FB[]  = "button1fb";
+static const char GF_BUTTON2FB[]  = "button2fb";
 
 static const char DS[]  = ";";   // data separator in spdrs60 files
 static const char IDS[] = ":";   // data separator in imported files

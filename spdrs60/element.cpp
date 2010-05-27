@@ -290,6 +290,20 @@ void element::readFileTextFromStream(QTextStream& ats)
                 if (iFBContact <= 0)
                     iFBContact = 1;
             }
+            else if (key.compare(GF_BUTTON1FB) == 0) {
+                enable1fbtrigger = value.toUInt();
+                value = s.section(DS, 2, 2).stripWhiteSpace();
+                button1fbbus = value.toUInt();
+                value = s.section(DS, 3, 3).stripWhiteSpace();
+                button1fbcontact = value.toUInt();
+            }
+            else if (key.compare(GF_BUTTON2FB) == 0) {
+                enable2fbtrigger = value.toUInt();
+                value = s.section(DS, 2, 2).stripWhiteSpace();
+                button2fbbus = value.toUInt();
+                value = s.section(DS, 3, 3).stripWhiteSpace();
+                button2fbcontact = value.toUInt();
+            }
             else if (key.compare(GF_HIDELEDS) == 0) {
                 trackindicatoroff = (value.toInt() == 1);
                 /*this is the last parameter for old style format;
@@ -564,7 +578,7 @@ void element::mousePressEvent(QMouseEvent* e)
                 emit elementClicked(this, ctrlButton);
             }
 
-            /*UfGT/HaGT button*/
+            /*UfGT/MGT button*/
             else if (classid == siciTau) {
                 if (CursorPos.x() < (width() >> 1))
                     ctrlButton = kUfgtClicked; 
@@ -9056,6 +9070,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
 void element::slotOccupyElement(unsigned int bus, unsigned int contact,
         bool ostate)
 {
+    /*track indicator*/
     if (bus == iFBBusNo) {
 
         // address panels don't get occupied
@@ -9070,6 +9085,102 @@ void element::slotOccupyElement(unsigned int bus, unsigned int contact,
         }
         else if (contact == (unsigned int)iFBContact)
             setOccupied(ostate);
+    }
+
+    /*shortcut if (state = 0) => button release message*/
+    if (!ostate)
+        return;
+
+    /*button 1 trigger*/
+    if (enable1fbtrigger) {
+        if ((bus == button1fbbus) && (contact == button1fbcontact)) {
+
+            switch (classid) {
+                case siciTaf:
+                    /*FIXME: counter update doubled code*/
+                    /*
+                     * increment counter and repaint symbol, if value
+                     * has more than four digits, reset to zero
+                     */
+                    ++countervalue;
+                    if (countervalue == 10000)
+                        countervalue = 0;
+                    setupElementIcon();
+                    emit elementClicked(this, kFhtClicked);
+                    break;
+                case siciTau:
+                    emit elementClicked(this, kUfgtClicked);
+                    break;
+                case siciTas:
+                    emit elementClicked(this, kSgtClicked);
+                    break;
+                case siciTaw:
+                    emit elementClicked(this, kWgtClicked);
+                    break;
+                case siciTwh:
+                    /*FIXME: counter update doubled code*/
+                    /*
+                     * increment counter and repaint symbol, if value
+                     * has more than four digits, reset to zero
+                     */
+                    ++countervalue;
+                    if (countervalue == 10000)
+                        countervalue = 0;
+                    setupElementIcon();
+                    emit elementClicked(this, kWhtClicked);
+                    break;
+                case siciTal:
+                    emit elementClicked(this, kEinClicked);
+                    break;
+                case siciHss1:
+                case siciHs1:
+                case siciHs3:
+                    emit elementClicked(this, kZfsClicked);
+                    break;
+                case siciHss3:
+                case siciSs1:
+                case siciSs3:
+                case siciSd1:
+                case siciSd3:
+                    emit elementClicked(this, kRfsClicked);
+                    break;
+                case siciSh1:
+                case siciSh3:
+                    emit elementClicked(this, kZhsClicked);
+                    break;
+                default:
+                    /*Check*/
+                    emit elementClicked(this, kTurnoutClicked);
+                    break;
+            }
+        }
+    }
+
+    /*button 2 trigger*/
+    if (enable2fbtrigger) {
+        if ((bus == button2fbbus) && (contact == button2fbcontact)) {
+            switch (classid) {
+                case siciTau:
+                    emit elementClicked(this, kMgtClicked);
+                    break;
+                case siciTas:
+                    emit elementClicked(this, kHagtClicked);
+                    break;
+                case siciTal:
+                    emit elementClicked(this, kAusClicked);
+                    break;
+                case siciHss1:
+                case siciSd1:
+                case siciSd3:
+                    emit elementClicked(this, kRfsClicked);
+                    break;
+                case siciHss3:
+                    emit elementClicked(this, kZfsClicked);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
 
@@ -9197,14 +9308,6 @@ void element::writeFileTextToStream(QTextStream& ts)
         case siciFen:
         case siciFer:
         case siciFey:
-        case siciTaf:
-        case siciTas:
-        case siciTau:
-        case siciTaw:
-        case siciTwh:
-        case siciTal:
-        case siciTul:
-        case siciTur:
         case siciBs1:
         case siciBs2:
         case siciBs3:
@@ -9220,11 +9323,31 @@ void element::writeFileTextToStream(QTextStream& ts)
         case siciLb3:
             break;
 
+            /*dual buttons*/
+        case siciTal:
+        case siciTas:
+        case siciTau:
+            ts << GF_BUTTON2FB << DS << enable2fbtrigger << DS
+               << button2fbbus << DS << button2fbcontact << endl;
+            // fall through
+
+            /*single button*/
+        case siciTaf:
+        case siciTaw:
+        case siciTwh:
+            ts << GF_BUTTON1FB << DS << enable1fbtrigger << DS
+               << button1fbbus << DS << button1fbcontact << endl;
+            break;
+
         case siciSt1:
         case siciTdr:
         case siciTdb:
             ts << GF_TEXT << DS << sSoldText << endl;
             // fall through
+        case siciTuh:
+        case siciTuv:
+        case siciTul:
+        case siciTur:
         case siciSt2:
         case siciSt3:
         case siciSt4:
@@ -9275,6 +9398,12 @@ void element::writeFileTextToStream(QTextStream& ts)
                 << GF_ACTTIME2   << DS << activetime2 << endl
                 << GF_FBPORT    << DS << iFBBusNo << DS << iFBContact << endl
                 << GF_HIDELEDS  << DS << trackindicatoroff << endl;
+
+            /*for now: save two triggered buttons, if used or not*/
+            ts << GF_BUTTON1FB << DS << enable1fbtrigger << DS
+               << button1fbbus << DS << button1fbcontact << endl;
+            ts << GF_BUTTON2FB << DS << enable2fbtrigger << DS
+               << button2fbbus << DS << button2fbcontact << endl;
             break;
     }
     ts << '%' << endl;
