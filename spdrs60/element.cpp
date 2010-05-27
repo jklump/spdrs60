@@ -127,9 +127,12 @@ void element::initVariables()
     activetime2 = -1;
     iFBContact = 1;
     trackindicatoroff = true;
-    enablefbtrigger = false;
+    enable1fbtrigger = false;
     button1fbbus = 1;
     button1fbcontact = 1;
+    enable2fbtrigger = false;
+    button2fbbus = 1;
+    button2fbcontact = 1;
 
     editsAddress = 0;
     countervalue = 0;
@@ -9944,6 +9947,34 @@ bool element::showButtonDialog(const QPoint& p)
             else
                 buttontext = "Aus";
             break;
+        case siciHss1:
+            hastwo = true;
+            if (left)
+                buttontext = tr("%1 Rear").arg(sSoldText);
+            else
+                buttontext = tr("%1 Front").arg(sSoldText);
+            break;
+        case siciHss3:
+            hastwo = true;
+            if (left)
+                buttontext = tr("%1 Front").arg(sSoldText);
+            else
+                buttontext = tr("%1 Rear").arg(sSoldText);
+            break;
+        case siciSd1:
+            hastwo = true;
+            if (left)
+                buttontext = tr("%1 Rear").arg(sSoldText);
+            else
+                buttontext = tr("%1 Front").arg(sSoldText);
+            break;
+        case siciSd3:
+            hastwo = true;
+            if (left)
+                buttontext = tr("%1 Front").arg(sSoldText);
+            else
+                buttontext = tr("%1 Rear").arg(sSoldText);
+            break;
         default:
             buttontext = sSoldText;
             break;
@@ -9958,31 +9989,28 @@ bool element::showButtonDialog(const QPoint& p)
     dlg->setCaption(tr("%1 Button").arg(buttontext));
     dlg->setCheckBoxText(tr("&Enable feedback trigger"));
     if (left || !hastwo) {
-        dlg->enableTrigger(enablefbtrigger);
+        dlg->enableTrigger(enable1fbtrigger);
         dlg->setFBBus(button1fbbus);
         dlg->setFBContact(button1fbcontact);
     }
     else {
-        /*
-        dlg->enableTrigger(enablefbtrigger2);
-        dlg->setFBBus(button1fbbus2);
-        dlg->setFBContact(button1fbcontact2);
-         */
+        dlg->enableTrigger(enable2fbtrigger);
+        dlg->setFBBus(button2fbbus);
+        dlg->setFBContact(button2fbcontact);
     }
     connect(dlg, SIGNAL(sigShowFBmodules()),
             this, SIGNAL(sigShowFBmodules()));
 
     if (dlg->exec() == QDialog::Accepted) {
         if (left || !hastwo) {
-            enablefbtrigger = dlg->isTriggerEnabled();
+            enable1fbtrigger = dlg->isTriggerEnabled();
             button1fbbus = dlg->getFBBus();
             button1fbcontact = dlg->getFBContact();
         }
-        else {/*
-            enablefbtrigger2 = dlg->isTriggerEnabled();
-            button1fbbus2 = dlg->getFBBus();
-            button1fbcontact2 = dlg->getFBContact();
-            */
+        else {
+            enable2fbtrigger = dlg->isTriggerEnabled();
+            button2fbbus = dlg->getFBBus();
+            button2fbcontact = dlg->getFBContact();
         }
         returnvalue = true;
         setupElementIcon();

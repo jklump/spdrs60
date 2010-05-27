@@ -169,11 +169,11 @@ public:
         siciZp1 = 250, siciZp2, siciZp3, siciZp4, //2, 4 not used
         siciHs1 = 300, siciHs2, siciHs3, siciHs4, //2, 4 not used
         siciHv1 = 310, siciHv2, siciHv3, siciHv4, //Hs + Vs not used
-        siciHss1 = 320, siciHss2, siciHss3, siciHss4,//2 + 4 not used
+        siciHss1 = 320, siciHss2, siciHss3, siciHss4,//Hss; 2 + 4 not used
         siciHvs1 = 330, siciHvs2, siciHvs3, siciHvs4,//Hss + Vs ext. not used
-        siciSs1 = 340, siciSs2, siciSs3, siciSs4, //2, 4 not used
-        siciSh1 = 350, siciSh2, siciSh3, siciSh4, //2, 4 not used
-        siciSd1 = 360, siciSd2, siciSd3, siciSd4, //2, 4 not used
+        siciSs1 = 340, siciSs2, siciSs3, siciSs4, //Sh signal; 2, 4 not used
+        siciSh1 = 350, siciSh2, siciSh3, siciSh4, //Sh help route; 2, 4 not used
+        siciSd1 = 360, siciSd2, siciSd3, siciSd4, //Sh two buttons; 2, 4 not used
         siciWs1 = 370, siciWs2, siciWs3, siciWs4, //2, 4 not used
         siciVs1 = 380, siciVs2, siciVs3, siciVs4, //2, 4 not used
         siciVx1 = 390, siciVx2, siciVx3, siciVx4, // Vs extension for Hss n. u.
@@ -296,9 +296,12 @@ private:
     unsigned int iSoldIndex;
     unsigned int iFBBusNo;
     int iFBContact;
-    bool     enablefbtrigger;
+    bool     enable1fbtrigger;
     unsigned int button1fbbus;
     unsigned int button1fbcontact;
+    bool     enable2fbtrigger;
+    unsigned int button2fbbus;
+    unsigned int button2fbcontact;
     unsigned int editsAddress;
     unsigned int countervalue;
     int      address1;
