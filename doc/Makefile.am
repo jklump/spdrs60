@@ -1,10 +1,12 @@
 # Makefile.am for spdrs60 documentation
 # last changes by: Guido Scholz
 # Version: $Revision: 1.29 $
-# last update: $Date: 2009-03-16 17:38:04 $
+# last update: $Date: 2009/03/16 17:38:04 $
 
 pdfdir = @SPDRS60_DOC_DIR@
+if PDF_DOC
 depdfdir = $(pdfdir)/de
+endif
 
 # HTML_DOC_DIR is defined in configure.ac
 htmldir = @HTML_DOC_DIR@
@@ -192,7 +194,7 @@ dist_commonimages_DATA = \
 	commonimages/weiche-rechts-1.png
 
 
-dist_html_DATA = spdrs60.css 
+dist_html_DATA = spdrs60.css
 
 
 if HTML_DOC

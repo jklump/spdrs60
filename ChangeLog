@@ -1,3 +1,7 @@
+2010-05-19 Guido Scholz <guido.scholz@bayernline.de>
+	* turntablecommander.cpp: Update position drop down list when
+	programming is finished.
+
 2009-11-01 Guido Scholz <guido.scholz@bayernline.de>
 	* turntablecommander.cpp: Hide maximize window button, list box
 	for track positions changed to combo box.

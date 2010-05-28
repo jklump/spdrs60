@@ -59,7 +59,6 @@ struct SrcpBus {
 class GBSArea: public QWidget
 {
    Q_OBJECT
-   Q_PROPERTY(bool modified READ isModified WRITE setModified DESIGNABLE false)
 
 public:
    enum LayoutEditMode {lemSelect = 0, lemPaint, lemErase};
@@ -67,7 +66,7 @@ public:
    GBSArea(QWidget* parent = 0, const char* name = 0);
    ~GBSArea();
 
-   bool isModified() const;
+   bool isModified();
    void setModified(bool);
    QSize sizeHint() const;
    void writeFileTextToStream(QTextStream&);

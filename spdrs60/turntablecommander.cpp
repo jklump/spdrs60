@@ -65,14 +65,14 @@ turntableCommander::turntableCommander(const QString& tracks,
     currenttrack(activetrack),
     targettrack(0)
 {
+    setCaption(tr("Digital turntable commander"));
+
     // no maximize window button 
     clearWFlags(Qt::WStyle_Maximize | Qt::WStyle_SysMenu);
+
     // no tracks available on startup
     for (int i = 0; i < 24; i++)
         iTracks[i] = 0;
-    
-    targettrack = 0;
-    setCaption(tr("Digital turntable commander"));
 
     // save all available tracks from element
     // data in combined format with ;'s
@@ -315,6 +315,7 @@ void turntableCommander::slotProgrammer(int iButtID)
             enableProgramming(false);
             buttGoToTrack->setFocus();
             storeTrackPositions();
+            updatePositionList();
             displayTracks();
             targettrack = 1;
             slotGoToTrack();
@@ -567,3 +568,23 @@ void turntableCommander::storeTrackPositions()
     emit trackPositionsChanged(s);    // send track string to element
 }
 
+
+void turntableCommander::updatePositionList()
+{
+    int count = listTracks->count();
+
+    // first remove all old items
+    if (count > 0) {
+        for (int i = 0; i < count; i++)
+            listTracks->removeItem(0);
+    }
+
+    // setup new position list
+    for (int i = 0; i < 24; i++)
+        if (iTracks[i] == 1) {
+            listTracks->insertItem(QString::number(i + 1), -1);
+        }
+
+    if (listTracks->count() > 0)
+        listTracks->setCurrentItem(0);
+}

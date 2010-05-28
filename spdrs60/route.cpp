@@ -47,7 +47,8 @@ Route::Route(unsigned int anid,
         const PortState& arePort,
         const PortState& aacPort,
         const QPtrList<stateElement>& swis,
-        QObject* parent, const char* name): Section(aName, anid, 0, parent, name)
+        QObject* parent, const char* name):
+    Section(aName, anid, 0, parent, name)
 {
     initVariables();
 
@@ -101,8 +102,8 @@ Route::Route(unsigned int anid,
     }
 }
 
-Route::Route(element* startEl, QObject* parent, const char* name)
-: Section(tr("New route"), 0, 0, parent, name)
+Route::Route(element* startEl, QObject* parent, const char* name):
+    Section(tr("New route"), 0, 0, parent, name)
 {
     initVariables();
 
@@ -144,8 +145,8 @@ Route::Route(element* startEl, QObject* parent, const char* name)
     }
 }
 
-Route::Route(QTextStream& ts, QObject* parent, const char* name)
-: Section(tr("noname"), 0, 0, parent, name)
+Route::Route(QTextStream& ts, QObject* parent, const char* name):
+    Section(tr("noname"), 0, 0, parent, name)
 {
     initVariables();
 
@@ -167,8 +168,8 @@ Route::Route(QTextStream& ts, QObject* parent, const char* name)
 }
 
 
-Route::Route(const QString& aName, QObject* parent, const char* name)
-    : Section(aName, 0, 0, parent, name)
+Route::Route(const QString& aName, QObject* parent, const char* name):
+    Section(aName, 0, 0, parent, name)
 {
     initVariables();
 

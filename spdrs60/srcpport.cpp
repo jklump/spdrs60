@@ -2,7 +2,7 @@
  srcpport.cpp
  ------------
  Begin        : 17.08.2007
- Last modified: $Date: 2009-03-18 17:14:03 $
+ Last modified: $Date: 2009/03/18 17:14:03 $
                 $Revision: 1.10 $
  Copyright    : (C) 2007-2008 by Guido Scholz <guido.scholz@bayernline.de>
  Description  : Abstract class for network communication with SRCP server.
@@ -261,7 +261,7 @@ void SrcpPort::readData()
 
                     // get welcome message and split to tokens
                     // we expect a list of three elements
-                    tokens = QStringList::split(";", line);
+                    tokens = QStringList::split(';', line);
                     it = tokens.begin();
 
                     // split tokens to get SRCP, SRCPOTHER
@@ -271,7 +271,7 @@ void SrcpPort::readData()
 
                         // here we expect a list of exactly
                         // two elements
-                        wmt = QStringList::split(" ", QString(*it));
+                        wmt = QStringList::split(' ', QString(*it));
 
                         if (wmt.count() == 2) {
 
@@ -376,7 +376,7 @@ void SrcpPort::readData()
                     // set protocol version
                     // <time> 201 OK PROTOCOL
                     //   0     1  2     3
-                    tokens = QStringList::split(" ", line);
+                    tokens = QStringList::split(' ', line);
                     if ((tokens.count() < 4) || (tokens[2] != "OK")) {
                         emit statusMessage(tr("%1: Communication error "
                                     "PROTOCOL '%2'")
@@ -396,7 +396,7 @@ void SrcpPort::readData()
                     // set connection mode
                     // <time> 202 OK CONNECTIONMODE
                     //   0     1  2        3
-                    tokens = QStringList::split(" ", line);
+                    tokens = QStringList::split(' ', line);
                     if ((tokens.count() < 4) || (tokens[2] != "OK")) {
                         emit statusMessage(tr("%1: Communication error "
                                     "CONNECTIONMODE '%2'")
@@ -414,7 +414,7 @@ void SrcpPort::readData()
                     // get session number
                     // <time> 200 OK GO <session-id>
                     //   0     1  2  3      4
-                    tokens = QStringList::split(" ", line);
+                    tokens = QStringList::split(' ', line);
                     if ((tokens.count() < 5) || (tokens[2] != "OK")) {
                         emit statusMessage(
                                 tr("%1: Communication error GO '%2'")

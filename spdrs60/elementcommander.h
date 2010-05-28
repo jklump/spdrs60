@@ -5,7 +5,7 @@
     copyright            : (C) 1999-2003 by Stefan Preis
                          : (C) 2004-2008 Guido Scholz
     email                : guido.scholz@bayernline.de
-    last modified        : $Date: 2009-10-26 21:59:44 $
+    last modified        : $Date: 2009/10/26 21:59:44 $
 ***************************************************************************/
 
 /**************************************************************************
@@ -65,7 +65,6 @@ private:
    QPushButton*  buttRotateLeft;      // button for rotating a motor cw
    QPushButton*  buttRotateRight;     // button for rotating a motor acw
    QPushButton*  buttStop;            // button for stop any movements
-   QPixmap       pixButton;           // the pixmap for each button
 #if QT_VERSION >= 0x040000
    Q3ButtonGroup* bgButton;            // moving/rotating
 #else

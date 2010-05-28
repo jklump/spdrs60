@@ -868,12 +868,10 @@ void GBSArea::connectElement(element* el)
             el, SLOT(switchVisualMode(elemVisualMode)));
     connect(this, SIGNAL(sigShowElement(int, int,
                     elemSelectionMode)),
-            el, SLOT(slotShowElement(int, int,
-                    elemSelectionMode)));
+            el, SLOT(slotShowElement(int, int, elemSelectionMode)));
     connect(this, SIGNAL(sigRepaintLayout()),
             el, SLOT(slotRepaintLayout()));
-    connect(el, SIGNAL(recordElement(element*,
-                    elemRecordType)),
+    connect(el, SIGNAL(recordElement(element*, elemRecordType)),
             this, SIGNAL(recordElement(element*, elemRecordType)));
     connect(this, SIGNAL(processInfoPortMessage(unsigned int,
                     unsigned int, unsigned int, unsigned int)),
@@ -888,9 +886,7 @@ void GBSArea::connectElement(element* el)
 }
 
 
-// *INDENT-OFF*
-bool GBSArea::isModified() const
-// *INDENT-ON*
+bool GBSArea::isModified()
 {
     return modified;
 }
