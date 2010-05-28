@@ -9149,8 +9149,6 @@ void element::writeFileTextToStream(QTextStream& ts)
         case siciTaw:
         case siciTwh:
         case siciTal:
-        case siciTul:
-        case siciTur:
         case siciBs1:
         case siciBs2:
         case siciBs3:
@@ -9171,6 +9169,10 @@ void element::writeFileTextToStream(QTextStream& ts)
         case siciTdb:
             ts << GF_TEXT << DS << sSoldText << endl;
             // fall through
+        case siciTuh:
+        case siciTuv:
+        case siciTul:
+        case siciTur:
         case siciSt2:
         case siciSt3:
         case siciSt4:
