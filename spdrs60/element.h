@@ -187,9 +187,9 @@ public:
         siciIr1 = 520, siciIr2, siciIr3, siciIr4, //2, 4 not used
         siciIl1 = 530, siciIl2, siciIl3, siciIl4, //2, 4 not used
         siciSy1 = 550, siciSy2, siciSy3, siciSy4, //2, 4 not used
-        siciSr1 = 600, siciSr2, siciSr3, siciSr4,
-        siciSl1 = 610, siciSl2, siciSl3, siciSl4,
-        siciDr1 = 620, siciDr2, siciDl1, siciDl2, //2 not used
+        siciSr1 = 600, siciSr2, siciSr3, siciSr4, // Single slip switch right
+        siciSl1 = 610, siciSl2, siciSl3, siciSl4, // Single slip switch left
+        siciDr1 = 620, siciDr2, siciDl1, siciDl2, //Double slip switch 2 n. u.
         siciTw1 = 650, siciTw2, siciTw3, siciTw4, //2, 4 not used
         siciDre = 700, siciSbn, // turntable, shiftbridge
         siciRel = 710, //relais

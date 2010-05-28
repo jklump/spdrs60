@@ -33,6 +33,7 @@
 #include "feedbacktriggerdialog.h"
 #include "preferences.h"
 #include "resources.h"
+#include "variantdialog.h"
 #include "virtualaddressdialog.h"
 
 /* track buttons */
@@ -56,6 +57,24 @@
 #include "pixmaps/transfertable.xpm"
 #include "pixmaps/signal-w.xpm"
 #include "pixmaps/signal-wr.xpm"
+
+/*pixmaps for variant dialog*/
+#include "pixmaps/signal_hss_st1.xpm"
+#include "pixmaps/signal_hss_st2.xpm"
+#include "pixmaps/signal_hss_st3.xpm"
+#include "pixmaps/signal_hs_st1.xpm"
+#include "pixmaps/signal_hs_st2.xpm"
+#include "pixmaps/signal_hs_st3.xpm"
+#include "pixmaps/signal_vs_st1.xpm"
+#include "pixmaps/signal_vs_st2.xpm"
+#include "pixmaps/signal_vs_st3.xpm"
+#include "pixmaps/entkoppler_st1.xpm"
+#include "pixmaps/entkoppler_st2.xpm"
+#include "pixmaps/entkoppler_st3.xpm"
+#include "pixmaps/dkw_links_st2.xpm"
+#include "pixmaps/dkw_links_st3.xpm"
+#include "pixmaps/dkw_rechts_st2.xpm"
+#include "pixmaps/dkw_rechts_st3.xpm"
 
 
 // Element directions
@@ -10030,7 +10049,230 @@ bool element::showVirtualAddressDialog()
 
 bool element::showVariantDialog()
 {
-    return true;
+    bool returnvalue = false;
+    QPixmap pm;
+
+    VariantDialog* dlg = new VariantDialog(this);
+    if (dlg == NULL)
+        return false;
+
+    /*move dialog to mouse click point*/
+    dlg->move(QCursor::pos());
+    
+    switch (classid) {
+        case siciHss1:
+        case siciHss3:
+            pm = QPixmap(signal_hss_st1_xpm);
+            dlg->addVariant(tr("Hp&0, Hp1 and Sh1"), pm);
+            pm = QPixmap(signal_hss_st2_xpm);
+            dlg->addVariant(tr("Hp0, Hp&2 and Sh1"), pm);
+            pm = QPixmap(signal_hss_st3_xpm);
+            dlg->addVariant(tr("Hp0, Hp&1, Hp2 and Sh1"), pm);
+            /*
+             * index Subtype
+             * -------------
+             *   0     1
+             *   1     7
+             *   2     5
+             * -------------
+             */
+            if (iSoldSubType == 1)
+                dlg->setChoice(0);
+            else if (iSoldSubType == 7)
+                dlg->setChoice(1);
+            else if (iSoldSubType == 5)
+                dlg->setChoice(2);
+            break;
+
+        case siciHs1:
+        case siciHs3:
+            pm = QPixmap(signal_hs_st1_xpm);
+            dlg->addVariant(tr("Hp&0 and Hp1"), pm);
+            pm = QPixmap(signal_hs_st2_xpm);
+            dlg->addVariant(tr("Hp0 and Hp&2"), pm);
+            pm = QPixmap(signal_hs_st3_xpm);
+            dlg->addVariant(tr("Hp0, Hp&1 and Hp2"), pm);
+            /*
+             * index Subtype
+             * -------------
+             *   0     0
+             *   1     6
+             *   2     4
+             * -------------
+             */
+            if (iSoldSubType == 0)
+                dlg->setChoice(0);
+            else if (iSoldSubType == 6)
+                dlg->setChoice(1);
+            else if (iSoldSubType == 4)
+                dlg->setChoice(2);
+            break;
+
+        case siciVs1:
+        case siciVs3:
+            pm = QPixmap(signal_vs_st1_xpm);
+            dlg->addVariant(tr("Vr&0 and Vr1"), pm);
+            pm = QPixmap(signal_vs_st2_xpm);
+            dlg->addVariant(tr("Vr0 and Vr&2"), pm);
+            pm = QPixmap(signal_vs_st3_xpm);
+            dlg->addVariant(tr("Vr0, Vr&1 and Vr2"), pm);
+            /*
+             * index Subtype
+             * -------------
+             *   0     0
+             *   1     6
+             *   2     4
+             * -------------
+             */
+            if (iSoldSubType == 0)
+                dlg->setChoice(0);
+            else if (iSoldSubType == 6)
+                dlg->setChoice(1);
+            else if (iSoldSubType == 4)
+                dlg->setChoice(2);
+            break;
+
+        case siciDr1:
+            pm = QPixmap(dkw_rechts_st2_xpm);
+            dlg->addVariant(tr("&One drive (two switch positions)"), pm);
+            pm = QPixmap(dkw_rechts_st3_xpm);
+            dlg->addVariant(tr("&Two drives (four switch positions)"), pm);
+            dlg->setChoice(iSoldSubType);
+            break;
+
+        case siciDl1:
+            pm = QPixmap(dkw_links_st2_xpm);
+            dlg->addVariant(tr("&One drive (two switch positions)"), pm);
+            pm = QPixmap(dkw_links_st3_xpm);
+            dlg->addVariant(tr("&Two drives (four switch positions)"), pm);
+            /*
+             * index Subtype
+             * -------------
+             *   0     0
+             *   1     1
+             * -------------
+             */
+            dlg->setChoice(iSoldSubType);
+            break;
+
+        case siciAdr:
+            dlg->addVariant(tr("&Edits Pro indicator"));
+            dlg->addVariant(tr("&Train number tracing"));
+            /*
+             * index Inverted
+             * --------------
+             *   0     0
+             *   1     1
+             * --------------
+             */
+            dlg->setChoice(iSoldInvert);
+            break;
+
+        case siciDre:
+            dlg->addVariant(tr("Typ 1&4 (base address 209)"));
+            dlg->addVariant(tr("Typ 1&5 (base address 225)"));
+            /*
+             * index Address2
+             * --------------
+             *   0     209
+             *   1     225
+             * --------------
+             */
+            if (address2 == 209)
+                dlg->setChoice(0);
+            else
+                dlg->setChoice(1);
+            break;
+
+        case siciEnk:
+            pm = QPixmap(entkoppler_st1_xpm);
+            dlg->addVariant(tr("&Bistable coupler"), pm);
+            pm = QPixmap(entkoppler_st2_xpm);
+            dlg->addVariant(tr("Momentary coupler on &left connector"), pm);
+            pm = QPixmap(entkoppler_st3_xpm);
+            dlg->addVariant(tr("Momentary coupler on &right connector"), pm);
+            /*
+             * index Subtype
+             * -------------
+             *   0    -1
+             *   1     0
+             *   2     1
+             * -------------
+             */
+            if (iSoldSubType == -1)
+                dlg->setChoice(0);
+            else if (iSoldSubType == 0)
+                dlg->setChoice(1);
+            else if (iSoldSubType == 1)
+                dlg->setChoice(2);
+            break;
+
+        default:
+            break;
+    }
+
+    if (dlg->exec() == QDialog::Accepted) {
+
+        switch (classid) {
+            case siciHss1:
+            case siciHss3:
+                iSoldSubType = dlg->getChoice();
+                if (iSoldSubType == 0)
+                    iSoldSubType = 1;
+                else if (iSoldSubType == 1)
+                    iSoldSubType = 7;
+                else if (iSoldSubType == 2)
+                    iSoldSubType = 5;
+                break;
+
+            case siciHs1:
+            case siciHs3:
+            case siciVs1:
+            case siciVs3:
+                iSoldSubType = dlg->getChoice();
+                if (iSoldSubType == 0)
+                    ;
+                else if (iSoldSubType == 1)
+                    iSoldSubType = 6;
+                else if (iSoldSubType == 2)
+                    iSoldSubType = 4;
+                break;
+
+            case siciDr1:
+            case siciDl1:
+                iSoldSubType = dlg->getChoice();
+                break;
+
+            case siciAdr:
+                iSoldInvert = dlg->getChoice();
+                break;
+
+            case siciDre:
+                if (dlg->getChoice() == 0)
+                    address2 = 209; // TODO: fix MAGIC
+                else
+                    address2 = 225;
+                break;
+
+            case siciEnk:
+                iSoldSubType = dlg->getChoice();
+                if (iSoldSubType == 0)
+                    iSoldSubType = -1;
+                else if (iSoldSubType == 1)
+                    iSoldSubType = 0;
+                else if (iSoldSubType == 2)
+                    iSoldSubType = 1;
+                break;
+
+            default:
+                break;
+        }
+        returnvalue = true;
+        setupElementIcon();
+    }
+    
+    delete dlg;
+    return returnvalue;
 }
 
 /*show dialog at click position, position is also used to check if left

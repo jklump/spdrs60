@@ -1340,7 +1340,7 @@ void GBSArea::runPropertyMenue(element* el, const QPoint& p)
     }
 
     if (el->hasVirtualAddress()) {
-        propmenu->insertItem(tr("&Virtual address..."), 4);
+        propmenu->insertItem(tr("Virtual &address..."), 4);
     }
 
     if (el->hasVariants()) {

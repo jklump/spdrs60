@@ -53,6 +53,7 @@ nodist_spdrs60_SOURCES = \
 	trainnumberdialog_moc.cpp \
 	feedbacktriggerdialog_moc.cpp \
 	turntablecommander_moc.cpp \
+	variantdialog_moc.cpp \
 	virtualaddressdialog_moc.cpp
 
 # list of all sources and headers
@@ -97,6 +98,7 @@ spdrs60_SOURCES = main.cpp resources.h \
 	trainnumberdialog.cpp trainnumberdialog.h \
 	feedbacktriggerdialog.cpp feedbacktriggerdialog.h \
 	turntablecommander.cpp turntablecommander.h \
+	variantdialog.cpp variantdialog.h \
 	virtualaddressdialog.cpp virtualaddressdialog.h
 
 # list here all files containing string translations
