@@ -28,7 +28,6 @@
 #include "drivedialog.h"
 #include "dualdrivedialog.h"
 #include "element.h"
-#include "elementdialog.h"
 #include "elementlabeldialog.h"
 #include "feedbacktriggerdialog.h"
 #include "preferences.h"
@@ -1180,89 +1179,6 @@ void element::processInfoPortMessage(unsigned int bus,
         }
     }
 }
-
-/**
- * show element property dialog, return true if element data was changed
- */
-bool element::showPropertyDlg()
-{
-    bool returnvalue = false;
-
-    ElementDialog* dlg = new ElementDialog(this, iSoldIndex);
-    if (dlg == NULL)
-        return false;
-
-    dlg->setSymbolText(sSoldText);
-    dlg->setInverted(iSoldInvert);
-    dlg->setGASubType(iSoldSubType);
-    dlg->setProtocol((int) protocol1);
-    dlg->setDecoder(sSoldDecoder);
-    dlg->setSRCPBus1(bus1);
-    dlg->setAddress1(address1);
-    dlg->setXChangeConn1(xchangeport1);
-    dlg->setSRCPBus2(bus2);
-    dlg->setAddress2(address2);
-    dlg->setXChangeConn2(xchangeport2);
-    dlg->setDirection(state);
-    dlg->setActiveTime(activetime1);
-    dlg->setLEDsAreOff(trackindicatoroff);
-    dlg->setFBBus(iFBBusNo);
-    dlg->setFBContact(iFBContact);
-    // this must be the last one, because it triggers enabling and
-    // disabling of all element dependent widgets
-    dlg->setClassId(classid);
-    //FIXME: minvalues and maxvalues of port spin boxes are set too late
-    dlg->setPort1(port1);
-    dlg->setPort2(port2);
-
-    connect(dlg, SIGNAL(sigShowFBmodules()),
-            this, SIGNAL(sigShowFBmodules()));
-
-    if (dlg->exec() == QDialog::Accepted) {
-
-        sSoldText = dlg->getSymbolText();
-        iSoldInvert = dlg->getInverted();
-        trackindicatoroff = dlg->getLEDsAreOff();
-
-        // force display update
-        if (siciAdr == classid) {
-            if (iSoldInvert == 1)
-                editsAddress = 0;
-            else
-                editsAddress = sSoldText.toUInt();
-            setupElementIcon();
-        }
-
-        iSoldSubType = dlg->getGASubType();
-        protocol1 =
-            (SrcpMessage::Protocol) dlg->getProtocol();
-        sSoldDecoder = dlg->getDecoder();
-        bus1 = dlg->getSRCPBus1();
-        address1 = dlg->getAddress1();
-        xchangeport1 = dlg->getXChangeConn1();
-        port1 = dlg->getPort1();
-        bus2 = dlg->getSRCPBus2();
-        address2 = dlg->getAddress2();
-        xchangeport2 = dlg->getXChangeConn2();
-        port2 = dlg->getPort2();
-        state = dlg->getDirection();
-        activetime1 = dlg->getActiveTime();
-        iFBBusNo = dlg->getFBBus();
-        iFBContact = dlg->getFBContact();
-
-        updateProperties();
-        setupElementIcon();
-        // ask server for current occupation state
-        updateFeedbackState();
-        returnvalue = true;
-    }
-    disconnect(dlg, SIGNAL(sigShowFBmodules()),
-            this, SIGNAL(sigShowFBmodules()));
-
-    delete dlg;
-    return returnvalue;
-}
-
 
 /**
  * toggle through element direction states

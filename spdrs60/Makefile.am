@@ -24,7 +24,6 @@ nodist_spdrs60_SOURCES = \
 	drivedialog_moc.cpp \
 	dualdrivedialog_moc.cpp \
 	elementcommander_moc.cpp \
-	elementdialog_moc.cpp \
 	elementlabeldialog_moc.cpp \
 	element_moc.cpp \
 	feedbacklistbox_moc.cpp \
@@ -65,7 +64,6 @@ spdrs60_SOURCES = main.cpp resources.h \
 	dualdrivedialog.cpp dualdrivedialog.h \
 	elementcommander.cpp elementcommander.h \
 	element.cpp element.h \
-	elementdialog.cpp elementdialog.h \
 	elementlabeldialog.cpp elementlabeldialog.h \
 	feedbacklistbox.cpp feedbacklistbox.h \
 	feedbackmodule.cpp feedbackmodule.h \

@@ -1442,8 +1442,6 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
                 return;
             }
 
-            //if (el->showPropertyDlg())
-            //    setModified(true);
             runPropertyMenue(el, e->pos());
 
             e->accept();

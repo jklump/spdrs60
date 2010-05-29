@@ -247,7 +247,6 @@ public:
     bool isTrainNumberDisplay();
     bool hasThreeStates();
     void showElementState(int, elemSelectionMode);
-    bool showPropertyDlg();
     bool showsStop();
     void sendSrcpState();
     bool sendSRCP08InitGA(unsigned int gano = 1);
