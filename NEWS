@@ -1,3 +1,41 @@
+spdrs60-0.5.6 (2009-06-??)
+
+  Fixed Bugs
+
+  o Fixed saving of feedback data for diagonal tunnel elements.
+
+  o Fixed track position drop down list in turntable commander to store
+    new positions after programming.
+
+  o Fixed repainting of text element; now has white background to cover
+    last exposed text.
+
+  o Base addresses for turntable decoder variants fixed.
+
+  o Address items are no longer occupied by feedback events.
+
+  o Fixed arguments for server connect message in German translation.
+
+  o Not working file/exit menu/key shortcut repaired.
+
+
+  New Features
+
+  o Button of layout items now can be triggered by feedback messages.
+    This makes connections to external hardware buttons possible.
+ 
+  o Element property dialog splitted into different feature dialogs which
+    are addressed by an element (specific) context menu. Each decoder
+    now has its own protocol and active time value.
+
+  o Compatibilty for reading file style older than version 0.5.5
+    removed.
+
+  o Layout management for turntable commander added.
+
+  o Internal code cleanups.
+
+
 spdrs60-0.5.5 (2009-03-18)
 
   Fixed Bugs
