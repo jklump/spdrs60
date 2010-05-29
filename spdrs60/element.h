@@ -166,10 +166,10 @@ public:
         siciKrh = 150, siciKr1, siciKr2, siciKl1, siciKl2, //Kr2, Kl2 not used
         siciTuh = 160, siciTuv, siciTul, siciTur, // bridges
         siciTdr = 170, siciTdl, siciTdb,          // arrows
-        siciZt1 = 200, siciZt2, siciZt3, siciZt4, //2, 4 not used
-        siciRt1 = 210, siciRt2, siciRt3, siciRt4, //2, 4 not used
+        siciZt1 = 200, siciZt2, siciZt3, siciZt4, //Train rt btn 2, 4 not used
+        siciRt1 = 210, siciRt2, siciRt3, siciRt4, //Shanting rt btn2, 4 not used
         siciZp1 = 250, siciZp2, siciZp3, siciZp4, //2, 4 not used
-        siciHs1 = 300, siciHs2, siciHs3, siciHs4, //2, 4 not used
+        siciHs1 = 300, siciHs2, siciHs3, siciHs4, //Main signal 2, 4 not used
         siciHv1 = 310, siciHv2, siciHv3, siciHv4, //Hs + Vs not used
         siciHss1 = 320, siciHss2, siciHss3, siciHss4,//Hss; 2 + 4 not used
         siciHvs1 = 330, siciHvs2, siciHvs3, siciHvs4,//Hss + Vs ext. not used

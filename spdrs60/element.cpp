@@ -85,6 +85,12 @@ enum {
    DIR_SH1
 };
 
+// Maerklin turntable addresses
+enum {
+   MMTT14 = 209,
+   MMTT15 = 225
+};
+
 // signal light size parameter
 // delay for edit mode after element locating
 enum {
@@ -9558,10 +9564,84 @@ bool element::hasLEDsOn()
 int element::getAddressCount()
 {
     int returnvalue = 0;
-    if (address1 != -1) {
-        ++returnvalue;
-        if (address2 != -1) 
-            ++returnvalue;
+
+    switch (classid) {
+        // virtual addresses
+        case siciZt1:
+        case siciZt3:
+        case siciRt1:
+        case siciRt3:
+        case siciKr1:
+        case siciKl1:
+        case siciKrh:
+        case siciAdr:
+        case siciBld:
+            // real addresses
+            //signals
+        case siciSs1:
+        case siciSs3:
+        case siciSh1:
+        case siciSh3:
+        case siciSd1:
+        case siciSd3:
+        case siciWs1:
+        case siciWs3:
+        case siciZp1:
+        case siciZp3:
+            //turnouts
+        case siciTr1:
+        case siciTr3:
+        case siciTl1:
+        case siciTl3:
+        case siciIr1:
+        case siciIr3:
+        case siciSy1:
+        case siciSy3:
+            // tools
+        case siciDre:
+        case siciSbn:
+        case siciEnk:
+        case siciRel:
+        case siciMdc:
+            returnvalue = 1;
+            break;
+
+        case siciHss1:
+        case siciHss3:
+            if (iSoldSubType == 5)
+                returnvalue = 2;
+            else
+                returnvalue = 1;
+            break;
+
+        case siciHs1:
+        case siciHs3:
+        case siciVs1:
+        case siciVs3:
+            if (iSoldSubType == 4)
+                returnvalue = 2;
+            else
+                returnvalue = 1;
+            break;
+
+        case siciDr1:
+        case siciDl1:
+            if (iSoldSubType == 1)
+                returnvalue = 2;
+            else
+                returnvalue = 1;
+            break;
+        case siciTw1:
+        case siciTw3:
+        case siciSr1:
+        case siciSr3:
+        case siciSl1:
+        case siciSl3:
+            returnvalue = 2;
+            break;
+
+        default:
+            break;
     }
     return returnvalue;
 }
@@ -9798,7 +9878,8 @@ bool element::showsStop()
  * drag-and-drop*/
 bool element::canReceiveFbcDrop()
 {
-    return routable && !(classid == siciBue || classid == siciAdr);
+    return routable && !(classid == siciBue ||
+            (classid == siciAdr && iSoldInvert == 1));
 }
 
 
@@ -9844,20 +9925,36 @@ bool element::hasTrackIndicator()
 
 int element::driveCount()
 {
-    if (hasVirtualAddress())
+    if (hasVirtualAddress() || classid == siciAdr)
         return 0;
-//TODO: fix motor and shifting bridge
+
     return getAddressCount();
 }
 
 
 bool element::hasVirtualAddress()
 {
-    return classid == siciZt1 || classid == siciZt3 ||
-        classid == siciRt1 || classid == siciRt3 ||
-        classid == siciKr1 || classid == siciKl1 ||
-        classid == siciKrh || classid == siciAdr ||
-        classid == siciBld;
+    bool returnvalue = false;
+
+    switch (classid) {
+        case siciZt1:
+        case siciZt3:
+        case siciRt1:
+        case siciRt3:
+        case siciKr1:
+        case siciKl1:
+        case siciKrh:
+        case siciBld:
+            returnvalue = true;
+            break;
+        case siciAdr:
+            if (iSoldInvert == 1)
+                returnvalue = true;
+            break;
+        default:
+            break;
+    }
+    return returnvalue;
 }
 
 
@@ -10156,16 +10253,17 @@ bool element::showVariantDialog()
             break;
 
         case siciAdr:
-            dlg->addVariant(tr("&Edits Pro indicator"));
+            dlg->addVariant(tr("&EDiTS-Pro indicator"));
             dlg->addVariant(tr("&Train number tracing"));
             /*
              * index Inverted
              * --------------
-             *   0     0
-             *   1     1
+             *   0     0       feedback address
+             *   1     1       virtual address
              * --------------
              */
-            dlg->setChoice(iSoldInvert);
+            // fix -1 default value
+            dlg->setChoice(iSoldInvert != 1 ? 0 : 1);
             break;
 
         case siciDre:
@@ -10178,7 +10276,7 @@ bool element::showVariantDialog()
              *   1     225
              * --------------
              */
-            if (address2 == 209)
+            if (address2 == MMTT14)
                 dlg->setChoice(0);
             else
                 dlg->setChoice(1);
@@ -10230,9 +10328,7 @@ bool element::showVariantDialog()
             case siciVs1:
             case siciVs3:
                 iSoldSubType = dlg->getChoice();
-                if (iSoldSubType == 0)
-                    ;
-                else if (iSoldSubType == 1)
+                if (iSoldSubType == 1)
                     iSoldSubType = 6;
                 else if (iSoldSubType == 2)
                     iSoldSubType = 4;
@@ -10249,9 +10345,9 @@ bool element::showVariantDialog()
 
             case siciDre:
                 if (dlg->getChoice() == 0)
-                    address2 = 209; // TODO: fix MAGIC
+                    address2 = MMTT14;
                 else
-                    address2 = 225;
+                    address2 = MMTT15;
                 break;
 
             case siciEnk:
