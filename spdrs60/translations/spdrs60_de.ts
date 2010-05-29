@@ -32,6 +32,200 @@ wird ein SRCP-Server (z.B. erddcd oder srcpd) benötigt.</translation>
     </message>
 </context>
 <context>
+    <name>DriveDialog</name>
+    <message>
+        <source>Edit drive</source>
+        <translation>Antrieb bearbeiten</translation>
+    </message>
+    <message>
+        <source>Protocol</source>
+        <translation>Protokoll</translation>
+    </message>
+    <message>
+        <source>&amp;Maerklin/Motorola</source>
+        <translation>&amp;Märklin/Motorola</translation>
+    </message>
+    <message>
+        <source>&amp;NMRA/DCC</source>
+        <translation>&amp;NMRA/DCC</translation>
+    </message>
+    <message>
+        <source>Selectri&amp;x</source>
+        <translation>Selectri&amp;x</translation>
+    </message>
+    <message>
+        <source>Protocol by Ser&amp;ver</source>
+        <translation>Protokol durch Ser&amp;ver</translation>
+    </message>
+    <message>
+        <source>Decoder</source>
+        <translation>Decoder</translation>
+    </message>
+    <message>
+        <source>Reset &amp;after (ms):</source>
+        <translation>&amp;Zurücksetzen nach (ms):</translation>
+    </message>
+    <message>
+        <source>S&amp;RCP-Bus:</source>
+        <translation>S&amp;RCP-Bus:</translation>
+    </message>
+    <message>
+        <source>A&amp;ddress:</source>
+        <translation>A&amp;dresse:</translation>
+    </message>
+    <message>
+        <source>&amp;Port:</source>
+        <translation>A&amp;nschluss</translation>
+    </message>
+    <message>
+        <source>&amp;Exch. conn.</source>
+        <translation>&amp;Vertauschen</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Abbrechen</translation>
+    </message>
+    <message>
+        <source>Enter decoder address.
+Valid range is %1..%2.</source>
+        <translation>Decoder-Adresse eingeben.
+Der gültige Wertebereich ist %1..%2.</translation>
+    </message>
+    <message>
+        <source>Unvalid address detected</source>
+        <translation>Ungültige Adresse gefunden</translation>
+    </message>
+    <message>
+        <source>Value of decoder address is not valid.
+Valid range is %1..%2.</source>
+        <translation>Der Zahlenwert der Adresse ist ungültig.
+Der gültige Wertebereich ist %1..%2.</translation>
+    </message>
+</context>
+<context>
+    <name>DualDriveDialog</name>
+    <message>
+        <source>Edit drives</source>
+        <translation>Antriebe bearbeiten</translation>
+    </message>
+    <message>
+        <source>Protocol 1</source>
+        <translation>Protokoll 1</translation>
+    </message>
+    <message>
+        <source>&amp;Maerklin/Motorola</source>
+        <translation>&amp;Märklin/Motorola</translation>
+    </message>
+    <message>
+        <source>&amp;NMRA/DCC</source>
+        <translation>&amp;NMRA/DCC</translation>
+    </message>
+    <message>
+        <source>Selectri&amp;x</source>
+        <translation>Selectri&amp;x</translation>
+    </message>
+    <message>
+        <source>Protocol by Ser&amp;ver</source>
+        <translation>Protokol durch Ser&amp;ver</translation>
+    </message>
+    <message>
+        <source>Decoder 1</source>
+        <translation>Decoder 1</translation>
+    </message>
+    <message>
+        <source>Reset &amp;after (ms):</source>
+        <translation>&amp;Zurücksetzen nach (ms):</translation>
+    </message>
+    <message>
+        <source>S&amp;RCP-Bus:</source>
+        <translation>S&amp;RCP-Bus:</translation>
+    </message>
+    <message>
+        <source>A&amp;ddress:</source>
+        <translation>A&amp;dresse:</translation>
+    </message>
+    <message>
+        <source>&amp;Port:</source>
+        <translation>A&amp;nschluss:</translation>
+    </message>
+    <message>
+        <source>&amp;Exch. conn.</source>
+        <translation>&amp;Vertauschen</translation>
+    </message>
+    <message>
+        <source>Protocol 2</source>
+        <translation>Protokoll 2</translation>
+    </message>
+    <message>
+        <source>Maer&amp;klin/Motorola</source>
+        <translation>Mär&amp;klin/Motorola</translation>
+    </message>
+    <message>
+        <source>NMRA/D&amp;CC</source>
+        <translation>NMRA/D&amp;CC</translation>
+    </message>
+    <message>
+        <source>Selec&amp;trix</source>
+        <translation>Selec&amp;trix</translation>
+    </message>
+    <message>
+        <source>Protocol b&amp;y Server</source>
+        <translation>Protokol d&amp;urch Server</translation>
+    </message>
+    <message>
+        <source>Decoder 2</source>
+        <translation>Decoder 2</translation>
+    </message>
+    <message>
+        <source>Reset a&amp;fter (ms):</source>
+        <translation>&amp;Zurücksetzen nach (ms):</translation>
+    </message>
+    <message>
+        <source>SRCP-&amp;Bus:</source>
+        <translation>SRCP-&amp;Bus:</translation>
+    </message>
+    <message>
+        <source>Addre&amp;ss:</source>
+        <translation>Adre&amp;sse:</translation>
+    </message>
+    <message>
+        <source>P&amp;ort:</source>
+        <translation>Ansch&amp;luss:</translation>
+    </message>
+    <message>
+        <source>E&amp;xch. conn.</source>
+        <translation>V&amp;ertauschen</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Abbrechen</translation>
+    </message>
+    <message>
+        <source>Enter decoder address.
+Valid range is %1..%2.</source>
+        <translation>Decoder-Adresse eingeben.
+Der gültige Wertebereich ist %1..%2.</translation>
+    </message>
+    <message>
+        <source>Unvalid address detected</source>
+        <translation>Ungültige Adresse gefunden</translation>
+    </message>
+    <message>
+        <source>Value of decoder address is not valid.
+Valid range is %1..%2.</source>
+        <translation>Der Zahlenwert der Adresse ist ungültig.
+Der gültige Wertebereich ist %1..%2.</translation>
+    </message>
+</context>
+<context>
     <name>ElementDialog</name>
     <message>
         <source>Properties of Element #%1</source>
@@ -293,6 +487,60 @@ Der gültige Wertebereich ist %1..%2.</translation>
     </message>
 </context>
 <context>
+    <name>ElementLabelDialog</name>
+    <message>
+        <source>Edit label</source>
+        <translation>Beschriftung bearbeiten</translation>
+    </message>
+    <message>
+        <source>&amp;Text:</source>
+        <translation>&amp;Text:</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Abbrechen</translation>
+    </message>
+</context>
+<context>
+    <name>FeedbackTriggerDialog</name>
+    <message>
+        <source>&amp;FB</source>
+        <translation>&amp;FB</translation>
+    </message>
+    <message>
+        <source>Show feedback module window</source>
+        <translation>Rückmeldemodulfenster anzeigen</translation>
+    </message>
+    <message>
+        <source>&amp;Bus (s88/SRCP):</source>
+        <translation>&amp;Bus (s88/SRCP):</translation>
+    </message>
+    <message>
+        <source>&amp;Contact (1 - 496):</source>
+        <translation>&amp;Kontakt (1 - 496):</translation>
+    </message>
+    <message>
+        <source>Module (1 - %1):</source>
+        <translation>Modul (1 - %1):</translation>
+    </message>
+    <message>
+        <source>Port (1 - %1):</source>
+        <translation>Eingang (1 - %1):</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Abbrechen</translation>
+    </message>
+</context>
+<context>
     <name>FeedbackViewer</name>
     <message>
         <source>Feedback Modules</source>
@@ -505,6 +753,34 @@ den Suchkriterien entspricht.</translation>
     <message>
         <source>Layout contains %1 configured busses</source>
         <translation>Gleisbild enthält %1 konfigurierte SRCP-Busse</translation>
+    </message>
+    <message>
+        <source>&amp;Label...</source>
+        <translation>&amp;Beschriftung...</translation>
+    </message>
+    <message>
+        <source>&amp;Drive...</source>
+        <translation>&amp;Antrieb...</translation>
+    </message>
+    <message>
+        <source>&amp;Drives...</source>
+        <translation>&amp;Antriebe...</translation>
+    </message>
+    <message>
+        <source>&amp;Variant...</source>
+        <translation>&amp;Variante...</translation>
+    </message>
+    <message>
+        <source>&amp;Track indicator...</source>
+        <translation>&amp;Gleisfreimeldung...</translation>
+    </message>
+    <message>
+        <source>&amp;Button...</source>
+        <translation>&amp;Taste...</translation>
+    </message>
+    <message>
+        <source>Virtual &amp;address...</source>
+        <translation>Virtuelle &amp;Adresse...</translation>
     </message>
 </context>
 <context>
@@ -1608,7 +1884,7 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     </message>
     <message>
         <source>WHT panel</source>
-        <translation type="unfinished"></translation>
+        <translation>WHT-Feld</translation>
     </message>
 </context>
 <context>
@@ -2244,6 +2520,167 @@ Erlaubt sind Werte von %1 bis %2.</translation>
     </message>
 </context>
 <context>
+    <name>VariantDialog</name>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Abbrechen</translation>
+    </message>
+    <message>
+        <source>Variant</source>
+        <translation>Variante</translation>
+    </message>
+    <message>
+        <source>Edit variant</source>
+        <translation>Variante bearbeiten</translation>
+    </message>
+</context>
+<context>
+    <name>VirtualAddressDialog</name>
+    <message>
+        <source>Edit address</source>
+        <translation>Adresse bearbeiten</translation>
+    </message>
+    <message>
+        <source>Virtual address</source>
+        <translation>Virtuelle Adresse</translation>
+    </message>
+    <message>
+        <source>S&amp;RCP-Bus:</source>
+        <translation>S&amp;RCP-Bus:</translation>
+    </message>
+    <message>
+        <source>A&amp;ddress:</source>
+        <translation>A&amp;dresse:</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Abbrechen</translation>
+    </message>
+    <message>
+        <source>Enter address of decoder 1.
+Valid range is %1..%2.</source>
+        <translation>Adresse von Decoder 1 eingeben.
+Der gültige Wertebereich ist %1..%2.</translation>
+    </message>
+    <message>
+        <source>Unvalid address detected</source>
+        <translation>Ungültige Adresse gefunden</translation>
+    </message>
+    <message>
+        <source>Value of address is not valid.
+Valid range is %1..%2.</source>
+        <translation>Der wert für die Adresse ist ungültig.
+Der zulässige Wertebereich ist %1..%2.</translation>
+    </message>
+</context>
+<context>
+    <name>element</name>
+    <message>
+        <source>Edit item #%1</source>
+        <translation>Element Nr. %1 bearbeiten</translation>
+    </message>
+    <message>
+        <source>&amp;Enable track indicator</source>
+        <translation>&amp;Gleisfreimeldung anzeigen</translation>
+    </message>
+    <message>
+        <source>&amp;Enable feedback trigger</source>
+        <translation>&amp;Ansteuerung durch Rückmeldung</translation>
+    </message>
+    <message>
+        <source>%1 Button</source>
+        <translation>%1 Taste</translation>
+    </message>
+    <message>
+        <source>%1 Rear</source>
+        <translation>%1 hinten</translation>
+    </message>
+    <message>
+        <source>%1 Front</source>
+        <translation>%1 vorne</translation>
+    </message>
+    <message>
+        <source>Typ 1&amp;4 (base address 209)</source>
+        <translation>Typ 1&amp;4 (Basisadresse 209)</translation>
+    </message>
+    <message>
+        <source>Typ 1&amp;5 (base address 225)</source>
+        <translation>Typ 1&amp;5 (Basisadresse 225)</translation>
+    </message>
+    <message>
+        <source>Hp&amp;0, Hp1 and Sh1</source>
+        <translation>Hp&amp;0, Hp1 und Sh1</translation>
+    </message>
+    <message>
+        <source>Hp0, Hp&amp;2 and Sh1</source>
+        <translation>Hp0, Hp&amp;2 und Sh1</translation>
+    </message>
+    <message>
+        <source>Hp0, Hp&amp;1, Hp2 and Sh1</source>
+        <translation>Hp0, Hp&amp;1, Hp2 und Sh1</translation>
+    </message>
+    <message>
+        <source>Hp&amp;0 and Hp1</source>
+        <translation>Hp&amp;0 und Hp1</translation>
+    </message>
+    <message>
+        <source>Hp0 and Hp&amp;2</source>
+        <translation>Hp0 und Hp&amp;2</translation>
+    </message>
+    <message>
+        <source>Hp0, Hp&amp;1 and Hp2</source>
+        <translation>Hp0, Hp&amp;1 und Hp2</translation>
+    </message>
+    <message>
+        <source>Vr&amp;0 and Vr1</source>
+        <translation>Vr&amp;0 und Vr1</translation>
+    </message>
+    <message>
+        <source>Vr0 and Vr&amp;2</source>
+        <translation>Vr0 und Vr&amp;2</translation>
+    </message>
+    <message>
+        <source>Vr0, Vr&amp;1 and Vr2</source>
+        <translation>Vr0, Vr&amp;1 und Vr2</translation>
+    </message>
+    <message>
+        <source>&amp;EDiTS-Pro indicator</source>
+        <translation>&amp;EDiTS-Pro-Anzeige</translation>
+    </message>
+    <message>
+        <source>&amp;Train number tracing</source>
+        <translation>&amp;Zugnummernverfolgung</translation>
+    </message>
+    <message>
+        <source>&amp;One drive (two switch positions)</source>
+        <translation>&amp;Ein Antrieb (zwei Schaltpositionen)</translation>
+    </message>
+    <message>
+        <source>&amp;Bistable coupler</source>
+        <translation>&amp;Bistabiler Entkoppler</translation>
+    </message>
+    <message>
+        <source>Momentary coupler on &amp;left connector</source>
+        <translation>Momentkontakt am &amp;linken Anschluss</translation>
+    </message>
+    <message>
+        <source>Momentary coupler on &amp;right connector</source>
+        <translation>Momentkontakt am &amp;rechten Anschluss</translation>
+    </message>
+    <message>
+        <source>&amp;Two drives (four switch positions)</source>
+        <translation>&amp;Zwei Antriebe (vier Schaltpositionen)</translation>
+    </message>
+</context>
+<context>
     <name>elementCommander</name>
     <message>
         <source>Shifting bridge commander</source>
@@ -2829,10 +3266,6 @@ Option wird in der Regel für eine Zugnummernverfolgung benötigt.</translation>
         <translation>Digitale Drehscheibensteuerung</translation>
     </message>
     <message>
-        <source>Digital turntable programmer:</source>
-        <translation>Digitale Drehscheiben Programmierung:</translation>
-    </message>
-    <message>
         <source>&amp;Start programming</source>
         <translation>&amp;Programmieren</translation>
     </message>
@@ -2873,11 +3306,6 @@ rotation</source>
     <message>
         <source>Stop rotating</source>
         <translation>Drehung anhalten</translation>
-    </message>
-    <message>
-        <source>Choose the new track the turntable
-shall go to</source>
-        <translation>Nächste anzusteuernde Fahrspur wählen</translation>
     </message>
     <message>
         <source>Go to selected track</source>
@@ -2930,10 +3358,21 @@ Drehscheibenposition als Position Nr. 1.</translation>
         <translation>&amp;Einstellen</translation>
     </message>
     <message>
-        <source>Press this button to add an other position
-for a track.</source>
+        <source>Digital turntable programmer</source>
+        <translation>Digitale Drehscheiben Programmierung</translation>
+    </message>
+    <message>
+        <source>Choose target track for next turntable move</source>
+        <translation>Nächste anzusteuernde Fahrspur wählen</translation>
+    </message>
+    <message>
+        <source>Press this button to add an other track position.</source>
         <translation>Diesen Schalter drücken, um eine neue
 Position für eine Fahrspur hinzuzufügen.</translation>
+    </message>
+    <message>
+        <source>Pos. #%1 saved!</source>
+        <translation>Pos. %1 gespeichert!</translation>
     </message>
 </context>
 </TS>

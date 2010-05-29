@@ -27,6 +27,196 @@ SRCP server (e.g. erddcd or srcpd) as hardware link.</source>
     </message>
 </context>
 <context>
+    <name>DriveDialog</name>
+    <message>
+        <source>Edit drive</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Protocol</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Maerklin/Motorola</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;NMRA/DCC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Selectri&amp;x</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Protocol by Ser&amp;ver</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Decoder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset &amp;after (ms):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>S&amp;RCP-Bus:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A&amp;ddress:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Exch. conn.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Cancella</translation>
+    </message>
+    <message>
+        <source>Enter decoder address.
+Valid range is %1..%2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unvalid address detected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of decoder address is not valid.
+Valid range is %1..%2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DualDriveDialog</name>
+    <message>
+        <source>Edit drives</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Protocol 1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Maerklin/Motorola</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;NMRA/DCC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Selectri&amp;x</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Protocol by Ser&amp;ver</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Decoder 1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset &amp;after (ms):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>S&amp;RCP-Bus:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A&amp;ddress:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Port:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Exch. conn.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Protocol 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maer&amp;klin/Motorola</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>NMRA/D&amp;CC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Selec&amp;trix</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Protocol b&amp;y Server</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Decoder 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset a&amp;fter (ms):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SRCP-&amp;Bus:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Addre&amp;ss:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>P&amp;ort:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>E&amp;xch. conn.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Cancella</translation>
+    </message>
+    <message>
+        <source>Enter decoder address.
+Valid range is %1..%2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unvalid address detected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of decoder address is not valid.
+Valid range is %1..%2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ElementDialog</name>
     <message>
         <source>Properties of Element #%1</source>
@@ -269,6 +459,60 @@ Valid range is %1..%2.</source>
     </message>
 </context>
 <context>
+    <name>ElementLabelDialog</name>
+    <message>
+        <source>Edit label</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Text:</source>
+        <translation type="unfinished">&amp;Testo</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Cancella</translation>
+    </message>
+</context>
+<context>
+    <name>FeedbackTriggerDialog</name>
+    <message>
+        <source>&amp;FB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show feedback module window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Bus (s88/SRCP):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Contact (1 - 496):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Module (1 - %1):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Port (1 - %1):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Cancella</translation>
+    </message>
+</context>
+<context>
     <name>FeedbackViewer</name>
     <message>
         <source>Feedback Modules</source>
@@ -479,6 +723,34 @@ matches your search criteria.</source>
     </message>
     <message>
         <source>Layout contains %1 configured busses</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Label...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Drive...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Drives...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Variant...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Track indicator...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Button...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Virtual &amp;address...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2204,6 +2476,165 @@ The valid range is %1 to %2.</source>
     </message>
     <message>
         <source>&amp;Apply</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>VariantDialog</name>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Cancella</translation>
+    </message>
+    <message>
+        <source>Variant</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit variant</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>VirtualAddressDialog</name>
+    <message>
+        <source>Edit address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Virtual address</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>S&amp;RCP-Bus:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A&amp;ddress:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Cancella</translation>
+    </message>
+    <message>
+        <source>Enter address of decoder 1.
+Valid range is %1..%2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unvalid address detected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of address is not valid.
+Valid range is %1..%2.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>element</name>
+    <message>
+        <source>Edit item #%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Enable track indicator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Enable feedback trigger</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 Button</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 Rear</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 Front</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Typ 1&amp;4 (base address 209)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Typ 1&amp;5 (base address 225)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hp&amp;0, Hp1 and Sh1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hp0, Hp&amp;2 and Sh1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hp0, Hp&amp;1, Hp2 and Sh1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hp&amp;0 and Hp1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hp0 and Hp&amp;2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hp0, Hp&amp;1 and Hp2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vr&amp;0 and Vr1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vr0 and Vr&amp;2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vr0, Vr&amp;1 and Vr2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Train number tracing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;One drive (two switch positions)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Bistable coupler</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Momentary coupler on &amp;left connector</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Momentary coupler on &amp;right connector</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Two drives (four switch positions)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;EDiTS-Pro indicator</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
