@@ -7,10 +7,12 @@ spdrs60-0.5.6 (2009-06-??)
   o Fixed track position drop down list in turntable commander to store
     new positions after programming.
 
+  o Base addresses for turntable decoder variants fixed.
+
   o Fixed repainting of text element; now has white background to cover
     last exposed text.
 
-  o Base addresses for turntable decoder variants fixed.
+  o Fixed storing of turntable track positions.
 
   o Address items are no longer occupied by feedback events.
 
@@ -34,6 +36,9 @@ spdrs60-0.5.6 (2009-06-??)
   o Layout management for turntable commander added.
 
   o Internal code cleanups.
+
+  o Only first application window is session leader and has a quit
+    function.
 
 
 spdrs60-0.5.5 (2009-03-18)
