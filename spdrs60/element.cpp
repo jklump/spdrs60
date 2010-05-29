@@ -1799,7 +1799,7 @@ void element::setupElementIcon()
         p.setPen(QPen(Qt::red));
 
         QFont f(QApplication::font());
-        f.setPointSize(QApplication::font().pointSize() + 2);
+        f.setPointSize(QApplication::font().pointSize() + 1);
         f.setWeight(QFont::DemiBold);
 #if QT_VERSION >= 0x030200
         f.setStretch(90);
@@ -10047,21 +10047,52 @@ bool element::showDriveDialog()
 
     /*move dialog to mouse click point*/
     dlg->move(QCursor::pos());
-    dlg->setProtocol((int) protocol1);
-    dlg->setActiveTime(activetime1);
-    dlg->setSRCPBus1(bus1);
-    dlg->setAddress1(address1);
-    dlg->setXChangeConn1(xchangeport1);
-    dlg->setPort1(port1);
+
+    switch(classid) {
+        case siciDre:
+        case siciSbn:
+        case siciMdc:
+            dlg->setProtocol((int) protocol2);
+            dlg->setActiveTime(activetime2);
+            dlg->setSRCPBus1(bus2);
+            dlg->setAddress1(address2);
+            dlg->setXChangeConn1(xchangeport2);
+            dlg->setPort1(port2);
+            break;
+        default:
+            dlg->setProtocol((int) protocol1);
+            dlg->setActiveTime(activetime1);
+            dlg->setSRCPBus1(bus1);
+            dlg->setAddress1(address1);
+            dlg->setXChangeConn1(xchangeport1);
+            dlg->setPort1(port1);
+            break;
+    }
 
     if (dlg->exec() == QDialog::Accepted) {
-        protocol1 =
-            (SrcpMessage::Protocol) dlg->getProtocol();
-        activetime1 = dlg->getActiveTime();
-        bus1 = dlg->getSRCPBus1();
-        address1 = dlg->getAddress1();
-        xchangeport1 = dlg->getXChangeConn1();
-        port1 = dlg->getPort1();
+
+        switch(classid) {
+            case siciDre:
+            case siciSbn:
+            case siciMdc:
+                protocol2 =
+                    (SrcpMessage::Protocol) dlg->getProtocol();
+                activetime2 = dlg->getActiveTime();
+                bus2 = dlg->getSRCPBus1();
+                address2 = dlg->getAddress1();
+                xchangeport2 = dlg->getXChangeConn1();
+                port2 = dlg->getPort1();
+                break;
+            default:
+                protocol1 =
+                    (SrcpMessage::Protocol) dlg->getProtocol();
+                activetime1 = dlg->getActiveTime();
+                bus1 = dlg->getSRCPBus1();
+                address1 = dlg->getAddress1();
+                xchangeport1 = dlg->getXChangeConn1();
+                port1 = dlg->getPort1();
+                break;
+        }
         returnvalue = true;
         setupElementIcon();
     }
