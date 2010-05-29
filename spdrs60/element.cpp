@@ -2,7 +2,7 @@
                            element.cpp
                            -------------------------------
     Copyright            : (C) 1999-2003 by Stefan Preis
-                         : (C) 2004-2009 Guido Scholz
+                         : (C) 2004-2010 Guido Scholz
     email                : guido.scholz@bayernline.de
     last modified        : $Date: 2009-11-01 20:40:38 $
                            $Revision: 1.198 $
@@ -25,10 +25,16 @@
 #include <qapplication.h>
 #include <qpixmap.h>
 
+#include "drivedialog.h"
+#include "dualdrivedialog.h"
 #include "element.h"
 #include "elementdialog.h"
+#include "elementlabeldialog.h"
+#include "feedbacktriggerdialog.h"
 #include "preferences.h"
 #include "resources.h"
+#include "variantdialog.h"
+#include "virtualaddressdialog.h"
 
 /* track buttons */
 #include "pixmaps/button-red.xpm"
@@ -52,6 +58,24 @@
 #include "pixmaps/signal-w.xpm"
 #include "pixmaps/signal-wr.xpm"
 
+/*pixmaps for variant dialog*/
+#include "pixmaps/signal_hss_st1.xpm"
+#include "pixmaps/signal_hss_st2.xpm"
+#include "pixmaps/signal_hss_st3.xpm"
+#include "pixmaps/signal_hs_st1.xpm"
+#include "pixmaps/signal_hs_st2.xpm"
+#include "pixmaps/signal_hs_st3.xpm"
+#include "pixmaps/signal_vs_st1.xpm"
+#include "pixmaps/signal_vs_st2.xpm"
+#include "pixmaps/signal_vs_st3.xpm"
+#include "pixmaps/entkoppler_st1.xpm"
+#include "pixmaps/entkoppler_st2.xpm"
+#include "pixmaps/entkoppler_st3.xpm"
+#include "pixmaps/dkw_links_st2.xpm"
+#include "pixmaps/dkw_links_st3.xpm"
+#include "pixmaps/dkw_rechts_st2.xpm"
+#include "pixmaps/dkw_rechts_st3.xpm"
+
 
 // Element directions
 enum {
@@ -59,6 +83,12 @@ enum {
    DIR_HP1,
    DIR_HP2,
    DIR_SH1
+};
+
+// Maerklin turntable addresses
+enum {
+   MMTT14 = 209,
+   MMTT15 = 225
 };
 
 // signal light size parameter
@@ -109,7 +139,8 @@ void element::initVariables()
 #endif
     iSoldInvert = -1;
     sSoldDecoder = "-1";
-    protocol = SrcpMessage::proNone;
+    protocol1 = SrcpMessage::proNone;
+    protocol2 = SrcpMessage::proNone;
     address1 = -1;
     address2 = -1;
     xchangeport1 = -1;
@@ -117,9 +148,16 @@ void element::initVariables()
     state = -1;
     iSoldSubType = -1;
     sSoldText = "-1";
-    activetime = -1;
+    activetime1 = -1;
+    activetime2 = -1;
     iFBContact = 1;
-    trackindicatoroff = 1;
+    trackindicatoroff = true;
+    enable1fbtrigger = false;
+    button1fbbus = 1;
+    button1fbcontact = 1;
+    enable2fbtrigger = false;
+    button2fbbus = 1;
+    button2fbcontact = 1;
 
     editsAddress = 0;
     countervalue = 0;
@@ -165,7 +203,6 @@ void element::initVariables()
 void element::readFileTextFromStream(QTextStream& ats)
 {
     QString s, key, value, oldname;
-    bool rotated = false;
 
     while (!ats.eof()) {
         s = ats.readLine();
@@ -184,26 +221,49 @@ void element::readFileTextFromStream(QTextStream& ats)
                 /*end of dataset, exit while loop*/
                   break;
             }
-            else if (key.compare(GF_ROTATE) == 0) {
-                rotated = value.toInt() == 1;
-            }
             else if (key.compare(GF_INVERSTO) == 0) {
                 iSoldInvert = value.toInt();
             }
             else if (key.compare(GF_DECODER) == 0) {
                 sSoldDecoder = value;
             }
+            else if (key.compare(GF_PROTOCOL1) == 0) {
+                if (value == "M")
+                    protocol1 = SrcpMessage::proMM;
+                else if (value == "N")
+                    protocol1 = SrcpMessage::proDCC;
+                else if (value == "P")
+                    protocol1 = SrcpMessage::proServer;
+                else if (value == "S")
+                    protocol1 = SrcpMessage::proSelectrix;
+                else
+                    protocol1 = SrcpMessage::proNone;
+            }
+            else if (key.compare(GF_PROTOCOL2) == 0) {
+                if (value == "M")
+                    protocol2 = SrcpMessage::proMM;
+                else if (value == "N")
+                    protocol2 = SrcpMessage::proDCC;
+                else if (value == "P")
+                    protocol2 = SrcpMessage::proServer;
+                else if (value == "S")
+                    protocol2 = SrcpMessage::proSelectrix;
+                else
+                    protocol2 = SrcpMessage::proNone;
+            }
+            /*old style compatibility*/
             else if (key.compare(GF_PROTOCOL) == 0) {
                 if (value == "M")
-                    protocol = SrcpMessage::proMM;
+                    protocol1 = SrcpMessage::proMM;
                 else if (value == "N")
-                    protocol = SrcpMessage::proDCC;
+                    protocol1 = SrcpMessage::proDCC;
                 else if (value == "P")
-                    protocol = SrcpMessage::proServer;
+                    protocol1 = SrcpMessage::proServer;
                 else if (value == "S")
-                    protocol = SrcpMessage::proSelectrix;
+                    protocol1 = SrcpMessage::proSelectrix;
                 else
-                    protocol = SrcpMessage::proNone;
+                    protocol1 = SrcpMessage::proNone;
+                protocol2 = protocol1;
             }
             else if (key.compare(GF_ADDRESS1) == 0) {
                 bus1 = value.toInt();
@@ -232,11 +292,21 @@ void element::readFileTextFromStream(QTextStream& ats)
                 iSoldSubType = value.toInt();
             }
             else if (key.compare(GF_TEXT) == 0) {
-                //sSoldText = value;
                 sSoldText = s.section(DS, 1).stripWhiteSpace();
+                // filter old flag for "no label text"
+                if (sSoldText == "-1")
+                    sSoldText = "";
             }
+            else if (key.compare(GF_ACTTIME1) == 0) {
+                activetime1 = value.toInt();
+            }
+            else if (key.compare(GF_ACTTIME2) == 0) {
+                activetime2 = value.toInt();
+            }
+            /*old style compatibility*/
             else if (key.compare(GF_ACTTIME) == 0) {
-                activetime = value.toInt();
+                activetime1 = value.toInt();
+                activetime2 = activetime1;
             }
             else if (key.compare(GF_FBPORT) == 0) {
                 iFBBusNo = value.toUInt();
@@ -245,8 +315,22 @@ void element::readFileTextFromStream(QTextStream& ats)
                 if (iFBContact <= 0)
                     iFBContact = 1;
             }
+            else if (key.compare(GF_BUTTON1FB) == 0) {
+                enable1fbtrigger = value.toUInt();
+                value = s.section(DS, 2, 2).stripWhiteSpace();
+                button1fbbus = value.toUInt();
+                value = s.section(DS, 3, 3).stripWhiteSpace();
+                button1fbcontact = value.toUInt();
+            }
+            else if (key.compare(GF_BUTTON2FB) == 0) {
+                enable2fbtrigger = value.toUInt();
+                value = s.section(DS, 2, 2).stripWhiteSpace();
+                button2fbbus = value.toUInt();
+                value = s.section(DS, 3, 3).stripWhiteSpace();
+                button2fbcontact = value.toUInt();
+            }
             else if (key.compare(GF_HIDELEDS) == 0) {
-                trackindicatoroff = value.toInt();
+                trackindicatoroff = (value.toInt() == 1);
                 /*this is the last parameter for old style format;
                  * now exit while loop*/
                 break;
@@ -429,8 +513,7 @@ void element::mousePressEvent(QMouseEvent* e)
                 connect(ttComm, SIGNAL(trackPositionsChanged(const QString&)),
                         this, SLOT(slotCopyAvailTracks(const QString&)));
 
-                ttComm->exec();     // parent window NOT usable
-                //ttComm->move(QCursor::pos());
+                ttComm->exec();
             }
 
             /*TODO: move this to gbsarea*/
@@ -439,8 +522,7 @@ void element::mousePressEvent(QMouseEvent* e)
                 connect(turntableProperties, SIGNAL(sendTtCommand(int, int)),
                         this, SLOT(slotUpdateTurntableData(int, int)));
 
-                turntableProperties->exec();        // parent window NOT usable
-                //turntableProperties->move(QCursor::pos());
+                turntableProperties->exec();
             }
 
             /* determine what type of button was pressed an send the
@@ -521,7 +603,7 @@ void element::mousePressEvent(QMouseEvent* e)
                 emit elementClicked(this, ctrlButton);
             }
 
-            /*UfGT/HaGT button*/
+            /*UfGT/MGT button*/
             else if (classid == siciTau) {
                 if (CursorPos.x() < (width() >> 1))
                     ctrlButton = kUfgtClicked; 
@@ -719,8 +801,10 @@ void element::switchAddress(bool secondone)
 {
     // default copy of direction + address
     int realstate = state;
-    int iRealAddress = address1;
+    SrcpMessage::Protocol realprotocol = protocol1;
+    int realactivetime = activetime1;
     int iRealBus = bus1;
+    int iRealAddress = address1;
 
 
     // element contains a momentarily activated coupler
@@ -764,6 +848,8 @@ void element::switchAddress(bool secondone)
         // send second address data
         if (secondone) {
             realstate = (state > 1);
+            realprotocol = protocol2;
+            realactivetime = activetime2;
             iRealAddress = address2;
             iRealBus = bus2;
         }
@@ -782,6 +868,8 @@ void element::switchAddress(bool secondone)
         // send second address data
         if (secondone) {
             realstate = (state == 1 || state == 2);
+            realprotocol = protocol2;
+            realactivetime = activetime2;
             iRealAddress = address2;
             iRealBus = bus2;
         }
@@ -791,7 +879,7 @@ void element::switchAddress(bool secondone)
         }
     }
 
-    if (protocol == SrcpMessage::proNone)
+    if (realprotocol == SrcpMessage::proNone)
         return;
 
     /*
@@ -809,7 +897,7 @@ void element::switchAddress(bool secondone)
     int port = 0;
     int value = 0;
 
-    switch (protocol) {
+    switch (realprotocol) {
         case SrcpMessage::proMM:
             port = realstate;
             value = 1;
@@ -830,8 +918,8 @@ void element::switchAddress(bool secondone)
     }
 
     SrcpMessage sm = SrcpMessage(SrcpMessage::msgGaSet);
-    sm.setGaData(protocol, iRealBus, iRealAddress, port,
-            value, activetime);
+    sm.setGaData(realprotocol, iRealBus, iRealAddress, port,
+            value, realactivetime);
     emit sendSrcpMessage(&sm);
 
     /*qWarning("Class: %d, Stype: %d, Dir: %d, A1: %d, A2: %d, RA: %d, P: %d",
@@ -865,7 +953,7 @@ void element::sendSrcpState()
      * and deactivate it graphically
      */
     else if (classid == siciEnk && iSoldSubType != -1)
-        QTimer::singleShot(activetime, this,
+        QTimer::singleShot(activetime1, this,
                 SLOT(repaintTimeOutEnk()));
 }
 
@@ -883,7 +971,7 @@ void element::switch2AddressItem(unsigned int addr, unsigned int port)
 
     if (addr == (unsigned int)address1) {
         realport = port ^ xchangeport1;
-        if (protocol == SrcpMessage::proDCC)
+        if (protocol1 == SrcpMessage::proDCC)
             realport = realport == 0 ? 1 : 0;
 
         if (classid == siciHss1 || classid == siciHss3) {
@@ -952,7 +1040,7 @@ void element::switch2AddressItem(unsigned int addr, unsigned int port)
     }
     else if (addr == (unsigned int)address2) {
         realport = port ^ xchangeport2;
-        if (protocol == SrcpMessage::proDCC)
+        if (protocol2 == SrcpMessage::proDCC)
             realport = realport == 0 ? 1 : 0;
 
         if (classid == siciHss1 || classid == siciHss3) {
@@ -1066,7 +1154,7 @@ void element::processInfoPortMessage(unsigned int bus,
         if (realstate == 2) //Hp0-Hp2-Type (iSoldSubType == 6)
             realstate = 1;
 
-        bool isDCC = (protocol == SrcpMessage::proDCC);
+        bool isDCC = (protocol1 == SrcpMessage::proDCC);
         if (isDCC)
             realstate = !realstate;
 
@@ -1107,7 +1195,7 @@ bool element::showPropertyDlg()
     dlg->setSymbolText(sSoldText);
     dlg->setInverted(iSoldInvert);
     dlg->setGASubType(iSoldSubType);
-    dlg->setProtocol((int) protocol);
+    dlg->setProtocol((int) protocol1);
     dlg->setDecoder(sSoldDecoder);
     dlg->setSRCPBus1(bus1);
     dlg->setAddress1(address1);
@@ -1116,7 +1204,7 @@ bool element::showPropertyDlg()
     dlg->setAddress2(address2);
     dlg->setXChangeConn2(xchangeport2);
     dlg->setDirection(state);
-    dlg->setActiveTime(activetime);
+    dlg->setActiveTime(activetime1);
     dlg->setLEDsAreOff(trackindicatoroff);
     dlg->setFBBus(iFBBusNo);
     dlg->setFBContact(iFBContact);
@@ -1146,7 +1234,7 @@ bool element::showPropertyDlg()
         }
 
         iSoldSubType = dlg->getGASubType();
-        protocol =
+        protocol1 =
             (SrcpMessage::Protocol) dlg->getProtocol();
         sSoldDecoder = dlg->getDecoder();
         bus1 = dlg->getSRCPBus1();
@@ -1158,7 +1246,7 @@ bool element::showPropertyDlg()
         xchangeport2 = dlg->getXChangeConn2();
         port2 = dlg->getPort2();
         state = dlg->getDirection();
-        activetime = dlg->getActiveTime();
+        activetime1 = dlg->getActiveTime();
         iFBBusNo = dlg->getFBBus();
         iFBContact = dlg->getFBContact();
 
@@ -1590,7 +1678,7 @@ void element::setupElementIcon()
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -1648,7 +1736,7 @@ void element::setupElementIcon()
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -1711,7 +1799,7 @@ void element::setupElementIcon()
         p.setPen(QPen(Qt::red));
 
         QFont f(QApplication::font());
-        f.setPointSize(QApplication::font().pointSize() + 2);
+        f.setPointSize(QApplication::font().pointSize() + 1);
         f.setWeight(QFont::DemiBold);
 #if QT_VERSION >= 0x030200
         f.setStretch(90);
@@ -1898,7 +1986,7 @@ void element::setupElementIcon()
         p.fillRect(21, 10, 14, 3, QBrush(Qt::black));
         
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -1967,7 +2055,7 @@ void element::setupElementIcon()
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
         
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -2036,7 +2124,7 @@ void element::setupElementIcon()
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
         
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
         }
@@ -2121,7 +2209,7 @@ void element::setupElementIcon()
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
         
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
         }
@@ -2206,7 +2294,7 @@ void element::setupElementIcon()
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
         }
@@ -2351,7 +2439,7 @@ void element::setupElementIcon()
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
         }
@@ -2496,7 +2584,7 @@ void element::setupElementIcon()
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
         
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
         }
@@ -2625,7 +2713,7 @@ void element::setupElementIcon()
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
         
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
         }
@@ -2805,7 +2893,7 @@ void element::setupElementIcon()
         }
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
         }
@@ -2914,7 +3002,7 @@ void element::setupElementIcon()
         }
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
         }
@@ -2997,7 +3085,7 @@ void element::setupElementIcon()
         p.drawPoints(lights);
         
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
         }
@@ -3080,7 +3168,7 @@ void element::setupElementIcon()
         p.drawPoints(lights);
         
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
         }
@@ -3136,7 +3224,7 @@ void element::setupElementIcon()
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
         
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -3194,7 +3282,7 @@ void element::setupElementIcon()
         p.fillRect(w / 2 - 3, 0, 7, h, QBrush(Qt::black));
         
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 4; ++i)
                 p.fillRect(w / 2 - 2 , 4 + 7 * i, 5, 5,
                         QBrush(Qt::lightGray));
@@ -3235,7 +3323,7 @@ void element::setupElementIcon()
         p.restore();
         
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 2; ++i)
                 p.fillRect(w / 2 - 2 , h / 2 + 2 + 7 * i, 5, 5,
                         QBrush(Qt::lightGray));
@@ -3288,7 +3376,7 @@ void element::setupElementIcon()
         p.restore();
         
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 2; ++i)
                 p.fillRect(w / 2 - 2 , h / 2 + 2 + 7 * i, 5, 5,
                         QBrush(Qt::lightGray));
@@ -3341,7 +3429,7 @@ void element::setupElementIcon()
         p.restore();
         
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 2; ++i)
                 p.fillRect(w / 2 - 2 , 4 + 7 * i, 5, 5,
                         QBrush(Qt::lightGray));
@@ -3394,7 +3482,7 @@ void element::setupElementIcon()
         p.restore();
         
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 2; ++i)
                 p.fillRect(w / 2 - 2 , 4 + 7 * i, 5, 5,
                         QBrush(Qt::lightGray));
@@ -3454,7 +3542,7 @@ void element::setupElementIcon()
         p.restore();
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 3; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -3522,7 +3610,7 @@ void element::setupElementIcon()
         p.restore();
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 4; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -3583,7 +3671,7 @@ void element::setupElementIcon()
             p.drawLine(0, 0, w, h - 1);
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             p.save();
             p.translate(w / 2, h / 2);
 
@@ -3636,7 +3724,7 @@ void element::setupElementIcon()
         p.drawLine(0, h - 1, w, 0);
         
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             p.save();
             p.translate(w / 2, h / 2);
 
@@ -3732,7 +3820,7 @@ void element::setupElementIcon()
         p.drawLine(0, h - 1, w, 0);
         
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -3827,7 +3915,7 @@ void element::setupElementIcon()
         p.drawLine(0, 0, w, h - 1);
         
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -3936,7 +4024,7 @@ void element::setupElementIcon()
         p.drawEllipse(w / 4, 6, 5, 5);
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -4164,7 +4252,7 @@ void element::setupElementIcon()
         p.drawEllipse(3 * w / 4 - 2, h - 11, 5, 5);
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -4391,7 +4479,7 @@ void element::setupElementIcon()
         p.drawEllipse(3 * w/ 4 - 4, 6, 5, 5);
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -4620,7 +4708,7 @@ void element::setupElementIcon()
         p.drawEllipse(w / 4, h - 11, 5, 5);
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -4852,7 +4940,7 @@ void element::setupElementIcon()
         p.drawEllipse(w / 4, 6, 5, 5);
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -5155,7 +5243,7 @@ void element::setupElementIcon()
         p.drawEllipse(3 * w/ 4 - 2 - 2  , 6, 5, 5);
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -5437,7 +5525,7 @@ void element::setupElementIcon()
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
         
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -5501,7 +5589,7 @@ void element::setupElementIcon()
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
         
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -5566,7 +5654,7 @@ void element::setupElementIcon()
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
         
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
         }
@@ -5689,7 +5777,7 @@ void element::setupElementIcon()
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
         
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
         }
@@ -5814,7 +5902,7 @@ void element::setupElementIcon()
         p.restore();
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
             // short track
@@ -5948,7 +6036,7 @@ void element::setupElementIcon()
         p.restore();
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
             // short track
@@ -6082,7 +6170,7 @@ void element::setupElementIcon()
         p.restore();
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
             // short track
@@ -6216,7 +6304,7 @@ void element::setupElementIcon()
         p.restore();
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5, QBrush(Qt::lightGray));
             // short track
@@ -6350,7 +6438,7 @@ void element::setupElementIcon()
         p.restore();
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             // short track
             for (int i = 0; i < 3; ++i)
                 p.fillRect(4 + 7 * i, h / 2-2, 5, 5, QBrush(Qt::lightGray));
@@ -6490,7 +6578,7 @@ void element::setupElementIcon()
         p.restore();
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             // short track
             for (int i = 0; i < 3; ++i)
                 p.fillRect(w / 2 + 5 + 7 * i, h / 2 - 2, 5, 5,
@@ -6631,7 +6719,7 @@ void element::setupElementIcon()
         p.restore();
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             // short track
             for (int i = 0; i < 3; ++i)
                 p.fillRect(w / 2 + 5 + 7 * i, h / 2 - 2, 5, 5,
@@ -6772,7 +6860,7 @@ void element::setupElementIcon()
         p.restore();
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             // short track
             for (int i = 0; i < 3; ++i)
                 p.fillRect(4 + 7 * i, h / 2-2, 5, 5, QBrush(Qt::lightGray));
@@ -6913,7 +7001,7 @@ void element::setupElementIcon()
         p.restore();
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             // short track
             p.save();
             p.translate(w / 2, h / 2);
@@ -7056,7 +7144,7 @@ void element::setupElementIcon()
         p.restore();
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             // short track
             p.save();
             p.translate(w / 2, h / 2);
@@ -7198,7 +7286,7 @@ void element::setupElementIcon()
         p.restore();
 
         // paint track lights (track indicator)
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             p.save();
             p.translate(w / 2, h / 2);
 
@@ -7361,7 +7449,7 @@ void element::setupElementIcon()
         p.restore();
 
         // paint track lights (track indicator)
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             p.save();
             p.translate(w / 2, h / 2);
 
@@ -7558,7 +7646,7 @@ void element::setupElementIcon()
         p.fillRect(w / 2 - 3, 0, 7, h, QBrush(Qt::black));
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 4; ++i)
                 p.fillRect(w / 2 - 2 , 4 + 7 * i, 5, 5,
                         QBrush(Qt::lightGray));
@@ -7611,7 +7699,7 @@ void element::setupElementIcon()
         p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             for (int i = 0; i < 7; ++i)
                 p.fillRect(4 + 7 * i, h / 2 - 2, 5, 5,
                         QBrush(Qt::lightGray));
@@ -7666,7 +7754,7 @@ void element::setupElementIcon()
         p.drawLine(0, 0, w, h - 1);
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             p.save();
             p.translate(w / 2, h / 2);
             p.rotate(SANGLE);
@@ -7734,7 +7822,7 @@ void element::setupElementIcon()
         p.drawLine(0, h - 1, w, 0);
 
         // paint track lights
-        if (trackindicatoroff == 1) {
+        if (trackindicatoroff) {
             p.save();
             p.translate(w / 2, h / 2);
             p.rotate(-SANGLE);
@@ -8089,10 +8177,10 @@ void element::addTooltip()
             iSoldInvert,
             sSoldDecoder == "-1" ?  "N/A (=-1)" 
             : (char*)sSoldDecoder.data(),
-            protocol == SrcpMessage::proNone ? "N/A (=-1)"
-                : (protocol == SrcpMessage::proMM ? "Motorola"
-                        : (protocol == SrcpMessage::proDCC ? "NMRA/DCC"
-                            : (protocol == SrcpMessage::proSelectrix ?
+            protocol1 == SrcpMessage::proNone ? "N/A (=-1)"
+                : (protocol1 == SrcpMessage::proMM ? "Motorola"
+                        : (protocol1 == SrcpMessage::proDCC ? "NMRA/DCC"
+                            : (protocol1 == SrcpMessage::proSelectrix ?
                                 "Selectrix"
                                 : "Server"))),
             address1 == -1 ?  "N/A (=-1)" : (char*)a1.data());
@@ -8105,7 +8193,7 @@ void element::addTooltip()
             "Subtype: %d\n"
             "Text: %s\n"
             "Locked: %s (=%1d)\n"
-            "Time (ms): %d\n"
+            "Time1 (ms): %d\n"
             "FB Contact: %d\n",
             address2 == -1 ? "N/A (=-1)" : (char*)a2.data(),
             xchangeport1 ==
@@ -8116,7 +8204,7 @@ void element::addTooltip()
             xchangeport2, state, iSoldSubType,
             sSoldText == "-1" ? "N/A (=-1)" : (char*)sSoldText.data(),
             lockCounter == -1 ? "N/A" : (isLocked() ? "Yes" : "No"),
-            lockCounter, activetime, iFBContact);
+            lockCounter, activetime1, iFBContact);
 
     tip1.append(tip2);
 
@@ -9007,6 +9095,7 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
 void element::slotOccupyElement(unsigned int bus, unsigned int contact,
         bool ostate)
 {
+    /*track indicator*/
     if (bus == iFBBusNo) {
 
         // address panels don't get occupied
@@ -9021,6 +9110,102 @@ void element::slotOccupyElement(unsigned int bus, unsigned int contact,
         }
         else if (contact == (unsigned int)iFBContact)
             setOccupied(ostate);
+    }
+
+    /*shortcut if (state = 0) => button release message*/
+    if (!ostate)
+        return;
+
+    /*button 1 trigger*/
+    if (enable1fbtrigger) {
+        if ((bus == button1fbbus) && (contact == button1fbcontact)) {
+
+            switch (classid) {
+                case siciTaf:
+                    /*FIXME: counter update doubled code*/
+                    /*
+                     * increment counter and repaint symbol, if value
+                     * has more than four digits, reset to zero
+                     */
+                    ++countervalue;
+                    if (countervalue == 10000)
+                        countervalue = 0;
+                    setupElementIcon();
+                    emit elementClicked(this, kFhtClicked);
+                    break;
+                case siciTau:
+                    emit elementClicked(this, kUfgtClicked);
+                    break;
+                case siciTas:
+                    emit elementClicked(this, kSgtClicked);
+                    break;
+                case siciTaw:
+                    emit elementClicked(this, kWgtClicked);
+                    break;
+                case siciTwh:
+                    /*FIXME: counter update doubled code*/
+                    /*
+                     * increment counter and repaint symbol, if value
+                     * has more than four digits, reset to zero
+                     */
+                    ++countervalue;
+                    if (countervalue == 10000)
+                        countervalue = 0;
+                    setupElementIcon();
+                    emit elementClicked(this, kWhtClicked);
+                    break;
+                case siciTal:
+                    emit elementClicked(this, kEinClicked);
+                    break;
+                case siciHss1:
+                case siciHs1:
+                case siciHs3:
+                    emit elementClicked(this, kZfsClicked);
+                    break;
+                case siciHss3:
+                case siciSs1:
+                case siciSs3:
+                case siciSd1:
+                case siciSd3:
+                    emit elementClicked(this, kRfsClicked);
+                    break;
+                case siciSh1:
+                case siciSh3:
+                    emit elementClicked(this, kZhsClicked);
+                    break;
+                default:
+                    /*Check*/
+                    emit elementClicked(this, kTurnoutClicked);
+                    break;
+            }
+        }
+    }
+
+    /*button 2 trigger*/
+    if (enable2fbtrigger) {
+        if ((bus == button2fbbus) && (contact == button2fbcontact)) {
+            switch (classid) {
+                case siciTau:
+                    emit elementClicked(this, kMgtClicked);
+                    break;
+                case siciTas:
+                    emit elementClicked(this, kHagtClicked);
+                    break;
+                case siciTal:
+                    emit elementClicked(this, kAusClicked);
+                    break;
+                case siciHss1:
+                case siciSd1:
+                case siciSd3:
+                    emit elementClicked(this, kRfsClicked);
+                    break;
+                case siciHss3:
+                    emit elementClicked(this, kZfsClicked);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
 
@@ -9085,7 +9270,7 @@ void element::setOccupied(bool ostate)
         occupied = ostate;
         if (!ostate && routed)
             routed = false;
-        /*TODO: repaint only if (trackindicatoroff == 0)*/
+        /*TODO: repaint only if (!trackindicatoroff)*/
         setupElementIcon();
     }
 }
@@ -9095,7 +9280,7 @@ void element::setRouted(bool rstate)
 {
     if (routed != rstate || routedtrack != 0) {
         routed = rstate;
-        /*TODO: repaint only if (trackindicatoroff == 0)*/
+        /*TODO: repaint only if (!trackindicatoroff)*/
         setupElementIcon();
     }
 }
@@ -9148,12 +9333,6 @@ void element::writeFileTextToStream(QTextStream& ts)
         case siciFen:
         case siciFer:
         case siciFey:
-        case siciTaf:
-        case siciTas:
-        case siciTau:
-        case siciTaw:
-        case siciTwh:
-        case siciTal:
         case siciBs1:
         case siciBs2:
         case siciBs3:
@@ -9167,6 +9346,22 @@ void element::writeFileTextToStream(QTextStream& ts)
         case siciLt3:
         case siciLs3:
         case siciLb3:
+            break;
+
+            /*dual buttons*/
+        case siciTal:
+        case siciTas:
+        case siciTau:
+            ts << GF_BUTTON2FB << DS << enable2fbtrigger << DS
+               << button2fbbus << DS << button2fbcontact << endl;
+            // fall through
+
+            /*single button*/
+        case siciTaf:
+        case siciTaw:
+        case siciTwh:
+            ts << GF_BUTTON1FB << DS << enable1fbtrigger << DS
+               << button1fbbus << DS << button1fbcontact << endl;
             break;
 
         case siciSt1:
@@ -9201,15 +9396,20 @@ void element::writeFileTextToStream(QTextStream& ts)
         default:
             ts << GF_INVERSTO  << DS << iSoldInvert << endl
                 << GF_DECODER   << DS << sSoldDecoder << endl
-                << GF_PROTOCOL  << DS << 
-                ((protocol == SrcpMessage::proMM) ? "M" :
-                 (protocol == SrcpMessage::proDCC) ? "N" :
-                 (protocol == SrcpMessage::proServer) ? "P" :
-                 (protocol == SrcpMessage::proSelectrix) ? "S" : "-1") << endl
+                << GF_PROTOCOL1  << DS << 
+                ((protocol1 == SrcpMessage::proMM) ? "M" :
+                 (protocol1 == SrcpMessage::proDCC) ? "N" :
+                 (protocol1 == SrcpMessage::proServer) ? "P" :
+                 (protocol1 == SrcpMessage::proSelectrix) ? "S" : "-1") << endl
                 << GF_ADDRESS1  << DS << bus1 << DS << address1 <<
                 DS << port1 << endl;
             if (address2 != -1) {
-                ts << GF_ADDRESS2  << DS << bus2 << DS << address2 <<
+                ts << GF_PROTOCOL2  << DS << 
+                ((protocol2 == SrcpMessage::proMM) ? "M" :
+                 (protocol2 == SrcpMessage::proDCC) ? "N" :
+                 (protocol2 == SrcpMessage::proServer) ? "P" :
+                 (protocol2 == SrcpMessage::proSelectrix) ? "S" : "-1") << endl
+                << GF_ADDRESS2  << DS << bus2 << DS << address2 <<
                     DS << port2 << endl;
             }
             ts << GF_XCHCONN1  << DS << xchangeport1 << endl;
@@ -9219,9 +9419,16 @@ void element::writeFileTextToStream(QTextStream& ts)
             ts << GF_DIRECTION << DS << state << endl
                 << GF_SUBTYPE   << DS << iSoldSubType << endl
                 << GF_TEXT      << DS << sSoldText << endl
-                << GF_ACTTIME   << DS << activetime << endl
+                << GF_ACTTIME1   << DS << activetime1 << endl
+                << GF_ACTTIME2   << DS << activetime2 << endl
                 << GF_FBPORT    << DS << iFBBusNo << DS << iFBContact << endl
                 << GF_HIDELEDS  << DS << trackindicatoroff << endl;
+
+            /*for now: save two triggered buttons, if used or not*/
+            ts << GF_BUTTON1FB << DS << enable1fbtrigger << DS
+               << button1fbbus << DS << button1fbcontact << endl;
+            ts << GF_BUTTON2FB << DS << enable2fbtrigger << DS
+               << button2fbbus << DS << button2fbcontact << endl;
             break;
     }
     ts << '%' << endl;
@@ -9262,7 +9469,7 @@ bool element::isLockable()
 /*return occupancy state condering current track indicator state*/
 bool element::isOccupied()
 {
-    if (trackindicatoroff == 1)
+    if (trackindicatoroff)
         return false;
 
     return occupied;
@@ -9350,17 +9557,91 @@ bool element::hasShuntingRouteButtonOnly()
 
 bool element::hasLEDsOn()
 {
-    return (trackindicatoroff != 1);
+    return (!trackindicatoroff);
 }
 
 
 int element::getAddressCount()
 {
     int returnvalue = 0;
-    if (address1 != -1) {
-        ++returnvalue;
-        if (address2 != -1) 
-            ++returnvalue;
+
+    switch (classid) {
+        // virtual addresses
+        case siciZt1:
+        case siciZt3:
+        case siciRt1:
+        case siciRt3:
+        case siciKr1:
+        case siciKl1:
+        case siciKrh:
+        case siciAdr:
+        case siciBld:
+            // real addresses
+            //signals
+        case siciSs1:
+        case siciSs3:
+        case siciSh1:
+        case siciSh3:
+        case siciSd1:
+        case siciSd3:
+        case siciWs1:
+        case siciWs3:
+        case siciZp1:
+        case siciZp3:
+            //turnouts
+        case siciTr1:
+        case siciTr3:
+        case siciTl1:
+        case siciTl3:
+        case siciIr1:
+        case siciIr3:
+        case siciSy1:
+        case siciSy3:
+            // tools
+        case siciDre:
+        case siciSbn:
+        case siciEnk:
+        case siciRel:
+        case siciMdc:
+            returnvalue = 1;
+            break;
+
+        case siciHss1:
+        case siciHss3:
+            if (iSoldSubType == 5)
+                returnvalue = 2;
+            else
+                returnvalue = 1;
+            break;
+
+        case siciHs1:
+        case siciHs3:
+        case siciVs1:
+        case siciVs3:
+            if (iSoldSubType == 4)
+                returnvalue = 2;
+            else
+                returnvalue = 1;
+            break;
+
+        case siciDr1:
+        case siciDl1:
+            if (iSoldSubType == 1)
+                returnvalue = 2;
+            else
+                returnvalue = 1;
+            break;
+        case siciTw1:
+        case siciTw3:
+        case siciSr1:
+        case siciSr3:
+        case siciSl1:
+        case siciSl3:
+            returnvalue = 2;
+            break;
+
+        default:
+            break;
     }
     return returnvalue;
 }
@@ -9369,7 +9650,7 @@ int element::getAddressCount()
 void element::updateFeedbackState()
 {
     // get current feedback status from server to update LEDstate
-    if ((trackindicatoroff != 1) && (iFBContact > 0)) {
+    if ((!trackindicatoroff) && (iFBContact > 0)) {
         
         SrcpMessage sm = SrcpMessage(SrcpMessage::msgFbGet);
         sm.setFbData(iFBBusNo,
@@ -9401,9 +9682,9 @@ bool element::sendSRCP08InitGA(unsigned int gano)
         SrcpMessage sm = SrcpMessage(SrcpMessage::msgGaInit);
         
         if (gano == 1)
-            sm.setGaData(protocol, bus1, address1, 0, 0, 0);
+            sm.setGaData(protocol1, bus1, address1, 0, 0, 0);
         else
-            sm.setGaData(protocol, bus2, address2, 0, 0, 0);
+            sm.setGaData(protocol2, bus2, address2, 0, 0, 0);
 
         emit sendSrcpMessage(&sm);
 
@@ -9597,7 +9878,8 @@ bool element::showsStop()
  * drag-and-drop*/
 bool element::canReceiveFbcDrop()
 {
-    return routable && !(classid == siciBue || classid == siciAdr);
+    return routable && !(classid == siciBue ||
+            (classid == siciAdr && iSoldInvert == 1));
 }
 
 
@@ -9612,7 +9894,7 @@ void element::setDropTargetView(bool on)
 
 void element::setDroppedFbContact(QByteArray& data)
 {
-    //TODO: wrap iFBBusNo, iFBContact, occupied
+    //wrap iFBBusNo, iFBContact, occupied
     FbContact fbc;
 
     if (data.size() != sizeof(fbc))
@@ -9623,6 +9905,619 @@ void element::setDroppedFbContact(QByteArray& data)
     iFBBusNo = fbc.bus;
     iFBContact = fbc.contact;
     occupied = fbc.state;
-    trackindicatoroff = 0;
+    trackindicatoroff = false;
     setupElementIcon();
 }
+
+
+bool element::hasLabel()
+{
+    return switchable || routemark || classid == siciSt1 || classid == siciTxt
+        || classid == siciTdr || classid == siciTdl || classid == siciTdb;
+}
+
+
+bool element::hasTrackIndicator()
+{
+    return canReceiveFbcDrop();
+}
+
+
+int element::driveCount()
+{
+    if (hasVirtualAddress() || classid == siciAdr)
+        return 0;
+
+    return getAddressCount();
+}
+
+
+bool element::hasVirtualAddress()
+{
+    bool returnvalue = false;
+
+    switch (classid) {
+        case siciZt1:
+        case siciZt3:
+        case siciRt1:
+        case siciRt3:
+        case siciKr1:
+        case siciKl1:
+        case siciKrh:
+        case siciBld:
+            returnvalue = true;
+            break;
+        case siciAdr:
+            if (iSoldInvert == 1)
+                returnvalue = true;
+            break;
+        default:
+            break;
+    }
+    return returnvalue;
+}
+
+
+bool element::hasVariants()
+{
+    return classid == siciHs1 || classid == siciHs3 ||
+        classid == siciHss1 || classid == siciHss3 ||
+        classid == siciDl1 || classid == siciDr1 ||
+        classid == siciEnk || classid == siciDre ||
+        classid == siciVs1 || classid == siciVs3 ||
+        classid == siciAdr;
+}
+
+
+int element::buttonCount()
+{
+    if (classid == siciHss1 || classid == siciHss3 || classid == siciTal
+            || classid == siciSd1 || classid == siciSd3
+            || classid == siciTau || classid == siciTas)
+        return 2;
+
+    if (routemark || turnout || classid == siciTwh
+            || classid == siciTaf || classid == siciTaw)
+        return 1;
+
+    return 0;
+}
+
+bool element::showLabelDialog()
+{
+    bool returnvalue = false;
+
+    ElementLabelDialog* dlg = new ElementLabelDialog(this);
+    if (dlg == NULL)
+        return false;
+
+    /*move dialog to mouse click point*/
+    dlg->move(QCursor::pos());
+    dlg->setSymbolText(sSoldText);
+    if (dlg->exec() == QDialog::Accepted) {
+        sSoldText = dlg->getSymbolText();
+        returnvalue = true;
+        setupElementIcon();
+    }
+    delete dlg;
+    return returnvalue;
+}
+
+bool element::showTrackIndicatorDialog()
+{
+    bool returnvalue = false;
+
+    //TODO: rename FeedbackTriggerDialog()
+    FeedbackTriggerDialog* dlg = new FeedbackTriggerDialog(this);
+    if (dlg == NULL)
+        return false;
+
+    /*move dialog to mouse click point*/
+    dlg->move(QCursor::pos());
+    dlg->setCaption(tr("Edit item #%1").arg(iSoldIndex));
+    dlg->setCheckBoxText(tr("&Enable track indicator"));
+    dlg->enableTrigger(!trackindicatoroff);
+    dlg->setFBBus(iFBBusNo);
+    dlg->setFBContact(iFBContact);
+    connect(dlg, SIGNAL(sigShowFBmodules()),
+            this, SIGNAL(sigShowFBmodules()));
+
+    if (dlg->exec() == QDialog::Accepted) {
+        trackindicatoroff = !dlg->isTriggerEnabled();
+        iFBBusNo = dlg->getFBBus();
+        iFBContact = dlg->getFBContact();
+        returnvalue = true;
+        setupElementIcon();
+    }
+    
+    disconnect(dlg, SIGNAL(sigShowFBmodules()),
+            this, SIGNAL(sigShowFBmodules()));
+    
+    delete dlg;
+    return returnvalue;
+}
+
+bool element::showDriveDialog()
+{
+    bool returnvalue = false;
+
+    DriveDialog* dlg = new DriveDialog(this);
+    if (dlg == NULL)
+        return false;
+
+    /*move dialog to mouse click point*/
+    dlg->move(QCursor::pos());
+
+    switch(classid) {
+        case siciDre:
+        case siciSbn:
+        case siciMdc:
+            dlg->setProtocol((int) protocol2);
+            dlg->setActiveTime(activetime2);
+            dlg->setSRCPBus1(bus2);
+            dlg->setAddress1(address2);
+            dlg->setXChangeConn1(xchangeport2);
+            dlg->setPort1(port2);
+            break;
+        default:
+            dlg->setProtocol((int) protocol1);
+            dlg->setActiveTime(activetime1);
+            dlg->setSRCPBus1(bus1);
+            dlg->setAddress1(address1);
+            dlg->setXChangeConn1(xchangeport1);
+            dlg->setPort1(port1);
+            break;
+    }
+
+    if (dlg->exec() == QDialog::Accepted) {
+
+        switch(classid) {
+            case siciDre:
+            case siciSbn:
+            case siciMdc:
+                protocol2 =
+                    (SrcpMessage::Protocol) dlg->getProtocol();
+                activetime2 = dlg->getActiveTime();
+                bus2 = dlg->getSRCPBus1();
+                address2 = dlg->getAddress1();
+                xchangeport2 = dlg->getXChangeConn1();
+                port2 = dlg->getPort1();
+                break;
+            default:
+                protocol1 =
+                    (SrcpMessage::Protocol) dlg->getProtocol();
+                activetime1 = dlg->getActiveTime();
+                bus1 = dlg->getSRCPBus1();
+                address1 = dlg->getAddress1();
+                xchangeport1 = dlg->getXChangeConn1();
+                port1 = dlg->getPort1();
+                break;
+        }
+        returnvalue = true;
+        setupElementIcon();
+    }
+    
+    delete dlg;
+    return returnvalue;
+}
+
+bool element::showDualDriveDialog()
+{
+    bool returnvalue = false;
+
+    DualDriveDialog* dlg = new DualDriveDialog(this);
+    if (dlg == NULL)
+        return false;
+
+    /*move dialog to mouse click point*/
+    dlg->move(QCursor::pos());
+    dlg->setProtocol1((int) protocol1);
+    dlg->setActiveTime1(activetime1);
+    dlg->setSRCPBus1(bus1);
+    dlg->setAddress1(address1);
+    dlg->setXChangeConn1(xchangeport1);
+    dlg->setPort1(port1);
+
+    dlg->setProtocol2((int) protocol2);
+    dlg->setActiveTime2(activetime2);
+    dlg->setSRCPBus2(bus2);
+    dlg->setAddress2(address2);
+    dlg->setXChangeConn2(xchangeport2);
+    dlg->setPort2(port2);
+
+    if (dlg->exec() == QDialog::Accepted) {
+        protocol1 =
+            (SrcpMessage::Protocol) dlg->getProtocol1();
+        activetime1 = dlg->getActiveTime1();
+        bus1 = dlg->getSRCPBus1();
+        address1 = dlg->getAddress1();
+        xchangeport1 = dlg->getXChangeConn1();
+        port1 = dlg->getPort1();
+
+        protocol2 =
+            (SrcpMessage::Protocol) dlg->getProtocol2();
+        activetime2 = dlg->getActiveTime2();
+        bus2 = dlg->getSRCPBus2();
+        address2 = dlg->getAddress2();
+        xchangeport2 = dlg->getXChangeConn2();
+        port2 = dlg->getPort2();
+        returnvalue = true;
+        setupElementIcon();
+    }
+    
+    delete dlg;
+    return returnvalue;
+}
+
+
+bool element::showVirtualAddressDialog()
+{
+    bool returnvalue = false;
+
+    VirtualAddressDialog* dlg = new VirtualAddressDialog(this);
+    if (dlg == NULL)
+        return false;
+
+    /*move dialog to mouse click point*/
+    dlg->move(QCursor::pos());
+    dlg->setClassId(classid);
+    dlg->setSRCPBus1(bus1);
+    dlg->setAddress1(address1);
+
+    if (dlg->exec() == QDialog::Accepted) {
+        bus1 = dlg->getSRCPBus1();
+        address1 = dlg->getAddress1();
+        returnvalue = true;
+        setupElementIcon();
+    }
+    
+    delete dlg;
+    return returnvalue;
+}
+
+bool element::showVariantDialog()
+{
+    bool returnvalue = false;
+    QPixmap pm;
+
+    VariantDialog* dlg = new VariantDialog(this);
+    if (dlg == NULL)
+        return false;
+
+    /*move dialog to mouse click point*/
+    dlg->move(QCursor::pos());
+    
+    switch (classid) {
+        case siciHss1:
+        case siciHss3:
+            pm = QPixmap(signal_hss_st1_xpm);
+            dlg->addVariant(tr("Hp&0, Hp1 and Sh1"), pm);
+            pm = QPixmap(signal_hss_st2_xpm);
+            dlg->addVariant(tr("Hp0, Hp&2 and Sh1"), pm);
+            pm = QPixmap(signal_hss_st3_xpm);
+            dlg->addVariant(tr("Hp0, Hp&1, Hp2 and Sh1"), pm);
+            /*
+             * index Subtype
+             * -------------
+             *   0     1
+             *   1     7
+             *   2     5
+             * -------------
+             */
+            if (iSoldSubType == 1)
+                dlg->setChoice(0);
+            else if (iSoldSubType == 7)
+                dlg->setChoice(1);
+            else if (iSoldSubType == 5)
+                dlg->setChoice(2);
+            break;
+
+        case siciHs1:
+        case siciHs3:
+            pm = QPixmap(signal_hs_st1_xpm);
+            dlg->addVariant(tr("Hp&0 and Hp1"), pm);
+            pm = QPixmap(signal_hs_st2_xpm);
+            dlg->addVariant(tr("Hp0 and Hp&2"), pm);
+            pm = QPixmap(signal_hs_st3_xpm);
+            dlg->addVariant(tr("Hp0, Hp&1 and Hp2"), pm);
+            /*
+             * index Subtype
+             * -------------
+             *   0     0
+             *   1     6
+             *   2     4
+             * -------------
+             */
+            if (iSoldSubType == 0)
+                dlg->setChoice(0);
+            else if (iSoldSubType == 6)
+                dlg->setChoice(1);
+            else if (iSoldSubType == 4)
+                dlg->setChoice(2);
+            break;
+
+        case siciVs1:
+        case siciVs3:
+            pm = QPixmap(signal_vs_st1_xpm);
+            dlg->addVariant(tr("Vr&0 and Vr1"), pm);
+            pm = QPixmap(signal_vs_st2_xpm);
+            dlg->addVariant(tr("Vr0 and Vr&2"), pm);
+            pm = QPixmap(signal_vs_st3_xpm);
+            dlg->addVariant(tr("Vr0, Vr&1 and Vr2"), pm);
+            /*
+             * index Subtype
+             * -------------
+             *   0     0
+             *   1     6
+             *   2     4
+             * -------------
+             */
+            if (iSoldSubType == 0)
+                dlg->setChoice(0);
+            else if (iSoldSubType == 6)
+                dlg->setChoice(1);
+            else if (iSoldSubType == 4)
+                dlg->setChoice(2);
+            break;
+
+        case siciDr1:
+            pm = QPixmap(dkw_rechts_st2_xpm);
+            dlg->addVariant(tr("&One drive (two switch positions)"), pm);
+            pm = QPixmap(dkw_rechts_st3_xpm);
+            dlg->addVariant(tr("&Two drives (four switch positions)"), pm);
+            dlg->setChoice(iSoldSubType);
+            break;
+
+        case siciDl1:
+            pm = QPixmap(dkw_links_st2_xpm);
+            dlg->addVariant(tr("&One drive (two switch positions)"), pm);
+            pm = QPixmap(dkw_links_st3_xpm);
+            dlg->addVariant(tr("&Two drives (four switch positions)"), pm);
+            /*
+             * index Subtype
+             * -------------
+             *   0     0
+             *   1     1
+             * -------------
+             */
+            dlg->setChoice(iSoldSubType);
+            break;
+
+        case siciAdr:
+            dlg->addVariant(tr("&EDiTS-Pro indicator"));
+            dlg->addVariant(tr("&Train number tracing"));
+            /*
+             * index Inverted
+             * --------------
+             *   0     0       feedback address
+             *   1     1       virtual address
+             * --------------
+             */
+            // fix -1 default value
+            dlg->setChoice(iSoldInvert != 1 ? 0 : 1);
+            break;
+
+        case siciDre:
+            dlg->addVariant(tr("Typ 1&4 (base address 209)"));
+            dlg->addVariant(tr("Typ 1&5 (base address 225)"));
+            /*
+             * index Address2
+             * --------------
+             *   0     209
+             *   1     225
+             * --------------
+             */
+            if (address2 == MMTT14)
+                dlg->setChoice(0);
+            else
+                dlg->setChoice(1);
+            break;
+
+        case siciEnk:
+            pm = QPixmap(entkoppler_st1_xpm);
+            dlg->addVariant(tr("&Bistable coupler"), pm);
+            pm = QPixmap(entkoppler_st2_xpm);
+            dlg->addVariant(tr("Momentary coupler on &left connector"), pm);
+            pm = QPixmap(entkoppler_st3_xpm);
+            dlg->addVariant(tr("Momentary coupler on &right connector"), pm);
+            /*
+             * index Subtype
+             * -------------
+             *   0    -1
+             *   1     0
+             *   2     1
+             * -------------
+             */
+            if (iSoldSubType == -1)
+                dlg->setChoice(0);
+            else if (iSoldSubType == 0)
+                dlg->setChoice(1);
+            else if (iSoldSubType == 1)
+                dlg->setChoice(2);
+            break;
+
+        default:
+            break;
+    }
+
+    if (dlg->exec() == QDialog::Accepted) {
+
+        switch (classid) {
+            case siciHss1:
+            case siciHss3:
+                iSoldSubType = dlg->getChoice();
+                if (iSoldSubType == 0)
+                    iSoldSubType = 1;
+                else if (iSoldSubType == 1)
+                    iSoldSubType = 7;
+                else if (iSoldSubType == 2)
+                    iSoldSubType = 5;
+                break;
+
+            case siciHs1:
+            case siciHs3:
+            case siciVs1:
+            case siciVs3:
+                iSoldSubType = dlg->getChoice();
+                if (iSoldSubType == 1)
+                    iSoldSubType = 6;
+                else if (iSoldSubType == 2)
+                    iSoldSubType = 4;
+                break;
+
+            case siciDr1:
+            case siciDl1:
+                iSoldSubType = dlg->getChoice();
+                break;
+
+            case siciAdr:
+                iSoldInvert = dlg->getChoice();
+                break;
+
+            case siciDre:
+                if (dlg->getChoice() == 0)
+                    address2 = MMTT14;
+                else
+                    address2 = MMTT15;
+                break;
+
+            case siciEnk:
+                iSoldSubType = dlg->getChoice();
+                if (iSoldSubType == 0)
+                    iSoldSubType = -1;
+                else if (iSoldSubType == 1)
+                    iSoldSubType = 0;
+                else if (iSoldSubType == 2)
+                    iSoldSubType = 1;
+                break;
+
+            default:
+                break;
+        }
+        returnvalue = true;
+        setupElementIcon();
+    }
+    
+    delete dlg;
+    return returnvalue;
+}
+
+/*show dialog at click position, position is also used to check if left
+ * or right button is edited*/
+bool element::showButtonDialog(const QPoint& p)
+{
+    QString buttontext;
+    bool returnvalue = false;
+    bool hastwo = false;
+
+    // select Button names; FHT WGT, WHT UfGT,...
+    QPoint pos = mapFromParent(p);
+    bool left = pos.x() < (width() / 2);
+
+    switch (classid) {
+        case siciTaf:
+            buttontext = "FHT";
+            break;
+        case siciTau:
+            hastwo = true;
+            if (left)
+                buttontext = "UfGT";
+            else
+                buttontext = "MGT";
+            break;
+        case siciTas:
+            hastwo = true;
+            if (left)
+                buttontext = "SGT";
+            else
+                buttontext = "HaGT";
+            break;
+        case siciTaw:
+            buttontext = "WGT";
+            break;
+        case siciTwh:
+            buttontext = "WHT";
+            break;
+        case siciTal:
+            hastwo = true;
+            if (left)
+                buttontext = "Ein";
+            else
+                buttontext = "Aus";
+            break;
+        case siciHss1:
+            hastwo = true;
+            if (left)
+                buttontext = tr("%1 Rear").arg(sSoldText);
+            else
+                buttontext = tr("%1 Front").arg(sSoldText);
+            break;
+        case siciHss3:
+            hastwo = true;
+            if (left)
+                buttontext = tr("%1 Front").arg(sSoldText);
+            else
+                buttontext = tr("%1 Rear").arg(sSoldText);
+            break;
+        case siciSd1:
+            hastwo = true;
+            if (left)
+                buttontext = tr("%1 Rear").arg(sSoldText);
+            else
+                buttontext = tr("%1 Front").arg(sSoldText);
+            break;
+        case siciSd3:
+            hastwo = true;
+            if (left)
+                buttontext = tr("%1 Front").arg(sSoldText);
+            else
+                buttontext = tr("%1 Rear").arg(sSoldText);
+            break;
+        default:
+            buttontext = sSoldText;
+            break;
+    }
+
+    FeedbackTriggerDialog* dlg = new FeedbackTriggerDialog(this);
+    if (dlg == NULL)
+        return false;
+
+    /*move dialog to mouse click point*/
+    dlg->move(QCursor::pos());
+    dlg->setCaption(tr("%1 Button").arg(buttontext));
+    dlg->setCheckBoxText(tr("&Enable feedback trigger"));
+    if (left || !hastwo) {
+        dlg->enableTrigger(enable1fbtrigger);
+        dlg->setFBBus(button1fbbus);
+        dlg->setFBContact(button1fbcontact);
+    }
+    else {
+        dlg->enableTrigger(enable2fbtrigger);
+        dlg->setFBBus(button2fbbus);
+        dlg->setFBContact(button2fbcontact);
+    }
+    connect(dlg, SIGNAL(sigShowFBmodules()),
+            this, SIGNAL(sigShowFBmodules()));
+
+    if (dlg->exec() == QDialog::Accepted) {
+        if (left || !hastwo) {
+            enable1fbtrigger = dlg->isTriggerEnabled();
+            button1fbbus = dlg->getFBBus();
+            button1fbcontact = dlg->getFBContact();
+        }
+        else {
+            enable2fbtrigger = dlg->isTriggerEnabled();
+            button2fbbus = dlg->getFBBus();
+            button2fbcontact = dlg->getFBContact();
+        }
+        returnvalue = true;
+        setupElementIcon();
+    }
+    
+    disconnect(dlg, SIGNAL(sigShowFBmodules()),
+            this, SIGNAL(sigShowFBmodules()));
+    
+    delete dlg;
+    return returnvalue;
+}
+

@@ -1798,6 +1798,7 @@ void ElementDialog::validate()
         , tr("OK"));
         return;
     }
+
     if (address2LE->isEnabled() &&
 #if QT_VERSION >= 0x030200
             !address2LE->hasAcceptableInput()

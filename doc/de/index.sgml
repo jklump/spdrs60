@@ -6192,7 +6192,7 @@ Antrieben beruht</entry>
           <entry>85390 Doppelkreuzungsweiche</entry>
           <entry>2</entry>
           <entry>Antriebe sollten versetzt zueinander je 1 auf
-einer Seite angebracht werden; ansonsten Probleme mit der
+einer Seite angebracht werden; ansonsten resultieren Probleme mit der
 Adressierung</entry>
         </row>
         <row>
@@ -6213,7 +6213,7 @@ kommen kann.
 </para>
 <para>
 Bei Kreuzungsweichen mit zwei Antrieben ist grundsätzlich im
-Eigenschaften-Fenster des Elements die Taste in <xref
+Eigenschaften-Fenster des Elements der Schalter in <xref
 linkend="abb-dkw-4state">
 </para>
 <figure id="abb-dkw-4state">
@@ -6224,8 +6224,8 @@ linkend="abb-dkw-4state">
 </figure>
 
 <para>
-für Kreuzungsweichen mit einem Antrieb grundsätzlich die
-Taste in <xref linkend="abb-dkw-2state"> zu aktivieren. 
+für Kreuzungsweichen mit einem Antrieb grundsätzlich der
+Schalter in <xref linkend="abb-dkw-2state"> zu aktivieren.
 </para>
 <figure id="abb-dkw-2state">
   <title>Doppelkreuzungsweiche mit einem Antrieb</title>
@@ -6234,8 +6234,8 @@ Taste in <xref linkend="abb-dkw-2state"> zu aktivieren.
   </imageobject></mediaobject>
 </figure>
 <para>
-Bei Entkopplern mit motorischem Antrieb ist
-grundsätzlich im Eigenschaften-Fenster des Elements die Taste in <xref
+    Bei Entkopplern mit motorischem Antrieb ist grundsätzlich im
+    Eigenschaften-Fenster des Elements der Schalter in <xref
 linkend="abb-entkoppler1">,
 </para>
 <figure id="abb-entkoppler1">
@@ -6247,7 +6247,7 @@ linkend="abb-entkoppler1">,
 
 <para>
 für Entkoppler mit monostabilem (Einfachspulen-)Antrieb eine
-der beiden Tasten in <xref linkend="abb-entkoppler2"> zu aktivieren.
+der beiden Schalter in <xref linkend="abb-entkoppler2"> zu aktivieren.
 </para>
 <figure id="abb-entkoppler2">
   <title>Entkoppler mit monostabilem (Einfachspulen-)Antrieb</title>

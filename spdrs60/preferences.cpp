@@ -43,7 +43,7 @@ Preferences pref = {
     1,
     "Märklin k83 WD (M)",
     true,
-    50,
+    200,
     100,
     20.0,
     0,

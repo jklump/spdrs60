@@ -1,5 +1,5 @@
 /***************************************************************************
-                           feedbacktriggerdialog.h
+                           variantdialog.h
                            -------------------------------
     copyright            : (C) 2010 by Guido Scholz
     e-mail               : guido.scholz@bayernline.de
@@ -17,48 +17,38 @@
  ***************************************************************************/
 
 /***************************************************************************
-   this is the header file to elementlabeldialog.cpp
+   this is the header file to variantdialog.cpp
  ***************************************************************************/
 
-#ifndef FEEDBACKTRIGGERDIALOG_H
-#define FEEDBACKTRIGGERDIALOG_H
+#ifndef VARIANTDIALOG_H
+#define VARIANTDIALOG_H
 
-#include <qcheckbox.h>
 #include <qdialog.h>
-#include <qgroupbox.h>
-#include <qlineedit.h>
-#include <qspinbox.h>
+#include <qbuttongroup.h>
+#include <qlabel.h>
+#include <qpixmap.h>
+#include <qradiobutton.h>
+#include <qvaluelist.h>
 
 
-class FeedbackTriggerDialog: public QDialog
+class VariantDialog: public QDialog
 {
    Q_OBJECT
 
-   QCheckBox* enableTriggerCB;
-   QLineEdit* fbBusLE;
-   QLineEdit* moduleLE;
-   QLineEdit* portLE;
-   QSpinBox* contactSB;
-   QGroupBox* feedbackGB;
+   QButtonGroup* variantBG;
+   QValueList<QPixmap> pmList;
+   QLabel* imageLabel;
+
 
 public:
-   FeedbackTriggerDialog(QWidget* parent = 0);
-   bool isTriggerEnabled();
-   void enableTrigger(bool);
-   int getFBBus();
-   void setFBBus(int);
-   int getFBContact();
-   void setFBContact(int);
-   void setCheckBoxText(const QString&);
+   VariantDialog(QWidget* parent = 0);
+   int getChoice();
+   void setChoice(int);
+   void addVariant(const QString&);
+   void addVariant(const QString&, const QPixmap&);
 
 private slots:
-   void contactSBChanged(int);
-   void enableFeedbackGroupBox();
-   void slotShowFBmodules();
-
-signals:
-   void sigShowFBmodules();
-
+   void selectionChanged(int);
 };
 
-#endif    //FEEDBACKTRIGGERDIALOG_H
+#endif    //VARIANTDIALOG_H

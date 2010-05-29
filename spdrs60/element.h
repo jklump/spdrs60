@@ -111,10 +111,11 @@ const unsigned int rdSE = rdS | rdE;
 /*some magic strings for reading and writing layout files*/
 static const char GF_INDEX[]     = "index";
 static const char GF_CLASSID[]   = "classid";
-static const char GF_ROTATE[]    = "rotate";
 static const char GF_INVERSTO[]  = "invers turnout";
 static const char GF_DECODER[]   = "decoder";
 static const char GF_PROTOCOL[]  = "protocol";
+static const char GF_PROTOCOL1[]  = "protocol1";
+static const char GF_PROTOCOL2[]  = "protocol2";
 static const char GF_ADDRESS1[]  = "address_1";
 static const char GF_ADDRESS2[]  = "address_2";
 static const char GF_XCHCONN1[]  = "change conn 1";
@@ -123,8 +124,12 @@ static const char GF_DIRECTION[] = "direction";
 static const char GF_SUBTYPE[]   = "subtype";
 static const char GF_TEXT[]      = "text";
 static const char GF_ACTTIME[]   = "active time";
+static const char GF_ACTTIME1[]   = "active time1";
+static const char GF_ACTTIME2[]   = "active time2";
 static const char GF_FBPORT[]    = "feedback port";
 static const char GF_HIDELEDS[]  = "hide LEDs";
+static const char GF_BUTTON1FB[]  = "button1fb";
+static const char GF_BUTTON2FB[]  = "button2fb";
 
 static const char DS[]  = ";";   // data separator in spdrs60 files
 static const char IDS[] = ":";   // data separator in imported files
@@ -161,16 +166,16 @@ public:
         siciKrh = 150, siciKr1, siciKr2, siciKl1, siciKl2, //Kr2, Kl2 not used
         siciTuh = 160, siciTuv, siciTul, siciTur, // bridges
         siciTdr = 170, siciTdl, siciTdb,          // arrows
-        siciZt1 = 200, siciZt2, siciZt3, siciZt4, //2, 4 not used
-        siciRt1 = 210, siciRt2, siciRt3, siciRt4, //2, 4 not used
+        siciZt1 = 200, siciZt2, siciZt3, siciZt4, //Train rt btn 2, 4 not used
+        siciRt1 = 210, siciRt2, siciRt3, siciRt4, //Shanting rt btn2, 4 not used
         siciZp1 = 250, siciZp2, siciZp3, siciZp4, //2, 4 not used
-        siciHs1 = 300, siciHs2, siciHs3, siciHs4, //2, 4 not used
+        siciHs1 = 300, siciHs2, siciHs3, siciHs4, //Main signal 2, 4 not used
         siciHv1 = 310, siciHv2, siciHv3, siciHv4, //Hs + Vs not used
-        siciHss1 = 320, siciHss2, siciHss3, siciHss4,//2 + 4 not used
+        siciHss1 = 320, siciHss2, siciHss3, siciHss4,//Hss; 2 + 4 not used
         siciHvs1 = 330, siciHvs2, siciHvs3, siciHvs4,//Hss + Vs ext. not used
-        siciSs1 = 340, siciSs2, siciSs3, siciSs4, //2, 4 not used
-        siciSh1 = 350, siciSh2, siciSh3, siciSh4, //2, 4 not used
-        siciSd1 = 360, siciSd2, siciSd3, siciSd4, //2, 4 not used
+        siciSs1 = 340, siciSs2, siciSs3, siciSs4, //Sh signal; 2, 4 not used
+        siciSh1 = 350, siciSh2, siciSh3, siciSh4, //Sh help route; 2, 4 not used
+        siciSd1 = 360, siciSd2, siciSd3, siciSd4, //Sh two buttons; 2, 4 not used
         siciWs1 = 370, siciWs2, siciWs3, siciWs4, //2, 4 not used
         siciVs1 = 380, siciVs2, siciVs3, siciVs4, //2, 4 not used
         siciVx1 = 390, siciVx2, siciVx3, siciVx4, // Vs extension for Hss n. u.
@@ -182,9 +187,9 @@ public:
         siciIr1 = 520, siciIr2, siciIr3, siciIr4, //2, 4 not used
         siciIl1 = 530, siciIl2, siciIl3, siciIl4, //2, 4 not used
         siciSy1 = 550, siciSy2, siciSy3, siciSy4, //2, 4 not used
-        siciSr1 = 600, siciSr2, siciSr3, siciSr4,
-        siciSl1 = 610, siciSl2, siciSl3, siciSl4,
-        siciDr1 = 620, siciDr2, siciDl1, siciDl2, //2 not used
+        siciSr1 = 600, siciSr2, siciSr3, siciSr4, // Single slip switch right
+        siciSl1 = 610, siciSl2, siciSl3, siciSl4, // Single slip switch left
+        siciDr1 = 620, siciDr2, siciDl1, siciDl2, //Double slip switch 2 n. u.
         siciTw1 = 650, siciTw2, siciTw3, siciTw4, //2, 4 not used
         siciDre = 700, siciSbn, // turntable, shiftbridge
         siciRel = 710, //relais
@@ -268,6 +273,19 @@ public:
     void setDropTargetView(bool);
     void setDroppedFbContact(QByteArray&);
     bool canReceiveFbcDrop();
+    bool hasLabel();
+    bool hasTrackIndicator();
+    bool hasVirtualAddress();
+    bool hasVariants();
+    int driveCount();
+    int buttonCount();
+    bool showLabelDialog();
+    bool showTrackIndicatorDialog();
+    bool showDriveDialog();
+    bool showDualDriveDialog();
+    bool showVirtualAddressDialog();
+    bool showVariantDialog();
+    bool showButtonDialog(const QPoint&);
 
 private:
     elementCommander*   turntableProperties;
@@ -280,6 +298,12 @@ private:
     unsigned int iSoldIndex;
     unsigned int iFBBusNo;
     int iFBContact;
+    bool     enable1fbtrigger;
+    unsigned int button1fbbus;
+    unsigned int button1fbcontact;
+    bool     enable2fbtrigger;
+    unsigned int button2fbbus;
+    unsigned int button2fbcontact;
     unsigned int editsAddress;
     unsigned int countervalue;
     int      address1;
@@ -290,10 +314,11 @@ private:
     int      port2;
     int      xchangeport1;
     int      xchangeport2;
-    int      activetime;
+    int      activetime1;
+    int      activetime2;
     int      state;
     int      iSoldInvert;
-    int      trackindicatoroff;
+    bool     trackindicatoroff;
     int      lockCounter;
     int      blinkcounter;
     int      lastdir;
@@ -313,7 +338,8 @@ private:
     bool     lightson;
     bool     tablelight;
     QString  sSoldDecoder;
-    SrcpMessage::Protocol protocol;
+    SrcpMessage::Protocol protocol1;
+    SrcpMessage::Protocol protocol2;
     QTimer*  locateTimer;
 
     void addTooltip();

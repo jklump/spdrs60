@@ -1321,6 +1321,75 @@ bool GBSArea::hasSrcp08Bus(unsigned int bus)
     return returnvalue;
 }
 
+/*setup property menu and keep click position */
+void GBSArea::runPropertyMenue(element* el, const QPoint& p)
+{
+    QPopupMenu* propmenu = new QPopupMenu(this, "propertyMenu");
+    int count = 0;
+
+    if (el->hasLabel()) {
+        propmenu->insertItem(tr("&Label..."), 1);
+    }
+
+    count = el->driveCount();
+    if (count == 1) {
+        propmenu->insertItem(tr("&Drive..."), 2);
+    }
+    else if (count > 1) {
+        propmenu->insertItem(tr("&Drives..."), 3);
+    }
+
+    if (el->hasVirtualAddress()) {
+        propmenu->insertItem(tr("Virtual &address..."), 4);
+    }
+
+    if (el->hasVariants()) {
+        propmenu->insertItem(tr("&Variant..."), 5);
+    }
+
+    if (el->hasTrackIndicator()) {
+        propmenu->insertItem(tr("&Track indicator..."), 6);
+    }
+
+    if (el->buttonCount() > 0)
+        propmenu->insertItem(tr("&Button..."), 7);
+
+    if (propmenu->idAt(0) != -1) {
+        int mitem = propmenu->exec(QCursor::pos());
+        bool elchanged = false;
+
+        switch(mitem) {
+            case 1:
+                elchanged = el->showLabelDialog();
+                break;
+            case 2:
+                elchanged = el->showDriveDialog();
+                break;
+            case 3:
+                elchanged = el->showDualDriveDialog();
+                break;
+            case 4:
+                elchanged = el->showVirtualAddressDialog();
+                break;
+            case 5:
+                elchanged = el->showVariantDialog();
+                break;
+            case 6:
+                elchanged = el->showTrackIndicatorDialog();
+                break;
+            case 7:
+                elchanged = el->showButtonDialog(p);
+                break;
+            case -1: //fall through
+            default:
+                break;
+        }
+        if (elchanged)
+            modified = true;
+    }
+    delete propmenu;
+}
+
 
 void GBSArea::mouseReleaseEvent(QMouseEvent* e)
 {
@@ -1373,8 +1442,9 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
                 return;
             }
 
-            if (el->showPropertyDlg())
-                setModified(true);
+            //if (el->showPropertyDlg())
+            //    setModified(true);
+            runPropertyMenue(el, e->pos());
 
             e->accept();
         }
@@ -1406,8 +1476,30 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
  * */
 void GBSArea::mousePressEvent(QMouseEvent* e)
 {
+    if (visualMode == kvmNormal) {
+        if (e->button() == Qt::LeftButton) {
+            element* el = (element*)childAt(e->pos());
+            if (el != NULL) {
+                if (el->classId() == element::siciMdc) {
+                    //TODO: create motor commander
+                    //if (!el->hasCommander()) {
+                    //  emit createMotorCommander(el);
+                    //  }
+                    e->accept();
+                }
+                else if (el->classId() == element::siciSbn) {
+                    //TODO: create shifting bridge commander
+                    e->accept();
+                }
+                else if (el->classId() == element::siciDre) {
+                    //TODO: create turn table commander
+                    e->accept();
+                }
+            }
+        }
+    }
     /*layout edit mode*/
-    if (visualMode == kvmEditLayout) {
+    else if (visualMode == kvmEditLayout) {
         if (e->button() == Qt::LeftButton) {
 
             /* drag item */
