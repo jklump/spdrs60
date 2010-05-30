@@ -187,6 +187,107 @@ empfehlenswert, diese Dokumentation durchzuarbeiten.
 <chapter id="chapter-aenderungen">
   <title>Änderungen</title>
 
+<sect1 id="ver-0.5.6">
+  <title>Version 0.5.6</title>
+<para>
+Veröffentlicht am ??.06.2010
+</para>
+<itemizedlist mark="bullet">
+
+    <listitem><para>
+            Das Speichern von Rückmeldedaten der diagonalen
+            Tunnelelemente wurde repariert.
+    </para></listitem>
+
+    <listitem><para>
+            Die Darstellung der Fahrtrichtungspfeilelemente wurde
+            repariert.
+    </para></listitem>
+
+    <listitem><para>
+            Die Darstellung von Textelementen wurden verbessert. Der
+            Text erscheint nun vor weißem Hintergrund, so dass alte
+            Einträge überschrieben werden.
+    </para></listitem>
+
+    <listitem><para>
+            Die Auswahlliste in der Drehscheibensteuerung wird nun
+            unmittelbar nach der Programmierung neuer Positionen
+            aktualisiert.
+    </para></listitem>
+
+    <listitem><para>
+            Die Basisadressen für Decoder der Drehscheibensteuerung
+            wurden korrigiert.
+    </para></listitem>
+
+    <listitem><para>
+            Bei der Drehscheibensteuerung funktioniert nun die Änderung der
+            Drehrichtung wie vorgesehen.
+    </para></listitem>
+
+    <listitem><para>
+            Bei der Drehscheibensteuerung wurde das Speichern der
+            programmierten Gleispositionen repariert.
+    </para></listitem>
+
+    <listitem><para>
+            Adresselemente werden durch Rückmeldungen nun nicht mehr als
+            belegt behandelt.
+    </para></listitem>
+
+    <listitem><para>
+            In der deutschen Übersetzung wurde ein Fehler bei der
+            Auswertung der Serververbindungsmeldungen behoben.
+    </para></listitem>
+
+    <listitem><para>
+            Das nicht funktionierende Dateimenü zum Beenden des
+            Programms wurde repariert.
+    </para></listitem>
+
+    <listitem><para>
+            Die Behandlung und Erfassung von Daten verschiedener
+            Decodertypen wurde entfernt, da sie programmintern bisher
+            keinerlei Funktion hatte.
+    </para></listitem>
+
+    <listitem><para>
+            Taster im Gleisbild können nun durch Rückmeldungen
+            angesteuert werden. Das ermöglicht den Anschluß externer
+            Hardware-Taster zum mausfreien Steuern des Programms.
+    </para></listitem>
+
+    <listitem><para>
+            Der Dialog zum Einstellen der Elementeigenschaften wurde in
+            verschiedene kleinere Dialoge aufgeteilt, die über ein
+            elementspezifisches kontextsensitives Menü (rechter Mausklick)
+            erreichbar sind. Jede Decoder-Adresse hat in diesem Rahmen
+            eigene Werte für Protokoll und Aktivierungszeit bekommen.
+    </para></listitem>
+
+    <listitem><para>
+            Die Kompatibilität zum Lesen der Dateiformate von
+            Programmversionen älter als 0.5.5 wurde entfernt.
+    </para></listitem>
+
+    <listitem><para>
+            Das Fenster der Drehscheibensteuerung wurde auf automatisches
+            Layoutmanagement umgestellt.
+    </para></listitem>
+
+    <listitem><para>
+            Eine ganze Reihe an internen Code-Aufräumarbeiten.
+    </para></listitem>
+
+    <listitem><para>
+            Nur das erste Programmfenster einer Sitzung verfügt über
+            einen Menüeintrag zum Beenden des Programms.
+    </para></listitem>
+
+</itemizedlist>
+</sect1>
+  
 <sect1 id="ver-0.5.5">
   <title>Version 0.5.5</title>
 <para>

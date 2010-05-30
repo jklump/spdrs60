@@ -124,6 +124,92 @@ features.</para>
 
 <sect1 id="sect-changes"><title>Changes</title>
 
+<sect2 id="ver-0.5.6">
+<title>Version 0.5.6</title>
+<para>
+Release date: 2010-06-??
+</para>
+
+<itemizedlist mark="bullet">
+
+    <listitem><para>
+            Fixed saving of feedback data for diagonal tunnel elements.
+    </para></listitem>
+
+    <listitem><para>
+            Fixed drawing of arrow elements.
+    </para></listitem>
+
+    <listitem><para>
+            Fixed repainting of text element; now has white background to cover
+            last exposed text.
+    </para></listitem>
+
+    <listitem><para>
+            Fixed track position drop down list in turntable commander to store
+            new positions after programming.
+    </para></listitem>
+
+    <listitem><para>
+            Base addresses for turntable decoder variants fixed.
+    </para></listitem>
+
+    <listitem><para>
+            Fixed not working turntable turn direction change.
+    </para></listitem>
+
+    <listitem><para>
+            Fixed storing of turntable track positions.
+    </para></listitem>
+
+    <listitem><para>
+            Address items are no longer occupied by feedback events.
+    </para></listitem>
+
+    <listitem><para>
+            Fixed arguments for server connect message in German translation.
+    </para></listitem>
+
+    <listitem><para>
+            Not working file/exit menu/key shortcut repaired.
+    </para></listitem>
+
+    <listitem><para>
+            Data for decoder type removed, because never has been used.
+    </para></listitem>
+
+    <listitem><para>
+            Button of layout items now can be triggered by feedback messages.
+            This makes connections to external hardware buttons possible.
+    </para></listitem>
+
+    <listitem><para>
+            Element property dialog splitted into different feature dialogs which
+            are addressed by an element specific context menu. Each decoder
+            address now has its own protocol and active time value.
+    </para></listitem>
+
+    <listitem><para>
+            Compatibilty for reading file style older than version 0.5.5
+            removed.
+    </para></listitem>
+
+    <listitem><para>
+            Layout management for turntable commander added.
+    </para></listitem>
+
+    <listitem><para>
+            Internal code cleanups.
+    </para></listitem>
+
+    <listitem><para>
+            Only first application window is session leader and has a quit
+            function.
+    </para></listitem>
+
+</itemizedlist>
+</sect2>
+
 <sect2 id="ver-0.5.5">
 <title>Version 0.5.5</title>
 <para>
