@@ -9998,6 +9998,8 @@ bool element::showDriveDialog()
                 address2 = dlg->getAddress1();
                 xchangeport2 = dlg->getXChangeConn1();
                 port2 = dlg->getPort1();
+                if (sSoldText.isEmpty() && (classid != siciDre))
+                    sSoldText.setNum(address2);
                 break;
             default:
                 protocol1 =
@@ -10007,6 +10009,9 @@ bool element::showDriveDialog()
                 address1 = dlg->getAddress1();
                 xchangeport1 = dlg->getXChangeConn1();
                 port1 = dlg->getPort1();
+                if (sSoldText.isEmpty())
+                    sSoldText.setNum(address1);
+                break;
                 break;
         }
         returnvalue = true;
@@ -10049,6 +10054,8 @@ bool element::showDualDriveDialog()
         address1 = dlg->getAddress1();
         xchangeport1 = dlg->getXChangeConn1();
         port1 = dlg->getPort1();
+        if (sSoldText.isEmpty())
+            sSoldText.setNum(address1);
 
         protocol2 =
             (SrcpMessage::Protocol) dlg->getProtocol2();
