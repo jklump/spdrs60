@@ -215,7 +215,7 @@ int DualDriveDialog::getProtocol1()
 #if QT_VERSION >= 0x030300
     return protocol1BG->selectedId();
 #else
-    return protocol1BG->id(protocolBG->selected());
+    return protocol1BG->id(protocol1BG->selected());
 #endif
 }
 
@@ -225,7 +225,7 @@ int DualDriveDialog::getProtocol2()
 #if QT_VERSION >= 0x030300
     return protocol2BG->selectedId();
 #else
-    return protocol2BG->id(protocolBG->selected());
+    return protocol2BG->id(protocol2BG->selected());
 #endif
 }
 
