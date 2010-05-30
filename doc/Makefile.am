@@ -25,6 +25,7 @@ dist_enimages_DATA = \
 
 
 dist_deimages_DATA = \
+	de/contextmenu.png \
 	de/schnapp-bhf-klein.png \
 	de/schnapp-daemoninfo.png \
 	de/schnapp-daemonmenu.png \
@@ -50,11 +51,9 @@ dist_deimages_DATA = \
 	de/schnapp-pref-layout.png \
 	de/schnapp-prog-empty.png \
 	de/schnapp-prop-adr.png \
-	de/schnapp-prop-antrieb.png \
 	de/schnapp-prop-dkw.png \
 	de/schnapp-prop-dreh.png \
 	de/schnapp-prop-entk.png \
-	de/schnapp-prop-normal.png \
 	de/schnapp-prop-signal-1.png \
 	de/schnapp-prop-signal-2.png \
 	de/schnapp-route-adderror1.png \
@@ -77,7 +76,8 @@ dist_deimages_DATA = \
 	de/shot-routedialog3.png \
 	de/shot-routedialog4.png \
 	de/shot-trainnumberdialog.png \
-	de/shot-trainnumber-display2.png
+	de/shot-trainnumber-display2.png \
+	de/virtualaddressdialog.png
 
 
 dist_commonimages_DATA = \

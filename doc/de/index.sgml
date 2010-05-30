@@ -4013,15 +4013,23 @@ Fahrstraßentabelle geschaltet werden.
   <title>Elemente ohne Decoder</title>
 <para>
 Mit einem rechten Mausklick auf jedes beliebige Element erhält man
-ein mehr oder weniger elementspezifisches Eigenschaftsfenster
-(<xref linkend="abb-normal">), in welchem sich die Merkmale des Elements
-variieren lassen. 
+ein elementspezifisches Kontextmenü (<xref linkend="abb-normal">), das
+die Bearbeitung verschiedener Details ermöglicht. 
 </para>
+<itemizedlist mark="bullet">
+  <listitem><para>Beschriftung</para></listitem>
+  <listitem><para>Decoder-Einstellungen für Antriebe</para></listitem>
+  <listitem><para>Die virtuelle Adresse</para></listitem>
+  <listitem><para>Auswahl einer von mehreren möglichen Varianten</para></listitem>
+  <listitem><para>Parameter von Rückmeldungen für die Gleisfreimeldung</para></listitem>
+  <listitem><para>Parameter von Rückmeldungen für die Ansteuerung von
+          Tasten</para></listitem>
+</itemizedlist>
 
 <figure id="abb-normal">
-  <title>Eigenschaften-Fenster eines einfachen Elements</title>
+  <title>Kontextmenü eines Elements mit zwei Antrieben</title>
   <mediaobject><imageobject>
-    <imagedata fileref="schnapp-prop-normal.png">
+    <imagedata fileref="contextmenu.png">
   </imageobject></mediaobject>
 </figure>
 
@@ -4071,45 +4079,39 @@ Ein weiteres Aktivieren des Schalters blendet diese wieder aus.
 </sect2>
     
 <sect2>
-  <title>Elemente mit einem Antrieb</title>
+  <title>Antrieb konfigurieren</title>
 <para>
-Wählt man ein Symbol aus, welches einen Antrieb besitzt,
-ergeben sich hier im einfachsten Fall die in <xref linkend="abb-antrieb">
-gezeigten Einstellungen. In der rechten Hälfte ist nun eine
-Eingabemöglichkeit für den verwendeten Decoder sichtbar. Hier wird
-zunächst bei einem noch nicht mit einem Typ versehenen Element der
-Standard-Decoder eingetragen, wie er über die persönlichen Einstellungen
-festgelegt wurde. Wählt man hier einen anderen, so paßt sich auch
-automatisch das zugehörige Protokoll in der unteren Hälfte des Fensters
-an.
+Abhängig davon, ob ein Element durch einen oder zwei Antriebe
+angesteuert wird, bietet der Dialog die Möglichkeit ein oder zwei
+angeschlossene Decoder zu konfigurieren. In
+<xref linkend="abb-antrieb"> ist der Fall für zwei Decoder dargestellt.
+Hier muss jeweils das Digitalprotokoll, der SRCP-Bus, die Adresse und
+die Aktivierungszeit für beide Antriebe eingestellt werden. Zusätzlich
+kann man hier die Anschlüsse vertauschen, für den Fall, dass die
+Verdahtung nicht mit der dargestellten Stellung übereinstimmt.
 </para>
 <figure id="abb-antrieb">
-  <title>Eigenschaften-Fenster des Elementsymbols für normale Antriebe</title>
+  <title>Antriebe konfigurieren</title>
   <mediaobject><imageobject>
-    <imagedata fileref="schnapp-prop-antrieb.png">
+    <imagedata fileref="drivesdialog.png">
   </imageobject></mediaobject>
 </figure>
 <para>
-Anschließend vergibt man die Adresse für den Artikel. In manchen Fällen,
-wie z.B. bei Weichen, kann es sinnvoll sein, in den Antriebselementen die
-Decoderadresse anzeigen lassen. Deshalb wird standardmäßig bei Eingabe
-einer Adresse diese automatisch in das Textfeld übertragen. Möchte man
-aber die Vorbildbezeichnungen für Weichen, Signale etc. benutzen, muß
+Bei einer Änderung der Adresse wird der Zahlenwert auch in die
+Beschriftung übertragen, soweit diese bis dahin leer war.
+Möchte man
+die Vorbildbezeichnungen für Weichen, Signale etc. benutzen, muß
 man nachträglich den Eintrag im Textfeld ändern (z.B. P1 für ein
 Ausfahrsignal). Welche Anzeige auf dem Element dann letztendlich
 erscheint, bestimmt der Benutzer selbst über seine persönlichen
 Einstellungen. Dort läßt sich zwischen der Textfeldbeschriftung oder
-dem Zahlenwert der Adresse beliebig umschalten.
+dem Zahlenwert der (ersten) Adresse beliebig umschalten.
 </para>
 <para>
 Die Eingabefelder für die Decoderadressen werden vom Programm auf ihre
 Gültigkeit hin überprüft. Es sind nur Wertangaben innerhalb des vom
-Digitalprotokoll definierten Adressbereichs erlaubt. Verschiedene
-Symbole, die eine virtuelle Adresse nutzen, sind hiervon ausgenommen.
-Für diese gelten Adresswerte aus anderen vordefinierten Zahlenbereichen,
-die oberhalb der Digitalprotokolle liegen. Diese Werte werden
-programmintern zur Identifizierung dieser Gleisbildelemente benötigt.
-</para>
+Digitalprotokoll definierten Adressbereichs erlaubt.
+
 <para>
 Die Anfangsstellung eines Antriebs kann nicht voreingestellt
 werden. Ein neues Element bekommt den Richtungswert 0, ansonsten
@@ -4131,12 +4133,33 @@ sich in die andere Stellung zu bewegen. Die im Feld &raquo;Zurücksetzen
 nach&laquo; angegebene Zeit in Millisekunden kann entsprechend erhöht
 werden, um eine ausreichende Funktion zu gewährleisten.
 </para>
+
 <para>
 Für eine korrekte Funktion eines Gleisbilds sind die Einträge in den Feldern zu
 &raquo;Rückmeldung&laquo; wichtig. Hier kann man die Nummer des
 Rückmeldemoduls und des in Frage kommenden Eingangs einstellen. Dieser
 steuert dann den Gleismelder im Element (rot = Gleis besetzt).
 </para>
+</sect2>
+
+<sect2>
+  <title>Virtuelle Adressen</title>
+<para>
+Eine kleinere Anzahl von Symbolen, wie die Adressanzeige für die
+Zugnummernverfolgung, nutzt eine virtuelle Adresse, die
+programmintern zur Identifizierung dieser Gleisbildelemente dient.
+Für diese gelten jeweils Adresswerte aus vordefinierten Zahlenbereichen,
+die oberhalb der Digitalprotokolle liegen. Wie in <xref linkend="abb-antrieb">
+    dargestellt, gibt es hier nur Eingabemöglichkeiten für den SRCP-Bus
+    und die Adresse selbst. Letztere wird auf ihre Gültigkeit hin
+    überprüft.
+</para>
+<figure id="abb-virtualaddress">
+  <title>Virtuelle Adresse konfigurieren</title>
+  <mediaobject><imageobject>
+    <imagedata fileref="virtualaddressdialog.png">
+  </imageobject></mediaobject>
+</figure>
 </sect2>
 
 <sect2>
