@@ -50,14 +50,6 @@ class DualDriveDialog: public QDialog
    QLineEdit* srcpBus2LE;
    QCheckBox* xchConn1CB;
    QCheckBox* xchConn2CB;
-   QRadioButton* rbProtocol1_MS;
-   QRadioButton* rbProtocol1_NA;
-   QRadioButton* rbProtocol1_PS;
-   QRadioButton* rbProtocol1_SE;
-   QRadioButton* rbProtocol2_MS;
-   QRadioButton* rbProtocol2_NA;
-   QRadioButton* rbProtocol2_PS;
-   QRadioButton* rbProtocol2_SE;
    QIntValidator* addressVdt1;
    QIntValidator* addressVdt2;
 

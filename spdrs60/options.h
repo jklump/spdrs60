@@ -67,8 +67,6 @@ private:
 private slots:
    void slotGetAutofile();
    void slotAutoloadToggled(bool);
-   void slotDecoderChanged(int);
-   void slotProtChanged(int);
    void slotLimitModules(int);
    void fixFBBusNumbers(int);
    void selectFbModuleType(int);
@@ -99,10 +97,6 @@ private:
    QRadioButton *rb8inputs;
    QRadioButton *fixedBusesRB;
    QRadioButton *flexBusesRB;
-   QRadioButton *rbProtMS;
-   QRadioButton *rbProtNA;
-   QRadioButton *rbProtPS;
-   QRadioButton *rbProtSE;
    QRadioButton *rbSignalRed;
    QRadioButton *rbSignalLay;
 
@@ -117,7 +111,6 @@ private:
    QSpinBox *sbFBmod_4;
 
    QComboBox *coboEditor;
-   QComboBox *coboDecoder;
    QComboBox *coboBrowser;
 
    QLineEdit* leAutoload;
@@ -128,7 +121,7 @@ private:
    QLineEdit* bus4LE;
 
    QPushButton* buttGetAutofile;
-
+   QButtonGroup* protocolBG;
    QButtonGroup* feedbackTypeGB;
    QGroupBox* selectrixGB;
 };

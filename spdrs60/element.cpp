@@ -137,7 +137,6 @@ void element::initVariables()
     setAutoFillBackground(true);
 #endif
     iSoldInvert = -1;
-    sSoldDecoder = "-1";
     protocol1 = SrcpMessage::proNone;
     protocol2 = SrcpMessage::proNone;
     address1 = -1;
@@ -146,7 +145,7 @@ void element::initVariables()
     xchangeport2 = -1;
     state = -1;
     iSoldSubType = -1;
-    sSoldText = "-1";
+    sSoldText = "";
     activetime1 = -1;
     activetime2 = -1;
     iFBContact = 1;
@@ -222,9 +221,6 @@ void element::readFileTextFromStream(QTextStream& ats)
             }
             else if (key.compare(GF_INVERSTO) == 0) {
                 iSoldInvert = value.toInt();
-            }
-            else if (key.compare(GF_DECODER) == 0) {
-                sSoldDecoder = value;
             }
             else if (key.compare(GF_PROTOCOL1) == 0) {
                 if (value == "M")
@@ -8080,19 +8076,15 @@ void element::addTooltip()
             "ClassId: %d\n"
             "Hide LEDs: %s (=%1d)\n"
             "Inverted: %s (=%1d)\n"
-            "Decoder: %s\n"
             "Protocol: %s\n"
             "Address 1: %s\n",
             iSoldIndex,
             classid,
-            trackindicatoroff == -1 ? "N/A" : (trackindicatoroff ==
-                0 ? "No" : "Yes"),
+            (trackindicatoroff == 0 ? "No" : "Yes"),
             trackindicatoroff,
             iSoldInvert == -1 ? "N/A" : (iSoldInvert ==
                 0 ? "No" : "Yes"),
             iSoldInvert,
-            sSoldDecoder == "-1" ?  "N/A (=-1)" 
-            : (char*)sSoldDecoder.data(),
             protocol1 == SrcpMessage::proNone ? "N/A (=-1)"
                 : (protocol1 == SrcpMessage::proMM ? "Motorola"
                         : (protocol1 == SrcpMessage::proDCC ? "NMRA/DCC"
@@ -9311,7 +9303,6 @@ void element::writeFileTextToStream(QTextStream& ts)
 
         default:
             ts << GF_INVERSTO  << DS << iSoldInvert << endl
-                << GF_DECODER   << DS << sSoldDecoder << endl
                 << GF_PROTOCOL1  << DS << 
                 ((protocol1 == SrcpMessage::proMM) ? "M" :
                  (protocol1 == SrcpMessage::proDCC) ? "N" :

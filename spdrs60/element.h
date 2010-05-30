@@ -112,7 +112,6 @@ const unsigned int rdSE = rdS | rdE;
 static const char GF_INDEX[]     = "index";
 static const char GF_CLASSID[]   = "classid";
 static const char GF_INVERSTO[]  = "invers turnout";
-static const char GF_DECODER[]   = "decoder";
 static const char GF_PROTOCOL[]  = "protocol";
 static const char GF_PROTOCOL1[]  = "protocol1";
 static const char GF_PROTOCOL2[]  = "protocol2";
@@ -336,7 +335,6 @@ private:
     bool     turnout;
     bool     lightson;
     bool     tablelight;
-    QString  sSoldDecoder;
     SrcpMessage::Protocol protocol1;
     SrcpMessage::Protocol protocol2;
     QTimer*  locateTimer;

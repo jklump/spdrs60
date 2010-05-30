@@ -45,10 +45,6 @@ class DriveDialog: public QDialog
    QLineEdit* address1LE;
    QLineEdit* srcpBus1LE;
    QCheckBox* xchConn1CB;
-   QRadioButton* rbProtocol_MS;
-   QRadioButton* rbProtocol_NA;
-   QRadioButton* rbProtocol_PS;
-   QRadioButton* rbProtocol_SE;
    QIntValidator* addressVdt;
 
    void updateValidators();

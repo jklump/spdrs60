@@ -58,10 +58,10 @@ DriveDialog::DriveDialog(QWidget* parent):
                         tr("Protocol"), this, "protocolBG");
     leftRightLayout->addWidget(protocolBG);
     protocolBG->setExclusive(true);
-    rbProtocol_MS = new QRadioButton(tr("&Maerklin/Motorola"), protocolBG);
-    rbProtocol_NA = new QRadioButton(tr("&NMRA/DCC"), protocolBG);
-    rbProtocol_SE = new QRadioButton(tr("Selectri&x"), protocolBG);
-    rbProtocol_PS = new QRadioButton(tr("Protocol by Ser&ver"), protocolBG);
+    new QRadioButton(tr("&Maerklin/Motorola"), protocolBG);
+    new QRadioButton(tr("&NMRA/DCC"), protocolBG);
+    new QRadioButton(tr("Selectri&x"), protocolBG);
+    new QRadioButton(tr("Protocol by Ser&ver"), protocolBG);
     connect(protocolBG, SIGNAL(clicked(int)),
             this, SLOT(slotProtocolChanged(int)));
 
@@ -139,37 +139,21 @@ DriveDialog::DriveDialog(QWidget* parent):
 
 int DriveDialog::getProtocol()
 {
-    if (!rbProtocol_MS->isEnabled())
-        return SrcpMessage::proNone;
-    else if (rbProtocol_MS->isChecked())
-        return SrcpMessage::proMM;
-    else if (rbProtocol_NA->isChecked())
-        return SrcpMessage::proDCC;
-    else if (rbProtocol_SE->isChecked())
-        return SrcpMessage::proSelectrix;
-    else
-        return SrcpMessage::proServer;
+#if QT_VERSION >= 0x030300
+    return protocolBG->selectedId();
+#else
+    return protocolBG->id(protocolBG->selected());
+#endif
 }
 
 
 void DriveDialog::setProtocol(int protocol)
 {
-    if (protocol == SrcpMessage::proNone) {
-        rbProtocol_MS->setEnabled(false);
-        rbProtocol_NA->setEnabled(false);
-        rbProtocol_PS->setEnabled(false);
-        rbProtocol_SE->setEnabled(false);
-    }
-    else {
-        if (protocol == SrcpMessage::proMM)
-            rbProtocol_MS->setChecked(true);
-        else if (protocol == SrcpMessage::proDCC)
-            rbProtocol_NA->setChecked(true);
-        else if (protocol == SrcpMessage::proSelectrix)
-            rbProtocol_SE->setChecked(true);
-        else
-            rbProtocol_PS->setChecked(true);
-    }
+    if (protocol == SrcpMessage::proNone)
+        protocolBG->setButton(pref.protocol);
+    else 
+        protocolBG->setButton(protocol);
+
     updateValidators();
 }
 

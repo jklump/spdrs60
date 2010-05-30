@@ -244,15 +244,13 @@ void optionsDialog::setupDigitalTab()
     
     
     // protocol groupbox
-    QButtonGroup *protocolBG = new QButtonGroup(4, Qt::Vertical,
+    protocolBG = new QButtonGroup(4, Qt::Vertical,
             tr("Default protocol"), w);
     tabL->addWidget(protocolBG);
-    rbProtMS = new QRadioButton("Märklin/M&otorola", protocolBG);
-    rbProtNA = new QRadioButton("&NMRA/DCC", protocolBG);
-    rbProtPS = new QRadioButton("&Protocol by Server", protocolBG);
-    rbProtSE = new QRadioButton("Selectri&x", protocolBG);
-    connect(protocolBG, SIGNAL(clicked(int)),
-            this, SLOT(slotProtChanged(int)));
+    new QRadioButton("Märklin/M&otorola", protocolBG);
+    new QRadioButton("&NMRA/DCC", protocolBG);
+    new QRadioButton("Selectri&x", protocolBG);
+    new QRadioButton("&Protocol by Server", protocolBG);
 
 
     // solenoid groupbox
@@ -260,44 +258,10 @@ void optionsDialog::setupDigitalTab()
             tr("Solenoid defaults"), w, "solenoidGB");
     tabL->addWidget(solenoidGB);
     QVBoxLayout* solenoidGBL = new QVBoxLayout(solenoidGB->layout(), 6);
-    // line with decoder
-    QHBoxLayout* decoderLayout = new QHBoxLayout(solenoidGBL);
-    QLabel* label = new QLabel(tr("Default de&coder:"), solenoidGB);
-    decoderLayout->addWidget(label);
-    decoderLayout->addStretch();
-    coboDecoder = new QComboBox(false, solenoidGB);
-    coboDecoder->insertItem("Märklin k83 WD (M)");
-    coboDecoder->insertItem("Märklin k84 SD (M)");
-    coboDecoder->insertItem("Viessm. 5211 WD (M)");
-    coboDecoder->insertItem("Viessm. 5213 SD (M)");
-    // Signalbaustein, extra Code!
-    // coboDecoder->insertItem( "Viessmann 5210 (M)" );
-    coboDecoder->insertItem("Littf. QS-DEC-II WD (M)");
-    coboDecoder->insertItem("Littf. S-DEC-4 WD (M)");
-    coboDecoder->insertItem("Littf. SA-DEC-4 SD (M)");
-    coboDecoder->insertItem("Littf. M-DEC-MM WD (M)");
-    // Signalbaustein, extra Code!
-    // coboDecoder->insertItem( "Littfinsky LS-DEC (M)" );
-    coboDecoder->insertItem("EDiTS WD (M)");
-    coboDecoder->insertItem("EDiTS SD (M)");
-    coboDecoder->insertItem("Littf. S-DEC-4 WD (D)");
-    coboDecoder->insertItem("Littf. SA-DEC-4 SD (D)");
-    coboDecoder->insertItem("Littf. M-DEC-DC WD (D)");
-    // Signalbaustein, extra Code!
-    // coboDecoder->insertItem( "Littfinsky LS-DEC (D)" );
-    coboDecoder->insertItem("Lenz LS 100 WD (D)");
-    coboDecoder->insertItem("Lenz LS 110 WD (D)");
-    coboDecoder->insertItem("Lenz LS 130 SD (D)");
-    coboDecoder->insertItem("Generic Decoder (P)");
-    coboDecoder->insertItem("Generic Decoder (S)");
-    decoderLayout->addWidget(coboDecoder);
-    connect(coboDecoder, SIGNAL(activated(int)), this,
-            SLOT(slotDecoderChanged(int)));
-    label->setBuddy(coboDecoder);
 
     // line with activation time
     QHBoxLayout* atimeLayout = new QHBoxLayout(solenoidGBL);
-    label = new QLabel(tr("Default &activation time (ms):"), solenoidGB);
+    QLabel* label = new QLabel(tr("Default &activation time (ms):"), solenoidGB);
     atimeLayout->addWidget(label);
     atimeLayout->addStretch();
     // 20 ms steps
@@ -623,46 +587,6 @@ void optionsDialog::slotAutoloadToggled(bool load)
 }
 
 
-void optionsDialog::slotDecoderChanged(int)
-{
-    QString sText = coboDecoder->currentText().right(3);
-
-    // default decoder has changed -> set the appropriate default protocol
-    if (sText == "(M)")
-        rbProtMS->setChecked(true);
-    else if (sText == "(D)")
-        rbProtNA->setChecked(true);
-    else if (sText == "(S)")
-        rbProtSE->setChecked(true);
-    else
-        rbProtPS->setChecked(true);
-}
-
-
-void optionsDialog::slotProtChanged(int)
-{
-    QString sProt;
-    QString sText;
-
-    if (rbProtMS->isChecked())
-        sProt = "(M)";
-    else if (rbProtNA->isChecked())
-        sProt = "(D)";
-    else if (rbProtSE->isChecked())
-        sProt = "(S)";
-    else
-        sProt = "(P)";
-
-    // default protocol has changed -> set the appropriate default decoder
-    for (int i = 0; i < coboDecoder->count(); i++) {
-        sText = coboDecoder->text(i);
-        if (sText.right(3) == sProt) {
-            coboDecoder->setCurrentItem(i);
-            break;
-        }
-    }
-}
-
 /*
  * depending on feedback module type (16 or 8 port) set the spin box
  * ranges, 16 <-> 0, 8 <-> 1
@@ -807,15 +731,12 @@ void optionsDialog::getPreferences(Preferences& prf)
     prf.initsignalsred = rbSignalRed->isChecked();
     
     // Digital Page
-    if (rbProtMS->isChecked())
-        prf.protocol = 1;
-    else if (rbProtNA->isChecked())
-        prf.protocol = 0;
-    else if (rbProtSE->isChecked())
-        prf.protocol = 3;
-    else
-        prf.protocol = 2;
-    prf.decoder = coboDecoder->currentText();
+#if QT_VERSION >= 0x030300
+    prf.protocol = protocolBG->selectedId();
+#else
+    prf.protocol = protocolBG->id(protocolBG->selected());
+#endif
+
     prf.activetime = sbActiveTime->value();
     prf.routingtime = sbRoutingTime->value();
 
@@ -919,32 +840,7 @@ void optionsDialog::setPreferences(const Preferences& prf)
         rbSignalLay->setChecked(true);
     
     // Digital Page
-    switch (prf.protocol) {
-        case 0:
-            rbProtNA->setChecked(true);
-            break;
-        case 1:
-            rbProtMS->setChecked(true);
-            break;
-        case 2:
-            rbProtPS->setChecked(true);
-            break;
-        case 3:
-            rbProtSE->setChecked(true);
-            break;
-    }
-
-    found = false;
-    for (int i = 0; i < coboDecoder->count(); i++) {
-        if (coboDecoder->text(i) == prf.decoder) {
-            coboDecoder->setCurrentItem(i);
-            found = true;
-            break;
-        }
-    }
-    if (!found) {
-        coboDecoder->setCurrentItem(1);
-    }
+    protocolBG->setButton(pref.protocol);
 
     cbAutoTTDir->setChecked(prf.autottdir);
     sbActiveTime->setValue(prf.activetime);

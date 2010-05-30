@@ -2743,10 +2743,6 @@ Valid range is 0..999999.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Default de&amp;coder:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Default &amp;activation time (ms):</source>
         <translation type="unfinished"></translation>
     </message>

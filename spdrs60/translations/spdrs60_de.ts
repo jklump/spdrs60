@@ -2775,10 +2775,6 @@ ein Modul an Bus Nr. 1 angeschlossen ist.</translation>
         <translation>Magnetartikelvoreinstellungen</translation>
     </message>
     <message>
-        <source>Default de&amp;coder:</source>
-        <translation>Standardde&amp;coder:</translation>
-    </message>
-    <message>
         <source>Default &amp;activation time (ms):</source>
         <translation>&amp;Aktivierungszeit (ms):</translation>
     </message>

@@ -48,8 +48,8 @@ class SrcpMessage
         enum Action {acInit = 0, acSet, acGet, acCheck, acTerm, acWait,
             acReset, acVerify};
 
-        // only GA protocols, FIXME: proNone is a temporary solution
-        enum Protocol {proMM = 0, proDCC, proServer, proSelectrix, proNone};
+        // only GA protocols
+        enum Protocol {proNone = -1, proMM, proDCC, proSelectrix, proServer};
 
         enum Feedback {fbS88 = 0, fbI8255, fbM6051, fbPS, fbSelectrix};
 

@@ -59,10 +59,10 @@ DualDriveDialog::DualDriveDialog(QWidget* parent):
                         tr("Protocol 1"), this, "protocol1BG");
     leftRight1Layout->addWidget(protocol1BG);
     protocol1BG->setExclusive(true);
-    rbProtocol1_MS = new QRadioButton(tr("&Maerklin/Motorola"), protocol1BG);
-    rbProtocol1_NA = new QRadioButton(tr("&NMRA/DCC"), protocol1BG);
-    rbProtocol1_SE = new QRadioButton(tr("Selectri&x"), protocol1BG);
-    rbProtocol1_PS = new QRadioButton(tr("Protocol by Ser&ver"), protocol1BG);
+    new QRadioButton(tr("&Maerklin/Motorola"), protocol1BG);
+    new QRadioButton(tr("&NMRA/DCC"), protocol1BG);
+    new QRadioButton(tr("Selectri&x"), protocol1BG);
+    new QRadioButton(tr("Protocol by Ser&ver"), protocol1BG);
     connect(protocol1BG, SIGNAL(clicked(int)),
             this, SLOT(slotProtocol1Changed(int)));
 
@@ -131,10 +131,10 @@ DualDriveDialog::DualDriveDialog(QWidget* parent):
                         tr("Protocol 2"), this, "protocol2BG");
     leftRight2Layout->addWidget(protocol2BG);
     protocol2BG->setExclusive(true);
-    rbProtocol2_MS = new QRadioButton(tr("Maer&klin/Motorola"), protocol2BG);
-    rbProtocol2_NA = new QRadioButton(tr("NMRA/D&CC"), protocol2BG);
-    rbProtocol2_SE = new QRadioButton(tr("Selec&trix"), protocol2BG);
-    rbProtocol2_PS = new QRadioButton(tr("Protocol b&y Server"), protocol2BG);
+    new QRadioButton(tr("Maer&klin/Motorola"), protocol2BG);
+    new QRadioButton(tr("NMRA/D&CC"), protocol2BG);
+    new QRadioButton(tr("Selec&trix"), protocol2BG);
+    new QRadioButton(tr("Protocol b&y Server"), protocol2BG);
     connect(protocol2BG, SIGNAL(clicked(int)),
             this, SLOT(slotProtocol2Changed(int)));
 
@@ -212,74 +212,42 @@ DualDriveDialog::DualDriveDialog(QWidget* parent):
 
 int DualDriveDialog::getProtocol1()
 {
-    if (!rbProtocol1_MS->isEnabled())
-        return SrcpMessage::proNone;
-    else if (rbProtocol1_MS->isChecked())
-        return SrcpMessage::proMM;
-    else if (rbProtocol1_NA->isChecked())
-        return SrcpMessage::proDCC;
-    else if (rbProtocol1_SE->isChecked())
-        return SrcpMessage::proSelectrix;
-    else
-        return SrcpMessage::proServer;
+#if QT_VERSION >= 0x030300
+    return protocol1BG->selectedId();
+#else
+    return protocol1BG->id(protocolBG->selected());
+#endif
 }
 
 
 int DualDriveDialog::getProtocol2()
 {
-    if (!rbProtocol2_MS->isEnabled())
-        return SrcpMessage::proNone;
-    else if (rbProtocol2_MS->isChecked())
-        return SrcpMessage::proMM;
-    else if (rbProtocol2_NA->isChecked())
-        return SrcpMessage::proDCC;
-    else if (rbProtocol2_SE->isChecked())
-        return SrcpMessage::proSelectrix;
-    else
-        return SrcpMessage::proServer;
+#if QT_VERSION >= 0x030300
+    return protocol2BG->selectedId();
+#else
+    return protocol2BG->id(protocolBG->selected());
+#endif
 }
 
 
 void DualDriveDialog::setProtocol1(int protocol)
 {
-    if (protocol == SrcpMessage::proNone) {
-        rbProtocol1_MS->setEnabled(false);
-        rbProtocol1_NA->setEnabled(false);
-        rbProtocol1_PS->setEnabled(false);
-        rbProtocol1_SE->setEnabled(false);
-    }
-    else {
-        if (protocol == SrcpMessage::proMM)
-            rbProtocol1_MS->setChecked(true);
-        else if (protocol == SrcpMessage::proDCC)
-            rbProtocol1_NA->setChecked(true);
-        else if (protocol == SrcpMessage::proSelectrix)
-            rbProtocol1_SE->setChecked(true);
-        else
-            rbProtocol1_PS->setChecked(true);
-    }
+    if (protocol == SrcpMessage::proNone)
+        protocol1BG->setButton(pref.protocol);
+    else 
+        protocol1BG->setButton(protocol);
+
     updateValidator1();
 }
 
 
 void DualDriveDialog::setProtocol2(int protocol)
 {
-    if (protocol == SrcpMessage::proNone) {
-        rbProtocol2_MS->setEnabled(false);
-        rbProtocol2_NA->setEnabled(false);
-        rbProtocol2_PS->setEnabled(false);
-        rbProtocol2_SE->setEnabled(false);
-    }
-    else {
-        if (protocol == SrcpMessage::proMM)
-            rbProtocol2_MS->setChecked(true);
-        else if (protocol == SrcpMessage::proDCC)
-            rbProtocol2_NA->setChecked(true);
-        else if (protocol == SrcpMessage::proSelectrix)
-            rbProtocol2_SE->setChecked(true);
-        else
-            rbProtocol2_PS->setChecked(true);
-    }
+    if (protocol == SrcpMessage::proNone)
+        protocol2BG->setButton(pref.protocol);
+    else 
+        protocol2BG->setButton(protocol);
+
     updateValidator2();
 }
 
