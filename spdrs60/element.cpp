@@ -890,31 +890,42 @@ void element::switchAddress(bool secondone)
     }
 
     int port = 0;
-    int value = 0;
 
     switch (realprotocol) {
+
+        // only two ports for MM
         case SrcpMessage::proMM:
             port = realstate;
-            value = 1;
             break; 
+
+        // only two ports for DCC
         case SrcpMessage::proDCC: 
             port = !realstate;
-            value = 1;
             break;
-        default:
-            //TODO: translate Selectrix address to flat address
-            if (iRealAddress == address1)
-                port = port1;
-            else
-                port = port2;
 
-            value = realstate;
+        // multiple (paired) ports for Selectrix
+        case SrcpMessage::proSelectrix:
+            if (iRealAddress == address1)
+                port = port1 + realstate;
+            else
+                port = port2 + realstate;
+            break;
+
+        // multiple (paired) ports for Server
+        case SrcpMessage::proServer:
+            if (iRealAddress == address1)
+                port = port1 + realstate;
+            else
+                port = port2 + realstate;
+            break;
+
+        default:
             break;
     }
 
     SrcpMessage sm = SrcpMessage(SrcpMessage::msgGaSet);
-    sm.setGaData(realprotocol, iRealBus, iRealAddress, port,
-            value, realactivetime);
+    sm.setGaData(realprotocol, iRealBus, iRealAddress, port, 1,
+            realactivetime);
     emit sendSrcpMessage(&sm);
 
     /*qWarning("Class: %d, Stype: %d, Dir: %d, A1: %d, A2: %d, RA: %d, P: %d",
@@ -1120,7 +1131,7 @@ void element::switch2AddressItem(unsigned int addr, unsigned int port)
 void element::processInfoPortMessage(unsigned int bus,
         unsigned int addr, unsigned int port, unsigned int value)
 {
-    // this breaks Selectrix usage
+    // ignore port reset messages
     if (value == 0)
         return;
 
@@ -1156,8 +1167,9 @@ void element::processInfoPortMessage(unsigned int bus,
         /*invert direction if connectors are exchanged*/
         realstate = realstate ^ xchangeport1;
 
-        if (port != (unsigned int)realstate) {
-            realstate = port;
+        /* modulo 2 if there are more than 2 ports per address*/
+        if ((port % 2) != (unsigned int)realstate) {
+            realstate = port % 2;
 
             /*again invert direction if connectors are exchanged*/
             realstate = realstate ^ xchangeport1;
