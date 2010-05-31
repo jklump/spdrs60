@@ -9341,13 +9341,13 @@ void element::writeFileTextToStream(QTextStream& ts)
                 << GF_ACTTIME1   << DS << activetime1 << endl
                 << GF_ACTTIME2   << DS << activetime2 << endl
                 << GF_FBPORT    << DS << iFBBusNo << DS << iFBContact << endl
+                /*for now: save two triggered buttons, if used or not*/
+                << GF_BUTTON1FB << DS << enable1fbtrigger << DS
+                << button1fbbus << DS << button1fbcontact << endl
+                << GF_BUTTON2FB << DS << enable2fbtrigger << DS
+                << button2fbbus << DS << button2fbcontact << endl
                 << GF_HIDELEDS  << DS << trackindicatoroff << endl;
 
-            /*for now: save two triggered buttons, if used or not*/
-            ts << GF_BUTTON1FB << DS << enable1fbtrigger << DS
-               << button1fbbus << DS << button1fbcontact << endl;
-            ts << GF_BUTTON2FB << DS << enable2fbtrigger << DS
-               << button2fbbus << DS << button2fbcontact << endl;
             break;
     }
     ts << '%' << endl;
