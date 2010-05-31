@@ -9065,12 +9065,12 @@ void element::slotOccupyElement(unsigned int bus, unsigned int contact,
                 case siciTal:
                     emit elementClicked(this, kEinClicked);
                     break;
-                case siciHss1:
+                case siciHss3:
                 case siciHs1:
                 case siciHs3:
                     emit elementClicked(this, kZfsClicked);
                     break;
-                case siciHss3:
+                case siciHss1:
                 case siciSs1:
                 case siciSs3:
                 case siciSd1:
@@ -9102,12 +9102,12 @@ void element::slotOccupyElement(unsigned int bus, unsigned int contact,
                 case siciTal:
                     emit elementClicked(this, kAusClicked);
                     break;
-                case siciHss1:
+                case siciHss3:
                 case siciSd1:
                 case siciSd3:
                     emit elementClicked(this, kRfsClicked);
                     break;
-                case siciHss3:
+                case siciHss1:
                     emit elementClicked(this, kZfsClicked);
                     break;
                 default:
