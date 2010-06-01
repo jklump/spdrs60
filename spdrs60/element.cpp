@@ -9080,6 +9080,8 @@ void element::slotOccupyElement(unsigned int bus, unsigned int contact,
                 case siciHss3:
                 case siciHs1:
                 case siciHs3:
+                case siciZt1:
+                case siciZt3:
                     emit elementClicked(this, kZfsClicked);
                     break;
                 case siciHss1:
@@ -9087,6 +9089,8 @@ void element::slotOccupyElement(unsigned int bus, unsigned int contact,
                 case siciSs3:
                 case siciSd1:
                 case siciSd3:
+                case siciRt1:
+                case siciRt3:
                     emit elementClicked(this, kRfsClicked);
                     break;
                 case siciSh1:
