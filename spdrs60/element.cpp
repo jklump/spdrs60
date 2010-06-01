@@ -8092,7 +8092,7 @@ void element::addTooltip()
             "Address 1: %s\n",
             iSoldIndex,
             classid,
-            (trackindicatoroff == 0 ? "No" : "Yes"),
+            (trackindicatoroff ? "No" : "Yes"),
             trackindicatoroff,
             iSoldInvert == -1 ? "N/A" : (iSoldInvert ==
                 0 ? "No" : "Yes"),
