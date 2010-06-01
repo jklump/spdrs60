@@ -183,9 +183,9 @@ public:
         siciZv1 = 420, siciZv2, siciZv3, siciZv4, // Zentralblocksignal + Vs
         siciTr1 = 500, siciTr2, siciTr3, siciTr4, // right turnouts
         siciTl1 = 510, siciTl2, siciTl3, siciTl4, // left turnouts
-        siciIr1 = 520, siciIr2, siciIr3, siciIr4, //2, 4 not used
-        siciIl1 = 530, siciIl2, siciIl3, siciIl4, //2, 4 not used
-        siciSy1 = 550, siciSy2, siciSy3, siciSy4, //2, 4 not used
+        siciIr1 = 520, siciIr2, siciIr3, siciIr4, //diagonal to. 2, 4 not used
+        siciIl1 = 530, siciIl2, siciIl3, siciIl4, //diagonal to. 2, 4 not used
+        siciSy1 = 550, siciSy2, siciSy3, siciSy4, //y turnout 2, 4 not used
         siciSr1 = 600, siciSr2, siciSr3, siciSr4, // Single slip switch right
         siciSl1 = 610, siciSl2, siciSl3, siciSl4, // Single slip switch left
         siciDr1 = 620, siciDr2, siciDl1, siciDl2, //Double slip switch 2 n. u.

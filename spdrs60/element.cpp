@@ -9518,6 +9518,8 @@ int element::getAddressCount()
         case siciTl3:
         case siciIr1:
         case siciIr3:
+        case siciIl1:
+        case siciIl3:
         case siciSy1:
         case siciSy3:
             // tools
