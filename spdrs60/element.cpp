@@ -3982,22 +3982,40 @@ void element::setupElementIcon()
             QColor c1, c2, c3, c4;
             if (occupied) {
                 if (state == 0) {
-                    c1 = QColor(Qt::red);
-                    c2 = QColor(Qt::red);
+                    if (lightson) {
+                        c1 = QColor(Qt::red);
+                        c2 = QColor(Qt::red);
+                    }
+                    else {
+                        c1 = QColor(Qt::darkGray);
+                        c2 = QColor(Qt::darkGray);
+                    }
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::darkGray);
                 }
                 else if (state == 1) {
-                    c1 = QColor(Qt::red);
+                    if (lightson) {
+                        c1 = QColor(Qt::red);
+                        c4 = QColor(Qt::red);
+                    }
+                    else {
+                        c1 = QColor(Qt::darkGray);
+                        c4 = QColor(Qt::darkGray);
+                    }
                     c2 = QColor(Qt::darkGray);
                     c3 = QColor(Qt::darkGray);
-                    c4 = QColor(Qt::red);
                 }
                 else if (state == 2) {
                     c1 = QColor(Qt::darkGray);
                     c2 = QColor(Qt::darkGray);
-                    c3 = QColor(Qt::red);
-                    c4 = QColor(Qt::red);
+                    if (lightson) {
+                        c3 = QColor(Qt::red);
+                        c4 = QColor(Qt::red);
+                    }
+                    else {
+                        c3 = QColor(Qt::darkGray);
+                        c4 = QColor(Qt::darkGray);
+                    }
                 }
                 // error indication
                 else {
@@ -4210,22 +4228,40 @@ void element::setupElementIcon()
             QColor c1, c2, c3, c4;
             if (occupied) {
                 if (state == 0) {
-                    c1 = QColor(Qt::red);
-                    c2 = QColor(Qt::red);
+                    if (lightson) {
+                        c1 = QColor(Qt::red);
+                        c2 = QColor(Qt::red);
+                    }
+                    else {
+                        c1 = QColor(Qt::darkGray);
+                        c2 = QColor(Qt::darkGray);
+                    }
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::darkGray);
                 }
                 else if (state == 1) {
-                    c1 = QColor(Qt::red);
+                    if (lightson) {
+                        c1 = QColor(Qt::red);
+                        c4 = QColor(Qt::red);
+                    }
+                    else {
+                        c1 = QColor(Qt::darkGray);
+                        c4 = QColor(Qt::darkGray);
+                    }
                     c2 = QColor(Qt::darkGray);
                     c3 = QColor(Qt::darkGray);
-                    c4 = QColor(Qt::red);
                 }
                 else if (state == 2) {
                     c1 = QColor(Qt::darkGray);
                     c2 = QColor(Qt::darkGray);
-                    c3 = QColor(Qt::red);
-                    c4 = QColor(Qt::red);
+                    if (lightson) {
+                        c3 = QColor(Qt::red);
+                        c4 = QColor(Qt::red);
+                    }
+                    else {
+                        c3 = QColor(Qt::darkGray);
+                        c4 = QColor(Qt::darkGray);
+                    }
                 }
                 // error indication
                 else {
@@ -4437,22 +4473,40 @@ void element::setupElementIcon()
             QColor c1, c2, c3, c4;
             if (occupied) {
                 if (state == 0) {
-                    c1 = QColor(Qt::red);
-                    c2 = QColor(Qt::red);
+                    if (lightson) {
+                        c1 = QColor(Qt::red);
+                        c2 = QColor(Qt::red);
+                    }
+                    else {
+                        c1 = QColor(Qt::darkGray);
+                        c2 = QColor(Qt::darkGray);
+                    }
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::darkGray);
                 }
                 else if (state == 1) {
-                    c1 = QColor(Qt::red);
+                    if (lightson) {
+                        c1 = QColor(Qt::red);
+                        c4 = QColor(Qt::red);
+                    }
+                    else {
+                        c1 = QColor(Qt::darkGray);
+                        c4 = QColor(Qt::darkGray);
+                    }
                     c2 = QColor(Qt::darkGray);
                     c3 = QColor(Qt::darkGray);
-                    c4 = QColor(Qt::red);
                 }
                 else if (state == 2) {
                     c1 = QColor(Qt::darkGray);
                     c2 = QColor(Qt::darkGray);
-                    c3 = QColor(Qt::red);
-                    c4 = QColor(Qt::red);
+                    if (lightson) {
+                        c3 = QColor(Qt::red);
+                        c4 = QColor(Qt::red);
+                    }
+                    else {
+                        c3 = QColor(Qt::darkGray);
+                        c4 = QColor(Qt::darkGray);
+                    }
                 }
                 // error indication
                 else {
@@ -4666,22 +4720,40 @@ void element::setupElementIcon()
             QColor c1, c2, c3, c4;
             if (occupied) {
                 if (state == 0) {
-                    c1 = QColor(Qt::red);
-                    c2 = QColor(Qt::red);
+                    if (lightson) {
+                        c1 = QColor(Qt::red);
+                        c2 = QColor(Qt::red);
+                    }
+                    else {
+                        c1 = QColor(Qt::darkGray);
+                        c2 = QColor(Qt::darkGray);
+                    }
                     c3 = QColor(Qt::darkGray);
                     c4 = QColor(Qt::darkGray);
                 }
                 else if (state == 1) {
-                    c1 = QColor(Qt::red);
+                    if (lightson) {
+                        c1 = QColor(Qt::red);
+                        c4 = QColor(Qt::red);
+                    }
+                    else {
+                        c1 = QColor(Qt::darkGray);
+                        c4 = QColor(Qt::darkGray);
+                    }
                     c2 = QColor(Qt::darkGray);
                     c3 = QColor(Qt::darkGray);
-                    c4 = QColor(Qt::red);
                 }
                 else if (state == 2) {
                     c1 = QColor(Qt::darkGray);
                     c2 = QColor(Qt::darkGray);
-                    c3 = QColor(Qt::red);
-                    c4 = QColor(Qt::red);
+                    if (lightson) {
+                        c3 = QColor(Qt::red);
+                        c4 = QColor(Qt::red);
+                    }
+                    else {
+                        c3 = QColor(Qt::darkGray);
+                        c4 = QColor(Qt::darkGray);
+                    }
                 }
                 // error indication
                 else {
