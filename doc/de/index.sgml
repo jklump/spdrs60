@@ -4010,7 +4010,7 @@ Fahrstraßentabelle geschaltet werden.
   <title>Elementeigenschaften</title>
     
 <sect2>
-  <title>Elemente ohne Decoder</title>
+  <title>Kontextmenü</title>
 <para>
 Mit einem rechten Mausklick auf jedes beliebige Element erhält man
 ein elementspezifisches Kontextmenü (<xref linkend="abb-normal">), das
@@ -4034,50 +4034,35 @@ die Bearbeitung verschiedener Details ermöglicht.
 </figure>
 
 <para>
-In der Titelzeile des Fensters wird die Nummer des angeklickten
-Elementes angezeigt. Der Fensterinhalt ist in zwei Bereiche aufgeteilt:
-</para>
-<variablelist>
-  <varlistentry>
-    <term>
-      <emphasis>Linke Seite (Datenseite)</emphasis>
-    </term>
-  <listitem>
-<para>Hier können alle Daten eingegeben oder verändert
-werden, die das grafische Aussehen des Elements beeinflussen.</para>
-    </listitem>
-  </varlistentry>
-  <varlistentry>
-    <term>
-      <emphasis>Rechte Seite (Logische Seite)</emphasis>
-    </term>
-  <listitem>
-<para>Hier konfiguriert man die Daten, die zur Kommunikation mit der
-Anlage notwendig sind.</para>
-    </listitem>
-  </varlistentry>
-</variablelist>
-<para>
-Das Beispiel oben zeigt das Eigenschaftsfenster für Symbole, die keinen
-Antrieb besitzen, also z.B. einfache Gleiselemente. Je nach Art des
-gewählten Symbols kann das eine oder andere Eigenschaftsfeld
-deaktiviert sein.
-Bei Textelementen ist z.B. das Feld &raquo;Invertieren&laquo; aktiviert.
-Damit läßt sich einstellen, ob der Hintergrund eines Textelements in
-dunklem oder hellem Grau dargestellt wird.
-</para>
-<para>
-Um eine Gleisbesetztmeldung zu bekommen, muß man im rechten unteren
-Bereich das Rückmeldemodul und den verwendeten Eingang einstellen,
-an dem die Gleisbesetztmeldung für dieses Gleisstück angeschlossen ist.
-Beim Einstellen der Kontaktnummer springt die Anzeige der Modulnummer
-und dessen Eingang automatisch auf den entsprechend umgerechneten Wert.
-Durch Aktiviern des Rückmeldeknopfes rechts neben dem Modulselektor
-erscheint die grafische Übersicht aller konfigurierter Rückmeldemodule.
-Ein weiteres Aktivieren des Schalters blendet diese wieder aus.
+Einige Guppentastenfelder besitzen zwei Tasten. Jede einzelne dieser
+Tasten kann separat über eine Rückmeldung angesteuert werden. Es macht
+daher einen Unterschied, ob man beim Rechtsklick die linke oder rechte
+Taste trifft.
 </para>
 </sect2>
     
+<sect2>
+  <title>Beschriftung</title>
+<para>
+Viele Symbole erlauben die Darstellung einer Beschriftung, die zur
+leichteren Identifizierung, oder auch zur Erklärung von Örtlichkeiten
+dienen kann. Zum Bearbeiten dieser Texte dient der in
+<xref linkend="abb-labeldialog">
+dargestellte, einfache Dialog. Bei Elementen mit Antrieben ist hier
+die Adresse voreingestellt. Diese läßt sich natürlich ändern und z.B.
+entsprechend dem originalen Benennungsschema anpassen. Die Einstellungen
+für die persönlichen Vorlieben ermöglichen ein Umschalten zwischen
+diesem Text und der Darstellung eines Adresszahlenwertes, was temporär
+zum Auffinden bestimmter Elemente hilfreich sein kann.
+</para>
+<figure id="abb-labeldialog">
+  <title>Beschriftung konfigurieren</title>
+  <mediaobject><imageobject>
+    <imagedata fileref="labeldialog.png">
+  </imageobject></mediaobject>
+</figure>
+</sect2>
+
 <sect2>
   <title>Antrieb konfigurieren</title>
 <para>
@@ -4088,7 +4073,7 @@ angeschlossene Decoder zu konfigurieren. In
 Hier muss jeweils das Digitalprotokoll, der SRCP-Bus, die Adresse und
 die Aktivierungszeit für beide Antriebe eingestellt werden. Zusätzlich
 kann man hier die Anschlüsse vertauschen, für den Fall, dass die
-Verdahtung nicht mit der dargestellten Stellung übereinstimmt.
+Verdrahtung nicht mit der angezeigten Stellung übereinstimmt.
 </para>
 <figure id="abb-antrieb">
   <title>Antriebe konfigurieren</title>
@@ -4100,18 +4085,18 @@ Verdahtung nicht mit der dargestellten Stellung übereinstimmt.
 Bei einer Änderung der Adresse wird der Zahlenwert auch in die
 Beschriftung übertragen, soweit diese bis dahin leer war.
 Möchte man
-die Vorbildbezeichnungen für Weichen, Signale etc. benutzen, muß
-man nachträglich den Eintrag im Textfeld ändern (z.B. P1 für ein
-Ausfahrsignal). Welche Anzeige auf dem Element dann letztendlich
+die Vorbildbezeichnungen für Weichen, Signale etc. benutzen (z.B. P1
+für ein Ausfahrsignal), muß man nachträglich den Eintrag im Textfeld
+ändern. Welche Anzeige auf dem Element dann letztendlich
 erscheint, bestimmt der Benutzer selbst über seine persönlichen
 Einstellungen. Dort läßt sich zwischen der Textfeldbeschriftung oder
 dem Zahlenwert der (ersten) Adresse beliebig umschalten.
 </para>
 <para>
-Die Eingabefelder für die Decoderadressen werden vom Programm auf ihre
-Gültigkeit hin überprüft. Es sind nur Wertangaben innerhalb des vom
-Digitalprotokoll definierten Adressbereichs erlaubt.
-
+Die Eingabefelder für die Decoderadressen werden vom Programm auf die
+Gültigkeit der Werte überprüft. Es sind nur Wertangaben innerhalb des
+vom Digitalprotokoll definierten Adressbereichs erlaubt.
+</para>
 <para>
 Die Anfangsstellung eines Antriebs kann nicht voreingestellt
 werden. Ein neues Element bekommt den Richtungswert 0, ansonsten
@@ -4119,10 +4104,10 @@ werden. Ein neues Element bekommt den Richtungswert 0, ansonsten
 Eigenschaftsfensters aktuell war.
 </para>
 <para>
-Interessant zum Einstellen
-sind die Felder &raquo;Vertauschen&laquo;, &raquo;Zurücksetzen nach&laquo; und
-&raquo;Rückmeldung&laquo;. Das erste ermöglicht es durch einen einfachen
-Klick, die Ausgänge zu einer Decoderadresse logisch zu vertauschen.
+Beachtenswert sind die Felder &raquo;Vertauschen&laquo; und
+&raquo;Zurücksetzen nach&laquo;. Das erste ermöglicht es durch einen
+einfachen
+Klick, die Ausgänge zu einer Decoder-Adresse logisch zu vertauschen.
 Wenn also die Weiche nicht so schaltet, wie es die Grafik anzeigt, dann
 kann dies durch einen einfachen Haken korrigiert werden. Man muß also
 nicht unter die Anlage, um Kabel umzustecken oder sogar zu löten. Für
@@ -4132,13 +4117,6 @@ länger anstehen werden muß. Die Spule bekommt erst dann genug Zeit,
 sich in die andere Stellung zu bewegen. Die im Feld &raquo;Zurücksetzen
 nach&laquo; angegebene Zeit in Millisekunden kann entsprechend erhöht
 werden, um eine ausreichende Funktion zu gewährleisten.
-</para>
-
-<para>
-Für eine korrekte Funktion eines Gleisbilds sind die Einträge in den Feldern zu
-&raquo;Rückmeldung&laquo; wichtig. Hier kann man die Nummer des
-Rückmeldemoduls und des in Frage kommenden Eingangs einstellen. Dieser
-steuert dann den Gleismelder im Element (rot = Gleis besetzt).
 </para>
 </sect2>
 
@@ -4163,43 +4141,64 @@ die oberhalb der Digitalprotokolle liegen. Wie in <xref linkend="abb-antrieb">
 </sect2>
 
 <sect2>
-  <title>Signale</title>
+  <title>Gleisfreimeldung</title>
 <para>
-<xref linkend="abb-sig1"> und <xref linkend="abb-sig2"> 
-zeigen beispielhaft die Eigenschaftsdialogfenster für Signale.
-In <xref linkend="abb-sig1"> erkennt man die
-Einstellungen zu einem Standard-Hauptsignal oder Blocksignal. Zunächst
-vergibt man die Daten wie bei einer normalen Weiche. Dann allerdings
-kann man noch wählen, welche Begriffe das Signal darstellen soll.
-Je nach Standort des Signals an der Strecke kann es sich zum
-Beispiel um die Kombinationen Hp 0/Hp 1 handeln, wie es in dem obersten
-der drei Varianten-Schalter bereits aktiviert wurde. Beim unteren Schalter,
-wenn also das Signal alle drei Begriffe darstellen kann, wird
-automatisch das Feld für eine zweite Adresse aktiviert, da jetzt bei
-drei möglichen Stellungen ein Decoderausgang nicht mehr ausreicht. In
-diesem Fall muß man natürlich noch eine weitere Adresse (normalerweise
-die nächsthöhere) vergeben.
+Für eine korrekte Funktion eines Gleisbilds ist die Konfiguration einer
+&raquo;Rückmeldung&laquo; zur Visualisierung der Gleisbelegung wichtig.
+Dazu dient der in <xref linkend="abb-trackfeedback"> dargestellte
+Dialog. Hier kann man naben dem SRCP-Bus die Nummer des Rückmeldekontakts
+einstellen.
+Gleichzeitig werden die Modulnummer und der zugehörige Eingang errechnet
+und dargestellt. Ist die Rückmeldung belegt, zeigt der Gleismelder im
+Element rot (= Gleis besetzt) an. Zur Darstellung eines Gleisabschnittes
+ohne Freimeldung, kann diese auch abgeschaltet werden.
 </para>
-<figure id="abb-sig1">
-  <title>Eigenschaften-Fenster des Elementsymbols für Signale (1)</title>
+<para>
+Einen Überblick über die vorhandenen Rückmeldekontakte und -module
+bekommt man von hier leicht, in dem man auf den Schalter rechts oben im
+Dialog klickt. Dieser aktiviert bzw. deaktiviert das Übersichtsfenster
+für die angeschlossenen Rückmeldungen.
+</para>
+<figure id="abb-trackfeedback">
+  <title>Gleisfreimeldung konfigurieren</title>
   <mediaobject><imageobject>
-    <imagedata fileref="schnapp-prop-signal-1.png">
+    <imagedata fileref="trackindicatordialog.png">
+  </imageobject></mediaobject>
+</figure>
+</sect2>
+
+<sect2>
+  <title>Varianten</title>
+<para>
+Eine Reihe von Elementen liegen in unterschiedlichen Varianten vor. Die
+Auswahl der gewünschten Variante erfolgt über dieses Kontextmenü. Je
+nach Gleisbildelement werden daraufhin unterschiedlich gestaltete
+Dialoge sichtbar, die im oberen Bereich meist eine Visualisierung des
+gerade gewählten Typs und im unteren Bereich eine Liste der zur
+Verfügung stehenden Typen bietet. Ändert man die Auswahl, wird auch die
+bildliche Darstellung aktualisiert.
+</para>
+<para>
+<xref linkend="abb-hsvariants"> zeigt ein Beispiel für ein
+einfaches Hauptsignal, dass in den drei bekannten Variationen
+angeboten wird. Die oberen beiden Optionen sind zweibegriffig, während
+die unterste dreibegriffig ist. Da sich zwei Begriffe mit einem Decoder,
+drei aber nur mit zwei Decodern ansteuern lassen, ändert sich bei einer
+entprechenden Auswahl auch die Anzahl der zu konfigurierenden Antriebe
+von eins auf zwei bzw. umgekehrt.
+</para>
+<figure id="abb-hsvariants">
+  <title>Hauptsignalvarianten</title>
+  <mediaobject><imageobject>
+    <imagedata fileref="hsvariantdialog.png">
   </imageobject></mediaobject>
 </figure>
 <para>
-In <xref linkend="abb-sig2"> erkennt man einen ähnlichen Fensteraufbau
-für ein Ausfahrsignal. Man wählt den Schalter aus, der die möglichen
-Signalkombinationen für dieses Element repräsentiert. Eine zweite
-Adresse ist bei diesen Signalen immer zu vergeben, da es sich um
-mindestens 3-begriffige Signale handelt, also auf jeden Fall zwei
-Decoderausgänge benötigt werden.
+<xref linkend="abb-hssvariants"> zeigt ein äquivalentes Beispiel für ein
+    Ausfahrsignal, das drei- und vierbegriffig nutzbar ist. Hier ändert
+    sich die Anzahl der konfigurierbaren Decoder nicht, da immer zwei
+    Antriebe benötigt werden.
 </para>
-<figure id="abb-sig2">
-  <title>Eigenschaften-Fenster des Elementsymbols für Signale (2)</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="schnapp-prop-signal-2.png">
-  </imageobject></mediaobject>
-</figure>
 <para>
 Obwohl in beiden Fällen nur Lichtsignale abgebildet sind, gelten die
 entsprechenden Tasten selbstverständlich auch für Formsignale. Zu
@@ -4207,6 +4206,28 @@ beachten ist dabei aber der etwas andere Anschluß von
 Form-Hauptsignal und Form-Schutzsignal an den Decoder, da es sich hier
 immer um zwei getrennte Signale handelt.
 </para>
+<figure id="abb-hssvariants">
+  <title>Ausfahrsignalvarianten</title>
+  <mediaobject><imageobject>
+    <imagedata fileref="hssvariantdialog.png">
+  </imageobject></mediaobject>
+</figure>
+</sect2>
+
+<sect2>
+  <title>Signale</title>
+<figure id="abb-sig1">
+  <title>Eigenschaften-Fenster des Elementsymbols für Signale (1)</title>
+  <mediaobject><imageobject>
+    <imagedata fileref="schnapp-prop-signal-1.png">
+  </imageobject></mediaobject>
+</figure>
+<figure id="abb-sig2">
+  <title>Eigenschaften-Fenster des Elementsymbols für Signale (2)</title>
+  <mediaobject><imageobject>
+    <imagedata fileref="schnapp-prop-signal-2.png">
+  </imageobject></mediaobject>
+</figure>
 </sect2>
     
 <sect2>

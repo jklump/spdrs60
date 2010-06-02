@@ -26,6 +26,7 @@ dist_enimages_DATA = \
 
 dist_deimages_DATA = \
 	de/contextmenu.png \
+	de/labeldialog.png \
 	de/schnapp-bhf-klein.png \
 	de/schnapp-daemoninfo.png \
 	de/schnapp-daemonmenu.png \
@@ -77,6 +78,7 @@ dist_deimages_DATA = \
 	de/shot-routedialog4.png \
 	de/shot-trainnumberdialog.png \
 	de/shot-trainnumber-display2.png \
+	de/trackindicatordialog.png \
 	de/virtualaddressdialog.png
 
 
