@@ -4988,38 +4988,39 @@ void element::setupElementIcon()
                    )
                     c1 = QColor(Qt::darkGray);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed
-                            || (lockCounter > 0))
-                        if (occupied)
-                            c1 = QColor(Qt::red);
-                        else
+                    if (occupied)
+                        c1 = QColor(Qt::red);
+                    else {
+                        if ((blinkcounter > 0) || tablelight || routed
+                                || (lockCounter > 0))
                             c1 = QColor(255, 225, 0);
-                    else 
-                        c1 = QColor(Qt::darkGray);
+                        else 
+                            c1 = QColor(Qt::darkGray);
+                    }
                 }
 
                 if (!lightson && (
-                            (lastdir == 0 && (newdir == 1 || newdir == 2))
-                            ||
                             ((lastdir == 1 || lastdir == 2) && newdir == 0)
+                            ||
+                            (lastdir == 0 && (newdir == 1 || newdir == 2))
                             )
                    )
                     c2 = QColor(Qt::darkGray);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed
-                            || (lockCounter > 0))
-                        if (occupied)
-                            c2 = QColor(Qt::red);
-                        else
+                    if (occupied)
+                        c2 = QColor(Qt::red);
+                    else {
+                        if ((blinkcounter > 0) || tablelight || routed
+                                || (lockCounter > 0))
                             c2 = QColor(255, 225, 0);
-                    else 
-                        c2 = QColor(Qt::darkGray);
+                        else 
+                            c2 = QColor(Qt::darkGray);
+                    }
                 }
 
                 c3 = QColor(Qt::darkGray);
                 c4 = QColor(Qt::darkGray);
             }
-
             else if (state == 1) {
                 if (!lightson && (
                             (lastdir == 1 && (newdir == 2 || newdir == 3))
@@ -5029,14 +5030,15 @@ void element::setupElementIcon()
                    )
                     c1 = QColor(Qt::darkGray);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed
-                            || (lockCounter > 0))
-                        if (occupied)
-                            c1 = QColor(Qt::red);
-                        else
+                    if (occupied)
+                        c1 = QColor(Qt::red);
+                    else {
+                        if ((blinkcounter > 0) || tablelight || routed
+                                || (lockCounter > 0))
                             c1 = QColor(255, 225, 0);
-                    else 
-                        c1 = QColor(Qt::darkGray);
+                        else 
+                            c1 = QColor(Qt::darkGray);
+                    }
                 }
 
                 c2 = QColor(Qt::darkGray);
@@ -5050,17 +5052,17 @@ void element::setupElementIcon()
                    )
                     c4 = QColor(Qt::darkGray);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed
-                            || (lockCounter > 0))
-                        if (occupied)
-                            c4 = QColor(Qt::red);
-                        else
+                    if (occupied)
+                        c4 = QColor(Qt::red);
+                    else {
+                        if ((blinkcounter > 0) || tablelight || routed
+                                || (lockCounter > 0))
                             c4 = QColor(255, 225, 0);
-                    else 
-                        c4 = QColor(Qt::darkGray);
+                        else 
+                            c4 = QColor(Qt::darkGray);
+                    }
                 }
             }
-
             else if (state == 2) {
                 c1 = QColor(Qt::darkGray);
                 c2 = QColor(Qt::darkGray);
@@ -5073,14 +5075,15 @@ void element::setupElementIcon()
                    )
                     c3 = QColor(Qt::darkGray);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed
-                            || (lockCounter > 0))
-                        if (occupied)
-                            c3 = QColor(Qt::red);
-                        else
+                    if (occupied)
+                        c3 = QColor(Qt::red);
+                    else {
+                        if ((blinkcounter > 0) || tablelight || routed
+                                || (lockCounter > 0))
                             c3 = QColor(255, 225, 0);
-                    else 
-                        c3 = QColor(Qt::darkGray);
+                        else 
+                            c3 = QColor(Qt::darkGray);
+                    }
                 }
 
                 if (!lightson && (
@@ -5091,17 +5094,17 @@ void element::setupElementIcon()
                    )
                     c4 = QColor(Qt::darkGray);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed
-                            || (lockCounter > 0))
-                        if (occupied)
-                            c4 = QColor(Qt::red);
-                        else
+                    if (occupied)
+                        c4 = QColor(Qt::red);
+                    else {
+                        if ((blinkcounter > 0) || tablelight || routed
+                                || (lockCounter > 0))
                             c4 = QColor(255, 225, 0);
-                    else 
-                        c4 = QColor(Qt::darkGray);
+                        else 
+                            c4 = QColor(Qt::darkGray);
+                    }
                 }
             }
-
             else if (state == 3) {
                 c1 = QColor(Qt::darkGray);
 
@@ -5113,14 +5116,15 @@ void element::setupElementIcon()
                    )
                     c2 = QColor(Qt::darkGray);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed
-                            || (lockCounter > 0))
-                        if (occupied)
-                            c2 = QColor(Qt::red);
-                        else
+                    if (occupied)
+                        c2 = QColor(Qt::red);
+                    else {
+                        if ((blinkcounter > 0) || tablelight || routed
+                                || (lockCounter > 0))
                             c2 = QColor(255, 225, 0);
-                    else 
-                        c2 = QColor(Qt::darkGray);
+                        else 
+                            c2 = QColor(Qt::darkGray);
+                    }
                 }
 
                 if (!lightson && (
@@ -5131,14 +5135,15 @@ void element::setupElementIcon()
                    )
                     c3 = QColor(Qt::darkGray);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed
-                            || (lockCounter > 0))
-                        if (occupied)
-                            c3 = QColor(Qt::red);
-                        else
+                    if (occupied)
+                        c3 = QColor(Qt::red);
+                    else {
+                        if ((blinkcounter > 0) || tablelight || routed
+                                || (lockCounter > 0))
                             c3 = QColor(255, 225, 0);
-                    else 
-                        c3 = QColor(Qt::darkGray);
+                        else 
+                            c3 = QColor(Qt::darkGray);
+                    }
                 }
 
                 c4 = QColor(Qt::darkGray);
@@ -5290,14 +5295,15 @@ void element::setupElementIcon()
                    )
                     c1 = QColor(Qt::darkGray);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed
-                            || (lockCounter > 0))
-                        if (occupied)
-                            c1 = QColor(Qt::red);
-                        else
+                    if (occupied)
+                        c1 = QColor(Qt::red);
+                    else {
+                        if ((blinkcounter > 0) || tablelight || routed
+                                || (lockCounter > 0))
                             c1 = QColor(255, 225, 0);
-                    else 
-                        c1 = QColor(Qt::darkGray);
+                        else 
+                            c1 = QColor(Qt::darkGray);
+                    }
                 }
 
                 if (!lightson && (
@@ -5308,14 +5314,15 @@ void element::setupElementIcon()
                    )
                     c2 = QColor(Qt::darkGray);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed
-                            || (lockCounter > 0))
-                        if (occupied)
-                            c2 = QColor(Qt::red);
-                        else
+                    if (occupied)
+                        c2 = QColor(Qt::red);
+                    else {
+                        if ((blinkcounter > 0) || tablelight || routed
+                                || (lockCounter > 0))
                             c2 = QColor(255, 225, 0);
-                    else 
-                        c2 = QColor(Qt::darkGray);
+                        else 
+                            c2 = QColor(Qt::darkGray);
+                    }
                 }
 
                 c3 = QColor(Qt::darkGray);
@@ -5330,14 +5337,15 @@ void element::setupElementIcon()
                    )
                     c1 = QColor(Qt::darkGray);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed
-                            || (lockCounter > 0))
-                        if (occupied)
-                            c1 = QColor(Qt::red);
-                        else
+                    if (occupied)
+                        c1 = QColor(Qt::red);
+                    else {
+                        if ((blinkcounter > 0) || tablelight || routed
+                                || (lockCounter > 0))
                             c1 = QColor(255, 225, 0);
-                    else 
-                        c1 = QColor(Qt::darkGray);
+                        else 
+                            c1 = QColor(Qt::darkGray);
+                    }
                 }
 
                 c2 = QColor(Qt::darkGray);
@@ -5351,14 +5359,15 @@ void element::setupElementIcon()
                    )
                     c4 = QColor(Qt::darkGray);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed
-                            || (lockCounter > 0))
-                        if (occupied)
-                            c4 = QColor(Qt::red);
-                        else
+                    if (occupied)
+                        c4 = QColor(Qt::red);
+                    else {
+                        if ((blinkcounter > 0) || tablelight || routed
+                                || (lockCounter > 0))
                             c4 = QColor(255, 225, 0);
-                    else 
-                        c4 = QColor(Qt::darkGray);
+                        else 
+                            c4 = QColor(Qt::darkGray);
+                    }
                 }
             }
             else if (state == 2) {
@@ -5373,14 +5382,15 @@ void element::setupElementIcon()
                    )
                     c3 = QColor(Qt::darkGray);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed
-                            || (lockCounter > 0))
-                        if (occupied)
-                            c3 = QColor(Qt::red);
-                        else
+                    if (occupied)
+                        c3 = QColor(Qt::red);
+                    else {
+                        if ((blinkcounter > 0) || tablelight || routed
+                                || (lockCounter > 0))
                             c3 = QColor(255, 225, 0);
-                    else 
-                        c3 = QColor(Qt::darkGray);
+                        else 
+                            c3 = QColor(Qt::darkGray);
+                    }
                 }
 
                 if (!lightson && (
@@ -5391,14 +5401,15 @@ void element::setupElementIcon()
                    )
                     c4 = QColor(Qt::darkGray);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed
-                            || (lockCounter > 0))
-                        if (occupied)
-                            c4 = QColor(Qt::red);
-                        else
+                    if (occupied)
+                        c4 = QColor(Qt::red);
+                    else {
+                        if ((blinkcounter > 0) || tablelight || routed
+                                || (lockCounter > 0))
                             c4 = QColor(255, 225, 0);
-                    else 
-                        c4 = QColor(Qt::darkGray);
+                        else 
+                            c4 = QColor(Qt::darkGray);
+                    }
                 }
             }
             else if (state == 3) {
@@ -5412,14 +5423,15 @@ void element::setupElementIcon()
                    )
                     c2 = QColor(Qt::darkGray);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed
-                            || (lockCounter > 0))
-                        if (occupied)
-                            c2 = QColor(Qt::red);
-                        else
+                    if (occupied)
+                        c2 = QColor(Qt::red);
+                    else {
+                        if ((blinkcounter > 0) || tablelight || routed
+                                || (lockCounter > 0))
                             c2 = QColor(255, 225, 0);
-                    else 
-                        c2 = QColor(Qt::darkGray);
+                        else 
+                            c2 = QColor(Qt::darkGray);
+                    }
                 }
 
                 if (!lightson && (
@@ -5430,14 +5442,15 @@ void element::setupElementIcon()
                    )
                     c3 = QColor(Qt::darkGray);
                 else {
-                    if ((blinkcounter > 0) || tablelight || routed
-                            || (lockCounter > 0))
-                        if (occupied)
-                            c3 = QColor(Qt::red);
-                        else
+                    if (occupied)
+                        c3 = QColor(Qt::red);
+                    else {
+                        if ((blinkcounter > 0) || tablelight || routed
+                                || (lockCounter > 0))
                             c3 = QColor(255, 225, 0);
-                    else 
-                        c3 = QColor(Qt::darkGray);
+                        else 
+                            c3 = QColor(Qt::darkGray);
+                    }
                 }
 
                 c4 = QColor(Qt::darkGray);
