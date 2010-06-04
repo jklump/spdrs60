@@ -1,5 +1,4 @@
 * Translation of online documentation to English.
-* Make elements with buttons activatable by feedback messages.
 * Release routes by occupy sections.
 * Rewrite layout element code to reflect a tree-like functional
   hierarchy.

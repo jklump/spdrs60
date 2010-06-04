@@ -1,7 +1,7 @@
 spdrs60
 -------
 
-If you start with a fresh cvs checkout, please first apply
+If you start with a fresh git clone, please first apply
 
   autoreconf -i
 
