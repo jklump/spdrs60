@@ -1,6 +1,8 @@
-spdrs60-0.5.6 (2009-06-??)
+spdrs60-0.5.6 (2009-06-05)
 
   Fixed Bugs
+
+  o Fixed lighting of occupied double slip switches.
 
   o Fixed saving of feedback data for diagonal tunnel elements.
 
@@ -26,6 +28,9 @@ spdrs60-0.5.6 (2009-06-??)
 
 
   New Features
+
+  o Switching of relays now can be triggered by incoming feedback
+    messages.
 
   o Data for decoder type removed, because never has been used.
 

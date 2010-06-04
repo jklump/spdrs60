@@ -37,6 +37,10 @@
 
         <revhistory>
             <revision>
+                <revnumber>0.14</revnumber>
+                <date>Fr Jun 04 22:12:53 CET 2010</date>
+            </revision>
+            <revision>
                 <revnumber>0.13</revnumber>
                 <date>Mi Mär 18 18:19:33 CET 2009</date>
             </revision>
@@ -190,9 +194,14 @@ empfehlenswert, diese Dokumentation durchzuarbeiten.
 <sect1 id="ver-0.5.6">
   <title>Version 0.5.6</title>
 <para>
-Veröffentlicht am ??.06.2010
+Veröffentlicht am 05.06.2010
 </para>
 <itemizedlist mark="bullet">
+
+    <listitem><para>
+            Die fehlerhafte Ausleuchtung von DKWs bei belegtem Gleis wurde
+            repariert.
+    </para></listitem>
 
     <listitem><para>
             Das Speichern von Rückmeldedaten der diagonalen
@@ -247,13 +256,18 @@ Veröffentlicht am ??.06.2010
     </para></listitem>
 
     <listitem><para>
+            Relais lassen sich nun durch Eingehende Rückmeldungen
+            ansteuern.
+    </para></listitem>
+
+    <listitem><para>
             Die Behandlung und Erfassung von Daten verschiedener
             Decodertypen wurde entfernt, da sie programmintern bisher
             keinerlei Funktion hatte.
     </para></listitem>
 
     <listitem><para>
-            Taster im Gleisbild können nun durch Rückmeldungen
+            Tasten im Gleisbild können nun durch Rückmeldungen
             angesteuert werden. Das ermöglicht den Anschluß externer
             Hardware-Taster zum mausfreien Steuern des Programms.
     </para></listitem>

@@ -39,6 +39,10 @@
 
 <revhistory>
   <revision>
+    <revnumber>0.13</revnumber>
+    <date>Fry Jun 04 22:18:06 CET 2010</date>
+  </revision>
+  <revision>
     <revnumber>0.12</revnumber>
     <date>Wed Mar 18 18:18:49 CET 2009</date>
   </revision>
@@ -127,10 +131,14 @@ features.</para>
 <sect2 id="ver-0.5.6">
 <title>Version 0.5.6</title>
 <para>
-Release date: 2010-06-??
+Release date: 2010-06-05
 </para>
 
 <itemizedlist mark="bullet">
+
+    <listitem><para>
+            Fixed lighting of occupied double slip switches.
+    </para></listitem>
 
     <listitem><para>
             Fixed saving of feedback data for diagonal tunnel elements.
@@ -175,6 +183,11 @@ Release date: 2010-06-??
     </para></listitem>
 
     <listitem><para>
+            Switching of relays now can be triggered by incoming
+            feedback messages.
+    </para></listitem>
+
+    <listitem><para>
             Data for decoder type removed, because never has been used.
     </para></listitem>
 
@@ -184,9 +197,9 @@ Release date: 2010-06-??
     </para></listitem>
 
     <listitem><para>
-            Element property dialog splitted into different feature dialogs which
-            are addressed by an element specific context menu. Each decoder
-            address now has its own protocol and active time value.
+            Element property dialog splitted into different feature dialogs
+            which are addressed by an element specific context menu. Each
+            decoder address now has its own protocol and active time value.
     </para></listitem>
 
     <listitem><para>
