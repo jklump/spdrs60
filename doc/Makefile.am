@@ -55,8 +55,6 @@ dist_deimages_DATA = \
 	de/schnapp-prop-dkw.png \
 	de/schnapp-prop-dreh.png \
 	de/schnapp-prop-entk.png \
-	de/schnapp-prop-signal-1.png \
-	de/schnapp-prop-signal-2.png \
 	de/schnapp-route-adderror1.png \
 	de/schnapp-route-add.png \
 	de/schnapp-route-rec1.png \
