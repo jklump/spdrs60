@@ -9630,14 +9630,6 @@ int element::getAddressCount()
             returnvalue = 1;
             break;
 
-        case siciHss1:
-        case siciHss3:
-            if (iSoldSubType == 5)
-                returnvalue = 2;
-            else
-                returnvalue = 1;
-            break;
-
         case siciHs1:
         case siciHs3:
         case siciVs1:
@@ -9655,6 +9647,9 @@ int element::getAddressCount()
             else
                 returnvalue = 1;
             break;
+
+        case siciHss1:
+        case siciHss3:
         case siciTw1:
         case siciTw3:
         case siciSr1:
