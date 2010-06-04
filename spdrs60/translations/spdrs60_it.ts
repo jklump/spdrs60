@@ -504,11 +504,11 @@ matches your search criteria.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Button...</source>
+        <source>Virtual &amp;address...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Virtual &amp;address...</source>
+        <source>Tri&amp;gger...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2309,10 +2309,6 @@ Valid range is %1..%2.</source>
     </message>
     <message>
         <source>&amp;Enable feedback trigger</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 Button</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
