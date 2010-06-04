@@ -275,6 +275,7 @@ public:
     bool hasTrackIndicator();
     bool hasVirtualAddress();
     bool hasVariants();
+    bool hasFeedbackTrigger();
     int driveCount();
     int buttonCount();
     bool showLabelDialog();

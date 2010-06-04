@@ -9117,11 +9117,25 @@ void element::slotOccupyElement(unsigned int bus, unsigned int contact,
             setOccupied(ostate);
     }
 
+    /* trigger 1 on and off*/
+    if (enable1fbtrigger) {
+        if ((bus == button1fbbus) && (contact == button1fbcontact)) {
+
+            switch (classid) {
+                case siciRel:
+                    switchToDir(ostate ? 1 : 0);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
     /*shortcut if (state = 0) => button release message*/
     if (!ostate)
         return;
 
-    /*button 1 trigger*/
+    /*button 1 trigger only on*/
     if (enable1fbtrigger) {
         if ((bus == button1fbbus) && (contact == button1fbcontact)) {
 
@@ -10501,7 +10515,7 @@ bool element::showFeedbackTriggerDialog(const QPoint& p)
 
     /*move dialog to mouse click point*/
     dlg->move(QCursor::pos());
-    dlg->setCaption(tr("%1 Button").arg(buttontext));
+    dlg->setCaption(buttontext);
     dlg->setCheckBoxText(tr("&Enable feedback trigger"));
     if (left || !hastwo) {
         dlg->enableTrigger(enable1fbtrigger);
@@ -10538,3 +10552,8 @@ bool element::showFeedbackTriggerDialog(const QPoint& p)
     return returnvalue;
 }
 
+
+bool element::hasFeedbackTrigger()
+{
+    return (buttonCount() > 0) || (classid == siciRel);
+}

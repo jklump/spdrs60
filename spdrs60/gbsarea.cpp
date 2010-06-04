@@ -1351,8 +1351,8 @@ void GBSArea::runPropertyMenue(element* el, const QPoint& p)
         propmenu->insertItem(tr("&Track indicator..."), 6);
     }
 
-    if (el->buttonCount() > 0)
-        propmenu->insertItem(tr("&Button..."), 7);
+    if (el->hasFeedbackTrigger())
+        propmenu->insertItem(tr("Tri&gger..."), 7);
 
     if (propmenu->idAt(0) != -1) {
         int mitem = propmenu->exec(QCursor::pos());

@@ -514,12 +514,12 @@ den Suchkriterien entspricht.</translation>
         <translation>&amp;Gleisfreimeldung...</translation>
     </message>
     <message>
-        <source>&amp;Button...</source>
-        <translation>&amp;Taste...</translation>
-    </message>
-    <message>
         <source>Virtual &amp;address...</source>
         <translation>Virtuelle &amp;Adresse...</translation>
+    </message>
+    <message>
+        <source>Tri&amp;gger...</source>
+        <translation>Aus&amp;löser...</translation>
     </message>
 </context>
 <context>
@@ -2333,10 +2333,6 @@ Der zulässige Wertebereich ist %1..%2.</translation>
     <message>
         <source>&amp;Enable feedback trigger</source>
         <translation>&amp;Ansteuerung durch Rückmeldung</translation>
-    </message>
-    <message>
-        <source>%1 Button</source>
-        <translation>%1 Taste</translation>
     </message>
     <message>
         <source>%1 Rear</source>
