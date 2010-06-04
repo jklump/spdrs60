@@ -1,634 +1,238 @@
-+++ Release 0.5.6 (2009-06-??) +++
-
-commit 2d50affe07ccda52d14600ffef6047e4b7009247
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Sat May 29 21:30:45 2010 +0200
-
-    remove old element dialog
-
- spdrs60/Makefile.am                |    2 -
- spdrs60/element.cpp                |   84 --
- spdrs60/element.h                  |    1 -
- spdrs60/elementdialog.cpp          | 1820 ------------------------------------
- spdrs60/elementdialog.h            |  168 ----
- spdrs60/gbsarea.cpp                |    2 -
- spdrs60/translations/spdrs60_de.ts |  261 ------
- spdrs60/translations/spdrs60_it.ts |  242 -----
- 8 files changed, 0 insertions(+), 2580 deletions(-)
-
-commit 5e84dccab743e1718b10b52f2af5a9ec032afa2e
-Merge: c9fd2fd 58c5c63
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Sat May 29 21:21:38 2010 +0200
-
-    merge conflict solved
-
-commit 58c5c634b1f05bf5ffb81862ecc443299e88d043
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Sat May 29 21:06:53 2010 +0200
-
-    edit values of address 2 for turntable, shift bridge and DC motor
-
- spdrs60/element.cpp |   59 ++++++++++++++++++++++++++++++++++++++------------
- 1 files changed, 45 insertions(+), 14 deletions(-)
-
-commit f469331f5dfb54d2ae9975ed89d9d579871b853e
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Sat May 29 13:40:00 2010 +0200
-
-    more news added
-
- NEWS |   12 ++++++++----
- 1 files changed, 8 insertions(+), 4 deletions(-)
-
-commit b9c85a772b29ab4e0b632289327da426de8a1c9c
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Sat May 29 13:18:20 2010 +0200
-
-    two more news added
-
- NEWS |    7 ++++++-
- 1 files changed, 6 insertions(+), 1 deletions(-)
-
-commit 3ea886d0a9b0d08deb8303be5746b5c6a671206c
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Sat May 29 13:07:21 2010 +0200
-
-    Changes for next release added
-
- NEWS |   38 ++++++++++++++++++++++++++++++++++++++
- 1 files changed, 38 insertions(+), 0 deletions(-)
-
-commit 6aff39205dd0942ebb0e9b0e57a0fefbccc8454a
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Sat May 29 10:57:30 2010 +0200
-
-    improve virtual and real address count calculations
-
- spdrs60/element.cpp |  140 +++++++++++++++++++++++++++++++++++++++++++--------
- spdrs60/element.h   |    6 +-
- 2 files changed, 121 insertions(+), 25 deletions(-)
-
-commit dc96cca9d24294108d65288e62180dbda18f8135
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Sat May 29 08:46:10 2010 +0200
-
-    update translations
-
- spdrs60/translations/spdrs60_de.ts |  463 +++++++++++++++++++++++++++++++++++-
- spdrs60/translations/spdrs60_it.ts |  431 +++++++++++++++++++++++++++++++++
- 2 files changed, 882 insertions(+), 12 deletions(-)
-
-commit 0f7096b7b6674920c317aceb2fe5136655f9df54
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Fri May 28 21:21:31 2010 +0200
-
-    item variants editable via new dialog
-
- spdrs60/Makefile.am       |    2 +
- spdrs60/element.cpp       |  244 ++++++++++++++++++++++++++++++++++++++++++++-
- spdrs60/element.h         |    6 +-
- spdrs60/gbsarea.cpp       |    2 +-
- spdrs60/variantdialog.cpp |   98 ++++++++++++++++++
- spdrs60/variantdialog.h   |   54 ++++++++++
- 6 files changed, 401 insertions(+), 5 deletions(-)
-
-commit c9fd2fd8bac3118f64cdb5d43848692510595770
-Merge: 66c2e72 91fd4c6
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Fri May 28 17:22:43 2010 +0200
-
-    Merge branch 'master' of ssh://gscholz@spdrs60.git.sourceforge.net/gitroot/spdrs60/spdrs60
-
-commit 66c2e72089cf151445a2ad6edb6853c0afc38a3c
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Fri May 28 17:16:07 2010 +0200
-
-    fix saving of feedback data for tunnel items
-
- spdrs60/element.cpp |    6 ++++--
- 1 files changed, 4 insertions(+), 2 deletions(-)
-
-commit 521e95625e90753603fde30b00ac74241a1d1098
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Thu May 27 19:31:20 2010 +0200
-
-    feedback data for button triggers savable/loadable, fix not saved track indicator data for diagonal bridges
-
- spdrs60/element.cpp |  147 +++++++++++++++++++++++++++++++++++++++++++++++---
- spdrs60/element.h   |    2 +
- 2 files changed, 140 insertions(+), 9 deletions(-)
-
-commit 2fd2f676a62e4ba8c3ec016c16f000a7ca27f670
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Thu May 27 17:38:02 2010 +0200
-
-    trigger two button signals by feedback
-
- spdrs60/element.cpp |   54 ++++++++++++++++++++++++++++++++++++++------------
- spdrs60/element.h   |   13 +++++++----
- 2 files changed, 49 insertions(+), 18 deletions(-)
-
-commit 35fd6429ae4a3ec76f634653312bfa5ff7526ef4
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Wed May 26 20:39:45 2010 +0200
-
-    elements with two buttons can use same feedback trigger dialog
-
- spdrs60/element.cpp               |   70 ++++++++++++++++++++++++++++---------
- spdrs60/element.h                 |    3 +-
- spdrs60/feedbacktriggerdialog.cpp |    8 +---
- spdrs60/feedbacktriggerdialog.h   |    1 -
- spdrs60/gbsarea.cpp               |   18 +++-------
- spdrs60/gbsarea.h                 |    2 +-
- 6 files changed, 62 insertions(+), 40 deletions(-)
-
-commit 03187f0189ea88bf27d66bddd716498a2ccb30c5
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Wed May 26 19:28:44 2010 +0200
-
-    increase default active time from 50 to 200 ms
-
- spdrs60/preferences.cpp |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
-
-commit 7fcb6b765d0ab849e821bac0ff9f4a6c60b9f9f9
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Tue May 25 21:52:19 2010 +0200
-
-    fix description added
-
- ChangeLog |    4 ++++
- 1 files changed, 4 insertions(+), 0 deletions(-)
-
-commit d83189b894fa0d9123d86f4684da6557b1005cc3
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Tue May 25 21:46:45 2010 +0200
-
-    "Taste" substituted by "Schalter"
-
- doc/de/index.sgml |   14 +++++++-------
- 1 files changed, 7 insertions(+), 7 deletions(-)
-
-commit 629cdb01d20e78738f1df839872058e3f96b9280
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Tue May 25 21:44:21 2010 +0200
-
-    new contextmenu to edit element properties, separate protocol and active time for each drive, decoder name removed
-
- spdrs60/Makefile.am       |   14 +-
- spdrs60/element.cpp       |  549 ++++++++++++++++++++++++++++++++++++---------
- spdrs60/element.h         |   30 +++-
- spdrs60/elementdialog.cpp |    1 +
- spdrs60/gbsarea.cpp       |  106 +++++++++-
- spdrs60/gbsarea.h         |    1 +
- spdrs60/options.cpp       |    2 +-
- 7 files changed, 586 insertions(+), 117 deletions(-)
-
-commit 91fd4c64dcec21573e673818bde0303019dee92c
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Tue May 25 21:27:57 2010 +0200
-
-    fix painting of arrow elements, add some description to sici-ids
-
- spdrs60/element.cpp |   12 ++++++------
- spdrs60/element.h   |   33 +++++++++++++++++----------------
- 2 files changed, 23 insertions(+), 22 deletions(-)
-
-commit 5ed3da0572952a5483519cf74255b84fbcda2957
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Tue May 25 21:18:25 2010 +0200
-
-    new dialog to edit feedback contacts triggering different actions
-
- spdrs60/feedbacktriggerdialog.cpp |  201 +++++++++++++++++++++++++++++++++++++
- spdrs60/feedbacktriggerdialog.h   |   65 ++++++++++++
- 2 files changed, 266 insertions(+), 0 deletions(-)
-
-commit 280344e98edbed8a72e3ddf417fa2c679c07475a
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Tue May 25 21:16:32 2010 +0200
-
-    new dialog to edit element labels added
-
- spdrs60/elementlabeldialog.cpp |   74 ++++++++++++++++++++++++++++++++++++++++
- spdrs60/elementlabeldialog.h   |   41 ++++++++++++++++++++++
- 2 files changed, 115 insertions(+), 0 deletions(-)
-
-commit 216f83139bf96fc917c0227562988a0b4f7a7bf8
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Tue May 25 21:15:44 2010 +0200
-
-    new dialog for dual drive parameters added
-
- spdrs60/dualdrivedialog.cpp |  682 +++++++++++++++++++++++++++++++++++++++++++
- spdrs60/dualdrivedialog.h   |  103 +++++++
- 2 files changed, 785 insertions(+), 0 deletions(-)
-
-commit dc31c15b01e0619b4f21bb015100b93a528de927
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Tue May 25 21:14:41 2010 +0200
-
-    new dialog to edit single drive parameters added
-
- spdrs60/drivedialog.cpp |  375 +++++++++++++++++++++++++++++++++++++++++++++++
- spdrs60/drivedialog.h   |   78 ++++++++++
- 2 files changed, 453 insertions(+), 0 deletions(-)
-
-commit 430afdc6c50770549413c451dae7552998107880
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Tue May 25 21:13:41 2010 +0200
-
-    new dialog to edit virtual addresses added
-
- spdrs60/virtualaddressdialog.cpp |  192 ++++++++++++++++++++++++++++++++++++++
- spdrs60/virtualaddressdialog.h   |   57 +++++++++++
- 2 files changed, 249 insertions(+), 0 deletions(-)
-
-commit a6cf5cf436b66c03dc063e79d7c7a43af88690fb
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Tue May 25 21:01:41 2010 +0200
-
-    more files to ignore
-
- .gitignore |   11 +++++++++++
- 1 files changed, 11 insertions(+), 0 deletions(-)
-
-commit 46265e28a59ecc19ff8b77f46529c9147584b4fc
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Tue May 25 20:44:46 2010 +0200
-
-    files to ignore
-
- .gitignore |   17 +++++++++++++++++
- 1 files changed, 17 insertions(+), 0 deletions(-)
-
-commit 834d1ed2f6f924b7cdc57a127bb47e8797af77dd
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Sat May 22 09:26:10 2010 +0200
-
-    line break cosmetics
-
- spdrs60/route.cpp |   15 ++++++++-------
- 1 files changed, 8 insertions(+), 7 deletions(-)
-
-commit 4b2fa49cf1e38e115ee41ed7ae38f6e13a09edd1
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Sat May 22 08:59:24 2010 +0200
-
-    element now has white background to owerwrite last text (not fully sufficient jet)
-
- spdrs60/element.cpp |    9 +++++++--
- 1 files changed, 7 insertions(+), 2 deletions(-)
-
-commit 816b42b0d259a529731304957fdfe039baa62649
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Sat May 22 08:54:27 2010 +0200
-
-    header sequence cleaned up
-
- spdrs60/routedialog.h |  124 ++++++++++++++++++++++++-------------------------
- 1 files changed, 60 insertions(+), 64 deletions(-)
-
-commit c8e550f7120aefbd07c69cc0f22330e37efaceb1
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Sat May 22 08:51:18 2010 +0200
-
-    elementdialog variable renamed
-
- spdrs60/element.cpp |   88 +++++++++++++++++++++++++-------------------------
- 1 files changed, 44 insertions(+), 44 deletions(-)
-
-commit 03787b46b5b4210c37fd8df27514009227bcba38
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Sat May 22 08:48:16 2010 +0200
-
-    improve handling of modified flag
-
- spdrs60/gbsarea.cpp |   10 +++-------
- spdrs60/gbsarea.h   |    3 +--
- 2 files changed, 4 insertions(+), 9 deletions(-)
-
-commit df0094ab906e340de7fd966451319caa7dedafac
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Sat May 22 08:46:30 2010 +0200
-
-    improve handling of button pixmaps
-
- spdrs60/elementcommander.cpp |   22 +++++++---------------
- spdrs60/elementcommander.h   |    3 +--
- 2 files changed, 8 insertions(+), 17 deletions(-)
-
-commit f219428d8543ec37d3b044e5e17f78c6cc1aea44
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Sat May 22 08:34:23 2010 +0200
-
-    typos in comments fixed
-
- spdrs60/elementdialog.cpp |    8 ++++----
- 1 files changed, 4 insertions(+), 4 deletions(-)
-
-commit 02f5361cf8aa93b8de6f74d6a843b6e187cbe4e3
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Sat May 22 08:23:08 2010 +0200
-
-    improve pdf handbook generation
-
- doc/Makefile.am |    6 ++++--
- doc/spdrs60.dsl |    4 ++++
- 2 files changed, 8 insertions(+), 2 deletions(-)
-
-commit f8f216d5c2e6162742e8f739b764299dda519f1c
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Thu May 20 21:35:39 2010 +0200
-
-    copyright year updated
-
- spdrs60/aboutdialog.cpp |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
-
-commit ace06260a6ff681ba8cf37e04aa7f81bc4d03d83
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Wed May 19 22:57:26 2010 +0200
-
-    replace split strings by characters
-
- spdrs60/srcpport.cpp |   12 ++++++------
- 1 files changed, 6 insertions(+), 6 deletions(-)
-
-commit 0aa34744471b5ed54c6517a5703116cd354a0e09
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Wed May 19 22:54:26 2010 +0200
-
-    Update position drop down list when programming is finished
-
- ChangeLog                      |    4 ++++
- spdrs60/turntablecommander.cpp |   27 ++++++++++++++++++++++++---
- spdrs60/turntablecommander.h   |    5 +++--
- 3 files changed, 31 insertions(+), 5 deletions(-)
-
-commit 43d9c0f042f233a3bc4f8ee4bbb9dec037a4c522
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Mon May 17 22:01:01 2010 +0200
-
-    layout files updated to current file format
-
- layouts/abzw-bf.spdrs60       | 1457 +++++++---------------
- layouts/alle_elemente.spdrs60 |  679 ++---------
- layouts/bahnhof_gross.spdrs60 | 1377 +++++-----------------
- layouts/bahnhof_klein.spdrs60 |  831 +++----------
- layouts/kleinmaschen.spdrs60  | 2686 +++++++----------------------------------
- 5 files changed, 1549 insertions(+), 5481 deletions(-)
-
-commit 293c45ea199a91c7161dd443bf26acfc1372878e
-Author: Guido Scholz <guido@isen.gscholz.bayernline.de>
-Date:   Mon May 17 20:29:20 2010 +0200
-
-    Lintorf updated
-
- layouts/lintorf.spdrs60 | 1672 ++++++++++++++++-------------------------------
- 1 files changed, 569 insertions(+), 1103 deletions(-)
-
-commit 0634ad14f8cdabf5116b8aceb85c18194e2e0ec9
-Author: Guido Scholz <guido@isen.gscholz.bayernline.de>
-Date:   Mon May 17 20:10:07 2010 +0200
-
-    Flandersbach updated
-
- layouts/flandersbach.spdrs60 |  977 +++++++++++++++---------------------------
- 1 files changed, 337 insertions(+), 640 deletions(-)
-
-commit f45915e6835809f7a4af557c7cc8644df2a997fa
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Sat Jan 2 20:13:37 2010 +0000
-
-    typos fixed
-
- spdrs60/translations/spdrs60_de.ts |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
-
-commit b57be7fafe5337def668c28bcf11794596df1a2d
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Sun Dec 20 22:29:35 2009 +0000
-
-    fixed typo
-
- doc/de/index.sgml |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
-
-commit b9b2ac7116c16188eb343233a614f079732ac4c0
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Sun Dec 20 21:45:09 2009 +0000
-
-    encoding removed
-
- debian/spdrs60.desktop |    1 -
- 1 files changed, 0 insertions(+), 1 deletions(-)
-
-commit e688ecdb4d2ed300612ffe6daad1f783a30039a1
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Sun Dec 20 21:33:20 2009 +0000
-
-    debian control files updated
-
- debian/compat  |    2 +-
- debian/control |    2 +-
- debian/rules   |    2 +-
- debian/watch   |    4 ++++
- 4 files changed, 7 insertions(+), 3 deletions(-)
-
-commit f78883ddaf4a4bde2125e9e52f372152e564c06c
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Sun Dec 20 20:05:48 2009 +0000
-
-    fixed some typos
-
- ChangeLog                          |    2 +-
- spdrs60/mainwindow.cpp             |    6 +++---
- spdrs60/options.cpp                |    8 ++++----
- spdrs60/translations/spdrs60_de.ts |    4 ++--
- spdrs60/translations/spdrs60_it.ts |    4 ++--
- 5 files changed, 12 insertions(+), 12 deletions(-)
-
-commit cfb65265ce2d38d61704ba01d56df2b703758dfb
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Sun Nov 1 20:40:38 2009 +0000
-
-    Hide maximize window button, list box for track positions changed to combo box
-
- ChangeLog                      |    8 ++++++++
- doc/de/index.sgml              |   24 +++++++++++++-----------
- spdrs60/element.cpp            |    6 +++---
- spdrs60/elementdialog.cpp      |   10 +++++++---
- spdrs60/turntablecommander.cpp |   12 ++++++------
- spdrs60/turntablecommander.h   |    8 ++++----
- 6 files changed, 41 insertions(+), 27 deletions(-)
-
-commit 3ee6dfd6728f0c39220683446692770ba4101335
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Sun Nov 1 19:57:41 2009 +0000
-
-    fixed turn direction change
-
- spdrs60/turntablecommander.cpp |    6 +++---
- 1 files changed, 3 insertions(+), 3 deletions(-)
-
-commit ebc723cec0577546181cdd3ea0fd61bdcea21a11
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Thu Oct 29 20:15:02 2009 +0000
-
-    fixed turntable decoder base addresses
-
- spdrs60/elementdialog.cpp |    8 ++++----
- 1 files changed, 4 insertions(+), 4 deletions(-)
-
-commit 41abac46e1876544c19d262902dcb39601404710
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Tue Oct 27 21:24:52 2009 +0000
-
-    some more old style strings removed
-
- spdrs60/element.h |   97 ++++------------------------------------------------
- 1 files changed, 8 insertions(+), 89 deletions(-)
-
-commit 2c05582c9dc525abf90e40746aa06a202dac0d54
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Tue Oct 27 21:02:24 2009 +0000
-
-    add missing changes
-
- spdrs60/element.h |    8 ++------
- 1 files changed, 2 insertions(+), 6 deletions(-)
-
-commit 488a149912d728a14d3853551b0f8870c6b9384c
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Tue Oct 27 20:54:53 2009 +0000
-
-    old style element name compatibility removed
-
- ChangeLog                      |    2 +-
- spdrs60/element.cpp            |  152 +---------------------------------------
- spdrs60/keyboard.cpp           |    4 +-
- spdrs60/newlayoutdialog.cpp    |    4 +-
- spdrs60/options.cpp            |    4 +-
- spdrs60/routeelementdialog.cpp |    4 +-
- 6 files changed, 11 insertions(+), 159 deletions(-)
-
-commit d8b25443a9f86dde7be01451041fcc53cb87ec49
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Tue Oct 27 20:29:24 2009 +0000
-
-    Stretcher usage simplified
-
- ChangeLog                      |    4 ++
- spdrs60/aboutdialog.cpp        |   13 ++----
- spdrs60/elementdialog.cpp      |   40 +++++++------------
- spdrs60/keyboard.cpp           |   22 ++++-------
- spdrs60/newlayoutdialog.cpp    |   54 +++++++-------------------
- spdrs60/options.cpp            |   55 +++++++++-----------------
- spdrs60/routedialog.cpp        |   83 +++++++++++++--------------------------
- spdrs60/routeelementdialog.cpp |   24 +++--------
- spdrs60/serverinfodialog.cpp   |   10 ++---
- spdrs60/trainnumberdialog.cpp  |   16 +++-----
- 10 files changed, 110 insertions(+), 211 deletions(-)
-
-commit 30fcec99f2424dce40f9f6262422c2e3effad35f
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Tue Oct 27 18:50:31 2009 +0000
-
-    fixed storing of track positions
-
- spdrs60/element.cpp            |    6 +++---
- spdrs60/turntablecommander.cpp |   12 ++++++------
- spdrs60/turntablecommander.h   |   18 +++++++++---------
- 3 files changed, 18 insertions(+), 18 deletions(-)
-
-commit 5c20af221dd4e0509888989edbd25a2833fb2860
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Tue Oct 27 18:14:15 2009 +0000
-
-    Address items are no longer occupied by feedback, Variables and functions renamed
-
- ChangeLog                          |    5 ++
- spdrs60/element.cpp                |   18 +++--
- spdrs60/translations/spdrs60_de.ts |    4 +-
- spdrs60/translations/spdrs60_it.ts |   30 +++++----
- spdrs60/turntablecommander.cpp     |  123 +++++++++++++++++-------------------
- spdrs60/turntablecommander.h       |   21 +++---
- 6 files changed, 103 insertions(+), 98 deletions(-)
-
-commit 2c947ac2b02bf0f1d07415a6e1905ef10e7d1664
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Mon Oct 26 21:59:43 2009 +0000
-
-    Layout management for turntable commander added, Changed handling of QPoint to use reference, Changed toggle menu to action, Extra dist files cleaned up
-
- ChangeLog                      |   17 ++-
- Makefile.am                    |    6 +-
- configure.ac                   |    6 +-
- doc/de/index.sgml              |    4 +-
- spdrs60/element.cpp            |   28 ++--
- spdrs60/element.h              |    6 +-
- spdrs60/elementcommander.cpp   |   38 ++---
- spdrs60/elementcommander.h     |    7 +-
- spdrs60/gbsarea.cpp            |   30 ++--
- spdrs60/gbsarea.h              |   10 +-
- spdrs60/mainwindow.cpp         |   22 ++--
- spdrs60/turntablecommander.cpp |  320 ++++++++++++++++++----------------------
- spdrs60/turntablecommander.h   |   74 ++++------
- 13 files changed, 265 insertions(+), 303 deletions(-)
-
-commit 1f7b3b3bf955e053a8028d41acf27355c03be385
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Tue Sep 1 10:46:22 2009 +0000
-
-    fixed typo
-
- doc/de/index.sgml |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
-
-commit 68720cc5f0d83f2af7be6107df7dced1df882c50
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Sat Mar 21 11:57:09 2009 +0000
-
-    date fixed
-
- spdrs60/aboutdialog.cpp |    8 ++++----
- 1 files changed, 4 insertions(+), 4 deletions(-)
-
-commit b7ed5208c903d3911fe205cd06af2a66448f1f1a
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Wed Mar 18 19:01:14 2009 +0000
-
-    some dates updated
-
- ChangeLog         |    2 +-
- NEWS              |    5 ++++-
- doc/de/index.sgml |    9 +++++++--
- doc/en/index.sgml |    8 ++++++--
- 4 files changed, 18 insertions(+), 6 deletions(-)
-
-commit 17c3ad179b5a2b101eac0b339b1461acaa3c0bb4
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Wed Mar 18 18:33:31 2009 +0000
-
-    cleanups
-
- spdrs60/mainwindow.cpp |   22 +++++++++++-----------
- 1 files changed, 11 insertions(+), 11 deletions(-)
-
-commit 6ade6ad7c2508c50b33151d8754f4e51bca5c79b
-Author: Guido Scholz <gscholz@users.sourceforge.net>
-Date:   Wed Mar 18 17:14:02 2009 +0000
-
-    Only first application window is session leader and has a quit function
-
- ChangeLog              |    4 +++
- spdrs60/main.cpp       |    7 ++++-
- spdrs60/mainwindow.cpp |   59 +++++++++++++++++------------------------------
- spdrs60/mainwindow.h   |    9 +++----
- spdrs60/srcpport.cpp   |   18 ++++++++------
- 5 files changed, 44 insertions(+), 53 deletions(-)
++++ Release 0.5.6 (2009-06-05) +++
+
+2010-06-04  Guido Scholz <gscholz@users.sourceforge.net>
+	* README, TODO: remove old cvs traces, remove sorted out task
+	* NEWS, doc/de/index.sgml, doc/en/index.sgml: add last features,
+	update release date
+	* doc/commonimages/taste-ein.png, doc/commonimages/taste-wht.png,
+	doc/de/contextmenu.png, doc/de/decvariantdialog.png,
+	doc/de/dkwvariantdialog.png, doc/de/drevariantdialog.png,
+	doc/de/drivesdialog.png, doc/de/feedbacktriggerdialog.png,
+	doc/de/hssvariantdialog.png, doc/de/hsvariantdialog.png,
+	doc/de/labeldialog.png, doc/de/trackindicatordialog.png,
+	doc/de/virtualaddressdialog.png: scale manual images to 120 dpi
+	* doc/de/contextmenu.png, doc/de/index.sgml: describe relais trigger
+	by feedback
+	* spdrs60/translations/spdrs60_it.ts: add missing translation update
+	* spdrs60/element.cpp: fix drive count for Hss signal
+	* spdrs60/element.cpp, spdrs60/element.h, spdrs60/gbsarea.cpp,
+	spdrs60/translations/spdrs60_de.ts: enable feedback trigger for relay
+	element
+	* spdrs60/element.cpp, spdrs60/element.h, spdrs60/gbsarea.cpp:
+	feedback trigger function renamed
+	* doc/Makefile.am, doc/de/addressvariantdialog.png,
+	doc/de/decvariantdialog.png, doc/de/dkwvariantdialog.png,
+	doc/de/drevariantdialog.png, doc/de/feedbacktriggerdialog.png,
+	doc/de/index.sgml, doc/de/schnapp-prop-adr.png,
+	doc/de/schnapp-prop-dkw.png, doc/de/schnapp-prop-dreh.png,
+	doc/de/schnapp-prop-entk.png: add new context menu features
+	* doc/de/index.sgml: remove old signal property section
+	* doc/Makefile.am: remove obsolete image items
+
+2010-06-02  Guido Scholz <gscholz@users.sourceforge.net>
+	* doc/de/hssvariantdialog.png, doc/de/hsvariantdialog.png,
+	doc/de/labeldialog.png, doc/de/trackindicatordialog.png: add new
+	dialog images
+	* spdrs60/pixmaps/dkw_links_st2.xpm,
+	spdrs60/pixmaps/dkw_links_st3.xpm,
+	spdrs60/pixmaps/dkw_rechts_st2.xpm,
+	spdrs60/pixmaps/dkw_rechts_st3.xpm: change crossing image colors from
+	white/red to grey/yellow
+	* doc/de/schnapp-prop-signal-1.png, doc/de/schnapp-prop-signal-2.png:
+	remove obsolete images
+	* doc/Makefile.am, doc/de/index.sgml: handbook chapter for context
+	menu updated
+	* spdrs60/element.cpp: fix occupancy light for double slip switches
+	if table light is off
+
+2010-06-01  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/element.cpp: let three state double slip switches blink if
+	switched in occupancy state
+	* spdrs60/element.cpp: handle trackindicatoroff as boolean
+	* spdrs60/element.cpp, spdrs60/element.h: fix missing drive dialog
+	for diagonal turnouts
+	* spdrs60/element.cpp: add feedback trigger for track button panels
+
+2010-05-31  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/element.cpp: fix writing/reading of button trigger feedback
+	data
+	* spdrs60/element.cpp: fix protocol by server handling, add basic
+	support for more than 2 ports per address
+	* spdrs60/element.cpp: fix swapped Hss button trigger
+
+2010-05-30  Guido Scholz <gscholz@users.sourceforge.net>
+	* doc/Makefile.am, doc/de/contextmenu.png, doc/de/drivesdialog.png,
+	doc/de/index.sgml, doc/de/schnapp-prop-antrieb.png,
+	doc/de/schnapp-prop-normal.png, doc/de/virtualaddressdialog.png:
+	handbook chapter for context menu updated
+	* spdrs60/dualdrivedialog.cpp: fix Qt3.1 compile error
+	* doc/de/index.sgml, doc/en/index.sgml: update version number
+	* doc/de/index.sgml, doc/en/index.sgml: add news to handbook files
+	* NEWS: Mention removed decoder
+	* spdrs60/drivedialog.cpp, spdrs60/drivedialog.h,
+	spdrs60/dualdrivedialog.cpp, spdrs60/dualdrivedialog.h,
+	spdrs60/element.cpp, spdrs60/element.h, spdrs60/options.cpp,
+	spdrs60/options.h, spdrs60/srcpmessage.h,
+	spdrs60/translations/spdrs60_de.ts,
+	spdrs60/translations/spdrs60_it.ts: fix handling of default protocol,
+	decoder traces removed
+	* spdrs60/element.cpp: If address is changed show address in label if
+	label is not assigned yet
+
+2010-05-29  Guido Scholz <gscholz@users.sourceforge.net>
+	* ChangeLog: add change log made by 'git log --since=2009-03-18
+	--stat'
+	* spdrs60/Makefile.am, spdrs60/element.cpp, spdrs60/element.h,
+	spdrs60/elementdialog.cpp, spdrs60/elementdialog.h,
+	spdrs60/gbsarea.cpp, spdrs60/translations/spdrs60_de.ts,
+	spdrs60/translations/spdrs60_it.ts: remove old element dialog
+	* spdrs60/element.cpp: edit values of address 2 for turntable, shift
+	bridge and DC motor
+	* NEWS: more news added
+	* NEWS: two more news added
+	* NEWS: Changes for next release added
+	* spdrs60/element.cpp, spdrs60/element.h: improve virtual and real
+	address count calculations
+	* spdrs60/translations/spdrs60_de.ts,
+	spdrs60/translations/spdrs60_it.ts: update translations
+
+2010-05-28  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/Makefile.am, spdrs60/element.cpp, spdrs60/element.h,
+	spdrs60/gbsarea.cpp, spdrs60/variantdialog.cpp,
+	spdrs60/variantdialog.h: item variants editable via new dialog
+	* spdrs60/element.cpp: fix saving of feedback data for tunnel items
+
+2010-05-27  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/element.cpp, spdrs60/element.h: feedback data for button
+	triggers savable/loadable, fix not saved track indicator data for
+	diagonal bridges
+	* spdrs60/element.cpp, spdrs60/element.h: trigger two button signals
+	by feedback
+
+2010-05-26  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/element.cpp, spdrs60/element.h,
+	spdrs60/feedbacktriggerdialog.cpp, spdrs60/feedbacktriggerdialog.h,
+	spdrs60/gbsarea.cpp, spdrs60/gbsarea.h: elements with two buttons can
+	use same feedback trigger dialog
+	* spdrs60/preferences.cpp: increase default active time from 50 to
+	200 ms
+
+2010-05-25  Guido Scholz <gscholz@users.sourceforge.net>
+	* ChangeLog: fix description added
+	* doc/de/index.sgml: "Taste" substituted by "Schalter"
+	* spdrs60/Makefile.am, spdrs60/element.cpp, spdrs60/element.h,
+	spdrs60/elementdialog.cpp, spdrs60/gbsarea.cpp, spdrs60/gbsarea.h,
+	spdrs60/options.cpp: new contextmenu to edit element properties,
+	separate protocol and active time for each drive, decoder name
+	removed
+	* spdrs60/element.cpp, spdrs60/element.h: fix painting of arrow
+	elements, add some description to sici-ids
+	* spdrs60/feedbacktriggerdialog.cpp, spdrs60/feedbacktriggerdialog.h:
+	new dialog to edit feedback contacts triggering different actions
+	* spdrs60/elementlabeldialog.cpp, spdrs60/elementlabeldialog.h: new
+	dialog to edit element labels added
+	* spdrs60/dualdrivedialog.cpp, spdrs60/dualdrivedialog.h: new dialog
+	for dual drive parameters added
+	* spdrs60/drivedialog.cpp, spdrs60/drivedialog.h: new dialog to edit
+	single drive parameters added
+	* spdrs60/virtualaddressdialog.cpp, spdrs60/virtualaddressdialog.h:
+	new dialog to edit virtual addresses added
+	* .gitignore: more files to ignore
+	* .gitignore: files to ignore
+
+2010-05-22  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/route.cpp: line break cosmetics
+	* spdrs60/element.cpp: element now has white background to owerwrite
+	last text (not fully sufficient jet)
+	* spdrs60/routedialog.h: header sequence cleaned up
+	* spdrs60/element.cpp: elementdialog variable renamed
+	* spdrs60/gbsarea.cpp, spdrs60/gbsarea.h: improve handling of
+	modified flag
+	* spdrs60/elementcommander.cpp, spdrs60/elementcommander.h: improve
+	handling of button pixmaps
+	* spdrs60/elementdialog.cpp: typos in comments fixed
+	* doc/Makefile.am, doc/spdrs60.dsl: improve pdf handbook generation
+
+2010-05-20  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/aboutdialog.cpp: copyright year updated
+
+2010-05-19  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/srcpport.cpp: replace split strings by characters
+	* ChangeLog, spdrs60/turntablecommander.cpp,
+	spdrs60/turntablecommander.h: Update position drop down list when
+	programming is finished
+
+2010-05-17  Guido Scholz <gscholz@users.sourceforge.net>
+	* layouts/abzw-bf.spdrs60, layouts/alle_elemente.spdrs60,
+	layouts/bahnhof_gross.spdrs60, layouts/bahnhof_klein.spdrs60,
+	layouts/kleinmaschen.spdrs60: layout files updated to current file
+	format
+
+2010-05-17  Guido Scholz <guido@isen.gscholz.bayernline.de>
+	* layouts/lintorf.spdrs60: Lintorf updated
+	* layouts/flandersbach.spdrs60: Flandersbach updated
+
+2010-01-02  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/translations/spdrs60_de.ts: typos fixed
+
+2009-12-20  Guido Scholz <gscholz@users.sourceforge.net>
+	* doc/de/index.sgml: fixed typo
+	* debian/spdrs60.desktop: encoding removed
+	* debian/compat, debian/control, debian/rules, debian/watch: debian
+	control files updated
+	* ChangeLog, spdrs60/mainwindow.cpp, spdrs60/options.cpp,
+	spdrs60/translations/spdrs60_de.ts,
+	spdrs60/translations/spdrs60_it.ts: fixed some typos
+
+2009-11-01  Guido Scholz <gscholz@users.sourceforge.net>
+	* ChangeLog, doc/de/index.sgml, spdrs60/element.cpp,
+	spdrs60/elementdialog.cpp, spdrs60/turntablecommander.cpp,
+	spdrs60/turntablecommander.h: Hide maximize window button, list box
+	for track positions changed to combo box
+	* spdrs60/turntablecommander.cpp: fixed turn direction change
+
+2009-10-29  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/elementdialog.cpp: fixed turntable decoder base addresses
+
+2009-10-27  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/element.h: some more old style strings removed
+	* spdrs60/element.h: add missing changes
+	* ChangeLog, spdrs60/element.cpp, spdrs60/keyboard.cpp,
+	spdrs60/newlayoutdialog.cpp, spdrs60/options.cpp,
+	spdrs60/routeelementdialog.cpp: old style element name compatibility
+	removed
+	* ChangeLog, spdrs60/aboutdialog.cpp, spdrs60/elementdialog.cpp,
+	spdrs60/keyboard.cpp, spdrs60/newlayoutdialog.cpp,
+	spdrs60/options.cpp, spdrs60/routedialog.cpp,
+	spdrs60/routeelementdialog.cpp, spdrs60/serverinfodialog.cpp,
+	spdrs60/trainnumberdialog.cpp: Stretcher usage simplified
+	* spdrs60/element.cpp, spdrs60/turntablecommander.cpp,
+	spdrs60/turntablecommander.h: fixed storing of track positions
+	* ChangeLog, spdrs60/element.cpp, spdrs60/translations/spdrs60_de.ts,
+	spdrs60/translations/spdrs60_it.ts, spdrs60/turntablecommander.cpp,
+	spdrs60/turntablecommander.h: Address items are no longer occupied by
+	feedback, Variables and functions renamed
+
+2009-10-26  Guido Scholz <gscholz@users.sourceforge.net>
+	* ChangeLog, Makefile.am, configure.ac, doc/de/index.sgml,
+	spdrs60/element.cpp, spdrs60/element.h, spdrs60/elementcommander.cpp,
+	spdrs60/elementcommander.h, spdrs60/gbsarea.cpp, spdrs60/gbsarea.h,
+	spdrs60/mainwindow.cpp, spdrs60/turntablecommander.cpp,
+	spdrs60/turntablecommander.h: Layout management for turntable
+	commander added, Changed handling of QPoint to use reference, Changed
+	toggle menu to action, Extra dist files cleaned up
+
+2009-09-01  Guido Scholz <gscholz@users.sourceforge.net>
+	* doc/de/index.sgml: fixed typo
+
+2009-03-21  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/aboutdialog.cpp: date fixed
+
+2009-03-18  Guido Scholz <gscholz@users.sourceforge.net>
+	* ChangeLog, NEWS, doc/de/index.sgml, doc/en/index.sgml: some dates
+	updated
+
+	* spdrs60/mainwindow.cpp: cleanups
 
 
 +++ Release 0.5.5 (2009-03-18) +++
