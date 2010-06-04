@@ -4021,12 +4021,11 @@ die Bearbeitung verschiedener Details ermöglicht.
   <listitem><para>Die virtuelle Adresse</para></listitem>
   <listitem><para>Auswahl einer von mehreren möglichen Varianten</para></listitem>
   <listitem><para>Parameter von Rückmeldungen für die Gleisfreimeldung</para></listitem>
-  <listitem><para>Parameter von Rückmeldungen für die Ansteuerung von
-          Tasten</para></listitem>
+  <listitem><para>Auslöser für die Ansteuerung durch Rückmeldungen</para></listitem>
 </itemizedlist>
 
 <figure id="abb-normal">
-  <title>Kontextmenü eines Elements mit zwei Antrieben</title>
+  <title>Kontextmenü</title>
   <mediaobject><imageobject>
     <imagedata fileref="contextmenu.png">
   </imageobject></mediaobject>
@@ -4406,14 +4405,18 @@ eingestellten Adresse nicht entsprechen sollte.
 </sect2>
 
 <sect2>
-  <title>Tasten durch Rückmeldung ansteuern</title>
+  <title>Auslösen über Rückmeldung</title>
 <para>
-Die standardmäßige Bedienung des Gleisbildes über die Computer-Maus hat
-deutliche Nachteile gegenüber dem, was man beim Original an Komfort
-durch Drücken von echten Tasten vorfindet. Alle Tasten im Gleisbild
-lassen sich jedoch durch Rückmeldungen ansteuern, so dass es möglich
-wird, ein extern über Rückmeldekontakte angeschlossenes Stellpult zum
-Schalten zu benutzen.
+    Für das Relaiselement und Elemente mit Tasten gibt es die
+    Möglichkeit, eine Ansteuerung über eintreffende Rückmeldungen zu
+    konfigurieren.
+    Beim Relaiselement dient diese zur Ansteuerung des hinterlegten
+    Decoders. Eine Belegtmeldung schaltet den Anschluss des Decoders
+    ein, eine Freimeldung wieder aus.
+Durch das Ansteuern von Tasten ist es möglich, ein extern über
+Rückmeldekontakte angeschlossenes Stellpult zum Schalten zu benutzen.
+Damit überwindet man die Nachteile, die die standardmäßige Bedienung
+des Gleisbildes über die Computer-Maus hat.
 </para>
 <figure id="abb-feedbacktrigger">
   <title>Ansteuerung durch Rückmeldung konfigurieren</title>
