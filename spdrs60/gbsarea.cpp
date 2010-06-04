@@ -1378,7 +1378,7 @@ void GBSArea::runPropertyMenue(element* el, const QPoint& p)
                 elchanged = el->showTrackIndicatorDialog();
                 break;
             case 7:
-                elchanged = el->showButtonDialog(p);
+                elchanged = el->showFeedbackTriggerDialog(p);
                 break;
             case -1: //fall through
             default:

@@ -10421,7 +10421,7 @@ bool element::showVariantDialog()
 
 /*show dialog at click position, position is also used to check if left
  * or right button is edited*/
-bool element::showButtonDialog(const QPoint& p)
+bool element::showFeedbackTriggerDialog(const QPoint& p)
 {
     QString buttontext;
     bool returnvalue = false;

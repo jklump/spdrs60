@@ -283,7 +283,7 @@ public:
     bool showDualDriveDialog();
     bool showVirtualAddressDialog();
     bool showVariantDialog();
-    bool showButtonDialog(const QPoint&);
+    bool showFeedbackTriggerDialog(const QPoint&);
 
 private:
     elementCommander*   turntableProperties;
