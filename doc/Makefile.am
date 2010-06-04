@@ -25,7 +25,12 @@ dist_enimages_DATA = \
 
 
 dist_deimages_DATA = \
+	de/addressvariantdialog.png \
 	de/contextmenu.png \
+	de/decvariantdialog.png \
+	de/dkwvariantdialog.png \
+	de/drevariantdialog.png \
+        de/feedbacktriggerdialog.png \
 	de/labeldialog.png \
 	de/schnapp-bhf-klein.png \
 	de/schnapp-daemoninfo.png \
@@ -51,10 +56,6 @@ dist_deimages_DATA = \
 	de/schnapp-pref-data.png \
 	de/schnapp-pref-layout.png \
 	de/schnapp-prog-empty.png \
-	de/schnapp-prop-adr.png \
-	de/schnapp-prop-dkw.png \
-	de/schnapp-prop-dreh.png \
-	de/schnapp-prop-entk.png \
 	de/schnapp-route-adderror1.png \
 	de/schnapp-route-add.png \
 	de/schnapp-route-rec1.png \

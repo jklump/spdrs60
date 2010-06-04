@@ -567,8 +567,7 @@ Veröffentlicht am 09.11.2008
   
   <listitem><para>
   Die programminterne Identifizierung von Gleisbildelementen wurde von
-  Namen auf numerische Werte umgestellt. Als Folge davon mußte auch das
-  Dateiformat für die Gleisbilder leicht geändert werden, denn auch dort
+  Namen auf numerische Werte umgestellt. Als Folge davon mußte auch das Dateiformat für die Gleisbilder leicht geändert werden, denn auch dort
   werden nun diese Kennummern abgelegt. Gleisbildelemente, die keinen
   Decoder oder ähnliche Zusatzfunktionen nutzen, speichern diese
   Informationen nun nicht mehr ab. Dadurch wurde das Dateiformat um ca.
@@ -4032,13 +4031,6 @@ die Bearbeitung verschiedener Details ermöglicht.
     <imagedata fileref="contextmenu.png">
   </imageobject></mediaobject>
 </figure>
-
-<para>
-Einige Guppentastenfelder besitzen zwei Tasten. Jede einzelne dieser
-Tasten kann separat über eine Rückmeldung angesteuert werden. Es macht
-daher einen Unterschied, ob man beim Rechtsklick die linke oder rechte
-Taste trifft.
-</para>
 </sect2>
     
 <sect2>
@@ -4178,6 +4170,9 @@ gerade gewählten Typs und im unteren Bereich eine Liste der zur
 Verfügung stehenden Typen bietet. Ändert man die Auswahl, wird auch die
 bildliche Darstellung aktualisiert.
 </para>
+
+<sect3>
+  <title>Signale</title>
 <para>
 <xref linkend="abb-hsvariants"> zeigt ein Beispiel für ein
 einfaches Hauptsignal, dass in den drei bekannten Variationen
@@ -4212,34 +4207,34 @@ immer um zwei getrennte Signale handelt.
     <imagedata fileref="hssvariantdialog.png">
   </imageobject></mediaobject>
 </figure>
-</sect2>
+</sect3>
 
-<sect2>
+<sect3>
   <title>Doppelkreuzweichen</title>
 <para>
 Auf der Modellbahn kommen meist Doppelkreuzweichen (DKW) mit zwei
 Antrieben zur Anwendung, wie es im Vorbild auch der
-Fall ist. Deshalb wird standardmäßig der untere Schalter mit den
+Fall ist. Deshalb wird standardmäßig die untere Option mit den
 vier möglichen Weichenstellungen (<xref linkend="abb-dkw">) aktiviert.
-Somit sind in den meisten Fällen auch hier wieder zwei Decoderadressen
+Somit sind in den meisten Fällen auch hier wieder zwei Decoder-Adressen
 einzugeben.
 </para>
 <figure id="abb-dkw">
-  <title>Eigenschaften-Fenster des Elementsymbols für Doppelkreuzweichen</title>
+  <title>Varianten der Doppelkreuzweichen</title>
   <mediaobject><imageobject>
-    <imagedata fileref="schnapp-prop-dkw.png">
+    <imagedata fileref="dkwvariantdialog.png">
   </imageobject></mediaobject>
 </figure>
 <para>
 Bei Spielbahnen kommen eventuell auch normale DKWs mit einem Antrieb zur
 Anwendung, die primär Märklin-spezifisch sind. Da sie nur einen Antrieb
 haben, benötigen sie auch nur eine Adresse. Verwendet man
-diese Art von DKW, wählt man den oberen Schalter mit den zwei möglichen
+diese Art von DKW, wählt man die obere Option mit den zwei möglichen
 Weichenstellungen.
 </para>
-</sect2>
+</sect3>
     
-<sect2>
+<sect3>
   <title>Drehscheibe</title>
 <para>
 Die Drehscheibe ist ein ganz besonderer Fall, weshalb ihr auch ein
@@ -4251,14 +4246,13 @@ auch bei voreingestelltem DCC-Protokoll unveränderbar automatisch
 ausgewählt wird. Der von Littfinski für den gleichen Zweck lieferbare
 Decoder TT-DEC versteht auch DCC, was bisher aber noch nicht
 berücksichtigt wird. Die Eingabe einer Decoder-Adresse ist
-hier nicht erforderlich, denn diese wird aus der Aktivierung einer der
-beiden Schaltflächen (<xref linkend="abb-dreh">) in der unteren linken
-Hälfte errechnet.
+hier nicht erforderlich, denn diese ergibt sich aus der Aktivierung einer der
+beiden Wahlmöglichkeiten (<xref linkend="abb-dreh">) automatisch errechnet.
 </para>
 <figure id="abb-dreh">
-  <title>Eigenschaften-Fenster des Drehscheiben-Elementsymbols</title>
+  <title>Varianten des Drehscheiben-Elementsymbols</title>
   <mediaobject><imageobject>
-    <imagedata fileref="schnapp-prop-dreh.png">
+    <imagedata fileref="drevariantdialog.png">
   </imageobject></mediaobject>
 </figure>
 <para>
@@ -4267,71 +4261,77 @@ dass diese mit einem auf Adresse 15 (Motorola Adressen 225 - 240)
 eingestellten Schaltpult betrieben werden muß. Benötigt man eine zweite
 Drehscheibe, so muß man diese bei Märklin mit einer anderen
 Keyboard-Adresse bestellen. Diese zweite Adresse (14, Motorola Adressen
-209 - 224) wird dann extra im Werk eingestellt.  In diesen
+209 - 224) wird dann extra im Werk eingestellt. In diesen
 seltenen Fällen (nur die wenigsten Anwender dürften im Besitz von zwei
 digitalen Drehscheiben sein) wählt man die Schaltfläche 14. Mehr braucht man
 hier nicht zu tun; weitere Einstellungen erfolgen über den
 Drehscheiben-Commander, welcher im Drehscheiben-Kapitel beschrieben
 ist. Bis auf die Rücksetzzeit kann hier nichts weiter eingestellt werden.
 </para>
-</sect2>
+</sect3>
     
-<sect2>
+<sect3>
   <title>Entkoppler</title>
 <para>
 Auch Entkoppler benötigen eine spezielle Behandlung. Am
 einfachsten sind die motorischen Entkoppler, da diese zwei definierte
 und stabile Stellungen besitzen. Dies soll durch die oberste
-Schaltfläche (<xref linkend="abb-entk">) gekennzeichnet sein. Man
+Option (<xref linkend="abb-entk">) gekennzeichnet sein. Man
 vergibt dazu ganz
 normal die Adresse. Aber es gibt auch Entkoppler, die einen
 Momentkontakt aufweisen, dementsprechend auch nur einen Ausgang einer
 Adresse belegen (z.B. Märklin K-2297, M-5112 oder C-24997). Man kann
 daher an eine Adresse gleich zwei Entkoppler anschließen. Hierbei
-ist also auch auf ein eventuell notwendiges Häkchen im Feld
-&raquo;Vertauschen&laquo; zu achten.
+ist also auch auf ein eventuell notwendiges Häkchen bei den
+Antriebseinstellungen zu achten.
 </para>
 <figure id="abb-entk">
-  <title>Eigenschaften-Fenster des Elementsymbols für Entkoppler</title>
+  <title>Entkopplervarianten</title>
   <mediaobject><imageobject>
-    <imagedata fileref="schnapp-prop-entk.png">
+    <imagedata fileref="decvariantdialog.png">
   </imageobject></mediaobject>
 </figure>
 <para>
 Für momentbetätigte Entkoppler sind
-grundsätzlich die beiden unteren Schaltflächen zuständig. Davon wählt man den
-mittleren, wenn der Entkoppler am roten/linken Ausgang einer Adresse
-angeschlossen wurde bzw. den unteren, wenn man den grünen/rechten
-Ausgang benutzt. Notfalls kann die Zuordnung des Ausgangs durch
-&raquo;Vertauschen&laquo; korrigiert werden. Bei beiden Möglichkeiten
-ist ebenfalls nur eine Adresse einzugeben.
+grundsätzlich die beiden unteren Optionen zuständig. Man wählt die
+mittlere, wenn der Entkoppler am roten/linken Ausgang einer Adresse
+angeschlossen wurde bzw. die untere, wenn man den grünen/rechten
+Ausgang benutzt. Notfalls kann die Zuordnung des Ausgangs in den
+Antriebseinstellungen durch &raquo;Vertauschen&laquo; korrigiert
+werden. Bei beiden Möglichkeiten ist ebenfalls nur eine Adresse
+einzugeben.
 </para>
-</sect2>
+</sect3>
     
-<sect2 id="sect-addressindicator">
+<sect3 id="sect-addressindicator">
   <title>Adressanzeigeelement</title>
   <para>
       Dieses Element kann in zwei Betriebsvarianten genutzt werden, die
-      über die Option &raquo;Invertieren&laquo; konfigurierbar sind. Zum
-      einen zur Darstellung von Zugadressen für die automatische
-      Zugnummernverfolgung (invertiert) oder als EDiTS-Adressanzeige
-      (nicht invertiert). 
+      ebenfalls über einen Dialog konfigurierbar sind
+      (<xref linkend="abb-addressvariant">). Zum einen als
+      EDiTS-Adressanzeige oder zum anderen zur Darstellung von Zugadressen
+      für die automatische Zugnummernverfolgung. 
   </para>
+<figure id="abb-addressvariant">
+  <title>Varianten der Adressanzeige</title>
+  <mediaobject><imageobject>
+    <imagedata fileref="addressvariantdialog.png">
+  </imageobject></mediaobject>
+</figure>
 
-<sect3>
+<sect4>
   <title>Automatische Zugnummernverfolgung</title>
   <para>
       Die automatische Zugnummernverfolgung benötigt zur Identifizierung
       dieser Anzeigeelemente eine eindeutige Nummer, die dem Element als
-      virtuelle Adresse mitgegeben wird. In <xref linkend="abb-adr"> ist
-      dieses beispielhaft über den Zahlenwert 6002 realisiert; der
+      virtuelle Adresse mitgegeben wird. Der
       gültige Wertebereich beträgt hier 6000 - 6999. <xref
       linkend="sect-trainnumber-usage"> geht näher auf die Anwendung
       der Zugnummernverfolgung ein.
 </para>
-</sect3>
+</sect4>
 
-<sect3>
+<sect4>
   <title>EDiTS-Zugadressen</title>
 <para>
 Diese Elemente sind etwas ganz besonderes, so dass sich ein Rückblick in
@@ -4342,13 +4342,6 @@ Element bei vielen Anbietern: Die Rückmeldung der Lokadresse einer an
 einem bestimmten Punkt vorbeifahrenden Lok. Seit einigen Jahren gibt es
 bereits Zuglesesysteme (Holtermann etc.), die jedoch sehr teuer sind.
 </para>
-<figure id="abb-adr">
-  <title>Eigenschaften-Fenster des Elementsymbols für
-  Adressanzeigeelemente</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="schnapp-prop-adr.png">
-  </imageobject></mediaobject>
-</figure>
 <para>
 Die Zeitschrift Elektor hat Ende
 der 80er Jahre ein Selbstbau-Projekt zu einer Märklin-kompatiblen
@@ -4386,20 +4379,13 @@ Informationseinheit.
 <para>
 Hier besitzt spdrs60 für Linux spezielle Möglichkeiten. Das Programm ist
 in der Lage, Informationen von einem Adress-Rückmelde-Decoder als
-Klartext anzuzeigen. Zuständig hierfür ist das Element
-&raquo;Adresse&laquo; (<xref linkend="abb-adr">).
+Klartext anzuzeigen. Zuständig hierfür ist das Adresselement.
 </para>
 <para>
-Bei diesem Elementtyp ist ein Text einzugeben, auch wenn dieser nicht
-angezeigt wird. Das dient später einmal zur genauen Identifizierung der
-Module (wird erst richtig funktionieren beim Implementieren der
-S88-Ressourcen-Dateien). Da es sich um dieses spezielle Modul handelt,
-erscheint jetzt im Bereich Rückmeldung eine Markierung bei
-&raquo;Addressmodul&laquo;. Da
-alle acht Kontakte dieses Moduls benötigt werden, macht es keinen Sinn,
-hier vom Anwender einen einzelnen Eingang wählen zu lassen; er muß
-lediglich die Nummer des Moduls eingeben. Befährt eine Lok mit diesem
-&raquo;Superlokdecoder&laquo; einen Empfänger, wird die
+Bei diesem Elementtyp ist ein Rückmeldekontakt zu konfigurieren. Da alle
+acht Kontakte eines Moduls benötigt werden, kommt es hierbei nur darauf
+an, die Nummer des richtigen Moduls vorzugeben. Befährt eine Lok mit
+diesem &raquo;Superlokdecoder&laquo; einen Empfänger, wird die
 eingestellte Adresse in dezimaler Form im Gleisbild dargestellt.
 </para>
 <para>
@@ -4415,8 +4401,36 @@ sein. Bitte Rückmeldung an die Programmentwickler, wenn die Anzeige der
 eingestellten Adresse nicht entsprechen sollte.
 </para>
 
+</sect4>
 </sect3>
 </sect2>
+
+<sect2>
+  <title>Tasten durch Rückmeldung ansteuern</title>
+<para>
+Die standardmäßige Bedienung des Gleisbildes über die Computer-Maus hat
+deutliche Nachteile gegenüber dem, was man beim Original an Komfort
+durch Drücken von echten Tasten vorfindet. Alle Tasten im Gleisbild
+lassen sich jedoch durch Rückmeldungen ansteuern, so dass es möglich
+wird, ein extern über Rückmeldekontakte angeschlossenes Stellpult zum
+Schalten zu benutzen.
+</para>
+<figure id="abb-feedbacktrigger">
+  <title>Ansteuerung durch Rückmeldung konfigurieren</title>
+  <mediaobject><imageobject>
+    <imagedata fileref="feedbacktriggerdialog.png">
+  </imageobject></mediaobject>
+</figure>
+<para>
+    Einige Guppentastenfelder sowie die Ausfahrsignale besitzen zwei Tasten.
+    Jede einzelne dieser Tasten kann separat über eine Rückmeldung
+    angesteuert werden. Es macht daher einen Unterschied, ob man beim
+    Rechtsklick die linke oder rechte Taste trifft. In der Titelleiste des
+    Dialogs findet man eine nähere Bezeichnung der gerade zur Konfiguration
+    ausgewählten Taste.
+</para>
+</sect2>
+
 </sect1>
 </chapter>
 
