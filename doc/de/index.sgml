@@ -4215,22 +4215,6 @@ immer um zwei getrennte Signale handelt.
 </sect2>
 
 <sect2>
-  <title>Signale</title>
-<figure id="abb-sig1">
-  <title>Eigenschaften-Fenster des Elementsymbols für Signale (1)</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="schnapp-prop-signal-1.png">
-  </imageobject></mediaobject>
-</figure>
-<figure id="abb-sig2">
-  <title>Eigenschaften-Fenster des Elementsymbols für Signale (2)</title>
-  <mediaobject><imageobject>
-    <imagedata fileref="schnapp-prop-signal-2.png">
-  </imageobject></mediaobject>
-</figure>
-</sect2>
-    
-<sect2>
   <title>Doppelkreuzweichen</title>
 <para>
 Auf der Modellbahn kommen meist Doppelkreuzweichen (DKW) mit zwei
