@@ -519,7 +519,7 @@ den Suchkriterien entspricht.</translation>
     </message>
     <message>
         <source>Tri&amp;gger...</source>
-        <translation>Aus&amp;löser...</translation>
+        <translation>Aus&amp;lösen...</translation>
     </message>
 </context>
 <context>
