@@ -27,6 +27,7 @@ nodist_spdrs60_SOURCES = \
 	elementlabeldialog_moc.cpp \
 	element_moc.cpp \
 	feedbacklistbox_moc.cpp \
+	feedbacktriggerdialog_moc.cpp \
 	feedbackviewer_moc.cpp \
 	finder_moc.cpp \
 	gbsarea_moc.cpp \
@@ -40,17 +41,16 @@ nodist_spdrs60_SOURCES = \
 	options_moc.cpp \
 	paintitembutton_moc.cpp \
 	paintitemwindow_moc.cpp \
-	route_moc.cpp \
 	routedialog_moc.cpp \
 	routeelementdialog_moc.cpp \
-	router_moc.cpp \
 	routelistview_moc.cpp \
 	routelistwindow_moc.cpp \
+	route_moc.cpp \
+	router_moc.cpp \
 	section_moc.cpp \
 	serverinfodialog_moc.cpp \
 	srcpport_moc.cpp \
 	trainnumberdialog_moc.cpp \
-	feedbacktriggerdialog_moc.cpp \
 	turntablecommander_moc.cpp \
 	variantdialog_moc.cpp \
 	virtualaddressdialog_moc.cpp
@@ -67,6 +67,7 @@ spdrs60_SOURCES = main.cpp resources.h \
 	elementlabeldialog.cpp elementlabeldialog.h \
 	feedbacklistbox.cpp feedbacklistbox.h \
 	feedbackmodule.cpp feedbackmodule.h \
+	feedbacktriggerdialog.cpp feedbacktriggerdialog.h \
 	feedbackviewer.cpp feedbackviewer.h \
 	finder.cpp finder.h \
 	gbsarea.cpp gbsarea.h \
@@ -85,16 +86,15 @@ spdrs60_SOURCES = main.cpp resources.h \
 	routedialog.cpp routedialog.h \
 	routeelementdialog.cpp routeelementdialog.h \
 	routeelementlvi.cpp routeelementlvi.h \
-	routelvi.cpp routelvi.h \
 	routelistview.cpp routelistview.h \
 	routelistwindow.cpp routelistwindow.h \
+	routelvi.cpp routelvi.h \
 	router.cpp router.h \
 	section.cpp section.h \
 	serverinfodialog.cpp serverinfodialog.h \
 	srcpmessage.cpp srcpmessage.h \
 	srcpport.cpp srcpport.h \
 	trainnumberdialog.cpp trainnumberdialog.h \
-	feedbacktriggerdialog.cpp feedbacktriggerdialog.h \
 	turntablecommander.cpp turntablecommander.h \
 	variantdialog.cpp variantdialog.h \
 	virtualaddressdialog.cpp virtualaddressdialog.h
