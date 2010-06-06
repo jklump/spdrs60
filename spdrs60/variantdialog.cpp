@@ -85,14 +85,13 @@ void VariantDialog::addVariant(const QString& text)
 
 void VariantDialog::addVariant(const QString& text, const QPixmap& pm)
 {
-    new QRadioButton(text, variantBG);
+    addVariant(text);
     pmList.append(pm);
 }
 
 
 void VariantDialog::selectionChanged(int index)
 {
-    if (index >= 0 && (size_t)index < pmList.count()) {
+    if (index >= 0 && (size_t)index < pmList.count())
         imageLabel->setPixmap(pmList[index]);
-    }
 }
