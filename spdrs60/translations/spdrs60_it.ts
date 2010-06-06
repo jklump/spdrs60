@@ -269,6 +269,10 @@ Valid range is %1..%2.</source>
         <source>Cancel</source>
         <translation type="unfinished">Cancella</translation>
     </message>
+    <message>
+        <source>Feedback contact</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FeedbackViewer</name>

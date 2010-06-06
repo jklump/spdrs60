@@ -278,6 +278,10 @@ Der gültige Wertebereich ist %1..%2.</translation>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
+    <message>
+        <source>Feedback contact</source>
+        <translation>Rückmeldekontakt</translation>
+    </message>
 </context>
 <context>
     <name>FeedbackViewer</name>
