@@ -2254,10 +2254,11 @@ umgeschaltet werden. Das erreicht man über das Tastaturkürzel
 Schaltknopf in der Werkzeugleiste (rotes Gitter auf grauem Grund).
 Man erkennt diesen Modus an den roten Linien zwischen den Elementen.
 Durch Klicken mit der rechten Maustaste auf die einzelnen Elemente
-bekommt man in diesem Modus einen Eigenschaftsdialog angezeigt, in
-dem sich der Elementtyp und dessen Einstellungen auswählen bzw. verändern
-lassen. Mit der mittleren Maustaste erscheint ein Popup-Menü, das ein
-rasches Zeichnen von Gleisstrecken ermöglicht.
+bekommt man in diesem Modus ein Kontextmenü angezeigt, mit dem sich
+verschiedene Einstellungen auswählen bzw. verändern
+lassen. Zum Bearbeiten, Zeichnen und Löschen einzelner Gleisbildelemente
+bietet die Werkzeugleiste drei Schaltflächen an, die im jeweiligen Modus
+einrasten.
 </para>
 <para>
 Durch Anfassen mit der Maus lassen sich einzelne Gleisbildelemente
@@ -3981,10 +3982,9 @@ befindet, erhalten alle Elemente einen roten Rahmen
 </figure>
 
 <para>
-Jeder Rechtsklick auf ein Element öffnet nun das
-Eigenschaftenfenster zum jeweiligen Element. Darin können die
-Einstellungen des Elements variiert werden (siehe <xref
-linkend="sect-symboleigenschaften">).
+Jeder Rechtsklick auf ein Element öffnet das elementspezifische
+Kontextmenü, mit dessen Hilfe die Einstellungen des Elements variiert
+werden können (siehe <xref linkend="sect-symboleigenschaften">).
 </para>
 <para>
     Die Auswahl der zu zeichnenden Gleisbildelemente erfolg über das in
@@ -4026,16 +4026,17 @@ Fahrstraßentabelle geschaltet werden.
   <title>Kontextmenü</title>
 <para>
 Mit einem rechten Mausklick auf jedes beliebige Element erhält man
-ein elementspezifisches Kontextmenü (<xref linkend="abb-normal">), das
-die Bearbeitung verschiedener Details ermöglicht. 
+im Gleisbildbearbeitungsmodus ein elementspezifisches Kontextmenü
+(<xref linkend="abb-normal">), welches das Einstellen verschiedener
+Details ermöglicht. 
 </para>
 <itemizedlist mark="bullet">
   <listitem><para>Beschriftung</para></listitem>
   <listitem><para>Decoder-Einstellungen für Antriebe</para></listitem>
-  <listitem><para>Die virtuelle Adresse</para></listitem>
+  <listitem><para>Gegebenenfalls eine virtuelle Adresse</para></listitem>
   <listitem><para>Auswahl einer von mehreren möglichen Varianten</para></listitem>
   <listitem><para>Parameter von Rückmeldungen für die Gleisfreimeldung</para></listitem>
-  <listitem><para>Auslöser für die Ansteuerung durch Rückmeldungen</para></listitem>
+  <listitem><para>Das Auslösen einer Ansteuerung durch Rückmeldungen</para></listitem>
 </itemizedlist>
 
 <figure id="abb-normal">
