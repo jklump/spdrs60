@@ -1527,7 +1527,7 @@ void GBSArea::mousePressEvent(QMouseEvent* e)
                 if (el != NULL) {
                     if (el->classId() != paintItem) {
                         elements.remove(idx);
-                        el = new element(this, paintItem, visualMode);
+                        el = new element(this, paintItem);
                         el->setIndexNo(idx);
                         moveElementToIndexPos(el, idx);
                         elements.insert(idx, el);
@@ -1537,7 +1537,7 @@ void GBSArea::mousePressEvent(QMouseEvent* e)
                     }
                 }
                 else {
-                    el = new element(this, paintItem, visualMode);
+                    el = new element(this, paintItem);
                     el->setIndexNo(idx);
                     moveElementToIndexPos(el, idx);
                     elements.insert(idx, el);
@@ -1605,7 +1605,7 @@ void GBSArea::mouseMoveEvent(QMouseEvent* e)
                 if (el != NULL) {
                     if (el->classId() != paintItem) {
                         elements.remove(idx);
-                        el = new element(this, paintItem, visualMode);
+                        el = new element(this, paintItem);
                         el->setIndexNo(idx);
                         moveElementToIndexPos(el, idx);
                         elements.insert(idx, el);
@@ -1615,7 +1615,7 @@ void GBSArea::mouseMoveEvent(QMouseEvent* e)
                     }
                 }
                 else {
-                    el = new element(this, paintItem, visualMode);
+                    el = new element(this, paintItem);
                     el->setIndexNo(idx);
                     moveElementToIndexPos(el, idx);
                     elements.insert(idx, el);

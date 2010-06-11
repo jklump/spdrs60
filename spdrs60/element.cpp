@@ -105,12 +105,12 @@ using namespace Qt;
 #endif
 
 
-element::element(QWidget* parent, SpdrItemClassId ci, elemVisualMode vm)
+element::element(QWidget* parent, SpdrItemClassId ci)
     : QWidget(parent, "gbselement")
 {
     initVariables();
 
-    visualMode = vm;
+    visualMode = kvmEditLayout;
     classid = ci;
     iSoldIndex = 0;
     updateProperties();

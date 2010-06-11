@@ -211,8 +211,7 @@ public:
         siciFee = 1600, siciTal // Grey, Ein
     };
     
-    element(QWidget* parent = NULL, SpdrItemClassId ci = siciTxt,
-            elemVisualMode vm = kvmNormal);
+    element(QWidget* parent = NULL, SpdrItemClassId ci = siciTxt);
     element(QTextStream&, QWidget* parent=0);
 
 
