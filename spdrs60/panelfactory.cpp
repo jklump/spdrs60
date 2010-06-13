@@ -20,6 +20,7 @@
 #include "panelfactory.h"
 #include "axlecountergrouppanel.h"
 #include "bufferstoprightpanel.h"
+#include "bufferstopleftpanel.h"
 #include "levelcrossinggrouppanel.h"
 #include "powersupplygrouppanel.h"
 #include "routegrouppanel.h"
@@ -36,6 +37,11 @@ SpdrPanel* PanelFactory::createPanel(QWidget* parent,
         SpdrPanel::SpdrItemClassId type)
 {
     switch (type) {
+        case SpdrPanel::siciBs1:
+            return new BufferStopRightPanel(parent);
+        case SpdrPanel::siciBs3:
+            return new BufferStopLeftPanel(parent);
+
         case SpdrPanel::siciFeb:
             return new TurnoutGroupPanel(parent);
         case SpdrPanel::siciFee:
@@ -60,6 +66,8 @@ SpdrPanel* PanelFactory::createPanelFromStream(QTextStream& ts,
     switch (type) {
         case SpdrPanel::siciBs1:
             return new BufferStopRightPanel(ts, parent);
+        case SpdrPanel::siciBs3:
+            return new BufferStopLeftPanel(ts, parent);
 
         case SpdrPanel::siciFeb:
             return new TurnoutGroupPanel(ts, parent);
