@@ -764,6 +764,8 @@ void element::mouseReleaseEvent(QMouseEvent* e)
             e->accept();
         }
     }
+    else
+        e->ignore();
 }
 
 

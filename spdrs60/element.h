@@ -207,6 +207,7 @@ public:
     bool showVirtualAddressDialog();
     bool showVariantDialog();
     bool showFeedbackTriggerDialog(const QPoint&);
+    bool isModified();
 
 private:
     elementCommander*   turntableProperties;
@@ -254,6 +255,7 @@ private:
     bool     turnout;
     bool     lightson;
     bool     tablelight;
+    bool     modified;
     SrcpMessage::Protocol protocol1;
     SrcpMessage::Protocol protocol2;
     QTimer*  locateTimer;

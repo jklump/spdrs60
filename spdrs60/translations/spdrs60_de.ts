@@ -422,10 +422,6 @@ den Suchkriterien entspricht.</translation>
         <translation>Fahrstraße mit Sackgasse bei Element %1</translation>
     </message>
     <message>
-        <source>&amp;Toggle</source>
-        <translation type="obsolete">&amp;Umschalten</translation>
-    </message>
-    <message>
         <source>Unsupported CRCF attribute &apos;%1&apos; detected.</source>
         <translation>Nicht unterstütztes CRCF-Attribut &apos;%1&apos; gefunden.</translation>
     </message>
@@ -2391,6 +2387,10 @@ Der zulässige Wertebereich ist %1..%2.</translation>
         <translation>&amp;Zwei Antriebe (vier Schaltpositionen)</translation>
     </message>
     <message>
+        <source>&amp;Toggle</source>
+        <translation>&amp;Umschalten</translation>
+    </message>
+    <message>
         <source>&amp;Label...</source>
         <translation>&amp;Beschriftung...</translation>
     </message>
@@ -2417,10 +2417,6 @@ Der zulässige Wertebereich ist %1..%2.</translation>
     <message>
         <source>Tri&amp;gger...</source>
         <translation>Aus&amp;lösen...</translation>
-    </message>
-    <message>
-        <source>&amp;Toggle</source>
-        <translation type="unfinished">&amp;Umschalten</translation>
     </message>
 </context>
 <context>
