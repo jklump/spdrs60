@@ -1465,12 +1465,6 @@ void element::setupElementIcon()
         setPaletteBackgroundPixmap(background);
     }
    
-    // brown panel
-    else if (classid == siciFen) {
-        background.fill(QColor(112, 48, 0));
-        setPaletteBackgroundPixmap(background);
-    }
-   
     // grey panel with light Ein and Aus buttons
     else if (classid == siciTal) {
         background.fill(Qt::darkGray);
@@ -9272,7 +9266,6 @@ void element::writeFileTextToStream(QTextStream& ts)
         << GF_INDEX << DS << iSoldIndex<< endl;
 
     switch (classid) {
-        case siciFen:
         case siciBs1:
         case siciBs2:
         case siciBs3:

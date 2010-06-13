@@ -18,6 +18,7 @@
 */
 
 #include "panelfactory.h"
+#include "axlecountergrouppanel.h"
 #include "levelcrossinggrouppanel.h"
 #include "powersupplygrouppanel.h"
 #include "routegrouppanel.h"
@@ -40,6 +41,8 @@ SpdrPanel* PanelFactory::createPanel(QWidget* parent,
             return new PowerSupplyGroupPanel(parent);
         case SpdrPanel::siciFeg:
             return new RouteGroupPanel(parent);
+        case SpdrPanel::siciFen:
+            return new AxleCounterGroupPanel(parent);
         case SpdrPanel::siciFer:
             return new SignalGroupPanel(parent);
         case SpdrPanel::siciFey:
@@ -60,6 +63,8 @@ SpdrPanel* PanelFactory::createPanelFromStream(QTextStream& ts,
             return new PowerSupplyGroupPanel(ts, parent);
         case SpdrPanel::siciFeg:
             return new RouteGroupPanel(ts, parent);
+        case SpdrPanel::siciFen:
+            return new AxleCounterGroupPanel(ts, parent);
         case SpdrPanel::siciFer:
             return new SignalGroupPanel(ts, parent);
         case SpdrPanel::siciFey:

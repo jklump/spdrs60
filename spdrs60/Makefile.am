@@ -20,6 +20,7 @@ bin_PROGRAMS = spdrs60
 # list of all generated (and not distributed) sources
 nodist_spdrs60_SOURCES = \
 	aboutdialog_moc.cpp \
+	axlecountergrouppanel_moc.cpp \
 	commandport_moc.cpp \
 	drivedialog_moc.cpp \
 	dualdrivedialog_moc.cpp \
@@ -64,6 +65,7 @@ nodist_spdrs60_SOURCES = \
 # list of all sources and headers
 spdrs60_SOURCES = main.cpp resources.h \
 	aboutdialog.cpp aboutdialog.h \
+	axlecountergrouppanel.cpp axlecountergrouppanel.h \
 	commandport.cpp commandport.h \
 	crcfmessage.cpp crcfmessage.h \
 	drivedialog.cpp drivedialog.h \
