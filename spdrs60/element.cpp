@@ -111,10 +111,7 @@ element::element(QWidget* parent, SpdrItemClassId ci)
     : SpdrPanel(parent)
 {
     initVariables();
-
-    visualMode = kvmEditLayout;
     classid = ci;
-    iSoldIndex = 0;
     updateProperties();
     setupElementIcon();
 }
@@ -195,10 +192,8 @@ void element::initVariables()
     // this is only used for crossings to choose the routed track
     routedtrack = 0;
 
-    setFixedSize(QSize(EL_WIDTH, EL_HEIGHT));
     background = QPixmap(size());
     background.fill(Qt::lightGray);
-    selectionMode = ksmNormal;
 
     lockCounter = 0;
     blinkcounter = 0;
@@ -206,7 +201,6 @@ void element::initVariables()
     turntableProperties = NULL;
     ttComm = NULL;
     tablelight = true;
-    modified = false;
 }
 
 /* Read the layout element data from stream, old data style containing

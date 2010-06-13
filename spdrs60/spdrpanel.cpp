@@ -23,8 +23,12 @@
 SpdrPanel::SpdrPanel(QWidget* parent):
     QWidget(parent, "spdrpanel"),
     classid(siciNone),
+    selectionMode(ksmNormal),
+    visualMode(kvmEditLayout),
+    iSoldIndex(0),
     modified(false)
 {
+    setFixedSize(QSize(EL_WIDTH, EL_HEIGHT));
 }
 
 
@@ -92,3 +96,10 @@ SpdrPanel::SpdrItemClassId SpdrPanel::classId()
     return classid;
 }
 
+void SpdrPanel::writeFileTextToStream(QTextStream& ts)
+{
+    ts << GF_CLASSID << DS << classid << endl
+        << GF_INDEX << DS << iSoldIndex << endl
+        << '%' << endl;
+    modified = false;
+}

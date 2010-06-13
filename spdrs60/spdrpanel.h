@@ -43,6 +43,20 @@ enum elemVisualMode {
     kvmEditClearance
 };
 
+// TODO: adjust width to 55 (56 has no center)
+enum {
+    EL_WIDTH  = 56, // width of an element in pixels (orig: 54 mm)
+    EL_HEIGHT = 35  // height of an element in pixels (orig: 34 mm)
+};                  // 8 * H = 5 * W = 280
+                    // diagonal: 65.513 pixels (63.812)
+                    // alpha: 31.264° (32.196°)
+                    // beta: 58.736°  (57.804°)
+
+/*some magic strings for reading and writing layout files*/
+static const char GF_INDEX[]     = "index";
+static const char GF_CLASSID[]   = "classid";
+static const char DS[]  = ";";   // data separator in spdrs60 files
+
 
 class SpdrPanel: public QWidget
 {
@@ -108,12 +122,12 @@ public:
         elemSelectionMode selectionMode;
         elemVisualMode visualMode;
         unsigned int iSoldIndex;
-        bool     modified;
+        bool modified;
 
     public:
         SpdrPanel(QWidget* parent = NULL);
         virtual void readFileTextFromStream(QTextStream&) = 0;
-        virtual void writeFileTextToStream(QTextStream&) = 0;
+        virtual void writeFileTextToStream(QTextStream&);
         void setIndexNo(unsigned int);
         unsigned int getIndexNo();
         elemSelectionMode getSelectionMode();

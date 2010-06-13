@@ -90,8 +90,6 @@ const unsigned int rdSW = rdS | rdW;
 const unsigned int rdSE = rdS | rdE;
 
 /*some magic strings for reading and writing layout files*/
-static const char GF_INDEX[]     = "index";
-static const char GF_CLASSID[]   = "classid";
 static const char GF_INVERSTO[]  = "invers turnout";
 static const char GF_PROTOCOL[]  = "protocol";
 static const char GF_PROTOCOL1[]  = "protocol1";
@@ -111,17 +109,7 @@ static const char GF_HIDELEDS[]  = "hide LEDs";
 static const char GF_BUTTON1FB[]  = "button1fb";
 static const char GF_BUTTON2FB[]  = "button2fb";
 
-static const char DS[]  = ";";   // data separator in spdrs60 files
-static const char IDS[] = ":";   // data separator in imported files
 
-// TODO: adjust width to 55 (56 has no center)
-enum {
-    EL_WIDTH  = 56, // width of an element in pixels (orig: 54 mm)
-    EL_HEIGHT = 35  // height of an element in pixels (orig: 34 mm)
-};                  // 8 * H = 5 * W = 280
-                    // diagonal: 65.513 pixels (63.812)
-                    // alpha: 31.264° (32.196°)
-                    // beta: 58.736°  (57.804°)
 
 // forward declaration
 class element;
