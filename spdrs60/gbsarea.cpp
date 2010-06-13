@@ -886,6 +886,15 @@ void GBSArea::connectElement(element* el)
 
 bool GBSArea::isModified()
 {
+    for (unsigned int i = 0; i < elements.size(); i++) {
+        element* el = elements[i];
+        if (el != NULL) {
+            if (el->isModified()) {
+                modified = true;
+                break;
+            }
+        }
+    }
     return modified;
 }
 
@@ -1319,75 +1328,6 @@ bool GBSArea::hasSrcp08Bus(unsigned int bus)
     return returnvalue;
 }
 
-/*setup property menu and keep click position */
-void GBSArea::runPropertyMenue(element* el, const QPoint& p)
-{
-    QPopupMenu* propmenu = new QPopupMenu(this, "propertyMenu");
-    int count = 0;
-
-    if (el->hasLabel()) {
-        propmenu->insertItem(tr("&Label..."), 1);
-    }
-
-    count = el->driveCount();
-    if (count == 1) {
-        propmenu->insertItem(tr("&Drive..."), 2);
-    }
-    else if (count > 1) {
-        propmenu->insertItem(tr("&Drives..."), 3);
-    }
-
-    if (el->hasVirtualAddress()) {
-        propmenu->insertItem(tr("Virtual &address..."), 4);
-    }
-
-    if (el->hasVariants()) {
-        propmenu->insertItem(tr("&Variant..."), 5);
-    }
-
-    if (el->hasTrackIndicator()) {
-        propmenu->insertItem(tr("&Track indicator..."), 6);
-    }
-
-    if (el->hasFeedbackTrigger())
-        propmenu->insertItem(tr("Tri&gger..."), 7);
-
-    if (propmenu->idAt(0) != -1) {
-        int mitem = propmenu->exec(QCursor::pos());
-        bool elchanged = false;
-
-        switch(mitem) {
-            case 1:
-                elchanged = el->showLabelDialog();
-                break;
-            case 2:
-                elchanged = el->showDriveDialog();
-                break;
-            case 3:
-                elchanged = el->showDualDriveDialog();
-                break;
-            case 4:
-                elchanged = el->showVirtualAddressDialog();
-                break;
-            case 5:
-                elchanged = el->showVariantDialog();
-                break;
-            case 6:
-                elchanged = el->showTrackIndicatorDialog();
-                break;
-            case 7:
-                elchanged = el->showFeedbackTriggerDialog(p);
-                break;
-            case -1: //fall through
-            default:
-                break;
-        }
-        if (elchanged)
-            modified = true;
-    }
-    delete propmenu;
-}
-
 
 void GBSArea::mouseReleaseEvent(QMouseEvent* e)
 {
@@ -1414,23 +1354,8 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
 
             e->accept();
         }
-
-        else if (e->button() == Qt::MidButton) {
-            // nothing happens here
+        else
             e->ignore();
-        }
-
-        else if (e->button() == Qt::RightButton) {
-            element* el = (element*)childAt(e->pos());
-
-            if (el == NULL) {
-                e->accept();
-                return;
-            }
-
-            runPropertyMenue(el, e->pos());
-            e->accept();
-        }
     }
 }
 

@@ -138,7 +138,6 @@ private:
    void sendGmCrcfMessage(unsigned int, unsigned int, const QString&);
    QString getCrcfInfoMessage(CrcfMessage::CrcfAttribute) const;
    void switchTableLight(bool);
-   void runPropertyMenue(element*, const QPoint&);
    
 public slots:
     void newFile(int, int, unsigned int, const QString&);

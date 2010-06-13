@@ -194,6 +194,7 @@ void element::initVariables()
     turntableProperties = NULL;
     ttComm = NULL;
     tablelight = true;
+    modified = false;
 }
 
 /* Read the layout element data from stream, old data style containing
@@ -724,6 +725,15 @@ void element::mouseReleaseEvent(QMouseEvent* e)
             }
             e->accept();
         }
+    }
+
+    else if (visualMode == kvmEditLayout) {
+        if (e->button() == Qt::RightButton) {
+            runPropertyMenue(e->pos());
+            e->accept();
+        }
+        else
+            e->ignore();
     }
 
     /*track clear detection / track occupancy detection*/
@@ -9471,6 +9481,7 @@ void element::writeFileTextToStream(QTextStream& ts)
             break;
     }
     ts << '%' << endl;
+    modified = false;
 }
 
 
@@ -10569,3 +10580,80 @@ bool element::hasFeedbackTrigger()
 {
     return (buttonCount() > 0) || (classid == siciRel);
 }
+
+
+/*setup property menu and keep click position */
+void element::runPropertyMenue(const QPoint& p)
+{
+    QPopupMenu* propmenu = new QPopupMenu(this, "propertyMenu");
+    int count = 0;
+
+    if (hasLabel()) {
+        propmenu->insertItem(tr("&Label..."), 1);
+    }
+
+    count = driveCount();
+    if (count == 1) {
+        propmenu->insertItem(tr("&Drive..."), 2);
+    }
+    else if (count > 1) {
+        propmenu->insertItem(tr("&Drives..."), 3);
+    }
+
+    if (hasVirtualAddress()) {
+        propmenu->insertItem(tr("Virtual &address..."), 4);
+    }
+
+    if (hasVariants()) {
+        propmenu->insertItem(tr("&Variant..."), 5);
+    }
+
+    if (hasTrackIndicator()) {
+        propmenu->insertItem(tr("&Track indicator..."), 6);
+    }
+
+    if (hasFeedbackTrigger())
+        propmenu->insertItem(tr("Tri&gger..."), 7);
+
+    if (propmenu->idAt(0) != -1) {
+        int mitem = propmenu->exec(QCursor::pos());
+        bool elchanged = false;
+
+        switch(mitem) {
+            case 1:
+                elchanged = showLabelDialog();
+                break;
+            case 2:
+                elchanged = showDriveDialog();
+                break;
+            case 3:
+                elchanged = showDualDriveDialog();
+                break;
+            case 4:
+                elchanged = showVirtualAddressDialog();
+                break;
+            case 5:
+                elchanged = showVariantDialog();
+                break;
+            case 6:
+                elchanged = showTrackIndicatorDialog();
+                break;
+            case 7:
+                elchanged = showFeedbackTriggerDialog(p);
+                break;
+            case -1: //fall through
+            default:
+                break;
+        }
+        if (elchanged) //TODO: check
+            modified = true;
+    }
+    delete propmenu;
+}
+
+
+bool element::isModified()
+{
+    return modified;
+}
+
