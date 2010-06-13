@@ -1451,12 +1451,6 @@ void element::setupElementIcon()
         setPaletteBackgroundPixmap(background);
     }
    
-    // red panel
-    else if (classid == siciFer) {
-        background.fill(QColor(221, 0, 0));
-        setPaletteBackgroundPixmap(background);
-    }
-   
     // red panel with sgt and hagt buttons
     else if (classid == siciTas) {
         background.fill(QColor(221, 0, 0));
@@ -9299,7 +9293,6 @@ void element::writeFileTextToStream(QTextStream& ts)
         case siciFee:
         case siciFeg:
         case siciFen:
-        case siciFer:
         case siciFey:
         case siciBs1:
         case siciBs2:

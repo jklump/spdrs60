@@ -49,6 +49,7 @@ nodist_spdrs60_SOURCES = \
 	router_moc.cpp \
 	section_moc.cpp \
 	serverinfodialog_moc.cpp \
+	signalgrouppanel_moc.cpp \
 	spdrpanel_moc.cpp \
 	srcpport_moc.cpp \
 	trainnumberdialog_moc.cpp \
@@ -95,6 +96,7 @@ spdrs60_SOURCES = main.cpp resources.h \
 	router.cpp router.h \
 	section.cpp section.h \
 	serverinfodialog.cpp serverinfodialog.h \
+	signalgrouppanel.cpp signalgrouppanel.h \
         spdrpanel.h spdrpanel.cpp \
 	srcpmessage.cpp srcpmessage.h \
 	srcpport.cpp srcpport.h \
