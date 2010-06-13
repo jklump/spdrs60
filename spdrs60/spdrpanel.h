@@ -100,7 +100,7 @@ public:
         siciDre = 700, siciSbn, // turntable, shiftbridge
         siciRel = 710, //relais
         siciMdc = 720, //DC motor
-        siciBs1 = 800, siciBs2, siciBs3, siciBs4,
+        siciBs1 = 800, siciBs2, siciBs3, siciBs4, // buffer stop
         siciLs1 = 820, siciLs2, siciLs3, siciLs4, //2, 4 not used
         siciLt1 = 830, siciLt2, siciLt3, siciLt4, //2, 4 not used
         siciLb1 = 840, siciLb2, siciLb3, siciLb4, //2, 4 not used
