@@ -41,6 +41,7 @@ nodist_spdrs60_SOURCES = \
 	options_moc.cpp \
 	paintitembutton_moc.cpp \
 	paintitemwindow_moc.cpp \
+	powersupplygrouppanel_moc.cpp \
 	routedialog_moc.cpp \
 	routeelementdialog_moc.cpp \
 	routegrouppanel_moc.cpp \
@@ -86,6 +87,7 @@ spdrs60_SOURCES = main.cpp resources.h \
 	paintitembutton.cpp paintitembutton.h \
 	paintitemwindow.cpp paintitemwindow.h \
         panelfactory.cpp panelfactory.h \
+	powersupplygrouppanel.cpp powersupplygrouppanel.h \
 	preferences.cpp preferences.h \
 	route.cpp route.h \
 	routedialog.cpp routedialog.h \

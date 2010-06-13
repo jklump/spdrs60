@@ -18,6 +18,7 @@
 */
 
 #include "panelfactory.h"
+#include "powersupplygrouppanel.h"
 #include "routegrouppanel.h"
 #include "signalgrouppanel.h"
 #include "turnoutgrouppanel.h"
@@ -34,6 +35,8 @@ SpdrPanel* PanelFactory::createPanel(QWidget* parent,
     switch (type) {
         case SpdrPanel::siciFeb:
             return new TurnoutGroupPanel(parent);
+        case SpdrPanel::siciFee:
+            return new PowerSupplyGroupPanel(parent);
         case SpdrPanel::siciFeg:
             return new RouteGroupPanel(parent);
         case SpdrPanel::siciFer:
@@ -50,6 +53,8 @@ SpdrPanel* PanelFactory::createPanelFromStream(QTextStream& ts,
     switch (type) {
         case SpdrPanel::siciFeb:
             return new TurnoutGroupPanel(ts, parent);
+        case SpdrPanel::siciFee:
+            return new PowerSupplyGroupPanel(ts, parent);
         case SpdrPanel::siciFeg:
             return new RouteGroupPanel(ts, parent);
         case SpdrPanel::siciFer:
