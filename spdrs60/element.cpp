@@ -666,6 +666,16 @@ void element::mouseReleaseEvent(QMouseEvent* e)
         }
     }
 
+    /*layout edit mode*/
+    else if (visualMode == kvmEditLayout) {
+        if (e->button() == Qt::RightButton) {
+            runPropertyMenue(e->pos());
+            e->accept();
+        }
+        else
+            e->ignore();
+    }
+
     /*route edit mode*/
     else if (visualMode == kvmEditRoute) {
         if (e->button() == Qt::LeftButton) {
@@ -725,15 +735,6 @@ void element::mouseReleaseEvent(QMouseEvent* e)
             }
             e->accept();
         }
-    }
-
-    else if (visualMode == kvmEditLayout) {
-        if (e->button() == Qt::RightButton) {
-            runPropertyMenue(e->pos());
-            e->accept();
-        }
-        else
-            e->ignore();
     }
 
     /*track clear detection / track occupancy detection*/
