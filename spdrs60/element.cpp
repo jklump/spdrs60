@@ -1491,18 +1491,6 @@ void element::setupElementIcon()
         setPaletteBackgroundPixmap(background);
     }
    
-    // buffer stop top
-    else if (classid == siciBs2) {
-        QPainter p(&background);
-            
-        int w = background.width();
-
-        // paint panel
-        p.fillRect(w / 2 - 6, 0, 13, 5, QBrush(Qt::black));
-
-        setPaletteBackgroundPixmap(background);
-    }
-   
     // buffer stop bottom
     else if (classid == siciBs4) {
         QPainter p(&background);
@@ -9240,7 +9228,6 @@ void element::writeFileTextToStream(QTextStream& ts)
         << GF_INDEX << DS << iSoldIndex<< endl;
 
     switch (classid) {
-        case siciBs2:
         case siciBs4:
         case siciBuc:
         case siciBul:
