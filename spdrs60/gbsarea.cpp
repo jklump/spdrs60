@@ -232,8 +232,6 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
     delayTimer = new QTimer(this);
     connect(delayTimer, SIGNAL(timeout()),
             this, SLOT(slotElementClickedTimeout()));
-
-    toggleAction = new QAction(tr("&Toggle"), 0, this, "toggleaction");
 }
 
 
@@ -1393,9 +1391,10 @@ void GBSArea::runPropertyMenue(element* el, const QPoint& p)
 
 void GBSArea::mouseReleaseEvent(QMouseEvent* e)
 {
-    /*normal mode*/
-    if (visualMode == kvmNormal)
+    /*normal mode and route edit mode*/
+    if (visualMode == kvmNormal || visualMode == kvmEditRoute) {
         e->ignore();
+    }
 
     /*layout edit mode*/
     else if (visualMode == kvmEditLayout) {
@@ -1418,6 +1417,7 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
 
         else if (e->button() == Qt::MidButton) {
             // nothing happens here
+            e->ignore();
         }
 
         else if (e->button() == Qt::RightButton) {
@@ -1429,27 +1429,6 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
             }
 
             runPropertyMenue(el, e->pos());
-
-            e->accept();
-        }
-
-    }
-
-    /*route edit mode*/
-    else if (visualMode == kvmEditRoute) {
-        /*show context menu to switch element only without selection*/
-        if (e->button() == Qt::RightButton) {
-            element* el = (element*)childAt(e->pos());
-
-            if (el != NULL && el->isSwitchable()) {
-                toggleAction->setEnabled(el->ctxCanSwitch());
-
-                QPopupMenu menu;
-                toggleAction->addTo(&menu);
-
-                if (menu.exec(QCursor::pos()) != -1)
-                    el->toggle();
-            }
             e->accept();
         }
     }

@@ -422,10 +422,6 @@ den Suchkriterien entspricht.</translation>
         <translation>Fahrstraße mit Sackgasse bei Element %1</translation>
     </message>
     <message>
-        <source>&amp;Toggle</source>
-        <translation>&amp;Umschalten</translation>
-    </message>
-    <message>
         <source>Unsupported CRCF attribute &apos;%1&apos; detected.</source>
         <translation>Nicht unterstütztes CRCF-Attribut &apos;%1&apos; gefunden.</translation>
     </message>

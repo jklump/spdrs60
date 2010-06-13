@@ -664,11 +664,7 @@ void element::mouseReleaseEvent(QMouseEvent* e)
             e->accept();
         }
     }
-    /*layout edit mode*/
-    else if (visualMode == kvmEditLayout) {
-        // handled by gbsarea
-        e->ignore();
-    }
+
     /*route edit mode*/
     else if (visualMode == kvmEditRoute) {
         if (e->button() == Qt::LeftButton) {
@@ -715,9 +711,18 @@ void element::mouseReleaseEvent(QMouseEvent* e)
                 e->accept();
             }
         }
+        /*FIXME: same as in normal mode*/
         else if (e->button() == Qt::RightButton) {
-            // handled by gbsarea
-            e->ignore();
+            if (isSwitchable()) {
+                QAction* toggleAction = new QAction(tr("&Toggle"), 0,
+                        this, "toggleaction");
+                toggleAction->setEnabled(ctxCanSwitch());
+                QPopupMenu menu;
+                toggleAction->addTo(&menu);
+                if (menu.exec(QCursor::pos()) != -1)
+                    toggle();
+            }
+            e->accept();
         }
     }
 
@@ -736,6 +741,8 @@ void element::mouseReleaseEvent(QMouseEvent* e)
             e->accept();
         }
     }
+    else
+        e->ignore();
 }
 
 

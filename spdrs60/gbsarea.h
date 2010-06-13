@@ -108,8 +108,6 @@ private:
    QCursor     eraseCursor;
    QTimer*     delayTimer;
 
-   QAction* toggleAction;
-   
    QPtrVector<element> elements;
 
    int         cols;

@@ -343,10 +343,6 @@ Valid range is %1..%2.</source>
 <context>
     <name>GBSArea</name>
     <message>
-        <source>&amp;Toggle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>MGT-Function not supported.</source>
         <translation type="unfinished"></translation>
     </message>
