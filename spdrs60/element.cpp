@@ -23,7 +23,9 @@
  ***************************************************************************/
 
 #include <qapplication.h>
+#include <qaction.h>
 #include <qpixmap.h>
+#include <qpopupmenu.h>
 
 #include "drivedialog.h"
 #include "dualdrivedialog.h"
@@ -650,8 +652,16 @@ void element::mouseReleaseEvent(QMouseEvent* e)
     /*normal mode*/
     if (visualMode == kvmNormal) {
         if (e->button() == Qt::RightButton) {
-            // handled by gbsarea
-            e->ignore();
+            if (isSwitchable()) {
+                QAction* toggleAction = new QAction(tr("&Toggle"), 0,
+                        this, "toggleaction");
+                toggleAction->setEnabled(ctxCanSwitch());
+                QPopupMenu menu;
+                toggleAction->addTo(&menu);
+                if (menu.exec(QCursor::pos()) != -1)
+                    toggle();
+            }
+            e->accept();
         }
     }
     /*layout edit mode*/

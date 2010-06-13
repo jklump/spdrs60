@@ -2395,6 +2395,10 @@ Valid range is %1..%2.</source>
         <source>&amp;EDiTS-Pro indicator</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>&amp;Toggle</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>elementCommander</name>

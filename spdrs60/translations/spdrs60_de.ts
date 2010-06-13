@@ -2418,6 +2418,10 @@ Der zulässige Wertebereich ist %1..%2.</translation>
         <source>&amp;Two drives (four switch positions)</source>
         <translation>&amp;Zwei Antriebe (vier Schaltpositionen)</translation>
     </message>
+    <message>
+        <source>&amp;Toggle</source>
+        <translation>&amp;Umschalten</translation>
+    </message>
 </context>
 <context>
     <name>elementCommander</name>

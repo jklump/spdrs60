@@ -1394,22 +1394,8 @@ void GBSArea::runPropertyMenue(element* el, const QPoint& p)
 void GBSArea::mouseReleaseEvent(QMouseEvent* e)
 {
     /*normal mode*/
-    if (visualMode == kvmNormal) {
-        if (e->button() == Qt::RightButton) {
-            element* el = (element*)childAt(e->pos());
-
-            if (el != NULL && el->isSwitchable()) {
-                toggleAction->setEnabled(el->ctxCanSwitch());
-
-                QPopupMenu menu;
-                toggleAction->addTo(&menu);
-
-                if (menu.exec(QCursor::pos()) != -1)
-                    el->toggle();
-            }
-            e->accept();
-        }
-    }
+    if (visualMode == kvmNormal)
+        e->ignore();
 
     /*layout edit mode*/
     else if (visualMode == kvmEditLayout) {
