@@ -19,8 +19,9 @@
 
 #include "panelfactory.h"
 #include "axlecountergrouppanel.h"
-#include "bufferstoprightpanel.h"
+#include "bufferstopbottompanel.h"
 #include "bufferstopleftpanel.h"
+#include "bufferstoprightpanel.h"
 #include "bufferstoptoppanel.h"
 #include "levelcrossinggrouppanel.h"
 #include "powersupplygrouppanel.h"
@@ -44,6 +45,8 @@ SpdrPanel* PanelFactory::createPanel(QWidget* parent,
             return new BufferStopTopPanel(parent);
         case SpdrPanel::siciBs3:
             return new BufferStopLeftPanel(parent);
+        case SpdrPanel::siciBs4:
+            return new BufferStopBottomPanel(parent);
 
         case SpdrPanel::siciFeb:
             return new TurnoutGroupPanel(parent);
@@ -73,6 +76,8 @@ SpdrPanel* PanelFactory::createPanelFromStream(QTextStream& ts,
             return new BufferStopTopPanel(ts, parent);
         case SpdrPanel::siciBs3:
             return new BufferStopLeftPanel(ts, parent);
+        case SpdrPanel::siciBs4:
+            return new BufferStopBottomPanel(ts, parent);
 
         case SpdrPanel::siciFeb:
             return new TurnoutGroupPanel(ts, parent);

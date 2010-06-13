@@ -24,6 +24,7 @@ nodist_spdrs60_SOURCES = \
 	bufferstoprightpanel_moc.cpp \
 	bufferstopleftpanel_moc.cpp \
 	bufferstoptoppanel_moc.cpp \
+	bufferstopbottompanel_moc.cpp \
 	commandport_moc.cpp \
 	drivedialog_moc.cpp \
 	dualdrivedialog_moc.cpp \
@@ -72,6 +73,7 @@ spdrs60_SOURCES = main.cpp resources.h \
 	bufferstoprightpanel.cpp bufferstoprightpanel.h \
 	bufferstopleftpanel.cpp bufferstopleftpanel.h \
 	bufferstoptoppanel.cpp bufferstoptoppanel.h \
+	bufferstopbottompanel.cpp bufferstopbottompanel.h \
 	commandport.cpp commandport.h \
 	crcfmessage.cpp crcfmessage.h \
 	drivedialog.cpp drivedialog.h \
