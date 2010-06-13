@@ -18,6 +18,7 @@
 */
 
 #include "panelfactory.h"
+#include "levelcrossinggrouppanel.h"
 #include "powersupplygrouppanel.h"
 #include "routegrouppanel.h"
 #include "signalgrouppanel.h"
@@ -41,6 +42,8 @@ SpdrPanel* PanelFactory::createPanel(QWidget* parent,
             return new RouteGroupPanel(parent);
         case SpdrPanel::siciFer:
             return new SignalGroupPanel(parent);
+        case SpdrPanel::siciFey:
+            return new LevelCrossingGroupPanel(parent);
         default:
             return new element(parent, type);
     }
@@ -59,6 +62,8 @@ SpdrPanel* PanelFactory::createPanelFromStream(QTextStream& ts,
             return new RouteGroupPanel(ts, parent);
         case SpdrPanel::siciFer:
             return new SignalGroupPanel(ts, parent);
+        case SpdrPanel::siciFey:
+            return new LevelCrossingGroupPanel(ts, parent);
         default:
             return new element(ts, parent, type);
     }

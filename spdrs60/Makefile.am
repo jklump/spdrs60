@@ -35,6 +35,7 @@ nodist_spdrs60_SOURCES = \
 	infoport_moc.cpp \
 	keyboard_moc.cpp \
 	layouteditmodeagrp_moc.cpp \
+	levelcrossinggrouppanel_moc.cpp \
 	mainwindow_moc.cpp \
 	messagehistory_moc.cpp \
 	newlayoutdialog_moc.cpp \
@@ -80,6 +81,7 @@ spdrs60_SOURCES = main.cpp resources.h \
 	infoport.cpp infoport.h \
 	keyboard.cpp keyboard.h \
 	layouteditmodeagrp.cpp layouteditmodeagrp.h \
+	levelcrossinggrouppanel.cpp levelcrossinggrouppanel.h \
 	mainwindow.cpp mainwindow.h \
 	messagehistory.cpp messagehistory.h \
 	newlayoutdialog.cpp newlayoutdialog.h \

@@ -1465,12 +1465,6 @@ void element::setupElementIcon()
         setPaletteBackgroundPixmap(background);
     }
    
-    // yellow panel
-    else if (classid == siciFey) {
-        background.fill(QColor(224, 224, 0));
-        setPaletteBackgroundPixmap(background);
-    }
-   
     // brown panel
     else if (classid == siciFen) {
         background.fill(QColor(112, 48, 0));
@@ -9279,7 +9273,6 @@ void element::writeFileTextToStream(QTextStream& ts)
 
     switch (classid) {
         case siciFen:
-        case siciFey:
         case siciBs1:
         case siciBs2:
         case siciBs3:
