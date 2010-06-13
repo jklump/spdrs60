@@ -18,6 +18,7 @@
 */
 
 #include "panelfactory.h"
+#include "turnoutgrouppanel.h"
 
 
 PanelFactory::PanelFactory()
@@ -25,24 +26,24 @@ PanelFactory::PanelFactory()
 }
 
 /*create new panels in edit mode*/
-element* PanelFactory::createPanel(QWidget* parent,
-        element::SpdrItemClassId type)
+SpdrPanel* PanelFactory::createPanel(QWidget* parent,
+        SpdrPanel::SpdrItemClassId type)
 {
     switch (type) {
-        /*case siciFeg:
-            return new */
+        case SpdrPanel::siciFeb:
+            return new TurnoutGroupPanel(parent);
         default:
             return new element(parent, type);
     }
 }
 
 /*create new panels by file stream in normal mode*/
-element* PanelFactory::createPanelFromStream(QTextStream& ts,
-        QWidget* parent, element::SpdrItemClassId type)
+SpdrPanel* PanelFactory::createPanelFromStream(QTextStream& ts,
+        QWidget* parent, SpdrPanel::SpdrItemClassId type)
 {
     switch (type) {
-        /*case siciFeg:
-            return new */
+        case SpdrPanel::siciFeb:
+            return new TurnoutGroupPanel(ts, parent);
         default:
             return new element(ts, parent, type);
     }

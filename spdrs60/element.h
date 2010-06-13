@@ -31,7 +31,6 @@
 #include <qpoint.h>
 #include <qrect.h>
 #include <qstring.h>
-#include <qtooltip.h>
 
 #if QT_VERSION >= 0x040000
 #include <qmatrix.h>
@@ -201,7 +200,6 @@ private:
     elementCommander*   turntableProperties;
     turntableCommander* ttComm;
 
-    QPixmap background;
     unsigned int iFBBusNo;
     int iFBContact;
     bool     enable1fbtrigger;
@@ -250,7 +248,6 @@ private:
 
     void addTooltip();
     void initVariables();
-    void setupElementIcon();
     void setLightsOn(bool);
     void switchToDirBlinking(int);
     void updateProperties();
@@ -268,7 +265,6 @@ public slots:
     void switchToDir(int);
     void slotOccupyElement(unsigned int, unsigned int, bool);
     void slotShowElement(int, int, elemSelectionMode);
-    void slotRepaintLayout();
 
 private slots:
     void slotLocateTimerTimeout();
@@ -291,7 +287,7 @@ protected:  // virtual inherited methods
     void fontChange(const QFont&);
     void mousePressEvent(QMouseEvent*);
     void mouseReleaseEvent(QMouseEvent*);
-    void paintEvent(QPaintEvent*);
+    void setupElementIcon();
 };
 
 

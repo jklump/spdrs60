@@ -17,22 +17,28 @@
   along with spdrs60.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
-#ifndef PANELFACTORY_H
-#define PANELFACTORY_H
-
-#include "element.h"
+#include "turnoutgrouppanel.h"
 
 
-class PanelFactory
+TurnoutGroupPanel::TurnoutGroupPanel(QWidget* parent):
+    SpdrPanel(parent)
 {
-    public:
-        PanelFactory();
-        SpdrPanel* createPanel(QWidget* parent = NULL,
-                SpdrPanel::SpdrItemClassId = SpdrPanel::siciSt1);
-        SpdrPanel* createPanelFromStream(QTextStream& ts,
-                QWidget* parent = NULL,
-                SpdrPanel::SpdrItemClassId = SpdrPanel::siciSt1);
-};
+    classid = siciFeb;
+    setupElementIcon();
+}
 
-#endif  //PANELFACTORY_H
+
+TurnoutGroupPanel::TurnoutGroupPanel(QTextStream& ts, QWidget* parent):
+    SpdrPanel(parent)
+{
+    classid = siciFeb;
+    readFileTextFromStream(ts);
+    setupElementIcon();
+}
+
+
+void TurnoutGroupPanel::setupElementIcon()
+{
+    background.fill(QColor(0, 0, 192));
+    setPaletteBackgroundPixmap(background);
+}

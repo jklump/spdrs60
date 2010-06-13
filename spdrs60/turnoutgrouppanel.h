@@ -18,21 +18,22 @@
 */
 
 
-#ifndef PANELFACTORY_H
-#define PANELFACTORY_H
+#ifndef TURNOUTGROUPPANEL_H
+#define TURNOUTGROUPPANEL_H
 
-#include "element.h"
+#include <spdrpanel.h>
 
 
-class PanelFactory
+class TurnoutGroupPanel: public SpdrPanel
 {
+    Q_OBJECT
+
+    protected:
+        void setupElementIcon();
+
     public:
-        PanelFactory();
-        SpdrPanel* createPanel(QWidget* parent = NULL,
-                SpdrPanel::SpdrItemClassId = SpdrPanel::siciSt1);
-        SpdrPanel* createPanelFromStream(QTextStream& ts,
-                QWidget* parent = NULL,
-                SpdrPanel::SpdrItemClassId = SpdrPanel::siciSt1);
+        TurnoutGroupPanel(QWidget* parent = NULL);
+        TurnoutGroupPanel(QTextStream&, QWidget* parent = NULL);
 };
 
-#endif  //PANELFACTORY_H
+#endif  //TURNOUTGROUPPANEL_H

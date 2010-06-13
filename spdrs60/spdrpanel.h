@@ -21,6 +21,7 @@
 #ifndef SPDRPANEL_H
 #define SPDRPANEL_H
 
+#include <qpixmap.h>
 #include <qwidget.h>
 
 /*element selection modes, shown as an inner rectangle*/
@@ -123,10 +124,13 @@ public:
         elemVisualMode visualMode;
         unsigned int iSoldIndex;
         bool modified;
+        QPixmap background;
+        virtual void setupElementIcon() = 0;
+        void paintEvent(QPaintEvent*);
 
     public:
         SpdrPanel(QWidget* parent = NULL);
-        virtual void readFileTextFromStream(QTextStream&) = 0;
+        virtual void readFileTextFromStream(QTextStream&);
         virtual void writeFileTextToStream(QTextStream&);
         void setIndexNo(unsigned int);
         unsigned int getIndexNo();
@@ -139,6 +143,7 @@ public:
     public slots:
         void switchSelectionMode(elemSelectionMode);
         void switchVisualMode(elemVisualMode);
+        void slotRepaintLayout();
 };
 
 #endif  //SPDRPANEL_H

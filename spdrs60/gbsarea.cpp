@@ -894,9 +894,6 @@ void GBSArea::connectElement(SpdrPanel* sp)
     /*all spdrpanels*/
     connect(this, SIGNAL(switchedVisualMode(elemVisualMode)),
             sp, SLOT(switchVisualMode(elemVisualMode)));
-    connect(this, SIGNAL(sigShowElement(int, int,
-                    elemSelectionMode)),
-            sp, SLOT(slotShowElement(int, int, elemSelectionMode)));
     /*tooltips on/off, address labeling on/off*/
     connect(this, SIGNAL(sigRepaintLayout()),
             sp, SLOT(slotRepaintLayout()));
@@ -918,6 +915,9 @@ void GBSArea::connectElement(SpdrPanel* sp)
 
         /*SRCP message handling for panels with addresses or feedback
           contacts */
+        connect(this, SIGNAL(sigShowElement(int, int,
+                        elemSelectionMode)),
+                sp, SLOT(slotShowElement(int, int, elemSelectionMode)));
         connect(this, SIGNAL(processInfoPortMessage(unsigned int,
                         unsigned int, unsigned int, unsigned int)),
                 el, SLOT(processInfoPortMessage(unsigned int,

@@ -192,7 +192,6 @@ void element::initVariables()
     // this is only used for crossings to choose the routed track
     routedtrack = 0;
 
-    background = QPixmap(size());
     background.fill(Qt::lightGray);
 
     lockCounter = 0;
@@ -1341,12 +1340,6 @@ void element::setupElementIcon()
             p.fillRect(br, QBrush(Qt::white));
         }
 
-        setPaletteBackgroundPixmap(background);
-    }
-   
-    // blue panel
-    else if (classid == siciFeb) {
-        background.fill(QColor(0, 0, 192));
         setPaletteBackgroundPixmap(background);
     }
    
@@ -8117,56 +8110,6 @@ void element::setupElementIcon()
     addTooltip();
 }
 
-
-/*this draws only foreground lines on background pixmap*/
-void element::paintEvent(QPaintEvent*)
-{
-    /* paint optional selection rectangle*/
-    if (selectionMode != ksmNormal) {
-        QPainter p(this);
-        QColor c;
-
-        switch (selectionMode) {
-            case ksmStopSig:
-                // red if in show route mode, stop signal
-                c = QColor(Qt::red);
-                break;
-            case ksmStartSig:
-                // green if in show route mode, start signal
-                c = QColor(Qt::green);
-                break;
-            case ksmDisplay:
-                // magenta if in show route mode, train number display
-                c = QColor(Qt::magenta);
-                break;
-            case ksmSwitchEl:
-                // yellow if clicked element in record route mode
-                c = QColor(251, 251, 0);
-                break;
-            case ksmFoundEl:
-                // found: orange
-                c = QColor("DarkOrange");
-                break;
-            case ksmDropTarget:
-                c = QColor(Qt::white);
-                break;
-            default:
-                c = QColor(Qt::black);
-                break;
-        }
-
-        int h = height();
-        int w = width();
-
-        p.setPen(QPen(c, 2, Qt::SolidLine));
-        p.drawLine(0, h - 1, w, h - 1);
-        p.drawLine(w - 1, h - 1, w - 1, 0);
-        p.drawLine(w - 1, 1, 0, 0);
-        p.drawLine(1, 1, 1, h - 1);
-    }
-}
-
-
 /**
  * remove every tool tip and if configured add new one
  * with current element data
@@ -9347,24 +9290,12 @@ void element::slotCopyAvailTracks(const QString& trackstr)
 }
 
 
-/* 
- * update tooltip visability and
- * redraw backgroud pixmap with the opposite of text/address labels
- */
-void element::slotRepaintLayout()
-{
-    QToolTip::remove(this);
-    setupElementIcon();
-}
-
-
 void element::writeFileTextToStream(QTextStream& ts)
 {
     ts << GF_CLASSID << DS << classid << endl
         << GF_INDEX << DS << iSoldIndex<< endl;
 
     switch (classid) {
-        case siciFeb:
         case siciFee:
         case siciFeg:
         case siciFen:
