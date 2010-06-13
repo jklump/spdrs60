@@ -20,6 +20,7 @@
 #include <qpainter.h>
 #include <qtooltip.h>
 
+#include "preferences.h"
 #include "spdrpanel.h"
 
 
@@ -190,3 +191,15 @@ void SpdrPanel::slotRepaintLayout()
     setupElementIcon();
 }
 
+
+void SpdrPanel::addTooltip()
+{
+    QString tip;
+
+    if (!pref.datatooltips)
+        return;
+
+    QToolTip::remove(this);
+    tip.sprintf("Item No: %d\nClassId: %d", iSoldIndex, classid);
+    QToolTip::add(this, tip);
+}

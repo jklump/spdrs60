@@ -126,6 +126,7 @@ public:
         bool modified;
         QPixmap background;
         virtual void setupElementIcon() = 0;
+        virtual void addTooltip();
         void paintEvent(QPaintEvent*);
 
     public:

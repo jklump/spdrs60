@@ -246,7 +246,6 @@ private:
     SrcpMessage::Protocol protocol2;
     QTimer*  locateTimer;
 
-    void addTooltip();
     void initVariables();
     void setLightsOn(bool);
     void switchToDirBlinking(int);
@@ -288,6 +287,7 @@ protected:  // virtual inherited methods
     void mousePressEvent(QMouseEvent*);
     void mouseReleaseEvent(QMouseEvent*);
     void setupElementIcon();
+    void addTooltip();
 };
 
 

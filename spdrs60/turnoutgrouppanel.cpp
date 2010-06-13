@@ -41,4 +41,6 @@ void TurnoutGroupPanel::setupElementIcon()
 {
     background.fill(QColor(0, 0, 192));
     setPaletteBackgroundPixmap(background);
+    addTooltip();
 }
+
