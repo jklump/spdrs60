@@ -43,6 +43,7 @@ nodist_spdrs60_SOURCES = \
 	paintitemwindow_moc.cpp \
 	routedialog_moc.cpp \
 	routeelementdialog_moc.cpp \
+	routegrouppanel_moc.cpp \
 	routelistview_moc.cpp \
 	routelistwindow_moc.cpp \
 	route_moc.cpp \
@@ -90,6 +91,7 @@ spdrs60_SOURCES = main.cpp resources.h \
 	routedialog.cpp routedialog.h \
 	routeelementdialog.cpp routeelementdialog.h \
 	routeelementlvi.cpp routeelementlvi.h \
+	routegrouppanel.cpp routegrouppanel.h \
 	routelistview.cpp routelistview.h \
 	routelistwindow.cpp routelistwindow.h \
 	routelvi.cpp routelvi.h \

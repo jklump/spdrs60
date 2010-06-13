@@ -1395,12 +1395,6 @@ void element::setupElementIcon()
         setPaletteBackgroundPixmap(background);
     }
    
-    // green panel
-    else if (classid == siciFeg) {
-        background.fill(QColor(0, 160, 0));
-        setPaletteBackgroundPixmap(background);
-    }
-   
     // green panel with FHT button and counter
     else if (classid == siciTaf) {
         background.fill(QColor(0, 160, 0));
@@ -9291,7 +9285,6 @@ void element::writeFileTextToStream(QTextStream& ts)
 
     switch (classid) {
         case siciFee:
-        case siciFeg:
         case siciFen:
         case siciFey:
         case siciBs1:
