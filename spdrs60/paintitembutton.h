@@ -25,7 +25,7 @@
 
 #include <qtoolbutton.h>
 
-#include "element.h"
+#include "spdrpanel.h"
 
 
 class PaintItemButton: public QToolButton
@@ -34,13 +34,13 @@ class PaintItemButton: public QToolButton
         
 public:
     PaintItemButton(const QIconSet&, const QString&,
-            element::SpdrItemClassId si = element::siciNone,
+            SpdrPanel::SpdrItemClassId si = SpdrPanel::siciNone,
             QWidget* parent = NULL, const char* name = 0);
 
-    element::SpdrItemClassId Sici();
+    SpdrPanel::SpdrItemClassId Sici();
     
 private:
-    element::SpdrItemClassId sici;
+    SpdrPanel::SpdrItemClassId sici;
 
 };
 

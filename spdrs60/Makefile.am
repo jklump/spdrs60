@@ -49,6 +49,7 @@ nodist_spdrs60_SOURCES = \
 	router_moc.cpp \
 	section_moc.cpp \
 	serverinfodialog_moc.cpp \
+	spdrpanel_moc.cpp \
 	srcpport_moc.cpp \
 	trainnumberdialog_moc.cpp \
 	turntablecommander_moc.cpp \
@@ -81,6 +82,7 @@ spdrs60_SOURCES = main.cpp resources.h \
 	options.cpp options.h \
 	paintitembutton.cpp paintitembutton.h \
 	paintitemwindow.cpp paintitemwindow.h \
+        panelfactory.cpp panelfactory.h \
 	preferences.cpp preferences.h \
 	route.cpp route.h \
 	routedialog.cpp routedialog.h \
@@ -92,6 +94,7 @@ spdrs60_SOURCES = main.cpp resources.h \
 	router.cpp router.h \
 	section.cpp section.h \
 	serverinfodialog.cpp serverinfodialog.h \
+        spdrpanel.h spdrpanel.cpp \
 	srcpmessage.cpp srcpmessage.h \
 	srcpport.cpp srcpport.h \
 	trainnumberdialog.cpp trainnumberdialog.h \

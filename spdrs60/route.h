@@ -32,7 +32,7 @@
 #include "section.h"
 
 // forward declaration
-class element;
+//class element;
 
 struct PortState {
     bool used;
@@ -102,8 +102,8 @@ public:
     void hideRoute();
     void showRoute();
     void viewRoute();
-    void setupElementList(QPtrVector<element>*);
-    void updateElementList(QPtrVector<element>*);
+    void setupElementList(QPtrVector<SpdrPanel>*);
+    void updateElementList(QPtrVector<SpdrPanel>*);
     bool isLockedWithEntrySignal(element*);
     bool isUnlockedWithEntrySignalType(element*, GbsButtonState,
             GbsButtonState);

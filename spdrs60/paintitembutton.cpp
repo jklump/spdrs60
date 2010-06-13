@@ -25,7 +25,7 @@
 
 
 PaintItemButton::PaintItemButton(const QIconSet& icon, const QString& text,
-        element::SpdrItemClassId si, QWidget* parent, const char* name)
+        SpdrPanel::SpdrItemClassId si, QWidget* parent, const char* name)
 : QToolButton(parent, name)
 {
     sici = si;
@@ -39,7 +39,7 @@ PaintItemButton::PaintItemButton(const QIconSet& icon, const QString& text,
 /*
  * return associated sici value
  */
-element::SpdrItemClassId PaintItemButton::Sici()
+SpdrPanel::SpdrItemClassId PaintItemButton::Sici()
 {
     return sici;
 }

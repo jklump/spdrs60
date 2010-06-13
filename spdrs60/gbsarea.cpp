@@ -28,6 +28,7 @@
 #include <qdragobject.h>
 #include <qpopupmenu.h>
 
+#include "panelfactory.h"
 #include "resources.h"
 #include "gbsarea.h"
 
@@ -78,7 +79,7 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
     gkbState = kNoneClicked;
     visualMode = kvmNormal;
     lyeditMode = lemSelect;
-    paintItem = element::siciSt1;
+    paintItem = SpdrPanel::siciSt1;
     lastelement = NULL;
     modified = false;
     cols = 0;
@@ -232,8 +233,6 @@ GBSArea::GBSArea(QWidget* parent, const char* name)
     delayTimer = new QTimer(this);
     connect(delayTimer, SIGNAL(timeout()),
             this, SLOT(slotElementClickedTimeout()));
-
-    toggleAction = new QAction(tr("&Toggle"), 0, this, "toggleaction");
 }
 
 
@@ -287,7 +286,7 @@ void GBSArea::writeFileTextToStream(QTextStream& ts)
        //<< "# elements=" << elements.count() << endl;
     
     for (unsigned int i = 0; i < elements.size(); i++) {
-        element* el = elements[i];
+        SpdrPanel* el = elements[i];
         if (el != NULL) {
             ts << "%% element " << i << endl;
             el->writeFileTextToStream(ts);
@@ -299,6 +298,8 @@ void GBSArea::writeFileTextToStream(QTextStream& ts)
 
 void GBSArea::readFileTextFromStream(QTextStream& ts)
 {
+    PanelFactory pf;
+
     /*clear old element list*/
     if (!elements.isEmpty()) {
         emit clearRoutes();
@@ -341,8 +342,39 @@ void GBSArea::readFileTextFromStream(QTextStream& ts)
 
         /*here we read allways up to start marker of a new route*/
         else if (s.startsWith("%% element")) {
+            
+            // read next line containing classid
+            s = ts.readLine();
+            SpdrPanel::SpdrItemClassId type =
+                (SpdrPanel::SpdrItemClassId) s.section(';', 1, 1).toInt();
 
-            element* el = new element(ts, this);
+            SpdrPanel* el = pf.createPanelFromStream(ts, this, type);
+            if (el != NULL) {
+                unsigned int idx = el->getIndexNo();
+
+                if (idx < ecount) {
+                    moveElementToIndexPos(el, idx);
+                    elements.insert(idx, el);
+                    connectElement(el);
+                    el->show();
+                }
+                else {
+                    qWarning("Error: Element outside of layout found "
+                            "(Index = %d).", idx);
+                    delete el;
+                }
+                //qWarning("Element number %d inserted.", el->getIndexNo());
+            }
+        }
+
+        /*here we read allways up to start marker of a new route*/
+        else if (s.startsWith("%% panel")) {
+
+            QStringList tokens = QStringList::split(' ', s);
+            SpdrPanel::SpdrItemClassId type =
+                (SpdrPanel::SpdrItemClassId) tokens[2].toInt();
+
+            SpdrPanel* el = pf.createPanelFromStream(ts, this, type);
             if (el != NULL) {
                 unsigned int idx = el->getIndexNo();
 
@@ -659,7 +691,7 @@ void GBSArea::updateRoutePathLEDs(const stateElement& fSig,
             break;
         }
         
-        element* rel = elements[idx];
+        element* rel = dynamic_cast<element*>(elements[idx]);
         if (rel == NULL) {
             emit statusMessage(tr("Route end at empty element %1")
                     .arg(idx));
@@ -740,7 +772,7 @@ bool GBSArea::findElement(const QString& ftext, int ftype, int fmulti)
     // locate element with certain address 1
     if (ftype == SRCH_A1)
         for (idx = 0; idx < elements.size(); idx++) {
-            element* el = elements[idx];
+            element* el = dynamic_cast<element*>(elements[idx]);
 
             if (el == NULL)
                 continue;
@@ -758,7 +790,7 @@ bool GBSArea::findElement(const QString& ftext, int ftype, int fmulti)
     // locate element with certain address 2
     else if (ftype == SRCH_A2)
         for (idx = 0; idx < elements.size(); idx++) {
-            element* el = elements[idx];
+            element* el = dynamic_cast<element*>(elements[idx]);
 
             if (el == NULL)
                 continue;
@@ -776,7 +808,7 @@ bool GBSArea::findElement(const QString& ftext, int ftype, int fmulti)
     // locate element with certain textfield
     else if (ftype == SRCH_TX)
         for (idx = 0; idx < elements.size(); idx++) {
-            element* el = elements[idx];
+            element* el = dynamic_cast<element*>(elements[idx]);
 
             if (el == NULL)
                 continue;
@@ -802,13 +834,13 @@ bool GBSArea::findElement(const QString& ftext, int ftype, int fmulti)
 void GBSArea::slotToggleAll()
 {
     for (unsigned int i = 0; i < elements.size(); i++) {
-        element* el = elements[i];
+        element* el = dynamic_cast<element*>(elements[i]);
 
         if (el != NULL &&
-                el->classId() != element::siciEnk &&
-                el->classId() != element::siciMdc &&
-                el->classId() != element::siciSbn &&
-                el->classId() != element::siciDre)
+                el->classId() != SpdrPanel::siciEnk &&
+                el->classId() != SpdrPanel::siciMdc &&
+                el->classId() != SpdrPanel::siciSbn &&
+                el->classId() != SpdrPanel::siciDre)
             el->toggle();
     }
 }
@@ -820,13 +852,13 @@ void GBSArea::slotToggleAll()
 void GBSArea::slotSendAll()
 {
     for (unsigned int i = 0; i < elements.size(); i++) {
-        element* el = elements[i];
+        element* el = dynamic_cast<element*>(elements[i]);
 
         if (el != NULL &&
-                el->classId() != element::siciEnk &&
-                el->classId() != element::siciMdc &&
-                el->classId() != element::siciSbn &&
-                el->classId() != element::siciDre)
+                el->classId() != SpdrPanel::siciEnk &&
+                el->classId() != SpdrPanel::siciMdc &&
+                el->classId() != SpdrPanel::siciSbn &&
+                el->classId() != SpdrPanel::siciDre)
             el->sendSrcpState();
     }
 }
@@ -838,7 +870,7 @@ void GBSArea::slotSendAll()
 void GBSArea::slotNotrot()
 {
     for (unsigned int i = 0; i < elements.size(); i++) {
-        element* el = elements[i];
+        element* el = dynamic_cast<element*>(elements[i]);
 
         if (el != NULL && el->isSignal())
             el->switchToDir(0);
@@ -854,40 +886,63 @@ void GBSArea::slotNotrot()
  * disconnect is done automatically by the Qt library when element
  * is deleted
  */
-void GBSArea::connectElement(element* el)
+void GBSArea::connectElement(SpdrPanel* sp)
 {
-    if (el == NULL)
+    if (sp == NULL)
         return;
 
-    connect(el, SIGNAL(elementClicked(element*, GbsButtonState)),
-            this, SLOT(slotElementClicked(element*, GbsButtonState)));
-    connect(el, SIGNAL(sigShowFBmodules()),
-            this, SIGNAL(sigShowFBmodules()));
-
+    /*all spdrpanels*/
     connect(this, SIGNAL(switchedVisualMode(elemVisualMode)),
-            el, SLOT(switchVisualMode(elemVisualMode)));
+            sp, SLOT(switchVisualMode(elemVisualMode)));
     connect(this, SIGNAL(sigShowElement(int, int,
                     elemSelectionMode)),
-            el, SLOT(slotShowElement(int, int, elemSelectionMode)));
+            sp, SLOT(slotShowElement(int, int, elemSelectionMode)));
+    /*tooltips on/off, address labeling on/off*/
     connect(this, SIGNAL(sigRepaintLayout()),
-            el, SLOT(slotRepaintLayout()));
-    connect(el, SIGNAL(recordElement(element*, elemRecordType)),
-            this, SIGNAL(recordElement(element*, elemRecordType)));
-    connect(this, SIGNAL(processInfoPortMessage(unsigned int,
-                    unsigned int, unsigned int, unsigned int)),
-            el, SLOT(processInfoPortMessage(unsigned int,
-                    unsigned int, unsigned int, unsigned int)));
-    connect(el, SIGNAL(sendSrcpMessage(SrcpMessage*)),
-            this, SIGNAL(sendSrcpMessage(SrcpMessage*)));
-    connect(this, SIGNAL(feedbackPortChanged(unsigned int,
-                    unsigned int, bool)),
-            el, SLOT(slotOccupyElement(unsigned int,
-                    unsigned int, bool)));
+            sp, SLOT(slotRepaintLayout()));
+
+    element* el = dynamic_cast<element*>(sp);
+    if (el != NULL) {
+        /*button panels*/
+        connect(el, SIGNAL(elementClicked(element*, GbsButtonState)),
+                this, SLOT(slotElementClicked(element*, GbsButtonState)));
+
+        /*for route members*/
+        connect(el, SIGNAL(recordElement(element*, elemRecordType)),
+                this, SIGNAL(recordElement(element*, elemRecordType)));
+
+        /*feedback handling panels, connect feedback trigger dialog with
+          main window*/
+        connect(el, SIGNAL(sigShowFBmodules()),
+                this, SIGNAL(sigShowFBmodules()));
+
+        /*SRCP message handling for panels with addresses or feedback
+          contacts */
+        connect(this, SIGNAL(processInfoPortMessage(unsigned int,
+                        unsigned int, unsigned int, unsigned int)),
+                el, SLOT(processInfoPortMessage(unsigned int,
+                        unsigned int, unsigned int, unsigned int)));
+        connect(el, SIGNAL(sendSrcpMessage(SrcpMessage*)),
+                this, SIGNAL(sendSrcpMessage(SrcpMessage*)));
+        connect(this, SIGNAL(feedbackPortChanged(unsigned int,
+                        unsigned int, bool)),
+                el, SLOT(slotOccupyElement(unsigned int,
+                        unsigned int, bool)));
+    }
 }
 
 
 bool GBSArea::isModified()
 {
+    for (unsigned int i = 0; i < elements.size(); i++) {
+        SpdrPanel* el = elements[i];
+        if (el != NULL) {
+            if (el->isModified()) {
+                modified = true;
+                break;
+            }
+        }
+    }
     return modified;
 }
 
@@ -934,7 +989,7 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
     if (newrows > MAX_ROWS)
         newrows = MAX_ROWS;
  
-    QPtrVector<element> tmpelements;
+    QPtrVector<SpdrPanel> tmpelements;
 
     tmpelements.resize(newcols * newrows);
     
@@ -954,7 +1009,7 @@ void GBSArea::setLayoutSize(int newcols, int newrows)
     /* rearrange elements in altered gbs */
     for (int c = 1; c <= newcols; c++) {
         for (int r = 1; r <= newrows; r++) {
-            element* el = item(r, c);
+            SpdrPanel* el = item(r, c);
 
             if (el != NULL) {
                 unsigned int idx = newrows * (c - 1) + r - 1;
@@ -1046,7 +1101,7 @@ unsigned int GBSArea::indexOf(const QPoint& ep) const
 // *INDENT-ON*
 
 
-void GBSArea::moveElementToIndexPos(element* el, unsigned int idx)
+void GBSArea::moveElementToIndexPos(SpdrPanel* el, unsigned int idx)
 {
     if (el != NULL && idx < elements.size())
         el->move(1 + (idx / rows) * (EL_WIDTH + 1),
@@ -1055,7 +1110,7 @@ void GBSArea::moveElementToIndexPos(element* el, unsigned int idx)
 
 
 // *INDENT-OFF*
-element* GBSArea::item(int row, int col) const
+SpdrPanel* GBSArea::item(int row, int col) const
 // *INDENT-ON*
 {
     if (row < 0 || col < 0 || row > rows ||
@@ -1066,7 +1121,7 @@ element* GBSArea::item(int row, int col) const
 }
 
 
-QPtrVector<element>* GBSArea::getGbsElementListPtr()
+QPtrVector<SpdrPanel>* GBSArea::getGbsElementListPtr()
 {
     return &elements;
 }
@@ -1084,7 +1139,7 @@ void GBSArea::getElementByAddress(const int bus, const int address,
         element** el)
 {
     for (unsigned int i = 0; i < elements.size(); i++) {
-        element* gbse = elements[i];
+        element* gbse = dynamic_cast<element*>(elements[i]);
 
         if (gbse != NULL && gbse->hasSameAddress(bus, address)) {
             *el = gbse;
@@ -1101,7 +1156,7 @@ bool GBSArea::runSRCP08GAInitSequence()
 
     for (unsigned int i = SRCP08GA1InitWalker; i < elements.size(); i++) {
 
-        element* el = elements[i];
+        element* el = dynamic_cast<element*>(elements[i]);
         if (el == NULL)
             continue;
 
@@ -1120,7 +1175,7 @@ bool GBSArea::runSRCP08GAInitSequence()
     if (!returnvalue && !CounterChanged)
         for (unsigned int i = SRCP08GA2InitWalker; i < elements.size(); i++) {
 
-            element* el = elements[i];
+            element* el = dynamic_cast<element*>(elements[i]);
             if (el == NULL)
                 continue;
 
@@ -1217,7 +1272,7 @@ void GBSArea::updateSRCP08BusList()
     /*how many different GA busses do we have? */
     for (unsigned int i = 0; i < elements.size(); i++) {
 
-        element* el = elements[i];
+        element* el = dynamic_cast<element*>(elements[i]);
         if (el == NULL)
             continue;
 
@@ -1321,94 +1376,12 @@ bool GBSArea::hasSrcp08Bus(unsigned int bus)
     return returnvalue;
 }
 
-/*setup property menu and keep click position */
-void GBSArea::runPropertyMenue(element* el, const QPoint& p)
-{
-    QPopupMenu* propmenu = new QPopupMenu(this, "propertyMenu");
-    int count = 0;
-
-    if (el->hasLabel()) {
-        propmenu->insertItem(tr("&Label..."), 1);
-    }
-
-    count = el->driveCount();
-    if (count == 1) {
-        propmenu->insertItem(tr("&Drive..."), 2);
-    }
-    else if (count > 1) {
-        propmenu->insertItem(tr("&Drives..."), 3);
-    }
-
-    if (el->hasVirtualAddress()) {
-        propmenu->insertItem(tr("Virtual &address..."), 4);
-    }
-
-    if (el->hasVariants()) {
-        propmenu->insertItem(tr("&Variant..."), 5);
-    }
-
-    if (el->hasTrackIndicator()) {
-        propmenu->insertItem(tr("&Track indicator..."), 6);
-    }
-
-    if (el->hasFeedbackTrigger())
-        propmenu->insertItem(tr("Tri&gger..."), 7);
-
-    if (propmenu->idAt(0) != -1) {
-        int mitem = propmenu->exec(QCursor::pos());
-        bool elchanged = false;
-
-        switch(mitem) {
-            case 1:
-                elchanged = el->showLabelDialog();
-                break;
-            case 2:
-                elchanged = el->showDriveDialog();
-                break;
-            case 3:
-                elchanged = el->showDualDriveDialog();
-                break;
-            case 4:
-                elchanged = el->showVirtualAddressDialog();
-                break;
-            case 5:
-                elchanged = el->showVariantDialog();
-                break;
-            case 6:
-                elchanged = el->showTrackIndicatorDialog();
-                break;
-            case 7:
-                elchanged = el->showFeedbackTriggerDialog(p);
-                break;
-            case -1: //fall through
-            default:
-                break;
-        }
-        if (elchanged)
-            modified = true;
-    }
-    delete propmenu;
-}
-
 
 void GBSArea::mouseReleaseEvent(QMouseEvent* e)
 {
-    /*normal mode*/
-    if (visualMode == kvmNormal) {
-        if (e->button() == Qt::RightButton) {
-            element* el = (element*)childAt(e->pos());
-
-            if (el != NULL && el->isSwitchable()) {
-                toggleAction->setEnabled(el->ctxCanSwitch());
-
-                QPopupMenu menu;
-                toggleAction->addTo(&menu);
-
-                if (menu.exec(QCursor::pos()) != -1)
-                    el->toggle();
-            }
-            e->accept();
-        }
+    /*normal mode and route edit mode*/
+    if (visualMode == kvmNormal || visualMode == kvmEditRoute) {
+        e->ignore();
     }
 
     /*layout edit mode*/
@@ -1417,6 +1390,7 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
 
             if (lyeditMode == lemSelect) {
             /*TODO: handle drop action*/
+                e->ignore();
             }
 
             else if (lyeditMode == lemErase) {
@@ -1429,43 +1403,8 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
 
             e->accept();
         }
-
-        else if (e->button() == Qt::MidButton) {
-            // nothing happens here
-        }
-
-        else if (e->button() == Qt::RightButton) {
-            element* el = (element*)childAt(e->pos());
-
-            if (el == NULL) {
-                e->accept();
-                return;
-            }
-
-            runPropertyMenue(el, e->pos());
-
-            e->accept();
-        }
-
-    }
-
-    /*route edit mode*/
-    else if (visualMode == kvmEditRoute) {
-        /*show context menu to switch element only without selection*/
-        if (e->button() == Qt::RightButton) {
-            element* el = (element*)childAt(e->pos());
-
-            if (el != NULL && el->isSwitchable()) {
-                toggleAction->setEnabled(el->ctxCanSwitch());
-
-                QPopupMenu menu;
-                toggleAction->addTo(&menu);
-
-                if (menu.exec(QCursor::pos()) != -1)
-                    el->toggle();
-            }
-            e->accept();
-        }
+        else
+            e->ignore();
     }
 }
 
@@ -1474,27 +1413,10 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
  * */
 void GBSArea::mousePressEvent(QMouseEvent* e)
 {
+    PanelFactory pf;
+
     if (visualMode == kvmNormal) {
-        if (e->button() == Qt::LeftButton) {
-            element* el = (element*)childAt(e->pos());
-            if (el != NULL) {
-                if (el->classId() == element::siciMdc) {
-                    //TODO: create motor commander
-                    //if (!el->hasCommander()) {
-                    //  emit createMotorCommander(el);
-                    //  }
-                    e->accept();
-                }
-                else if (el->classId() == element::siciSbn) {
-                    //TODO: create shifting bridge commander
-                    e->accept();
-                }
-                else if (el->classId() == element::siciDre) {
-                    //TODO: create turn table commander
-                    e->accept();
-                }
-            }
-        }
+        e->ignore();
     }
     /*layout edit mode*/
     else if (visualMode == kvmEditLayout) {
@@ -1502,14 +1424,14 @@ void GBSArea::mousePressEvent(QMouseEvent* e)
 
             /* drag item */
             if (lyeditMode == lemSelect) {
-                element* el = (element*)childAt(e->pos());
+                SpdrPanel* el = (SpdrPanel*)childAt(e->pos());
                 if (el != NULL)
                     dragging = true;
             }
 
             /* erase item */
             else if (lyeditMode == lemErase) {
-                element* el = (element*)childAt(e->pos());
+                SpdrPanel* el = (SpdrPanel*)childAt(e->pos());
                 unsigned int idx = indexOf(e->pos());
 
                 if (el != NULL) {
@@ -1521,13 +1443,13 @@ void GBSArea::mousePressEvent(QMouseEvent* e)
 
             /* paint item */
             else if (lyeditMode == lemPaint) {
-                element* el = (element*)childAt(e->pos());
+                SpdrPanel* el = (SpdrPanel*)childAt(e->pos());
                 unsigned int idx = indexOf(e->pos());
 
                 if (el != NULL) {
                     if (el->classId() != paintItem) {
                         elements.remove(idx);
-                        el = new element(this, paintItem);
+                        el = pf.createPanel(this, paintItem);
                         el->setIndexNo(idx);
                         moveElementToIndexPos(el, idx);
                         elements.insert(idx, el);
@@ -1537,7 +1459,7 @@ void GBSArea::mousePressEvent(QMouseEvent* e)
                     }
                 }
                 else {
-                    el = new element(this, paintItem);
+                    el = pf.createPanel(this, paintItem);
                     el->setIndexNo(idx);
                     moveElementToIndexPos(el, idx);
                     elements.insert(idx, el);
@@ -1557,11 +1479,13 @@ void GBSArea::mousePressEvent(QMouseEvent* e)
  */
 void GBSArea::mouseMoveEvent(QMouseEvent* e)
 {
+    PanelFactory pf;
+
     /*layout edit mode*/
     if (visualMode == kvmEditLayout) {
         /* drag elements */
         if ((lyeditMode == lemSelect) && dragging) {
-            element* el = (element*)childAt(e->pos());
+            SpdrPanel* el = (SpdrPanel*)childAt(e->pos());
             if (el != NULL) {
                 unsigned int idx = el->getIndexNo();
                 QByteArray data(sizeof(idx));
@@ -1584,7 +1508,7 @@ void GBSArea::mouseMoveEvent(QMouseEvent* e)
 
         /* erase elements */
         else if ((lyeditMode == lemErase) && erasing) {
-                element* el = (element*)childAt(e->pos());
+                SpdrPanel* el = (SpdrPanel*)childAt(e->pos());
 
                 if (el != NULL) {
                     unsigned int idx = indexOf(e->pos());
@@ -1600,12 +1524,12 @@ void GBSArea::mouseMoveEvent(QMouseEvent* e)
                 if (idx > (unsigned int)(rows * cols))
                     return;
 
-                element* el = (element*)childAt(e->pos());
+                SpdrPanel* el = (SpdrPanel*)childAt(e->pos());
 
                 if (el != NULL) {
                     if (el->classId() != paintItem) {
                         elements.remove(idx);
-                        el = new element(this, paintItem);
+                        el = pf.createPanel(this, paintItem);
                         el->setIndexNo(idx);
                         moveElementToIndexPos(el, idx);
                         elements.insert(idx, el);
@@ -1615,7 +1539,7 @@ void GBSArea::mouseMoveEvent(QMouseEvent* e)
                     }
                 }
                 else {
-                    el = new element(this, paintItem);
+                    el = pf.createPanel(this, paintItem);
                     el->setIndexNo(idx);
                     moveElementToIndexPos(el, idx);
                     elements.insert(idx, el);
@@ -1639,9 +1563,9 @@ void GBSArea::dragMoveEvent(QDragMoveEvent* e)
             e->accept();
 
         else if (e->provides(MIME_FBC)) {
-            element* el = (element*)childAt(e->pos());
+            SpdrPanel* sp = (SpdrPanel*)childAt(e->pos());
             
-            if (el == NULL) {
+            if (sp == NULL) {
                 if (lastelement != NULL) {
                     lastelement->switchSelectionMode(ksmNormal);
                     lastelement = NULL;
@@ -1650,6 +1574,13 @@ void GBSArea::dragMoveEvent(QDragMoveEvent* e)
                 return;
             }
             
+            /*only for feedback handling panels*/
+            element* el = dynamic_cast<element*>(sp);
+            if (el == NULL) {
+                    e->ignore();
+                return;
+            }
+
             if (el->canReceiveFbcDrop()) {
                 if (lastelement != NULL) {
                     if (lastelement != el) {
@@ -1695,7 +1626,7 @@ void GBSArea::dropEvent(QDropEvent *e)
             memcpy(&idx, data.data(), sizeof(idx));
 
             // move element from old position to new position
-            element* el = elements.take(idx);
+            SpdrPanel* el = elements.take(idx);
             if (el != NULL) {
                 unsigned int pidx = indexOf(e->pos());
                 el->setIndexNo(pidx);
@@ -1706,18 +1637,24 @@ void GBSArea::dropEvent(QDropEvent *e)
             e->accept();
         }
 
+        /*only for feedback handling panels*/
         else if (e->provides(MIME_FBC)) {
             if (lastelement != NULL) {
                 lastelement->setDropTargetView(false);
                 lastelement = NULL;
             }  
-            element* el = (element*)childAt(e->pos());
-            if (el != NULL && el->canReceiveFbcDrop()) {
+
+            SpdrPanel* sp = (SpdrPanel*)childAt(e->pos());
+            element* el = dynamic_cast<element*>(sp);
+            if (el == NULL) {
+                e->ignore();
+            }
+            else if (el->canReceiveFbcDrop()) {
                 QByteArray data = e->encodedData(MIME_FBC);
                 el->setDroppedFbContact(data);
                 modified = true;
+                e->accept();
             }
-            e->accept();
         }
     }
 }
@@ -1789,7 +1726,7 @@ void GBSArea::changeLayoutEditMode(LayoutEditMode lem)
 /*
  * change current paint item
  */
-void GBSArea::changeLayoutPaintItem(element::SpdrItemClassId sici)
+void GBSArea::changeLayoutPaintItem(SpdrPanel::SpdrItemClassId sici)
 {
     if (sici != paintItem)
         paintItem = sici;
@@ -2008,7 +1945,7 @@ void GBSArea::switchTableLight(bool ison)
     if (tablelight != ison) {
         tablelight = ison;
         for (unsigned int i = 0; i < elements.size(); i++) {
-            element* el = elements[i];
+            element* el = dynamic_cast<element*>(elements[i]);
             if (el != NULL)
                 el->setTableLight(ison);
         }

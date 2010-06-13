@@ -544,8 +544,7 @@ void MainWindow::initMainWindow()
     fbViewer->hide();
     
     /*route controller*/
-    router = new Router(this, gbs->getGbsElementListPtr(),
-            "router");
+    router = new Router(this, gbs->getGbsElementListPtr(), "router");
     Q_CHECK_PTR(router);
     connect(this, SIGNAL(switchedVisualMode(elemVisualMode)),
             router, SLOT(switchVisualMode(elemVisualMode)));
@@ -605,8 +604,8 @@ void MainWindow::initMainWindow()
     Q_CHECK_PTR(piw);
     moveDockWindow(piw, Qt::DockLeft);
     piw->hide();
-    connect(piw, SIGNAL(paintItemChanged(element::SpdrItemClassId)),
-            gbs, SLOT(changeLayoutPaintItem(element::SpdrItemClassId)));
+    connect(piw, SIGNAL(paintItemChanged(SpdrPanel::SpdrItemClassId)),
+            gbs, SLOT(changeLayoutPaintItem(SpdrPanel::SpdrItemClassId)));
 
     /*file toolbar*/
     QToolBar* filetb = new QToolBar(this, "filetb");

@@ -25,7 +25,7 @@
 
 #include <qdockwindow.h>
 
-#include "element.h"
+#include "spdrpanel.h"
 #include "gbsarea.h"
 
 
@@ -43,7 +43,7 @@ private slots:
     void paintItemPressed(int);
 
 signals:
-    void paintItemChanged(element::SpdrItemClassId);
+    void paintItemChanged(SpdrPanel::SpdrItemClassId);
     
 private:
     QButtonGroup* paintItemBG;

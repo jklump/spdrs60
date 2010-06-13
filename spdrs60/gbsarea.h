@@ -80,8 +80,8 @@ public:
    void setLayoutSize(int, int);
    void removeRowElements(int row);
    void removeColumnElements(int col);
-   element* item(int row, int col) const;
-   QPtrVector<element>* getGbsElementListPtr();
+   SpdrPanel* item(int row, int col) const;
+   QPtrVector<SpdrPanel>* getGbsElementListPtr();
    void sendInfoPortMessage(unsigned int bus,
         unsigned int addr, unsigned int port, unsigned int value);
    bool sendSRCP08BusMessage(SrcpMessage::Message);
@@ -108,9 +108,7 @@ private:
    QCursor     eraseCursor;
    QTimer*     delayTimer;
 
-   QAction* toggleAction;
-   
-   QPtrVector<element> elements;
+   QPtrVector<SpdrPanel> elements;
 
    int         cols;
    int         rows;
@@ -122,8 +120,8 @@ private:
    GbsButtonState  gkbState;
    elemVisualMode visualMode;
    LayoutEditMode lyeditMode;
-   element::SpdrItemClassId paintItem;
-   element* lastelement;
+   SpdrPanel::SpdrItemClassId paintItem;
+   SpdrPanel* lastelement;
 
    // for SRCP 0.8
    unsigned int SRCP08GA1InitWalker;
@@ -132,15 +130,14 @@ private:
    unsigned int SRCP08BusWalker;
    SrcpBus* pSRCP08BusList;
 
-   void connectElement(element*);
+   void connectElement(SpdrPanel*);
    void externalButtonClicked(GbsButtonState);
    bool findElement(const QString&, int, int);
-   void moveElementToIndexPos(element*, unsigned int);
+   void moveElementToIndexPos(SpdrPanel*, unsigned int);
    void updateSRCP08BusList();
    void sendGmCrcfMessage(unsigned int, unsigned int, const QString&);
    QString getCrcfInfoMessage(CrcfMessage::CrcfAttribute) const;
    void switchTableLight(bool);
-   void runPropertyMenue(element*, const QPoint&);
    
 public slots:
     void newFile(int, int, unsigned int, const QString&);
@@ -163,7 +160,7 @@ public slots:
     void getElementByAddress(const int, const int, element**);
     void switchVisualMode(elemVisualMode);
     void changeLayoutEditMode(GBSArea::LayoutEditMode);
-    void changeLayoutPaintItem(element::SpdrItemClassId);
+    void changeLayoutPaintItem(SpdrPanel::SpdrItemClassId);
 
 protected:
     bool dragging;

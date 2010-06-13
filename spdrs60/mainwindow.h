@@ -36,8 +36,10 @@
 #include <qsocket.h>
 #include <qwidgetstack.h>
 
+#include "commandport.h"
 #include "crcfmessage.h"
-#include "element.h"
+#include "srcpmessage.h"
+#include "spdrpanel.h"
 
 
 // forward declarations to reduce compile time after code changes

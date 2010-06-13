@@ -423,7 +423,7 @@ den Suchkriterien entspricht.</translation>
     </message>
     <message>
         <source>&amp;Toggle</source>
-        <translation>&amp;Umschalten</translation>
+        <translation type="obsolete">&amp;Umschalten</translation>
     </message>
     <message>
         <source>Unsupported CRCF attribute &apos;%1&apos; detected.</source>
@@ -496,34 +496,6 @@ den Suchkriterien entspricht.</translation>
     <message>
         <source>Layout contains %1 configured busses</source>
         <translation>Gleisbild enthält %1 konfigurierte SRCP-Busse</translation>
-    </message>
-    <message>
-        <source>&amp;Label...</source>
-        <translation>&amp;Beschriftung...</translation>
-    </message>
-    <message>
-        <source>&amp;Drive...</source>
-        <translation>&amp;Antrieb...</translation>
-    </message>
-    <message>
-        <source>&amp;Drives...</source>
-        <translation>&amp;Antriebe...</translation>
-    </message>
-    <message>
-        <source>&amp;Variant...</source>
-        <translation>&amp;Variante...</translation>
-    </message>
-    <message>
-        <source>&amp;Track indicator...</source>
-        <translation>&amp;Gleisfreimeldung...</translation>
-    </message>
-    <message>
-        <source>Virtual &amp;address...</source>
-        <translation>Virtuelle &amp;Adresse...</translation>
-    </message>
-    <message>
-        <source>Tri&amp;gger...</source>
-        <translation>Aus&amp;lösen...</translation>
     </message>
 </context>
 <context>
@@ -2417,6 +2389,38 @@ Der zulässige Wertebereich ist %1..%2.</translation>
     <message>
         <source>&amp;Two drives (four switch positions)</source>
         <translation>&amp;Zwei Antriebe (vier Schaltpositionen)</translation>
+    </message>
+    <message>
+        <source>&amp;Label...</source>
+        <translation>&amp;Beschriftung...</translation>
+    </message>
+    <message>
+        <source>&amp;Drive...</source>
+        <translation>&amp;Antrieb...</translation>
+    </message>
+    <message>
+        <source>&amp;Drives...</source>
+        <translation>&amp;Antriebe...</translation>
+    </message>
+    <message>
+        <source>Virtual &amp;address...</source>
+        <translation>Virtuelle &amp;Adresse...</translation>
+    </message>
+    <message>
+        <source>&amp;Variant...</source>
+        <translation>&amp;Variante...</translation>
+    </message>
+    <message>
+        <source>&amp;Track indicator...</source>
+        <translation>&amp;Gleisfreimeldung...</translation>
+    </message>
+    <message>
+        <source>Tri&amp;gger...</source>
+        <translation>Aus&amp;lösen...</translation>
+    </message>
+    <message>
+        <source>&amp;Toggle</source>
+        <translation type="unfinished">&amp;Umschalten</translation>
     </message>
 </context>
 <context>

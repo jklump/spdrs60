@@ -343,10 +343,6 @@ Valid range is %1..%2.</source>
 <context>
     <name>GBSArea</name>
     <message>
-        <source>&amp;Toggle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>MGT-Function not supported.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -485,34 +481,6 @@ matches your search criteria.</source>
     </message>
     <message>
         <source>Layout contains %1 configured busses</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Label...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Drive...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Drives...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Variant...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&amp;Track indicator...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Virtual &amp;address...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Tri&amp;gger...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2393,6 +2361,38 @@ Valid range is %1..%2.</source>
     </message>
     <message>
         <source>&amp;EDiTS-Pro indicator</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Label...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Drive...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Drives...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Virtual &amp;address...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Variant...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Track indicator...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tri&amp;gger...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Toggle</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

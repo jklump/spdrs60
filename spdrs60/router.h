@@ -33,7 +33,7 @@
 
 
 // forward declaration
-class element;
+class SpdrPanel;
 
 class Router: public QObject
 {
@@ -41,7 +41,7 @@ class Router: public QObject
         
 public:
     Router(QObject* parent = NULL, const char* name = NULL);
-    Router(QObject* parent = NULL, QPtrVector<element>* elPtr = NULL,
+    Router(QObject* parent = NULL, QPtrVector<SpdrPanel>* elPtr = NULL,
             const char* name = NULL);
     ~Router();
     void readFileTextFromStream(QTextStream&);
@@ -57,7 +57,6 @@ public:
     bool editRoute(QWidget*, Route*);
     bool isModified();
     void clear();
-    void setElementListPtr(QPtrVector<element>*);
     void selectedRouteChanged(Route*);
     void showRouteAt(int);
     void startRecordModeAt(unsigned int);
@@ -85,7 +84,7 @@ public slots:
     void changeTrainNumber(unsigned int, unsigned int);
     
 private:
-    QPtrVector<element>* gbsElements;
+    QPtrVector<SpdrPanel>* gbsElements;
     QPtrList<Route> routeList;
     Route* selectedRoute;
     Route* resetRt;

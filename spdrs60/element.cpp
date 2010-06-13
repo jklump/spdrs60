@@ -23,7 +23,9 @@
  ***************************************************************************/
 
 #include <qapplication.h>
+#include <qaction.h>
 #include <qpixmap.h>
+#include <qpopupmenu.h>
 
 #include "drivedialog.h"
 #include "dualdrivedialog.h"
@@ -106,7 +108,7 @@ using namespace Qt;
 
 
 element::element(QWidget* parent, SpdrItemClassId ci)
-    : QWidget(parent, "gbselement")
+    : SpdrPanel(parent)
 {
     initVariables();
 
@@ -119,11 +121,23 @@ element::element(QWidget* parent, SpdrItemClassId ci)
     
 
 element::element(QTextStream& ts, QWidget* parent)
-    : QWidget(parent, "gbselement")
+    : SpdrPanel(parent)
 {
     initVariables();
     visualMode = kvmNormal;
     classid = siciNone;
+    readFileTextFromStream(ts);
+    updateProperties();
+    setupElementIcon();
+}
+
+
+element::element(QTextStream& ts, QWidget* parent, SpdrItemClassId ci)
+    : SpdrPanel(parent)
+{
+    initVariables();
+    visualMode = kvmNormal;
+    classid = ci;
     readFileTextFromStream(ts);
     updateProperties();
     setupElementIcon();
@@ -192,6 +206,7 @@ void element::initVariables()
     turntableProperties = NULL;
     ttComm = NULL;
     tablelight = true;
+    modified = false;
 }
 
 /* Read the layout element data from stream, old data style containing
@@ -650,15 +665,29 @@ void element::mouseReleaseEvent(QMouseEvent* e)
     /*normal mode*/
     if (visualMode == kvmNormal) {
         if (e->button() == Qt::RightButton) {
-            // handled by gbsarea
-            e->ignore();
+            if (isSwitchable()) {
+                QAction* toggleAction = new QAction(tr("&Toggle"), 0,
+                        this, "toggleaction");
+                toggleAction->setEnabled(ctxCanSwitch());
+                QPopupMenu menu;
+                toggleAction->addTo(&menu);
+                if (menu.exec(QCursor::pos()) != -1)
+                    toggle();
+            }
+            e->accept();
         }
     }
+
     /*layout edit mode*/
     else if (visualMode == kvmEditLayout) {
-        // handled by gbsarea
-        e->ignore();
+        if (e->button() == Qt::RightButton) {
+            runPropertyMenue(e->pos());
+            e->accept();
+        }
+        else
+            e->ignore();
     }
+
     /*route edit mode*/
     else if (visualMode == kvmEditRoute) {
         if (e->button() == Qt::LeftButton) {
@@ -705,9 +734,18 @@ void element::mouseReleaseEvent(QMouseEvent* e)
                 e->accept();
             }
         }
+        /*FIXME: same as in normal mode*/
         else if (e->button() == Qt::RightButton) {
-            // handled by gbsarea
-            e->ignore();
+            if (isSwitchable()) {
+                QAction* toggleAction = new QAction(tr("&Toggle"), 0,
+                        this, "toggleaction");
+                toggleAction->setEnabled(ctxCanSwitch());
+                QPopupMenu menu;
+                toggleAction->addTo(&menu);
+                if (menu.exec(QCursor::pos()) != -1)
+                    toggle();
+            }
+            e->accept();
         }
     }
 
@@ -769,26 +807,6 @@ void element::slotLocateTimerTimeout()
     // show element in normal mode
     selectionMode = ksmNormal;
     update();
-}
-
-
-void element::switchSelectionMode(elemSelectionMode sm)
-{
-    if (selectionMode != sm) {
-        selectionMode = sm;
-        update();
-    }
-}
-
-
-void element::switchVisualMode(elemVisualMode vm)
-{
-    if (visualMode != vm) {
-        visualMode = vm;
-
-        if (selectionMode != ksmNormal)
-            switchSelectionMode(ksmNormal);
-    }
 }
 
 
@@ -9454,6 +9472,7 @@ void element::writeFileTextToStream(QTextStream& ts)
             break;
     }
     ts << '%' << endl;
+    modified = false;
 }
 
 
@@ -9534,18 +9553,6 @@ bool element::hasFfMLock()
 }
 
 
-void element::setIndexNo(unsigned int idx)
-{
-    iSoldIndex = idx;
-}
-
-
-unsigned int element::getIndexNo()
-{
-    return iSoldIndex;
-}
-
-
 void element::getStateData(stateElement& se)
 {
     se.name = sSoldText;
@@ -9553,12 +9560,6 @@ void element::getStateData(stateElement& se)
     se.address = address1;
     se.state = state;
     se.elemPtr = this;
-}
-
-
-elemSelectionMode element::getSelectionMode()
-{
-    return selectionMode;
 }
 
 
@@ -9837,16 +9838,6 @@ void element::setLightsOn(bool ison)
     }
 }
 
-
-/*
- * return class id
- */
-element::SpdrItemClassId element::classId()
-{
-    return classid;
-}
-
-
 /*
  * return direction an activated route will enter this signal
  */
@@ -9899,15 +9890,6 @@ bool element::canReceiveFbcDrop()
 {
     return routable && !(classid == siciBue ||
             (classid == siciAdr && iSoldInvert == 1));
-}
-
-
-void element::setDropTargetView(bool on)
-{
-    if (on)
-        switchSelectionMode(ksmDropTarget);
-    else
-        switchSelectionMode(ksmNormal);
 }
 
 
@@ -10552,3 +10534,74 @@ bool element::hasFeedbackTrigger()
 {
     return (buttonCount() > 0) || (classid == siciRel);
 }
+
+
+/*setup property menu and keep click position */
+void element::runPropertyMenue(const QPoint& p)
+{
+    QPopupMenu* propmenu = new QPopupMenu(this, "propertyMenu");
+    int count = 0;
+
+    if (hasLabel()) {
+        propmenu->insertItem(tr("&Label..."), 1);
+    }
+
+    count = driveCount();
+    if (count == 1) {
+        propmenu->insertItem(tr("&Drive..."), 2);
+    }
+    else if (count > 1) {
+        propmenu->insertItem(tr("&Drives..."), 3);
+    }
+
+    if (hasVirtualAddress()) {
+        propmenu->insertItem(tr("Virtual &address..."), 4);
+    }
+
+    if (hasVariants()) {
+        propmenu->insertItem(tr("&Variant..."), 5);
+    }
+
+    if (hasTrackIndicator()) {
+        propmenu->insertItem(tr("&Track indicator..."), 6);
+    }
+
+    if (hasFeedbackTrigger())
+        propmenu->insertItem(tr("Tri&gger..."), 7);
+
+    if (propmenu->idAt(0) != -1) {
+        int mitem = propmenu->exec(QCursor::pos());
+        bool elchanged = false;
+
+        switch(mitem) {
+            case 1:
+                elchanged = showLabelDialog();
+                break;
+            case 2:
+                elchanged = showDriveDialog();
+                break;
+            case 3:
+                elchanged = showDualDriveDialog();
+                break;
+            case 4:
+                elchanged = showVirtualAddressDialog();
+                break;
+            case 5:
+                elchanged = showVariantDialog();
+                break;
+            case 6:
+                elchanged = showTrackIndicatorDialog();
+                break;
+            case 7:
+                elchanged = showFeedbackTriggerDialog(p);
+                break;
+            case -1: //fall through
+            default:
+                break;
+        }
+        if (elchanged) //TODO: check
+            modified = true;
+    }
+    delete propmenu;
+}
+

@@ -39,8 +39,8 @@ Router::Router(QObject* parent, const char* name):
 }
 
 
-Router::Router(QObject* parent, QPtrVector<element>* elPtr, const char* name):
-    QObject(parent, name)
+Router::Router(QObject* parent, QPtrVector<SpdrPanel>* elPtr,
+        const char* name): QObject(parent, name)
 {
     initVariables();
     gbsElements = elPtr;
@@ -238,11 +238,6 @@ void Router::clearRoutes()
     emit routeListChanged();
 }
 
-
-void Router::setElementListPtr(QPtrVector<element>* elp)
-{
-    gbsElements = elp;
-}
 
 /**
  * update route element highlighting in route edit mode

@@ -229,7 +229,7 @@ void Route::initVariables()
 /* 
  * Update route element names and pointers when layout was edited
  */
-void Route::updateElementList(QPtrVector<element>* elements)
+void Route::updateElementList(QPtrVector<SpdrPanel>* elements)
 {
     if (elements == NULL)
         return;
@@ -258,13 +258,13 @@ void Route::updateElementList(QPtrVector<element>* elements)
 }
 
 
-void Route::setupElementList(QPtrVector<element>* elements)
+void Route::setupElementList(QPtrVector<SpdrPanel>* elements)
 {
     if (elements == NULL)
         return;
 
     for (unsigned int i = 0; i < elements->size(); i++) {
-        element* el = elements->at(i);
+        element* el = dynamic_cast<element*>(elements->at(i));
 
         if (el == NULL)
             continue;
