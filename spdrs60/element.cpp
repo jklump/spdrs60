@@ -7838,60 +7838,6 @@ void element::setupElementIcon()
         setPaletteBackgroundPixmap(background);
     }
 
-    // track with right loco shed (+ old left)
-    else if (classid == siciLs1) {
-        QPainter p(&background);
-
-        int w = background.width();
-        int h = background.height();
-
-        // translate origin to center of pixmap
-        p.translate(w / 2, h / 2);
-
-        int tracklen = w / 2;
-        int shedwidth = h;
-        int shedxoffset = 0;
-        int shedyoffset = 0;
-
-        // paint track
-        p.fillRect(0, -3, -tracklen, 7, QBrush(Qt::black));
-        
-        // paint schuppen
-        p.setBrush(QColor(192, 0 ,0));
-        p.drawRect(0 - shedxoffset, -shedwidth / 2 + shedyoffset,
-                w / 2, shedwidth);
-        p.drawLine(w / 4 - shedxoffset, -shedwidth / 2 + shedyoffset,
-                w / 4 - shedxoffset, shedwidth / 2 + shedyoffset);
-
-        setPaletteBackgroundPixmap(background);
-    }
-
-    // track with left middle loco shed
-    else if (classid == siciLs3) {
-        QPainter p(&background);
-
-        int w = background.width();
-        int h = background.height();
-
-        // translate origin to center of pixmap
-        p.translate(w / 2, h / 2);
-
-        int tracklen = w / 2;
-        int shedwidth = h;
-
-        p.rotate(180.0);
-        
-        // paint track
-        p.fillRect(0, -3, -tracklen, 7, QBrush(Qt::black));
-        
-        // paint schuppen
-        p.setBrush(QColor(192, 0 ,0));
-        p.drawRect(0 , -shedwidth / 2, w / 2, shedwidth);
-        p.drawLine(w / 4, -shedwidth / 2, w / 4, shedwidth / 2);
-
-        setPaletteBackgroundPixmap(background);
-    }
-
     // transfer table
     else if (classid == siciSbn) {
         QPainter p(&background);
@@ -9173,10 +9119,8 @@ void element::writeFileTextToStream(QTextStream& ts)
 
     switch (classid) {
         case siciLt1:
-        case siciLs1:
         case siciLb1:
         case siciLt3:
-        case siciLs3:
         case siciLb3:
             break;
 
