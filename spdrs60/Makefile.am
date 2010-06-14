@@ -49,6 +49,7 @@ nodist_spdrs60_SOURCES = \
 	locoshednepanel_moc.cpp \
 	locoshednwpanel_moc.cpp \
 	locoshedsepanel_moc.cpp \
+	locoshedswpanel_moc.cpp \
 	locoshedwestpanel_moc.cpp \
 	mainwindow_moc.cpp \
 	messagehistory_moc.cpp \
@@ -109,6 +110,7 @@ spdrs60_SOURCES = main.cpp resources.h \
 	locoshednepanel.cpp locoshednepanel.h \
 	locoshednwpanel.cpp locoshednwpanel.h \
 	locoshedsepanel.cpp locoshedsepanel.h \
+	locoshedswpanel.cpp locoshedswpanel.h \
 	locoshedwestpanel.cpp locoshedwestpanel.h \
 	mainwindow.cpp mainwindow.h \
 	messagehistory.cpp messagehistory.h \

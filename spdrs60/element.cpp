@@ -7765,37 +7765,6 @@ void element::setupElementIcon()
         setPaletteBackgroundPixmap(background);
     }
 
-    // track with right top or bottom loco shed (lokschuppen)
-    else if (classid == siciLb3) {
-
-        int w = background.width();
-        int h = background.height();
-        
-        QPainter p(&background);
-
-        // translate origin to center of pixmap
-        p.translate(w / 2, h / 2);
-
-        int tracklen = w / 2 + 5;
-        int shedwidth = h + 8;
-        int shedxoffset = 9;
-        int shedyoffset = 8;
-
-        p.rotate(WANGLE);
-        
-        // paint track
-        p.fillRect(0, -3, -tracklen, 7, QBrush(Qt::black));
-        
-        // paint shed
-        p.setBrush(QColor(192, 0 ,0));
-        p.drawRect(0 - shedxoffset, -shedwidth / 2 + shedyoffset,
-                w / 2, shedwidth);
-        p.drawLine(w / 4 - shedxoffset, -shedwidth / 2 + shedyoffset,
-                w / 4 - shedxoffset, shedwidth / 2 + shedyoffset);
-
-        setPaletteBackgroundPixmap(background);
-    }
-
     // transfer table
     else if (classid == siciSbn) {
         QPainter p(&background);
@@ -9076,8 +9045,6 @@ void element::writeFileTextToStream(QTextStream& ts)
         << GF_INDEX << DS << iSoldIndex<< endl;
 
     switch (classid) {
-        case siciLb3:
-            break;
 
             /*dual buttons*/
         case siciTal:
