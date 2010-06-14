@@ -25,6 +25,7 @@
 #include "bufferstoptoppanel.h"
 #include "buildinghorizontalpanel.h"
 #include "buildingleftpanel.h"
+#include "buildingrightpanel.h"
 #include "levelcrossinggrouppanel.h"
 #include "powersupplygrouppanel.h"
 #include "routegrouppanel.h"
@@ -53,6 +54,8 @@ SpdrPanel* PanelFactory::createPanel(QWidget* parent,
             return new BuildingHorizontalPanel(parent);
         case SpdrPanel::siciBul:
             return new BuildingLeftPanel(parent);
+        case SpdrPanel::siciBur:
+            return new BuildingRightPanel(parent);
 
         case SpdrPanel::siciFeb:
             return new TurnoutGroupPanel(parent);
@@ -88,6 +91,8 @@ SpdrPanel* PanelFactory::createPanelFromStream(QTextStream& ts,
             return new BuildingHorizontalPanel(ts, parent);
         case SpdrPanel::siciBul:
             return new BuildingLeftPanel(ts, parent);
+        case SpdrPanel::siciBur:
+            return new BuildingRightPanel(ts, parent);
 
         case SpdrPanel::siciFeb:
             return new TurnoutGroupPanel(ts, parent);
