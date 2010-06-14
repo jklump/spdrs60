@@ -17,23 +17,18 @@
   along with spdrs60.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
-#ifndef BUFFERSTOPBOTTOMPANEL_H
-#define BUFFERSTOPBOTTOMPANEL_H
-
-#include <graypanel.h>
+#include "graypanel.h"
 
 
-class BufferStopBottomPanel: public GrayPanel
+GrayPanel::GrayPanel(QWidget* parent):
+    SpdrPanel(parent)
 {
-    Q_OBJECT
+    background.fill(Qt::lightGray);
+}
 
-    protected:
-        void setupElementIcon();
 
-    public:
-        BufferStopBottomPanel(QWidget* parent = NULL);
-        BufferStopBottomPanel(QTextStream&, QWidget* parent = NULL);
-};
-
-#endif  //BUFFERSTOPBOTTOMPANEL_H
+GrayPanel::GrayPanel(QTextStream& ts, QWidget* parent):
+    SpdrPanel(parent)
+{
+    background.fill(Qt::lightGray);
+}

@@ -37,6 +37,7 @@ nodist_spdrs60_SOURCES = \
 	finder_moc.cpp \
 	gbsarea_moc.cpp \
 	gbsscrollview_moc.cpp \
+	graypanel_moc.cpp \
 	infoport_moc.cpp \
 	keyboard_moc.cpp \
 	layouteditmodeagrp_moc.cpp \
@@ -88,6 +89,7 @@ spdrs60_SOURCES = main.cpp resources.h \
 	finder.cpp finder.h \
 	gbsarea.cpp gbsarea.h \
 	gbsscrollview.cpp gbsscrollview.h  \
+	graypanel.cpp graypanel.h  \
 	infoport.cpp infoport.h \
 	keyboard.cpp keyboard.h \
 	layouteditmodeagrp.cpp layouteditmodeagrp.h \

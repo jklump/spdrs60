@@ -18,22 +18,19 @@
 */
 
 
-#ifndef BUFFERSTOPBOTTOMPANEL_H
-#define BUFFERSTOPBOTTOMPANEL_H
+#ifndef GRAYPANEL_H
+#define GRAYPANEL_H
 
-#include <graypanel.h>
+#include <spdrpanel.h>
 
 
-class BufferStopBottomPanel: public GrayPanel
+class GrayPanel: public SpdrPanel
 {
     Q_OBJECT
 
-    protected:
-        void setupElementIcon();
-
     public:
-        BufferStopBottomPanel(QWidget* parent = NULL);
-        BufferStopBottomPanel(QTextStream&, QWidget* parent = NULL);
+        GrayPanel(QWidget* parent = NULL);
+        GrayPanel(QTextStream&, QWidget* parent = NULL);
 };
 
-#endif  //BUFFERSTOPBOTTOMPANEL_H
+#endif  //GRAYPANEL_H

@@ -23,7 +23,7 @@
 
 
 BufferStopLeftPanel::BufferStopLeftPanel(QWidget* parent):
-    SpdrPanel(parent)
+    GrayPanel(parent)
 {
     classid = siciBs3;
     setupElementIcon();
@@ -31,7 +31,7 @@ BufferStopLeftPanel::BufferStopLeftPanel(QWidget* parent):
 
 
 BufferStopLeftPanel::BufferStopLeftPanel(QTextStream& ts, QWidget* parent):
-    SpdrPanel(parent)
+    GrayPanel(parent)
 {
     classid = siciBs3;
     readFileTextFromStream(ts);
@@ -41,7 +41,6 @@ BufferStopLeftPanel::BufferStopLeftPanel(QTextStream& ts, QWidget* parent):
 
 void BufferStopLeftPanel::setupElementIcon()
 {
-    background.fill(Qt::lightGray);
     QPainter p(&background);
 
     int h = background.height();

@@ -21,10 +21,10 @@
 #ifndef BUFFERSTOPTOPPANEL_H
 #define BUFFERSTOPTOPPANEL_H
 
-#include <spdrpanel.h>
+#include <graypanel.h>
 
 
-class BufferStopTopPanel: public SpdrPanel
+class BufferStopTopPanel: public GrayPanel
 {
     Q_OBJECT
 
