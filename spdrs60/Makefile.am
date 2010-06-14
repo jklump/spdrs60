@@ -47,6 +47,7 @@ nodist_spdrs60_SOURCES = \
 	levelcrossinggrouppanel_moc.cpp \
 	locoshedeastpanel_moc.cpp \
 	locoshedwestpanel_moc.cpp \
+	locoshednepanel_moc.cpp \
 	mainwindow_moc.cpp \
 	messagehistory_moc.cpp \
 	newlayoutdialog_moc.cpp \
@@ -104,6 +105,7 @@ spdrs60_SOURCES = main.cpp resources.h \
 	levelcrossinggrouppanel.cpp levelcrossinggrouppanel.h \
 	locoshedeastpanel.cpp locoshedeastpanel.h \
 	locoshedwestpanel.cpp locoshedwestpanel.h \
+	locoshednepanel.cpp locoshednepanel.h \
 	mainwindow.cpp mainwindow.h \
 	messagehistory.cpp messagehistory.h \
 	newlayoutdialog.cpp newlayoutdialog.h \

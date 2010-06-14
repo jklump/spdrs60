@@ -29,6 +29,7 @@
 #include "levelcrossinggrouppanel.h"
 #include "locoshedeastpanel.h"
 #include "locoshedwestpanel.h"
+#include "locoshednepanel.h"
 #include "powersupplygrouppanel.h"
 #include "routegrouppanel.h"
 #include "signalgrouppanel.h"
@@ -62,6 +63,8 @@ SpdrPanel* PanelFactory::createPanel(QWidget* parent,
             return new LocoShedEastPanel(parent);
         case SpdrPanel::siciLs3:
             return new LocoShedWestPanel(parent);
+        case SpdrPanel::siciLt1:
+            return new LocoShedNEPanel(parent);
 
         case SpdrPanel::siciFeb:
             return new TurnoutGroupPanel(parent);
@@ -103,6 +106,8 @@ SpdrPanel* PanelFactory::createPanelFromStream(QTextStream& ts,
             return new LocoShedEastPanel(ts, parent);
         case SpdrPanel::siciLs3:
             return new LocoShedWestPanel(ts, parent);
+        case SpdrPanel::siciLt1:
+            return new LocoShedNEPanel(ts, parent);
 
         case SpdrPanel::siciFeb:
             return new TurnoutGroupPanel(ts, parent);

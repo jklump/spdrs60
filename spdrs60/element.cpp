@@ -99,9 +99,6 @@ enum {
     LOCATE_TIMER = 5000
 };
 
-static const float SANGLE = 31.264f;           // small angle
-static const float WANGLE = (180.0f - SANGLE); // wide angle
-
 #if QT_VERSION >= 0x040000
 using namespace Qt;
 #endif
@@ -7769,9 +7766,8 @@ void element::setupElementIcon()
     }
 
     // track with right top or bottom loco shed (lokschuppen)
-    else if (classid == siciLt1 || classid == siciLb3) {
+    else if (classid == siciLb3) {
 
-        bool istop = (classid == siciLt1);
         int w = background.width();
         int h = background.height();
         
@@ -7785,10 +7781,7 @@ void element::setupElementIcon()
         int shedxoffset = 9;
         int shedyoffset = 8;
 
-        if (istop)
-            p.rotate(-SANGLE);
-        else
-            p.rotate(WANGLE);
+        p.rotate(WANGLE);
         
         // paint track
         p.fillRect(0, -3, -tracklen, 7, QBrush(Qt::black));
@@ -9118,7 +9111,6 @@ void element::writeFileTextToStream(QTextStream& ts)
         << GF_INDEX << DS << iSoldIndex<< endl;
 
     switch (classid) {
-        case siciLt1:
         case siciLb1:
         case siciLt3:
         case siciLb3:

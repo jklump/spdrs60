@@ -58,6 +58,9 @@ static const char GF_INDEX[]     = "index";
 static const char GF_CLASSID[]   = "classid";
 static const char DS[]  = ";";   // data separator in spdrs60 files
 
+static const float SANGLE = 31.264f;           // small angle
+static const float WANGLE = (180.0f - SANGLE); // wide angle
+
 
 class SpdrPanel: public QWidget
 {
@@ -101,7 +104,7 @@ public:
         siciRel = 710, //relais
         siciMdc = 720, //DC motor
         siciBs1 = 800, siciBs2, siciBs3, siciBs4, // buffer stop
-        siciLs1 = 820, siciLs2, siciLs3, siciLs4, //loco shed 2, 4 not used
+        siciLs1 = 820, siciLs2, siciLs3, siciLs4, //loco shed E W, 2, 4 not used
         siciLt1 = 830, siciLt2, siciLt3, siciLt4, //loco shed 2, 4 not used
         siciLb1 = 840, siciLb2, siciLb3, siciLb4, //loco shed 2, 4 not used
         siciBuc = 850, siciBul, siciBur, // station building
