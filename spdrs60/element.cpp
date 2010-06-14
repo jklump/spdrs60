@@ -7525,20 +7525,6 @@ void element::setupElementIcon()
         setPaletteBackgroundPixmap(background);
     }
 
-    // house 2 (building left wing)
-    else if (classid == siciBul) {
-        QPainter p(&background);
-
-        // paint house
-        p.setBrush(QColor(192, 0 ,0));
-        p.drawRect(26, 5, 25, 25);
-        p.drawLine(26, 5, 50, 29);
-        p.drawLine(26, 29, 50, 5);
-        p.drawRect(50, 9, 6, 17);
-        
-        setPaletteBackgroundPixmap(background);
-    }
-   
     // building right wing
     else if (classid == siciBur) {
         QPainter p(&background);
@@ -9200,7 +9186,6 @@ void element::writeFileTextToStream(QTextStream& ts)
         << GF_INDEX << DS << iSoldIndex<< endl;
 
     switch (classid) {
-        case siciBul:
         case siciBur:
         case siciLt1:
         case siciLs1:
