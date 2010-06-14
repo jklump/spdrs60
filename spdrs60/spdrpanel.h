@@ -104,7 +104,7 @@ public:
         siciLs1 = 820, siciLs2, siciLs3, siciLs4, //2, 4 not used
         siciLt1 = 830, siciLt2, siciLt3, siciLt4, //2, 4 not used
         siciLb1 = 840, siciLb2, siciLb3, siciLb4, //2, 4 not used
-        siciBuc = 850, siciBul, siciBur,
+        siciBuc = 850, siciBul, siciBur, // station building
         siciAdr = 900, // address indicator
         siciEnk = 930, // decoupler
         siciBld = 940, // blind element
