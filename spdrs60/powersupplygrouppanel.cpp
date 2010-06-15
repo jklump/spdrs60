@@ -31,7 +31,7 @@ PowerSupplyGroupPanel::PowerSupplyGroupPanel(QWidget* parent):
 PowerSupplyGroupPanel::PowerSupplyGroupPanel(QTextStream& ts, QWidget* parent):
     SpdrPanel(parent)
 {
-    classid = siciFeb;
+    classid = siciFee;
     readFileTextFromStream(ts);
     setupElementIcon();
 }

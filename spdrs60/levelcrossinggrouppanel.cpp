@@ -31,7 +31,7 @@ LevelCrossingGroupPanel::LevelCrossingGroupPanel(QWidget* parent):
 LevelCrossingGroupPanel::LevelCrossingGroupPanel(QTextStream& ts, QWidget* parent):
     SpdrPanel(parent)
 {
-    classid = siciFeb;
+    classid = siciFey;
     readFileTextFromStream(ts);
     setupElementIcon();
 }

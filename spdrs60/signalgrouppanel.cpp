@@ -31,7 +31,7 @@ SignalGroupPanel::SignalGroupPanel(QWidget* parent):
 SignalGroupPanel::SignalGroupPanel(QTextStream& ts, QWidget* parent):
     SpdrPanel(parent)
 {
-    classid = siciFeb;
+    classid = siciFer;
     readFileTextFromStream(ts);
     setupElementIcon();
 }
