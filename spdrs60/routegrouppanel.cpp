@@ -31,7 +31,7 @@ RouteGroupPanel::RouteGroupPanel(QWidget* parent):
 RouteGroupPanel::RouteGroupPanel(QTextStream& ts, QWidget* parent):
     SpdrPanel(parent)
 {
-    classid = siciFeb;
+    classid = siciFeg;
     readFileTextFromStream(ts);
     setupElementIcon();
 }
