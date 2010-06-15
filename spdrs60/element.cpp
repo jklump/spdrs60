@@ -55,7 +55,6 @@
 #include "pixmaps/label-ein-off.xpm"
 #include "pixmaps/label-aus-on.xpm"
 #include "pixmaps/label-aus-off.xpm"
-#include "pixmaps/transfertable.xpm"
 #include "pixmaps/signal-w.xpm"
 #include "pixmaps/signal-wr.xpm"
 
@@ -495,8 +494,7 @@ void element::mousePressEvent(QMouseEvent* e)
             GbsButtonState ctrlButton = kNoneClicked;
             QPoint CursorPos = mapFromGlobal(QCursor::pos());
 
-            /*TODO: move this to gbsarea*/
-            if (classid == siciSbn || classid == siciMdc) {
+            if (classid == siciMdc) {
                 commander = new elementCommander(this, classid);
                 connect(commander, SIGNAL(sendTtCommand(int, int)),
                         this, SLOT(slotUpdateCommanderData(int, int)));
@@ -7744,40 +7742,6 @@ void element::setupElementIcon()
         setPaletteBackgroundPixmap(background);
     }
 
-    // transfer table
-    else if (classid == siciSbn) {
-        QPainter p(&background);
-        
-        int w = background.width();
-        int h = background.height();
-
-        // paint track
-        p.fillRect(0, h / 2 - 3, 4, 7, QBrush(Qt::black));
-        p.fillRect(w - 4, h / 2 - 3, 4, 7,
-                QBrush(Qt::black));
-
-        // paint table icon
-        p.drawPixmap(4, 4, QPixmap(transfertable_xpm));
-        
-        //paint label
-        QFont f(QApplication::font());
-        f.setPointSize(QApplication::font().pointSize() - 3);
-        p.setFont(f);
-        QFontMetrics fm(f);
-        if (address2 - address1 == 0)
-            sSoldText.setNum(state);
-        QRect br = fm.boundingRect(sSoldText);
-        br.setWidth(br.width() + 4);
-        br.setHeight(br.height() + 2);
-        br.moveTopLeft(QPoint(w / 2 - br.width()/2,
-                    h / 2 - br.height()/2));
-        p.fillRect(br, QBrush(Qt::white));
-        p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
-                Qt::DontClip, sSoldText);
-
-        setPaletteBackgroundPixmap(background);
-    }
-    
     addTooltip();
 }
 
@@ -8936,7 +8900,7 @@ void element::setRouted(bool rstate)
     }
 }
 
-/*siciSbn + siciMdc*/
+/*siciMdc*/
 void element::slotUpdateCommanderData(int keyno, int keycolor)
 {
     address1 = address2 + keyno - 1;
@@ -9189,7 +9153,6 @@ int element::getAddressCount()
         case siciSy3:
             // tools
         case siciDre:
-        case siciSbn:
         case siciEnk:
         case siciRel:
         case siciMdc:
@@ -9615,7 +9578,6 @@ bool element::showDriveDialog()
     dlg->move(QCursor::pos());
 
     switch(classid) {
-        case siciSbn:
         case siciMdc:
             dlg->setProtocol((int) protocol2);
             dlg->setActiveTime(activetime2);
@@ -9637,7 +9599,6 @@ bool element::showDriveDialog()
     if (dlg->exec() == QDialog::Accepted) {
 
         switch(classid) {
-            case siciSbn:
             case siciMdc:
                 protocol2 =
                     (SrcpMessage::Protocol) dlg->getProtocol();

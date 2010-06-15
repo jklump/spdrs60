@@ -36,6 +36,7 @@
 #include "powersupplygrouppanel.h"
 #include "routegrouppanel.h"
 #include "signalgrouppanel.h"
+#include "transfertablepanel.h"
 #include "turnoutgrouppanel.h"
 #include "turntablepanel.h"
 
@@ -91,6 +92,8 @@ SpdrPanel* PanelFactory::createPanel(QWidget* parent,
 
         case SpdrPanel::siciDre:
             return new TurntablePanel(parent);
+        case SpdrPanel::siciSbn:
+            return new TransferTablePanel(parent);
 
         default:
             return new element(parent, type);
@@ -144,6 +147,8 @@ SpdrPanel* PanelFactory::createPanelFromStream(QTextStream& ts,
 
         case SpdrPanel::siciDre:
             return new TurntablePanel(ts, parent);
+        case SpdrPanel::siciSbn:
+            return new TransferTablePanel(ts, parent);
 
         default:
             return new element(ts, parent, type);
