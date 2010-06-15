@@ -83,7 +83,7 @@ void elementCommander::setupBridge()
     buttMoveDown->setPixmap(QPixmap(tt_right_step_xpm));
     buttMoveDown->setToggleButton(true);
 
-    setCaption(tr("Shifting bridge commander"));
+    setCaption(tr("Transfer table commander"));
     connect(buttMoveUp, SIGNAL(clicked()), this, SLOT(slotMoveUp()));
     connect(buttMoveDown, SIGNAL(clicked()), this, SLOT(slotMoveDown()));
 
@@ -107,7 +107,7 @@ void elementCommander::setupMotor()
     buttRotateRight->setPixmap(QPixmap(tt_right_xpm));
     buttRotateRight->setToggleButton(true);
 
-    this->setCaption(tr("DC-motor commander"));
+    setCaption(tr("DC-motor commander"));
     connect(buttRotateLeft, SIGNAL(clicked()),
             this, SLOT(slotRotateLeft()));
     connect(buttRotateRight, SIGNAL(clicked()),

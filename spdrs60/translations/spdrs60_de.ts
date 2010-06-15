@@ -2231,6 +2231,13 @@ Erlaubt sind Werte von %1 bis %2.</translation>
     </message>
 </context>
 <context>
+    <name>TransferTablePanel</name>
+    <message>
+        <source>&amp;Drive...</source>
+        <translation type="unfinished">&amp;Antrieb...</translation>
+    </message>
+</context>
+<context>
     <name>TurntablePanel</name>
     <message>
         <source>&amp;Variant...</source>
@@ -2442,7 +2449,7 @@ Der zulässige Wertebereich ist %1..%2.</translation>
     <name>elementCommander</name>
     <message>
         <source>Shifting bridge commander</source>
-        <translation>Schiebebühnen-Steuerung</translation>
+        <translation type="obsolete">Schiebebühnen-Steuerung</translation>
     </message>
     <message>
         <source>Move bridge upwards</source>
@@ -2471,6 +2478,10 @@ Der zulässige Wertebereich ist %1..%2.</translation>
     <message>
         <source>Stop motor</source>
         <translation>Motor anhalten</translation>
+    </message>
+    <message>
+        <source>Transfer table commander</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

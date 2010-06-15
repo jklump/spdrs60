@@ -2210,6 +2210,13 @@ The valid range is %1 to %2.</source>
     </message>
 </context>
 <context>
+    <name>TransferTablePanel</name>
+    <message>
+        <source>&amp;Drive...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TurntablePanel</name>
     <message>
         <source>&amp;Variant...</source>
@@ -2410,10 +2417,6 @@ Valid range is %1..%2.</source>
 <context>
     <name>elementCommander</name>
     <message>
-        <source>Shifting bridge commander</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Move bridge upwards</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2439,6 +2442,10 @@ Valid range is %1..%2.</source>
     </message>
     <message>
         <source>Stop motor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Transfer table commander</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
