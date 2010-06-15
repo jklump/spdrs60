@@ -2210,6 +2210,25 @@ The valid range is %1 to %2.</source>
     </message>
 </context>
 <context>
+    <name>TurntablePanel</name>
+    <message>
+        <source>&amp;Variant...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Drive...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Typ 1&amp;4 (base address 209)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Typ 1&amp;5 (base address 225)</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>VariantDialog</name>
     <message>
         <source>OK</source>
@@ -2289,14 +2308,6 @@ Valid range is %1..%2.</source>
     </message>
     <message>
         <source>%1 Front</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Typ 1&amp;4 (base address 209)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Typ 1&amp;5 (base address 225)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

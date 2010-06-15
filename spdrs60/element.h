@@ -88,27 +88,6 @@ const unsigned int rdNE = rdN | rdE;
 const unsigned int rdSW = rdS | rdW;
 const unsigned int rdSE = rdS | rdE;
 
-/*some magic strings for reading and writing layout files*/
-static const char GF_INVERSTO[]  = "invers turnout";
-static const char GF_PROTOCOL[]  = "protocol";
-static const char GF_PROTOCOL1[]  = "protocol1";
-static const char GF_PROTOCOL2[]  = "protocol2";
-static const char GF_ADDRESS1[]  = "address_1";
-static const char GF_ADDRESS2[]  = "address_2";
-static const char GF_XCHCONN1[]  = "change conn 1";
-static const char GF_XCHCONN2[]  = "change conn 2";
-static const char GF_DIRECTION[] = "direction";
-static const char GF_SUBTYPE[]   = "subtype";
-static const char GF_TEXT[]      = "text";
-static const char GF_ACTTIME[]   = "active time";
-static const char GF_ACTTIME1[]   = "active time1";
-static const char GF_ACTTIME2[]   = "active time2";
-static const char GF_FBPORT[]    = "feedback port";
-static const char GF_HIDELEDS[]  = "hide LEDs";
-static const char GF_BUTTON1FB[]  = "button1fb";
-static const char GF_BUTTON2FB[]  = "button2fb";
-
-
 
 // forward declaration
 class element;
@@ -197,8 +176,7 @@ public:
     bool isModified();
 
 private:
-    elementCommander*   turntableProperties;
-    turntableCommander* ttComm;
+    elementCommander* commander;
 
     unsigned int iFBBusNo;
     int iFBContact;
@@ -267,10 +245,9 @@ public slots:
 
 private slots:
     void slotLocateTimerTimeout();
-    void slotUpdateTurntableData(int, int);
-    void slotCopyAvailTracks(const QString&);
     void processInfoPortMessage(unsigned int bus,
             unsigned int addr, unsigned int port, unsigned int value);
+    void slotUpdateCommanderData(int, int);
 
 signals:
     void cmdToDebug(const QString&);

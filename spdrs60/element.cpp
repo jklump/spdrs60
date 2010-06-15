@@ -86,12 +86,6 @@ enum {
    DIR_SH1
 };
 
-// Maerklin turntable addresses
-enum {
-   MMTT14 = 209,
-   MMTT15 = 225
-};
-
 // signal light size parameter
 // delay for edit mode after element locating
 enum {
@@ -104,8 +98,7 @@ using namespace Qt;
 #endif
 
 
-element::element(QWidget* parent, SpdrItemClassId ci)
-    : SpdrPanel(parent)
+element::element(QWidget* parent, SpdrItemClassId ci): SpdrPanel(parent)
 {
     initVariables();
     classid = ci;
@@ -114,8 +107,7 @@ element::element(QWidget* parent, SpdrItemClassId ci)
 }
     
 
-element::element(QTextStream& ts, QWidget* parent)
-    : SpdrPanel(parent)
+element::element(QTextStream& ts, QWidget* parent): SpdrPanel(parent)
 {
     initVariables();
     visualMode = kvmNormal;
@@ -194,18 +186,16 @@ void element::initVariables()
     lockCounter = 0;
     blinkcounter = 0;
 
-    turntableProperties = NULL;
-    ttComm = NULL;
+    commander = NULL;
     tablelight = true;
 }
 
-/* Read the layout element data from stream, old data style containing
- * an icon name is translated to new style using class ids.
+/* Read the layout element data from stream.
  * Lines starting with # are recognized as comments, lines starting with
- * % are recognized as end of dataset marker (new style file format)*/
+ * % are recognized as end of dataset marker*/
 void element::readFileTextFromStream(QTextStream& ats)
 {
-    QString s, key, value, oldname;
+    QString s, key, value;
 
     while (!ats.eof()) {
         s = ats.readLine();
@@ -506,23 +496,12 @@ void element::mousePressEvent(QMouseEvent* e)
             QPoint CursorPos = mapFromGlobal(QCursor::pos());
 
             /*TODO: move this to gbsarea*/
-            if (classid == siciDre) {
-                ttComm = new turntableCommander(sSoldText, this, iSoldSubType);
-                connect(ttComm, SIGNAL(sendTtCommand(int, int)),
-                        this, SLOT(slotUpdateTurntableData(int, int)));
-                connect(ttComm, SIGNAL(trackPositionsChanged(const QString&)),
-                        this, SLOT(slotCopyAvailTracks(const QString&)));
+            if (classid == siciSbn || classid == siciMdc) {
+                commander = new elementCommander(this, classid);
+                connect(commander, SIGNAL(sendTtCommand(int, int)),
+                        this, SLOT(slotUpdateCommanderData(int, int)));
 
-                ttComm->exec();
-            }
-
-            /*TODO: move this to gbsarea*/
-            else if (classid == siciSbn || classid == siciMdc) {
-                turntableProperties = new elementCommander(this, classid);
-                connect(turntableProperties, SIGNAL(sendTtCommand(int, int)),
-                        this, SLOT(slotUpdateTurntableData(int, int)));
-
-                turntableProperties->exec();
+                commander->exec();
             }
 
             /* determine what type of button was pressed an send the
@@ -7799,63 +7778,6 @@ void element::setupElementIcon()
         setPaletteBackgroundPixmap(background);
     }
     
-    // turntable
-    else if (classid == siciDre) {
-        QPainter p(&background);
-        
-        int w = background.width();
-        int h = background.height();
-        
-        // translate origin to center of pixmap
-        p.translate(w / 2, h / 2);
-
-        // paint track s
-        int tracklen = w / 4;
-        int startx = -h / 2;
-        p.fillRect(startx, -3, -tracklen, 7, QBrush(Qt::black));
-        p.rotate(SANGLE);
-        p.fillRect(startx, -3, -tracklen - 1, 7, QBrush(Qt::black));
-        p.rotate(-2 * SANGLE);
-        p.fillRect(startx, -3, -tracklen - 1, 7, QBrush(Qt::black));
-        p.rotate(180.0);
-        p.fillRect(startx, -3, -tracklen - 1, 7, QBrush(Qt::black));
-        p.rotate(SANGLE);
-        p.fillRect(startx, -3, -tracklen, 7, QBrush(Qt::black));
-        p.rotate(SANGLE);
-        p.fillRect(startx, -3, -tracklen - 1, 7, QBrush(Qt::black));
-
-        // paint icon
-        p.setBrush(Qt::darkGray);
-        p.setPen(QPen(QColor(128, 0, 0), 2));
-        p.drawEllipse(-h / 2 + 1, -h / 2 + 1, h - 2, h - 2);
-
-        // turning track, may be animated later
-        p.setBrush(Qt::white);
-        p.rotate(-180.0 -SANGLE/2);
-        p.drawRect(-h / 2 + 2, -3, h - 4, 7);
-        p.drawLine(-h / 2 + 2, 0, h / 2 - 2, 0);
-        p.drawRect(6, -6, 6, 3);
-
-        //paint label
-        p.rotate(-SANGLE/2);
-        p.setPen(QPen(Qt::black));
-        QFont f(QApplication::font());
-        f.setPointSize(QApplication::font().pointSize() - 3);
-        p.setFont(f);
-        QFontMetrics fm(f);
-        QString s;
-        s.setNum(iSoldSubType);
-        QRect br = fm.boundingRect(s);
-        br.setWidth(br.width() + 4);
-        br.setHeight(br.height() + 2);
-        br.moveTopLeft(QPoint(-br.width()/2, 5));
-        p.fillRect(br, QBrush(Qt::white));
-        p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
-                Qt::DontClip, s);
-
-        setPaletteBackgroundPixmap(background);
-    }
-    
     addTooltip();
 }
 
@@ -9014,28 +8936,14 @@ void element::setRouted(bool rstate)
     }
 }
 
-
-void element::slotUpdateTurntableData(int keyno, int keycolor)
+/*siciSbn + siciMdc*/
+void element::slotUpdateCommanderData(int keyno, int keycolor)
 {
     address1 = address2 + keyno - 1;
     state = keycolor;
 
-    // save target track number in subtype if a track key was pressed
-    if (classid == siciDre && keyno >= 4)
-        iSoldSubType = keyno * 2 - 9 + keycolor;
-
     setupElementIcon();
     sendSrcpState();
-}
-
-/*
- * copy all available tracks at turntable into element's text
- * field, update tool tip
- */
-void element::slotCopyAvailTracks(const QString& trackstr)
-{
-    sSoldText = trackstr;
-    addTooltip();
 }
 
 
@@ -9116,8 +9024,8 @@ void element::writeFileTextToStream(QTextStream& ts)
             ts << GF_DIRECTION << DS << state << endl
                 << GF_SUBTYPE   << DS << iSoldSubType << endl
                 << GF_TEXT      << DS << sSoldText << endl
-                << GF_ACTTIME1   << DS << activetime1 << endl
-                << GF_ACTTIME2   << DS << activetime2 << endl
+                << GF_ACTTIME1  << DS << activetime1 << endl
+                << GF_ACTTIME2  << DS << activetime2 << endl
                 << GF_FBPORT    << DS << iFBBusNo << DS << iFBContact << endl
                 /*for now: save two triggered buttons, if used or not*/
                 << GF_BUTTON1FB << DS << enable1fbtrigger << DS
@@ -9621,7 +9529,7 @@ bool element::hasVariants()
     return classid == siciHs1 || classid == siciHs3 ||
         classid == siciHss1 || classid == siciHss3 ||
         classid == siciDl1 || classid == siciDr1 ||
-        classid == siciEnk || classid == siciDre ||
+        classid == siciEnk ||
         classid == siciVs1 || classid == siciVs3 ||
         classid == siciAdr;
 }
@@ -9707,7 +9615,6 @@ bool element::showDriveDialog()
     dlg->move(QCursor::pos());
 
     switch(classid) {
-        case siciDre:
         case siciSbn:
         case siciMdc:
             dlg->setProtocol((int) protocol2);
@@ -9730,7 +9637,6 @@ bool element::showDriveDialog()
     if (dlg->exec() == QDialog::Accepted) {
 
         switch(classid) {
-            case siciDre:
             case siciSbn:
             case siciMdc:
                 protocol2 =
@@ -9740,7 +9646,7 @@ bool element::showDriveDialog()
                 address2 = dlg->getAddress1();
                 xchangeport2 = dlg->getXChangeConn1();
                 port2 = dlg->getPort1();
-                if (sSoldText.isEmpty() && (classid != siciDre))
+                if (sSoldText.isEmpty())
                     sSoldText.setNum(address2);
                 break;
             default:
@@ -9962,22 +9868,6 @@ bool element::showVariantDialog()
             dlg->setChoice(iSoldInvert != 1 ? 0 : 1);
             break;
 
-        case siciDre:
-            dlg->addVariant(tr("Typ 1&4 (base address 209)"));
-            dlg->addVariant(tr("Typ 1&5 (base address 225)"));
-            /*
-             * index Address2
-             * --------------
-             *   0     209
-             *   1     225
-             * --------------
-             */
-            if (address2 == MMTT14)
-                dlg->setChoice(0);
-            else
-                dlg->setChoice(1);
-            break;
-
         case siciEnk:
             pm = QPixmap(entkoppler_st1_xpm);
             dlg->addVariant(tr("&Bistable coupler"), pm);
@@ -10037,13 +9927,6 @@ bool element::showVariantDialog()
 
             case siciAdr:
                 iSoldInvert = dlg->getChoice();
-                break;
-
-            case siciDre:
-                if (dlg->getChoice() == 0)
-                    address2 = MMTT14;
-                else
-                    address2 = MMTT15;
                 break;
 
             case siciEnk:

@@ -72,6 +72,7 @@ nodist_spdrs60_SOURCES = \
 	srcpport_moc.cpp \
 	trainnumberdialog_moc.cpp \
 	turntablecommander_moc.cpp \
+	turntablepanel_moc.cpp \
 	turnoutgrouppanel_moc.cpp \
 	variantdialog_moc.cpp \
 	virtualaddressdialog_moc.cpp
@@ -138,6 +139,7 @@ spdrs60_SOURCES = main.cpp resources.h \
 	srcpport.cpp srcpport.h \
 	trainnumberdialog.cpp trainnumberdialog.h \
 	turntablecommander.cpp turntablecommander.h \
+	turntablepanel.cpp turntablepanel.h \
 	turnoutgrouppanel.cpp turnoutgrouppanel.h \
 	variantdialog.cpp variantdialog.h \
 	virtualaddressdialog.cpp virtualaddressdialog.h

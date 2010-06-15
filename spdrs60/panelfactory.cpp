@@ -37,6 +37,7 @@
 #include "routegrouppanel.h"
 #include "signalgrouppanel.h"
 #include "turnoutgrouppanel.h"
+#include "turntablepanel.h"
 
 
 PanelFactory::PanelFactory()
@@ -88,6 +89,9 @@ SpdrPanel* PanelFactory::createPanel(QWidget* parent,
         case SpdrPanel::siciFey:
             return new LevelCrossingGroupPanel(parent);
 
+        case SpdrPanel::siciDre:
+            return new TurntablePanel(parent);
+
         default:
             return new element(parent, type);
     }
@@ -137,6 +141,9 @@ SpdrPanel* PanelFactory::createPanelFromStream(QTextStream& ts,
             return new SignalGroupPanel(ts, parent);
         case SpdrPanel::siciFey:
             return new LevelCrossingGroupPanel(ts, parent);
+
+        case SpdrPanel::siciDre:
+            return new TurntablePanel(ts, parent);
 
         default:
             return new element(ts, parent, type);
