@@ -43,7 +43,7 @@
 
 #include "elementcommander.h"
 #include "srcpmessage.h"
-#include "spdrpanel.h"
+#include "graypanel.h"
 #include "turntablecommander.h"
 
 
@@ -99,7 +99,7 @@ struct stateElement {
     QString name;
 };
 
-class element: public SpdrPanel
+class element: public GrayPanel
 {
     Q_OBJECT
 

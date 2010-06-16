@@ -97,7 +97,7 @@ using namespace Qt;
 #endif
 
 
-element::element(QWidget* parent, SpdrItemClassId ci): SpdrPanel(parent)
+element::element(QWidget* parent, SpdrItemClassId ci): GrayPanel(parent)
 {
     initVariables();
     classid = ci;
@@ -106,7 +106,7 @@ element::element(QWidget* parent, SpdrItemClassId ci): SpdrPanel(parent)
 }
     
 
-element::element(QTextStream& ts, QWidget* parent): SpdrPanel(parent)
+element::element(QTextStream& ts, QWidget* parent): GrayPanel(parent)
 {
     initVariables();
     visualMode = kvmNormal;
@@ -118,7 +118,7 @@ element::element(QTextStream& ts, QWidget* parent): SpdrPanel(parent)
 
 
 element::element(QTextStream& ts, QWidget* parent, SpdrItemClassId ci)
-    : SpdrPanel(parent)
+    : GrayPanel(parent)
 {
     initVariables();
     visualMode = kvmNormal;
