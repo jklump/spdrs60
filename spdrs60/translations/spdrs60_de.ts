@@ -2234,26 +2234,26 @@ Erlaubt sind Werte von %1 bis %2.</translation>
     <name>TransferTablePanel</name>
     <message>
         <source>&amp;Drive...</source>
-        <translation type="unfinished">&amp;Antrieb...</translation>
+        <translation>&amp;Antrieb...</translation>
     </message>
 </context>
 <context>
     <name>TurntablePanel</name>
     <message>
         <source>&amp;Variant...</source>
-        <translation type="unfinished">&amp;Variante...</translation>
+        <translation>&amp;Variante...</translation>
     </message>
     <message>
         <source>&amp;Drive...</source>
-        <translation type="unfinished">&amp;Antrieb...</translation>
+        <translation>&amp;Antrieb...</translation>
     </message>
     <message>
         <source>Typ 1&amp;4 (base address 209)</source>
-        <translation type="unfinished">Typ 1&amp;4 (Basisadresse 209)</translation>
+        <translation>Typ 1&amp;4 (Basisadresse 209)</translation>
     </message>
     <message>
         <source>Typ 1&amp;5 (base address 225)</source>
-        <translation type="unfinished">Typ 1&amp;5 (Basisadresse 225)</translation>
+        <translation>Typ 1&amp;5 (Basisadresse 225)</translation>
     </message>
 </context>
 <context>
@@ -2339,14 +2339,6 @@ Der zulässige Wertebereich ist %1..%2.</translation>
     <message>
         <source>%1 Front</source>
         <translation>%1 vorne</translation>
-    </message>
-    <message>
-        <source>Typ 1&amp;4 (base address 209)</source>
-        <translation type="obsolete">Typ 1&amp;4 (Basisadresse 209)</translation>
-    </message>
-    <message>
-        <source>Typ 1&amp;5 (base address 225)</source>
-        <translation type="obsolete">Typ 1&amp;5 (Basisadresse 225)</translation>
     </message>
     <message>
         <source>Hp&amp;0, Hp1 and Sh1</source>
@@ -2448,10 +2440,6 @@ Der zulässige Wertebereich ist %1..%2.</translation>
 <context>
     <name>elementCommander</name>
     <message>
-        <source>Shifting bridge commander</source>
-        <translation type="obsolete">Schiebebühnen-Steuerung</translation>
-    </message>
-    <message>
         <source>Move bridge upwards</source>
         <translation>Bühne vorwärts bewegen</translation>
     </message>
@@ -2481,7 +2469,7 @@ Der zulässige Wertebereich ist %1..%2.</translation>
     </message>
     <message>
         <source>Transfer table commander</source>
-        <translation type="unfinished"></translation>
+        <translation>Schiebebühnen-Steuerung</translation>
     </message>
 </context>
 <context>
