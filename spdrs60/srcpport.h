@@ -34,7 +34,6 @@ public:
     SrcpPort(QObject* parent = 0, const char * name = 0,
             const char* host = "localhost", unsigned int port = 4303,
             CommunicationStyle commstyle = csBoth, bool translate = false);
-    ~SrcpPort();
 
     void setServer(const QString&, unsigned int);
     void setServer(CommunicationStyle, const QString&, unsigned int);

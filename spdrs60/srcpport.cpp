@@ -49,15 +49,6 @@ SrcpPort::SrcpPort(QObject* parent, const char* name, const char* hostname,
     connect(srcpSocket, SIGNAL(error(int)), this, SLOT(socketError(int)));
 }
 
-/*
- * destructor to close socket connection and free socket memory
- */
-SrcpPort::~SrcpPort()
-{
-    serverDisconnect();
-    //delete srcpSocket;
-}
-
 
 /*
  * clear connection data
