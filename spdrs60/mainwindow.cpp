@@ -2028,62 +2028,15 @@ void MainWindow::processCommandMessage(const QString& command)
     }
 
     else if (SRCPCommandState == srcp08InitGADevices) {
-        /*
-         * start FB bus init sequence
-         * when GA init is done, go to FB bus init
-         */
-        if (!gbs->runSRCP08GAInitSequence()) {
-            SRCPCommandState = srcp08InitFBBusses;
-            if (!gbs->sendSRCP08BusMessage(SrcpMessage::msgPowerInit)) {
-                if (cmdAutoPower) {
-                    SRCPCommandState = srcp08GetBusPower;
-                    if (!gbs->sendSRCP08BusMessage(
-                                SrcpMessage::msgPowerGet)) {
-                        LayoutPowerIsOn = true;
-                        updateLayoutPowerAction();
-                        SRCPCommandState = srcpConnected;
-                        if (cmdAutoSendAll)
-                            layoutSendAll();
-                    }
-                }
-                else
-                    SRCPCommandState = srcpConnected;
-            }
-        }
+        runGaInitSequence();
     }
 
-    else if (SRCPCommandState == srcp08InitFBBusses) {
-        /*
-         * walk through FB bus list step by step
-         * keep SRCPCommandState while initialization is not finished
-         */
-        if (!gbs->sendSRCP08BusMessage(SrcpMessage::msgPowerInit)) {
-            if (cmdAutoPower) {
-                SRCPCommandState = srcp08GetBusPower;
-                if (!gbs->sendSRCP08BusMessage(
-                            SrcpMessage::msgPowerGet)) {
-                    LayoutPowerIsOn = true;
-                    updateLayoutPowerAction();
-                    SRCPCommandState = srcpConnected;
-                    if (cmdAutoSendAll)
-                        layoutSendAll();
-                }
-            }
-            else
-                SRCPCommandState = srcpConnected;
-        }
+    else if (SRCPCommandState == srcp08InitPower) {
+        runPowerInitSequence();
     }
 
     else if (SRCPCommandState == srcp08SetBusPower) {
-        /*
-         * walk through bus list step by step
-         * keep SRCPCommandState while power switching is not finished
-         */
-        if (!gbs->setSRCP08BusPower(LayoutPowerIsOn)) {
-            SRCPCommandState = srcpConnected;
-            if (LayoutPowerIsOn && cmdAutoSendAll)
-                layoutSendAll();
-        }
+        runSetBusPowerSequence();
     }
 
     else if (SRCPCommandState == srcp08GetBusPower) {
@@ -2100,12 +2053,16 @@ void MainWindow::processCommandMessage(const QString& command)
          *        0          1    2  3   4    5    -> QString sections
          */
         if (command.section(' ', 1, 2) == "100 INFO") {
+
             if (command.section(' ', 5, 5) == "OFF" && LayoutPowerIsOn) {
-                SrcpMessage sm = SrcpMessage(SrcpMessage::msgPowerSet);
-                sm.setPowerData(command.section(' ', 3, 3).toUInt(),
-                        LayoutPowerIsOn);
-                sendSrcpMessage(&sm);
-                PowerSwitched = true;
+                unsigned int bus = command.section(' ', 3, 3).toUInt();
+
+                if (gbs->hasSrcp08Bus(bus)) {
+                    SrcpMessage sm = SrcpMessage(SrcpMessage::msgPowerSet);
+                    sm.setPowerData(bus, LayoutPowerIsOn);
+                    sendSrcpMessage(&sm);
+                    PowerSwitched = true;
+                }
             }
             /* echo "200 OK" is only displayed in history line */
         }
@@ -2114,15 +2071,7 @@ void MainWindow::processCommandMessage(const QString& command)
          * next bus at next cycle
          */
         if (!PowerSwitched)
-            if (!gbs->sendSRCP08BusMessage(SrcpMessage::msgPowerGet)) {
-                // all busses are switched on, we are ready 
-                // TODO: check this statement, should be obsolete
-                LayoutPowerIsOn = true;
-                updateLayoutPowerAction();
-                SRCPCommandState = srcpConnected;
-                if (cmdAutoSendAll)
-                    layoutSendAll();
-            }
+            runGetBusPowerSequence();
     }
 }
 
@@ -2249,35 +2198,13 @@ void MainWindow::updateCommandConnectionState(bool connected)
              * the complete server initialization will go through
              * this sequence:
              *   1) initialize all GAs
-             *   2) init all FB busses
-             *   3) power on all busses if automode set
+             *   2) init POWER for all busses
+             *   3) power on all busses if automode is set
+             *   4) Send all GA states if send state is set
              */
 
             SRCPCommandState = srcp08InitGADevices;
-            /*when GA init is done, go to FB bus init */
-            if (!gbs->runSRCP08GAInitSequence())
-            {
-                SRCPCommandState = srcp08InitFBBusses;
-                if (!gbs->sendSRCP08BusMessage(SrcpMessage::msgPowerInit))
-                {
-                    if (cmdAutoPower)
-                    {
-                        SRCPCommandState = srcp08GetBusPower;
-                        if (!gbs->sendSRCP08BusMessage(
-                                    SrcpMessage::msgPowerGet))
-                        {
-                            LayoutPowerIsOn = true;
-                            updateLayoutPowerAction();
-                            SRCPCommandState = srcpConnected;
-
-                            if (cmdAutoSendAll)
-                                layoutSendAll();
-                        }
-                    }
-                    else
-                        SRCPCommandState = srcpConnected;
-                }
-            }
+            runGaInitSequence();
         }
         else {
             statusMessage(tr("Error: Command port connected with "
@@ -2630,13 +2557,7 @@ void MainWindow::slotToggleLayoutPower()
     }
     else if (SrcpPort::csNew == commandStyle) {
         SRCPCommandState = srcp08SetBusPower;
-
-        if (!gbs->setSRCP08BusPower(LayoutPowerIsOn)) {
-            SRCPCommandState = srcpConnected;
-
-            if (LayoutPowerIsOn && cmdAutoSendAll)
-                layoutSendAll();
-        }
+        runSetBusPowerSequence();
     }
     updateLayoutPowerAction();
 }
@@ -3463,3 +3384,48 @@ void MainWindow::sendGmCrcfMessage(unsigned int sendto,
     sendSrcpMessage(&sm); // emit
 }
 
+void MainWindow::runGaInitSequence()
+{
+    if (!gbs->runSRCP08GAInitSequence()) {
+        SRCPCommandState = srcp08InitPower;
+        runPowerInitSequence();
+    }
+}
+
+void MainWindow::runPowerInitSequence()
+{
+    if (!gbs->sendSRCP08BusMessage(SrcpMessage::msgPowerInit)) {
+
+        if (cmdAutoPower) {
+            LayoutPowerIsOn = true;
+            updateLayoutPowerAction();
+            SRCPCommandState = srcp08GetBusPower;
+            runGetBusPowerSequence();
+        }
+        else
+            SRCPCommandState = srcpConnected;
+    }
+}
+
+void MainWindow::runGetBusPowerSequence()
+{
+    if (!gbs->sendSRCP08BusMessage(SrcpMessage::msgPowerGet)) {
+        SRCPCommandState = srcpConnected;
+
+        if (cmdAutoSendAll)
+            layoutSendAll();
+    }
+}
+
+/*
+ * walk through bus list step by step
+ * keep SRCPCommandState while power switching is not finished
+ */
+void MainWindow::runSetBusPowerSequence()
+{
+    if (!gbs->setSRCP08BusPower(LayoutPowerIsOn)) {
+        SRCPCommandState = srcpConnected;
+        if (LayoutPowerIsOn && cmdAutoSendAll)
+            layoutSendAll();
+    }
+}

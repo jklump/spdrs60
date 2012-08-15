@@ -63,7 +63,7 @@ enum SRCPMode {
     srcp07GetFBStates,
     srcp07GetPower,
     srcp08GetBusPower,
-    srcp08InitFBBusses,
+    srcp08InitPower,
     srcp08InitGADevices,
     srcp08RunInfoMode,
     srcp08ServerError,
@@ -201,6 +201,12 @@ private:
 
    /* New Networking code: */
    void ConnectCommandPort();
+
+   /* SRCP event loop */
+   void runGaInitSequence();
+   void runPowerInitSequence();
+   void runGetBusPowerSequence();
+   void runSetBusPowerSequence();
 
 public slots:
    void updateRouteListMenuItems();
