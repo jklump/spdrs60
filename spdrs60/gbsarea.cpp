@@ -928,6 +928,10 @@ void GBSArea::connectElement(SpdrPanel* sp)
                         unsigned int, bool)),
                 el, SLOT(slotOccupyElement(unsigned int,
                         unsigned int, bool)));
+        connect(this, SIGNAL(feedbackPortChanged(unsigned int,
+                        unsigned int, bool, unsigned int)),
+                el, SLOT(slotOccupyElement(unsigned int,
+                        unsigned int, bool, unsigned int)));
     }
 }
 

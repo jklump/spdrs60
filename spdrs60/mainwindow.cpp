@@ -493,6 +493,10 @@ void MainWindow::initMainWindow()
                     bool)),
             gbs, SIGNAL(feedbackPortChanged(unsigned int, unsigned int,
                     bool)));
+    connect(this, SIGNAL(sendFBBiDiChangeLayout(unsigned int, unsigned int,
+                    bool, unsigned int)),
+            gbs, SIGNAL(feedbackPortChanged(unsigned int, unsigned int,
+                    bool, unsigned int)));
     connect(this, SIGNAL(switchedVisualMode(elemVisualMode)),
             gbs, SLOT(switchVisualMode(elemVisualMode)));
     connect(gbs, SIGNAL(sendSrcpMessage(SrcpMessage*)),
@@ -2332,27 +2336,47 @@ void MainWindow::processInfoMessage(const QString& info)
             QString devGroup = info.section(' ', 4, 4);
 
             /*
-             * respond to incomming feedback messages
-             *
-             * <time> 100 INFO <bus> FB <addr> <value>
-             *   0     1   2     3   4    5       6 : Qstring sections
+             respond to incomming feedback messages
+             
+             <time> 100 INFO <bus> FB <addr> <value>
+               0     1   2     3   4    5       6    : Qstring sections
+             
+             <time> 103 INFO <bus> FB <addr> 1 GL <addr> <drivemode> <V>
+               0     1   2     3   4    5    6 7    8         9       10: Qstring sections
              */
             if (devGroup == "FB") {
-                unsigned int fbbus, fbcontact, fbstate;
+                unsigned int fbcode;
                 /*TODO: implement FB for other hardware then s88 */
 
                 /* which bus is first one when FB type is s88? */
-                fbbus = info.section(' ', 3, 3).toUInt();
-                fbcontact = info.section(' ', 5, 5).toUInt();
-                fbstate  = info.section(' ', 6, 6).toUInt();
+                fbcode = info.section(' ', 1, 1).toUInt();
 
-                // send updates to:
-                // 1. module window
-                // 2. all elements via gbs
-                // 3. all routes if not in init mode
-                emit sendFBChangeModule(fbbus, fbcontact, fbstate);
-                emit sendFBChangeLayout(fbbus, fbcontact, fbstate == 1);
-                emit sendFBChangeRoute(fbbus, fbcontact, fbstate == 1);
+                // filter for regular and BiDi INFO message
+                if ((fbcode == 100) || (fbcode == 103)) {
+                    unsigned int fbbus, fbcontact, fbstate;
+
+                    fbbus = info.section(' ', 3, 3).toUInt();
+                    fbcontact = info.section(' ', 5, 5).toUInt();
+                    fbstate  = info.section(' ', 6, 6).toUInt();
+
+                    // send updates to:
+                    // 1. module window
+                    // 2. all elements via gbs
+                    // 3. all routes if not in init mode
+                    emit sendFBChangeModule(fbbus, fbcontact, fbstate);
+
+                    if (fbcode == 100)
+                        emit sendFBChangeLayout(fbbus, fbcontact, fbstate == 1);
+                    else {
+                        unsigned int gladdress;
+                        // BiDi GL message, take also address value to
+                        // update  address indicator
+                        gladdress = info.section(' ', 8, 8).toUInt();
+                        emit sendFBBiDiChangeLayout(fbbus, fbcontact, true, gladdress);
+                    }
+                    emit sendFBChangeRoute(fbbus, fbcontact, fbstate == 1);
+
+                }
             }
 
             /*

@@ -241,6 +241,8 @@ public slots:
     void repaintTimeOutEnk();
     void switchToDir(int);
     void slotOccupyElement(unsigned int, unsigned int, bool);
+    void slotOccupyElement(unsigned int, unsigned int, bool,
+            unsigned int);
     void slotShowElement(int, int, elemSelectionMode);
 
 private slots:

@@ -8687,6 +8687,30 @@ unsigned int element::routeElement(unsigned int entrydir, bool setroute)
 }
 
 /**
+ * This slot is used for BiDi GL address messages
+ */
+void element::slotOccupyElement(unsigned int bus, unsigned int contact,
+        bool ostate, unsigned int gladdress)
+{
+    /*track indicator*/
+    if (bus == iFBBusNo) {
+
+        // address panels don't get occupied
+        if (classid == siciAdr) {
+
+            //check if BiDi indicator
+            if (iSoldInvert == 2) {
+
+                if (contact == (unsigned int)iFBContact) {
+                    editsAddress = gladdress;
+                    setupElementIcon();
+               }
+            }
+        }
+    }
+}
+
+/**
  * This slot is always called if a feedback port toggles.
  */
 void element::slotOccupyElement(unsigned int bus, unsigned int contact,
@@ -8697,7 +8721,8 @@ void element::slotOccupyElement(unsigned int bus, unsigned int contact,
 
         // address panels don't get occupied
         if (classid == siciAdr) {
-            if (iSoldInvert != 1) {
+            //check if EDiTS-Pro indicator
+            if (iSoldInvert == 0) {
                 unsigned int targetmod = (contact - 1) / 8 + 1;
                 unsigned int selfmod = (iFBContact - 1) / 8 + 1;
 
@@ -9818,15 +9843,19 @@ bool element::showVariantDialog()
         case siciAdr:
             dlg->addVariant(tr("&EDiTS-Pro indicator"));
             dlg->addVariant(tr("&Train number tracing"));
+            dlg->addVariant(tr("&BiDi locomotive address"));
             /*
              * index Inverted
              * --------------
              *   0     0       feedback address
              *   1     1       virtual address
+             *   2     2       BiDi address
              * --------------
              */
             // fix -1 default value
-            dlg->setChoice(iSoldInvert != 1 ? 0 : 1);
+            if (iSoldInvert < 0)
+                iSoldInvert = 1;
+            dlg->setChoice(iSoldInvert);
             break;
 
         case siciEnk:

@@ -265,6 +265,8 @@ signals:
    void findElement(const QString&, int, int);
    void repaintLayout();
    void sendFBChangeLayout(unsigned int, unsigned int, bool);
+   void sendFBBiDiChangeLayout(unsigned int, unsigned int, bool,
+           unsigned int);
    void sendFBChangeModule(unsigned int, unsigned int, unsigned int);
    void sendFBChangeRoute(unsigned int, unsigned int, bool);
    void statusMessage(const QString&);

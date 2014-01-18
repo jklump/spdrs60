@@ -2436,6 +2436,10 @@ Der zulässige Wertebereich ist %1..%2.</translation>
         <source>Tri&amp;gger...</source>
         <translation>Aus&amp;lösen...</translation>
     </message>
+    <message>
+        <source>&amp;BiDi locomotive address</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>elementCommander</name>
