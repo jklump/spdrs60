@@ -149,14 +149,16 @@ spdrs60_SOURCES = main.cpp resources.h \
 # list here all files containing string translations
 translations = \
 	translations/spdrs60_de.ts \
-	translations/spdrs60_it.ts
+	translations/spdrs60_it.ts \
+	translations/spdrs60_nl.ts
 
 translationsdir = $(pkgdatadir)/translations
 
 # generated message files, installed but not distributed
 translations_DATA = \
 	translations/spdrs60_de.qm \
-	translations/spdrs60_it.qm
+	translations/spdrs60_it.qm \
+	translations/spdrs60_nl.qm
 
 # misc files which are distributed but not installed
 EXTRA_DIST = spdrs60.pro $(translations) config_w32.h \
