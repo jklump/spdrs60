@@ -179,6 +179,8 @@ signals:
     void statusMessage(const QString&);
     void switchedVisualMode(elemVisualMode);
     void feedbackPortChanged(unsigned int, unsigned int, bool);
+    void feedbackPortChanged(unsigned int, unsigned int, bool,
+            unsigned int);
     void sendSrcpMessage(SrcpMessage*);
     void setRoute(element*, GbsButtonState, GbsButtonState);
     void resetRoute(element*, GbsButtonState);

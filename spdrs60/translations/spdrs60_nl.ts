@@ -2759,6 +2759,10 @@ Valid range is %1..%2.</source>
         <source>Tri&amp;gger...</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>&amp;BiDi locomotive address</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>elementCommander</name>

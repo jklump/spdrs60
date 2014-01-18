@@ -2413,6 +2413,10 @@ Valid range is %1..%2.</source>
         <source>&amp;Toggle</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>&amp;BiDi locomotive address</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>elementCommander</name>
