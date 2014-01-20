@@ -8698,13 +8698,11 @@ void element::slotOccupyElement(unsigned int bus, unsigned int contact,
         // address panels don't get occupied
         if (classid == siciAdr) {
 
-            //check if BiDi indicator
+            //check if BiDi adress indicator
             if (iSoldInvert == 2) {
 
-                if (contact == (unsigned int)iFBContact) {
-                    editsAddress = gladdress;
-                    setupElementIcon();
-               }
+                if (contact == (unsigned int)iFBContact)
+                    updateTrainNumber(gladdress);
             }
         }
     }
@@ -8732,8 +8730,7 @@ void element::slotOccupyElement(unsigned int bus, unsigned int contact,
             //reset BiDi address value if occupy section is left
             else if ((iSoldInvert == 2) && (contact == (unsigned int)iFBContact)
                     && !ostate) {
-                editsAddress = 0;
-                setupElementIcon();
+                updateTrainNumber(0);
             }
         }
         else if (contact == (unsigned int)iFBContact)
@@ -8890,7 +8887,7 @@ void element::updateEDiTSAddress(unsigned int contact, bool bstate)
  */
 void element::updateTrainNumber(unsigned int value)
 {
-    if ((iSoldInvert == 1) && (value != editsAddress)) {
+    if ((iSoldInvert >= 1) && (value != editsAddress)) {
        editsAddress = value;
        setupElementIcon();
     }
@@ -9448,7 +9445,7 @@ bool element::showsStop()
 bool element::canReceiveFbcDrop()
 {
     return routable && !(classid == siciBue ||
-            (classid == siciAdr && iSoldInvert == 1));
+            (classid == siciAdr && (iSoldInvert >= 1)));
 }
 
 
