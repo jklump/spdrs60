@@ -8729,6 +8729,12 @@ void element::slotOccupyElement(unsigned int bus, unsigned int contact,
                 if (targetmod == selfmod)
                     updateEDiTSAddress(contact, ostate);
             }
+            //reset BiDi address value if occupy section is left
+            else if ((iSoldInvert == 2) && (contact == (unsigned int)iFBContact)
+                    && !ostate) {
+                editsAddress = 0;
+                setupElementIcon();
+            }
         }
         else if (contact == (unsigned int)iFBContact)
             setOccupied(ostate);
