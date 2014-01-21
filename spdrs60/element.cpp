@@ -9444,8 +9444,9 @@ bool element::showsStop()
  * drag-and-drop*/
 bool element::canReceiveFbcDrop()
 {
+    /*exclude level crossing and virtual address indicator*/
     return routable && !(classid == siciBue ||
-            (classid == siciAdr && (iSoldInvert >= 1)));
+            (classid == siciAdr && iSoldInvert == 1));
 }
 
 
