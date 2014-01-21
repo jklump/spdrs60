@@ -2438,7 +2438,7 @@ Der zulässige Wertebereich ist %1..%2.</translation>
     </message>
     <message>
         <source>&amp;BiDi locomotive address</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;BiDi-Lokadresse</translation>
     </message>
 </context>
 <context>
