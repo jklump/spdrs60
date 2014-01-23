@@ -1882,7 +1882,7 @@ void MainWindow::openFile(const QString& fn)
     ts.setEncoding(QTextStream::UnicodeUTF8);
     
     QString s, key, value;
-    int fversion = 0;
+    //int fversion = 0;
 
     while (!ts.eof()) {
         s = ts.readLine();
@@ -1906,8 +1906,8 @@ void MainWindow::openFile(const QString& fn)
                 cmdAutoSendAll = tokens[5].toInt() == 1;
             }
 
-            else if (key.compare(GF_FORMATVERSION) == 0)
-                fversion = value.toInt();
+            //else if (key.compare(GF_FORMATVERSION) == 0)
+            //    fversion = value.toInt();
 
             else if (key.compare(GF_RWCC) == 0) {
                 rwccid = value.toUInt();
@@ -2347,33 +2347,32 @@ void MainWindow::processInfoMessage(const QString& info)
             if (devGroup == "FB") {
                 unsigned int fbcode;
                 /*TODO: implement FB for other hardware then s88 */
-
                 /* which bus is first one when FB type is s88? */
-                fbcode = info.section(' ', 1, 1).toUInt();
 
-                // filter for regular and BiDi INFO message
-                if ((fbcode == 100) || (fbcode == 103)) {
+                QStringList tokens = QStringList::split(' ', info);
+                fbcode = tokens[1].toUInt();
+
+                if (fbcode == 100) {
                     unsigned int fbbus, fbcontact, fbstate;
 
-                    fbbus = info.section(' ', 3, 3).toUInt();
-                    fbcontact = info.section(' ', 5, 5).toUInt();
-                    fbstate  = info.section(' ', 6, 6).toUInt();
+                    fbbus = tokens[3].toUInt();
+                    fbcontact = tokens[5].toUInt();
+                    fbstate  = tokens[6].toUInt();
 
                     // send updates to:
                     // 1. module window
                     // 2. all elements via gbs
                     // 3. all routes if not in init mode
                     emit sendFBChangeModule(fbbus, fbcontact, fbstate);
+                    emit sendFBChangeLayout(fbbus, fbcontact, fbstate == 1);
 
-                    if (fbcode == 100)
-                        emit sendFBChangeLayout(fbbus, fbcontact, fbstate == 1);
-                    else {
+                    /*check for BiDi GL message and take address value*/
+                    if ((tokens.count() > 8) && (tokens[7] == "GL")) {
                         unsigned int gladdress;
-                        // BiDi GL message, take also address value to
-                        // update  address indicator
-                        gladdress = info.section(' ', 8, 8).toUInt();
+                        gladdress = tokens[8].toUInt();
                         emit sendFBBiDiChangeLayout(fbbus, fbcontact, true, gladdress);
                     }
+
                     emit sendFBChangeRoute(fbbus, fbcontact, fbstate == 1);
 
                 }
