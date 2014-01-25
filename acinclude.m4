@@ -404,6 +404,9 @@ for a in $qt_libdir/lib`echo ${kde_int_qt} | sed 's,^-l,,'`_incremental.*; do
 done
 
 AC_SUBST(LIB_QT)
+QT_LIBS="$LIB_QT"
+AC_SUBST(QT_LIBS)
+LIBS="$QT_LIBS $LIBS"
 ])
 
 
