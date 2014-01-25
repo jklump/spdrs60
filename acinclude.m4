@@ -207,10 +207,11 @@ KDE_CHECK_THREADING
 if test "x$kde_use_threading" = "xyes"; then
   CPPFLAGS="$USE_THREADS -DQT_THREAD_SUPPORT $CPPFLAGS"
   KDE_MT_LDFLAGS="$USE_THREADS"
-  KDE_MT_LIBS="$LIBPTHREAD"
+dnl programs using qt3-mt do not have to link against pthread lib
+dnl  KDE_MT_LIBS="$LIBPTHREAD"
 fi
 AC_SUBST(KDE_MT_LDFLAGS)
-AC_SUBST(KDE_MT_LIBS)
+dnl AC_SUBST(KDE_MT_LIBS)
 
 kde_qt_was_given=yes
 
