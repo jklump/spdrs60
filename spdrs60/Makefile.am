@@ -169,13 +169,14 @@ CLEANFILES = $(nodist_spdrs60_SOURCES) $(translations_DATA)
 
 # the library search path. 
 spdrs60_LDFLAGS = @QT_LDFLAGS@
+INCLUDES = @QT_INCLUDES@
 
 
 # define path to Qt translations if configure found it
 if TRANSLATE_QT
 TRANSLATE_DEF = -DQT_TRANSLATIONS_DIR=\"@QT_TRANSLATIONS_DIR@\"
 endif
-AM_CXXFLAGS = $(TRANSLATE_DEF) -DTRANSLATIONSDIR=\"$(translationsdir)\" @QT_INCLUDES@
+AM_CXXFLAGS = $(TRANSLATE_DEF) -DTRANSLATIONSDIR=\"$(translationsdir)\"
 
 # rule for moc-file generation
 SUFFIXES = _moc.cpp
