@@ -9,8 +9,6 @@ nodist_centralclock_SOURCES = centralclock_moc.cpp
 
 centralclock_SOURCES = main.cpp centralclock.cpp centralclock.h
 
-centralclock_LDADD = @LIB_QT@
-
 # the library search path. 
 centralclock_LDFLAGS = @QT_LDFLAGS@ 
 

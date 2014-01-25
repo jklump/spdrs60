@@ -167,8 +167,6 @@ EXTRA_DIST = spdrs60.pro $(translations) config_w32.h \
 # all generated files to be removed by "make clean"
 CLEANFILES = $(nodist_spdrs60_SOURCES) $(translations_DATA)
 
-spdrs60_LDADD = @LIB_QT@
-
 # the library search path. 
 spdrs60_LDFLAGS = @QT_LDFLAGS@
 
