@@ -22,7 +22,10 @@
 #define SRCPPORT_H
 
 #include <qstring.h>
+#if QT_VERSION >= 0x040000
+#else
 #include <qsocket.h>
+#endif
 
 
 class SrcpPort: public QObject {

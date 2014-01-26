@@ -57,15 +57,55 @@ if test x$enable_pdf_doc = xyes; then
   fi
 fi
 
-dnl Check for Qt3 library files
+dnl option to enable Qt4 instead of default Qt3 library 
+AC_ARG_ENABLE(qt4, AC_HELP_STRING([--enable-qt4],
+            [enable Qt4 instead of Qt3 library]),, enable_qt3=yes)
+AS_IF([test x$enable_qt3 = xyes],
+[dnl Check for Qt3 library files
 AC_PATH_X
 AC_PATH_QT3
+ac_qtversion=qt3],
+dnl
+dnl ... or use Qt4
+[
+PKG_CHECK_MODULES(QT, QtCore QtGui >= 4.2.0, HAVE_QT4="yes", HAVE_QT4="no")
+if test "x$HAVE_QT4" = "xyes"; then
+  dnl Check needed because in some cases the QtGui includedir
+  dnl doesn't contain the subsystem dir.
+  QT_INCLUDE_DIR=`$PKG_CONFIG --variable=includedir QtGui`
+  QT_CXXFLAGS=`$PKG_CONFIG --cflags QtCore QtGui QtNetwork`
+  EXTRA_QT_INCLUDE_DIR="$QT_INCLUDE_DIR/Qt"
+  AC_CHECK_FILE([$QT_INCLUDE_DIR/QWidget],
+  AC_MSG_NOTICE([No extra QT_INCLUDE_DIR needed]),
+  AC_CHECK_FILE([$EXTRA_QT_INCLUDE_DIR/QWidget],
+             QT_CPPFLAGS="$QT_CPPFLAGS -I$EXTRA_QT_INCLUDE_DIR",
+             AC_MSG_WARN([QWidget not found])))
+
+  AC_MSG_NOTICE([Set QT_CXXFLAGS... $QT_CXXFLAGS])
+  AC_SUBST(QT_CXXFLAGS)
+  QT_INCLUDES=`$PKG_CONFIG --cflags-only-I QtCore QtGui QtNetwork Qt3Support`
+  AC_SUBST(QT_INCLUDES)
+else
+  AC_MSG_ERROR([cannot find Qt4 library >= 4.2])
+fi
+ac_qtversion=qt4
+])
+dnl endo of qt version test
+
+
+dnl check for moc
+AC_PATH_PROGS(MOC, moc-$ac_qtversion moc, no, [$PATH:$QTDIR/bin])
+if test "x$MOC" = "xno" ; then
+    AC_MSG_ERROR(
+                 [cannot find 'moc', please install the Qt
+                  development tools package.])
+fi
 
 dnl check for lupdate
-AC_PATH_PROGS(LUPDATE, lupdate-qt3 lupdate, no, [$PATH:$QTDIR/bin])
+AC_PATH_PROGS(LUPDATE, lupdate-$ac_qtversion lupdate, no, [$PATH:$QTDIR/bin])
 if test "x$LUPDATE" = "xno" ; then
   AC_MSG_ERROR(
-    [cannot find 'lupdate', please install the Qt3 development tools package.])
+    [cannot find 'lupdate', please install the Qt development tools package.])
 else
   AC_MSG_CHECKING([for lupdate version])
   lupdate_version=`$LUPDATE -version 2>&1 | awk '{print $3}'`
@@ -83,10 +123,10 @@ fi
 AM_CONDITIONAL(LUPDATE_TS, test x$lupdate_ts = xyes)
 
 dnl check for lrelease
-AC_PATH_PROGS(LRELEASE, lrelease-qt3 lrelease, no, [$PATH:$QTDIR/bin])
+AC_PATH_PROGS(LRELEASE, lrelease-$ac_qtversion lrelease, no, [$PATH:$QTDIR/bin])
 if test "x$LRELEASE" = "xno" ; then
   AC_MSG_ERROR(
-    [cannot find 'lrelease', please install the Qt3 development tools package.])
+    [cannot find 'lrelease', please install the Qt development tools package.])
 else
   AC_MSG_CHECKING([for lrelease version])
   lrelease_version=`$LRELEASE -version 2>&1 | awk '{print $3}'`
@@ -103,10 +143,9 @@ else
 fi
 AM_CONDITIONAL(LRELEASE_QM, test x$lrelease_qm = xyes)
 
-
 dnl check for Qt library translations
 AC_MSG_CHECKING([for Qt translations])
-    qt_dirs="$QTDIR /usr/lib/qt3 /usr/lib/qt /usr/share/qt3"
+    qt_dirs="$QTDIR /usr/lib/$ac_qtversion /usr/lib/qt /usr/share/$ac_qtversion"
     for dir in $qt_dirs
     do
        if test -d "$dir/translations"; then

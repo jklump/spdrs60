@@ -3,7 +3,7 @@
                            version 0.5.2 $Revision: 1.58 $
                            -------------------------------
     copyright            : (C) 1999-2003 by Stefan Preis
-    copyright            : (C) 2004-2008 by Guido Scholz
+    copyright            : (C) 2004-2014 by Guido Scholz
     email                : guido.scholz@bayernline.de
     last modified        : $Date: 2009-03-18 17:14:03 $
 ****************************************************************************/
@@ -26,15 +26,25 @@
 
 #include <qaction.h>
 #include <qapplication.h>
+#if QT_VERSION >= 0x040000
+#include <QCloseEvent>
+#include <q3mainwindow.h>
+#include <q3filedialog.h>
+#include <q3popupmenu.h>
+#include <q3scrollview.h>
+#include <q3socket.h>
+#include <q3widgetstack.h>
+#else
 #include <qmainwindow.h>
 #include <qfiledialog.h>
-#include <qkeycode.h>
-#include <qmessagebox.h>
-#include <qpixmap.h>
+#include <qnamespace.h>
 #include <qpopupmenu.h>
 #include <qscrollview.h>
 #include <qsocket.h>
 #include <qwidgetstack.h>
+#endif
+#include <qmessagebox.h>
+#include <qpixmap.h>
 
 #include "commandport.h"
 #include "crcfmessage.h"
