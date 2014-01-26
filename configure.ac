@@ -168,6 +168,8 @@ AM_CONDITIONAL(TRANSLATE_QT, test x${translate_qt} = xyes)
 
 dnl check for math library
 AC_CHECK_LIB(m, roundf,,AC_MSG_ERROR([required library missing]))
+AC_CHECK_LIB(m, nearbyint, AC_DEFINE(CONFIG_M_NEARBYINT, 1,
+              [Define if nearbyint is available in libm.]))
 
 dnl check for some header files
 AC_HEADER_STDC
