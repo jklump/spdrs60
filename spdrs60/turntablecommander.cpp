@@ -21,6 +21,7 @@
     this code provides a GUI to control maerklin's digital turntable
  ******************************************************************************/
 
+#include <config.h>             // for CONFIG_M_NERARBYINT
 #include <stdlib.h>             // for abs()
 #include <math.h>               // for nearbyint()
 #include <qlayout.h>
@@ -374,10 +375,10 @@ void turntableCommander::startTrackTimer()
     listTracks->setEnabled(false);
 
     tTrackReached = new QTimer();       // start timer
-#if QT_VERSION >= 0x040000
-    tTrackReached->start((int) 1000 * pref.ttroundtime / 24);
-#else
+#ifdef CONFIG_M_NEARBYINT
     tTrackReached->start((int) nearbyint(1000 * pref.ttroundtime / 24));
+#else
+    tTrackReached->start((int) 1000 * pref.ttroundtime / 24);
 #endif
     connect(tTrackReached, SIGNAL(timeout()),
             this, SLOT(slotTrackReached()));
