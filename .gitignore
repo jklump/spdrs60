@@ -26,3 +26,5 @@ clock/.deps/
 spdrs60/.deps/
 clock/centralclock
 spdrs60/spdrs60
+spdrs60/srcp_test
+spdrs60/config.h.in~

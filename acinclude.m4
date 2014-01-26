@@ -109,17 +109,17 @@ AC_DEFUN([KDE_FIND_PATH],
 
 
 dnl
-AC_DEFUN([KDE_MOC_ERROR_MESSAGE],
-[
-    AC_MSG_ERROR([No Qt meta object compiler (moc) found!
-Please check whether you installed Qt correctly.
-You need to have a running moc binary.
-configure tried to run $ac_cv_path_moc and the test didn't
-succeed. If configure shouldn't have tried this one, set
-the environment variable MOC to the right one before running
-configure.
-])
-])
+dnl AC_DEFUN([KDE_MOC_ERROR_MESSAGE],
+dnl [
+dnl     AC_MSG_ERROR([No Qt meta object compiler (moc) found!
+dnl Please check whether you installed Qt correctly.
+dnl You need to have a running moc binary.
+dnl configure tried to run $ac_cv_path_moc and the test didn't
+dnl succeed. If configure shouldn't have tried this one, set
+dnl the environment variable MOC to the right one before running
+dnl configure.
+dnl ])
+dnl ])
 
 
 dnl ------------------------------------------------------------------------
@@ -127,21 +127,20 @@ dnl Find the meta object compiler in the PATH,
 dnl in $QTDIR/bin, and some more usual places
 dnl ------------------------------------------------------------------------
 dnl
-AC_DEFUN([AC_PATH_QT_MOC],
-[
-   qt_bindirs=""
-   for dir in $kde_qt_dirs; do
-      qt_bindirs="$qt_bindirs $dir/bin $dir/src/moc"
-   done
-   qt_bindirs="$qt_bindirs /usr/bin /usr/X11R6/bin /usr/local/qt/bin"
-   if test ! "$ac_qt_bindir" = "NO"; then
-      qt_bindirs="$ac_qt_bindir $qt_bindirs"
-   fi
-
-   KDE_FIND_PATH(moc, MOC, [$qt_bindirs], [KDE_MOC_ERROR_MESSAGE])
-   AC_SUBST(MOC)
-])
-
+dnl AC_DEFUN([AC_PATH_QT_MOC],
+dnl [
+dnl    qt_bindirs=""
+dnl    for dir in $kde_qt_dirs; do
+dnl       qt_bindirs="$qt_bindirs $dir/bin $dir/src/moc"
+dnl    done
+dnl    qt_bindirs="$qt_bindirs /usr/bin /usr/X11R6/bin /usr/local/qt/bin"
+dnl    if test ! "$ac_qt_bindir" = "NO"; then
+dnl       qt_bindirs="$ac_qt_bindir $qt_bindirs"
+dnl    fi
+dnl 
+dnl    KDE_FIND_PATH(moc, MOC, [$qt_bindirs], [KDE_MOC_ERROR_MESSAGE])
+dnl    AC_SUBST(MOC)
+dnl ])
 
 dnl
 AC_DEFUN([KDE_PRINT_QT_PROGRAM],
@@ -391,7 +390,7 @@ fi
 
 AC_SUBST(QT_INCLUDES)
 AC_SUBST(QT_LDFLAGS)
-AC_PATH_QT_MOC
+dnl AC_PATH_QT_MOC
 
 LIB_QT="$kde_int_qt "
 
