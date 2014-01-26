@@ -678,12 +678,12 @@ void RouteDialog::setRouteElements(const QPtrList<stateElement>& items)
 {
     QPtrListIterator<stateElement> it(items);
     stateElement* se;
-    RouteElementLVI* element;
+    //RouteElementLVI* element;
     it.toLast();
     int i = items.count();
     while ((se = it.current()) != 0) {
         --it;
-        element = new RouteElementLVI(elementsLV, i, se);
+        /*element =*/ new RouteElementLVI(elementsLV, i, se);
         --i;
     }
 }
