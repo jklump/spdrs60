@@ -10,9 +10,7 @@ check_PROGRAMS = srcp_test
 TESTS = $(check_PROGRAMS)
 srcp_test_SOURCES = \
 	srcp_test.cpp srcpmessage.h srcpmessage.cpp
-srcp_test_LDADD = @LIB_QT@
 srcp_test_LDFLAGS = @QT_LDFLAGS@
-srcp_test_CXXFLAGS = @QT_INCLUDES@
 
 
 bin_PROGRAMS = spdrs60
@@ -169,7 +167,8 @@ CLEANFILES = $(nodist_spdrs60_SOURCES) $(translations_DATA)
 
 # the library search path. 
 spdrs60_LDFLAGS = @QT_LDFLAGS@
-INCLUDES = @QT_INCLUDES@
+# CPP flags for all projects (including tests)
+AM_CPPFLAGS = @QT_INCLUDES@
 
 
 # define path to Qt translations if configure found it
