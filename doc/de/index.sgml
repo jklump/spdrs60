@@ -4152,7 +4152,7 @@ die oberhalb der Digitalprotokolle liegen. Wie in <xref linkend="abb-antrieb">
 Für eine korrekte Funktion eines Gleisbilds ist die Konfiguration einer
 &raquo;Rückmeldung&laquo; zur Visualisierung der Gleisbelegung wichtig.
 Dazu dient der in <xref linkend="abb-trackfeedback"> dargestellte
-Dialog. Hier kann man naben dem SRCP-Bus die Nummer des Rückmeldekontakts
+Dialog. Hier kann man neben dem SRCP-Bus die Nummer des Rückmeldekontakts
 einstellen.
 Gleichzeitig werden die Modulnummer und der zugehörige Eingang errechnet
 und dargestellt. Ist die Rückmeldung belegt, zeigt der Gleismelder im
