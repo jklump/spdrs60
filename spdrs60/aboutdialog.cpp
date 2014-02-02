@@ -9,7 +9,7 @@
  *   $Revision: 1.11 $
  *
  * Copyright
- *   (C) 2007-2010 Guido Scholz <guido.scholz@bayernline.de>
+ *   (C) 2007-2014 Guido Scholz <gscholz@users.sourceforge.net>
  * 
  * Description
  *   Dialog window to display program information
@@ -87,8 +87,8 @@ AboutDialog::AboutDialog(QWidget* parent): QDialog(parent,
 
     label = new QLabel("(C) 1999-2003 Stefan Preis <stefan.preis@wdr.de>",
             authorGB);
-    label = new QLabel("(C) 2004-2010 Guido Scholz "
-            "<guido.scholz@bayernline.de>", authorGB);
+    label = new QLabel("(C) 2004-2014 Guido Scholz "
+            "<guido-scholz@gmx.net>", authorGB);
 
     // contributors groupbox, names in two vertical columns
     QGroupBox* contribGB = new QGroupBox(2, Qt::Horizontal,
