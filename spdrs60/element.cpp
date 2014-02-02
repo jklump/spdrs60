@@ -8698,7 +8698,7 @@ void element::slotOccupyElement(unsigned int bus, unsigned int contact,
         // address panels don't get occupied
         if (classid == siciAdr) {
 
-            //check if BiDi adress indicator
+            //check if BiDi address indicator
             if (iSoldInvert == 2) {
 
                 if (contact == (unsigned int)iFBContact)
