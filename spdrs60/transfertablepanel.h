@@ -45,10 +45,10 @@ class TransferTablePanel: public GrayPanel
     void init();
 
   protected:
-    void mousePressEvent(QMouseEvent*);
-    void mouseReleaseEvent(QMouseEvent*);
     void setupElementIcon();
     void addTooltip();
+    void mousePressEvent(QMouseEvent*);
+    void mouseReleaseEvent(QMouseEvent*);
 
   public:
     TransferTablePanel(QWidget* parent = NULL);

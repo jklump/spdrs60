@@ -46,10 +46,10 @@ class TurntablePanel: public GrayPanel
     void init();
 
   protected:
-    void mousePressEvent(QMouseEvent*);
-    void mouseReleaseEvent(QMouseEvent*);
     void setupElementIcon();
     void addTooltip();
+    void mousePressEvent(QMouseEvent*);
+    void mouseReleaseEvent(QMouseEvent*);
 
   public:
     TurntablePanel(QWidget* parent = NULL);

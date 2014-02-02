@@ -232,7 +232,14 @@ private:
     void updateFeedbackState();
     void switchAddress(bool);
     void switch2AddressItem(unsigned int, unsigned int);
-   void runPropertyMenue(const QPoint&);
+    void runPropertyMenue(const QPoint&);
+
+protected:  // virtual inherited methods
+    void setupElementIcon();
+    void addTooltip();
+    void fontChange(const QFont&);
+    void mousePressEvent(QMouseEvent*);
+    void mouseReleaseEvent(QMouseEvent*);
 
 public slots:
     void runTurnoutBlinkTimer();
@@ -258,13 +265,6 @@ signals:
     void sigShowFBmodules();
     void turnoutIsSwitched();
     void recordElement(element*, elemRecordType);
-
-protected:  // virtual inherited methods
-    void fontChange(const QFont&);
-    void mousePressEvent(QMouseEvent*);
-    void mouseReleaseEvent(QMouseEvent*);
-    void setupElementIcon();
-    void addTooltip();
 };
 
 
