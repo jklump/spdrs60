@@ -4682,7 +4682,7 @@ wird gelb.
 </para>
 <para>
 Ist eine Straße bereits eingestellt, wird das Stopsignal in der
-Werkzeugleiste aktivierbar. Durch einen Klick darauf oder durch drücken
+Werkzeugleiste aktivierbar. Durch einen Klick darauf oder durch Drücken
 der Leerzeichentaste wird die Fahrstraße wieder zurückgenommen, als
 hätte man die Kombination FHT + Start- + Zielsignal benutzt.
 </para>
@@ -4889,8 +4889,10 @@ eventuell auch eine Korrektur des Typs.
 <sect3>
   <title>Fahrstraßen über das Gleisbild eingeben</title>
 <para>
-Im Einzelnen sieht das grafische Erstellen einer Fahrstraße wie folgt
-aus. Hat das gewünschte Element noch den falschen Status, klickt man
+Das grafische Erstellen einer Fahrstraße ist recht einfach durchzuführen
+und wird im Folgenden beispielhaft anhand der Fahrstraße
+&raquo;P2-n.L.&laquo; erläutert.
+Hat das gewünschte Element noch den falschen Status, klickt man
 zunächst mit der rechten Maustaste darauf. Es erscheint das
 Mini-Kontextmenü mit dem Eintrag &raquo;Umschalten&laquo;.
 <xref linkend="abb-routing17"> zeigt das am Signal-Element
@@ -4916,7 +4918,9 @@ wird (<xref linkend="abb-routing18">).
 </figure>
 <para>
 Durch einen einfachen Linksklick wird das Signal in diesem Beispiel zum
-Startsignal (<xref linkend="abb-routing19">).
+Startsignal (<xref linkend="abb-routing19">). Hat man sich bei der
+Auswahl vertan und versehentlich das falsche Signal aktiviert, lässt
+sich dieses durch ein erneutes Anklicken wieder abwählen.
 </para>
 <figure id="abb-routing19">
   <title>Startsignal erfaßt</title>
@@ -4938,10 +4942,11 @@ Bahnhofsausfahrt liegende Gleistaste &raquo;n.L.&laquo;.
 </figure>
 <para>
 Die übrigen zu schaltenden Antriebe werden durch einen Klick
-mit der mittleren Maustaste aufgenommen. Die in
-<xref linkend="abb-routing21"> zu schaltenden Weichen auf dem Weg vom Start-
-zum Zielsignal hatten alle schon die richtige Stellung, so dass sich ein
-Umschalten erübrigte.
+mit der mittleren Maustaste aufgenommen. Auch hier kann man durch
+erneutes Anklicken die Auswahl wieder zurücknehmen. Die in
+<xref linkend="abb-routing21"> zu schaltenden Weichen auf dem Weg vom
+Start- zum Zielsignal hatten alle schon die richtige Stellung, so dass
+sich ein Umschalten erübrigte. 
 </para>
 <figure id="abb-routing21">
   <title>Zu schaltende Fahrstraßenelemente erfaßt</title>
@@ -6054,7 +6059,7 @@ folgender Reihenfolge:
   Rückmeldemodulfenster.
 </para></listitem>
   <listitem><para>Darstellung der belegten Gleisabschnitte im Gleisbild
-  und Ansteuerung der Anzeigeelemente für EDiTS-Lokadressen.
+  und Ansteuerung der Anzeigeelemente für EDiTS- und BiDi-Lokadressen.
   </para></listitem>
   <listitem><para>Auflösen einer angesteuerten Fahrstraße.
 </para></listitem>
@@ -6856,8 +6861,8 @@ Man wähle hier zwischen Links- und Rechtslauf oder Anhalten.
   Wann kommt spdrs60 für Windows?
   </emphasis></term>
   <listitem><para>
-  Da spdrs60 auf der Qt Bibliothek von Trolltech (<ulink
-   url="http://www.trolltech.com/">http://www.trolltech.com/</ulink>)
+  Da spdrs60 auf der offenen Multiplattform-Bibliothek Qt (<ulink
+  url="http://qt-project.org/">http://qt-project.org/</ulink>)
   basiert, ist eine Portierung auf dieses Betriebssystem prinzipiell möglich.
   Bisher hat sich allerdings kein Interessent gefunden, der diese Arbeit
   übernehmen will.
