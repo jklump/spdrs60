@@ -155,6 +155,9 @@ Release date: 2014-02-05
             Internal code cleanups, prepare layout item class
             separation.
     </para></listitem>
+    <listitem><para>
+	Add Dutch translation provided by Jaap Kramer.
+    </para></listitem>
 </itemizedlist>
 </sect2>
 

@@ -202,21 +202,29 @@ Veröffentlicht am 05.02.2014
 </para>
 <itemizedlist mark="bullet">
     <listitem><para>
-            Avoid linking aganinst libpthread
+            Fehler bereinigt, bei dem unnötigwerweise die
+            pthread-Bibliothek mit verlinkt wurde.
     </para></listitem>
     <listitem><para>
-            Fix pure virtual function called by destructor
+            Fehler bereinigt, bei dem eine virtuelle Funktion in einem
+            Destructor aufgerufen wurde.
     </para></listitem>
     <listitem><para>
-            Add experimental support for BiDi locomotive address
-            visualization
+            Experimentelle Unterstützung für die Anzeige von BiDi
+            Locomotiv-Adressen.
     </para></listitem>
     <listitem><para>
-            Add configure check for nearbyint
+            Das configure-Skript testet nun auf das Vorhandensein der
+            Funktion "nearbyint".
     </para></listitem>
     <listitem><para>
-            Internal code cleanups, prepare layout item class separation
+            Interne Quellcode Aufräumarbeiten und erste Schritte in
+            Richtung auf eine Trennung der Gleisbildelemente in
+            unterschiedliche Klassen.
     </para></listitem>
+    <listitem><para>
+            Niederländische übersetzung von Jaap Kramer ergänzt.
+    <listitem><para>
 </itemizedlist>
 </sect1>
   
