@@ -202,7 +202,7 @@ Veröffentlicht am 05.02.2014
 </para>
 <itemizedlist mark="bullet">
     <listitem><para>
-            Fehler bereinigt, bei dem unnötigwerweise die
+            Fehler bereinigt, bei dem unnötigerweise die
             pthread-Bibliothek mit verlinkt wurde.
     </para></listitem>
     <listitem><para>
