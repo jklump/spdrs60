@@ -1,5 +1,5 @@
 <!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V4.2//EN" [
-<!-- Aktuelle Version: --> <!ENTITY ver "0.5.6">
+<!-- Aktuelle Version: --> <!ENTITY ver "0.5.7">
 ]>
 
 <book lang="de">
@@ -21,7 +21,7 @@
             <surname>Scholz</surname>
             <affiliation>
                 <address>
-                    <email>guido.scholz@bayernline.de</email>
+                    <email>guido-scholz@gmx.net</email>
                 </address>
             </affiliation>
         </author>
@@ -1502,8 +1502,8 @@ von Stefan Preis existiert ebenfalls noch, wird aber nicht mehr aktuell
 gehalten:
 </para>
 <para>
-<ulink url="http://www.linux-modellbahn.de/">
-http://www.linux-modellbahn.de/
+<ulink url="http://home.arcor.de/stefan.preis/modellbahn/spdrs60/">
+http://home.arcor.de/stefan.preis/modellbahn/spdrs60/
 </ulink>
 </para>
 </sect1>
@@ -3468,9 +3468,9 @@ besondere Elemente wie die Drehscheibe wird im
       <entry align="center">900</entry>
       <entry>Adressanzeigefeld</entry>
       <entry align="center">1</entry>
-      <entry>Für EDiTS-Pro Adressrückmeldemodul oder
-          Zugnummernverfolgung mit virtueller Adresse (6000 - 6999)
-          anwendbar</entry>
+      <entry>Für EDiTS-Pro Adressrückmeldemodul, Zugnummernverfolgung
+          mit virtueller Adresse (6000 - 6999) oder
+          BiDi-Lokadressanzeige anwendbar</entry>
       <entry>&nbsp;</entry>
     </row>
     <row>
@@ -4358,11 +4358,12 @@ einzugeben.
 <sect3 id="sect-addressindicator">
   <title>Adressanzeigeelement</title>
   <para>
-      Dieses Element kann in zwei Betriebsvarianten genutzt werden, die
+      Dieses Element kann in drei Betriebsvarianten genutzt werden, die
       ebenfalls über einen Dialog konfigurierbar sind
       (<xref linkend="abb-addressvariant">). Zum einen als
-      EDiTS-Adressanzeige oder zum anderen zur Darstellung von Zugadressen
-      für die automatische Zugnummernverfolgung. 
+          EDiTS-Adressanzeige, zur Darstellung von Zugadressen
+      für die automatische Zugnummernverfolgung und zur Anzeige von
+      BiDi-Lokadressen.
   </para>
 <figure id="abb-addressvariant">
   <title>Varianten der Adressanzeige</title>
@@ -4384,15 +4385,26 @@ einzugeben.
 </sect4>
 
 <sect4>
+  <title>BiDi-Lokadresse</title>
+  <para>
+      Die BiDi-Lokadresse benötigt spezielle BiDi-Rückmelder, die bei
+      Belegung die DCC-Lokadresse an die angeschlossene Zentrale melden.
+      Zur Aktivierung der Anzeige reicht dann die Konfiguration des
+      zugehörigen Rückmeldekontaks.
+</para>
+</sect4>
+
+<sect4>
   <title>EDiTS-Zugadressen</title>
 <para>
 Diese Elemente sind etwas ganz besonderes, so dass sich ein Rückblick in
 die Historie lohnt. Obwohl das System der digitalen Zugsteuerungen nun
-seit schon ca. 20 Jahren existiert und bereits in vielerlei
+seit vielen Jahren existiert und bereits in vielerlei
 Hinsicht verfeinert wurde, fehlt immer noch ein entscheidendes
 Element bei vielen Anbietern: Die Rückmeldung der Lokadresse einer an
 einem bestimmten Punkt vorbeifahrenden Lok. Seit einigen Jahren gibt es
 bereits Zuglesesysteme (Holtermann etc.), die jedoch sehr teuer sind.
+Mittlerweile sind für diesen Zweck BiDi- und RFID-Systeme auf dem Vormarsch.
 </para>
 <para>
 Die Zeitschrift Elektor hat Ende
@@ -7127,8 +7139,8 @@ funktioniert aber noch nicht.
 </para>
 <para>Zu genaueren Informationen zur Beschaltung des S88-Busses an den
 SRCP-Server siehe den Link zu Martin Wolf auf den Linkseiten unter
-<ulink url="http://www.linux-modellbahn.de/">
-http://www.linux-modellbahn.de/</ulink>.</para>
+<ulink url="http://home.arcor.de/stefan.preis/modellbahn/spdrs60/">
+http://home.arcor.de/stefan.preis/modellbahn/spdrs60/</ulink>.</para>
 </sect2>
 
 </sect1>
@@ -7476,7 +7488,7 @@ original SpDr-Stellwerken, sondern auch theoretisches zur
   <title>Copyright</title>
 <para>
 Copyright 2000-2003 Stefan Preis,
-Copyright 2004-2008 Guido Scholz.
+Copyright 2004-2014 Guido Scholz.
 </para>
 <para>
 This program is free software; you can redistribute it
