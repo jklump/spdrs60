@@ -46,6 +46,7 @@ public:
    void setChoice(int);
    void addVariant(const QString&);
    void addVariant(const QString&, const QPixmap&);
+   void showImage(bool show);
 
 private slots:
    void selectionChanged(int);

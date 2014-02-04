@@ -9845,6 +9845,7 @@ bool element::showVariantDialog()
             break;
 
         case siciAdr:
+            dlg->showImage(false);
             dlg->addVariant(tr("&EDiTS-Pro indicator"));
             dlg->addVariant(tr("&Train number tracing"));
             dlg->addVariant(tr("&BiDi locomotive address"));

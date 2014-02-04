@@ -95,3 +95,12 @@ void VariantDialog::selectionChanged(int index)
     if (index >= 0 && (size_t)index < pmList.count())
         imageLabel->setPixmap(pmList[index]);
 }
+
+/*hide/show image label*/
+void VariantDialog::showImage(bool show)
+{
+        if (show)
+                    imageLabel->show();
+            else
+                        imageLabel->hide();
+}
