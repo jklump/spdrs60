@@ -37,6 +37,10 @@
 
         <revhistory>
             <revision>
+                <revnumber>0.15</revnumber>
+                <date>Di Feb 04 20:20:20 CET 2014</date>
+            </revision>
+            <revision>
                 <revnumber>0.14</revnumber>
                 <date>Fr Jun 04 22:12:53 CET 2010</date>
             </revision>
@@ -190,6 +194,32 @@ empfehlenswert, diese Dokumentation durchzuarbeiten.
 
 <chapter id="chapter-aenderungen">
   <title>Änderungen</title>
+
+<sect1 id="ver-0.5.7">
+  <title>Version 0.5.7</title>
+<para>
+Veröffentlicht am 05.02.2014
+</para>
+<itemizedlist mark="bullet">
+    <listitem><para>
+            Avoid linking aganinst libpthread
+    </para></listitem>
+    <listitem><para>
+            Fix pure virtual function called by destructor
+    </para></listitem>
+    <listitem><para>
+            Add experimental support for BiDi locomotive address
+            visualization
+    </para></listitem>
+    <listitem><para>
+            Add configure check for nearbyint
+    </para></listitem>
+    <listitem><para>
+            Internal code cleanups, prepare layout item class separation
+    </para></listitem>
+</itemizedlist>
+</sect1>
+  
 
 <sect1 id="ver-0.5.6">
   <title>Version 0.5.6</title>

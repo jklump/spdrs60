@@ -1,6 +1,182 @@
++++ Release 0.5.7 (2014-02-05) +++
+
+2014-02-02  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/element.h, spdrs60/transfertablepanel.h,
+	spdrs60/turntablepanel.h: Adjust function sequence
+
+2014-01-26  Guido Scholz <gscholz@users.sourceforge.net>
+	* configure.ac, spdrs60/turntablecommander.cpp: Add configure check
+	for nearbyint
+	* .gitignore, acinclude.m4, configure.ac, spdrs60/mainwindow.h,
+	spdrs60/srcpport.h: Add configure option for Qt4 usage
+
+2014-01-25  Guido Scholz <gscholz@users.sourceforge.net>
+	* clock/Makefile.am, spdrs60/Makefile.am: Change handling of INCLUDES
+	* acinclude.m4, clock/Makefile.am, spdrs60/Makefile.am: Set LIBS
+	variable properly
+
 2014-01-18  Guido Scholz <gscholz@users.sourceforge.net>
-	* spdrs60/translations/spdrs60_de.ts: Add Dutch translation
-	provided by Jaap Kramer.
+	* spdrs60/element.cpp, spdrs60/element.h, spdrs60/gbsarea.cpp,
+	spdrs60/gbsarea.h, spdrs60/mainwindow.cpp, spdrs60/mainwindow.h,
+	spdrs60/translations/spdrs60_de.ts,
+	spdrs60/translations/spdrs60_it.ts,
+	spdrs60/translations/spdrs60_nl.ts: Add experimental support for BiDi
+	locomotive address visualization
+	* ChangeLog, spdrs60/Makefile.am, spdrs60/translations/TRANSLATORS:
+	Add Dutch translation provided by Jaap Kramer.
+
+2012-08-15  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/mainwindow.cpp, spdrs60/mainwindow.h: Improve power on
+	sequence
+	* spdrs60/srcpport.cpp, spdrs60/srcpport.h: Fix pure virtual function
+	called by destructor
+
+2010-06-16  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/element.cpp, spdrs60/element.h: Rebase element class on
+	gray panel
+
+2010-06-15  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/Makefile.am, spdrs60/element.cpp,
+	spdrs60/elementcommander.cpp, spdrs60/panelfactory.cpp,
+	spdrs60/transfertablepanel.cpp, spdrs60/transfertablepanel.h,
+	spdrs60/translations/spdrs60_de.ts,
+	spdrs60/translations/spdrs60_it.ts: Add transfer table panel
+	* spdrs60/levelcrossinggrouppanel.cpp,
+	spdrs60/powersupplygrouppanel.cpp, spdrs60/routegrouppanel.cpp,
+	spdrs60/signalgrouppanel.cpp: Fix wrong class ids
+
+2012-08-15  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/mainwindow.cpp, spdrs60/mainwindow.h: Improve power on
+	sequence
+	* spdrs60/srcpport.cpp, spdrs60/srcpport.h: Fix pure virtual function
+	called by destructor
+
+2010-06-16  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/element.cpp, spdrs60/element.h: Rebase element class on
+	gray panel
+
+2010-06-15  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/Makefile.am, spdrs60/element.cpp,
+	spdrs60/elementcommander.cpp, spdrs60/panelfactory.cpp,
+	spdrs60/transfertablepanel.cpp, spdrs60/transfertablepanel.h,
+	spdrs60/translations/spdrs60_de.ts,
+	spdrs60/translations/spdrs60_it.ts: Add transfer table panel
+	* spdrs60/levelcrossinggrouppanel.cpp,
+	spdrs60/powersupplygrouppanel.cpp, spdrs60/routegrouppanel.cpp,
+	spdrs60/signalgrouppanel.cpp: Fix wrong class ids
+	* spdrs60/Makefile.am, spdrs60/element.cpp, spdrs60/element.h,
+	spdrs60/panelfactory.cpp, spdrs60/spdrpanel.cpp, spdrs60/spdrpanel.h,
+	spdrs60/translations/spdrs60_de.ts,
+	spdrs60/translations/spdrs60_it.ts, spdrs60/turntablepanel.cpp,
+	spdrs60/turntablepanel.h: Add turntable panel
+
+2010-06-14  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/Makefile.am, spdrs60/element.cpp,
+	spdrs60/locoshedswpanel.cpp, spdrs60/locoshedswpanel.h,
+	spdrs60/panelfactory.cpp: Add south-west oriented loco shed panel
+	* spdrs60/Makefile.am, spdrs60/element.cpp,
+	spdrs60/locoshednwpanel.cpp, spdrs60/locoshednwpanel.h,
+	spdrs60/locoshedsepanel.cpp, spdrs60/locoshedsepanel.h,
+	spdrs60/panelfactory.cpp: Add north-west and south-east oriented loco
+	shed panel
+	* spdrs60/Makefile.am, spdrs60/element.cpp,
+	spdrs60/locoshednepanel.cpp, spdrs60/locoshednepanel.h,
+	spdrs60/panelfactory.cpp, spdrs60/spdrpanel.h: Add north-east
+	oriented loco shed panel
+	* spdrs60/Makefile.am, spdrs60/element.cpp,
+	spdrs60/locoshedeastpanel.cpp, spdrs60/locoshedeastpanel.h,
+	spdrs60/locoshedwestpanel.cpp, spdrs60/locoshedwestpanel.h,
+	spdrs60/panelfactory.cpp, spdrs60/spdrpanel.h: Add east and west
+	oriented loco shed panel
+	* spdrs60/Makefile.am, spdrs60/buildingrightpanel.cpp,
+	spdrs60/buildingrightpanel.h, spdrs60/element.cpp,
+	spdrs60/panelfactory.cpp: Add right station building panel
+	* spdrs60/Makefile.am, spdrs60/buildingleftpanel.cpp,
+	spdrs60/buildingleftpanel.h, spdrs60/element.cpp,
+	spdrs60/panelfactory.cpp: Add left station building
+	* spdrs60/Makefile.am, spdrs60/buildinghorizontalpanel.cpp,
+	spdrs60/buildinghorizontalpanel.h, spdrs60/element.cpp,
+	spdrs60/panelfactory.cpp, spdrs60/spdrpanel.h: Add horizontal station
+	building panel
+	* spdrs60/Makefile.am, spdrs60/bufferstopbottompanel.cpp,
+	spdrs60/bufferstopbottompanel.h, spdrs60/bufferstopleftpanel.cpp,
+	spdrs60/bufferstopleftpanel.h, spdrs60/bufferstoprightpanel.cpp,
+	spdrs60/bufferstoprightpanel.h, spdrs60/bufferstoptoppanel.cpp,
+	spdrs60/bufferstoptoppanel.h, spdrs60/graypanel.cpp,
+	spdrs60/graypanel.h: Rebase inner layout panels on gray panel class
+
+2010-06-13  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/Makefile.am, spdrs60/bufferstopbottompanel.cpp,
+	spdrs60/bufferstopbottompanel.h, spdrs60/element.cpp,
+	spdrs60/panelfactory.cpp: Add bottom buffer stop panel
+	* spdrs60/Makefile.am, spdrs60/bufferstoptoppanel.cpp,
+	spdrs60/bufferstoptoppanel.h, spdrs60/element.cpp,
+	spdrs60/panelfactory.cpp: Add top buffer stop
+	* spdrs60/Makefile.am, spdrs60/bufferstopleftpanel.cpp,
+	spdrs60/bufferstopleftpanel.h, spdrs60/element.cpp,
+	spdrs60/panelfactory.cpp: Add left buffer stop panel
+	* spdrs60/Makefile.am, spdrs60/bufferstoprightpanel.cpp,
+	spdrs60/bufferstoprightpanel.h, spdrs60/element.cpp,
+	spdrs60/panelfactory.cpp, spdrs60/spdrpanel.h: Add right buffer stop
+	panel
+	* spdrs60/Makefile.am, spdrs60/axlecountergrouppanel.cpp,
+	spdrs60/axlecountergrouppanel.h, spdrs60/element.cpp,
+	spdrs60/panelfactory.cpp: Add generic axle counter group panel
+	* spdrs60/Makefile.am, spdrs60/element.cpp,
+	spdrs60/levelcrossinggrouppanel.cpp,
+	spdrs60/levelcrossinggrouppanel.h, spdrs60/panelfactory.cpp: Add
+	generic level crossing group panel
+	* spdrs60/Makefile.am, spdrs60/element.cpp, spdrs60/panelfactory.cpp,
+	spdrs60/powersupplygrouppanel.cpp, spdrs60/powersupplygrouppanel.h:
+	add generic power supply group panel
+	* spdrs60/Makefile.am, spdrs60/element.cpp, spdrs60/panelfactory.cpp,
+	spdrs60/routegrouppanel.cpp, spdrs60/routegrouppanel.h: add generic
+	route group panel
+	* spdrs60/Makefile.am, spdrs60/element.cpp, spdrs60/panelfactory.cpp,
+	spdrs60/signalgrouppanel.cpp, spdrs60/signalgrouppanel.h: add generic
+	signal group panel
+	* spdrs60/element.h, spdrs60/spdrpanel.cpp, spdrs60/spdrpanel.h,
+	spdrs60/turnoutgrouppanel.cpp: add generic panel tooltip
+	* spdrs60/Makefile.am, spdrs60/element.cpp, spdrs60/element.h,
+	spdrs60/gbsarea.cpp, spdrs60/panelfactory.cpp,
+	spdrs60/panelfactory.h, spdrs60/spdrpanel.cpp, spdrs60/spdrpanel.h,
+	spdrs60/turnoutgrouppanel.cpp, spdrs60/turnoutgrouppanel.h: add
+	turnout group panel class
+	* spdrs60/element.cpp, spdrs60/element.h, spdrs60/spdrpanel.cpp,
+	spdrs60/spdrpanel.h: let base class save base data
+	* spdrs60/Makefile.am, spdrs60/element.cpp, spdrs60/element.h,
+	spdrs60/gbsarea.cpp, spdrs60/gbsarea.h, spdrs60/mainwindow.cpp,
+	spdrs60/mainwindow.h, spdrs60/paintitembutton.cpp,
+	spdrs60/paintitembutton.h, spdrs60/paintitemwindow.h,
+	spdrs60/route.cpp, spdrs60/route.h, spdrs60/router.cpp,
+	spdrs60/router.h, spdrs60/translations/spdrs60_de.ts,
+	spdrs60/translations/spdrs60_it.ts: rebase layout panels on new class
+	and activate panel factory
+	* spdrs60/panelfactory.cpp, spdrs60/panelfactory.h,
+	spdrs60/spdrpanel.cpp, spdrs60/spdrpanel.h: add new base class for
+	layout panels and according factory class
+	* spdrs60/element.cpp, spdrs60/element.h, spdrs60/gbsarea.cpp,
+	spdrs60/gbsarea.h, spdrs60/translations/spdrs60_de.ts,
+	spdrs60/translations/spdrs60_it.ts: Move element edit context menu to
+	element itself
+	* spdrs60/element.cpp, spdrs60/gbsarea.cpp, spdrs60/gbsarea.h,
+	spdrs60/translations/spdrs60_de.ts,
+	spdrs60/translations/spdrs60_it.ts: move toggle context menu to
+	element also for route edit mode
+	* spdrs60/element.cpp, spdrs60/gbsarea.cpp,
+	spdrs60/translations/spdrs60_de.ts,
+	spdrs60/translations/spdrs60_it.ts: move toggle context menu to
+	element
+
+2010-06-11  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/element.cpp, spdrs60/element.h, spdrs60/gbsarea.cpp:
+	Simplify element contructor not using visual mode parameter.
+
+2010-06-06  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/feedbacktriggerdialog.cpp,
+	spdrs60/translations/spdrs60_de.ts,
+	spdrs60/translations/spdrs60_it.ts: fix missing translation
+
 
 
 +++ Release 0.5.6 (2009-06-05) +++

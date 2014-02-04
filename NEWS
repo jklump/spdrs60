@@ -1,3 +1,21 @@
+spdrs60-0.5.7 (2014-02-05)
+
+  Fixed Bugs
+
+  o Avoid linking aganinst libpthread
+  o Fix pure virtual function called by destructor
+
+  New Features
+
+  o Add experimental support for BiDi locomotive address visualization
+  o Add configure check for nearbyint 
+
+
+  General Changes
+
+  o Internal code cleanups, prepare layout item class separation
+
+
 spdrs60-0.5.6 (2009-06-05)
 
   Fixed Bugs
