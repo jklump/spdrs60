@@ -158,6 +158,9 @@ Release date: 2014-02-05
     <listitem><para>
 	Add Dutch translation provided by Jaap Kramer.
     </para></listitem>
+    <listitem><para>
+	Add full screen mode (F11).
+    </para></listitem>
 </itemizedlist>
 </sect2>
 

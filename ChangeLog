@@ -1,5 +1,11 @@
 +++ Release 0.5.7 (2014-02-05) +++
 
+2014-02-05  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/mainwindow.cpp, spdrs60/mainwindow.h,
+	spdrs60/translations/spdrs60_de.ts,
+	spdrs60/translations/spdrs60_it.ts,
+	spdrs60/translations/spdrs60_nl.ts: Add full screen mode
+
 2014-02-02  Guido Scholz <gscholz@users.sourceforge.net>
 	* spdrs60/element.h, spdrs60/transfertablepanel.h,
 	spdrs60/turntablepanel.h: Adjust function sequence

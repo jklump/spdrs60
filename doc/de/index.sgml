@@ -225,6 +225,9 @@ Veröffentlicht am 05.02.2014
     <listitem><para>
             Niederländische übersetzung von Jaap Kramer ergänzt.
     <listitem><para>
+    <listitem><para>
+            Ansicht im Vollbildschirmmodus (F11) ergänzt.
+    <listitem><para>
 </itemizedlist>
 </sect1>
   
@@ -2664,12 +2667,6 @@ in Abhängigkeit vom gerade aktiven Modus auf.
       <entry>Umschalten in den Fahrstraßenbearbeitungsmodus</entry>
     </row>
     <row>
-      <entry><keycap>Strg-D</keycap></entry>
-      <entry>
-          Schaltet das Debugging-Fenster in einen von drei möglichen Modi
-      </entry>
-    </row>
-    <row>
       <entry><keycap>Strg-E</keycap></entry>
       <entry>Umschalten in den Gleisbildbearbeitungsmodus</entry>
     </row>
@@ -2678,8 +2675,22 @@ in Abhängigkeit vom gerade aktiven Modus auf.
       <entry>Finden von Elementen</entry>
     </row>
     <row>
-      <entry><keycap>Strg-H</keycap></entry>
+      <entry><keycap>Strg-G</keycap></entry>
       <entry>Menü verbergen oder anzeigen</entry>
+    </row>
+    <row>
+      <entry><keycap>Strg-H</keycap></entry>
+      <entry>
+          Schaltet das Historien-Fenster in einen von drei möglichen Modi
+      </entry>
+    </row>
+    <row>
+      <entry><keycap>Strg-I</keycap></entry>
+      <entry>Wergzeugleiste verbergen oder anzeigen</entry>
+    </row>
+    <row>
+      <entry><keycap>Strg-J</keycap></entry>
+      <entry>Statuszeile verbergen oder anzeigen</entry>
     </row>
     <row>
       <entry><keycap>Strg-K</keycap></entry>
@@ -2741,12 +2752,16 @@ in Abhängigkeit vom gerade aktiven Modus auf.
       <entry>Aktivieren der Haltgruppentaste HaGT</entry>
     </row>
     <row>
-      <entry><keycap>F10</keycap></entry>
+      <entry><keycap>F11</keycap></entry>
+      <entry>Schaltet den Vollbildschirmmodus um</entry>
+    </row>
+    <row>
+      <entry><keycap>Strg-F10</keycap></entry>
       <entry>Alle Elemente in den nächstmöglichen Zustand
 stellen</entry>
     </row>
     <row>
-      <entry><keycap>F11</keycap></entry>
+      <entry><keycap>Strg-F11</keycap></entry>
       <entry>Den aktuell sichtbaren Zustand an die Anlage
 senden</entry>
     </row>

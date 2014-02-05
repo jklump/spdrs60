@@ -10,6 +10,7 @@ spdrs60-0.5.7 (2014-02-05)
   o Add experimental support for BiDi locomotive address visualization.
   o Add configure check for nearbyint.
   o Add Dutch translation provided by Jaap Kramer.
+  o Add full screen mode.
 
 
   General Changes
