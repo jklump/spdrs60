@@ -1177,6 +1177,14 @@ the server daemon after shutdown has finished)</source>
         <source>Uneditable CRCF RWCC attribute &apos;%1&apos; detected.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Toggle f&amp;ull screen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toggle full screen mode</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>MessageHistory</name>

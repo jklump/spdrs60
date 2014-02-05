@@ -982,15 +982,15 @@ void MainWindow::initMainWindow()
     viewmenu->insertSeparator();
 
 #if QT_VERSION >= 0x040000
-    QAction* actionViewMenu = new QAction(
-            tr("&Menu"), Qt::CTRL + Qt::Key_H, this, "viewMenu");
+    actionViewMenu = new QAction(
+            tr("&Menu"), Qt::CTRL + Qt::Key_G, this, "viewMenu");
 #elif QT_VERSION >= 0x030200
-    QAction* actionViewMenu = new QAction(NULL,
-            tr("&Menu"), Qt::CTRL + Qt::Key_H, this, "viewMenu");
+    actionViewMenu = new QAction(NULL,
+            tr("&Menu"), Qt::CTRL + Qt::Key_G, this, "viewMenu");
     actionViewMenu->setToolTip(tr("Show the main menu"));
 #else
-    QAction* actionViewMenu = new QAction(tr("Show the main menu"),
-            tr("&Menu"), Qt::CTRL + Qt::Key_H, this, "viewMenu");
+    actionViewMenu = new QAction(tr("Show the main menu"),
+            tr("&Menu"), Qt::CTRL + Qt::Key_G, this, "viewMenu");
 #endif
     actionViewMenu->setToggleAction(true);
     actionViewMenu->setOn(true);
@@ -999,15 +999,15 @@ void MainWindow::initMainWindow()
             SLOT(setShown(bool)));
 
 #if QT_VERSION >= 0x040000
-    QAction* actionViewToolbar = new QAction(
-            tr("Tool&bars"), 0, this, "viewToolbar");
+    actionViewToolbar = new QAction(
+            tr("Tool&bars"), Qt::CTRL + Qt::Key_I, this, "viewToolbar");
 #elif QT_VERSION >= 0x030200
-    QAction* actionViewToolbar = new QAction(NULL,
-            tr("Tool&bars"), 0, this, "viewToolbar");
+    actionViewToolbar = new QAction(NULL,
+            tr("Tool&bars"), Qt::CTRL + Qt::Key_I, this, "viewToolbar");
     actionViewToolbar->setToolTip(tr("Show the toolbars"));
 #else
-    QAction* actionViewToolbar = new QAction(tr("Show the toolbars"),
-            tr("Tool&bars"), 0, this, "viewToolbar");
+    actionViewToolbar = new QAction(tr("Show the toolbars"),
+            tr("Tool&bars"), Qt::CTRL + Qt::Key_I, this, "viewToolbar");
 #endif
     actionViewToolbar->setToggleAction(true);
     actionViewToolbar->setOn(true);
@@ -1015,14 +1015,14 @@ void MainWindow::initMainWindow()
 
 #if QT_VERSION >= 0x040000
     QAction* actionViewStatusline = new QAction(
-            tr("&Statusline"), 0, this, "viewStatusline");
+            tr("&Statusline"), Qt::CTRL + Qt::Key_J, this, "viewStatusline");
 #elif QT_VERSION >= 0x030200
     QAction* actionViewStatusline = new QAction(NULL,
-            tr("&Statusline"), 0, this, "viewStatusline");
+            tr("&Statusline"), Qt::CTRL + Qt::Key_J, this, "viewStatusline");
     actionViewStatusline->setToolTip(tr("Show the statusline"));
 #else
     QAction* actionViewStatusline = new QAction(tr("Show the statusline"),
-            tr("&Statusline"), 0, this, "viewStatusline");
+            tr("&Statusline"), Qt::CTRL + Qt::Key_J, this, "viewStatusline");
 #endif
     actionViewStatusline->setToggleAction(true);
     actionViewStatusline->setOn(true);
@@ -1030,27 +1030,44 @@ void MainWindow::initMainWindow()
             SLOT(setShown(bool)));
     actionViewStatusline->addTo(viewmenu);
 
+#if QT_VERSION >= 0x040000
+    actionViewToggleFullScreen = new QAction(
+            tr("Toggle f&ull screen"), Qt::Key_F11,
+            this, "viewToggleFullScreen");
+#elif QT_VERSION >= 0x030200
+    actionViewToggleFullScreen = new QAction(NULL,
+            tr("Toggle f&ull screen"), Qt::Key_F11, // Ctrl H/T
+            this, "viewToggleFullScreen");
+    actionViewToggleFullScreen->setToolTip(tr("Toggle full screen mode"));
+#else
+    actionViewToggleFullScreen = new QAction(tr("Toggle full screen mode"),
+            tr("Toggle f&ull screen"), Qt::Key_F11, // Ctrl H/T
+            this, "viewToggleFullScreen");
+#endif
+    connect(actionViewToggleFullScreen, SIGNAL(activated()),
+           this, SLOT(slotViewToggleFullscreen()));
+    actionViewToggleFullScreen->addTo(viewmenu);
+
     viewmenu->insertSeparator();
 
 #if QT_VERSION >= 0x040000
     actionViewToggleHistory = new QAction(
-            tr("Toggle &history line"), Qt::CTRL + Qt::Key_D, // Ctrl H/T
+            tr("Toggle &history line"), Qt::CTRL + Qt::Key_H,
             this, "viewToggleHistory");
 #elif QT_VERSION >= 0x030200
     actionViewToggleHistory = new QAction(NULL,
-            tr("Toggle &history line"), Qt::CTRL + Qt::Key_D, // Ctrl H/T
+            tr("Toggle &history line"), Qt::CTRL + Qt::Key_H,
             this, "viewToggleHistory");
     actionViewToggleHistory->setToolTip(tr("Toggle the history line"));
 #else
     actionViewToggleHistory = new QAction(tr("Toggle the history line"),
-            tr("Toggle &history line"), Qt::CTRL + Qt::Key_D, // Ctrl H/T
+            tr("Toggle &history line"), Qt::CTRL + Qt::Key_H,
             this, "viewToggleHistory");
 #endif
     connect(actionViewToggleHistory, SIGNAL(activated()), messageHistory,
             SLOT(toggleLine()));
     actionViewToggleHistory->addTo(viewmenu);
     //actionViewToggleHistory->addTo(viewtb);
-
 
     /*daemon toolbar*/
     daemontb = new QToolBar(this, "daemontb");
@@ -1254,14 +1271,14 @@ void MainWindow::initMainWindow()
 
 #if QT_VERSION >= 0x040000
     actionLayoutToggleAll = new QAction(
-            tr("&Toggle all"), Qt::Key_F10, this, "layoutToggleAll");
+            tr("&Toggle all"), Qt::CTRL + Qt::Key_F10, this, "layoutToggleAll");
 #elif QT_VERSION >= 0x030200
     actionLayoutToggleAll = new QAction(NULL,
-            tr("&Toggle all"), Qt::Key_F10, this, "layoutToggleAll");
+            tr("&Toggle all"), Qt::CTRL + Qt::Key_F10, this, "layoutToggleAll");
     actionLayoutToggleAll->setToolTip(tr("Toggle all switchable elements"));
 #else
     actionLayoutToggleAll = new QAction(tr("Toggle all switchable elements"),
-            tr("&Toggle all"), Qt::Key_F10, this, "layoutToggleAll");
+            tr("&Toggle all"), Qt::CTRL + Qt::Key_F10, this, "layoutToggleAll");
 #endif
     connect(actionLayoutToggleAll, SIGNAL(activated()), gbs,
             SLOT(slotToggleAll()));
@@ -1270,16 +1287,16 @@ void MainWindow::initMainWindow()
 
 #if QT_VERSION >= 0x040000
     actionLayoutSendAll = new QAction(
-            tr("Send &all"), Qt::Key_F11, this, "layoutSendAll");
+            tr("Send &all"), Qt::CTRL + Qt::Key_F11, this, "layoutSendAll");
 #elif QT_VERSION >= 0x030200
     actionLayoutSendAll = new QAction(NULL,
-            tr("Send &all"), Qt::Key_F11, this, "layoutSendAll");
+            tr("Send &all"), Qt::CTRL + Qt::Key_F11, this, "layoutSendAll");
     actionLayoutSendAll->setToolTip(tr("Send current states of all "
                 "switchable elements to SRCP server"));
 #else
     actionLayoutSendAll = new QAction(tr("Send current states of all "
                                 "switchable elements to SRCP server"), 
-            tr("Send &all"), Qt::Key_F11, this, "layoutSendAll");
+            tr("Send &all"), Qt::CTRL + Qt::Key_F11, this, "layoutSendAll");
 #endif
     connect(actionLayoutSendAll, SIGNAL(activated()), this,
             SLOT(layoutSendAll()));
@@ -3033,6 +3050,15 @@ void MainWindow::slotViewTrainNumberDialog()
                 router, SLOT(changeTrainNumber(unsigned int, unsigned int)));
         trainnumberdialog->show();
     }
+}
+
+/* toggle full screen mode, hide/show also menu, toolbar and statusline */
+void MainWindow::slotViewToggleFullscreen()
+{
+    bool fullscreen = (windowState() & Qt::WindowFullScreen);
+    actionViewMenu->setOn(fullscreen);
+    actionViewToolbar->setOn(fullscreen);
+    setWindowState(windowState() ^ Qt::WindowFullScreen);
 }
 
 /*

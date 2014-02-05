@@ -1195,6 +1195,14 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
         <source>Uneditable CRCF RWCC attribute &apos;%1&apos; detected.</source>
         <translation>Unveränderliches CRCF RWCC Attribut &apos;%1&apos; gefunden.</translation>
     </message>
+    <message>
+        <source>Toggle f&amp;ull screen</source>
+        <translation>&amp;Vollbild umschalten</translation>
+    </message>
+    <message>
+        <source>Toggle full screen mode</source>
+        <translation>Zwischen Normal- und Vollbild umschalten</translation>
+    </message>
 </context>
 <context>
     <name>MessageHistory</name>

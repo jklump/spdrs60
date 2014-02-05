@@ -120,6 +120,9 @@ private:
    QAction *actionViewNormalMode;
    QAction *actionViewLayoutEditMode;
    QAction *actionViewRouteEditMode;
+   QAction *actionViewToggleFullScreen;
+   QAction *actionViewMenu;
+   QAction *actionViewToolbar;
    
    QAction *actionDaemonConnect;
    QAction *actionDaemonDisconnect;
@@ -252,6 +255,7 @@ private slots:
    void slotViewKeyboard();
    void slotViewTrainNumberDialog();
    void slotViewSwitchMode(QAction*);
+   void slotViewToggleFullscreen();
    void layoutChangeSize();
    void layoutUpdateFB();
    void layoutSendAll();
