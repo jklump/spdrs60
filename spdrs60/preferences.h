@@ -43,6 +43,7 @@ struct Preferences {
     bool showtime;
     bool autoload;
     QString autolayout;
+    bool fullscreen;
     bool autosave;
     QString editor;
     QString browser;

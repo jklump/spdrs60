@@ -129,11 +129,16 @@ void optionsDialog::setupLayoutTab()
 
     // autoload groupbox
     QGroupBox* autolayoutGB = new QGroupBox(0, Qt::Horizontal,
-            tr("Automatical layout loading and saving"), w, "autolayoutGB");
+            tr("Program start and quit"), w, "autolayoutGB");
     tabL->addWidget(autolayoutGB);
     QVBoxLayout* autoGBLayout = new
         QVBoxLayout(autolayoutGB->layout(), 6);
     
+    // line with full sreen option
+    cbFullScreen = new QCheckBox(tr("Start in &full screen view"),
+            autolayoutGB, "fullscreenCB");
+    autoGBLayout->addWidget(cbFullScreen);
+
     // line with autosave option
     cbAutosave = new QCheckBox(tr("&Save active layout on program exit "
                 "without check-back"), autolayoutGB, "autosaveCB");
@@ -708,6 +713,7 @@ void optionsDialog::getPreferences(Preferences& prf)
     prf.editor = coboEditor->currentText();
     prf.browser = coboBrowser->currentText();
     
+    prf.fullscreen = cbFullScreen->isChecked();
     prf.autosave = cbAutosave->isChecked();
     prf.autoload = cbAutoload->isChecked();
     prf.autolayout = leAutoload->text();
@@ -808,6 +814,7 @@ void optionsDialog::setPreferences(const Preferences& prf)
         coboBrowser->setCurrentItem(coboBrowser->count() - 1);
     }
 
+    cbFullScreen->setChecked(prf.fullscreen);
     cbAutosave->setChecked(prf.autosave);
     cbAutoload->setChecked(prf.autoload);
     if (prf.autoload)

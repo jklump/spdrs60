@@ -38,6 +38,7 @@ Preferences pref = {
     false,
     "",
     false,
+    false,
     "kwrite",
     "firefox",
     1,

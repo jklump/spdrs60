@@ -79,6 +79,7 @@ private:
    QCheckBox* cbGenBubble;
    QCheckBox* cbDataBubble;
    QCheckBox* cbAutoload;
+   QCheckBox* cbFullScreen;
    QCheckBox* cbAutosave;
    QCheckBox* cbAutoTTDir;
    QCheckBox* cbConvertTime;

@@ -2677,10 +2677,6 @@ Valid range is 0..999999.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Automatical layout loading and saving</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&amp;Save active layout on program exit without check-back</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2970,6 +2966,14 @@ assigned to a new route. This is used for train tracking.</source>
     </message>
     <message>
         <source>Send broadcasted &amp;train number messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Program start and quit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start in &amp;full screen view</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

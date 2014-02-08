@@ -112,6 +112,7 @@ static const char CF_LAYOUTROWS[]   = "layoutrows";
 static const char CF_SENDSTATE[]    = "sendstate";
 static const char CF_CONVERTTIME[]  = "converttime";
 static const char CF_SHOWTIME[]     = "showtime";
+static const char CF_FULLSCREEN[]     = "fullscreen";
 static const char CF_AUTOLOAD[]     = "autoload";
 static const char CF_AUTOLAYOUT[]   = "autolayout";
 static const char CF_AUTOSAVE[]     = "autosave";
@@ -203,6 +204,10 @@ MainWindow::MainWindow(): QMainWindow(NULL, PACKAGE, Qt::WDestructiveClose)
     initMainWindow();
     // read user dependend config file
     readConfigFile();
+
+    if (pref.fullscreen)
+        slotViewToggleFullscreen();
+    
     statusMessage(tr("Program successfully started!"));
 }
 
@@ -274,6 +279,9 @@ void MainWindow::readConfigFile()
             }
             else if (key.compare(CF_SHOWTIME) == 0) {
                 pref.showtime = value.toInt();
+            }
+            else if (key.compare(CF_FULLSCREEN) == 0) {
+                pref.fullscreen = value.toInt();
             }
             else if (key.compare(CF_AUTOLOAD) == 0) {
                 pref.autoload = value.toInt();
@@ -411,6 +419,7 @@ void MainWindow::writeConfigFile()
         << CF_LAYOUTROWS   << KS << pref.layoutrows << endl
         << CF_SENDSTATE    << KS << pref.sendstate << endl
         << CF_CONVERTTIME  << KS << pref.converttime << endl
+        << CF_FULLSCREEN   << KS << (int) pref.fullscreen << endl
         << CF_AUTOLOAD     << KS << (int) pref.autoload << endl
         << CF_AUTOLAYOUT   << KS << pref.autolayout << endl
         << CF_AUTOSAVE     << KS << (int) pref.autosave << endl
@@ -1036,12 +1045,12 @@ void MainWindow::initMainWindow()
             this, "viewToggleFullScreen");
 #elif QT_VERSION >= 0x030200
     actionViewToggleFullScreen = new QAction(NULL,
-            tr("Toggle f&ull screen"), Qt::Key_F11, // Ctrl H/T
+            tr("Toggle f&ull screen"), Qt::Key_F11,
             this, "viewToggleFullScreen");
     actionViewToggleFullScreen->setToolTip(tr("Toggle full screen mode"));
 #else
     actionViewToggleFullScreen = new QAction(tr("Toggle full screen mode"),
-            tr("Toggle f&ull screen"), Qt::Key_F11, // Ctrl H/T
+            tr("Toggle f&ull screen"), Qt::Key_F11,
             this, "viewToggleFullScreen");
 #endif
     connect(actionViewToggleFullScreen, SIGNAL(activated()),

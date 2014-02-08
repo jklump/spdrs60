@@ -3469,7 +3469,7 @@ een module aan Bus Nr. 1 aangesloten is.</translation>
     </message>
     <message>
         <source>Automatical layout loading and saving</source>
-        <translation>Spoorplannen automatisch openen en opslaan</translation>
+        <translation type="obsolete">Spoorplannen automatisch openen en opslaan</translation>
     </message>
     <message>
         <source>&amp;Load this layout on program startup:</source>
@@ -3624,6 +3624,14 @@ assigned to a new route. This is used for train tracking.</source>
     </message>
     <message>
         <source>Generic &amp;Messages</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Program start and quit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start in &amp;full screen view</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

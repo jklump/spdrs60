@@ -841,11 +841,11 @@ Wollen Sie sie überschreiben?</translation>
     </message>
     <message>
         <source>&amp;Route edit mode</source>
-        <translation>&amp;Fahrstraßenbearbeitungsmodus</translation>
+        <translation>F&amp;ahrstraßenbearbeitungsmodus</translation>
     </message>
     <message>
         <source>Toggle &amp;history line</source>
-        <translation>Statuszeile &amp;umschalten</translation>
+        <translation>Statuszeile ums&amp;chalten</translation>
     </message>
     <message>
         <source>Daemon operations</source>
@@ -1105,7 +1105,7 @@ Die Zugnummer wird hierbei weitergeleitet.</translation>
     </message>
     <message>
         <source>&amp;Statusline</source>
-        <translation>Status&amp;zeile</translation>
+        <translation>S&amp;tatuszeile</translation>
     </message>
     <message>
         <source>Show the statusline</source>
@@ -2870,7 +2870,7 @@ ein Modul an Bus Nr. 1 angeschlossen ist.</translation>
     </message>
     <message>
         <source>Automatical layout loading and saving</source>
-        <translation>Gleisbilder automatisch öffnen und speichern</translation>
+        <translation type="obsolete">Gleisbilder automatisch öffnen und speichern</translation>
     </message>
     <message>
         <source>&amp;Load this layout on program startup:</source>
@@ -2878,11 +2878,11 @@ ein Modul an Bus Nr. 1 angeschlossen ist.</translation>
     </message>
     <message>
         <source>&amp;Save active layout on program exit without check-back</source>
-        <translation>Bei Programmbeendung Gleisbild ohne &amp;Rückfrage speichern</translation>
+        <translation>Bei Programmende Gleisbild ohne &amp;Rückfrage speichern</translation>
     </message>
     <message>
         <source>&amp;Convert SRCP 0.8 server time human readable</source>
-        <translation>Server&amp;zeitangabe bei SRCP 0.8-Meldungen lesbar darstellen</translation>
+        <translation>Serverzeit&amp;angabe bei SRCP 0.8-Meldungen lesbar darstellen</translation>
     </message>
     <message>
         <source>Module size</source>
@@ -2970,7 +2970,7 @@ ein Modul an Bus Nr. 1 angeschlossen ist.</translation>
     </message>
     <message>
         <source>Sho&amp;w time for incoming and outgoing messages</source>
-        <translation>&amp;Zeit für ein- und ausgehende Meldungen anzeigen</translation>
+        <translation>Zei&amp;t für ein- und ausgehende Meldungen anzeigen</translation>
     </message>
     <message>
         <source>Statusline</source>
@@ -3022,6 +3022,14 @@ Option wird in der Regel für eine Zugnummernverfolgung benötigt.</translation>
     <message>
         <source>Send broadcasted &amp;train number messages</source>
         <translation>Änderungen von &amp;Zugnummern als CRCF-Rundruf versenden</translation>
+    </message>
+    <message>
+        <source>Program start and quit</source>
+        <translation>Programmstart und -ende</translation>
+    </message>
+    <message>
+        <source>Start in &amp;full screen view</source>
+        <translation>Starte im &amp;Vollbildschirmmodus</translation>
     </message>
 </context>
 <context>
