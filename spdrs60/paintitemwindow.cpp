@@ -154,351 +154,351 @@ PaintItemWindow::PaintItemWindow(QWidget* parent, const char* name)
     PaintItemButton* pib;
     pib = new PaintItemButton(QPixmap(spdritem_trh_xpm),
             tr("Horizontal track"),
-            element::siciSt1, paintItemBG, "horizontaltrackPanel");
+            SpdrPanel::siciSt1, paintItemBG, "horizontaltrackPanel");
     pib->setOn(true);
 
     new PaintItemButton(QPixmap(spdritem_trv_xpm), tr("Vertical track"),
-            element::siciSt2, paintItemBG, "verticaltrackPanel");
+            SpdrPanel::siciSt2, paintItemBG, "verticaltrackPanel");
 
     new PaintItemButton(QPixmap(spdritem_dil_xpm), tr("Left diagonal track"),
-            element::siciSt4, paintItemBG, "leftdiaPanel");
+            SpdrPanel::siciSt4, paintItemBG, "leftdiaPanel");
 
     new PaintItemButton(QPixmap(spdritem_dir_xpm), tr("Right diagonal track"),
-            element::siciSt3, paintItemBG, "rightdiaPanel");
+            SpdrPanel::siciSt3, paintItemBG, "rightdiaPanel");
 
     new PaintItemButton(QPixmap(spdritem_krr_xpm), tr("Right crossing"),
-            element::siciKr1, paintItemBG, "rightcrossingPanel");
+            SpdrPanel::siciKr1, paintItemBG, "rightcrossingPanel");
 
     new PaintItemButton(QPixmap(spdritem_krl_xpm), tr("Left crossing"),
-            element::siciKl1, paintItemBG, "leftcrossingPanel");
+            SpdrPanel::siciKl1, paintItemBG, "leftcrossingPanel");
 
     new PaintItemButton(QPixmap(spdritem_krh_xpm), tr("Diagonal crossing"),
-            element::siciKrh, paintItemBG, "crossingPanel");
+            SpdrPanel::siciKrh, paintItemBG, "crossingPanel");
 
     new PaintItemButton(QPixmap(spdritem_tdb_xpm),
             tr("Double direction track"),
-            element::siciTdb, paintItemBG, "bothdirectionPanel");
+            SpdrPanel::siciTdb, paintItemBG, "bothdirectionPanel");
 
     new PaintItemButton(QPixmap(spdritem_tdr_xpm),
             tr("Single direction track right"),
-            element::siciTdr, paintItemBG, "rightdirectionPanel");
+            SpdrPanel::siciTdr, paintItemBG, "rightdirectionPanel");
 
     new PaintItemButton(QPixmap(spdritem_tdl_xpm),
             tr("Single direction track left"),
-            element::siciTdl, paintItemBG, "leftdirectionPanel");
+            SpdrPanel::siciTdl, paintItemBG, "leftdirectionPanel");
 
     new PaintItemButton(QPixmap(spdritem_tuv_xpm),tr("Vertical Tunnel"),
-            element::siciTuv, paintItemBG, "tunnelverticalPanel");
+            SpdrPanel::siciTuv, paintItemBG, "tunnelverticalPanel");
 
     new PaintItemButton(QPixmap(spdritem_tuh_xpm),tr("Horizontal Tunnel"),
-            element::siciTuh, paintItemBG, "tunnelhorizontalPanel");
+            SpdrPanel::siciTuh, paintItemBG, "tunnelhorizontalPanel");
 
     new PaintItemButton(QPixmap(spdritem_tul_xpm), tr("Diagonal tunnel left"),
-            element::siciTul, paintItemBG, "diagonaltunnelleftPanel");
+            SpdrPanel::siciTul, paintItemBG, "diagonaltunnelleftPanel");
 
     new PaintItemButton(QPixmap(spdritem_tur_xpm), tr("Diagonal tunnel right"),
-            element::siciTur, paintItemBG, "diagonaltunnelrightPanel");
+            SpdrPanel::siciTur, paintItemBG, "diagonaltunnelrightPanel");
 
     /*curved track panels*/
     new PaintItemButton(QPixmap(spdritem_cr1_xpm),
             tr("Curve right bottom"),
-            element::siciCr1, paintItemBG, "curveright1Panel");
+            SpdrPanel::siciCr1, paintItemBG, "curveright1Panel");
 
     new PaintItemButton(QPixmap(spdritem_cl1_xpm),
             tr("Curve left top"),
-            element::siciCl1, paintItemBG, "curveleft1Panel");
+            SpdrPanel::siciCl1, paintItemBG, "curveleft1Panel");
 
     new PaintItemButton(QPixmap(spdritem_cr3_xpm),
             tr("Curve right top"),
-            element::siciCr3, paintItemBG, "curveright3Panel");
+            SpdrPanel::siciCr3, paintItemBG, "curveright3Panel");
 
     new PaintItemButton(QPixmap(spdritem_cl3_xpm),
             tr("Curve left bottom"),
-            element::siciCl3, paintItemBG, "curveleft3Panel");
+            SpdrPanel::siciCl3, paintItemBG, "curveleft3Panel");
 
     new PaintItemButton(QPixmap(spdritem_cl2_xpm),
             tr("Curve top vertical left"),
-            element::siciCl2, paintItemBG, "curveleft2Panel");
+            SpdrPanel::siciCl2, paintItemBG, "curveleft2Panel");
 
     new PaintItemButton(QPixmap(spdritem_cr2_xpm),
             tr("Curve top vertical right"),
-            element::siciCr2, paintItemBG, "curveright2Panel");
+            SpdrPanel::siciCr2, paintItemBG, "curveright2Panel");
 
     new PaintItemButton(QPixmap(spdritem_cr4_xpm),
             tr("Curve bottom vertical right"),
-            element::siciCr4, paintItemBG, "curveright4Panel");
+            SpdrPanel::siciCr4, paintItemBG, "curveright4Panel");
 
     new PaintItemButton(QPixmap(spdritem_cl4_xpm),
             tr("Curve bottom vertical left"),
-            element::siciCl4, paintItemBG, "curveleft4Panel");
+            SpdrPanel::siciCl4, paintItemBG, "curveleft4Panel");
 
     /*switch panels */
     new PaintItemButton(QPixmap(spdritem_tl1_xpm),
             tr("Switch top left"),
-            element::siciTl1, paintItemBG, "turnoutleft1Panel");
+            SpdrPanel::siciTl1, paintItemBG, "turnoutleft1Panel");
 
     new PaintItemButton(QPixmap(spdritem_tr1_xpm),
             tr("Switch bottom right"),
-            element::siciTr1, paintItemBG, "turnoutright1Panel");
+            SpdrPanel::siciTr1, paintItemBG, "turnoutright1Panel");
 
     new PaintItemButton(QPixmap(spdritem_tr3_xpm),
             tr("Switch top right"),
-            element::siciTr3, paintItemBG, "turnoutright3Panel");
+            SpdrPanel::siciTr3, paintItemBG, "turnoutright3Panel");
 
     new PaintItemButton(QPixmap(spdritem_tl3_xpm),
             tr("Switch bottom left"),
-            element::siciTl3, paintItemBG, "turnoutleft3Panel");
+            SpdrPanel::siciTl3, paintItemBG, "turnoutleft3Panel");
 
     new PaintItemButton(QPixmap(spdritem_dtr_xpm),
             tr("Diagonal switch top right"),
-            element::siciIr1, paintItemBG, "diaswitchtoprightPanel");
+            SpdrPanel::siciIr1, paintItemBG, "diaswitchtoprightPanel");
 
     new PaintItemButton(QPixmap(spdritem_dbl_xpm),
             tr("Diagonal switch bottom left"),
-            element::siciIl1, paintItemBG, "diagswitchbotleftPanel");
+            SpdrPanel::siciIl1, paintItemBG, "diagswitchbotleftPanel");
 
     new PaintItemButton(QPixmap(spdritem_dtl_xpm),
             tr("Diagonal switch top left"),
-            element::siciIl3, paintItemBG, "diagswitchtopleftPanel");
+            SpdrPanel::siciIl3, paintItemBG, "diagswitchtopleftPanel");
 
     new PaintItemButton(QPixmap(spdritem_dbr_xpm),
             tr("Diagonal switch bottom right"),
-            element::siciIr3, paintItemBG, "diagswitchbotrightPanel");
+            SpdrPanel::siciIr3, paintItemBG, "diagswitchbotrightPanel");
 
     new PaintItemButton(QPixmap(spdritem_syr_xpm),
             tr("Y-Switch right"),
-            element::siciSy1, paintItemBG, "yswitchrightPanel");
+            SpdrPanel::siciSy1, paintItemBG, "yswitchrightPanel");
 
     new PaintItemButton(QPixmap(spdritem_syl_xpm),
             tr("Y-Switch left"),
-            element::siciSy3, paintItemBG, "yswitchleftPanel");
+            SpdrPanel::siciSy3, paintItemBG, "yswitchleftPanel");
 
     new PaintItemButton(QPixmap(spdritem_twr_xpm),
             tr("Three way turnout right"),
-            element::siciTw1, paintItemBG, "treewayrightPanel");
+            SpdrPanel::siciTw1, paintItemBG, "treewayrightPanel");
 
     new PaintItemButton(QPixmap(spdritem_twl_xpm),
             tr("Three way turnout left"),
-            element::siciTw3, paintItemBG, "threewayleftPanel");
+            SpdrPanel::siciTw3, paintItemBG, "threewayleftPanel");
 
     new PaintItemButton(QPixmap(spdritem_sl1_xpm),
             tr("Single-slip switch top left"),
-            element::siciSl1, paintItemBG, "singleslipleft1Panel");
+            SpdrPanel::siciSl1, paintItemBG, "singleslipleft1Panel");
 
     new PaintItemButton(QPixmap(spdritem_sl3_xpm),
             tr("Single-slip switch bottom left"),
-            element::siciSl3, paintItemBG, "singleslipleft3Panel");
+            SpdrPanel::siciSl3, paintItemBG, "singleslipleft3Panel");
 
     new PaintItemButton(QPixmap(spdritem_sr1_xpm),
             tr("Single-slip switch top right"),
-            element::siciSr1, paintItemBG, "singleslipright1Panel");
+            SpdrPanel::siciSr1, paintItemBG, "singleslipright1Panel");
 
     new PaintItemButton(QPixmap(spdritem_sr3_xpm),
             tr("Single-slip switch bottom right"),
-            element::siciSr3, paintItemBG, "singleslipright3Panel");
+            SpdrPanel::siciSr3, paintItemBG, "singleslipright3Panel");
 
     new PaintItemButton(QPixmap(spdritem_dkl_xpm),
             tr("Double-slip switch left"),
-            element::siciDl1, paintItemBG, "doubleleftPanel");
+            SpdrPanel::siciDl1, paintItemBG, "doubleleftPanel");
 
     new PaintItemButton(QPixmap(spdritem_dkr_xpm),
             tr("Double-slip switch right"),
-            element::siciDr1, paintItemBG, "doublerightPanel");
+            SpdrPanel::siciDr1, paintItemBG, "doublerightPanel");
 
     /*signal panels */
     new PaintItemButton(QPixmap(spdritem_hsl_xpm),
             tr("Main signal left panel"),
-            element::siciHs3, paintItemBG, "mainsignalleftPanel");
+            SpdrPanel::siciHs3, paintItemBG, "mainsignalleftPanel");
 
     new PaintItemButton(QPixmap(spdritem_hsr_xpm),
             tr("Main signal right panel"),
-            element::siciHs1, paintItemBG, "mainsignalrightPanel");
+            SpdrPanel::siciHs1, paintItemBG, "mainsignalrightPanel");
 
     new PaintItemButton(QPixmap(spdritem_hssl_xpm),
             tr("Left main four state signal panel"),
-            element::siciHss3, paintItemBG, "leftmainfourstatesignalPanel");
+            SpdrPanel::siciHss3, paintItemBG, "leftmainfourstatesignalPanel");
 
     new PaintItemButton(QPixmap(spdritem_hssr_xpm),
             tr("Right main four state signal panel"),
-            element::siciHss1, paintItemBG, "rightmainfourstatesignalPanel");
+            SpdrPanel::siciHss1, paintItemBG, "rightmainfourstatesignalPanel");
 
     new PaintItemButton(QPixmap(spdritem_ssl_xpm),
             tr("Left shunt signal panel"),
-            element::siciSs3, paintItemBG, "leftshuntsignalPanel");
+            SpdrPanel::siciSs3, paintItemBG, "leftshuntsignalPanel");
 
     new PaintItemButton(QPixmap(spdritem_ssr_xpm),
             tr("Right shunt signal panel"),
-            element::siciSs1, paintItemBG, "rightshuntsignalPanel");
+            SpdrPanel::siciSs1, paintItemBG, "rightshuntsignalPanel");
 
     new PaintItemButton(QPixmap(spdritem_shl_xpm),
             tr("Left help route signal panel"),
-            element::siciSh3, paintItemBG, "helproutePanel");
+            SpdrPanel::siciSh3, paintItemBG, "helproutePanel");
 
     new PaintItemButton(QPixmap(spdritem_shr_xpm),
             tr("Right help route signal panel"),
-            element::siciSh1, paintItemBG, "helproutePanel");
+            SpdrPanel::siciSh1, paintItemBG, "helproutePanel");
 
     new PaintItemButton(QPixmap(spdritem_sdl_xpm),
             tr("Left double button shunt signal panel"),
-            element::siciSd3, paintItemBG, "lefttwobtnshuntsignalPanel");
+            SpdrPanel::siciSd3, paintItemBG, "lefttwobtnshuntsignalPanel");
 
     new PaintItemButton(QPixmap(spdritem_sdr_xpm),
             tr("Right doouble button shunt signal panel"),
-            element::siciSd1, paintItemBG, "righttwobtnshuntsignalPanel");
+            SpdrPanel::siciSd1, paintItemBG, "righttwobtnshuntsignalPanel");
 
     new PaintItemButton(QPixmap(spdritem_wsl_xpm),
             tr("Left wait signal panel"),
-            element::siciWs3, paintItemBG, "leftwaitsignalPanel");
+            SpdrPanel::siciWs3, paintItemBG, "leftwaitsignalPanel");
 
     new PaintItemButton(QPixmap(spdritem_wsr_xpm),
             tr("Right wait signal panel"),
-            element::siciWs1, paintItemBG, "RightwaitsignalPanel");
+            SpdrPanel::siciWs1, paintItemBG, "RightwaitsignalPanel");
 
     new PaintItemButton(QPixmap(spdritem_rbl_xpm),
             tr("Left route button panel"),
-            element::siciZt3, paintItemBG, "leftroutebuttonPanel");
+            SpdrPanel::siciZt3, paintItemBG, "leftroutebuttonPanel");
 
     new PaintItemButton(QPixmap(spdritem_rbr_xpm),
             tr("Right route button panel"),
-            element::siciZt1, paintItemBG, "rightroutebuttonPanel");
+            SpdrPanel::siciZt1, paintItemBG, "rightroutebuttonPanel");
 
     new PaintItemButton(QPixmap(spdritem_sbl_xpm),
             tr("Left shunt button panel"),
-            element::siciRt3, paintItemBG, "leftshuntbuttonPanel");
+            SpdrPanel::siciRt3, paintItemBG, "leftshuntbuttonPanel");
 
     new PaintItemButton(QPixmap(spdritem_sbr_xpm),
             tr("Right shunt button panel"),
-            element::siciRt1, paintItemBG, "rightshuntbuttonPanel");
+            SpdrPanel::siciRt1, paintItemBG, "rightshuntbuttonPanel");
 
     new PaintItemButton(QPixmap(spdritem_vsl_xpm),
             tr("Left distant signal panel"),
-            element::siciVs3, paintItemBG, "leftdistantsignalPanel");
+            SpdrPanel::siciVs3, paintItemBG, "leftdistantsignalPanel");
 
     new PaintItemButton(QPixmap(spdritem_vsr_xpm),
             tr("Right distant signal panel"),
-            element::siciVs1, paintItemBG, "rightdistantsignalPanel");
+            SpdrPanel::siciVs1, paintItemBG, "rightdistantsignalPanel");
 
     new PaintItemButton(QPixmap(spdritem_zpl_xpm),
             tr("Left ZP signal panel"),
-            element::siciZp3, paintItemBG, "leftzpsignalPanel");
+            SpdrPanel::siciZp3, paintItemBG, "leftzpsignalPanel");
 
     new PaintItemButton(QPixmap(spdritem_zpr_xpm),
             tr("Right ZP signal panel"),
-            element::siciZp1, paintItemBG, "rightzpsignalPanel");
+            SpdrPanel::siciZp1, paintItemBG, "rightzpsignalPanel");
 
     /*miscellanous panels*/
     new PaintItemButton(QPixmap(spdritem_dco_xpm), tr("Decoupler"),
-            element::siciEnk, paintItemBG, "decouplerPanel");
+            SpdrPanel::siciEnk, paintItemBG, "decouplerPanel");
 
     new PaintItemButton(QPixmap(spdritem_bld_xpm), tr("Blind element"),
-            element::siciBld, paintItemBG, "blindPanel");
+            SpdrPanel::siciBld, paintItemBG, "blindPanel");
 
     new PaintItemButton(QPixmap(spdritem_adr_xpm), tr("Address indicator"),
-            element::siciAdr, paintItemBG, "addressPanel");
+            SpdrPanel::siciAdr, paintItemBG, "addressPanel");
 
     new PaintItemButton(QPixmap(spdritem_lcr_xpm), tr("Level crossing"),
-            element::siciBue, paintItemBG, "levelcrossingPanel");
+            SpdrPanel::siciBue, paintItemBG, "levelcrossingPanel");
 
     new PaintItemButton(QPixmap(spdritem_rel_xpm), tr("Relais"),
-            element::siciRel, paintItemBG, "relaisPanel");
+            SpdrPanel::siciRel, paintItemBG, "relaisPanel");
 
     new PaintItemButton(QPixmap(spdritem_mdc_xpm), tr("DC motor"),
-            element::siciMdc, paintItemBG, "dcmotorPanel");
+            SpdrPanel::siciMdc, paintItemBG, "dcmotorPanel");
 
     new PaintItemButton(QPixmap(spdritem_tnt_xpm), tr("Turntable"),
-            element::siciDre, paintItemBG, "turntablePanel");
+            SpdrPanel::siciDre, paintItemBG, "turntablePanel");
 
     new PaintItemButton(QPixmap(spdritem_trt_xpm), tr("Transfer table"),
-            element::siciSbn, paintItemBG, "transfertablePanel");
+            SpdrPanel::siciSbn, paintItemBG, "transfertablePanel");
 
     /*decorative panels*/
     new PaintItemButton(QPixmap(spdritem_bs1_xpm), tr("Right buffer stop"),
-            element::siciBs1, paintItemBG, "bufferstop1Panel");
+            SpdrPanel::siciBs1, paintItemBG, "bufferstop1Panel");
 
     new PaintItemButton(QPixmap(spdritem_bs2_xpm), tr("Top buffer stop"),
-            element::siciBs2, paintItemBG, "bufferstop2Panel");
+            SpdrPanel::siciBs2, paintItemBG, "bufferstop2Panel");
 
     new PaintItemButton(QPixmap(spdritem_bs3_xpm), tr("Left buffer stop"),
-            element::siciBs3, paintItemBG, "bufferstop3Panel");
+            SpdrPanel::siciBs3, paintItemBG, "bufferstop3Panel");
 
     new PaintItemButton(QPixmap(spdritem_bs4_xpm), tr("Bottom buffer stop"),
-            element::siciBs4, paintItemBG, "bufferstop4Panel");
+            SpdrPanel::siciBs4, paintItemBG, "bufferstop4Panel");
 
     new PaintItemButton(QPixmap(spdritem_txt_xpm), tr("Text field panel"),
-            element::siciTxt, paintItemBG, "textfieldPanel");
+            SpdrPanel::siciTxt, paintItemBG, "textfieldPanel");
 
     new PaintItemButton(QPixmap(spdritem_buc_xpm), tr("House center wing"),
-            element::siciBuc, paintItemBG, "centerwingPanel");
+            SpdrPanel::siciBuc, paintItemBG, "centerwingPanel");
 
     new PaintItemButton(QPixmap(spdritem_bul_xpm), tr("Building left wing"),
-            element::siciBul, paintItemBG, "buildingleftwingPanel");
+            SpdrPanel::siciBul, paintItemBG, "buildingleftwingPanel");
 
     new PaintItemButton(QPixmap(spdritem_bur_xpm), tr("Building right wing"),
-            element::siciBur, paintItemBG, "buildingrightwingPanel");
+            SpdrPanel::siciBur, paintItemBG, "buildingrightwingPanel");
 
     new PaintItemButton(QPixmap(spdritem_ltr_xpm), tr("Top right loco shed"),
-            element::siciLt1, paintItemBG, "locoshedtrPanel");
+            SpdrPanel::siciLt1, paintItemBG, "locoshedtrPanel");
 
     new PaintItemButton(QPixmap(spdritem_lbr_xpm), tr("Bottom right loco shed"),
-            element::siciLb1, paintItemBG, "locoshedbrPanel");
+            SpdrPanel::siciLb1, paintItemBG, "locoshedbrPanel");
 
     new PaintItemButton(QPixmap(spdritem_lsr_xpm), tr("Middle loco shed right"),
-            element::siciLs1, paintItemBG, "locoshedmrightPanel");
+            SpdrPanel::siciLs1, paintItemBG, "locoshedmrightPanel");
 
     new PaintItemButton(QPixmap(spdritem_lsl_xpm), tr("Middle loco shed left"),
-            element::siciLs3, paintItemBG, "locoshedmleftPanel");
+            SpdrPanel::siciLs3, paintItemBG, "locoshedmleftPanel");
 
     new PaintItemButton(QPixmap(spdritem_ltl_xpm), tr("Top left loco shed"),
-            element::siciLt3, paintItemBG, "locoshedtlPanel");
+            SpdrPanel::siciLt3, paintItemBG, "locoshedtlPanel");
 
     new PaintItemButton(QPixmap(spdritem_lbl_xpm), tr("Bottom left loco shed"),
-            element::siciLb3, paintItemBG, "locoshedblPanel");
+            SpdrPanel::siciLb3, paintItemBG, "locoshedblPanel");
 
     /*external group panels*/
     new PaintItemButton(QPixmap(spdritem_feg_xpm),
             tr("Route group panel"),
-            element::siciFeg, paintItemBG, "routePanel");
+            SpdrPanel::siciFeg, paintItemBG, "routePanel");
 
     new PaintItemButton(QPixmap(spdritem_taf_xpm), tr("FHT panel"),
-            element::siciTaf, paintItemBG, "fhtPanel");
+            SpdrPanel::siciTaf, paintItemBG, "fhtPanel");
 
     new PaintItemButton(QPixmap(spdritem_tau_xpm),
             tr("UfGT and MGT panel"),
-            element::siciTau, paintItemBG, "ufgtPanel");
+            SpdrPanel::siciTau, paintItemBG, "ufgtPanel");
 
     new PaintItemButton(QPixmap(spdritem_feb_xpm),
             tr("Turnout group panel"),
-            element::siciFeb, paintItemBG, "turnoutPanel");
+            SpdrPanel::siciFeb, paintItemBG, "turnoutPanel");
 
     new PaintItemButton(QPixmap(spdritem_taw_xpm), tr("WGT panel"),
-            element::siciTaw, paintItemBG, "wgtPanel");
+            SpdrPanel::siciTaw, paintItemBG, "wgtPanel");
 
     new PaintItemButton(QPixmap(spdritem_twh_xpm), tr("WHT panel"),
-            element::siciTwh, paintItemBG, "whtPanel");
+            SpdrPanel::siciTwh, paintItemBG, "whtPanel");
 
     new PaintItemButton(QPixmap(spdritem_fer_xpm),
             tr("Signal group panel"),
-            element::siciFer, paintItemBG, "signalPanel");
+            SpdrPanel::siciFer, paintItemBG, "signalPanel");
 
     new PaintItemButton(QPixmap(spdritem_tas_xpm),
             tr("SGT and HaGT panel"),
-            element::siciTas, paintItemBG, "sgtPanel");
+            SpdrPanel::siciTas, paintItemBG, "sgtPanel");
 
     new PaintItemButton(QPixmap(spdritem_fey_xpm),
             tr("Level crossing group panel"),
-            element::siciFey, paintItemBG, "crossingPanel");
+            SpdrPanel::siciFey, paintItemBG, "crossingPanel");
 
     new PaintItemButton(QPixmap(spdritem_fen_xpm),
             tr("Axle counter group panel"),
-            element::siciFen, paintItemBG, "axlePanel");
+            SpdrPanel::siciFen, paintItemBG, "axlePanel");
 
     new PaintItemButton(QPixmap(spdritem_fee_xpm),
             tr("Power supply group panel"),
-            element::siciFee, paintItemBG, "powerPanel");
+            SpdrPanel::siciFee, paintItemBG, "powerPanel");
 
     new PaintItemButton(QPixmap(spdritem_tal_xpm),
             tr("Table light panel"),
-            element::siciTal, paintItemBG, "lightPanel");
+            SpdrPanel::siciTal, paintItemBG, "lightPanel");
 }
 
 /*
