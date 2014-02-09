@@ -23,7 +23,7 @@
    dependant actions
  ***************************************************************************/
 
-#include <stdlib.h>            //for free, calloc, realloc
+#include <cstdlib>            //for free, calloc, realloc
 
 #include <qdragobject.h>
 #include <qpopupmenu.h>
@@ -1330,7 +1330,7 @@ void GBSArea::updateSRCP08BusList()
                         count++;
 
                         tempbuslist =
-                            (SrcpBus *) realloc(pSRCP08BusList,
+                            (SrcpBus *) std::realloc(pSRCP08BusList,
                                             sizeof(SrcpBus) * count);
 
                         if (tempbuslist == NULL) {

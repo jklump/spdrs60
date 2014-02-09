@@ -18,7 +18,7 @@
 #define _ISOC99_SOURCE 1
 #endif
 
-#include <math.h>
+#include <cmath>
 
 #include "centralclock.h"
 

@@ -3230,8 +3230,7 @@ void MainWindow::slotRouteDelete()
 /*TODO: for FDL info
  * #include <pwd.h>
  * #include <sys/types.h>
- * #include <stdlib.h> (getenv)
- * #ifdef LINU
+ * #include <cstdlib> (getenv)
  * #ifdef LINUX 
 void MainWindow::initUserInfo()
 {

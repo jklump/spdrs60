@@ -22,8 +22,8 @@
  ******************************************************************************/
 
 #include <config.h>             // for CONFIG_M_NERARBYINT
-#include <stdlib.h>             // for abs()
-#include <math.h>               // for nearbyint()
+#include <cstdlib>              // for abs()
+#include <cmath>                // for nearbyint()
 #include <qlayout.h>
 #include <qstringlist.h>
 

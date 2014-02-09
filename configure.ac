@@ -4,7 +4,7 @@ dnl last update: $Date: 2009-10-26 21:59:43 $
 dnl version: $Revision: 1.30 $
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT([spdrs60],[0.5.6],[Guido Scholz <guido.scholz@bayernline.de>])
+AC_INIT([spdrs60],[0.5.7_beta1],[Guido Scholz <guido-scholz@gmx.net>])
 AC_CONFIG_SRCDIR([spdrs60/main.cpp])
 AC_CANONICAL_TARGET
 AM_INIT_AUTOMAKE([dist-bzip2])
@@ -27,6 +27,12 @@ fi
 dnl Checks for programs
 AC_PROG_CXX
 AC_PROG_CC
+AC_LANG_CPLUSPLUS
+
+dnl check for math library
+AC_CHECK_LIB(m, roundf,,AC_MSG_ERROR([required library missing]))
+AC_CHECK_LIB(m, nearbyint, AC_DEFINE(CONFIG_M_NEARBYINT, 1,
+              [Define if nearbyint is available in libm.]))
 
 
 dnl option to skip html doc generation 
@@ -62,7 +68,7 @@ AC_ARG_ENABLE(qt4, AC_HELP_STRING([--enable-qt4],
             [enable Qt4 instead of Qt3 library]),, enable_qt3=yes)
 AS_IF([test x$enable_qt3 = xyes],
 [dnl Check for Qt3 library files
-AC_PATH_X
+dnl AC_PATH_X
 AC_PATH_QT3
 ac_qtversion=qt3],
 dnl
@@ -166,25 +172,14 @@ AC_MSG_CHECKING([for Qt translations])
 AM_CONDITIONAL(TRANSLATE_QT, test x${translate_qt} = xyes)
 
 
-dnl check for math library
-AC_CHECK_LIB(m, roundf,,AC_MSG_ERROR([required library missing]))
-AC_CHECK_LIB(m, nearbyint, AC_DEFINE(CONFIG_M_NEARBYINT, 1,
-              [Define if nearbyint is available in libm.]))
-
 dnl check for some header files
-AC_HEADER_STDC
-AC_CHECK_HEADERS([stdlib.h strings.h sys/time.h],,
-                 AC_MSG_ERROR([required header file missing]))
+AC_CHECK_HEADERS([cstdlib],,AC_MSG_ERROR([required header file missing]))
 
 # Checks for typedefs, structures, and compiler characteristics.
-AC_HEADER_STDBOOL
-AC_C_CONST
 AC_TYPE_SIZE_T
 
 # Checks for library functions.
 AC_FUNC_ERROR_AT_LINE
-AC_FUNC_REALLOC
-AC_CHECK_FUNCS([memset])
 
 if test x$enable_html_doc = xyes; then
   dnl this dsssl check is (modified) from the bonsai project
