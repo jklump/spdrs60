@@ -99,8 +99,8 @@ void VariantDialog::selectionChanged(int index)
 /*hide/show image label*/
 void VariantDialog::showImage(bool show)
 {
-        if (show)
-                    imageLabel->show();
-            else
-                        imageLabel->hide();
+    if (show)
+        imageLabel->show();
+    else
+        imageLabel->hide();
 }
