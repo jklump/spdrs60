@@ -32,3 +32,12 @@ GrayPanel::GrayPanel(QTextStream& ts, QWidget* parent):
 {
     background.fill(Qt::lightGray);
 }
+
+/* 
+ * redraw backgroud pixmap to get text label backgrounds cleared
+ */
+void GrayPanel::slotRepaintLayout()
+{
+    background.fill(Qt::lightGray);
+    SpdrPanel::slotRepaintLayout();
+}

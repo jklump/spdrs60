@@ -31,6 +31,9 @@ class GrayPanel: public SpdrPanel
     public:
         GrayPanel(QWidget* parent = NULL);
         GrayPanel(QTextStream&, QWidget* parent = NULL);
+
+    public slots:
+        void slotRepaintLayout();
 };
 
 #endif  //GRAYPANEL_H
