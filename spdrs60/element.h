@@ -103,7 +103,7 @@ class element: public GrayPanel
 {
     Q_OBJECT
 
-public:    
+public:
     element(QWidget* parent = NULL, SpdrItemClassId ci = siciTxt);
     element(QTextStream&, QWidget* parent=0);
     element(QTextStream&, QWidget* parent=0, SpdrItemClassId ci = siciTxt);
@@ -252,9 +252,9 @@ public slots:
 
 private slots:
     void slotLocateTimerTimeout();
+    void slotUpdateCommanderData(int, int);
     void processInfoPortMessage(unsigned int bus,
             unsigned int addr, unsigned int port, unsigned int value);
-    void slotUpdateCommanderData(int, int);
 
 signals:
     void cmdToDebug(const QString&);

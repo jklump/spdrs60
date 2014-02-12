@@ -1803,8 +1803,7 @@ void element::setupElementIcon()
         int h = background.height();
         
         // paint track
-        p.fillRect(0, background.height() / 2 - 3, w, 7,
-                QBrush(Qt::black));
+        p.fillRect(0, h / 2 - 3, w, 7, QBrush(Qt::black));
         
         // paint symbol
         p.fillRect(21, 10, 14, 3, QBrush(Qt::black));
@@ -1826,8 +1825,7 @@ void element::setupElementIcon()
                     c = QColor(Qt::darkGray);
             }
             p.setPen(QPen(c, 3, Qt::SolidLine, Qt::RoundCap, Qt::MiterJoin));
-            p.drawLine(w / 3, h / 2,
-                    2 * w / 3, h / 2);
+            p.drawLine(w / 3, h / 2, 2 * w / 3, h / 2);
             p.setPen(Qt::black);
         }
 
@@ -1848,8 +1846,7 @@ void element::setupElementIcon()
             br.setWidth(br.width() + 4);
             br.setHeight(br.height() + 2);
 
-            br.moveBottomRight(QPoint(w / 2 + br.width()/2,
-                        h - 3));
+            br.moveBottomRight(QPoint(w / 2 + br.width()/2, h - 3));
             
             p.fillRect(br, QBrush(Qt::white));
             p.drawText(br, Qt::AlignCenter | Qt::SingleLine |

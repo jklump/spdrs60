@@ -1393,7 +1393,7 @@ void GBSArea::mouseReleaseEvent(QMouseEvent* e)
         if (e->button() == Qt::LeftButton) {
 
             if (lyeditMode == lemSelect) {
-            /*TODO: handle drop action*/
+                /*TODO: handle drop action*/
                 e->ignore();
             }
 
@@ -1581,7 +1581,7 @@ void GBSArea::dragMoveEvent(QDragMoveEvent* e)
             /*only for feedback handling panels*/
             element* el = dynamic_cast<element*>(sp);
             if (el == NULL) {
-                    e->ignore();
+                e->ignore();
                 return;
             }
 
@@ -1631,6 +1631,7 @@ void GBSArea::dropEvent(QDropEvent *e)
 
             // move element from old position to new position
             SpdrPanel* el = elements.take(idx);
+
             if (el != NULL) {
                 unsigned int pidx = indexOf(e->pos());
                 el->setIndexNo(pidx);
