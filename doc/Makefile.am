@@ -30,7 +30,7 @@ dist_deimages_DATA = \
 	de/decvariantdialog.png \
 	de/dkwvariantdialog.png \
 	de/drevariantdialog.png \
-        de/feedbacktriggerdialog.png \
+	de/feedbacktriggerdialog.png \
 	de/labeldialog.png \
 	de/schnapp-bhf-klein.png \
 	de/schnapp-daemoninfo.png \
@@ -60,7 +60,7 @@ dist_deimages_DATA = \
 	de/schnapp-route-add.png \
 	de/schnapp-route-rec1.png \
 	de/schnapp-route-rec6.png \
-        de/schnapp-routemenu.png \
+	de/schnapp-routemenu.png \
 	de/schnapp-routing-table.png \
 	de/schnapp-save.png \
 	de/schnapp-sbn-comm.png \
@@ -234,9 +234,9 @@ dehtml_DATA = \
 	de/sect-bedienelemente.html \
 	de/sect-bezugsquellen.html \
 	de/sect-bugs.html \
-        de/sect-crcf-datenabfrage.html \
-        de/sect-crcf-dateneinstellung.html \
-        de/sect-crcf-rundruf.html \
+	de/sect-crcf-datenabfrage.html \
+	de/sect-crcf-dateneinstellung.html \
+	de/sect-crcf-rundruf.html \
 	de/sect-copyright.html \
 	de/sect-gm-allgemein.html \
 	de/sect-gm-anwendung.html \
@@ -264,7 +264,7 @@ dehtml_DATA = \
 	de/sect-symboleigenschaften.html \
 	de/sect-symbole-uebersicht.html \
 	de/sect-tastaturkuerzel.html \
-        de/sect-trainnumber-introduction.html \
+	de/sect-trainnumber-introduction.html \
 	de/sect-trainnumber-usage.html \
 	de/sect-voraussetzungen.html \
 	de/v0.2.1.html \
