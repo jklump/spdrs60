@@ -289,8 +289,9 @@ dehtml_DATA = \
 	de/ver-0.5.2.html \
 	de/ver-0.5.3.html \
 	de/ver-0.5.4.html \
-	de/ver-0.5.5.html
-
+	de/ver-0.5.5.html \
+	de/ver-0.5.6.html \
+	de/ver-0.5.7.html
 else
 dehtml_DATA =
 endif
