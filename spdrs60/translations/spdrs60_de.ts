@@ -2246,6 +2246,49 @@ Erlaubt sind Werte von %1 bis %2.</translation>
     </message>
 </context>
 <context>
+    <name>TriggerAspectDialog</name>
+    <message>
+        <source>Trigger aspect</source>
+        <translation>Signalbild ansteuern</translation>
+    </message>
+    <message>
+        <source>Feedback contact</source>
+        <translation>Rückmeldekontakt</translation>
+    </message>
+    <message>
+        <source>&amp;Bus (s88/SRCP):</source>
+        <translation>&amp;Bus (s88/SRCP):</translation>
+    </message>
+    <message>
+        <source>&amp;Contact (1 - 496):</source>
+        <translation>&amp;Kontakt (1 - 496):</translation>
+    </message>
+    <message>
+        <source>Module (1 - %1):</source>
+        <translation>Modul (1 - %1):</translation>
+    </message>
+    <message>
+        <source>Port (1 - %1):</source>
+        <translation>Eingang (1 - %1):</translation>
+    </message>
+    <message>
+        <source>&amp;FB</source>
+        <translation>&amp;FB</translation>
+    </message>
+    <message>
+        <source>Show feedback module window</source>
+        <translation>Rückmeldemodulfenster anzeigen</translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation>OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Abbrechen</translation>
+    </message>
+</context>
+<context>
     <name>TurntablePanel</name>
     <message>
         <source>&amp;Variant...</source>
@@ -2441,12 +2484,40 @@ Der zulässige Wertebereich ist %1..%2.</translation>
         <translation>&amp;Gleisfreimeldung...</translation>
     </message>
     <message>
-        <source>Tri&amp;gger...</source>
-        <translation>Aus&amp;lösen...</translation>
-    </message>
-    <message>
         <source>&amp;BiDi locomotive address</source>
         <translation>&amp;BiDi-Lokadresse</translation>
+    </message>
+    <message>
+        <source>Trigger aspect of signal &apos;%1&apos;</source>
+        <translation>Signalbild von &apos;%1&apos; ansteuern</translation>
+    </message>
+    <message>
+        <source>&amp;Occupation triggers halt aspect</source>
+        <translation>Belegtmeldung erzeugt &amp;Haltfall</translation>
+    </message>
+    <message>
+        <source>&amp;Release triggers clear aspect</source>
+        <translation>&amp;Freimeldung erzeugt Fahrtfreigabe</translation>
+    </message>
+    <message>
+        <source>&amp;Occupation triggers clear aspect</source>
+        <translation>&amp;Belegtmeldung erzeugt Fahrtfreigabe</translation>
+    </message>
+    <message>
+        <source>&amp;Release triggers halt aspect</source>
+        <translation>&amp;Freimeldung erzeugt Haltfall</translation>
+    </message>
+    <message>
+        <source>Trigger &amp;button...</source>
+        <translation>&amp;Taste ansteuern...</translation>
+    </message>
+    <message>
+        <source>Trigger &amp;halt aspect...</source>
+        <translation>&amp;Haltfall ansteuern...</translation>
+    </message>
+    <message>
+        <source>Trigger &amp;clear aspect...</source>
+        <translation>&amp;Fahrtfreigabe ansteuern...</translation>
     </message>
 </context>
 <context>

@@ -34,6 +34,7 @@
 #include "feedbacktriggerdialog.h"
 #include "preferences.h"
 #include "resources.h"
+#include "triggeraspectdialog.h"
 #include "variantdialog.h"
 #include "virtualaddressdialog.h"
 
@@ -149,12 +150,24 @@ void element::initVariables()
     activetime2 = -1;
     iFBContact = 1;
     trackindicatoroff = true;
+    /*button 1 trigger*/
     enable1fbtrigger = false;
     button1fbbus = 1;
     button1fbcontact = 1;
+    /*button 2 trigger*/
     enable2fbtrigger = false;
     button2fbbus = 1;
     button2fbcontact = 1;
+    /*halt aspect trigger*/
+    octriggerhalt = false;
+    retriggerclear = false;
+    fbtriggerhaltbus = 1;
+    fbtriggerhaltcontact = 1;
+    /*clear aspect trigger*/
+    octriggerclear = false;
+    retriggerhalt = false;
+    fbtriggerclearbus = 1;
+    fbtriggerclearcontact = 1;
 
     editsAddress = 0;
     countervalue = 0;
@@ -317,6 +330,24 @@ void element::readFileTextFromStream(QTextStream& ats)
                 button2fbbus = value.toUInt();
                 value = s.section(DS, 3, 3).stripWhiteSpace();
                 button2fbcontact = value.toUInt();
+            }
+            else if (key.compare(GF_TRIGGERHALT) == 0) {
+                octriggerhalt = value.toUInt();
+                value = s.section(DS, 2, 2).stripWhiteSpace();
+                retriggerclear = value.toUInt();
+                value = s.section(DS, 3, 3).stripWhiteSpace();
+                fbtriggerhaltbus = value.toUInt();
+                value = s.section(DS, 4, 4).stripWhiteSpace();
+                fbtriggerhaltcontact = value.toUInt();
+            }
+            else if (key.compare(GF_TRIGGERCLEAR) == 0) {
+                octriggerclear = value.toUInt();
+                value = s.section(DS, 2, 2).stripWhiteSpace();
+                retriggerhalt = value.toUInt();
+                value = s.section(DS, 3, 3).stripWhiteSpace();
+                fbtriggerclearbus = value.toUInt();
+                value = s.section(DS, 4, 4).stripWhiteSpace();
+                fbtriggerclearcontact = value.toUInt();
             }
             else if (key.compare(GF_HIDELEDS) == 0) {
                 trackindicatoroff = (value.toInt() == 1);
@@ -8748,6 +8779,41 @@ void element::slotOccupyElement(unsigned int bus, unsigned int contact,
         }
     }
 
+    /*handle aspect triggers*/
+    if (ostate) {
+        /*halt aspect trigger*/
+        if (octriggerhalt) {
+            if ((bus == fbtriggerhaltbus) &&
+                    (contact == fbtriggerhaltcontact) && (state != 0)) {
+                switchToDir(0);
+            }
+        }
+        /*clear aspect trigger*/
+        if (octriggerclear) {
+            if ((bus == fbtriggerclearbus) &&
+                    (contact == fbtriggerclearcontact) && (state != 0)) {
+                switchToDir(1);
+            }
+        }
+    }
+    else {
+        /*clear aspect trigger*/
+        if (retriggerclear) {
+            if ((bus == fbtriggerhaltbus) &&
+                    (contact == fbtriggerhaltcontact) && (state == 0)) {
+                switchToDir(1);
+            }
+        }
+        /*halt aspect trigger*/
+        if (retriggerhalt) {
+            if ((bus == fbtriggerclearbus) &&
+                    (contact == fbtriggerclearcontact) && (state == 0)) {
+                switchToDir(0);
+            }
+        }
+    }
+
+    /*handle button triggers*/
     /*shortcut if (state = 0) => button release message*/
     if (!ostate)
         return;
@@ -9021,6 +9087,12 @@ void element::writeFileTextToStream(QTextStream& ts)
                 << button1fbbus << DS << button1fbcontact << endl
                 << GF_BUTTON2FB << DS << enable2fbtrigger << DS
                 << button2fbbus << DS << button2fbcontact << endl
+                << GF_TRIGGERHALT << DS << octriggerhalt << DS
+                << retriggerclear << DS << fbtriggerhaltbus << DS
+                << fbtriggerhaltcontact << endl
+                << GF_TRIGGERCLEAR << DS << octriggerclear << DS
+                << retriggerhalt << DS << fbtriggerclearbus << DS
+                << fbtriggerclearcontact << endl
                 << GF_HIDELEDS  << DS << trackindicatoroff << endl;
 
             break;
@@ -9390,6 +9462,7 @@ void element::setLightsOn(bool ison)
         repaint();
     }
 }
+
 
 /*
  * return direction an activated route will enter this signal
@@ -10062,6 +10135,88 @@ bool element::showFeedbackTriggerDialog(const QPoint& p)
 }
 
 
+bool element::showTriggerHaltDialog()
+{
+    bool returnvalue = false;
+    QString title;
+
+    TriggerAspectDialog* dlg = new TriggerAspectDialog(this);
+    if (dlg == NULL)
+        return false;
+
+    title = tr("Trigger aspect of signal '%1'").arg(sSoldText);
+    /*move dialog to mouse click point*/
+    dlg->move(QCursor::pos());
+    dlg->setCaption(title);
+    dlg->setOccupationCbText(tr("&Occupation triggers halt aspect"));
+    dlg->setReleaseCbText(tr("&Release triggers clear aspect"));
+    dlg->enableOccupationTrigger(octriggerhalt);
+    dlg->enableReleaseTrigger(retriggerclear);
+    dlg->setFBBus(fbtriggerhaltbus);
+    dlg->setFBContact(fbtriggerhaltcontact);
+
+    connect(dlg, SIGNAL(sigShowFBmodules()),
+            this, SIGNAL(sigShowFBmodules()));
+
+    if (dlg->exec() == QDialog::Accepted) {
+        octriggerhalt = dlg->occupationTriggerEnabled();
+        retriggerclear = dlg->releaseTriggerEnabled();
+        fbtriggerhaltbus = dlg->getFBBus();
+        fbtriggerhaltcontact = dlg->getFBContact();
+
+        returnvalue = true;
+        setupElementIcon();
+    }
+    
+    disconnect(dlg, SIGNAL(sigShowFBmodules()),
+            this, SIGNAL(sigShowFBmodules()));
+    
+    delete dlg;
+    return returnvalue;
+}
+
+
+bool element::showTriggerClearDialog()
+{
+    bool returnvalue = false;
+    QString title;
+
+    TriggerAspectDialog* dlg = new TriggerAspectDialog(this);
+    if (dlg == NULL)
+        return false;
+
+    title = tr("Trigger aspect of signal '%1'").arg(sSoldText);
+    /*move dialog to mouse click point*/
+    dlg->move(QCursor::pos());
+    dlg->setCaption(title);
+    dlg->setOccupationCbText(tr("&Occupation triggers clear aspect"));
+    dlg->setReleaseCbText(tr("&Release triggers halt aspect"));
+    dlg->enableOccupationTrigger(octriggerclear);
+    dlg->enableReleaseTrigger(retriggerhalt);
+    dlg->setFBBus(fbtriggerclearbus);
+    dlg->setFBContact(fbtriggerclearcontact);
+
+    connect(dlg, SIGNAL(sigShowFBmodules()),
+            this, SIGNAL(sigShowFBmodules()));
+
+    if (dlg->exec() == QDialog::Accepted) {
+        octriggerclear = dlg->occupationTriggerEnabled();
+        retriggerhalt = dlg->releaseTriggerEnabled();
+        fbtriggerclearbus = dlg->getFBBus();
+        fbtriggerclearcontact = dlg->getFBContact();
+
+        returnvalue = true;
+        setupElementIcon();
+    }
+    
+    disconnect(dlg, SIGNAL(sigShowFBmodules()),
+            this, SIGNAL(sigShowFBmodules()));
+    
+    delete dlg;
+    return returnvalue;
+}
+
+
 bool element::hasFeedbackTrigger()
 {
     return (buttonCount() > 0) || (classid == siciRel);
@@ -10074,9 +10229,8 @@ void element::runPropertyMenue(const QPoint& p)
     QPopupMenu* propmenu = new QPopupMenu(this, "propertyMenu");
     int count = 0;
 
-    if (hasLabel()) {
+    if (hasLabel())
         propmenu->insertItem(tr("&Label..."), 1);
-    }
 
     count = driveCount();
     if (count == 1) {
@@ -10086,20 +10240,23 @@ void element::runPropertyMenue(const QPoint& p)
         propmenu->insertItem(tr("&Drives..."), 3);
     }
 
-    if (hasVirtualAddress()) {
+    if (hasVirtualAddress())
         propmenu->insertItem(tr("Virtual &address..."), 4);
-    }
 
-    if (hasVariants()) {
+    if (hasVariants())
         propmenu->insertItem(tr("&Variant..."), 5);
-    }
 
-    if (hasTrackIndicator()) {
+    if (hasTrackIndicator())
         propmenu->insertItem(tr("&Track indicator..."), 6);
-    }
 
     if (hasFeedbackTrigger())
-        propmenu->insertItem(tr("Tri&gger..."), 7);
+        propmenu->insertItem(tr("Trigger &button..."), 7);
+
+    if (isSignal() && !(classid == siciRt1 || classid == siciRt3 ||
+                classid == siciZt1 || classid == siciZt3)) {
+        propmenu->insertItem(tr("Trigger &halt aspect..."), 8);
+        propmenu->insertItem(tr("Trigger &clear aspect..."), 9);
+    }
 
     if (propmenu->idAt(0) != -1) {
         int mitem = propmenu->exec(QCursor::pos());
@@ -10126,6 +10283,12 @@ void element::runPropertyMenue(const QPoint& p)
                 break;
             case 7:
                 elchanged = showFeedbackTriggerDialog(p);
+                break;
+            case 8:
+                elchanged = showTriggerHaltDialog();
+                break;
+            case 9:
+                elchanged = showTriggerClearDialog();
                 break;
             case -1: //fall through
             default:

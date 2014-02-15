@@ -2571,6 +2571,49 @@ The valid range is %1 to %2.</source>
     </message>
 </context>
 <context>
+    <name>TriggerAspectDialog</name>
+    <message>
+        <source>Trigger aspect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Feedback contact</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Bus (s88/SRCP):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Contact (1 - 496):</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Module (1 - %1):</source>
+        <translation type="unfinished">Module (1 - %1):</translation>
+    </message>
+    <message>
+        <source>Port (1 - %1):</source>
+        <translation type="unfinished">Ingang (1 - %1):</translation>
+    </message>
+    <message>
+        <source>&amp;FB</source>
+        <translation type="unfinished">&amp;FB</translation>
+    </message>
+    <message>
+        <source>Show feedback module window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished">OK</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished">Annuleren</translation>
+    </message>
+</context>
+<context>
     <name>TurntablePanel</name>
     <message>
         <source>&amp;Variant...</source>
@@ -2764,11 +2807,39 @@ Valid range is %1..%2.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Tri&amp;gger...</source>
+        <source>&amp;BiDi locomotive address</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;BiDi locomotive address</source>
+        <source>Trigger aspect of signal &apos;%1&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Occupation triggers halt aspect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Release triggers clear aspect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Occupation triggers clear aspect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Release triggers halt aspect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trigger &amp;button...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trigger &amp;halt aspect...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trigger &amp;clear aspect...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

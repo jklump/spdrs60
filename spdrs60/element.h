@@ -47,6 +47,7 @@
 #include "turntablecommander.h"
 
 
+
 /* Click states of layout internal buttons (group key block, signals,
    turnouts) for every new key, add here a corresponding name */
 enum GbsButtonState {
@@ -173,18 +174,33 @@ public:
     bool showVirtualAddressDialog();
     bool showVariantDialog();
     bool showFeedbackTriggerDialog(const QPoint&);
+    bool showTriggerHaltDialog();
+    bool showTriggerClearDialog();
 
 private:
     elementCommander* commander;
 
     unsigned int iFBBusNo;
     int iFBContact;
+    /*button 1 trigger*/
     bool     enable1fbtrigger;
     unsigned int button1fbbus;
     unsigned int button1fbcontact;
+    /*button 2 trigger*/
     bool     enable2fbtrigger;
     unsigned int button2fbbus;
     unsigned int button2fbcontact;
+    /*halt aspect trigger*/
+    bool     octriggerhalt;
+    bool     retriggerclear;
+    unsigned int fbtriggerhaltbus;
+    unsigned int fbtriggerhaltcontact;
+    /*clear aspect trigger*/
+    bool     octriggerclear;
+    bool     retriggerhalt;
+    unsigned int fbtriggerclearbus;
+    unsigned int fbtriggerclearcontact;
+
     unsigned int editsAddress;
     unsigned int countervalue;
     int      address1;

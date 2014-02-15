@@ -70,6 +70,7 @@ nodist_spdrs60_SOURCES = \
 	srcpport_moc.cpp \
 	trainnumberdialog_moc.cpp \
 	transfertablepanel_moc.cpp \
+	triggeraspectdialog_moc.cpp \
 	turntablecommander_moc.cpp \
 	turntablepanel_moc.cpp \
 	turnoutgrouppanel_moc.cpp \
@@ -138,6 +139,7 @@ spdrs60_SOURCES = main.cpp resources.h \
 	srcpport.cpp srcpport.h \
 	trainnumberdialog.cpp trainnumberdialog.h \
 	transfertablepanel.cpp transfertablepanel.h \
+	triggeraspectdialog.cpp triggeraspectdialog.h \
 	turntablecommander.cpp turntablecommander.h \
 	turntablepanel.cpp turntablepanel.h \
 	turnoutgrouppanel.cpp turnoutgrouppanel.h \
