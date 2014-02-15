@@ -37,9 +37,7 @@ Finder::Finder(QWidget* parent): QDialog(parent, "Finder", false)
     QHBoxLayout* searchLayout = new QHBoxLayout(baseLayout, 6);
     QLabel *title = new QLabel(tr("&Find:"), this, "searchLbl");
     searchLayout->addWidget(title);
-    QSpacerItem* spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    searchLayout->addItem(spacer);
+    searchLayout->addStretch();
     leSearch = new QLineEdit(this, "searchLE");
     searchLayout->addWidget(leSearch);
     title->setBuddy(leSearch);
@@ -75,9 +73,7 @@ Finder::Finder(QWidget* parent): QDialog(parent, "Finder", false)
 
     /*separated line with Search and Cancel buttons*/
     QHBoxLayout* buttonLayout = new QHBoxLayout(baseLayout, 6);
-    spacer = new QSpacerItem(0, 0,
-            QSizePolicy::Expanding, QSizePolicy::Minimum);
-    buttonLayout->addItem(spacer);
+    buttonLayout->addStretch();
     buttSearch = new QPushButton(tr("Search"), this, "searchBtn");
     buttonLayout->addWidget(buttSearch);
     buttSearch->setDefault(true);
