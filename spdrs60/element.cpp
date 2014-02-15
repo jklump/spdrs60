@@ -107,17 +107,6 @@ element::element(QWidget* parent, SpdrItemClassId ci): GrayPanel(parent)
 }
     
 
-element::element(QTextStream& ts, QWidget* parent): GrayPanel(parent)
-{
-    initVariables();
-    visualMode = kvmNormal;
-    classid = siciNone;
-    readFileTextFromStream(ts);
-    updateProperties();
-    setupElementIcon();
-}
-
-
 element::element(QTextStream& ts, QWidget* parent, SpdrItemClassId ci)
     : GrayPanel(parent)
 {

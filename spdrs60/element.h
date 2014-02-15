@@ -106,9 +106,7 @@ class element: public GrayPanel
 
 public:
     element(QWidget* parent = NULL, SpdrItemClassId ci = siciTxt);
-    element(QTextStream&, QWidget* parent=0);
     element(QTextStream&, QWidget* parent=0, SpdrItemClassId ci = siciTxt);
-
 
     /*this variables should also be private*/
     QString  sSoldText;
