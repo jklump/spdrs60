@@ -10014,8 +10014,7 @@ bool element::showFeedbackTriggerDialog(const QPoint& p)
     bool hastwo = false;
 
     // select Button names; FHT WGT, WHT UfGT,...
-    QPoint pos = mapFromParent(p);
-    bool left = pos.x() < (width() / 2);
+    bool left = p.x() < (width() / 2);
 
     switch (classid) {
         case siciTaf:
