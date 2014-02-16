@@ -32,8 +32,10 @@ class PowerSupplyGroupPanel: public SpdrPanel
         void setupElementIcon();
 
     public:
-        PowerSupplyGroupPanel(QWidget* parent = NULL);
-        PowerSupplyGroupPanel(QTextStream&, QWidget* parent = NULL);
+        PowerSupplyGroupPanel(QWidget* parent = NULL,
+                SpdrItemClassId cid = siciFee);
+        PowerSupplyGroupPanel(QTextStream&, QWidget* parent = NULL,
+                SpdrItemClassId cid = siciFee);
 };
 
 #endif  //POWERSUPPLYGROUPPANEL_H

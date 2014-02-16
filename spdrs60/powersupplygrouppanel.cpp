@@ -20,18 +20,18 @@
 #include "powersupplygrouppanel.h"
 
 
-PowerSupplyGroupPanel::PowerSupplyGroupPanel(QWidget* parent):
-    SpdrPanel(parent)
+PowerSupplyGroupPanel::PowerSupplyGroupPanel(QWidget* parent,
+        SpdrItemClassId cid):
+    SpdrPanel(parent, cid)
 {
-    classid = siciFee;
     setupElementIcon();
 }
 
 
-PowerSupplyGroupPanel::PowerSupplyGroupPanel(QTextStream& ts, QWidget* parent):
-    SpdrPanel(parent)
+PowerSupplyGroupPanel::PowerSupplyGroupPanel(QTextStream& ts,
+        QWidget* parent, SpdrItemClassId cid):
+    SpdrPanel(parent, cid)
 {
-    classid = siciFee;
     readFileTextFromStream(ts);
     setupElementIcon();
 }

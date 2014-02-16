@@ -32,8 +32,10 @@ class BuildingHorizontalPanel: public GrayPanel
         void setupElementIcon();
 
     public:
-        BuildingHorizontalPanel(QWidget* parent = NULL);
-        BuildingHorizontalPanel(QTextStream&, QWidget* parent = NULL);
+        BuildingHorizontalPanel(QWidget* parent = NULL, SpdrItemClassId
+                cid = siciBuc);
+        BuildingHorizontalPanel(QTextStream&, QWidget* parent = NULL,
+                SpdrItemClassId cid = siciBuc);
 };
 
 #endif  //BUILDINGHORIZONTALPANEL_H

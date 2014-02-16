@@ -32,8 +32,10 @@ class BuildingLeftPanel: public GrayPanel
         void setupElementIcon();
 
     public:
-        BuildingLeftPanel(QWidget* parent = NULL);
-        BuildingLeftPanel(QTextStream&, QWidget* parent = NULL);
+        BuildingLeftPanel(QWidget* parent = NULL,
+                SpdrItemClassId cid = siciBul);
+        BuildingLeftPanel(QTextStream&, QWidget* parent = NULL,
+                SpdrItemClassId cid = siciBul);
 };
 
 #endif  //BUILDINGLEFTPANEL_H

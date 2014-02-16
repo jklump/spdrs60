@@ -22,19 +22,17 @@
 #include "locoshedswpanel.h"
 
 
-LocoShedSWPanel::LocoShedSWPanel(QWidget* parent):
-    GrayPanel(parent)
+LocoShedSWPanel::LocoShedSWPanel(QWidget* parent, SpdrItemClassId cid):
+    GrayPanel(parent, cid)
 {
-    classid = siciLb3;
     setupElementIcon();
 }
 
 
 LocoShedSWPanel::LocoShedSWPanel(QTextStream& ts,
-        QWidget* parent):
-    GrayPanel(parent)
+        QWidget* parent, SpdrItemClassId cid):
+    GrayPanel(parent, cid)
 {
-    classid = siciLb3;
     readFileTextFromStream(ts);
     setupElementIcon();
 }

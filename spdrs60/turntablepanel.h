@@ -52,8 +52,9 @@ class TurntablePanel: public GrayPanel
     void mouseReleaseEvent(QMouseEvent*);
 
   public:
-    TurntablePanel(QWidget* parent = NULL);
-    TurntablePanel(QTextStream&, QWidget* parent = NULL);
+    TurntablePanel(QWidget* parent = NULL, SpdrItemClassId cid = siciDre);
+    TurntablePanel(QTextStream&, QWidget* parent = NULL,
+            SpdrItemClassId cid = siciDre);
     void writeFileTextToStream(QTextStream&);
     void readFileTextFromStream(QTextStream&);
 

@@ -32,8 +32,10 @@ class RouteGroupPanel: public SpdrPanel
         void setupElementIcon();
 
     public:
-        RouteGroupPanel(QWidget* parent = NULL);
-        RouteGroupPanel(QTextStream&, QWidget* parent = NULL);
+        RouteGroupPanel(QWidget* parent = NULL,
+                SpdrItemClassId cid = siciFeg);
+        RouteGroupPanel(QTextStream&, QWidget* parent = NULL,
+                SpdrItemClassId cid = siciFeg);
 };
 
 #endif  //ROUTEGROUPPANEL_H

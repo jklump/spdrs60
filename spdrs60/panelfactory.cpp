@@ -51,49 +51,49 @@ SpdrPanel* PanelFactory::createPanel(QWidget* parent,
 {
     switch (type) {
         case SpdrPanel::siciBs1:
-            return new BufferStopRightPanel(parent);
+            return new BufferStopRightPanel(parent, type);
         case SpdrPanel::siciBs2:
-            return new BufferStopTopPanel(parent);
+            return new BufferStopTopPanel(parent, type);
         case SpdrPanel::siciBs3:
-            return new BufferStopLeftPanel(parent);
+            return new BufferStopLeftPanel(parent, type);
         case SpdrPanel::siciBs4:
-            return new BufferStopBottomPanel(parent);
+            return new BufferStopBottomPanel(parent, type);
         case SpdrPanel::siciBuc:
-            return new BuildingHorizontalPanel(parent);
+            return new BuildingHorizontalPanel(parent, type);
         case SpdrPanel::siciBul:
-            return new BuildingLeftPanel(parent);
+            return new BuildingLeftPanel(parent, type);
         case SpdrPanel::siciBur:
-            return new BuildingRightPanel(parent);
+            return new BuildingRightPanel(parent, type);
         case SpdrPanel::siciLs1:
-            return new LocoShedEastPanel(parent);
+            return new LocoShedEastPanel(parent, type);
         case SpdrPanel::siciLs3:
-            return new LocoShedWestPanel(parent);
+            return new LocoShedWestPanel(parent, type);
         case SpdrPanel::siciLt1:
-            return new LocoShedNEPanel(parent);
+            return new LocoShedNEPanel(parent, type);
         case SpdrPanel::siciLt3:
-            return new LocoShedNWPanel(parent);
+            return new LocoShedNWPanel(parent, type);
         case SpdrPanel::siciLb1:
-            return new LocoShedSEPanel(parent);
+            return new LocoShedSEPanel(parent, type);
         case SpdrPanel::siciLb3:
-            return new LocoShedSWPanel(parent);
+            return new LocoShedSWPanel(parent, type);
 
         case SpdrPanel::siciFeb:
-            return new TurnoutGroupPanel(parent);
+            return new TurnoutGroupPanel(parent, type);
         case SpdrPanel::siciFee:
-            return new PowerSupplyGroupPanel(parent);
+            return new PowerSupplyGroupPanel(parent, type);
         case SpdrPanel::siciFeg:
-            return new RouteGroupPanel(parent);
+            return new RouteGroupPanel(parent, type);
         case SpdrPanel::siciFen:
-            return new AxleCounterGroupPanel(parent);
+            return new AxleCounterGroupPanel(parent, type);
         case SpdrPanel::siciFer:
-            return new SignalGroupPanel(parent);
+            return new SignalGroupPanel(parent, type);
         case SpdrPanel::siciFey:
-            return new LevelCrossingGroupPanel(parent);
+            return new LevelCrossingGroupPanel(parent, type);
 
         case SpdrPanel::siciDre:
-            return new TurntablePanel(parent);
+            return new TurntablePanel(parent, type);
         case SpdrPanel::siciSbn:
-            return new TransferTablePanel(parent);
+            return new TransferTablePanel(parent, type);
 
         default:
             return new element(parent, type);
@@ -106,49 +106,49 @@ SpdrPanel* PanelFactory::createPanelFromStream(QTextStream& ts,
 {
     switch (type) {
         case SpdrPanel::siciBs1:
-            return new BufferStopRightPanel(ts, parent);
+            return new BufferStopRightPanel(ts, parent, type);
         case SpdrPanel::siciBs2:
-            return new BufferStopTopPanel(ts, parent);
+            return new BufferStopTopPanel(ts, parent, type);
         case SpdrPanel::siciBs3:
-            return new BufferStopLeftPanel(ts, parent);
+            return new BufferStopLeftPanel(ts, parent, type);
         case SpdrPanel::siciBs4:
-            return new BufferStopBottomPanel(ts, parent);
+            return new BufferStopBottomPanel(ts, parent, type);
         case SpdrPanel::siciBuc:
-            return new BuildingHorizontalPanel(ts, parent);
+            return new BuildingHorizontalPanel(ts, parent, type);
         case SpdrPanel::siciBul:
-            return new BuildingLeftPanel(ts, parent);
+            return new BuildingLeftPanel(ts, parent, type);
         case SpdrPanel::siciBur:
-            return new BuildingRightPanel(ts, parent);
+            return new BuildingRightPanel(ts, parent, type);
         case SpdrPanel::siciLs1:
-            return new LocoShedEastPanel(ts, parent);
+            return new LocoShedEastPanel(ts, parent, type);
         case SpdrPanel::siciLs3:
-            return new LocoShedWestPanel(ts, parent);
+            return new LocoShedWestPanel(ts, parent, type);
         case SpdrPanel::siciLt1:
-            return new LocoShedNEPanel(ts, parent);
+            return new LocoShedNEPanel(ts, parent, type);
         case SpdrPanel::siciLt3:
-            return new LocoShedNWPanel(ts, parent);
+            return new LocoShedNWPanel(ts, parent, type);
         case SpdrPanel::siciLb1:
-            return new LocoShedSEPanel(ts, parent);
+            return new LocoShedSEPanel(ts, parent, type);
         case SpdrPanel::siciLb3:
-            return new LocoShedSWPanel(ts, parent);
+            return new LocoShedSWPanel(ts, parent, type);
 
         case SpdrPanel::siciFeb:
-            return new TurnoutGroupPanel(ts, parent);
+            return new TurnoutGroupPanel(ts, parent, type);
         case SpdrPanel::siciFee:
-            return new PowerSupplyGroupPanel(ts, parent);
+            return new PowerSupplyGroupPanel(ts, parent, type);
         case SpdrPanel::siciFeg:
-            return new RouteGroupPanel(ts, parent);
+            return new RouteGroupPanel(ts, parent, type);
         case SpdrPanel::siciFen:
-            return new AxleCounterGroupPanel(ts, parent);
+            return new AxleCounterGroupPanel(ts, parent, type);
         case SpdrPanel::siciFer:
-            return new SignalGroupPanel(ts, parent);
+            return new SignalGroupPanel(ts, parent, type);
         case SpdrPanel::siciFey:
-            return new LevelCrossingGroupPanel(ts, parent);
+            return new LevelCrossingGroupPanel(ts, parent, type);
 
         case SpdrPanel::siciDre:
-            return new TurntablePanel(ts, parent);
+            return new TurntablePanel(ts, parent, type);
         case SpdrPanel::siciSbn:
-            return new TransferTablePanel(ts, parent);
+            return new TransferTablePanel(ts, parent, type);
 
         default:
             return new element(ts, parent, type);

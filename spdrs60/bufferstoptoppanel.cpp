@@ -22,18 +22,16 @@
 #include "bufferstoptoppanel.h"
 
 
-BufferStopTopPanel::BufferStopTopPanel(QWidget* parent):
-    GrayPanel(parent)
+BufferStopTopPanel::BufferStopTopPanel(QWidget* parent, SpdrItemClassId cid):
+    GrayPanel(parent, cid)
 {
-    classid = siciBs2;
     setupElementIcon();
 }
 
 
-BufferStopTopPanel::BufferStopTopPanel(QTextStream& ts, QWidget* parent):
-    GrayPanel(parent)
+BufferStopTopPanel::BufferStopTopPanel(QTextStream& ts, QWidget* parent,
+        SpdrItemClassId cid): GrayPanel(parent, cid)
 {
-    classid = siciBs2;
     readFileTextFromStream(ts);
     setupElementIcon();
 }

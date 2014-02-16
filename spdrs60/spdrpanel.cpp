@@ -24,9 +24,9 @@
 #include "spdrpanel.h"
 
 
-SpdrPanel::SpdrPanel(QWidget* parent):
+SpdrPanel::SpdrPanel(QWidget* parent, SpdrItemClassId cid):
     QWidget(parent, "spdrpanel"),
-    classid(siciNone),
+    classid(cid),
     selectionMode(ksmNormal),
     visualMode(kvmEditLayout),
     iSoldIndex(0),

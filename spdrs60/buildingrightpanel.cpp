@@ -22,19 +22,18 @@
 #include "buildingrightpanel.h"
 
 
-BuildingRightPanel::BuildingRightPanel(QWidget* parent):
-    GrayPanel(parent)
+BuildingRightPanel::BuildingRightPanel(QWidget* parent, SpdrItemClassId
+        cid):
+    GrayPanel(parent, cid)
 {
-    classid = siciBur;
     setupElementIcon();
 }
 
 
 BuildingRightPanel::BuildingRightPanel(QTextStream& ts,
-        QWidget* parent):
-    GrayPanel(parent)
+        QWidget* parent, SpdrItemClassId cid):
+    GrayPanel(parent, cid)
 {
-    classid = siciBur;
     readFileTextFromStream(ts);
     setupElementIcon();
 }

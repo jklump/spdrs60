@@ -32,8 +32,10 @@ class SignalGroupPanel: public SpdrPanel
         void setupElementIcon();
 
     public:
-        SignalGroupPanel(QWidget* parent = NULL);
-        SignalGroupPanel(QTextStream&, QWidget* parent = NULL);
+        SignalGroupPanel(QWidget* parent = NULL,
+                SpdrItemClassId cid = siciFer);
+        SignalGroupPanel(QTextStream&, QWidget* parent = NULL,
+                SpdrItemClassId cid = siciFer);
 };
 
 #endif  //SIGNALGROUPPANEL_H

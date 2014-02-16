@@ -32,8 +32,10 @@ class BuildingRightPanel: public GrayPanel
         void setupElementIcon();
 
     public:
-        BuildingRightPanel(QWidget* parent = NULL);
-        BuildingRightPanel(QTextStream&, QWidget* parent = NULL);
+        BuildingRightPanel(QWidget* parent = NULL,
+                SpdrItemClassId cid = siciBur);
+        BuildingRightPanel(QTextStream&, QWidget* parent = NULL,
+                SpdrItemClassId cid = siciBur);
 };
 
 #endif  //BUILDINGRIGHTPANEL_H

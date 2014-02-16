@@ -20,18 +20,18 @@
 #include "turnoutgrouppanel.h"
 
 
-TurnoutGroupPanel::TurnoutGroupPanel(QWidget* parent):
-    SpdrPanel(parent)
+TurnoutGroupPanel::TurnoutGroupPanel(QWidget* parent,
+        SpdrItemClassId cid):
+    SpdrPanel(parent, cid)
 {
-    classid = siciFeb;
     setupElementIcon();
 }
 
 
-TurnoutGroupPanel::TurnoutGroupPanel(QTextStream& ts, QWidget* parent):
-    SpdrPanel(parent)
+TurnoutGroupPanel::TurnoutGroupPanel(QTextStream& ts, QWidget* parent,
+        SpdrItemClassId cid):
+    SpdrPanel(parent, cid)
 {
-    classid = siciFeb;
     readFileTextFromStream(ts);
     setupElementIcon();
 }

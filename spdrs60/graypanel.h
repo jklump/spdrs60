@@ -29,8 +29,9 @@ class GrayPanel: public SpdrPanel
     Q_OBJECT
 
     public:
-        GrayPanel(QWidget* parent = NULL);
-        GrayPanel(QTextStream&, QWidget* parent = NULL);
+        GrayPanel(QWidget* parent = NULL, SpdrItemClassId cid = siciNone);
+        GrayPanel(QTextStream&, QWidget* parent = NULL, SpdrItemClassId
+                cid = siciNone);
 
     public slots:
         void slotRepaintLayout();

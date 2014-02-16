@@ -20,18 +20,18 @@
 #include "levelcrossinggrouppanel.h"
 
 
-LevelCrossingGroupPanel::LevelCrossingGroupPanel(QWidget* parent):
-    SpdrPanel(parent)
+LevelCrossingGroupPanel::LevelCrossingGroupPanel(QWidget* parent,
+        SpdrItemClassId cid):
+    SpdrPanel(parent, cid)
 {
-    classid = siciFey;
     setupElementIcon();
 }
 
 
-LevelCrossingGroupPanel::LevelCrossingGroupPanel(QTextStream& ts, QWidget* parent):
-    SpdrPanel(parent)
+LevelCrossingGroupPanel::LevelCrossingGroupPanel(QTextStream& ts,
+        QWidget* parent, SpdrItemClassId cid):
+    SpdrPanel(parent, cid)
 {
-    classid = siciFey;
     readFileTextFromStream(ts);
     setupElementIcon();
 }

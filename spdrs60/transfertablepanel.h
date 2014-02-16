@@ -51,8 +51,10 @@ class TransferTablePanel: public GrayPanel
     void mouseReleaseEvent(QMouseEvent*);
 
   public:
-    TransferTablePanel(QWidget* parent = NULL);
-    TransferTablePanel(QTextStream&, QWidget* parent = NULL);
+    TransferTablePanel(QWidget* parent = NULL,
+            SpdrItemClassId cid = siciSbn);
+    TransferTablePanel(QTextStream&, QWidget* parent = NULL,
+            SpdrItemClassId cid = siciSbn);
     void writeFileTextToStream(QTextStream&);
     void readFileTextFromStream(QTextStream&);
 

@@ -32,8 +32,10 @@ class AxleCounterGroupPanel: public SpdrPanel
         void setupElementIcon();
 
     public:
-        AxleCounterGroupPanel(QWidget* parent = NULL);
-        AxleCounterGroupPanel(QTextStream&, QWidget* parent = NULL);
+        AxleCounterGroupPanel(QWidget* parent = NULL,
+                SpdrItemClassId cid = siciFen);
+        AxleCounterGroupPanel(QTextStream&, QWidget* parent = NULL,
+                SpdrItemClassId cid = siciFen);
 };
 
 #endif  //AXLECOUNTERGROUPPANEL_H

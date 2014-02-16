@@ -32,8 +32,10 @@ class LocoShedNWPanel: public GrayPanel
         void setupElementIcon();
 
     public:
-        LocoShedNWPanel(QWidget* parent = NULL);
-        LocoShedNWPanel(QTextStream&, QWidget* parent = NULL);
+        LocoShedNWPanel(QWidget* parent = NULL,
+                SpdrItemClassId cid = siciLt3);
+        LocoShedNWPanel(QTextStream&, QWidget* parent = NULL,
+                SpdrItemClassId cid = siciLt3);
 };
 
 #endif  //LOCOSHEDNWPANEL_H

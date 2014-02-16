@@ -32,8 +32,10 @@ class TurnoutGroupPanel: public SpdrPanel
         void setupElementIcon();
 
     public:
-        TurnoutGroupPanel(QWidget* parent = NULL);
-        TurnoutGroupPanel(QTextStream&, QWidget* parent = NULL);
+        TurnoutGroupPanel(QWidget* parent = NULL,
+                SpdrItemClassId cid = siciFeb);
+        TurnoutGroupPanel(QTextStream&, QWidget* parent = NULL,
+                SpdrItemClassId cid = siciFeb);
 };
 
 #endif  //TURNOUTGROUPPANEL_H

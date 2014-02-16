@@ -20,18 +20,18 @@
 #include "axlecountergrouppanel.h"
 
 
-AxleCounterGroupPanel::AxleCounterGroupPanel(QWidget* parent):
-    SpdrPanel(parent)
+AxleCounterGroupPanel::AxleCounterGroupPanel(QWidget* parent,
+        SpdrItemClassId cid):
+    SpdrPanel(parent, cid)
 {
-    classid = siciFen;
     setupElementIcon();
 }
 
 
-AxleCounterGroupPanel::AxleCounterGroupPanel(QTextStream& ts, QWidget* parent):
-    SpdrPanel(parent)
+AxleCounterGroupPanel::AxleCounterGroupPanel(QTextStream& ts,
+        QWidget* parent, SpdrItemClassId cid):
+    SpdrPanel(parent, cid)
 {
-    classid = siciFen;
     readFileTextFromStream(ts);
     setupElementIcon();
 }

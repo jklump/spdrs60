@@ -35,8 +35,8 @@ enum {
 };
 
 
-TurntablePanel::TurntablePanel(QWidget* parent):
-    GrayPanel(parent),
+TurntablePanel::TurntablePanel(QWidget* parent, SpdrItemClassId cid):
+    GrayPanel(parent, cid),
     iSoldSubType(0)
 {
     ttComm = NULL;
@@ -45,14 +45,14 @@ TurntablePanel::TurntablePanel(QWidget* parent):
     bus = 1;
     xchangeport = 0;
     sSoldText= "";
-    classid = siciDre;
 
     init();
 }
 
 
-TurntablePanel::TurntablePanel(QTextStream& ts, QWidget* parent):
-    GrayPanel(parent),
+TurntablePanel::TurntablePanel(QTextStream& ts, QWidget* parent,
+        SpdrItemClassId cid):
+    GrayPanel(parent, cid),
     iSoldSubType(0)
 {
     ttComm = NULL;
@@ -61,7 +61,6 @@ TurntablePanel::TurntablePanel(QTextStream& ts, QWidget* parent):
     bus = 1;
     xchangeport = 0;
     sSoldText= "";
-    classid = siciDre;
     visualMode = kvmNormal;
 
     readFileTextFromStream(ts);

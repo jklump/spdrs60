@@ -32,8 +32,10 @@ class LevelCrossingGroupPanel: public SpdrPanel
         void setupElementIcon();
 
     public:
-        LevelCrossingGroupPanel(QWidget* parent = NULL);
-        LevelCrossingGroupPanel(QTextStream&, QWidget* parent = NULL);
+        LevelCrossingGroupPanel(QWidget* parent = NULL,
+                SpdrItemClassId cid = siciFey);
+        LevelCrossingGroupPanel(QTextStream&, QWidget* parent = NULL,
+                SpdrItemClassId cid = siciFey);
 };
 
 #endif  //LEVELCROSSINGGROUPPANEL_H

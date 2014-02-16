@@ -20,18 +20,17 @@
 #include "signalgrouppanel.h"
 
 
-SignalGroupPanel::SignalGroupPanel(QWidget* parent):
-    SpdrPanel(parent)
+SignalGroupPanel::SignalGroupPanel(QWidget* parent, SpdrItemClassId cid):
+    SpdrPanel(parent, cid)
 {
-    classid = siciFer;
     setupElementIcon();
 }
 
 
-SignalGroupPanel::SignalGroupPanel(QTextStream& ts, QWidget* parent):
-    SpdrPanel(parent)
+SignalGroupPanel::SignalGroupPanel(QTextStream& ts, QWidget* parent,
+        SpdrItemClassId cid):
+    SpdrPanel(parent, cid)
 {
-    classid = siciFer;
     readFileTextFromStream(ts);
     setupElementIcon();
 }

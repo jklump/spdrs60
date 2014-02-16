@@ -20,18 +20,17 @@
 #include "routegrouppanel.h"
 
 
-RouteGroupPanel::RouteGroupPanel(QWidget* parent):
-    SpdrPanel(parent)
+RouteGroupPanel::RouteGroupPanel(QWidget* parent, SpdrItemClassId cid):
+    SpdrPanel(parent, cid)
 {
-    classid = siciFeg;
     setupElementIcon();
 }
 
 
-RouteGroupPanel::RouteGroupPanel(QTextStream& ts, QWidget* parent):
-    SpdrPanel(parent)
+RouteGroupPanel::RouteGroupPanel(QTextStream& ts, QWidget* parent,
+        SpdrItemClassId cid):
+    SpdrPanel(parent, cid)
 {
-    classid = siciFeg;
     readFileTextFromStream(ts);
     setupElementIcon();
 }

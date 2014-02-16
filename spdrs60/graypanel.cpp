@@ -20,15 +20,15 @@
 #include "graypanel.h"
 
 
-GrayPanel::GrayPanel(QWidget* parent):
-    SpdrPanel(parent)
+GrayPanel::GrayPanel(QWidget* parent, SpdrItemClassId cid):
+    SpdrPanel(parent, cid)
 {
     background.fill(Qt::lightGray);
 }
 
 
-GrayPanel::GrayPanel(QTextStream& ts, QWidget* parent):
-    SpdrPanel(parent)
+GrayPanel::GrayPanel(QTextStream& ts, QWidget* parent, SpdrItemClassId cid):
+    SpdrPanel(parent, cid)
 {
     background.fill(Qt::lightGray);
 }

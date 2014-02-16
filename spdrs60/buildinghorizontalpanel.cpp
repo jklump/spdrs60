@@ -22,19 +22,17 @@
 #include "buildinghorizontalpanel.h"
 
 
-BuildingHorizontalPanel::BuildingHorizontalPanel(QWidget* parent):
-    GrayPanel(parent)
+BuildingHorizontalPanel::BuildingHorizontalPanel(QWidget* parent,
+        SpdrItemClassId cid): GrayPanel(parent, cid)
 {
-    classid = siciBuc;
     setupElementIcon();
 }
 
 
 BuildingHorizontalPanel::BuildingHorizontalPanel(QTextStream& ts,
-        QWidget* parent):
-    GrayPanel(parent)
+        QWidget* parent,  SpdrItemClassId cid):
+    GrayPanel(parent, cid)
 {
-    classid = siciBuc;
     readFileTextFromStream(ts);
     setupElementIcon();
 }

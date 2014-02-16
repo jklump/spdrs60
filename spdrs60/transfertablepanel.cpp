@@ -29,29 +29,29 @@
 #include "pixmaps/transfertable.xpm"
 
 
-TransferTablePanel::TransferTablePanel(QWidget* parent):
-    GrayPanel(parent)
+TransferTablePanel::TransferTablePanel(QWidget* parent,
+        SpdrItemClassId cid):
+    GrayPanel(parent, cid)
 {
     commander = NULL;
     activetime = 200;
     bus = 1;
     xchangeport = 0;
     state = '|';
-    classid = siciSbn;
 
     init();
 }
 
 
-TransferTablePanel::TransferTablePanel(QTextStream& ts, QWidget* parent):
-    GrayPanel(parent)
+TransferTablePanel::TransferTablePanel(QTextStream& ts, QWidget* parent,
+        SpdrItemClassId cid):
+    GrayPanel(parent, cid)
 {
     commander = NULL;
     activetime = 200;
     bus = 1;
     xchangeport = 0;
     state = '|';
-    classid = siciSbn;
     visualMode = kvmNormal;
 
     readFileTextFromStream(ts);

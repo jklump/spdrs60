@@ -32,8 +32,10 @@ class BufferStopBottomPanel: public GrayPanel
         void setupElementIcon();
 
     public:
-        BufferStopBottomPanel(QWidget* parent = NULL);
-        BufferStopBottomPanel(QTextStream&, QWidget* parent = NULL);
+        BufferStopBottomPanel(QWidget* parent = NULL,
+                SpdrItemClassId cid = siciBs4);
+        BufferStopBottomPanel(QTextStream&, QWidget* parent = NULL,
+                SpdrItemClassId cid = siciBs4);
 };
 
 #endif  //BUFFERSTOPBOTTOMPANEL_H
