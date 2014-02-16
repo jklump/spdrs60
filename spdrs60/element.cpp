@@ -98,21 +98,19 @@ using namespace Qt;
 #endif
 
 
-element::element(QWidget* parent, SpdrItemClassId ci): GrayPanel(parent)
+element::element(QWidget* parent, SpdrItemClassId cid): GrayPanel(parent, cid)
 {
     initVariables();
-    classid = ci;
     updateProperties();
     setupElementIcon();
 }
     
 
-element::element(QTextStream& ts, QWidget* parent, SpdrItemClassId ci)
-    : GrayPanel(parent)
+element::element(QTextStream& ts, QWidget* parent, SpdrItemClassId cid)
+    : GrayPanel(parent, cid)
 {
     initVariables();
     visualMode = kvmNormal;
-    classid = ci;
     readFileTextFromStream(ts);
     updateProperties();
     setupElementIcon();
@@ -125,7 +123,10 @@ void element::initVariables()
 #if QT_VERSION >= 0x040000
     setAutoFillBackground(true);
 #endif
-    iSoldInvert = -1;
+    if (classid == siciAdr)
+        iSoldInvert = 1;
+    else
+        iSoldInvert = -1;
     protocol1 = SrcpMessage::proNone;
     protocol2 = SrcpMessage::proNone;
     address1 = -1;
@@ -10218,22 +10219,22 @@ void element::runPropertyMenue(const QPoint& p)
     QPopupMenu* propmenu = new QPopupMenu(this, "propertyMenu");
     int count = 0;
 
+    if (hasVariants())
+        propmenu->insertItem(tr("&Variant..."), 1);
+
     if (hasLabel())
-        propmenu->insertItem(tr("&Label..."), 1);
+        propmenu->insertItem(tr("&Label..."), 2);
 
     count = driveCount();
     if (count == 1) {
-        propmenu->insertItem(tr("&Drive..."), 2);
+        propmenu->insertItem(tr("&Drive..."), 3);
     }
     else if (count > 1) {
-        propmenu->insertItem(tr("&Drives..."), 3);
+        propmenu->insertItem(tr("&Drives..."), 4);
     }
 
     if (hasVirtualAddress())
-        propmenu->insertItem(tr("Virtual &address..."), 4);
-
-    if (hasVariants())
-        propmenu->insertItem(tr("&Variant..."), 5);
+        propmenu->insertItem(tr("Virtual &address..."), 5);
 
     if (hasTrackIndicator())
         propmenu->insertItem(tr("&Track indicator..."), 6);
@@ -10253,19 +10254,19 @@ void element::runPropertyMenue(const QPoint& p)
 
         switch(mitem) {
             case 1:
-                elchanged = showLabelDialog();
+                elchanged = showVariantDialog();
                 break;
             case 2:
-                elchanged = showDriveDialog();
+                elchanged = showLabelDialog();
                 break;
             case 3:
-                elchanged = showDualDriveDialog();
+                elchanged = showDriveDialog();
                 break;
             case 4:
-                elchanged = showVirtualAddressDialog();
+                elchanged = showDualDriveDialog();
                 break;
             case 5:
-                elchanged = showVariantDialog();
+                elchanged = showVirtualAddressDialog();
                 break;
             case 6:
                 elchanged = showTrackIndicatorDialog();
