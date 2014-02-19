@@ -8781,7 +8781,7 @@ void element::slotOccupyElement(unsigned int bus, unsigned int contact,
         /*clear aspect trigger*/
         if (octriggerclear) {
             if ((bus == fbtriggerclearbus) &&
-                    (contact == fbtriggerclearcontact) && (state != 0)) {
+                    (contact == fbtriggerclearcontact) && (state == 0)) {
                 switchToDir(1);
             }
         }
@@ -8797,7 +8797,7 @@ void element::slotOccupyElement(unsigned int bus, unsigned int contact,
         /*halt aspect trigger*/
         if (retriggerhalt) {
             if ((bus == fbtriggerclearbus) &&
-                    (contact == fbtriggerclearcontact) && (state == 0)) {
+                    (contact == fbtriggerclearcontact) && (state != 0)) {
                 switchToDir(0);
             }
         }
