@@ -1668,6 +1668,11 @@ void GBSArea::dropEvent(QDropEvent *e)
 void GBSArea::switchVisualMode(elemVisualMode vm)
 {
     if (vm != visualMode) {
+
+        /*care for mouse pointer switching*/
+        if ((visualMode == kvmEditLayout) && (lyeditMode != lemSelect))
+            changeLayoutEditMode(lemSelect);
+
         visualMode = vm;
         emit switchedVisualMode(vm);
         update();
