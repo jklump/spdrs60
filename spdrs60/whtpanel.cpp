@@ -21,7 +21,6 @@
 #include <qpainter.h>
 
 #include "whtpanel.h"
-#include "feedbacktriggerdialog.h"
 
 #include "pixmaps/label-wht.xpm"
 

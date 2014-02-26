@@ -17,27 +17,23 @@
   along with spdrs60.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
-#ifndef WGTPANEL_H
-#define WGTPANEL_H
-
 #include "externalsinglebuttonpanel.h"
+#include "feedbacktriggerdialog.h"
 
 
-class WgtPanel: public ExternalSingleButtonPanel
+ExternalSingleButtonPanel::ExternalSingleButtonPanel(QWidget* parent,
+        SpdrItemClassId cid, GbsButtonState cb, const char* bt):
+    ExternalButtonPanel(parent, cid, cb, bt)
 {
-    Q_OBJECT
+    setName("ExternalSingleButtonPanel");
+}
 
-    public:
-        WgtPanel(QWidget* parent = NULL, SpdrItemClassId cid = siciTaw);
-        WgtPanel(QTextStream&, QWidget* parent = NULL, SpdrItemClassId
-                cid = siciTaw);
 
-    protected:
-        void setupElementIcon();
+ExternalSingleButtonPanel::ExternalSingleButtonPanel(QTextStream& ts, QWidget*
+        parent, SpdrItemClassId cid, GbsButtonState cb, const char* bt):
+    ExternalButtonPanel(ts, parent, cid, cb, bt)
+{
+    setName("ExternalSingleButtonPanel");
+    readFileTextFromStream(ts);
+}
 
-//    public slots:
-//        void slotRepaintLayout();
-};
-
-#endif  //WGTPANEL_H

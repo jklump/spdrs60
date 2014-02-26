@@ -17,27 +17,10 @@
   along with spdrs60.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
-#ifndef WGTPANEL_H
-#define WGTPANEL_H
-
-#include "externalsinglebuttonpanel.h"
+#include "tablelight.h"
 
 
-class WgtPanel: public ExternalSingleButtonPanel
+TableLight::TableLight(bool on): tablelight(on)
 {
-    Q_OBJECT
+}
 
-    public:
-        WgtPanel(QWidget* parent = NULL, SpdrItemClassId cid = siciTaw);
-        WgtPanel(QTextStream&, QWidget* parent = NULL, SpdrItemClassId
-                cid = siciTaw);
-
-    protected:
-        void setupElementIcon();
-
-//    public slots:
-//        void slotRepaintLayout();
-};
-
-#endif  //WGTPANEL_H

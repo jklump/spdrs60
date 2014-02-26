@@ -29,10 +29,13 @@ nodist_spdrs60_SOURCES = \
 	commandport_moc.cpp \
 	drivedialog_moc.cpp \
 	dualdrivedialog_moc.cpp \
+	einpanel_moc.cpp \
 	elementcommander_moc.cpp \
 	elementlabeldialog_moc.cpp \
 	element_moc.cpp \
 	externalbuttonpanel_moc.cpp \
+	externalsinglebuttonpanel_moc.cpp \
+	externaldualbuttonpanel_moc.cpp \
         externalcounterpanel_moc.cpp \
 	feedbacklistbox_moc.cpp \
 	feedbacktriggerdialog_moc.cpp \
@@ -68,6 +71,7 @@ nodist_spdrs60_SOURCES = \
 	router_moc.cpp \
 	section_moc.cpp \
 	serverinfodialog_moc.cpp \
+	sgtpanel_moc.cpp \
 	signalgrouppanel_moc.cpp \
 	spdrpanel_moc.cpp \
 	srcpport_moc.cpp \
@@ -77,6 +81,7 @@ nodist_spdrs60_SOURCES = \
 	turntablecommander_moc.cpp \
 	turntablepanel_moc.cpp \
 	turnoutgrouppanel_moc.cpp \
+	ufgtpanel_moc.cpp \
 	variantdialog_moc.cpp \
 	virtualaddressdialog_moc.cpp \
 	wgtpanel_moc.cpp \
@@ -97,10 +102,13 @@ spdrs60_SOURCES = main.cpp resources.h gbsbuttonstate.h \
 	crcfmessage.cpp crcfmessage.h \
 	drivedialog.cpp drivedialog.h \
 	dualdrivedialog.cpp dualdrivedialog.h \
+	einpanel.cpp einpanel.h \
 	elementcommander.cpp elementcommander.h \
 	element.cpp element.h \
 	elementlabeldialog.cpp elementlabeldialog.h \
         externalbuttonpanel.cpp externalbuttonpanel.h \
+        externalsinglebuttonpanel.cpp externalsinglebuttonpanel.h \
+        externaldualbuttonpanel.cpp externaldualbuttonpanel.h \
         externalcounterpanel.cpp externalcounterpanel.h \
 	feedbacklistbox.cpp feedbacklistbox.h \
 	feedbackmodule.cpp feedbackmodule.h \
@@ -141,16 +149,19 @@ spdrs60_SOURCES = main.cpp resources.h gbsbuttonstate.h \
 	router.cpp router.h \
 	section.cpp section.h \
 	serverinfodialog.cpp serverinfodialog.h \
+	sgtpanel.cpp sgtpanel.h \
 	signalgrouppanel.cpp signalgrouppanel.h \
         spdrpanel.h spdrpanel.cpp \
 	srcpmessage.cpp srcpmessage.h \
 	srcpport.cpp srcpport.h \
+	tablelight.cpp tablelight.h \
 	trainnumberdialog.cpp trainnumberdialog.h \
 	transfertablepanel.cpp transfertablepanel.h \
 	triggeraspectdialog.cpp triggeraspectdialog.h \
 	turntablecommander.cpp turntablecommander.h \
 	turntablepanel.cpp turntablepanel.h \
 	turnoutgrouppanel.cpp turnoutgrouppanel.h \
+	ufgtpanel.cpp ufgtpanel.h \
 	variantdialog.cpp variantdialog.h \
 	virtualaddressdialog.cpp virtualaddressdialog.h \
 	wgtpanel.cpp wgtpanel.h \

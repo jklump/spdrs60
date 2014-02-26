@@ -17,57 +17,48 @@
   along with spdrs60.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <qapplication.h>
 #include <qpainter.h>
 
-#include "fhtpanel.h"
+#include "ufgtpanel.h"
 
-#include "pixmaps/label-fht.xpm"
+#include "pixmaps/label-ufgt.xpm"
+#include "pixmaps/label-mgt.xpm"
 
 
-FhtPanel::FhtPanel(QWidget* parent, SpdrItemClassId cid):
-    ExternalCounterPanel(parent, cid, kFhtClicked, "FHT")
+UfgtPanel::UfgtPanel(QWidget* parent, SpdrItemClassId cid):
+    ExternalDualButtonPanel(parent, cid, kUfgtClicked, kMgtClicked,
+            "UfGT", "MGT")
 {
-    setName("FhtPanel");
+    setName("UfgtPanel");
     setupElementIcon();
 }
 
 
-FhtPanel::FhtPanel(QTextStream& ts, QWidget* parent, SpdrItemClassId cid):
-    ExternalCounterPanel(ts, parent, cid, kFhtClicked, "FHT")
+UfgtPanel::UfgtPanel(QTextStream& ts, QWidget* parent, SpdrItemClassId cid):
+    ExternalDualButtonPanel(ts, parent, cid, kUfgtClicked, kMgtClicked,
+            "UfGT", "MGT")
 {
-    setName("FhtPanel");
+    setName("UfgtPanel");
     setupElementIcon();
 }
 
 
-void FhtPanel::setupElementIcon()
+void UfgtPanel::setupElementIcon()
 {
-    QString countertext;
     background.fill(QColor(0, 160, 0));
     QPainter p(&background);
 
     int w = background.width();
     int h = background.height();
 
-    // paint button
+    // paint buttons
     p.setBrush(Qt::darkGray);
     p.drawEllipse(7, h / 2 - 4, 8, 8);
+    p.drawEllipse(w - 16, h / 2 - 4, 8, 8);
 
-    // paint button label
-    p.drawPixmap(2, 24, QPixmap(label_fht_xpm));
-
-    // paint counter
-    p.setBrush(Qt::white);
-    p.drawRect(w / 2 , h / 2 - 5, 24, 11);
-    countertext.sprintf("%04d", countervalue);
-    QFont f(QApplication::font());
-    f.setPointSize(7);
-    p.setFont(f);
-    QRect br = p.fontMetrics().boundingRect(countertext);
-    br.moveTopRight(QPoint(w / 2 + 23, h / 2 - 4));
-    p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
-            Qt::DontClip, countertext);
+    // paint button labels
+    p.drawPixmap(2, 24, QPixmap(label_ufgt_xpm));
+    p.drawPixmap(34, 24, QPixmap(label_mgt_xpm));
 
     addTooltip();
     update();

@@ -29,9 +29,9 @@ class FhtPanel: public ExternalCounterPanel
     Q_OBJECT
 
     public:
-        FhtPanel(QWidget* parent = NULL, SpdrItemClassId cid = siciTwh);
+        FhtPanel(QWidget* parent = NULL, SpdrItemClassId cid = siciTaf);
         FhtPanel(QTextStream&, QWidget* parent = NULL, SpdrItemClassId
-                cid = siciTwh);
+                cid = siciTaf);
 
     protected:
         void setupElementIcon();

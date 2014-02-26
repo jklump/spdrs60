@@ -132,8 +132,6 @@ void SpdrPanel::readFileTextFromStream(QTextStream& ats)
             }
         }
     }
-    //FIXME:
-    visualMode = kvmNormal;
 }
 
 /*this draws only foreground lines on background pixmap*/

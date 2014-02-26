@@ -26,6 +26,7 @@
 #include "buildinghorizontalpanel.h"
 #include "buildingleftpanel.h"
 #include "buildingrightpanel.h"
+#include "einpanel.h"
 #include "fhtpanel.h"
 #include "levelcrossinggrouppanel.h"
 #include "locoshedeastpanel.h"
@@ -37,9 +38,11 @@
 #include "powersupplygrouppanel.h"
 #include "routegrouppanel.h"
 #include "signalgrouppanel.h"
+#include "sgtpanel.h"
 #include "transfertablepanel.h"
 #include "turnoutgrouppanel.h"
 #include "turntablepanel.h"
+#include "ufgtpanel.h"
 #include "wgtpanel.h"
 #include "whtpanel.h"
 
@@ -103,6 +106,12 @@ SpdrPanel* PanelFactory::createPanel(QWidget* parent,
             return new WhtPanel(parent, type);
         case SpdrPanel::siciTaf:
             return new FhtPanel(parent, type);
+        case SpdrPanel::siciTas:
+            return new SgtPanel(parent, type);
+        case SpdrPanel::siciTau:
+            return new UfgtPanel(parent, type);
+        case SpdrPanel::siciTal:
+            return new EinPanel(parent, type);
 
         default:
             return new element(parent, type);
@@ -164,6 +173,12 @@ SpdrPanel* PanelFactory::createPanelFromStream(QTextStream& ts,
             return new WhtPanel(ts, parent, type);
         case SpdrPanel::siciTaf:
             return new FhtPanel(ts, parent, type);
+        case SpdrPanel::siciTas:
+            return new SgtPanel(ts, parent, type);
+        case SpdrPanel::siciTau:
+            return new UfgtPanel(ts, parent, type);
+        case SpdrPanel::siciTal:
+            return new EinPanel(ts, parent, type);
 
         default:
             return new element(ts, parent, type);

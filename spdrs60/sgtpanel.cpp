@@ -19,45 +19,46 @@
 
 #include <qpainter.h>
 
-#include "wgtpanel.h"
+#include "sgtpanel.h"
 
-#include "pixmaps/label-wgt.xpm"
+#include "pixmaps/label-sgt.xpm"
+#include "pixmaps/label-hagt.xpm"
 
 
-WgtPanel::WgtPanel(QWidget* parent, SpdrItemClassId cid):
-    ExternalSingleButtonPanel(parent, cid, kWgtClicked, "WGT")
+SgtPanel::SgtPanel(QWidget* parent, SpdrItemClassId cid):
+    ExternalDualButtonPanel(parent, cid, kSgtClicked, kHagtClicked,
+            "SGT", "HaGT")
 {
-    setName("WgtPanel");
+    setName("SgtPanel");
     setupElementIcon();
 }
 
 
-WgtPanel::WgtPanel(QTextStream& ts, QWidget* parent, SpdrItemClassId cid):
-    ExternalSingleButtonPanel(ts, parent, cid, kWgtClicked, "WGT")
+SgtPanel::SgtPanel(QTextStream& ts, QWidget* parent, SpdrItemClassId cid):
+    ExternalDualButtonPanel(ts, parent, cid, kSgtClicked, kHagtClicked,
+            "SGT", "HaGT")
 {
-    setName("WgtPanel");
+    setName("SgtPanel");
     setupElementIcon();
 }
 
 
-void WgtPanel::setupElementIcon()
+void SgtPanel::setupElementIcon()
 {
-    background.fill(QColor(0, 0, 192));
+    background.fill(QColor(221, 0, 0));
     QPainter p(&background);
 
     int w = background.width();
     int h = background.height();
 
-    // paint red light
-    p.setBrush(Qt::red);
-    p.drawEllipse(w / 2 - 2, h / 4 - 3, 4, 4);
-
-    // paint button
+    // paint buttons
     p.setBrush(Qt::darkGray);
-    p.drawEllipse(w / 2 - 4, h / 2 - 4, 8, 8);
+    p.drawEllipse(7, h / 2 - 4, 8, 8);
+    p.drawEllipse(w - 16, h / 2 - 4, 8, 8);
 
-    // paint button label
-    p.drawPixmap(18, 24, QPixmap(label_wgt_xpm));
+    // paint button labels
+    p.drawPixmap(2, 24, QPixmap(label_sgt_xpm));
+    p.drawPixmap(31, 24, QPixmap(label_hagt_xpm));
 
     addTooltip();
     update();

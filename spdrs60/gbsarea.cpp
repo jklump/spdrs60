@@ -287,10 +287,9 @@ void GBSArea::writeFileTextToStream(QTextStream& ts)
        //<< "# elements=" << elements.count() << endl;
     
     for (unsigned int i = 0; i < elements.size(); i++) {
-        SpdrPanel* el = elements[i];
-        if (el != NULL) {
+        if (elements[i] != NULL) {
             ts << "%% element " << i << endl;
-            el->writeFileTextToStream(ts);
+            elements[i]->writeFileTextToStream(ts);
         }
     }
     setModified(false);
@@ -484,6 +483,15 @@ void GBSArea::externalButtonClicked(GbsButtonState externalButton)
         case kHagtClicked:
             setCursor(HaGTCursor);
             break;
+        /*light on button*/
+        case kEinClicked:
+            switchTableLight(true);
+            break;
+        /*light off button*/
+        case kAusClicked:
+            switchTableLight(false);
+            break;
+
         default:
             break;
     }
@@ -500,18 +508,6 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
 
     switch (gbsButton) {
         
-        /*external control buttons*/
-        case kFhtClicked:
-        case kFrtClicked:
-        case kHagtClicked:
-        case kMgtClicked:
-        case kUfgtClicked:
-        case kWgtClicked:
-        case kWhtClicked:
-        case kSgtClicked:
-            externalButtonClicked(gbsButton);
-            break;
-            
         /*signal buttons*/
         case kRfsClicked:
         case kZfsClicked:
@@ -617,16 +613,6 @@ void GBSArea::slotElementClicked(element* el, GbsButtonState gbsButton)
                 emit statusMessage(tr("Operation not allowed"));
             }
             slotElementClickedTimeout();
-            break;
-
-        /*light on button*/
-        case kEinClicked:
-            switchTableLight(true);
-            break;
-
-        /*light off button*/
-        case kAusClicked:
-            switchTableLight(false);
             break;
 
         default:
@@ -1976,9 +1962,9 @@ void GBSArea::switchTableLight(bool ison)
     if (tablelight != ison) {
         tablelight = ison;
         for (unsigned int i = 0; i < elements.size(); i++) {
-            element* el = dynamic_cast<element*>(elements[i]);
-            if (el != NULL)
-                el->setTableLight(ison);
+            TableLight* li = dynamic_cast<TableLight*>(elements[i]);
+            if (li != NULL)
+                li->setTableLight(ison);
         }
         if (tablelight)
             emit statusMessage(tr("Table light switched on"));

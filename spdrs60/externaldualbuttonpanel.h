@@ -18,50 +18,47 @@
 */
 
 
-#ifndef EXTERNALBUTTONPANEL_H
-#define EXTERNALBUTTONPANEL_H
+#ifndef EXTERNALDUALBUTTONPANEL_H
+#define EXTERNALDUALBUTTONPANEL_H
 
-#include "spdrpanel.h"
-#include "gbsbuttonstate.h"
+#include "externalbuttonpanel.h"
 
 
-class ExternalButtonPanel: public SpdrPanel
+class ExternalDualButtonPanel: public ExternalButtonPanel
 {
     Q_OBJECT
 
     public:
-        ExternalButtonPanel(QWidget* parent = NULL,
+        ExternalDualButtonPanel(QWidget* parent = NULL,
                 SpdrItemClassId cid = siciNone,
                 GbsButtonState cb = kNoneClicked,
-                const char* bt = "Unknown");
-        ExternalButtonPanel(QTextStream&, QWidget* parent = NULL,
+                GbsButtonState cb2 = kNoneClicked,
+                const char* bt = "Unknown",
+                const char* bt2 = "Unknown");
+        ExternalDualButtonPanel(QTextStream&, QWidget* parent = NULL,
                 SpdrItemClassId cid = siciNone,
                 GbsButtonState cb = kNoneClicked,
-                const char* bt = "Unknown");
+                GbsButtonState cb2 = kNoneClicked,
+                const char* bt = "Unknown",
+                const char* bt2 = "Unknown");
 
         void readFileTextFromStream(QTextStream&);
         void writeFileTextToStream(QTextStream&);
-        virtual bool showFeedbackTriggerDialog(const QPoint&);
+        bool showFeedbackTriggerDialog(const QPoint&);
 
     protected:
-        /*button 1 trigger*/
-        bool     enable1fbtrigger;
-        unsigned int button1fbbus;
-        unsigned int button1fbcontact;
+        /*button 2 trigger*/
+        bool     enable2fbtrigger;
+        unsigned int button2fbbus;
+        unsigned int button2fbcontact;
 
-        GbsButtonState ctrlButton;
-        QString buttontext;
-        void runPropertyMenue(const QPoint&);
+        GbsButtonState ctrlButton2;
+        QString buttontext2;
         void mousePressEvent(QMouseEvent*);
-        void mouseReleaseEvent(QMouseEvent*);
-        virtual void buttonTriggered();
+        virtual void button2Triggered();
 
     public slots:
         void slotOccupyElement(unsigned int, unsigned int, bool);
-
-    signals:
-        void buttonClicked(GbsButtonState);
-        void sigShowFBmodules();
 };
 
-#endif  //EXTERNALBUTTONPANEL_H
+#endif  //EXTERNALDUALBUTTONPANEL_H

@@ -18,26 +18,20 @@
 */
 
 
-#ifndef WGTPANEL_H
-#define WGTPANEL_H
-
-#include "externalsinglebuttonpanel.h"
+#ifndef TABLELIGHT_H
+#define TABLELIGHT_H
 
 
-class WgtPanel: public ExternalSingleButtonPanel
+
+class TableLight
 {
-    Q_OBJECT
-
     public:
-        WgtPanel(QWidget* parent = NULL, SpdrItemClassId cid = siciTaw);
-        WgtPanel(QTextStream&, QWidget* parent = NULL, SpdrItemClassId
-                cid = siciTaw);
+        TableLight(bool on = true);
+
+        virtual void setTableLight(bool ison) = 0;
 
     protected:
-        void setupElementIcon();
-
-//    public slots:
-//        void slotRepaintLayout();
+        bool tablelight;
 };
 
-#endif  //WGTPANEL_H
+#endif  //TABLELIGHT_H

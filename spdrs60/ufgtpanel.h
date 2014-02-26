@@ -18,26 +18,23 @@
 */
 
 
-#ifndef WGTPANEL_H
-#define WGTPANEL_H
+#ifndef UFGTPANEL_H
+#define UFGTPANEL_H
 
-#include "externalsinglebuttonpanel.h"
+#include "externaldualbuttonpanel.h"
 
 
-class WgtPanel: public ExternalSingleButtonPanel
+class UfgtPanel: public ExternalDualButtonPanel
 {
     Q_OBJECT
 
     public:
-        WgtPanel(QWidget* parent = NULL, SpdrItemClassId cid = siciTaw);
-        WgtPanel(QTextStream&, QWidget* parent = NULL, SpdrItemClassId
-                cid = siciTaw);
+        UfgtPanel(QWidget* parent = NULL, SpdrItemClassId cid = siciTau);
+        UfgtPanel(QTextStream&, QWidget* parent = NULL, SpdrItemClassId
+                cid = siciTau);
 
     protected:
         void setupElementIcon();
-
-//    public slots:
-//        void slotRepaintLayout();
 };
 
-#endif  //WGTPANEL_H
+#endif  //UFGTPANEL_H

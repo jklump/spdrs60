@@ -45,6 +45,7 @@
 #include "elementcommander.h"
 #include "srcpmessage.h"
 #include "graypanel.h"
+#include "tablelight.h"
 #include "turntablecommander.h"
 
 
@@ -82,7 +83,7 @@ struct stateElement {
     QString name;
 };
 
-class element: public GrayPanel
+class element: public GrayPanel, public TableLight
 {
     Q_OBJECT
 
@@ -213,7 +214,6 @@ private:
     bool     switched;
     bool     turnout;
     bool     lightson;
-    bool     tablelight;
     SrcpMessage::Protocol protocol1;
     SrcpMessage::Protocol protocol2;
     QTimer*  locateTimer;

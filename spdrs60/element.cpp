@@ -45,14 +45,6 @@
 #include "pixmaps/button-yellow.xpm"
 
 /* labels for external group buttons */
-#include "pixmaps/label-hagt.xpm"
-#include "pixmaps/label-mgt.xpm"
-#include "pixmaps/label-sgt.xpm"
-#include "pixmaps/label-ufgt.xpm"
-#include "pixmaps/label-ein-on.xpm"
-#include "pixmaps/label-ein-off.xpm"
-#include "pixmaps/label-aus-on.xpm"
-#include "pixmaps/label-aus-off.xpm"
 #include "pixmaps/signal-w.xpm"
 #include "pixmaps/signal-wr.xpm"
 
@@ -95,7 +87,8 @@ using namespace Qt;
 #endif
 
 
-element::element(QWidget* parent, SpdrItemClassId cid): GrayPanel(parent, cid)
+element::element(QWidget* parent, SpdrItemClassId cid)
+    : GrayPanel(parent, cid), TableLight(true)
 {
     initVariables();
     updateProperties();
@@ -104,7 +97,7 @@ element::element(QWidget* parent, SpdrItemClassId cid): GrayPanel(parent, cid)
     
 
 element::element(QTextStream& ts, QWidget* parent, SpdrItemClassId cid)
-    : GrayPanel(parent, cid)
+    : GrayPanel(parent, cid), TableLight(true)
 {
     initVariables();
     visualMode = kvmNormal;
@@ -186,7 +179,6 @@ void element::initVariables()
     blinkcounter = 0;
 
     commander = NULL;
-    tablelight = true;
 }
 
 /* Read the layout element data from stream.
@@ -558,33 +550,6 @@ void element::mousePressEvent(QMouseEvent* e)
                 else
                     ctrlButton = kTurnoutClicked;
 
-                emit elementClicked(this, ctrlButton);
-            }
-
-            /*UfGT/MGT button*/
-            else if (classid == siciTau) {
-                if (CursorPos.x() < (width() >> 1))
-                    ctrlButton = kUfgtClicked; 
-                else
-                    ctrlButton = kMgtClicked;
-                emit elementClicked(this, ctrlButton);
-            }
-
-            /*SGT/HaGT button*/
-            else if (classid == siciTas) {
-                if (CursorPos.x() < (width() >> 1))
-                    ctrlButton = kSgtClicked; 
-                else
-                    ctrlButton = kHagtClicked;
-                emit elementClicked(this, ctrlButton);
-            }
-
-            /*Ein/Aus button*/
-            else if (classid == siciTal) {
-                if (CursorPos.x() < (width() >> 1))
-                    ctrlButton = kEinClicked; 
-                else
-                    ctrlButton = kAusClicked;
                 emit elementClicked(this, ctrlButton);
             }
 
@@ -1293,72 +1258,6 @@ void element::setupElementIcon()
         else {
             br = QRect(13, 11, 30, 13);
             p.fillRect(br, QBrush(Qt::white));
-        }
-
-        setPaletteBackgroundPixmap(background);
-    }
-   
-    // green panel with ufgt and mgt buttons
-    else if (classid == siciTau) {
-        background.fill(QColor(0, 160, 0));
-        QPainter p(&background);
-            
-        int w = background.width();
-        int h = background.height();
-
-        // paint buttons
-        p.setBrush(Qt::darkGray);
-        p.drawEllipse(7, h / 2 - 4, 9, 9);
-        p.drawEllipse(w - 16, h / 2 - 4, 9, 9);
-        
-        // paint button labels
-        p.drawPixmap(2, 24, QPixmap(label_ufgt_xpm));
-        p.drawPixmap(34, 24, QPixmap(label_mgt_xpm));
-
-        setPaletteBackgroundPixmap(background);
-    }
-   
-    // red panel with sgt and hagt buttons
-    else if (classid == siciTas) {
-        background.fill(QColor(221, 0, 0));
-        QPainter p(&background);
-            
-        int w = background.width();
-        int h = background.height();
-
-        // paint buttons
-        p.setBrush(Qt::darkGray);
-        p.drawEllipse(7, h / 2 - 4, 9, 9);
-        p.drawEllipse(w - 16, h / 2 - 4, 9, 9);
-        
-        // paint button labels
-        p.drawPixmap(2, 24, QPixmap(label_sgt_xpm));
-        p.drawPixmap(31, 24, QPixmap(label_hagt_xpm));
-
-        setPaletteBackgroundPixmap(background);
-    }
-   
-    // grey panel with light Ein and Aus buttons
-    else if (classid == siciTal) {
-        background.fill(Qt::darkGray);
-        QPainter p(&background);
-            
-        int w = background.width();
-        int h = background.height();
-
-        // paint buttons
-        p.setBrush(Qt::darkGray);
-        p.drawEllipse(7, h / 2 - 4, 9, 9);
-        p.drawEllipse(w - 16, h / 2 - 4, 9, 9);
-        
-        // paint button labels
-        if (tablelight) {
-            p.drawPixmap(2, 24, QPixmap(label_ein_on_xpm));
-            p.drawPixmap(34, 24, QPixmap(label_aus_off_xpm));
-        }
-        else {
-            p.drawPixmap(2, 24, QPixmap(label_ein_off_xpm));
-            p.drawPixmap(34, 24, QPixmap(label_aus_on_xpm));
         }
 
         setPaletteBackgroundPixmap(background);
@@ -8691,15 +8590,6 @@ void element::slotOccupyElement(unsigned int bus, unsigned int contact,
         if ((bus == button1fbbus) && (contact == button1fbcontact)) {
 
             switch (classid) {
-                case siciTau:
-                    emit elementClicked(this, kUfgtClicked);
-                    break;
-                case siciTas:
-                    emit elementClicked(this, kSgtClicked);
-                    break;
-                case siciTal:
-                    emit elementClicked(this, kEinClicked);
-                    break;
                 case siciHss3:
                 case siciHs1:
                 case siciHs3:
@@ -8732,15 +8622,6 @@ void element::slotOccupyElement(unsigned int bus, unsigned int contact,
     if (enable2fbtrigger) {
         if ((bus == button2fbbus) && (contact == button2fbcontact)) {
             switch (classid) {
-                case siciTau:
-                    emit elementClicked(this, kMgtClicked);
-                    break;
-                case siciTas:
-                    emit elementClicked(this, kHagtClicked);
-                    break;
-                case siciTal:
-                    emit elementClicked(this, kAusClicked);
-                    break;
                 case siciHss3:
                 case siciSd1:
                 case siciSd3:
@@ -8849,19 +8730,6 @@ void element::writeFileTextToStream(QTextStream& ts)
         << GF_INDEX << DS << iSoldIndex<< endl;
 
     switch (classid) {
-
-            /*dual buttons*/
-        case siciTal:
-        case siciTas:
-        case siciTau:
-            ts << GF_BUTTON2FB << DS << enable2fbtrigger << DS
-               << button2fbbus << DS << button2fbcontact << endl;
-            // fall through
-
-            /*single button*/
-            ts << GF_BUTTON1FB << DS << enable1fbtrigger << DS
-               << button1fbbus << DS << button1fbcontact << endl;
-            break;
 
         case siciSt1:
         case siciTdr:
@@ -9336,7 +9204,7 @@ void element::setTableLight(bool ison)
 {
     if (tablelight != ison) {
         tablelight = ison;
-        if (turnout || (classid == siciTal))
+        if (turnout)
             setupElementIcon();
     }
 }
@@ -9437,9 +9305,8 @@ bool element::hasVariants()
 
 int element::buttonCount()
 {
-    if (classid == siciHss1 || classid == siciHss3 || classid == siciTal
-            || classid == siciSd1 || classid == siciSd3
-            || classid == siciTau || classid == siciTas)
+    if (classid == siciHss1 || classid == siciHss3
+            || classid == siciSd1 || classid == siciSd3)
         return 2;
 
     if (routemark || turnout)
@@ -9864,27 +9731,6 @@ bool element::showFeedbackTriggerDialog(const QPoint& p)
     bool left = p.x() < (width() / 2);
 
     switch (classid) {
-        case siciTau:
-            hastwo = true;
-            if (left)
-                buttontext = "UfGT";
-            else
-                buttontext = "MGT";
-            break;
-        case siciTas:
-            hastwo = true;
-            if (left)
-                buttontext = "SGT";
-            else
-                buttontext = "HaGT";
-            break;
-        case siciTal:
-            hastwo = true;
-            if (left)
-                buttontext = "Ein";
-            else
-                buttontext = "Aus";
-            break;
         case siciHss1:
             hastwo = true;
             if (left)

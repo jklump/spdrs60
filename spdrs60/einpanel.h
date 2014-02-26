@@ -18,26 +18,26 @@
 */
 
 
-#ifndef WGTPANEL_H
-#define WGTPANEL_H
+#ifndef EINPANEL_H
+#define EINPANEL_H
 
-#include "externalsinglebuttonpanel.h"
+#include "externaldualbuttonpanel.h"
+#include "tablelight.h"
 
 
-class WgtPanel: public ExternalSingleButtonPanel
+class EinPanel: public ExternalDualButtonPanel, public TableLight
 {
     Q_OBJECT
 
     public:
-        WgtPanel(QWidget* parent = NULL, SpdrItemClassId cid = siciTaw);
-        WgtPanel(QTextStream&, QWidget* parent = NULL, SpdrItemClassId
-                cid = siciTaw);
+        EinPanel(QWidget* parent = NULL, SpdrItemClassId cid = siciTal);
+        EinPanel(QTextStream&, QWidget* parent = NULL, SpdrItemClassId
+                cid = siciTal);
+
+        void setTableLight(bool ison);
 
     protected:
         void setupElementIcon();
-
-//    public slots:
-//        void slotRepaintLayout();
 };
 
-#endif  //WGTPANEL_H
+#endif  //EINPANEL_H
