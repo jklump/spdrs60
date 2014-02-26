@@ -17,51 +17,58 @@
   along with spdrs60.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <qaction.h>
-#include <qpopupmenu.h>
+#include <qapplication.h>
 #include <qpainter.h>
 
-#include "wgtpanel.h"
+#include "fhtpanel.h"
 #include "feedbacktriggerdialog.h"
 
-#include "pixmaps/label-wgt.xpm"
+#include "pixmaps/label-fht.xpm"
 
 
-WgtPanel::WgtPanel(QWidget* parent, SpdrItemClassId cid):
-    ExternalButtonPanel(parent, cid, kWgtClicked, "WGT")
+FhtPanel::FhtPanel(QWidget* parent, SpdrItemClassId cid):
+    ExternalCounterPanel(parent, cid, kFhtClicked, "FHT")
 {
-    setName("WgtPanel");
+    setName("FhtPanel");
     setupElementIcon();
 }
 
 
-WgtPanel::WgtPanel(QTextStream& ts, QWidget* parent, SpdrItemClassId cid):
-    ExternalButtonPanel(ts, parent, cid, kWgtClicked, "WGT")
+FhtPanel::FhtPanel(QTextStream& ts, QWidget* parent, SpdrItemClassId cid):
+    ExternalCounterPanel(ts, parent, cid, kFhtClicked, "FHT")
 {
-    setName("WgtPanel");
+    setName("FhtPanel");
     setupElementIcon();
 }
 
 
-void WgtPanel::setupElementIcon()
+void FhtPanel::setupElementIcon()
 {
-    background.fill(QColor(0, 0, 192));
+    QString countertext;
+    background.fill(QColor(0, 160, 0));
     QPainter p(&background);
 
     int w = background.width();
     int h = background.height();
 
-    // paint red light
-    p.setBrush(Qt::red);
-    p.drawEllipse(w / 2 - 2, h / 4 - 3, 4, 4);
-
     // paint button
     p.setBrush(Qt::darkGray);
-    p.drawEllipse(w / 2 - 4, h / 2 - 4, 8, 8);
+    p.drawEllipse(7, h / 2 - 4, 8, 8);
 
     // paint button label
-    p.drawPixmap(18, 24, QPixmap(label_wgt_xpm));
+    p.drawPixmap(2, 24, QPixmap(label_fht_xpm));
 
+    // paint counter
+    p.setBrush(Qt::white);
+    p.drawRect(w / 2 , h / 2 - 5, 24, 11);
+    countertext.sprintf("%04d", countervalue);
+    QFont f(QApplication::font());
+    f.setPointSize(7);
+    p.setFont(f);
+    QRect br = p.fontMetrics().boundingRect(countertext);
+    br.moveTopRight(QPoint(w / 2 + 23, h / 2 - 4));
+    p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
+            Qt::DontClip, countertext);
     addTooltip();
     update();
 }

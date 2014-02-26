@@ -33,9 +33,11 @@ nodist_spdrs60_SOURCES = \
 	elementlabeldialog_moc.cpp \
 	element_moc.cpp \
 	externalbuttonpanel_moc.cpp \
+        externalcounterpanel_moc.cpp \
 	feedbacklistbox_moc.cpp \
 	feedbacktriggerdialog_moc.cpp \
 	feedbackviewer_moc.cpp \
+	fhtpanel_moc.cpp \
 	finder_moc.cpp \
 	gbsarea_moc.cpp \
 	gbsscrollview_moc.cpp \
@@ -77,7 +79,8 @@ nodist_spdrs60_SOURCES = \
 	turnoutgrouppanel_moc.cpp \
 	variantdialog_moc.cpp \
 	virtualaddressdialog_moc.cpp \
-	wgtpanel_moc.cpp
+	wgtpanel_moc.cpp \
+	whtpanel_moc.cpp
 
 # list of all sources and headers
 spdrs60_SOURCES = main.cpp resources.h gbsbuttonstate.h \
@@ -98,10 +101,12 @@ spdrs60_SOURCES = main.cpp resources.h gbsbuttonstate.h \
 	element.cpp element.h \
 	elementlabeldialog.cpp elementlabeldialog.h \
         externalbuttonpanel.cpp externalbuttonpanel.h \
+        externalcounterpanel.cpp externalcounterpanel.h \
 	feedbacklistbox.cpp feedbacklistbox.h \
 	feedbackmodule.cpp feedbackmodule.h \
 	feedbacktriggerdialog.cpp feedbacktriggerdialog.h \
 	feedbackviewer.cpp feedbackviewer.h \
+	fhtpanel.cpp fhtpanel.h \
 	finder.cpp finder.h \
 	gbsarea.cpp gbsarea.h \
 	gbsscrollview.cpp gbsscrollview.h  \
@@ -148,7 +153,8 @@ spdrs60_SOURCES = main.cpp resources.h gbsbuttonstate.h \
 	turnoutgrouppanel.cpp turnoutgrouppanel.h \
 	variantdialog.cpp variantdialog.h \
 	virtualaddressdialog.cpp virtualaddressdialog.h \
-	wgtpanel.cpp wgtpanel.h
+	wgtpanel.cpp wgtpanel.h \
+	whtpanel.cpp whtpanel.h
 
 # list here all files containing string translations
 translations = \

@@ -18,50 +18,30 @@
 */
 
 
-#ifndef EXTERNALBUTTONPANEL_H
-#define EXTERNALBUTTONPANEL_H
+#ifndef EXTERNALCOUNTERPANEL_H
+#define EXTERNALCOUNTERPANEL_H
 
-#include "spdrpanel.h"
-#include "gbsbuttonstate.h"
+#include "externalbuttonpanel.h"
 
 
-class ExternalButtonPanel: public SpdrPanel
+class ExternalCounterPanel: public ExternalButtonPanel
 {
     Q_OBJECT
 
     public:
-        ExternalButtonPanel(QWidget* parent = NULL,
+        ExternalCounterPanel(QWidget* parent = NULL,
                 SpdrItemClassId cid = siciNone,
                 GbsButtonState cb = kNoneClicked,
                 const char* bt = "Unknown");
-        ExternalButtonPanel(QTextStream&, QWidget* parent = NULL,
+        ExternalCounterPanel(QTextStream&, QWidget* parent = NULL,
                 SpdrItemClassId cid = siciNone,
                 GbsButtonState cb = kNoneClicked,
                 const char* bt = "Unknown");
-
-        void readFileTextFromStream(QTextStream&);
-        void writeFileTextToStream(QTextStream&);
-        bool showFeedbackTriggerDialog(const QPoint&);
 
     protected:
-        /*button 1 trigger*/
-        bool     enable1fbtrigger;
-        unsigned int button1fbbus;
-        unsigned int button1fbcontact;
+        unsigned int countervalue;
 
-        GbsButtonState ctrlButton;
-        QString buttontext;
-        void runPropertyMenue(const QPoint&);
-        void mousePressEvent(QMouseEvent*);
-        void mouseReleaseEvent(QMouseEvent*);
-        virtual void buttonTriggered();
-
-    public slots:
-        void slotOccupyElement(unsigned int, unsigned int, bool);
-
-    signals:
-        void buttonClicked(GbsButtonState);
-        void sigShowFBmodules();
+        void buttonTriggered();
 };
 
-#endif  //EXTERNALBUTTONPANEL_H
+#endif  //EXTERNALCOUNTERPANEL_H

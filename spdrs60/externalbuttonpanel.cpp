@@ -22,7 +22,7 @@
 #include <qpopupmenu.h>
 #include <qpainter.h>
 
-#include "wgtpanel.h"
+#include "externalbuttonpanel.h"
 #include "feedbacktriggerdialog.h"
 
 
@@ -43,6 +43,11 @@ ExternalButtonPanel::ExternalButtonPanel(QTextStream& ts, QWidget*
 }
 
 
+void ExternalButtonPanel::buttonTriggered()
+{
+    emit buttonClicked(ctrlButton);
+}
+
 /**
  * respond to mouse press events
  */
@@ -51,7 +56,7 @@ void ExternalButtonPanel::mousePressEvent(QMouseEvent* e)
     /*normal mode*/
     if (visualMode == kvmNormal) {
         if (e->button() == Qt::LeftButton) {
-            emit buttonClicked(ctrlButton);
+            buttonTriggered();
             e->accept();
         }
         else
@@ -92,7 +97,7 @@ void ExternalButtonPanel::slotOccupyElement(unsigned int bus,
     /*button 1 trigger only on*/
     if (enable1fbtrigger) {
         if ((bus == button1fbbus) && (contact == button1fbcontact))
-            emit buttonClicked(ctrlButton);
+            buttonTriggered();
     }
 }
 

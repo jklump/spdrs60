@@ -457,7 +457,6 @@ void GBSArea::externalButtonClicked(GbsButtonState externalButton)
      */
     delayTimer->start(cDelayTime);
     gkbState = externalButton;
-    qWarning("GBSArea::externalButtonClicked()");
     
     switch (externalButton) {
         case kFhtClicked:
@@ -474,7 +473,6 @@ void GBSArea::externalButtonClicked(GbsButtonState externalButton)
             setCursor(UfGTCursor);
             break;
         case kWgtClicked:
-            qWarning("GBSArea::externalButtonClicked(kWgtClicked)");
             setCursor(WGTCursor);
             break;
         case kWhtClicked:

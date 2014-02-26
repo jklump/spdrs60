@@ -26,6 +26,7 @@
 #include "buildinghorizontalpanel.h"
 #include "buildingleftpanel.h"
 #include "buildingrightpanel.h"
+#include "fhtpanel.h"
 #include "levelcrossinggrouppanel.h"
 #include "locoshedeastpanel.h"
 #include "locoshedwestpanel.h"
@@ -40,6 +41,7 @@
 #include "turnoutgrouppanel.h"
 #include "turntablepanel.h"
 #include "wgtpanel.h"
+#include "whtpanel.h"
 
 
 PanelFactory::PanelFactory()
@@ -97,6 +99,10 @@ SpdrPanel* PanelFactory::createPanel(QWidget* parent,
             return new TransferTablePanel(parent, type);
         case SpdrPanel::siciTaw:
             return new WgtPanel(parent, type);
+        case SpdrPanel::siciTwh:
+            return new WhtPanel(parent, type);
+        case SpdrPanel::siciTaf:
+            return new FhtPanel(parent, type);
 
         default:
             return new element(parent, type);
@@ -154,6 +160,10 @@ SpdrPanel* PanelFactory::createPanelFromStream(QTextStream& ts,
             return new TransferTablePanel(ts, parent, type);
         case SpdrPanel::siciTaw:
             return new WgtPanel(ts, parent, type);
+        case SpdrPanel::siciTwh:
+            return new WhtPanel(ts, parent, type);
+        case SpdrPanel::siciTaf:
+            return new FhtPanel(ts, parent, type);
 
         default:
             return new element(ts, parent, type);

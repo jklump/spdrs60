@@ -45,12 +45,10 @@
 #include "pixmaps/button-yellow.xpm"
 
 /* labels for external group buttons */
-#include "pixmaps/label-fht.xpm"
 #include "pixmaps/label-hagt.xpm"
 #include "pixmaps/label-mgt.xpm"
 #include "pixmaps/label-sgt.xpm"
 #include "pixmaps/label-ufgt.xpm"
-#include "pixmaps/label-wht.xpm"
 #include "pixmaps/label-ein-on.xpm"
 #include "pixmaps/label-ein-off.xpm"
 #include "pixmaps/label-aus-on.xpm"
@@ -560,36 +558,6 @@ void element::mousePressEvent(QMouseEvent* e)
                 else
                     ctrlButton = kTurnoutClicked;
 
-                emit elementClicked(this, ctrlButton);
-            }
-
-            /*WHT button*/
-            else if (classid == siciTwh) {
-                ctrlButton = kWhtClicked;
-
-                /*
-                 * increment counter and repaint symbol, if value
-                 * has more than four digits, reset to zero
-                 */
-                ++countervalue;
-                if (countervalue == 10000)
-                    countervalue = 0;
-                setupElementIcon();
-                emit elementClicked(this, ctrlButton);
-            }
-
-            /*FHT button*/
-            else if (classid == siciTaf) {
-                ctrlButton = kFhtClicked;
-
-                /*
-                 * increment counter and repaint symbol, if value
-                 * has more than four digits, reset to zero
-                 */
-                ++countervalue;
-                if (countervalue == 10000)
-                    countervalue = 0;
-                setupElementIcon();
                 emit elementClicked(this, ctrlButton);
             }
 
@@ -1326,66 +1294,6 @@ void element::setupElementIcon()
             br = QRect(13, 11, 30, 13);
             p.fillRect(br, QBrush(Qt::white));
         }
-
-        setPaletteBackgroundPixmap(background);
-    }
-   
-    // blue panel with WHT button and counter
-    else if (classid == siciTwh) {
-        background.fill(QColor(0, 0, 192));
-        QPainter p(&background);
-            
-        int w = background.width();
-        int h = background.height();
-
-        // paint button
-        p.setBrush(Qt::darkGray);
-        p.drawEllipse(7, h / 2 - 4, 9, 9);
-        
-        // paint button label
-        p.drawPixmap(2, 24, QPixmap(label_wht_xpm));
-
-        // paint counter
-        p.setBrush(Qt::white);
-        p.drawRect(w / 2 , h / 2 - 5, 24, 11);
-        sSoldText.sprintf("%04d", countervalue);
-        QFont f(QApplication::font());
-        f.setPointSize(7);
-        p.setFont(f);
-        QRect br = p.fontMetrics().boundingRect(sSoldText);
-        br.moveTopRight(QPoint(w / 2 + 21, h / 2 - 3));
-        p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
-                Qt::DontClip, sSoldText);
-
-        setPaletteBackgroundPixmap(background);
-    }
-   
-    // green panel with FHT button and counter
-    else if (classid == siciTaf) {
-        background.fill(QColor(0, 160, 0));
-        QPainter p(&background);
-            
-        int w = background.width();
-        int h = background.height();
-
-        // paint button
-        p.setBrush(Qt::darkGray);
-        p.drawEllipse(7, h / 2 - 4, 9, 9);
-        
-        // paint button label
-        p.drawPixmap(2, 24, QPixmap(label_fht_xpm));
-
-        // paint counter
-        p.setBrush(Qt::white);
-        p.drawRect(w / 2 , h / 2 - 5, 24, 11);
-        sSoldText.sprintf("%04d", countervalue);
-        QFont f(QApplication::font());
-        f.setPointSize(7);
-        p.setFont(f);
-        QRect br = p.fontMetrics().boundingRect(sSoldText);
-        br.moveTopRight(QPoint(w / 2 + 21, h / 2 - 3));
-        p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
-                Qt::DontClip, sSoldText);
 
         setPaletteBackgroundPixmap(background);
     }
@@ -8783,35 +8691,11 @@ void element::slotOccupyElement(unsigned int bus, unsigned int contact,
         if ((bus == button1fbbus) && (contact == button1fbcontact)) {
 
             switch (classid) {
-                case siciTaf:
-                    /*FIXME: counter update doubled code*/
-                    /*
-                     * increment counter and repaint symbol, if value
-                     * has more than four digits, reset to zero
-                     */
-                    ++countervalue;
-                    if (countervalue == 10000)
-                        countervalue = 0;
-                    setupElementIcon();
-                    emit elementClicked(this, kFhtClicked);
-                    break;
                 case siciTau:
                     emit elementClicked(this, kUfgtClicked);
                     break;
                 case siciTas:
                     emit elementClicked(this, kSgtClicked);
-                    break;
-                case siciTwh:
-                    /*FIXME: counter update doubled code*/
-                    /*
-                     * increment counter and repaint symbol, if value
-                     * has more than four digits, reset to zero
-                     */
-                    ++countervalue;
-                    if (countervalue == 10000)
-                        countervalue = 0;
-                    setupElementIcon();
-                    emit elementClicked(this, kWhtClicked);
                     break;
                 case siciTal:
                     emit elementClicked(this, kEinClicked);
@@ -8975,8 +8859,6 @@ void element::writeFileTextToStream(QTextStream& ts)
             // fall through
 
             /*single button*/
-        case siciTaf:
-        case siciTwh:
             ts << GF_BUTTON1FB << DS << enable1fbtrigger << DS
                << button1fbbus << DS << button1fbcontact << endl;
             break;
@@ -9560,8 +9442,7 @@ int element::buttonCount()
             || classid == siciTau || classid == siciTas)
         return 2;
 
-    if (routemark || turnout || classid == siciTwh
-            || classid == siciTaf)
+    if (routemark || turnout)
         return 1;
 
     return 0;
@@ -9983,9 +9864,6 @@ bool element::showFeedbackTriggerDialog(const QPoint& p)
     bool left = p.x() < (width() / 2);
 
     switch (classid) {
-        case siciTaf:
-            buttontext = "FHT";
-            break;
         case siciTau:
             hastwo = true;
             if (left)
@@ -9999,9 +9877,6 @@ bool element::showFeedbackTriggerDialog(const QPoint& p)
                 buttontext = "SGT";
             else
                 buttontext = "HaGT";
-            break;
-        case siciTwh:
-            buttontext = "WHT";
             break;
         case siciTal:
             hastwo = true;
