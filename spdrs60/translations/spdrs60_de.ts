@@ -245,6 +245,24 @@ Der gültige Wertebereich ist %1..%2.</translation>
     </message>
 </context>
 <context>
+    <name>ExternalButtonPanel</name>
+    <message>
+        <source>&amp;Enable feedback trigger</source>
+        <translation>&amp;Ansteuerung durch Rückmeldung</translation>
+    </message>
+    <message>
+        <source>Trigger &amp;button...</source>
+        <translation>&amp;Taste ansteuern...</translation>
+    </message>
+</context>
+<context>
+    <name>ExternalDualButtonPanel</name>
+    <message>
+        <source>&amp;Enable feedback trigger</source>
+        <translation>&amp;Ansteuerung durch Rückmeldung</translation>
+    </message>
+</context>
+<context>
     <name>FeedbackTriggerDialog</name>
     <message>
         <source>&amp;FB</source>
