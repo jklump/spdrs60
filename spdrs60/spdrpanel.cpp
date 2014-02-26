@@ -24,11 +24,12 @@
 #include "spdrpanel.h"
 
 
-SpdrPanel::SpdrPanel(QWidget* parent, SpdrItemClassId cid):
+SpdrPanel::SpdrPanel(QWidget* parent, SpdrItemClassId cid,
+        elemVisualMode kvm):
     QWidget(parent, "spdrpanel"),
     classid(cid),
     selectionMode(ksmNormal),
-    visualMode(kvmEditLayout),
+    visualMode(kvm),
     iSoldIndex(0),
     modified(false)
 {

@@ -131,7 +131,6 @@ private:
    SrcpBus* pSRCP08BusList;
 
    void connectElement(SpdrPanel*);
-   void externalButtonClicked(GbsButtonState);
    bool findElement(const QString&, int, int);
    void moveElementToIndexPos(SpdrPanel*, unsigned int);
    void updateSRCP08BusList();
@@ -161,6 +160,7 @@ public slots:
     void switchVisualMode(elemVisualMode);
     void changeLayoutEditMode(GBSArea::LayoutEditMode);
     void changeLayoutPaintItem(SpdrPanel::SpdrItemClassId);
+   void externalButtonClicked(GbsButtonState);
 
 protected:
     bool dragging;

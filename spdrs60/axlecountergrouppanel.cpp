@@ -22,7 +22,7 @@
 
 AxleCounterGroupPanel::AxleCounterGroupPanel(QWidget* parent,
         SpdrItemClassId cid):
-    SpdrPanel(parent, cid)
+    SpdrPanel(parent, cid, kvmEditLayout)
 {
     setupElementIcon();
 }
@@ -30,7 +30,7 @@ AxleCounterGroupPanel::AxleCounterGroupPanel(QWidget* parent,
 
 AxleCounterGroupPanel::AxleCounterGroupPanel(QTextStream& ts,
         QWidget* parent, SpdrItemClassId cid):
-    SpdrPanel(parent, cid)
+    SpdrPanel(parent, cid, kvmNormal)
 {
     readFileTextFromStream(ts);
     setupElementIcon();

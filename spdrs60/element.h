@@ -41,6 +41,7 @@
 #include <qwmatrix.h>
 #endif
 
+#include "gbsbuttonstate.h"
 #include "elementcommander.h"
 #include "srcpmessage.h"
 #include "graypanel.h"
@@ -48,25 +49,6 @@
 
 
 
-/* Click states of layout internal buttons (group key block, signals,
-   turnouts) for every new key, add here a corresponding name */
-enum GbsButtonState {
-    kNoneClicked = 0,
-    kTurnoutClicked,
-    kZfsClicked,
-    kZhsClicked,
-    kRfsClicked,
-    kFhtClicked,
-    kWgtClicked,
-    kWhtClicked,
-    kUfgtClicked,
-    kMgtClicked,
-    kSgtClicked,
-    kHagtClicked,
-    kFrtClicked,
-    kEinClicked,
-    kAusClicked
-};
 
 /* element recording types for start/stop signals, train number display
  * and normal elements*/

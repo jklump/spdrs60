@@ -50,7 +50,6 @@
 #include "pixmaps/label-mgt.xpm"
 #include "pixmaps/label-sgt.xpm"
 #include "pixmaps/label-ufgt.xpm"
-#include "pixmaps/label-wgt.xpm"
 #include "pixmaps/label-wht.xpm"
 #include "pixmaps/label-ein-on.xpm"
 #include "pixmaps/label-ein-off.xpm"
@@ -561,13 +560,6 @@ void element::mousePressEvent(QMouseEvent* e)
                 else
                     ctrlButton = kTurnoutClicked;
 
-                emit elementClicked(this, ctrlButton);
-            }
-
-            /*add here new external button functions*/
-            /*WGT button*/
-            else if (classid == siciTaw) {
-                ctrlButton = kWgtClicked;
                 emit elementClicked(this, ctrlButton);
             }
 
@@ -1334,28 +1326,6 @@ void element::setupElementIcon()
             br = QRect(13, 11, 30, 13);
             p.fillRect(br, QBrush(Qt::white));
         }
-
-        setPaletteBackgroundPixmap(background);
-    }
-   
-    // blue panel with wgt button
-    else if (classid == siciTaw) {
-        background.fill(QColor(0, 0, 192));
-        QPainter p(&background);
-            
-        int w = background.width();
-        int h = background.height();
-
-        // paint red light
-        p.setBrush(Qt::red);
-        p.drawEllipse(w / 2 - 2, h / 4 - 3, 5, 5);
-        
-        // paint button
-        p.setBrush(Qt::darkGray);
-        p.drawEllipse(w / 2 - 4, h / 2 - 4, 9, 9);
-        
-        // paint button label
-        p.drawPixmap(18, 24, QPixmap(label_wgt_xpm));
 
         setPaletteBackgroundPixmap(background);
     }
@@ -8831,9 +8801,6 @@ void element::slotOccupyElement(unsigned int bus, unsigned int contact,
                 case siciTas:
                     emit elementClicked(this, kSgtClicked);
                     break;
-                case siciTaw:
-                    emit elementClicked(this, kWgtClicked);
-                    break;
                 case siciTwh:
                     /*FIXME: counter update doubled code*/
                     /*
@@ -9009,7 +8976,6 @@ void element::writeFileTextToStream(QTextStream& ts)
 
             /*single button*/
         case siciTaf:
-        case siciTaw:
         case siciTwh:
             ts << GF_BUTTON1FB << DS << enable1fbtrigger << DS
                << button1fbbus << DS << button1fbcontact << endl;
@@ -9595,7 +9561,7 @@ int element::buttonCount()
         return 2;
 
     if (routemark || turnout || classid == siciTwh
-            || classid == siciTaf || classid == siciTaw)
+            || classid == siciTaf)
         return 1;
 
     return 0;
@@ -10033,9 +9999,6 @@ bool element::showFeedbackTriggerDialog(const QPoint& p)
                 buttontext = "SGT";
             else
                 buttontext = "HaGT";
-            break;
-        case siciTaw:
-            buttontext = "WGT";
             break;
         case siciTwh:
             buttontext = "WHT";

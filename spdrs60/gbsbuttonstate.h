@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2010 Guido Scholz <gscholz@users.sourceforge.net>
+  Copyright (c) 2014 Guido Scholz <gscholz@users.sourceforge.net>
 
   This file is part of spdrs60.
 
@@ -17,30 +17,28 @@
   along with spdrs60.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "powersupplygrouppanel.h"
 
+#ifndef GBSBUTTONSTATE_H
+#define GBSBUTTONSTATE_H
 
-PowerSupplyGroupPanel::PowerSupplyGroupPanel(QWidget* parent,
-        SpdrItemClassId cid):
-    SpdrPanel(parent, cid, kvmEditLayout)
-{
-    setupElementIcon();
-}
+/* Click states of layout internal buttons (group key block, signals,
+   turnouts) for every new key, add here a corresponding name */
+enum GbsButtonState {
+    kNoneClicked = 0,
+    kTurnoutClicked,
+    kZfsClicked,
+    kZhsClicked,
+    kRfsClicked,
+    kFhtClicked,
+    kWgtClicked,
+    kWhtClicked,
+    kUfgtClicked,
+    kMgtClicked,
+    kSgtClicked,
+    kHagtClicked,
+    kFrtClicked,
+    kEinClicked,
+    kAusClicked
+};
 
-
-PowerSupplyGroupPanel::PowerSupplyGroupPanel(QTextStream& ts,
-        QWidget* parent, SpdrItemClassId cid):
-    SpdrPanel(parent, cid, kvmNormal)
-{
-    readFileTextFromStream(ts);
-    setupElementIcon();
-}
-
-
-void PowerSupplyGroupPanel::setupElementIcon()
-{
-    background.fill(QColor(128, 128, 128));
-    setPaletteBackgroundPixmap(background);
-    addTooltip();
-}
-
+#endif  //WGBSBUTTONSTATE_H

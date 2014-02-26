@@ -21,7 +21,7 @@
 
 
 RouteGroupPanel::RouteGroupPanel(QWidget* parent, SpdrItemClassId cid):
-    SpdrPanel(parent, cid)
+    SpdrPanel(parent, cid, kvmEditLayout)
 {
     setupElementIcon();
 }
@@ -29,7 +29,7 @@ RouteGroupPanel::RouteGroupPanel(QWidget* parent, SpdrItemClassId cid):
 
 RouteGroupPanel::RouteGroupPanel(QTextStream& ts, QWidget* parent,
         SpdrItemClassId cid):
-    SpdrPanel(parent, cid)
+    SpdrPanel(parent, cid, kvmNormal)
 {
     readFileTextFromStream(ts);
     setupElementIcon();

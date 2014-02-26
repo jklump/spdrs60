@@ -28,6 +28,7 @@
 #include <qdragobject.h>
 #include <qpopupmenu.h>
 
+#include "externalbuttonpanel.h"
 #include "panelfactory.h"
 #include "resources.h"
 #include "gbsarea.h"
@@ -456,6 +457,7 @@ void GBSArea::externalButtonClicked(GbsButtonState externalButton)
      */
     delayTimer->start(cDelayTime);
     gkbState = externalButton;
+    qWarning("GBSArea::externalButtonClicked()");
     
     switch (externalButton) {
         case kFhtClicked:
@@ -472,6 +474,7 @@ void GBSArea::externalButtonClicked(GbsButtonState externalButton)
             setCursor(UfGTCursor);
             break;
         case kWgtClicked:
+            qWarning("GBSArea::externalButtonClicked(kWgtClicked)");
             setCursor(WGTCursor);
             break;
         case kWhtClicked:
@@ -898,6 +901,26 @@ void GBSArea::connectElement(SpdrPanel* sp)
     connect(this, SIGNAL(sigRepaintLayout()),
             sp, SLOT(slotRepaintLayout()));
 
+    /*connect external button panels*/
+    ExternalButtonPanel* ebp = dynamic_cast<ExternalButtonPanel*>(sp);
+    if (ebp != NULL) {
+
+        /*outgoing button clicks*/
+        connect(ebp, SIGNAL(buttonClicked(GbsButtonState)),
+                this, SLOT(externalButtonClicked(GbsButtonState)));
+
+        /*outgoing feedback trigger dialog with main window*/
+        connect(ebp, SIGNAL(sigShowFBmodules()),
+                this, SIGNAL(sigShowFBmodules()));
+
+        /*incomming feedback changes*/
+        connect(this, SIGNAL(feedbackPortChanged(unsigned int,
+                        unsigned int, bool)),
+                ebp, SLOT(slotOccupyElement(unsigned int,
+                        unsigned int, bool)));
+    }
+
+    /*connect undifferentiated items*/
     element* el = dynamic_cast<element*>(sp);
     if (el != NULL) {
         /*button panels*/

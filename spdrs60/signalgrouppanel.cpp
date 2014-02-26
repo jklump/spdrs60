@@ -21,7 +21,7 @@
 
 
 SignalGroupPanel::SignalGroupPanel(QWidget* parent, SpdrItemClassId cid):
-    SpdrPanel(parent, cid)
+    SpdrPanel(parent, cid, kvmEditLayout)
 {
     setupElementIcon();
 }
@@ -29,7 +29,7 @@ SignalGroupPanel::SignalGroupPanel(QWidget* parent, SpdrItemClassId cid):
 
 SignalGroupPanel::SignalGroupPanel(QTextStream& ts, QWidget* parent,
         SpdrItemClassId cid):
-    SpdrPanel(parent, cid)
+    SpdrPanel(parent, cid, kvmNormal)
 {
     readFileTextFromStream(ts);
     setupElementIcon();

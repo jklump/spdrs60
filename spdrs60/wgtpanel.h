@@ -1,5 +1,5 @@
 /*
-  Copyright (c) 2010 Guido Scholz <gscholz@users.sourceforge.net>
+  Copyright (c) 2014 Guido Scholz <gscholz@users.sourceforge.net>
 
   This file is part of spdrs60.
 
@@ -17,30 +17,27 @@
   along with spdrs60.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "levelcrossinggrouppanel.h"
+
+#ifndef WGTPANEL_H
+#define WGTPANEL_H
+
+#include "externalbuttonpanel.h"
 
 
-LevelCrossingGroupPanel::LevelCrossingGroupPanel(QWidget* parent,
-        SpdrItemClassId cid):
-    SpdrPanel(parent, cid, kvmEditLayout)
+class WgtPanel: public ExternalButtonPanel
 {
-    setupElementIcon();
-}
+    Q_OBJECT
 
+    public:
+        WgtPanel(QWidget* parent = NULL, SpdrItemClassId cid = siciTaw);
+        WgtPanel(QTextStream&, QWidget* parent = NULL, SpdrItemClassId
+                cid = siciTaw);
 
-LevelCrossingGroupPanel::LevelCrossingGroupPanel(QTextStream& ts,
-        QWidget* parent, SpdrItemClassId cid):
-    SpdrPanel(parent, cid, kvmNormal)
-{
-    readFileTextFromStream(ts);
-    setupElementIcon();
-}
+    protected:
+        void setupElementIcon();
 
+//    public slots:
+//        void slotRepaintLayout();
+};
 
-void LevelCrossingGroupPanel::setupElementIcon()
-{
-    background.fill(QColor(224, 224, 0));
-    setPaletteBackgroundPixmap(background);
-    addTooltip();
-}
-
+#endif  //WGTPANEL_H

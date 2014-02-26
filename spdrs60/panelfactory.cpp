@@ -39,6 +39,7 @@
 #include "transfertablepanel.h"
 #include "turnoutgrouppanel.h"
 #include "turntablepanel.h"
+#include "wgtpanel.h"
 
 
 PanelFactory::PanelFactory()
@@ -94,6 +95,8 @@ SpdrPanel* PanelFactory::createPanel(QWidget* parent,
             return new TurntablePanel(parent, type);
         case SpdrPanel::siciSbn:
             return new TransferTablePanel(parent, type);
+        case SpdrPanel::siciTaw:
+            return new WgtPanel(parent, type);
 
         default:
             return new element(parent, type);
@@ -149,6 +152,8 @@ SpdrPanel* PanelFactory::createPanelFromStream(QTextStream& ts,
             return new TurntablePanel(ts, parent, type);
         case SpdrPanel::siciSbn:
             return new TransferTablePanel(ts, parent, type);
+        case SpdrPanel::siciTaw:
+            return new WgtPanel(ts, parent, type);
 
         default:
             return new element(ts, parent, type);

@@ -21,14 +21,14 @@
 
 
 GrayPanel::GrayPanel(QWidget* parent, SpdrItemClassId cid):
-    SpdrPanel(parent, cid)
+    SpdrPanel(parent, cid, kvmEditLayout)
 {
     background.fill(Qt::lightGray);
 }
 
 
 GrayPanel::GrayPanel(QTextStream& ts, QWidget* parent, SpdrItemClassId cid):
-    SpdrPanel(parent, cid)
+    SpdrPanel(parent, cid, kvmNormal)
 {
     background.fill(Qt::lightGray);
 }

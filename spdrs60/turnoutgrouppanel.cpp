@@ -22,7 +22,7 @@
 
 TurnoutGroupPanel::TurnoutGroupPanel(QWidget* parent,
         SpdrItemClassId cid):
-    SpdrPanel(parent, cid)
+    SpdrPanel(parent, cid, kvmEditLayout)
 {
     setupElementIcon();
 }
@@ -30,7 +30,7 @@ TurnoutGroupPanel::TurnoutGroupPanel(QWidget* parent,
 
 TurnoutGroupPanel::TurnoutGroupPanel(QTextStream& ts, QWidget* parent,
         SpdrItemClassId cid):
-    SpdrPanel(parent, cid)
+    SpdrPanel(parent, cid, kvmNormal)
 {
     readFileTextFromStream(ts);
     setupElementIcon();

@@ -153,7 +153,8 @@ public:
         void paintEvent(QPaintEvent*);
 
     public:
-        SpdrPanel(QWidget* parent = NULL, SpdrItemClassId cid = siciNone);
+        SpdrPanel(QWidget* parent = NULL, SpdrItemClassId cid =
+                siciNone, elemVisualMode kvm = kvmNormal);
         virtual void readFileTextFromStream(QTextStream&);
         virtual void writeFileTextToStream(QTextStream&);
         void setIndexNo(unsigned int);
