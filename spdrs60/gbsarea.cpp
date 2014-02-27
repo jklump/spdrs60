@@ -454,14 +454,16 @@ void GBSArea::externalButtonClicked(GbsButtonState externalButton)
     /*
      * store pressed control button, activate cursor and start timer
      */
-    delayTimer->start(cDelayTime);
-    gkbState = externalButton;
     
     switch (externalButton) {
         case kFhtClicked:
+            delayTimer->start(cDelayTime);
+            gkbState = externalButton;
             setCursor(FHTCursor);
             break;
         case kMgtClicked:
+            delayTimer->start(cDelayTime);
+            gkbState = externalButton;
             setCursor(MGTCursor);
             /*TODO: implement MGT-function*/
             QApplication::beep();
@@ -469,26 +471,38 @@ void GBSArea::externalButtonClicked(GbsButtonState externalButton)
             delayTimer->start(500);
             break;
         case kUfgtClicked:
+            delayTimer->start(cDelayTime);
+            gkbState = externalButton;
             setCursor(UfGTCursor);
             break;
         case kWgtClicked:
+            delayTimer->start(cDelayTime);
+            gkbState = externalButton;
             setCursor(WGTCursor);
             break;
         case kWhtClicked:
+            delayTimer->start(cDelayTime);
+            gkbState = externalButton;
             setCursor(WHTCursor);
             break;
         case kSgtClicked:
+            delayTimer->start(cDelayTime);
+            gkbState = externalButton;
             setCursor(SGTCursor);
             break;
         case kHagtClicked:
+            delayTimer->start(cDelayTime);
+            gkbState = externalButton;
             setCursor(HaGTCursor);
             break;
-        /*light on button*/
         case kEinClicked:
+            if (delayTimer->isActive())
+                delayTimer->stop();
             switchTableLight(true);
             break;
-        /*light off button*/
         case kAusClicked:
+            if (delayTimer->isActive())
+                delayTimer->stop();
             switchTableLight(false);
             break;
 

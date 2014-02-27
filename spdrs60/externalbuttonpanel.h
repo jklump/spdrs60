@@ -52,7 +52,6 @@ class ExternalButtonPanel: public SpdrPanel
         GbsButtonState ctrlButton;
         QString buttontext;
         void runPropertyMenue(const QPoint&);
-        void mousePressEvent(QMouseEvent*);
         void mouseReleaseEvent(QMouseEvent*);
         virtual void buttonTriggered();
 

@@ -38,6 +38,8 @@ class ExternalSingleButtonPanel: public ExternalButtonPanel
                 GbsButtonState cb = kNoneClicked,
                 const char* bt = "Unknown");
 
+    protected:
+        void mousePressEvent(QMouseEvent*);
 };
 
 #endif  //EXTERNALSINGLEBUTTONPANEL_H

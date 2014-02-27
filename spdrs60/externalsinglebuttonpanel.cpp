@@ -37,3 +37,21 @@ ExternalSingleButtonPanel::ExternalSingleButtonPanel(QTextStream& ts, QWidget*
     readFileTextFromStream(ts);
 }
 
+/**
+ * respond to mouse press events
+ */
+void ExternalSingleButtonPanel::mousePressEvent(QMouseEvent* e)
+{
+    /*normal mode*/
+    if (visualMode == kvmNormal) {
+        if (e->button() == Qt::LeftButton) {
+            buttonTriggered();
+            e->accept();
+        }
+        else
+            e->ignore();
+    }
+    else
+        e->ignore();
+}
+

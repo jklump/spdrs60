@@ -58,24 +58,6 @@ void ExternalButtonPanel::buttonTriggered()
 }
 
 /**
- * respond to mouse press events
- */
-void ExternalButtonPanel::mousePressEvent(QMouseEvent* e)
-{
-    /*normal mode*/
-    if (visualMode == kvmNormal) {
-        if (e->button() == Qt::LeftButton) {
-            buttonTriggered();
-            e->accept();
-        }
-        else
-            e->ignore();
-    }
-    else
-        e->ignore();
-}
-
-/**
  * respond to mouse release events
  */
 void ExternalButtonPanel::mouseReleaseEvent(QMouseEvent* e)
