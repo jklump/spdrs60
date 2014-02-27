@@ -498,11 +498,13 @@ void GBSArea::externalButtonClicked(GbsButtonState externalButton)
         case kEinClicked:
             if (delayTimer->isActive())
                 delayTimer->stop();
+            slotElementClickedTimeout();
             switchTableLight(true);
             break;
         case kAusClicked:
             if (delayTimer->isActive())
                 delayTimer->stop();
+            slotElementClickedTimeout();
             switchTableLight(false);
             break;
 
