@@ -60,7 +60,7 @@ void UfgtPanel::setupElementIcon()
     p.drawPixmap(2, 24, QPixmap(label_ufgt_xpm));
     p.drawPixmap(34, 24, QPixmap(label_mgt_xpm));
 
+    setPaletteBackgroundPixmap(background);
     addTooltip();
-    update();
 }
 

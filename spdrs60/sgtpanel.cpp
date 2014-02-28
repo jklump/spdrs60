@@ -60,7 +60,7 @@ void SgtPanel::setupElementIcon()
     p.drawPixmap(2, 24, QPixmap(label_sgt_xpm));
     p.drawPixmap(31, 24, QPixmap(label_hagt_xpm));
 
+    setPaletteBackgroundPixmap(background);
     addTooltip();
-    update();
 }
 

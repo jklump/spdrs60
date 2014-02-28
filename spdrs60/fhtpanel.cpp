@@ -69,7 +69,7 @@ void FhtPanel::setupElementIcon()
     p.drawText(br, Qt::AlignCenter | Qt::SingleLine |
             Qt::DontClip, countertext);
 
+    setPaletteBackgroundPixmap(background);
     addTooltip();
-    update();
 }
 

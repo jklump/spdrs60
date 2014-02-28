@@ -59,7 +59,7 @@ void WgtPanel::setupElementIcon()
     // paint button label
     p.drawPixmap(18, 24, QPixmap(label_wgt_xpm));
 
+    setPaletteBackgroundPixmap(background);
     addTooltip();
-    update();
 }
 

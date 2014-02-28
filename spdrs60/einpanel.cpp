@@ -77,7 +77,7 @@ void EinPanel::setupElementIcon()
         p.drawPixmap(34, 24, QPixmap(label_aus_on_xpm));
     }
 
+    setPaletteBackgroundPixmap(background);
     addTooltip();
-    update();
 }
 
