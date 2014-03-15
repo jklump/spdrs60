@@ -236,6 +236,24 @@ Valid range is %1..%2.</source>
     </message>
 </context>
 <context>
+    <name>ExternalButtonPanel</name>
+    <message>
+        <source>&amp;Enable feedback trigger</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trigger &amp;button...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ExternalDualButtonPanel</name>
+    <message>
+        <source>&amp;Enable feedback trigger</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FeedbackTriggerDialog</name>
     <message>
         <source>&amp;FB</source>

@@ -236,6 +236,24 @@ Valid range is %1..%2.</source>
     </message>
 </context>
 <context>
+    <name>ExternalButtonPanel</name>
+    <message>
+        <source>&amp;Enable feedback trigger</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trigger &amp;button...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ExternalDualButtonPanel</name>
+    <message>
+        <source>&amp;Enable feedback trigger</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FeedbackTriggerDialog</name>
     <message>
         <source>&amp;FB</source>
@@ -363,10 +381,6 @@ met uw zoekcriteria overeenkomt.</translation>
     <message>
         <source>Creating empty layout file</source>
         <translation type="obsolete">Maak een leeg spoorplan bestand</translation>
-    </message>
-    <message>
-        <source>Abort</source>
-        <translation type="obsolete">Annuleren</translation>
     </message>
     <message>
         <source>MGT-Function not supported.</source>
@@ -2696,7 +2710,7 @@ Valid range is %1..%2.</source>
     <name>element</name>
     <message>
         <source>&amp;Toggle</source>
-        <translation type="unfinished">&amp;Omschakelen</translation>
+        <translation>&amp;Omschakelen</translation>
     </message>
     <message>
         <source>Edit item #%1</source>
@@ -3192,14 +3206,6 @@ voor het nieuwe spoorplan</translation>
 rows for an empty layout</source>
         <translation type="obsolete">Kies of geef het aantal regels in
 voor het nieuwe spoorplan</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation type="obsolete">OK</translation>
-    </message>
-    <message>
-        <source>Cancel</source>
-        <translation type="obsolete">Annuleren</translation>
     </message>
     <message>
         <source>&amp;Hostname:</source>

@@ -1,6 +1,109 @@
-+++ Release 0.5.7 (2014-02-05) +++
++++ Release 0.5.7 (2014-03-15) +++
+
+2014-02-28  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/einpanel.cpp, spdrs60/fhtpanel.cpp, spdrs60/sgtpanel.cpp,
+	spdrs60/ufgtpanel.cpp, spdrs60/wgtpanel.cpp, spdrs60/whtpanel.cpp:
+	Fix unpainted external button panels
+
+2014-02-27  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/externalbuttonpanel.cpp, spdrs60/externalbuttonpanel.h,
+	spdrs60/externalsinglebuttonpanel.cpp,
+	spdrs60/externalsinglebuttonpanel.h: Merge refix of fht and wht
+	panels
+	* spdrs60/externalbuttonpanel.cpp, spdrs60/externalbuttonpanel.h,
+	spdrs60/externalsinglebuttonpanel.cpp,
+	spdrs60/externalsinglebuttonpanel.h, spdrs60/gbsarea.cpp: Merge delay
+	timer fix from Qt4 version
+
+2014-02-26  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/Makefile.am, spdrs60/einpanel.cpp, spdrs60/einpanel.h,
+	spdrs60/element.cpp, spdrs60/element.h,
+	spdrs60/externalbuttonpanel.cpp, spdrs60/externalbuttonpanel.h,
+	spdrs60/externaldualbuttonpanel.cpp,
+	spdrs60/externaldualbuttonpanel.h,
+	spdrs60/externalsinglebuttonpanel.cpp,
+	spdrs60/externalsinglebuttonpanel.h, spdrs60/fhtpanel.cpp,
+	spdrs60/fhtpanel.h, spdrs60/gbsarea.cpp, spdrs60/panelfactory.cpp,
+	spdrs60/sgtpanel.cpp, spdrs60/sgtpanel.h, spdrs60/spdrpanel.cpp,
+	spdrs60/tablelight.cpp, spdrs60/tablelight.h, spdrs60/ufgtpanel.cpp,
+	spdrs60/ufgtpanel.h, spdrs60/wgtpanel.cpp, spdrs60/wgtpanel.h,
+	spdrs60/whtpanel.cpp: Merge strip of sgt-, ufgt- and ein-panel from
+	Qt4 version
+	* spdrs60/Makefile.am, spdrs60/element.cpp,
+	spdrs60/externalbuttonpanel.cpp, spdrs60/externalbuttonpanel.h,
+	spdrs60/externalcounterpanel.cpp, spdrs60/externalcounterpanel.h,
+	spdrs60/fhtpanel.cpp, spdrs60/fhtpanel.h, spdrs60/gbsarea.cpp,
+	spdrs60/panelfactory.cpp, spdrs60/wgtpanel.cpp, spdrs60/whtpanel.cpp,
+	spdrs60/whtpanel.h: Merge strip of wgt and fht panel from Qt4 version
+	* spdrs60/Makefile.am, spdrs60/axlecountergrouppanel.cpp,
+	spdrs60/element.cpp, spdrs60/element.h,
+	spdrs60/externalbuttonpanel.cpp, spdrs60/externalbuttonpanel.h,
+	spdrs60/gbsarea.cpp, spdrs60/gbsarea.h, spdrs60/gbsbuttonstate.h,
+	spdrs60/graypanel.cpp, spdrs60/levelcrossinggrouppanel.cpp,
+	spdrs60/panelfactory.cpp, spdrs60/powersupplygrouppanel.cpp,
+	spdrs60/routegrouppanel.cpp, spdrs60/signalgrouppanel.cpp,
+	spdrs60/spdrpanel.cpp, spdrs60/spdrpanel.h,
+	spdrs60/turnoutgrouppanel.cpp, spdrs60/wgtpanel.cpp,
+	spdrs60/wgtpanel.h: Merge strip of Wgt panel from Qt4 version
+
+2014-02-16  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/axlecountergrouppanel.cpp, spdrs60/axlecountergrouppanel.h,
+	spdrs60/bufferstopbottompanel.cpp, spdrs60/bufferstopbottompanel.h,
+	spdrs60/bufferstopleftpanel.cpp, spdrs60/bufferstopleftpanel.h,
+	spdrs60/bufferstoprightpanel.cpp, spdrs60/bufferstoprightpanel.h,
+	spdrs60/bufferstoptoppanel.cpp, spdrs60/bufferstoptoppanel.h,
+	spdrs60/buildinghorizontalpanel.cpp,
+	spdrs60/buildinghorizontalpanel.h, spdrs60/buildingleftpanel.cpp,
+	spdrs60/buildingleftpanel.h, spdrs60/buildingrightpanel.cpp,
+	spdrs60/buildingrightpanel.h, spdrs60/graypanel.cpp,
+	spdrs60/graypanel.h, spdrs60/levelcrossinggrouppanel.cpp,
+	spdrs60/levelcrossinggrouppanel.h, spdrs60/locoshedeastpanel.cpp,
+	spdrs60/locoshedeastpanel.h, spdrs60/locoshednepanel.cpp,
+	spdrs60/locoshednepanel.h, spdrs60/locoshednwpanel.cpp,
+	spdrs60/locoshednwpanel.h, spdrs60/locoshedsepanel.cpp,
+	spdrs60/locoshedsepanel.h, spdrs60/locoshedswpanel.cpp,
+	spdrs60/locoshedswpanel.h, spdrs60/locoshedwestpanel.cpp,
+	spdrs60/locoshedwestpanel.h, spdrs60/panelfactory.cpp,
+	spdrs60/powersupplygrouppanel.cpp, spdrs60/powersupplygrouppanel.h,
+	spdrs60/routegrouppanel.cpp, spdrs60/routegrouppanel.h,
+	spdrs60/signalgrouppanel.cpp, spdrs60/signalgrouppanel.h,
+	spdrs60/spdrpanel.cpp, spdrs60/spdrpanel.h,
+	spdrs60/transfertablepanel.cpp, spdrs60/transfertablepanel.h,
+	spdrs60/turnoutgrouppanel.cpp, spdrs60/turnoutgrouppanel.h,
+	spdrs60/turntablepanel.cpp, spdrs60/turntablepanel.h: Merge
+	refactoring of class id usage form Qt4 version
+
+2014-02-15  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/element.cpp, spdrs60/element.h: Remove outdated constructor
+	* spdrs60/Makefile.am, spdrs60/element.cpp, spdrs60/element.h,
+	spdrs60/spdrpanel.h, spdrs60/translations/spdrs60_de.ts,
+	spdrs60/translations/spdrs60_it.ts,
+	spdrs60/translations/spdrs60_nl.ts, spdrs60/triggeraspectdialog.cpp,
+	spdrs60/triggeraspectdialog.h: Merge trigger signal aspect from Qt4
+	version
+
+2014-02-12  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/graypanel.cpp, spdrs60/graypanel.h: Clear text label
+	background during repaint
+	* spdrs60/element.cpp, spdrs60/element.h, spdrs60/gbsarea.cpp: Merge
+	cosmetic changes from qt4 version
+
+2014-02-09  Guido Scholz <gscholz@users.sourceforge.net>
+	* clock/centralclock.cpp, configure.ac, spdrs60/gbsarea.cpp,
+	spdrs60/mainwindow.cpp, spdrs60/turntablecommander.cpp: Fix configure
+	checks to use C++ headers
+
+2014-02-08  Guido Scholz <gscholz@users.sourceforge.net>
+	* spdrs60/mainwindow.cpp, spdrs60/options.cpp, spdrs60/options.h,
+	spdrs60/preferences.cpp, spdrs60/preferences.h,
+	spdrs60/translations/spdrs60_de.ts,
+	spdrs60/translations/spdrs60_it.ts,
+	spdrs60/translations/spdrs60_nl.ts: Add user preferences option for
+	start in full screen mode
 
 2014-02-05  Guido Scholz <gscholz@users.sourceforge.net>
+	* ChangeLog, NEWS, doc/de/index.sgml, doc/en/index.sgml: Update
+	documentation
 	* spdrs60/mainwindow.cpp, spdrs60/mainwindow.h,
 	spdrs60/translations/spdrs60_de.ts,
 	spdrs60/translations/spdrs60_it.ts,

@@ -40,7 +40,7 @@
 <revhistory>
   <revision>
     <revnumber>0.14</revnumber>
-    <date>Tue Feb 04 20:22:06 CET 2014</date>
+    <date>Sat Mar 15 09:10:06 CET 2014</date>
   </revision>
   <revision>
     <revnumber>0.13</revnumber>
@@ -135,7 +135,7 @@ features.</para>
 <sect2 id="ver-0.5.7">
 <title>Version 0.5.7</title>
 <para>
-Release date: 2014-02-05
+Release date: 2014-03-15
 </para>
 <itemizedlist mark="bullet">
     <listitem><para>
@@ -160,6 +160,9 @@ Release date: 2014-02-05
     </para></listitem>
     <listitem><para>
 	Add full screen mode (F11).
+    </para></listitem>
+    <listitem><para>
+	Add feedback trigger option for signal aspects.
     </para></listitem>
 </itemizedlist>
 </sect2>

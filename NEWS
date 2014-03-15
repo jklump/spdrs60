@@ -1,16 +1,18 @@
-spdrs60-0.5.7 (2014-02-05)
+spdrs60-0.5.7 (2014-03-15)
 
   Fixed Bugs
 
   o Avoid linking aganinst libpthread.
   o Fix pure virtual function called by destructor.
+  o Clear text label background during repaint.
 
   New Features
 
   o Add experimental support for BiDi locomotive address visualization.
   o Add configure check for nearbyint.
   o Add Dutch translation provided by Jaap Kramer.
-  o Add full screen mode.
+  o Add full screen mode view.
+  o Add feedback trigger option for signal aspects.
 
 
   General Changes

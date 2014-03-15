@@ -38,7 +38,7 @@
         <revhistory>
             <revision>
                 <revnumber>0.15</revnumber>
-                <date>Di Feb 04 20:20:20 CET 2014</date>
+                <date>Sa Mär 15 09:10:20 CET 2014</date>
             </revision>
             <revision>
                 <revnumber>0.14</revnumber>
@@ -198,7 +198,7 @@ empfehlenswert, diese Dokumentation durchzuarbeiten.
 <sect1 id="ver-0.5.7">
   <title>Version 0.5.7</title>
 <para>
-Veröffentlicht am 05.02.2014
+Veröffentlicht am 15.03.2014
 </para>
 <itemizedlist mark="bullet">
     <listitem><para>
@@ -227,6 +227,9 @@ Veröffentlicht am 05.02.2014
     <listitem><para>
     <listitem><para>
             Ansicht im Vollbildschirmmodus (F11) ergänzt.
+    <listitem><para>
+    <listitem><para>
+            Option zur Ansteuerung von Signalen über Rückmeldungen ergänzt.
     <listitem><para>
 </itemizedlist>
 </sect1>
